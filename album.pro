@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -36,13 +36,17 @@ SOURCES += \
         mainwindow.cpp \
         albumview/albumview.cpp \
         allpicview/allpicview.cpp \
-        timelineview/timelineview.cpp
+        timelineview/timelineview.cpp \
+        dbmanager/dbmanager.cpp \
+        utils/baseutils.cpp
 
 HEADERS += \
         mainwindow.h \
         albumview/albumview.h \
         allpicview/allpicview.h \
-        timelineview/timelineview.h
+        timelineview/timelineview.h \
+        dbmanager/dbmanager.h \
+        utils/baseutils.h
 
 FORMS +=
 

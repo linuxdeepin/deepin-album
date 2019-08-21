@@ -39,6 +39,7 @@ public:
     void initUI();
     void initTitleBar();
     void initCentralWidget();
+    void initStatusBar();
 
 private slots:
     void allPicBtnClicked();
@@ -57,6 +58,7 @@ private:
     AlbumView* m_pAlbumview;
     AllPicView* m_pAllPicView;
     TimeLineView* m_pTimeLineView;
+    QStatusBar* m_pStatusBar;
 };
 
 #endif // MAINWINDOW_H

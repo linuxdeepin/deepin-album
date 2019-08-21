@@ -74,7 +74,7 @@ void MainWindow::initTitleBar()
 
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
-    titlebar()->setCustomWidget(m_titleBtnWidget, false);
+    titlebar()->setCustomWidget(m_titleBtnWidget, Qt::AlignLeft);
 }
 
 void MainWindow::initCentralWidget()
@@ -89,6 +89,12 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_pAlbumview);
 
     setCentralWidget(m_pCenterWidget);
+}
+
+void MainWindow::initStatusBar()
+{
+    m_pStatusBar = statusBar();
+
 }
 
 void MainWindow::allPicBtnClicked()
