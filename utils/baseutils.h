@@ -17,18 +17,23 @@
 #ifndef BASEUTILS_H
 #define BASEUTILS_H
 
-#include <QObject>
-#include <QTimer>
-#include <QColor>
+#include"application.h"
 #include <QDateTime>
+#include <QCryptographicHash>
+#include <QPixmap>
+#include <QImageReader>
+
 
 namespace utils {
+
 namespace base {
 
+
 QString     hash(const QString &str);
+
 QString     timeToString(const QDateTime &time, bool normalFormat = false);
 QDateTime   stringToDateTime(const QString &time);
-
+QPixmap     renderSVG(const QString &filePath, const QSize &size);
 }  // namespace base
 
 }  // namespace utils

@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
 
@@ -13,17 +29,10 @@
 //TEXT primari key | TEXT              | TEXT      //
 /////////////////////////////////////////////////////
 
-#include "utils/baseutils.h"
 #include <QObject>
 #include <QDateTime>
 #include <QMutex>
 #include <QDebug>
-#include <QDebug>
-#include <QDir>
-#include <QMutex>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
 
 struct DBAlbumInfo {
     QString name;
@@ -32,38 +41,29 @@ struct DBAlbumInfo {
     QDateTime endTime;
 };
 
-struct DBImgBaseInfo {
-    QString fileName;               // 名称
-    QString fileFormat;             // 类型
-    QString fileSize;               // 大小
-    QString dimension;              // 尺寸
-    QDateTime time;                 // 时间
-};
-
-struct DBImgDetailedInfo
-{
-    QString exposureMode;           // 曝光模式
-    QString exposureProgram;        // 曝光程度
-    QString exposureTime;           // 曝光时间
-    QString flashLamp;              // 闪光灯
-    QString apertureValue;          // 光圈大小
-    QString focalLength;            // 焦距
-    QString ISOSpeedRatings;        // ISO光感度
-    QString maxApertureValue;       // 最大光圈值
-    QString meteringMode;           // 测光模式
-    QString whiteBalance;           // 白平衡
-    QString flashExposureComp;      // 闪光灯补偿
-    QString cameraModel;            // 镜头型号
-};
-
 struct DBImgInfo {
-    QString filePath;                       // 路径
-    QString thumbnailPath;                  // 缩略图路径
+    QString filePath;
+    QString fileName;
     QString dirHash;
-    DBImgBaseInfo imgBaseInfo;              // 基本信息
-    DBImgDetailedInfo imgDetailedInfo;      // 详细信息
-};
+    QDateTime time;
 
+    bool operator==(const DBImgInfo& other)
+    {
+        return (filePath == other.filePath &&
+                fileName == other.fileName &&
+                time == other.time);
+    }
+
+    friend QDebug operator<<(QDebug &dbg, const DBImgInfo& info) {
+        dbg << "(DBImgInfo)["
+            << "Path:" << info.filePath
+            << "Name:" << info.fileName
+            << "Dir:" << info.dirHash
+            << "Time:" << info.time
+            << "]";
+        return dbg;
+    }
+};
 typedef QList<DBImgInfo> DBImgInfoList;
 
 class QSqlDatabase;
@@ -108,6 +108,8 @@ private:
     const DBImgInfoList getImgInfos(const QString &key, const QString &value) const;
     const QSqlDatabase getDatabase() const;
     void checkDatabase();
+    void importVersion1Data();
+    void importVersion2Data();
 
     static DBManager* m_dbManager;
 private:

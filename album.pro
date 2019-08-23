@@ -38,7 +38,12 @@ SOURCES += \
         allpicview/allpicview.cpp \
         timelineview/timelineview.cpp \
         dbmanager/dbmanager.cpp \
-        utils/baseutils.cpp
+        utils/baseutils.cpp \
+    application.cpp \
+    controller/globaleventfilter.cpp \
+    controller/configsetter.cpp \
+    controller/viewerthememanager.cpp \
+    controller/signalmanager.cpp \
 
 HEADERS += \
         mainwindow.h \
@@ -46,11 +51,20 @@ HEADERS += \
         allpicview/allpicview.h \
         timelineview/timelineview.h \
         dbmanager/dbmanager.h \
-        utils/baseutils.h
+        utils/baseutils.h \
+    application.h \
+    controller/globaleventfilter.h \
+    controller/signalmanager.h \
+    controller/viewerthememanager.h \
+    controller/configsetter.h \
 
-FORMS +=
+#RESOURCES += \
+#    resources.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc

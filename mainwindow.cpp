@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 
+#include <QStatusBar>
+
 MainWindow::MainWindow()
 {
+    m_allPicNum = DBManager::instance()->getImgsCount();
 
     initUI();
     initTitleBar();
     initCentralWidget();
+    initStatusBar();
 //    m_listWidget = new QListWidget();
 //    m_listWidget->setViewMode(QListView::ListMode);
 
@@ -37,9 +41,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::initConnections()
 {
-    connect(m_allPicBtn, &QPushButton::clicked, this, &MainWindow::allPicBtnClicked);
-    connect(m_timeLineBtn, &QPushButton::clicked, this, &MainWindow::timeLineBtnClicked);
-    connect(m_albumBtn, &QPushButton::clicked, this, &MainWindow::albumBtnClicked);
+    connect(m_pAllPicBtn, &DPushButton::clicked, this, &MainWindow::allPicBtnClicked);
+    connect(m_pTimeLineBtn, &DPushButton::clicked, this, &MainWindow::timeLineBtnClicked);
+    connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
 }
 
 void MainWindow::initUI()
@@ -50,27 +54,41 @@ void MainWindow::initUI()
 
 void MainWindow::initTitleBar()
 {
-//    DSegmentedControl* pDSegmentedControl = new DSegmentedControl();
-//    pDSegmentedControl->addSegmented("所有照片");
-//    pDSegmentedControl->addSegmented("时间线");
-//    pDSegmentedControl->addSegmented("相册");
-//    titlebar()->setCustomWidget(pDSegmentedControl, true);
-
     m_titleBtnWidget = new QWidget();
 
     QHBoxLayout* pTitleBtnLayout = new QHBoxLayout();
-    m_allPicBtn = new QPushButton();
-    m_timeLineBtn = new QPushButton();
-    m_albumBtn = new QPushButton();
 
-    m_allPicBtn->setText("所有照片");
-    m_timeLineBtn->setText("时间线");
-    m_albumBtn->setText("相册");
+    QLabel* pLabel = new QLabel();
+    pLabel->setFixedSize(22, 22);
 
-    pTitleBtnLayout->addWidget(m_allPicBtn);
-    pTitleBtnLayout->addWidget(m_timeLineBtn);
-    pTitleBtnLayout->addWidget(m_albumBtn);
-    pTitleBtnLayout->setSpacing(10);
+    QPixmap pixmap;
+    pixmap = utils::base::renderSVG(":/resources/images/logo/deepin-image-viewer.svg", QSize(22, 22));
+
+    pLabel->setPixmap(pixmap);
+
+    m_pAllPicBtn = new DPushButton();
+    m_pTimeLineBtn = new DPushButton();
+    m_pAlbumBtn = new DPushButton();
+
+    m_pAllPicBtn->setText("所有照片");
+    m_pTimeLineBtn->setText("时间线");
+    m_pAlbumBtn->setText("相册");
+
+    m_pSearchEdit = new DSearchEdit();
+    m_pSearchEdit->setFixedSize(278, 26);
+    m_pSearchEdit->setPlaceHolder(tr("Search"));
+
+    pTitleBtnLayout->addStretch();
+    pTitleBtnLayout->addWidget(pLabel);
+    pTitleBtnLayout->addSpacing(15);
+    pTitleBtnLayout->addWidget(m_pAllPicBtn);
+    pTitleBtnLayout->addSpacing(5);
+    pTitleBtnLayout->addWidget(m_pTimeLineBtn);
+    pTitleBtnLayout->addSpacing(5);
+    pTitleBtnLayout->addWidget(m_pAlbumBtn);
+    pTitleBtnLayout->addSpacing(50);
+    pTitleBtnLayout->addWidget(m_pSearchEdit);
+    pTitleBtnLayout->addStretch();
 
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
@@ -92,9 +110,32 @@ void MainWindow::initCentralWidget()
 }
 
 void MainWindow::initStatusBar()
-{
-    m_pStatusBar = statusBar();
+{  
+    m_pStatusBar = new QStatusBar(this);
+    setStatusBar(m_pStatusBar);
 
+    QWidget* pWidget = new QWidget();
+
+    QString str = tr("%1张照片");
+
+    QHBoxLayout* pHBoxLayout = new QHBoxLayout();
+
+    m_pAllPicNumLabel = new DLabel();
+    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+    m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
+
+    m_pSlider = new DSlider();
+    m_pSlider->setOrientation(Qt::Horizontal);
+    m_pSlider->adjustSize();
+    m_pSlider->setFixedWidth(120);
+
+    pHBoxLayout->addWidget(m_pAllPicNumLabel, Qt::AlignHCenter);
+    pHBoxLayout->addWidget(m_pSlider, Qt::AlignRight);
+
+    pWidget->setLayout(pHBoxLayout);
+
+    statusBar()->addWidget(pWidget, 1);
+    statusBar()->setSizeGripEnabled(false);
 }
 
 void MainWindow::allPicBtnClicked()

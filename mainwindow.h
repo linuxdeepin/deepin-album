@@ -4,6 +4,7 @@
 #include "albumview/albumview.h"
 #include "allpicview/allpicview.h"
 #include "timelineview/timelineview.h"
+#include "dbmanager/dbmanager.h"
 
 #include <DMainWindow>
 #include <QListWidget>
@@ -50,15 +51,22 @@ private:
     Ui::MainWindow *ui;
     QListWidget* m_listWidget;
 
+    int m_allPicNum;
+
     QWidget* m_titleBtnWidget;
-    QPushButton* m_allPicBtn;
-    QPushButton* m_timeLineBtn;
-    QPushButton* m_albumBtn;
+    DPushButton* m_pAllPicBtn;
+    DPushButton* m_pTimeLineBtn;
+    DPushButton* m_pAlbumBtn;
+    DSearchEdit* m_pSearchEdit;
     QStackedWidget* m_pCenterWidget;
     AlbumView* m_pAlbumview;
     AllPicView* m_pAllPicView;
     TimeLineView* m_pTimeLineView;
     QStatusBar* m_pStatusBar;
+    DLabel* m_pAllPicNumLabel;
+    DSlider* m_pSlider;
+
+    DBManager* m_pDBManager;
 };
 
 #endif // MAINWINDOW_H

@@ -1,9 +1,34 @@
+/*
+ * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "dbmanager.h"
+#include "application.h"
+#include "controller/signalmanager.h"
+#include "utils/baseutils.h"
+#include <QDebug>
+#include <QDir>
+#include <QMutex>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 
 namespace {
 
-const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-album/";
-const QString DATABASE_NAME = "deepinalbum.db";
+const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-image-viewer/";
+const QString DATABASE_NAME = "deepinimageviewer.db";
 const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
 
 }  // namespace
@@ -26,86 +51,6 @@ DBManager::DBManager(QObject *parent)
     checkDatabase();
 }
 
-const QSqlDatabase DBManager::getDatabase() const
-{
-    QMutexLocker mutex(&m_mutex);
-    if( QSqlDatabase::contains(m_connectionName) ) {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        mutex.unlock();
-        return db;
-    }
-    else {
-        //if database not open, open it.
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", m_connectionName);//not dbConnection
-        db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
-        if (! db.open()) {
-            qWarning()<< "Open database error:" << db.lastError();
-            mutex.unlock();
-            return QSqlDatabase();
-        }
-        else {
-            mutex.unlock();
-            return db;
-        }
-    }
-}
-
-void DBManager::checkDatabase()
-{
-    QDir dd(DATABASE_PATH);
-    if (! dd.exists()) {
-        qDebug() << "create database paths";
-        dd.mkpath(DATABASE_PATH);
-        if (dd.exists())
-            qDebug() << "create database succeed!";
-        else
-            qDebug() << "create database failed!";
-    } else {
-        qDebug() << "database is exist!";
-    }
-    const QSqlDatabase db = getDatabase();
-    if (! db.isValid()) {
-        return;
-    }
-    bool tableExist = false;
-    QMutexLocker mutex(&m_mutex);
-    QSqlQuery query( db );
-    query.setForwardOnly(true);
-    query.prepare( "SELECT name FROM sqlite_master "
-                   "WHERE type=\"table\" AND name = \"ImageTable\"");
-    if (query.exec() && query.first()) {
-        tableExist = ! query.value(0).toString().isEmpty();
-    }
-    //if tables not exist, create it.
-    if ( ! tableExist ) {
-        QSqlQuery query(db);
-        // ImageTable
-        //////////////////////////////////////////////////////////////
-        //PathHash           | FilePath | thumbnailPath | Dir  | fileName | fileFormat | fileSize | dimension | time | exposureMode | exposureProgram | exposureTime | flashLamp | apertureValue | focalLength | ISOSpeedRatings | maxApertureValue | meteringMode | whiteBalance | flashExposureComp | cameraModel //
-        //TEXT primari key   | TEXT     | TEXT          | TEXT | TEXT     | TEXT       | TEXT     | TEXT      | TEXT | TEXT         | TEXT            | TEXT         | TEXT      | TEXT          | TEXT        | TEXT            | TEXT             | TEXT         | TEXT         | TEXT              | TEXT        //
-        //////////////////////////////////////////////////////////////
-        query.exec( QString("CREATE TABLE IF NOT EXISTS ImageTable ( "
-                            "PathHash TEXT primary key, "
-                            "FilePath TEXT, "
-                            "thumbnailPath TEXT, "
-                            "FileName TEXT, "
-                            "Dir TEXT, "
-                            "Time TEXT )"));
-
-        // AlbumTable
-        //////////////////////////////////////////////////////////
-        //AlbumId               | AlbumName         | PathHash  //
-        //INTEGER primari key   | TEXT              | TEXT      //
-        //////////////////////////////////////////////////////////
-        query.exec( QString("CREATE TABLE IF NOT EXISTS AlbumTable ( "
-                            "AlbumId INTEGER primary key, "
-                            "AlbumName TEXT, "
-                            "PathHash TEXT)") );
-    }
-
-    mutex.unlock();
-}
-
 const QStringList DBManager::getAllPaths() const
 {
     QStringList paths;
@@ -118,9 +63,9 @@ const QStringList DBManager::getAllPaths() const
     query.setForwardOnly(true);
     query.prepare( "SELECT "
                    "FilePath "
-                   "FROM ImageTable ORDER BY Time DESC");
+                   "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
-        qWarning() << "Get Data from ImageTable failed: " << query.lastError();
+        qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
         mutex.unlock();
         return paths;
     }
@@ -144,10 +89,10 @@ const DBImgInfoList DBManager::getAllInfos() const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare( "SELECT FilePath, thumbnailPath, FileName, Dir, Time "
-                   "FROM ImageTable ORDER BY Time DESC");
+    query.prepare( "SELECT FilePath, FileName, Dir, Time "
+                   "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
-        qWarning() << "Get data from ImageTable failed: " << query.lastError();
+        qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
         mutex.unlock();
         return infos;
     }
@@ -156,29 +101,9 @@ const DBImgInfoList DBManager::getAllInfos() const
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.thumbnailPath = query.value(1).toString();
-            info.imgBaseInfo.fileName = query.value(2).toString();
-            info.dirHash = query.value(3).toString();
-            info.imgBaseInfo.time = stringToDateTime(query.value(4).toString());
-//            info.filePath = query.value(0).toString();
-//            info.thumbnailPath = query.value(1).toString();
-//            info.imgBaseInfo.fileName = query.value(2).toString();
-//            info.imgBaseInfo.fileFormat = query.value(3).toString();
-//            info.imgBaseInfo.fileSize = query.value(4).toString();
-//            info.imgBaseInfo.dimension = query.value(5).toString();
-//            info.imgBaseInfo.time = stringToDateTime(query.value(6).toString());
-//            info.imgDetailedInfo.exposureMode = query.value(7).toString();
-//            info.imgDetailedInfo.exposureProgram = query.value(8).toString();
-//            info.imgDetailedInfo.exposureTime = query.value(9).toString();
-//            info.imgDetailedInfo.flashLamp = query.value(10).toString();
-//            info.imgDetailedInfo.apertureValue = query.value(11).toString();
-//            info.imgDetailedInfo.focalLength = query.value(12).toString();
-//            info.imgDetailedInfo.ISOSpeedRatings = query.value(13).toString();
-//            info.imgDetailedInfo.maxApertureValue = query.value(14).toString();
-//            info.imgDetailedInfo.meteringMode = query.value(15).toString();
-//            info.imgDetailedInfo.whiteBalance = query.value(16).toString();
-//            info.imgDetailedInfo.flashExposureComp = query.value(17).toString();
-//            info.imgDetailedInfo.cameraModel = query.value(18).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
 
             infos << info;
         }
@@ -199,9 +124,9 @@ const QStringList DBManager::getAllTimelines() const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT DISTINCT Time "
-                   "FROM ImageTable ORDER BY Time DESC");
+                   "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
-        qWarning() << "Get Data from ImageTable failed: " << query.lastError();
+        qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
         mutex.unlock();
         return times;
     }
@@ -269,7 +194,7 @@ int DBManager::getImgsCount() const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "SELECT COUNT(*) FROM ImageTable" );
+    query.prepare( "SELECT COUNT(*) FROM ImageTable3" );
     if (query.exec()) {
         query.first();
         int count = query.value(0).toInt();
@@ -291,7 +216,7 @@ int DBManager::getImgsCountByDir(const QString &dir) const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare("SELECT COUNT(*) FROM ImageTable "
+    query.prepare("SELECT COUNT(*) FROM ImageTable3 "
                           "WHERE Dir=:Dir AND FilePath !=\" \"");
     query.bindValue(":Dir", utils::base::hash(dir));
     if (query.exec()) {
@@ -316,11 +241,11 @@ const QStringList DBManager::getPathsByDir(const QString &dir) const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare( "SELECT DISTINCT FilePath FROM ImageTable "
+    query.prepare( "SELECT DISTINCT FilePath FROM ImageTable3 "
                    "WHERE Dir=:dir " );
     query.bindValue(":dir", utils::base::hash(dir));
     if (! query.exec() ) {
-        qWarning() << "Get Paths from ImageTable failed: " << query.lastError();
+        qWarning() << "Get Paths from ImageTable3 failed: " << query.lastError();
         mutex.unlock();
     }
     else {
@@ -343,7 +268,7 @@ bool DBManager::isImgExist(const QString &path) const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "SELECT COUNT(*) FROM ImageTable WHERE FilePath = :path" );
+    query.prepare( "SELECT COUNT(*) FROM ImageTable3 WHERE FilePath = :path" );
     query.bindValue( ":path", path );
     if (query.exec()) {
         query.first();
@@ -365,23 +290,22 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         return;
     }
 
-    QVariantList pathhashs, filenames, filepaths, thumbnailPaths, dirs, times;
+    QVariantList pathhashs, filenames, filepaths, dirs, times;
 
     for (DBImgInfo info : infos) {
-        filenames << info.imgBaseInfo.fileName;
+        filenames << info.fileName;
         filepaths << info.filePath;
         pathhashs << utils::base::hash(info.filePath);
-        thumbnailPaths << info.thumbnailPath;
         dirs << info.dirHash;
-        times << utils::base::timeToString(info.imgBaseInfo.time, true);
+        times << utils::base::timeToString(info.time, true);
     }
 
     QMutexLocker mutex(&m_mutex);
-    // Insert into ImageTable
+    // Insert into ImageTable3
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "REPLACE INTO ImageTable "
+    query.prepare( "REPLACE INTO ImageTable3 "
                    "(PathHash, FilePath, FileName, Dir, Time) VALUES (?, ?, ?, ?, ?)" );
     query.addBindValue(pathhashs);
     query.addBindValue(filepaths);
@@ -389,7 +313,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     query.addBindValue(dirs);
     query.addBindValue(times);
     if (! query.execBatch()) {
-        qWarning() << "Insert data into ImageTable failed: "
+        qWarning() << "Insert data into ImageTable3 failed: "
                    << query.lastError();
         query.exec("COMMIT");
         mutex.unlock();
@@ -397,7 +321,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     else {
         query.exec("COMMIT");
         mutex.unlock();
-//        emit dApp->signalM->imagesInserted(infos);
+        emit dApp->signalM->imagesInserted(infos);
     }
 }
 
@@ -421,11 +345,11 @@ void DBManager::removeImgInfos(const QStringList &paths)
     // Remove from albums table
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    QString qs = "DELETE FROM AlbumTable WHERE PathHash=?";
+    QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from AlbumTable failed: "
+        qWarning() << "Remove data from AlbumTable3 failed: "
                    << query.lastError();
         query.exec("COMMIT");
     }
@@ -435,16 +359,16 @@ void DBManager::removeImgInfos(const QStringList &paths)
 
     // Remove from image table
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    qs = "DELETE FROM ImageTable WHERE PathHash=?";
+    qs = "DELETE FROM ImageTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from ImageTable failed: "
+        qWarning() << "Remove data from ImageTable3 failed: "
                    << query.lastError();
         query.exec("COMMIT");
     }
     else {
-//        emit dApp->signalM->imagesRemoved(infos);
+        emit dApp->signalM->imagesRemoved(infos);
         query.exec("COMMIT");
     }
     mutex.unlock();
@@ -470,28 +394,28 @@ void DBManager::removeDir(const QString &dir)
     // Remove from albums table
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    QString qs = "DELETE FROM AlbumTable WHERE PathHash=?";
+    QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from AlbumTable failed: "
+        qWarning() << "Remove data from AlbumTable3 failed: "
                    << query.lastError();
     }
     query.exec("COMMIT");
 
     // Remove from image table
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    qs = "DELETE FROM ImageTable WHERE Dir=:Dir";
+    qs = "DELETE FROM ImageTable3 WHERE Dir=:Dir";
     query.prepare(qs);
     query.bindValue(":Dir", dirHash);
     if (! query.exec()) {
-        qWarning() << "Remove dir's images from ImageTable failed: "
+        qWarning() << "Remove dir's images from ImageTable3 failed: "
                    << query.lastError();
         query.exec("COMMIT");
     }
     else {
         query.exec("COMMIT");
-//        emit dApp->signalM->imagesRemoved(infos);
+        emit dApp->signalM->imagesRemoved(infos);
     }
     mutex.unlock();
 }
@@ -510,12 +434,12 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    QString ps = "SELECT DISTINCT PathHash FROM AlbumTable "
+    QString ps = "SELECT DISTINCT PathHash FROM AlbumTable3 "
                  "WHERE AlbumName =:name AND PathHash != \"%1\" ";
     query.prepare( ps.arg(EMPTY_HASH_STR) );
     query.bindValue(":name", album);
     if ( ! query.exec() ) {
-        qWarning() << "Get data from AlbumTable failed: "
+        qWarning() << "Get data from AlbumTable3 failed: "
                    << query.lastError();
     }
     else {
@@ -526,14 +450,14 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
     mutex.unlock();
     info.count = pathHashs.length();
     if (pathHashs.length() == 1) {
-        info.endTime = getInfoByPathHash(pathHashs.first()).imgBaseInfo.time;
+        info.endTime = getInfoByPathHash(pathHashs.first()).time;
         info.beginTime = info.endTime;
     }
     else if (pathHashs.length() > 1) {
         //TODO: The images' info in AlbumTable need dateTime
         //If: without those, need to loop access dateTime
         foreach (QString pHash,  pathHashs) {
-            QDateTime tmpTime = getInfoByPathHash(pHash).imgBaseInfo.time;
+            QDateTime tmpTime = getInfoByPathHash(pHash).time;
             if (tmpTime < info.beginTime || info.beginTime.isNull()) {
                 info.beginTime = tmpTime;
             }
@@ -557,7 +481,7 @@ const QStringList DBManager::getAllAlbumNames() const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare( "SELECT DISTINCT AlbumName FROM AlbumTable" );
+    query.prepare( "SELECT DISTINCT AlbumName FROM AlbumTable3" );
     if ( !query.exec() ) {
         qWarning() << "Get AlbumNames failed: " << query.lastError();
     }
@@ -582,13 +506,13 @@ const QStringList DBManager::getPathsByAlbum(const QString &album) const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT i.FilePath "
-                  "FROM ImageTable AS i, AlbumTable AS a "
+                  "FROM ImageTable3 AS i, AlbumTable3 AS a "
                   "WHERE i.PathHash=a.PathHash "
                   "AND a.AlbumName=:album "
                   "AND FilePath != \" \" ");
     query.bindValue(":album", album);
     if (! query.exec() ) {
-        qWarning() << "Get Paths from AlbumTable failed: " << query.lastError();
+        qWarning() << "Get Paths from AlbumTable3 failed: " << query.lastError();
     }
     else {
         while (query.next()) {
@@ -611,7 +535,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time "
-                  "FROM ImageTable AS i, AlbumTable AS a "
+                  "FROM ImageTable3 AS i, AlbumTable3 AS a "
                   "WHERE i.PathHash=a.PathHash AND a.AlbumName=:album");
     query.bindValue(":album", album);
     if (! query.exec()) {
@@ -623,9 +547,9 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.imgBaseInfo.fileName = query.value(1).toString();
+            info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
-            info.imgBaseInfo.time = stringToDateTime(query.value(3).toString());
+            info.time = stringToDateTime(query.value(3).toString());
 
             infos << info;
         }
@@ -643,7 +567,7 @@ int DBManager::getImgsCountByAlbum(const QString &album) const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    QString ps = "SELECT COUNT(*) FROM AlbumTable "
+    QString ps = "SELECT COUNT(*) FROM AlbumTable3 "
                  "WHERE AlbumName =:album AND PathHash != \"%1\" ";
     query.prepare( ps.arg(EMPTY_HASH_STR) );
     query.bindValue(":album", album);
@@ -668,7 +592,7 @@ int DBManager::getAlbumsCount() const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare("SELECT COUNT(DISTINCT AlbumName) FROM AlbumTable");
+    query.prepare("SELECT COUNT(DISTINCT AlbumName) FROM AlbumTable3");
     if (query.exec()) {
         query.first();
         mutex.unlock();
@@ -689,7 +613,7 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path) con
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare( "SELECT COUNT(*) FROM AlbumTable WHERE PathHash = :hash "
+    query.prepare( "SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
                    "AND AlbumName = :album");
     query.bindValue( ":hash", utils::base::hash(path) );
     query.bindValue( ":album", album );
@@ -713,7 +637,7 @@ bool DBManager::isAlbumExistInDB(const QString &album) const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare( "SELECT COUNT(*) FROM AlbumTable WHERE AlbumName = :album");
+    query.prepare( "SELECT COUNT(*) FROM AlbumTable3 WHERE AlbumName = :album");
     query.bindValue( ":album", album );
     if (query.exec()) {
         query.first();
@@ -742,20 +666,20 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare("REPLACE INTO AlbumTable (AlbumId, AlbumName, PathHash) "
+    query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash) "
                   "VALUES (null, ?, ?)");
     query.addBindValue(nameRows);
     query.addBindValue(pathHashRows);
     if (! query.execBatch()) {
-        qWarning() << "Insert data into AlbumTable failed: "
+        qWarning() << "Insert data into AlbumTable3 failed: "
                    << query.lastError();
     }
     query.exec("COMMIT");
 
     //FIXME: Don't insert the repeated filepath into the same album
     //Delete the same data
-    QString ps = "DELETE FROM AlbumTable where AlbumId NOT IN"
-                 "(SELECT min(AlbumId) FROM AlbumTable GROUP BY"
+    QString ps = "DELETE FROM AlbumTable3 where AlbumId NOT IN"
+                 "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY"
                  " AlbumName, PathHash) AND PathHash != \"%1\" ";
     query.prepare(ps.arg(EMPTY_HASH_STR));
     if (!query.exec()) {
@@ -764,7 +688,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     query.exec("COMMIT");
     mutex.unlock();
 
-//    emit dApp->signalM->insertedIntoAlbum(album, paths);
+    emit dApp->signalM->insertedIntoAlbum(album, paths);
 }
 
 void DBManager::removeAlbum(const QString &album)
@@ -776,7 +700,7 @@ void DBManager::removeAlbum(const QString &album)
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare("DELETE FROM AlbumTable WHERE AlbumName=:album");
+    query.prepare("DELETE FROM AlbumTable3 WHERE AlbumName=:album");
     query.bindValue(":album", album);
     if (!query.exec()) {
         qWarning() << "Remove album from database failed: " << query.lastError();
@@ -800,14 +724,14 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     // Remove from albums table
-    QString qs("DELETE FROM AlbumTable WHERE AlbumName=\"%1\" AND PathHash=?");
+    QString qs("DELETE FROM AlbumTable3 WHERE AlbumName=\"%1\" AND PathHash=?");
     query.prepare(qs.arg(album));
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     }
     else {
-//        emit dApp->signalM->removedFromAlbum(album, paths);
+        emit dApp->signalM->removedFromAlbum(album, paths);
     }
     query.exec("COMMIT");
     mutex.unlock();
@@ -822,7 +746,7 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare("UPDATE AlbumTable SET "
+    query.prepare("UPDATE AlbumTable3 SET "
                   "AlbumName = :newName "
                   "WHERE AlbumName = :oldName ");
     query.bindValue( ":newName", newAlbum );
@@ -843,7 +767,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM ImageTable "
+    query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
                           "WHERE %1= :value ORDER BY Time DESC").arg(key));
     query.bindValue(":value", value);
     if (!query.exec()) {
@@ -855,13 +779,272 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.imgBaseInfo.fileName = query.value(1).toString();
+            info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
-            info.imgBaseInfo.time = stringToDateTime(query.value(3).toString());
+            info.time = stringToDateTime(query.value(3).toString());
 
             infos << info;
         }
     }
     mutex.unlock();
     return infos;
+}
+
+const QSqlDatabase DBManager::getDatabase() const
+{
+    QMutexLocker mutex(&m_mutex);
+    if( QSqlDatabase::contains(m_connectionName) ) {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        mutex.unlock();
+        return db;
+    }
+    else {
+        //if database not open, open it.
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", m_connectionName);//not dbConnection
+        db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
+        if (! db.open()) {
+            qWarning()<< "Open database error:" << db.lastError();
+            mutex.unlock();
+            return QSqlDatabase();
+        }
+        else {
+            mutex.unlock();
+            return db;
+        }
+    }
+}
+
+void DBManager::checkDatabase()
+{
+    QDir dd(DATABASE_PATH);
+    if (! dd.exists()) {
+        qDebug() << "create database paths";
+        dd.mkpath(DATABASE_PATH);
+        if (dd.exists())
+            qDebug() << "create database succeed!";
+        else
+            qDebug() << "create database failed!";
+    } else {
+        qDebug() << "database is exist!";
+    }
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return;
+    }
+    bool tableExist = false;
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare( "SELECT name FROM sqlite_master "
+                   "WHERE type=\"table\" AND name = \"ImageTable3\"");
+    if (query.exec() && query.first()) {
+        tableExist = ! query.value(0).toString().isEmpty();
+    }
+    //if tables not exist, create it.
+    if ( ! tableExist ) {
+        QSqlQuery query(db);
+        // ImageTable3
+        //////////////////////////////////////////////////////////////
+        //PathHash           | FilePath | FileName   | Dir  | Time  //
+        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT  //
+        //////////////////////////////////////////////////////////////
+        query.exec( QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
+                            "PathHash TEXT primary key, "
+                            "FilePath TEXT, "
+                            "FileName TEXT, "
+                            "Dir TEXT, "
+                            "Time TEXT )"));
+
+        // AlbumTable3
+        //////////////////////////////////////////////////////////
+        //AlbumId               | AlbumName         | PathHash  //
+        //INTEGER primari key   | TEXT              | TEXT      //
+        //////////////////////////////////////////////////////////
+        query.exec( QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
+                            "AlbumId INTEGER primary key, "
+                            "AlbumName TEXT, "
+                            "PathHash TEXT)") );
+
+//        // Check if there is an old version table exist or not
+
+//        //TODO: AlbumTable's primary key is changed, need to importVersion again
+//        importVersion1Data();
+//        importVersion2Data();
+    }
+    mutex.unlock();
+
+}
+
+void DBManager::importVersion1Data()
+{
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return;
+    }
+    bool tableExist = false;
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare( "SELECT name FROM sqlite_master "
+                   "WHERE type=\"table\" AND name = \"ImageTable\"");
+    if (query.exec() && query.first()) {
+        tableExist = ! query.value(0).toString().isEmpty();
+    }
+    mutex.unlock();
+    if (tableExist) {
+        // Import ImageTable into ImageTable3
+        query.clear();
+        query.setForwardOnly(true);
+        QMutexLocker mutex(&m_mutex);
+        query.prepare( "SELECT filename, filepath, time "
+                       "FROM ImageTable ORDER BY time DESC");
+        if (! query.exec()) {
+            qWarning() << "Import ImageTable into ImageTable3 failed: "
+                       << query.lastError();
+            mutex.unlock();
+        }
+        else {
+            DBImgInfoList infos;
+            using namespace utils::base;
+            while (query.next()) {
+                DBImgInfo info;
+                info.fileName = query.value(0).toString();
+                info.filePath = query.value(1).toString();
+                info.time = stringToDateTime(query.value(2).toString());
+
+                infos << info;
+            }
+            mutex.unlock();
+            insertImgInfos(infos);
+        }
+
+        mutex.relock();
+        // Import AlbumTable into AlbumTable3
+        query.clear();
+        query.prepare("SELECT DISTINCT a.albumname, i.filepath "
+                      "FROM ImageTable AS i, AlbumTable AS a "
+                      "WHERE i.filename=a.filename ");
+        if (! query.exec()) {
+            qWarning() << "Import AlbumTable into AlbumTable3 failed: "
+                       << query.lastError();
+            mutex.unlock();
+        }
+        else {
+            // <Album-Paths>
+            QMap<QString, QStringList> aps;
+            using namespace utils::base;
+            while (query.next()) {
+                QString album = query.value(0).toString();
+                QString path = query.value(1).toString();
+                if (aps.keys().contains(album)) {
+                    aps[album].append(path);
+                }
+                else {
+                    aps.insert(album, QStringList(path));
+                }
+            }
+            mutex.unlock();
+            for (QString album : aps.keys()) {
+                insertIntoAlbum(album, aps[album]);
+            }
+        }
+
+        mutex.relock();
+        // Drop old table
+        query.clear();
+        query.prepare("DROP TABLE AlbumTable");
+        if (! query.exec()) {
+            qWarning() << "Drop old tables failed: " << query.lastError();
+        }
+        query.prepare("DROP TABLE ImageTable");
+        if (! query.exec()) {
+            qWarning() << "Drop old tables failed: " << query.lastError();
+        }
+        mutex.unlock();
+    }
+}
+
+void DBManager::importVersion2Data()
+{
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return;
+    }
+    bool tableExist = false;
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare( "SELECT name FROM sqlite_master "
+                   "WHERE type=\"table\" AND name = \"ImageTable2\"");
+    if (query.exec() && query.first()) {
+        tableExist = ! query.value(0).toString().isEmpty();
+    }
+
+    if (tableExist) {
+        // Import ImageTable2 into ImageTable3
+        query.clear();
+        query.prepare( "SELECT FileName, FilePath, Time "
+                       "FROM ImageTable2 ORDER BY Time DESC");
+        if (! query.exec()) {
+            qWarning() << "Import ImageTable2 into ImageTable3 failed: "
+                       << query.lastError();
+            mutex.unlock();
+        }
+        else {
+            DBImgInfoList infos;
+            using namespace utils::base;
+            while (query.next()) {
+                DBImgInfo info;
+                info.fileName = query.value(0).toString();
+                info.filePath = query.value(1).toString();
+                info.time = stringToDateTime(query.value(2).toString());
+
+                infos << info;
+            }
+            mutex.unlock();
+            insertImgInfos(infos);
+        }
+
+        // Import AlbumTable2 into AlbumTable3
+        query.clear();
+        QMutexLocker mutex(&m_mutex);
+        query.prepare(" SELECT AlbumName, FilePath FROM AlbumTable2 ");
+        if (! query.exec()) {
+            qWarning() << "Import AlbumTable2 into AlbumTable3 failed: "
+                       << query.lastError();
+            mutex.unlock();
+        }
+        else {
+            // <Album-Paths>
+            QMap<QString, QStringList> aps;
+            using namespace utils::base;
+            while (query.next()) {
+                QString album = query.value(0).toString();
+                QString path = query.value(1).toString();
+                if (aps.keys().contains(album)) {
+                    aps[album].append(path);
+                }
+                else {
+                    aps.insert(album, QStringList(path));
+                }
+            }
+            mutex.unlock();
+            for (QString album : aps.keys()) {
+                insertIntoAlbum(album, aps[album]);
+            }
+        }
+
+        mutex.relock();
+        // Drop old table
+        query.clear();
+        query.prepare("DROP TABLE AlbumTable2");
+        if (! query.exec()) {
+            qWarning() << "Drop old tables failed: " << query.lastError();
+        }
+        query.prepare("DROP TABLE ImageTable2");
+        if (! query.exec()) {
+            qWarning() << "Drop old tables failed: " << query.lastError();
+        }
+        mutex.unlock();
+    }
 }
