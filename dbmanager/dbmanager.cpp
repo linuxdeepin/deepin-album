@@ -141,14 +141,14 @@ const QStringList DBManager::getAllTimelines() const
 }
 
 const DBImgInfoList DBManager::getInfosByTimeline(const QString &timeline) const
-{/*
+{
     const DBImgInfoList list = getImgInfos("Time", timeline);
     if (list.count() < 1) {
         return DBImgInfoList();
     }
     else {
         return list;
-    }*/
+    }
 }
 
 const DBImgInfo DBManager::getInfoByName(const QString &name) const

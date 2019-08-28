@@ -14,8 +14,10 @@
 #include <QFrame>
 #include <DSegmentedControl>
 #include <DTitlebar>
-#include <DtkWidgets>
 #include <QStackedWidget>
+#include <DSearchEdit>
+#include <DLabel>
+#include <QStatusBar>
 
 #define DEFAULT_WINDOWS_WIDTH   960
 #define DEFAULT_WINDOWS_HEIGHT  540
@@ -65,7 +67,6 @@ private:
     QStatusBar* m_pStatusBar;
     DLabel* m_pAllPicNumLabel;
     DSlider* m_pSlider;
-
     DBManager* m_pDBManager;
 };
 

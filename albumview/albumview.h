@@ -5,6 +5,8 @@
 
 class AlbumView : public QWidget
 {
+    Q_OBJECT
+
 public:
     AlbumView();
 

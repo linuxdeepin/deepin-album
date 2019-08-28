@@ -1,37 +1,56 @@
 #ifndef ALLPICVIEW_H
 #define ALLPICVIEW_H
+
 #include "application.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "controller/configsetter.h"
+#include "controller/signalmanager.h"
+#include "dbmanager/dbmanager.h"
+#include "widgets/thumbnaillistview.h"
+
+
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QLabel>
+#include <DLabel>
 #include <QPixmap>
-#include <DtkWidgets>
 #include <QStandardPaths>
 #include <QImageReader>
+#include <DPushButton>
+#include <QDir>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <DStackedWidget>
+
+DWIDGET_USE_NAMESPACE
 
 class AllPicView : public QWidget
 {
+    Q_OBJECT
+
 public:
     AllPicView();
 
-private:
-    void initUI();
-    void initConnections();
+signals:
+    void sigImprotPicsIntoDB(const DBImgInfoList &infos);
 
-    void updateEmptyLayout();
-    void updateNotEmptyLayout();
+private:
+    void initConnections();
+    void initImportFrame();
+    void initThumbnailListView();
+    void initMainStackWidget();
+    void updateMainStackWidget();
 
     void improtBtnClicked();
 
+    void sigImprotPicsIntoThumbnailView();
 private:
-    int m_allPicNum;
+    DStackedWidget *m_stackWidget = NULL;
 
+    DWidget* m_pImportFrame;
     DPushButton* m_pImportBtn;
-    QVBoxLayout* m_pEmptyLayout;
-    QVBoxLayout* m_pNotEmptyLayout;
 
+    ThumbnailListView *m_pThumbnailListView;
 };
 
 #endif // ALLPICVIEW_H

@@ -2,35 +2,27 @@
 
 AllPicView::AllPicView()
 {
-    m_allPicNum = 0;
-
-    m_pEmptyLayout = new QVBoxLayout();
-    m_pNotEmptyLayout = new QVBoxLayout();
-
-    initUI();
+//    updateMainStackWidget();
+    initImportFrame();
+    initThumbnailListView();
+    initMainStackWidget();
     initConnections();
-}
-
-void AllPicView::initUI()
-{
-    if (0 == m_allPicNum)
-    {
-        updateEmptyLayout();
-    }
-    else
-    {
-        updateNotEmptyLayout();
-    }
 }
 
 void AllPicView::initConnections()
 {
     connect(m_pImportBtn, &DPushButton::clicked, this, &AllPicView::improtBtnClicked);
+    connect(this, &AllPicView::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::sigImprotPicsIntoThumbnailView);
 }
 
-void AllPicView::updateEmptyLayout()
+void AllPicView::initImportFrame()
 {
-    QLabel* pLabel = new QLabel();
+    m_pImportFrame = new DWidget();
+
+    QVBoxLayout* pImportFrameLayout = new QVBoxLayout();
+
+    DLabel* pLabel = new DLabel();
     pLabel->setFixedSize(128, 128);
 
     QPixmap pixmap;
@@ -42,24 +34,79 @@ void AllPicView::updateEmptyLayout()
     m_pImportBtn->setText("导入图片");
     m_pImportBtn->setFixedSize(142, 42);
 
-    QLabel* pLabel2 = new QLabel();
+    DLabel* pLabel2 = new DLabel();
     pLabel2->setFixedHeight(24);
     pLabel2->setText("您也可以拖拽或导入图片到时间线");
 
-    m_pEmptyLayout->addStretch();
-    m_pEmptyLayout->addWidget(pLabel, 0, Qt::AlignCenter);
-    m_pEmptyLayout->addSpacing(20);
-    m_pEmptyLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
-    m_pEmptyLayout->addSpacing(10);
-    m_pEmptyLayout->addWidget(pLabel2, 0, Qt::AlignCenter);
-    m_pEmptyLayout->addStretch();
+    pImportFrameLayout->addStretch();
+    pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);
+    pImportFrameLayout->addSpacing(20);
+    pImportFrameLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
+    pImportFrameLayout->addSpacing(10);
+    pImportFrameLayout->addWidget(pLabel2, 0, Qt::AlignCenter);
+    pImportFrameLayout->addStretch();
 
-    this->setLayout(m_pEmptyLayout);
+    m_pImportFrame->setLayout(pImportFrameLayout);
 }
 
-void AllPicView::updateNotEmptyLayout()
+void AllPicView::initThumbnailListView()
 {
+    m_pThumbnailListView = new ThumbnailListView();
+    m_pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
 
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        auto infos = DBManager::instance()->getAllInfos();
+
+        using namespace utils::image;
+        for(auto info : infos)
+        {
+            ThumbnailListView::ItemInfo vi;
+            vi.name = info.fileName;
+            vi.path = info.filePath;
+            vi.thumb = getThumbnail(vi.path, true);
+
+            m_pThumbnailListView->insertItem(vi);
+        }
+    }
+}
+
+void AllPicView::initMainStackWidget()
+{
+    m_stackWidget = new DStackedWidget();
+    m_stackWidget->setContentsMargins(0, 0, 0, 0);
+    m_stackWidget->addWidget(m_pImportFrame);
+    m_stackWidget->addWidget(m_pThumbnailListView);
+    //show import frame if no images in database
+    m_stackWidget->setCurrentIndex(DBManager::instance()->getImgsCount() > 0? 1 : 0);
+
+    QLayout *layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(m_stackWidget);
+}
+
+void AllPicView::updateMainStackWidget()
+{
+    if (DBManager::instance()->getImgsCount() < 1)
+    {
+        m_stackWidget->setCurrentIndex(0);
+    }
+    else
+    {
+        m_stackWidget->setCurrentIndex(1);
+    }
+//    auto infos = DBManager::instance()->getAllInfos();
+
+//    QStringList paths;
+
+//    for(auto info : infos)
+//    {
+//        paths<<info.filePath;
+//    }
+
+
+//    DBManager::instance()->removeImgInfos(paths);
 }
 
 void AllPicView::improtBtnClicked()
@@ -92,4 +139,55 @@ void AllPicView::improtBtnClicked()
 
     QFileInfo firstFileInfo(image_list.first());
     dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
+
+
+    DBImgInfoList dbInfos;
+    using namespace utils::image;
+
+    for (auto imagePath : image_list)
+    {
+//        if (! imageSupportRead(imagePath)) {
+//            continue;
+//        }
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(imagePath)) {
+            // Generate thumbnail failed, do not insert into DB
+            if (! utils::image::generateThumbnail(imagePath)) {
+                continue;
+            }
+        }
+
+        QFileInfo fi(imagePath);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = imagePath;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+
+        dbInfos << dbi;
+    }
+
+    if (! dbInfos.isEmpty())
+    {
+        emit sigImprotPicsIntoDB(dbInfos);
+    }
+}
+
+void AllPicView::sigImprotPicsIntoThumbnailView()
+{
+    auto infos = DBManager::instance()->getAllInfos();
+
+    using namespace utils::image;
+    for(auto info : infos)
+    {
+        ThumbnailListView::ItemInfo vi;
+        vi.name = info.fileName;
+        vi.path = info.filePath;
+        vi.thumb = getThumbnail(vi.path, true);
+
+        m_pThumbnailListView->insertItem(vi);
+    }
+
+    updateMainStackWidget();
 }

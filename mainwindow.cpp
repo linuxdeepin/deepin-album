@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 
-#include <QStatusBar>
-
 MainWindow::MainWindow()
 {
     m_allPicNum = DBManager::instance()->getImgsCount();
@@ -92,13 +90,14 @@ void MainWindow::initTitleBar()
 
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
-    titlebar()->setCustomWidget(m_titleBtnWidget, Qt::AlignLeft);
+    titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
 }
 
 void MainWindow::initCentralWidget()
 {
     m_pCenterWidget = new QStackedWidget;
     m_pAlbumview = new AlbumView();
+    m_pAlbumview->setFixedSize(this->width(), this->height());
     m_pAllPicView = new AllPicView();
     m_pTimeLineView = new TimeLineView();
 
