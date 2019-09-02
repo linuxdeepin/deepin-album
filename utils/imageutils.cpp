@@ -363,7 +363,7 @@ const QString thumbnailCachePath()
     cacheP = cacheP.isEmpty() ? (QDir::homePath() + "/.cache") : cacheP;
 
     // Check specific size dir
-    const QString thumbCacheP = cacheP + "/thumbnails";
+    const QString thumbCacheP = cacheP + "/thumbnails_album";
     QDir().mkpath(thumbCacheP + "/normal");
     QDir().mkpath(thumbCacheP + "/large");
     QDir().mkpath(thumbCacheP + "/fail");
@@ -411,13 +411,23 @@ bool generateThumbnail(const QString &path)
     const auto attributes = thumbnailAttribute(url);
     const QString cacheP = thumbnailCachePath();
 
+    QPixmap pixmap;
+    pixmap.load(path);
+    int i_width = pixmap.width();
+    int i_height = pixmap.height();
+    int i_largeScaleWidth = 0;
+    int i_normalScaleWidth = 0;
+
+    i_largeScaleWidth = (THUMBNAIL_MAX_SIZE * i_height) / i_width;
+    i_normalScaleWidth = (THUMBNAIL_NORMAL_SIZE * i_height) / i_width;
+
     // Large thumbnail
     QImage lImg = scaleImage(path,
-                             QSize(THUMBNAIL_MAX_SIZE, THUMBNAIL_MAX_SIZE));
+                             QSize(i_largeScaleWidth, THUMBNAIL_MAX_SIZE));
 
     // Normal thumbnail
     QImage nImg = lImg.scaled(
-                QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
+                QSize(i_normalScaleWidth, THUMBNAIL_NORMAL_SIZE)
                 , Qt::KeepAspectRatio
                 , Qt::SmoothTransformation);
 

@@ -97,7 +97,6 @@ void MainWindow::initCentralWidget()
 {
     m_pCenterWidget = new QStackedWidget;
     m_pAlbumview = new AlbumView();
-    m_pAlbumview->setFixedSize(this->width(), this->height());
     m_pAllPicView = new AllPicView();
     m_pTimeLineView = new TimeLineView();
 
@@ -150,4 +149,9 @@ void MainWindow::timeLineBtnClicked()
 void MainWindow::albumBtnClicked()
 {
     m_pCenterWidget->setCurrentIndex(2);
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    int wid = width();
 }

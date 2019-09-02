@@ -33,10 +33,10 @@ Application::Application(int& argc, char** argv)
 {
     initI18n();
     setOrganizationName("deepin");
-    setApplicationName("deepin-image-viewer");
-    setApplicationDisplayName(tr("Deepin Image Viewer"));
+    setApplicationName("deepin-album");
+    setApplicationDisplayName(tr("Deepin album"));
 
-    setApplicationVersion(DApplication::buildVersion("1.3"));
+    setApplicationVersion(DApplication::buildVersion("20190828"));
 
     installEventFilter(new GlobalEventFilter());
 

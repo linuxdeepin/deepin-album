@@ -49,6 +49,8 @@ private slots:
     void timeLineBtnClicked();
     void albumBtnClicked();
 
+    void resizeEvent(QResizeEvent *event);
+
 private:
     Ui::MainWindow *ui;
     QListWidget* m_listWidget;

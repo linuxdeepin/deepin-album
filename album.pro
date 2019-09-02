@@ -45,9 +45,9 @@ SOURCES += \
     controller/viewerthememanager.cpp \
     controller/signalmanager.cpp \
     utils/imageutils.cpp \
-    widgets/thumbnaildelegate.cpp \
     widgets/thumbnaillistview.cpp \
-    widgets/scrollbar.cpp
+    widgets/scrollbar.cpp \
+    widgets/thumbnaildelegate.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -63,8 +63,8 @@ HEADERS += \
     controller/configsetter.h \
     utils/imageutils.h \
     widgets/thumbnaillistview.h \
-    widgets/thumbnaildelegate.h \
-    widgets/scrollbar.h
+    widgets/scrollbar.h \
+    widgets/thumbnaildelegate.h
 
 #RESOURCES += \
 #    resources.qrc

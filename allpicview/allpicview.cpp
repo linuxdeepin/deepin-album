@@ -2,11 +2,19 @@
 
 AllPicView::AllPicView()
 {
-//    updateMainStackWidget();
-    initImportFrame();
-    initThumbnailListView();
-    initMainStackWidget();
-    initConnections();
+//    bool a = 0;
+    bool a = 1;
+    if ( a )
+    {
+        initImportFrame();
+        initThumbnailListView();
+        initMainStackWidget();
+        initConnections();
+    }
+    else
+    {
+        removeDBAllInfos();
+    }
 }
 
 void AllPicView::initConnections()
@@ -57,18 +65,19 @@ void AllPicView::initThumbnailListView()
 
     if (0 < DBManager::instance()->getImgsCount())
     {
-        auto infos = DBManager::instance()->getAllInfos();
+        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
-        using namespace utils::image;
+        auto infos = DBManager::instance()->getAllInfos();
         for(auto info : infos)
         {
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
-            vi.thumb = getThumbnail(vi.path, true);
 
-            m_pThumbnailListView->insertItem(vi);
+            thumbnaiItemList<<vi;
         }
+
+        m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
     }
 }
 
@@ -96,17 +105,6 @@ void AllPicView::updateMainStackWidget()
     {
         m_stackWidget->setCurrentIndex(1);
     }
-//    auto infos = DBManager::instance()->getAllInfos();
-
-//    QStringList paths;
-
-//    for(auto info : infos)
-//    {
-//        paths<<info.filePath;
-//    }
-
-
-//    DBManager::instance()->removeImgInfos(paths);
 }
 
 void AllPicView::improtBtnClicked()
@@ -176,18 +174,34 @@ void AllPicView::improtBtnClicked()
 
 void AllPicView::sigImprotPicsIntoThumbnailView()
 {
-    auto infos = DBManager::instance()->getAllInfos();
+    QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
-    using namespace utils::image;
+    auto infos = DBManager::instance()->getAllInfos();
     for(auto info : infos)
     {
         ThumbnailListView::ItemInfo vi;
         vi.name = info.fileName;
         vi.path = info.filePath;
-        vi.thumb = getThumbnail(vi.path, true);
 
-        m_pThumbnailListView->insertItem(vi);
+        thumbnaiItemList<<vi;
     }
 
+    m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
+
     updateMainStackWidget();
+}
+
+void AllPicView::removeDBAllInfos()
+{
+    auto infos = DBManager::instance()->getAllInfos();
+
+    QStringList paths;
+
+    for(auto info : infos)
+    {
+        paths<<info.filePath;
+    }
+
+
+    DBManager::instance()->removeImgInfos(paths);
 }

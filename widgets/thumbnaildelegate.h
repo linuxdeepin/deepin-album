@@ -31,7 +31,8 @@ public:
     struct ItemData {
         QString name;
         QString path;
-        QPixmap thumbnail;
+        int width;
+        int height;
     };
 
     explicit ThumbnailDelegate(QObject *parent = nullptr);
@@ -48,12 +49,8 @@ signals:
 
 private:
     ItemData itemData(const QModelIndex &index) const;
-    QPixmap thumbnail(const ThumbnailDelegate::ItemData &data) const;
-    void startThumbnailThread(const ThumbnailDelegate::ItemData &data) const;
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
 private:
-    mutable QMap<QString, TDThumbnailThread *> m_threads;
     QColor m_borderColor;
     QString  m_defaultThumbnail;
 };

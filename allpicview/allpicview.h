@@ -21,6 +21,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <DStackedWidget>
+#include <DSlider>
 
 DWIDGET_USE_NAMESPACE
 
@@ -44,6 +45,10 @@ private:
     void improtBtnClicked();
 
     void sigImprotPicsIntoThumbnailView();
+
+
+
+    void removeDBAllInfos();
 private:
     DStackedWidget *m_stackWidget = NULL;
 
