@@ -112,6 +112,7 @@ void ThumbnailListView::calWidgetItemWandH()
     {
         m_gridItem[0][0].width = m_gridItem[0][0].width + i_totalwidth - rowWidthList[0];
     }
+    m_height = m_gridItem[0][0].height;
 }
 
 void ThumbnailListView::addThumbnailView()
@@ -177,6 +178,7 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
         calWidgetItemWandH();
         updateThumbnailView();
     }
+    emit loadend((m_height)*m_gridItem.size()+15);
 
     m_iDefaultWidth = width();
 

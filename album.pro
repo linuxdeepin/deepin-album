@@ -47,7 +47,9 @@ SOURCES += \
     utils/imageutils.cpp \
     widgets/thumbnaillistview.cpp \
     widgets/scrollbar.cpp \
-    widgets/thumbnaildelegate.cpp
+    widgets/thumbnaildelegate.cpp \
+    widgets/timelinelist.cpp \
+    widgets/timelineitem.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -64,7 +66,9 @@ HEADERS += \
     utils/imageutils.h \
     widgets/thumbnaillistview.h \
     widgets/scrollbar.h \
-    widgets/thumbnaildelegate.h
+    widgets/thumbnaildelegate.h \
+    widgets/timelinelist.h \
+    widgets/timelineitem.h
 
 #RESOURCES += \
 #    resources.qrc

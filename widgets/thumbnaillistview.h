@@ -48,7 +48,7 @@ public:
     void insertThumbnails(const QList<ItemInfo> &itemList);
 
 signals:
-
+    void loadend(int);
 
 protected:
 
@@ -62,6 +62,7 @@ private:
 
 private:
     int m_iDefaultWidth;
+    int m_height;
     QList<ItemInfo> m_ItemList;
     QList<QList<ItemInfo>> m_gridItem;
 
