@@ -1,5 +1,11 @@
 #include "allpicview.h"
 
+namespace {
+const QString RECENT_IMPORTED_ALBUM = "Recent imported";
+const QString TRASH_ALBUM = "Trash";
+const QString FAVORITES_ALBUM = "My favorite";
+}  //namespace
+
 AllPicView::AllPicView()
 {
 //    bool a = 0;
@@ -140,6 +146,8 @@ void AllPicView::improtBtnClicked()
 
 
     DBImgInfoList dbInfos;
+    QStringList paths;
+
     using namespace utils::image;
 
     for (auto imagePath : image_list)
@@ -164,11 +172,13 @@ void AllPicView::improtBtnClicked()
         dbi.time = fi.birthTime();
 
         dbInfos << dbi;
+        paths << imagePath;
     }
 
     if (! dbInfos.isEmpty())
     {
         emit sigImprotPicsIntoDB(dbInfos);
+        DBManager::instance()->insertIntoAlbum(RECENT_IMPORTED_ALBUM, paths);
     }
 }
 

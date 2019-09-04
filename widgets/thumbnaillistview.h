@@ -18,6 +18,8 @@
 #define THUMBNAILLISTVIEW_H
 
 #include "thumbnaildelegate.h"
+#include "application.h"
+#include "controller/configsetter.h"
 
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -28,11 +30,37 @@
 #include <QSize>
 #include <QStandardItemModel>
 #include <QBuffer>
+#include <DMenu>
 
 class ThumbnailListView : public QListView
 {
     Q_OBJECT
+
 public:
+    enum MenuItemId {
+        IdView,
+        IdFullScreen,
+        IdStartSlideShow,
+        IdPrint,
+        IdAddToAlbum,
+        IdExport,
+        IdCopy,
+        IdCopyToClipboard,
+        IdMoveToTrash,
+        IdRemoveFromAlbum,
+        IdEdit,
+        IdAddToFavorites,
+        IdRemoveFromFavorites,
+        IdRotateClockwise,
+        IdRotateCounterclockwise,
+        IdLabel,
+        IdSetAsWallpaper,
+        IdDisplayInFileManager,
+        IdImageInfo,
+        IdSubMenu,
+        IdSeparator
+    };
+
     struct ItemInfo
     {
         QString name = QString();
@@ -53,10 +81,13 @@ signals:
 protected:
 
 private:
+    void initConnections();
     void calBasePixMapWandH();
     void calWidgetItemWandH();
     void addThumbnailView();
     void updateThumbnailView();
+    void showMenu(const QPoint &pos);
+    void appendAction(int id, const QString &text, const QString &shortcut);
 
     virtual void resizeEvent(QResizeEvent *e);
 
@@ -69,6 +100,7 @@ private:
     ThumbnailDelegate *m_delegate;
     QStandardItemModel *m_model;
 
+    QMenu *m_pMenu;
 };
 
 #endif // THUMBNAILLISTVIEW_H

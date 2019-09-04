@@ -63,14 +63,14 @@ void ThumbnailDelegate::paint(QPainter *painter,
     painter->drawPixmap(rect, pixmapItem);
 
     // Draw inside border
-    QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
-           selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
-    painter->setPen(p);
-    QPainterPathStroker stroker;
-    stroker.setWidth(selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
-    stroker.setJoinStyle(Qt::RoundJoin);
-    QPainterPath borderPath = stroker.createStroke(bp);
-    painter->drawPath(borderPath);
+//    QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
+//           selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
+//    painter->setPen(p);
+//    QPainterPathStroker stroker;
+//    stroker.setWidth(selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
+//    stroker.setJoinStyle(Qt::RoundJoin);
+//    QPainterPath borderPath = stroker.createStroke(bp);
+//    painter->drawPath(borderPath);
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,

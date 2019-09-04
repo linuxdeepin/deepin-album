@@ -1,11 +1,19 @@
 #include "thumbnaillistview.h"
-#include "utils/baseutils.h"
 
 namespace {
 const int ITEM_SPACING = 5;
 const int BASE_HEIGHT = 100;
 const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
+
+const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
+
+QString ss(const QString &text)
+{
+    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    str.replace(" ", "");
+    return str;
+}
 }  //namespace
 
 ThumbnailListView::ThumbnailListView(QWidget *parent)
@@ -17,15 +25,17 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setViewMode(QListView::IconMode);
     setFlow(QListView::LeftToRight);
     setSpacing(ITEM_SPACING);
-    setStyleSheet("background: red");
     setDragEnabled(false);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
     m_delegate = new ThumbnailDelegate();
 
     setItemDelegate(m_delegate);
     setModel(m_model);
+
+    m_pMenu = new QMenu();
 
     m_iDefaultWidth = 0;
 
@@ -35,6 +45,19 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
 ThumbnailListView::~ThumbnailListView()
 {
 
+}
+
+void ThumbnailListView::initConnections()
+{
+//    connect(this, &QListView::customContextMenuRequested,
+//            this, &ThumbnailListView::showMenu);
+    connect(this, &QListView::customContextMenuRequested,
+            this, [=] (const QPoint &pos) {
+        if (this->indexAt(pos).isValid()) {
+//            showMenuCon();
+            m_pMenu->popup(QCursor::pos());
+        }
+    });
 }
 
 void ThumbnailListView::calBasePixMapWandH()
@@ -117,6 +140,7 @@ void ThumbnailListView::calWidgetItemWandH()
 
 void ThumbnailListView::addThumbnailView()
 {
+    m_model->clear();
     for(int i = 0; i < m_gridItem.length(); i++)
     {
         for(int j = 0; j < m_gridItem[i].length(); j++)
@@ -164,6 +188,30 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
     }
 
     calBasePixMapWandH();
+
+    if (0 != m_iDefaultWidth)
+    {
+        calWidgetItemWandH();
+        addThumbnailView();
+    }
+}
+
+void ThumbnailListView::showMenu(const QPoint &pos)
+{
+    appendAction(IdView, tr("View"), ss("View"));
+    appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+
+    m_pMenu->popup(QCursor::pos());
+}
+
+void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
+{
+    QAction *ac = new QAction(m_pMenu);
+    addAction(ac);
+    ac->setText(text);
+    ac->setProperty("MenuID", id);
+    ac->setShortcut(QKeySequence(shortcut));
+    m_pMenu->addAction(ac);
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
