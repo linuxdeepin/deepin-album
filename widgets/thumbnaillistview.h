@@ -20,7 +20,7 @@
 #include "thumbnaildelegate.h"
 #include "application.h"
 #include "controller/configsetter.h"
-
+#include "dbmanager/dbmanager.h"
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QListView>
@@ -31,6 +31,7 @@
 #include <QStandardItemModel>
 #include <QBuffer>
 #include <DMenu>
+#include <QMouseEvent>
 
 class ThumbnailListView : public QListView
 {
@@ -88,8 +89,12 @@ private:
     void updateThumbnailView();
     void showMenu(const QPoint &pos);
     void appendAction(int id, const QString &text, const QString &shortcut);
+    QMenu* createAlbumMenu();
+    void onMenuItemClicked(QAction *action);
+    QStringList selectedPaths();
+    void onShowImageInfo(const QString &path);
 
-    virtual void resizeEvent(QResizeEvent *e);
+    void resizeEvent(QResizeEvent *e);
 
 private:
     int m_iDefaultWidth;
@@ -100,7 +105,7 @@ private:
     ThumbnailDelegate *m_delegate;
     QStandardItemModel *m_model;
 
-    QMenu *m_pMenu;
+    DMenu *m_pMenu;
 };
 
 #endif // THUMBNAILLISTVIEW_H

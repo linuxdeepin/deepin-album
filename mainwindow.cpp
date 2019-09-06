@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "dialogs/albumcreatedialog.h"
 
 MainWindow::MainWindow()
 {
@@ -8,26 +9,6 @@ MainWindow::MainWindow()
     initTitleBar();
     initCentralWidget();
     initStatusBar();
-//    m_listWidget = new QListWidget();
-//    m_listWidget->setViewMode(QListView::ListMode);
-
-//    QListWidgetItem *item = new QListWidgetItem;
-//    item->setText("已导入");
-//    m_listWidget->addItem(item);
-
-//    QListWidgetItem *item2 = new QListWidgetItem;
-//    item2->setText("回收站");
-//    m_listWidget->addItem(item2);
-
-//    QListWidgetItem *item3 = new QListWidgetItem;
-//    item3->setText("个人收藏");
-//    m_listWidget->addItem(item3);
-
-//    QVBoxLayout* pLayout = new QVBoxLayout();
-
-//    pLayout->addWidget(m_listWidget);
-
-//    pCenterFrame->setLayout(pLayout);
 
     initConnections();
 }
@@ -42,6 +23,8 @@ void MainWindow::initConnections()
     connect(m_pAllPicBtn, &DPushButton::clicked, this, &MainWindow::allPicBtnClicked);
     connect(m_pTimeLineBtn, &DPushButton::clicked, this, &MainWindow::timeLineBtnClicked);
     connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
+    connect(dApp->signalM, &SignalManager::createAlbum,this, &MainWindow::onCreateAlbum);
+    connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::editingFinishedClicked);
 }
 
 void MainWindow::initUI()
@@ -151,7 +134,39 @@ void MainWindow::albumBtnClicked()
     m_pCenterWidget->setCurrentIndex(2);
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event)
+void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
-    int wid = width();
+    if (m_pCenterWidget->currentWidget() == m_pAlbumview)
+    {
+//        m_pAlbumview->createAlbum();
+    }
+    else
+    {
+        showCreateDialog(imagepaths);
+    }
+}
+
+void MainWindow::showCreateDialog(QStringList imgpaths)
+{
+    AlbumCreateDialog *d = new AlbumCreateDialog;
+    d->showInCenter(window());
+
+    connect(d, &AlbumCreateDialog::albumAdded, this, [=]{
+        if (m_pCenterWidget->currentWidget() != m_pAllPicView &&
+                m_pCenterWidget->currentWidget() != m_pTimeLineView)
+        {
+            m_pCenterWidget->setCurrentWidget(m_pAlbumview);
+        }
+
+        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty()?QStringList(" "):imgpaths);
+    });
+}
+
+void MainWindow::editingFinishedClicked()
+{
+    QString keywords = m_pSearchEdit->text();
+    if (! keywords.isEmpty())
+    {
+        emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
+    }
 }

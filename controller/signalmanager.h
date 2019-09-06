@@ -78,6 +78,8 @@ signals:
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
 
+    void sigSendKeywordsIntoALLPic(QString keywords);
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

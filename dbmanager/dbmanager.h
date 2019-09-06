@@ -89,6 +89,7 @@ public:
     void insertImgInfos(const DBImgInfoList &infos);
     void removeImgInfos(const QStringList &paths);
     void removeDir(const QString &dir);
+    const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
 
     // TableAlbum
     const DBAlbumInfo       getAlbumInfo(const QString &album) const;
@@ -104,7 +105,9 @@ public:
     void removeFromAlbum(const QString &album, const QStringList &paths);
     void renameAlbum(const QString &oldAlbum, const QString &newAlbum);
 
+
 private:
+    const DBImgInfoList getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList getImgInfos(const QString &key, const QString &value) const;
     const QSqlDatabase getDatabase() const;
     void checkDatabase();

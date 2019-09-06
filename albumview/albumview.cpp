@@ -13,7 +13,10 @@ const QString FAVORITES_ALBUM = "My favorite";
 AlbumView::AlbumView()
 {
     m_currentAlbum = RECENT_IMPORTED_ALBUM;
-    initUI();
+
+    m_allAlbumNames<<RECENT_IMPORTED_ALBUM;
+    m_allAlbumNames<<TRASH_ALBUM;
+    m_allAlbumNames<<FAVORITES_ALBUM;
 
     initLeftView();
     initRightView();
@@ -22,27 +25,14 @@ AlbumView::AlbumView()
     addWidget(m_pRightThumbnailList);
 
     setChildrenCollapsible(false);
+
+    initConnections();
 }
 
-void AlbumView::initUI()
+void AlbumView::initConnections()
 {
-//    QString album3 = RECENT_IMPORTED_ALBUM;
-//    QStringList paths3;
-//    paths3.clear();
-
-//    DBManager::instance()->insertIntoAlbum(album3, paths3);
-
-//    QString album2 = TRASH_ALBUM;
-//    QStringList paths2;
-//    paths2.clear();
-
-//    DBManager::instance()->insertIntoAlbum(album2, paths2);
-
-//    QString album = FAVORITES_ALBUM;
-//    QStringList paths;
-//    paths.clear();
-
-//    DBManager::instance()->insertIntoAlbum(album, paths);
+    connect(m_pLeftMenuList, &DListWidget::clicked, this, &AlbumView::leftMenuClicked);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
 }
 
 void AlbumView::initLeftView()
@@ -50,29 +40,31 @@ void AlbumView::initLeftView()
     m_pLeftMenuList = new DListWidget();
     m_pLeftMenuList->setFixedWidth(LEFT_VIEW_WIDTH);
     m_pLeftMenuList->setSpacing(ITEM_SPACING);
+    updateLeftView();
+}
 
-    QStringList allAlbumNames;
-    allAlbumNames = DBManager::instance()->getAllAlbumNames();
+void AlbumView::updateLeftView()
+{
+    m_pLeftMenuList->clear();
+    m_allAlbumNames.clear();
 
-    QListWidgetItem* pListWidgetItem1 = new QListWidgetItem();
-    pListWidgetItem1->setText(RECENT_IMPORTED_ALBUM);
-    m_pLeftMenuList->addItem(pListWidgetItem1);
+    m_allAlbumNames<<RECENT_IMPORTED_ALBUM;
+    m_allAlbumNames<<TRASH_ALBUM;
+    m_allAlbumNames<<FAVORITES_ALBUM;
 
-    QListWidgetItem* pListWidgetItem2 = new QListWidgetItem();
-    pListWidgetItem2->setText(TRASH_ALBUM);
-    m_pLeftMenuList->addItem(pListWidgetItem2);
-
-    QListWidgetItem* pListWidgetItem3 = new QListWidgetItem();
-    pListWidgetItem3->setText(FAVORITES_ALBUM);
-    m_pLeftMenuList->addItem(pListWidgetItem3);
-
+    QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (RECENT_IMPORTED_ALBUM == albumName || TRASH_ALBUM == albumName || FAVORITES_ALBUM == albumName)
+        if (TRASH_ALBUM == albumName || FAVORITES_ALBUM == albumName)
         {
             continue;
         }
 
+        m_allAlbumNames<<albumName;
+    }
+
+    for(auto albumName : m_allAlbumNames)
+    {
         QListWidgetItem* pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setText(albumName);
         m_pLeftMenuList->addItem(pListWidgetItem);
@@ -86,14 +78,39 @@ void AlbumView::initRightView()
     sp.setHorizontalStretch(1);
     m_pRightThumbnailList->setSizePolicy(sp);
 
-    updateRightView();
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
+
+        auto infos = DBManager::instance()->getAllInfos();
+        for(auto info : infos)
+        {
+            ThumbnailListView::ItemInfo vi;
+            vi.name = info.fileName;
+            vi.path = info.filePath;
+
+            thumbnaiItemList<<vi;
+        }
+
+        m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+    }
 }
 
 void AlbumView::updateRightView()
 {
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
-    auto infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+    DBImgInfoList infos;
+
+    if (RECENT_IMPORTED_ALBUM == m_currentAlbum)
+    {
+        infos = DBManager::instance()->getAllInfos();
+    }
+    else
+    {
+        infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+    }
+
     for(auto info : infos)
     {
         ThumbnailListView::ItemInfo vi;
@@ -104,4 +121,18 @@ void AlbumView::updateRightView()
     }
 
     m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+}
+
+void AlbumView::leftMenuClicked(const QModelIndex &index)
+{
+    int num = index.row();
+    if (m_currentAlbum == m_allAlbumNames[num])
+    {
+        // donothing
+    }
+    else
+    {
+        m_currentAlbum = m_allAlbumNames[num];
+        updateRightView();
+    }
 }

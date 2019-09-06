@@ -31,6 +31,7 @@ class AllPicView : public QWidget
 
 public:
     AllPicView();
+    void improtSearchResultsIntoThumbnailView(QString s);
 
 signals:
     void sigImprotPicsIntoDB(const DBImgInfoList &infos);
@@ -44,7 +45,7 @@ private:
 
     void improtBtnClicked();
 
-    void sigImprotPicsIntoThumbnailView();
+    void improtPicsIntoThumbnailView();
 
 
 

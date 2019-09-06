@@ -43,13 +43,14 @@ public:
     void initTitleBar();
     void initCentralWidget();
     void initStatusBar();
+    void showCreateDialog(QStringList imgpaths);
 
 private slots:
     void allPicBtnClicked();
     void timeLineBtnClicked();
     void albumBtnClicked();
-
-    void resizeEvent(QResizeEvent *event);
+    void onCreateAlbum(QStringList imagepaths);
+    void editingFinishedClicked();
 
 private:
     Ui::MainWindow *ui;

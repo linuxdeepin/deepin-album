@@ -757,6 +757,53 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
     mutex.unlock();
 }
 
+const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) const
+{
+    DBImgInfoList infos;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return infos;
+    }
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
+                       "WHERE FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
+
+    query.prepare(queryStr.arg(value));
+
+    if (!query.exec()) {
+        qWarning() << "Get Image from database failed: " << query.lastError();
+        mutex.unlock();
+    }
+    else {
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+
+            infos << info;
+        }
+    }
+    mutex.unlock();
+    return infos;
+}
+
+const DBImgInfoList DBManager::getInfosForKeyword(const QString &keywords) const
+{
+    const DBImgInfoList list = getInfosByNameTimeline(keywords);
+    if (list.count() < 1) {
+        return DBImgInfoList();
+    }
+    else {
+        return list;
+    }
+}
+
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value) const
 {
     DBImgInfoList infos;
@@ -769,7 +816,9 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     query.setForwardOnly(true);
     query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
                           "WHERE %1= :value ORDER BY Time DESC").arg(key));
+
     query.bindValue(":value", value);
+
     if (!query.exec()) {
         qWarning() << "Get Image from database failed: " << query.lastError();
         mutex.unlock();

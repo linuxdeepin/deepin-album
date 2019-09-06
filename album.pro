@@ -49,7 +49,9 @@ SOURCES += \
     widgets/scrollbar.cpp \
     widgets/thumbnaildelegate.cpp \
     widgets/timelinelist.cpp \
-    widgets/timelineitem.cpp
+    widgets/timelineitem.cpp \
+    dialogs/albumcreatedialog.cpp \
+    dialogs/dialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -68,7 +70,9 @@ HEADERS += \
     widgets/scrollbar.h \
     widgets/thumbnaildelegate.h \
     widgets/timelinelist.h \
-    widgets/timelineitem.h
+    widgets/timelineitem.h \
+    dialogs/albumcreatedialog.h \
+    dialogs/dialog.h
 
 #RESOURCES += \
 #    resources.qrc

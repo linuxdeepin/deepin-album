@@ -27,7 +27,8 @@ void AllPicView::initConnections()
 {
     connect(m_pImportBtn, &DPushButton::clicked, this, &AllPicView::improtBtnClicked);
     connect(this, &AllPicView::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::sigImprotPicsIntoThumbnailView);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::improtPicsIntoThumbnailView);
+    connect(dApp->signalM, &SignalManager::sigSendKeywordsIntoALLPic, this, &AllPicView::improtSearchResultsIntoThumbnailView);
 }
 
 void AllPicView::initImportFrame()
@@ -66,8 +67,6 @@ void AllPicView::initImportFrame()
 void AllPicView::initThumbnailListView()
 {
     m_pThumbnailListView = new ThumbnailListView();
-    m_pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     if (0 < DBManager::instance()->getImgsCount())
     {
@@ -178,11 +177,10 @@ void AllPicView::improtBtnClicked()
     if (! dbInfos.isEmpty())
     {
         emit sigImprotPicsIntoDB(dbInfos);
-        DBManager::instance()->insertIntoAlbum(RECENT_IMPORTED_ALBUM, paths);
     }
 }
 
-void AllPicView::sigImprotPicsIntoThumbnailView()
+void AllPicView::improtPicsIntoThumbnailView()
 {
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
@@ -193,6 +191,23 @@ void AllPicView::sigImprotPicsIntoThumbnailView()
         vi.name = info.fileName;
         vi.path = info.filePath;
 
+        thumbnaiItemList<<vi;
+    }
+
+    m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
+
+    updateMainStackWidget();
+}
+void AllPicView::improtSearchResultsIntoThumbnailView(QString s)
+{
+    QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
+    auto infos = DBManager::instance()->getInfosForKeyword(s);
+
+    for(auto info : infos)
+    {
+        ThumbnailListView::ItemInfo vi;
+        vi.name = info.fileName;
+        vi.path = info.filePath;
         thumbnaiItemList<<vi;
     }
 
@@ -214,4 +229,11 @@ void AllPicView::removeDBAllInfos()
 
 
     DBManager::instance()->removeImgInfos(paths);
+
+    auto albums = DBManager::instance()->getAllAlbumNames();
+
+    for(auto album : albums)
+    {
+        DBManager::instance()->removeAlbum(album);
+    }
 }

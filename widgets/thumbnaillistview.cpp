@@ -1,4 +1,5 @@
 #include "thumbnaillistview.h"
+#include "utils/baseutils.h"
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -6,6 +7,7 @@ const int BASE_HEIGHT = 100;
 const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
 
+const QString FAVORITES_ALBUM = "My favorite";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
 QString ss(const QString &text)
@@ -35,10 +37,11 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setItemDelegate(m_delegate);
     setModel(m_model);
 
-    m_pMenu = new QMenu();
+    m_pMenu = new DMenu();
 
     m_iDefaultWidth = 0;
 
+    initConnections();
 
 }
 
@@ -49,15 +52,8 @@ ThumbnailListView::~ThumbnailListView()
 
 void ThumbnailListView::initConnections()
 {
-//    connect(this, &QListView::customContextMenuRequested,
-//            this, &ThumbnailListView::showMenu);
-    connect(this, &QListView::customContextMenuRequested,
-            this, [=] (const QPoint &pos) {
-        if (this->indexAt(pos).isValid()) {
-//            showMenuCon();
-            m_pMenu->popup(QCursor::pos());
-        }
-    });
+    connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::showMenu);
+    connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
 }
 
 void ThumbnailListView::calBasePixMapWandH()
@@ -135,7 +131,11 @@ void ThumbnailListView::calWidgetItemWandH()
     {
         m_gridItem[0][0].width = m_gridItem[0][0].width + i_totalwidth - rowWidthList[0];
     }
-    m_height = m_gridItem[0][0].height;
+
+    if (0 < m_gridItem.length())
+    {
+        m_height = m_gridItem[0][0].height;
+    }
 }
 
 void ThumbnailListView::addThumbnailView()
@@ -198,8 +198,33 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 
 void ThumbnailListView::showMenu(const QPoint &pos)
 {
+    if (!this->indexAt(pos).isValid())
+    {
+        return;
+    }
+
+    m_pMenu->clear();
     appendAction(IdView, tr("View"), ss("View"));
     appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
+    QMenu *am = createAlbumMenu();
+    if (am) {
+        m_pMenu->addMenu(am);
+    }
+    m_pMenu->addSeparator();
+    appendAction(IdExport, tr("export"), ss("export"));
+    appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
+    appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+    m_pMenu->addSeparator();
+    appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
+//    appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+    m_pMenu->addSeparator();
+    appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
+    appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+    m_pMenu->addSeparator();
+    appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper"));
+    appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
 
     m_pMenu->popup(QCursor::pos());
 }
@@ -212,6 +237,152 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
     m_pMenu->addAction(ac);
+}
+
+QMenu *ThumbnailListView::createAlbumMenu()
+{
+    QMenu *am = new QMenu(tr("Add to album"));
+
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
+    albums.removeAll(FAVORITES_ALBUM);
+
+    QAction *ac = new QAction(am);
+    ac->setProperty("MenuID", IdAddToAlbum);
+    ac->setText(tr("Add to new album"));
+    ac->setData(QString("Add to new album"));
+    am->addAction(ac);
+    am->addSeparator();
+    for (QString album : albums) {
+        QAction *ac = new QAction(am);
+        ac->setProperty("MenuID", IdAddToAlbum);
+        ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
+        ac->setData(album);
+        am->addAction(ac);
+    }
+
+    return am;
+}
+
+void ThumbnailListView::onMenuItemClicked(QAction *action)
+{
+    QStringList paths = selectedPaths();
+    paths.removeAll(QString(""));
+    if (paths.isEmpty()) {
+        return;
+    }
+
+//    const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
+    const QString path = paths.first();
+
+    const int id = action->property("MenuID").toInt();
+    switch (MenuItemId(id)) {
+//    case IdView:
+//        emit viewImage(path, viewPaths);
+//        break;
+//    case IdFullScreen:
+//        emit viewImage(path, viewPaths, true);
+//        break;
+//    case IdStartSlideShow:
+//        emit startSlideShow(viewPaths, path);
+//        break;
+//    case IdPrint: {
+//        showPrintDialog(paths);
+//        break;
+//    }
+//    case IdAddToAlbum: {
+//        const QString album = action->data().toString();
+//        if (album != "Add to new album") {
+//           DBManager::instance()->insertIntoAlbum(album, paths);
+//        }
+//        else {
+//            emit dApp->signalM->createAlbum(paths);
+//        }
+//        break;
+//    }
+//    case IdCopy:
+//        utils::base::copyImageToClipboard(paths);
+//        break;
+    case IdCopyToClipboard:
+        utils::base::copyOneImageToClipboard(path);
+        break;
+//    case IdMoveToTrash: {
+//        popupDelDialog(paths);
+//        break;
+//    }
+    case IdAddToFavorites:
+        DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, paths);
+        break;
+//    case IdRemoveFromFavorites:
+//        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
+//        break;
+//    case IdRemoveFromAlbum:
+//        m_view->removeItems(paths);
+//        DBManager::instance()->removeFromAlbum(m_album, paths);
+//        break;
+//    case IdRotateClockwise:
+//        if (m_rotateList.isEmpty()) {
+//            m_rotateList = paths;
+//            for (QString path : paths) {
+//                QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
+//            }
+//        }
+//        break;
+//    case IdRotateCounterclockwise:
+//        if (m_rotateList.isEmpty()) {
+//            m_rotateList = paths;
+//            for (QString path : paths) {
+//                QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
+//            }
+//        }
+//        break;
+//    case IdSetAsWallpaper:
+//        dApp->wpSetter->setWallpaper(path);
+//        break;
+//    case IdDisplayInFileManager:
+//        utils::base::showInFileManager(path);
+//        break;
+    case IdImageInfo:
+//        emit dApp->signalM->showImageInfo(path);
+        break;
+//    default:
+//        break;
+    }
+
+//    updateMenuContents();
+}
+
+//void ThumbnailListView::onShowImageInfo(const QString &path)
+//{
+//    if (m_infoShowingList.indexOf(path) != -1)
+//        return;
+//    else
+//        m_infoShowingList << path;
+
+//    ImgInfoDialog *info = new ImgInfoDialog(path);
+//    info->move((width() - info->width()) / 2 +
+//               mapToGlobal(QPoint(0, 0)).x(),
+//               (window()->height() - info->sizeHint().height()) / 2 +
+//               mapToGlobal(QPoint(0, 0)).y());
+//    info->show();
+//    info->setWindowState(Qt::WindowActive);
+//    connect(info, &ImgInfoDialog::closed, this, [=] {
+//        info->deleteLater();
+//        m_infoShowingList.removeAll(path);
+//    });
+//}
+
+QStringList ThumbnailListView::selectedPaths()
+{
+    QStringList paths;
+    for (QModelIndex index : selectionModel()->selectedIndexes()) {
+        const QVariantList datas =
+                index.model()->data(index, Qt::DisplayRole).toList();
+        if (datas.length() == 4) {
+            paths << datas[1].toString();
+        }
+    }
+
+    return paths;
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
