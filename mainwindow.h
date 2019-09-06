@@ -51,6 +51,7 @@ private slots:
     void albumBtnClicked();
     void onCreateAlbum(QStringList imagepaths);
     void editingFinishedClicked();
+    void onTitleBarMenuClicked(QAction *action);
 
 private:
     Ui::MainWindow *ui;
@@ -59,6 +60,7 @@ private:
     int m_allPicNum;
 
     QWidget* m_titleBtnWidget;
+    DMenu* m_pTitleBarMenu;
     DPushButton* m_pAllPicBtn;
     DPushButton* m_pTimeLineBtn;
     DPushButton* m_pAlbumBtn;

@@ -51,7 +51,8 @@ SOURCES += \
     widgets/timelinelist.cpp \
     widgets/timelineitem.cpp \
     dialogs/albumcreatedialog.cpp \
-    dialogs/dialog.cpp
+    dialogs/dialog.cpp \
+    searchview/searchview.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -72,7 +73,8 @@ HEADERS += \
     widgets/timelinelist.h \
     widgets/timelineitem.h \
     dialogs/albumcreatedialog.h \
-    dialogs/dialog.h
+    dialogs/dialog.h \
+    searchview/searchview.h
 
 #RESOURCES += \
 #    resources.qrc

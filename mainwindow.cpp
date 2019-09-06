@@ -1,5 +1,11 @@
 #include "mainwindow.h"
 #include "dialogs/albumcreatedialog.h"
+namespace  {
+const QString TITLEBAR_NEWALBUM = "New albume";
+const QString TITLEBAR_IMPORT = "Import";
+
+}//namespace
+
 
 MainWindow::MainWindow()
 {
@@ -25,6 +31,7 @@ void MainWindow::initConnections()
     connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
     connect(dApp->signalM, &SignalManager::createAlbum,this, &MainWindow::onCreateAlbum);
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::editingFinishedClicked);
+    connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
 }
 
 void MainWindow::initUI()
@@ -73,7 +80,18 @@ void MainWindow::initTitleBar()
 
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
+    m_pTitleBarMenu = new DMenu();
+    QAction *pNewAlbum = new QAction();
+    pNewAlbum->setText(TITLEBAR_NEWALBUM);
+    m_pTitleBarMenu->addAction(pNewAlbum);
+
+    QAction *pImport = new QAction();
+    pImport->setText(TITLEBAR_IMPORT);
+    m_pTitleBarMenu->addAction(pImport);
+    m_pTitleBarMenu->addSeparator();
+
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
+    titlebar()->setMenu(m_pTitleBarMenu);
 }
 
 void MainWindow::initCentralWidget()
@@ -132,6 +150,14 @@ void MainWindow::timeLineBtnClicked()
 void MainWindow::albumBtnClicked()
 {
     m_pCenterWidget->setCurrentIndex(2);
+}
+
+void MainWindow::onTitleBarMenuClicked(QAction *action)
+{
+    if(TITLEBAR_NEWALBUM == action->text())
+    {
+        dApp->signalM->createAlbum();
+    }
 }
 
 void MainWindow::onCreateAlbum(QStringList imagepaths)

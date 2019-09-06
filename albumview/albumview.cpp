@@ -7,7 +7,11 @@ const int LEFT_VIEW_WIDTH = 250;
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const QString TRASH_ALBUM = "Trash";
 const QString FAVORITES_ALBUM = "My favorite";
-
+const QString LEFT_MENU_SLIDESHOW = "Slide show";
+const QString LEFT_MENU_NEWALBUM = "New album";
+const QString LEFT_MENU_RENAMEALBUM = "Rename album";
+const QString LEFT_MENU_EXPORT = "Export";
+const QString LEFT_MENU_DELALBUM = "Delete album";
 }  //namespace
 
 AlbumView::AlbumView()
@@ -21,7 +25,7 @@ AlbumView::AlbumView()
     initLeftView();
     initRightView();
 
-    addWidget(m_pLeftMenuList);
+    addWidget(m_pLeftTabList);
     addWidget(m_pRightThumbnailList);
 
     setChildrenCollapsible(false);
@@ -31,21 +35,27 @@ AlbumView::AlbumView()
 
 void AlbumView::initConnections()
 {
-    connect(m_pLeftMenuList, &DListWidget::clicked, this, &AlbumView::leftMenuClicked);
+    connect(m_pLeftTabList, &DListWidget::clicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
+    connect(m_pLeftTabList, &QListView::customContextMenuRequested, this, &AlbumView::showLeftMenu);
+    connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
 }
 
 void AlbumView::initLeftView()
 {
-    m_pLeftMenuList = new DListWidget();
-    m_pLeftMenuList->setFixedWidth(LEFT_VIEW_WIDTH);
-    m_pLeftMenuList->setSpacing(ITEM_SPACING);
+    m_pLeftTabList = new DListWidget();
+    m_pLeftTabList->setFixedWidth(LEFT_VIEW_WIDTH);
+    m_pLeftTabList->setSpacing(ITEM_SPACING);
+    m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    m_pLeftMenu = new DMenu();
+
     updateLeftView();
 }
 
 void AlbumView::updateLeftView()
 {
-    m_pLeftMenuList->clear();
+    m_pLeftTabList->clear();
     m_allAlbumNames.clear();
 
     m_allAlbumNames<<RECENT_IMPORTED_ALBUM;
@@ -67,7 +77,7 @@ void AlbumView::updateLeftView()
     {
         QListWidgetItem* pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setText(albumName);
-        m_pLeftMenuList->addItem(pListWidgetItem);
+        m_pLeftTabList->addItem(pListWidgetItem);
     }
 }
 
@@ -123,7 +133,7 @@ void AlbumView::updateRightView()
     m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
 }
 
-void AlbumView::leftMenuClicked(const QModelIndex &index)
+void AlbumView::leftTabClicked(const QModelIndex &index)
 {
     int num = index.row();
     if (m_currentAlbum == m_allAlbumNames[num])
@@ -134,5 +144,77 @@ void AlbumView::leftMenuClicked(const QModelIndex &index)
     {
         m_currentAlbum = m_allAlbumNames[num];
         updateRightView();
+    }
+}
+
+void AlbumView::showLeftMenu(const QPoint &pos)
+{
+    if (!m_pLeftTabList->indexAt(pos).isValid())
+    {
+        return;
+    }
+
+    int num = m_pLeftTabList->indexAt(pos).row();
+
+    m_allAlbumNames<<RECENT_IMPORTED_ALBUM;
+    m_allAlbumNames<<TRASH_ALBUM;
+    m_allAlbumNames<<FAVORITES_ALBUM;
+    if (RECENT_IMPORTED_ALBUM == m_allAlbumNames[num] ||
+        TRASH_ALBUM == m_allAlbumNames[num] ||
+        FAVORITES_ALBUM == m_allAlbumNames[num])
+    {
+        return;
+    }
+
+    m_pLeftMenu->clear();
+
+    appendAction(LEFT_MENU_SLIDESHOW);
+    m_pLeftMenu->addSeparator();
+    appendAction(LEFT_MENU_NEWALBUM);
+    m_pLeftMenu->addSeparator();
+    appendAction(LEFT_MENU_RENAMEALBUM);
+    m_pLeftMenu->addSeparator();
+    appendAction(LEFT_MENU_EXPORT);
+    m_pLeftMenu->addSeparator();
+    appendAction(LEFT_MENU_DELALBUM);
+
+    m_pLeftMenu->popup(QCursor::pos());
+}
+
+void AlbumView::appendAction(const QString &text)
+{
+    QAction *ac = new QAction(m_pLeftMenu);
+    addAction(ac);
+    ac->setText(text);
+    m_pLeftMenu->addAction(ac);
+}
+
+void AlbumView::onLeftMenuClicked(QAction *action)
+{
+    QString str = action->text();
+
+    if (LEFT_MENU_SLIDESHOW == str)
+    {
+
+    }
+    else if (LEFT_MENU_NEWALBUM == str)
+    {
+
+    }
+    else if (LEFT_MENU_RENAMEALBUM == str)
+    {
+
+    }
+    else if (LEFT_MENU_EXPORT == str)
+    {
+
+    }
+    else if (LEFT_MENU_DELALBUM == str)
+    {
+
+    }
+    else
+    {
+        // donothing
     }
 }

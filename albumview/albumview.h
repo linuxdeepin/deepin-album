@@ -9,6 +9,7 @@
 #include <QSplitter>
 #include <DListWidget>
 #include <QListWidgetItem>
+#include <QVBoxLayout>
 
 DWIDGET_USE_NAMESPACE
 
@@ -25,14 +26,21 @@ private:
     void initRightView();
     void updateLeftView();
     void updateRightView();
-    void leftMenuClicked(const QModelIndex &index);
+    void leftTabClicked(const QModelIndex &index);
+    void showLeftMenu(const QPoint &pos);
+    void appendAction(const QString &text);
+
+private slots:
+    void onLeftMenuClicked(QAction *action);
 
 private:
     QString m_currentAlbum;
     QStringList m_allAlbumNames;
 
-    DListWidget* m_pLeftMenuList;
+    DListWidget* m_pLeftTabList;
     ThumbnailListView* m_pRightThumbnailList;
+
+    DMenu* m_pLeftMenu;
 };
 
 #endif // ALBUMVIEW_H

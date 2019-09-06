@@ -1,4 +1,4 @@
-#include "allpicview.h"
+#include "searchview.h"
 
 namespace {
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
@@ -6,7 +6,7 @@ const QString TRASH_ALBUM = "Trash";
 const QString FAVORITES_ALBUM = "My favorite";
 }  //namespace
 
-AllPicView::AllPicView()
+SearchView::SearchView()
 {
 //    bool a = 0;
     bool a = 1;
@@ -23,15 +23,15 @@ AllPicView::AllPicView()
     }
 }
 
-void AllPicView::initConnections()
+void SearchView::initConnections()
 {
-    connect(m_pImportBtn, &DPushButton::clicked, this, &AllPicView::improtBtnClicked);
-    connect(this, &AllPicView::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::improtPicsIntoThumbnailView);
-    connect(dApp->signalM, &SignalManager::sigSendKeywordsIntoALLPic, this, &AllPicView::improtSearchResultsIntoThumbnailView);
+    connect(m_pImportBtn, &DPushButton::clicked, this, &SearchView::improtBtnClicked);
+    connect(this, &SearchView::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::improtPicsIntoThumbnailView);
+    connect(dApp->signalM, &SignalManager::sigSendKeywordsIntoALLPic, this, &SearchView::improtSearchResultsIntoThumbnailView);
 }
 
-void AllPicView::initImportFrame()
+void SearchView::initImportFrame()
 {
     m_pImportFrame = new DWidget();
 
@@ -64,7 +64,7 @@ void AllPicView::initImportFrame()
     m_pImportFrame->setLayout(pImportFrameLayout);
 }
 
-void AllPicView::initThumbnailListView()
+void SearchView::initThumbnailListView()
 {
     m_pThumbnailListView = new ThumbnailListView();
 
@@ -86,7 +86,7 @@ void AllPicView::initThumbnailListView()
     }
 }
 
-void AllPicView::initMainStackWidget()
+void SearchView::initMainStackWidget()
 {
     m_stackWidget = new DStackedWidget();
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
@@ -100,7 +100,7 @@ void AllPicView::initMainStackWidget()
     layout->addWidget(m_stackWidget);
 }
 
-void AllPicView::updateMainStackWidget()
+void SearchView::updateMainStackWidget()
 {
     if (DBManager::instance()->getImgsCount() < 1)
     {
@@ -112,7 +112,7 @@ void AllPicView::updateMainStackWidget()
     }
 }
 
-void AllPicView::improtBtnClicked()
+void SearchView::improtBtnClicked()
 {
     static QStringList sList;
 
@@ -180,7 +180,7 @@ void AllPicView::improtBtnClicked()
     }
 }
 
-void AllPicView::improtPicsIntoThumbnailView()
+void SearchView::improtPicsIntoThumbnailView()
 {
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
@@ -199,7 +199,7 @@ void AllPicView::improtPicsIntoThumbnailView()
     updateMainStackWidget();
 }
 
-void AllPicView::improtSearchResultsIntoThumbnailView(QString s)
+void SearchView::improtSearchResultsIntoThumbnailView(QString s)
 {
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
     auto infos = DBManager::instance()->getInfosForKeyword(s);
@@ -217,7 +217,7 @@ void AllPicView::improtSearchResultsIntoThumbnailView(QString s)
     updateMainStackWidget();
 }
 
-void AllPicView::removeDBAllInfos()
+void SearchView::removeDBAllInfos()
 {
     auto infos = DBManager::instance()->getAllInfos();
 
