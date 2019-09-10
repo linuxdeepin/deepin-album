@@ -19,7 +19,7 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include <QDateTime>
-#include <QDebug>
+
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPainter>
@@ -28,10 +28,17 @@
 #include <QThread>
 #include <QTimer>
 
+namespace
+{
+const QString IMAGE_DEFAULTTYPE = "All pics";
+const QString TRASH_ALBUM = "Trash";
+const QString FAVORITES_ALBUM = "My favorite";
+}
+
 ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-
+    m_imageTypeStr = IMAGE_DEFAULTTYPE;
 }
 
 void ThumbnailDelegate::paint(QPainter *painter,
@@ -42,6 +49,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     if (data.path.isEmpty()) return;
 
     bool selected = false;
+
     if (/*(option.state & QStyle::State_MouseOver) &&*/
             (option.state & QStyle::State_Selected) != 0) {
         selected = true;
@@ -52,15 +60,36 @@ void ThumbnailDelegate::paint(QPainter *painter,
                             QPainter::Antialiasing);
     QRect rect = option.rect;
 
-    QPainterPath bp;
-    bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-    painter->setClipPath(bp);
+//    QPainterPath bp;
+//    bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+//    painter->setClipPath(bp);
 
     painter->fillRect(rect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
+
     QPixmap pixmapItem;
     pixmapItem.load(data.path);
-
     painter->drawPixmap(rect, pixmapItem);
+    if (TRASH_ALBUM == m_imageTypeStr)
+    {
+        painter->drawText(rect, Qt::AlignRight|Qt::AlignBottom, "30天");
+    }
+
+    if (FAVORITES_ALBUM == m_imageTypeStr)
+    {
+        QPixmap pixmap1;
+        if(selected)
+        {
+
+        }
+        else
+        {
+            pixmap1 = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(24, 24));
+        }
+
+        QRect rect1(rect.x()+rect.width()-24,rect.y()+rect.height()-24,24,24);
+
+        painter->drawPixmap(rect1, pixmap1);
+    }
 
     // Draw inside border
 //    QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,

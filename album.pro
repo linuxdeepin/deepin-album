@@ -52,7 +52,10 @@ SOURCES += \
     widgets/timelineitem.cpp \
     dialogs/albumcreatedialog.cpp \
     dialogs/dialog.cpp \
-    searchview/searchview.cpp
+    searchview/searchview.cpp \
+    widgets/albumlefttabitem.cpp \
+    importview/importview.cpp \
+    controller/wallpapersetter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -74,7 +77,10 @@ HEADERS += \
     widgets/timelineitem.h \
     dialogs/albumcreatedialog.h \
     dialogs/dialog.h \
-    searchview/searchview.h
+    searchview/searchview.h \
+    widgets/albumlefttabitem.h \
+    importview/importview.h \
+    controller/wallpapersetter.h
 
 #RESOURCES += \
 #    resources.qrc

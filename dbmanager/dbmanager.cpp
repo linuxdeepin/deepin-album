@@ -368,6 +368,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
         query.exec("COMMIT");
     }
     else {
+        mutex.unlock();
         emit dApp->signalM->imagesRemoved(infos);
         query.exec("COMMIT");
     }
@@ -412,12 +413,12 @@ void DBManager::removeDir(const QString &dir)
         qWarning() << "Remove dir's images from ImageTable3 failed: "
                    << query.lastError();
         query.exec("COMMIT");
+        mutex.unlock();
     }
     else {
         query.exec("COMMIT");
         emit dApp->signalM->imagesRemoved(infos);
     }
-    mutex.unlock();
 }
 
 const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
@@ -914,6 +915,17 @@ void DBManager::checkDatabase()
                             "AlbumName TEXT, "
                             "PathHash TEXT)") );
 
+        // TrashTable
+        //////////////////////////////////////////////////////////////
+        //PathHash           | FilePath | FileName   | Dir  | Time  //
+        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT  //
+        //////////////////////////////////////////////////////////////
+        query.exec( QString("CREATE TABLE IF NOT EXISTS TrashTable ( "
+                            "PathHash TEXT primary key, "
+                            "FilePath TEXT, "
+                            "FileName TEXT, "
+                            "Dir TEXT, "
+                            "Time TEXT )"));
 //        // Check if there is an old version table exist or not
 
 //        //TODO: AlbumTable's primary key is changed, need to importVersion again
@@ -1096,4 +1108,198 @@ void DBManager::importVersion2Data()
         }
         mutex.unlock();
     }
+}
+
+const DBImgInfoList DBManager::getAllTrashInfos() const
+{
+    DBImgInfoList infos;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return infos;
+    }
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare( "SELECT FilePath, FileName, Dir, Time "
+                   "FROM TrashTable ORDER BY Time DESC");
+    if (! query.exec()) {
+        qWarning() << "Get data from TrashTable failed: " << query.lastError();
+        mutex.unlock();
+        return infos;
+    }
+    else {
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+
+            infos << info;
+        }
+    }
+    mutex.unlock();
+
+    return infos;
+}
+
+void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
+{
+    const QSqlDatabase db = getDatabase();
+    if (infos.isEmpty() || ! db.isValid()) {
+        return;
+    }
+
+    QVariantList pathhashs, filenames, filepaths, dirs, times;
+
+    for (DBImgInfo info : infos) {
+        filenames << info.fileName;
+        filepaths << info.filePath;
+        pathhashs << utils::base::hash(info.filePath);
+        dirs << info.dirHash;
+        times << utils::base::timeToString(info.time, true);
+    }
+
+    QMutexLocker mutex(&m_mutex);
+    // Insert into TrashTable
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    query.prepare( "REPLACE INTO TrashTable "
+                   "(PathHash, FilePath, FileName, Dir, Time) VALUES (?, ?, ?, ?, ?)" );
+    query.addBindValue(pathhashs);
+    query.addBindValue(filepaths);
+    query.addBindValue(filenames);
+    query.addBindValue(dirs);
+    query.addBindValue(times);
+    if (! query.execBatch()) {
+        qWarning() << "Insert data into TrashTable failed: "
+                   << query.lastError();
+        query.exec("COMMIT");
+        mutex.unlock();
+    }
+    else {
+        query.exec("COMMIT");
+        mutex.unlock();
+        emit dApp->signalM->imagesTrashInserted(infos);
+    }
+}
+
+void DBManager::removeTrashImgInfos(const QStringList &paths)
+{
+    QSqlDatabase db = getDatabase();
+    if (paths.isEmpty() || ! db.isValid()) {
+        return;
+    }
+
+    // Collect info before removing data
+    DBImgInfoList infos;
+    QStringList pathHashs;
+    for (QString path : paths) {
+        pathHashs << utils::base::hash(path);
+        infos << getInfoByPath(path);
+    }
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query(db);
+    // Remove from albums table
+    query.setForwardOnly(true);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
+    query.prepare(qs);
+    query.addBindValue(pathHashs);
+    if (! query.execBatch()) {
+        qWarning() << "Remove data from AlbumTable3 failed: "
+                   << query.lastError();
+        query.exec("COMMIT");
+    }
+    else {
+        query.exec("COMMIT");
+    }
+
+    // Remove from image table
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    qs = "DELETE FROM TrashTable WHERE PathHash=?";
+    query.prepare(qs);
+    query.addBindValue(pathHashs);
+    if (! query.execBatch()) {
+        qWarning() << "Remove data from TrashTable failed: "
+                   << query.lastError();
+        query.exec("COMMIT");
+        mutex.unlock();
+    }
+    else {
+        mutex.unlock();
+        emit dApp->signalM->imagesTrashRemoved(infos);
+        query.exec("COMMIT");
+    }
+}
+
+const DBImgInfo DBManager::getTrashInfoByPath(const QString &path) const
+{
+    DBImgInfoList list = getTrashImgInfos("FilePath", path);
+    if (list.count() != 1) {
+        return DBImgInfo();
+    }
+    else {
+        return list.first();
+    }
+}
+
+const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QString &value) const
+{
+    DBImgInfoList infos;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return infos;
+    }
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM TrashTable "
+                          "WHERE %1= :value ORDER BY Time DESC").arg(key));
+
+    query.bindValue(":value", value);
+
+    if (!query.exec()) {
+        qWarning() << "Get Image from database failed: " << query.lastError();
+        mutex.unlock();
+    }
+    else {
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+
+            infos << info;
+        }
+    }
+    mutex.unlock();
+    return infos;
+}
+
+int DBManager::getTrashImgsCount() const
+{
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return 0;
+    }
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    query.prepare( "SELECT COUNT(*) FROM TrashTable" );
+    if (query.exec()) {
+        query.first();
+        int count = query.value(0).toInt();
+        query.exec("COMMIT");
+        mutex.unlock();
+        return count;
+    }
+    mutex.unlock();
+    return 0;
 }

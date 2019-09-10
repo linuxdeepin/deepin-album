@@ -48,6 +48,7 @@ void TimeLineView::initUI()
 
 void TimeLineView::updataLayout(){
     //获取所有时间线
+    m_mainListWidget->clear();
     m_timelines = DBManager::instance()->getAllTimelines();
     for(int i = 0; i < m_timelines.size(); i++)
     {
@@ -125,7 +126,7 @@ void TimeLineView::updataLayout(){
 }
 void TimeLineView::initConnections(){
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::updataLayout);
-
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::updataLayout);
     connect(m_mainListWidget,&TimelineList::sigNewTime,this,[=](QString date,QString num){
         on_AddLabel(date,num);
     });

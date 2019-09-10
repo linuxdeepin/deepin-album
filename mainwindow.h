@@ -5,6 +5,8 @@
 #include "allpicview/allpicview.h"
 #include "timelineview/timelineview.h"
 #include "dbmanager/dbmanager.h"
+#include "searchview/searchview.h"
+#include "importview/importview.h"
 
 #include <DMainWindow>
 #include <QListWidget>
@@ -45,19 +47,27 @@ public:
     void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
 
+signals:
+    void sigImprotPicsIntoDB(const DBImgInfoList &infos);
+    void sigTitleMenuImportClicked();
+
 private slots:
     void allPicBtnClicked();
     void timeLineBtnClicked();
     void albumBtnClicked();
     void onCreateAlbum(QStringList imagepaths);
-    void editingFinishedClicked();
+    void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);
+    void onUpdateAllpicsNumLabel(int num);
+    void onImprotBtnClicked();
+    void onUpdateCentralWidget();
 
 private:
     Ui::MainWindow *ui;
     QListWidget* m_listWidget;
 
     int m_allPicNum;
+    int m_iCurrentView;
 
     QWidget* m_titleBtnWidget;
     DMenu* m_pTitleBarMenu;
@@ -69,6 +79,8 @@ private:
     AlbumView* m_pAlbumview;
     AllPicView* m_pAllPicView;
     TimeLineView* m_pTimeLineView;
+    SearchView* m_pSearchView;
+    ImportView* m_pImportView;
     QStatusBar* m_pStatusBar;
     DLabel* m_pAllPicNumLabel;
     DSlider* m_pSlider;

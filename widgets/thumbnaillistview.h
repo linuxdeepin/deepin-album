@@ -20,6 +20,7 @@
 #include "thumbnaildelegate.h"
 #include "application.h"
 #include "controller/configsetter.h"
+#include "controller/wallpapersetter.h"
 #include "dbmanager/dbmanager.h"
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -70,11 +71,12 @@ public:
         int height;
     };
 
-    explicit ThumbnailListView(QWidget *parent = 0);
+    explicit ThumbnailListView(QString imgtype = "All pics");
     ~ThumbnailListView();
 
 
     void insertThumbnails(const QList<ItemInfo> &itemList);
+    QStringList selectedPaths();
 
 signals:
     void loadend(int);
@@ -87,14 +89,17 @@ private:
     void calWidgetItemWandH();
     void addThumbnailView();
     void updateThumbnailView();
-    void showMenu(const QPoint &pos);
+    void onShowMenu(const QPoint &pos);
+    void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
     QMenu* createAlbumMenu();
     void onMenuItemClicked(QAction *action);
-    QStringList selectedPaths();
     void onShowImageInfo(const QString &path);
 
     void resizeEvent(QResizeEvent *e);
+
+public:
+    QString m_imageType;
 
 private:
     int m_iDefaultWidth;

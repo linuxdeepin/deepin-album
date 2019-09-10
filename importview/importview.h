@@ -1,5 +1,5 @@
-#ifndef ALLPICVIEW_H
-#define ALLPICVIEW_H
+#ifndef IMPORTVIEW_H
+#define IMPORTVIEW_H
 
 #include "application.h"
 #include "utils/baseutils.h"
@@ -25,26 +25,19 @@
 
 DWIDGET_USE_NAMESPACE
 
-class AllPicView : public ThumbnailListView
+class ImportView : public DWidget
 {
     Q_OBJECT
 
 public:
-    AllPicView();
-
-signals:
+    ImportView();
 
 private:
     void initConnections();
-    void initThumbnailListView();
+    void initUI();
 
-    void updatePicsIntoThumbnailView();
-
-
-
-    void removeDBAllInfos();
-private:
-
+public:
+    DPushButton* m_pImportBtn;
 };
 
-#endif // ALLPICVIEW_H
+#endif // IMPORTVIEW_H

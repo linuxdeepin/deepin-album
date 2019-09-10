@@ -1,6 +1,12 @@
 #include "mainwindow.h"
 #include "dialogs/albumcreatedialog.h"
 namespace  {
+const int VIEW_IMPORT = 0;
+const int VIEW_ALLPIC = 1;
+const int VIEW_TIMELINE = 2;
+const int VIEW_ALBUM = 3;
+const int VIEW_SEARCH = 4;
+
 const QString TITLEBAR_NEWALBUM = "New albume";
 const QString TITLEBAR_IMPORT = "Import";
 
@@ -10,6 +16,7 @@ const QString TITLEBAR_IMPORT = "Import";
 MainWindow::MainWindow()
 {
     m_allPicNum = DBManager::instance()->getImgsCount();
+    m_iCurrentView = VIEW_ALLPIC;
 
     initUI();
     initTitleBar();
@@ -30,8 +37,13 @@ void MainWindow::initConnections()
     connect(m_pTimeLineBtn, &DPushButton::clicked, this, &MainWindow::timeLineBtnClicked);
     connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
     connect(dApp->signalM, &SignalManager::createAlbum,this, &MainWindow::onCreateAlbum);
-    connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::editingFinishedClicked);
+    connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
+    connect(dApp->signalM, &SignalManager::sigUpdateAllpicsNumLabel, this, &MainWindow::onUpdateAllpicsNumLabel);
+    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &MainWindow::onImprotBtnClicked);
+    connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
+    connect(this, &MainWindow::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateCentralWidget);
 }
 
 void MainWindow::initUI()
@@ -47,10 +59,10 @@ void MainWindow::initTitleBar()
     QHBoxLayout* pTitleBtnLayout = new QHBoxLayout();
 
     QLabel* pLabel = new QLabel();
-    pLabel->setFixedSize(22, 22);
+    pLabel->setFixedSize(33, 32);
 
     QPixmap pixmap;
-    pixmap = utils::base::renderSVG(":/resources/images/logo/deepin-image-viewer.svg", QSize(22, 22));
+    pixmap = utils::base::renderSVG(":/resources/images/other/deepin-photo-album.svg", QSize(33, 32));
 
     pLabel->setPixmap(pixmap);
 
@@ -64,7 +76,6 @@ void MainWindow::initTitleBar()
 
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->setFixedSize(278, 26);
-    m_pSearchEdit->setPlaceHolder(tr("Search"));
 
     pTitleBtnLayout->addStretch();
     pTitleBtnLayout->addWidget(pLabel);
@@ -100,12 +111,23 @@ void MainWindow::initCentralWidget()
     m_pAlbumview = new AlbumView();
     m_pAllPicView = new AllPicView();
     m_pTimeLineView = new TimeLineView();
+    m_pSearchView = new SearchView();
+    m_pImportView = new ImportView();
 
+    m_pCenterWidget->addWidget(m_pImportView);
     m_pCenterWidget->addWidget(m_pAllPicView);
     m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumview);
+    m_pCenterWidget->addWidget(m_pSearchView);
+
+    m_pCenterWidget->setCurrentIndex(DBManager::instance()->getImgsCount()>0?VIEW_ALLPIC:VIEW_IMPORT);
 
     setCentralWidget(m_pCenterWidget);
+}
+
+void MainWindow::onUpdateCentralWidget()
+{
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
 void MainWindow::initStatusBar()
@@ -139,17 +161,67 @@ void MainWindow::initStatusBar()
 
 void MainWindow::allPicBtnClicked()
 {
-    m_pCenterWidget->setCurrentIndex(0);
+    if (VIEW_ALLPIC == m_iCurrentView)
+    {
+        return;
+    }
+    else
+    {
+        m_pSearchEdit->clear();
+
+        int num = DBManager::instance()->getImgsCount();
+        onUpdateAllpicsNumLabel(num);
+
+        m_iCurrentView = VIEW_ALLPIC;
+
+        if (0 != num)
+        {
+            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+        }
+    }
 }
 
 void MainWindow::timeLineBtnClicked()
 {
-    m_pCenterWidget->setCurrentIndex(1);
+    if (VIEW_TIMELINE == m_iCurrentView)
+    {
+        return;
+    }
+    else
+    {
+        m_pSearchEdit->clear();
+
+        int num = DBManager::instance()->getImgsCount();
+        onUpdateAllpicsNumLabel(num);
+
+        m_iCurrentView = VIEW_TIMELINE;
+
+        if (0 != num)
+        {
+            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+        }
+    }
 }
 
 void MainWindow::albumBtnClicked()
 {
-    m_pCenterWidget->setCurrentIndex(2);
+    if (VIEW_ALBUM == m_iCurrentView)
+    {
+        return;
+    }
+    else
+    {
+        m_pSearchEdit->clear();
+
+        onUpdateAllpicsNumLabel(m_pAlbumview->m_iAlubmPicsNum);
+
+        m_iCurrentView = VIEW_ALBUM;
+
+        if (0 != m_pAlbumview->m_iAlubmPicsNum)
+        {
+            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+        }
+    }
 }
 
 void MainWindow::onTitleBarMenuClicked(QAction *action)
@@ -158,13 +230,21 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
     {
         dApp->signalM->createAlbum();
     }
+    else if (TITLEBAR_IMPORT == action->text())
+    {
+        emit sigTitleMenuImportClicked();
+    }
+    else
+    {
+
+    }
 }
 
 void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
     if (m_pCenterWidget->currentWidget() == m_pAlbumview)
     {
-//        m_pAlbumview->createAlbum();
+        m_pAlbumview->createNewAlbum();
     }
     else
     {
@@ -178,21 +258,102 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     d->showInCenter(window());
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [=]{
-        if (m_pCenterWidget->currentWidget() != m_pAllPicView &&
-                m_pCenterWidget->currentWidget() != m_pTimeLineView)
+        if (m_pCenterWidget->currentIndex() != VIEW_ALBUM)
         {
-            m_pCenterWidget->setCurrentWidget(m_pAlbumview);
+            m_iCurrentView = VIEW_ALBUM;
+            m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
         }
 
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty()?QStringList(" "):imgpaths);
+        emit dApp->signalM->sigCreateNewAlbumFromDialog();
     });
 }
 
-void MainWindow::editingFinishedClicked()
+void MainWindow::onSearchEditFinished()
 {
     QString keywords = m_pSearchEdit->text();
-    if (! keywords.isEmpty())
+    if (keywords.isEmpty())
+    {
+        m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+    }
+    else
     {
         emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
+        m_pCenterWidget->setCurrentIndex(VIEW_SEARCH);
+    }
+}
+
+void MainWindow::onUpdateAllpicsNumLabel(int num)
+{
+    QString str = tr("%1张照片");
+
+    m_pAllPicNumLabel->setText(str.arg(QString::number(num)));
+}
+
+void MainWindow::onImprotBtnClicked()
+{
+    static QStringList sList;
+
+    for (const QByteArray &i : QImageReader::supportedImageFormats())
+        sList << "*." + QString::fromLatin1(i);
+
+    QString filter = tr("All images");
+
+    filter.append('(');
+    filter.append(sList.join(" "));
+    filter.append(')');
+
+    static QString cfgGroupName = QStringLiteral("General"), cfgLastOpenPath = QStringLiteral("LastOpenPath");
+    QString pictureFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QDir existChecker(pictureFolder);
+    if (!existChecker.exists()) {
+        pictureFolder = QDir::currentPath();
+    }
+
+    pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
+
+    const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Open Image"),
+                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
+
+    if (image_list.isEmpty())
+        return;
+
+    QFileInfo firstFileInfo(image_list.first());
+    dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
+
+
+    DBImgInfoList dbInfos;
+    QStringList paths;
+
+    using namespace utils::image;
+
+    for (auto imagePath : image_list)
+    {
+//        if (! imageSupportRead(imagePath)) {
+//            continue;
+//        }
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(imagePath)) {
+            // Generate thumbnail failed, do not insert into DB
+            if (! utils::image::generateThumbnail(imagePath)) {
+                continue;
+            }
+        }
+
+        QFileInfo fi(imagePath);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = imagePath;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+
+        dbInfos << dbi;
+        paths << imagePath;
+    }
+
+    if (! dbInfos.isEmpty())
+    {
+        emit sigImprotPicsIntoDB(dbInfos);
     }
 }

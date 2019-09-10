@@ -20,6 +20,7 @@
 #include "controller/globaleventfilter.h"
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
+#include "controller/wallpapersetter.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -49,6 +50,7 @@ void Application::initChildren()
     viewerTheme = ViewerThemeManager::instance();
     setter = ConfigSetter::instance();
     signalM = SignalManager::instance();
+    wpSetter = WallpaperSetter::instance();
 }
 
 void Application::initI18n()

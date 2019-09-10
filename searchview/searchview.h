@@ -38,23 +38,19 @@ signals:
 
 private:
     void initConnections();
-    void initImportFrame();
-    void initThumbnailListView();
+    void initNoSearchResultView();
+    void initSearchResultView();
     void initMainStackWidget();
-    void updateMainStackWidget();
 
-    void improtBtnClicked();
-
-    void improtPicsIntoThumbnailView();
-
-
-
-    void removeDBAllInfos();
 private:
-    DStackedWidget *m_stackWidget = NULL;
+    DStackedWidget *m_stackWidget;
 
-    DWidget* m_pImportFrame;
-    DPushButton* m_pImportBtn;
+    DWidget* m_pNoSearchResultView;
+    DLabel* m_pNoSearchResultLabel;
+
+    DWidget* m_pSearchResultView;
+    DPushButton* m_pSlideShowBtn;
+    DLabel* m_pSearchResultLabel;
 
     ThumbnailListView *m_pThumbnailListView;
 };

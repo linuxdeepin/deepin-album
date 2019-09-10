@@ -1,5 +1,6 @@
 #include "thumbnaillistview.h"
 #include "utils/baseutils.h"
+#include "controller/signalmanager.h"
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -7,6 +8,7 @@ const int BASE_HEIGHT = 100;
 const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
 
+const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString FAVORITES_ALBUM = "My favorite";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
@@ -18,9 +20,10 @@ QString ss(const QString &text)
 }
 }  //namespace
 
-ThumbnailListView::ThumbnailListView(QWidget *parent)
-    : QListView(parent), m_model(new QStandardItemModel(this))
+ThumbnailListView::ThumbnailListView(QString imgtype)
+    : m_model(new QStandardItemModel(this))
 {
+    m_imageType = imgtype;
     setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
     setIconSize(QSize(400, 400));
     setResizeMode(QListView::Adjust);
@@ -31,8 +34,10 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     m_delegate = new ThumbnailDelegate();
+    m_delegate->m_imageTypeStr = m_imageType;
 
     setItemDelegate(m_delegate);
     setModel(m_model);
@@ -52,7 +57,7 @@ ThumbnailListView::~ThumbnailListView()
 
 void ThumbnailListView::initConnections()
 {
-    connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::showMenu);
+    connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
 }
 
@@ -196,13 +201,19 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
     }
 }
 
-void ThumbnailListView::showMenu(const QPoint &pos)
+void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
     if (!this->indexAt(pos).isValid())
     {
         return;
     }
 
+    updateMenuContents();
+    m_pMenu->popup(QCursor::pos());
+}
+
+void ThumbnailListView::updateMenuContents()
+{
     m_pMenu->clear();
     appendAction(IdView, tr("View"), ss("View"));
     appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
@@ -225,8 +236,6 @@ void ThumbnailListView::showMenu(const QPoint &pos)
     appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper"));
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager"));
     appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
-
-    m_pMenu->popup(QCursor::pos());
 }
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
@@ -289,26 +298,36 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 //        showPrintDialog(paths);
 //        break;
 //    }
-//    case IdAddToAlbum: {
-//        const QString album = action->data().toString();
-//        if (album != "Add to new album") {
-//           DBManager::instance()->insertIntoAlbum(album, paths);
-//        }
-//        else {
-//            emit dApp->signalM->createAlbum(paths);
-//        }
-//        break;
-//    }
+    case IdAddToAlbum: {
+        const QString album = action->data().toString();
+        if (album != "Add to new album") {
+           DBManager::instance()->insertIntoAlbum(album, paths);
+        }
+        else {
+            emit dApp->signalM->createAlbum(paths);
+        }
+        break;
+    }
 //    case IdCopy:
 //        utils::base::copyImageToClipboard(paths);
 //        break;
     case IdCopyToClipboard:
         utils::base::copyOneImageToClipboard(path);
         break;
-//    case IdMoveToTrash: {
-//        popupDelDialog(paths);
-//        break;
-//    }
+    case IdMoveToTrash:
+    {
+        DBImgInfoList infos;
+        for(auto path : paths)
+        {
+            DBImgInfo info;
+            info = DBManager::instance()->getInfoByPath(path);
+            infos<<info;
+        }
+
+        DBManager::instance()->insertTrashImgInfos(infos);
+        DBManager::instance()->removeImgInfos(paths);
+    }
+        break;
     case IdAddToFavorites:
         DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, paths);
         break;
@@ -335,12 +354,12 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 //            }
 //        }
 //        break;
-//    case IdSetAsWallpaper:
-//        dApp->wpSetter->setWallpaper(path);
-//        break;
-//    case IdDisplayInFileManager:
-//        utils::base::showInFileManager(path);
-//        break;
+    case IdSetAsWallpaper:
+        dApp->wpSetter->setWallpaper(path);
+        break;
+    case IdDisplayInFileManager:
+        utils::base::showInFileManager(path);
+        break;
     case IdImageInfo:
 //        emit dApp->signalM->showImageInfo(path);
         break;

@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QStyledItemDelegate>
+#include <QDebug>
 
 #include <controller/viewerthememanager.h>
 
@@ -49,6 +50,9 @@ signals:
 
 private:
     ItemData itemData(const QModelIndex &index) const;
+
+public:
+    QString m_imageTypeStr;
 
 private:
     QColor m_borderColor;

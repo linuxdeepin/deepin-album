@@ -63,6 +63,8 @@ signals:
 
     void imagesInserted(const DBImgInfoList infos);
     void imagesRemoved(const DBImgInfoList &infos);
+    void imagesTrashInserted(const DBImgInfoList infos);
+    void imagesTrashRemoved(const DBImgInfoList &infos);
 
     void editImage(const QString &path);
     void showImageInfo(const QString &path);
@@ -79,6 +81,8 @@ signals:
     void removedFromAlbum(const QString &album, const QStringList &paths);
 
     void sigSendKeywordsIntoALLPic(QString keywords);
+    void sigCreateNewAlbumFromDialog();
+    void sigUpdateAllpicsNumLabel(int num);
 
 private:
     explicit SignalManager(QObject *parent = 0);
