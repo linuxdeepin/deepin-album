@@ -1,5 +1,6 @@
 #include "albumview.h"
 #include "utils/baseutils.h"
+#include "controller/exporter.h"
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -362,7 +363,9 @@ void AlbumView::onLeftMenuClicked(QAction *action)
     }
     else if (LEFT_MENU_EXPORT == str)
     {
-
+        QListWidgetItem *item = m_pLeftTabList->currentItem();
+        AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
+        Exporter::instance()->exportImage(DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr));
     }
     else if (LEFT_MENU_DELALBUM == str)
     {
@@ -450,14 +453,16 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen)
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    auto imagelist = DBManager::instance()->getAllInfos();
+    auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
     if (TRASH_ALBUM == m_currentAlbum)
     {
         imagelist = DBManager::instance()->getAllTrashInfos();
     }
-    else if(FAVORITES_ALBUM == m_currentAlbum)
+    else if(RECENT_IMPORTED_ALBUM == m_currentAlbum)
     {
-        imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+        imagelist = DBManager::instance()->getAllInfos();
+    }else {
+
     }
 
     for(auto image : imagelist)

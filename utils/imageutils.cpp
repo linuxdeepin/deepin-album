@@ -98,6 +98,7 @@ bool imageSupportRead(const QString &path)
 //    else {
 //        return (suffix == "svg");
 //    }
+    return true;
 }
 
 bool imageSupportSave(const QString &path)
