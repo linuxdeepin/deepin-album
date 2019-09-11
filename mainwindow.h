@@ -87,7 +87,7 @@ private:
     TimeLineView* m_pTimeLineView;
     SearchView* m_pSearchView;
     ImportView* m_pImportView;
-    QStatusBar* m_pStatusBar;
+    DStatusBar* m_pStatusBar;
     DLabel* m_pAllPicNumLabel;
     DSlider* m_pSlider;
     DBManager* m_pDBManager;

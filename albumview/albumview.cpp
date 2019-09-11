@@ -1,6 +1,8 @@
 #include "albumview.h"
 #include "utils/baseutils.h"
 #include "controller/exporter.h"
+#include "dtkcore_global.h"
+#include <DNotifySender>
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -287,6 +289,15 @@ void AlbumView::leftTabClicked(const QModelIndex &index)
     }
     else
     {
+        if (FAVORITES_ALBUM == m_currentAlbum)
+        {
+            QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
+            if (0 < paths.length())
+            {
+                DBManager::instance()->removeFromAlbum(m_currentAlbum, paths);
+            }
+        }
+
         m_currentAlbum = item->m_albumNameStr;
         updateRightNoTrashView();
     }
@@ -299,19 +310,14 @@ void AlbumView::showLeftMenu(const QPoint &pos)
         return;
     }
 
-    int num = m_pLeftTabList->indexAt(pos).row();
+    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
-    m_allAlbumNames<<RECENT_IMPORTED_ALBUM;
-    m_allAlbumNames<<TRASH_ALBUM;
-    m_allAlbumNames<<FAVORITES_ALBUM;
-    if (RECENT_IMPORTED_ALBUM == m_allAlbumNames[num] ||
-        TRASH_ALBUM == m_allAlbumNames[num] ||
-        FAVORITES_ALBUM == m_allAlbumNames[num])
+    if (RECENT_IMPORTED_ALBUM == item->m_albumNameStr ||
+        TRASH_ALBUM == item->m_albumNameStr ||
+        FAVORITES_ALBUM == item->m_albumNameStr)
     {
         return;
     }
-
-    m_iTabListRMouseBtnNum = num;
 
     m_pLeftMenu->clear();
 
@@ -369,12 +375,22 @@ void AlbumView::onLeftMenuClicked(QAction *action)
     }
     else if (LEFT_MENU_DELALBUM == str)
     {
+        QString str;
         QListWidgetItem *item = m_pLeftTabList->currentItem();
         AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
 
+        str = pTabItem->m_albumNameStr;
         DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
         delete  item;
 
+        QModelIndex index;
+        emit m_pLeftTabList->clicked(index);
+
+        QString str1 = "相册：“%1”，已经删除成功";
+        DUtil::DNotifySender *pDNotifySender = new DUtil::DNotifySender("");
+        pDNotifySender->appName("深度相册");
+        pDNotifySender->appBody(str1.arg(str));
+        pDNotifySender->call();
     }
     else
     {

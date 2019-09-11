@@ -16,6 +16,7 @@
 #include <DPushButton>
 
 DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 class AlbumView : public QSplitter
 {
@@ -49,7 +50,6 @@ public:
     int m_iAlubmPicsNum;
 
 private:
-    int m_iTabListRMouseBtnNum;
 
     QString m_currentAlbum;
     QStringList m_allAlbumNames;

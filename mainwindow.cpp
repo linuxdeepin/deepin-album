@@ -146,7 +146,7 @@ void MainWindow::onUpdateCentralWidget()
 
 void MainWindow::initStatusBar()
 {  
-    m_pStatusBar = new QStatusBar(this);
+    m_pStatusBar = new DStatusBar(this);
     setStatusBar(m_pStatusBar);
 
     QWidget* pWidget = new QWidget();
@@ -163,6 +163,9 @@ void MainWindow::initStatusBar()
     m_pSlider->setOrientation(Qt::Horizontal);
     m_pSlider->adjustSize();
     m_pSlider->setFixedWidth(120);
+    m_pSlider->setPageStep(20);
+    m_pSlider->setTickInterval(1);
+    m_pSlider->setValue(120);
 
     pHBoxLayout->addWidget(m_pAllPicNumLabel, Qt::AlignHCenter);
     pHBoxLayout->addWidget(m_pSlider, Qt::AlignRight);

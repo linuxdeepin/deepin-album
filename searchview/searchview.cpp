@@ -8,6 +8,7 @@ const QString FAVORITES_ALBUM = "My favorite";
 
 SearchView::SearchView()
 {
+    m_keywords = "";
     initNoSearchResultView();
     initSearchResultView();
     initMainStackWidget();

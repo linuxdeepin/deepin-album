@@ -60,9 +60,9 @@ void ThumbnailDelegate::paint(QPainter *painter,
                             QPainter::Antialiasing);
     QRect rect = option.rect;
 
-//    QPainterPath bp;
-//    bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-//    painter->setClipPath(bp);
+    QPainterPath bp;
+    bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+    painter->setClipPath(bp);
 
     painter->fillRect(rect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
 
@@ -92,14 +92,14 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
 
     // Draw inside border
-//    QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
-//           selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
-//    painter->setPen(p);
-//    QPainterPathStroker stroker;
-//    stroker.setWidth(selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
-//    stroker.setJoinStyle(Qt::RoundJoin);
-//    QPainterPath borderPath = stroker.createStroke(bp);
-//    painter->drawPath(borderPath);
+    QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
+           selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
+    painter->setPen(p);
+    QPainterPathStroker stroker;
+    stroker.setWidth(selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
+    stroker.setJoinStyle(Qt::RoundJoin);
+    QPainterPath borderPath = stroker.createStroke(bp);
+    painter->drawPath(borderPath);
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
