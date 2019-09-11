@@ -17,6 +17,38 @@ SearchView::SearchView()
 void SearchView::initConnections()
 {
     connect(dApp->signalM, &SignalManager::sigSendKeywordsIntoALLPic, this, &SearchView::improtSearchResultsIntoThumbnailView);
+    connect(m_pThumbnailListView,&ThumbnailListView::openImage,this,[=](int index){
+        SignalManager::ViewInfo info;
+        info.album = "";
+        info.lastPanel = nullptr;
+        auto imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        for(auto image : imagelist)
+        {
+            info.paths<<image.filePath;
+        }
+        info.path = info.paths[index];
+//        info.fullScreen = true;
+        emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(4);
+    });
+    connect(m_pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen){
+        SignalManager::ViewInfo info;
+        info.album = "";
+        info.lastPanel = nullptr;
+        auto imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        if(paths.size()>1){
+            info.paths = paths;
+        }else if(imagelist.size()>1){
+            for(auto image : imagelist)
+            {
+                info.paths<<image.filePath;
+            }
+        }
+        info.path = path;
+        info.fullScreen = isFullScreen;
+        emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(4);
+    });
 }
 
 void SearchView::initNoSearchResultView()
@@ -84,6 +116,7 @@ void SearchView::initMainStackWidget()
 
 void SearchView::improtSearchResultsIntoThumbnailView(QString s)
 {
+    m_keywords = s;
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
     auto infos = DBManager::instance()->getInfosForKeyword(s);
 

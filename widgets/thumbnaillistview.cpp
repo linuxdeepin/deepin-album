@@ -1,6 +1,7 @@
 #include "thumbnaillistview.h"
 #include "utils/baseutils.h"
 #include "controller/signalmanager.h"
+#include <QDebug>
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -59,6 +60,14 @@ void ThumbnailListView::initConnections()
 {
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
+	connect(this,&ThumbnailListView::doubleClicked,this,[=](const QModelIndex &index){
+        qDebug()<<"index is "<<index.row();
+        emit hideExtensionPanel();
+        emit openImage(index.row());
+    });
+    connect(this,&ThumbnailListView::clicked,this,[=](){
+            emit hideExtensionPanel();
+    });
 }
 
 void ThumbnailListView::calBasePixMapWandH()
@@ -285,12 +294,12 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
-//    case IdView:
-//        emit viewImage(path, viewPaths);
-//        break;
-//    case IdFullScreen:
-//        emit viewImage(path, viewPaths, true);
-//        break;
+    case IdView:
+        emit menuOpenImage(path,paths,false);
+        break;
+    case IdFullScreen:
+        emit menuOpenImage(path,paths,true);
+        break;
 //    case IdStartSlideShow:
 //        emit startSlideShow(viewPaths, path);
 //        break;
@@ -361,7 +370,12 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         utils::base::showInFileManager(path);
         break;
     case IdImageInfo:
-//        emit dApp->signalM->showImageInfo(path);
+        emit showImageInfo(path);
+        break;
+    case IdExport:
+//        emit exportImage(path,paths);
+        emit dApp->signalM->exportImage(paths);
+//        Exporter::instance()->exportImage(paths);
         break;
 //    default:
 //        break;

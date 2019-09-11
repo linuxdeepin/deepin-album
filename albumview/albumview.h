@@ -37,6 +37,8 @@ private:
     void leftTabClicked(const QModelIndex &index);
     void showLeftMenu(const QPoint &pos);
     void appendAction(const QString &text);
+    void openImage(int index);
+    void menuOpenImage(QString path,QStringList paths,bool isFullScreen);
 
 private slots:
     void onLeftMenuClicked(QAction *action);

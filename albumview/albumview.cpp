@@ -43,6 +43,14 @@ void AlbumView::initConnections()
     connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
     connect(m_pRecoveryBtn, &DPushButton::clicked, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pDeleteBtn, &DPushButton::clicked, this, &AlbumView::onTrashDeleteBtnClicked);
+
+    connect(m_pRightThumbnailList,&ThumbnailListView::openImage,this,&AlbumView::openImage);
+    connect(m_pRightTrashThumbnailList,&ThumbnailListView::openImage,this,&AlbumView::openImage);
+    connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::openImage,this,&AlbumView::openImage);
+
+    connect(m_pRightThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
+    connect(m_pRightTrashThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
+    connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
 }
 
 void AlbumView::initLeftView()
@@ -406,4 +414,70 @@ void AlbumView::onTrashDeleteBtnClicked()
     paths = m_pRightTrashThumbnailList->selectedPaths();
 
     DBManager::instance()->removeTrashImgInfos(paths);
+}
+
+void AlbumView::openImage(int index)
+{
+    SignalManager::ViewInfo info;
+    info.album = "";
+    info.lastPanel = nullptr;
+    auto imagelist = DBManager::instance()->getAllInfos();
+    if (TRASH_ALBUM == m_currentAlbum)
+    {
+        imagelist = DBManager::instance()->getAllTrashInfos();
+    }
+    else if(FAVORITES_ALBUM == m_currentAlbum)
+    {
+        imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+    }
+
+    if(imagelist.size()>1){
+        for(auto image : imagelist)
+        {
+            info.paths<<image.filePath;
+        }
+    }else {
+      info.paths.clear();
+     }
+    info.path = imagelist[index].filePath;
+//        info.fullScreen = true;
+    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->showImageView(3);
+}
+
+void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen)
+{
+    SignalManager::ViewInfo info;
+    info.album = "";
+    info.lastPanel = nullptr;
+    auto imagelist = DBManager::instance()->getAllInfos();
+    if (TRASH_ALBUM == m_currentAlbum)
+    {
+        imagelist = DBManager::instance()->getAllTrashInfos();
+    }
+    else if(FAVORITES_ALBUM == m_currentAlbum)
+    {
+        imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+    }
+
+    for(auto image : imagelist)
+    {
+        info.paths<<image.filePath;
+    }
+    if(paths.size()>1){
+        info.paths = paths;
+    }else {
+        if(imagelist.size()>1){
+            for(auto image : imagelist)
+            {
+                info.paths<<image.filePath;
+            }
+        }else {
+          info.paths.clear();
+         }
+    }
+    info.path = path;
+    info.fullScreen = isFullScreen;
+    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->showImageView(3);
 }

@@ -20,6 +20,7 @@
 #include "thumbnaildelegate.h"
 #include "application.h"
 #include "controller/configsetter.h"
+#include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "dbmanager/dbmanager.h"
 #include <QListWidget>
@@ -80,6 +81,12 @@ public:
 
 signals:
     void loadend(int);
+    void openImage(int);
+    void menuOpenImage(QString,QStringList,bool);
+    void exportImage(QString,QStringList);
+    void showExtensionPanel();
+    void hideExtensionPanel(bool immediately = false);
+    void showImageInfo(const QString &path);
 
 protected:
 

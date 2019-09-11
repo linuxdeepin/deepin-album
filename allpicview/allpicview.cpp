@@ -25,6 +25,47 @@ void AllPicView::initConnections()
 {
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::updatePicsIntoThumbnailView);
+    connect(this,&ThumbnailListView::openImage,this,[=](int index){
+        SignalManager::ViewInfo info;
+        info.album = "";
+        info.lastPanel = nullptr;
+        auto imagelist = DBManager::instance()->getAllInfos();
+        if(imagelist.size()>1){
+            for(auto image : imagelist)
+            {
+                info.paths<<image.filePath;
+            }
+        }else {
+          info.paths.clear();
+         }
+        info.path = imagelist[index].filePath;
+//        info.fullScreen = true;
+        emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(1);
+    });
+    connect(this,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen){
+        SignalManager::ViewInfo info;
+        info.album = "";
+        info.lastPanel = nullptr;
+        auto imagelist = DBManager::instance()->getAllInfos();
+        if(paths.size()>1){
+            info.paths = paths;
+        }else
+        {
+            if(imagelist.size()>1){
+                for(auto image : imagelist)
+                {
+                    info.paths<<image.filePath;
+                }
+            }else {
+              info.paths.clear();
+             }
+        }
+        info.path = path;
+        info.fullScreen = isFullScreen;
+        emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(1);
+    });
 }
 
 void AllPicView::initThumbnailListView()

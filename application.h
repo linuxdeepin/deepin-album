@@ -46,7 +46,6 @@ public:
     SignalManager *signalM = nullptr;
     ViewerThemeManager *viewerTheme = nullptr;
     WallpaperSetter *wpSetter = nullptr;
-
 private:
     void initChildren();
     void initI18n();

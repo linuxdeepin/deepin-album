@@ -7,6 +7,11 @@
 #include "dbmanager/dbmanager.h"
 #include "searchview/searchview.h"
 #include "importview/importview.h"
+#include "controller/commandline.h"
+#include "controller/exporter.h"
+//#include "plugin.h"
+//#include "plugintest.h"
+#include <QPluginLoader>
 
 #include <DMainWindow>
 #include <QListWidget>
@@ -21,9 +26,9 @@
 #include <DLabel>
 #include <QStatusBar>
 
-#define DEFAULT_WINDOWS_WIDTH   960
+#define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  540
-#define MIX_WINDOWS_WIDTH       650
+#define MIX_WINDOWS_WIDTH       1300
 #define MIX_WINDOWS_HEIGHT      420
 
 DWIDGET_USE_NAMESPACE
@@ -76,6 +81,7 @@ private:
     DPushButton* m_pAlbumBtn;
     DSearchEdit* m_pSearchEdit;
     QStackedWidget* m_pCenterWidget;
+    CommandLine *m_commandLine;
     AlbumView* m_pAlbumview;
     AllPicView* m_pAllPicView;
     TimeLineView* m_pTimeLineView;
@@ -85,6 +91,7 @@ private:
     DLabel* m_pAllPicNumLabel;
     DSlider* m_pSlider;
     DBManager* m_pDBManager;
+    int             m_backIndex;
 };
 
 #endif // MAINWINDOW_H

@@ -51,7 +51,7 @@ private:
     DWidget* m_pSearchResultView;
     DPushButton* m_pSlideShowBtn;
     DLabel* m_pSearchResultLabel;
-
+    QString m_keywords;
     ThumbnailListView *m_pThumbnailListView;
 };
 

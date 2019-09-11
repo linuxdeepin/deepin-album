@@ -121,6 +121,44 @@ void TimeLineView::updataLayout(){
            listItem->setFixedHeight(TitleView->height()+h);
            item->setSizeHint(listItem->rect().size());
        });
+       connect(pThumbnailListView,&ThumbnailListView::openImage,this,[=](int index){
+           SignalManager::ViewInfo info;
+           info.album = "";
+           info.lastPanel = nullptr;
+           if(ImgInfoList.size()<=1){
+               info.paths.clear();
+           }else {
+               for(auto image : ImgInfoList)
+               {
+                   info.paths<<image.filePath;
+               }
+            }
+           info.path = ImgInfoList[index].filePath;
+           emit dApp->signalM->viewImage(info);
+           emit dApp->signalM->showImageView(2);
+       });
+       connect(pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen){
+           SignalManager::ViewInfo info;
+           info.album = "";
+           info.lastPanel = nullptr;
+           if(paths.size()>1){
+               info.paths = paths;
+           }else
+           {
+               if(ImgInfoList.size()>1){
+                   for(auto image : ImgInfoList)
+                   {
+                       info.paths<<image.filePath;
+                   }
+               }else {
+                 info.paths.clear();
+                }
+           }
+           info.path = path;
+           info.fullScreen = isFullScreen;
+           emit dApp->signalM->viewImage(info);
+           emit dApp->signalM->showImageView(2);
+       });
     }
 
 }

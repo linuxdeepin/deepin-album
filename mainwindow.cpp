@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 namespace  {
 const int VIEW_IMPORT = 0;
@@ -6,6 +7,7 @@ const int VIEW_ALLPIC = 1;
 const int VIEW_TIMELINE = 2;
 const int VIEW_ALBUM = 3;
 const int VIEW_SEARCH = 4;
+const int VIEW_IMAGE = 5;
 
 const QString TITLEBAR_NEWALBUM = "New albume";
 const QString TITLEBAR_IMPORT = "Import";
@@ -44,6 +46,16 @@ void MainWindow::initConnections()
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     connect(this, &MainWindow::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateCentralWidget);
+	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
+        m_backIndex = index;
+        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
+    });
+    connect(dApp->signalM,&SignalManager::hideImageView,this,[=](){
+        m_pCenterWidget->setCurrentIndex(m_backIndex);
+    });
+    connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
+        Exporter::instance()->exportImage(paths);
+    });
 }
 
 void MainWindow::initUI()
@@ -119,7 +131,9 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumview);
     m_pCenterWidget->addWidget(m_pSearchView);
-
+    m_commandLine = CommandLine::instance();
+    m_commandLine->processOption();
+    m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->setCurrentIndex(DBManager::instance()->getImgsCount()>0?VIEW_ALLPIC:VIEW_IMPORT);
 
     setCentralWidget(m_pCenterWidget);

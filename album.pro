@@ -6,11 +6,16 @@
 
 QT       += core gui sql
 
+QT += core gui sql dbus concurrent svg x11extras printsupport
+qtHaveModule(opengl): QT += opengl
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = album
 TEMPLATE = app
 QT += dtkwidget
+PKGCONFIG += dtkwidget
+LIBS += -lfreeimage
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -19,7 +24,7 @@ QT += dtkwidget
 DEFINES += QT_DEPRECATED_WARNINGS
 
 DEFINES += QMAKE_TARGET=\\\"$$TARGET\\\" QMAKE_VERSION=\\\"$$VERSION\\\"
-
+DEFINES += LITE_DIV
 isEmpty(QMAKE_ORGANIZATION_NAME) {
     DEFINES += QMAKE_ORGANIZATION_NAME=\\\"deepin\\\"
 }
@@ -31,6 +36,12 @@ isEmpty(QMAKE_ORGANIZATION_NAME) {
 
 CONFIG += c++11 link_pkgconfig
 
+include (frame/frame.pri)
+include (module/modules.pri)
+include (widgets/widgets.pri)
+include (utils/utils.pri)
+include (controller/controller.pri)
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
@@ -38,24 +49,12 @@ SOURCES += \
         allpicview/allpicview.cpp \
         timelineview/timelineview.cpp \
         dbmanager/dbmanager.cpp \
-        utils/baseutils.cpp \
     application.cpp \
-    controller/globaleventfilter.cpp \
-    controller/configsetter.cpp \
-    controller/viewerthememanager.cpp \
-    controller/signalmanager.cpp \
-    utils/imageutils.cpp \
-    widgets/thumbnaillistview.cpp \
-    widgets/scrollbar.cpp \
-    widgets/thumbnaildelegate.cpp \
-    widgets/timelinelist.cpp \
-    widgets/timelineitem.cpp \
     dialogs/albumcreatedialog.cpp \
     dialogs/dialog.cpp \
     searchview/searchview.cpp \
     widgets/albumlefttabitem.cpp \
-    importview/importview.cpp \
-    controller/wallpapersetter.cpp
+    importview/importview.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -63,24 +62,12 @@ HEADERS += \
         allpicview/allpicview.h \
         timelineview/timelineview.h \
         dbmanager/dbmanager.h \
-        utils/baseutils.h \
     application.h \
-    controller/globaleventfilter.h \
-    controller/signalmanager.h \
-    controller/viewerthememanager.h \
-    controller/configsetter.h \
-    utils/imageutils.h \
-    widgets/thumbnaillistview.h \
-    widgets/scrollbar.h \
-    widgets/thumbnaildelegate.h \
-    widgets/timelinelist.h \
-    widgets/timelineitem.h \
     dialogs/albumcreatedialog.h \
     dialogs/dialog.h \
     searchview/searchview.h \
     widgets/albumlefttabitem.h \
-    importview/importview.h \
-    controller/wallpapersetter.h
+    importview/importview.h
 
 #RESOURCES += \
 #    resources.qrc

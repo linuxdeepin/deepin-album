@@ -17,7 +17,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 //#include "utils/imageutils_libexif.h"
-//#include "utils/imageutils_freeimage.h"
+#include "utils/imageutils_freeimage.h"
 #include <QBuffer>
 #include <QCryptographicHash>
 #include <QDebug>
@@ -297,7 +297,7 @@ const QImage getRotatedImage(const QString &path)
 
 const QMap<QString, QString> getAllMetaData(const QString &path)
 {
-//    return freeimage::getAllMetaData(path);
+    return freeimage::getAllMetaData(path);
 }
 
 const QPixmap cachePixmap(const QString &path)
