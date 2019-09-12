@@ -8,6 +8,8 @@ const QString FAVORITES_ALBUM = "My favorite";
 
 ImportView::ImportView()
 {
+    setAcceptDrops(true);
+
     initUI();
     initConnections();
 }
@@ -46,4 +48,85 @@ void ImportView::initUI()
     pImportFrameLayout->addStretch();
 
     setLayout(pImportFrameLayout);
+}
+
+void ImportView::dragEnterEvent(QDragEnterEvent *e)
+{
+    e->setDropAction(Qt::CopyAction);
+    e->accept();
+//    ImportView::dragEnterEvent(e);
+}
+
+void ImportView::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+
+    using namespace utils::image;
+    QStringList paths;
+    for (QUrl url : urls) {
+        const QString path = url.toLocalFile();
+        if (QFileInfo(path).isDir()) {
+            auto finfos =  getImagesInfo(path, false);
+            for (auto finfo : finfos) {
+                if (imageSupportRead(finfo.absoluteFilePath())) {
+                    paths << finfo.absoluteFilePath();
+                }
+            }
+        } else if (imageSupportRead(path)) {
+            paths << path;
+        }
+    }
+
+    if (paths.isEmpty())
+    {
+        return;
+    }
+
+    DBImgInfoList dbInfos;
+
+    using namespace utils::image;
+
+    for (auto path : paths)
+    {
+//        if (! imageSupportRead(imagePath)) {
+//            continue;
+//        }
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(path)) {
+            // Generate thumbnail failed, do not insert into DB
+            if (! utils::image::generateThumbnail(path)) {
+                continue;
+            }
+        }
+
+        QFileInfo fi(path);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = path;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+
+        dbInfos << dbi;
+    }
+
+    if (! dbInfos.isEmpty())
+    {
+        emit dApp->signalM->sigImprotPicsIntoDB(dbInfos);
+    }
+
+    event->accept();
+}
+
+void ImportView::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
+{
+
 }

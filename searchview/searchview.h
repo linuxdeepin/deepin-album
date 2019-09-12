@@ -33,9 +33,6 @@ public:
     SearchView();
     void improtSearchResultsIntoThumbnailView(QString s);
 
-signals:
-    void sigImprotPicsIntoDB(const DBImgInfoList &infos);
-
 private:
     void initConnections();
     void initNoSearchResultView();

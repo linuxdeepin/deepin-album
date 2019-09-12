@@ -44,7 +44,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::sigUpdateAllpicsNumLabel, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &MainWindow::onImprotBtnClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
-    connect(this, &MainWindow::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
+    connect(dApp->signalM, &SignalManager::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateCentralWidget);
 	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
         m_backIndex = index;
@@ -342,7 +342,6 @@ void MainWindow::onImprotBtnClicked()
 
 
     DBImgInfoList dbInfos;
-    QStringList paths;
 
     using namespace utils::image;
 
@@ -368,11 +367,10 @@ void MainWindow::onImprotBtnClicked()
         dbi.time = fi.birthTime();
 
         dbInfos << dbi;
-        paths << imagePath;
     }
 
     if (! dbInfos.isEmpty())
     {
-        emit sigImprotPicsIntoDB(dbInfos);
+        emit dApp->signalM->sigImprotPicsIntoDB(dbInfos);
     }
 }
