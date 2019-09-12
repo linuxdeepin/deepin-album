@@ -27,6 +27,7 @@
 #include <QStandardItemModel>
 #include <QThread>
 #include <QTimer>
+#include <QMouseEvent>
 
 namespace
 {
@@ -77,14 +78,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     if (FAVORITES_ALBUM == m_imageTypeStr)
     {
         QPixmap pixmap1;
-        if(selected)
-        {
-
-        }
-        else
-        {
-            pixmap1 = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(24, 24));
-        }
+        pixmap1 = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(24, 24));
 
         QRect rect1(rect.x()+rect.width()-24,rect.y()+rect.height()-24,24,24);
 
@@ -127,4 +121,18 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     }
 
     return data;
+}
+
+bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    QRect rect = QRect(option.rect.x()+option.rect.width()-24,option.rect.y()+option.rect.height()-24,24,24);
+
+    QMouseEvent *pMouseEvent = static_cast<QMouseEvent*>(event);
+
+    if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->pos()) && FAVORITES_ALBUM == m_imageTypeStr)
+    {
+        emit sigCancelFavorite(index);
+    }
+
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
 }

@@ -44,9 +44,13 @@ public:
                const QModelIndex& index) const Q_DECL_OVERRIDE;
     QSize sizeHint(const QStyleOptionViewItem& option,
                    const QModelIndex& index) const Q_DECL_OVERRIDE;
+    bool editorEvent(QEvent *event,
+                             QAbstractItemModel *model,
+                             const QStyleOptionViewItem &option,
+                             const QModelIndex &index);
 
 signals:
-    void thumbnailGenerated(const QString &path);
+    void sigCancelFavorite(const QModelIndex &index);
 
 private:
     ItemData itemData(const QModelIndex &index) const;

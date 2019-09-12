@@ -41,6 +41,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
+//    setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;
@@ -71,6 +72,7 @@ void ThumbnailListView::initConnections()
             emit hideExtensionPanel();
     });
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, &ThumbnailListView::onPixMapScale);
+    connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this, &ThumbnailListView::onCancelFavorite);
 }
 
 void ThumbnailListView::calBasePixMapWandH()
@@ -451,6 +453,20 @@ void ThumbnailListView::onPixMapScale(int value)
     calBasePixMapWandH();
     calWidgetItemWandH();
     addThumbnailView();
+}
+
+void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
+{
+    QStringList str;
+    QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
+
+    if (datas.length() >= 2) {
+        str<<datas[1].toString();
+    }
+
+    DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, str);
+
+    m_model->removeRow(index.row());
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
