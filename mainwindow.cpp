@@ -56,6 +56,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
         Exporter::instance()->exportImage(paths);
     });
+    connect(m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 }
 
 void MainWindow::initUI()
@@ -161,11 +162,12 @@ void MainWindow::initStatusBar()
 
     m_pSlider = new DSlider();
     m_pSlider->setOrientation(Qt::Horizontal);
-    m_pSlider->adjustSize();
     m_pSlider->setFixedWidth(120);
-    m_pSlider->setPageStep(20);
+    m_pSlider->setMinimum(0);
+    m_pSlider->setMaximum(4);
+    m_pSlider->setSingleStep(1);
     m_pSlider->setTickInterval(1);
-    m_pSlider->setValue(120);
+    m_pSlider->setValue(2);
 
     pHBoxLayout->addWidget(m_pAllPicNumLabel, Qt::AlignHCenter);
     pHBoxLayout->addWidget(m_pSlider, Qt::AlignRight);

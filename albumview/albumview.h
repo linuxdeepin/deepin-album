@@ -40,6 +40,7 @@ private:
     void appendAction(const QString &text);
     void openImage(int index);
     void menuOpenImage(QString path,QStringList paths,bool isFullScreen);
+    QString getNewAlbumName();
 
 private slots:
     void onLeftMenuClicked(QAction *action);

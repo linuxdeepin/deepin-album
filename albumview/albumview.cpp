@@ -39,9 +39,10 @@ void AlbumView::initConnections()
 {
     connect(m_pLeftTabList, &DListWidget::clicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::updateLeftView);
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightNoTrashView);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::sigMenuAddToAlbum, this, &AlbumView::updateRightView);
     connect(m_pLeftTabList, &QListView::customContextMenuRequested, this, &AlbumView::showLeftMenu);
     connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
     connect(m_pRecoveryBtn, &DPushButton::clicked, this, &AlbumView::onTrashRecoveryBtnClicked);
@@ -354,7 +355,7 @@ void AlbumView::onLeftMenuClicked(QAction *action)
     {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setSizeHint(QSize(200, 36));
-        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem("新建相册");
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(getNewAlbumName());
         pAlbumLeftTabItem->m_opeMode = OPE_MODE_ADDNEWALBUM;
         pAlbumLeftTabItem->editAlbumEdit();
 
@@ -402,7 +403,7 @@ void AlbumView::createNewAlbum()
 {
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     pListWidgetItem->setSizeHint(QSize(200, 36));
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem("新建相册");
+    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(getNewAlbumName());
     pAlbumLeftTabItem->m_opeMode = OPE_MODE_ADDNEWALBUM;
     pAlbumLeftTabItem->editAlbumEdit();
 
@@ -501,4 +502,16 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen)
     info.fullScreen = isFullScreen;
     emit dApp->signalM->viewImage(info);
     emit dApp->signalM->showImageView(3);
+}
+
+QString AlbumView::getNewAlbumName()
+{
+    const QString nan = tr("Unnamed");
+       int num = 1;
+       QString albumName = nan;
+       while(DBManager::instance()->isAlbumExistInDB(albumName)) {
+           num++;
+           albumName = nan + QString::number(num);
+       }
+       return (const QString)(albumName);
 }

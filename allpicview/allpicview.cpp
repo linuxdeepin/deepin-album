@@ -66,6 +66,7 @@ void AllPicView::initConnections()
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(1);
     });
+    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::updatePicsIntoThumbnailView);
 }
 
 void AllPicView::initThumbnailListView()

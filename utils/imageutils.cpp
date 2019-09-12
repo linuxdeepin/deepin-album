@@ -93,12 +93,11 @@ bool imageSupportRead(const QString &path)
         return false;
     }
 
-//    if (freeimage::isSupportsReading(path))
-//        return true;
-//    else {
-//        return (suffix == "svg");
-//    }
-    return true;
+    if (freeimage::isSupportsReading(path))
+        return true;
+    else {
+        return (suffix == "svg");
+    }
 }
 
 bool imageSupportSave(const QString &path)
@@ -124,65 +123,63 @@ bool imageSupportSave(const QString &path)
         return false;
     }
     else {
-//        return freeimage::canSave(path);
+        return freeimage::canSave(path);
     }
 }
 
 bool imageSupportWrite(const QString &path)
 {
-//    return freeimage::isSupportsWriting(path);
+    return freeimage::isSupportsWriting(path);
 }
 
 bool rotate(const QString &path, int degree)
 {
-//    if (degree % 90 != 0)
-//        return false;
+    if (degree % 90 != 0)
+        return false;
 
-//    int loadFlags = 0;
-//    int saveFlags = 0;
-//    FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
-//    switch (int(fif)) {
-//    case FIF_JPEG:
-//        loadFlags = JPEG_ACCURATE;          // Load the file with the best quality, sacrificing some speed
-//        saveFlags = JPEG_QUALITYSUPERB;     // Saves with superb quality (100:1)
-//        break;
-//    case FIF_JP2:
-//        // Freeimage3.17 does not support special load flags for JP2
-//        saveFlags = JP2_DEFAULT;            // Save with a 16:1 rate
-//        break;
-//    case FIF_BMP:
-//        saveFlags = BMP_DEFAULT;            // Save without any compression
-//        break;
-//    case FIF_EXR:
-//        saveFlags = EXR_NONE;               // Save with no compression
-//        break;
-//    case FIF_PNG:
-//        saveFlags = PNG_DEFAULT;   // Save without ZLib compression
-//        break;
-//    }
+    int loadFlags = 0;
+    int saveFlags = 0;
+    FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
+    switch (int(fif)) {
+    case FIF_JPEG:
+        loadFlags = JPEG_ACCURATE;          // Load the file with the best quality, sacrificing some speed
+        saveFlags = JPEG_QUALITYSUPERB;     // Saves with superb quality (100:1)
+        break;
+    case FIF_JP2:
+        // Freeimage3.17 does not support special load flags for JP2
+        saveFlags = JP2_DEFAULT;            // Save with a 16:1 rate
+        break;
+    case FIF_BMP:
+        saveFlags = BMP_DEFAULT;            // Save without any compression
+        break;
+    case FIF_EXR:
+        saveFlags = EXR_NONE;               // Save with no compression
+        break;
+    case FIF_PNG:
+        saveFlags = PNG_DEFAULT;   // Save without ZLib compression
+        break;
+    }
 
-//    FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
-//    FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
-//    if (rotated) {
-//        // Regenerate thumbnail if it's exits
-//        // Image formats that currently support thumbnail saving are
-//        // JPEG (JFIF formats), EXR, TGA and TIFF.
-//        if (FreeImage_GetThumbnail(dib)) {
-//            FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
-//            FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
-//            FreeImage_SetThumbnail(rotated, rotateThumb);
-//            FreeImage_Unload(rotateThumb);
-//        }
-//    }
+    FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
+    FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
+    if (rotated) {
+        // Regenerate thumbnail if it's exits
+        // Image formats that currently support thumbnail saving are
+        // JPEG (JFIF formats), EXR, TGA and TIFF.
+        if (FreeImage_GetThumbnail(dib)) {
+            FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
+            FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
+            FreeImage_SetThumbnail(rotated, rotateThumb);
+            FreeImage_Unload(rotateThumb);
+        }
+    }
 
-//    bool v = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
-//    FreeImage_Unload(dib);
-//    FreeImage_Unload(rotated);
+    bool v = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
+    FreeImage_Unload(dib);
+    FreeImage_Unload(rotated);
 
-//    // The thumbnail should regenerate by caller
-//    removeThumbnail(path);
-
-    bool v;
+    // The thumbnail should regenerate by caller
+    removeThumbnail(path);
 
     return v;
 }
@@ -276,7 +273,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 
 const QString getOrientation(const QString &path)
 {
-//    return freeimage::getOrientation(path);
+    return freeimage::getOrientation(path);
 }
 
 /*!
