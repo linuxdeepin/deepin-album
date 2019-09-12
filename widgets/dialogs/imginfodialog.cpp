@@ -108,8 +108,8 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
     QFrame *baseFrame = createBaseInfoFrame();
     QFrame *detailsFrame = createDetailsInfoFrame();
     updateInfo();
-//    baseFrame->setFixedHeight(baseInfoHeidht);
-//    detailsFrame->setFixedHeight(detailsInfoHeidht);
+    baseFrame->setFixedHeight(baseInfoHeidht);
+    detailsFrame->setFixedHeight(detailsInfoHeidht);
     m_mainLayout->addWidget(baseFrame);
     m_mainLayout->addWidget(detailsFrame);
 
@@ -182,6 +182,7 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
     SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
     infoTitle->setAlignment(Qt::AlignLeft);
     m_exifLayout_base->addRow(infoTitle);
+    baseInfoHeidht+=70;
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -197,7 +198,7 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignRight | Qt::AlignTop);
 
         m_exifLayout_base->addRow(title, field);
-        baseInfoHeidht+=20;
+        baseInfoHeidht+=40;
     }
 }
 
@@ -210,6 +211,7 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
     SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
     infoTitle->setAlignment(Qt::AlignLeft);
     m_exifLayout_base->addRow(infoTitle);
+    detailsInfoHeidht+=40;
     for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -224,7 +226,7 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignRight | Qt::AlignTop);
 
         m_exifLayout_details->addRow(title, field);
-        detailsInfoHeidht+=20;
+        detailsInfoHeidht+=30;
     }
 
 //    m_separator->setVisible(m_exifLayout_details->count() > 10);
