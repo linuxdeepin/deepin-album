@@ -22,6 +22,7 @@
 #include <QFileInfo>
 #include <DStackedWidget>
 #include <DSlider>
+#include <QMimeData>
 
 DWIDGET_USE_NAMESPACE
 
@@ -35,6 +36,10 @@ public:
 private:
     void initConnections();
     void initUI();
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void dropEvent(QDropEvent *e) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *e) override;
 
 public:
     DPushButton* m_pImportBtn;

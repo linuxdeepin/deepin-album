@@ -53,7 +53,6 @@ public:
     void showCreateDialog(QStringList imgpaths);
 
 signals:
-    void sigImprotPicsIntoDB(const DBImgInfoList &infos);
     void sigTitleMenuImportClicked();
 
 private slots:

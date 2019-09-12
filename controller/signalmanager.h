@@ -90,6 +90,7 @@ signals:
     void sigMainwindowSliderValueChg(int value);
     void sigMenuAddToAlbum();
     void sigPixMapRotate();
+    void sigImprotPicsIntoDB(const DBImgInfoList &infos);
 
 private:
     explicit SignalManager(QObject *parent = 0);
