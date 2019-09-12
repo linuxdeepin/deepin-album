@@ -1,5 +1,6 @@
 #include "thumbnaillistview.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "controller/signalmanager.h"
 #include <QDebug>
 
@@ -25,6 +26,10 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     : m_model(new QStandardItemModel(this))
 {
     m_imageType = imgtype;
+
+    m_iDefaultWidth = 0;
+    m_iBaseHeight = BASE_HEIGHT;
+
     setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
     setIconSize(QSize(400, 400));
     setResizeMode(QListView::Adjust);
@@ -45,10 +50,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 
     m_pMenu = new DMenu();
 
-    m_iDefaultWidth = 0;
-
     initConnections();
-
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -68,14 +70,15 @@ void ThumbnailListView::initConnections()
     connect(this,&ThumbnailListView::clicked,this,[=](){
             emit hideExtensionPanel();
     });
+    connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, &ThumbnailListView::onPixMapScale);
 }
 
 void ThumbnailListView::calBasePixMapWandH()
 {
     for(int i = 0; i < m_ItemList.length(); i++)
     {
-        m_ItemList[i].width = m_ItemList[i].width * BASE_HEIGHT / m_ItemList[i].height;
-        m_ItemList[i].height = BASE_HEIGHT;
+        m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
+        m_ItemList[i].height = m_iBaseHeight;
     }
 }
 
@@ -311,6 +314,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         const QString album = action->data().toString();
         if (album != "Add to new album") {
            DBManager::instance()->insertIntoAlbum(album, paths);
+           emit dApp->signalM->sigMenuAddToAlbum();
         }
         else {
             emit dApp->signalM->createAlbum(paths);
@@ -339,6 +343,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdAddToFavorites:
         DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, paths);
+        emit dApp->signalM->sigMenuAddToAlbum();
         break;
 //    case IdRemoveFromFavorites:
 //        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
@@ -347,22 +352,26 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 //        m_view->removeItems(paths);
 //        DBManager::instance()->removeFromAlbum(m_album, paths);
 //        break;
-//    case IdRotateClockwise:
-//        if (m_rotateList.isEmpty()) {
-//            m_rotateList = paths;
-//            for (QString path : paths) {
-//                QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
-//            }
-//        }
-//        break;
-//    case IdRotateCounterclockwise:
-//        if (m_rotateList.isEmpty()) {
-//            m_rotateList = paths;
-//            for (QString path : paths) {
-//                QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
-//            }
-//        }
-//        break;
+    case IdRotateClockwise:
+    {
+        for(QString path : paths)
+        {
+            utils::image::rotate(path, 90);
+        }
+
+        emit dApp->signalM->sigPixMapRotate();
+    }
+        break;
+    case IdRotateCounterclockwise:
+    {
+        for(QString path : paths)
+        {
+            utils::image::rotate(path, -90);
+        }
+
+        emit dApp->signalM->sigPixMapRotate();
+    }
+        break;
     case IdSetAsWallpaper:
         dApp->wpSetter->setWallpaper(path);
         break;
@@ -416,6 +425,32 @@ QStringList ThumbnailListView::selectedPaths()
     }
 
     return paths;
+}
+
+void ThumbnailListView::onPixMapScale(int value)
+{
+    switch(value)
+    {
+    case 0:
+        m_iBaseHeight = 80;
+        break;
+    case 1:
+        m_iBaseHeight = 90;
+        break;
+    case 2:
+        m_iBaseHeight = 100;
+        break;
+    case 3:
+        m_iBaseHeight = 110;
+        break;
+    case 4:
+        m_iBaseHeight = 120;
+        break;
+    }
+
+    calBasePixMapWandH();
+    calWidgetItemWandH();
+    addThumbnailView();
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)

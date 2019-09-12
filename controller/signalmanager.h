@@ -87,6 +87,9 @@ signals:
     void sigSendKeywordsIntoALLPic(QString keywords);
     void sigCreateNewAlbumFromDialog();
     void sigUpdateAllpicsNumLabel(int num);
+    void sigMainwindowSliderValueChg(int value);
+    void sigMenuAddToAlbum();
+    void sigPixMapRotate();
 
 private:
     explicit SignalManager(QObject *parent = 0);

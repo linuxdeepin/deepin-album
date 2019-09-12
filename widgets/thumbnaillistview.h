@@ -90,17 +90,20 @@ signals:
 
 protected:
 
+private slots:
+    void onMenuItemClicked(QAction *action);
+    void onShowMenu(const QPoint &pos);
+    void onPixMapScale(int value);
+
 private:
     void initConnections();
     void calBasePixMapWandH();
     void calWidgetItemWandH();
     void addThumbnailView();
     void updateThumbnailView();
-    void onShowMenu(const QPoint &pos);
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
     QMenu* createAlbumMenu();
-    void onMenuItemClicked(QAction *action);
     void onShowImageInfo(const QString &path);
 
     void resizeEvent(QResizeEvent *e);
@@ -110,6 +113,7 @@ public:
 
 private:
     int m_iDefaultWidth;
+    int m_iBaseHeight;
     int m_height;
     QList<ItemInfo> m_ItemList;
     QList<QList<ItemInfo>> m_gridItem;
