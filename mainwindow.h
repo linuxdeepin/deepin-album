@@ -9,6 +9,7 @@
 #include "importview/importview.h"
 #include "controller/commandline.h"
 #include "controller/exporter.h"
+#include "widgets/dialogs/imginfodialog.h"
 //#include "plugin.h"
 //#include "plugintest.h"
 #include <QPluginLoader>
@@ -27,9 +28,9 @@
 #include <QStatusBar>
 
 #define DEFAULT_WINDOWS_WIDTH   1300
-#define DEFAULT_WINDOWS_HEIGHT  540
+#define DEFAULT_WINDOWS_HEIGHT  640
 #define MIX_WINDOWS_WIDTH       1300
-#define MIX_WINDOWS_HEIGHT      420
+#define MIX_WINDOWS_HEIGHT      640
 
 DWIDGET_USE_NAMESPACE
 
@@ -51,6 +52,7 @@ public:
     void initCentralWidget();
     void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
+    void onShowImageInfo(const QString &path);
 
 signals:
     void sigTitleMenuImportClicked();
@@ -90,6 +92,7 @@ private:
     DLabel* m_pAllPicNumLabel;
     DSlider* m_pSlider;
     DBManager* m_pDBManager;
+    QMap<QString, ImgInfoDialog*> m_propertyDialogs{};
     int             m_backIndex;
 };
 

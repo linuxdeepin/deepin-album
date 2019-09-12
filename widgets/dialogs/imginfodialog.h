@@ -17,13 +17,16 @@
 #ifndef IMGINFODIALOG_H
 #define IMGINFODIALOG_H
 
-#include <ddialog.h>
+#include <DDialog>
 #include <DMainWindow>
+#include <DExpandGroup>
+#include <DArrowLineExpand>
+#include <QFormLayout>
 
 DWIDGET_USE_NAMESPACE
 
 class QVBoxLayout;
-class ImgInfoDialog : public DMainWindow
+class ImgInfoDialog : public DDialog
 {
     Q_OBJECT
 public:
@@ -41,9 +44,33 @@ private:
     void initSeparator();
     void initInfos(const QString &path);
     void initCloseButton();
+    void initUI();
+    DExpandGroup *expandGroup() const;
+    DExpandGroup *addExpandWidget(const QStringList &titleList);
+    void onExpandChanged(const bool &e);
+    void loadPluginExpandWidgets();
+    QFrame *createInfoFrame(const QList<QPair<QString, QString> >& properties);
+    QFrame *createBaseInfoFrame();
+    QFrame *createDetailsInfoFrame();
+    void updateBaseInfo(const QMap<QString, QString> &infos);
+    void updateDetailsInfo(const QMap<QString, QString> &infos);
+    void clearLayout(QLayout *layout);
+    void updateInfo();
+    const QString trLabel(const char *str);
 
 private:
-    QVBoxLayout *m_layout;
+//    DUrl m_url{};
+    QString m_path;
+    int m_maxTitleWidth;  //For align colon
+    int m_maxFieldWidth;
+    int baseInfoHeidht=0;
+    int detailsInfoHeidht=0;
+    DExpandGroup* m_expandGroup{ nullptr };
+    QVBoxLayout *m_layout{ nullptr };
+    QVBoxLayout *m_mainLayout{ nullptr };
+    QFormLayout *m_exifLayout_base{ nullptr };
+    QFormLayout *m_exifLayout_details{ nullptr };
+
 };
 
 #endif // IMGINFODIALOG_H

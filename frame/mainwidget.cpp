@@ -281,8 +281,8 @@ void MainWidget::initConnection()
             this, [=] (const QString &path) {
         utils::base::showInFileManager(path);
     });
-    connect(dApp->signalM, &SignalManager::showImageInfo,
-            this, &MainWidget::onShowImageInfo);
+//    connect(dApp->signalM, &SignalManager::showImageInfo,
+//            this, &MainWidget::onShowImageInfo);
 //    connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
 //        onImported(tr("Imported successfully"), v);
 //    });

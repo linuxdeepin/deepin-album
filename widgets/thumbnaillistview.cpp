@@ -65,7 +65,6 @@ void ThumbnailListView::initConnections()
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
 	connect(this,&ThumbnailListView::doubleClicked,this,[=](const QModelIndex &index){
         qDebug()<<"index is "<<index.row();
-        emit hideExtensionPanel();
         emit openImage(index.row());
     });
     connect(this,&ThumbnailListView::clicked,this,[=](){
@@ -381,7 +380,8 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         utils::base::showInFileManager(path);
         break;
     case IdImageInfo:
-        emit showImageInfo(path);
+        emit dApp->signalM->showImageInfo(path);
+//        emit showImageInfo(path);
         break;
     case IdExport:
 //        emit exportImage(path,paths);

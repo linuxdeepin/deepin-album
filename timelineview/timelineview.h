@@ -47,14 +47,10 @@ private:
     void initMainStackWidget();
 
 
-    TimelineList *m_mainListWidget;
-    QLayout *m_mainLayout;
+    TimelineList *m_mainListWidget=nullptr;
+    QLayout *m_mainLayout=nullptr;
     QList<QString> m_timelines;
-    QList<QList<ThumbnailListView::ItemInfo>> m_thumbnaiItemList;
-
-    QList<ThumbnailListView*> *m_pThumbnailListViewList;
-    QList<QWidget*> m_widgets;
-    QWidget *m_dateItem;
+    QWidget *m_dateItem=nullptr;
 };
 
 #endif // TIMELINEVIEW_H

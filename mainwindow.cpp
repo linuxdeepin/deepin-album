@@ -51,12 +51,15 @@ void MainWindow::initConnections()
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
     });
     connect(dApp->signalM,&SignalManager::hideImageView,this,[=](){
+        emit dApp->signalM->hideExtensionPanel();
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
     connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
         Exporter::instance()->exportImage(paths);
     });
     connect(m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
+    connect(dApp->signalM, &SignalManager::showImageInfo,
+            this, &MainWindow::onShowImageInfo);
 }
 
 void MainWindow::initUI()
@@ -142,6 +145,7 @@ void MainWindow::initCentralWidget()
 
 void MainWindow::onUpdateCentralWidget()
 {
+    emit dApp->signalM->hideExtensionPanel();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
@@ -186,6 +190,7 @@ void MainWindow::allPicBtnClicked()
     }
     else
     {
+        emit dApp->signalM->hideExtensionPanel();
         m_pSearchEdit->clear();
 
         int num = DBManager::instance()->getImgsCount();
@@ -208,6 +213,7 @@ void MainWindow::timeLineBtnClicked()
     }
     else
     {
+        emit dApp->signalM->hideExtensionPanel();
         m_pSearchEdit->clear();
 
         int num = DBManager::instance()->getImgsCount();
@@ -230,6 +236,7 @@ void MainWindow::albumBtnClicked()
     }
     else
     {
+        emit dApp->signalM->hideExtensionPanel();
         m_pSearchEdit->clear();
 
         onUpdateAllpicsNumLabel(m_pAlbumview->m_iAlubmPicsNum);
@@ -277,6 +284,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     d->showInCenter(window());
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [=]{
+        emit dApp->signalM->hideExtensionPanel();
         if (m_pCenterWidget->currentIndex() != VIEW_ALBUM)
         {
             m_iCurrentView = VIEW_ALBUM;
@@ -291,6 +299,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 void MainWindow::onSearchEditFinished()
 {
     QString keywords = m_pSearchEdit->text();
+    emit dApp->signalM->hideExtensionPanel();
     if (keywords.isEmpty())
     {
         m_pCenterWidget->setCurrentIndex(m_iCurrentView);
@@ -373,4 +382,26 @@ void MainWindow::onImprotBtnClicked()
     {
         emit dApp->signalM->sigImprotPicsIntoDB(dbInfos);
     }
+}
+void MainWindow::onShowImageInfo(const QString &path)
+{
+    ImgInfoDialog *dialog;
+    if (m_propertyDialogs.contains(path)) {
+        dialog = m_propertyDialogs.value(path);
+        dialog->raise();
+    } else {
+        dialog = new ImgInfoDialog(path);
+        m_propertyDialogs.insert(path, dialog);
+        dialog->move((width() - dialog->width()) / 2 +
+                   mapToGlobal(QPoint(0, 0)).x(),
+                   (window()->height() - dialog->sizeHint().height()) / 2 +
+                   mapToGlobal(QPoint(0, 0)).y());
+        dialog->show();
+        dialog->setWindowState(Qt::WindowActive);
+        connect(dialog, &ImgInfoDialog::closed, this, [=] {
+            dialog->deleteLater();
+            m_propertyDialogs.remove(path);
+        });
+    }
+
 }
