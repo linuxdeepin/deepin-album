@@ -69,13 +69,17 @@ HEADERS += \
     widgets/albumlefttabitem.h \
     importview/importview.h
 
-#RESOURCES += \
-#    resources.qrc
+isEmpty(BINDIR):BINDIR=/usr/bin
+isEmpty(APPDIR):APPDIR=/usr/share/applications
+isEmpty(DSRDIR):DSRDIR=/usr/share/album
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+target.path = $$INSTROOT$$BINDIR
+
+icon_files.path = /usr/share/icons/hicolor/scalable/apps
+icon_files.files = $$PWD/resources/images/other/deepin-photo-album.svg
+
+
+INSTALLS += target translations icon_files
 
 RESOURCES += \
     resources.qrc

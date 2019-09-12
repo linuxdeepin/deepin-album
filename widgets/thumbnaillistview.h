@@ -94,6 +94,7 @@ private slots:
     void onMenuItemClicked(QAction *action);
     void onShowMenu(const QPoint &pos);
     void onPixMapScale(int value);
+    void onCancelFavorite(const QModelIndex &index);
 
 private:
     void initConnections();
