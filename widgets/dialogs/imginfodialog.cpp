@@ -179,9 +179,9 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
-//    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
-//    infoTitle->setAlignment(Qt::AlignLeft);
-//    m_exifLayout_base->addRow(infoTitle);
+    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
+    infoTitle->setAlignment(Qt::AlignLeft);
+    m_exifLayout_base->addRow(infoTitle);
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -207,9 +207,9 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
 
-//    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
-//    infoTitle->setAlignment(Qt::AlignLeft);
-//    m_exifLayout_base->addRow(infoTitle);
+    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
+    infoTitle->setAlignment(Qt::AlignLeft);
+    m_exifLayout_base->addRow(infoTitle);
     for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
