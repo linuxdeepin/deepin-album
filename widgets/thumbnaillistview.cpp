@@ -327,7 +327,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 //        utils::base::copyImageToClipboard(paths);
 //        break;
     case IdCopyToClipboard:
-        utils::base::copyOneImageToClipboard(path);
+        utils::base::copyImageToClipboard(paths);
         break;
     case IdMoveToTrash:
     {
