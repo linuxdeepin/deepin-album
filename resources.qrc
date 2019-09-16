@@ -19,7 +19,7 @@
         <file>resources/images/other/fav_icon .svg</file>
         <file>resources/images/other/select_active.svg</file>
         <file>resources/images/other/icon_import_photo.svg</file>
-        <file>resources/images/other/deepin-photo-album.svg</file>
+        <file>resources/images/other/deepin-album.svg</file>
     </qresource>
     <qresource prefix="/qt-project.org/dialogs">
         <file>resources/images/qprintpreviewdialog/images/go-first-24.svg</file>

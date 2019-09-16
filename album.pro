@@ -75,11 +75,13 @@ isEmpty(DSRDIR):DSRDIR=/usr/share/album
 
 target.path = $$INSTROOT$$BINDIR
 
+desktop.path = $$INSTROOT$$APPDIR
+desktop.files = deepin-album.desktop
+
 icon_files.path = /usr/share/icons/hicolor/scalable/apps
-icon_files.files = $$PWD/resources/images/other/deepin-photo-album.svg
+icon_files.files = $$PWD/resources/images/other/deepin-album.svg
 
-
-INSTALLS += target translations icon_files
+INSTALLS += target desktop icon_files
 
 RESOURCES += \
     resources.qrc

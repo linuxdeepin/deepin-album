@@ -1,0 +1,21 @@
+[Desktop Entry]
+Categories=Graphics;GTK;DDE;
+Comment=Deepin Album
+Exec=deepin-album
+GenericName=Album
+Icon=deepin-album
+Keywords=Image;Viewer;Jpg;Jpeg;Png;
+Name=Deepin Album
+StartupNotify=false
+Type=Application
+X-Deepin-ManualID=deepin-album
+X-Deepin-Vendor=deepin
+
+# Translations:
+# Do not manually modify!
+
+Comment[zh_CN]=深度相册
+GenericName[zh_CN]=相册
+Keywords[zh_CN]=Image;Viewer;Jpg;Jpeg;Png;
+Name[zh_CN]=深度相册
+

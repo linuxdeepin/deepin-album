@@ -78,7 +78,7 @@ void MainWindow::initTitleBar()
     pLabel->setFixedSize(33, 32);
 
     QPixmap pixmap;
-    pixmap = utils::base::renderSVG(":/resources/images/other/deepin-photo-album.svg", QSize(33, 32));
+    pixmap = utils::base::renderSVG(":/resources/images/other/deepin-album.svg", QSize(33, 32));
 
     pLabel->setPixmap(pixmap);
 
