@@ -120,10 +120,25 @@ void AllPicView::removeDBAllInfos()
 
     DBManager::instance()->removeImgInfos(paths);
 
+    //
     auto albums = DBManager::instance()->getAllAlbumNames();
 
     for(auto album : albums)
     {
         DBManager::instance()->removeAlbum(album);
     }
+
+    //
+    auto infos1 = DBManager::instance()->getAllTrashInfos();
+
+    QStringList paths1;
+
+    for(auto info : infos1)
+    {
+        paths1<<info.filePath;
+    }
+
+
+    DBManager::instance()->removeTrashImgInfos(paths1);
+
 }

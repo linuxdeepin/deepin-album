@@ -5,6 +5,7 @@
 
 void TimeLineView::initUI()
 {
+    m_index = 0;
     m_mainLayout = new QVBoxLayout(this);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainListWidget = new TimelineList;
@@ -25,22 +26,35 @@ void TimeLineView::initUI()
     TitleViewLayout->addWidget(pNum);
 
     QHBoxLayout *Layout = new QHBoxLayout();
-    DPushButton *pChose = new DPushButton();
-    pChose->setText("选择");
-    pChose->setFixedHeight(24);
+    pSuspensionChose = new DPushButton();
+    pSuspensionChose->setText("选择");
+    pSuspensionChose->setFixedHeight(24);
     pNum->setLayout(Layout);
     Layout->addStretch(1);
     Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     Layout->setContentsMargins(0,0,0,0);
-    Layout->addWidget(pChose);
-
+    Layout->addWidget(pSuspensionChose);
+    connect(pSuspensionChose, &DPushButton::clicked, this, [=]{
+        if ("选择" == pSuspensionChose->text())
+        {
+            pSuspensionChose->setText("取消选择");
+            QList<ThumbnailListView*> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView*>();
+            p[0]->selectAll();
+        }
+        else
+        {
+            pSuspensionChose->setText("选择");
+            QList<ThumbnailListView*> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView*>();
+            p[0]->clearSelection();
+        }
+    });
     QPalette ppal(m_dateItem->palette());
     ppal.setColor(QPalette::Background,  QColor(0xff,0xff,0xff,0xf0));
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setPalette(ppal);
 
     m_dateItem->setFixedSize(this->width(),50);
-    m_dateItem->setContentsMargins(8,0,22,0);
+    m_dateItem->setContentsMargins(0,0,0,0);
     m_dateItem->move(0,0);
     m_dateItem->show();
     m_dateItem->setVisible(false);
@@ -88,6 +102,8 @@ void TimeLineView::updataLayout(){
         Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         Layout->setContentsMargins(0,0,0,0);
         Layout->addWidget(pChose);
+
+
 
         listItem->m_num=pNum;
         TitleViewLayout->addWidget(pDate);
@@ -159,13 +175,38 @@ void TimeLineView::updataLayout(){
            emit dApp->signalM->viewImage(info);
            emit dApp->signalM->showImageView(2);
        });
+       connect(pChose, &DPushButton::clicked, this, [=]{
+           if ("选择" == pChose->text())
+           {
+               pChose->setText("取消选择");
+               pThumbnailListView->selectAll();
+           }
+           else
+           {
+               pChose->setText("选择");
+               pThumbnailListView->clearSelection();
+           }
+       });
+       connect(pThumbnailListView,&ThumbnailListView::clicked,this,[=]{
+            QStringList paths = pThumbnailListView->selectedPaths();
+            if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+            {
+                pChose->setText("取消选择");
+            }
+
+            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            {
+                pChose->setText("选择");
+            }
+       });
     }
 
 }
 void TimeLineView::initConnections(){
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::updataLayout);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::updataLayout);
-    connect(m_mainListWidget,&TimelineList::sigNewTime,this,[=](QString date,QString num){
+    connect(m_mainListWidget,&TimelineList::sigNewTime,this,[=](QString date,QString num,int index){
+        m_index = index;
         on_AddLabel(date,num);
     });
 

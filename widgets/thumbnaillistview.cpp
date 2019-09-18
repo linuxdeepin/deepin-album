@@ -41,7 +41,8 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
-//    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
+
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;
@@ -227,9 +228,15 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
 
 void ThumbnailListView::updateMenuContents()
 {
+    QStringList paths = selectedPaths();
+    paths.removeAll(QString(""));
+
     m_pMenu->clear();
-    appendAction(IdView, tr("View"), ss("View"));
-    appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+    if (1 == paths.length())
+    {
+        appendAction(IdView, tr("View"), ss("View"));
+        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+    }
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
     QMenu *am = createAlbumMenu();
     if (am) {
@@ -239,16 +246,31 @@ void ThumbnailListView::updateMenuContents()
     appendAction(IdExport, tr("export"), ss("export"));
     appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
-    m_pMenu->addSeparator();
-    appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
-//    appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+
+    if (1 == paths.length())
+    {
+        m_pMenu->addSeparator();
+        if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, paths[0]))
+        {
+            appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+        }
+        else
+        {
+            appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
+        }
+    }
+
     m_pMenu->addSeparator();
     appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
     appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
-    m_pMenu->addSeparator();
-    appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper"));
-    appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager"));
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
+
+    if (1 == paths.length())
+    {
+        m_pMenu->addSeparator();
+        appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper"));
+        appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager"));
+        appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
+    }
 }
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
@@ -346,9 +368,9 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, paths);
         emit dApp->signalM->sigMenuAddToAlbum();
         break;
-//    case IdRemoveFromFavorites:
-//        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
-//        break;
+    case IdRemoveFromFavorites:
+        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, paths);
+        break;
 //    case IdRemoveFromAlbum:
 //        m_view->removeItems(paths);
 //        DBManager::instance()->removeFromAlbum(m_album, paths);

@@ -99,6 +99,7 @@ private:
     ReturnButton *m_returnBtn;
 #endif
     bool m_inDB;
+    bool m_bClBTChecked;
 
     DImageButton* m_adaptImageBtn;
     DImageButton* m_adaptScreenBtn;

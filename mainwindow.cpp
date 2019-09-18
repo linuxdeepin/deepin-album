@@ -19,6 +19,7 @@ MainWindow::MainWindow()
 {
     m_allPicNum = DBManager::instance()->getImgsCount();
     m_iCurrentView = VIEW_ALLPIC;
+    m_bSearchView = false;
 
     initUI();
     initTitleBar();
@@ -138,7 +139,16 @@ void MainWindow::initCentralWidget()
     m_commandLine = CommandLine::instance();
     m_commandLine->processOption();
     m_pCenterWidget->addWidget(m_commandLine);
-    m_pCenterWidget->setCurrentIndex(DBManager::instance()->getImgsCount()>0?VIEW_ALLPIC:VIEW_IMPORT);
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        m_iCurrentView = VIEW_ALLPIC;
+    }
+    else
+    {
+        m_iCurrentView = VIEW_IMPORT;
+    }
+
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 
     setCentralWidget(m_pCenterWidget);
 }
@@ -146,7 +156,9 @@ void MainWindow::initCentralWidget()
 void MainWindow::onUpdateCentralWidget()
 {
     emit dApp->signalM->hideExtensionPanel();
+
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+    m_bSearchView = false;
 }
 
 void MainWindow::initStatusBar()
@@ -184,7 +196,7 @@ void MainWindow::initStatusBar()
 
 void MainWindow::allPicBtnClicked()
 {
-    if (VIEW_ALLPIC == m_iCurrentView)
+    if (VIEW_ALLPIC == m_iCurrentView && false == m_bSearchView)
     {
         return;
     }
@@ -201,13 +213,18 @@ void MainWindow::allPicBtnClicked()
         if (0 != num)
         {
             m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+            m_bSearchView = false;
+        }
+        else
+        {
+            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
         }
     }
 }
 
 void MainWindow::timeLineBtnClicked()
 {
-    if (VIEW_TIMELINE == m_iCurrentView)
+    if (VIEW_TIMELINE == m_iCurrentView && false == m_bSearchView)
     {
         return;
     }
@@ -224,13 +241,18 @@ void MainWindow::timeLineBtnClicked()
         if (0 != num)
         {
             m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+            m_bSearchView = false;
+        }
+        else
+        {
+            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
         }
     }
 }
 
 void MainWindow::albumBtnClicked()
 {
-    if (VIEW_ALBUM == m_iCurrentView)
+    if (VIEW_ALBUM == m_iCurrentView && false == m_bSearchView)
     {
         return;
     }
@@ -246,6 +268,11 @@ void MainWindow::albumBtnClicked()
         if (0 != m_pAlbumview->m_iAlubmPicsNum)
         {
             m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+            m_bSearchView = false;
+        }
+        else
+        {
+            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
         }
     }
 }
@@ -289,6 +316,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         {
             m_iCurrentView = VIEW_ALBUM;
             m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
+            m_bSearchView = false;
         }
 
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty()?QStringList(" "):imgpaths);
@@ -302,12 +330,36 @@ void MainWindow::onSearchEditFinished()
     emit dApp->signalM->hideExtensionPanel();
     if (keywords.isEmpty())
     {
-        m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+        int num = 0;
+        if (VIEW_ALLPIC == m_iCurrentView || VIEW_TIMELINE == m_iCurrentView)
+        {
+            num = DBManager::instance()->getImgsCount();
+        }
+        else if (VIEW_ALBUM == m_iCurrentView)
+        {
+            num = m_pAlbumview->m_iAlubmPicsNum;
+        }
+        else
+        {
+            // donothing
+        }
+
+        if (0 == num)
+        {
+            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
+        }
+        else
+        {
+            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+        }
+
+        m_bSearchView = false;
     }
     else
     {
         emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
         m_pCenterWidget->setCurrentIndex(VIEW_SEARCH);
+        m_bSearchView = true;
     }
 }
 

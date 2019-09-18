@@ -51,6 +51,9 @@ private:
     QLayout *m_mainLayout=nullptr;
     QList<QString> m_timelines;
     QWidget *m_dateItem=nullptr;
+    DPushButton *pSuspensionChose;
+
+    int m_index;
 };
 
 #endif // TIMELINEVIEW_H

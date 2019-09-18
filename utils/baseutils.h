@@ -43,9 +43,9 @@ namespace common {
 const int TOP_TOOLBAR_THEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
 
-const int BORDER_RADIUS = 0;
-const int BORDER_WIDTH = 1;
-const int BORDER_WIDTH_SELECTED = 2;
+const int BORDER_RADIUS = 10;
+const int BORDER_WIDTH = 0;
+const int BORDER_WIDTH_SELECTED = 7;
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
@@ -63,7 +63,9 @@ const QColor LIGHT_TITLE_COLOR = QColor(48, 48, 48);
 const QString DARK_DEFAULT_THUMBNAIL = ":/resources/dark/images/default_thumbnail.png";
 const QString LIGHT_DEFAULT_THUMBNAIL = ":/resources/light/images/default_thumbnail.png";
 
-const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
+//const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
+const QColor BORDER_COLOR_UNSELECTED = QColor("white");
+const QColor BORDER_COLOR_SELECTED = QColor("#c3c3c3");
 const QColor SELECTED_RECT_COLOR = QColor(44, 167, 248, 26);
 const QColor TOP_LINE2_COLOR_DARK = QColor(255, 255, 255, 13);
 const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 153);

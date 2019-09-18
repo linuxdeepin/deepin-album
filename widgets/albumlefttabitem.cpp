@@ -88,6 +88,7 @@ void AlbumLeftTabItem::editAlbumEdit()
     m_nameLabel->setVisible(false);
     m_pLineEdit->setVisible(true);
     m_pLineEdit->selectAll();
+    m_pLineEdit->setFocus();
 }
 
 void AlbumLeftTabItem::onCheckNameValid()

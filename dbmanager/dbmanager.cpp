@@ -732,6 +732,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
         qWarning() << "Remove images from DB failed: " << query.lastError();
     }
     else {
+        mutex.unlock();
         emit dApp->signalM->removedFromAlbum(album, paths);
     }
     query.exec("COMMIT");

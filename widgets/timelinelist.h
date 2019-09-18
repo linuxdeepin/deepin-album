@@ -21,7 +21,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *e);
 signals:
-    void sigNewTime(QString date,QString num);
+    void sigNewTime(QString date,QString num,int index);
     void sigDelTime();
     void sigMoveTime(int y);
 

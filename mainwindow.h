@@ -73,6 +73,7 @@ private:
     QListWidget* m_listWidget;
 
     int m_allPicNum;
+    bool m_bSearchView;
     int m_iCurrentView;
 
     QWidget* m_titleBtnWidget;

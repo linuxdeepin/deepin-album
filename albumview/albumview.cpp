@@ -7,6 +7,8 @@
 namespace {
 const int ITEM_SPACING = 5;
 const int LEFT_VIEW_WIDTH = 250;
+const int LEFT_VIEW_LISTITEM_WIDTH = 200;
+const int LEFT_VIEW_LISTITEM_HEIGHT = 36;
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const QString TRASH_ALBUM = "Trash";
 const QString FAVORITES_ALBUM = "My favorite";
@@ -41,6 +43,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::updateLeftView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::sigMenuAddToAlbum, this, &AlbumView::updateRightView);
     connect(m_pLeftTabList, &QListView::customContextMenuRequested, this, &AlbumView::showLeftMenu);
@@ -84,7 +87,7 @@ void AlbumView::initLeftView()
     for(auto albumName : m_allAlbumNames)
     {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
-        pListWidgetItem->setSizeHint(QSize(200, 36));
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
         if (RECENT_IMPORTED_ALBUM == albumName)
         {
@@ -117,7 +120,7 @@ void AlbumView::updateLeftView()
     for(int i = 0; i < m_allAlbumNames.length(); i++)
     {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
-        pListWidgetItem->setSizeHint(QSize(200, 36));
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(m_allAlbumNames[i]);
         if ((m_allAlbumNames.length() - 1) == i)
         {
@@ -354,13 +357,21 @@ void AlbumView::onLeftMenuClicked(QAction *action)
     else if (LEFT_MENU_NEWALBUM == str)
     {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem();
-        pListWidgetItem->setSizeHint(QSize(200, 36));
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(getNewAlbumName());
-        pAlbumLeftTabItem->m_opeMode = OPE_MODE_ADDNEWALBUM;
-        pAlbumLeftTabItem->editAlbumEdit();
 
         m_pLeftTabList->insertItem(m_pLeftTabList->currentRow()+1, pListWidgetItem);
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+
+        m_pLeftTabList->setCurrentRow(m_pLeftTabList->currentRow()+1);
+
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+        item->m_opeMode = OPE_MODE_ADDNEWALBUM;
+        item->editAlbumEdit();
+
+        m_currentAlbum = item->m_albumNameStr;
+        updateRightNoTrashView();
     }
     else if (LEFT_MENU_RENAMEALBUM == str)
     {
@@ -402,13 +413,20 @@ void AlbumView::onLeftMenuClicked(QAction *action)
 void AlbumView::createNewAlbum()
 {
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
-    pListWidgetItem->setSizeHint(QSize(200, 36));
+    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(getNewAlbumName());
-    pAlbumLeftTabItem->m_opeMode = OPE_MODE_ADDNEWALBUM;
-    pAlbumLeftTabItem->editAlbumEdit();
 
     m_pLeftTabList->insertItem(m_pLeftTabList->count()+1, pListWidgetItem);
     m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+
+    m_pLeftTabList->setCurrentRow(m_pLeftTabList->count()-1);
+
+    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+    item->m_opeMode = OPE_MODE_ADDNEWALBUM;
+    item->editAlbumEdit();
+
+    m_currentAlbum = item->m_albumNameStr;
+    updateRightNoTrashView();
 }
 
 void AlbumView::onTrashRecoveryBtnClicked()

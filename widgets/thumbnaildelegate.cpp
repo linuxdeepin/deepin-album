@@ -59,41 +59,65 @@ void ThumbnailDelegate::paint(QPainter *painter,
     painter->setRenderHints(QPainter::HighQualityAntialiasing |
                             QPainter::SmoothPixmapTransform |
                             QPainter::Antialiasing);
-    QRect rect = option.rect;
 
-    QPainterPath bp;
-    bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-    painter->setClipPath(bp);
+    QRect backgroundRect = option.rect;
 
-    painter->fillRect(rect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
+    if (selected)
+    {
+        QPainterPath backgroundBp;
+        backgroundBp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(backgroundBp);
+
+        painter->fillRect(backgroundRect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
+
+        QPixmap selectedPixmap;
+        selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+
+        painter->drawPixmap(backgroundRect, selectedPixmap);
+    }
+
+    QRect pixmapRect;
+    pixmapRect.setX(backgroundRect.x()+7);
+    pixmapRect.setY(backgroundRect.y()+7);
+    pixmapRect.setWidth(backgroundRect.width()-14);
+    pixmapRect.setHeight(backgroundRect.height()-14);
+
+    QPainterPath bp1;
+    bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+    painter->setClipPath(bp1);
 
     QPixmap pixmapItem;
     pixmapItem.load(data.path);
-    painter->drawPixmap(rect, pixmapItem);
+
+    painter->drawPixmap(pixmapRect, pixmapItem);
+
     if (TRASH_ALBUM == m_imageTypeStr)
     {
-        painter->drawText(rect, Qt::AlignRight|Qt::AlignBottom, "30天");
+        painter->drawText(pixmapRect, Qt::AlignRight|Qt::AlignBottom, "30天");
     }
 
     if (FAVORITES_ALBUM == m_imageTypeStr)
     {
-        QPixmap pixmap1;
-        pixmap1 = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(24, 24));
+        QPixmap favPixmap;
+        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(24, 24));
 
-        QRect rect1(rect.x()+rect.width()-24,rect.y()+rect.height()-24,24,24);
+        QRect favRect(pixmapRect.x()+pixmapRect.width()-24,pixmapRect.y()+pixmapRect.height()-24,24,24);
 
-        painter->drawPixmap(rect1, pixmap1);
+        painter->drawPixmap(favRect, favPixmap);
     }
 
-    // Draw inside border
-    QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
-           selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
-    painter->setPen(p);
-    QPainterPathStroker stroker;
-    stroker.setWidth(selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
-    stroker.setJoinStyle(Qt::RoundJoin);
-    QPainterPath borderPath = stroker.createStroke(bp);
-    painter->drawPath(borderPath);
+    if (selected)
+    {
+        QPixmap selectedPixmap;
+        selectedPixmap = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
+
+        QRect selectedRect(backgroundRect.x()+backgroundRect.width()-28,backgroundRect.y(),28,28);
+        QPainterPath selectedBp;
+        selectedBp.addRoundedRect(selectedRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(selectedBp);
+
+        painter->drawPixmap(selectedRect, selectedPixmap);
+    }
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,

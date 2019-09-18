@@ -62,6 +62,8 @@ TTBContent::TTBContent(bool inDB,
         m_contentWidth = 1280;
     }
 
+    m_bClBTChecked = false;
+
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
     QHBoxLayout *hb = new QHBoxLayout(this);
@@ -154,21 +156,21 @@ TTBContent::TTBContent(bool inDB,
     m_clBT = new DImageButton();
     m_clBT->setFixedSize(ICON_SIZE);
     m_clBT->setObjectName("CollectBtn");
-#ifndef LITE_DIV
-    if (m_inDB) {
-        hb->addWidget(m_clBT);
-        connect(m_clBT, &PushButton::clicked, this, [=] {
-            if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
+
+    connect(m_clBT, &DImageButton::clicked, this, [=] {
+            if (true == m_bClBTChecked)
+            {
                 DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
             }
-            else {
+            else
+            {
                 DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
             }
-            updateCollectButton();
         });
-        updateCollectButton();
-    }
-#endif
+
+    hb->addWidget(m_clBT);
+    hb->addSpacing(ICON_SPACING);
+
 
     m_rotateLBtn = new DImageButton();
     m_rotateLBtn->setFixedSize(ICON_SIZE);
@@ -289,10 +291,10 @@ TTBContent::TTBContent(bool inDB,
         m_adaptScreenBtn->setPressPic(":/resources/light/images/adapt_screen_active.svg");
         m_adaptScreenBtn->setCheckedPic(":/resources/light/images/adapt_screen_active.svg");
 
-        m_clBT->setNormalPic(":/resources/light/images/collect_normal.svg");
-        m_clBT->setHoverPic(":/resources/light/images/collect_hover.svg");
-        m_clBT->setPressPic(":/resources/light/images/collect_active.svg");
-        m_clBT->setCheckedPic(":/resources/light/images/collect_active.svg");
+        m_clBT->setNormalPic(":/resources/images/photo preview/normal/collection_normal.svg");
+        m_clBT->setHoverPic(":/resources/images/photo preview/hover/collection_hover.svg");
+        m_clBT->setPressPic(":/resources/images/photo preview/press/collection_press.svg");
+        m_clBT->setCheckedPic(":/resources/images/photo preview/checked/collection_checked.svg");
 
         m_rotateLBtn->setNormalPic(":/resources/light/images/clockwise_rotation_normal.svg");
         m_rotateLBtn->setHoverPic(":/resources/light/images/clockwise_rotation_hover.svg");
@@ -509,36 +511,28 @@ void TTBContent::setImage(const QString &path)
             }
         }
     }
+
     m_imagePath = path;
-//    updateFilenameLayout();
     updateCollectButton();
 }
 
 void TTBContent::updateCollectButton()
 {
-    if (! m_clBT)
+    if (m_imagePath.isEmpty())
+    {
         return;
+    }
 
-    if (m_imagePath.isEmpty() || !QFileInfo(m_imagePath).exists()) {
-        m_clBT->setDisabled(true);
-        m_clBT->setChecked(false);
+    if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath))
+    {
+        m_clBT->setNormalPic(":/resources/images/photo preview/checked/collection_checked.svg");
+        m_clBT->setHoverPic(":/resources/images/photo preview/checked/collection_checked.svg");
+        m_bClBTChecked = true;
     }
     else
-        m_clBT->setDisabled(false);
-
-    if (! m_clBT->isEnabled()) {
-        m_clBT->setDisabled(true);
-    }
-#ifndef LITE_DIV
-    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
-                                                      m_imagePath)) {
-        m_clBT->setToolTip(tr("Unfavorite"));
-        m_clBT->setChecked(true);
-    }
-#endif
-    else {
-        m_clBT->setToolTip(tr("Favorite"));
-        m_clBT->setChecked(false);
-        m_clBT->setDisabled(false);
+    {
+        m_clBT->setNormalPic(":/resources/images/photo preview/normal/collection_normal.svg");
+        m_clBT->setHoverPic(":/resources/images/photo preview/hover/collection_hover.svg");
+        m_bClBTChecked = false;
     }
 }

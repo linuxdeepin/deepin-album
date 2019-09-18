@@ -52,7 +52,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
             else if((pWidget->y() <= 0)&& (pWidget->y() + pWidget->m_title->height()))
             {
                 has = false;
-                emit sigNewTime(pWidget->m_sdate,pWidget->m_snum);
+                emit sigNewTime(pWidget->m_sdate,pWidget->m_snum,i);
                 pWidget->m_date->setText("");
                 pWidget->m_num->setText("");
             }

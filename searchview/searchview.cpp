@@ -138,6 +138,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
         m_pSearchResultLabel->setText(searchStr.arg(str));
 
         m_stackWidget->setCurrentIndex(1);
+        emit dApp->signalM->sigUpdateAllpicsNumLabel(infos.length());
     }
     else
     {
@@ -145,5 +146,6 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
         m_pNoSearchResultLabel->setText(str.arg(s));
 
         m_stackWidget->setCurrentIndex(0);
+        emit dApp->signalM->sigUpdateAllpicsNumLabel(0);
     }
 }
