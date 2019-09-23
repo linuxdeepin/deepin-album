@@ -33,14 +33,11 @@ Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
 {
     initI18n();
-    setOrganizationName("deepin");
-    setApplicationName("deepin-album");
     setApplicationDisplayName(tr("Deepin album"));
 
-    setApplicationVersion(DApplication::buildVersion("20190911"));
+    setApplicationVersion(DApplication::buildVersion("20190923"));
 
     installEventFilter(new GlobalEventFilter());
-
 
     initChildren();
 }

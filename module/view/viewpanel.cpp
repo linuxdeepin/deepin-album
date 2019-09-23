@@ -70,6 +70,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
+    , m_iSlideShowTimerId(0)
 {
 #ifndef LITE_DIV
     m_vinfo.inDatabase = false;
@@ -89,6 +90,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
     installEventFilter(this);
+    setStyleSheet("background:green");
 }
 
 QString ViewPanel::moduleName()
@@ -113,6 +115,9 @@ void ViewPanel::initConnect()
     });
     connect(dApp->signalM, &SignalManager::hideExtensionPanel, this, [ = ] {
         m_isInfoShowed = false;
+    });
+    connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
+        showNormal();
     });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
@@ -293,6 +298,9 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
         }
     }
 
+    killTimer(m_iSlideShowTimerId);
+    m_iSlideShowTimerId = 0;
+
     ModulePanel::mousePressEvent(e);
 }
 
@@ -434,7 +442,13 @@ QWidget *ViewPanel::bottomTopLeftContent()
         ttbc->setImage("");
     }
 
-    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel);
+    connect(ttbc, &TTBContent::ttbcontentClicked, this, [=] {
+        if (0 != m_iSlideShowTimerId)
+        {
+            killTimer(m_iSlideShowTimerId);
+            m_iSlideShowTimerId = 0;
+        }
+    });
     connect(this, &ViewPanel::viewImageFrom, ttbc, [=](const QString &dir){
         ttbc->setCurrentDir(dir);
     });
@@ -560,6 +574,11 @@ void ViewPanel::timerEvent(QTimerEvent *e)
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
+    if (e->timerId() == m_iSlideShowTimerId)
+    {
+        showNext();
+    }
+
     ModulePanel::timerEvent(e);
 }
 
@@ -624,6 +643,12 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     if (vinfo.fullScreen) {
         showFullScreen();
     }
+
+    if (vinfo.slideShow)
+    {
+        m_iSlideShowTimerId = startTimer(3000);
+    }
+
     emit dApp->signalM->gotoPanel(this);
 
     // The control buttons is difference

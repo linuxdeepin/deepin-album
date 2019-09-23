@@ -4,6 +4,7 @@ namespace {
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const QString TRASH_ALBUM = "Trash";
 const QString FAVORITES_ALBUM = "My favorite";
+const int VIEW_MAINWINDOW_SEARCH = 3;
 }  //namespace
 
 SearchView::SearchView()
@@ -17,6 +18,18 @@ SearchView::SearchView()
 
 void SearchView::initConnections()
 {
+    connect(m_pSlideShowBtn, &DPushButton::clicked, this, [=] {
+        auto imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        QStringList paths;
+        for(auto image : imagelist)
+        {
+            paths<<image.filePath;
+        }
+
+        const QString path = paths.first();
+
+        emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+    });
     connect(dApp->signalM, &SignalManager::sigSendKeywordsIntoALLPic, this, &SearchView::improtSearchResultsIntoThumbnailView);
     connect(m_pThumbnailListView,&ThumbnailListView::openImage,this,[=](int index){
         SignalManager::ViewInfo info;
@@ -30,9 +43,9 @@ void SearchView::initConnections()
         info.path = info.paths[index];
 //        info.fullScreen = true;
         emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(4);
+        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
     });
-    connect(m_pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen){
+    connect(m_pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen, bool isSlideShow){
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
@@ -47,8 +60,9 @@ void SearchView::initConnections()
         }
         info.path = path;
         info.fullScreen = isFullScreen;
+        info.slideShow = isSlideShow;
         emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(4);
+        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
     });
 }
 

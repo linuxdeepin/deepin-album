@@ -5,6 +5,7 @@
 #include "dbmanager/dbmanager.h"
 #include "controller/signalmanager.h"
 #include "widgets/albumlefttabitem.h"
+#include "importview/importview.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -26,6 +27,7 @@ public:
     AlbumView();
 
     void createNewAlbum();
+    void picsIntoAlbum(QStringList paths);
 
 private:
     void initConnections();
@@ -39,13 +41,18 @@ private:
     void showLeftMenu(const QPoint &pos);
     void appendAction(const QString &text);
     void openImage(int index);
-    void menuOpenImage(QString path,QStringList paths,bool isFullScreen);
+    void menuOpenImage(QString path,QStringList paths,bool isFullScreen, bool isSlideShow);
     QString getNewAlbumName();
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void dropEvent(QDropEvent *e) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *e) override;
 
 private slots:
     void onLeftMenuClicked(QAction *action);
     void onTrashRecoveryBtnClicked();
     void onTrashDeleteBtnClicked();
+    void onTrashListClicked();
 
 public:
     int m_iAlubmPicsNum;
@@ -56,6 +63,7 @@ private:
     QStringList m_allAlbumNames;
 
     DListWidget* m_pLeftTabList;
+    ImportView* m_pImportView;
     DStackedWidget* m_pRightStackWidget;
     ThumbnailListView* m_pRightThumbnailList;
     ThumbnailListView* m_pRightTrashThumbnailList;

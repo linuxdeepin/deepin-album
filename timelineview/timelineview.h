@@ -7,11 +7,13 @@
 #include "widgets/thumbnaillistview.h"
 #include "widgets/timelinelist.h"
 #include "widgets/timelineitem.h"
+#include "importview/importview.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <DListWidget>
+#include <DStackedWidget>
 
 class Title : public QWidget{
 public:
@@ -28,30 +30,40 @@ protected:
     }
 
 };
-class TimeLineView : public QWidget
+class TimeLineView : public DStackedWidget
 {
 public:
     TimeLineView();
+
 public slots:
     void on_AddLabel(QString date,QString num);
     void on_DelLabel();
     void on_MoveLabel(int y);
+
 protected:
     void resizeEvent(QResizeEvent *ev) override;
+
 private:
-    void initUI();
+    void initTimeLineViewWidget();
+    void updateStackedWidget();
     void initConnections();
     void sigImprotPicsIntoThumbnailView();
     void getImageInfos();
     void updataLayout();
     void initMainStackWidget();
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void dropEvent(QDropEvent *e) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *e) override;
 
-
+private:
     TimelineList *m_mainListWidget=nullptr;
     QLayout *m_mainLayout=nullptr;
     QList<QString> m_timelines;
     QWidget *m_dateItem=nullptr;
     DPushButton *pSuspensionChose;
+    DWidget* pTimeLineViewWidget;
+    ImportView* pImportView;
 
     int m_index;
 };

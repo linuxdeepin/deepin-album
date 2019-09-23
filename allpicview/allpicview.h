@@ -8,7 +8,7 @@
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
 #include "widgets/thumbnaillistview.h"
-
+#include "importview/importview.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -25,7 +25,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-class AllPicView : public ThumbnailListView
+class AllPicView : public DStackedWidget
 {
     Q_OBJECT
 
@@ -36,15 +36,22 @@ signals:
 
 private:
     void initConnections();
+    void initStackedWidget();
     void initThumbnailListView();
-
+    void updateStackedWidget();
     void updatePicsIntoThumbnailView();
+
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void dropEvent(QDropEvent *e) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *e) override;
 
 
 
     void removeDBAllInfos();
 private:
-
+    ThumbnailListView* m_pThumbnailListView;
+    ImportView* m_pImportView;
 };
 
 #endif // ALLPICVIEW_H

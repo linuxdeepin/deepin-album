@@ -6,7 +6,6 @@
 #include "timelineview/timelineview.h"
 #include "dbmanager/dbmanager.h"
 #include "searchview/searchview.h"
-#include "importview/importview.h"
 #include "controller/commandline.h"
 #include "controller/exporter.h"
 #include "widgets/dialogs/imginfodialog.h"
@@ -73,8 +72,8 @@ private:
     QListWidget* m_listWidget;
 
     int m_allPicNum;
-    bool m_bSearchView;
     int m_iCurrentView;
+    bool m_bTitleMenuImportClicked;
 
     QWidget* m_titleBtnWidget;
     DMenu* m_pTitleBarMenu;
@@ -88,7 +87,6 @@ private:
     AllPicView* m_pAllPicView;
     TimeLineView* m_pTimeLineView;
     SearchView* m_pSearchView;
-    ImportView* m_pImportView;
     DStatusBar* m_pStatusBar;
     DLabel* m_pAllPicNumLabel;
     DSlider* m_pSlider;

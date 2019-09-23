@@ -1,8 +1,11 @@
 #include "albumview.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "controller/exporter.h"
 #include "dtkcore_global.h"
+
 #include <DNotifySender>
+#include <QMimeData>
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -19,6 +22,14 @@ const QString LEFT_MENU_EXPORT = "Export";
 const QString LEFT_MENU_DELALBUM = "Delete album";
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
+const QString BUTTON_STR_RECOVERY = "恢复";
+const QString BUTTON_STR_DETELE = "删除";
+const QString BUTTON_STR_DETELEALL = "全部删除";
+const int RIGHT_VIEW_IMPORT = 0;
+const int RIGHT_VIEW_THUMBNAIL_LIST = 1;
+const int RIGHT_VIEW_TRASH_LIST = 2;
+const int RIGHT_VIEW_FAVORITE_LIST = 3;
+const int VIEW_MAINWINDOW_ALBUM = 2;
 }  //namespace
 
 AlbumView::AlbumView()
@@ -26,6 +37,7 @@ AlbumView::AlbumView()
     m_currentAlbum = RECENT_IMPORTED_ALBUM;
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
 
+    setAcceptDrops(true);
     initLeftView();
     initRightView();
 
@@ -43,9 +55,10 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::updateLeftView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::sigMenuAddToAlbum, this, &AlbumView::updateRightView);
     connect(m_pLeftTabList, &QListView::customContextMenuRequested, this, &AlbumView::showLeftMenu);
     connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
     connect(m_pRecoveryBtn, &DPushButton::clicked, this, &AlbumView::onTrashRecoveryBtnClicked);
@@ -58,6 +71,8 @@ void AlbumView::initConnections()
     connect(m_pRightThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
     connect(m_pRightTrashThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
     connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
+
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked);
 }
 
 void AlbumView::initLeftView()
@@ -140,8 +155,13 @@ void AlbumView::initRightView()
     sp.setHorizontalStretch(1);
     m_pRightStackWidget->setSizePolicy(sp);
 
+    // Import View
+    m_pImportView = new ImportView();
+
+    // Thumbnail View
     m_pRightThumbnailList = new ThumbnailListView();
 
+    // Trash View
     DWidget *pTrashWidget = new DWidget();
     QVBoxLayout *pMainVBoxLayout = new QVBoxLayout();
     QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
@@ -158,10 +178,11 @@ void AlbumView::initRightView()
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
     m_pRecoveryBtn = new DPushButton();
-    m_pRecoveryBtn->setText("恢复");
+    m_pRecoveryBtn->setText(BUTTON_STR_RECOVERY);
+    m_pRecoveryBtn->setEnabled(false);
 
     m_pDeleteBtn = new DPushButton();
-    m_pDeleteBtn->setText("删除");
+    m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
 
     pTopRightVBoxLayout->addWidget(m_pRecoveryBtn);
     pTopRightVBoxLayout->addWidget(m_pDeleteBtn);
@@ -176,8 +197,10 @@ void AlbumView::initRightView()
 
     pTrashWidget->setLayout(pMainVBoxLayout);
 
+    // Favorite View
     m_pRightFavoriteThumbnailList = new ThumbnailListView(FAVORITES_ALBUM);
 
+    m_pRightStackWidget->addWidget(m_pImportView);
     m_pRightStackWidget->addWidget(m_pRightThumbnailList);
     m_pRightStackWidget->addWidget(pTrashWidget);
     m_pRightStackWidget->addWidget(m_pRightFavoriteThumbnailList);
@@ -197,6 +220,11 @@ void AlbumView::initRightView()
         }
 
         m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+    }
+    else
+    {
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
     }
 }
 
@@ -245,12 +273,28 @@ void AlbumView::updateRightNoTrashView()
     if (FAVORITES_ALBUM == m_currentAlbum)
     {
         m_pRightFavoriteThumbnailList->insertThumbnails(thumbnaiItemList);
-        m_pRightStackWidget->setCurrentIndex(2);
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+        setAcceptDrops(false);
+    }
+    else if (RECENT_IMPORTED_ALBUM == m_currentAlbum)
+    {
+        if (0 < DBManager::instance()->getImgsCount())
+        {
+            m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+        }
+        else
+        {
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+        }
+
+        setAcceptDrops(true);
     }
     else
     {
         m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
-        m_pRightStackWidget->setCurrentIndex(0);
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+        setAcceptDrops(true);
     }
 }
 
@@ -271,6 +315,17 @@ void AlbumView::updateRightTrashView()
         thumbnaiItemList<<vi;
     }
 
+    if (0 < infos.length())
+    {
+        m_pDeleteBtn->setEnabled(true);
+    }
+    else
+    {
+        m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+        m_pRecoveryBtn->setEnabled(false);
+        m_pDeleteBtn->setEnabled(false);
+    }
+
     m_pRightTrashThumbnailList->insertThumbnails(thumbnaiItemList);
 }
 
@@ -286,22 +341,14 @@ void AlbumView::leftTabClicked(const QModelIndex &index)
     {
         m_currentAlbum = item->m_albumNameStr;
         updateRightTrashView();
-        m_pRightStackWidget->setCurrentIndex(1);
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
 
         m_iAlubmPicsNum = DBManager::instance()->getTrashImgsCount();
         emit dApp->signalM->sigUpdateAllpicsNumLabel(m_iAlubmPicsNum);
+        setAcceptDrops(false);
     }
     else
     {
-        if (FAVORITES_ALBUM == m_currentAlbum)
-        {
-            QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
-            if (0 < paths.length())
-            {
-                DBManager::instance()->removeFromAlbum(m_currentAlbum, paths);
-            }
-        }
-
         m_currentAlbum = item->m_albumNameStr;
         updateRightNoTrashView();
     }
@@ -352,7 +399,16 @@ void AlbumView::onLeftMenuClicked(QAction *action)
 
     if (LEFT_MENU_SLIDESHOW == str)
     {
+        auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+        QStringList paths;
+        for(auto image : imagelist)
+        {
+            paths<<image.filePath;
+        }
 
+        const QString path = paths.first();
+
+        emit m_pRightThumbnailList->menuOpenImage(path, paths, true, true);
     }
     else if (LEFT_MENU_NEWALBUM == str)
     {
@@ -449,7 +505,16 @@ void AlbumView::onTrashRecoveryBtnClicked()
 void AlbumView::onTrashDeleteBtnClicked()
 {
     QStringList paths;
-    paths = m_pRightTrashThumbnailList->selectedPaths();
+
+    if (BUTTON_STR_DETELE == m_pDeleteBtn->text())
+    {
+        paths = m_pRightTrashThumbnailList->selectedPaths();
+    }
+    else
+    {
+        paths = DBManager::instance()->getAllTrashPaths();
+        m_pDeleteBtn->setEnabled(false);
+    }
 
     DBManager::instance()->removeTrashImgInfos(paths);
 }
@@ -480,10 +545,10 @@ void AlbumView::openImage(int index)
     info.path = imagelist[index].filePath;
 //        info.fullScreen = true;
     emit dApp->signalM->viewImage(info);
-    emit dApp->signalM->showImageView(3);
+    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
-void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen)
+void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, bool isSlideShow)
 {
     SignalManager::ViewInfo info;
     info.album = "";
@@ -500,26 +565,30 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen)
 
     }
 
-    for(auto image : imagelist)
+    if (paths.size()>1)
     {
-        info.paths<<image.filePath;
-    }
-    if(paths.size()>1){
         info.paths = paths;
-    }else {
-        if(imagelist.size()>1){
+    }
+    else
+    {
+        if(imagelist.size()>1)
+        {
             for(auto image : imagelist)
             {
                 info.paths<<image.filePath;
             }
-        }else {
+        }
+        else
+        {
           info.paths.clear();
-         }
+        }
     }
+
     info.path = path;
     info.fullScreen = isFullScreen;
+    info.slideShow = isSlideShow;
     emit dApp->signalM->viewImage(info);
-    emit dApp->signalM->showImageView(3);
+    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
 QString AlbumView::getNewAlbumName()
@@ -532,4 +601,112 @@ QString AlbumView::getNewAlbumName()
            albumName = nan + QString::number(num);
        }
        return (const QString)(albumName);
+}
+
+void AlbumView::onTrashListClicked()
+{
+    QStringList paths = m_pRightTrashThumbnailList->selectedPaths();
+    paths.removeAll(QString(""));
+
+    if (0 < paths.length())
+    {
+        m_pRecoveryBtn->setEnabled(true);
+        m_pDeleteBtn->setText(BUTTON_STR_DETELE);
+    }
+    else
+    {
+        m_pRecoveryBtn->setEnabled(false);
+        m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+    }
+}
+
+void AlbumView::dragEnterEvent(QDragEnterEvent *e)
+{
+    e->setDropAction(Qt::CopyAction);
+    e->accept();
+}
+
+void AlbumView::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+
+    using namespace utils::image;
+    QStringList paths;
+    for (QUrl url : urls) {
+        const QString path = url.toLocalFile();
+        if (QFileInfo(path).isDir()) {
+            auto finfos =  getImagesInfo(path, false);
+            for (auto finfo : finfos) {
+                if (imageSupportRead(finfo.absoluteFilePath())) {
+                    paths << finfo.absoluteFilePath();
+                }
+            }
+        } else if (imageSupportRead(path)) {
+            paths << path;
+        }
+    }
+
+    if (paths.isEmpty())
+    {
+        return;
+    }
+
+    DBImgInfoList dbInfos;
+
+    using namespace utils::image;
+
+    for (auto path : paths)
+    {
+//        if (! imageSupportRead(imagePath)) {
+//            continue;
+//        }
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(path)) {
+            // Generate thumbnail failed, do not insert into DB
+            if (! utils::image::generateThumbnail(path)) {
+                continue;
+            }
+        }
+
+        QFileInfo fi(path);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = path;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+
+        dbInfos << dbi;
+    }
+
+    if (! dbInfos.isEmpty())
+    {
+        DBManager::instance()->insertImgInfos(dbInfos);
+        picsIntoAlbum(paths);
+    }
+
+    event->accept();
+}
+
+void AlbumView::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void AlbumView::dragLeaveEvent(QDragLeaveEvent *e)
+{
+
+}
+
+void AlbumView::picsIntoAlbum(QStringList paths)
+{
+    if (RECENT_IMPORTED_ALBUM != m_currentAlbum
+        && TRASH_ALBUM != m_currentAlbum
+        && FAVORITES_ALBUM != m_currentAlbum)
+    {
+        DBManager::instance()->insertIntoAlbum(m_currentAlbum, paths);
+    }
 }

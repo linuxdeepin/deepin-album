@@ -27,8 +27,8 @@
 
 namespace {
 
-const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-image-viewer/";
-const QString DATABASE_NAME = "deepinimageviewer.db";
+const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-album/";
+const QString DATABASE_NAME = "deepinalbum.db";
 const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
 
 }  // namespace
@@ -1109,6 +1109,34 @@ void DBManager::importVersion2Data()
         }
         mutex.unlock();
     }
+}
+
+const QStringList DBManager::getAllTrashPaths() const
+{
+    QStringList paths;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid())
+        return paths;
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare( "SELECT "
+                   "FilePath "
+                   "FROM TrashTable ORDER BY Time DESC");
+    if (! query.exec()) {
+        qWarning() << "Get Data from TrashTable failed: " << query.lastError();
+        mutex.unlock();
+        return paths;
+    }
+    else {
+        while (query.next()) {
+            paths << query.value(0).toString();
+        }
+    }
+    mutex.unlock();
+
+    return paths;
 }
 
 const DBImgInfoList DBManager::getAllTrashInfos() const

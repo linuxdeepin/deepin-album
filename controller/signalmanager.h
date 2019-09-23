@@ -36,6 +36,7 @@ public:
         static constexpr bool inDatabase = false;
 #endif
         bool fullScreen = false;
+        bool slideShow = false;
         QString album = QString();
         QString path;                           // Specific current open one
         QStringList paths = QStringList();      // Limit the view range
@@ -88,9 +89,7 @@ signals:
     void sigCreateNewAlbumFromDialog();
     void sigUpdateAllpicsNumLabel(int num);
     void sigMainwindowSliderValueChg(int value);
-    void sigMenuAddToAlbum();
     void sigPixMapRotate();
-    void sigImprotPicsIntoDB(const DBImgInfoList &infos);
 
 private:
     explicit SignalManager(QObject *parent = 0);

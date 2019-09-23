@@ -1,12 +1,54 @@
 #include "timelineview.h"
+#include "utils/baseutils.h"
+#include "utils/imageutils.h"
+
 #include <QScrollBar>
 #include <QScroller>
 #include <DPushButton>
+#include <QMimeData>
 
-void TimeLineView::initUI()
+namespace  {
+const int VIEW_IMPORT = 0;
+const int VIEW_TIMELINE = 1;
+const int VIEW_MAINWINDOW_TIMELINE = 1;
+} //namespace
+
+TimeLineView::TimeLineView()
 {
+    setAcceptDrops(true);
     m_index = 0;
-    m_mainLayout = new QVBoxLayout(this);
+
+    pTimeLineViewWidget = new DWidget(this);
+    pImportView = new ImportView();
+    addWidget(pImportView);
+    addWidget(pTimeLineViewWidget);
+
+    initTimeLineViewWidget();
+    updataLayout();
+
+    initConnections();
+}
+
+void TimeLineView::initConnections(){
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::updataLayout);
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::updataLayout);
+    connect(m_mainListWidget,&TimelineList::sigNewTime,this,[=](QString date,QString num,int index){
+        m_index = index;
+        on_AddLabel(date,num);
+    });
+
+    connect(m_mainListWidget,&TimelineList::sigDelTime,this,[=](){
+        on_DelLabel();
+    });
+
+    connect(m_mainListWidget,&TimelineList::sigMoveTime,this,[=](int y){
+        on_MoveLabel(y);
+    });
+}
+
+void TimeLineView::initTimeLineViewWidget()
+{
+    m_mainLayout = new QVBoxLayout(pTimeLineViewWidget);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainListWidget = new TimelineList;
     m_mainLayout->addWidget(m_mainListWidget);
@@ -14,7 +56,7 @@ void TimeLineView::initUI()
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
 
     //添加悬浮title
-    m_dateItem = new QWidget(this);
+    m_dateItem = new QWidget(pTimeLineViewWidget);
     QVBoxLayout *TitleViewLayout = new QVBoxLayout();
     m_dateItem->setLayout(TitleViewLayout);
     DLabel* pDate = new DLabel();
@@ -54,13 +96,26 @@ void TimeLineView::initUI()
     m_dateItem->setPalette(ppal);
 
     m_dateItem->setFixedSize(this->width(),50);
-    m_dateItem->setContentsMargins(0,0,0,0);
+    m_dateItem->setContentsMargins(0,0,22,0);
     m_dateItem->move(0,0);
     m_dateItem->show();
     m_dateItem->setVisible(false);
 }
 
-void TimeLineView::updataLayout(){
+void TimeLineView::updateStackedWidget()
+{
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        setCurrentIndex(VIEW_TIMELINE);
+    }
+    else
+    {
+        setCurrentIndex(VIEW_IMPORT);
+    }
+}
+
+void TimeLineView::updataLayout()
+{
     //获取所有时间线
     m_mainListWidget->clear();
     m_timelines = DBManager::instance()->getAllTimelines();
@@ -151,9 +206,9 @@ void TimeLineView::updataLayout(){
             }
            info.path = ImgInfoList[index].filePath;
            emit dApp->signalM->viewImage(info);
-           emit dApp->signalM->showImageView(2);
+           emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
        });
-       connect(pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen){
+       connect(pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen, bool isSlideShow){
            SignalManager::ViewInfo info;
            info.album = "";
            info.lastPanel = nullptr;
@@ -172,8 +227,9 @@ void TimeLineView::updataLayout(){
            }
            info.path = path;
            info.fullScreen = isFullScreen;
+           info.slideShow = isSlideShow;
            emit dApp->signalM->viewImage(info);
-           emit dApp->signalM->showImageView(2);
+           emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
        });
        connect(pChose, &DPushButton::clicked, this, [=]{
            if ("选择" == pChose->text())
@@ -201,30 +257,8 @@ void TimeLineView::updataLayout(){
        });
     }
 
+    updateStackedWidget();
 }
-void TimeLineView::initConnections(){
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::updataLayout);
-    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::updataLayout);
-    connect(m_mainListWidget,&TimelineList::sigNewTime,this,[=](QString date,QString num,int index){
-        m_index = index;
-        on_AddLabel(date,num);
-    });
-
-    connect(m_mainListWidget,&TimelineList::sigDelTime,this,[=](){
-        on_DelLabel();
-    });
-
-    connect(m_mainListWidget,&TimelineList::sigMoveTime,this,[=](int y){
-        on_MoveLabel(y);
-    });
-}
-TimeLineView::TimeLineView()
-{
-    initUI();
-    updataLayout();
-    initConnections();
-}
-
 
 void TimeLineView::on_AddLabel(QString date,QString num)
 {
@@ -256,4 +290,84 @@ void TimeLineView::on_MoveLabel(int y)
 
 void TimeLineView::resizeEvent(QResizeEvent *ev){
     m_dateItem->setFixedSize(width(),50);
+}
+
+void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
+{
+    e->setDropAction(Qt::CopyAction);
+    e->accept();
+}
+
+void TimeLineView::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+
+    using namespace utils::image;
+    QStringList paths;
+    for (QUrl url : urls) {
+        const QString path = url.toLocalFile();
+        if (QFileInfo(path).isDir()) {
+            auto finfos =  getImagesInfo(path, false);
+            for (auto finfo : finfos) {
+                if (imageSupportRead(finfo.absoluteFilePath())) {
+                    paths << finfo.absoluteFilePath();
+                }
+            }
+        } else if (imageSupportRead(path)) {
+            paths << path;
+        }
+    }
+
+    if (paths.isEmpty())
+    {
+        return;
+    }
+
+    DBImgInfoList dbInfos;
+
+    using namespace utils::image;
+
+    for (auto path : paths)
+    {
+//        if (! imageSupportRead(imagePath)) {
+//            continue;
+//        }
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(path)) {
+            // Generate thumbnail failed, do not insert into DB
+            if (! utils::image::generateThumbnail(path)) {
+                continue;
+            }
+        }
+
+        QFileInfo fi(path);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = path;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+
+        dbInfos << dbi;
+    }
+
+    if (! dbInfos.isEmpty())
+    {
+        DBManager::instance()->insertImgInfos(dbInfos);
+    }
+
+    event->accept();
+}
+
+void TimeLineView::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
+{
+
 }

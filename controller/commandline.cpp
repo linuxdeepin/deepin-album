@@ -76,7 +76,6 @@ CommandLine::CommandLine()
 //    m_cmdParser.addVersionOption();
 //    m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
 //        "main", "Value that use for options."), "[value]");
-
     for (const CMOption* i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
     }
@@ -112,6 +111,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
 //    ViewMainWindow *w = new ViewMainWindow(false);
     QHBoxLayout *m_layout= new QHBoxLayout;
+    m_layout->setContentsMargins(0,0,0,0);
     MainWidget *m_mainWidget = new MainWidget(false);
     m_layout->addWidget(m_mainWidget);
     setLayout(m_layout);

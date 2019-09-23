@@ -40,6 +40,7 @@ private:
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
+    void onImprotBtnClicked();
 
 public:
     DPushButton* m_pImportBtn;

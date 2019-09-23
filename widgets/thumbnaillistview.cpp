@@ -326,9 +326,9 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     case IdFullScreen:
         emit menuOpenImage(path,paths,true);
         break;
-//    case IdStartSlideShow:
-//        emit startSlideShow(viewPaths, path);
-//        break;
+    case IdStartSlideShow:
+        emit menuOpenImage(path,paths,true, true);
+        break;
 //    case IdPrint: {
 //        showPrintDialog(paths);
 //        break;
@@ -337,7 +337,6 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         const QString album = action->data().toString();
         if (album != "Add to new album") {
            DBManager::instance()->insertIntoAlbum(album, paths);
-           emit dApp->signalM->sigMenuAddToAlbum();
         }
         else {
             emit dApp->signalM->createAlbum(paths);
@@ -366,7 +365,6 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdAddToFavorites:
         DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, paths);
-        emit dApp->signalM->sigMenuAddToAlbum();
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, paths);

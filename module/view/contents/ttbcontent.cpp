@@ -107,6 +107,7 @@ TTBContent::TTBContent(bool inDB,
      hb->addSpacing(ICON_SPACING*2);
      connect(m_backButton, &DImageButton::clicked, this, [=] {
          emit dApp->signalM->hideImageView();
+         emit ttbcontentClicked();
      });
 
      m_preButton = new DImageButton();
@@ -126,9 +127,11 @@ TTBContent::TTBContent(bool inDB,
      hb->addSpacing(ICON_SPACING);
      connect(m_preButton, &DImageButton::clicked, this, [=] {
          emit showPrevious();
+         emit ttbcontentClicked();
      });
      connect(m_nextButton, &DImageButton::clicked, this, [=] {
          emit showNext();
+         emit ttbcontentClicked();
      });
 
     m_adaptImageBtn = new DImageButton();
@@ -140,6 +143,7 @@ TTBContent::TTBContent(bool inDB,
     hb->addSpacing(ICON_SPACING);
     connect(m_adaptImageBtn, &DImageButton::clicked, this, [=] {
         emit resetTransform(false);
+        emit ttbcontentClicked();
     });
 
     m_adaptScreenBtn = new DImageButton();
@@ -150,6 +154,7 @@ TTBContent::TTBContent(bool inDB,
     hb->addSpacing(ICON_SPACING);
     connect(m_adaptScreenBtn, &DImageButton::clicked, this, [=] {
         emit resetTransform(true);
+        emit ttbcontentClicked();
     });
 
     // Collection button////////////////////////////////////////////////////////
@@ -158,15 +163,18 @@ TTBContent::TTBContent(bool inDB,
     m_clBT->setObjectName("CollectBtn");
 
     connect(m_clBT, &DImageButton::clicked, this, [=] {
-            if (true == m_bClBTChecked)
-            {
-                DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
-            }
-            else
-            {
-                DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
-            }
-        });
+
+        if (true == m_bClBTChecked)
+        {
+            DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+        }
+        else
+        {
+            DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+        }
+
+        emit ttbcontentClicked();
+    });
 
     hb->addWidget(m_clBT);
     hb->addSpacing(ICON_SPACING);
@@ -178,8 +186,10 @@ TTBContent::TTBContent(bool inDB,
     m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
     hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_rotateLBtn, &DImageButton::clicked,
-            this, &TTBContent::rotateCounterClockwise);
+    connect(m_rotateLBtn, &DImageButton::clicked, this, [=] {
+        emit rotateCounterClockwise();
+        emit ttbcontentClicked();
+    });
 
     m_rotateRBtn = new DImageButton();
     m_rotateRBtn->setFixedSize(ICON_SIZE);
@@ -187,10 +197,10 @@ TTBContent::TTBContent(bool inDB,
     m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
     hb->addWidget(m_rotateRBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_rotateRBtn, &DImageButton::clicked,
-            this, &TTBContent::rotateClockwise);
-
-
+    connect(m_rotateRBtn, &DImageButton::clicked, this, [=] {
+        emit rotateClockwise();
+        emit ttbcontentClicked();
+    });
 
     m_imgListView = new DWidget();
     m_imgListView->setObjectName("ImgListView");
@@ -211,7 +221,11 @@ TTBContent::TTBContent(bool inDB,
 
     m_fileNameLabel = new ElidedLabel();
 //    hb->addWidget(m_fileNameLabel);
-    connect(m_trashBtn, &DImageButton::clicked, this, &TTBContent::removed);
+    connect(m_trashBtn, &DImageButton::clicked, this, [=] {
+        emit removed();
+        emit ttbcontentClicked();
+    });
+
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TTBContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
@@ -449,6 +463,7 @@ void TTBContent::setImage(const QString &path)
                     m_imgList->layout()->addWidget(imageItem);
                     connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
                         emit imageClicked(index,(index-indexNow));
+                        emit ttbcontentClicked();
                     });
                 }
                 if ( path == info.filePath ) {

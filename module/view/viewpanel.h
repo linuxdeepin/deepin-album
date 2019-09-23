@@ -125,6 +125,7 @@ private slots:
 
 private:
     int m_hideCursorTid;
+    int m_iSlideShowTimerId;
     bool m_isInfoShowed;
     bool m_isMaximized;
 

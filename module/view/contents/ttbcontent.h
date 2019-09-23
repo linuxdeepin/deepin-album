@@ -69,7 +69,7 @@ public:
     explicit TTBContent(bool inDB, DBImgInfoList m_infos , QWidget *parent = 0);
 
 signals:
-    void clicked();
+    void ttbcontentClicked();
     void imageClicked(int index,int addIndex);
     void resetTransform(bool fitWindow);
     void rotateClockwise();

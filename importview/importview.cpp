@@ -16,7 +16,7 @@ ImportView::ImportView()
 
 void ImportView::initConnections()
 {
-
+    connect(m_pImportBtn, &DPushButton::clicked, this, &ImportView::onImprotBtnClicked);
 }
 
 void ImportView::initUI()
@@ -54,7 +54,6 @@ void ImportView::dragEnterEvent(QDragEnterEvent *e)
 {
     e->setDropAction(Qt::CopyAction);
     e->accept();
-//    ImportView::dragEnterEvent(e);
 }
 
 void ImportView::dropEvent(QDropEvent *event)
@@ -115,7 +114,7 @@ void ImportView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
-        emit dApp->signalM->sigImprotPicsIntoDB(dbInfos);
+        DBManager::instance()->insertImgInfos(dbInfos);
     }
 
     event->accept();
@@ -129,4 +128,70 @@ void ImportView::dragMoveEvent(QDragMoveEvent *event)
 void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
 {
 
+}
+
+void ImportView::onImprotBtnClicked()
+{
+    static QStringList sList;
+
+    for (const QByteArray &i : QImageReader::supportedImageFormats())
+        sList << "*." + QString::fromLatin1(i);
+
+    QString filter = tr("All images");
+
+    filter.append('(');
+    filter.append(sList.join(" "));
+    filter.append(')');
+
+    static QString cfgGroupName = QStringLiteral("General"), cfgLastOpenPath = QStringLiteral("LastOpenPath");
+    QString pictureFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QDir existChecker(pictureFolder);
+    if (!existChecker.exists()) {
+        pictureFolder = QDir::currentPath();
+    }
+
+    pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
+
+    const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Open Image"),
+                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
+
+    if (image_list.isEmpty())
+        return;
+
+    QFileInfo firstFileInfo(image_list.first());
+    dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
+
+
+    DBImgInfoList dbInfos;
+
+    using namespace utils::image;
+
+    for (auto imagePath : image_list)
+    {
+//        if (! imageSupportRead(imagePath)) {
+//            continue;
+//        }
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(imagePath)) {
+            // Generate thumbnail failed, do not insert into DB
+            if (! utils::image::generateThumbnail(imagePath)) {
+                continue;
+            }
+        }
+
+        QFileInfo fi(imagePath);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = imagePath;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+
+        dbInfos << dbi;
+    }
+
+    if (! dbInfos.isEmpty())
+    {
+        DBManager::instance()->insertImgInfos(dbInfos);
+    }
 }

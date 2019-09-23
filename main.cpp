@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include <DMainWindow>
 #include <DWidgetUtil>
+#include <DApplicationSettings>
 
 DWIDGET_USE_NAMESPACE
 
@@ -13,6 +14,11 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.setAttribute(Qt::AA_EnableHighDpiScaling);
     a.setAttribute(Qt::AA_ForceRasterWidgets);
+    a.setOrganizationName("deepin");
+    a.setApplicationName("deepin-album");
+
+    //save theme
+    DApplicationSettings savetheme;
 
     MainWindow w;
     w.show();

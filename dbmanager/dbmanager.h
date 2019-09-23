@@ -105,11 +105,12 @@ public:
     void removeFromAlbum(const QString &album, const QStringList &paths);
     void renameAlbum(const QString &oldAlbum, const QString &newAlbum);
     // TabelTrash
+    const QStringList       getAllTrashPaths() const;
     const DBImgInfoList     getAllTrashInfos() const;
     void insertTrashImgInfos(const DBImgInfoList &infos);
     void removeTrashImgInfos(const QStringList &paths);
     const DBImgInfo         getTrashInfoByPath(const QString &path) const;
-    const DBImgInfoList getTrashImgInfos(const QString &key, const QString &value) const;
+    const DBImgInfoList     getTrashImgInfos(const QString &key, const QString &value) const;
     int                     getTrashImgsCount() const;
 
 private:

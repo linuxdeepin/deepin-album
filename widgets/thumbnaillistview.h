@@ -82,7 +82,7 @@ public:
 signals:
     void loadend(int);
     void openImage(int);
-    void menuOpenImage(QString,QStringList,bool);
+    void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow = false);
     void exportImage(QString,QStringList);
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);

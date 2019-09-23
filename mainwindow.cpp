@@ -2,12 +2,11 @@
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 namespace  {
-const int VIEW_IMPORT = 0;
-const int VIEW_ALLPIC = 1;
-const int VIEW_TIMELINE = 2;
-const int VIEW_ALBUM = 3;
-const int VIEW_SEARCH = 4;
-const int VIEW_IMAGE = 5;
+const int VIEW_ALLPIC = 0;
+const int VIEW_TIMELINE = 1;
+const int VIEW_ALBUM = 2;
+const int VIEW_SEARCH = 3;
+const int VIEW_IMAGE = 4;
 
 const QString TITLEBAR_NEWALBUM = "New albume";
 const QString TITLEBAR_IMPORT = "Import";
@@ -19,7 +18,7 @@ MainWindow::MainWindow()
 {
     m_allPicNum = DBManager::instance()->getImgsCount();
     m_iCurrentView = VIEW_ALLPIC;
-    m_bSearchView = false;
+    m_bTitleMenuImportClicked = false;
 
     initUI();
     initTitleBar();
@@ -43,24 +42,49 @@ void MainWindow::initConnections()
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(dApp->signalM, &SignalManager::sigUpdateAllpicsNumLabel, this, &MainWindow::onUpdateAllpicsNumLabel);
-    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &MainWindow::onImprotBtnClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
-    connect(dApp->signalM, &SignalManager::sigImprotPicsIntoDB, DBManager::instance(), &DBManager::insertImgInfos);
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateCentralWidget);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
+        if (0 < DBManager::instance()->getImgsCount())
+        {
+            m_pSearchEdit->setEnabled(true);
+        }
+        else
+        {
+            m_pSearchEdit->setEnabled(false);
+        }
+    });
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=]{
+        if (0 < DBManager::instance()->getImgsCount())
+        {
+            m_pSearchEdit->setEnabled(true);
+        }
+        else
+        {
+            m_pSearchEdit->setEnabled(false);
+        }
+    });
 	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
         m_backIndex = index;
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
     });
     connect(dApp->signalM,&SignalManager::hideImageView,this,[=](){
         emit dApp->signalM->hideExtensionPanel();
+
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
     connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
         Exporter::instance()->exportImage(paths);
     });
     connect(m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-    connect(dApp->signalM, &SignalManager::showImageInfo,
-            this, &MainWindow::onShowImageInfo);
+    connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
+    connect(dApp->signalM, &SignalManager::showTopToolbar, this, [=] {
+        titlebar()->setFixedHeight(50);
+        statusBar()->setFixedHeight(50);
+    });
+    connect(dApp->signalM, &SignalManager::hideTopToolbar, this, [=] {
+        titlebar()->setFixedHeight(0);
+        statusBar()->setFixedHeight(0);
+    });
 }
 
 void MainWindow::initUI()
@@ -71,10 +95,7 @@ void MainWindow::initUI()
 
 void MainWindow::initTitleBar()
 {
-    m_titleBtnWidget = new QWidget();
-
-    QHBoxLayout* pTitleBtnLayout = new QHBoxLayout();
-
+    // TitleBar Img
     QLabel* pLabel = new QLabel();
     pLabel->setFixedSize(33, 32);
 
@@ -82,6 +103,12 @@ void MainWindow::initTitleBar()
     pixmap = utils::base::renderSVG(":/resources/images/other/deepin-album.svg", QSize(33, 32));
 
     pLabel->setPixmap(pixmap);
+
+    // TitleBar Button
+    m_titleBtnWidget = new QWidget();
+
+    QHBoxLayout* pTitleBtnLayout = new QHBoxLayout();
+    pTitleBtnLayout->setSpacing(5);
 
     m_pAllPicBtn = new DPushButton();
     m_pTimeLineBtn = new DPushButton();
@@ -91,23 +118,30 @@ void MainWindow::initTitleBar()
     m_pTimeLineBtn->setText("时间线");
     m_pAlbumBtn->setText("相册");
 
-    m_pSearchEdit = new DSearchEdit();
-    m_pSearchEdit->setFixedSize(278, 26);
-
-    pTitleBtnLayout->addStretch();
-    pTitleBtnLayout->addWidget(pLabel);
-    pTitleBtnLayout->addSpacing(15);
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
-    pTitleBtnLayout->addSpacing(5);
     pTitleBtnLayout->addWidget(m_pTimeLineBtn);
-    pTitleBtnLayout->addSpacing(5);
     pTitleBtnLayout->addWidget(m_pAlbumBtn);
-    pTitleBtnLayout->addSpacing(50);
-    pTitleBtnLayout->addWidget(m_pSearchEdit);
-    pTitleBtnLayout->addStretch();
 
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
+    // TitleBar Search
+    QWidget* m_titleSearchWidget = new QWidget();
+    QHBoxLayout* pTitleSearchLayout = new QHBoxLayout();
+    m_pSearchEdit = new DSearchEdit();
+    m_pSearchEdit->setFixedSize(278, 26);
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        m_pSearchEdit->setEnabled(true);
+    }
+    else
+    {
+        m_pSearchEdit->setEnabled(false);
+    }
+
+    pTitleSearchLayout->addWidget(m_pSearchEdit);
+    m_titleSearchWidget->setLayout(pTitleSearchLayout);
+
+    // TitleBar Menu
     m_pTitleBarMenu = new DMenu();
     QAction *pNewAlbum = new QAction();
     pNewAlbum->setText(TITLEBAR_NEWALBUM);
@@ -118,7 +152,9 @@ void MainWindow::initTitleBar()
     m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
 
+    titlebar()->addWidget(pLabel, Qt::AlignLeft);
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
+    titlebar()->addWidget(m_titleSearchWidget, Qt::AlignHCenter);
     titlebar()->setMenu(m_pTitleBarMenu);
 }
 
@@ -129,9 +165,7 @@ void MainWindow::initCentralWidget()
     m_pAllPicView = new AllPicView();
     m_pTimeLineView = new TimeLineView();
     m_pSearchView = new SearchView();
-    m_pImportView = new ImportView();
 
-    m_pCenterWidget->addWidget(m_pImportView);
     m_pCenterWidget->addWidget(m_pAllPicView);
     m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumview);
@@ -139,16 +173,6 @@ void MainWindow::initCentralWidget()
     m_commandLine = CommandLine::instance();
     m_commandLine->processOption();
     m_pCenterWidget->addWidget(m_commandLine);
-    if (0 < DBManager::instance()->getImgsCount())
-    {
-        m_iCurrentView = VIEW_ALLPIC;
-    }
-    else
-    {
-        m_iCurrentView = VIEW_IMPORT;
-    }
-
-    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 
     setCentralWidget(m_pCenterWidget);
 }
@@ -158,7 +182,6 @@ void MainWindow::onUpdateCentralWidget()
     emit dApp->signalM->hideExtensionPanel();
 
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-    m_bSearchView = false;
 }
 
 void MainWindow::initStatusBar()
@@ -191,89 +214,45 @@ void MainWindow::initStatusBar()
 
     statusBar()->addWidget(pWidget, 1);
     statusBar()->setSizeGripEnabled(false);
+//    statusBar()->setFixedHeight(0);
 }
 
 void MainWindow::allPicBtnClicked()
 {
-    if (VIEW_ALLPIC == m_iCurrentView && false == m_bSearchView)
-    {
-        return;
-    }
-    else
-    {
-        emit dApp->signalM->hideExtensionPanel();
-        m_pSearchEdit->clear();
+    emit dApp->signalM->hideExtensionPanel();
+    m_pSearchEdit->clear();
 
-        int num = DBManager::instance()->getImgsCount();
-        onUpdateAllpicsNumLabel(num);
+    int num = DBManager::instance()->getImgsCount();
+    onUpdateAllpicsNumLabel(num);
 
-        m_iCurrentView = VIEW_ALLPIC;
+    m_iCurrentView = VIEW_ALLPIC;
 
-        if (0 != num)
-        {
-            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-            m_bSearchView = false;
-        }
-        else
-        {
-            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
-        }
-    }
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
 void MainWindow::timeLineBtnClicked()
 {
-    if (VIEW_TIMELINE == m_iCurrentView && false == m_bSearchView)
-    {
-        return;
-    }
-    else
-    {
-        emit dApp->signalM->hideExtensionPanel();
-        m_pSearchEdit->clear();
+    emit dApp->signalM->hideExtensionPanel();
+    m_pSearchEdit->clear();
 
-        int num = DBManager::instance()->getImgsCount();
-        onUpdateAllpicsNumLabel(num);
+    int num = DBManager::instance()->getImgsCount();
+    onUpdateAllpicsNumLabel(num);
 
-        m_iCurrentView = VIEW_TIMELINE;
+    m_iCurrentView = VIEW_TIMELINE;
 
-        if (0 != num)
-        {
-            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-            m_bSearchView = false;
-        }
-        else
-        {
-            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
-        }
-    }
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
 void MainWindow::albumBtnClicked()
 {
-    if (VIEW_ALBUM == m_iCurrentView && false == m_bSearchView)
-    {
-        return;
-    }
-    else
-    {
-        emit dApp->signalM->hideExtensionPanel();
-        m_pSearchEdit->clear();
+    emit dApp->signalM->hideExtensionPanel();
+    m_pSearchEdit->clear();
 
-        onUpdateAllpicsNumLabel(m_pAlbumview->m_iAlubmPicsNum);
+    onUpdateAllpicsNumLabel(m_pAlbumview->m_iAlubmPicsNum);
 
-        m_iCurrentView = VIEW_ALBUM;
+    m_iCurrentView = VIEW_ALBUM;
 
-        if (0 != m_pAlbumview->m_iAlubmPicsNum)
-        {
-            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-            m_bSearchView = false;
-        }
-        else
-        {
-            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
-        }
-    }
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
 void MainWindow::onTitleBarMenuClicked(QAction *action)
@@ -285,6 +264,7 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
     else if (TITLEBAR_IMPORT == action->text())
     {
         emit sigTitleMenuImportClicked();
+        m_bTitleMenuImportClicked = true;
     }
     else
     {
@@ -315,7 +295,6 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         {
             m_iCurrentView = VIEW_ALBUM;
             m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
-            m_bSearchView = false;
         }
 
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty()?QStringList(" "):imgpaths);
@@ -329,36 +308,12 @@ void MainWindow::onSearchEditFinished()
     emit dApp->signalM->hideExtensionPanel();
     if (keywords.isEmpty())
     {
-        int num = 0;
-        if (VIEW_ALLPIC == m_iCurrentView || VIEW_TIMELINE == m_iCurrentView)
-        {
-            num = DBManager::instance()->getImgsCount();
-        }
-        else if (VIEW_ALBUM == m_iCurrentView)
-        {
-            num = m_pAlbumview->m_iAlubmPicsNum;
-        }
-        else
-        {
-            // donothing
-        }
-
-        if (0 == num)
-        {
-            m_pCenterWidget->setCurrentIndex(VIEW_IMPORT);
-        }
-        else
-        {
-            m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-        }
-
-        m_bSearchView = false;
+        m_pCenterWidget->setCurrentIndex(m_iCurrentView);
     }
     else
     {
         emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
         m_pCenterWidget->setCurrentIndex(VIEW_SEARCH);
-        m_bSearchView = true;
     }
 }
 
@@ -431,9 +386,16 @@ void MainWindow::onImprotBtnClicked()
 
     if (! dbInfos.isEmpty())
     {
-        emit dApp->signalM->sigImprotPicsIntoDB(dbInfos);
+        DBManager::instance()->insertImgInfos(dbInfos);
+
+        if (true == m_bTitleMenuImportClicked && VIEW_ALBUM == m_iCurrentView)
+        {
+            m_pAlbumview->picsIntoAlbum(image_list);
+            m_bTitleMenuImportClicked = false;
+        }
     }
 }
+
 void MainWindow::onShowImageInfo(const QString &path)
 {
     ImgInfoDialog *dialog;
