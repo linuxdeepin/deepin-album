@@ -159,7 +159,7 @@ void AlbumView::initRightView()
     m_pImportView = new ImportView();
 
     // Thumbnail View
-    m_pRightThumbnailList = new ThumbnailListView();
+    m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
 
     // Trash View
     DWidget *pTrashWidget = new DWidget();
@@ -220,6 +220,7 @@ void AlbumView::initRightView()
         }
 
         m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+        m_pRightThumbnailList->m_imageType = m_currentAlbum;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
     }
     else
@@ -281,6 +282,7 @@ void AlbumView::updateRightNoTrashView()
         if (0 < DBManager::instance()->getImgsCount())
         {
             m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+            m_pRightThumbnailList->m_imageType = m_currentAlbum;
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
         }
         else
@@ -293,6 +295,7 @@ void AlbumView::updateRightNoTrashView()
     else
     {
         m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+        m_pRightThumbnailList->m_imageType = m_currentAlbum;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
         setAcceptDrops(true);
     }

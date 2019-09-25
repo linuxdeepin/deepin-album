@@ -12,6 +12,8 @@ const int RIGHT_MARGIN = 8;
 
 const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString FAVORITES_ALBUM = "My favorite";
+const QString RECENT_IMPORTED_ALBUM = "Recent imported";
+const QString TRASH_ALBUM = "Trash";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
 QString ss(const QString &text)
@@ -246,10 +248,21 @@ void ThumbnailListView::updateMenuContents()
     appendAction(IdExport, tr("export"), ss("export"));
     appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+    const QString FAVORITES_ALBUM = "My favorite";
+
+    const QString TRASH_ALBUM = "Trash";
+    if (IMAGE_DEFAULTTYPE != m_imageType
+        && RECENT_IMPORTED_ALBUM != m_imageType
+        && TRASH_ALBUM != m_imageType
+        && FAVORITES_ALBUM != m_imageType)
+    {
+        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
+    }
+
+    m_pMenu->addSeparator();
 
     if (1 == paths.length())
     {
-        m_pMenu->addSeparator();
         if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, paths[0]))
         {
             appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
@@ -258,9 +271,11 @@ void ThumbnailListView::updateMenuContents()
         {
             appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
         }
+
+        m_pMenu->addSeparator();
     }
 
-    m_pMenu->addSeparator();
+
     appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
     appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
 
@@ -329,10 +344,6 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     case IdStartSlideShow:
         emit menuOpenImage(path,paths,true, true);
         break;
-//    case IdPrint: {
-//        showPrintDialog(paths);
-//        break;
-//    }
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
@@ -343,9 +354,6 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         }
         break;
     }
-//    case IdCopy:
-//        utils::base::copyImageToClipboard(paths);
-//        break;
     case IdCopyToClipboard:
         utils::base::copyImageToClipboard(paths);
         break;
@@ -369,10 +377,9 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, paths);
         break;
-//    case IdRemoveFromAlbum:
-//        m_view->removeItems(paths);
-//        DBManager::instance()->removeFromAlbum(m_album, paths);
-//        break;
+    case IdRemoveFromAlbum:
+        DBManager::instance()->removeFromAlbum(m_imageType, paths);
+        break;
     case IdRotateClockwise:
     {
         for(QString path : paths)
@@ -401,39 +408,16 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdImageInfo:
         emit dApp->signalM->showImageInfo(path);
-//        emit showImageInfo(path);
         break;
     case IdExport:
-//        emit exportImage(path,paths);
         emit dApp->signalM->exportImage(paths);
-//        Exporter::instance()->exportImage(paths);
         break;
-//    default:
-//        break;
+    default:
+        break;
     }
 
 //    updateMenuContents();
 }
-
-//void ThumbnailListView::onShowImageInfo(const QString &path)
-//{
-//    if (m_infoShowingList.indexOf(path) != -1)
-//        return;
-//    else
-//        m_infoShowingList << path;
-
-//    ImgInfoDialog *info = new ImgInfoDialog(path);
-//    info->move((width() - info->width()) / 2 +
-//               mapToGlobal(QPoint(0, 0)).x(),
-//               (window()->height() - info->sizeHint().height()) / 2 +
-//               mapToGlobal(QPoint(0, 0)).y());
-//    info->show();
-//    info->setWindowState(Qt::WindowActive);
-//    connect(info, &ImgInfoDialog::closed, this, [=] {
-//        info->deleteLater();
-//        m_infoShowingList.removeAll(path);
-//    });
-//}
 
 QStringList ThumbnailListView::selectedPaths()
 {

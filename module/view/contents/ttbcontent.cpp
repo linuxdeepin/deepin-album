@@ -45,8 +45,56 @@ const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
+
+const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
+const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
+const unsigned int IMAGE_TYPE_JPG2 = 0xFFD8FFE1;
+const unsigned int IMAGE_TYPE_JPG3 = 0xFFD8FFE8;
+const unsigned int IMAGE_TYPE_PNG = 0x89504e47;
+const unsigned int IMAGE_TYPE_GIF = 0x47494638;
+const unsigned int IMAGE_TYPE_TIFF = 0x49492a00;
+const unsigned int IMAGE_TYPE_BMP = 0x424d;
 }  // namespace
 
+char* getImageType(QString filepath){
+    char *ret=nullptr;
+    QFile file(filepath);
+     file.open(QIODevice::ReadOnly);
+     QDataStream in(&file);
+
+     // Read and check the header
+     quint32 magic;
+     in >> magic;
+     switch (magic) {
+     case IMAGE_TYPE_JEPG:
+     case IMAGE_TYPE_JPG1:
+     case IMAGE_TYPE_JPG2:
+     case IMAGE_TYPE_JPG3:
+         //文件类型为 JEPG
+         ret ="JEPG";
+         break;
+     case IMAGE_TYPE_PNG:
+         //文件类型为 png
+         ret ="PNG";
+         break;
+     case IMAGE_TYPE_GIF:
+         //文件类型为 GIF
+         ret ="GIF";
+         break;
+     case IMAGE_TYPE_TIFF:
+         //文件类型为 TIFF
+         ret ="TIFF";
+         break;
+     case IMAGE_TYPE_BMP:
+         //文件类型为 BMP
+         ret ="BMP";
+         break;
+     default:
+         ret =nullptr;
+         break;
+     }
+     return ret;
+};
 TTBContent::TTBContent(bool inDB,
                        DBImgInfoList m_infos ,
                        QWidget *parent) : QLabel(parent)
@@ -210,6 +258,11 @@ TTBContent::TTBContent(bool inDB,
 
     m_imgList->setDisabled(false);
     m_imgList->setHidden(true);
+    m_imglayout= new QHBoxLayout();
+    m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_imglayout->setMargin(0);
+    m_imglayout->setSpacing(0);
+    m_imgList->setLayout(m_imglayout);
     m_imgListView->setFixedSize(QSize(786,60));
     hb->addWidget(m_imgListView);
 
@@ -420,8 +473,21 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 //    m_contentWidth = 310;
 }
 
-void TTBContent::setImage(const QString &path)
+void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 {
+    if (infos.size()!=m_imgInfos.size()){
+        m_imgInfos.clear();
+        m_imgInfos = infos;
+
+        QLayoutItem *child;
+         while ((child = m_imglayout->takeAt(0)) != 0)
+         {
+             m_imglayout->removeWidget(child->widget());
+             child->widget()->setParent(0);
+             delete child;
+
+         }
+    }
     if (path.isEmpty() || !QFileInfo(path).exists()
             || !QFileInfo(path).isReadable()) {
         m_adaptImageBtn->setDisabled(true);
@@ -443,10 +509,10 @@ void TTBContent::setImage(const QString &path)
             m_imgList->setContentsMargins(0,0,0,0);
 
             auto num=30;
-            QHBoxLayout *layout= new QHBoxLayout();
-            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            layout->setMargin(0);
-            layout->setSpacing(0);
+//            QHBoxLayout *layout= new QHBoxLayout();
+//            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+//            layout->setMargin(0);
+//            layout->setSpacing(0);
 
             int i=0;
             QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
@@ -454,13 +520,16 @@ void TTBContent::setImage(const QString &path)
             for (DBImgInfo info : m_imgInfos) {
                 if(labelList.size()!=m_imgInfos.size()){
                     ImageItem *imageItem = new ImageItem(i);
-                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
+                    char *imageType=getImageType(info.filePath);
+                    QImage image(info.filePath,imageType);
+//                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
+                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
                     imageItem->setContentsMargins(1,5,1,5);
                     imageItem->setFixedSize(QSize(num,40));
                     imageItem->resize(QSize(num,40));
                     
-                    m_imgList->setLayout(layout);
-                    m_imgList->layout()->addWidget(imageItem);
+//                    m_imgList->setLayout(layout);
+                    m_imglayout->addWidget(imageItem);
                     connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
                         emit imageClicked(index,(index-indexNow));
                         emit ttbcontentClicked();
@@ -471,6 +540,7 @@ void TTBContent::setImage(const QString &path)
                 }
                 i++;
             }
+            labelList = m_imgList->findChildren<ImageItem*>();
             m_nowIndex = t;
             for(int j = 0; j < labelList.size(); j++){
                 labelList.at(j)->setFixedSize (QSize(30,40));
@@ -507,6 +577,12 @@ void TTBContent::setImage(const QString &path)
             m_imgList->update();
             m_preButton->show();
             m_nextButton->show();
+        }else {
+            m_imgList->hide();
+            m_preButton->hide();
+            m_nextButton->hide();
+            m_contentWidth = 310;
+            setFixedWidth(m_contentWidth);
         }
 
 

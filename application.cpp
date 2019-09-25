@@ -35,7 +35,7 @@ Application::Application(int& argc, char** argv)
     initI18n();
     setApplicationDisplayName(tr("Deepin album"));
 
-    setApplicationVersion(DApplication::buildVersion("20190923"));
+    setApplicationVersion(DApplication::buildVersion("20190925"));
 
     installEventFilter(new GlobalEventFilter());
 

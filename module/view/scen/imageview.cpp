@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "imageview.h"
+#include "controller/signalmanager.h"
 
 #include <QDebug>
 #include <QFile>
@@ -446,6 +447,8 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
 
         emit transformChanged();
     }
+
+    emit dApp->signalM->sigMouseMove();
 }
 
 void ImageView::leaveEvent(QEvent *e)

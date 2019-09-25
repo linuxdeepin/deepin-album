@@ -57,7 +57,7 @@ public:
 
 signals:
     void updateCollectButton();
-    void imageChanged(const QString &path);
+    void imageChanged(const QString &path,DBImgInfoList infos);
     void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
@@ -144,6 +144,7 @@ private:
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
     DBImgInfoList::ConstIterator m_current;
+
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 

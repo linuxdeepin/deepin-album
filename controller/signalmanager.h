@@ -90,6 +90,8 @@ signals:
     void sigUpdateAllpicsNumLabel(int num);
     void sigMainwindowSliderValueChg(int value);
     void sigPixMapRotate();
+    void sigMouseMove();
+    void sigShowFullScreen();
 
 private:
     explicit SignalManager(QObject *parent = 0);
