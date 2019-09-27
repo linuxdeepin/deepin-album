@@ -205,6 +205,8 @@ void TimeLineView::updataLayout()
                }
             }
            info.path = ImgInfoList[index].filePath;
+           info.viewType = utils::common::VIEW_TIMELINE_SRN;
+
            emit dApp->signalM->viewImage(info);
            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
        });
@@ -228,6 +230,8 @@ void TimeLineView::updataLayout()
            info.path = path;
            info.fullScreen = isFullScreen;
            info.slideShow = isSlideShow;
+           info.viewType = utils::common::VIEW_TIMELINE_SRN;
+
            emit dApp->signalM->viewImage(info);
            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
        });

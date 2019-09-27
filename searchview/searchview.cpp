@@ -41,7 +41,8 @@ void SearchView::initConnections()
             info.paths<<image.filePath;
         }
         info.path = info.paths[index];
-//        info.fullScreen = true;
+        info.viewType = utils::common::VIEW_SEARCH_SRN;
+
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
     });
@@ -61,6 +62,8 @@ void SearchView::initConnections()
         info.path = path;
         info.fullScreen = isFullScreen;
         info.slideShow = isSlideShow;
+        info.viewType = utils::common::VIEW_SEARCH_SRN;
+
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
     });

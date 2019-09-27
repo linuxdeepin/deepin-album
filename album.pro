@@ -4,8 +4,6 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
-
 QT += core gui sql dbus concurrent svg x11extras printsupport
 qtHaveModule(opengl): QT += opengl
 
@@ -14,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = deepin-album
 TEMPLATE = app
 QT += dtkwidget
-PKGCONFIG += dtkwidget
+PKGCONFIG += dtkwidget gio-qt udisks2-qt5
 LIBS += -lfreeimage
 
 # The following define makes your compiler emit warnings if you use
@@ -34,13 +32,15 @@ isEmpty(QMAKE_ORGANIZATION_NAME) {
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11 link_pkgconfig
+CONFIG += c++11 link_pkgconfig plugin
 
 include (frame/frame.pri)
 include (module/modules.pri)
 include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
+
+INCLUDEPATH += /usr/include/git-qt
 
 SOURCES += \
         main.cpp \

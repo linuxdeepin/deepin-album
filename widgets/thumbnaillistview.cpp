@@ -240,17 +240,25 @@ void ThumbnailListView::updateMenuContents()
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
     }
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
-    QMenu *am = createAlbumMenu();
-    if (am) {
-        m_pMenu->addMenu(am);
+    if (TRASH_ALBUM != m_imageType)
+    {
+        QMenu *am = createAlbumMenu();
+        if (am) {
+            m_pMenu->addMenu(am);
+        }
     }
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("export"), ss("export"));
     appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
-    appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
-    const QString FAVORITES_ALBUM = "My favorite";
+    if (TRASH_ALBUM == m_imageType)
+    {
+        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash"));
+    }
+    else
+    {
+        appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+    }
 
-    const QString TRASH_ALBUM = "Trash";
     if (IMAGE_DEFAULTTYPE != m_imageType
         && RECENT_IMPORTED_ALBUM != m_imageType
         && TRASH_ALBUM != m_imageType
@@ -261,7 +269,7 @@ void ThumbnailListView::updateMenuContents()
 
     m_pMenu->addSeparator();
 
-    if (1 == paths.length())
+    if (1 == paths.length() && TRASH_ALBUM != m_imageType)
     {
         if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, paths[0]))
         {
@@ -359,16 +367,23 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        DBImgInfoList infos;
-        for(auto path : paths)
+        if (TRASH_ALBUM == m_imageType)
         {
-            DBImgInfo info;
-            info = DBManager::instance()->getInfoByPath(path);
-            infos<<info;
+            DBManager::instance()->removeTrashImgInfos(paths);
         }
+        else
+        {
+            DBImgInfoList infos;
+            for(auto path : paths)
+            {
+                DBImgInfo info;
+                info = DBManager::instance()->getInfoByPath(path);
+                infos<<info;
+            }
 
-        DBManager::instance()->insertTrashImgInfos(infos);
-        DBManager::instance()->removeImgInfos(paths);
+            DBManager::instance()->insertTrashImgInfos(infos);
+            DBManager::instance()->removeImgInfos(paths);
+        }
     }
         break;
     case IdAddToFavorites:

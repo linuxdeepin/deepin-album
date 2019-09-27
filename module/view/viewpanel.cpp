@@ -71,6 +71,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_info(nullptr)
     , m_stack(nullptr)
     , m_iSlideShowTimerId(0)
+    , m_viewType(utils::common::VIEW_ALLPIC_SRN)
 {
 #ifndef LITE_DIV
     m_vinfo.inDatabase = false;
@@ -122,7 +123,7 @@ void ViewPanel::initConnect()
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(dApp->signalM, &SignalManager::viewImage,
     this, [ = ](const SignalManager::ViewInfo & vinfo) {
-
+        m_viewType = vinfo.viewType;
         onViewImage(vinfo);
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
 //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
@@ -234,11 +235,11 @@ void ViewPanel::initFileSystemWatcher()
 
 void ViewPanel::updateLocalImages()
 {
-    const QString cp = m_current->filePath;
+    const QString cp = m_infos.at(m_current).filePath;
     m_infos = getImageInfos(getFileInfos(cp));
-    m_current = m_infos.cbegin();
-    for (; m_current != m_infos.cend(); m_current ++) {
-        if (m_current->filePath == cp) {
+    m_current = 0;
+    for (; m_current < m_infos.size(); m_current ++) {
+        if (m_infos.at(m_current).filePath == cp) {
             return;
         }
     }
@@ -260,7 +261,7 @@ void ViewPanel::eatImageDirIterator()
     if (!m_imageDirIterator)
         return;
 
-    const QString currentImageFile = m_current->filePath;
+    const QString currentImageFile = m_infos.at(m_current).filePath;
     m_infos.clear();
 
     while (m_imageDirIterator->hasNext()) {
@@ -275,11 +276,11 @@ void ViewPanel::eatImageDirIterator()
     m_imageDirIterator.reset(nullptr);
     std::sort(m_infos.begin(), m_infos.end(), compareByString);
 
-    auto cbegin = m_infos.cbegin();
+    auto cbegin = 0;
     m_current = cbegin;
 
-    while (cbegin != m_infos.cend()) {
-        if (cbegin->filePath == currentImageFile) {
+    while (cbegin < m_infos.size()) {
+        if (m_infos.at(cbegin).filePath == currentImageFile) {
             m_current = cbegin;
             break;
         }
@@ -389,8 +390,8 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 {
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
     ttlc->setCurrentDir(m_currentImageLastDir);
-    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-        ttlc->setImage(m_current->filePath,m_infos);
+    if (! m_infos.isEmpty() && m_current < m_infos.size()) {
+        ttlc->setImage(m_infos.at(m_current).filePath,m_infos);
     } else {
         ttlc->setImage("",m_infos);
     }
@@ -413,10 +414,10 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     connect(ttlc, &TTLContent::removed, this, [ = ] {
         if (m_vinfo.inDatabase)
         {
-            popupDelDialog(m_current->filePath);
+            popupDelDialog(m_infos.at(m_current).filePath);
         } else
         {
-            const QString path = m_current->filePath;
+            const QString path = m_infos.at(m_current).filePath;
             removeCurrentImage();
             utils::base::trashFile(path);
         }
@@ -439,8 +440,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
 {
     TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase,m_infos);
 //    ttlc->setCurrentDir(m_currentImageLastDir);
-    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-        ttbc->setImage(m_current->filePath,m_infos);
+    if (! m_infos.isEmpty() && m_current < m_infos.size()) {
+        ttbc->setImage(m_infos.at(m_current).filePath,m_infos);
     } else {
         ttbc->setImage("",m_infos);
     }
@@ -467,14 +468,29 @@ QWidget *ViewPanel::bottomTopLeftContent()
         rotateImage(false);
     });
     connect(ttbc, &TTBContent::removed, this, [ = ] {
-        DBImgInfoList infos;
-        DBImgInfo info;
+        if (utils::common::VIEW_ALLPIC_SRN == m_viewType
+            || utils::common::VIEW_TIMELINE_SRN == m_viewType
+            || utils::common::VIEW_SEARCH_SRN == m_viewType
+            || utils::common::VIEW_ALBUM_RECENTIMPROTED_SRN == m_viewType
+            || utils::common::VIEW_ALBUM_FAVORITE_SRN == m_viewType)
+        {
+            DBImgInfoList infos;
+            DBImgInfo info;
 
-        info = DBManager::instance()->getInfoByPath(m_current->filePath);
-        infos<<info;
+            info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
+            infos<<info;
 
-        DBManager::instance()->insertTrashImgInfos(infos);
-        DBManager::instance()->removeImgInfos(QStringList(m_current->filePath));
+            DBManager::instance()->insertTrashImgInfos(infos);
+            DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
+        }
+        else if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
+        {
+            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+        }
+        else
+        {
+            DBManager::instance()->removeFromAlbum(m_viewType, QStringList(m_infos.at(m_current).filePath));
+        }
 
         removeCurrentImage();
     });
@@ -706,22 +722,22 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
 #endif
     // Get the image which need to open currently
-    m_current = m_infos.cbegin();
+    m_current = 0;
     if (! vinfo.path.isEmpty()) {
-        for (; m_current != m_infos.cend(); m_current ++) {
-            if (m_current->filePath == vinfo.path) {
+        for (; m_current < m_infos.size(); m_current ++) {
+            if (m_infos.at(m_current).filePath == vinfo.path) {
                 break;
             }
         }
     }
 
-    if (m_current == m_infos.cend()) {
+    if (m_current == m_infos.size()) {
         qWarning() << "The specify path not in view range: "
                    << vinfo.path << vinfo.paths;
         return;
     }
-    if(m_current->filePath != nullptr){
-        openImage(m_current->filePath);
+    if(m_infos.at(m_current).filePath != nullptr){
+    openImage(m_infos.at(m_current).filePath);
 //        eatImageDirIterator();
     }
     emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
@@ -753,12 +769,13 @@ bool ViewPanel::showPrevious()
         return false;
     }
 
-    if (m_current == m_infos.cbegin()) {
-        m_current = m_infos.cend();
+    if (m_current <= 0) {
+        m_current = m_infos.size()-1;
+    }else {
+        --m_current;
     }
-    --m_current;
 
-    openImage(m_current->filePath, m_vinfo.inDatabase);
+    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     return true;
 }
 
@@ -772,17 +789,14 @@ bool ViewPanel::showNext()
         return false;
     }
 
-    if (m_current == m_infos.cend()) {
-        m_current = m_infos.cbegin();
+    if (m_current >= m_infos.size()-1) {
+        m_current = 0;
+    }else{
+        ++m_current;
     }
 
-    ++m_current;
 
-    if (m_current == m_infos.cend()) {
-        m_current = m_infos.cbegin();
-    }
-
-    openImage(m_current->filePath, m_vinfo.inDatabase);
+    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     return true;
 }
 bool ViewPanel::showImage(int index,int addindex)
@@ -804,7 +818,7 @@ bool ViewPanel::showImage(int index,int addindex)
                 --m_current;
             }
         }
-        openImage(m_current->filePath, m_vinfo.inDatabase);
+        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         return true;
 }
 
@@ -818,35 +832,46 @@ void ViewPanel::removeCurrentImage()
     // 在删除当前图片之前将图片列表初始化完成
 //    eatImageDirIterator();
 #endif
-
-    if (m_current == m_infos.cbegin()) {
-            m_infos.removeAt(imageIndex(m_current->filePath));
-            if (! showNext()) {
-                if (! showPrevious()) {
-                    qDebug() << "No images to show!";
-                    m_current = m_infos.cend();
-                    emit imageChanged("",m_infos);
-                    m_emptyWidget->setThumbnailImage(QPixmap());
-                    m_stack->setCurrentIndex(1);
-                    emit dApp->signalM->hideImageView();
-                }
-            }
-        }else {
-            m_infos.removeAt(imageIndex(m_current->filePath));
-            if (m_infos.isEmpty()) {
-                qDebug() << "No images to show!";
-                m_current = m_infos.cend();
-                emit imageChanged("",m_infos);
-                m_emptyWidget->setThumbnailImage(QPixmap());
-                m_stack->setCurrentIndex(1);
-                emit dApp->signalM->hideImageView();
-            }else {
-                if (m_current == m_infos.cend()) {
-                    m_current = m_infos.cbegin();
-                }
-                openImage(m_current->filePath, m_vinfo.inDatabase);
-            }
+    m_infos.removeAt(m_current);
+    if (m_infos.isEmpty()) {
+        qDebug() << "No images to show!";
+        m_current = 0;
+        emit imageChanged("",m_infos);
+        m_emptyWidget->setThumbnailImage(QPixmap());
+        m_stack->setCurrentIndex(1);
+        emit dApp->signalM->hideImageView();
+    }else {
+        if (m_current == m_infos.size()) {
+            m_current = 0;
         }
+        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    }
+//    if (m_current != m_infos.cend()) {
+//        m_infos.removeAt(imageIndex(m_current->filePath));
+//        if (! showNext()) {
+//            if (! showPrevious()) {
+//                qDebug() << "No images to show!";
+//                m_current = m_infos.cend();
+//                emit imageChanged("",m_infos);
+//                m_emptyWidget->setThumbnailImage(QPixmap());
+//                m_stack->setCurrentIndex(1);
+//            }
+//        }
+//    }else {
+//        m_infos.removeAt(imageIndex(m_current->filePath));
+//        if (m_infos.isEmpty()) {
+//            qDebug() << "No images to show!";
+//            m_current = m_infos.cend();
+//            emit imageChanged("",m_infos);
+//            m_emptyWidget->setThumbnailImage(QPixmap());
+//            m_stack->setCurrentIndex(1);
+//        }else {
+//            if (m_current == m_infos.cend()) {
+//                m_current = m_infos.cbegin();
+//            }
+//            openImage(m_current->filePath, m_vinfo.inDatabase);
+//        }
+//    }
 }
 
 void ViewPanel::viewOnNewProcess(const QStringList &paths)
@@ -921,7 +946,7 @@ void ViewPanel::rotateImage(bool clockWise)
     m_viewB->autoFit();
     m_info->updateInfo();
 
-    emit imageChanged(m_current->filePath,m_infos);
+    emit imageChanged(m_infos.at(m_current).filePath,m_infos);
 }
 
 void ViewPanel::initViewContent()

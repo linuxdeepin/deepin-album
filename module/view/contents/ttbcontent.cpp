@@ -105,7 +105,7 @@ TTBContent::TTBContent(bool inDB,
 //    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     m_imgInfos = m_infos;
     if ( m_imgInfos.size() <= 1 ) {
-        m_contentWidth = 310;
+        m_contentWidth = 420;
     } else {
         m_contentWidth = 1280;
     }
@@ -115,7 +115,7 @@ TTBContent::TTBContent(bool inDB,
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
+    hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 0);
     hb->setSpacing(0);
     m_inDB = inDB;
 #ifndef LITE_DIV
@@ -581,7 +581,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_imgList->hide();
             m_preButton->hide();
             m_nextButton->hide();
-            m_contentWidth = 310;
+            m_contentWidth = 420;
             setFixedWidth(m_contentWidth);
         }
 
@@ -604,6 +604,12 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
     }
 
     m_imagePath = path;
+    QString fileName = "";
+    if(m_imagePath != ""){
+        fileName = QFileInfo(m_imagePath).fileName();
+    }
+    emit dApp->signalM->updateFileName(fileName);
+//    updateFilenameLayout();
     updateCollectButton();
 }
 

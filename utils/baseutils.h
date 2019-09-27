@@ -70,6 +70,12 @@ const QColor SELECTED_RECT_COLOR = QColor(44, 167, 248, 26);
 const QColor TOP_LINE2_COLOR_DARK = QColor(255, 255, 255, 13);
 const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 153);
 const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
+const QString VIEW_ALLPIC_SRN = "viewAllpicSrn";
+const QString VIEW_TIMELINE_SRN = "viewTimelineSrn";
+const QString VIEW_SEARCH_SRN = "viewSearchSrn";
+const QString VIEW_ALBUM_RECENTIMPROTED_SRN = "Recent imported";
+const QString VIEW_ALBUM_TRASH_SRN= "Trash";
+const QString VIEW_ALBUM_FAVORITE_SRN = "My favorite";
 }
 namespace timeline {
 const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);

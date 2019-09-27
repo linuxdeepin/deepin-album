@@ -53,7 +53,7 @@ const QString SETTINGS_MAINPANEL_KEY = "MainPanel";
 MainWidget::MainWidget(bool manager, QWidget *parent)
     : QFrame(parent)
 {
-    initStyleSheet();
+//    initStyleSheet();
 #ifndef LITE_DIV
     initPanelStack(manager);
 #else
@@ -232,13 +232,13 @@ void MainWidget::initTopToolbar()
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent,
             this, [=](QWidget *c) {
-        if (c != nullptr)
-            m_topToolbar->setLeftContent(c);
+//        if (c != nullptr)
+//            m_topToolbar->setLeftContent(c);
     });
     connect(dApp->signalM, &SignalManager::updateTopToolbarMiddleContent,
             this, [=](QWidget *c) {
-        if (c != nullptr)
-            m_topToolbar->setMiddleContent(c);
+//        if (c != nullptr)
+//            m_topToolbar->setMiddleContent();
     });
     connect(dApp->signalM, &SignalManager::showTopToolbar, this, [=] {
 //        m_topToolbar->moveWithAnimation(0, 0);
@@ -296,7 +296,7 @@ void MainWidget::initConnection()
 //    connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
 //        onImported(tr("Imported successfully"), v);
 //    });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &MainWidget::initStyleSheet);
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &MainWidget::initStyleSheet);
     connect(dApp->signalM, &SignalManager::sigMouseMove, this, [=] {
         if (window()->isFullScreen())
         {
@@ -333,7 +333,7 @@ void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
     m_bottomToolbar->setRadius(18);
-    m_bottomToolbar->resize(310, BOTTOM_TOOLBAR_HEIGHT);
+    m_bottomToolbar->resize(420, BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height()-10);
 
     m_btmSeparatorLine = new QLabel(this);
@@ -353,7 +353,7 @@ void MainWidget::initBottomToolbar()
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            m_bottomToolbar->setFixedWidth(310);
+            m_bottomToolbar->setFixedWidth(420);
         }
         m_bottomToolbar->setRadius(18);
         if (window()->isFullScreen())
@@ -451,11 +451,11 @@ void MainWidget::initExtensionPanel()
     });
 }
 
-void MainWidget::initStyleSheet()
-{
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        this->setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/frame.qss"));
-    } else {
-        this->setStyleSheet(utils::base::getFileContent(":/resources/light/qss/frame.qss"));
-    }
-}
+//void MainWidget::initStyleSheet()
+//{
+//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+//        this->setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/frame.qss"));
+//    } else {
+//        this->setStyleSheet(utils::base::getFileContent(":/resources/light/qss/frame.qss"));
+//    }
+//}

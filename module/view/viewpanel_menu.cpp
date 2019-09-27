@@ -76,7 +76,7 @@ void ViewPanel::initPopupMenu()
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         if (! m_infos.isEmpty()
         #ifdef LITE_DIV
-                && !m_current->filePath.isEmpty()
+                && !m_infos.at(m_current).filePath.isEmpty()
         #endif
                 ) {
             updateMenuContent();
@@ -101,7 +101,7 @@ void ViewPanel::initPopupMenu()
         else
             emit dApp->signalM->showExtensionPanel();
         // Update panel info
-        m_info->setImagePath(m_current->filePath);
+        m_info->setImagePath(m_infos.at(m_current).filePath);
     });
 }
 
@@ -153,7 +153,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::base;
     using namespace utils::image;
 
-    const QString path = m_current->filePath;
+    const QString path = m_infos.at(m_current).filePath;
     const int id = action->property("MenuID").toInt();
 
     switch (MenuItemId(id)) {
@@ -190,17 +190,28 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        DBImgInfoList infos;
-        DBImgInfo info;
+        if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
+        {
+            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+        }
+        else
+        {
+            DBImgInfoList infos;
+            DBImgInfo info;
 
-        info = DBManager::instance()->getInfoByPath(m_current->filePath);
-        infos<<info;
+            info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
+            infos<<info;
 
-        DBManager::instance()->insertTrashImgInfos(infos);
-        DBManager::instance()->removeImgInfos(QStringList(m_current->filePath));
+            DBManager::instance()->insertTrashImgInfos(infos);
+            DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
+        }
 
         removeCurrentImage();
     }
+        break;
+    case IdRemoveFromAlbum:
+        DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
+        removeCurrentImage();
         break;
 #ifndef LITE_DIV
     case IdRemoveFromAlbum:
@@ -266,7 +277,7 @@ void ViewPanel::updateMenuContent()
 #ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
-    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
         QMenu *am = createAlbumMenu();
@@ -278,28 +289,24 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+    if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
+    {
+        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+    }
+    else
+    {
+        appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash", "Delete"));
+    }
 
-#ifndef LITE_DIV
-    if (! m_vinfo.album.isEmpty()) {
-        appendAction(IdRemoveFromAlbum,
-                     tr("Remove from album"), ss("Remove from album"));
+    if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+        && utils::common::VIEW_TIMELINE_SRN != m_viewType
+        && utils::common::VIEW_SEARCH_SRN != m_viewType
+        && utils::common::VIEW_ALBUM_RECENTIMPROTED_SRN != m_viewType
+        && utils::common::VIEW_ALBUM_TRASH_SRN != m_viewType
+        && utils::common::VIEW_ALBUM_FAVORITE_SRN != m_viewType)
+    {
+        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
     }
-    m_menu->addSeparator();
-    /**************************************************************************/
-    if (m_vinfo.inDatabase) {
-        if (m_current != m_infos.constEnd() &&
-                ! DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM_NAME,
-                                               m_current->filePath)) {
-            appendAction(IdAddToFavorites,
-                         tr("Favorite"), ss("Favorite"));
-        } else {
-            appendAction(IdRemoveFromFavorites,
-                         tr("Unfavorite"),
-                         ss("Unfavorite"));
-        }
-    }
-#endif
     m_menu->addSeparator();
     /**************************************************************************/
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
@@ -311,7 +318,7 @@ void ViewPanel::updateMenuContent()
                      tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_current->filePath)) {
+    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
         m_menu->addSeparator();
         appendAction(IdRotateClockwise,
                      tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
@@ -319,7 +326,7 @@ void ViewPanel::updateMenuContent()
                      tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_current->filePath))  {
+    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath))  {
         appendAction(IdSetAsWallpaper,
                      tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
     }

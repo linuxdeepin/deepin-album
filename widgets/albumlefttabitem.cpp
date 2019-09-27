@@ -87,8 +87,8 @@ void AlbumLeftTabItem::editAlbumEdit()
 {
     m_nameLabel->setVisible(false);
     m_pLineEdit->setVisible(true);
-    m_pLineEdit->selectAll();
-    m_pLineEdit->setFocus();
+    m_pLineEdit->lineEdit()->selectAll();
+    m_pLineEdit->lineEdit()->setFocus();
 }
 
 void AlbumLeftTabItem::onCheckNameValid()
@@ -97,20 +97,34 @@ void AlbumLeftTabItem::onCheckNameValid()
     {
         if (OPE_MODE_RENAMEALBUM == m_opeMode)
         {
-            m_nameLabel->setText(m_pLineEdit->text());
-            m_pLineEdit->setText(m_pLineEdit->text());
+            if (DBManager::instance()->getAllAlbumNames().contains(m_pLineEdit->text())
+                || RECENT_IMPORTED_ALBUM == m_pLineEdit->text()
+                || TRASH_ALBUM == m_pLineEdit->text()
+                || FAVORITES_ALBUM == m_pLineEdit->text())
+            {
+                m_pLineEdit->setAlert(true);
+                m_pLineEdit->showAlertMessage("相册名重复");
+            }
+            else
+            {
+                m_nameLabel->setText(m_pLineEdit->text());
+                m_pLineEdit->setText(m_pLineEdit->text());
 
-            m_nameLabel->setVisible(true);
-            m_pLineEdit->setVisible(false);
+                m_nameLabel->setVisible(true);
+                m_pLineEdit->setVisible(false);
 
-            DBManager::instance()->renameAlbum(m_albumNameStr, m_pLineEdit->text());
+                DBManager::instance()->renameAlbum(m_albumNameStr, m_pLineEdit->text());
 
-            m_albumNameStr = m_pLineEdit->text();
+                m_albumNameStr = m_pLineEdit->text();
+            }
         }
 
         if (OPE_MODE_ADDNEWALBUM == m_opeMode)
         {
-            if (DBManager::instance()->getAllAlbumNames().contains(m_pLineEdit->text()))
+            if (DBManager::instance()->getAllAlbumNames().contains(m_pLineEdit->text())
+                || RECENT_IMPORTED_ALBUM == m_pLineEdit->text()
+                || TRASH_ALBUM == m_pLineEdit->text()
+                || FAVORITES_ALBUM == m_pLineEdit->text())
             {
                 m_pLineEdit->setAlert(true);
                 m_pLineEdit->showAlertMessage("相册名重复");

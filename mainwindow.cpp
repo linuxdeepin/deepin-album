@@ -65,11 +65,15 @@ void MainWindow::initConnections()
     });
 	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
         m_backIndex = index;
+        titlebar()->setFixedHeight(0);
+        statusBar()->setFixedHeight(0);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
     });
     connect(dApp->signalM,&SignalManager::hideImageView,this,[=](){
         emit dApp->signalM->hideExtensionPanel();
 
+        titlebar()->setFixedHeight(50);
+        statusBar()->setFixedHeight(50);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
     connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
@@ -77,14 +81,6 @@ void MainWindow::initConnections()
     });
     connect(m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
-    connect(dApp->signalM, &SignalManager::showTopToolbar, this, [=] {
-        titlebar()->setFixedHeight(50);
-        statusBar()->setFixedHeight(50);
-    });
-    connect(dApp->signalM, &SignalManager::hideTopToolbar, this, [=] {
-        titlebar()->setFixedHeight(0);
-        statusBar()->setFixedHeight(0);
-    });
 }
 
 void MainWindow::initUI()

@@ -143,13 +143,14 @@ private:
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
-    DBImgInfoList::ConstIterator m_current;
-
+//    DBImgInfoList::ConstIterator m_current =NULL;
+    int m_current =0;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
     void eatImageDirIterator();
 #endif
     QString m_currentImageLastDir = "";
+    QString m_viewType;
 };
 #endif // VIEWPANEL_H

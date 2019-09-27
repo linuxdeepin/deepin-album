@@ -7,6 +7,8 @@
 #include <DNotifySender>
 #include <QMimeData>
 
+#include "dgiovolumemanager.h"
+
 namespace {
 const int ITEM_SPACING = 5;
 const int LEFT_VIEW_WIDTH = 250;
@@ -375,8 +377,11 @@ void AlbumView::showLeftMenu(const QPoint &pos)
 
     m_pLeftMenu->clear();
 
-    appendAction(LEFT_MENU_SLIDESHOW);
-    m_pLeftMenu->addSeparator();
+    if (0 != DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
+    {
+        appendAction(LEFT_MENU_SLIDESHOW);
+        m_pLeftMenu->addSeparator();
+    }
     appendAction(LEFT_MENU_NEWALBUM);
     m_pLeftMenu->addSeparator();
     appendAction(LEFT_MENU_RENAMEALBUM);
@@ -458,8 +463,8 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         emit m_pLeftTabList->clicked(index);
 
         QString str1 = "相册：“%1”，已经删除成功";
-        DUtil::DNotifySender *pDNotifySender = new DUtil::DNotifySender("");
-        pDNotifySender->appName("深度相册");
+        DUtil::DNotifySender *pDNotifySender = new DUtil::DNotifySender("深度相册");
+        pDNotifySender->appName("deepin-album");
         pDNotifySender->appBody(str1.arg(str));
         pDNotifySender->call();
     }
@@ -527,14 +532,19 @@ void AlbumView::openImage(int index)
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    auto imagelist = DBManager::instance()->getAllInfos();
+
+    auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
     if (TRASH_ALBUM == m_currentAlbum)
     {
         imagelist = DBManager::instance()->getAllTrashInfos();
     }
-    else if(FAVORITES_ALBUM == m_currentAlbum)
+    else if(RECENT_IMPORTED_ALBUM == m_currentAlbum)
     {
-        imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+        imagelist = DBManager::instance()->getAllInfos();
+    }
+    else
+    {
+
     }
 
     if(imagelist.size()>1){
@@ -546,7 +556,8 @@ void AlbumView::openImage(int index)
       info.paths.clear();
      }
     info.path = imagelist[index].filePath;
-//        info.fullScreen = true;
+    info.viewType = m_currentAlbum;
+
     emit dApp->signalM->viewImage(info);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
@@ -564,7 +575,9 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     else if(RECENT_IMPORTED_ALBUM == m_currentAlbum)
     {
         imagelist = DBManager::instance()->getAllInfos();
-    }else {
+    }
+    else
+    {
 
     }
 
@@ -590,6 +603,7 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     info.path = path;
     info.fullScreen = isFullScreen;
     info.slideShow = isSlideShow;
+    info.viewType = m_currentAlbum;
     emit dApp->signalM->viewImage(info);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
@@ -713,3 +727,40 @@ void AlbumView::picsIntoAlbum(QStringList paths)
         DBManager::instance()->insertIntoAlbum(m_currentAlbum, paths);
     }
 }
+
+//AlbumView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    // TODO: Add your specialized code here and/or call the base class
+//    DWORD ThreadId;
+//    bool allzero=true;
+//    size_t i;
+
+//    if(message!=WM_DEVICECHANGE)
+//    {
+//        return CDialog::WindowProc(message, wParam, lParam);
+//    }
+
+//    if(wParam==DBT_DEVICEARRIVAL)//有新设备插入系统
+//    {
+//        DEV_BROADCAST_HDR* pDev=(DEV_BROADCAST_HDR*)lParam;
+//        if(pDev->dbch_devicetype!=DBT_DEVTYP_VOLUME )//移动存储设备
+//        {
+//            return CDialog::WindowProc(message, wParam, Param);
+//        }
+
+//        DEV_BROADCAST_VOLUME* pDisk=(DEV_BROADCAST_VOLUME*)lParam;
+//        DWORD mask=pDisk->dbcv_unitmask;
+
+//        TCHAR diskname[MAX_PATH];
+//        for(i=0;i<32;i++)
+//        {
+//            if((mask>>i)==1)
+//            {//获取盘符
+//                diskname[0]='A'+i;
+//                diskname[1]='\0';
+//                _tcscat_s(diskname,TEXT(":\\"));
+//                break;
+//            }
+//        }
+//    }
+//}

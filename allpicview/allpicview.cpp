@@ -44,16 +44,19 @@ void AllPicView::initConnections()
         info.album = "";
         info.lastPanel = nullptr;
         auto imagelist = DBManager::instance()->getAllInfos();
-        if(imagelist.size()>1){
+        if(imagelist.size()>1)
+        {
             for(auto image : imagelist)
             {
                 info.paths<<image.filePath;
             }
-        }else {
+        }
+        else
+        {
           info.paths.clear();
-         }
+        }
         info.path = imagelist[index].filePath;
-//        info.fullScreen = true;
+        info.viewType = utils::common::VIEW_ALLPIC_SRN;
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
@@ -62,22 +65,29 @@ void AllPicView::initConnections()
         info.album = "";
         info.lastPanel = nullptr;
         auto imagelist = DBManager::instance()->getAllInfos();
-        if(paths.size()>1){
-            info.paths = paths;
-        }else
+        if(paths.size()>1)
         {
-            if(imagelist.size()>1){
+            info.paths = paths;
+        }
+        else
+        {
+            if(imagelist.size()>1)
+            {
                 for(auto image : imagelist)
                 {
                     info.paths<<image.filePath;
                 }
-            }else {
+            }
+            else
+            {
               info.paths.clear();
-             }
+            }
         }
         info.path = path;
         info.fullScreen = isFullScreen;
         info.slideShow = isSlideShow;
+        info.viewType = utils::common::VIEW_ALLPIC_SRN;
+
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });

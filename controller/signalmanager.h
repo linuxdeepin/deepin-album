@@ -40,6 +40,7 @@ public:
         QString album = QString();
         QString path;                           // Specific current open one
         QStringList paths = QStringList();      // Limit the view range
+        QString viewType = QString();
     };
 
 signals:
@@ -77,7 +78,7 @@ signals:
 
     void viewImage(const ViewInfo &vinfo);
     void exportImage(const QStringList &paths);
-
+    void updateFileName(const QString &fileName);
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());
