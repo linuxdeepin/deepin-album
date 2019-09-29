@@ -18,12 +18,14 @@ TimeLineView::TimeLineView()
     setAcceptDrops(true);
     m_index = 0;
 
-    pTimeLineViewWidget = new DWidget(this);
+    pTimeLineViewWidget = new DWidget();
     pImportView = new ImportView();
+
     addWidget(pImportView);
     addWidget(pTimeLineViewWidget);
 
     initTimeLineViewWidget();
+
     updataLayout();
 
     initConnections();
@@ -48,12 +50,14 @@ void TimeLineView::initConnections(){
 
 void TimeLineView::initTimeLineViewWidget()
 {
-    m_mainLayout = new QVBoxLayout(pTimeLineViewWidget);
+    m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
+    pTimeLineViewWidget->setLayout(m_mainLayout);
+
     m_mainListWidget = new TimelineList;
-    m_mainLayout->addWidget(m_mainListWidget);
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
+    m_mainLayout->addWidget(m_mainListWidget);
 
     //添加悬浮title
     m_dateItem = new QWidget(pTimeLineViewWidget);
@@ -336,17 +340,17 @@ void TimeLineView::dropEvent(QDropEvent *event)
 
     for (auto path : paths)
     {
-//        if (! imageSupportRead(imagePath)) {
-//            continue;
-//        }
-
-        // Generate thumbnail and storage into cache dir
-        if (! utils::image::thumbnailExist(path)) {
-            // Generate thumbnail failed, do not insert into DB
-            if (! utils::image::generateThumbnail(path)) {
-                continue;
-            }
+        if (! imageSupportRead(path)) {
+            continue;
         }
+
+//        // Generate thumbnail and storage into cache dir
+//        if (! utils::image::thumbnailExist(path)) {
+//            // Generate thumbnail failed, do not insert into DB
+//            if (! utils::image::generateThumbnail(path)) {
+//                continue;
+//            }
+//        }
 
         QFileInfo fi(path);
         DBImgInfo dbi;

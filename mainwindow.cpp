@@ -85,7 +85,7 @@ void MainWindow::initConnections()
 
 void MainWindow::initUI()
 {
-    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
+//    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
     setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
 }
 
@@ -358,17 +358,17 @@ void MainWindow::onImprotBtnClicked()
 
     for (auto imagePath : image_list)
     {
-//        if (! imageSupportRead(imagePath)) {
-//            continue;
-//        }
-
-        // Generate thumbnail and storage into cache dir
-        if (! utils::image::thumbnailExist(imagePath)) {
-            // Generate thumbnail failed, do not insert into DB
-            if (! utils::image::generateThumbnail(imagePath)) {
-                continue;
-            }
+        if (! imageSupportRead(imagePath)) {
+            continue;
         }
+
+//        // Generate thumbnail and storage into cache dir
+//        if (! utils::image::thumbnailExist(imagePath)) {
+//            // Generate thumbnail failed, do not insert into DB
+//            if (! utils::image::generateThumbnail(imagePath)) {
+//                continue;
+//            }
+//        }
 
         QFileInfo fi(imagePath);
         DBImgInfo dbi;

@@ -76,6 +76,7 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->setGeometry(QRect(0, 0, 150, 20));
     m_pLineEdit->setText(m_albumNameStr);
     m_pLineEdit->setVisible(false);
+    m_pLineEdit->lineEdit()->setMaxLength(64);
 
     pHBoxLayout->addWidget(pLabel);
     pHBoxLayout->addWidget(pWidget);
@@ -93,59 +94,40 @@ void AlbumLeftTabItem::editAlbumEdit()
 
 void AlbumLeftTabItem::onCheckNameValid()
 {
-    if ((m_pLineEdit->text().length() > 0) && (m_pLineEdit->text().length() < 64))
+    QString newNameStr = m_pLineEdit->text().trimmed();
+
+    if (DBManager::instance()->getAllAlbumNames().contains(newNameStr)
+        || RECENT_IMPORTED_ALBUM == newNameStr
+        || TRASH_ALBUM == newNameStr
+        || FAVORITES_ALBUM == newNameStr
+        || newNameStr.isEmpty())
     {
-        if (OPE_MODE_RENAMEALBUM == m_opeMode)
-        {
-            if (DBManager::instance()->getAllAlbumNames().contains(m_pLineEdit->text())
-                || RECENT_IMPORTED_ALBUM == m_pLineEdit->text()
-                || TRASH_ALBUM == m_pLineEdit->text()
-                || FAVORITES_ALBUM == m_pLineEdit->text())
-            {
-                m_pLineEdit->setAlert(true);
-                m_pLineEdit->showAlertMessage("相册名重复");
-            }
-            else
-            {
-                m_nameLabel->setText(m_pLineEdit->text());
-                m_pLineEdit->setText(m_pLineEdit->text());
-
-                m_nameLabel->setVisible(true);
-                m_pLineEdit->setVisible(false);
-
-                DBManager::instance()->renameAlbum(m_albumNameStr, m_pLineEdit->text());
-
-                m_albumNameStr = m_pLineEdit->text();
-            }
-        }
-
-        if (OPE_MODE_ADDNEWALBUM == m_opeMode)
-        {
-            if (DBManager::instance()->getAllAlbumNames().contains(m_pLineEdit->text())
-                || RECENT_IMPORTED_ALBUM == m_pLineEdit->text()
-                || TRASH_ALBUM == m_pLineEdit->text()
-                || FAVORITES_ALBUM == m_pLineEdit->text())
-            {
-                m_pLineEdit->setAlert(true);
-                m_pLineEdit->showAlertMessage("相册名重复");
-            }
-            else
-            {
-                m_nameLabel->setText(m_pLineEdit->text());
-                m_pLineEdit->setText(m_pLineEdit->text());
-
-                m_nameLabel->setVisible(true);
-                m_pLineEdit->setVisible(false);
-
-                DBManager::instance()->insertIntoAlbum(m_pLineEdit->text(), QStringList(" "));
-
-                m_albumNameStr = m_pLineEdit->text();
-            }
-        }
+        newNameStr = m_albumNameStr;
     }
-    else
+
+    if (OPE_MODE_RENAMEALBUM == m_opeMode)
     {
-        m_pLineEdit->setAlert(true);
-        m_pLineEdit->showAlertMessage("输入字符长度必须在0-64位之间");
+        m_nameLabel->setText(newNameStr);
+        m_pLineEdit->setText(newNameStr);
+
+        m_nameLabel->setVisible(true);
+        m_pLineEdit->setVisible(false);
+
+        DBManager::instance()->renameAlbum(m_albumNameStr, newNameStr);
+
+        m_albumNameStr = newNameStr;
+    }
+
+    if (OPE_MODE_ADDNEWALBUM == m_opeMode)
+    {
+        m_nameLabel->setText(newNameStr);
+        m_pLineEdit->setText(newNameStr);
+
+        m_nameLabel->setVisible(true);
+        m_pLineEdit->setVisible(false);
+
+        DBManager::instance()->insertIntoAlbum(newNameStr, QStringList(" "));
+
+        m_albumNameStr = newNameStr;
     }
 }

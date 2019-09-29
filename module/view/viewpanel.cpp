@@ -301,8 +301,11 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
         }
     }
 
-    killTimer(m_iSlideShowTimerId);
-    m_iSlideShowTimerId = 0;
+    if (0 != m_iSlideShowTimerId)
+    {
+        killTimer(m_iSlideShowTimerId);
+        m_iSlideShowTimerId = 0;
+    }
 
     ModulePanel::mousePressEvent(e);
 }

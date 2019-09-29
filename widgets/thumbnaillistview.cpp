@@ -2,7 +2,10 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "controller/signalmanager.h"
+#include "utils/snifferimageformat.h"
+
 #include <QDebug>
+#include <QImageReader>
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -81,7 +84,15 @@ void ThumbnailListView::calBasePixMapWandH()
 {
     for(int i = 0; i < m_ItemList.length(); i++)
     {
-        m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
+        if (0 == m_ItemList[i].height)
+        {
+            m_ItemList[i].width = m_iBaseHeight;
+        }
+        else
+        {
+            m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
+        }
+
         m_ItemList[i].height = m_iBaseHeight;
     }
 }
@@ -114,7 +125,7 @@ void ThumbnailListView::calWidgetItemWandH()
         {
             i_baseWidth -= ITEM_SPACING;
             rowWidthList<<i_baseWidth;
-            i_baseWidth = m_ItemList[i].width;
+            i_baseWidth = m_ItemList[i].width + ITEM_SPACING;
 
             m_gridItem<<itemInfoList;
             itemInfoList.clear();
@@ -122,6 +133,7 @@ void ThumbnailListView::calWidgetItemWandH()
 
             if (i == m_ItemList.length() -1 )
             {
+                i_baseWidth -= ITEM_SPACING;
                 rowWidthList<<i_baseWidth;
                 m_gridItem<<itemInfoList;
             }
@@ -202,8 +214,32 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 
     for(int i = 0; i < m_ItemList.length(); i++)
     {
-        QPixmap pixmap;
-        pixmap.load(m_ItemList[i].path);
+
+
+        QImage tImg;
+
+        QString format = DetectImageFormat(m_ItemList[i].path);
+        if (format.isEmpty()) {
+            QImageReader reader(m_ItemList[i].path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(m_ItemList[i].path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(m_ItemList[i].path);
+            }
+        }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+
         m_ItemList[i].width = pixmap.width();
         m_ItemList[i].height = pixmap.height();
     }
@@ -344,13 +380,13 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
     case IdView:
-        emit menuOpenImage(path,paths,false);
+        emit menuOpenImage(path, paths, false, false);
         break;
     case IdFullScreen:
-        emit menuOpenImage(path,paths,true);
+        emit menuOpenImage(path, paths, true, false);
         break;
     case IdStartSlideShow:
-        emit menuOpenImage(path,paths,true, true);
+        emit menuOpenImage(path, paths, true, true);
         break;
     case IdAddToAlbum: {
         const QString album = action->data().toString();
@@ -487,6 +523,8 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
     m_model->removeRow(index.row());
 }
+
+
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {

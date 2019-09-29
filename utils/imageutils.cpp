@@ -409,23 +409,13 @@ bool generateThumbnail(const QString &path)
     const auto attributes = thumbnailAttribute(url);
     const QString cacheP = thumbnailCachePath();
 
-    QPixmap pixmap;
-    pixmap.load(path);
-    int i_width = pixmap.width();
-    int i_height = pixmap.height();
-    int i_largeScaleWidth = 0;
-    int i_normalScaleWidth = 0;
-
-    i_largeScaleWidth = (THUMBNAIL_MAX_SIZE * i_height) / i_width;
-    i_normalScaleWidth = (THUMBNAIL_NORMAL_SIZE * i_height) / i_width;
-
     // Large thumbnail
     QImage lImg = scaleImage(path,
-                             QSize(i_largeScaleWidth, THUMBNAIL_MAX_SIZE));
+                             QSize(THUMBNAIL_MAX_SIZE, THUMBNAIL_MAX_SIZE));
 
     // Normal thumbnail
     QImage nImg = lImg.scaled(
-                QSize(i_normalScaleWidth, THUMBNAIL_NORMAL_SIZE)
+                QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
                 , Qt::KeepAspectRatio
                 , Qt::SmoothTransformation);
 

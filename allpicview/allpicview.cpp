@@ -185,17 +185,17 @@ void AllPicView::dropEvent(QDropEvent *event)
 
     for (auto path : paths)
     {
-//        if (! imageSupportRead(imagePath)) {
-//            continue;
-//        }
-
-        // Generate thumbnail and storage into cache dir
-        if (! utils::image::thumbnailExist(path)) {
-            // Generate thumbnail failed, do not insert into DB
-            if (! utils::image::generateThumbnail(path)) {
-                continue;
-            }
+        if (! imageSupportRead(path)) {
+            continue;
         }
+
+//        // Generate thumbnail and storage into cache dir
+//        if (! utils::image::thumbnailExist(path)) {
+//            // Generate thumbnail failed, do not insert into DB
+//            if (! utils::image::generateThumbnail(path)) {
+//                continue;
+//            }
+//        }
 
         QFileInfo fi(path);
         DBImgInfo dbi;

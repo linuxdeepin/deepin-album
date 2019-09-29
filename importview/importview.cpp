@@ -90,17 +90,17 @@ void ImportView::dropEvent(QDropEvent *event)
 
     for (auto path : paths)
     {
-//        if (! imageSupportRead(imagePath)) {
-//            continue;
-//        }
-
-        // Generate thumbnail and storage into cache dir
-        if (! utils::image::thumbnailExist(path)) {
-            // Generate thumbnail failed, do not insert into DB
-            if (! utils::image::generateThumbnail(path)) {
-                continue;
-            }
+        if (! imageSupportRead(path)) {
+            continue;
         }
+
+//        // Generate thumbnail and storage into cache dir
+//        if (! utils::image::thumbnailExist(path)) {
+//            // Generate thumbnail failed, do not insert into DB
+//            if (! utils::image::generateThumbnail(path)) {
+//                continue;
+//            }
+//        }
 
         QFileInfo fi(path);
         DBImgInfo dbi;
@@ -168,17 +168,17 @@ void ImportView::onImprotBtnClicked()
 
     for (auto imagePath : image_list)
     {
-//        if (! imageSupportRead(imagePath)) {
-//            continue;
-//        }
-
-        // Generate thumbnail and storage into cache dir
-        if (! utils::image::thumbnailExist(imagePath)) {
-            // Generate thumbnail failed, do not insert into DB
-            if (! utils::image::generateThumbnail(imagePath)) {
-                continue;
-            }
+        if (! imageSupportRead(imagePath)) {
+            continue;
         }
+
+//        // Generate thumbnail and storage into cache dir
+//        if (! utils::image::thumbnailExist(imagePath)) {
+//            // Generate thumbnail failed, do not insert into DB
+//            if (! utils::image::generateThumbnail(imagePath)) {
+//                continue;
+//            }
+//        }
 
         QFileInfo fi(imagePath);
         DBImgInfo dbi;

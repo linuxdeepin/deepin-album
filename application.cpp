@@ -36,7 +36,7 @@ Application::Application(int& argc, char** argv)
     initI18n();
     setApplicationDisplayName(tr("Deepin album"));
     setProductIcon(QIcon(":/resources/images/other/deepin-album.svg"));
-    setApplicationVersion(DApplication::buildVersion("20190925"));
+    setApplicationVersion(DApplication::buildVersion("20190929"));
     setApplicationDescription(QString("%1\n%2\n").arg(tr("深度相册是深度操作系统自带的相册软件。")).arg(tr("满足对照片的常用功能，快速、轻巧、使用简单。")));
 
     installEventFilter(new GlobalEventFilter());
