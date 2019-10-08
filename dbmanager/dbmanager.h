@@ -89,6 +89,7 @@ public:
     void insertImgInfos(const DBImgInfoList &infos);
     void removeImgInfos(const QStringList &paths);
     void removeDir(const QString &dir);
+    void removeImgInfosNoSignal(const QStringList &paths);
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
 
     // TableAlbum
@@ -104,11 +105,13 @@ public:
     void removeAlbum(const QString &album);
     void removeFromAlbum(const QString &album, const QStringList &paths);
     void renameAlbum(const QString &oldAlbum, const QString &newAlbum);
+    void removeFromAlbumNoSignal(const QString &album, const QStringList &paths);
     // TabelTrash
     const QStringList       getAllTrashPaths() const;
     const DBImgInfoList     getAllTrashInfos() const;
     void insertTrashImgInfos(const DBImgInfoList &infos);
     void removeTrashImgInfos(const QStringList &paths);
+    void removeTrashImgInfosNoSignal(const QStringList &paths);
     const DBImgInfo         getTrashInfoByPath(const QString &path) const;
     const DBImgInfoList     getTrashImgInfos(const QString &key, const QString &value) const;
     int                     getTrashImgsCount() const;

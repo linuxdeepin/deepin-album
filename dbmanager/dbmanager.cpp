@@ -375,6 +375,55 @@ void DBManager::removeImgInfos(const QStringList &paths)
     mutex.unlock();
 }
 
+void DBManager::removeImgInfosNoSignal(const QStringList &paths)
+{
+    QSqlDatabase db = getDatabase();
+    if (paths.isEmpty() || ! db.isValid()) {
+        return;
+    }
+
+    // Collect info before removing data
+    DBImgInfoList infos;
+    QStringList pathHashs;
+    for (QString path : paths) {
+        pathHashs << utils::base::hash(path);
+        infos << getInfoByPath(path);
+    }
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query(db);
+    // Remove from albums table
+    query.setForwardOnly(true);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
+    query.prepare(qs);
+    query.addBindValue(pathHashs);
+    if (! query.execBatch()) {
+        qWarning() << "Remove data from AlbumTable3 failed: "
+                   << query.lastError();
+        query.exec("COMMIT");
+    }
+    else {
+        query.exec("COMMIT");
+    }
+
+    // Remove from image table
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    qs = "DELETE FROM ImageTable3 WHERE PathHash=?";
+    query.prepare(qs);
+    query.addBindValue(pathHashs);
+    if (! query.execBatch()) {
+        qWarning() << "Remove data from ImageTable3 failed: "
+                   << query.lastError();
+        query.exec("COMMIT");
+    }
+    else {
+        mutex.unlock();
+        query.exec("COMMIT");
+    }
+    mutex.unlock();
+}
+
 void DBManager::removeDir(const QString &dir)
 {
     QSqlDatabase db = getDatabase();
@@ -734,6 +783,35 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     else {
         mutex.unlock();
         emit dApp->signalM->removedFromAlbum(album, paths);
+    }
+    query.exec("COMMIT");
+    mutex.unlock();
+}
+
+void DBManager::removeFromAlbumNoSignal(const QString &album, const QStringList &paths)
+{
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return;
+    }
+
+    QStringList pathHashs;
+    for (QString path : paths) {
+        pathHashs << utils::base::hash(path);
+    }
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    // Remove from albums table
+    QString qs("DELETE FROM AlbumTable3 WHERE AlbumName=\"%1\" AND PathHash=?");
+    query.prepare(qs.arg(album));
+    query.addBindValue(pathHashs);
+    if (! query.execBatch()) {
+        qWarning() << "Remove images from DB failed: " << query.lastError();
+    }
+    else {
+        mutex.unlock();
     }
     query.exec("COMMIT");
     mutex.unlock();
@@ -1261,6 +1339,55 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     else {
         mutex.unlock();
         emit dApp->signalM->imagesTrashRemoved(infos);
+        query.exec("COMMIT");
+    }
+}
+
+void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
+{
+    QSqlDatabase db = getDatabase();
+    if (paths.isEmpty() || ! db.isValid()) {
+        return;
+    }
+
+    // Collect info before removing data
+    DBImgInfoList infos;
+    QStringList pathHashs;
+    for (QString path : paths) {
+        pathHashs << utils::base::hash(path);
+        infos << getInfoByPath(path);
+    }
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query(db);
+    // Remove from albums table
+    query.setForwardOnly(true);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
+    query.prepare(qs);
+    query.addBindValue(pathHashs);
+    if (! query.execBatch()) {
+        qWarning() << "Remove data from AlbumTable3 failed: "
+                   << query.lastError();
+        query.exec("COMMIT");
+    }
+    else {
+        query.exec("COMMIT");
+    }
+
+    // Remove from image table
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    qs = "DELETE FROM TrashTable WHERE PathHash=?";
+    query.prepare(qs);
+    query.addBindValue(pathHashs);
+    if (! query.execBatch()) {
+        qWarning() << "Remove data from TrashTable failed: "
+                   << query.lastError();
+        query.exec("COMMIT");
+        mutex.unlock();
+    }
+    else {
+        mutex.unlock();
         query.exec("COMMIT");
     }
 }

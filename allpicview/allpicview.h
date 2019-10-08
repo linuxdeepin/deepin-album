@@ -46,8 +46,6 @@ private:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 
-
-
     void removeDBAllInfos();
 private:
     ThumbnailListView* m_pThumbnailListView;

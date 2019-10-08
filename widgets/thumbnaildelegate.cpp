@@ -18,6 +18,7 @@
 #include "application.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+#include "utils/snifferimageformat.h"
 #include <QDateTime>
 
 #include <QHBoxLayout>
@@ -28,6 +29,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QMouseEvent>
+#include <QImageReader>
 
 namespace
 {
@@ -86,8 +88,30 @@ void ThumbnailDelegate::paint(QPainter *painter,
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    QPixmap pixmapItem;
-    pixmapItem.load(data.path);
+
+    QImage tImg;
+
+    QString format = DetectImageFormat(data.path);
+    if (format.isEmpty()) {
+        QImageReader reader(data.path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(data.path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                       << format;
+
+            tImg = QImage(data.path);
+        }
+    }
+
+    QPixmap pixmapItem = QPixmap::fromImage(tImg);
 
     painter->drawPixmap(pixmapRect, pixmapItem);
 

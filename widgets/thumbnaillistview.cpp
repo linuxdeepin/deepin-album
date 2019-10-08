@@ -214,8 +214,6 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 
     for(int i = 0; i < m_ItemList.length(); i++)
     {
-
-
         QImage tImg;
 
         QString format = DetectImageFormat(m_ItemList[i].path);

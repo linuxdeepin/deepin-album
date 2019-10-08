@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
+#include "utils/snifferimageformat.h"
+
 namespace  {
 const int VIEW_ALLPIC = 0;
 const int VIEW_TIMELINE = 1;
@@ -21,6 +23,7 @@ MainWindow::MainWindow()
     m_bTitleMenuImportClicked = false;
 
     initUI();
+    initDB();
     initTitleBar();
     initCentralWidget();
     initStatusBar();
@@ -73,7 +76,7 @@ void MainWindow::initConnections()
         emit dApp->signalM->hideExtensionPanel();
 
         titlebar()->setFixedHeight(50);
-        statusBar()->setFixedHeight(50);
+        statusBar()->setFixedHeight(30);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
     connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
@@ -87,6 +90,23 @@ void MainWindow::initUI()
 {
 //    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
     setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
+}
+
+void MainWindow::initDB()
+{
+    QStringList removePaths;
+
+    auto infos = DBManager::instance()->getAllInfos();
+    for(auto info : infos)
+    {
+        QString format = DetectImageFormat(info.filePath);
+        if (format.isEmpty())
+        {
+            removePaths<<info.filePath;
+        }
+    }
+
+    DBManager::instance()->removeImgInfosNoSignal(removePaths);
 }
 
 void MainWindow::initTitleBar()
@@ -185,32 +205,36 @@ void MainWindow::initStatusBar()
     m_pStatusBar = new DStatusBar(this);
     setStatusBar(m_pStatusBar);
 
-    QWidget* pWidget = new QWidget();
-
     QString str = tr("%1张照片");
-
-    QHBoxLayout* pHBoxLayout = new QHBoxLayout();
 
     m_pAllPicNumLabel = new DLabel();
     m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+    m_pAllPicNumLabel->setFont(QFont("SourceHanSansSC-Normal"));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
+    m_pAllPicNumLabel->setFixedHeight(18);
 
     m_pSlider = new DSlider();
     m_pSlider->setFixedWidth(120);
+    m_pSlider->setFixedHeight(24);
     m_pSlider->setMinimum(0);
     m_pSlider->setMaximum(4);
     m_pSlider->slider()->setSingleStep(1);
     m_pSlider->slider()->setTickInterval(1);
     m_pSlider->setValue(2);
 
-    pHBoxLayout->addWidget(m_pAllPicNumLabel, Qt::AlignHCenter);
-    pHBoxLayout->addWidget(m_pSlider, Qt::AlignRight);
+//    QWidget *pWidget = new QWidget();
+//    pWidget->setFixedWidth(160);
+//    pWidget->setFixedHeight(30);
 
-    pWidget->setLayout(pHBoxLayout);
+//    QHBoxLayout *pHBoxLayout = new QHBoxLayout();
+//    pHBoxLayout->addWidget(m_pSlider, Qt::AlignLeft);
 
-    statusBar()->addWidget(pWidget, 1);
+//    pWidget->setLayout(pHBoxLayout);
+
+    statusBar()->addWidget(m_pAllPicNumLabel, 1);
+    statusBar()->addWidget(m_pSlider, 1);
     statusBar()->setSizeGripEnabled(false);
-//    statusBar()->setFixedHeight(0);
+    statusBar()->setFixedHeight(30);
 }
 
 void MainWindow::allPicBtnClicked()

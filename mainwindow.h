@@ -47,6 +47,7 @@ public:
 
     void initConnections();
     void initUI();
+    void initDB();
     void initTitleBar();
     void initCentralWidget();
     void initStatusBar();
