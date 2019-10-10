@@ -2,6 +2,7 @@
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/snifferimageformat.h"
+#include <DWidgetUtil>
 
 namespace  {
 const int VIEW_ALLPIC = 0;
@@ -116,10 +117,11 @@ void MainWindow::initTitleBar()
     QLabel* pLabel = new QLabel();
     pLabel->setFixedSize(33, 32);
 
-    QPixmap pixmap;
-    pixmap = utils::base::renderSVG(":/resources/images/other/deepin-album.svg", QSize(33, 32));
+//    QPixmap pixmap;
+//    pixmap = utils::base::renderSVG(":/resources/images/other/deepin-album.svg", QSize(33, 32));
+    QIcon icon = QIcon::fromTheme("deepin-album");
 
-    pLabel->setPixmap(pixmap);
+    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
 
     // TitleBar Button
     m_titleBtnWidget = new QWidget();
