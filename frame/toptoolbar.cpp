@@ -255,7 +255,8 @@ void TopToolbar::initWidgets()
                                Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
     m_titlebar->setBackgroundTransparent(true);
-    m_titlebar->setIcon(QIcon(":/resources/images/other/deepin-album.svg"));
+//    m_titlebar->setIcon(QIcon(":/resources/images/other/deepin-album.svg"));
+    m_titlebar->setIcon(QIcon::fromTheme("deepin-album"));
     QPalette pa;
     pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
 //    pa.setColor(QPalette::WindowText,Qt::red);
