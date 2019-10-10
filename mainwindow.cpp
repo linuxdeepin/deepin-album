@@ -44,7 +44,6 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::createAlbum,this, &MainWindow::onCreateAlbum);
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
-    connect(dApp->signalM, &SignalManager::sigUpdateAllpicsNumLabel, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
         if (0 < DBManager::instance()->getImgsCount())
@@ -84,6 +83,8 @@ void MainWindow::initConnections()
     });
     connect(m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
 }
 
 void MainWindow::initUI()
@@ -242,9 +243,6 @@ void MainWindow::allPicBtnClicked()
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
 
-    int num = DBManager::instance()->getImgsCount();
-    onUpdateAllpicsNumLabel(num);
-
     m_iCurrentView = VIEW_ALLPIC;
 
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
@@ -255,9 +253,6 @@ void MainWindow::timeLineBtnClicked()
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
 
-    int num = DBManager::instance()->getImgsCount();
-    onUpdateAllpicsNumLabel(num);
-
     m_iCurrentView = VIEW_TIMELINE;
 
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
@@ -267,8 +262,6 @@ void MainWindow::albumBtnClicked()
 {
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
-
-    onUpdateAllpicsNumLabel(m_pAlbumview->m_iAlubmPicsNum);
 
     m_iCurrentView = VIEW_ALBUM;
 
@@ -337,11 +330,12 @@ void MainWindow::onSearchEditFinished()
     }
 }
 
-void MainWindow::onUpdateAllpicsNumLabel(int num)
+void MainWindow::onUpdateAllpicsNumLabel()
 {
     QString str = tr("%1张照片");
 
-    m_pAllPicNumLabel->setText(str.arg(QString::number(num)));
+    m_allPicNum = DBManager::instance()->getImgsCount();
+    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
 }
 
 void MainWindow::onImprotBtnClicked()

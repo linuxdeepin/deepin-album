@@ -161,7 +161,23 @@ void AlbumView::initRightView()
     m_pImportView = new ImportView();
 
     // Thumbnail View
+    DWidget *pNoTrashWidget = new DWidget();
+    QVBoxLayout *pNoTrashVBoxLayout = new QVBoxLayout();
+
+    m_pRightTitle = new DLabel();
+    m_pRightTitle->setText(RECENT_IMPORTED_ALBUM);
+
+    m_pRightPicTotal = new DLabel();
+    QString str = tr("%1张照片");
+    m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+
     m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
+
+    pNoTrashVBoxLayout->addWidget(m_pRightTitle);
+    pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
+    pNoTrashVBoxLayout->addWidget(m_pRightThumbnailList);
+
+    pNoTrashWidget->setLayout(pNoTrashVBoxLayout);
 
     // Trash View
     DWidget *pTrashWidget = new DWidget();
@@ -200,12 +216,31 @@ void AlbumView::initRightView()
     pTrashWidget->setLayout(pMainVBoxLayout);
 
     // Favorite View
+    DWidget *pFavoriteWidget = new DWidget();
+    QVBoxLayout *pFavoriteVBoxLayout = new QVBoxLayout();
+
+    m_pFavoriteTitle = new DLabel();
+    m_pFavoriteTitle->setText(FAVORITES_ALBUM);
+
+    m_pFavoritePicTotal = new DLabel();
+    QString favoriteStr = tr("%1张照片");
+
+    int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(FAVORITES_ALBUM);
+    m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
+
     m_pRightFavoriteThumbnailList = new ThumbnailListView(FAVORITES_ALBUM);
 
+    pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
+    pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
+    pFavoriteVBoxLayout->addWidget(m_pRightFavoriteThumbnailList);
+
+    pFavoriteWidget->setLayout(pFavoriteVBoxLayout);
+
+    // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
-    m_pRightStackWidget->addWidget(m_pRightThumbnailList);
+    m_pRightStackWidget->addWidget(pNoTrashWidget);
     m_pRightStackWidget->addWidget(pTrashWidget);
-    m_pRightStackWidget->addWidget(m_pRightFavoriteThumbnailList);
+    m_pRightStackWidget->addWidget(pFavoriteWidget);
 
     if (0 < DBManager::instance()->getImgsCount())
     {
@@ -254,14 +289,12 @@ void AlbumView::updateRightNoTrashView()
         infos = DBManager::instance()->getAllInfos();
 
         m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
-        emit dApp->signalM->sigUpdateAllpicsNumLabel(m_iAlubmPicsNum);
     }
     else
     {
         infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
 
         m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
-        emit dApp->signalM->sigUpdateAllpicsNumLabel(m_iAlubmPicsNum);
     }
 
     for(auto info : infos)
@@ -275,6 +308,9 @@ void AlbumView::updateRightNoTrashView()
 
     if (FAVORITES_ALBUM == m_currentAlbum)
     {
+        QString favoriteStr = tr("%1张照片");
+        m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
+
         m_pRightFavoriteThumbnailList->insertThumbnails(thumbnaiItemList);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
         setAcceptDrops(false);
@@ -283,6 +319,11 @@ void AlbumView::updateRightNoTrashView()
     {
         if (0 < DBManager::instance()->getImgsCount())
         {
+            m_pRightTitle->setText(m_currentAlbum);
+
+            QString str = tr("%1张照片");
+            m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+
             m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
@@ -296,6 +337,11 @@ void AlbumView::updateRightNoTrashView()
     }
     else
     {
+        m_pRightTitle->setText(m_currentAlbum);
+
+        QString str = tr("%1张照片");
+        m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+
         m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
         m_pRightThumbnailList->m_imageType = m_currentAlbum;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
@@ -349,7 +395,6 @@ void AlbumView::leftTabClicked(const QModelIndex &index)
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
 
         m_iAlubmPicsNum = DBManager::instance()->getTrashImgsCount();
-        emit dApp->signalM->sigUpdateAllpicsNumLabel(m_iAlubmPicsNum);
         setAcceptDrops(false);
     }
     else

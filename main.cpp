@@ -17,6 +17,11 @@ int main(int argc, char *argv[])
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-album");
 
+    if(!a.setSingleInstance(a.applicationName(), DApplication::UserScope))
+    {
+        return -1;
+    }
+
     //save theme
     DApplicationSettings savetheme;
 

@@ -64,7 +64,7 @@ private slots:
     void onCreateAlbum(QStringList imagepaths);
     void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);
-    void onUpdateAllpicsNumLabel(int num);
+    void onUpdateAllpicsNumLabel();
     void onImprotBtnClicked();
     void onUpdateCentralWidget();
 

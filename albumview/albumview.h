@@ -71,6 +71,10 @@ private:
     DPushButton* m_pRecoveryBtn;
     DPushButton* m_pDeleteBtn;
     DMenu* m_pLeftMenu;
+    DLabel* m_pRightTitle;
+    DLabel* m_pRightPicTotal;
+    DLabel* m_pFavoriteTitle;
+    DLabel* m_pFavoritePicTotal;
 };
 
 #endif // ALBUMVIEW_H

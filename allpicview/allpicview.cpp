@@ -1,5 +1,4 @@
 #include "allpicview.h"
-
 #include <QMimeData>
 
 namespace {
