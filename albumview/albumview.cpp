@@ -74,7 +74,7 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
     connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
 
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked); 
 }
 
 void AlbumView::initLeftView()
@@ -167,9 +167,18 @@ void AlbumView::initRightView()
     m_pRightTitle = new DLabel();
     m_pRightTitle->setText(RECENT_IMPORTED_ALBUM);
 
+    QFont ft;
+    ft.setPixelSize(24);
+    m_pRightTitle->setFont(ft);
+
     m_pRightPicTotal = new DLabel();
+
     QString str = tr("%1张照片");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+    QFont ft1;
+    ft1.setPixelSize(14);
+    m_pRightPicTotal->setFont(ft1);
+
 
     m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
 
@@ -187,9 +196,11 @@ void AlbumView::initRightView()
     QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
     DLabel *pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
+    pLabel1->setFont(ft);
 
     DLabel *pLabel2 = new DLabel();
     pLabel2->setText("照片在删除前会显示剩余天数，之后将永久删除");
+    pLabel2->setFont(ft1);
 
     pTopLeftVBoxLayout->addWidget(pLabel1);
     pTopLeftVBoxLayout->addWidget(pLabel2);
@@ -221,9 +232,12 @@ void AlbumView::initRightView()
 
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setText(FAVORITES_ALBUM);
+    m_pFavoriteTitle->setFont(ft);
 
     m_pFavoritePicTotal = new DLabel();
     QString favoriteStr = tr("%1张照片");
+    m_pFavoritePicTotal->setFont(ft1);
+
 
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(FAVORITES_ALBUM);
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
@@ -338,6 +352,14 @@ void AlbumView::updateRightNoTrashView()
     else
     {
         m_pRightTitle->setText(m_currentAlbum);
+
+        QFontMetrics elideFont(m_pRightTitle->font());
+        m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
+
+        QFont ft;
+        ft.setFamily("SourceHanSansSC-Medium");
+        ft.setPixelSize(24);
+        m_pRightTitle->setFont(ft);
 
         QString str = tr("%1张照片");
         m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));

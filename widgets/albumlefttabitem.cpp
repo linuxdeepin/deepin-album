@@ -70,7 +70,13 @@ void AlbumLeftTabItem::initUI()
 
     m_nameLabel = new QLabel(pWidget);
     m_nameLabel->setGeometry(QRect(0, 0, 150, 20));
-    m_nameLabel->setText(m_albumNameStr);
+//    m_nameLabel->setText(streElide);
+
+    QFontMetrics elideFont(m_nameLabel->font());
+    m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, m_nameLabel->width()));
+    QFont ft;
+    ft.setPixelSize(14);
+    m_nameLabel->setFont(ft);
 
     m_pLineEdit = new DLineEdit(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 150, 20));
@@ -108,6 +114,11 @@ void AlbumLeftTabItem::onCheckNameValid()
     if (OPE_MODE_RENAMEALBUM == m_opeMode)
     {
         m_nameLabel->setText(newNameStr);
+        QFontMetrics elideFont(m_nameLabel->font());
+        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
+        QFont ft;
+        ft.setPixelSize(14);
+
         m_pLineEdit->setText(newNameStr);
 
         m_nameLabel->setVisible(true);
@@ -121,6 +132,11 @@ void AlbumLeftTabItem::onCheckNameValid()
     if (OPE_MODE_ADDNEWALBUM == m_opeMode)
     {
         m_nameLabel->setText(newNameStr);
+        QFontMetrics elideFont(m_nameLabel->font());
+        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
+        QFont ft;
+        ft.setPixelSize(14);
+
         m_pLineEdit->setText(newNameStr);
 
         m_nameLabel->setVisible(true);

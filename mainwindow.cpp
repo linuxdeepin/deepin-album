@@ -3,6 +3,8 @@
 #include "dialogs/albumcreatedialog.h"
 #include "utils/snifferimageformat.h"
 
+#include <QShortcut>
+
 namespace  {
 const int VIEW_ALLPIC = 0;
 const int VIEW_TIMELINE = 1;
@@ -24,10 +26,12 @@ MainWindow::MainWindow()
 
     initUI();
     initDB();
+
     initTitleBar();
     initCentralWidget();
     initStatusBar();
 
+    initShortcut();
     initConnections();
 }
 
@@ -85,6 +89,17 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
+}
+
+void MainWindow::initShortcut()
+{
+    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    esc->setContext(Qt::WindowShortcut);
+    connect(esc, &QShortcut::activated, this, [=] {
+        dApp->quit();
+
+        emit dApp->signalM->hideExtensionPanel();
+    });
 }
 
 void MainWindow::initUI()

@@ -23,31 +23,38 @@
 #include <QLineEdit>
 #include <QKeyEvent>
 #include <QDebug>
+#include <DPushButton>
 
 AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     :Dialog(parent)
 {
     setModal(true);
 
-    setIconPixmap(QPixmap(":/dialogs/images/resources/images/album_bg_normal.png"));
+//    setIconPixmap(QPixmap(":/dialogs/images/resources/images/album_bg_normal.png"));
+//    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+//    addButton(tr("OK"), true, DDialog::ButtonRecommend);
 
-    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-    addButton(tr("OK"), true, DDialog::ButtonRecommend);
-
-    // Input content
+    // 添加标题
     const QString subStyle =
     utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
-    QLabel *title = new QLabel(tr("New album"));
-    title->setStyleSheet(subStyle);
+    QLabel *title = new QLabel(tr("新建相册"));
+    QFont ft;
+    ft.setPixelSize(17);
+    title->setFont(ft);
     title->setObjectName("DialogTitle");
-    title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    title->setAlignment(Qt::AlignHCenter);
 
+    //添加输入文本框
     QLineEdit *edit = new QLineEdit;
-    edit->setStyleSheet(subStyle);
+//    edit->setStyleSheet(subStyle);
     edit->setObjectName("DialogEdit");
     edit->setText(getNewAlbumName());
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
-    edit->setFixedSize(240, 22);
+    edit->setFixedSize(360, 36);
+    QFont ft1;
+    ft1.setPixelSize(14);         //设置字体大小
+    edit->setFont(ft1);
+
     connect(this, &AlbumCreateDialog::visibleChanged, this, [=] (bool v) {
         if (! v) return;
         edit->setFocus();
@@ -61,27 +68,72 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
         }
     });
 
-    QWidget *w = new QWidget;
-    QVBoxLayout *layout = new QVBoxLayout(w);
+    QWidget *mainWidget = new QWidget;
+    mainWidget->setFixedSize(380,180);
+
+    //添加图标
+    QLabel *m_picture = new QLabel(mainWidget);
+    QIcon icon = QIcon::fromTheme(":/resources/images/other/deepin-album.svg");  //图片路径
+    m_picture->setPixmap(icon.pixmap(QSize(32, 32)));                            //图标大小
+    m_picture->move(10,9);
+
+    //添加OK和取消按钮
+    DPushButton *m_Cancel = new DPushButton("Cancel");
+    m_Cancel->setFixedSize(170,36);
+    m_Cancel->setFont(ft1);
+    DPushButton *m_OK = new DPushButton("OK");
+    m_OK->setFixedSize(170,36);
+    m_OK->setFont(ft1);
+
+    QHBoxLayout *h_layout  = new QHBoxLayout;
+    QHBoxLayout *h_layout1 = new QHBoxLayout;
+    QHBoxLayout *h_layout2 = new QHBoxLayout;
+    QVBoxLayout *layout = new QVBoxLayout();
+
+    //界面布局
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(8);
+    h_layout->addWidget(title,Qt::AlignHCenter);
+    layout->addSpacing(12);
+    layout->addLayout(h_layout);
+    layout->addSpacing(41);
+    h_layout1->addStretch();
+    h_layout1->addWidget(edit);
+    h_layout1->addStretch();
+    layout->addLayout(h_layout1);
+    layout->addSpacing(20);
+    h_layout2->addWidget(m_Cancel);
+    h_layout2->addSpacing(20);
+    h_layout2->addWidget(m_OK);
+    layout->addLayout(h_layout2);
+    mainWidget->setLayout(layout);
+    addContent(mainWidget);
 
-    layout->addStretch();
-    layout->addWidget(title);
-    layout->addWidget(edit);
-    layout->addStretch();
-    addContent(w);
-
-    connect(this, &AlbumCreateDialog::closed,
-            this, &AlbumCreateDialog::deleteLater);
-    connect(this, &AlbumCreateDialog::buttonClicked, this, [=] (int id) {
-        if (id == 1) {
-            if (edit->text().simplified().length()!= 0)
-                createAlbum(edit->text().trimmed());
-            else
-                createAlbum(tr("Unnamed"));
+    connect(m_Cancel,&DPushButton::clicked,this,&AlbumCreateDialog::deleteLater);
+    connect(m_OK,&DPushButton::clicked,this,[=]{
+        if (edit->text().simplified().length()!= 0)
+        {
+            createAlbum(edit->text().trimmed());
         }
+        else
+        {
+            createAlbum(tr("Unnamed"));
+        }
+
+        this->close();
     });
+
+//    connect(this, &AlbumCreateDialog::closed,
+//            this, &AlbumCreateDialog::deleteLater);
+//    connect(this, &AlbumCreateDialog::buttonClicked, this, [=] (int id) {
+//        if (id == 1) {
+//            if (edit->text().simplified().length()!= 0)
+//                createAlbum(edit->text().trimmed());
+//            else
+//                createAlbum(tr("Unnamed"));
+//        }
+
+//    });
+
 }
 
 void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
