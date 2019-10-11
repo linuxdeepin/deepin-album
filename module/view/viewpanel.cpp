@@ -471,11 +471,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
         rotateImage(false);
     });
     connect(ttbc, &TTBContent::removed, this, [ = ] {
-        if (utils::common::VIEW_ALLPIC_SRN == m_viewType
-            || utils::common::VIEW_TIMELINE_SRN == m_viewType
-            || utils::common::VIEW_SEARCH_SRN == m_viewType
-            || utils::common::VIEW_ALBUM_RECENTIMPROTED_SRN == m_viewType
-            || utils::common::VIEW_ALBUM_FAVORITE_SRN == m_viewType)
+        if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
+        {
+            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+        }
+        else
         {
             DBImgInfoList infos;
             DBImgInfo info;
@@ -485,14 +485,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
 
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
-        }
-        else if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
-        {
-            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
-        }
-        else
-        {
-            DBManager::instance()->removeFromAlbum(m_viewType, QStringList(m_infos.at(m_current).filePath));
         }
 
         removeCurrentImage();

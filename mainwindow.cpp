@@ -2,7 +2,6 @@
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/snifferimageformat.h"
-#include <DWidgetUtil>
 
 namespace  {
 const int VIEW_ALLPIC = 0;
@@ -274,7 +273,7 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
     if(TITLEBAR_NEWALBUM == action->text())
     {
-        dApp->signalM->createAlbum();
+        emit dApp->signalM->createAlbum();
     }
     else if (TITLEBAR_IMPORT == action->text())
     {
