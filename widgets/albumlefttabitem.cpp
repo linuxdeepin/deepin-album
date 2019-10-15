@@ -3,6 +3,8 @@
 #include "utils/baseutils.h"
 
 #include <QHBoxLayout>
+
+#include <QPainter>
 namespace
 {
 const int LAYOUT_SPACING = 10;
@@ -34,58 +36,73 @@ void AlbumLeftTabItem::initConnections()
 
 void AlbumLeftTabItem::initUI()
 {
-    setFixedSize(200, 36);
+    setFixedSize(160, 40);
     QHBoxLayout *pHBoxLayout = new QHBoxLayout();
-    pHBoxLayout->setSpacing(10);
+    pHBoxLayout->setContentsMargins(0,0,0,0);
+    pHBoxLayout->setSpacing(16);
 
     QLabel* pLabel = new QLabel();
-    pLabel->setFixedSize(24, 24);
+    pLabel->setFixedSize(18, 18);
 
     if (RECENT_IMPORTED_ALBUM == m_albumNameStr)
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(24, 24));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(18,18));
         pLabel->setPixmap(pixmap);
     }
     else if (TRASH_ALBUM == m_albumNameStr)
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(24, 24));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
     else if (FAVORITES_ALBUM == m_albumNameStr)
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(24, 24));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
     else
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(24, 24));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
 
     DWidget *pWidget = new DWidget();
 
     m_nameLabel = new QLabel(pWidget);
-    m_nameLabel->setGeometry(QRect(0, 0, 150, 20));
+    m_nameLabel->setGeometry(QRect(0, 0, 118, 40));
+
+//    QString streElide = geteElidedText(m_nameLabel->font(),m_albumNameStr,20);
 //    m_nameLabel->setText(streElide);
 
     QFontMetrics elideFont(m_nameLabel->font());
-    m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, m_nameLabel->width()));
+    m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
+    m_nameLabel->setAlignment(Qt::AlignVCenter);
     QFont ft;
     ft.setPixelSize(14);
     m_nameLabel->setFont(ft);
 
     m_pLineEdit = new DLineEdit(pWidget);
-    m_pLineEdit->setGeometry(QRect(0, 0, 150, 20));
+    m_pLineEdit->setGeometry(QRect(0, 0, 118, 40));
     m_pLineEdit->setText(m_albumNameStr);
+    m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+//    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
+//    m_pLineEdit->setStyleSheet("border-radius:8px;"
+//                               "background: rgba(255,255,255,0.00);"
+//                               "border: 2px solid #0081FF;"
+//                               "box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);"
+//                               );
+
     m_pLineEdit->setVisible(false);
     m_pLineEdit->lineEdit()->setMaxLength(64);
 
-    pHBoxLayout->addWidget(pLabel);
-    pHBoxLayout->addWidget(pWidget);
+
+    pHBoxLayout->addWidget(pLabel, Qt::AlignVCenter);
+    pHBoxLayout->addWidget(pWidget, Qt::AlignVCenter);
+
+
 
     this->setLayout(pHBoxLayout);
 }

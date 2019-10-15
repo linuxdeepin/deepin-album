@@ -24,6 +24,7 @@
 #include "utils/baseutils.h"
 
 #include <QTimer>
+#include <DLabel>
 
 DWIDGET_USE_NAMESPACE
 
@@ -110,20 +111,25 @@ void ViewPanel::initSwitchButtons()
 void ViewPanel::initScaleLabel()
 {
     using namespace utils::base;
-    DAnchors<QLabel> scalePerc = new QLabel(this);
+    DAnchors<DLabel> scalePerc = new DLabel(this);
     scalePerc->setObjectName("ScaleLabel");
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-    } else {
-        scalePerc->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-    }
+//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+//        scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+//    } else {
+//        scalePerc->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+//    }
+
+//    DPalette pa;
+//    pa.setColor(DPalette::Background,QColor(255, 255, 255,200));
+//    scalePerc->setAutoFillBackground(true);
+//    scalePerc->setPalette(pa);
 
     scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
     scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
     scalePerc.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
-    scalePerc.setBottomMargin(54);
+    scalePerc.setBottomMargin(100);
     scalePerc->setAlignment(Qt::AlignCenter);
-    scalePerc->setFixedSize(82, 48);
+    scalePerc->setFixedSize(82, 35);
     scalePerc->setText("100%");
     scalePerc->hide();
 
@@ -151,7 +157,9 @@ void ViewPanel::initScaleLabel()
 void ViewPanel::initNavigation()
 {
     m_nav = new NavigationWidget(this);
-    m_nav.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
+    m_nav.setBottomMargin(100);
+    m_nav.setLeftMargin(10);
+    m_nav.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
     connect(this, &ViewPanel::imageChanged, this, [=] (const QString &path,DBImgInfoList infos) {

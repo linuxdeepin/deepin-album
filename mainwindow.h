@@ -29,7 +29,7 @@
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
 #define MIX_WINDOWS_WIDTH       1300
-#define MIX_WINDOWS_HEIGHT      640
+#define MIX_WINDOWS_HEIGHT      848
 
 DWIDGET_USE_NAMESPACE
 
@@ -68,6 +68,7 @@ private slots:
     void onUpdateAllpicsNumLabel();
     void onImprotBtnClicked();
     void onUpdateCentralWidget();
+    void onNewAPPOpen();
 
 private:
     Ui::MainWindow *ui;

@@ -19,7 +19,8 @@
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
-class AlbumView : public QSplitter
+class AlbumView : public QWidget
+//class AlbumView : public DSplitter
 {
     Q_OBJECT
 
@@ -62,6 +63,7 @@ private:
     QString m_currentAlbum;
     QStringList m_allAlbumNames;
 
+    DWidget* m_pLeftWidget;
     DListWidget* m_pLeftTabList;
     ImportView* m_pImportView;
     DStackedWidget* m_pRightStackWidget;

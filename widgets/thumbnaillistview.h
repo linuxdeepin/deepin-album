@@ -34,6 +34,7 @@
 #include <QBuffer>
 #include <DMenu>
 #include <QMouseEvent>
+#include <DListView>
 
 class ThumbnailListView : public QListView
 {

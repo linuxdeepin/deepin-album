@@ -6,7 +6,7 @@
 #include <QScroller>
 #include <DPushButton>
 #include <QMimeData>
-
+#include <DTableView>
 namespace  {
 const int VIEW_IMPORT = 0;
 const int VIEW_TIMELINE = 1;
@@ -175,6 +175,8 @@ void TimeLineView::updataLayout()
         pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
         pThumbnailListView->setContentsMargins(0,0,0,0);
+        pThumbnailListView->setFrameShape(DTableView::NoFrame);
+
 
         QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
         for(int j = 0; j < ImgInfoList.size(); j++){

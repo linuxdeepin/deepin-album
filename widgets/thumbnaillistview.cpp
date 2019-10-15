@@ -35,7 +35,12 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     m_iDefaultWidth = 0;
     m_iBaseHeight = BASE_HEIGHT;
 
-    setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
+//    setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
+    DPalette pa;
+    pa.setColor(DPalette::Window,QColor(0, 248, 248));
+    setAutoFillBackground(true);
+    setPalette(pa);
+
     setIconSize(QSize(400, 400));
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
@@ -47,7 +52,6 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;

@@ -6,14 +6,15 @@
 
 #include <DNotifySender>
 #include <QMimeData>
+#include <DTableView>
 
 #include "dgiovolumemanager.h"
 
 namespace {
-const int ITEM_SPACING = 5;
-const int LEFT_VIEW_WIDTH = 250;
-const int LEFT_VIEW_LISTITEM_WIDTH = 200;
-const int LEFT_VIEW_LISTITEM_HEIGHT = 36;
+const int ITEM_SPACING = 0;
+const int LEFT_VIEW_WIDTH = 180;
+const int LEFT_VIEW_LISTITEM_WIDTH = 160;
+const int LEFT_VIEW_LISTITEM_HEIGHT = 40;
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const QString TRASH_ALBUM = "Trash";
 const QString FAVORITES_ALBUM = "My favorite";
@@ -43,10 +44,11 @@ AlbumView::AlbumView()
     initLeftView();
     initRightView();
 
-    addWidget(m_pLeftTabList);
-    addWidget(m_pRightStackWidget);
-
-    setChildrenCollapsible(false);
+    QHBoxLayout *pLayout = new QHBoxLayout();
+    pLayout->setContentsMargins(0,0,0,0);
+    pLayout->addWidget(m_pLeftWidget);
+    pLayout->addWidget(m_pRightStackWidget);
+    setLayout(pLayout);
 
     initConnections();
 }
@@ -80,9 +82,26 @@ void AlbumView::initConnections()
 void AlbumView::initLeftView()
 {
     m_pLeftTabList = new DListWidget();
-    m_pLeftTabList->setFixedWidth(LEFT_VIEW_WIDTH);
+
+    m_pLeftTabList->setFixedWidth(162);
     m_pLeftTabList->setSpacing(ITEM_SPACING);
     m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_pLeftTabList->setFrameShape(DTableView::NoFrame);
+
+    m_pLeftWidget = new DWidget();
+    m_pLeftWidget->setFixedWidth(LEFT_VIEW_WIDTH);
+
+    DPalette pa;
+    pa.setColor(DPalette::Background,QColor(255, 255, 255));
+    m_pLeftWidget->setAutoFillBackground(true);
+    m_pLeftWidget->setPalette(pa);
+
+    QHBoxLayout *pLeftLayout = new QHBoxLayout();
+    pLeftLayout->setContentsMargins(0,0,0,0);
+    pLeftLayout->addStretch();
+    pLeftLayout->addWidget(m_pLeftTabList, Qt::AlignHCenter);
+
+    m_pLeftWidget->setLayout(pLeftLayout);
 
     m_pLeftMenu = new DMenu();
 
@@ -105,7 +124,10 @@ void AlbumView::initLeftView()
     {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
+        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH);
+        pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT);
         if (RECENT_IMPORTED_ALBUM == albumName)
         {
             pListWidgetItem->setSelected(true);
@@ -153,9 +175,6 @@ void AlbumView::updateLeftView()
 void AlbumView::initRightView()
 {
     m_pRightStackWidget = new DStackedWidget();
-    QSizePolicy sp = m_pRightStackWidget->sizePolicy();
-    sp.setHorizontalStretch(1);
-    m_pRightStackWidget->setSizePolicy(sp);
 
     // Import View
     m_pImportView = new ImportView();
@@ -163,6 +182,7 @@ void AlbumView::initRightView()
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
     QVBoxLayout *pNoTrashVBoxLayout = new QVBoxLayout();
+    pNoTrashVBoxLayout->setContentsMargins(0,0,0,0);
 
     m_pRightTitle = new DLabel();
     m_pRightTitle->setText(RECENT_IMPORTED_ALBUM);
@@ -181,12 +201,17 @@ void AlbumView::initRightView()
 
 
     m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
+    m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
-    pNoTrashVBoxLayout->addWidget(m_pRightThumbnailList);
+    pNoTrashVBoxLayout->setContentsMargins(10,0,0,0);
 
-    pNoTrashWidget->setLayout(pNoTrashVBoxLayout);
+    QVBoxLayout *p_all = new QVBoxLayout();
+    p_all->addLayout(pNoTrashVBoxLayout);
+    p_all->addWidget(m_pRightThumbnailList);
+
+    pNoTrashWidget->setLayout(p_all);
 
     // Trash View
     DWidget *pTrashWidget = new DWidget();
@@ -205,6 +230,8 @@ void AlbumView::initRightView()
     pTopLeftVBoxLayout->addWidget(pLabel1);
     pTopLeftVBoxLayout->addWidget(pLabel2);
 
+    pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
+
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
     m_pRecoveryBtn = new DPushButton();
     m_pRecoveryBtn->setText(BUTTON_STR_RECOVERY);
@@ -219,7 +246,9 @@ void AlbumView::initRightView()
     pTopHBoxLayout->addItem(pTopLeftVBoxLayout);
     pTopHBoxLayout->addItem(pTopRightVBoxLayout);
 
+
     m_pRightTrashThumbnailList = new ThumbnailListView(TRASH_ALBUM);
+    m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pMainVBoxLayout->addItem(pTopHBoxLayout);
     pMainVBoxLayout->addWidget(m_pRightTrashThumbnailList);
@@ -243,12 +272,18 @@ void AlbumView::initRightView()
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
 
     m_pRightFavoriteThumbnailList = new ThumbnailListView(FAVORITES_ALBUM);
+    m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
-    pFavoriteVBoxLayout->addWidget(m_pRightFavoriteThumbnailList);
 
-    pFavoriteWidget->setLayout(pFavoriteVBoxLayout);
+    pFavoriteVBoxLayout->setContentsMargins(10,0,0,0);
+
+    QVBoxLayout *p_all1 = new QVBoxLayout();
+    p_all1->addLayout(pFavoriteVBoxLayout);
+    p_all1->addWidget(m_pRightFavoriteThumbnailList);
+
+    pFavoriteWidget->setLayout(p_all1);
 
     // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
@@ -272,6 +307,7 @@ void AlbumView::initRightView()
 
         m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
         m_pRightThumbnailList->m_imageType = m_currentAlbum;
+        m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
     }
     else

@@ -17,9 +17,10 @@ int main(int argc, char *argv[])
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-album");
 
+    qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
     if(!a.setSingleInstance(a.applicationName(), DApplication::UserScope))
     {
-        return -1;
+        exit(0);
     }
 
     //save theme

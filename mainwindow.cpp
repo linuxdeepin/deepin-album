@@ -89,6 +89,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
+    connect(dApp, &DApplication::newInstanceStarted, this, &MainWindow::onNewAPPOpen);
 }
 
 void MainWindow::initShortcut()
@@ -447,4 +448,11 @@ void MainWindow::onShowImageInfo(const QString &path)
         });
     }
 
+}
+
+void MainWindow::onNewAPPOpen()
+{
+    qDebug()<<"sssssssssssssssssssss";
+    this->setWindowState(Qt::WindowActive);
+    this->activateWindow();
 }
