@@ -6,6 +6,7 @@
 
 #include <QDebug>
 #include <QImageReader>
+#include <QFileInfo>
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -37,7 +38,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 
 //    setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
     DPalette pa;
-    pa.setColor(DPalette::Window,QColor(0, 248, 248));
+    pa.setColor(DPalette::Background,QColor(248, 248, 248));
     setAutoFillBackground(true);
     setPalette(pa);
 
@@ -321,9 +322,25 @@ void ThumbnailListView::updateMenuContents()
         m_pMenu->addSeparator();
     }
 
-
-    appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
-    appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+    int flag = 0;
+    for(auto path : paths)
+    {
+        if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable())
+        {
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1)
+    {
+        appendAction_darkmenu(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
+        appendAction_darkmenu(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+    }
+    else
+    {
+        appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
+        appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+    }
 
     if (1 == paths.length())
     {
@@ -341,6 +358,17 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
+    m_pMenu->addAction(ac);
+}
+
+void ThumbnailListView::appendAction_darkmenu(int id, const QString &text, const QString &shortcut)
+{
+    QAction *ac = new QAction(m_pMenu);
+    addAction(ac);
+    ac->setText(text);
+    ac->setProperty("MenuID", id);
+    ac->setShortcut(QKeySequence(shortcut));
+    ac->setDisabled(true);
     m_pMenu->addAction(ac);
 }
 

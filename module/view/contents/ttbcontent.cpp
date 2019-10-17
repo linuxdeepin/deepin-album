@@ -588,11 +588,11 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
         if (QFileInfo(path).isReadable() &&
                 !QFileInfo(path).isWritable()) {
-            m_trashBtn->setDisabled(true);
+//            m_trashBtn->setDisabled(true);
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);
         } else {
-            m_trashBtn->setDisabled(false);
+//            m_trashBtn->setDisabled(false);
             if (utils::image::imageSupportSave(path)) {
                 m_rotateLBtn->setDisabled(false);
                 m_rotateRBtn->setDisabled(false);

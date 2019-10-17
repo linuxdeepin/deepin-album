@@ -105,6 +105,7 @@ private:
     void updateThumbnailView();
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
+    void appendAction_darkmenu(int id, const QString &text, const QString &shortcut);
     QMenu* createAlbumMenu();
     void onShowImageInfo(const QString &path);
 
