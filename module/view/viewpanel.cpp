@@ -202,6 +202,16 @@ void ViewPanel::initConnect()
         onViewImage(vinfo);
     });
 #endif
+
+    connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [=]{
+        if (0 != m_iSlideShowTimerId)
+        {
+            killTimer(m_iSlideShowTimerId);
+            m_iSlideShowTimerId = 0;
+        }
+
+        toggleFullScreen();
+    });
 }
 
 #ifndef LITE_DIV

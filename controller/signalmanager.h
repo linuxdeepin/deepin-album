@@ -92,6 +92,7 @@ signals:
     void sigPixMapRotate();
     void sigMouseMove();
     void sigShowFullScreen();
+    void sigESCKeyActivated();
 
 private:
     explicit SignalManager(QObject *parent = 0);

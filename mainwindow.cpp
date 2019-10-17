@@ -97,7 +97,14 @@ void MainWindow::initShortcut()
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
     connect(esc, &QShortcut::activated, this, [=] {
-        dApp->quit();
+        if (window()->isFullScreen())
+        {
+            emit dApp->signalM->sigESCKeyActivated();
+        }
+        else
+        {
+            dApp->quit();
+        }
 
         emit dApp->signalM->hideExtensionPanel();
     });
