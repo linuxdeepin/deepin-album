@@ -123,9 +123,9 @@ void ThumbnailDelegate::paint(QPainter *painter,
     if (FAVORITES_ALBUM == m_imageTypeStr)
     {
         QPixmap favPixmap;
-        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(24, 24));
+        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
 
-        QRect favRect(pixmapRect.x()+pixmapRect.width()-24,pixmapRect.y()+pixmapRect.height()-24,24,24);
+        QRect favRect(pixmapRect.x()+pixmapRect.width()-20-13,pixmapRect.y()+pixmapRect.height()-20-10,20,20);
 
         painter->drawPixmap(favRect, favPixmap);
     }
@@ -173,7 +173,7 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
 
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-    QRect rect = QRect(option.rect.x()+option.rect.width()-24,option.rect.y()+option.rect.height()-24,24,24);
+    QRect rect = QRect(option.rect.x()+option.rect.width()-20-13-2,option.rect.y()+option.rect.height()-20-10-2,24,24);
 
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent*>(event);
 

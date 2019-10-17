@@ -29,9 +29,9 @@ private slots:
 public:
     QString m_albumNameStr;
     int m_opeMode;
+    DLineEdit* m_pLineEdit;
 
 private:
-    DLineEdit* m_pLineEdit;
     QLabel *m_nameLabel;
     QString m_albumTypeStr;
 };

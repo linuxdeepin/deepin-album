@@ -77,6 +77,8 @@ void AlbumView::initConnections()
     connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
 
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked); 
+
+    connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
 }
 
 void AlbumView::initLeftView()
@@ -175,6 +177,12 @@ void AlbumView::updateLeftView()
 void AlbumView::initRightView()
 {
     m_pRightStackWidget = new DStackedWidget();
+    m_pRightStackWidget->setStyleSheet("background-color:rgb(248, 248, 248, 230)");
+//    DPalette pa;
+//    pa.setColor(DPalette::Background,QColor(248, 248, 248, 230));
+//    m_pRightStackWidget->setAutoFillBackground(true);
+//    m_pRightStackWidget->setPalette(pa);
+
 
     // Import View
     m_pImportView = new ImportView();
@@ -189,7 +197,12 @@ void AlbumView::initRightView()
 
     QFont ft;
     ft.setPixelSize(24);
+//    ft.setBold(true);
+
+    QPalette color;
+    color.setColor(QPalette::WindowText, QColor(0,0,0));
     m_pRightTitle->setFont(ft);
+    m_pRightTitle->setPalette(color);
 
     m_pRightPicTotal = new DLabel();
 
@@ -198,6 +211,9 @@ void AlbumView::initRightView()
     QFont ft1;
     ft1.setPixelSize(14);
     m_pRightPicTotal->setFont(ft1);
+    QPalette color1;
+    color1.setColor(QPalette::WindowText, QColor(119,119,119));
+    m_pRightPicTotal->setPalette(color1);
 
 
     m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
@@ -222,10 +238,12 @@ void AlbumView::initRightView()
     DLabel *pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
     pLabel1->setFont(ft);
+    pLabel1->setPalette(color);
 
     DLabel *pLabel2 = new DLabel();
     pLabel2->setText("照片在删除前会显示剩余天数，之后将永久删除");
     pLabel2->setFont(ft1);
+    pLabel2->setPalette(color1);
 
     pTopLeftVBoxLayout->addWidget(pLabel1);
     pTopLeftVBoxLayout->addWidget(pLabel2);
@@ -262,10 +280,12 @@ void AlbumView::initRightView()
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setText(FAVORITES_ALBUM);
     m_pFavoriteTitle->setFont(ft);
+    m_pFavoriteTitle->setPalette(color);
 
     m_pFavoritePicTotal = new DLabel();
     QString favoriteStr = tr("%1张照片");
     m_pFavoritePicTotal->setFont(ft1);
+    m_pFavoritePicTotal->setPalette(color1);
 
 
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(FAVORITES_ALBUM);
@@ -831,6 +851,11 @@ void AlbumView::picsIntoAlbum(QStringList paths)
     }
 }
 
+void AlbumView::onUpdataAlbumRightTitle(QString titlename)
+{
+    m_currentAlbum = titlename;
+    updateRightView();
+}
 //AlbumView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 //{
 //    // TODO: Add your specialized code here and/or call the base class

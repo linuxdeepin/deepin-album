@@ -54,6 +54,7 @@ private slots:
     void onTrashRecoveryBtnClicked();
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
+    void onUpdataAlbumRightTitle(QString titlename);
 
 public:
     int m_iAlubmPicsNum;

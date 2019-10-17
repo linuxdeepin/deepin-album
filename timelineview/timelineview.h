@@ -14,6 +14,7 @@
 #include <QScrollArea>
 #include <DListWidget>
 #include <DStackedWidget>
+#include <DCommandLinkButton>
 
 class Title : public QWidget{
 public:
@@ -61,7 +62,7 @@ private:
     QLayout *m_mainLayout=nullptr;
     QList<QString> m_timelines;
     QWidget *m_dateItem=nullptr;
-    DPushButton *pSuspensionChose;
+    DCommandLinkButton *pSuspensionChose;
     DWidget* pTimeLineViewWidget;
     ImportView* pImportView;
 

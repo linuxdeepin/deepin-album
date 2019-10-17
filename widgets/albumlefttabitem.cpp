@@ -1,8 +1,9 @@
 #include "widgets/albumlefttabitem.h"
 #include "dbmanager/dbmanager.h"
 #include "utils/baseutils.h"
-
+#include "application.h"
 #include <QHBoxLayout>
+#include "controller/signalmanager.h"
 
 #include <QPainter>
 namespace
@@ -39,7 +40,8 @@ void AlbumLeftTabItem::initUI()
     setFixedSize(160, 40);
     QHBoxLayout *pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setContentsMargins(0,0,0,0);
-    pHBoxLayout->setSpacing(16);
+    pHBoxLayout->setSpacing(0);
+
 
     QLabel* pLabel = new QLabel();
     pLabel->setFixedSize(18, 18);
@@ -72,7 +74,7 @@ void AlbumLeftTabItem::initUI()
     DWidget *pWidget = new DWidget();
 
     m_nameLabel = new QLabel(pWidget);
-    m_nameLabel->setGeometry(QRect(0, 0, 118, 40));
+    m_nameLabel->setGeometry(QRect(16, 0, 118, 40));
 
 //    QString streElide = geteElidedText(m_nameLabel->font(),m_albumNameStr,20);
 //    m_nameLabel->setText(streElide);
@@ -85,9 +87,10 @@ void AlbumLeftTabItem::initUI()
     m_nameLabel->setFont(ft);
 
     m_pLineEdit = new DLineEdit(pWidget);
-    m_pLineEdit->setGeometry(QRect(0, 0, 118, 40));
+    m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
     m_pLineEdit->setText(m_albumNameStr);
-    m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+    m_pLineEdit->lineEdit()->setTextMargins(14,0,0,0);
+    m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
 //    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
 //    m_pLineEdit->setStyleSheet("border-radius:8px;"
 //                               "background: rgba(255,255,255,0.00);"
@@ -97,6 +100,7 @@ void AlbumLeftTabItem::initUI()
 
     m_pLineEdit->setVisible(false);
     m_pLineEdit->lineEdit()->setMaxLength(64);
+    m_pLineEdit->setClearButtonEnabled(false);
 
 
     pHBoxLayout->addWidget(pLabel, Qt::AlignVCenter);
@@ -132,7 +136,7 @@ void AlbumLeftTabItem::onCheckNameValid()
     {
         m_nameLabel->setText(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
-        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
+        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
         QFont ft;
         ft.setPixelSize(14);
 
@@ -144,13 +148,14 @@ void AlbumLeftTabItem::onCheckNameValid()
         DBManager::instance()->renameAlbum(m_albumNameStr, newNameStr);
 
         m_albumNameStr = newNameStr;
+        emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     }
 
     if (OPE_MODE_ADDNEWALBUM == m_opeMode)
     {
         m_nameLabel->setText(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
-        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
+        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
         QFont ft;
         ft.setPixelSize(14);
 

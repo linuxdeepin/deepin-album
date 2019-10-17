@@ -93,6 +93,7 @@ signals:
     void sigMouseMove();
     void sigShowFullScreen();
     void sigESCKeyActivated();
+    void sigUpdataAlbumRightTitle(QString titlename);
 
 private:
     explicit SignalManager(QObject *parent = 0);

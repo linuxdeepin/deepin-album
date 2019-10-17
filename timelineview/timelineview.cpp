@@ -66,21 +66,36 @@ void TimeLineView::initTimeLineViewWidget()
     DLabel* pDate = new DLabel();
     pDate->setFixedHeight(24);
 
+    QFont ft;
+    ft.setPixelSize(24);
+    ft.setFamily("SourceHanSansSC-Medium");
+
+    QPalette color;
+    color.setColor(QPalette::WindowText, QColor(0,0,0));
+
+    pDate->setFont(ft);
+    pDate->setPalette(color);
+
     DLabel* pNum = new DLabel();
     pNum->setFixedHeight(24);
     TitleViewLayout->addWidget(pDate);
     TitleViewLayout->addWidget(pNum);
 
     QHBoxLayout *Layout = new QHBoxLayout();
-    pSuspensionChose = new DPushButton();
-    pSuspensionChose->setText("选择");
+    pSuspensionChose = new DCommandLinkButton("选择");
+
+    QFont ftt;
+    ftt.setPixelSize(18);
+    pSuspensionChose->setFont(ftt);
     pSuspensionChose->setFixedHeight(24);
+    pSuspensionChose->resize(36,27);
+
     pNum->setLayout(Layout);
     Layout->addStretch(1);
     Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    Layout->setContentsMargins(0,0,0,0);
+    Layout->setContentsMargins(0,0,22,0);
     Layout->addWidget(pSuspensionChose);
-    connect(pSuspensionChose, &DPushButton::clicked, this, [=]{
+    connect(pSuspensionChose, &DCommandLinkButton::clicked, this, [=]{
         if ("选择" == pSuspensionChose->text())
         {
             pSuspensionChose->setText("取消选择");
@@ -95,12 +110,12 @@ void TimeLineView::initTimeLineViewWidget()
         }
     });
     QPalette ppal(m_dateItem->palette());
-    ppal.setColor(QPalette::Background,  QColor(0xff,0xff,0xff,0xf0));
+    ppal.setColor(QPalette::Background,  QColor(0xff,0xff,0xff,0xf9));
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setPalette(ppal);
 
-    m_dateItem->setFixedSize(this->width(),50);
-    m_dateItem->setContentsMargins(0,0,22,0);
+    m_dateItem->setFixedSize(this->width(),87);
+    m_dateItem->setContentsMargins(10,0,0,0);
     m_dateItem->move(0,0);
     m_dateItem->show();
     m_dateItem->setVisible(false);
@@ -145,17 +160,38 @@ void TimeLineView::updataLayout()
         QStringList datelist = m_timelines.at(i).split(".");
         listItem->m_sdate=QString("%1 年 %2 月 %3 日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         pDate->setText(listItem->m_sdate);
+
+        QFont ft;
+        ft.setPixelSize(24);
+
+        QPalette color;
+        color.setColor(QPalette::Text, QColor(0,0,0));
+
+        pDate->setFont(ft);
+        pDate->setAutoFillBackground(true);
+        pDate->setPalette(color);
+
         listItem->m_date=pDate;
 
         DLabel* pNum = new DLabel();
         pNum->setFixedHeight(24);
-        listItem->m_snum = QString("%1 张").arg(ImgInfoList.size());
+        listItem->m_snum = QString("%1 张照片").arg(ImgInfoList.size());
         pNum->setText(listItem->m_snum);
+        QFont ftt;
+        ftt.setPixelSize(14);
+        pNum->setFont(ftt);
+
 
         QHBoxLayout *Layout = new QHBoxLayout();
-        DPushButton *pChose = new DPushButton();
-        pChose->setText("选择");
+        DCommandLinkButton *pChose = new DCommandLinkButton("选择");
+
+        QFont fttt;
+        fttt.setPixelSize(18);
+        pChose->setFont(fttt);
+
         pChose->setFixedHeight(24);
+        pChose->resize(36,27);
+
         pNum->setLayout(Layout);
         Layout->addStretch(1);
         Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -167,7 +203,7 @@ void TimeLineView::updataLayout()
         listItem->m_num=pNum;
         TitleViewLayout->addWidget(pDate);
         TitleViewLayout->addWidget(pNum);
-        TitleView->setFixedHeight(50);
+        TitleView->setFixedHeight(87);
         listItem->m_title = TitleView;
 
         //添加图片
@@ -241,7 +277,7 @@ void TimeLineView::updataLayout()
            emit dApp->signalM->viewImage(info);
            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
        });
-       connect(pChose, &DPushButton::clicked, this, [=]{
+       connect(pChose, &DCommandLinkButton::clicked, this, [=]{
            if ("选择" == pChose->text())
            {
                pChose->setText("取消选择");
@@ -299,7 +335,7 @@ void TimeLineView::on_MoveLabel(int y)
 }
 
 void TimeLineView::resizeEvent(QResizeEvent *ev){
-    m_dateItem->setFixedSize(width(),50);
+    m_dateItem->setFixedSize(width(),87);
 }
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)

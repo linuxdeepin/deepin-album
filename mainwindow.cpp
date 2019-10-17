@@ -4,6 +4,7 @@
 #include "utils/snifferimageformat.h"
 
 #include <QShortcut>
+#include <DTableView>
 
 namespace  {
 const int VIEW_ALLPIC = 0;
@@ -169,7 +170,8 @@ void MainWindow::initTitleBar()
     QWidget* m_titleSearchWidget = new QWidget();
     QHBoxLayout* pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
-    m_pSearchEdit->setFixedSize(278, 26);
+    m_pSearchEdit->setFixedSize(350, 36);
+
     if (0 < DBManager::instance()->getImgsCount())
     {
         m_pSearchEdit->setEnabled(true);
