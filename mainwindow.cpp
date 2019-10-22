@@ -5,6 +5,7 @@
 
 #include <QShortcut>
 #include <DTableView>
+#include <DApplicationHelper>
 
 namespace  {
 const int VIEW_ALLPIC = 0;
@@ -157,8 +158,23 @@ void MainWindow::initTitleBar()
     m_pAlbumBtn = new DPushButton();
 
     m_pAllPicBtn->setText("所有照片");
+    m_pAllPicBtn ->setFlat(true);
+    QFont ft;
+    ft.setPixelSize(14);
+    m_pAllPicBtn->setFont(ft);
+    DPalette pa = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
+    m_pAllPicBtn->setPalette(pa);
+
     m_pTimeLineBtn->setText("时间线");
+    m_pTimeLineBtn ->setFlat(true);
+    m_pTimeLineBtn->setFont(ft);
+    m_pTimeLineBtn->setPalette(pa);
+
     m_pAlbumBtn->setText("相册");
+    m_pAlbumBtn ->setFlat(true);
+    m_pAlbumBtn->setFont(ft);
+    m_pAlbumBtn->setPalette(pa);
 
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
     pTitleBtnLayout->addWidget(m_pTimeLineBtn);
@@ -171,6 +187,7 @@ void MainWindow::initTitleBar()
     QHBoxLayout* pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->setFixedSize(350, 36);
+    m_pSearchEdit->setClearButtonEnabled(false);
 
     if (0 < DBManager::instance()->getImgsCount())
     {
@@ -239,6 +256,8 @@ void MainWindow::initStatusBar()
     m_pAllPicNumLabel->setFont(QFont("SourceHanSansSC-Normal"));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
     m_pAllPicNumLabel->setFixedHeight(18);
+    m_pAllPicNumLabel->setFrameShape(DTableView::NoFrame);
+
 
     m_pSlider = new DSlider();
     m_pSlider->setFixedWidth(120);

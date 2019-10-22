@@ -201,12 +201,12 @@ void AlbumView::initRightView()
 
     QFont ft;
     ft.setPixelSize(24);
+    m_pRightTitle->setFont(ft);
 //    ft.setBold(true);
 
-    QPalette color;
-    color.setColor(QPalette::WindowText, QColor(0,0,0));
-    m_pRightTitle->setFont(ft);
-    m_pRightTitle->setPalette(color);
+    DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
+    pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+    m_pRightTitle->setPalette(pa);
 
     m_pRightPicTotal = new DLabel();
 
@@ -215,9 +215,9 @@ void AlbumView::initRightView()
     QFont ft1;
     ft1.setPixelSize(14);
     m_pRightPicTotal->setFont(ft1);
-    QPalette color1;
-    color1.setColor(QPalette::WindowText, QColor(119,119,119));
-    m_pRightPicTotal->setPalette(color1);
+    DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+    palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+    m_pRightPicTotal->setPalette(palette);
 
 
     m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
@@ -242,31 +242,44 @@ void AlbumView::initRightView()
     DLabel *pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
     pLabel1->setFont(ft);
-    pLabel1->setPalette(color);
+    pLabel1->setPalette(pa);
 
     DLabel *pLabel2 = new DLabel();
     pLabel2->setText("照片在删除前会显示剩余天数，之后将永久删除");
     pLabel2->setFont(ft1);
-    pLabel2->setPalette(color1);
+    pLabel2->setPalette(palette);
 
     pTopLeftVBoxLayout->addWidget(pLabel1);
     pTopLeftVBoxLayout->addWidget(pLabel2);
-
     pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
     m_pRecoveryBtn = new DPushButton();
     m_pRecoveryBtn->setText(BUTTON_STR_RECOVERY);
     m_pRecoveryBtn->setEnabled(false);
+    m_pRecoveryBtn->setFixedSize(100,36);
+    DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+    pal.setBrush(DPalette::Light, pal.color(DPalette::Text));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::Text));
+    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+    m_pRecoveryBtn->setPalette(pal);
 
     m_pDeleteBtn = new DPushButton();
     m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+    m_pDeleteBtn->setFixedSize(100,36);
+    DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
+    dpa.setBrush(DPalette::Light, dpa.color(DPalette::Highlight));
+    dpa.setBrush(DPalette::Dark, dpa.color(DPalette::Highlight));
+    dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
+    m_pDeleteBtn->setPalette(dpa);
 
     pTopRightVBoxLayout->addWidget(m_pRecoveryBtn);
+    pTopRightVBoxLayout->addSpacing(10);
     pTopRightVBoxLayout->addWidget(m_pDeleteBtn);
 
     pTopHBoxLayout->addItem(pTopLeftVBoxLayout);
     pTopHBoxLayout->addItem(pTopRightVBoxLayout);
+    pTopHBoxLayout->addSpacing(20);
 
 
     m_pRightTrashThumbnailList = new ThumbnailListView(TRASH_ALBUM);
@@ -284,12 +297,12 @@ void AlbumView::initRightView()
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setText(FAVORITES_ALBUM);
     m_pFavoriteTitle->setFont(ft);
-    m_pFavoriteTitle->setPalette(color);
+    m_pFavoriteTitle->setPalette(pa);
 
     m_pFavoritePicTotal = new DLabel();
     QString favoriteStr = tr("%1张照片");
     m_pFavoritePicTotal->setFont(ft1);
-    m_pFavoritePicTotal->setPalette(color1);
+    m_pFavoritePicTotal->setPalette(palette);
 
 
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(FAVORITES_ALBUM);

@@ -117,7 +117,17 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
     if (TRASH_ALBUM == m_imageTypeStr)
     {
-        painter->drawText(pixmapRect, Qt::AlignRight|Qt::AlignBottom, data.remainDays);
+       
+        painter->setPen(QColor(85,85,85,170));
+//        QBrush brush;
+        painter->setBrush(QBrush(QColor(85,85,85,170)));
+        painter->drawRoundedRect(pixmapRect.x()+pixmapRect.width()-40,pixmapRect.y()+pixmapRect.height()-18,38,16,8,8);
+        painter->setPen(QColor(255,255,255));
+
+        QFont ft;
+        ft.setPixelSize(12);
+        painter->setFont(ft);
+        painter->drawText(pixmapRect.x()+pixmapRect.width()-34, pixmapRect.y()+pixmapRect.height()-5, data.remainDays);
     }
 
     if (FAVORITES_ALBUM == m_imageTypeStr)

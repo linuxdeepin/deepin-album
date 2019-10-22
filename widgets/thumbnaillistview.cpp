@@ -53,6 +53,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setStyleSheet("background-color:rgb(248, 248, 248, 230)");
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;

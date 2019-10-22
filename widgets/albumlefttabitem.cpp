@@ -175,5 +175,6 @@ void AlbumLeftTabItem::onCheckNameValid()
         DBManager::instance()->insertIntoAlbum(newNameStr, QStringList(" "));
 
         m_albumNameStr = newNameStr;
+        emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     }
 }

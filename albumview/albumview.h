@@ -16,6 +16,7 @@
 #include <DStackedWidget>
 #include <DPushButton>
 #include <dgiomount.h>
+#include <DApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
