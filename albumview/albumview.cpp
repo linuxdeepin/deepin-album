@@ -7,8 +7,9 @@
 #include <DNotifySender>
 #include <QMimeData>
 #include <DTableView>
-
-#include "dgiovolumemanager.h"
+#include <dgiovolumemanager.h>
+#include <dgiofile.h>
+#include <dgiofileinfo.h>
 
 namespace {
 const int ITEM_SPACING = 0;
@@ -39,6 +40,7 @@ AlbumView::AlbumView()
 {
     m_currentAlbum = RECENT_IMPORTED_ALBUM;
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
+    m_vfsManager = new DGioVolumeManager;
 
     setAcceptDrops(true);
     initLeftView();
@@ -79,6 +81,8 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked); 
 
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
+    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChanged);
+    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChanged);
 }
 
 void AlbumView::initLeftView()
@@ -136,6 +140,10 @@ void AlbumView::initLeftView()
         }
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
+
+    //init externalDevice
+    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = getVfsMountList();
+    updateExternalDevice(mounts);
 }
 
 void AlbumView::updateLeftView()
@@ -171,18 +179,14 @@ void AlbumView::updateLeftView()
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
 
+    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = getVfsMountList();
+    updateExternalDevice(mounts);
     updateRightNoTrashView();
 }
 
 void AlbumView::initRightView()
 {
     m_pRightStackWidget = new DStackedWidget();
-    m_pRightStackWidget->setStyleSheet("background-color:rgb(248, 248, 248, 230)");
-//    DPalette pa;
-//    pa.setColor(DPalette::Background,QColor(248, 248, 248, 230));
-//    m_pRightStackWidget->setAutoFillBackground(true);
-//    m_pRightStackWidget->setPalette(pa);
-
 
     // Import View
     m_pImportView = new ImportView();
@@ -367,6 +371,17 @@ void AlbumView::updateRightNoTrashView()
         m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
     }
 
+    //刷新外接设备中的图像文件，取currentItem()->data(Qt::UserRole)中的path，然后地柜遍历路径下的图片文件
+    QListWidgetItem *pItem = m_pLeftTabList->currentItem();
+    if (pItem) {
+        QString strPath = m_pLeftTabList->currentItem()->data(Qt::UserRole).toString();
+        if (!strPath.isEmpty())
+        {
+            findPictureFile(strPath, thumbnaiItemList);
+            m_iAlubmPicsNum = thumbnaiItemList.size();
+        }
+    }
+
     for(auto info : infos)
     {
         ThumbnailListView::ItemInfo vi;
@@ -429,19 +444,43 @@ void AlbumView::updateRightNoTrashView()
 
 void AlbumView::updateRightTrashView()
 {
+    int idaysec = 24*60*60;
+
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
     DBImgInfoList infos;
+    QStringList removepaths;
 
     infos = DBManager::instance()->getAllTrashInfos();
 
     for(auto info : infos)
     {
-        ThumbnailListView::ItemInfo vi;
-        vi.name = info.fileName;
-        vi.path = info.filePath;
+        QDateTime start = QDateTime::currentDateTime();
+        QDateTime end = info.time;
 
-        thumbnaiItemList<<vi;
+        uint etime = start.toTime_t();
+        uint stime = end.toTime_t();
+
+        int Day = (etime - stime)/(idaysec) + ((etime - stime)%(idaysec)+(idaysec-1))/(idaysec) - 1;
+
+        if (30 <= Day)
+        {
+            removepaths << info.filePath;
+        }
+        else
+        {
+            ThumbnailListView::ItemInfo vi;
+            vi.name = info.fileName;
+            vi.path = info.filePath;
+            vi.remainDays = QString::number(30-Day) + "天";
+
+            thumbnaiItemList<<vi;
+        }
+    }
+
+    if (0 < removepaths.length())
+    {
+        DBManager::instance()->removeTrashImgInfosNoSignal(removepaths);
     }
 
     if (0 < infos.length())
@@ -626,6 +665,8 @@ void AlbumView::onTrashRecoveryBtnClicked()
     {
         DBImgInfo info;
         info = DBManager::instance()->getTrashInfoByPath(path);
+        QFileInfo fi(info.filePath);
+        info.time = fi.birthTime();
         infos<<info;
     }
 
@@ -839,6 +880,78 @@ void AlbumView::dragMoveEvent(QDragMoveEvent *event)
 void AlbumView::dragLeaveEvent(QDragLeaveEvent *e)
 {
 
+}
+
+void AlbumView::onVfsMountChanged(QExplicitlySharedDataPointer<DGioMount> mount)
+{
+    updateLeftView();
+}
+
+const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList()
+{
+    QList<QExplicitlySharedDataPointer<DGioMount> > result;
+    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = m_vfsManager->getMounts();
+
+    for (auto mount : mounts) {
+        result.append(mount);
+    }
+
+    return result;
+}
+
+bool AlbumView::findPictureFile(const QString &path, QList<ThumbnailListView::ItemInfo>& thumbnaiItemList)
+{
+    QDir dir(path);
+    if (!dir.exists()) return false;
+
+    dir.setFilter(QDir::Dirs | QDir::Files);
+    dir.setSorting(QDir::DirsFirst);
+    QFileInfoList list = dir.entryInfoList();
+    if (list.size() == 0) return  false;
+    int i=0;
+    do {
+        QFileInfo fileInfo = list.at(i);
+
+        if (fileInfo.fileName()=="." | fileInfo.fileName()=="..")
+        {
+            i++;
+            continue;
+        }
+
+        bool bisDir=fileInfo.isDir();
+        if (bisDir)
+        {
+            findPictureFile(fileInfo.filePath(), thumbnaiItemList);
+        }
+        else {
+            if (fileInfo.fileName().contains(".jpg")
+                    || fileInfo.fileName().contains(".jpeg")) {
+                QString strPicPath = QString("%1%2%3").arg(fileInfo.path(), "/", fileInfo.fileName());
+                ThumbnailListView::ItemInfo vi;
+                vi.name = fileInfo.fileName();
+                vi.path = strPicPath;
+
+                thumbnaiItemList<<vi;
+            }
+        }
+        i++;
+    } while(i<list.size());
+
+    return true;
+}
+
+void AlbumView::updateExternalDevice(QList<QExplicitlySharedDataPointer<DGioMount> > mounts)
+{
+    for (auto mount : mounts) {
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
+        //pListWidgetItem缓存文件挂载路径
+        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+        QString strPath = LocationFile->path();
+        pListWidgetItem->setData(Qt::UserRole, strPath);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), "External Devices");
+        m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+    }
 }
 
 void AlbumView::picsIntoAlbum(QStringList paths)

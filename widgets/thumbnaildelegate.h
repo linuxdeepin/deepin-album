@@ -34,6 +34,7 @@ public:
         QString path;
         int width;
         int height;
+        QString remainDays = "30天";
     };
 
     explicit ThumbnailDelegate(QObject *parent = nullptr);

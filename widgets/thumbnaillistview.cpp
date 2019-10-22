@@ -190,6 +190,7 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem[i][j].path));
             datas.append(QVariant(m_gridItem[i][j].width));
             datas.append(QVariant(m_gridItem[i][j].height));
+            datas.append(QVariant(m_gridItem[i][j].remainDays));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(m_gridItem[i][j].width, m_gridItem[i][j].height)), Qt::SizeHintRole);
@@ -444,6 +445,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
             {
                 DBImgInfo info;
                 info = DBManager::instance()->getInfoByPath(path);
+                info.time = QDateTime::currentDateTime();
                 infos<<info;
             }
 
@@ -506,7 +508,7 @@ QStringList ThumbnailListView::selectedPaths()
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas =
                 index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.length() == 4) {
+        if (datas.length() == 5) {
             paths << datas[1].toString();
         }
     }

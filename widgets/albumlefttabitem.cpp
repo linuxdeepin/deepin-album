@@ -14,12 +14,14 @@ const int OPE_MODE_RENAMEALBUM = 1;
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const QString TRASH_ALBUM = "Trash";
 const QString FAVORITES_ALBUM = "My favorite";
+const QString EXTERNAL_DEVICE_ALBUM = "External Devices";
 }// namespace
 
-AlbumLeftTabItem::AlbumLeftTabItem(QString str)
+AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
 {
     m_albumNameStr = str;
     m_opeMode = 0;
+    m_albumTypeStr = strAlbumType;
 
     initUI();
     initConnections();
@@ -62,6 +64,12 @@ void AlbumLeftTabItem::initUI()
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+    else if (EXTERNAL_DEVICE_ALBUM == m_albumTypeStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
     else

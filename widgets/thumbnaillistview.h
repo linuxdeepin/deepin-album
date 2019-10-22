@@ -71,6 +71,7 @@ public:
         QString path = QString();
         int width;
         int height;
+        QString remainDays = "30天";
     };
 
     explicit ThumbnailListView(QString imgtype = "All pics");

@@ -15,10 +15,12 @@
 #include <DLineEdit>
 #include <DStackedWidget>
 #include <DPushButton>
+#include <dgiomount.h>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
+class DGioVolumeManager;
 class AlbumView : public QWidget
 //class AlbumView : public DSplitter
 {
@@ -49,6 +51,11 @@ private:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 
+    void onVfsMountChanged(QExplicitlySharedDataPointer<DGioMount> mount);
+    const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
+    bool findPictureFile(const QString & path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
+    void updateExternalDevice(QList<QExplicitlySharedDataPointer<DGioMount> > mounts);
+
 private slots:
     void onLeftMenuClicked(QAction *action);
     void onTrashRecoveryBtnClicked();
@@ -78,6 +85,7 @@ private:
     DLabel* m_pRightPicTotal;
     DLabel* m_pFavoriteTitle;
     DLabel* m_pFavoritePicTotal;
+    DGioVolumeManager *m_vfsManager;
 };
 
 #endif // ALBUMVIEW_H

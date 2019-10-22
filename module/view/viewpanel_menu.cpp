@@ -200,6 +200,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             DBImgInfo info;
 
             info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
+            info.time = QDateTime::currentDateTime();
             infos<<info;
 
             DBManager::instance()->insertTrashImgInfos(infos);

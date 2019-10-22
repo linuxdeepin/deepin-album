@@ -12,7 +12,7 @@ class AlbumLeftTabItem : public QWidget
     Q_OBJECT
 
 public:
-    AlbumLeftTabItem(QString str);
+    AlbumLeftTabItem(QString str, QString strAlbumType = "");
     ~AlbumLeftTabItem();
     void editAlbumEdit();
 

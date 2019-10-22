@@ -117,7 +117,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
     if (TRASH_ALBUM == m_imageTypeStr)
     {
-        painter->drawText(pixmapRect, Qt::AlignRight|Qt::AlignBottom, "30天");
+        painter->drawText(pixmapRect, Qt::AlignRight|Qt::AlignBottom, data.remainDays);
     }
 
     if (FAVORITES_ALBUM == m_imageTypeStr)
@@ -166,6 +166,9 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     }
     if (datas.length() >= 4) {
         data.height = datas[3].toInt();
+    }
+    if (datas.length() >= 5) {
+        data.remainDays = datas[4].toString();
     }
 
     return data;
