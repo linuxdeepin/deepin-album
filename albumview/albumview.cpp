@@ -223,8 +223,11 @@ void AlbumView::initRightView()
     m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
+    pNoTrashVBoxLayout->addSpacing(5);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
+    pNoTrashVBoxLayout->addSpacing(9);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
+    pNoTrashVBoxLayout->addSpacing(7);
     pNoTrashVBoxLayout->setContentsMargins(10,0,0,0);
 
     QVBoxLayout *p_all = new QVBoxLayout();
@@ -249,8 +252,11 @@ void AlbumView::initRightView()
     pLabel2->setFont(ft1);
     pLabel2->setPalette(palette);
 
+    pTopLeftVBoxLayout->addSpacing(5);
     pTopLeftVBoxLayout->addWidget(pLabel1);
+    pTopLeftVBoxLayout->addSpacing(9);
     pTopLeftVBoxLayout->addWidget(pLabel2);
+    pTopLeftVBoxLayout->addSpacing(7);
     pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
@@ -278,6 +284,7 @@ void AlbumView::initRightView()
     pTopRightVBoxLayout->addWidget(m_pDeleteBtn);
 
     pTopHBoxLayout->addItem(pTopLeftVBoxLayout);
+    pTopHBoxLayout->addStretch();
     pTopHBoxLayout->addItem(pTopRightVBoxLayout);
     pTopHBoxLayout->addSpacing(20);
 
@@ -311,8 +318,11 @@ void AlbumView::initRightView()
     m_pRightFavoriteThumbnailList = new ThumbnailListView(FAVORITES_ALBUM);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
 
+    pFavoriteVBoxLayout->addSpacing(5);
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
+    pFavoriteVBoxLayout->addSpacing(9);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
+    pFavoriteVBoxLayout->addSpacing(7);
 
     pFavoriteVBoxLayout->setContentsMargins(10,0,0,0);
 

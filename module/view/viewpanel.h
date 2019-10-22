@@ -90,6 +90,7 @@ private:
 
     // Menu control
     void appendAction(int id, const QString &text, const QString &shortcut="");
+    void appendAction_darkmenu(int id, const QString &text, const QString &shortcut="");
 #ifndef LITE_DIV
     QMenu* createAlbumMenu();
 #endif

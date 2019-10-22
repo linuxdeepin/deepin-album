@@ -31,6 +31,7 @@
 #include <QJsonDocument>
 #include <QShortcut>
 #include <QStyleFactory>
+#include <QFileInfo>
 
 namespace {
 
@@ -109,6 +110,16 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
 {
     QAction *ac = new QAction(m_menu);
     addAction(ac);
+    ac->setText(text);
+    ac->setProperty("MenuID", id);
+    ac->setShortcut(QKeySequence(shortcut));
+    m_menu->addAction(ac);
+}
+void ViewPanel::appendAction_darkmenu(int id, const QString &text, const QString &shortcut)
+{
+    QAction *ac = new QAction(m_menu);
+    addAction(ac);
+    ac->setDisabled(true);
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
@@ -321,10 +332,20 @@ void ViewPanel::updateMenuContent()
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
         m_menu->addSeparator();
-        appendAction(IdRotateClockwise,
-                     tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
-        appendAction(IdRotateCounterclockwise,
-                     tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+        if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+                !QFileInfo(m_infos.at(m_current).filePath).isWritable()){
+
+             appendAction_darkmenu(IdRotateClockwise,
+                                 tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+             appendAction_darkmenu(IdRotateCounterclockwise,
+                          tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+        }
+        else {
+            appendAction(IdRotateClockwise,
+                         tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+            appendAction(IdRotateCounterclockwise,
+                         tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+        }
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_infos.at(m_current).filePath))  {

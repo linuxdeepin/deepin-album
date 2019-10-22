@@ -34,6 +34,7 @@
 #include <QAbstractItemModel>
 #include <DImageButton>
 #include <DThumbnailProvider>
+#include <DApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
 namespace {
@@ -622,12 +623,14 @@ void TTBContent::updateCollectButton()
 
     if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath))
     {
+        m_clBT->setToolTip(tr("Favorite"));
         m_clBT->setNormalPic(":/resources/images/photo preview/checked/collection_checked.svg");
         m_clBT->setHoverPic(":/resources/images/photo preview/checked/collection_checked.svg");
         m_bClBTChecked = true;
     }
     else
     {
+        m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setNormalPic(":/resources/images/photo preview/normal/collection_normal.svg");
         m_clBT->setHoverPic(":/resources/images/photo preview/hover/collection_hover.svg");
         m_bClBTChecked = false;

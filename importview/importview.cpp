@@ -1,4 +1,5 @@
 #include "importview.h"
+#include <DApplicationHelper>
 
 namespace {
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
@@ -33,17 +34,33 @@ void ImportView::initUI()
 
     m_pImportBtn = new DPushButton();
     m_pImportBtn->setText("导入图片");
-    m_pImportBtn->setFixedSize(142, 42);
+    m_pImportBtn->setFixedSize(302, 36);
+    QFont ft;
+    ft.setPixelSize(14);
+    m_pImportBtn->setFont(ft);
+
+    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+    pa.setColor(QPalette::Light,QColor(0,152,255));
+    pa.setColor(QPalette::Dark,QColor(0,152,255));
+    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::HighlightedText));
+    m_pImportBtn->setPalette(pa);
 
     DLabel* pLabel2 = new DLabel();
-    pLabel2->setFixedHeight(24);
+    pLabel2->setFixedHeight(18);
     pLabel2->setText("您也可以拖拽或导入图片到时间线");
+    QFont ft1;
+    ft1.setPixelSize(12);
+    pLabel2->setFont(ft1);
+
+    DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
+    pa1.setBrush(DPalette::WindowText, QColor(122,122,122));
+    pLabel2->setPalette(pa1);
 
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);
-    pImportFrameLayout->addSpacing(20);
-    pImportFrameLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
     pImportFrameLayout->addSpacing(10);
+    pImportFrameLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
+    pImportFrameLayout->addSpacing(20);
     pImportFrameLayout->addWidget(pLabel2, 0, Qt::AlignCenter);
     pImportFrameLayout->addStretch();
 
