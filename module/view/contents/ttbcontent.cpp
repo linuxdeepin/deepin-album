@@ -384,9 +384,9 @@ TTBContent::TTBContent(bool inDB,
 void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;
+    m_fileNameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     QFont font;
-    font.setPixelSize(12);
-    m_fileNameLabel->setFont(font);
+    font.setPixelSize(12);   
     QFontMetrics fm(font);
     QString filename = QFileInfo(m_imagePath).fileName();
     QString name;

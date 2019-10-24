@@ -19,16 +19,20 @@
 #define EXTENSIONPANEL_H
 
 #include <QHBoxLayout>
+#include <QPropertyAnimation>
 #include "widgets/blureframe.h"
 #include "controller/viewerthememanager.h"
 
-class ExtensionPanel : public BlurFrame
+class ExtensionPanel : public DBlurEffectWidget
 {
     Q_OBJECT
 public:
     explicit ExtensionPanel(QWidget *parent);
     void setContent(QWidget *content);
     void updateRectWithContent();
+    void moveWithAnimation(int x, int y);
+signals:
+    void requestStopAnimation();
 
 protected:
 //    void paintEvent(QPaintEvent *) override;

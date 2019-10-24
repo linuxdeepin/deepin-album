@@ -324,30 +324,46 @@ void ThumbnailListView::updateMenuContents()
         m_pMenu->addSeparator();
     }
 
-    int flag = 0;
-    for(auto path : paths)
+    int a = 0;
+    for(auto path: paths)
     {
-        if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable())
+        if(!utils::image::imageSupportSave(path))
         {
-            flag = 1;
+            a = 1;
             break;
         }
     }
-    if(flag == 1)
+    if(0 == a)
     {
-        appendAction_darkmenu(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
-        appendAction_darkmenu(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
-    }
-    else
-    {
-        appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
-        appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+        int flag = 0;
+        for(auto path: paths){
+            if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable())
+            {
+                flag = 1;
+                break;
+            }
+        }
+        if(flag == 1)
+        {
+            appendAction_darkmenu(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
+            appendAction_darkmenu(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+        }
+        else
+        {
+            appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
+            appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+        }
     }
 
     if (1 == paths.length())
     {
         m_pMenu->addSeparator();
-        appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper"));
+
+        if (utils::image::imageSupportSave(paths[0]))
+        {
+            appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper"));
+        }
+
         appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager"));
         appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
     }

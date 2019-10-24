@@ -30,6 +30,7 @@
 #include <QFileInfo>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <DFontSizeManager>
 
 namespace {
 const int LEFT_MARGIN = 13;
@@ -165,9 +166,9 @@ TTLContent::TTLContent(bool inDB,
 void TTLContent::updateFilenameLayout()
 {
     using namespace utils::base;
+    m_fileNameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     QFont font;
     font.setPixelSize(12);
-    m_fileNameLabel->setFont(font);
     QFontMetrics fm(font);
     QString filename = QFileInfo(m_imagePath).fileName();
     QString name;

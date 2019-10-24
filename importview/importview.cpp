@@ -35,9 +35,7 @@ void ImportView::initUI()
     m_pImportBtn = new DPushButton();
     m_pImportBtn->setText("导入图片");
     m_pImportBtn->setFixedSize(302, 36);
-    QFont ft;
-    ft.setPixelSize(14);
-    m_pImportBtn->setFont(ft);
+    m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
     pa.setColor(QPalette::Light,QColor(0,152,255));
@@ -48,9 +46,7 @@ void ImportView::initUI()
     DLabel* pLabel2 = new DLabel();
     pLabel2->setFixedHeight(18);
     pLabel2->setText("您也可以拖拽或导入图片到时间线");
-    QFont ft1;
-    ft1.setPixelSize(12);
-    pLabel2->setFont(ft1);
+    pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
 
     DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
     pa1.setBrush(DPalette::WindowText, QColor(122,122,122));

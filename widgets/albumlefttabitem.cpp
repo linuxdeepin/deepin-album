@@ -4,7 +4,7 @@
 #include "application.h"
 #include <QHBoxLayout>
 #include "controller/signalmanager.h"
-
+#include <DFontSizeManager>
 #include <QPainter>
 namespace
 {
@@ -90,9 +90,7 @@ void AlbumLeftTabItem::initUI()
     QFontMetrics elideFont(m_nameLabel->font());
     m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
     m_nameLabel->setAlignment(Qt::AlignVCenter);
-    QFont ft;
-    ft.setPixelSize(14);
-    m_nameLabel->setFont(ft);
+    m_nameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     m_pLineEdit = new DLineEdit(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));

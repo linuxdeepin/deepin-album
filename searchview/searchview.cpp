@@ -78,10 +78,7 @@ void SearchView::initNoSearchResultView()
 
     DLabel* pLabel1 = new DLabel();
     pLabel1->setText("无结果");
-    QFont font;
-    font.setPixelSize(20);
-    pLabel1->setFont(font);
-
+    pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
     pLabel1->setPalette(pa);
@@ -107,9 +104,7 @@ void SearchView::initSearchResultView()
 
     DLabel* pLabel1 = new DLabel();
     pLabel1->setText("搜索结果");
-    QFont ft;
-    ft.setPixelSize(24);
-    pLabel1->setFont(ft);
+    pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
     pLabel1->setPalette(pa);
@@ -187,9 +182,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
         QString searchStr = tr("共搜到%1张照片");
         QString str = QString::number(infos.length());
         m_pSearchResultLabel->setText(searchStr.arg(str));
-        QFont ft;
-        ft.setPixelSize(14);
-        m_pSearchResultLabel->setFont(ft);
+        m_pSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
         DPalette pa = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
         m_pSearchResultLabel->setPalette(pa);
@@ -200,9 +193,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
     {
         QString str = tr("没有“%1”的结果，请尝试搜索新词。");
         m_pNoSearchResultLabel->setText(str.arg(s));
-        QFont font;
-        font.setPixelSize(12);
-        m_pNoSearchResultLabel->setFont(font);
+        m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
         m_pNoSearchResultLabel->setPalette(pa);

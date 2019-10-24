@@ -159,21 +159,19 @@ void MainWindow::initTitleBar()
 
     m_pAllPicBtn->setText("所有照片");
     m_pAllPicBtn ->setFlat(true);
-    QFont ft;
-    ft.setPixelSize(14);
-    m_pAllPicBtn->setFont(ft);
+    m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DPalette pa = DApplicationHelper::instance()->palette(m_pAllPicBtn);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
     m_pAllPicBtn->setPalette(pa);
 
     m_pTimeLineBtn->setText("时间线");
     m_pTimeLineBtn ->setFlat(true);
-    m_pTimeLineBtn->setFont(ft);
+    m_pTimeLineBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     m_pTimeLineBtn->setPalette(pa);
 
     m_pAlbumBtn->setText("相册");
     m_pAlbumBtn ->setFlat(true);
-    m_pAlbumBtn->setFont(ft);
+    m_pAlbumBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     m_pAlbumBtn->setPalette(pa);
 
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
@@ -253,7 +251,7 @@ void MainWindow::initStatusBar()
 
     m_pAllPicNumLabel = new DLabel();
     m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
-    m_pAllPicNumLabel->setFont(QFont("SourceHanSansSC-Normal"));
+    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
     m_pAllPicNumLabel->setFixedHeight(18);
     m_pAllPicNumLabel->setFrameShape(DTableView::NoFrame);
@@ -459,10 +457,12 @@ void MainWindow::onShowImageInfo(const QString &path)
 {
     ImgInfoDialog *dialog;
     if (m_propertyDialogs.contains(path)) {
+        dialog->setModal(true);
         dialog = m_propertyDialogs.value(path);
         dialog->raise();
     } else {
         dialog = new ImgInfoDialog(path);
+        dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->move((width() - dialog->width()) / 2 +
                    mapToGlobal(QPoint(0, 0)).x(),

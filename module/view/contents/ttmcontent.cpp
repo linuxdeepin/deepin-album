@@ -23,6 +23,7 @@
 #include <QBoxLayout>
 #include <QDebug>
 #include <QFileInfo>
+#include <DFontSizeManager>
 
 const int MAX_LENGTH = 600;
 const int LEFT_WIDGET_WIDTH = 383;
@@ -69,9 +70,9 @@ void TTMContent::setPath(const QString &path)
     QString filename = QFileInfo(path).fileName();
     QString name;
     using namespace utils::base;
+    m_fileNameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     QFont font;
     font.setPixelSize(12);
-    m_fileNameLabel->setFont(font);
     QFontMetrics fm(font);
     int strWidth = fm.boundingRect(filename).width();
     int leftMargin = 0;

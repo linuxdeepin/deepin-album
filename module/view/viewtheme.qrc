@@ -110,5 +110,6 @@
         <file>resources/light/images/mainwindow_light_press.svg</file>
         <file>resources/light/images/clockwise_rotation_disable.svg</file>
         <file>resources/light/images/clockwise_rotation_press.svg</file>
+        <file>resources/light/images/close_normal .svg</file>
     </qresource>
 </RCC>

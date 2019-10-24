@@ -10,6 +10,7 @@
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
+#include <DFontSizeManager>
 
 namespace {
 const int ITEM_SPACING = 0;
@@ -198,11 +199,7 @@ void AlbumView::initRightView()
 
     m_pRightTitle = new DLabel();
     m_pRightTitle->setText(RECENT_IMPORTED_ALBUM);
-
-    QFont ft;
-    ft.setPixelSize(24);
-    m_pRightTitle->setFont(ft);
-//    ft.setBold(true);
+    m_pRightTitle->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
 
     DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
@@ -212,9 +209,8 @@ void AlbumView::initRightView()
 
     QString str = tr("%1张照片");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
-    QFont ft1;
-    ft1.setPixelSize(14);
-    m_pRightPicTotal->setFont(ft1);
+    m_pRightPicTotal->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+
     DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
     palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
     m_pRightPicTotal->setPalette(palette);
@@ -244,12 +240,12 @@ void AlbumView::initRightView()
     QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
     DLabel *pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
-    pLabel1->setFont(ft);
+    pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
     pLabel1->setPalette(pa);
 
     DLabel *pLabel2 = new DLabel();
     pLabel2->setText("照片在删除前会显示剩余天数，之后将永久删除");
-    pLabel2->setFont(ft1);
+    pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     pLabel2->setPalette(palette);
 
     pTopLeftVBoxLayout->addSpacing(5);
@@ -303,12 +299,12 @@ void AlbumView::initRightView()
 
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setText(FAVORITES_ALBUM);
-    m_pFavoriteTitle->setFont(ft);
+    m_pFavoriteTitle->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
     m_pFavoriteTitle->setPalette(pa);
 
     m_pFavoritePicTotal = new DLabel();
     QString favoriteStr = tr("%1张照片");
-    m_pFavoritePicTotal->setFont(ft1);
+    m_pFavoritePicTotal->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     m_pFavoritePicTotal->setPalette(palette);
 
 
@@ -449,11 +445,12 @@ void AlbumView::updateRightNoTrashView()
 
         QFontMetrics elideFont(m_pRightTitle->font());
         m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
+        m_pRightTitle->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
 
-        QFont ft;
-        ft.setFamily("SourceHanSansSC-Medium");
-        ft.setPixelSize(24);
-        m_pRightTitle->setFont(ft);
+//        QFont ft;
+//        ft.setFamily("SourceHanSansSC-Medium");
+//        ft.setPixelSize(24);
+//        m_pRightTitle->setFont(ft);
 
         QString str = tr("%1张照片");
         m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));

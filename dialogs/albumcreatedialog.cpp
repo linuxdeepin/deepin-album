@@ -24,6 +24,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <DPushButton>
+#include <DFontSizeManager>
 
 AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     :Dialog(parent)
@@ -43,10 +44,11 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     title->setText("新建相册");
     title->setPalette(pe);
     title->setFixedSize(68,25);
-    QFont ft;
-    ft.setPixelSize(17);
-    ft.setFamily("SourceHanSansSC-Bold");
-    title->setFont(ft);
+    title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
+//    QFont ft;
+//    ft.setPixelSize(17);
+//    ft.setFamily("SourceHanSansSC-Bold");
+//    title->setFont(ft);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
 
@@ -58,9 +60,10 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
-    QFont ft1;
-    ft1.setPixelSize(14);         //设置字体大小
-    edit->setFont(ft1);
+    edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    QFont ft1;
+//    ft1.setPixelSize(14);         //设置字体大小
+//    edit->setFont(ft1);
 
     connect(this, &AlbumCreateDialog::visibleChanged, this, [=] (bool v) {
         if (! v) return;
@@ -86,14 +89,14 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     DPushButton *m_Cancel = new DPushButton(this);
     m_Cancel->setText("取消");
     m_Cancel->setFixedSize(170,36);
-    m_Cancel->setFont(ft1);
+    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DPushButton *m_line = new DPushButton(this);
     m_line->setFixedSize(3,28);
     m_line->setEnabled(false);
     DPushButton *m_OK = new DPushButton(this);
     m_OK->setText("新建");
     m_OK->setFixedSize(170,36);
-    m_OK->setFont(ft1);
+    m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     //界面布局
     m_picture->move(9,9);

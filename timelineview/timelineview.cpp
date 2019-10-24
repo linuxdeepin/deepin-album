@@ -65,15 +65,9 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateItem->setLayout(TitleViewLayout);
     DLabel* pDate = new DLabel();
     pDate->setFixedHeight(24);
-
-    QFont ft;
-    ft.setPixelSize(24);
-    ft.setFamily("SourceHanSansSC-Medium");
-
     QPalette color;
     color.setColor(QPalette::WindowText, QColor(0,0,0));
-
-    pDate->setFont(ft);
+    pDate->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
     pDate->setPalette(color);
 
     DLabel* pNum = new DLabel();
@@ -84,9 +78,10 @@ void TimeLineView::initTimeLineViewWidget()
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton("选择");
 
-    QFont ftt;
-    ftt.setPixelSize(18);
-    pSuspensionChose->setFont(ftt);
+//    QFont ftt;
+//    ftt.setPixelSize(18);
+//    pSuspensionChose->setFont(ftt);
+    pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pSuspensionChose->setFixedHeight(24);
     pSuspensionChose->resize(36,27);
 
@@ -161,33 +156,26 @@ void TimeLineView::updataLayout()
         listItem->m_sdate=QString("%1 年 %2 月 %3 日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         pDate->setText(listItem->m_sdate);
 
-        QFont ft;
-        ft.setPixelSize(24);
-
         QPalette color;
         color.setColor(QPalette::Text, QColor(0,0,0));
-
-        pDate->setFont(ft);
-        pDate->setAutoFillBackground(true);
         pDate->setPalette(color);
-
+        pDate->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
+        pDate->setAutoFillBackground(true);
         listItem->m_date=pDate;
 
         DLabel* pNum = new DLabel();
         pNum->setFixedHeight(24);
         listItem->m_snum = QString("%1 张照片").arg(ImgInfoList.size());
         pNum->setText(listItem->m_snum);
-        QFont ftt;
-        ftt.setPixelSize(14);
-        pNum->setFont(ftt);
-
+        pNum->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton("选择");
 
-        QFont fttt;
-        fttt.setPixelSize(18);
-        pChose->setFont(fttt);
+        pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
+//        QFont fttt;
+//        fttt.setPixelSize(18);
+//        pChose->setFont(fttt);
 
         pChose->setFixedHeight(24);
         pChose->resize(36,27);

@@ -35,7 +35,7 @@
 #include <QFile>
 #include <QHBoxLayout>
 #include <QDebug>
-
+#include "controller/signalmanager.h"
 #include <ddialog.h>
 using namespace Dtk::Widget;
 
@@ -118,19 +118,16 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         m_btmSeparatorLine->move(0, window()->height() -
                                m_bottomToolbar->height() - 1);
     }
-    if(m_extensionPanel){
-        if (this->window()->isFullScreen()) {
-            if(m_extensionPanel->x()<width()){
-                m_extensionPanel->move(width(), 0);
-            }else {
-                m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), 0);
-            }
-        } else {
-            if(m_extensionPanel->x()<width()){
-                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
-            }else {
-                m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
-            }
+
+    if(m_extensionPanel)
+    {
+        if (this->window()->isFullScreen())
+        {
+            m_extensionPanel->move(width(), 0);
+        }
+        else
+        {
+            m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
         }
     }
 }
@@ -291,8 +288,8 @@ void MainWidget::initConnection()
             this, [=] (const QString &path) {
         utils::base::showInFileManager(path);
     });
-//    connect(dApp->signalM, &SignalManager::showImageInfo,
-//            this, &MainWidget::onShowImageInfo);
+    connect(dApp->signalM, &SignalManager::showImageInfo,
+            this, &MainWidget::onShowImageInfo);
 //    connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
 //        onImported(tr("Imported successfully"), v);
 //    });
@@ -427,25 +424,25 @@ void MainWidget::initExtensionPanel()
             this, [=] (bool immediately) {
         if (immediately) {
             m_extensionPanel->requestStopAnimation();
-            if (this->window()->isFullScreen()) {
-//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-//                                              EXTENSION_PANEL_WIDTH), 0);
+            if (this->window()->isFullScreen())
+            {
                 m_extensionPanel->move(width(), 0);
-            } else {
-//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-//                                    EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+            }
+            else
+            {
                 m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
             }
         }
-        else {
-            if (this->window()->isFullScreen()) {
-//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-//                                                      EXTENSION_PANEL_WIDTH), 0);
-                m_extensionPanel->moveWithAnimation(width(),  0);
-            } else {
-//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-//                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+        else
+        {
+            if (this->window()->isFullScreen())
+            {
+                m_extensionPanel->moveWithAnimation(width(), 0);
+            }
+            else
+            {
                 m_extensionPanel->moveWithAnimation(width(), TOP_TOOLBAR_HEIGHT);
+                m_extensionPanel->hide();
             }
         }
     });

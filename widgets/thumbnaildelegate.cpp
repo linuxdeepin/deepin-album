@@ -30,6 +30,7 @@
 #include <QTimer>
 #include <QMouseEvent>
 #include <QImageReader>
+#include <DFontSizeManager>
 
 namespace
 {
@@ -123,10 +124,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->setBrush(QBrush(QColor(85,85,85,170)));
         painter->drawRoundedRect(pixmapRect.x()+pixmapRect.width()-40,pixmapRect.y()+pixmapRect.height()-18,38,16,8,8);
         painter->setPen(QColor(255,255,255));
-
-        QFont ft;
-        ft.setPixelSize(12);
-        painter->setFont(ft);
+        painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         painter->drawText(pixmapRect.x()+pixmapRect.width()-34, pixmapRect.y()+pixmapRect.height()-5, data.remainDays);
     }
 
