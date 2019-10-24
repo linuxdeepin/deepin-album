@@ -35,6 +35,7 @@
 #include <DThumbnailProvider>
 #include <QPropertyAnimation>
 #include <QHBoxLayout>
+#include <DIconButton>
 DWIDGET_USE_NAMESPACE
 
 
@@ -102,19 +103,21 @@ private:
     bool m_inDB;
     bool m_bClBTChecked;
 
-    DImageButton* m_adaptImageBtn;
-    DImageButton* m_adaptScreenBtn;
-    DImageButton* m_clBT;
-    DImageButton* m_rotateLBtn;
-    DImageButton* m_rotateRBtn;
-    DImageButton* m_trashBtn;
-    DImageButton *m_preButton;
-    DImageButton *m_nextButton;
-    DImageButton *m_backButton;
+    DIconButton* m_adaptImageBtn;
+    DIconButton* m_adaptScreenBtn;
+    DIconButton* m_clBT;
+    DIconButton* m_rotateLBtn;
+    DIconButton* m_rotateRBtn;
+    DIconButton* m_trashBtn;
+    DIconButton *m_preButton;
+    DIconButton *m_nextButton;
+    DIconButton *m_backButton;
     ElidedLabel* m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
     DWidget *m_imgListView;
+    DWidget *m_preButton_spc;
+    DWidget *m_nextButton_spc;
     DBImgInfoList m_imgInfos ;
     QString m_imagePath;
     int m_windowWidth;

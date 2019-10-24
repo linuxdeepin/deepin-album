@@ -1,6 +1,7 @@
 #include "timelineview.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/snifferimageformat.h"
 
 #include <QScrollBar>
 #include <QScroller>
@@ -36,6 +37,7 @@ TimeLineView::TimeLineView()
 void TimeLineView::initConnections(){
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::updataLayout);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::updataLayout);
+    connect(dApp, &Application::sigFinishLoad, this, &TimeLineView::updataLayout);
     connect(m_mainListWidget,&TimelineList::sigNewTime,this,[=](QString date,QString num,int index){
         m_index = index;
         on_AddLabel(date,num);
@@ -234,6 +236,7 @@ void TimeLineView::updataLayout()
             ThumbnailListView::ItemInfo vi;
             vi.name = ImgInfoList.at(j).fileName;
             vi.path = ImgInfoList.at(j).filePath;
+            vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
             thumbnaiItemList.append(vi);
         }
         //保存当前时间图片
@@ -417,6 +420,13 @@ void TimeLineView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
+        QStringList paths;
+        for(auto info : dbInfos)
+        {
+            paths<<info.filePath;
+        }
+
+        dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
     }
 

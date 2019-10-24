@@ -72,6 +72,7 @@ public:
         int width;
         int height;
         QString remainDays = "30天";
+        QPixmap image;
     };
 
     explicit ThumbnailListView(QString imgtype = "All pics");

@@ -49,8 +49,9 @@ void ThumbnailDelegate::paint(QPainter *painter,
                           const QStyleOptionViewItem &option,
                           const QModelIndex &index) const
 {
+    painter->save();
     const ItemData data = itemData(index);
-    if (data.path.isEmpty()) return;
+//    if (data.path.isEmpty()) return;
 
     bool selected = false;
 
@@ -90,31 +91,31 @@ void ThumbnailDelegate::paint(QPainter *painter,
     painter->setClipPath(bp1);
 
 
-    QImage tImg;
+//    QImage tImg;
 
-    QString format = DetectImageFormat(data.path);
-    if (format.isEmpty()) {
-        QImageReader reader(data.path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        }
-    } else {
-        QImageReader readerF(data.path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-                       << format;
+//    QString format = DetectImageFormat(data.path);
+//    if (format.isEmpty()) {
+//        QImageReader reader(data.path);
+//        reader.setAutoTransform(true);
+//        if (reader.canRead()) {
+//            tImg = reader.read();
+//        }
+//    } else {
+//        QImageReader readerF(data.path, format.toLatin1());
+//        readerF.setAutoTransform(true);
+//        if (readerF.canRead()) {
+//            tImg = readerF.read();
+//        } else {
+//            qWarning() << "can't read image:" << readerF.errorString()
+//                       << format;
 
-            tImg = QImage(data.path);
-        }
-    }
+//            tImg = QImage(data.path);
+//        }
+//    }
 
-    QPixmap pixmapItem = QPixmap::fromImage(tImg);
+//    QPixmap pixmapItem = QPixmap::fromImage(tImg);
 
-    painter->drawPixmap(pixmapRect, pixmapItem);
+    painter->drawPixmap(pixmapRect, data.image);
 
     if (TRASH_ALBUM == m_imageTypeStr)
     {
@@ -150,6 +151,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
         painter->drawPixmap(selectedRect, selectedPixmap);
     }
+    painter->restore();
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
@@ -167,7 +169,7 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
         data.name = datas[0].toString();
     }
     if (datas.length() >= 2) {
-        data.path = datas[1].toString();
+        data.path =  datas[1].toString();
     }
     if (datas.length() >= 3) {
         data.width = datas[2].toInt();
@@ -177,6 +179,9 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     }
     if (datas.length() >= 5) {
         data.remainDays = datas[4].toString();
+    }
+    if (datas.length() >= 6) {
+        data.image = datas[5].value<QPixmap>();
     }
 
     return data;

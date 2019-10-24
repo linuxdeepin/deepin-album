@@ -70,7 +70,7 @@ private slots:
     void onImprotBtnClicked();
     void onUpdateCentralWidget();
     void onNewAPPOpen();
-
+    void onLoadingFinished();
 private:
     Ui::MainWindow *ui;
     QListWidget* m_listWidget;

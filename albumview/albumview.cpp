@@ -11,6 +11,7 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <DFontSizeManager>
+#include "utils/snifferimageformat.h"
 
 namespace {
 const int ITEM_SPACING = 0;
@@ -66,6 +67,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
+    connect(dApp, &Application::sigFinishLoad, this, &AlbumView::updateRightView);
     connect(m_pLeftTabList, &QListView::customContextMenuRequested, this, &AlbumView::showLeftMenu);
     connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
     connect(m_pRecoveryBtn, &DPushButton::clicked, this, &AlbumView::onTrashRecoveryBtnClicked);
@@ -82,8 +84,8 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked); 
 
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChanged);
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChanged);
+//    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChanged);
+//    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChanged);
 }
 
 void AlbumView::initLeftView()
@@ -358,20 +360,42 @@ void AlbumView::initRightView()
 
     if (0 < DBManager::instance()->getImgsCount())
     {
-        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
+//        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
-        auto infos = DBManager::instance()->getAllInfos();
-        for(auto info : infos)
-        {
-            ThumbnailListView::ItemInfo vi;
-            vi.name = info.fileName;
-            vi.path = info.filePath;
+//        auto infos = DBManager::instance()->getAllInfos();
+//        for(auto info : infos)
+//        {
+//            ThumbnailListView::ItemInfo vi;
+//            vi.name = info.fileName;
+//            QImage tImg;
 
-            thumbnaiItemList<<vi;
-        }
+//            QString format = DetectImageFormat(info.filePath);
+//            if (format.isEmpty()) {
+//                QImageReader reader(info.filePath);
+//                reader.setAutoTransform(true);
+//                if (reader.canRead()) {
+//                    tImg = reader.read();
+//                }
+//            } else {
+//                QImageReader readerF(info.filePath, format.toLatin1());
+//                readerF.setAutoTransform(true);
+//                if (readerF.canRead()) {
+//                    tImg = readerF.read();
+//                } else {
+//                    qWarning() << "can't read image:" << readerF.errorString()
+//                               << format;
 
-        m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
-        m_pRightThumbnailList->m_imageType = m_currentAlbum;
+//                    tImg = QImage(info.filePath);
+//                }
+//            }
+
+//            vi.image = QPixmap::fromImage(tImg);
+
+//            thumbnaiItemList<<vi;
+//        }
+
+//        m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
+//        m_pRightThumbnailList->m_imageType = m_currentAlbum;
         m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
     }
@@ -428,6 +452,7 @@ void AlbumView::updateRightNoTrashView()
         ThumbnailListView::ItemInfo vi;
         vi.name = info.fileName;
         vi.path = info.filePath;
+        vi.image = dApp->m_imagemap.value(info.filePath);
 
         thumbnaiItemList<<vi;
     }
@@ -542,6 +567,7 @@ void AlbumView::updateRightTrashView()
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
+            vi.image = dApp->m_imagetrashmap.value(info.filePath);
             vi.remainDays = QString::number(30-Day) + "天";
 
             thumbnaiItemList<<vi;
@@ -550,6 +576,11 @@ void AlbumView::updateRightTrashView()
 
     if (0 < removepaths.length())
     {
+        for(auto path : removepaths)
+        {
+            dApp->m_imagetrashmap.remove(path);
+        }
+
         DBManager::instance()->removeTrashImgInfosNoSignal(removepaths);
     }
 
@@ -738,8 +769,11 @@ void AlbumView::onTrashRecoveryBtnClicked()
         QFileInfo fi(info.filePath);
         info.time = fi.birthTime();
         infos<<info;
+
+        dApp->m_imagetrashmap.remove(path);
     }
 
+    dApp->m_imageloader->addImageLoader(paths);
     DBManager::instance()->insertImgInfos(infos);
     DBManager::instance()->removeTrashImgInfos(paths);
 }
@@ -756,6 +790,11 @@ void AlbumView::onTrashDeleteBtnClicked()
     {
         paths = DBManager::instance()->getAllTrashPaths();
         m_pDeleteBtn->setEnabled(false);
+    }
+
+    for(auto path : paths)
+    {
+        dApp->m_imagetrashmap.remove(path);
     }
 
     DBManager::instance()->removeTrashImgInfos(paths);
@@ -935,6 +974,13 @@ void AlbumView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
+        QStringList paths;
+        for(auto info : dbInfos)
+        {
+            paths<<info.filePath;
+        }
+
+        dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
         picsIntoAlbum(paths);
     }

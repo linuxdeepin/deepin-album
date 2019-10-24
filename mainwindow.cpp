@@ -92,6 +92,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(dApp, &DApplication::newInstanceStarted, this, &MainWindow::onNewAPPOpen);
+    connect(dApp, &Application::sigFinishLoad, this, &MainWindow::onLoadingFinished);
 }
 
 void MainWindow::initShortcut()
@@ -130,6 +131,11 @@ void MainWindow::initDB()
         {
             removePaths<<info.filePath;
         }
+    }
+
+    for(auto path : removePaths)
+    {
+        dApp->m_imagemap.remove(path);
     }
 
     DBManager::instance()->removeImgInfosNoSignal(removePaths);
@@ -240,6 +246,17 @@ void MainWindow::initTitleBar()
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
     titlebar()->addWidget(m_titleSearchWidget, Qt::AlignHCenter);
     titlebar()->setMenu(m_pTitleBarMenu);
+
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        // dothing
+    }
+    else
+    {
+        m_pTimeLineBtn->setEnabled(false);
+        m_pAlbumBtn->setEnabled(false);
+        m_pSearchEdit->setEnabled(false);
+    }
 }
 
 void MainWindow::initCentralWidget()
@@ -553,6 +570,13 @@ void MainWindow::onImprotBtnClicked()
 
     if (! dbInfos.isEmpty())
     {
+        QStringList paths;
+        for(auto info : dbInfos)
+        {
+            paths<<info.filePath;
+        }
+
+        dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
 
         if (true == m_bTitleMenuImportClicked && VIEW_ALBUM == m_iCurrentView)
@@ -593,4 +617,18 @@ void MainWindow::onNewAPPOpen()
     qDebug()<<"sssssssssssssssssssss";
     this->setWindowState(Qt::WindowActive);
     this->activateWindow();
+}
+
+void MainWindow::onLoadingFinished()
+{
+    m_pTimeLineBtn->setEnabled(true);
+    m_pAlbumBtn->setEnabled(true);
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        m_pSearchEdit->setEnabled(true);
+    }
+    else
+    {
+        m_pSearchEdit->setEnabled(false);
+    }
 }

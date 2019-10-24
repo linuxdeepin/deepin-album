@@ -203,6 +203,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     {
         if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
         {
+            dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
         }
         else
@@ -214,6 +215,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             info.time = QDateTime::currentDateTime();
             infos<<info;
 
+            dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
+            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
         }

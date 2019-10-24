@@ -1,5 +1,6 @@
 #include "searchview.h"
 #include <DApplicationHelper>
+#include "utils/snifferimageformat.h"
 
 namespace {
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
@@ -190,6 +191,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
+            vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
             thumbnaiItemList<<vi;
         }
 

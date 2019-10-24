@@ -31,10 +31,11 @@ class ThumbnailDelegate : public QStyledItemDelegate {
 public:
     struct ItemData {
         QString name;
-        QString path;
+        QString path = QString();
         int width;
         int height;
         QString remainDays = "30天";
+        QPixmap image;
     };
 
     explicit ThumbnailDelegate(QObject *parent = nullptr);
@@ -62,6 +63,7 @@ public:
 private:
     QColor m_borderColor;
     QString  m_defaultThumbnail;
+    bool m_itemdata = false;
 };
 
 #endif // ALBUMDELEGATE_H

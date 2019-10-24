@@ -192,6 +192,7 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem[i][j].width));
             datas.append(QVariant(m_gridItem[i][j].height));
             datas.append(QVariant(m_gridItem[i][j].remainDays));
+            datas.append(QVariant(m_gridItem[i][j].image));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(m_gridItem[i][j].width, m_gridItem[i][j].height)), Qt::SizeHintRole);
@@ -223,30 +224,8 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
     {
         QImage tImg;
 
-        QString format = DetectImageFormat(m_ItemList[i].path);
-        if (format.isEmpty()) {
-            QImageReader reader(m_ItemList[i].path);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
-            }
-        } else {
-            QImageReader readerF(m_ItemList[i].path, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
-            } else {
-                qWarning() << "can't read image:" << readerF.errorString()
-                           << format;
-
-                tImg = QImage(m_ItemList[i].path);
-            }
-        }
-
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-
-        m_ItemList[i].width = pixmap.width();
-        m_ItemList[i].height = pixmap.height();
+        m_ItemList[i].width = m_ItemList[i].image.width();
+        m_ItemList[i].height = m_ItemList[i].image.height();
     }
 
     calBasePixMapWandH();
@@ -453,6 +432,11 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     {
         if (TRASH_ALBUM == m_imageType)
         {
+            for(auto path : paths)
+            {
+                dApp->m_imagetrashmap.remove(path);
+            }
+
             DBManager::instance()->removeTrashImgInfos(paths);
         }
         else
@@ -464,8 +448,11 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
                 info = DBManager::instance()->getInfoByPath(path);
                 info.time = QDateTime::currentDateTime();
                 infos<<info;
+
+                dApp->m_imagemap.remove(path);
             }
 
+            dApp->m_imageloader->addTrashImageLoader(paths);
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(paths);
         }
@@ -525,7 +512,7 @@ QStringList ThumbnailListView::selectedPaths()
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas =
                 index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.length() == 5) {
+        if (datas.length() == 6) {
             paths << datas[1].toString();
         }
     }

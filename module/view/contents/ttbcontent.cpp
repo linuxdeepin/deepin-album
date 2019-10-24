@@ -41,7 +41,7 @@ namespace {
 const int LEFT_MARGIN = 10;
 const QSize ICON_SIZE = QSize(50, 50);
 const QString FAVORITES_ALBUM = "My favorite";
-const int ICON_SPACING = 3;
+const int ICON_SPACING = 10;
 const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
@@ -106,7 +106,7 @@ TTBContent::TTBContent(bool inDB,
 //    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     m_imgInfos = m_infos;
     if ( m_imgInfos.size() <= 1 ) {
-        m_contentWidth = 420;
+        m_contentWidth = 482;
     } else {
         m_contentWidth = 1280;
     }
@@ -148,70 +148,107 @@ TTBContent::TTBContent(bool inDB,
     });
 #endif
     // Adapt buttons////////////////////////////////////////////////////////////
-     m_backButton = new DImageButton();
-     m_backButton->setFixedSize(ICON_SIZE);
-     m_backButton->setObjectName("ReturnBtn");
-     m_backButton->setToolTip(tr("Return"));
-     hb->addWidget(m_backButton);
-     hb->addSpacing(ICON_SPACING*2);
-     connect(m_backButton, &DImageButton::clicked, this, [=] {
-         emit dApp->signalM->hideImageView();
-         emit ttbcontentClicked();
-     });
+    m_backButton = new DIconButton(this);
+    m_backButton->setFixedSize(ICON_SIZE);
+    m_backButton->setObjectName("ReturnBtn");
+    m_backButton->setIcon(QIcon::fromTheme("dcc_previous"));
+    m_backButton->setIconSize(QSize(36,36));
+//    m_backButton->setToolTip(tr("Return"));
+    m_backButton->setToolTip(tr("返回"));
+    hb->addWidget(m_backButton);
+    hb->addSpacing(ICON_SPACING*5);
+    connect(m_backButton, &DIconButton::clicked, this, [=] {
+     emit dApp->signalM->hideImageView();
+     emit ttbcontentClicked();
+    });
 
-     m_preButton = new DImageButton();
-     m_nextButton = new DImageButton();
-     m_preButton->setObjectName("PreviousButton");
-     m_nextButton->setObjectName("NextButton");
+    // preButton
+    m_preButton = new DIconButton(this);
+    m_preButton->setObjectName("PreviousButton");
+    m_preButton->setFixedSize(ICON_SIZE);
+    m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
+    m_preButton->setIconSize(QSize(36,36));
+//    m_preButton->setToolTip(tr("Previous"));
+    m_preButton->setToolTip(tr("上一个"));
+    m_preButton->hide();
 
-     m_preButton->setFixedSize(ICON_SIZE);
-     m_nextButton->setFixedSize(ICON_SIZE);
-     m_preButton->setToolTip(tr("Previous"));
-     m_nextButton->setToolTip(tr("Next"));
-     m_preButton->hide();
-     m_nextButton->hide();
-     hb->addWidget(m_preButton);
-     hb->addSpacing(ICON_SPACING);
-     hb->addWidget(m_nextButton);
-     hb->addSpacing(ICON_SPACING);
-     connect(m_preButton, &DImageButton::clicked, this, [=] {
-         emit showPrevious();
-         emit ttbcontentClicked();
-     });
-     connect(m_nextButton, &DImageButton::clicked, this, [=] {
-         emit showNext();
-         emit ttbcontentClicked();
-     });
+    connect(m_preButton, &DIconButton::clicked, this, [=] {
+     emit showPrevious();
+     emit ttbcontentClicked();
+    });
+	
+	m_preButton_spc = new DWidget;
+    m_preButton_spc->setFixedSize(QSize(10,50));
+    m_preButton_spc->hide();
 
-    m_adaptImageBtn = new DImageButton();
+    // nextButton
+    m_nextButton = new DIconButton(this);
+    m_nextButton->setObjectName("NextButton");
+    m_nextButton->setFixedSize(ICON_SIZE);
+    m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
+    m_nextButton->setIconSize(QSize(36,36));
+//    m_nextButton->setToolTip(tr("Next"));
+    m_nextButton->setToolTip(tr("下一个"));
+    m_nextButton->hide();
+
+
+     
+     
+    connect(m_nextButton, &DIconButton::clicked, this, [=] {
+     emit showNext();
+     emit ttbcontentClicked();
+    });
+	
+	
+	m_nextButton_spc = new DWidget;
+	m_nextButton_spc->setFixedSize(QSize(10,50));
+	m_nextButton_spc->hide();
+
+    hb->addWidget(m_preButton);
+    hb->addWidget(m_preButton_spc);
+    hb->addWidget(m_nextButton);
+	hb->addWidget(m_nextButton_spc);
+    hb->addSpacing(ICON_SPACING);
+
+    // adaptImageBtn
+    m_adaptImageBtn = new DIconButton(this);
     m_adaptImageBtn->setObjectName("AdaptBtn");
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
+    m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
+    m_adaptImageBtn->setIconSize(QSize(36,36));
+//    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+    m_adaptImageBtn->setToolTip(tr("1:1 比例"));
 
-    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptImageBtn, &DImageButton::clicked, this, [=] {
+    connect(m_adaptImageBtn, &DIconButton::clicked, this, [=] {
         emit resetTransform(false);
         emit ttbcontentClicked();
     });
 
-    m_adaptScreenBtn = new DImageButton();
+
+    // adaptScreenBtn
+    m_adaptScreenBtn = new DIconButton(this);
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
     m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
-    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+    m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
+    m_adaptScreenBtn->setIconSize(QSize(36,36));
+//    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+    m_adaptScreenBtn->setToolTip(tr("适应窗口"));
+
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptScreenBtn, &DImageButton::clicked, this, [=] {
+    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [=] {
         emit resetTransform(true);
         emit ttbcontentClicked();
     });
 
     // Collection button////////////////////////////////////////////////////////
-    m_clBT = new DImageButton();
+    m_clBT = new DIconButton(this);
     m_clBT->setFixedSize(ICON_SIZE);
     m_clBT->setObjectName("CollectBtn");
 
-    connect(m_clBT, &DImageButton::clicked, this, [=] {
+    connect(m_clBT, &DIconButton::clicked, this, [=] {
 
         if (true == m_bClBTChecked)
         {
@@ -228,29 +265,37 @@ TTBContent::TTBContent(bool inDB,
     hb->addWidget(m_clBT);
     hb->addSpacing(ICON_SPACING);
 
-
-    m_rotateLBtn = new DImageButton();
+    // rotateLBtn
+    m_rotateLBtn = new DIconButton(this);
     m_rotateLBtn->setFixedSize(ICON_SIZE);
     m_rotateLBtn->setObjectName("RotateBtn");
-    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
+    m_rotateLBtn->setIconSize(QSize(36,36));
+//    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    m_rotateLBtn->setToolTip(tr("逆时针旋转"));
     hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_rotateLBtn, &DImageButton::clicked, this, [=] {
+    connect(m_rotateLBtn, &DIconButton::clicked, this, [=] {
         emit rotateCounterClockwise();
         emit ttbcontentClicked();
     });
 
-    m_rotateRBtn = new DImageButton();
+    // rotateRBtn
+    m_rotateRBtn = new DIconButton(this);
     m_rotateRBtn->setFixedSize(ICON_SIZE);
     m_rotateRBtn->setObjectName("RotateCounterBtn");
-    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
+    m_rotateRBtn->setIconSize(QSize(36,36));
+//    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    m_rotateRBtn->setToolTip(tr("顺时针旋转"));
     hb->addWidget(m_rotateRBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_rotateRBtn, &DImageButton::clicked, this, [=] {
+    hb->addSpacing(ICON_SPACING+8);
+    connect(m_rotateRBtn, &DIconButton::clicked, this, [=] {
         emit rotateClockwise();
         emit ttbcontentClicked();
     });
 
+    // imgListView
     m_imgListView = new DWidget();
     m_imgListView->setObjectName("ImgListView");
     m_imgList = new DWidget(m_imgListView);
@@ -264,18 +309,21 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setMargin(0);
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
-    m_imgListView->setFixedSize(QSize(786,60));
+    m_imgListView->setFixedSize(QSize(658,60));
     hb->addWidget(m_imgListView);
-
-    m_trashBtn = new DImageButton();
+    hb->addSpacing(ICON_SPACING+14);
+    m_trashBtn = new DIconButton(this);
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setObjectName("TrashBtn");
-    m_trashBtn->setToolTip(tr("Delete"));
+    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
+    m_trashBtn->setIconSize(QSize(36,36));
+//    m_trashBtn->setToolTip(tr("Delete"));
+    m_trashBtn->setToolTip(tr("删除"));
     hb->addWidget(m_trashBtn);
 
     m_fileNameLabel = new ElidedLabel();
 //    hb->addWidget(m_fileNameLabel);
-    connect(m_trashBtn, &DImageButton::clicked, this, [=] {
+    connect(m_trashBtn, &DIconButton::clicked, this, [=] {
         emit removed();
         emit ttbcontentClicked();
     });
@@ -284,101 +332,6 @@ TTBContent::TTBContent(bool inDB,
             &TTBContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &TTBContent::onThemeChanged);
-//     connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
-//         updateFilenameLayout();
-//     });
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        m_backButton->setNormalPic(":/resources/dark/images/previous_normal.svg");
-        m_backButton->setHoverPic(":/resources/dark/images/previous_hover.svg");
-        m_backButton->setPressPic(":/resources/dark/images/previous_press.svg");
-        m_backButton->setCheckedPic(":/resources/dark/images/previous_press.svg");
-
-        m_preButton->setNormalPic(":/resources/dark/images/previous_normal.svg");
-        m_preButton->setHoverPic(":/resources/dark/images/previous_hover.svg");
-        m_preButton->setPressPic(":/resources/dark/images/previous_press.svg");
-        m_preButton->setCheckedPic(":/resources/dark/images/previous_press.svg");
-
-        m_nextButton->setNormalPic(":/resources/dark/images/next_normal.svg");
-        m_nextButton->setHoverPic(":/resources/dark/images/next_hover.svg");
-        m_nextButton->setPressPic(":/resources/dark/images/next_press.svg");
-        m_nextButton->setCheckedPic(":/resources/dark/images/next_press.svg");
-
-        m_adaptImageBtn->setNormalPic(":/resources/dark/images/adapt_image_normal.svg");
-        m_adaptImageBtn->setHoverPic(":/resources/dark/images/adapt_image_hover.svg");
-        m_adaptImageBtn->setPressPic(":/resources/dark/images/adapt_image_active.svg");
-        m_adaptImageBtn->setCheckedPic(":/resources/dark/images/adapt_image_active.svg");
-
-        m_adaptScreenBtn->setNormalPic(":/resources/dark/images/adapt_screen_normal.svg");
-        m_adaptScreenBtn->setHoverPic(":/resources/dark/images/adapt_screen_hover.svg");
-        m_adaptScreenBtn->setPressPic(":/resources/dark/images/adapt_screen_active.svg");
-        m_adaptScreenBtn->setCheckedPic(":/resources/dark/images/adapt_screen_active.svg");
-
-        m_clBT->setNormalPic(":/resources/dark/images/collect_normal.svg");
-        m_clBT->setHoverPic(":/resources/dark/images/collect_hover.svg");
-        m_clBT->setPressPic(":/resources/dark/images/collect_active.svg");
-        m_clBT->setCheckedPic(":/resources/dark/images/collect_active.svg");
-
-        m_rotateLBtn->setNormalPic(":/resources/dark/images/clockwise_rotation_normal.svg");
-        m_rotateLBtn->setHoverPic(":/resources/dark/images/clockwise_rotation_hover.svg");
-        m_rotateLBtn->setPressPic(":/resources/dark/images/clockwise_rotation_press.svg");
-        m_rotateLBtn->setCheckedPic(":/resources/dark/images/clockwise_rotation_press.svg");
-
-        m_rotateRBtn->setNormalPic(":/resources/dark/images/contrarotate_normal.svg");
-        m_rotateRBtn->setHoverPic(":/resources/dark/images/contrarotate_hover.svg");
-        m_rotateRBtn->setPressPic(":/resources/dark/images/contrarotate_press.svg");
-        m_rotateRBtn->setCheckedPic(":/resources/dark/images/contrarotate_press.svg");
-
-        m_trashBtn->setNormalPic(":/resources/dark/images/delete_normal.svg");
-        m_trashBtn->setHoverPic(":/resources/dark/images/delete_hover.svg");
-        m_trashBtn->setPressPic(":/resources/dark/images/delete_active.svg");
-        m_trashBtn->setCheckedPic(":/resources/dark/images/delete_active.svg");
-
-    } else {
-        m_backButton->setNormalPic(":/resources/light/images/previous_normal.svg");
-        m_backButton->setHoverPic(":/resources/light/images/previous_hover.svg");
-        m_backButton->setPressPic(":/resources/light/images/previous_press.svg");
-        m_backButton->setCheckedPic(":/resources/light/images/previous_press.svg");
-
-        m_preButton->setNormalPic(":/resources/light/images/previous_normal.svg");
-        m_preButton->setHoverPic(":/resources/light/images/previous_hover.svg");
-        m_preButton->setPressPic(":/resources/light/images/previous_press.svg");
-        m_preButton->setCheckedPic(":/resources/light/images/previous_press.svg");
-
-        m_nextButton->setNormalPic(":/resources/light/images/next_normal.svg");
-        m_nextButton->setHoverPic(":/resources/light/images/next_hover.svg");
-        m_nextButton->setPressPic(":/resources/light/images/next_press.svg");
-        m_nextButton->setCheckedPic(":/resources/light/images/next_press.svg");
-
-        m_adaptImageBtn->setNormalPic(":/resources/light/images/adapt_image_normal.svg");
-        m_adaptImageBtn->setHoverPic(":/resources/light/images/adapt_image_hover.svg");
-        m_adaptImageBtn->setPressPic(":/resources/light/images/adapt_image_active.svg");
-        m_adaptImageBtn->setCheckedPic(":/resources/light/images/adapt_image_active.svg");
-
-        m_adaptScreenBtn->setNormalPic(":/resources/light/images/adapt_screen_normal.svg");
-        m_adaptScreenBtn->setHoverPic(":/resources/light/images/adapt_screen_hover.svg");
-        m_adaptScreenBtn->setPressPic(":/resources/light/images/adapt_screen_active.svg");
-        m_adaptScreenBtn->setCheckedPic(":/resources/light/images/adapt_screen_active.svg");
-
-        m_clBT->setNormalPic(":/resources/images/photo preview/normal/collection_normal.svg");
-        m_clBT->setHoverPic(":/resources/images/photo preview/hover/collection_hover.svg");
-        m_clBT->setPressPic(":/resources/images/photo preview/press/collection_press.svg");
-        m_clBT->setCheckedPic(":/resources/images/photo preview/checked/collection_checked.svg");
-
-        m_rotateLBtn->setNormalPic(":/resources/light/images/clockwise_rotation_normal.svg");
-        m_rotateLBtn->setHoverPic(":/resources/light/images/clockwise_rotation_hover.svg");
-        m_rotateLBtn->setPressPic(":/resources/light/images/clockwise_rotation_press.svg");
-        m_rotateLBtn->setCheckedPic(":/resources/light/images/clockwise_rotation_press.svg");
-
-        m_rotateRBtn->setNormalPic(":/resources/light/images/contrarotate_normal.svg");
-        m_rotateRBtn->setHoverPic(":/resources/light/images/contrarotate_hover.svg");
-        m_rotateRBtn->setPressPic(":/resources/light/images/contrarotate_press.svg");
-        m_rotateRBtn->setCheckedPic(":/resources/light/images/contrarotate_press.svg");
-
-        m_trashBtn->setNormalPic(":/resources/light/images/delete_normal.svg");
-        m_trashBtn->setHoverPic(":/resources/light/images/delete_hover.svg");
-        m_trashBtn->setPressPic(":/resources/light/images/delete_active.svg");
-        m_trashBtn->setCheckedPic(":/resources/light/images/delete_active.svg");
-    }
 }
 
 void TTBContent::updateFilenameLayout()
@@ -495,7 +448,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
-        m_trashBtn->setDisabled(true);
+//        m_trashBtn->setDisabled(true);
         m_imgList->setDisabled(false);
     } else {
         m_adaptImageBtn->setDisabled(false);
@@ -577,12 +530,17 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_imgListView->update();
             m_imgList->update();
             m_preButton->show();
+			m_preButton_spc->show();
             m_nextButton->show();
+            m_nextButton_spc->show();
         }else {
             m_imgList->hide();
+            m_imgListView->hide();
             m_preButton->hide();
+            m_preButton_spc->hide();
             m_nextButton->hide();
-            m_contentWidth = 420;
+            m_nextButton_spc->hide();
+            m_contentWidth = 482;
             setFixedWidth(m_contentWidth);
         }
 
@@ -623,16 +581,18 @@ void TTBContent::updateCollectButton()
 
     if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath))
     {
-        m_clBT->setToolTip(tr("Favorite"));
-        m_clBT->setNormalPic(":/resources/images/photo preview/checked/collection_checked.svg");
-        m_clBT->setHoverPic(":/resources/images/photo preview/checked/collection_checked.svg");
+//        m_clBT->setToolTip(tr("Favorite"));
+        m_clBT->setToolTip(tr("取消收藏"));
+        m_clBT->setIcon(QIcon::fromTheme("dcc_ccollection"));
+        m_clBT->setIconSize(QSize(36,36));
         m_bClBTChecked = true;
     }
     else
     {
-        m_clBT->setToolTip(tr("Unfavorite"));
-        m_clBT->setNormalPic(":/resources/images/photo preview/normal/collection_normal.svg");
-        m_clBT->setHoverPic(":/resources/images/photo preview/hover/collection_hover.svg");
+//        m_clBT->setToolTip(tr("Unfavorite"));
+        m_clBT->setToolTip(tr("收藏"));
+        m_clBT->setIcon(QIcon::fromTheme("dcc_ncollection"));
+        m_clBT->setIconSize(QSize(36,36));
         m_bClBTChecked = false;
     }
 }

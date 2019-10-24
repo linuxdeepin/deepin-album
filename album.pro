@@ -84,4 +84,5 @@ icon_files.files = $$PWD/resources/images/other/deepin-album.svg
 INSTALLS += target desktop icon_files
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    icons/theme-icons.qrc

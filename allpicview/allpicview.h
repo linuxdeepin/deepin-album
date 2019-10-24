@@ -23,6 +23,7 @@
 #include <QFileInfo>
 #include <DStackedWidget>
 #include <DSlider>
+#include <DSpinner>
 
 DWIDGET_USE_NAMESPACE
 
@@ -38,7 +39,7 @@ signals:
 private:
     void initConnections();
     void initStackedWidget();
-    void initThumbnailListView();
+//    void initThumbnailListView();
     void updateStackedWidget();
     void updatePicsIntoThumbnailView();
 
@@ -46,12 +47,14 @@ private:
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
+    void resizeEvent(QResizeEvent *e) override;
 
     void removeDBAllInfos();
 private:
     ThumbnailListView* m_pThumbnailListView;
     ImportView* m_pImportView;
     SearchView* m_pSearchView;
+    DSpinner* m_spinner=nullptr;
 };
 
 #endif // ALLPICVIEW_H

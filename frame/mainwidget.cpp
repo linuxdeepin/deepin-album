@@ -330,7 +330,7 @@ void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
     m_bottomToolbar->setRadius(18);
-    m_bottomToolbar->resize(420, BOTTOM_TOOLBAR_HEIGHT);
+    m_bottomToolbar->resize(482, BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height()-10);
 
     m_btmSeparatorLine = new QLabel(this);
@@ -350,7 +350,7 @@ void MainWidget::initBottomToolbar()
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            m_bottomToolbar->setFixedWidth(420);
+            m_bottomToolbar->setFixedWidth(482);
         }
         m_bottomToolbar->setRadius(18);
         if (window()->isFullScreen())

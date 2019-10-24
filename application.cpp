@@ -21,14 +21,161 @@
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
 #include "controller/wallpapersetter.h"
+#include "utils/snifferimageformat.h"
 
 #include <QDebug>
 #include <QTranslator>
 #include <QIcon>
+#include <QImageReader>
+#include <sys/time.h>
 
 namespace {
 
 }  // namespace
+
+#define IMAGE_HEIGHT_DEFAULT    100
+
+ImageLoader::ImageLoader(Application* parent, QStringList pathlist, QStringList pathlisttrash)
+{
+    m_parent = parent;
+    m_pathlist = pathlist;
+    m_pathlisttrash = pathlisttrash;
+}
+
+
+void ImageLoader::startLoading()
+{
+    struct timeval tv;
+    long long ms;
+    gettimeofday(&tv,NULL);
+    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
+    qDebug()<<"startLoading start time: "<<ms;
+
+
+    for(QString path : m_pathlist)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(path);
+            }
+        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+
+        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    }
+
+    for(QString path : m_pathlisttrash)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(path);
+            }
+        }
+        QPixmap pixmaptrash = QPixmap::fromImage(tImg);
+
+        m_parent->m_imagetrashmap.insert(path, pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    }
+
+    emit sigFinishiLoad();
+
+    gettimeofday(&tv,NULL);
+    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
+    qDebug()<<"startLoading end time: "<<ms;
+}
+
+void ImageLoader::addImageLoader(QStringList pathlist)
+{
+    for(QString path : pathlist)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(path);
+            }
+        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+
+        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    }
+}
+
+void ImageLoader::addTrashImageLoader(QStringList pathlisttrash)
+{
+    for(QString path : pathlisttrash)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(path);
+            }
+        }
+        QPixmap pixmaptrash = QPixmap::fromImage(tImg);
+
+        m_parent->m_imagetrashmap.insert(path, pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    }
+}
 
 Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
@@ -42,6 +189,36 @@ Application::Application(int& argc, char** argv)
     installEventFilter(new GlobalEventFilter());
 
     initChildren();
+
+    auto infos = DBManager::instance()->getAllInfos();
+    QStringList pathlist;
+    foreach(auto info, infos)
+    {
+        pathlist.append(info.filePath);
+    }
+
+    auto infostrash = DBManager::instance()->getAllTrashInfos();
+    QStringList pathlisttrash;
+    foreach(auto info, infostrash)
+    {
+        pathlisttrash.append(info.filePath);
+    }
+
+    m_imageloader= new ImageLoader(this, pathlist, pathlisttrash);
+    m_LoadThread = new QThread();
+
+    m_imageloader->moveToThread(m_LoadThread);
+    m_LoadThread->start();
+
+    connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
+    connect(m_imageloader, SIGNAL(sigFinishiLoad()), this, SLOT(finishLoadSlot()));
+    emit sigstartLoad();
+}
+
+void Application::finishLoadSlot()
+{
+    qDebug()<<"finishLoadSlot";
+    emit sigFinishLoad();
 }
 
 void Application::initChildren()
@@ -60,5 +237,4 @@ void Application::initI18n()
 //                     + QLocale::system().name() + ".qm");
 //    installTranslator(translator);
     loadTranslator(QList<QLocale>() << QLocale::system());
-
 }

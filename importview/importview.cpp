@@ -127,6 +127,13 @@ void ImportView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
+        QStringList paths;
+        for(auto info : dbInfos)
+        {
+            paths<<info.filePath;
+        }
+
+        dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
     }
 
@@ -205,6 +212,13 @@ void ImportView::onImprotBtnClicked()
 
     if (! dbInfos.isEmpty())
     {
+        QStringList paths;
+        for(auto info : dbInfos)
+        {
+            paths<<info.filePath;
+        }
+
+        dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
     }
 }
