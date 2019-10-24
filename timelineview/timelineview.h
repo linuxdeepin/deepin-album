@@ -8,6 +8,7 @@
 #include "widgets/timelinelist.h"
 #include "widgets/timelineitem.h"
 #include "importview/importview.h"
+#include "searchview/searchview.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -15,6 +16,7 @@
 #include <DListWidget>
 #include <DStackedWidget>
 #include <DCommandLinkButton>
+#include <DApplicationHelper>
 
 class Title : public QWidget{
 public:
@@ -65,6 +67,7 @@ private:
     DCommandLinkButton *pSuspensionChose;
     DWidget* pTimeLineViewWidget;
     ImportView* pImportView;
+    SearchView* pSearchView;
 
     int m_index;
 };

@@ -6,6 +6,7 @@
 #include "controller/signalmanager.h"
 #include "widgets/albumlefttabitem.h"
 #include "importview/importview.h"
+#include "searchview/searchview.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -32,6 +33,7 @@ public:
 
     void createNewAlbum();
     void picsIntoAlbum(QStringList paths);
+    void SearchReturnUpdate();
 
 private:
     void initConnections();
@@ -67,15 +69,18 @@ private slots:
 public:
     int m_iAlubmPicsNum;
 
+    DStackedWidget* m_pRightStackWidget;
+    DListWidget* m_pLeftTabList;
+
 private:
 
     QString m_currentAlbum;
     QStringList m_allAlbumNames;
 
     DWidget* m_pLeftWidget;
-    DListWidget* m_pLeftTabList;
+
     ImportView* m_pImportView;
-    DStackedWidget* m_pRightStackWidget;
+
     ThumbnailListView* m_pRightThumbnailList;
     ThumbnailListView* m_pRightTrashThumbnailList;
     ThumbnailListView* m_pRightFavoriteThumbnailList;
@@ -86,6 +91,7 @@ private:
     DLabel* m_pRightPicTotal;
     DLabel* m_pFavoriteTitle;
     DLabel* m_pFavoritePicTotal;
+    SearchView* m_pSearchView;
     DGioVolumeManager *m_vfsManager;
 };
 

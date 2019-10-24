@@ -9,6 +9,7 @@
 #include "dbmanager/dbmanager.h"
 #include "widgets/thumbnaillistview.h"
 #include "importview/importview.h"
+#include "searchview/searchview.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -50,6 +51,7 @@ private:
 private:
     ThumbnailListView* m_pThumbnailListView;
     ImportView* m_pImportView;
+    SearchView* m_pSearchView;
 };
 
 #endif // ALLPICVIEW_H

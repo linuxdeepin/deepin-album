@@ -20,9 +20,11 @@ TimeLineView::TimeLineView()
 
     pTimeLineViewWidget = new DWidget();
     pImportView = new ImportView();
+    pSearchView = new SearchView();
 
     addWidget(pImportView);
     addWidget(pTimeLineViewWidget);
+    addWidget(pSearchView);
 
     initTimeLineViewWidget();
 
@@ -65,13 +67,27 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateItem->setLayout(TitleViewLayout);
     DLabel* pDate = new DLabel();
     pDate->setFixedHeight(24);
-    QPalette color;
-    color.setColor(QPalette::WindowText, QColor(0,0,0));
-    pDate->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
+
+    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+    ft3.setFamily("SourceHanSansSC");
+    ft3.setWeight(QFont::Medium);
+
+    DPalette color = DApplicationHelper::instance()->palette(pDate);
+    color.setBrush(DPalette::WindowText, color.color(DPalette::ToolTipText));
+
+    pDate->setFont(ft3);
     pDate->setPalette(color);
 
     DLabel* pNum = new DLabel();
     pNum->setFixedHeight(24);
+    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+    ft6.setFamily("SourceHanSansSC");
+    ft6.setWeight(QFont::Medium);
+    pNum->setFont(ft6);
+    DPalette pal = DApplicationHelper::instance()->palette(pNum);
+    pal.setBrush(DPalette::WindowText, QColor(119,119,119));
+    pNum->setPalette(pal);
+
     TitleViewLayout->addWidget(pDate);
     TitleViewLayout->addWidget(pNum);
 
@@ -156,18 +172,29 @@ void TimeLineView::updataLayout()
         listItem->m_sdate=QString("%1 年 %2 月 %3 日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         pDate->setText(listItem->m_sdate);
 
-        QPalette color;
-        color.setColor(QPalette::Text, QColor(0,0,0));
+        DPalette color = DApplicationHelper::instance()->palette(pDate);
+        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+
+        QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+        ft3.setFamily("SourceHanSansSC");
+        ft3.setWeight(QFont::Medium);
+
+        pDate->setFont(ft3);
         pDate->setPalette(color);
-        pDate->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
-        pDate->setAutoFillBackground(true);
+
         listItem->m_date=pDate;
 
         DLabel* pNum = new DLabel();
         pNum->setFixedHeight(24);
         listItem->m_snum = QString("%1 张照片").arg(ImgInfoList.size());
         pNum->setText(listItem->m_snum);
-        pNum->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+        QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+        ft6.setFamily("SourceHanSansSC");
+        ft6.setWeight(QFont::Medium);
+        pNum->setFont(ft6);
+        DPalette pal = DApplicationHelper::instance()->palette(pNum);
+        pal.setBrush(DPalette::Text, QColor(119,119,119));
+        pNum->setPalette(pal);
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton("选择");

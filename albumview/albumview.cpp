@@ -199,7 +199,16 @@ void AlbumView::initRightView()
 
     m_pRightTitle = new DLabel();
     m_pRightTitle->setText(RECENT_IMPORTED_ALBUM);
-    m_pRightTitle->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
+
+    QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+    ft.setFamily("SourceHanSansSC");
+    ft.setWeight(QFont::Medium);
+
+    QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+    ft1.setFamily("SourceHanSansSC");
+    ft1.setWeight(QFont::Medium);
+
+    m_pRightTitle->setFont(ft);
 
     DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
@@ -209,10 +218,11 @@ void AlbumView::initRightView()
 
     QString str = tr("%1张照片");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
-    m_pRightPicTotal->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    m_pRightPicTotal->setFont(ft1);
 
     DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-    palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+//    palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+    palette.setBrush(DPalette::WindowText, QColor(119,119,119));
     m_pRightPicTotal->setPalette(palette);
 
 
@@ -240,12 +250,12 @@ void AlbumView::initRightView()
     QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
     DLabel *pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
-    pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
+    pLabel1->setFont(ft);
     pLabel1->setPalette(pa);
 
     DLabel *pLabel2 = new DLabel();
     pLabel2->setText("照片在删除前会显示剩余天数，之后将永久删除");
-    pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    pLabel2->setFont(ft1);
     pLabel2->setPalette(palette);
 
     pTopLeftVBoxLayout->addSpacing(5);
@@ -260,18 +270,26 @@ void AlbumView::initRightView()
     m_pRecoveryBtn->setText(BUTTON_STR_RECOVERY);
     m_pRecoveryBtn->setEnabled(false);
     m_pRecoveryBtn->setFixedSize(100,36);
+//    DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//    pal.setBrush(DPalette::Light, pal.color(DPalette::Text));
+//    pal.setBrush(DPalette::Dark, pal.color(DPalette::Text));
+//    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
     DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-    pal.setBrush(DPalette::Light, pal.color(DPalette::Text));
-    pal.setBrush(DPalette::Dark, pal.color(DPalette::Text));
+    pal.setBrush(DPalette::Light, QColor(100,100,100));
+    pal.setBrush(DPalette::Dark, QColor(100,100,100));
     pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
     m_pRecoveryBtn->setPalette(pal);
 
     m_pDeleteBtn = new DPushButton();
     m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
     m_pDeleteBtn->setFixedSize(100,36);
+//    DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
+//    dpa.setBrush(DPalette::Light, dpa.color(DPalette::Highlight));
+//    dpa.setBrush(DPalette::Dark, dpa.color(DPalette::Highlight));
+//    dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
     DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
-    dpa.setBrush(DPalette::Light, dpa.color(DPalette::Highlight));
-    dpa.setBrush(DPalette::Dark, dpa.color(DPalette::Highlight));
+    dpa.setBrush(DPalette::Light, QColor(37,183,255));
+    dpa.setBrush(DPalette::Dark, QColor(37,183,255));
     dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
     m_pDeleteBtn->setPalette(dpa);
 
@@ -299,12 +317,12 @@ void AlbumView::initRightView()
 
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setText(FAVORITES_ALBUM);
-    m_pFavoriteTitle->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
+    m_pFavoriteTitle->setFont(ft);
     m_pFavoriteTitle->setPalette(pa);
 
     m_pFavoritePicTotal = new DLabel();
     QString favoriteStr = tr("%1张照片");
-    m_pFavoritePicTotal->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    m_pFavoritePicTotal->setFont(ft1);
     m_pFavoritePicTotal->setPalette(palette);
 
 
@@ -328,11 +346,15 @@ void AlbumView::initRightView()
 
     pFavoriteWidget->setLayout(p_all1);
 
+    //Search View
+    m_pSearchView = new SearchView;
+
     // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
     m_pRightStackWidget->addWidget(pNoTrashWidget);
     m_pRightStackWidget->addWidget(pTrashWidget);
     m_pRightStackWidget->addWidget(pFavoriteWidget);
+    m_pRightStackWidget->addWidget(m_pSearchView);
 
     if (0 < DBManager::instance()->getImgsCount())
     {
@@ -415,6 +437,15 @@ void AlbumView::updateRightNoTrashView()
         QString favoriteStr = tr("%1张照片");
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
+        DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+        palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+        m_pFavoritePicTotal->setPalette(palette);
+
+        QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+        ft.setFamily("SourceHanSansSC");
+        ft.setWeight(QFont::Medium);
+        m_pFavoritePicTotal->setFont(ft);
+
         m_pRightFavoriteThumbnailList->insertThumbnails(thumbnaiItemList);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
         setAcceptDrops(false);
@@ -424,9 +455,21 @@ void AlbumView::updateRightNoTrashView()
         if (0 < DBManager::instance()->getImgsCount())
         {
             m_pRightTitle->setText(m_currentAlbum);
+            QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+            ft1.setFamily("SourceHanSansSC");
+            ft1.setWeight(QFont::Medium);
+            m_pRightTitle->setFont(ft1);
 
             QString str = tr("%1张照片");
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+
+            DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+            palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+            m_pRightPicTotal->setPalette(palette);
+            QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+            ft.setFamily("SourceHanSansSC");
+            ft.setWeight(QFont::Medium);
+            m_pRightPicTotal->setFont(ft);
 
             m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
@@ -445,15 +488,22 @@ void AlbumView::updateRightNoTrashView()
 
         QFontMetrics elideFont(m_pRightTitle->font());
         m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
-        m_pRightTitle->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
 
-//        QFont ft;
-//        ft.setFamily("SourceHanSansSC-Medium");
-//        ft.setPixelSize(24);
-//        m_pRightTitle->setFont(ft);
+        QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+        ft1.setFamily("SourceHanSansSC");
+        ft1.setWeight(QFont::Medium);
+        m_pRightTitle->setFont(ft1);
 
         QString str = tr("%1张照片");
         m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+
+        DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+        palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+        m_pRightPicTotal->setPalette(palette);
+        QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+        ft.setFamily("SourceHanSansSC");
+        ft.setWeight(QFont::Medium);
+        m_pRightPicTotal->setFont(ft);
 
         m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
         m_pRightThumbnailList->m_imageType = m_currentAlbum;
@@ -989,39 +1039,15 @@ void AlbumView::onUpdataAlbumRightTitle(QString titlename)
     m_currentAlbum = titlename;
     updateRightView();
 }
-//AlbumView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
-//{
-//    // TODO: Add your specialized code here and/or call the base class
-//    DWORD ThreadId;
-//    bool allzero=true;
-//    size_t i;
 
-//    if(message!=WM_DEVICECHANGE)
-//    {
-//        return CDialog::WindowProc(message, wParam, lParam);
-//    }
+void AlbumView::SearchReturnUpdate()
+{
+    if (4 == m_pRightStackWidget->currentIndex())
+    {
+        m_currentAlbum = RECENT_IMPORTED_ALBUM;
+        updateRightView();
+    }
+}
 
-//    if(wParam==DBT_DEVICEARRIVAL)//有新设备插入系统
-//    {
-//        DEV_BROADCAST_HDR* pDev=(DEV_BROADCAST_HDR*)lParam;
-//        if(pDev->dbch_devicetype!=DBT_DEVTYP_VOLUME )//移动存储设备
-//        {
-//            return CDialog::WindowProc(message, wParam, Param);
-//        }
 
-//        DEV_BROADCAST_VOLUME* pDisk=(DEV_BROADCAST_VOLUME*)lParam;
-//        DWORD mask=pDisk->dbcv_unitmask;
 
-//        TCHAR diskname[MAX_PATH];
-//        for(i=0;i<32;i++)
-//        {
-//            if((mask>>i)==1)
-//            {//获取盘符
-//                diskname[0]='A'+i;
-//                diskname[1]='\0';
-//                _tcscat_s(diskname,TEXT(":\\"));
-//                break;
-//            }
-//        }
-//    }
-//}

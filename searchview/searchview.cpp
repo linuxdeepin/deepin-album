@@ -115,19 +115,35 @@ void SearchView::initSearchResultView()
     pHBoxLayout->setContentsMargins(8,0,0,0);
 
     m_pSlideShowBtn = new DPushButton();
-    m_pSlideShowBtn->setFixedSize(105, 30);
-    m_pSlideShowBtn->setText("幻灯片放映");
+    m_pSlideShowBtn ->setFocusPolicy(Qt::NoFocus);
+    m_pSlideShowBtn->setFixedSize(105, 31);
+
     QPalette pal = m_pSlideShowBtn->palette();
     pal.setColor(QPalette::Light,QColor(253,94,94));
     pal.setColor(QPalette::Dark,QColor(253,94,94));
     pal.setColor(QPalette::ButtonText,QColor(255,255,255));
     m_pSlideShowBtn->setPalette(pal);
-//    m_pSlideShowBtn->setAutoFillBackground(true);
-//    m_pSlideShowBtn->setFlat(true);
 
+    QPixmap pixmap;
+    pixmap = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 17));
 
-    QPixmap icon(tr(":/resources/images/other/play all_normal.svg"));
-    m_pSlideShowBtn->setIcon(icon);
+    DLabel* Label1 = new DLabel(m_pSlideShowBtn);
+    Label1->move(6,7);
+    DLabel* Label2 = new DLabel(m_pSlideShowBtn);
+    Label2->setFixedSize(70,18);
+    Label2->move(29,6);
+
+    Label1->setPixmap(pixmap);
+    Label1->setPalette(pal);
+
+    Label2->setText("幻灯片放映");
+
+    QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+    ft1.setFamily("SourceHanSansSC-Medium");
+    ft1.setWeight(QFont::Medium);
+
+    Label2->setFont(ft1);
+    Label2->setPalette(pal);
 
     m_pSearchResultLabel = new DLabel();
 

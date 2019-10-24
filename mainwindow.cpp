@@ -147,35 +147,61 @@ void MainWindow::initTitleBar()
 
     pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
 
+    QHBoxLayout* pAllTitleLayout = new QHBoxLayout();
+    QWidget* m_ImgWidget = new QWidget();
+    pAllTitleLayout->addSpacing(2);
+    pAllTitleLayout->addWidget(pLabel);
+    m_ImgWidget->setLayout(pAllTitleLayout);
+
     // TitleBar Button
     m_titleBtnWidget = new QWidget();
 
     QHBoxLayout* pTitleBtnLayout = new QHBoxLayout();
-    pTitleBtnLayout->setSpacing(5);
+//    pTitleBtnLayout->setSpacing(-5);
 
     m_pAllPicBtn = new DPushButton();
     m_pTimeLineBtn = new DPushButton();
     m_pAlbumBtn = new DPushButton();
 
+    m_pAllPicBtn->setFixedSize(80,36);
+    m_pTimeLineBtn->setFixedSize(60,36);
+    m_pAlbumBtn->setFixedSize(60,36);
+
+    m_pAllPicBtn->setFocusPolicy(Qt::NoFocus);
+    m_pTimeLineBtn->setFocusPolicy(Qt::NoFocus);
+    m_pAlbumBtn->setFocusPolicy(Qt::NoFocus);
+
     m_pAllPicBtn->setText("所有照片");
-    m_pAllPicBtn ->setFlat(true);
+    m_pAllPicBtn ->setFlat(false);
     m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    DPalette pa = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
-    m_pAllPicBtn->setPalette(pa);
+
+    DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
+    pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
+    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::Text));
+
+    DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pale.setBrush(DPalette::Light, pale.color(DPalette::Highlight));
+    pale.setBrush(DPalette::Dark, pale.color(DPalette::Highlight));
+    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+
+    m_pAllPicBtn->setPalette(pale);
 
     m_pTimeLineBtn->setText("时间线");
     m_pTimeLineBtn ->setFlat(true);
     m_pTimeLineBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    m_pTimeLineBtn->setPalette(pa);
+    m_pTimeLineBtn->setPalette(pal);
 
     m_pAlbumBtn->setText("相册");
     m_pAlbumBtn ->setFlat(true);
     m_pAlbumBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    m_pAlbumBtn->setPalette(pa);
+    m_pAlbumBtn->setPalette(pal);
 
+    pTitleBtnLayout->addSpacing(11);
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
+    pTitleBtnLayout->addSpacing(-6);
     pTitleBtnLayout->addWidget(m_pTimeLineBtn);
+    pTitleBtnLayout->addSpacing(-6);
     pTitleBtnLayout->addWidget(m_pAlbumBtn);
 
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
@@ -210,7 +236,7 @@ void MainWindow::initTitleBar()
     m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
 
-    titlebar()->addWidget(pLabel, Qt::AlignLeft);
+    titlebar()->addWidget(m_ImgWidget, Qt::AlignLeft);
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
     titlebar()->addWidget(m_titleSearchWidget, Qt::AlignHCenter);
     titlebar()->setMenu(m_pTitleBarMenu);
@@ -254,7 +280,7 @@ void MainWindow::initStatusBar()
     m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
     m_pAllPicNumLabel->setFixedHeight(18);
-    m_pAllPicNumLabel->setFrameShape(DTableView::NoFrame);
+    m_pAllPicNumLabel->setFrameShape(DLabel::NoFrame);
 
 
     m_pSlider = new DSlider();
@@ -283,31 +309,85 @@ void MainWindow::initStatusBar()
 
 void MainWindow::allPicBtnClicked()
 {
+    m_pAllPicBtn->setFlat(false);
+    m_pTimeLineBtn->setFlat(true);
+    m_pAlbumBtn->setFlat(true);
+
+    DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pal.setBrush(DPalette::Light, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+    m_pAllPicBtn->setPalette(pal);
+
+    DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
+    pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
+    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::Text));
+    m_pTimeLineBtn->setPalette(pale);
+    m_pAlbumBtn->setPalette(pale);
+
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
 
     m_iCurrentView = VIEW_ALLPIC;
 
+    m_pAllPicView->setCurrentIndex(1);
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
 void MainWindow::timeLineBtnClicked()
 {
+    m_pAllPicBtn->setFlat(true);
+    m_pTimeLineBtn->setFlat(false);
+    m_pAlbumBtn->setFlat(true);
+
+    DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pal.setBrush(DPalette::Light, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+    m_pTimeLineBtn->setPalette(pal);
+
+    DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
+    pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
+    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::Text));
+    m_pAllPicBtn->setPalette(pale);
+    m_pAlbumBtn->setPalette(pale);
+
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
 
     m_iCurrentView = VIEW_TIMELINE;
 
+    m_pTimeLineView->setCurrentIndex(1);
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
 void MainWindow::albumBtnClicked()
 {
+    m_pAllPicBtn->setFlat(true);
+    m_pTimeLineBtn->setFlat(true);
+    m_pAlbumBtn->setFlat(false);
+
+    DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pal.setBrush(DPalette::Light, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+    m_pAlbumBtn->setPalette(pal);
+
+    DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+    pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
+    pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
+    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::Text));
+    m_pAllPicBtn->setPalette(pale);
+    m_pTimeLineBtn->setPalette(pale);
+
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
 
     m_iCurrentView = VIEW_ALBUM;
 
+    m_pAlbumview->SearchReturnUpdate();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
@@ -362,14 +442,44 @@ void MainWindow::onSearchEditFinished()
 {
     QString keywords = m_pSearchEdit->text();
     emit dApp->signalM->hideExtensionPanel();
-    if (keywords.isEmpty())
+
+    if (0 == m_iCurrentView)
     {
-        m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+        if (keywords.isEmpty())
+        {
+            // donothing
+        }
+        else
+        {
+            emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
+            m_pAllPicView->setCurrentIndex(2);
+        }
     }
-    else
+    else if (1 == m_iCurrentView)
     {
-        emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
-        m_pCenterWidget->setCurrentIndex(VIEW_SEARCH);
+        if (keywords.isEmpty())
+        {
+            // donothing
+        }
+        else
+        {
+            emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
+            m_pTimeLineView->setCurrentIndex(2);
+        }
+    }
+    else if (2 == m_iCurrentView)
+    {
+        if (keywords.isEmpty())
+        {
+            // donothing
+        }
+        else
+        {
+            emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
+            m_pAlbumview->m_pLeftTabList->setCurrentRow(0);
+            m_pAlbumview->m_pRightStackWidget->setCurrentIndex(4);
+        }
+
     }
 }
 

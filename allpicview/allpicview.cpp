@@ -24,6 +24,10 @@ AllPicView::AllPicView()
         addWidget(m_pImportView);
         addWidget(m_pThumbnailListView);
         
+        m_pSearchView = new SearchView();
+        addWidget(m_pSearchView);
+
+
         updateStackedWidget();
         
         initConnections();
