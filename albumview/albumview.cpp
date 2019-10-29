@@ -53,7 +53,8 @@ AlbumView::AlbumView()
     QHBoxLayout *pLayout = new QHBoxLayout();
     pLayout->setContentsMargins(0,0,0,0);
     pLayout->addWidget(m_pLeftWidget);
-    pLayout->addWidget(m_pRightStackWidget);
+//    pLayout->addWidget(m_pRightStackWidget);
+    pLayout->addWidget(m_pWidget);
     setLayout(pLayout);
 
     initConnections();
@@ -61,7 +62,7 @@ AlbumView::AlbumView()
 
 void AlbumView::initConnections()
 {
-    connect(m_pLeftTabList, &DListWidget::clicked, this, &AlbumView::leftTabClicked);
+    connect(m_pLeftTabList, &DListWidget::pressed, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::updateLeftView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
@@ -89,6 +90,20 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AlbumView::onPixMapRotate);
 //    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChanged);
 //    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChanged);
+
+    connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
+
+    connect(dApp->signalM, &SignalManager::sigTrashViewBlankArea, this, [=]{
+        m_pRecoveryBtn->setEnabled(false);
+        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+        pal.setBrush(DPalette::Light, QColor(100,100,100));
+        pal.setBrush(DPalette::Dark, QColor(92,92,92));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+        m_pRecoveryBtn->setPalette(pal);
+
+        m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+            });
+    connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
 }
 
 void AlbumView::initLeftView()
@@ -99,6 +114,7 @@ void AlbumView::initLeftView()
     m_pLeftTabList->setSpacing(ITEM_SPACING);
     m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
     m_pLeftTabList->setFrameShape(DTableView::NoFrame);
+//    m_pLeftTabList->setFocusPolicy(Qt::NoFocus)
 
     m_pLeftWidget = new DWidget();
     m_pLeftWidget->setFixedWidth(LEFT_VIEW_WIDTH);
@@ -112,6 +128,7 @@ void AlbumView::initLeftView()
     pLeftLayout->setContentsMargins(0,0,0,0);
     pLeftLayout->addStretch();
     pLeftLayout->addWidget(m_pLeftTabList, Qt::AlignHCenter);
+    pLeftLayout->addStretch();
 
     m_pLeftWidget->setLayout(pLeftLayout);
 
@@ -150,6 +167,9 @@ void AlbumView::initLeftView()
     //init externalDevice
     const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = getVfsMountList();
     updateExternalDevice(mounts);
+
+    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(0));
+    item->newAlbumStatus();
 }
 
 void AlbumView::updateLeftView()
@@ -177,10 +197,12 @@ void AlbumView::updateLeftView()
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(m_allAlbumNames[i]);
+        pAlbumLeftTabItem->oriAlbumStatus();
         if ((m_allAlbumNames.length() - 1) == i)
         {
             m_currentAlbum = m_allAlbumNames[i];
             pListWidgetItem->setSelected(true);
+            pAlbumLeftTabItem->newAlbumStatus();
         }
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
@@ -193,6 +215,7 @@ void AlbumView::updateLeftView()
 void AlbumView::initRightView()
 {
     m_pRightStackWidget = new DStackedWidget();
+    m_pWidget = new DWidget();
 
     // Import View
     m_pImportView = new ImportView();
@@ -281,7 +304,7 @@ void AlbumView::initRightView()
 //    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
     DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
     pal.setBrush(DPalette::Light, QColor(100,100,100));
-    pal.setBrush(DPalette::Dark, QColor(100,100,100));
+    pal.setBrush(DPalette::Dark, QColor(92,92,92));
     pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
     m_pRecoveryBtn->setPalette(pal);
 
@@ -294,7 +317,7 @@ void AlbumView::initRightView()
 //    dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
     DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
     dpa.setBrush(DPalette::Light, QColor(37,183,255));
-    dpa.setBrush(DPalette::Dark, QColor(37,183,255));
+    dpa.setBrush(DPalette::Dark, QColor(0,152,255));
     dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
     m_pDeleteBtn->setPalette(dpa);
 
@@ -361,6 +384,15 @@ void AlbumView::initRightView()
     m_pRightStackWidget->addWidget(pFavoriteWidget);
     m_pRightStackWidget->addWidget(m_pSearchView);
 
+    m_pStatusBar = new StatusBar();
+    m_pStatusBar->setParent(this);
+
+    QVBoxLayout* pVBoxLayout = new QVBoxLayout();
+    pVBoxLayout->setContentsMargins(0,0,0,0);
+    pVBoxLayout->addWidget(m_pRightStackWidget);
+    pVBoxLayout->addWidget(m_pStatusBar);
+    m_pWidget->setLayout(pVBoxLayout);
+
     if (0 < DBManager::instance()->getImgsCount())
     {
 //        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
@@ -401,10 +433,13 @@ void AlbumView::initRightView()
 //        m_pRightThumbnailList->m_imageType = m_currentAlbum;
         m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+        m_pStatusBar->show();
     }
     else
     {
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+        m_pStatusBar->hide();
+
     }
 }
 
@@ -502,10 +537,12 @@ void AlbumView::updateRightNoTrashView()
             m_pRightThumbnailList->insertThumbnails(thumbnaiItemList);
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            m_pStatusBar->show();
         }
         else
         {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+            m_pStatusBar->hide();
         }
 
         setAcceptDrops(true);
@@ -603,7 +640,14 @@ void AlbumView::updateRightTrashView()
 
 void AlbumView::leftTabClicked(const QModelIndex &index)
 {
+    for(int i = 0; i < m_pLeftTabList->count(); i++)
+    {
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
+        item->oriAlbumStatus();
+    }
+
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+    item->newAlbumStatus();
 
     if (m_currentAlbum == item->m_albumNameStr)
     {
@@ -705,7 +749,14 @@ void AlbumView::onLeftMenuClicked(QAction *action)
 
         m_pLeftTabList->setCurrentRow(m_pLeftTabList->currentRow()+1);
 
+        for(int i = 0; i < m_pLeftTabList->count(); i++)
+        {
+            AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
+            item->oriAlbumStatus();
+        }
+
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+        item->newAlbumStatus();
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
 
@@ -750,6 +801,18 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         pDNotifySender->appBody(str1.arg(str));
         pDNotifySender->call();
         });
+        for(int i = 0; i < m_pLeftTabList->count(); i++)
+        {
+            AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
+            item->oriAlbumStatus();
+        }
+
+        AlbumLeftTabItem *currentItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+        currentItem->newAlbumStatus();
+
+        m_currentAlbum = currentItem->m_albumNameStr;
+
+        updateRightView();
     }
         break;
     default:
@@ -921,11 +984,23 @@ void AlbumView::onTrashListClicked()
     if (0 < paths.length())
     {
         m_pRecoveryBtn->setEnabled(true);
+        DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
+        dpa.setBrush(DPalette::Light, QColor(37,183,255));
+        dpa.setBrush(DPalette::Dark, QColor(0,152,255));
+        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
+        m_pRecoveryBtn->setPalette(dpa);
+
         m_pDeleteBtn->setText(BUTTON_STR_DETELE);
     }
     else
     {
         m_pRecoveryBtn->setEnabled(false);
+        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+        pal.setBrush(DPalette::Light, QColor(100,100,100));
+        pal.setBrush(DPalette::Dark, QColor(92,92,92));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+        m_pRecoveryBtn->setPalette(pal);
+
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
     }
 }

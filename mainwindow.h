@@ -51,7 +51,7 @@ public:
     void initShortcut();
     void initTitleBar();
     void initCentralWidget();
-    void initStatusBar();
+//    void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
 
@@ -90,12 +90,13 @@ private:
     AllPicView* m_pAllPicView;
     TimeLineView* m_pTimeLineView;
     SearchView* m_pSearchView;
-    DStatusBar* m_pStatusBar;
-    DLabel* m_pAllPicNumLabel;
-    DSlider* m_pSlider;
+//    DStatusBar* m_pStatusBar;
+//    DLabel* m_pAllPicNumLabel;
+//    DSlider* m_pSlider;
     DBManager* m_pDBManager;
     QMap<QString, ImgInfoDialog*> m_propertyDialogs{};
-    int             m_backIndex;
+    int m_backIndex;
+    int m_pSliderPos = 2;
 };
 
 #endif // MAINWINDOW_H

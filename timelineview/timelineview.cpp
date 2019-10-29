@@ -20,13 +20,24 @@ TimeLineView::TimeLineView()
     setAcceptDrops(true);
     m_index = 0;
 
+    m_pStackedWidget = new DStackedWidget();
+
     pTimeLineViewWidget = new DWidget();
     pImportView = new ImportView();
     pSearchView = new SearchView();
 
-    addWidget(pImportView);
-    addWidget(pTimeLineViewWidget);
-    addWidget(pSearchView);
+    m_pStackedWidget->addWidget(pImportView);
+    m_pStackedWidget->addWidget(pTimeLineViewWidget);
+    m_pStackedWidget->addWidget(pSearchView);
+
+    m_pStatusBar = new StatusBar();
+    m_pStatusBar->setParent(this);
+
+    QVBoxLayout* pVBoxLayout = new QVBoxLayout();
+    pVBoxLayout->setContentsMargins(0,0,0,0);
+    pVBoxLayout->addWidget(m_pStackedWidget);
+    pVBoxLayout->addWidget(m_pStatusBar);
+    this->setLayout(pVBoxLayout);
 
     initTimeLineViewWidget();
 
@@ -53,6 +64,7 @@ void TimeLineView::initConnections(){
     });
 
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &TimeLineView::onPixMapRotate);
+	connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 }
 
 void TimeLineView::initTimeLineViewWidget()
@@ -141,11 +153,13 @@ void TimeLineView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount())
     {
-        setCurrentIndex(VIEW_TIMELINE);
+        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
+        m_pStatusBar->show();
     }
     else
     {
-        setCurrentIndex(VIEW_IMPORT);
+        m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
+        m_pStatusBar->hide();
     }
 }
 
@@ -322,7 +336,7 @@ void TimeLineView::updataLayout()
        });
     }
 
-    if(VIEW_SEARCH == currentIndex())
+    if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
     {
         // donothing
     }

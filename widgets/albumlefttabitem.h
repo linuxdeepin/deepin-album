@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <DLabel>
 #include <DLineEdit>
+#include <DApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
 
@@ -15,6 +16,8 @@ public:
     AlbumLeftTabItem(QString str, QString strAlbumType = "");
     ~AlbumLeftTabItem();
     void editAlbumEdit();
+    void oriAlbumStatus();
+    void newAlbumStatus();
 
 private:
     void initConnections();
@@ -31,9 +34,18 @@ public:
     int m_opeMode;
     DLineEdit* m_pLineEdit;
 
+    DLineEdit* m_pNewLineEdit;
+
 private:
     QLabel *m_nameLabel;
     QString m_albumTypeStr;
+
+    QLabel *pLabel;
+    QLabel *pNewLabel;
+    QLabel *m_newnameLabel;
+
+    QLabel *pmainLabel;
+
 };
 
 #endif // ALBUMLEFTTABITEM_H

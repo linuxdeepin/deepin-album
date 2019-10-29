@@ -7,6 +7,7 @@
 #include "widgets/albumlefttabitem.h"
 #include "importview/importview.h"
 #include "searchview/searchview.h"
+#include "widgets/statusbar.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -82,7 +83,10 @@ public:
     DStackedWidget* m_pRightStackWidget;
     DListWidget* m_pLeftTabList;
 
-private: 
+    StatusBar* m_pStatusBar;
+    DWidget* m_pWidget;
+private:
+
     QStringList m_allAlbumNames;
     DWidget* m_pLeftWidget;
     ImportView* m_pImportView;

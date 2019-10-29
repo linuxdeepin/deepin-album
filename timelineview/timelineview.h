@@ -9,6 +9,8 @@
 #include "widgets/timelineitem.h"
 #include "importview/importview.h"
 #include "searchview/searchview.h"
+#include "widgets/statusbar.h"
+#include "allpicview/allpicview.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -33,7 +35,7 @@ protected:
     }
 
 };
-class TimeLineView : public DStackedWidget
+class TimeLineView : public DWidget
 {
 public:
     TimeLineView();
@@ -69,6 +71,9 @@ private:
     DWidget* pTimeLineViewWidget;
     ImportView* pImportView;
     SearchView* pSearchView;
+public:
+    DStackedWidget* m_pStackedWidget;
+    StatusBar* m_pStatusBar;
 
     int m_index;
 };

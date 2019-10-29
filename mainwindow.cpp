@@ -30,7 +30,7 @@ MainWindow::MainWindow()
 
     initTitleBar();
     initCentralWidget();
-    initStatusBar();
+    //initStatusBar();
 
     initShortcut();
     initConnections();
@@ -73,25 +73,26 @@ void MainWindow::initConnections()
 	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
         m_backIndex = index;
         titlebar()->setFixedHeight(0);
-        statusBar()->setFixedHeight(0);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
     });
     connect(dApp->signalM,&SignalManager::hideImageView,this,[=](){
         emit dApp->signalM->hideExtensionPanel();
 
         titlebar()->setFixedHeight(50);
-        statusBar()->setFixedHeight(30);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
     connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
         Exporter::instance()->exportImage(paths);
     });
-    connect(m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(dApp, &DApplication::newInstanceStarted, this, &MainWindow::onNewAPPOpen);
     connect(dApp, &Application::sigFinishLoad, this, &MainWindow::onLoadingFinished);
+
+    connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, [=](int step){
+        m_pSliderPos = step;
+    });
 }
 
 void MainWindow::initShortcut()
@@ -262,30 +263,31 @@ void MainWindow::onUpdateCentralWidget()
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
-void MainWindow::initStatusBar()
-{  
-    m_pStatusBar = new DStatusBar(this);
-    setStatusBar(m_pStatusBar);
+//void MainWindow::initStatusBar()
+//{
+//    m_pStatusBar = new DStatusBar(this);
+//    setStatusBar(m_pStatusBar);
 
-    QString str = tr("%1张照片");
+//    QString str = tr("%1张照片");
 
-    m_pAllPicNumLabel = new DLabel();
-    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
-    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-    m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
-    m_pAllPicNumLabel->setFixedHeight(18);
-    m_pAllPicNumLabel->setFrameShape(DLabel::NoFrame);
+//    m_pAllPicNumLabel = new DLabel();
+//    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+//    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+//    m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
+//    m_pAllPicNumLabel->setFixedHeight(18);
+//    m_pAllPicNumLabel->setFrameShape(DLabel::NoFrame);
 
 
-    m_pSlider = new DSlider();
-    m_pSlider->setFixedWidth(120);
-    m_pSlider->setFixedHeight(24);
-    m_pSlider->setMinimum(0);
-    m_pSlider->setMaximum(4);
-    m_pSlider->slider()->setSingleStep(1);
-    m_pSlider->slider()->setTickInterval(1);
-    m_pSlider->setValue(2);
+//    m_pSlider = new DSlider();
+//    m_pSlider->setFixedWidth(120);
+//    m_pSlider->setFixedHeight(24);
+//    m_pSlider->setMinimum(0);
+//    m_pSlider->setMaximum(4);
+//    m_pSlider->slider()->setSingleStep(1);
+//    m_pSlider->slider()->setTickInterval(1);
+//    m_pSlider->setValue(2);
 
+    /*
 //    QWidget *pWidget = new QWidget();
 //    pWidget->setFixedWidth(160);
 //    pWidget->setFixedHeight(30);
@@ -294,12 +296,13 @@ void MainWindow::initStatusBar()
 //    pHBoxLayout->addWidget(m_pSlider, Qt::AlignLeft);
 
 //    pWidget->setLayout(pHBoxLayout);
+    */
 
-    statusBar()->addWidget(m_pAllPicNumLabel, 1);
-    statusBar()->addWidget(m_pSlider, 1);
-    statusBar()->setSizeGripEnabled(false);
-    statusBar()->setFixedHeight(30);
-}
+//    statusBar()->addWidget(m_pAllPicNumLabel, 1);
+//    statusBar()->addWidget(m_pSlider, 1);
+//    statusBar()->setSizeGripEnabled(false);
+//    statusBar()->setFixedHeight(30);
+//}
 
 void MainWindow::allPicBtnClicked()
 {
@@ -324,6 +327,9 @@ void MainWindow::allPicBtnClicked()
     m_pSearchEdit->clear();
 
     m_iCurrentView = VIEW_ALLPIC;
+
+
+    m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
 
     m_pAllPicView->updateStackedWidget();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
@@ -353,6 +359,10 @@ void MainWindow::timeLineBtnClicked()
 
     m_iCurrentView = VIEW_TIMELINE;
 
+
+
+    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+
     m_pTimeLineView->updateStackedWidget();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
@@ -380,6 +390,9 @@ void MainWindow::albumBtnClicked()
     m_pSearchEdit->clear();
 
     m_iCurrentView = VIEW_ALBUM;
+
+
+    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
 
     m_pAlbumview->SearchReturnUpdate();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
@@ -446,7 +459,7 @@ void MainWindow::onSearchEditFinished()
         else
         {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
-            m_pAllPicView->setCurrentIndex(2);
+            m_pAllPicView->m_pStackedWidget->setCurrentIndex(2);
         }
     }
     else if (1 == m_iCurrentView)
@@ -458,7 +471,7 @@ void MainWindow::onSearchEditFinished()
         else
         {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
-            m_pTimeLineView->setCurrentIndex(2);
+            m_pTimeLineView->m_pStackedWidget->setCurrentIndex(2);
         }
     }
     else if (2 == m_iCurrentView)
@@ -482,7 +495,7 @@ void MainWindow::onUpdateAllpicsNumLabel()
     QString str = tr("%1张照片");
 
     m_allPicNum = DBManager::instance()->getImgsCount();
-    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+//    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
 }
 
 void MainWindow::onImprotBtnClicked()

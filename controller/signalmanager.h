@@ -95,6 +95,9 @@ signals:
     void sigESCKeyActivated();
     void sigUpdataAlbumRightTitle(QString titlename);
 
+    void sigTrashViewBlankArea();
+    void sigBoxToChoose();
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

@@ -577,3 +577,27 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
     QListView::resizeEvent(e);
 }
+
+void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
+{
+    if (COMMON_STR_TRASH == m_imageType)
+    {
+        emit dApp->signalM->sigBoxToChoose();
+    }
+
+    QAbstractItemView::mouseMoveEvent(event);
+}
+
+void ThumbnailListView::mousePressEvent(QMouseEvent *event)
+{
+    if (COMMON_STR_TRASH == m_imageType)
+    {
+        if (!this->indexAt(event->pos()).isValid())
+        {
+            emit dApp->signalM->sigTrashViewBlankArea();
+
+        }
+    }
+
+    QAbstractItemView::mousePressEvent(event);
+}

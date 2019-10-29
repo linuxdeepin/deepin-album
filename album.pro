@@ -49,13 +49,14 @@ SOURCES += \
         allpicview/allpicview.cpp \
         timelineview/timelineview.cpp \
         dbmanager/dbmanager.cpp \
-    application.cpp \
-    dialogs/albumcreatedialog.cpp \
-    dialogs/dialog.cpp \
-    searchview/searchview.cpp \
-    widgets/albumlefttabitem.cpp \
-    importview/importview.cpp \
-    dialogs/albumdeletedialog.cpp
+        application.cpp \
+        dialogs/albumcreatedialog.cpp \
+        dialogs/dialog.cpp \
+        searchview/searchview.cpp \
+        widgets/albumlefttabitem.cpp \
+        importview/importview.cpp \
+        dialogs/albumdeletedialog.cpp \
+        widgets/statusbar.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -63,13 +64,14 @@ HEADERS += \
         allpicview/allpicview.h \
         timelineview/timelineview.h \
         dbmanager/dbmanager.h \
-    application.h \
-    dialogs/albumcreatedialog.h \
-    dialogs/dialog.h \
-    searchview/searchview.h \
-    widgets/albumlefttabitem.h \
-    importview/importview.h \
-    dialogs/albumdeletedialog.h
+        application.h \
+        dialogs/albumcreatedialog.h \
+        dialogs/dialog.h \
+        searchview/searchview.h \
+        widgets/albumlefttabitem.h \
+        importview/importview.h \
+        dialogs/albumdeletedialog.h \
+        widgets/statusbar.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

@@ -122,7 +122,7 @@ void SearchView::initSearchResultView()
 
     QPalette pal = m_pSlideShowBtn->palette();
     pal.setColor(QPalette::Light,QColor(253,94,94));
-    pal.setColor(QPalette::Dark,QColor(253,94,94));
+    pal.setColor(QPalette::Dark,QColor(237,86,86));
     pal.setColor(QPalette::ButtonText,QColor(255,255,255));
     m_pSlideShowBtn->setPalette(pal);
 

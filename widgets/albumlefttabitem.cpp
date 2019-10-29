@@ -38,13 +38,13 @@ void AlbumLeftTabItem::initConnections()
 
 void AlbumLeftTabItem::initUI()
 {
+    setFocusPolicy(Qt::NoFocus);
     setFixedSize(160, 40);
     QHBoxLayout *pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setContentsMargins(0,0,0,0);
     pHBoxLayout->setSpacing(0);
 
-
-    QLabel* pLabel = new QLabel();
+    pLabel = new QLabel();
     pLabel->setFixedSize(18, 18);
 
 
@@ -105,7 +105,15 @@ void AlbumLeftTabItem::initUI()
         m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
     }
     m_nameLabel->setAlignment(Qt::AlignVCenter);
-    m_nameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+
+    QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+    ft.setFamily("SourceHanSansSC");
+    ft.setWeight(QFont::Medium);
+    m_nameLabel->setFont(ft);
+
+    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
+    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_nameLabel->setPalette(pa);
 
     m_pLineEdit = new DLineEdit(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
@@ -126,7 +134,7 @@ void AlbumLeftTabItem::initUI()
         m_pLineEdit->setText(m_albumNameStr);
     }
 
-    m_pLineEdit->lineEdit()->setTextMargins(14,0,0,0);
+    m_pLineEdit->lineEdit()->setTextMargins(5,0,0,0);
     m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
 //    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
 //    m_pLineEdit->setStyleSheet("border-radius:8px;"
@@ -206,4 +214,81 @@ void AlbumLeftTabItem::onCheckNameValid()
         m_albumNameStr = newNameStr;
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     }
+}
+
+void AlbumLeftTabItem::oriAlbumStatus()
+{
+    if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(18,18));
+        pLabel->setPixmap(pixmap);
+    }
+    else if (COMMON_STR_TRASH == m_albumNameStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+    else if (COMMON_STR_FAVORITES == m_albumNameStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+    else if (EXTERNAL_DEVICE_ALBUM == m_albumTypeStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+    else
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+
+    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
+    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_nameLabel->setPalette(pa);
+}
+
+void AlbumLeftTabItem::newAlbumStatus()
+{
+    if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_import_active.svg", QSize(18,18));
+        pLabel->setPixmap(pixmap);
+    }
+    else if (COMMON_STR_TRASH == m_albumNameStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_trash_active.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+    else if (COMMON_STR_FAVORITES == m_albumNameStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_collection_active.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+    else if (EXTERNAL_DEVICE_ALBUM == m_albumTypeStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+    else
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_album_active.svg", QSize(18, 18));
+        pLabel->setPixmap(pixmap);
+    }
+
+    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
+    pa.setBrush(DPalette::Text, pa.color(DPalette::Base));
+    m_nameLabel->setPalette(pa);
+
 }

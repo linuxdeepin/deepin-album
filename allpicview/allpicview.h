@@ -10,6 +10,7 @@
 #include "widgets/thumbnaillistview.h"
 #include "importview/importview.h"
 #include "searchview/searchview.h"
+#include "widgets/statusbar.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -27,7 +28,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-class AllPicView : public DStackedWidget
+class AllPicView : public DWidget
 {
     Q_OBJECT
 
@@ -45,6 +46,7 @@ private:
     void initStackedWidget();
 //    void initThumbnailListView();
     void updatePicsIntoThumbnailView();
+    void onUpdateAllpicsNumLabel();
 
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *e) override;
@@ -53,6 +55,12 @@ private:
     void resizeEvent(QResizeEvent *e) override;
 
     void removeDBAllInfos();
+
+public:
+    DStackedWidget* m_pStackedWidget;
+    StatusBar* m_pStatusBar;
+
+    int step;
 
 private:
     ThumbnailListView* m_pThumbnailListView;

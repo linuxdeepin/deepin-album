@@ -16,15 +16,24 @@ AllPicView::AllPicView()
     bool a = 1;
     if ( a )
     {
-        m_pThumbnailListView = new ThumbnailListView();
-//        initThumbnailListView();
-        
+        m_pStackedWidget = new DStackedWidget(this);
+
         m_pImportView = new ImportView();
-        addWidget(m_pImportView);
-        addWidget(m_pThumbnailListView);
-        
+        m_pThumbnailListView = new ThumbnailListView();
         m_pSearchView = new SearchView();
-        addWidget(m_pSearchView);
+
+        m_pStackedWidget->addWidget(m_pImportView);
+        m_pStackedWidget->addWidget(m_pThumbnailListView);
+        m_pStackedWidget->addWidget(m_pSearchView);
+
+        m_pStatusBar = new StatusBar();
+        m_pStatusBar->setParent(this);
+
+        QVBoxLayout* pVBoxLayout = new QVBoxLayout();
+        pVBoxLayout->setContentsMargins(0,0,0,0);
+        pVBoxLayout->addWidget(m_pStackedWidget);
+        pVBoxLayout->addWidget(m_pStatusBar);
+        setLayout(pVBoxLayout);
 
         updateStackedWidget();
         
@@ -104,8 +113,10 @@ void AllPicView::initConnections()
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
+    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::updatePicsIntoThumbnailView);
 
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::onPixMapRotate);
+    connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 }
 
 //void AllPicView::initThumbnailListView()
@@ -154,11 +165,15 @@ void AllPicView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount())
     {
-        setCurrentIndex(VIEW_ALLPICS);
+        m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+        m_pStatusBar->show();
+
     }
     else
     {
-        setCurrentIndex(VIEW_IMPORT);
+        m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
+        m_pStatusBar->hide();
+
     }
 }
 
@@ -181,7 +196,7 @@ void AllPicView::updatePicsIntoThumbnailView()
 
     m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
-    if(VIEW_SEARCH == currentIndex())
+    if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
     {
         //donothing
     }

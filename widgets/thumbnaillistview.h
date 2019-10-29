@@ -111,7 +111,9 @@ private:
     QMenu* createAlbumMenu();
     void onShowImageInfo(const QString &path);
 
-    void resizeEvent(QResizeEvent *e);
+    void resizeEvent(QResizeEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 public:
     QString m_imageType;
