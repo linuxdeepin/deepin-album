@@ -14,8 +14,8 @@ const int VIEW_ALBUM = 2;
 const int VIEW_SEARCH = 3;
 const int VIEW_IMAGE = 4;
 
-const QString TITLEBAR_NEWALBUM = "New albume";
-const QString TITLEBAR_IMPORT = "Import";
+const QString TITLEBAR_NEWALBUM = "新建相册";
+const QString TITLEBAR_IMPORT = "导入";
 
 }//namespace
 
@@ -27,7 +27,6 @@ MainWindow::MainWindow()
     m_bTitleMenuImportClicked = false;
 
     initUI();
-    initDB();
 
     initTitleBar();
     initCentralWidget();
@@ -117,28 +116,6 @@ void MainWindow::initUI()
 {
 //    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
     setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
-}
-
-void MainWindow::initDB()
-{
-    QStringList removePaths;
-
-    auto infos = DBManager::instance()->getAllInfos();
-    for(auto info : infos)
-    {
-        QString format = DetectImageFormat(info.filePath);
-        if (format.isEmpty())
-        {
-            removePaths<<info.filePath;
-        }
-    }
-
-    for(auto path : removePaths)
-    {
-        dApp->m_imagemap.remove(path);
-    }
-
-    DBManager::instance()->removeImgInfosNoSignal(removePaths);
 }
 
 void MainWindow::initTitleBar()
@@ -348,7 +325,7 @@ void MainWindow::allPicBtnClicked()
 
     m_iCurrentView = VIEW_ALLPIC;
 
-    m_pAllPicView->setCurrentIndex(1);
+    m_pAllPicView->updateStackedWidget();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
@@ -376,7 +353,7 @@ void MainWindow::timeLineBtnClicked()
 
     m_iCurrentView = VIEW_TIMELINE;
 
-    m_pTimeLineView->setCurrentIndex(1);
+    m_pTimeLineView->updateStackedWidget();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
@@ -494,9 +471,9 @@ void MainWindow::onSearchEditFinished()
         {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
             m_pAlbumview->m_pLeftTabList->setCurrentRow(0);
+            m_pAlbumview->m_currentAlbum = COMMON_STR_SEARCH;
             m_pAlbumview->m_pRightStackWidget->setCurrentIndex(4);
         }
-
     }
 }
 

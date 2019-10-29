@@ -43,7 +43,10 @@ public:
     explicit ImageLoader(Application* parent, QStringList pathlist, QStringList pathlisttrash);
 
     void addImageLoader(QStringList pathlist);
-    void addTrashImageLoader(QStringList pathlisttrash);
+    void updateImageLoader(QStringList pathlist);
+
+    void addTrashImageLoader(QStringList trashpathlist);
+    void updateTrashImageLoader(QStringList trashpathlist);
 
 public slots:
     void startLoading();
@@ -83,6 +86,7 @@ public slots:
 private:
     void initChildren();
     void initI18n();
+    void initDB();
 
     QThread * m_LoadThread;
 

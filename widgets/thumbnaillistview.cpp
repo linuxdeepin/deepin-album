@@ -15,9 +15,6 @@ const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
 
 const QString IMAGE_DEFAULTTYPE = "All pics";
-const QString FAVORITES_ALBUM = "My favorite";
-const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-const QString TRASH_ALBUM = "Trash";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
 QString ss(const QString &text)
@@ -256,11 +253,11 @@ void ThumbnailListView::updateMenuContents()
     m_pMenu->clear();
     if (1 == paths.length())
     {
-        appendAction(IdView, tr("View"), ss("View"));
-        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+        appendAction(IdView, tr("查看"), ss("View"));
+        appendAction(IdFullScreen, tr("全屏"), ss("Fullscreen"));
     }
-    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
-    if (TRASH_ALBUM != m_imageType)
+    appendAction(IdStartSlideShow, tr("幻灯片放映"), ss("Slide show"));
+    if (COMMON_STR_TRASH != m_imageType)
     {
         QMenu *am = createAlbumMenu();
         if (am) {
@@ -268,36 +265,36 @@ void ThumbnailListView::updateMenuContents()
         }
     }
     m_pMenu->addSeparator();
-    appendAction(IdExport, tr("export"), ss("export"));
-    appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
-    if (TRASH_ALBUM == m_imageType)
+    appendAction(IdExport, tr("导出"), ss("export"));
+    appendAction(IdCopyToClipboard, tr("复制"), ss("Copy to clipboard"));
+    if (COMMON_STR_TRASH == m_imageType)
     {
-        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash"));
+        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash"));
     }
     else
     {
-        appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+        appendAction(IdMoveToTrash, tr("移动到回收站"), ss("Throw to trash"));
     }
 
     if (IMAGE_DEFAULTTYPE != m_imageType
-        && RECENT_IMPORTED_ALBUM != m_imageType
-        && TRASH_ALBUM != m_imageType
-        && FAVORITES_ALBUM != m_imageType)
+        && COMMON_STR_RECENT_IMPORTED != m_imageType
+        && COMMON_STR_TRASH != m_imageType
+        && COMMON_STR_FAVORITES != m_imageType)
     {
-        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
+        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album"));
     }
 
     m_pMenu->addSeparator();
 
-    if (1 == paths.length() && TRASH_ALBUM != m_imageType)
+    if (1 == paths.length() && COMMON_STR_TRASH != m_imageType)
     {
-        if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, paths[0]))
+        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0]))
         {
-            appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+            appendAction(IdRemoveFromFavorites, tr("取消收藏"), ss("Unfavorite"));
         }
         else
         {
-            appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
+            appendAction(IdAddToFavorites, tr("收藏"), ss("Favorite"));
         }
 
         m_pMenu->addSeparator();
@@ -324,13 +321,13 @@ void ThumbnailListView::updateMenuContents()
         }
         if(flag == 1)
         {
-            appendAction_darkmenu(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
-            appendAction_darkmenu(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+            appendAction_darkmenu(IdRotateClockwise, tr("顺时针旋转"), ss("Rotate clockwise"));
+            appendAction_darkmenu(IdRotateCounterclockwise, tr("逆时针旋转"), ss("Rotate counterclockwise"));
         }
         else
         {
-            appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise"));
-            appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+            appendAction(IdRotateClockwise, tr("顺时针旋转"), ss("Rotate clockwise"));
+            appendAction(IdRotateCounterclockwise, tr("逆时针旋转"), ss("Rotate counterclockwise"));
         }
     }
 
@@ -340,11 +337,11 @@ void ThumbnailListView::updateMenuContents()
 
         if (utils::image::imageSupportSave(paths[0]))
         {
-            appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper"));
+            appendAction(IdSetAsWallpaper, tr("设为壁纸"), ss("Set as wallpaper"));
         }
 
-        appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager"));
-        appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
+        appendAction(IdDisplayInFileManager, tr("在文件管理器中显示"), ss("Display in file manager"));
+        appendAction(IdImageInfo, tr("图片信息"), ss("Image info"));
     }
 }
 
@@ -371,14 +368,14 @@ void ThumbnailListView::appendAction_darkmenu(int id, const QString &text, const
 
 QMenu *ThumbnailListView::createAlbumMenu()
 {
-    QMenu *am = new QMenu(tr("Add to album"));
+    QMenu *am = new QMenu(tr("添加到相册"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
-    albums.removeAll(FAVORITES_ALBUM);
+    albums.removeAll(COMMON_STR_FAVORITES);
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("Add to new album"));
+    ac->setText(tr("新建相册"));
     ac->setData(QString("Add to new album"));
     am->addAction(ac);
     am->addSeparator();
@@ -430,7 +427,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        if (TRASH_ALBUM == m_imageType)
+        if (COMMON_STR_TRASH == m_imageType)
         {
             for(auto path : paths)
             {
@@ -459,10 +456,10 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     }
         break;
     case IdAddToFavorites:
-        DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, paths);
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths);
         break;
     case IdRemoveFromFavorites:
-        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, paths);
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
         break;
     case IdRemoveFromAlbum:
         DBManager::instance()->removeFromAlbum(m_imageType, paths);
@@ -474,7 +471,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
             utils::image::rotate(path, 90);
         }
 
-        emit dApp->signalM->sigPixMapRotate();
+        emit dApp->signalM->sigPixMapRotate(paths);
     }
         break;
     case IdRotateCounterclockwise:
@@ -484,7 +481,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
             utils::image::rotate(path, -90);
         }
 
-        emit dApp->signalM->sigPixMapRotate();
+        emit dApp->signalM->sigPixMapRotate(paths);
     }
         break;
     case IdSetAsWallpaper:
@@ -555,7 +552,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
         str<<datas[1].toString();
     }
 
-    DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, str);
+    DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str);
 
     m_model->removeRow(index.row());
 }

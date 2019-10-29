@@ -28,6 +28,7 @@
 #include <QIcon>
 #include <QImageReader>
 #include <sys/time.h>
+#include <QFile>
 
 namespace {
 
@@ -146,9 +147,19 @@ void ImageLoader::addImageLoader(QStringList pathlist)
     }
 }
 
-void ImageLoader::addTrashImageLoader(QStringList pathlisttrash)
+void ImageLoader::updateImageLoader(QStringList pathlist)
 {
-    for(QString path : pathlisttrash)
+    for(QString path : pathlist)
+    {
+        QPixmap pixmap(path);
+
+        m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+    }
+}
+
+void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
+{
+    for(QString path : trashpathlist)
     {
         QImage tImg;
 
@@ -177,6 +188,16 @@ void ImageLoader::addTrashImageLoader(QStringList pathlisttrash)
     }
 }
 
+void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
+{
+    for(QString path : trashpathlist)
+    {
+        QPixmap pixmaptrash(path);
+
+        m_parent->m_imagetrashmap[path] = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+    }
+}
+
 Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
 {
@@ -189,6 +210,8 @@ Application::Application(int& argc, char** argv)
     installEventFilter(new GlobalEventFilter());
 
     initChildren();
+
+    initDB();
 
     auto infos = DBManager::instance()->getAllInfos();
     QStringList pathlist;
@@ -227,6 +250,35 @@ void Application::initChildren()
     setter = ConfigSetter::instance();
     signalM = SignalManager::instance();
     wpSetter = WallpaperSetter::instance();
+}
+
+void Application::initDB()
+{
+    QStringList removePaths;
+    QStringList removeTrashPaths;
+
+    auto infos = DBManager::instance()->getAllInfos();
+    for(auto info : infos)
+    {
+        QFile file(info.filePath);
+        if (!file.open(QIODevice::ReadOnly)) {
+            qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
+            removePaths<<info.filePath;
+        }
+    }
+
+    auto trashInfos = DBManager::instance()->getAllTrashInfos();
+    for(auto info : trashInfos)
+    {
+        QFile file(info.filePath);
+        if (!file.open(QIODevice::ReadOnly)) {
+            qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
+            removeTrashPaths<<info.filePath;
+        }
+    }
+
+    DBManager::instance()->removeImgInfosNoSignal(removePaths);
+    DBManager::instance()->removeTrashImgInfosNoSignal(removeTrashPaths);
 }
 
 void Application::initI18n()

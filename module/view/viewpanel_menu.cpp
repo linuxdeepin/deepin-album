@@ -37,7 +37,6 @@ namespace {
 
 const int SWITCH_IMAGE_DELAY = 300;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
-const QString FAVORITES_ALBUM_NAME = "My favorite";
 
 QString ss(const QString &text, const QString &defaultValue)
 {
@@ -201,7 +200,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
+        if (COMMON_STR_TRASH == m_viewType)
         {
             dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
@@ -284,10 +283,10 @@ void ViewPanel::updateMenuContent()
     }
 
     if (window()->isFullScreen()) {
-        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
+        appendAction(IdExitFullScreen, tr("退出全屏"), ss("Fullscreen", "F11"));
     }
     else {
-        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
+        appendAction(IdFullScreen, tr("全屏"), ss("Fullscreen", "F11"));
     }
 #ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
@@ -303,34 +302,34 @@ void ViewPanel::updateMenuContent()
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
+    appendAction(IdCopy, tr("复制"), ss("Copy", "Ctrl+C"));
+    if (COMMON_STR_TRASH == m_viewType)
     {
-        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash", "Delete"));
     }
     else
     {
-        appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash", "Delete"));
+        appendAction(IdMoveToTrash, tr("移动到回收站"), ss("Throw to trash", "Delete"));
     }
 
     if (utils::common::VIEW_ALLPIC_SRN != m_viewType
         && utils::common::VIEW_TIMELINE_SRN != m_viewType
         && utils::common::VIEW_SEARCH_SRN != m_viewType
-        && utils::common::VIEW_ALBUM_RECENTIMPROTED_SRN != m_viewType
-        && utils::common::VIEW_ALBUM_TRASH_SRN != m_viewType
-        && utils::common::VIEW_ALBUM_FAVORITE_SRN != m_viewType)
+        && COMMON_STR_RECENT_IMPORTED != m_viewType
+        && COMMON_STR_TRASH != m_viewType
+        && COMMON_STR_FAVORITES != m_viewType)
     {
-        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
+        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album", ""));
     }
     m_menu->addSeparator();
     /**************************************************************************/
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
-                     tr("Show navigation window"), ss("Show navigation window", ""));
+                     tr("显示导航窗口"), ss("Show navigation window", ""));
     }
     else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         appendAction(IdHideNavigationWindow,
-                     tr("Hide navigation window"), ss("Hide navigation window", ""));
+                     tr("隐藏导航窗口"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
@@ -339,30 +338,25 @@ void ViewPanel::updateMenuContent()
                 !QFileInfo(m_infos.at(m_current).filePath).isWritable()){
 
              appendAction_darkmenu(IdRotateClockwise,
-                                 tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+                                 tr("顺时针旋转"), ss("Rotate clockwise", "Ctrl+R"));
              appendAction_darkmenu(IdRotateCounterclockwise,
-                          tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+                          tr("逆时针旋转"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         }
         else {
             appendAction(IdRotateClockwise,
-                         tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+                         tr("顺时针旋转"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise,
-                         tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+                         tr("逆时针旋转"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         }
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_infos.at(m_current).filePath))  {
         appendAction(IdSetAsWallpaper,
-                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
+                     tr("设为壁纸"), ss("Set as wallpaper", "Ctrl+F8"));
     }
-#ifndef LITE_DIV
-    if (m_vinfo.inDatabase)
-#endif
-    {
-        appendAction(IdDisplayInFileManager,
-                     tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
-    }
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
+
+    appendAction(IdDisplayInFileManager,tr("在文件管理器中显示"), ss("Display in file manager", "Ctrl+D"));
+    appendAction(IdImageInfo, tr("图片信息"), ss("Image info", "Alt+Enter"));
 }
 
 void ViewPanel::initShortcut()

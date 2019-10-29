@@ -60,7 +60,7 @@ const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
 }  // namespace
 
 TopToolbar::TopToolbar(bool manager, QWidget *parent)
-    :BlurFrame(parent)
+    :DBlurEffectWidget(parent)
 {
     m_manager = manager;
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -104,7 +104,8 @@ void TopToolbar::setMiddleContent(QString path)
 //    if(!path.isNull() && !path.isNull()){
 //        filename = QFileInfo(path).fileName();
 //    }
-    m_titlebar->setTitle(path);
+//    m_titlebar->setTitle(path);
+    m_titletxt->setText(path);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -116,7 +117,7 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
             window()->showMaximized();
     }
 
-    BlurFrame::mouseDoubleClickEvent(e);
+    DBlurEffectWidget::mouseDoubleClickEvent(e);
 }
 void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
     QLinearGradient lightLinearGrad;
@@ -127,13 +128,13 @@ void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
 
 
     if (curTheme == ViewerThemeManager::Dark) {
-        setCoverBrush(QBrush(QColor(0, 0, 0, 0)));
+//        setCoverBrush(QBrush(QColor(0, 0, 0, 0)));
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
 
 //        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     } else {
-        setCoverBrush(QBrush(lightLinearGrad));
+//        setCoverBrush(QBrush(lightLinearGrad));
         m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
         m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
 
@@ -155,7 +156,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 //    BlurFrame::paintEvent(e);
 
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
+//    p.setRenderHint(QPainter::Antialiasing);
 
     // Draw inside top border
 //    const QColor tc(m_topBorderColor);
@@ -185,6 +186,14 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 //    QPen bPen(m_bottomBorderColor, borderHeight);
 //    p.setPen(bPen);
 //    p.drawPath(bPath);
+    QPixmap pixmap(":/resources/common/titlebar.png");
+    const QPalette pal = QGuiApplication::palette();//this->palette();
+    QBrush bgColor = QBrush(pixmap.scaled(size().width(),50));
+    QRectF bgRect;
+    bgRect.setSize(size());
+    QPainterPath pp;
+    pp.addRoundedRect(QRectF(bgRect.x(),bgRect.y(),bgRect.width(),50), 0, 0);
+    p.fillPath(pp, bgColor);
 }
 
 void TopToolbar::initLeftContent()
@@ -228,7 +237,7 @@ void TopToolbar::initRightContent()
     m_rLayout->setContentsMargins(0, 0, 0, 0);
     m_rLayout->setSpacing(0);
 
-//    m_layout->addWidget(w, 1, Qt::AlignRight);
+    m_layout->addWidget(w, 1, Qt::AlignRight);
     DTitlebar* m_titlebar = new DTitlebar(this);
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
                                Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
@@ -262,6 +271,14 @@ void TopToolbar::initWidgets()
 //    pa.setColor(QPalette::WindowText,Qt::red);
     m_titlebar->setPalette(pa);
     m_titlebar->setTitle("");
+    m_titletxt=new DLabel;
+    m_titletxt->setText("");
+    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
+    shadowEffect->setOffset(0, 1);
+    shadowEffect->setColor(QColor(255,255,255,127));
+    shadowEffect->setBlurRadius(1);
+    m_titletxt->setGraphicsEffect(shadowEffect);
+    m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
 
 //    QWidget *customWidget = new QWidget();
 //    customWidget->setFixedWidth(0);
@@ -273,7 +290,8 @@ void TopToolbar::initWidgets()
 //        if(!vinfo.path.isNull() && !vinfo.path.isNull()){
 //            filename = QFileInfo(vinfo.path).fileName();
 //        }
-        m_titlebar->setTitle(filename);
+//        m_titlebar->setTitle(filename);
+        m_titletxt->setText(filename);
     });
 }
 

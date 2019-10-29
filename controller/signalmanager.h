@@ -89,7 +89,7 @@ signals:
     void sigSendKeywordsIntoALLPic(QString keywords);
     void sigCreateNewAlbumFromDialog();
     void sigMainwindowSliderValueChg(int value);
-    void sigPixMapRotate();
+    void sigPixMapRotate(QStringList paths);
     void sigMouseMove();
     void sigShowFullScreen();
     void sigESCKeyActivated();

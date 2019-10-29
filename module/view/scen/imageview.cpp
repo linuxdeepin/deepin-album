@@ -167,7 +167,7 @@ void ImageView::setImage(const QString &path)
     if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
         m_toast->show();
         m_toast->move(width() / 2 - m_toast->width() / 2,
-                      height() - 80 - m_toast->height() / 2);
+                      height() - 80 - m_toast->height() / 2 - 11);
     } else {
         m_toast->hide();
     }
@@ -462,7 +462,7 @@ void ImageView::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
     m_toast->move(width() / 2 - m_toast->width() / 2,
-                  height() - 80 - m_toast->height() / 2);
+                  height() - 80 - m_toast->height() / 2 - 11);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

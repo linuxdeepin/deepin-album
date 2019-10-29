@@ -24,7 +24,7 @@
 #include "utils/baseutils.h"
 
 #include <QTimer>
-#include <DLabel>
+#include <DBlurEffectWidget>
 
 DWIDGET_USE_NAMESPACE
 
@@ -46,11 +46,11 @@ void ViewPanel::initSwitchButtons()
     next_button->setObjectName("NextButton");
 
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        pre_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-        next_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+//        pre_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+//        next_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
     } else {
-        pre_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-        next_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+//        pre_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+//        next_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
     }
 
     pre_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
@@ -73,17 +73,17 @@ void ViewPanel::initSwitchButtons()
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             [=](ViewerThemeManager::AppTheme theme) {
-        if (theme == ViewerThemeManager::Dark) {
-            pre_button->setStyleSheet(getFileContent(
-                                         ":/resources/dark/qss/floating.qss"));
-            next_button->setStyleSheet(getFileContent(
-                                          ":/resources/dark/qss/floating.qss"));
-        } else {
-            pre_button->setStyleSheet(getFileContent(
-                                         ":/resources/light/qss/floating.qss"));
-            next_button->setStyleSheet(getFileContent(
-                                          ":/resources/light/qss/floating.qss"));
-        }
+//        if (theme == ViewerThemeManager::Dark) {
+//            pre_button->setStyleSheet(getFileContent(
+//                                         ":/resources/dark/qss/floating.qss"));
+//            next_button->setStyleSheet(getFileContent(
+//                                          ":/resources/dark/qss/floating.qss"));
+//        } else {
+//            pre_button->setStyleSheet(getFileContent(
+//                                         ":/resources/light/qss/floating.qss"));
+//            next_button->setStyleSheet(getFileContent(
+//                                          ":/resources/light/qss/floating.qss"));
+//        }
     });
 
     connect(this, &ViewPanel::mouseMoved, this, [=] {
@@ -111,7 +111,7 @@ void ViewPanel::initSwitchButtons()
 void ViewPanel::initScaleLabel()
 {
     using namespace utils::base;
-    DAnchors<DLabel> scalePerc = new DLabel(this);
+    DAnchors<DBlurEffectWidget> scalePerc = new DBlurEffectWidget(this);
     scalePerc->setObjectName("ScaleLabel");
 //    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
 //        scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
@@ -119,18 +119,25 @@ void ViewPanel::initScaleLabel()
 //        scalePerc->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
 //    }
 
-//    DPalette pa;
-//    pa.setColor(DPalette::Background,QColor(255, 255, 255,200));
-//    scalePerc->setAutoFillBackground(true);
-//    scalePerc->setPalette(pa);
-
+//    border-image: url(:/resources/light/images/scale_background.svg);
+//    color: rgb(48, 48, 48);
+//    padding: 0px 0px 10px 0px;
+//    font-size: 14px;
+    scalePerc->setBlurRectYRadius(4);
+    scalePerc->setBlurRectXRadius(4);
+    scalePerc->setMaskAlpha(102);
+    QHBoxLayout *layout = new QHBoxLayout();
+    scalePerc->setLayout(layout);
+    QLabel *label = new QLabel();
+    layout->addWidget(label);
     scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
     scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
     scalePerc.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
-    scalePerc.setBottomMargin(100);
-    scalePerc->setAlignment(Qt::AlignCenter);
-    scalePerc->setFixedSize(82, 35);
-    scalePerc->setText("100%");
+    scalePerc.setBottomMargin(75+14);
+    label->setAlignment(Qt::AlignCenter);
+//    scalePerc->setFixedSize(82, 48);
+    scalePerc->setFixedSize(64, 30);
+    label->setText("100%");
     scalePerc->hide();
 
     QTimer *hideT = new QTimer(this);
@@ -138,7 +145,7 @@ void ViewPanel::initScaleLabel()
     connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
 
     connect(m_viewB, &ImageView::scaled, this, [=](qreal perc) {
-        scalePerc->setText(QString("%1%").arg(int(perc)));
+        label->setText(QString("%1%").arg(int(perc)));
     });
     connect(m_viewB, &ImageView::showScaleLabel, this, [=](){
         scalePerc->show();
@@ -146,11 +153,11 @@ void ViewPanel::initScaleLabel()
     });
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             [=](ViewerThemeManager::AppTheme theme) {
-        if (theme == ViewerThemeManager::Dark) {
-            scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-        } else {
-            scalePerc->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-        }
+//        if (theme == ViewerThemeManager::Dark) {
+//            scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+//        } else {
+//            scalePerc->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+//        }
     });
 }
 

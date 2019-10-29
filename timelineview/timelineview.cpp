@@ -11,6 +11,7 @@
 namespace  {
 const int VIEW_IMPORT = 0;
 const int VIEW_TIMELINE = 1;
+const int VIEW_SEARCH = 2;
 const int VIEW_MAINWINDOW_TIMELINE = 1;
 } //namespace
 
@@ -50,6 +51,8 @@ void TimeLineView::initConnections(){
     connect(m_mainListWidget,&TimelineList::sigMoveTime,this,[=](int y){
         on_MoveLabel(y);
     });
+
+    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &TimeLineView::onPixMapRotate);
 }
 
 void TimeLineView::initTimeLineViewWidget()
@@ -171,7 +174,7 @@ void TimeLineView::updataLayout()
         DLabel* pDate = new DLabel();
         pDate->setFixedHeight(24);
         QStringList datelist = m_timelines.at(i).split(".");
-        listItem->m_sdate=QString("%1 年 %2 月 %3 日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         pDate->setText(listItem->m_sdate);
 
         DPalette color = DApplicationHelper::instance()->palette(pDate);
@@ -188,7 +191,7 @@ void TimeLineView::updataLayout()
 
         DLabel* pNum = new DLabel();
         pNum->setFixedHeight(24);
-        listItem->m_snum = QString("%1 张照片").arg(ImgInfoList.size());
+        listItem->m_snum = QString("%1张照片").arg(ImgInfoList.size());
         pNum->setText(listItem->m_snum);
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
         ft6.setFamily("SourceHanSansSC");
@@ -214,8 +217,6 @@ void TimeLineView::updataLayout()
         Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         Layout->setContentsMargins(0,0,0,0);
         Layout->addWidget(pChose);
-
-
 
         listItem->m_num=pNum;
         TitleViewLayout->addWidget(pDate);
@@ -321,7 +322,21 @@ void TimeLineView::updataLayout()
        });
     }
 
-    updateStackedWidget();
+    if(VIEW_SEARCH == currentIndex())
+    {
+        // donothing
+    }
+    else
+    {
+        updateStackedWidget();
+    }
+}
+
+void TimeLineView::onPixMapRotate(QStringList paths)
+{
+    dApp->m_imageloader->updateImageLoader(paths);
+
+    updataLayout();
 }
 
 void TimeLineView::on_AddLabel(QString date,QString num)

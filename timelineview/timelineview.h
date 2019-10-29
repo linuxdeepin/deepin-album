@@ -38,6 +38,7 @@ class TimeLineView : public DStackedWidget
 public:
     TimeLineView();
 
+    void updateStackedWidget();
 public slots:
     void on_AddLabel(QString date,QString num);
     void on_DelLabel();
@@ -48,12 +49,12 @@ protected:
 
 private:
     void initTimeLineViewWidget();
-    void updateStackedWidget();
     void initConnections();
     void sigImprotPicsIntoThumbnailView();
     void getImageInfos();
     void updataLayout();
     void initMainStackWidget();
+    void onPixMapRotate(QStringList paths);
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;

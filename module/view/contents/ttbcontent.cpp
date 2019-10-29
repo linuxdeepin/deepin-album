@@ -40,7 +40,6 @@ DWIDGET_USE_NAMESPACE
 namespace {
 const int LEFT_MARGIN = 10;
 const QSize ICON_SIZE = QSize(50, 50);
-const QString FAVORITES_ALBUM = "My favorite";
 const int ICON_SPACING = 10;
 const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
@@ -252,11 +251,11 @@ TTBContent::TTBContent(bool inDB,
 
         if (true == m_bClBTChecked)
         {
-            DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_imagePath));
         }
         else
         {
-            DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_imagePath));
         }
 
         emit ttbcontentClicked();
@@ -384,18 +383,18 @@ void TTBContent::updateFilenameLayout()
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-        this->setStyleSheet(utils::base::getFileContent(
-                                ":/resources/dark/qss/ttl.qss"));
-    } else {
-        this->setStyleSheet(utils::base::getFileContent(
-                                ":/resources/light/qss/ttl.qss"));
-    }
+//    if (theme == ViewerThemeManager::Dark) {
+//        this->setStyleSheet(utils::base::getFileContent(
+//                                ":/resources/dark/qss/ttl.qss"));
+//    } else {
+//        this->setStyleSheet(utils::base::getFileContent(
+//                                ":/resources/light/qss/ttl.qss"));
+//    }
 }
 
 void TTBContent::setCurrentDir(QString text) {
-    if (text == FAVORITES_ALBUM) {
-        text = tr("My favorite");
+    if (text == COMMON_STR_FAVORITES) {
+        text = tr(COMMON_STR_FAVORITES);
     }
 
 #ifndef LITE_DIV
@@ -412,16 +411,16 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(j)->setFixedSize (QSize(30,40));
         labelList.at(j)->resize (QSize(30,40));
         labelList.at(j)->setContentsMargins(1,5,1,5);
-        labelList.at(j)->setFrameShape (QFrame::NoFrame);
-        labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
+//        labelList.at(j)->setFrameShape (QFrame::NoFrame);
+//        labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
         labelList.at(j)->setIndexNow(m_nowIndex);
     }
     if(labelList.size()>0){
         labelList.at(m_nowIndex)->setFixedSize (QSize(60,58));
         labelList.at(m_nowIndex)->resize (QSize(60,58));
-        labelList.at(m_nowIndex)->setFrameShape (QFrame::Box);
+//        labelList.at(m_nowIndex)->setFrameShape (QFrame::Box);
         labelList.at(m_nowIndex)->setContentsMargins(0,0,0,0);
-        labelList.at(m_nowIndex)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
+//        labelList.at(m_nowIndex)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
     }
 //    m_contentWidth = std::max(m_windowWidth - 100, 1);
 //    m_contentWidth = 310;
@@ -462,7 +461,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
             m_imgList->setContentsMargins(0,0,0,0);
 
-            auto num=30;
+            auto num=32;
 //            QHBoxLayout *layout= new QHBoxLayout();
 //            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 //            layout->setMargin(0);
@@ -473,12 +472,18 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
             for (DBImgInfo info : m_imgInfos) {
                 if(labelList.size()!=m_imgInfos.size()){
-                    ImageItem *imageItem = new ImageItem(i);
                     char *imageType=getImageType(info.filePath);
-                    QImage image(info.filePath,imageType);
+                    ImageItem *imageItem = new ImageItem(i,info.filePath,imageType);
+//                    QImage image(info.filePath,imageType);
 //                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
-                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
-                    imageItem->setContentsMargins(1,5,1,5);
+//                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
+//                    QPalette palette = imageItem->palette();
+//                    palette.setColor(QPalette::Background, QColor(0,0,0,100)); // 最后一项为透明度
+//                    palette.setBrush(QPalette::Background, QBrush(QPixmap(info.filePath).scaled(60,50)));
+//                    imageItem->setPalette(palette);
+//                    imageItem->setPic(image);
+
+//                    imageItem->setContentsMargins(1,5,1,5);
                     imageItem->setFixedSize(QSize(num,40));
                     imageItem->resize(QSize(num,40));
                     
@@ -497,19 +502,19 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             labelList = m_imgList->findChildren<ImageItem*>();
             m_nowIndex = t;
             for(int j = 0; j < labelList.size(); j++){
-                labelList.at(j)->setFixedSize (QSize(30,40));
-                labelList.at(j)->resize (QSize(30,40));
-                labelList.at(j)->setContentsMargins(1,5,1,5);
-                labelList.at(j)->setFrameShape (QFrame::NoFrame);
-                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
+                labelList.at(j)->setFixedSize (QSize(num,40));
+                labelList.at(j)->resize (QSize(num,40));
+//                labelList.at(j)->setContentsMargins(1,5,1,5);
+//                labelList.at(j)->setFrameShape (QFrame::NoFrame);
+//                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
                 labelList.at(j)->setIndexNow(t);
             }
             if(labelList.size()>0){
-                labelList.at(t)->setFixedSize (QSize(60,58));
-                labelList.at(t)->resize (QSize(60,58));
-                labelList.at(t)->setFrameShape (QFrame::Box);
-                labelList.at(t)->setContentsMargins(0,0,0,0);
-                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
+                labelList.at(t)->setFixedSize (QSize(num*2,58));
+                labelList.at(t)->resize (QSize(num*2,58));
+//                labelList.at(t)->setFrameShape (QFrame::Box);
+//                labelList.at(t)->setContentsMargins(0,0,0,0);
+//                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
             }
 
 
@@ -520,8 +525,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setDuration(500);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
-            animation->setKeyValueAt(1,  QPoint(320-(32*t),0));
-            animation->setEndValue(QPoint(320-(32*t),0));
+            animation->setKeyValueAt(1,  QPoint(320-((num+2)*t),0));
+            animation->setEndValue(QPoint(320-((num+2)*t),0));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
@@ -579,7 +584,7 @@ void TTBContent::updateCollectButton()
         return;
     }
 
-    if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath))
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_imagePath))
     {
 //        m_clBT->setToolTip(tr("Favorite"));
         m_clBT->setToolTip(tr("取消收藏"));

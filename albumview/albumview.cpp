@@ -18,14 +18,6 @@ const int ITEM_SPACING = 0;
 const int LEFT_VIEW_WIDTH = 180;
 const int LEFT_VIEW_LISTITEM_WIDTH = 160;
 const int LEFT_VIEW_LISTITEM_HEIGHT = 40;
-const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-const QString TRASH_ALBUM = "Trash";
-const QString FAVORITES_ALBUM = "My favorite";
-const QString LEFT_MENU_SLIDESHOW = "Slide show";
-const QString LEFT_MENU_NEWALBUM = "New album";
-const QString LEFT_MENU_RENAMEALBUM = "Rename album";
-const QString LEFT_MENU_EXPORT = "Export";
-const QString LEFT_MENU_DELALBUM = "Delete album";
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
 const QString BUTTON_STR_RECOVERY = "恢复";
@@ -36,11 +28,21 @@ const int RIGHT_VIEW_THUMBNAIL_LIST = 1;
 const int RIGHT_VIEW_TRASH_LIST = 2;
 const int RIGHT_VIEW_FAVORITE_LIST = 3;
 const int VIEW_MAINWINDOW_ALBUM = 2;
+const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
+
+QString ss(const QString &text)
+{
+    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    str.replace(" ", "");
+    return str;
+}
 }  //namespace
+
+using namespace utils::common;
 
 AlbumView::AlbumView()
 {
-    m_currentAlbum = RECENT_IMPORTED_ALBUM;
+    m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
 
@@ -84,6 +86,7 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked); 
 
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
+    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AlbumView::onPixMapRotate);
 //    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChanged);
 //    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChanged);
 }
@@ -114,14 +117,14 @@ void AlbumView::initLeftView()
 
     m_pLeftMenu = new DMenu();
 
-    m_allAlbumNames<<RECENT_IMPORTED_ALBUM;
-    m_allAlbumNames<<TRASH_ALBUM;
-    m_allAlbumNames<<FAVORITES_ALBUM;
+    m_allAlbumNames<<COMMON_STR_RECENT_IMPORTED;
+    m_allAlbumNames<<COMMON_STR_TRASH;
+    m_allAlbumNames<<COMMON_STR_FAVORITES;
 
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (TRASH_ALBUM == albumName || FAVORITES_ALBUM == albumName)
+        if (COMMON_STR_FAVORITES == albumName)
         {
             continue;
         }
@@ -137,7 +140,7 @@ void AlbumView::initLeftView()
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
         pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH);
         pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT);
-        if (RECENT_IMPORTED_ALBUM == albumName)
+        if (COMMON_STR_RECENT_IMPORTED == albumName)
         {
             pListWidgetItem->setSelected(true);
         }
@@ -154,14 +157,14 @@ void AlbumView::updateLeftView()
     m_pLeftTabList->clear();
     m_allAlbumNames.clear();
 
-    m_allAlbumNames<<RECENT_IMPORTED_ALBUM;
-    m_allAlbumNames<<TRASH_ALBUM;
-    m_allAlbumNames<<FAVORITES_ALBUM;
+    m_allAlbumNames<<COMMON_STR_RECENT_IMPORTED;
+    m_allAlbumNames<<COMMON_STR_TRASH;
+    m_allAlbumNames<<COMMON_STR_FAVORITES;
 
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (TRASH_ALBUM == albumName || FAVORITES_ALBUM == albumName)
+        if (COMMON_STR_FAVORITES == albumName)
         {
             continue;
         }
@@ -200,7 +203,7 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->setContentsMargins(0,0,0,0);
 
     m_pRightTitle = new DLabel();
-    m_pRightTitle->setText(RECENT_IMPORTED_ALBUM);
+    m_pRightTitle->setText(tr(COMMON_STR_RECENT_IMPORTED));
 
     QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft.setFamily("SourceHanSansSC");
@@ -228,7 +231,7 @@ void AlbumView::initRightView()
     m_pRightPicTotal->setPalette(palette);
 
 
-    m_pRightThumbnailList = new ThumbnailListView(RECENT_IMPORTED_ALBUM);
+    m_pRightThumbnailList = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pNoTrashVBoxLayout->addSpacing(5);
@@ -305,7 +308,7 @@ void AlbumView::initRightView()
     pTopHBoxLayout->addSpacing(20);
 
 
-    m_pRightTrashThumbnailList = new ThumbnailListView(TRASH_ALBUM);
+    m_pRightTrashThumbnailList = new ThumbnailListView(COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pMainVBoxLayout->addItem(pTopHBoxLayout);
@@ -318,7 +321,7 @@ void AlbumView::initRightView()
     QVBoxLayout *pFavoriteVBoxLayout = new QVBoxLayout();
 
     m_pFavoriteTitle = new DLabel();
-    m_pFavoriteTitle->setText(FAVORITES_ALBUM);
+    m_pFavoriteTitle->setText(COMMON_STR_FAVORITES);
     m_pFavoriteTitle->setFont(ft);
     m_pFavoriteTitle->setPalette(pa);
 
@@ -328,10 +331,10 @@ void AlbumView::initRightView()
     m_pFavoritePicTotal->setPalette(palette);
 
 
-    int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(FAVORITES_ALBUM);
+    int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES);
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
 
-    m_pRightFavoriteThumbnailList = new ThumbnailListView(FAVORITES_ALBUM);
+    m_pRightFavoriteThumbnailList = new ThumbnailListView(COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pFavoriteVBoxLayout->addSpacing(5);
@@ -407,7 +410,7 @@ void AlbumView::initRightView()
 
 void AlbumView::updateRightView()
 {
-    if (TRASH_ALBUM == m_currentAlbum)
+    if (COMMON_STR_TRASH == m_currentAlbum)
     {
         updateRightTrashView();
     }
@@ -423,7 +426,7 @@ void AlbumView::updateRightNoTrashView()
 
     DBImgInfoList infos;
 
-    if (RECENT_IMPORTED_ALBUM == m_currentAlbum)
+    if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
     {
         infos = DBManager::instance()->getAllInfos();
 
@@ -457,7 +460,7 @@ void AlbumView::updateRightNoTrashView()
         thumbnaiItemList<<vi;
     }
 
-    if (FAVORITES_ALBUM == m_currentAlbum)
+    if (COMMON_STR_FAVORITES == m_currentAlbum)
     {
         QString favoriteStr = tr("%1张照片");
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
@@ -475,7 +478,7 @@ void AlbumView::updateRightNoTrashView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
         setAcceptDrops(false);
     }
-    else if (RECENT_IMPORTED_ALBUM == m_currentAlbum)
+    else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
     {
         if (0 < DBManager::instance()->getImgsCount())
         {
@@ -606,7 +609,7 @@ void AlbumView::leftTabClicked(const QModelIndex &index)
     {
         // donothing
     }
-    else if (TRASH_ALBUM == item->m_albumNameStr)
+    else if (COMMON_STR_TRASH == item->m_albumNameStr)
     {
         m_currentAlbum = item->m_albumNameStr;
         updateRightTrashView();
@@ -631,9 +634,9 @@ void AlbumView::showLeftMenu(const QPoint &pos)
 
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
-    if (RECENT_IMPORTED_ALBUM == item->m_albumNameStr ||
-        TRASH_ALBUM == item->m_albumNameStr ||
-        FAVORITES_ALBUM == item->m_albumNameStr)
+    if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr
+        || COMMON_STR_TRASH == item->m_albumNameStr
+        || COMMON_STR_FAVORITES == item->m_albumNameStr)
     {
         return;
     }
@@ -642,33 +645,41 @@ void AlbumView::showLeftMenu(const QPoint &pos)
 
     if (0 != DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
     {
-        appendAction(LEFT_MENU_SLIDESHOW);
+        appendAction(IdStartSlideShow, tr("幻灯片放映"), ss(""));
         m_pLeftMenu->addSeparator();
     }
-    appendAction(LEFT_MENU_NEWALBUM);
+    appendAction(IdCreateAlbum, tr("新建相册"), ss(""));
     m_pLeftMenu->addSeparator();
-    appendAction(LEFT_MENU_RENAMEALBUM);
+    appendAction(IdRenameAlbum, tr("重命名相册"), ss(""));
     m_pLeftMenu->addSeparator();
-    appendAction(LEFT_MENU_EXPORT);
-    m_pLeftMenu->addSeparator();
-    appendAction(LEFT_MENU_DELALBUM);
+
+    if (0 != DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
+    {
+        appendAction(IdExport, tr("导出"), ss(""));
+        m_pLeftMenu->addSeparator();
+    }
+
+    appendAction(IdDeleteAlbum, tr("删除相册"), ss(""));
 
     m_pLeftMenu->popup(QCursor::pos());
 }
 
-void AlbumView::appendAction(const QString &text)
+void AlbumView::appendAction(int id, const QString &text, const QString &shortcut)
 {
     QAction *ac = new QAction(m_pLeftMenu);
     addAction(ac);
     ac->setText(text);
+    ac->setProperty("MenuID", id);
+    ac->setShortcut(QKeySequence(shortcut));
     m_pLeftMenu->addAction(ac);
 }
 
 void AlbumView::onLeftMenuClicked(QAction *action)
 {
-    QString str = action->text();
-
-    if (LEFT_MENU_SLIDESHOW == str)
+    const int id = action->property("MenuID").toInt();
+    switch (MenuItemId(id))
+    {
+    case IdStartSlideShow:
     {
         auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
         QStringList paths;
@@ -681,7 +692,8 @@ void AlbumView::onLeftMenuClicked(QAction *action)
 
         emit m_pRightThumbnailList->menuOpenImage(path, paths, true, true);
     }
-    else if (LEFT_MENU_NEWALBUM == str)
+        break;
+    case IdCreateAlbum:
     {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
@@ -700,19 +712,22 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         m_currentAlbum = item->m_albumNameStr;
         updateRightNoTrashView();
     }
-    else if (LEFT_MENU_RENAMEALBUM == str)
+        break;
+    case IdRenameAlbum:
     {
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
         item->m_opeMode = OPE_MODE_RENAMEALBUM;
         item->editAlbumEdit();
     }
-    else if (LEFT_MENU_EXPORT == str)
+        break;
+    case IdExport:
     {
         QListWidgetItem *item = m_pLeftTabList->currentItem();
         AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
         Exporter::instance()->exportImage(DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr));
     }
-    else if (LEFT_MENU_DELALBUM == str)
+        break;
+    case IdDeleteAlbum:
     {
         QString str;
         QListWidgetItem *item = m_pLeftTabList->currentItem();
@@ -731,9 +746,9 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         pDNotifySender->appBody(str1.arg(str));
         pDNotifySender->call();
     }
-    else
-    {
-        // donothing
+        break;
+    default:
+        break;
     }
 }
 
@@ -807,11 +822,11 @@ void AlbumView::openImage(int index)
     info.lastPanel = nullptr;
 
     auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
-    if (TRASH_ALBUM == m_currentAlbum)
+    if (COMMON_STR_TRASH == m_currentAlbum)
     {
         imagelist = DBManager::instance()->getAllTrashInfos();
     }
-    else if(RECENT_IMPORTED_ALBUM == m_currentAlbum)
+    else if(COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
     {
         imagelist = DBManager::instance()->getAllInfos();
     }
@@ -841,11 +856,11 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     info.album = "";
     info.lastPanel = nullptr;
     auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
-    if (TRASH_ALBUM == m_currentAlbum)
+    if (COMMON_STR_TRASH == m_currentAlbum)
     {
         imagelist = DBManager::instance()->getAllTrashInfos();
     }
-    else if(RECENT_IMPORTED_ALBUM == m_currentAlbum)
+    else if(COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
     {
         imagelist = DBManager::instance()->getAllInfos();
     }
@@ -1072,9 +1087,9 @@ void AlbumView::updateExternalDevice(QList<QExplicitlySharedDataPointer<DGioMoun
 
 void AlbumView::picsIntoAlbum(QStringList paths)
 {
-    if (RECENT_IMPORTED_ALBUM != m_currentAlbum
-        && TRASH_ALBUM != m_currentAlbum
-        && FAVORITES_ALBUM != m_currentAlbum)
+    if (COMMON_STR_RECENT_IMPORTED != m_currentAlbum
+        && COMMON_STR_TRASH != m_currentAlbum
+        && COMMON_STR_FAVORITES != m_currentAlbum)
     {
         DBManager::instance()->insertIntoAlbum(m_currentAlbum, paths);
     }
@@ -1090,10 +1105,15 @@ void AlbumView::SearchReturnUpdate()
 {
     if (4 == m_pRightStackWidget->currentIndex())
     {
-        m_currentAlbum = RECENT_IMPORTED_ALBUM;
+        m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
         updateRightView();
     }
 }
 
+void AlbumView::onPixMapRotate(QStringList paths)
+{
+    dApp->m_imageloader->updateImageLoader(paths);
 
+    updateRightView();
+}
 

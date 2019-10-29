@@ -48,7 +48,6 @@ public:
 
     void initConnections();
     void initUI();
-    void initDB();
     void initShortcut();
     void initTitleBar();
     void initCentralWidget();

@@ -3,9 +3,6 @@
 #include "utils/snifferimageformat.h"
 
 namespace {
-const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-const QString TRASH_ALBUM = "Trash";
-const QString FAVORITES_ALBUM = "My favorite";
 const int VIEW_MAINWINDOW_SEARCH = 3;
 }  //namespace
 
@@ -69,6 +66,10 @@ void SearchView::initConnections()
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
     });
+
+    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &SearchView::onPixMapRotate);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
 }
 
 void SearchView::initNoSearchResultView()
@@ -218,4 +219,16 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
 
         m_stackWidget->setCurrentIndex(0);
     }
+}
+
+void SearchView::updateSearchResultsIntoThumbnailView()
+{
+    improtSearchResultsIntoThumbnailView(m_keywords);
+}
+
+void SearchView::onPixMapRotate(QStringList paths)
+{
+    dApp->m_imageloader->updateImageLoader(paths);
+
+    updateSearchResultsIntoThumbnailView();
 }

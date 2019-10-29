@@ -1,12 +1,6 @@
 #include "importview.h"
 #include <DApplicationHelper>
 
-namespace {
-const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-const QString TRASH_ALBUM = "Trash";
-const QString FAVORITES_ALBUM = "My favorite";
-}  //namespace
-
 ImportView::ImportView()
 {
     setAcceptDrops(true);

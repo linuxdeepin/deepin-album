@@ -35,7 +35,6 @@
 namespace {
 const int LEFT_MARGIN = 13;
 const QSize ICON_SIZE = QSize(48, 39);
-const QString FAVORITES_ALBUM = "My favorite";
 const int ICON_SPACING = 3;
 const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
@@ -114,11 +113,11 @@ TTLContent::TTLContent(bool inDB,
     if (m_inDB) {
         hb->addWidget(m_clBT);
         connect(m_clBT, &PushButton::clicked, this, [=] {
-            if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
-                DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+            if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_imagePath)) {
+                DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_imagePath));
             }
             else {
-                DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+                DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_imagePath));
             }
             updateCollectButton();
         });
@@ -223,8 +222,8 @@ void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 }
 
 void TTLContent::setCurrentDir(QString text) {
-    if (text == FAVORITES_ALBUM) {
-        text = tr("My favorite");
+    if (text == COMMON_STR_FAVORITES) {
+        text = tr(COMMON_STR_FAVORITES);
     }
 
 #ifndef LITE_DIV
@@ -289,7 +288,7 @@ void TTLContent::updateCollectButton()
 //        m_clBT->setDisabled(true);
 //    }
 #ifndef LITE_DIV
-    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
+    else if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,
                                                       m_imagePath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setChecked(true);

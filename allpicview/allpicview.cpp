@@ -3,11 +3,9 @@
 #include "utils/snifferimageformat.h"
 
 namespace {
-const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-const QString TRASH_ALBUM = "Trash";
-const QString FAVORITES_ALBUM = "My favorite";
 const int VIEW_IMPORT = 0;
 const int VIEW_ALLPICS = 1;
+const int VIEW_SEARCH = 2;
 const int VIEW_MAINWINDOW_ALLPIC = 0;
 }  //namespace
 
@@ -27,7 +25,6 @@ AllPicView::AllPicView()
         
         m_pSearchView = new SearchView();
         addWidget(m_pSearchView);
-
 
         updateStackedWidget();
         
@@ -107,7 +104,8 @@ void AllPicView::initConnections()
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
-    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::updatePicsIntoThumbnailView);
+
+    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::onPixMapRotate);
 }
 
 //void AllPicView::initThumbnailListView()
@@ -166,6 +164,7 @@ void AllPicView::updateStackedWidget()
 
 void AllPicView::updatePicsIntoThumbnailView()
 {
+
     m_spinner->hide();
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
@@ -182,7 +181,21 @@ void AllPicView::updatePicsIntoThumbnailView()
 
     m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
-    updateStackedWidget();
+    if(VIEW_SEARCH == currentIndex())
+    {
+        //donothing
+    }
+    else
+    {
+        updateStackedWidget();
+    }
+}
+
+void AllPicView::onPixMapRotate(QStringList paths)
+{
+    dApp->m_imageloader->updateImageLoader(paths);
+
+    updatePicsIntoThumbnailView();
 }
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)

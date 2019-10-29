@@ -35,8 +35,6 @@
 namespace
 {
 const QString IMAGE_DEFAULTTYPE = "All pics";
-const QString TRASH_ALBUM = "Trash";
-const QString FAVORITES_ALBUM = "My favorite";
 }
 
 ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
@@ -117,7 +115,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
     painter->drawPixmap(pixmapRect, data.image);
 
-    if (TRASH_ALBUM == m_imageTypeStr)
+    if (COMMON_STR_TRASH == m_imageTypeStr)
     {
        
         painter->setPen(QColor(85,85,85,170));
@@ -129,7 +127,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->drawText(pixmapRect.x()+pixmapRect.width()-34, pixmapRect.y()+pixmapRect.height()-5, data.remainDays);
     }
 
-    if (FAVORITES_ALBUM == m_imageTypeStr)
+    if (COMMON_STR_FAVORITES == m_imageTypeStr)
     {
         QPixmap favPixmap;
         favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
@@ -193,7 +191,7 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
 
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent*>(event);
 
-    if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->pos()) && FAVORITES_ALBUM == m_imageTypeStr)
+    if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->pos()) && COMMON_STR_FAVORITES == m_imageTypeStr)
     {
         emit sigCancelFavorite(index);
     }

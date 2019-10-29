@@ -34,13 +34,16 @@ class AllPicView : public DStackedWidget
 public:
     AllPicView();
 
+    void updateStackedWidget();
 signals:
+
+private slots:
+    void onPixMapRotate(QStringList paths);
 
 private:
     void initConnections();
     void initStackedWidget();
 //    void initThumbnailListView();
-    void updateStackedWidget();
     void updatePicsIntoThumbnailView();
 
     void dragEnterEvent(QDragEnterEvent *e) override;
@@ -50,6 +53,7 @@ private:
     void resizeEvent(QResizeEvent *e) override;
 
     void removeDBAllInfos();
+
 private:
     ThumbnailListView* m_pThumbnailListView;
     ImportView* m_pImportView;

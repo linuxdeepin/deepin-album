@@ -11,11 +11,10 @@ namespace
 const int LAYOUT_SPACING = 10;
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
-const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-const QString TRASH_ALBUM = "Trash";
-const QString FAVORITES_ALBUM = "My favorite";
 const QString EXTERNAL_DEVICE_ALBUM = "External Devices";
 }// namespace
+
+using namespace utils::common;
 
 AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
 {
@@ -48,19 +47,20 @@ void AlbumLeftTabItem::initUI()
     QLabel* pLabel = new QLabel();
     pLabel->setFixedSize(18, 18);
 
-    if (RECENT_IMPORTED_ALBUM == m_albumNameStr)
+
+    if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(18,18));
         pLabel->setPixmap(pixmap);
     }
-    else if (TRASH_ALBUM == m_albumNameStr)
+    else if (COMMON_STR_TRASH == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
-    else if (FAVORITES_ALBUM == m_albumNameStr)
+    else if (COMMON_STR_FAVORITES == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(18, 18));
@@ -88,13 +88,44 @@ void AlbumLeftTabItem::initUI()
 //    m_nameLabel->setText(streElide);
 
     QFontMetrics elideFont(m_nameLabel->font());
-    m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
+    if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
+    {
+        m_nameLabel->setText(elideFont.elidedText(tr(COMMON_STR_RECENT_IMPORTED), Qt::ElideRight, 85));
+    }
+    else if (COMMON_STR_TRASH == m_albumNameStr)
+    {
+        m_nameLabel->setText(elideFont.elidedText(tr(COMMON_STR_TRASH), Qt::ElideRight, 85));
+    }
+    else if (COMMON_STR_FAVORITES == m_albumNameStr)
+    {
+        m_nameLabel->setText(elideFont.elidedText(tr(COMMON_STR_FAVORITES), Qt::ElideRight, 85));
+    }
+    else
+    {
+        m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
+    }
     m_nameLabel->setAlignment(Qt::AlignVCenter);
     m_nameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     m_pLineEdit = new DLineEdit(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
-    m_pLineEdit->setText(m_albumNameStr);
+    if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
+    {
+        m_pLineEdit->setText(tr(COMMON_STR_RECENT_IMPORTED));
+    }
+    else if (COMMON_STR_TRASH == m_albumNameStr)
+    {
+        m_pLineEdit->setText(tr(COMMON_STR_TRASH));
+    }
+    else if (COMMON_STR_FAVORITES == m_albumNameStr)
+    {
+        m_pLineEdit->setText(tr(COMMON_STR_FAVORITES));
+    }
+    else
+    {
+        m_pLineEdit->setText(m_albumNameStr);
+    }
+
     m_pLineEdit->lineEdit()->setTextMargins(14,0,0,0);
     m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
 //    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
@@ -130,9 +161,9 @@ void AlbumLeftTabItem::onCheckNameValid()
     QString newNameStr = m_pLineEdit->text().trimmed();
 
     if (DBManager::instance()->getAllAlbumNames().contains(newNameStr)
-        || RECENT_IMPORTED_ALBUM == newNameStr
-        || TRASH_ALBUM == newNameStr
-        || FAVORITES_ALBUM == newNameStr
+        || COMMON_STR_RECENT_IMPORTED == newNameStr
+        || COMMON_STR_TRASH == newNameStr
+        || COMMON_STR_FAVORITES == newNameStr
         || newNameStr.isEmpty())
     {
         newNameStr = m_albumNameStr;

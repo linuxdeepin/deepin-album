@@ -118,16 +118,20 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         m_btmSeparatorLine->move(0, window()->height() -
                                m_bottomToolbar->height() - 1);
     }
-
-    if(m_extensionPanel)
-    {
-        if (this->window()->isFullScreen())
-        {
-            m_extensionPanel->move(width(), 0);
-        }
-        else
-        {
-            m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
+    if(m_extensionPanel){
+        if (this->window()->isFullScreen()) {
+            if(m_extensionPanel->x()<width()){
+                m_extensionPanel->move(width(), 0);
+            }else {
+                m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), 0);
+            }
+        } else {
+            if(m_extensionPanel->x()<width()){
+                  m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
+//                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
+            }else {
+                m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
+            }
         }
     }
 }
@@ -329,7 +333,7 @@ void MainWidget::initConnection()
 void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
-    m_bottomToolbar->setRadius(18);
+
     m_bottomToolbar->resize(482, BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height()-10);
 
@@ -338,6 +342,20 @@ void MainWidget::initBottomToolbar()
 //    m_btmSeparatorLine->resize(window()->width(), 1);
 //    m_btmSeparatorLine->move(0, window()->height() -
 //                           m_bottomToolbar->height() - 1);
+//    connect(dApp->signalM,&SignalManager::updateBottomToolbar,this,[=](bool wideMode){
+//        if (wideMode) {
+//            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+//            m_bottomToolbar->setFixedWidth(1280);
+//        }
+//        else {
+//            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+//            m_bottomToolbar->setFixedWidth(482);
+//        }
+//        if(window()->isFullScreen() || window()->isMaximized()){
+//            m_bottomToolbar->setFixedWidth(window()->width()-20);
+//        }
+//        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
+//    });
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
             this, [=](QWidget *c, bool wideMode) {
@@ -352,7 +370,7 @@ void MainWidget::initBottomToolbar()
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(482);
         }
-        m_bottomToolbar->setRadius(18);
+
         if (window()->isFullScreen())
         {
             m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height());
@@ -424,23 +442,24 @@ void MainWidget::initExtensionPanel()
             this, [=] (bool immediately) {
         if (immediately) {
             m_extensionPanel->requestStopAnimation();
-            if (this->window()->isFullScreen())
-            {
+            if (this->window()->isFullScreen()) {
+//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+//                                              EXTENSION_PANEL_WIDTH), 0);
                 m_extensionPanel->move(width(), 0);
-            }
-            else
-            {
+            } else {
+//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+//                                    EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
                 m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
             }
         }
-        else
-        {
-            if (this->window()->isFullScreen())
-            {
-                m_extensionPanel->moveWithAnimation(width(), 0);
-            }
-            else
-            {
+        else {
+            if (this->window()->isFullScreen()) {
+//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+//                                                      EXTENSION_PANEL_WIDTH), 0);
+                m_extensionPanel->moveWithAnimation(width(),  0);
+            } else {
+//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+//                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
                 m_extensionPanel->moveWithAnimation(width(), TOP_TOOLBAR_HEIGHT);
                 m_extensionPanel->hide();
             }

@@ -29,6 +29,14 @@ class AlbumView : public QWidget
     Q_OBJECT
 
 public:
+    enum MenuItemId {
+        IdStartSlideShow,
+        IdCreateAlbum,
+        IdRenameAlbum,
+        IdExport,
+        IdDeleteAlbum,
+    };
+
     AlbumView();
 
     void createNewAlbum();
@@ -45,7 +53,7 @@ private:
     void updateRightTrashView();
     void leftTabClicked(const QModelIndex &index);
     void showLeftMenu(const QPoint &pos);
-    void appendAction(const QString &text);
+    void appendAction(int id, const QString &text, const QString &shortcut);
     void openImage(int index);
     void menuOpenImage(QString path,QStringList paths,bool isFullScreen, bool isSlideShow);
     QString getNewAlbumName();
@@ -65,22 +73,19 @@ private slots:
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
+    void onPixMapRotate(QStringList paths);
 
 public:
     int m_iAlubmPicsNum;
+    QString m_currentAlbum;
 
     DStackedWidget* m_pRightStackWidget;
     DListWidget* m_pLeftTabList;
 
-private:
-
-    QString m_currentAlbum;
+private: 
     QStringList m_allAlbumNames;
-
     DWidget* m_pLeftWidget;
-
     ImportView* m_pImportView;
-
     ThumbnailListView* m_pRightThumbnailList;
     ThumbnailListView* m_pRightTrashThumbnailList;
     ThumbnailListView* m_pRightFavoriteThumbnailList;

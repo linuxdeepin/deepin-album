@@ -126,7 +126,7 @@ void ViewPanel::initConnect()
         m_viewType = vinfo.viewType;
         onViewImage(vinfo);
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
         if (NULL == vinfo.lastPanel) {
             return;
@@ -323,11 +323,11 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
 void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
     if (theme == ViewerThemeManager::Dark) {
-        setStyleSheet(utils::base::getFileContent(
-                          ":/resources/dark/qss/view.qss"));
+//        setStyleSheet(utils::base::getFileContent(
+//                          ":/resources/dark/qss/view.qss"));
     } else {
-        setStyleSheet(utils::base::getFileContent(
-                          ":/resources/light/qss/view.qss"));
+//        setStyleSheet(utils::base::getFileContent(
+//                          ":/resources/light/qss/view.qss"));
     }
 }
 
@@ -481,7 +481,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         rotateImage(false);
     });
     connect(ttbc, &TTBContent::removed, this, [ = ] {
-        if (utils::common::VIEW_ALBUM_TRASH_SRN == m_viewType)
+        if (COMMON_STR_TRASH == m_viewType)
         {
             dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
@@ -692,7 +692,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     // The control buttons is difference
     if (! vinfo.inDatabase) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -854,6 +854,7 @@ void ViewPanel::removeCurrentImage()
             m_current = 0;
         }
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+//        emit dApp->signalM->updateBottomToolbar( m_infos.size() > 1 );
     }
 //    if (m_current != m_infos.cend()) {
 //        m_infos.removeAt(imageIndex(m_current->filePath));
