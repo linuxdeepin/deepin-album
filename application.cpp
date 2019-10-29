@@ -202,8 +202,8 @@ Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
 {
     initI18n();
-    setApplicationDisplayName(tr("Deepin album"));
-    setProductIcon(QIcon(":/resources/images/other/deepin-album.svg"));
+    setApplicationDisplayName(tr("深度相册"));
+    setProductIcon(QIcon::fromTheme("deepin-album"));
     setApplicationVersion(DApplication::buildVersion("20191011"));
     setApplicationDescription(QString("%1\n%2\n").arg(tr("深度相册是深度操作系统自带的相册软件。")).arg(tr("满足对照片的常用功能，快速、轻巧、使用简单。")));
 

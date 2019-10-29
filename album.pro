@@ -54,7 +54,8 @@ SOURCES += \
     dialogs/dialog.cpp \
     searchview/searchview.cpp \
     widgets/albumlefttabitem.cpp \
-    importview/importview.cpp
+    importview/importview.cpp \
+    dialogs/albumdeletedialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -67,7 +68,8 @@ HEADERS += \
     dialogs/dialog.h \
     searchview/searchview.h \
     widgets/albumlefttabitem.h \
-    importview/importview.h
+    importview/importview.h \
+    dialogs/albumdeletedialog.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

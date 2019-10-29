@@ -32,9 +32,9 @@ void ImportView::initUI()
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-    pa.setColor(QPalette::Light,QColor(0,152,255));
+    pa.setColor(QPalette::Light,QColor(37,183,255));
     pa.setColor(QPalette::Dark,QColor(0,152,255));
-    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::HighlightedText));
+    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
     m_pImportBtn->setPalette(pa);
 
     DLabel* pLabel2 = new DLabel();

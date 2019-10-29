@@ -3,7 +3,7 @@
 #include "utils/imageutils.h"
 #include "controller/exporter.h"
 #include "dtkcore_global.h"
-
+#include "dialogs/albumdeletedialog.h"
 #include <DNotifySender>
 #include <QMimeData>
 #include <DTableView>
@@ -729,9 +729,13 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         break;
     case IdDeleteAlbum:
     {
-        QString str;
-        QListWidgetItem *item = m_pLeftTabList->currentItem();
-        AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
+        AlbumDeleteDialog *dialog = new AlbumDeleteDialog();
+        dialog->showInCenter(window());
+
+        connect(dialog,&AlbumDeleteDialog::deleteAlbum,this,[=]{
+            QString str;
+            QListWidgetItem *item = m_pLeftTabList->currentItem();
+            AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
 
         str = pTabItem->m_albumNameStr;
         DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
@@ -745,6 +749,7 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         pDNotifySender->appName("deepin-album");
         pDNotifySender->appBody(str1.arg(str));
         pDNotifySender->call();
+        });
     }
         break;
     default:

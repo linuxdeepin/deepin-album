@@ -90,7 +90,7 @@ const DBImgInfoList DBManager::getAllInfos() const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT FilePath, FileName, Dir, Time "
-                   "FROM ImageTable3 ORDER BY Time DESC");
+                   "FROM ImageTable3");
     if (! query.exec()) {
         qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
         mutex.unlock();
@@ -1228,7 +1228,7 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT FilePath, FileName, Dir, Time "
-                   "FROM TrashTable ORDER BY Time DESC");
+                   "FROM TrashTable");
     if (! query.exec()) {
         qWarning() << "Get data from TrashTable failed: " << query.lastError();
         mutex.unlock();
