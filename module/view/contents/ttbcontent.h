@@ -49,73 +49,14 @@ class ImageButton;
 class ImageItem : public DLabel{
     Q_OBJECT
 public:
-    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0){
-        _index = index;
-        _path = path;
-        QImage image(path,imageType);
-        _pixmap=QPixmap::fromImage(image.scaled(60,50));
-        _image = new DLabel(this);
-    };
-    void setIndexNow(int i){
-        _indexNow = i;
-    };
-    void setPic(QImage image){
-      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
-    };
+    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0);
+    void setIndexNow(int i);
+//    void setPic(QImage image);
 signals:
     void imageItemclicked(int index,int indexNow);
 protected:
-    void mousePressEvent(QMouseEvent *ev){
-        emit imageItemclicked(_index,_indexNow);
-    }
-    void paintEvent(QPaintEvent *event){
-        QPainter painter(this);
-//        painter.drawPixmap(rect(),QPixmap(_path).scaled(60,50));
-
-        painter.setRenderHints(QPainter::HighQualityAntialiasing |
-                                QPainter::SmoothPixmapTransform |
-                                QPainter::Antialiasing);
-
-        QRect backgroundRect = rect();
-        QRect pixmapRect;
-        if (_index == _indexNow)
-        {
-            QPainterPath backgroundBp;
-            backgroundBp.addRoundedRect(backgroundRect, 8, 8);
-            painter.setClipPath(backgroundBp);
-
-            painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
-
-//            QPixmap selectedPixmap;
-//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
-
-//            painter->drawPixmap(backgroundRect, selectedPixmap);
-            pixmapRect.setX(backgroundRect.x()+4);
-            pixmapRect.setY(backgroundRect.y()+4);
-            pixmapRect.setWidth(backgroundRect.width()-8);
-            pixmapRect.setHeight(backgroundRect.height()-8);
-        }else {
-            pixmapRect.setX(backgroundRect.x()+1);
-            pixmapRect.setY(backgroundRect.y()+0);
-            pixmapRect.setWidth(backgroundRect.width()-2);
-            pixmapRect.setHeight(backgroundRect.height()-0);
-        }
-
-        QPainterPath bg_white;
-        bg_white.addRoundedRect(pixmapRect, 4, 4);
-        painter.setClipPath(bg_white);
-        painter.fillRect(pixmapRect, QBrush(QColor("#FFFFFF")));
-
-        QPainterPath bp1;
-        bp1.addRoundedRect(pixmapRect, 4, 4);
-        painter.setClipPath(bp1);
-
-//        QPixmap pixmapItem;
-//        pixmapItem.load(_path);
-
-        painter.drawPixmap(pixmapRect, _pixmap);
-
-    };
+    void mousePressEvent(QMouseEvent *ev) override;
+    void paintEvent(QPaintEvent *event) override;
 private:
     int _index;
     int _indexNow;
