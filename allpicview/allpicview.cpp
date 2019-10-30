@@ -110,8 +110,16 @@ void AllPicView::initConnections()
         info.slideShow = isSlideShow;
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
 
-        emit dApp->signalM->viewImage(info);
+        if(info.slideShow)
+        {
+            emit dApp->signalM->startSlideShow(info);
+        }
+        else {
+            emit dApp->signalM->viewImage(info);
+
+        }
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
+
     });
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::updatePicsIntoThumbnailView);
 

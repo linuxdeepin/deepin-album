@@ -213,6 +213,8 @@ void MainWidget::initPanelStack(bool manager)
 #endif
         ViewPanel *m_viewPanel = new ViewPanel();
         m_panelStack->addWidget(m_viewPanel);
+        SlideShowPanel *m_slidePanel = new SlideShowPanel();
+        m_panelStack->addWidget(m_slidePanel);
 }
 
 void MainWidget::initTopToolbar()

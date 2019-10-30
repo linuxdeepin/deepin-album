@@ -960,8 +960,15 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     info.fullScreen = isFullScreen;
     info.slideShow = isSlideShow;
     info.viewType = m_currentAlbum;
-    emit dApp->signalM->viewImage(info);
+    if(info.slideShow)
+    {
+        emit dApp->signalM->startSlideShow(info);
+    }
+    else {
+        emit dApp->signalM->viewImage(info);
+    }
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
+
 }
 
 QString AlbumView::getNewAlbumName()

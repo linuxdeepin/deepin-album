@@ -307,8 +307,15 @@ void TimeLineView::updataLayout()
            info.slideShow = isSlideShow;
            info.viewType = utils::common::VIEW_TIMELINE_SRN;
 
-           emit dApp->signalM->viewImage(info);
+           if(info.slideShow)
+           {
+               emit dApp->signalM->startSlideShow(info);
+           }
+           else {
+               emit dApp->signalM->viewImage(info);
+           }
            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
+
        });
        connect(pChose, &DCommandLinkButton::clicked, this, [=]{
            if ("选择" == pChose->text())

@@ -46,6 +46,8 @@ protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 private:
     void backToLastPanel();
 

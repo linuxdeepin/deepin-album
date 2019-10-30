@@ -27,6 +27,7 @@ namespace {
 const QString DURATION_SETTING_GROUP = "SLIDESHOWDURATION";
 const QString DURATION_SETTING_KEY = "Duration";
 const int ANIMATION_DURATION  = 1000;
+const int SLIDER_DURATION  = 3000;
 
 } // namespace
 
@@ -91,7 +92,7 @@ void SlideEffectPlayer::start()
 
     cacheNext();
     m_running = true;
-    m_tid = startTimer(duration());
+    m_tid = startTimer(SLIDER_DURATION);
 }
 
 void SlideEffectPlayer::pause() {

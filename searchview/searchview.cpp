@@ -63,8 +63,15 @@ void SearchView::initConnections()
         info.slideShow = isSlideShow;
         info.viewType = utils::common::VIEW_SEARCH_SRN;
 
-        emit dApp->signalM->viewImage(info);
+        if(info.slideShow)
+        {
+            emit dApp->signalM->startSlideShow(info);
+        }
+        else {
+            emit dApp->signalM->viewImage(info);
+        }
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
+
     });
 
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &SearchView::onPixMapRotate);

@@ -33,6 +33,7 @@
 #include <QReadWriteLock>
 #include <QUrl>
 #include <QApplication>
+#include "utils/snifferimageformat.h"
 
 namespace utils {
 
@@ -292,11 +293,33 @@ const QString getOrientation(const QString &path)
  */
 const QImage getRotatedImage(const QString &path)
 {
+//    QImage tImg;
+//    QImageReader reader(path);
+//    reader.setAutoTransform(true);
+//    if (reader.canRead()) {
+//        tImg = reader.read();
+//    }
+
     QImage tImg;
-    QImageReader reader(path);
-    reader.setAutoTransform(true);
-    if (reader.canRead()) {
-        tImg = reader.read();
+
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                       << format;
+
+            tImg = QImage(path);
+        }
     }
     return tImg;
 }
