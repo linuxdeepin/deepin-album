@@ -592,13 +592,13 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_imgList->show();
             m_imgListView->show();
 
-            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-            animation->setDuration(500);
-            animation->setEasingCurve(QEasingCurve::NCurveTypes);
-            animation->setStartValue(m_imgList->pos());
-            animation->setKeyValueAt(1,  QPoint(320-((num+2)*t),0));
-            animation->setEndValue(QPoint(320-((num+2)*t),0));
-            animation->start(QAbstractAnimation::DeleteWhenStopped);
+            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");  //设置动画
+            animation->setDuration(500);           //延迟
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);     //缓动曲线
+            animation->setStartValue(m_imgList->pos());               //可选起始值
+            animation->setKeyValueAt(1,  QPoint(297-(num*t),0));
+            animation->setEndValue(QPoint(297-(num*t),0));        //最终值
+            animation->start(QAbstractAnimation::DeleteWhenStopped);  //开始动画
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
 

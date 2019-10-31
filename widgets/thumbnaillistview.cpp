@@ -3,7 +3,7 @@
 #include "utils/imageutils.h"
 #include "controller/signalmanager.h"
 #include "utils/snifferimageformat.h"
-
+#include "dialogs/imgdeletedialog.h"
 #include <QDebug>
 #include <QImageReader>
 #include <QFileInfo>
@@ -55,8 +55,10 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 //    pa.setBrush(DPalette::Base, pa.color(DPalette::Highlight));
 //    this->setPalette(pa);
 //    setStyleSheet("background-color:rgb(248, 248, 248, 230)");
+	setMinimumWidth(800);
     setBackgroundRole(DPalette::Base);
     setAutoFillBackground(true);
+	
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;
@@ -306,26 +308,26 @@ void ThumbnailListView::updateMenuContents()
         m_pMenu->addSeparator();
     }
 
-    int a = 0;
+    int flag_imageSupportSave = 0;
     for(auto path: paths)
     {
         if(!utils::image::imageSupportSave(path))
         {
-            a = 1;
+            flag_imageSupportSave = 1;
             break;
         }
     }
-    if(0 == a)
+    if(0 == flag_imageSupportSave)
     {
-        int flag = 0;
+        int flag_isRW = 0;
         for(auto path: paths){
             if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable())
             {
-                flag = 1;
+                flag_isRW = 1;
                 break;
             }
         }
-        if(flag == 1)
+        if(flag_isRW == 1)
         {
             appendAction_darkmenu(IdRotateClockwise, tr("顺时针旋转"), ss("Rotate clockwise"));
             appendAction_darkmenu(IdRotateCounterclockwise, tr("逆时针旋转"), ss("Rotate counterclockwise"));
@@ -433,12 +435,15 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        if (COMMON_STR_TRASH == m_imageType)
-        {
-            for(auto path : paths)
+        ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
+        dialog->show();
+        connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
+            if (COMMON_STR_TRASH == m_imageType)
             {
-                dApp->m_imagetrashmap.remove(path);
-            }
+                for(auto path : paths)
+                {
+                    dApp->m_imagetrashmap.remove(path);
+                }
 
             DBManager::instance()->removeTrashImgInfos(paths);
         }
@@ -455,10 +460,11 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
                 dApp->m_imagemap.remove(path);
             }
 
-            dApp->m_imageloader->addTrashImageLoader(paths);
-            DBManager::instance()->insertTrashImgInfos(infos);
-            DBManager::instance()->removeImgInfos(paths);
-        }
+                dApp->m_imageloader->addTrashImageLoader(paths);
+                DBManager::instance()->insertTrashImgInfos(infos);
+                DBManager::instance()->removeImgInfos(paths);
+            }
+        });
     }
         break;
     case IdAddToFavorites:
@@ -468,7 +474,13 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
         break;
     case IdRemoveFromAlbum:
-        DBManager::instance()->removeFromAlbum(m_imageType, paths);
+    {
+        ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
+        dialog->show();
+        connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
+            DBManager::instance()->removeFromAlbum(m_imageType, paths);
+        });
+    }
         break;
     case IdRotateClockwise:
     {

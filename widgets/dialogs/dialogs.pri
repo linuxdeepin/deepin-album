@@ -6,6 +6,7 @@ HEADERS += \
 #    $$PWD/aboutdialog.h \
     $$PWD/imginfodialog.h \
 #    $$PWD/dialog.h
+    $$PWD/imgdeletedialog.h
 
 SOURCES += \
 #    $$PWD/filedeletedialog.cpp \
@@ -15,6 +16,7 @@ SOURCES += \
 #    $$PWD/aboutdialog.cpp \
     $$PWD/imginfodialog.cpp \
 #    $$PWD/dialog.cpp
+    $$PWD/imgdeletedialog.cpp
 
 RESOURCES += \
     $$PWD/dialogs.qrc
