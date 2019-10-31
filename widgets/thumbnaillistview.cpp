@@ -34,11 +34,6 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     m_iBaseHeight = BASE_HEIGHT;
 
 //    setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
-    DPalette pa;
-    pa.setColor(DPalette::Background,QColor(248, 248, 248));
-    setAutoFillBackground(true);
-    setPalette(pa);
-
     setIconSize(QSize(400, 400));
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
@@ -50,7 +45,18 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-    setStyleSheet("background-color:rgb(248, 248, 248, 230)");
+
+//    DPalette pal = DApplicationHelper::instance()->palette(this);
+//    pal.setColor(DPalette::ItemBackground, Qt::transparent);
+//    DApplicationHelper::instance()->setPalette(this, pal);
+//    this->setPalette(pal);
+
+//    DPalette pa = DApplicationHelper::instance()->palette(this);
+//    pa.setBrush(DPalette::Base, pa.color(DPalette::Highlight));
+//    this->setPalette(pa);
+//    setStyleSheet("background-color:rgb(248, 248, 248, 230)");
+    setBackgroundRole(DPalette::Base);
+    setAutoFillBackground(true);
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;

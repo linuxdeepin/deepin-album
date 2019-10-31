@@ -454,6 +454,7 @@ void MainWindow::onSearchEditFinished()
     {
         if (keywords.isEmpty())
         {
+            allPicBtnClicked();
             // donothing
         }
         else
@@ -466,6 +467,7 @@ void MainWindow::onSearchEditFinished()
     {
         if (keywords.isEmpty())
         {
+            timeLineBtnClicked();
             // donothing
         }
         else
@@ -478,6 +480,7 @@ void MainWindow::onSearchEditFinished()
     {
         if (keywords.isEmpty())
         {
+            albumBtnClicked();
             // donothing
         }
         else

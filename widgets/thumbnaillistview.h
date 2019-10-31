@@ -35,6 +35,7 @@
 #include <DMenu>
 #include <QMouseEvent>
 #include <DListView>
+#include <DApplicationHelper>
 
 class ThumbnailListView : public QListView
 {

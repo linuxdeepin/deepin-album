@@ -20,6 +20,8 @@
 #include <QObject>
 #include <QMap>
 
+#include "dbmanager/dbmanager.h"
+
 class Exporter : public QObject {
     Q_OBJECT
 public:
@@ -27,7 +29,7 @@ public:
 
 public slots:
     void exportImage(const QStringList imagePaths);
-    void exportAlbum(const QString &albumname);
+    void exportAlbum(const QStringList albumPaths, const QString &albumname);
     void popupDialogSaveImage(const QStringList imagePaths);
 private:
     explicit Exporter(QObject *parent = 0);

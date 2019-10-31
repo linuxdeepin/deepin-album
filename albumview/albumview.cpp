@@ -114,15 +114,24 @@ void AlbumView::initLeftView()
     m_pLeftTabList->setSpacing(ITEM_SPACING);
     m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
     m_pLeftTabList->setFrameShape(DTableView::NoFrame);
-//    m_pLeftTabList->setFocusPolicy(Qt::NoFocus)
+//    m_pLeftTabList->setFocusPolicy(Qt::NoFocus);
+//    m_pLeftTabList->setBackgroundRole(DPalette::Base);
 
     m_pLeftWidget = new DWidget();
     m_pLeftWidget->setFixedWidth(LEFT_VIEW_WIDTH);
 
-    DPalette pa;
-    pa.setColor(DPalette::Background,QColor(255, 255, 255));
+//    DPalette palcor = DApplicationHelper::instance()->palette(m_pLeftWidget);
+//    palcor.setBrush(DPalette::Background, palcor.color(DPalette::Base));
+//    m_pLeftWidget->setAutoFillBackground(true);
+//    m_pLeftWidget->setPalette(palcor);
+
+    m_pLeftWidget->setBackgroundRole(DPalette::Base);
     m_pLeftWidget->setAutoFillBackground(true);
-    m_pLeftWidget->setPalette(pa);
+
+//    DPalette pa;
+//    pa.setColor(DPalette::Background,QColor(255, 255, 255));
+//    m_pLeftWidget->setAutoFillBackground(true);
+//    m_pLeftWidget->setPalette(pa);
 
     QHBoxLayout *pLeftLayout = new QHBoxLayout();
     pLeftLayout->setContentsMargins(0,0,0,0);
@@ -157,13 +166,14 @@ void AlbumView::initLeftView()
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
         pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH);
         pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT);
-        if (COMMON_STR_RECENT_IMPORTED == albumName)
-        {
-            pListWidgetItem->setSelected(true);
-        }
+//        if (COMMON_STR_RECENT_IMPORTED == albumName)
+//        {
+//            pListWidgetItem->setSelected(true);
+//        }
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
 
+    m_pLeftTabList->setCurrentRow(0);
     //init externalDevice
     const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = getVfsMountList();
     updateExternalDevice(mounts);
@@ -222,6 +232,8 @@ void AlbumView::initRightView()
 
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
+    pNoTrashWidget->setBackgroundRole(DPalette::Window);
+//    pNoTrashWidget->setAutoFillBackground(true);
     QVBoxLayout *pNoTrashVBoxLayout = new QVBoxLayout();
     pNoTrashVBoxLayout->setContentsMargins(0,0,0,0);
 
@@ -775,7 +787,7 @@ void AlbumView::onLeftMenuClicked(QAction *action)
     {
         QListWidgetItem *item = m_pLeftTabList->currentItem();
         AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
-        Exporter::instance()->exportImage(DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr));
+        Exporter::instance()->exportAlbum(DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr), pTabItem->m_albumNameStr);
     }
         break;
     case IdDeleteAlbum:
@@ -1204,3 +1216,12 @@ void AlbumView::onPixMapRotate(QStringList paths)
     updateRightView();
 }
 
+//void AlbumView::mousePressEvent(QMouseEvent *event)
+//{
+//    if (m_pLeftTabList->rect().contains(event->pos()))
+
+//    {
+
+//    }
+
+//}

@@ -63,6 +63,8 @@ private:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 
+//    void mousePressEvent(QMouseEvent *event) override;
+
     void onVfsMountChanged(QExplicitlySharedDataPointer<DGioMount> mount);
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
     bool findPictureFile(const QString & path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);

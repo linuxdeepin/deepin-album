@@ -81,8 +81,32 @@ void Exporter::exportImage(const QStringList imagePaths) {
     }
 }
 
-void Exporter::exportAlbum(const QString &albumname) {
-//    popupDialogSaveImage(DBManager::instance()->getPathsByAlbum(albumname));
+void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumname) {
+    QFileDialog exportDialog;
+    exportDialog.setFileMode(QFileDialog::DirectoryOnly);
+    exportDialog.setLabelText(QFileDialog::Accept, tr("Save"));
+    exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
+    exportDialog.exec();
+
+    QString exportdir = exportDialog.directory().absolutePath();
+
+    QDir dir;
+    dir.mkdir(exportdir + "/" + albumname);
+    exportdir = exportdir + "/" + albumname;
+
+    for (int j(0); j < albumPaths.length(); j++) {
+
+        if(utils::image::imageSupportRead(albumPaths[j])) {
+            QPixmap tmpImage(albumPaths[j]);
+            QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(albumPaths[j])
+        .baseName()).arg(QFileInfo(albumPaths[j]).completeSuffix());
+            if (!tmpImage.isNull() && !savePath.isEmpty())
+            tmpImage.save(savePath);
+        } else {
+            continue;
+        }
+    }
+
 }
 
 void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
