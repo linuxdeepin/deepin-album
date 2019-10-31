@@ -39,6 +39,7 @@ public:
     };
 
     AlbumView();
+    ~AlbumView();
 
     void createNewAlbum();
     void picsIntoAlbum(QStringList paths);
@@ -63,12 +64,18 @@ private:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 
-//    void mousePressEvent(QMouseEvent *event) override;
-
-    void onVfsMountChanged(QExplicitlySharedDataPointer<DGioMount> mount);
+    void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
+    void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
-    bool findPictureFile(const QString & path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
-    void updateExternalDevice(QList<QExplicitlySharedDataPointer<DGioMount> > mounts);
+    bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
+    void updateExternalDevice();
+    bool findPicturePathByPhone(QString &path);
+    void updateImportComboBox();
+    void importAllBtnClicked();
+    void importSelectBtnClicked();
+    int getNewAlbumItemIndex();
+    void onUnMountSignal(QString unMountPath);
+    void loadMountPicture(QString path);
 
 private slots:
     void onLeftMenuClicked(QAction *action);
@@ -90,6 +97,8 @@ public:
 private:
 
     QStringList m_allAlbumNames;
+    QStringList m_customAlbumNames;
+
     DWidget* m_pLeftWidget;
     ImportView* m_pImportView;
     ThumbnailListView* m_pRightThumbnailList;
@@ -104,6 +113,17 @@ private:
     DLabel* m_pFavoritePicTotal;
     SearchView* m_pSearchView;
     DGioVolumeManager *m_vfsManager;
+
+    //手机图片导入窗体
+    DWidget* m_importByPhoneWidget;
+    DComboBox *m_importByPhoneComboBox;
+    DPushButton *m_importAllByPhoneBtn;
+    DPushButton *m_importSelectByPhoneBtn;
+    QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
+    QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
+    QListWidgetItem *m_curListWidgetItem;
+
+    QMap<QString, QPixmap> m_phonePicMap;
 };
 
 #endif // ALBUMVIEW_H

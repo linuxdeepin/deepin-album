@@ -77,9 +77,16 @@ void ImageLoader::startLoading()
                 tImg = QImage(path);
             }
         }
-        QPixmap pixmap = QPixmap::fromImage(tImg);
 
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+
+        if (800 < pixmap.width())
+        {
+            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+        }
+
+        m_parent->m_imagemap.insert(path, pixmap);
     }
 
     for(QString path : m_pathlisttrash)
@@ -106,8 +113,14 @@ void ImageLoader::startLoading()
             }
         }
         QPixmap pixmaptrash = QPixmap::fromImage(tImg);
+        pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        m_parent->m_imagetrashmap.insert(path, pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        if (800 < pixmaptrash.width())
+        {
+            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
+        }
+
+        m_parent->m_imagetrashmap.insert(path, pixmaptrash);
     }
 
     qDebug()<<m_parent->m_imagemap.keys();
@@ -144,8 +157,13 @@ void ImageLoader::addImageLoader(QStringList pathlist)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
+        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        if (800 < pixmap.width())
+        {
+            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+        }
+        m_parent->m_imagemap.insert(path, pixmap);
     }
 }
 
@@ -154,8 +172,14 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
     for(QString path : pathlist)
     {
         QPixmap pixmap(path);
+        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+        if (800 < pixmap.width())
+        {
+            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+        }
+
+        m_parent->m_imagemap[path] = pixmap;
     }
 }
 
@@ -185,8 +209,14 @@ void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
             }
         }
         QPixmap pixmaptrash = QPixmap::fromImage(tImg);
+        pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        m_parent->m_imagetrashmap.insert(path, pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        if (800 < pixmaptrash.width())
+        {
+            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
+        }
+
+        m_parent->m_imagetrashmap.insert(path, pixmaptrash);
     }
 }
 
@@ -196,7 +226,13 @@ void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
     {
         QPixmap pixmaptrash(path);
 
-        m_parent->m_imagetrashmap[path] = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+        pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+
+        if (800 < pixmaptrash.width())
+        {
+            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
+        }
+        m_parent->m_imagetrashmap[path] = pixmaptrash;
     }
 }
 

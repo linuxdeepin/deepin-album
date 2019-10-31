@@ -625,3 +625,15 @@ void MainWindow::onLoadingFinished()
         m_pSearchEdit->setEnabled(false);
     }
 }
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    if(4 == m_pCenterWidget->currentIndex())
+    {
+        emit dApp->signalM->hideImageView();
+        event->ignore();
+    }
+    else {
+        event->accept();
+    }
+}

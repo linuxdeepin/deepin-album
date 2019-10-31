@@ -54,6 +54,7 @@ public:
 //    void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
+    void closeEvent(QCloseEvent* event) override;
 
 signals:
     void sigTitleMenuImportClicked();

@@ -82,6 +82,7 @@ public:
 
     void insertThumbnails(const QList<ItemInfo> &itemList);
     QStringList selectedPaths();
+    QList<ItemInfo> getAllPaths();
 
 signals:
     void loadend(int);

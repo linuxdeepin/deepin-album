@@ -5,6 +5,7 @@
 #include <DLabel>
 #include <DLineEdit>
 #include <DApplicationHelper>
+#include <DIconButton>
 
 DWIDGET_USE_NAMESPACE
 
@@ -18,19 +19,23 @@ public:
     void editAlbumEdit();
     void oriAlbumStatus();
     void newAlbumStatus();
+    void setExternalDevicesMountPath(QString strPath);
 
 private:
     void initConnections();
     void initUI();
+    void unMountBtnClicked();
 
 signals:
     void editingFinished();
+    void unMountExternalDevices(QString mountName);
 
 private slots:
     void onCheckNameValid();
 
 public:
     QString m_albumNameStr;
+    QString m_albumTypeStr;
     int m_opeMode;
     DLineEdit* m_pLineEdit;
 
@@ -38,14 +43,14 @@ public:
 
 private:
     QLabel *m_nameLabel;
-    QString m_albumTypeStr;
 
     QLabel *pLabel;
     QLabel *pNewLabel;
     QLabel *m_newnameLabel;
 
     QLabel *pmainLabel;
-
+    DIconButton *m_unMountBtn;
+    QString m_mountPath;
 };
 
 #endif // ALBUMLEFTTABITEM_H

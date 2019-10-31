@@ -15,6 +15,7 @@ const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
 
 const QString IMAGE_DEFAULTTYPE = "All pics";
+const QString EXTERNAL_DEVICE_ALBUM = "External Devices";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
 QString ss(const QString &text)
@@ -244,7 +245,8 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
-    if (!this->indexAt(pos).isValid())
+    //外接设备显示图片时，禁用鼠标右键菜单
+    if (!this->indexAt(pos).isValid() || EXTERNAL_DEVICE_ALBUM == m_imageType)
     {
         return;
     }
@@ -535,6 +537,11 @@ QStringList ThumbnailListView::selectedPaths()
     return paths;
 }
 
+QList<ThumbnailListView::ItemInfo> ThumbnailListView::getAllPaths()
+{
+    return m_ItemList;
+}
+
 void ThumbnailListView::onPixMapScale(int value)
 {
     switch(value)
@@ -570,7 +577,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
         str<<datas[1].toString();
     }
 
-    DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str);
+    DBManager::instance()->removeFromAlbumNoSignal(COMMON_STR_FAVORITES, str);
 
     m_model->removeRow(index.row());
 }

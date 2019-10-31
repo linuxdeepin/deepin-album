@@ -101,7 +101,7 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
     _path = path;
 //    QImage image(path,imageType);
     qDebug()<<index<<path;
-    _pixmap= dApp->m_imagemap.value(path).scaled(60, 50);;
+    _pixmap= dApp->m_imagemap.value(path);
     _image = new DLabel(this);
 }
 
@@ -135,10 +135,15 @@ void ImageItem::paintEvent(QPaintEvent *event){
 
         painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
 
-//            QPixmap selectedPixmap;
-//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+        if(_pixmap.width() > _pixmap.height())
+        {
+            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height())/2, 0, _pixmap.height(), _pixmap.height());
+        }
+        else if(_pixmap.width() < _pixmap.height())
+        {
+            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width())/2, _pixmap.width(), _pixmap.width());
+        }
 
-//            painter->drawPixmap(backgroundRect, selectedPixmap);
         pixmapRect.setX(backgroundRect.x()+4);
         pixmapRect.setY(backgroundRect.y()+4);
         pixmapRect.setWidth(backgroundRect.width()-8);
@@ -581,8 +586,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
                 labelList.at(j)->setIndexNow(t);
             }
             if(labelList.size()>0){
-                labelList.at(t)->setFixedSize (QSize(num*2,58));
-                labelList.at(t)->resize (QSize(num*2,58));
+                labelList.at(t)->setFixedSize (QSize(58,58));
+                labelList.at(t)->resize (QSize(58,58));
 //                labelList.at(t)->setFrameShape (QFrame::Box);
 //                labelList.at(t)->setContentsMargins(0,0,0,0);
 //                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");

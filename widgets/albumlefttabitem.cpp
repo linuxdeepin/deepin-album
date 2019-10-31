@@ -21,6 +21,7 @@ AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
     m_albumNameStr = str;
     m_opeMode = 0;
     m_albumTypeStr = strAlbumType;
+    m_mountPath = "";
 
     initUI();
     initConnections();
@@ -34,6 +35,7 @@ AlbumLeftTabItem::~AlbumLeftTabItem()
 void AlbumLeftTabItem::initConnections()
 {
     connect(m_pLineEdit, &DLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
+    connect(m_unMountBtn, &DIconButton::clicked, this, &AlbumLeftTabItem::unMountBtnClicked);
 }
 
 void AlbumLeftTabItem::initUI()
@@ -151,9 +153,24 @@ void AlbumLeftTabItem::initUI()
     pHBoxLayout->addWidget(pLabel, Qt::AlignVCenter);
     pHBoxLayout->addWidget(pWidget, Qt::AlignVCenter);
 
+    m_unMountBtn = new DIconButton(this);
+    m_unMountBtn->setIcon(QIcon(":/resources/images/sidebar/normal/icon_exit_normal.svg"));
+    m_unMountBtn->setIconSize(QSize(8, 8));
+    pHBoxLayout->addWidget(m_unMountBtn);
+    m_unMountBtn->setVisible(false);
 
+
+    //外部设备插入，需要添加卸载按钮
+    if (m_albumTypeStr.compare(EXTERNAL_DEVICE_ALBUM) == 0) {
+        m_unMountBtn->setVisible(true);
+    }
 
     this->setLayout(pHBoxLayout);
+}
+
+void AlbumLeftTabItem::unMountBtnClicked()
+{
+    emit unMountExternalDevices(m_mountPath);
 }
 
 void AlbumLeftTabItem::editAlbumEdit()
@@ -162,6 +179,12 @@ void AlbumLeftTabItem::editAlbumEdit()
     m_pLineEdit->setVisible(true);
     m_pLineEdit->lineEdit()->selectAll();
     m_pLineEdit->lineEdit()->setFocus();
+}
+
+//设置外部设备挂载的path，在相册中卸载外部设备时用（如果有两个外部设置挂载点name一样，就不能使用name做卸载判断，使用path没问题）
+void AlbumLeftTabItem::setExternalDevicesMountPath(QString strPath)
+{
+    m_mountPath = strPath;
 }
 
 void AlbumLeftTabItem::onCheckNameValid()
