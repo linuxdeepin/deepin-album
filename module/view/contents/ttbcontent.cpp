@@ -100,6 +100,7 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
     _index = index;
     _path = path;
 //    QImage image(path,imageType);
+    qDebug()<<index<<path;
     _pixmap= dApp->m_imagemap.value(path).scaled(60, 50);;
     _image = new DLabel(this);
 }

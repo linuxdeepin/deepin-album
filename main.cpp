@@ -3,8 +3,10 @@
 #include <DMainWindow>
 #include <DWidgetUtil>
 #include <DApplicationSettings>
+#include <DLog>
 
 DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +27,10 @@ int main(int argc, char *argv[])
 
     //save theme
     DApplicationSettings savetheme;
+
+
+    DLogManager::registerConsoleAppender();
+    DLogManager::registerFileAppender();
 
     MainWindow w;
     w.show();

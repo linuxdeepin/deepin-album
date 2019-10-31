@@ -76,6 +76,7 @@ public:
     QMap<QString, QPixmap> m_imagemap;
     QMap<QString, QPixmap> m_imagetrashmap;
     ImageLoader* m_imageloader;
+    void LoadDbImage();
 
 signals:
     void sigstartLoad();

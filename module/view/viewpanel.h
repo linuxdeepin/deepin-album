@@ -129,7 +129,7 @@ private:
     int m_hideCursorTid;
     int m_iSlideShowTimerId;
     bool m_isInfoShowed;
-    bool m_isMaximized;
+    bool m_isMaximized = false;
 
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;

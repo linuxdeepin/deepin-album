@@ -28,8 +28,9 @@
 #include <QIcon>
 #include <QImageReader>
 #include <sys/time.h>
+#include <DApplicationSettings>
 #include <QFile>
-
+#include <DLog>
 namespace {
 
 }  // namespace
@@ -109,6 +110,7 @@ void ImageLoader::startLoading()
         m_parent->m_imagetrashmap.insert(path, pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
     }
 
+    qDebug()<<m_parent->m_imagemap.keys();
     emit sigFinishiLoad();
 
     gettimeofday(&tv,NULL);
@@ -207,12 +209,18 @@ Application::Application(int& argc, char** argv)
     setApplicationVersion(DApplication::buildVersion("20191011"));
     setApplicationDescription(QString("%1\n%2\n").arg(tr("深度相册是深度操作系统自带的相册软件。")).arg(tr("满足对照片的常用功能，快速、轻巧、使用简单。")));
 
+
+
     installEventFilter(new GlobalEventFilter());
 
     initChildren();
 
     initDB();
 
+}
+
+void Application::LoadDbImage()
+{
     auto infos = DBManager::instance()->getAllInfos();
     QStringList pathlist;
     foreach(auto info, infos)
@@ -235,6 +243,7 @@ Application::Application(int& argc, char** argv)
 
     connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
     connect(m_imageloader, SIGNAL(sigFinishiLoad()), this, SLOT(finishLoadSlot()));
+    qDebug()<<"emit sigstartLoad();";
     emit sigstartLoad();
 }
 

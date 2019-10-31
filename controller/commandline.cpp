@@ -126,138 +126,136 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 
     QTimer::singleShot(300, this, [=] {
 
-        SignalManager::ViewInfo info;
-        info.album = "";
-#ifndef LITE_DIV
-        info.inDatabase = false;
-#endif
-        info.lastPanel = nullptr;
-        info.path = path;
-        info.paths = paths;
+        if(paths.count() > 0)
+        {
+            SignalManager::ViewInfo info;
+            info.album = "";
+    #ifndef LITE_DIV
+            info.inDatabase = false;
+    #endif
+            info.lastPanel = nullptr;
+            info.path = path;
+            info.paths = paths;
 
-        emit dApp->signalM->viewImage(info);
+            emit dApp->signalM->viewImage(info);
+            emit dApp->signalM->showImageView(0);
+
+            DBImgInfoList dbInfos;
+            using namespace utils::image;
+            for (auto path : paths)
+            {
+                qDebug()<<path;
+                if (! imageSupportRead(path)) {
+                    continue;
+                }
+
+                QFileInfo fi(path);
+                DBImgInfo dbi;
+                dbi.fileName = fi.fileName();
+                dbi.filePath = path;
+                dbi.dirHash = utils::base::hash(QString());
+                dbi.time = fi.birthTime();
+
+                qDebug()<<path;
+                dbInfos << dbi;
+            }
+
+            if (! dbInfos.isEmpty())
+            {
+                qDebug()<<"DBManager::instance()->insertImgInfos(dbInfos)";
+                DBManager::instance()->insertImgInfos(dbInfos);
+            }
+        }
+
+        dApp->LoadDbImage();
     });
 }
 
 bool CommandLine::processOption()
 {
+
     if (! m_cmdParser.parse(dApp->arguments())) {
         showHelp();
         return false;
     }
 
-//    QString defaulttheme = dApp->setter->value(THEME_GROUP,
-//                                                   THEME_TEXT).toString();
-//    if (defaulttheme.isEmpty()||defaulttheme == "Light") {
-//        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-//        Dtk::Widget::DThemeManager::instance()->setTheme("light");
-//    } else {
-//        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-//        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
-//    }
-
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
-#ifndef LITE_DIV
-      DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
-    if (names.isEmpty() && pas.isEmpty()) {
-        if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
-                QDBusConnection::sessionBus().registerObject(DBUS_PATH,
-                dvd, QDBusConnection::ExportScriptableSlots)) {
-            MainWindow *w = new MainWindow(true);
-            w->show();
-            emit dApp->signalM->backToMainPanel();
+    qDebug()<<"processOption()"<<names<<pas;
 
-            return true;
-        }
-        else {
-            DIVDBusController().activeWindow();
-            //delay 1 second to exit process
-            QTimer::singleShot(1000, [=]{
-                dApp->quit();
-            });
-
-            qDebug() << "Deepin Image Viewer is running...";
-            return false;
-        }
+    if (pas.length() > 0) {
+        viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
     }
     else {
-        DIVDBusController *dc = new DIVDBusController(dApp->signalM);
-        Q_UNUSED(dc)
-#endif
-        using namespace utils::image;
-        QString name;
-        QString value;
-        QStringList values;
-        if (! names.isEmpty()) {
-            name = names.first();
-            value = m_cmdParser.value(name);
-            values = m_cmdParser.values(name);
-        }
-
-        if (values.isEmpty() && ! pas.isEmpty()){
-            name = "o"; // Default operation is open image file
-            value = pas.first();
-
-            if (QUrl(value).isLocalFile()) {
-                value =  QUrl(value).toLocalFile();
-            }
-            values = pas;
-        }
-
-        bool support = imageSupportRead(value);
-
-        if (name == "o" || name == "open") {
-            if (values.length() > 1) {
-                QStringList aps;
-                for (QString path : values) {
-                    if (QUrl(value).isLocalFile())
-                        path =  QUrl(value).toLocalFile();
-                    const QString ap = QFileInfo(path).absoluteFilePath();
-                    if (QFileInfo(path).exists() && imageSupportRead(ap)) {
-                        aps << ap;
-                    }
-                }
-                if (! aps.isEmpty()) {
-                    viewImage(aps.first(), aps);
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            else if (support) {
-                viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-#ifndef LITE_DIV
-        else if (name == "a" || name == "album") {
-            dc->enterAlbum(value);
-        }
-        else if (name == "s" || name == "search") {
-            dc->searchImage(value);
-        }
-        else if ((name == "e" || name == "edit") && support) {
-            dc->editImage(QFileInfo(value).absoluteFilePath());
-        }
-#endif
-        else if ((name == "w" || name == "wallpaper") && support) {
-            qDebug() << "Set " << value << " as wallpaper.";
-            dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
-        }
-        else if (name.isEmpty() || name == "new-window") {
-            viewImage("", {});
-            return true;
-        } else {
-            showHelp();
-        }
-
-        return false;
-#ifndef LITE_DIV
+        viewImage("", {});
     }
-#endif
+
+
+
+
+
+//    using namespace utils::image;
+//    QString name;
+//    QString value;
+//    QStringList values;
+//    if (! names.isEmpty()) {
+//        name = names.first();
+//        value = m_cmdParser.value(name);
+//        values = m_cmdParser.values(name);
+//    }
+
+//    if (values.isEmpty() && ! pas.isEmpty()){
+//        name = "o"; // Default operation is open image file
+//        value = pas.first();
+
+//        if (QUrl(value).isLocalFile()) {
+//            value =  QUrl(value).toLocalFile();
+//        }
+//        values = pas;
+//    }
+
+//    bool support = imageSupportRead(value);
+
+//    if (name == "o" || name == "open") {
+//        if (values.length() > 1) {
+//            QStringList aps;
+//            for (QString path : values) {
+//                if (QUrl(value).isLocalFile())
+//                    path =  QUrl(value).toLocalFile();
+//                const QString ap = QFileInfo(path).absoluteFilePath();
+//                if (QFileInfo(path).exists() && imageSupportRead(ap)) {
+//                    aps << ap;
+//                }
+//            }
+//            if (! aps.isEmpty()) {
+//                viewImage(aps.first(), aps);
+//                return true;
+//            }
+//            else {
+//                return false;
+//            }
+//        }
+//        else if (support) {
+//            viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
+//    }
+
+//    else if ((name == "w" || name == "wallpaper") && support) {
+//        qDebug() << "Set " << value << " as wallpaper.";
+//        dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
+//    }
+//    else if (name.isEmpty() || name == "new-window") {
+//        viewImage("", {});
+//        return true;
+//    } else {
+//        showHelp();
+//    }
+
+    return false;
+
+
 }
