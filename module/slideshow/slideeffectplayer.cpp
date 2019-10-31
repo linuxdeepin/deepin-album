@@ -96,8 +96,11 @@ void SlideEffectPlayer::start()
 }
 
 void SlideEffectPlayer::pause() {
-    m_pausing = !m_pausing;
-    m_effect->pause();
+    if (m_effect)
+        {
+            m_pausing = !m_pausing;
+            m_effect->pause();
+        }
 }
 
 bool SlideEffectPlayer::startNext()

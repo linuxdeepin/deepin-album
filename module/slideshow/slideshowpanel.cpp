@@ -353,3 +353,11 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark) {
     }
     update();
 }
+
+void SlideShowPanel::keyPressEvent(QKeyEvent* e)
+{
+    if(Qt::Key_Space == e->key())
+    {
+        m_player->pause();
+    }
+}
