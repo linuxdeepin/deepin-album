@@ -39,7 +39,7 @@
 #endif
 
 #define COMMON_STR_RECENT_IMPORTED "已导入"
-#define COMMON_STR_TRASH "回收站"
+#define COMMON_STR_TRASH "最近删除"
 #define COMMON_STR_FAVORITES "个人收藏"
 #define COMMON_STR_SEARCH "搜索"
 

@@ -32,6 +32,7 @@
 #include <QShortcut>
 #include <QStyleFactory>
 #include <QFileInfo>
+#include "widgets/dialogs/imgdeletedialog.h"
 
 namespace {
 
@@ -138,7 +139,39 @@ QMenu *ViewPanel::createAlbumMenu()
     albums.removeAll(FAVORITES_ALBUM_NAME);
 
     QAction *ac = new QAction(am);
-    ac->setProperty("MenuID", IdAddToAlbum);
+    ac->setProperty("MenuID", IdAddToAlbum);    {
+        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+                && utils::common::VIEW_TIMELINE_SRN != m_viewType
+                && utils::common::VIEW_SEARCH_SRN != m_viewType
+                && COMMON_STR_RECENT_IMPORTED != m_viewType
+                && COMMON_STR_TRASH != m_viewType
+                && COMMON_STR_FAVORITES != m_viewType)
+        {
+            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
+
+        }
+        else if (COMMON_STR_TRASH == m_viewType)
+        {
+            dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+        }
+        else
+        {
+            DBImgInfoList infos;
+            DBImgInfo info;
+
+            info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
+            info.time = QDateTime::currentDateTime();
+            infos<<info;
+
+            dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
+            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
+            DBManager::instance()->insertTrashImgInfos(infos);
+            DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
+        }
+
+        removeCurrentImage();
+    }
     ac->setText(tr("Add to new album"));
     ac->setData(QString("Add to new album"));
     am->addAction(ac);
@@ -200,27 +233,40 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        if (COMMON_STR_TRASH == m_viewType)
+        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+                && utils::common::VIEW_TIMELINE_SRN != m_viewType
+                && utils::common::VIEW_SEARCH_SRN != m_viewType
+                && COMMON_STR_RECENT_IMPORTED != m_viewType
+                && COMMON_STR_TRASH != m_viewType
+                && COMMON_STR_FAVORITES != m_viewType)
         {
-            dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
-            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
+            removeCurrentImage();
+        }
+        else if (COMMON_STR_TRASH == m_viewType)
+        {
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
+            dialog->show();
+            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
+            {
+                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+                removeCurrentImage();
+            });
         }
         else
         {
             DBImgInfoList infos;
             DBImgInfo info;
-
             info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
             info.time = QDateTime::currentDateTime();
             infos<<info;
-
             dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
             dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
+            removeCurrentImage();
         }
-
-        removeCurrentImage();
     }
         break;
     case IdRemoveFromAlbum:
@@ -303,24 +349,24 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdCopy, tr("复制"), ss("Copy", "Ctrl+C"));
-    if (COMMON_STR_TRASH == m_viewType)
-    {
+//    if (COMMON_STR_TRASH == m_viewType)
+//    {
         appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash", "Delete"));
-    }
-    else
-    {
-        appendAction(IdMoveToTrash, tr("移动到回收站"), ss("Throw to trash", "Delete"));
-    }
+//    }
+//    else
+//    {
+//        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash", "Delete"));
+//    }
 
-    if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-        && utils::common::VIEW_TIMELINE_SRN != m_viewType
-        && utils::common::VIEW_SEARCH_SRN != m_viewType
-        && COMMON_STR_RECENT_IMPORTED != m_viewType
-        && COMMON_STR_TRASH != m_viewType
-        && COMMON_STR_FAVORITES != m_viewType)
-    {
-        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album", ""));
-    }
+//    if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+//        && utils::common::VIEW_TIMELINE_SRN != m_viewType
+//        && utils::common::VIEW_SEARCH_SRN != m_viewType
+//        && COMMON_STR_RECENT_IMPORTED != m_viewType
+//        && COMMON_STR_TRASH != m_viewType
+//        && COMMON_STR_FAVORITES != m_viewType)
+//    {
+//        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album", ""));
+//    }
     m_menu->addSeparator();
     /**************************************************************************/
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {

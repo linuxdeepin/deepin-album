@@ -49,7 +49,7 @@ class ImageButton;
 class ImageItem : public DLabel{
     Q_OBJECT
 public:
-    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0);
+    ImageItem(int index= 0,QString path = NULL, QString imageType = NULL, QWidget *parent = 0);
     void setIndexNow(int i);
 //    void setPic(QImage image);
 signals:
@@ -94,6 +94,9 @@ private slots:
 
 protected:
     void resizeEvent(QResizeEvent *event);
+
+public:
+    QString m_imageType;
 
 private:
 #ifndef LITE_DIV

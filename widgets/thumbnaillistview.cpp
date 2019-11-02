@@ -179,7 +179,11 @@ void ThumbnailListView::calWidgetItemWandH()
 
     if (0 < m_gridItem.length())
     {
-        m_height = m_gridItem[0][0].height;
+        m_height = 0;
+        for(int i = 0; i < rowWidthList.length(); i++)
+        {
+            m_height = m_height + m_gridItem[i][0].height;
+        }
     }
 }
 
@@ -277,22 +281,22 @@ void ThumbnailListView::updateMenuContents()
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("导出"), ss("export"));
     appendAction(IdCopyToClipboard, tr("复制"), ss("Copy to clipboard"));
-    if (COMMON_STR_TRASH == m_imageType)
-    {
+//    if (COMMON_STR_TRASH == m_imageType)
+//    {
         appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash"));
-    }
-    else
-    {
-        appendAction(IdMoveToTrash, tr("移动到回收站"), ss("Throw to trash"));
-    }
+//    }
+//    else
+//    {
+//        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash"));
+//    }
 
-    if (IMAGE_DEFAULTTYPE != m_imageType
-        && COMMON_STR_RECENT_IMPORTED != m_imageType
-        && COMMON_STR_TRASH != m_imageType
-        && COMMON_STR_FAVORITES != m_imageType)
-    {
-        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album"));
-    }
+//    if (IMAGE_DEFAULTTYPE != m_imageType
+//        && COMMON_STR_RECENT_IMPORTED != m_imageType
+//        && COMMON_STR_TRASH != m_imageType
+//        && COMMON_STR_FAVORITES != m_imageType)
+//    {
+//        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album"));
+//    }
 
     m_pMenu->addSeparator();
 
@@ -407,10 +411,8 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     if (paths.isEmpty()) {
         return;
     }
-
 //    const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
     const QString path = paths.first();
-
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
     case IdView:
@@ -437,17 +439,26 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
-        dialog->show();
-        connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
-            if (COMMON_STR_TRASH == m_imageType)
-            {
+        if (IMAGE_DEFAULTTYPE != m_imageType
+            && COMMON_STR_RECENT_IMPORTED != m_imageType
+            && COMMON_STR_TRASH != m_imageType
+                && COMMON_STR_FAVORITES != m_imageType)
+        {
+            DBManager::instance()->removeFromAlbum(m_imageType, paths);
+        }
+
+        else if (COMMON_STR_TRASH == m_imageType)
+        {
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
+            dialog->show();
+            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
                 for(auto path : paths)
                 {
                     dApp->m_imagetrashmap.remove(path);
                 }
 
-            DBManager::instance()->removeTrashImgInfos(paths);
+                DBManager::instance()->removeTrashImgInfos(paths);
+            });
         }
         else
         {
@@ -462,11 +473,10 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
                 dApp->m_imagemap.remove(path);
             }
 
-                dApp->m_imageloader->addTrashImageLoader(paths);
-                DBManager::instance()->insertTrashImgInfos(infos);
-                DBManager::instance()->removeImgInfos(paths);
-            }
-        });
+            dApp->m_imageloader->addTrashImageLoader(paths);
+            DBManager::instance()->insertTrashImgInfos(infos);
+            DBManager::instance()->removeImgInfos(paths);
+        }
     }
         break;
     case IdAddToFavorites:
@@ -566,6 +576,7 @@ void ThumbnailListView::onPixMapScale(int value)
     calBasePixMapWandH();
     calWidgetItemWandH();
     addThumbnailView();
+    emit loadend(m_height+15);
 }
 
 void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
@@ -596,7 +607,8 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
         calWidgetItemWandH();
         updateThumbnailView();
     }
-    emit loadend((m_height)*m_gridItem.size()+15);
+//    emit loadend((m_height)*m_gridItem.size()+15);
+    emit loadend(m_height+15);
 
     m_iDefaultWidth = width();
 

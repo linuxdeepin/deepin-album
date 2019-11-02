@@ -31,7 +31,7 @@
 #include "widgets/printoptionspage.h"
 #include "widgets/printhelper.h"
 #include "utils/snifferimageformat.h"
-
+#include "widgets/dialogs/imgdeletedialog.h"
 #include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
@@ -456,6 +456,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 QWidget *ViewPanel::bottomTopLeftContent()
 {
     TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase,m_infos);
+    ttbc->m_imageType = m_viewType;
 //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath,m_infos);
@@ -487,8 +488,13 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::removed, this, [ = ] {
         if (COMMON_STR_TRASH == m_viewType)
         {
-            dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
-            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
+            dialog->show();
+            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
+                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+                removeCurrentImage();
+            });
         }
         else
         {
@@ -503,9 +509,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
             dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
+            removeCurrentImage();
         }
-
-        removeCurrentImage();
     });
 
     connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {

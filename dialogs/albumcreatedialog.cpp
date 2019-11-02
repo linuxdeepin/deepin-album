@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <DPushButton>
 #include <DFontSizeManager>
+#include <DApplicationHelper>
 
 AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     :Dialog(parent)

@@ -15,6 +15,7 @@
 #include "utils/snifferimageformat.h"
 #include <QDirIterator>
 #include <DComboBox>
+#include "widgets/dialogs/imgdeletedialog.h"
 
 namespace {
 const int ITEM_SPACING = 0;
@@ -839,10 +840,10 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         break;
     case IdDeleteAlbum:
     {
-        AlbumDeleteDialog *dialog = new AlbumDeleteDialog();
-        dialog->showInCenter(window());
+//        AlbumDeleteDialog *dialog = new AlbumDeleteDialog();
+//        dialog->showInCenter(window());
 
-        connect(dialog,&AlbumDeleteDialog::deleteAlbum,this,[=]{
+//        connect(dialog,&AlbumDeleteDialog::deleteAlbum,this,[=]{
             QString str;
             QListWidgetItem *item = m_pLeftTabList->currentItem();
             AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
@@ -859,7 +860,7 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         pDNotifySender->appName("deepin-album");
         pDNotifySender->appBody(str1.arg(str));
         pDNotifySender->call();
-        });
+//        });
         for(int i = 0; i < m_pLeftTabList->count(); i++)
         {
             AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
@@ -934,15 +935,18 @@ void AlbumView::onTrashDeleteBtnClicked()
     else
     {
         paths = DBManager::instance()->getAllTrashPaths();
-        m_pDeleteBtn->setEnabled(false);
+//        m_pDeleteBtn->setEnabled(false);
     }
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.count());
+    dialog->show();
+    connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
+        for(auto path : paths)
+        {
+            dApp->m_imagetrashmap.remove(path);
+        }
 
-    for(auto path : paths)
-    {
-        dApp->m_imagetrashmap.remove(path);
-    }
-
-    DBManager::instance()->removeTrashImgInfos(paths);
+        DBManager::instance()->removeTrashImgInfos(paths);
+    });
 }
 
 void AlbumView::openImage(int index)

@@ -96,12 +96,20 @@ char* getImageType(QString filepath){
      return ret;
 };
 
-ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
+ImageItem::ImageItem(int index,QString path, QString imageType, QWidget *parent){
     _index = index;
     _path = path;
 //    QImage image(path,imageType);
     qDebug()<<index<<path;
-    _pixmap= dApp->m_imagemap.value(path);
+    if (COMMON_STR_TRASH == imageType)
+    {
+        _pixmap= dApp->m_imagetrashmap.value(path);
+    }
+    else
+    {
+        _pixmap= dApp->m_imagemap.value(path);
+    }
+
     _image = new DLabel(this);
 }
 
@@ -548,8 +556,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
             for (DBImgInfo info : m_imgInfos) {
                 if(labelList.size()!=m_imgInfos.size()){
-                    char *imageType=getImageType(info.filePath);
-                    ImageItem *imageItem = new ImageItem(i,info.filePath,imageType);
+//                    char *imageType=getImageType(info.filePath);
+                    ImageItem *imageItem = new ImageItem(i,info.filePath,m_imageType);
 //                    QImage image(info.filePath,imageType);
 //                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
 //                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
