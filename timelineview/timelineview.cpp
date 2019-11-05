@@ -203,7 +203,10 @@ void TimeLineView::updataLayout()
         DLabel* pDate = new DLabel();
         pDate->setFixedHeight(24);
         QStringList datelist = m_timelines.at(i).split(".");
-        listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        if(datelist.count() > 2)
+        {
+            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        }
         pDate->setText(listItem->m_sdate);
 
         DPalette color = DApplicationHelper::instance()->palette(pDate);

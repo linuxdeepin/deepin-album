@@ -148,7 +148,6 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->lineEdit()->setMaxLength(64);
     m_pLineEdit->setClearButtonEnabled(false);
 
-
     pHBoxLayout->addWidget(pLabel, Qt::AlignVCenter);
     pHBoxLayout->addWidget(pWidget, Qt::AlignVCenter);
 
