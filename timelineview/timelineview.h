@@ -61,6 +61,9 @@ private:
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
+public:
+    void updatePicNum();
+    void restorePicNum();
 
 private:
     TimelineList *m_mainListWidget=nullptr;
@@ -70,12 +73,16 @@ private:
     DCommandLinkButton *pSuspensionChose;
     DWidget* pTimeLineViewWidget;
     ImportView* pImportView;
-    SearchView* pSearchView;
+    QMap<ThumbnailListView*, QStringList> selpicQmap;
+    int allnum;
+
 public:
     DStackedWidget* m_pStackedWidget;
     StatusBar* m_pStatusBar;
+    SearchView* pSearchView;
 
     int m_index;
+    int m_selPicNum;
 };
 
 #endif // TIMELINEVIEW_H

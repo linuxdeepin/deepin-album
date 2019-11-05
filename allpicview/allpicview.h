@@ -11,6 +11,7 @@
 #include "importview/importview.h"
 #include "searchview/searchview.h"
 #include "widgets/statusbar.h"
+#include "widgets/statusbar.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -55,12 +56,15 @@ private:
     void resizeEvent(QResizeEvent *e) override;
 
     void removeDBAllInfos();
+    void updatePicNum();
+    void restorePicNum();
 
 public:
     DStackedWidget* m_pStackedWidget;
     StatusBar* m_pStatusBar;
 
     int step;
+    int m_selPicNum;
 
 private:
     ThumbnailListView* m_pThumbnailListView;

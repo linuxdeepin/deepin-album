@@ -141,6 +141,7 @@ void Exporter::initValidFormatMap() {
     m_picFormatMap.insert("ppm", "PGM (*.ppm)");
     m_picFormatMap.insert("xbm", "XBM (*.xbm)");
     m_picFormatMap.insert("xpm", "XPM (*.xpm)");
+    m_picFormatMap.insert("gif", "GIF (*.gif)");
 
 }
 

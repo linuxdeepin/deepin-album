@@ -546,6 +546,15 @@ void MainWindow::onSearchEditFinished()
         {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
             m_pAlbumview->m_pLeftTabList->setCurrentRow(0);
+
+            AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->item(0));
+            item->newAlbumStatus();
+            for(int i = 1; i < m_pAlbumview->m_pLeftTabList->count(); i++)
+            {
+                AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->item(i));
+                item->oriAlbumStatus();
+            }
+
             m_pAlbumview->m_currentAlbum = COMMON_STR_SEARCH;
             m_pAlbumview->m_pRightStackWidget->setCurrentIndex(4);
         }

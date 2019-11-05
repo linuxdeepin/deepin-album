@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <DLabel>
 #include <QDebug>
+#include <DCommandLinkButton>
 DWIDGET_USE_NAMESPACE
 class TimelineItem : public QWidget
 {
@@ -15,6 +16,7 @@ public:
     DLabel *m_num;
     QString m_sdate;
     QString m_snum;
+    DCommandLinkButton *m_Chose;
 signals:
 
 public slots:

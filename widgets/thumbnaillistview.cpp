@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QImageReader>
 #include <QFileInfo>
+#include "timelinelist.h"
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -629,4 +630,9 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
     }
 
     QAbstractItemView::mousePressEvent(event);
+
+    if (!this->indexAt(event->pos()).isValid())
+    {
+        emit sigTimeLineItemBlankArea();
+    }
 }

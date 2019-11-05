@@ -86,12 +86,16 @@ private slots:
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
     void onPixMapRotate(QStringList paths);
+
     void onCreateNewAlbumFromDialog();
     void onLoadMountImagesEnd(QString mountname);
+    void updatePicNum();
+    void restorePicNum();
 
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
+    int m_selPicNum;
 
     DStackedWidget* m_pRightStackWidget;
     DListWidget* m_pLeftTabList;

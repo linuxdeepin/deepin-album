@@ -125,6 +125,14 @@ void AlbumView::initConnections()
             });
     connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
     connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
+    connect(m_pRightThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
+    connect(m_pRightThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
+    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
 }
 
 void AlbumView::initLeftView()
@@ -273,7 +281,10 @@ void AlbumView::onCreateNewAlbumFromDialog()
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(m_allAlbumNames[i]);
         pAlbumLeftTabItem->oriAlbumStatus();
-
+        if ((m_allAlbumNames.length() - 1) == i)
+        {
+            m_currentAlbum = m_allAlbumNames[i];
+        }
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
 
@@ -818,7 +829,12 @@ void AlbumView::updateRightTrashView()
 void AlbumView::leftTabClicked(const QModelIndex &index)
 {
     //若点击当前的item，则不做任何处理
-    if(m_curListWidgetItem == m_pLeftTabList->currentItem()) return;
+//    if(m_curListWidgetItem == m_pLeftTabList->currentItem()) return;
+    if(m_curListWidgetItem == m_pLeftTabList->currentItem())
+    {
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+        item->newAlbumStatus();
+    }
     m_curListWidgetItem = m_pLeftTabList->currentItem();
     for(int i = 0; i < m_pLeftTabList->count(); i++)
     {
@@ -1676,4 +1692,41 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
         qDebug()<<"onLoadMountImagesEnd() m_loadMountFlag = 0";
         m_loadMountFlag = 0;
     }
+}
+
+void AlbumView::updatePicNum()
+{
+    QString str = tr("已选择%1张照片");
+    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+
+    if(item->m_albumNameStr == COMMON_STR_RECENT_IMPORTED || item->m_albumNameStr == m_currentAlbum)
+    {
+        QStringList paths = m_pRightThumbnailList->selectedPaths();
+        m_selPicNum = paths.length();
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+    }
+    if(item->m_albumNameStr == COMMON_STR_TRASH)
+    {
+        QStringList paths = m_pRightTrashThumbnailList->selectedPaths();
+        m_selPicNum = paths.length();
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+    }
+    if(item->m_albumNameStr == COMMON_STR_FAVORITES)
+    {
+        QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
+        m_selPicNum = paths.length();
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+    }
+    if(4 == m_pRightStackWidget->currentIndex())
+    {
+        QStringList paths = m_pSearchView->m_pThumbnailListView->selectedPaths();
+        m_selPicNum = paths.length();
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_selPicNum)));
+    }
+}
+
+void AlbumView::restorePicNum()
+{
+    m_pStatusBar->onUpdateAllpicsNumLabel();
+
 }

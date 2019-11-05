@@ -1,4 +1,5 @@
 #include "timelinelist.h"
+#include "controller/signalmanager.h"
 
 TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
 {
@@ -47,6 +48,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
                 pWidget->m_title->setVisible(true);
                 pWidget->m_date->setText(pWidget->m_sdate);
                 pWidget->m_num->setText(pWidget->m_snum);
+                pWidget->m_Chose->setVisible(true);
 
             }
             else if((pWidget->y() <= 0)&& (pWidget->y() + pWidget->m_title->height()))
@@ -55,6 +57,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
                 emit sigNewTime(pWidget->m_sdate,pWidget->m_snum,i);
                 pWidget->m_date->setText("");
                 pWidget->m_num->setText("");
+                pWidget->m_Chose->setVisible(false);
             }
             yList[i] = pWidget->y();
         }

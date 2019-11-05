@@ -2,6 +2,7 @@
 #include <DLabel>
 #include <DPushButton>
 #include <DFontSizeManager>
+#include <DApplicationHelper>
 
 ImgDeleteDialog::ImgDeleteDialog(int count)
 {
@@ -15,11 +16,19 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     if(1 == count)
     {
         m_label->setText("您确定要从相册删除此图片吗 ?");
+        DPalette pa = DApplicationHelper::instance()->palette(m_label);
+        pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
+        m_label->setPalette(pa);
+
     }
     else
     {
         QString str = tr("您确定要从相册删除%1张图片吗 ?");
         m_label->setText(str.arg(count));
+        DPalette pa = DApplicationHelper::instance()->palette(m_label);
+        pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
+        m_label->setPalette(pa);
+
     }
     m_label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     m_label->adjustSize();

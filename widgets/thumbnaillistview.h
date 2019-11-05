@@ -92,6 +92,8 @@ signals:
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);
     void showImageInfo(const QString &path);
+    void sigBoxToChooseTimeLineAllPic();
+    void sigTimeLineItemBlankArea();
 
 protected:
 

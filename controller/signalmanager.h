@@ -99,6 +99,8 @@ signals:
     void sigTrashViewBlankArea();
     void sigBoxToChoose();
     void sigLoadMountImagesEnd(QString mountname);
+    void sigBoxToChooseTimeLineAllPic();
+    void sigTimeLineItemBlankArea();
 
 private:
     explicit SignalManager(QObject *parent = 0);

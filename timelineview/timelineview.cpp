@@ -9,6 +9,7 @@
 #include <QMimeData>
 #include <DTableView>
 #include <QShortcut>
+#include <QGraphicsOpacityEffect>
 namespace  {
 const int VIEW_IMPORT = 0;
 const int VIEW_TIMELINE = 1;
@@ -66,6 +67,9 @@ void TimeLineView::initConnections(){
 
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &TimeLineView::onPixMapRotate);
 	connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
+
+    connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
+    connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &TimeLineView::restorePicNum);
 }
 
 void TimeLineView::initTimeLineViewWidget()
@@ -73,6 +77,10 @@ void TimeLineView::initTimeLineViewWidget()
     m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     pTimeLineViewWidget->setLayout(m_mainLayout);
+
+    DPalette palcolor = DApplicationHelper::instance()->palette(pTimeLineViewWidget);
+    palcolor.setBrush(DPalette::Window, palcolor.color(DPalette::Base));
+    pTimeLineViewWidget->setPalette(palcolor);
 
     m_mainListWidget = new TimelineList;
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
@@ -138,10 +146,17 @@ void TimeLineView::initTimeLineViewWidget()
             p[0]->clearSelection();
         }
     });
-    QPalette ppal(m_dateItem->palette());
-    ppal.setColor(QPalette::Background,  QColor(0xff,0xff,0xff,0xf9));
+
+    DPalette ppal = DApplicationHelper::instance()->palette(m_dateItem);
+    ppal.setBrush(DPalette::Window, ppal.color(DPalette::Base));
+//    QPalette ppal(m_dateItem->palette());
+//    ppal.setColor(QPalette::Background,  QColor(0xff,0xff,0xff,0xf9));
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setPalette(ppal);
+
+    QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect;
+    opacityEffect->setOpacity(0.95);
+    m_dateItem->setGraphicsEffect(opacityEffect);
 
     m_dateItem->setFixedSize(this->width(),87);
     m_dateItem->setContentsMargins(10,0,0,0);
@@ -233,6 +248,7 @@ void TimeLineView::updataLayout()
         Layout->setContentsMargins(0,0,0,0);
         Layout->addWidget(pChose);
 
+        listItem->m_Chose = pChose;
         listItem->m_num=pNum;
         TitleViewLayout->addWidget(pDate);
         TitleViewLayout->addWidget(pNum);
@@ -335,13 +351,75 @@ void TimeLineView::updataLayout()
             if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
             {
                 pChose->setText("取消选择");
+
+//                QList<DCommandLinkButton*> btnList = m_dateItem->findChildren<DCommandLinkButton*>();
+//                if( = m_dateItem)
+//                {
+//                    btnList[0]->setText("取消选择");
+//                }
+
+
             }
 
             if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
             {
                 pChose->setText("选择");
             }
+
+            selpicQmap.insert(pThumbnailListView, paths);
+            allnum = 0;
+            for(auto key : selpicQmap.keys())
+            {
+                allnum = allnum + selpicQmap.value(key).length();
+            }
+
+            if(0 == allnum)
+            {
+                m_pStatusBar->onUpdateAllpicsNumLabel();
+            }
+            else {
+                QString str = tr("已选择%1张照片");
+                m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(allnum));
+            }
        });
+
+       connect(pThumbnailListView, &ThumbnailListView::sigBoxToChooseTimeLineAllPic, this, [=]{
+           QStringList paths = pThumbnailListView->selectedPaths();
+           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+           {
+               pChose->setText("取消选择");
+           }
+
+            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            {
+                pChose->setText("选择");
+            }
+       });
+
+       connect(pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, [=]{
+           QStringList paths = pThumbnailListView->selectedPaths();
+           if ("取消选择" == pChose->text())
+           {
+               pChose->setText("选择");
+           }
+
+           selpicQmap.insert(pThumbnailListView, paths);
+           allnum = 0;
+           for(auto key : selpicQmap.keys())
+           {
+               allnum = allnum + selpicQmap.value(key).length();
+           }
+
+           if(0 == allnum)
+           {
+               m_pStatusBar->onUpdateAllpicsNumLabel();
+           }
+           else {
+               QString str = tr("已选择%1张照片");
+               m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(allnum));
+           }
+       });
+
     }
 
     if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
@@ -478,4 +556,22 @@ void TimeLineView::dragMoveEvent(QDragMoveEvent *event)
 void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
 
+}
+
+void TimeLineView::updatePicNum()
+{
+     QString str = tr("已选择%1张照片");
+
+     if(2 == m_pStackedWidget->currentIndex())
+     {
+         QStringList paths = pSearchView->m_pThumbnailListView->selectedPaths();
+         m_selPicNum = paths.length();
+         m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+     }
+
+}
+
+void TimeLineView::restorePicNum()
+{
+    m_pStatusBar->onUpdateAllpicsNumLabel();
 }

@@ -126,6 +126,12 @@ void AllPicView::initConnections()
 
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::onPixMapRotate);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
+
+    connect(m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
+    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
+    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
+
 }
 
 //void AllPicView::initThumbnailListView()
@@ -349,4 +355,28 @@ void AllPicView::removeDBAllInfos()
 
     DBManager::instance()->removeTrashImgInfos(paths1);
 
+}
+
+void AllPicView::updatePicNum()
+{
+    QString str = tr("已选择%1张照片");
+
+    if(VIEW_ALLPICS == m_pStackedWidget->currentIndex())
+    {
+        QStringList paths = m_pThumbnailListView->selectedPaths();
+        m_selPicNum = paths.length();
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_selPicNum)));
+    }
+
+    if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
+    {
+        QStringList paths = m_pSearchView->m_pThumbnailListView->selectedPaths();
+        m_selPicNum = paths.length();
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_selPicNum)));
+    }
+}
+
+void AllPicView::restorePicNum()
+{
+    m_pStatusBar->onUpdateAllpicsNumLabel();
 }

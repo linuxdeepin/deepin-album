@@ -53,6 +53,8 @@ private:
     DPushButton* m_pSlideShowBtn;
     DLabel* m_pSearchResultLabel;
     QString m_keywords;
+
+public:
     ThumbnailListView *m_pThumbnailListView;
 };
 

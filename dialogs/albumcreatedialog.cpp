@@ -36,13 +36,14 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
 //    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
 //    addButton(tr("OK"), true, DDialog::ButtonRecommend);
 
-    DPalette pe;
-    pe.setColor(DPalette::WindowText,QColor(0,26,46));
+
     // 添加标题
     const QString subStyle =
     utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
     title->setText("新建相册");
+    DPalette pe = DApplicationHelper::instance()->palette(title);
+    pe.setBrush(DPalette::WindowText,pe.color(DPalette::TextTitle));
     title->setPalette(pe);
     title->setFixedSize(68,25);
     title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));

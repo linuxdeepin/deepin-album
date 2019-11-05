@@ -21,6 +21,10 @@ AlbumDeleteDialog::AlbumDeleteDialog()
     m_label->setFixedSize(180,36);
     m_label->setText("您是否确定删除此相册 ?");
     m_label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DPalette pa = DApplicationHelper::instance()->palette(m_label);
+    pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
+    m_label->setPalette(pa);
+
 
     DPushButton *m_Cancel = new DPushButton(this);
     m_Cancel->setText("取消");
