@@ -440,9 +440,18 @@ void TimeLineView::on_AddLabel(QString date,QString num)
     if((nullptr != m_dateItem)&&(nullptr != m_mainListWidget))
     {
         QList<QLabel*> labelList = m_dateItem->findChildren<QLabel*>();
+//        QList<DCommandLinkButton*> buttonList = m_dateItem->findChildren<DCommandLinkButton*>();
         labelList[0]->setText(date);
         labelList[1]->setText(num);
         m_dateItem->setVisible(true);
+
+//        QWidget * pwidget = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index));
+//        QList<DCommandLinkButton*> buttonList1 = pwidget->findChildren<DCommandLinkButton*>();
+//        if(buttonList.count() > 0 && buttonList1.count() > 0)
+//        {
+//            buttonList.at(0)->setText(buttonList1.at(0)->text());
+//        }
+
         m_dateItem->move(0,0);
     }
 }

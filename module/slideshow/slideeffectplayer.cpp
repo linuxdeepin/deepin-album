@@ -129,6 +129,8 @@ bool SlideEffectPlayer::startNext()
     }
 
     QString newPath = currentImagePath();
+    qDebug()<<newPath;
+    qDebug()<<oldPath;
     m_effect = SlideEffect::create();
     m_effect->setDuration(ANIMATION_DURATION);
     m_effect->setSize(fSize);
@@ -137,8 +139,14 @@ bool SlideEffectPlayer::startNext()
     QImage oldImg = m_cacheImages.value(oldPath);
     QImage newImg = m_cacheImages.value(newPath);
     // The "newPath" would be the next "oldPath", so there is no need to remove it now
-    m_cacheImages.remove(oldPath);
 
+    if(oldPath != newPath)
+    {
+        m_cacheImages.remove(oldPath);
+    }
+
+
+    qDebug()<<m_cacheImages;
     m_effect->setImages(oldImg, newImg);
     if (!m_thread.isRunning())
         m_thread.start();
