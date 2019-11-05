@@ -26,7 +26,6 @@
 #include <DLabel>
 #include <QStatusBar>
 #include <DTabBar>
-#include <QEvent>
 
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640

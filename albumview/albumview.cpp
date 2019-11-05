@@ -863,11 +863,6 @@ void AlbumView::showLeftMenu(const QPoint &pos)
         return;
     }
 
-    m_pLeftMenu->setVisible(true);
-    foreach (QAction* action , m_MenuActionMap.values()) {
-        action->setVisible(true);
-    }
-
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
     if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr
@@ -876,6 +871,11 @@ void AlbumView::showLeftMenu(const QPoint &pos)
         || ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr)
     {
         return;
+    }
+
+    m_pLeftMenu->setVisible(true);
+    foreach (QAction* action , m_MenuActionMap.values()) {
+        action->setVisible(true);
     }
 
     if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))

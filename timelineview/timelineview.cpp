@@ -8,7 +8,6 @@
 #include <DPushButton>
 #include <QMimeData>
 #include <DTableView>
-#include <QShortcut>
 #include <QGraphicsOpacityEffect>
 namespace  {
 const int VIEW_IMPORT = 0;

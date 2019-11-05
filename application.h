@@ -20,7 +20,6 @@
 #include <DApplication>
 #include <QThread>
 #include <dgiomount.h>
-#include <QKeyEvent>
 class Application;
 class ConfigSetter;
 class DatabaseManager;

@@ -1,6 +1,5 @@
 #include "allpicview.h"
 #include <QMimeData>
-#include <QShortcut>
 #include "utils/snifferimageformat.h"
 
 namespace {

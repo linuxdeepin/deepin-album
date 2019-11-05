@@ -95,7 +95,6 @@ signals:
     void sigBoxToChooseTimeLineAllPic();
     void sigTimeLineItemBlankArea();
 
-protected:
 
 private slots:
     void onMenuItemClicked(QAction *action);

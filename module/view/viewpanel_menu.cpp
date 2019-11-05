@@ -324,6 +324,10 @@ void ViewPanel::updateMenuContent()
     m_menu->clear();
     qDeleteAll(this->actions());
 
+    if (m_vinfo.viewType.compare(COMMON_STR_TRASH) == 0) {
+        return;
+    }
+
     if (m_infos.isEmpty()) {
         return;
     }

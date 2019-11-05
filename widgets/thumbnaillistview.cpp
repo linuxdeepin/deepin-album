@@ -252,6 +252,10 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
 
 void ThumbnailListView::updateMenuContents()
 {
+    if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
+        return;
+    }
+
     QStringList paths = selectedPaths();
     paths.removeAll(QString(""));
 
@@ -355,6 +359,7 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
     } else {
         ac->setShortcut(QKeySequence(shortcut));
     }
+    ac->setShortcutContext(Qt::WidgetShortcut);
     m_MenuActionMap.insert(text, ac);
     m_pMenu->addAction(ac);
 }
@@ -362,6 +367,10 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
 void ThumbnailListView::initMenuAction()
 {
     m_pMenu->clear();
+    if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
+        return;
+    }
+
     m_MenuActionMap.clear();
     appendAction(IdView, tr(VIEW_CONTEXT_MENU), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr(FULLSCREEN_CONTEXT_MENU), ss(FULLSCREEN_CONTEXT_MENU));
@@ -412,6 +421,10 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
 void ThumbnailListView::onMenuItemClicked(QAction *action)
 {
+    if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
+        return;
+    }
+
     QStringList paths = selectedPaths();
     paths.removeAll(QString(""));
     if (paths.isEmpty()) {
