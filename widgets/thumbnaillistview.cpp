@@ -15,8 +15,9 @@ const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
 
 const QString IMAGE_DEFAULTTYPE = "All pics";
-const QString EXTERNAL_DEVICE_ALBUM = "External Devices";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
+
+using namespace utils::common;
 
 QString ss(const QString &text)
 {
@@ -33,12 +34,13 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 
     m_iDefaultWidth = 0;
     m_iBaseHeight = BASE_HEIGHT;
+    m_albumMenu = nullptr;
 
 //    setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
     setIconSize(QSize(400, 400));
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
-    setFlow(QListView::LeftToRight);
+//    setFlow(QListView::LeftToRight);
     setSpacing(ITEM_SPACING);
     setDragEnabled(false);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -46,20 +48,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-
-//    DPalette pal = DApplicationHelper::instance()->palette(this);
-//    pal.setColor(DPalette::ItemBackground, Qt::transparent);
-//    DApplicationHelper::instance()->setPalette(this, pal);
-//    this->setPalette(pal);
-
-//    DPalette pa = DApplicationHelper::instance()->palette(this);
-//    pa.setBrush(DPalette::Base, pa.color(DPalette::Highlight));
-//    this->setPalette(pa);
-//    setStyleSheet("background-color:rgb(248, 248, 248, 230)");
 	setMinimumWidth(800);
-    setBackgroundRole(DPalette::Base);
-    setAutoFillBackground(true);
-	
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;
@@ -69,6 +58,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 
     m_pMenu = new DMenu();
 
+    initMenuAction();
     initConnections();
 }
 
@@ -250,7 +240,7 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
     //外接设备显示图片时，禁用鼠标右键菜单
-    if (!this->indexAt(pos).isValid() || EXTERNAL_DEVICE_ALBUM == m_imageType)
+    if (!this->indexAt(pos).isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType)
     {
         return;
     }
@@ -264,51 +254,38 @@ void ThumbnailListView::updateMenuContents()
     QStringList paths = selectedPaths();
     paths.removeAll(QString(""));
 
-    m_pMenu->clear();
-    if (1 == paths.length())
-    {
-        appendAction(IdView, tr("查看"), ss("View"));
-        appendAction(IdFullScreen, tr("全屏"), ss("Fullscreen"));
+    foreach (QAction* action , m_MenuActionMap.values()) {
+        action->setVisible(true);
     }
-    appendAction(IdStartSlideShow, tr("幻灯片放映"), ss("Slide show"));
-    if (COMMON_STR_TRASH != m_imageType)
+    if (1 != paths.length())
     {
-        QMenu *am = createAlbumMenu();
-        if (am) {
-            m_pMenu->addMenu(am);
+        m_MenuActionMap.value(VIEW_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(FULLSCREEN_CONTEXT_MENU)->setVisible(false);
+    }
+    if (COMMON_STR_TRASH == m_imageType)
+    {
+        m_MenuActionMap.value(THROWTOTRASH_CONTEXT_MENU)->setVisible(false);
+    }
+    else
+    {
+        m_albumMenu->deleteLater();
+        m_albumMenu = createAlbumMenu();
+        if (m_albumMenu) {
+            QAction * action = m_MenuActionMap.value(EXPORT_CONTEXT_MENU);
+            m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
-    m_pMenu->addSeparator();
-    appendAction(IdExport, tr("导出"), ss("export"));
-    appendAction(IdCopyToClipboard, tr("复制"), ss("Copy to clipboard"));
-//    if (COMMON_STR_TRASH == m_imageType)
-//    {
-        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash"));
-//    }
-//    else
-//    {
-//        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash"));
-//    }
 
-//    if (IMAGE_DEFAULTTYPE != m_imageType
-//        && COMMON_STR_RECENT_IMPORTED != m_imageType
-//        && COMMON_STR_TRASH != m_imageType
-//        && COMMON_STR_FAVORITES != m_imageType)
-//    {
-//        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album"));
-//    }
-
-    m_pMenu->addSeparator();
 
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType)
     {
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0]))
         {
-            appendAction(IdRemoveFromFavorites, tr("取消收藏"), ss("Unfavorite"));
+            m_MenuActionMap.value(FAVORITE_CONTEXT_MENU)->setVisible(false);
         }
         else
         {
-            appendAction(IdAddToFavorites, tr("收藏"), ss("Favorite"));
+            m_MenuActionMap.value(UNFAVORITE_CONTEXT_MENU)->setVisible(false);
         }
 
         m_pMenu->addSeparator();
@@ -335,49 +312,64 @@ void ThumbnailListView::updateMenuContents()
         }
         if(flag_isRW == 1)
         {
-            appendAction_darkmenu(IdRotateClockwise, tr("顺时针旋转"), ss("Rotate clockwise"));
-            appendAction_darkmenu(IdRotateCounterclockwise, tr("逆时针旋转"), ss("Rotate counterclockwise"));
-        }
-        else
-        {
-            appendAction(IdRotateClockwise, tr("顺时针旋转"), ss("Rotate clockwise"));
-            appendAction(IdRotateCounterclockwise, tr("逆时针旋转"), ss("Rotate counterclockwise"));
+            m_MenuActionMap.value(ROTATECLOCKWISE_CONTEXT_MENU)->setDisabled(true);
+            m_MenuActionMap.value(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU)->setDisabled(true);
         }
     }
 
-    if (1 == paths.length())
-    {
-        m_pMenu->addSeparator();
-
-        if (utils::image::imageSupportSave(paths[0]))
-        {
-            appendAction(IdSetAsWallpaper, tr("设为壁纸"), ss("Set as wallpaper"));
-        }
-
-        appendAction(IdDisplayInFileManager, tr("在文件管理器中显示"), ss("Display in file manager"));
-        appendAction(IdImageInfo, tr("图片信息"), ss("Image info"));
+    if (1 != paths.length()) {
+        m_MenuActionMap.value(DISPLAYINFILEMANAGER_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(ImageInfo_CONTEXT_MENU)->setVisible(false);
+    }
+    if (!(1 == paths.length() && utils::image::imageSupportSave(paths[0]))) {
+        m_MenuActionMap.value(SETASWALLPAPER_CONTEXT_MENU)->setVisible(false);
     }
 }
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
 {
-    QAction *ac = new QAction(m_pMenu);
+    QAction *ac = new QAction();
     addAction(ac);
     ac->setText(text);
     ac->setProperty("MenuID", id);
-    ac->setShortcut(QKeySequence(shortcut));
+    //如果是查看图片，需要响应Enter键，而Enter键有两个Key-Enter和Return
+    if (text.compare(VIEW_CONTEXT_MENU) == 0) {
+        QList<QKeySequence> shortcuts;
+        shortcuts.append(QKeySequence(ENTER_SHORTCUT));
+        shortcuts.append(QKeySequence(RETURN_SHORTCUT));
+        ac->setShortcuts(shortcuts);
+    } else {
+        ac->setShortcut(QKeySequence(shortcut));
+    }
+    m_MenuActionMap.insert(text, ac);
     m_pMenu->addAction(ac);
 }
 
-void ThumbnailListView::appendAction_darkmenu(int id, const QString &text, const QString &shortcut)
+void ThumbnailListView::initMenuAction()
 {
-    QAction *ac = new QAction(m_pMenu);
-    addAction(ac);
-    ac->setText(text);
-    ac->setProperty("MenuID", id);
-    ac->setShortcut(QKeySequence(shortcut));
-    ac->setDisabled(true);
-    m_pMenu->addAction(ac);
+    m_pMenu->clear();
+    m_MenuActionMap.clear();
+    appendAction(IdView, tr(VIEW_CONTEXT_MENU), ss(VIEW_CONTEXT_MENU));
+    appendAction(IdFullScreen, tr(FULLSCREEN_CONTEXT_MENU), ss(FULLSCREEN_CONTEXT_MENU));
+    appendAction(IdStartSlideShow, tr(SLIDESHOW_CONTEXT_MENU), ss(SLIDESHOW_CONTEXT_MENU));
+
+    m_pMenu->addSeparator();
+    appendAction(IdExport, tr(EXPORT_CONTEXT_MENU), ss(EXPORT_CONTEXT_MENU));
+    appendAction(IdCopyToClipboard, tr(COPYTOCLIPBOARD_CONTEXT_MENU), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
+    appendAction(IdMoveToTrash, tr(DELETE_CONTEXT_MENU), ss(THROWTOTRASH_CONTEXT_MENU));
+    m_pMenu->addSeparator();
+    appendAction(IdRemoveFromFavorites, tr(UNFAVORITE_CONTEXT_MENU), ss(UNFAVORITE_CONTEXT_MENU));
+    appendAction(IdAddToFavorites, tr(FAVORITE_CONTEXT_MENU), ss(FAVORITE_CONTEXT_MENU));
+    m_pMenu->addSeparator();
+    appendAction(IdRotateClockwise, tr(ROTATECLOCKWISE_CONTEXT_MENU),
+                 ss(ROTATECLOCKWISE_CONTEXT_MENU));
+    appendAction(IdRotateCounterclockwise, tr(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU),
+                 ss(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU));
+    m_pMenu->addSeparator();
+    appendAction(IdSetAsWallpaper, tr(SETASWALLPAPER_CONTEXT_MENU), ss(SETASWALLPAPER_CONTEXT_MENU));
+    appendAction(IdDisplayInFileManager, tr(DISPLAYINFILEMANAGER_CONTEXT_MENU),
+                 ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
+    appendAction(IdImageInfo, tr(ImageInfo_CONTEXT_MENU), ss(ImageInfo_CONTEXT_MENU));
 }
 
 QMenu *ThumbnailListView::createAlbumMenu()

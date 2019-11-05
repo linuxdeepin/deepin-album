@@ -22,6 +22,7 @@
 #include "controller/viewerthememanager.h"
 #include "controller/wallpapersetter.h"
 #include "utils/snifferimageformat.h"
+#include "utils/baseutils.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -31,6 +32,9 @@
 #include <DApplicationSettings>
 #include <QFile>
 #include <DLog>
+#include <dgiofile.h>
+#include <dgiofileinfo.h>
+
 namespace {
 
 }  // namespace
@@ -236,6 +240,112 @@ void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
     }
 }
 
+void ImageLoader::onLoadMountImagesStart(QString mountName, QString path)
+{
+    //判断路径是否存在
+    QDir dir(path);
+    if (!dir.exists()) return;
+
+    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+    if(!path.contains("/media/")) {
+        bool bFind = findPicturePathByPhone(path);
+        if(!bFind) return;
+    }
+
+    //获取所选文件类型过滤器
+    QStringList filters;
+    filters << QString("*.jpeg") << QString("*.jpg");
+
+    //定义迭代器并设置过滤器
+    QDirIterator dir_iterator(path,
+                              filters,
+                              QDir::Files | QDir::NoSymLinks,
+                              QDirIterator::Subdirectories);
+
+    m_phoneImgPathList.clear();
+
+    while (dir_iterator.hasNext()) {
+        dir_iterator.next();
+        QFileInfo fileInfo = dir_iterator.fileInfo();
+
+        QImage tImg;
+
+        QString format = DetectImageFormat(fileInfo.filePath());
+        if (format.isEmpty()) {
+            QImageReader reader(fileInfo.filePath());
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(fileInfo.filePath());
+            }
+        }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        if(800 < pixmap.width())
+        {
+            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+        }
+
+        m_parent->m_phonePathAndImage.insert(fileInfo.filePath(), pixmap);
+
+        m_phoneImgPathList<<fileInfo.filePath();
+    }
+
+
+    if (0 < m_phoneImgPathList.length())
+    {
+        m_parent->m_phoneNameAndPathlist.insert(mountName, m_phoneImgPathList);
+
+        dApp->signalM->sigLoadMountImagesEnd(mountName);
+    }
+}
+
+//搜索手机中存储相机图片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
+//经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下
+bool ImageLoader::findPicturePathByPhone(QString &path)
+{
+    QDir dir(path);
+    if (!dir.exists()) return false;
+
+    QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QFileInfo tempFileInfo;
+    foreach (tempFileInfo, fileInfoList) {
+        if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0)
+        {
+            path = tempFileInfo.absoluteFilePath();
+            return true;
+        } else {
+            QDir subDir;
+            subDir.setPath(tempFileInfo.absoluteFilePath());
+
+            QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+            QFileInfo subTempFileInfo;
+            foreach (subTempFileInfo, subFileInfoList) {
+                if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0)
+                {
+                    path = subTempFileInfo.absoluteFilePath();
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    return false;
+}
+
+
 Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
 {
@@ -253,6 +363,15 @@ Application::Application(int& argc, char** argv)
 
     initDB();
 
+}
+
+Application::~Application()
+{
+    if(m_imageloader)
+    {
+        delete m_imageloader;
+        m_imageloader = nullptr;
+    }
 }
 
 void Application::LoadDbImage()
@@ -279,6 +398,7 @@ void Application::LoadDbImage()
 
     connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
     connect(m_imageloader, SIGNAL(sigFinishiLoad()), this, SLOT(finishLoadSlot()));
+    connect(this, SIGNAL(sigLoadMountImagesStart(QString, QString)), m_imageloader, SLOT(onLoadMountImagesStart(QString, QString)));
     qDebug()<<"emit sigstartLoad();";
     emit sigstartLoad();
 }

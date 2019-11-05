@@ -19,6 +19,8 @@
 
 #include <DApplication>
 #include <QThread>
+#include <dgiomount.h>
+#include <QKeyEvent>
 class Application;
 class ConfigSetter;
 class DatabaseManager;
@@ -48,8 +50,13 @@ public:
     void addTrashImageLoader(QStringList trashpathlist);
     void updateTrashImageLoader(QStringList trashpathlist);
 
+private:
+    void loadImageFromMount(QString path);
+    bool findPicturePathByPhone(QString &path);
+
 public slots:
     void startLoading();
+    void onLoadMountImagesStart(QString mountName, QString path);
 
 signals:
     void sigFinishiLoad();
@@ -60,6 +67,8 @@ private:
 
     QStringList m_pathlist;
     QStringList m_pathlisttrash;
+
+    QStringList m_phoneImgPathList;
 };
 
 class Application : public DApplication {
@@ -67,6 +76,7 @@ class Application : public DApplication {
 
 public:
     Application(int& argc, char** argv);
+    ~Application();
 
     ConfigSetter *setter = nullptr;
     SignalManager *signalM = nullptr;
@@ -78,9 +88,13 @@ public:
     ImageLoader* m_imageloader;
     void LoadDbImage();
 
+    QMap<QString, QStringList> m_phoneNameAndPathlist;
+    QMap<QString, QPixmap> m_phonePathAndImage;
+
 signals:
     void sigstartLoad();
     void sigFinishLoad();
+    void sigLoadMountImagesStart(QString mountName, QString path);
 
 public slots:
     void finishLoadSlot();

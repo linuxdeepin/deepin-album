@@ -19,6 +19,7 @@
 
 #include "dbmanager/dbmanager.h"
 #include <QObject>
+#include <dgiomount.h>
 
 class ModulePanel;
 class SignalManager : public QObject
@@ -97,6 +98,7 @@ signals:
 
     void sigTrashViewBlankArea();
     void sigBoxToChoose();
+    void sigLoadMountImagesEnd(QString mountname);
 
 private:
     explicit SignalManager(QObject *parent = 0);

@@ -42,6 +42,29 @@
 #define COMMON_STR_TRASH "最近删除"
 #define COMMON_STR_FAVORITES "个人收藏"
 #define COMMON_STR_SEARCH "搜索"
+#define ALBUM_PATHNAME_BY_PHONE "DCIM"
+#define ALBUM_PATHTYPE_BY_PHONE "External Devices"
+#define COMMON_STR_SLIDESHOW "幻灯片放映"
+#define COMMON_STR_CREATEALBUM "新建相册"
+#define COMMON_STR_RENAMEALBUM "重命名相册"
+#define COMMON_STR_EXPORT "导出"
+#define COMMON_STR_DELETEALBUM "删除相册"
+
+#define VIEW_CONTEXT_MENU "查看"
+#define FULLSCREEN_CONTEXT_MENU "全屏"
+#define SLIDESHOW_CONTEXT_MENU "幻灯片放映"
+#define EXPORT_CONTEXT_MENU "导出"
+#define COPYTOCLIPBOARD_CONTEXT_MENU "复制"
+#define DELETE_CONTEXT_MENU "删除"
+#define THROWTOTRASH_CONTEXT_MENU "移动到回收站"
+#define REMOVEFROMALBUM_CONTEXT_MENU "从相册内删除"
+#define UNFAVORITE_CONTEXT_MENU "取消收藏"
+#define FAVORITE_CONTEXT_MENU "收藏"
+#define ROTATECLOCKWISE_CONTEXT_MENU "顺时针旋转"
+#define ROTATECOUNTERCLOCKWISE_CONTEXT_MENU "逆时针旋转"
+#define SETASWALLPAPER_CONTEXT_MENU "设为壁纸"
+#define DISPLAYINFILEMANAGER_CONTEXT_MENU "在文件管理器中显示"
+#define ImageInfo_CONTEXT_MENU "图片信息"
 
 namespace utils {
 namespace common {
@@ -78,6 +101,29 @@ const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
 const QString VIEW_ALLPIC_SRN = "viewAllpicSrn";
 const QString VIEW_TIMELINE_SRN = "viewTimelineSrn";
 const QString VIEW_SEARCH_SRN = "viewSearchSrn";
+const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
+
+//快捷键
+const QString ENTER_SHORTCUT = "Enter";
+const QString RETURN_SHORTCUT = "Return";
+const QString F11_SHORTCUT = "F11";
+const QString F5_SHORTCUT = "F5";
+const QString CTRLC_SHORTCUT = "Ctrl+C";
+const QString DELETE_SHORTCUT = "Delete";
+const QString SHIFTDEL_SHORTCUT = "Shift+Del";
+const QString CTRLK_SHORTCUT = "Ctrl+K";
+const QString CTRLSHIFTK_SHORTCUT = "Ctrl+Shift+K";
+const QString CTRLR_SHORTCUT = "Ctrl+R";
+const QString CTRLSHIFTR_SHORTCUT = "Ctrl+Shift+R";
+const QString CTRLF8_SHORTCUT = "Ctrl+F8";
+const QString CTRLD_SHORTCUT = "Ctrl+D";
+const QString ALTRETURN_SHORTCUT = "Alt+Return";
+const QString CTRLSHIFTN_SHORTCUT = "Ctrl+Shift+N";
+const QString F2_SHORTCUT = "F2";
+const QString CTRLI_SHORTCUT = "Ctrl+I";
+const QString CTRLQ_SHORTCUT = "Ctrl+Q";
+const QString CTRLUP_SHORTCUT = "Ctrl+Up";
+const QString CTRLDOWN_SHORTCUT = "Ctrl+Down";
 }
 namespace timeline {
 const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);

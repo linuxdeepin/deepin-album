@@ -16,6 +16,7 @@
 #include <QDirIterator>
 #include <DComboBox>
 #include "widgets/dialogs/imgdeletedialog.h"
+#include <QShortcut>
 
 namespace {
 const int ITEM_SPACING = 0;
@@ -27,11 +28,12 @@ const int OPE_MODE_RENAMEALBUM = 1;
 const QString BUTTON_STR_RECOVERY = "恢复";
 const QString BUTTON_STR_DETELE = "删除";
 const QString BUTTON_STR_DETELEALL = "全部删除";
-const QString ALBUM_PATHNAME_BY_PHONE = "DCIM";
 const int RIGHT_VIEW_IMPORT = 0;
 const int RIGHT_VIEW_THUMBNAIL_LIST = 1;
 const int RIGHT_VIEW_TRASH_LIST = 2;
 const int RIGHT_VIEW_FAVORITE_LIST = 3;
+const int RIGHT_VIEW_SEARCH = 4;
+const int RIGHT_VIEW_SPINNER = 5;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
@@ -51,10 +53,12 @@ AlbumView::AlbumView()
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
     m_curListWidgetItem = nullptr;
+    m_loadMountFlag = 0;
 
     setAcceptDrops(true);
     initLeftView();
     initRightView();
+    initLeftMenu();
 
     QHBoxLayout *pLayout = new QHBoxLayout();
     pLayout->setContentsMargins(0,0,0,0);
@@ -77,7 +81,7 @@ AlbumView::~AlbumView()
 void AlbumView::initConnections()
 {
     connect(m_pLeftTabList, &DListWidget::pressed, this, &AlbumView::leftTabClicked);
-    connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::updateLeftView);
+    connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
@@ -120,6 +124,7 @@ void AlbumView::initConnections()
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
             });
     connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
+    connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
 }
 
 void AlbumView::initLeftView()
@@ -192,14 +197,55 @@ void AlbumView::initLeftView()
 
     m_pLeftTabList->setCurrentRow(0);
     //init externalDevice
-//    m_mounts = getVfsMountList();
-//    updateExternalDevice();
+    m_mounts = getVfsMountList();
+    updateExternalDevice();
 
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(0));
     item->newAlbumStatus();
 }
 
 void AlbumView::updateLeftView()
+{
+    int row = m_pLeftTabList->currentRow();
+    m_pLeftTabList->clear();
+    m_allAlbumNames.clear();
+    m_customAlbumNames.clear();
+
+    m_allAlbumNames<<COMMON_STR_RECENT_IMPORTED;
+    m_allAlbumNames<<COMMON_STR_TRASH;
+    m_allAlbumNames<<COMMON_STR_FAVORITES;
+
+    QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
+    for(auto albumName : allAlbumNames)
+    {
+        if (COMMON_STR_FAVORITES == albumName)
+        {
+            continue;
+        }
+
+        m_allAlbumNames<<albumName;
+        m_customAlbumNames << albumName;
+    }
+
+    for(int i = 0; i < m_allAlbumNames.length(); i++)
+    {
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(m_allAlbumNames[i]);
+        pAlbumLeftTabItem->oriAlbumStatus();
+        m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+    }
+
+    m_pLeftTabList->setCurrentRow(row);
+    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(row));
+    item->newAlbumStatus();
+
+    m_mounts = getVfsMountList();
+    updateExternalDevice();
+    updateRightNoTrashView();
+}
+
+void AlbumView::onCreateNewAlbumFromDialog()
 {
     m_pLeftTabList->clear();
     m_allAlbumNames.clear();
@@ -227,15 +273,15 @@ void AlbumView::updateLeftView()
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(m_allAlbumNames[i]);
         pAlbumLeftTabItem->oriAlbumStatus();
-        if ((m_allAlbumNames.length() - 1) == i)
-        {
-            m_currentAlbum = m_allAlbumNames[i];
-            pListWidgetItem->setSelected(true);
-            pAlbumLeftTabItem->newAlbumStatus();
-        }
+
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
 
+    m_pLeftTabList->setCurrentRow((m_allAlbumNames.length() - 1));
+    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item((m_allAlbumNames.length() - 1)));
+    item->newAlbumStatus();
+
+    m_mounts = getVfsMountList();
     updateExternalDevice();
     updateRightNoTrashView();
 }
@@ -427,12 +473,22 @@ void AlbumView::initRightView()
     //Search View
     m_pSearchView = new SearchView;
 
+    //Spinner View
+    DWidget *pSpinnerWidget = new DWidget();
+    QHBoxLayout *pSpinnerLayout = new QHBoxLayout();
+    m_pSpinner = new DSpinner();
+    m_pSpinner->setFixedSize(40, 40);
+
+    pSpinnerLayout->addWidget(m_pSpinner, Qt::AlignCenter);
+    pSpinnerWidget->setLayout(pSpinnerLayout);
+
     // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
     m_pRightStackWidget->addWidget(pNoTrashWidget);
     m_pRightStackWidget->addWidget(pTrashWidget);
     m_pRightStackWidget->addWidget(pFavoriteWidget);
     m_pRightStackWidget->addWidget(m_pSearchView);
+    m_pRightStackWidget->addWidget(pSpinnerWidget);
 
     m_pStatusBar = new StatusBar();
     m_pStatusBar->setParent(this);
@@ -507,71 +563,29 @@ void AlbumView::updateRightView()
 
 void AlbumView::updateRightNoTrashView()
 {
+    m_pSpinner->stop();
     m_curThumbnaiItemList.clear();
 
     DBImgInfoList infos;
 
+    // 已导入
     if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
     {
         infos = DBManager::instance()->getAllInfos();
 
-        m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
-    }
-    else
-    {
-        infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
-
-        m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
-    }
-
-    //刷新外接设备中的图像文件，取currentItem()->data(Qt::UserRole)中的path，然后地柜遍历路径下的图片文件
-    bool isExternalDevicesItem = false;
-    QListWidgetItem *pItem = m_pLeftTabList->currentItem();
-    if (pItem) {
-        QString strPath = m_pLeftTabList->currentItem()->data(Qt::UserRole).toString();
-        if (!strPath.isEmpty())
+        for(auto info : infos)
         {
-            updateImportComboBox();
-            m_importByPhoneWidget->setVisible(true);
-            findPictureFile(strPath, m_curThumbnaiItemList);
-            m_iAlubmPicsNum = m_curThumbnaiItemList.size();
-            isExternalDevicesItem = true;
-        } else {
-            m_importByPhoneWidget->setVisible(false);
+            ThumbnailListView::ItemInfo vi;
+            vi.name = info.fileName;
+            vi.path = info.filePath;
+            vi.image = dApp->m_imagemap.value(info.filePath);
+
+            m_curThumbnaiItemList<<vi;
         }
-    }
 
-    for(auto info : infos)
-    {
-        ThumbnailListView::ItemInfo vi;
-        vi.name = info.fileName;
-        vi.path = info.filePath;
-        vi.image = dApp->m_imagemap.value(info.filePath);
+        m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
 
-        m_curThumbnaiItemList<<vi;
-    }
-
-    if (COMMON_STR_FAVORITES == m_currentAlbum)
-    {
-        QString favoriteStr = tr("%1张照片");
-        m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
-
-        DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-        palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
-        m_pFavoritePicTotal->setPalette(palette);
-
-        QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-        ft.setFamily("SourceHanSansSC");
-        ft.setWeight(QFont::Medium);
-        m_pFavoritePicTotal->setFont(ft);
-
-        m_pRightFavoriteThumbnailList->insertThumbnails(m_curThumbnaiItemList);
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
-        setAcceptDrops(false);
-    }
-    else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
-    {
-        if (0 < DBManager::instance()->getImgsCount())
+        if (0 < m_iAlubmPicsNum)
         {
             m_pRightTitle->setText(m_currentAlbum);
             QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
@@ -603,38 +617,141 @@ void AlbumView::updateRightNoTrashView()
 
         setAcceptDrops(true);
     }
-    else
+    else if (COMMON_STR_FAVORITES == m_currentAlbum)    //个人收藏
     {
-        m_pRightTitle->setText(m_currentAlbum);
+        infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
 
-        QFontMetrics elideFont(m_pRightTitle->font());
-        m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
+        for(auto info : infos)
+        {
+            ThumbnailListView::ItemInfo vi;
+            vi.name = info.fileName;
+            vi.path = info.filePath;
+            vi.image = dApp->m_imagemap.value(info.filePath);
 
-        QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
-        ft1.setFamily("SourceHanSansSC");
-        ft1.setWeight(QFont::Medium);
-        m_pRightTitle->setFont(ft1);
+            m_curThumbnaiItemList<<vi;
+        }
 
-        QString str = tr("%1张照片");
-        m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+        m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+
+        QString favoriteStr = tr("%1张照片");
+        m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
         DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
         palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
-        m_pRightPicTotal->setPalette(palette);
+        m_pFavoritePicTotal->setPalette(palette);
+
         QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
         ft.setFamily("SourceHanSansSC");
         ft.setWeight(QFont::Medium);
-        m_pRightPicTotal->setFont(ft);
+        m_pFavoritePicTotal->setFont(ft);
 
-        m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
-        if (isExternalDevicesItem) {
-            m_pRightThumbnailList->m_imageType = "External Devices";
-        } else {
+        m_pRightFavoriteThumbnailList->insertThumbnails(m_curThumbnaiItemList);
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+        setAcceptDrops(false);
+    }
+    else
+    {
+        m_importByPhoneWidget->setVisible(false);
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+
+        qDebug()<<item->m_albumTypeStr;
+        if ( ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr)
+        {
+            // 手机
+            qDebug()<<item->m_albumNameStr;
+            qDebug()<<dApp->m_phoneNameAndPathlist;
+            if (true == dApp->m_phoneNameAndPathlist.contains(item->m_albumNameStr))
+            {
+                updateImportComboBox();
+                m_importByPhoneWidget->setVisible(true);
+
+                for(auto path : dApp->m_phoneNameAndPathlist.value(item->m_albumNameStr))
+                {
+                    ThumbnailListView::ItemInfo vi;
+                    vi.path = path;
+                    vi.image = dApp->m_phonePathAndImage.value(path);
+                    m_curThumbnaiItemList<<vi;
+                }
+
+                m_iAlubmPicsNum = m_curThumbnaiItemList.size();
+
+                m_pRightTitle->setText(m_currentAlbum);
+
+                QFontMetrics elideFont(m_pRightTitle->font());
+                m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
+
+                QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+                ft1.setFamily("SourceHanSansSC");
+                ft1.setWeight(QFont::Medium);
+                m_pRightTitle->setFont(ft1);
+
+                QString str = tr("%1张照片");
+                m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+
+                DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+                palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+                m_pRightPicTotal->setPalette(palette);
+                QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+                ft.setFamily("SourceHanSansSC");
+                ft.setWeight(QFont::Medium);
+                m_pRightPicTotal->setFont(ft);
+
+                m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
+                m_pRightThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+
+                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            }
+            else
+            {
+                m_pSpinner->start();
+                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_SPINNER);
+            }
+        }
+        else
+        {
+            // 新建相册
+            infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+
+            for(auto info : infos)
+            {
+                ThumbnailListView::ItemInfo vi;
+                vi.name = info.fileName;
+                vi.path = info.filePath;
+                vi.image = dApp->m_imagemap.value(info.filePath);
+
+                m_curThumbnaiItemList<<vi;
+            }
+
+            m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+
+            m_pRightTitle->setText(m_currentAlbum);
+
+            QFontMetrics elideFont(m_pRightTitle->font());
+            m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
+
+            QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+            ft1.setFamily("SourceHanSansSC");
+            ft1.setWeight(QFont::Medium);
+            m_pRightTitle->setFont(ft1);
+
+            QString str = tr("%1张照片");
+            m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+
+            DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+            palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+            m_pRightPicTotal->setPalette(palette);
+            QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+            ft.setFamily("SourceHanSansSC");
+            ft.setWeight(QFont::Medium);
+            m_pRightPicTotal->setFont(ft);
+
+            m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
+
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            setAcceptDrops(true);
         }
 
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
-        setAcceptDrops(true);
     }
 }
 
@@ -735,36 +852,30 @@ void AlbumView::showLeftMenu(const QPoint &pos)
         return;
     }
 
+    m_pLeftMenu->setVisible(true);
+    foreach (QAction* action , m_MenuActionMap.values()) {
+        action->setVisible(true);
+    }
+
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
     if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr
         || COMMON_STR_TRASH == item->m_albumNameStr
         || COMMON_STR_FAVORITES == item->m_albumNameStr
-        || "External Devices" == item->m_albumTypeStr)
+        || ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr)
     {
         return;
     }
 
-    m_pLeftMenu->clear();
-
-    if (0 != DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
+    if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
     {
-        appendAction(IdStartSlideShow, tr("幻灯片放映"), ss(""));
-        m_pLeftMenu->addSeparator();
-    }
-    appendAction(IdCreateAlbum, tr("新建相册"), ss(""));
-    m_pLeftMenu->addSeparator();
-    appendAction(IdRenameAlbum, tr("重命名相册"), ss(""));
-    m_pLeftMenu->addSeparator();
-
-    if (0 != DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
-    {
-        appendAction(IdExport, tr("导出"), ss(""));
-        m_pLeftMenu->addSeparator();
+        m_MenuActionMap.value(tr("幻灯片放映"))->setVisible(false);
     }
 
-    appendAction(IdDeleteAlbum, tr("删除相册"), ss(""));
-
+    if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
+    {
+        m_MenuActionMap.value(tr("导出"))->setVisible(false);
+    }
     m_pLeftMenu->popup(QCursor::pos());
 }
 
@@ -775,6 +886,7 @@ void AlbumView::appendAction(int id, const QString &text, const QString &shortcu
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
+    m_MenuActionMap.insert(text, ac);
     m_pLeftMenu->addAction(ac);
 }
 
@@ -894,7 +1006,14 @@ void AlbumView::createNewAlbum()
 
     m_pLeftTabList->setCurrentRow(index);
 
+    for(int i = 0; i < m_pLeftTabList->count(); i++)
+    {
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
+        item->oriAlbumStatus();
+    }
+
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+    item->newAlbumStatus();
     item->m_opeMode = OPE_MODE_ADDNEWALBUM;
     item->editAlbumEdit();
 
@@ -1153,35 +1272,38 @@ void AlbumView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
+    qDebug()<<"onVfsMountChangedAdd()";
     Q_UNUSED(mount);
 
-    m_mounts.clear();
-    m_mounts = getVfsMountList();
-
-    for(auto mount : m_mounts)
+    QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+    QString strPath = LocationFile->path();
+    if (strPath.isEmpty())
     {
-        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-        QString strPath = LocationFile->path();
-        if (strPath.isEmpty())
-        {
-            continue;
-        }
-
-        loadMountPicture(strPath);
-
+        qDebug()<<"onVfsMountChangedAdd() strPath.isEmpty()";
+        return;
     }
 
-    if (0 < m_mounts.length())
+    m_loadMountMap.insert(mount, 0);
+
+    if (0 == m_loadMountFlag)
     {
-        updateLeftView();
+        m_loadMountFlag = 1;
+        qDebug()<<"onVfsMountChangedAdd() emit dApp->sigLoadMountImagesStart()"<<mount->name();
+        emit dApp->sigLoadMountImagesStart(mount->name(), strPath);
     }
+
+    qDebug()<<"onVfsMountChangedAdd() updateLeftView()";
+    updateLeftView();
 }
 
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
+    qDebug()<<"onVfsMountChangedRemove() mountname"<<mount->name();
     Q_UNUSED(mount);
 
-    m_mounts = getVfsMountList();
+    m_loadMountMap.remove(mount);
+
+    qDebug()<<"onVfsMountChangedRemove() updateLeftView()";
     updateLeftView();
 }
 
@@ -1250,6 +1372,21 @@ void AlbumView::loadMountPicture(QString path)
     }
 }
 
+void AlbumView::initLeftMenu()
+{
+    m_MenuActionMap.clear();
+
+    appendAction(IdStartSlideShow, tr(COMMON_STR_SLIDESHOW), ss(""));
+    m_pLeftMenu->addSeparator();
+    appendAction(IdCreateAlbum, tr(COMMON_STR_CREATEALBUM), ss(""));
+    m_pLeftMenu->addSeparator();
+    appendAction(IdRenameAlbum, tr(COMMON_STR_RENAMEALBUM), ss(COMMON_STR_RENAMEALBUM));
+    m_pLeftMenu->addSeparator();
+    appendAction(IdExport, tr(COMMON_STR_EXPORT), ss(""));
+    m_pLeftMenu->addSeparator();
+    appendAction(IdDeleteAlbum, tr("删除相册"), ss(""));
+}
+
 bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo>& thumbnaiItemList)
 {
     //判断路径是否存在
@@ -1294,7 +1431,7 @@ void AlbumView::updateExternalDevice()
         QString strPath = LocationFile->path();
         pListWidgetItem->setData(Qt::UserRole, strPath);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), "External Devices");
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), ALBUM_PATHTYPE_BY_PHONE);
         pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
@@ -1319,7 +1456,7 @@ void AlbumView::onUpdataAlbumRightTitle(QString titlename)
 
 void AlbumView::SearchReturnUpdate()
 {
-    if (4 == m_pRightStackWidget->currentIndex())
+    if (RIGHT_VIEW_SEARCH == m_pRightStackWidget->currentIndex())
     {
         m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
         updateRightView();
@@ -1493,5 +1630,50 @@ void AlbumView::onUnMountSignal(QString unMountPath)
             mount->unmount(true);
             break;
         }
+    }
+}
+
+void AlbumView::onLoadMountImagesEnd(QString mountname)
+{
+    qDebug()<<"onLoadMountImagesEnd() mountname"<<mountname;
+    qDebug()<<dApp->m_phoneNameAndPathlist;
+    for(auto mount : m_loadMountMap.keys())
+    {
+        if (mount->name() == mountname)
+        {
+            m_loadMountMap[mount] = 1;
+            qDebug()<<"onLoadMountImagesEnd() pdateRightView()";
+            updateRightView();
+            break;
+        }
+    }
+
+    int iloadEndFlag = 0;
+
+    for(auto mount : m_loadMountMap.keys())
+    {
+        if(0 == m_loadMountMap.value(mount))
+        {
+            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+            QString strPath = LocationFile->path();
+            if (strPath.isEmpty())
+            {
+                continue;
+            }
+            else
+            {
+                iloadEndFlag = 1;
+                m_loadMountMap.insert(mount, 0);
+                qDebug()<<"onLoadMountImagesEnd() emit dApp->sigLoadMountImagesStart()";
+                emit dApp->sigLoadMountImagesStart(mount->name(), strPath);
+                break;
+            }
+        }
+    }
+
+    if (0 == iloadEndFlag)
+    {
+        qDebug()<<"onLoadMountImagesEnd() m_loadMountFlag = 0";
+        m_loadMountFlag = 0;
     }
 }

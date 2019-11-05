@@ -26,6 +26,7 @@
 #include <DLabel>
 #include <QStatusBar>
 #include <DTabBar>
+#include <QEvent>
 
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
@@ -55,6 +56,9 @@ public:
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent* event) override;
+
+private:
+    void initShortcutKey();
 
 signals:
     void sigTitleMenuImportClicked();

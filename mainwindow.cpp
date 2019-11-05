@@ -19,6 +19,7 @@ const QString TITLEBAR_IMPORT = "导入";
 
 }//namespace
 
+using namespace utils::common;
 
 MainWindow::MainWindow()
 {
@@ -26,6 +27,7 @@ MainWindow::MainWindow()
     m_iCurrentView = VIEW_ALLPIC;
     m_bTitleMenuImportClicked = false;
 
+    initShortcutKey();
     initUI();
 
     initTitleBar();
@@ -98,7 +100,7 @@ void MainWindow::initConnections()
 void MainWindow::initShortcut()
 {
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    esc->setContext(Qt::WindowShortcut);
+    esc->setContext(Qt::ApplicationShortcut);
     connect(esc, &QShortcut::activated, this, [=] {
         if (window()->isFullScreen())
         {
@@ -110,6 +112,59 @@ void MainWindow::initShortcut()
         }
 
         emit dApp->signalM->hideExtensionPanel();
+    });
+
+    //Ctrl+Q退出
+    QShortcut *CtrlQ = new QShortcut(QKeySequence(CTRLQ_SHORTCUT), this);
+    CtrlQ->setContext(Qt::ApplicationShortcut);
+    connect(CtrlQ, &QShortcut::activated, this, [=] {
+        dApp->quit();
+    });
+
+    //Ctrl+Up 缩略图放大
+    QShortcut *CtrlUp = new QShortcut(QKeySequence(CTRLUP_SHORTCUT), this);
+    CtrlUp->setContext(Qt::ApplicationShortcut);
+    connect(CtrlUp, &QShortcut::activated, this, [=] {
+        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum()) {
+            m_pSliderPos = m_pSliderPos + 1;
+            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+            {
+                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+            {
+                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+            {
+                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+
+            dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+        }
+    });
+
+    //Ctrl+Down 缩略图缩小
+    QShortcut *CtrlDown = new QShortcut(QKeySequence(CTRLDOWN_SHORTCUT), this);
+    CtrlDown->setContext(Qt::ApplicationShortcut);
+    connect(CtrlDown, &QShortcut::activated, this, [=] {
+        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum()) {
+            m_pSliderPos = m_pSliderPos - 1;
+            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+            {
+                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+            {
+                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+            {
+                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+
+            dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+        }
     });
 }
 
@@ -212,11 +267,15 @@ void MainWindow::initTitleBar()
     // TitleBar Menu
     m_pTitleBarMenu = new DMenu();
     QAction *pNewAlbum = new QAction();
+    addAction(pNewAlbum);
     pNewAlbum->setText(TITLEBAR_NEWALBUM);
+    pNewAlbum->setShortcut(QKeySequence(CTRLSHIFTN_SHORTCUT));
     m_pTitleBarMenu->addAction(pNewAlbum);
 
     QAction *pImport = new QAction();
+    addAction(pImport);
     pImport->setText(TITLEBAR_IMPORT);
+    pImport->setShortcut(QKeySequence(CTRLI_SHORTCUT));
     m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
 
@@ -636,4 +695,24 @@ void MainWindow::closeEvent(QCloseEvent* event)
     else {
         event->accept();
     }
+}
+
+void MainWindow::initShortcutKey()
+{
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, VIEW_CONTEXT_MENU, ENTER_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, FULLSCREEN_CONTEXT_MENU, F11_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SLIDESHOW_CONTEXT_MENU, F5_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COPYTOCLIPBOARD_CONTEXT_MENU, CTRLC_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, DELETE_CONTEXT_MENU, DELETE_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, THROWTOTRASH_CONTEXT_MENU, DELETE_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, REMOVEFROMALBUM_CONTEXT_MENU, SHIFTDEL_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, UNFAVORITE_CONTEXT_MENU, CTRLSHIFTK_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, FAVORITE_CONTEXT_MENU, CTRLK_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ROTATECLOCKWISE_CONTEXT_MENU, CTRLR_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ROTATECOUNTERCLOCKWISE_CONTEXT_MENU, CTRLSHIFTR_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SETASWALLPAPER_CONTEXT_MENU, CTRLF8_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, DISPLAYINFILEMANAGER_CONTEXT_MENU, CTRLD_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ImageInfo_CONTEXT_MENU, ALTRETURN_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_CREATEALBUM, CTRLSHIFTN_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_RENAMEALBUM, F2_SHORTCUT);
 }

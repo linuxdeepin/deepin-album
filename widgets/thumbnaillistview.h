@@ -37,7 +37,7 @@
 #include <DListView>
 #include <DApplicationHelper>
 
-class ThumbnailListView : public QListView
+class ThumbnailListView : public DListView
 {
     Q_OBJECT
 
@@ -109,9 +109,9 @@ private:
     void updateThumbnailView();
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
-    void appendAction_darkmenu(int id, const QString &text, const QString &shortcut);
-    QMenu* createAlbumMenu();
     void onShowImageInfo(const QString &path);
+    void initMenuAction();
+    QMenu* createAlbumMenu();
 
     void resizeEvent(QResizeEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -131,6 +131,8 @@ private:
     QStandardItemModel *m_model;
 
     DMenu *m_pMenu;
+    QMap<QString, QAction*> m_MenuActionMap;
+    QMenu *m_albumMenu;
 };
 
 #endif // THUMBNAILLISTVIEW_H

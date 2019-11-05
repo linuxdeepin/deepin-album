@@ -8,6 +8,7 @@
 #include <DPushButton>
 #include <QMimeData>
 #include <DTableView>
+#include <QShortcut>
 namespace  {
 const int VIEW_IMPORT = 0;
 const int VIEW_TIMELINE = 1;

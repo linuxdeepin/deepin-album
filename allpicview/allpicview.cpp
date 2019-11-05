@@ -1,5 +1,6 @@
 #include "allpicview.h"
 #include <QMimeData>
+#include <QShortcut>
 #include "utils/snifferimageformat.h"
 
 namespace {
@@ -121,7 +122,7 @@ void AllPicView::initConnections()
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
 
     });
-    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::updatePicsIntoThumbnailView);
+//    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::updatePicsIntoThumbnailView);
 
     connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::onPixMapRotate);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);

@@ -19,6 +19,7 @@
 #include <DPushButton>
 #include <dgiomount.h>
 #include <DApplicationHelper>
+#include <DSpinner>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -76,6 +77,7 @@ private:
     int getNewAlbumItemIndex();
     void onUnMountSignal(QString unMountPath);
     void loadMountPicture(QString path);
+    void initLeftMenu();
 
 private slots:
     void onLeftMenuClicked(QAction *action);
@@ -84,6 +86,8 @@ private slots:
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
     void onPixMapRotate(QStringList paths);
+    void onCreateNewAlbumFromDialog();
+    void onLoadMountImagesEnd(QString mountname);
 
 public:
     int m_iAlubmPicsNum;
@@ -124,6 +128,11 @@ private:
     QListWidgetItem *m_curListWidgetItem;
 
     QMap<QString, QPixmap> m_phonePicMap;
+    DSpinner *m_pSpinner;
+    QMap<QString, QAction*> m_MenuActionMap;
+
+    int m_loadMountFlag;                        // 0:全部加载完成 1:有未加载完成
+    QMap<QExplicitlySharedDataPointer<DGioMount>, int> m_loadMountMap;          // key: 外设 value: 标记是否加载完成
 };
 
 #endif // ALBUMVIEW_H

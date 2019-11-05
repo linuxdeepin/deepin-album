@@ -183,6 +183,12 @@ void SlideEffectPlayer::stop()
     if (!isRunning())
         return;
 
+    if(m_pausing)
+    {
+        m_pausing = !m_pausing;
+        m_effect->pause();
+    }
+
     killTimer(m_tid);
     m_tid = 0;
     m_running = false;

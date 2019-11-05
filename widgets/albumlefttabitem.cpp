@@ -11,7 +11,6 @@ namespace
 const int LAYOUT_SPACING = 10;
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
-const QString EXTERNAL_DEVICE_ALBUM = "External Devices";
 }// namespace
 
 using namespace utils::common;
@@ -68,7 +67,7 @@ void AlbumLeftTabItem::initUI()
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
-    else if (EXTERNAL_DEVICE_ALBUM == m_albumTypeStr)
+    else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(18, 18));
@@ -161,7 +160,7 @@ void AlbumLeftTabItem::initUI()
 
 
     //外部设备插入，需要添加卸载按钮
-    if (m_albumTypeStr.compare(EXTERNAL_DEVICE_ALBUM) == 0) {
+    if (m_albumTypeStr.compare(ALBUM_PATHTYPE_BY_PHONE) == 0) {
         m_unMountBtn->setVisible(true);
     }
 
@@ -259,7 +258,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
-    else if (EXTERNAL_DEVICE_ALBUM == m_albumTypeStr)
+    else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(18, 18));
@@ -297,7 +296,7 @@ void AlbumLeftTabItem::newAlbumStatus()
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_collection_active.svg", QSize(18, 18));
         pLabel->setPixmap(pixmap);
     }
-    else if (EXTERNAL_DEVICE_ALBUM == m_albumTypeStr)
+    else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(18, 18));
