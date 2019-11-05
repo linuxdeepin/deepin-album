@@ -258,6 +258,7 @@ void ThumbnailListView::updateMenuContents()
     foreach (QAction* action , m_MenuActionMap.values()) {
         action->setVisible(true);
     }
+
     if (1 != paths.length())
     {
         m_MenuActionMap.value(VIEW_CONTEXT_MENU)->setVisible(false);
@@ -301,6 +302,7 @@ void ThumbnailListView::updateMenuContents()
             break;
         }
     }
+
     if(0 == flag_imageSupportSave)
     {
         int flag_isRW = 0;
@@ -311,11 +313,22 @@ void ThumbnailListView::updateMenuContents()
                 break;
             }
         }
+
         if(flag_isRW == 1)
         {
             m_MenuActionMap.value(ROTATECLOCKWISE_CONTEXT_MENU)->setDisabled(true);
             m_MenuActionMap.value(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU)->setDisabled(true);
         }
+        else
+        {
+            m_MenuActionMap.value(ROTATECLOCKWISE_CONTEXT_MENU)->setDisabled(false);
+            m_MenuActionMap.value(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU)->setDisabled(false);
+        }
+    }
+    else
+    {
+        m_MenuActionMap.value(ROTATECLOCKWISE_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU)->setVisible(false);
     }
 
     if (1 != paths.length()) {
