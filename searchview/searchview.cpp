@@ -74,7 +74,7 @@ void SearchView::initConnections()
 
     });
 
-    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &SearchView::onPixMapRotate);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
 }
@@ -233,9 +233,4 @@ void SearchView::updateSearchResultsIntoThumbnailView()
     improtSearchResultsIntoThumbnailView(m_keywords);
 }
 
-void SearchView::onPixMapRotate(QStringList paths)
-{
-    dApp->m_imageloader->updateImageLoader(paths);
 
-    updateSearchResultsIntoThumbnailView();
-}

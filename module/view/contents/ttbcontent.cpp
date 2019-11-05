@@ -117,9 +117,10 @@ void ImageItem::setIndexNow(int i){
     _indexNow = i;
 }
 
-//void ImageItem::setPic(QImage image){
-//  _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
-//}
+void ImageItem::setPic(QPixmap pixmap){
+    _pixmap = pixmap;
+    update();
+}
 
 void ImageItem::mousePressEvent(QMouseEvent *ev){
     emit imageItemclicked(_index,_indexNow);
@@ -384,7 +385,6 @@ TTBContent::TTBContent(bool inDB,
     m_imgList = new DWidget(m_imgListView);
     m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
     m_imgList->setObjectName("ImgList");
-
     m_imgList->setDisabled(false);
     m_imgList->setHidden(true);
     m_imglayout= new QHBoxLayout();
@@ -395,6 +395,7 @@ TTBContent::TTBContent(bool inDB,
     m_imgListView->setFixedSize(QSize(658,60));
     hb->addWidget(m_imgListView);
     hb->addSpacing(ICON_SPACING+14);
+
     m_trashBtn = new DIconButton(this);
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setObjectName("TrashBtn");
@@ -522,7 +523,6 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
              m_imglayout->removeWidget(child->widget());
              child->widget()->setParent(0);
              delete child;
-
          }
     }
     if (path.isEmpty() || !QFileInfo(path).exists()
@@ -566,12 +566,11 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 //                    palette.setBrush(QPalette::Background, QBrush(QPixmap(info.filePath).scaled(60,50)));
 //                    imageItem->setPalette(palette);
 //                    imageItem->setPic(image);
-
 //                    imageItem->setContentsMargins(1,5,1,5);
                     imageItem->setFixedSize(QSize(num,40));
                     imageItem->resize(QSize(num,40));
+
                     
-//                    m_imgList->setLayout(layout);
                     m_imglayout->addWidget(imageItem);
                     connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
                         emit imageClicked(index,(index-indexNow));
@@ -581,10 +580,20 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
                 if ( path == info.filePath ) {
                     t=i;
                 }
+
                 i++;
             }
             labelList = m_imgList->findChildren<ImageItem*>();
             m_nowIndex = t;
+
+            if(COMMON_STR_TRASH == m_imageType)
+            {
+                labelList.at(t)->setPic(dApp->m_imagetrashmap.value(path));
+            }
+            else
+            {
+               labelList.at(t)->setPic(dApp->m_imagemap.value(path));
+            }
             for(int j = 0; j < labelList.size(); j++){
                 labelList.at(j)->setFixedSize (QSize(num,40));
                 labelList.at(j)->resize (QSize(num,40));
@@ -600,11 +609,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 //                labelList.at(t)->setContentsMargins(0,0,0,0);
 //                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
             }
-
-
             m_imgList->show();
             m_imgListView->show();
-
             QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");  //设置动画
             animation->setDuration(500);           //延迟
             animation->setEasingCurve(QEasingCurve::NCurveTypes);     //缓动曲线
@@ -631,6 +637,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_nextButton_spc->hide();
             m_contentWidth = 482;
             setFixedWidth(m_contentWidth);
+
         }
 
 

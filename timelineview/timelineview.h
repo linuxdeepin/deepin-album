@@ -56,7 +56,6 @@ private:
     void getImageInfos();
     void updataLayout();
     void initMainStackWidget();
-    void onPixMapRotate(QStringList paths);
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;

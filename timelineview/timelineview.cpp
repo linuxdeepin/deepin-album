@@ -65,7 +65,7 @@ void TimeLineView::initConnections(){
         on_MoveLabel(y);
     });
 
-    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &TimeLineView::onPixMapRotate);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
 	connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
@@ -280,9 +280,13 @@ void TimeLineView::updataLayout()
        m_mainListWidget->addItemForWidget(item);
        m_mainListWidget->setItemWidget(item,listItem);
        connect(pThumbnailListView,&ThumbnailListView::loadend,this,[=](int h){
-           pThumbnailListView->setFixedHeight(h);
-           listItem->setFixedHeight(TitleView->height()+h);
-           item->setSizeHint(listItem->rect().size());
+           if(isVisible())
+           {
+               pThumbnailListView->setFixedHeight(h);
+               listItem->setFixedHeight(TitleView->height()+h);
+               item->setSizeHint(listItem->rect().size());
+           }
+
        });
        connect(pThumbnailListView,&ThumbnailListView::openImage,this,[=](int index){
            SignalManager::ViewInfo info;
@@ -430,13 +434,6 @@ void TimeLineView::updataLayout()
     {
         updateStackedWidget();
     }
-}
-
-void TimeLineView::onPixMapRotate(QStringList paths)
-{
-    dApp->m_imageloader->updateImageLoader(paths);
-
-    updataLayout();
 }
 
 void TimeLineView::on_AddLabel(QString date,QString num)

@@ -85,7 +85,6 @@ private slots:
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
-    void onPixMapRotate(QStringList paths);
 
     void onCreateNewAlbumFromDialog();
     void onLoadMountImagesEnd(QString mountname);

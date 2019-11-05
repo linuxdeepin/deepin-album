@@ -37,10 +37,6 @@ public:
     AllPicView();
 
     void updateStackedWidget();
-signals:
-
-private slots:
-    void onPixMapRotate(QStringList paths);
 
 private:
     void initConnections();

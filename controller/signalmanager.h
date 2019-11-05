@@ -71,12 +71,10 @@ signals:
     void imagesRemoved(const DBImgInfoList &infos);
     void imagesTrashInserted(const DBImgInfoList infos);
     void imagesTrashRemoved(const DBImgInfoList &infos);
-
     void editImage(const QString &path);
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
-
     void viewImage(const ViewInfo &vinfo);
     void exportImage(const QStringList &paths);
     void updateFileName(const QString &fileName);
@@ -86,18 +84,17 @@ signals:
     void importDir(const QString &dir);
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
-
     void sigSendKeywordsIntoALLPic(QString keywords);
     void sigCreateNewAlbumFromDialog();
     void sigMainwindowSliderValueChg(int value);
-    void sigPixMapRotate(QStringList paths);
     void sigMouseMove();
     void sigShowFullScreen();
     void sigESCKeyActivated();
     void sigUpdataAlbumRightTitle(QString titlename);
-
     void sigTrashViewBlankArea();
     void sigBoxToChoose();
+	void sigUpdateTrashImageLoader();
+	void sigUpdateImageLoader();
     void sigLoadMountImagesEnd(QString mountname);
     void sigBoxToChooseTimeLineAllPic();
     void sigTimeLineItemBlankArea();

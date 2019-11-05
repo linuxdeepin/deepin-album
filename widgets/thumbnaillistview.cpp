@@ -494,7 +494,14 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
             utils::image::rotate(path, 90);
         }
 
-        emit dApp->signalM->sigPixMapRotate(paths);
+        if (COMMON_STR_TRASH == m_imageType)
+        {
+            dApp->m_imageloader->updateTrashImageLoader(paths);
+        }
+        else
+        {
+            dApp->m_imageloader->updateImageLoader(paths);
+        }
     }
         break;
     case IdRotateCounterclockwise:
@@ -504,7 +511,14 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
             utils::image::rotate(path, -90);
         }
 
-        emit dApp->signalM->sigPixMapRotate(paths);
+        if (COMMON_STR_TRASH == m_imageType)
+        {
+            dApp->m_imageloader->updateTrashImageLoader(paths);
+        }
+        else
+        {
+            dApp->m_imageloader->updateImageLoader(paths);
+        }
     }
         break;
     case IdSetAsWallpaper:

@@ -40,9 +40,6 @@ private:
     void initMainStackWidget();
     void updateSearchResultsIntoThumbnailView();
 
-private slots:
-    void onPixMapRotate(QStringList paths);
-
 private:
     DStackedWidget *m_stackWidget;
 

@@ -122,9 +122,8 @@ void AllPicView::initConnections()
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
 
     });
-//    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::updatePicsIntoThumbnailView);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
 
-    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AllPicView::onPixMapRotate);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 
     connect(m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
@@ -194,7 +193,6 @@ void AllPicView::updateStackedWidget()
 
 void AllPicView::updatePicsIntoThumbnailView()
 {
-
     m_spinner->hide();
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
@@ -205,7 +203,6 @@ void AllPicView::updatePicsIntoThumbnailView()
         vi.name = info.fileName;
         vi.path = info.filePath;
         vi.image = dApp->m_imagemap.value(info.filePath);
-
         thumbnaiItemList<<vi;
     }
 
@@ -219,13 +216,6 @@ void AllPicView::updatePicsIntoThumbnailView()
     {
         updateStackedWidget();
     }
-}
-
-void AllPicView::onPixMapRotate(QStringList paths)
-{
-    dApp->m_imageloader->updateImageLoader(paths);
-
-    updatePicsIntoThumbnailView();
 }
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)

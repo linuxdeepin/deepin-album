@@ -51,7 +51,7 @@ class ImageItem : public DLabel{
 public:
     ImageItem(int index= 0,QString path = NULL, QString imageType = NULL, QWidget *parent = 0);
     void setIndexNow(int i);
-//    void setPic(QImage image);
+    void setPic(QPixmap pixmap);
 signals:
     void imageItemclicked(int index,int indexNow);
 protected:

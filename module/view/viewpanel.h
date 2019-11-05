@@ -63,6 +63,7 @@ signals:
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
     void updateTopLeftContentImage(const QString &path);
+    void imgloader();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;

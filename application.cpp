@@ -185,6 +185,8 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
 
         m_parent->m_imagemap[path] = pixmap;
     }
+
+    emit dApp->signalM->sigUpdateImageLoader();
 }
 
 void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
@@ -238,6 +240,7 @@ void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
         }
         m_parent->m_imagetrashmap[path] = pixmaptrash;
     }
+	emit dApp->signalM->sigUpdateTrashImageLoader();
 }
 
 void ImageLoader::onLoadMountImagesStart(QString mountName, QString path)

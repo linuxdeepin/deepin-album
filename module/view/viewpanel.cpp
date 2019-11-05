@@ -46,9 +46,7 @@
 #include <QStackedWidget>
 #include <QtConcurrent>
 #include <QFileDialog>
-
 #include <QPainter>
-
 #include <DRecentManager>
 
 using namespace Dtk::Core;
@@ -961,10 +959,17 @@ void ViewPanel::rotateImage(bool clockWise)
     } else {
         m_viewB->rotateCounterclockwise();
     }
-
     m_viewB->autoFit();
     m_info->updateInfo();
-
+    if(COMMON_STR_TRASH ==m_viewType)
+    {
+        dApp->m_imageloader->updateTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
+    }
+    else
+    {
+        dApp->m_imageloader->updateImageLoader(QStringList(m_infos.at(m_current).filePath));
+    }
+//    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     emit imageChanged(m_infos.at(m_current).filePath,m_infos);
 }
 

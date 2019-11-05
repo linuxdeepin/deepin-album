@@ -93,26 +93,21 @@ void AlbumView::initConnections()
     connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
     connect(m_pRecoveryBtn, &DPushButton::clicked, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pDeleteBtn, &DPushButton::clicked, this, &AlbumView::onTrashDeleteBtnClicked);
-
     connect(m_pRightThumbnailList,&ThumbnailListView::openImage,this,&AlbumView::openImage);
     connect(m_pRightTrashThumbnailList,&ThumbnailListView::openImage,this,&AlbumView::openImage);
     connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::openImage,this,&AlbumView::openImage);
-
     connect(m_pRightThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
     connect(m_pRightTrashThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
     connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
-
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked); 
-
-    connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
-    connect(dApp->signalM, &SignalManager::sigPixMapRotate, this, &AlbumView::onPixMapRotate);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked);    
+    connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);    
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
-
     connect(m_importAllByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importAllBtnClicked);
     connect(m_importSelectByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importSelectBtnClicked);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-
     connect(dApp->signalM, &SignalManager::sigTrashViewBlankArea, this, [=]{
         m_pRecoveryBtn->setEnabled(false);
         DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
@@ -1477,13 +1472,6 @@ void AlbumView::SearchReturnUpdate()
         m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
         updateRightView();
     }
-}
-
-void AlbumView::onPixMapRotate(QStringList paths)
-{
-    dApp->m_imageloader->updateImageLoader(paths);
-
-    updateRightView();
 }
 
 //搜索手机中存储相机图片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
