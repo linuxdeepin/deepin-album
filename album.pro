@@ -56,7 +56,8 @@ SOURCES += \
         widgets/albumlefttabitem.cpp \
         importview/importview.cpp \
         dialogs/albumdeletedialog.cpp \
-        widgets/statusbar.cpp
+        widgets/statusbar.cpp \
+    albumview/leftlistwidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -71,7 +72,8 @@ HEADERS += \
         widgets/albumlefttabitem.h \
         importview/importview.h \
         dialogs/albumdeletedialog.h \
-        widgets/statusbar.h
+        widgets/statusbar.h \
+    albumview/leftlistwidget.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

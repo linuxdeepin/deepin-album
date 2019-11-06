@@ -132,13 +132,13 @@ void AlbumView::initConnections()
 
 void AlbumView::initLeftView()
 {
-    m_pLeftTabList = new DListWidget();
+    m_pLeftTabList = new LeftListWidget();
 
     m_pLeftTabList->setFixedWidth(162);
     m_pLeftTabList->setSpacing(ITEM_SPACING);
     m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
     m_pLeftTabList->setFrameShape(DTableView::NoFrame);
-//    m_pLeftTabList->setFocusPolicy(Qt::NoFocus);
+    m_pLeftTabList->setFocusPolicy(Qt::NoFocus);
 //    m_pLeftTabList->setBackgroundRole(DPalette::Base);
 
     m_pLeftWidget = new DWidget();
@@ -174,7 +174,7 @@ void AlbumView::initLeftView()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_FAVORITES == albumName)
         {
             continue;
         }
@@ -221,7 +221,7 @@ void AlbumView::updateLeftView()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_FAVORITES == albumName)
         {
             continue;
         }

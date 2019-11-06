@@ -20,6 +20,7 @@
 #include <dgiomount.h>
 #include <DApplicationHelper>
 #include <DSpinner>
+#include "leftlistwidget.h"
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -97,7 +98,7 @@ public:
     int m_selPicNum;
 
     DStackedWidget* m_pRightStackWidget;
-    DListWidget* m_pLeftTabList;
+    LeftListWidget* m_pLeftTabList;
 
     StatusBar* m_pStatusBar;
     DWidget* m_pWidget;

@@ -30,7 +30,7 @@ signals:
     void editingFinished();
     void unMountExternalDevices(QString mountName);
 
-private slots:
+public slots:
     void onCheckNameValid();
 
 public:
