@@ -1167,6 +1167,10 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     info.viewType = m_currentAlbum;
     if(info.slideShow)
     {
+        if(imagelist.count() == 1)
+        {
+            info.paths = paths;
+        }
         emit dApp->signalM->startSlideShow(info);
     }
     else {
