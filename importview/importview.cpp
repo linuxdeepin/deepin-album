@@ -181,6 +181,7 @@ void ImportView::onImprotBtnClicked()
 
     using namespace utils::image;
 
+    QStringList albumlistpath;
     for (auto imagePath : image_list)
     {
         if (! imageSupportRead(imagePath)) {
@@ -203,6 +204,12 @@ void ImportView::onImprotBtnClicked()
         dbi.time = fi.birthTime();
 
         dbInfos << dbi;
+        albumlistpath.append(imagePath);
+    }
+
+    if(m_albumname.length() > 0)
+    {
+        DBManager::instance()->insertIntoAlbum(m_albumname, albumlistpath);
     }
 
     if (! dbInfos.isEmpty())
@@ -216,4 +223,9 @@ void ImportView::onImprotBtnClicked()
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
     }
+}
+
+void ImportView::setAlbumname(const QString &name)
+{
+    m_albumname = name;
 }

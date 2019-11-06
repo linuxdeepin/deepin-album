@@ -128,6 +128,14 @@ void AlbumView::initConnections()
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pRightTitle, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
+        pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+        m_pRightTitle->setPalette(pa);
+        pLabel1->setPalette(pa);
+        m_pFavoriteTitle->setPalette(pa);
+    });
 }
 
 void AlbumView::initLeftView()
@@ -286,6 +294,7 @@ void AlbumView::onCreateNewAlbumFromDialog()
     m_pLeftTabList->setCurrentRow((m_allAlbumNames.length() - 1));
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item((m_allAlbumNames.length() - 1)));
     item->newAlbumStatus();
+    m_curListWidgetItem = m_pLeftTabList->currentItem();
 
     m_mounts = getVfsMountList();
     updateExternalDevice();
@@ -299,6 +308,8 @@ void AlbumView::initRightView()
 
     // Import View
     m_pImportView = new ImportView();
+    QList<QLabel*> labelList = m_pImportView->findChildren<QLabel*>();
+    labelList[1]->setText("您也可以拖拽或导入图片到相册");
 
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
@@ -378,7 +389,7 @@ void AlbumView::initRightView()
     QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
     QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
-    DLabel *pLabel1 = new DLabel();
+    pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
     pLabel1->setFont(ft);
     pLabel1->setPalette(pa);
@@ -617,6 +628,7 @@ void AlbumView::updateRightNoTrashView()
         }
         else
         {
+            m_pImportView->setAlbumname(QString());
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
             m_pStatusBar->hide();
         }
@@ -730,7 +742,9 @@ void AlbumView::updateRightNoTrashView()
 
             m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
 
-            m_pRightTitle->setText(m_currentAlbum);
+                if (0 < m_iAlubmPicsNum)
+                {
+                m_pRightTitle->setText(m_currentAlbum);
 
             QFontMetrics elideFont(m_pRightTitle->font());
             m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
@@ -755,6 +769,12 @@ void AlbumView::updateRightNoTrashView()
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
 
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            }
+            else {
+                m_pImportView->setAlbumname(m_currentAlbum);
+                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+                m_pStatusBar->hide();
+            }
             setAcceptDrops(true);
         }
 
@@ -827,8 +847,7 @@ void AlbumView::leftTabClicked(const QModelIndex &index)
 //    if(m_curListWidgetItem == m_pLeftTabList->currentItem()) return;
     if(m_curListWidgetItem == m_pLeftTabList->currentItem())
     {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
-        item->newAlbumStatus();
+        return;
     }
     m_curListWidgetItem = m_pLeftTabList->currentItem();
     for(int i = 0; i < m_pLeftTabList->count(); i++)
@@ -943,6 +962,8 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
 
+        m_curListWidgetItem = m_pLeftTabList->currentItem();
+
         m_currentAlbum = item->m_albumNameStr;
         updateRightNoTrashView();
     }
@@ -1028,6 +1049,7 @@ void AlbumView::createNewAlbum()
     item->m_opeMode = OPE_MODE_ADDNEWALBUM;
     item->editAlbumEdit();
 
+    m_curListWidgetItem = m_pLeftTabList->currentItem();
     m_currentAlbum = albumName;
     updateRightNoTrashView();
 }

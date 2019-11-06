@@ -121,6 +121,7 @@ private:
     DLabel* m_pFavoritePicTotal;
     SearchView* m_pSearchView;
     DGioVolumeManager *m_vfsManager;
+    DLabel* pLabel1;
 
     //手机图片导入窗体
     DWidget* m_importByPhoneWidget;

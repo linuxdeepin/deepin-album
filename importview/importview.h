@@ -32,6 +32,7 @@ class ImportView : public DWidget
 
 public:
     ImportView();
+    void setAlbumname(const QString &name);
 
 private:
     void initConnections();
@@ -44,6 +45,7 @@ private:
 
 public:
     DPushButton* m_pImportBtn;
+    QString m_albumname;
 };
 
 #endif // IMPORTVIEW_H
