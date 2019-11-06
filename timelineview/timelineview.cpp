@@ -332,6 +332,10 @@ void TimeLineView::updataLayout()
 
            if(info.slideShow)
            {
+               if(ImgInfoList.count() == 1)
+               {
+                   info.paths = paths;
+               }
                emit dApp->signalM->startSlideShow(info);
            }
            else {
