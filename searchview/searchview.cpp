@@ -77,26 +77,24 @@ void SearchView::initConnections()
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &SearchView::changeTheme);
 }
 
 void SearchView::initNoSearchResultView()
 {
     m_pNoSearchResultView = new DWidget();
-
     QVBoxLayout* pNoSearchResultLayout = new QVBoxLayout();
+    pNoResult = new DLabel();
+    pNoResult->setText("无结果");
+    pNoResult->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
 
-    DLabel* pLabel1 = new DLabel();
-    pLabel1->setText("无结果");
-    pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
-    DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
+    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
-    pLabel1->setPalette(pa);
-
+    pNoResult->setPalette(pa);
 
     m_pNoSearchResultLabel = new DLabel();
-
     pNoSearchResultLayout->addStretch();
-    pNoSearchResultLayout->addWidget(pLabel1, 0, Qt::AlignCenter);
+    pNoSearchResultLayout->addWidget(pNoResult, 0, Qt::AlignCenter);
     pNoSearchResultLayout->addSpacing(10);
     pNoSearchResultLayout->addWidget(m_pNoSearchResultLabel, 0, Qt::AlignCenter);
     pNoSearchResultLayout->addStretch();
@@ -107,10 +105,8 @@ void SearchView::initNoSearchResultView()
 void SearchView::initSearchResultView()
 {
     m_pSearchResultView = new DWidget();
-
     QVBoxLayout* pSearchResultLayout = new QVBoxLayout();
 //    pSearchResultLayout->setSpacing(10);
-
     DLabel* pLabel1 = new DLabel();
     pLabel1->setText("搜索结果");
     pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
@@ -221,7 +217,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
         m_pNoSearchResultLabel->setText(str.arg(s));
         m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
-        pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
+        pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTips));
         m_pNoSearchResultLabel->setPalette(pa);
 
         m_stackWidget->setCurrentIndex(0);
@@ -233,4 +229,15 @@ void SearchView::updateSearchResultsIntoThumbnailView()
     improtSearchResultsIntoThumbnailView(m_keywords);
 }
 
+void SearchView::changeTheme()
+{
+    //无结果
+    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
+    pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
+    pNoResult->setPalette(pa);
+    //尝试新搜索词
+    DPalette pal = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
+    pal.setBrush(DPalette::WindowText, pal.color(DPalette::TextTips));
+    m_pNoSearchResultLabel->setPalette(pal);
+}
 

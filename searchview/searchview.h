@@ -39,17 +39,17 @@ private:
     void initSearchResultView();
     void initMainStackWidget();
     void updateSearchResultsIntoThumbnailView();
+    void changeTheme();
 
 private:
     DStackedWidget *m_stackWidget;
-
     DWidget* m_pNoSearchResultView;
     DLabel* m_pNoSearchResultLabel;
-
     DWidget* m_pSearchResultView;
     DPushButton* m_pSlideShowBtn;
     DLabel* m_pSearchResultLabel;
     QString m_keywords;
+    DLabel *pNoResult;
 
 public:
     ThumbnailListView *m_pThumbnailListView;
