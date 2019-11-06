@@ -124,6 +124,7 @@ void AlbumView::initConnections()
     connect(m_pRightThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);

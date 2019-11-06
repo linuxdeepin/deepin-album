@@ -74,7 +74,9 @@ void ThumbnailListView::initConnections()
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
 	connect(this,&ThumbnailListView::doubleClicked,this,[=](const QModelIndex &index){
         qDebug()<<"index is "<<index.row();
-        emit openImage(index.row());
+        if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
+            emit openImage(index.row());
+        }
     });
     connect(this,&ThumbnailListView::clicked,this,[=](){
             emit hideExtensionPanel();
@@ -368,6 +370,9 @@ void ThumbnailListView::initMenuAction()
 {
     m_pMenu->clear();
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
+        appendAction(IdImageInfo, tr(ImageInfo_CONTEXT_MENU), ss(ImageInfo_CONTEXT_MENU));
+        appendAction(IdMoveToTrash, tr(DELETE_CONTEXT_MENU), ss(THROWTOTRASH_CONTEXT_MENU));
+        appendAction(IdTrashRecovery, tr(BUTTON_RECOVERY), ss(BUTTON_RECOVERY));
         return;
     }
 
@@ -421,10 +426,6 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
 void ThumbnailListView::onMenuItemClicked(QAction *action)
 {
-    if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
-        return;
-    }
-
     QStringList paths = selectedPaths();
     paths.removeAll(QString(""));
     if (paths.isEmpty()) {
@@ -558,6 +559,9 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdExport:
         emit dApp->signalM->exportImage(paths);
+        break;
+    case IdTrashRecovery:
+        emit trashRecovery();
         break;
     default:
         break;

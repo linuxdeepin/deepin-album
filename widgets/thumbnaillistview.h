@@ -63,7 +63,8 @@ public:
         IdDisplayInFileManager,
         IdImageInfo,
         IdSubMenu,
-        IdSeparator
+        IdSeparator,
+        IdTrashRecovery
     };
 
     struct ItemInfo
@@ -94,7 +95,7 @@ signals:
     void showImageInfo(const QString &path);
     void sigBoxToChooseTimeLineAllPic();
     void sigTimeLineItemBlankArea();
-
+    void trashRecovery();
 
 private slots:
     void onMenuItemClicked(QAction *action);

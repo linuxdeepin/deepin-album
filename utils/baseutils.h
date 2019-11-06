@@ -65,6 +65,7 @@
 #define SETASWALLPAPER_CONTEXT_MENU "设为壁纸"
 #define DISPLAYINFILEMANAGER_CONTEXT_MENU "在文件管理器中显示"
 #define ImageInfo_CONTEXT_MENU "图片信息"
+#define BUTTON_RECOVERY "恢复"
 
 namespace utils {
 namespace common {
