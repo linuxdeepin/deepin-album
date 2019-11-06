@@ -212,7 +212,7 @@ void MainWindow::initTitleBar()
     m_pAlbumBtn->setFocusPolicy(Qt::NoFocus);
 
     m_pAllPicBtn->setText("所有照片");
-    m_pAllPicBtn ->setFlat(false);
+    m_pAllPicBtn->setFlat(false);
     m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
@@ -494,14 +494,33 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [=]{
         emit dApp->signalM->hideExtensionPanel();
-        if (m_pCenterWidget->currentIndex() != VIEW_ALBUM)
-        {
-            m_iCurrentView = VIEW_ALBUM;
-            m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
-        }
 
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty()?QStringList(" "):imgpaths);
         emit dApp->signalM->sigCreateNewAlbumFromDialog();
+
+        m_pAllPicBtn->setFlat(true);
+        m_pTimeLineBtn->setFlat(true);
+        m_pAlbumBtn->setFlat(false);
+
+        DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+        m_pAlbumBtn->setPalette(pal);
+
+        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
+        pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
+        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
+        m_pAllPicBtn->setPalette(pale);
+        m_pTimeLineBtn->setPalette(pale);
+
+        emit dApp->signalM->hideExtensionPanel();
+        m_pSearchEdit->clear();
+        m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+
+        m_iCurrentView = VIEW_ALBUM;
+        m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
     });
 }
 

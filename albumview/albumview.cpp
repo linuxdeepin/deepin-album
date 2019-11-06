@@ -183,7 +183,7 @@ void AlbumView::initLeftView()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
         {
             continue;
         }
@@ -230,7 +230,7 @@ void AlbumView::updateLeftView()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
         {
             continue;
         }
@@ -270,7 +270,7 @@ void AlbumView::onCreateNewAlbumFromDialog()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_TRASH == albumName || COMMON_STR_RECENT_IMPORTED == albumName)
         {
             continue;
         }

@@ -406,6 +406,8 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
+    albums.removeAll(COMMON_STR_TRASH);
+    albums.removeAll(COMMON_STR_RECENT_IMPORTED);
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
@@ -413,7 +415,8 @@ QMenu *ThumbnailListView::createAlbumMenu()
     ac->setData(QString("Add to new album"));
     am->addAction(ac);
     am->addSeparator();
-    for (QString album : albums) {
+    for (QString album : albums)
+    {
         QAction *ac = new QAction(am);
         ac->setProperty("MenuID", IdAddToAlbum);
         ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
