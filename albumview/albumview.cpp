@@ -145,6 +145,7 @@ void AlbumView::initLeftView()
     m_pLeftTabList = new LeftListWidget();
 
     DStyledItemDelegate* itemDelegate = new DStyledItemDelegate(m_pLeftTabList);
+    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pLeftTabList->setItemDelegate(itemDelegate);
 
     m_pLeftTabList->setFixedWidth(162);
