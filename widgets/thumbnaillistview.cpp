@@ -271,7 +271,12 @@ void ThumbnailListView::updateMenuContents()
     {
         m_MenuActionMap.value(VIEW_CONTEXT_MENU)->setVisible(false);
         m_MenuActionMap.value(FULLSCREEN_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(EXPORT_CONTEXT_MENU)->setEnabled(true);
+    } else {
+        QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
+        m_MenuActionMap.value(EXPORT_CONTEXT_MENU)->setEnabled(strSuffix.compare("gif") != 0);
     }
+
     if (COMMON_STR_TRASH == m_imageType)
     {
         m_MenuActionMap.value(THROWTOTRASH_CONTEXT_MENU)->setVisible(false);

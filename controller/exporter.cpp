@@ -119,13 +119,15 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
     QString exportdir = exportDialog.directory().absolutePath();
 
     for (int j(0); j < imagePaths.length(); j++) {
-
         if(utils::image::imageSupportRead(imagePaths[j])) {
-            QPixmap tmpImage(imagePaths[j]);
             QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(imagePaths[j])
-        .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());
-            if (!tmpImage.isNull() && !savePath.isEmpty())
-            tmpImage.save(savePath);
+                                .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());
+
+            bool isSucceed = QFile::copy(imagePaths[j], savePath);
+            if (!isSucceed) {
+                qDebug() << tr("Failed to export");
+            }
+
         } else {
             continue;
         }
