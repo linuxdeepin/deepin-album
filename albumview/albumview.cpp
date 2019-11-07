@@ -136,12 +136,15 @@ void AlbumView::initConnections()
         m_pRightTitle->setPalette(pa);
         pLabel1->setPalette(pa);
         m_pFavoriteTitle->setPalette(pa);
+        updateLeftView();
     });
 }
 
 void AlbumView::initLeftView()
 {
     m_pLeftTabList = new LeftListWidget();
+//    DStyledItemDelegate *p = new DStyledItemDelegate();
+//    m_pLeftTabList->setItemDelegate(p);
 
     m_pLeftTabList->setFixedWidth(162);
     m_pLeftTabList->setSpacing(ITEM_SPACING);

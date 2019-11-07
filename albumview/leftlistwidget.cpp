@@ -6,7 +6,6 @@
 
 LeftListWidget::LeftListWidget()
 {
-
 }
 
 void LeftListWidget::mousePressEvent(QMouseEvent* e)

@@ -69,6 +69,21 @@ void TimeLineView::initConnections(){
 
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &TimeLineView::restorePicNum);
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pDate, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(pDate);
+        pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+        pDate->setPalette(pa);
+    });
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_dateItem, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(m_dateItem);
+        pa.setBrush(DPalette::Window, pa.color(DPalette::Base));
+        m_dateItem->setPalette(pa);
+    });
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pDate, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(pDate);
+        pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+        m_pDate->setPalette(pa);
+    });
 }
 
 void TimeLineView::initTimeLineViewWidget()
@@ -90,18 +105,18 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateItem = new QWidget(pTimeLineViewWidget);
     QVBoxLayout *TitleViewLayout = new QVBoxLayout();
     m_dateItem->setLayout(TitleViewLayout);
-    DLabel* pDate = new DLabel();
-    pDate->setFixedHeight(24);
+    m_pDate = new DLabel();
+    m_pDate->setFixedHeight(24);
 
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft3.setFamily("SourceHanSansSC");
     ft3.setWeight(QFont::Medium);
 
-    DPalette color = DApplicationHelper::instance()->palette(pDate);
-    color.setBrush(DPalette::WindowText, color.color(DPalette::ToolTipText));
+    DPalette color = DApplicationHelper::instance()->palette(m_pDate);
+    color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 
-    pDate->setFont(ft3);
-    pDate->setPalette(color);
+    m_pDate->setFont(ft3);
+    m_pDate->setPalette(color);
 
     DLabel* pNum = new DLabel();
     pNum->setFixedHeight(24);
@@ -113,7 +128,7 @@ void TimeLineView::initTimeLineViewWidget()
     pal.setBrush(DPalette::WindowText, QColor(119,119,119));
     pNum->setPalette(pal);
 
-    TitleViewLayout->addWidget(pDate);
+    TitleViewLayout->addWidget(m_pDate);
     TitleViewLayout->addWidget(pNum);
 
     QHBoxLayout *Layout = new QHBoxLayout();
@@ -200,7 +215,7 @@ void TimeLineView::updataLayout()
         QWidget *TitleView = new QWidget;
         QVBoxLayout *TitleViewLayout = new QVBoxLayout();
         TitleView->setLayout(TitleViewLayout);
-        DLabel* pDate = new DLabel();
+        pDate = new DLabel();
         pDate->setFixedHeight(24);
         QStringList datelist = m_timelines.at(i).split(".");
         if(datelist.count() > 2)
@@ -210,7 +225,7 @@ void TimeLineView::updataLayout()
         pDate->setText(listItem->m_sdate);
 
         DPalette color = DApplicationHelper::instance()->palette(pDate);
-        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+        color.setBrush(DPalette::WindowText, color.color(DPalette::ToolTipText));
 
         QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
         ft3.setFamily("SourceHanSansSC");
