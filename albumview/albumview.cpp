@@ -747,9 +747,9 @@ void AlbumView::updateRightNoTrashView()
 
             m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
 
-                if (0 < m_iAlubmPicsNum)
-                {
-                m_pRightTitle->setText(m_currentAlbum);
+            if (0 < m_iAlubmPicsNum)
+            {
+            m_pRightTitle->setText(m_currentAlbum);
 
             QFontMetrics elideFont(m_pRightTitle->font());
             m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
@@ -774,6 +774,7 @@ void AlbumView::updateRightNoTrashView()
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
 
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            m_pStatusBar->show();
             }
             else {
                 m_pImportView->setAlbumname(m_currentAlbum);

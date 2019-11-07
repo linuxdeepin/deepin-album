@@ -111,7 +111,7 @@ void SearchView::initSearchResultView()
     m_pSearchResultView = new DWidget();
     QVBoxLayout* pSearchResultLayout = new QVBoxLayout();
 //    pSearchResultLayout->setSpacing(10);
-    DLabel* pLabel1 = new DLabel();
+    pLabel1 = new DLabel();
     pLabel1->setText("搜索结果");
     pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
@@ -243,5 +243,10 @@ void SearchView::changeTheme()
     DPalette pal = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
     pal.setBrush(DPalette::WindowText, pal.color(DPalette::TextTips));
     m_pNoSearchResultLabel->setPalette(pal);
+    //"搜索结果"
+    DPalette pale = DApplicationHelper::instance()->palette(pLabel1);
+    pale.setBrush(DPalette::WindowText, pale.color(DPalette::ToolTipText));
+    pLabel1->setPalette(pale);
+
 }
 

@@ -118,7 +118,7 @@ void AlbumLeftTabItem::initUI()
     m_nameLabel->setFont(ft);
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
     m_nameLabel->setPalette(pa);
 
     m_pLineEdit = new DLineEdit(pWidget);
