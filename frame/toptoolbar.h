@@ -26,6 +26,8 @@
 #include <DTitlebar>
 #include <DLabel>
 #include <QGraphicsDropShadowEffect>
+#include <DFontSizeManager>
+#include <DApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
 
