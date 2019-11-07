@@ -132,11 +132,12 @@ void AlbumView::initConnections()
 
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pRightTitle, [=]{
         DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
-        pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+        pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
         m_pRightTitle->setPalette(pa);
         pLabel1->setPalette(pa);
         m_pFavoriteTitle->setPalette(pa);
-        updateLeftView();
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+        item->newAlbumStatus();
     });
 }
 
@@ -335,7 +336,8 @@ void AlbumView::initRightView()
     ft1.setWeight(QFont::Medium);
     m_pRightTitle->setFont(ft);
     DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_pRightTitle->setForegroundRole(DPalette::Text);
     m_pRightTitle->setPalette(pa);
 
     m_pRightPicTotal = new DLabel();
@@ -392,6 +394,7 @@ void AlbumView::initRightView()
     pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
     pLabel1->setFont(ft);
+    pLabel1->setForegroundRole(DPalette::Text);
     pLabel1->setPalette(pa);
 
     DLabel *pLabel2 = new DLabel();
@@ -459,6 +462,7 @@ void AlbumView::initRightView()
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setText(COMMON_STR_FAVORITES);
     m_pFavoriteTitle->setFont(ft);
+    m_pFavoriteTitle->setForegroundRole(DPalette::Text);
     m_pFavoriteTitle->setPalette(pa);
 
     m_pFavoritePicTotal = new DLabel();
@@ -614,7 +618,8 @@ void AlbumView::updateRightNoTrashView()
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
             DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-            palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+            palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+            m_pRightTitle->setForegroundRole(DPalette::Text);
             m_pRightPicTotal->setPalette(palette);
             QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
             ft.setFamily("SourceHanSansSC");
@@ -655,7 +660,8 @@ void AlbumView::updateRightNoTrashView()
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
         DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-        palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+        palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+        m_pRightTitle->setForegroundRole(DPalette::Text);
         m_pFavoritePicTotal->setPalette(palette);
 
         QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -707,7 +713,8 @@ void AlbumView::updateRightNoTrashView()
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
                 DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-                palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+                palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+                m_pRightTitle->setForegroundRole(DPalette::Text);
                 m_pRightPicTotal->setPalette(palette);
                 QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
                 ft.setFamily("SourceHanSansSC");
@@ -758,7 +765,8 @@ void AlbumView::updateRightNoTrashView()
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
             DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-            palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+            palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+            m_pRightTitle->setForegroundRole(DPalette::Text);
             m_pRightPicTotal->setPalette(palette);
             QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
             ft.setFamily("SourceHanSansSC");

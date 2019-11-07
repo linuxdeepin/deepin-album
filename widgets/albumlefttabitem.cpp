@@ -36,9 +36,7 @@ void AlbumLeftTabItem::initConnections()
     connect(m_pLineEdit, &DLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
     connect(m_unMountBtn, &DIconButton::clicked, this, &AlbumLeftTabItem::unMountBtnClicked);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_nameLabel, [=]{
-        DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
-        pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
-        m_nameLabel->setPalette(pa);
+        oriAlbumStatus();
     });
 }
 
@@ -119,6 +117,7 @@ void AlbumLeftTabItem::initUI()
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_nameLabel->setForegroundRole(DPalette::Text);
     m_nameLabel->setPalette(pa);
 
     m_pLineEdit = new DLineEdit(pWidget);
@@ -277,6 +276,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_nameLabel->setForegroundRole(DPalette::Text);
     m_nameLabel->setPalette(pa);
 }
 
@@ -315,6 +315,7 @@ void AlbumLeftTabItem::newAlbumStatus()
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
     pa.setBrush(DPalette::Text, pa.color(DPalette::HighlightedText));
+    m_nameLabel->setForegroundRole(DPalette::Text);
     m_nameLabel->setPalette(pa);
 
 }
