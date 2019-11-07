@@ -50,6 +50,7 @@ private:
     DLabel* m_pSearchResultLabel;
     QString m_keywords;
     DLabel *pNoResult;
+    DLabel *pLabel1;
 
 public:
     ThumbnailListView *m_pThumbnailListView;

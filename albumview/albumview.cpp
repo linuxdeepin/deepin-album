@@ -330,19 +330,15 @@ void AlbumView::initRightView()
     QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft.setFamily("SourceHanSansSC");
     ft.setWeight(QFont::Medium);
-
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft1.setFamily("SourceHanSansSC");
     ft1.setWeight(QFont::Medium);
-
     m_pRightTitle->setFont(ft);
-
     DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
     m_pRightTitle->setPalette(pa);
 
     m_pRightPicTotal = new DLabel();
-
     QString str = tr("%1张照片");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
     m_pRightPicTotal->setFont(ft1);
@@ -351,8 +347,6 @@ void AlbumView::initRightView()
 //    palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
     palette.setBrush(DPalette::WindowText, QColor(119,119,119));
     m_pRightPicTotal->setPalette(palette);
-
-
     m_pRightThumbnailList = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
@@ -360,7 +354,7 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
     pNoTrashVBoxLayout->addSpacing(9);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
-    pNoTrashVBoxLayout->addSpacing(7);
+    pNoTrashVBoxLayout->addSpacing(-6);
     pNoTrashVBoxLayout->setContentsMargins(10,0,0,0);
 
     //手机相片导入窗体
@@ -775,6 +769,7 @@ void AlbumView::updateRightNoTrashView()
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
 
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            m_pStatusBar->show();
             }
             else {
                 m_pImportView->setAlbumname(m_currentAlbum);
