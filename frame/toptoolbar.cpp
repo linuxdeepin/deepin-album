@@ -271,14 +271,26 @@ void TopToolbar::initWidgets()
 //    pa.setColor(QPalette::WindowText,Qt::red);
     m_titlebar->setPalette(pa);
     m_titlebar->setTitle("");
+//    m_titletxt=new DLabel;
+//    m_titletxt->setText("");
+//    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
+//    shadowEffect->setOffset(0, 1);
+//    shadowEffect->setColor(QColor(255,255,255,127));
+//    shadowEffect->setBlurRadius(1);
+//    m_titletxt->setGraphicsEffect(shadowEffect);
     m_titletxt=new DLabel;
     m_titletxt->setText("");
+    m_titletxt->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T7));
+    DPalette pa1 = DApplicationHelper::instance()->palette(m_titletxt);
+    pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextLively));
+    m_titletxt->setPalette(pa);
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
     shadowEffect->setOffset(0, 1);
-    shadowEffect->setColor(QColor(255,255,255,127));
     shadowEffect->setBlurRadius(1);
     m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
+
+
 
 //    QWidget *customWidget = new QWidget();
 //    customWidget->setFixedWidth(0);
