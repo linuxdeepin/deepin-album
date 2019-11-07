@@ -142,12 +142,14 @@ void AlbumView::initConnections()
 void AlbumView::initLeftView()
 {
     m_pLeftTabList = new LeftListWidget();
+    DStyledItemDelegate* itemDelegate = new DStyledItemDelegate(m_pLeftTabList);
+    m_pLeftTabList->setItemDelegate(itemDelegate);
 
     m_pLeftTabList->setFixedWidth(162);
     m_pLeftTabList->setSpacing(ITEM_SPACING);
     m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
     m_pLeftTabList->setFrameShape(DTableView::NoFrame);
-    m_pLeftTabList->setFocusPolicy(Qt::NoFocus);
+//    m_pLeftTabList->setFocusPolicy(Qt::NoFocus);
 //    m_pLeftTabList->setBackgroundRole(DPalette::Base);
 
     m_pLeftWidget = new DWidget();
