@@ -290,8 +290,6 @@ void TopToolbar::initWidgets()
     m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
 
-
-
 //    QWidget *customWidget = new QWidget();
 //    customWidget->setFixedWidth(0);
 //    m_titlebar->setCustomWidget(customWidget, false);

@@ -29,7 +29,6 @@ MainWindow::MainWindow()
 
     initShortcutKey();
     initUI();
-
     initTitleBar();
     initCentralWidget();
     //initStatusBar();

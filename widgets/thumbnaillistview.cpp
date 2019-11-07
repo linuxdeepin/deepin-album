@@ -8,6 +8,7 @@
 #include <QImageReader>
 #include <QFileInfo>
 #include "timelinelist.h"
+#include <QScrollBar>
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -44,8 +45,11 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 //    setFlow(QListView::LeftToRight);
     setSpacing(ITEM_SPACING);
     setDragEnabled(false);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    if (COMMON_STR_VIEW_TIMELINE == m_imageType)
+    {
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -56,9 +60,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 
     setItemDelegate(m_delegate);
     setModel(m_model);
-
     m_pMenu = new DMenu();
-
     initMenuAction();
     initConnections();
 }

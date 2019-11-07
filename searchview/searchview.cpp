@@ -102,7 +102,6 @@ void SearchView::initNoSearchResultView()
     pNoSearchResultLayout->addSpacing(10);
     pNoSearchResultLayout->addWidget(m_pNoSearchResultLabel, 0, Qt::AlignCenter);
     pNoSearchResultLayout->addStretch();
-
     m_pNoSearchResultView->setLayout(pNoSearchResultLayout);
 }
 

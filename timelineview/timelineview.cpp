@@ -273,7 +273,7 @@ void TimeLineView::updataLayout()
         listItem->m_title = TitleView;
 
         //添加图片
-        ThumbnailListView *pThumbnailListView = new ThumbnailListView();
+        ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_VIEW_TIMELINE);
         pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
         pThumbnailListView->setContentsMargins(0,0,0,0);

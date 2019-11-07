@@ -9,8 +9,8 @@ TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
     setFlow(QListView::TopToBottom);
     setSpacing(0);
     setDragEnabled(false);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     has = false;
 
 }
