@@ -23,6 +23,7 @@
 #include "controller/wallpapersetter.h"
 #include "utils/snifferimageformat.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -69,6 +70,10 @@ void ImageLoader::startLoading()
             if (reader.canRead()) {
                 tImg = reader.read();
             }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
+            }
         } else {
             QImageReader readerF(path, format.toLatin1());
             readerF.setAutoTransform(true);
@@ -103,6 +108,10 @@ void ImageLoader::startLoading()
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(path, format.toLatin1());
@@ -147,6 +156,10 @@ void ImageLoader::addImageLoader(QStringList pathlist)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(path, format.toLatin1());
@@ -201,6 +214,10 @@ void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(path, format.toLatin1());
@@ -279,6 +296,10 @@ void ImageLoader::onLoadMountImagesStart(QString mountName, QString path)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(fileInfo.filePath(), format.toLatin1());

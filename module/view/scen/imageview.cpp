@@ -70,6 +70,10 @@ QVariantList cachePixmap(const QString &path)
         if (reader.canRead()) {
             tImg = reader.read();
         }
+        else if (path.contains(".tga")) {
+            bool ret = false;
+            tImg = utils::image::loadTga(path, ret);
+        }
     } else {
         QImageReader readerF(path, format.toLatin1());
         readerF.setAutoTransform(true);
