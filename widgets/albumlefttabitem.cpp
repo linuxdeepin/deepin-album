@@ -35,6 +35,9 @@ void AlbumLeftTabItem::initConnections()
 {
     connect(m_pLineEdit, &DLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
     connect(m_unMountBtn, &DIconButton::clicked, this, &AlbumLeftTabItem::unMountBtnClicked);
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_nameLabel, [=]{
+        oriAlbumStatus();
+    });
 }
 
 void AlbumLeftTabItem::initUI()
@@ -114,6 +117,7 @@ void AlbumLeftTabItem::initUI()
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_nameLabel->setForegroundRole(DPalette::Text);
     m_nameLabel->setPalette(pa);
 
     m_pLineEdit = new DLineEdit(pWidget);
@@ -242,36 +246,82 @@ void AlbumLeftTabItem::oriAlbumStatus()
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(22,22));
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(22,22));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal_dark.svg", QSize(22,22));
+        }
         pLabel->setPixmap(pixmap);
+
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(22, 22));
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(22, 22));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal_dark.svg", QSize(22,22));
+        }
         pLabel->setPixmap(pixmap);
+
     }
     else if (COMMON_STR_FAVORITES == m_albumNameStr)
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(22, 22));
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(22, 22));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal_dark.svg", QSize(22,22));
+        }
         pLabel->setPixmap(pixmap);
+
     }
     else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(22, 22));
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(22, 22));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal_dark.svg", QSize(22,22));
+        }
         pLabel->setPixmap(pixmap);
+
     }
     else
     {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(22, 22));
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(22, 22));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal_dark.svg", QSize(22,22));
+        }
         pLabel->setPixmap(pixmap);
+
     }
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_nameLabel->setForegroundRole(DPalette::Text);
     m_nameLabel->setPalette(pa);
 }
 
@@ -300,6 +350,8 @@ void AlbumLeftTabItem::newAlbumStatus()
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(22, 22));
         pLabel->setPixmap(pixmap);
+
+        m_unMountBtn->setIcon(QIcon(":/resources/images/sidebar/active/icon_exit_active.svg"));
     }
     else
     {
@@ -309,7 +361,8 @@ void AlbumLeftTabItem::newAlbumStatus()
     }
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::Base));
+    pa.setBrush(DPalette::Text, pa.color(DPalette::HighlightedText));
+    m_nameLabel->setForegroundRole(DPalette::Text);
     m_nameLabel->setPalette(pa);
 
 }

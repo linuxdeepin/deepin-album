@@ -17,26 +17,20 @@ AllPicView::AllPicView()
     if ( a )
     {
         m_pStackedWidget = new DStackedWidget(this);
-
         m_pImportView = new ImportView();
         m_pThumbnailListView = new ThumbnailListView();
         m_pSearchView = new SearchView();
-
         m_pStackedWidget->addWidget(m_pImportView);
         m_pStackedWidget->addWidget(m_pThumbnailListView);
         m_pStackedWidget->addWidget(m_pSearchView);
-
         m_pStatusBar = new StatusBar();
         m_pStatusBar->setParent(this);
-
         QVBoxLayout* pVBoxLayout = new QVBoxLayout();
         pVBoxLayout->setContentsMargins(0,0,0,0);
         pVBoxLayout->addWidget(m_pStackedWidget);
         pVBoxLayout->addWidget(m_pStatusBar);
         setLayout(pVBoxLayout);
-
-        updateStackedWidget();
-        
+        updateStackedWidget();       
         initConnections();
     }
     else
@@ -127,14 +121,11 @@ void AllPicView::initConnections()
 
     });
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
-
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-
     connect(m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
     connect(m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
-
 }
 
 //void AllPicView::initThumbnailListView()

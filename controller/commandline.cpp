@@ -256,6 +256,4 @@ bool CommandLine::processOption()
 //    }
 
     return false;
-
-
 }

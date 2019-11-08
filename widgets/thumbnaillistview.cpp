@@ -8,6 +8,7 @@
 #include <QImageReader>
 #include <QFileInfo>
 #include "timelinelist.h"
+#include <QScrollBar>
 
 namespace {
 const int ITEM_SPACING = 5;
@@ -45,8 +46,11 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 //    setFlow(QListView::LeftToRight);
     setSpacing(ITEM_SPACING);
     setDragEnabled(false);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    if (COMMON_STR_VIEW_TIMELINE == m_imageType)
+    {
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -57,9 +61,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 
     setItemDelegate(m_delegate);
     setModel(m_model);
-
     m_pMenu = new DMenu();
-
     initMenuAction();
     initConnections();
 }
@@ -75,7 +77,9 @@ void ThumbnailListView::initConnections()
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
 	connect(this,&ThumbnailListView::doubleClicked,this,[=](const QModelIndex &index){
         qDebug()<<"index is "<<index.row();
-        emit openImage(index.row());
+        if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
+            emit openImage(index.row());
+        }
     });
     connect(this,&ThumbnailListView::clicked,this,[=](){
             emit hideExtensionPanel();
@@ -268,6 +272,17 @@ void ThumbnailListView::updateMenuContents()
     {
         m_MenuActionMap.value(VIEW_CONTEXT_MENU)->setVisible(false);
         m_MenuActionMap.value(FULLSCREEN_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(EXPORT_CONTEXT_MENU)->setEnabled(true);
+    } else {
+        bool ret = true;
+        QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
+        if(strSuffix.compare("jpeg") && strSuffix.compare("jpg")&& strSuffix.compare("bmp")
+                && strSuffix.compare("png")&& strSuffix.compare("ppm")&& strSuffix.compare("xbm")
+                && strSuffix.compare("xpm"))
+        {
+            ret = false;
+        }
+        m_MenuActionMap.value(EXPORT_CONTEXT_MENU)->setEnabled(ret);
     }
     if (COMMON_STR_TRASH == m_imageType)
     {
@@ -439,6 +454,9 @@ void ThumbnailListView::initMenuAction()
 {
     m_pMenu->clear();
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
+        appendAction(IdImageInfo, tr(ImageInfo_CONTEXT_MENU), ss(ImageInfo_CONTEXT_MENU));
+        appendAction(IdMoveToTrash, tr(DELETE_CONTEXT_MENU), ss(THROWTOTRASH_CONTEXT_MENU));
+        appendAction(IdTrashRecovery, tr(BUTTON_RECOVERY), ss(BUTTON_RECOVERY));
         return;
     }
 
@@ -483,6 +501,8 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
+    albums.removeAll(COMMON_STR_TRASH);
+    albums.removeAll(COMMON_STR_RECENT_IMPORTED);
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
@@ -490,7 +510,8 @@ QMenu *ThumbnailListView::createAlbumMenu()
     ac->setData(QString("Add to new album"));
     am->addAction(ac);
     am->addSeparator();
-    for (QString album : albums) {
+    for (QString album : albums)
+    {
         QAction *ac = new QAction(am);
         ac->setProperty("MenuID", IdAddToAlbum);
         ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
@@ -503,10 +524,6 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
 void ThumbnailListView::onMenuItemClicked(QAction *action)
 {
-    if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
-        return;
-    }
-
     QStringList paths = selectedPaths();
     paths.removeAll(QString(""));
     if (paths.isEmpty()) {
@@ -640,6 +657,9 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdExport:
         emit dApp->signalM->exportImage(paths);
+        break;
+    case IdTrashRecovery:
+        emit trashRecovery();
         break;
     default:
         break;

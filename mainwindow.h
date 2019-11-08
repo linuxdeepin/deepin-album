@@ -55,6 +55,7 @@ public:
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent* event) override;
+    void themeTypeChanged();
 
 private:
     void initShortcutKey();

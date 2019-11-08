@@ -24,10 +24,12 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QStandardPaths>
 
 namespace {
 
-const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-album/";
+const QString DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator();
+//const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-album/";
 const QString DATABASE_NAME = "deepinalbum.db";
 const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
 
@@ -930,6 +932,7 @@ const QSqlDatabase DBManager::getDatabase() const
     else {
         //if database not open, open it.
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", m_connectionName);//not dbConnection
+        qDebug()<<DATABASE_PATH + DATABASE_NAME;
         db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
         if (! db.open()) {
             qWarning()<< "Open database error:" << db.lastError();

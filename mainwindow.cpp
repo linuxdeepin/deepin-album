@@ -29,7 +29,6 @@ MainWindow::MainWindow()
 
     initShortcutKey();
     initUI();
-
     initTitleBar();
     initCentralWidget();
     //initStatusBar();
@@ -95,6 +94,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, [=](int step){
         m_pSliderPos = step;
     });
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &MainWindow::themeTypeChanged);
 }
 
 void MainWindow::initShortcut()
@@ -206,23 +206,25 @@ void MainWindow::initTitleBar()
     m_pTimeLineBtn->setFixedSize(60,36);
     m_pAlbumBtn->setFixedSize(60,36);
 
-    m_pAllPicBtn->setFocusPolicy(Qt::NoFocus);
-    m_pTimeLineBtn->setFocusPolicy(Qt::NoFocus);
-    m_pAlbumBtn->setFocusPolicy(Qt::NoFocus);
+//    m_pAllPicBtn->setFocusPolicy(Qt::NoFocus);
+//    m_pTimeLineBtn->setFocusPolicy(Qt::NoFocus);
+//    m_pAlbumBtn->setFocusPolicy(Qt::NoFocus);
 
     m_pAllPicBtn->setText("所有照片");
-    m_pAllPicBtn ->setFlat(false);
+    m_pAllPicBtn->setFlat(false);
     m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
     pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
     pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
-    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::Text));
+    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
+    pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
 
     DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-    pale.setBrush(DPalette::Light, pale.color(DPalette::Highlight));
-    pale.setBrush(DPalette::Dark, pale.color(DPalette::Highlight));
+    pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
+    pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
     pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+    pale.setBrush(DPalette::Highlight, QColor(0,0,0,0));
 
     m_pAllPicBtn->setPalette(pale);
 
@@ -370,15 +372,17 @@ void MainWindow::allPicBtnClicked()
     m_pAlbumBtn->setFlat(true);
 
     DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-    pal.setBrush(DPalette::Light, pal.color(DPalette::Highlight));
-    pal.setBrush(DPalette::Dark, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
     pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+    pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_pAllPicBtn->setPalette(pal);
 
     DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
     pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
     pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
-    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::Text));
+    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
+    pale.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_pTimeLineBtn->setPalette(pale);
     m_pAlbumBtn->setPalette(pale);
 
@@ -401,15 +405,17 @@ void MainWindow::timeLineBtnClicked()
     m_pAlbumBtn->setFlat(true);
 
     DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-    pal.setBrush(DPalette::Light, pal.color(DPalette::Highlight));
-    pal.setBrush(DPalette::Dark, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
     pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+    pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_pTimeLineBtn->setPalette(pal);
 
     DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
     pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
     pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
-    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::Text));
+    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
+    pale.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_pAllPicBtn->setPalette(pale);
     m_pAlbumBtn->setPalette(pale);
 
@@ -433,15 +439,17 @@ void MainWindow::albumBtnClicked()
     m_pAlbumBtn->setFlat(false);
 
     DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-    pal.setBrush(DPalette::Light, pal.color(DPalette::Highlight));
-    pal.setBrush(DPalette::Dark, pal.color(DPalette::Highlight));
+    pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
+    pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
     pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+    pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_pAlbumBtn->setPalette(pal);
 
     DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
     pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
     pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
-    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::Text));
+    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
+    pale.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_pAllPicBtn->setPalette(pale);
     m_pTimeLineBtn->setPalette(pale);
 
@@ -493,14 +501,35 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [=]{
         emit dApp->signalM->hideExtensionPanel();
-        if (m_pCenterWidget->currentIndex() != VIEW_ALBUM)
-        {
-            m_iCurrentView = VIEW_ALBUM;
-            m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
-        }
 
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty()?QStringList(" "):imgpaths);
         emit dApp->signalM->sigCreateNewAlbumFromDialog();
+
+        m_pAllPicBtn->setFlat(true);
+        m_pTimeLineBtn->setFlat(true);
+        m_pAlbumBtn->setFlat(false);
+
+        DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+        pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+        m_pAlbumBtn->setPalette(pal);
+
+        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
+        pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
+        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
+        pale.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+        m_pAllPicBtn->setPalette(pale);
+        m_pTimeLineBtn->setPalette(pale);
+
+        emit dApp->signalM->hideExtensionPanel();
+        m_pSearchEdit->clear();
+        m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+
+        m_iCurrentView = VIEW_ALBUM;
+        m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
     });
 }
 
@@ -724,4 +753,51 @@ void MainWindow::initShortcutKey()
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ImageInfo_CONTEXT_MENU, ALTRETURN_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_CREATEALBUM, CTRLSHIFTN_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_RENAMEALBUM, F2_SHORTCUT);
+}
+
+void MainWindow::themeTypeChanged()
+{
+    if(0 == m_iCurrentView)
+    {
+        DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
+        pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
+        m_pTimeLineBtn->setPalette(pal);
+        m_pAlbumBtn->setPalette(pal);
+        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
+        pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
+        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+        m_pAllPicBtn->setPalette(pale);
+    }
+    else if (1 == m_iCurrentView)
+    {
+        DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
+        pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
+        m_pAllPicBtn->setPalette(pal);
+        m_pAlbumBtn->setPalette(pal);
+        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
+        pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
+        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+        m_pTimeLineBtn->setPalette(pale);
+
+    }
+    else if (2 == m_iCurrentView)
+    {
+        DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
+        pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
+        m_pAllPicBtn->setPalette(pal);
+        m_pTimeLineBtn->setPalette(pal);
+        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
+        pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
+        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+        m_pAlbumBtn->setPalette(pale);
+    }
 }

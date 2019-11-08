@@ -70,6 +70,7 @@ public:
         IdImageInfo,
         IdSubMenu,
         IdSeparator,
+        IdTrashRecovery,
         IdArrowUp,
         IdArrowDown
     };
@@ -102,7 +103,7 @@ signals:
     void showImageInfo(const QString &path);
     void sigBoxToChooseTimeLineAllPic();
     void sigTimeLineItemBlankArea();
-
+    void trashRecovery();
 
 private slots:
     void onMenuItemClicked(QAction *action);

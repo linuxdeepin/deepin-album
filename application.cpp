@@ -23,6 +23,7 @@
 #include "controller/wallpapersetter.h"
 #include "utils/snifferimageformat.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -34,6 +35,7 @@
 #include <DLog>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
+#include <DAboutDialog>
 
 namespace {
 
@@ -69,6 +71,10 @@ void ImageLoader::startLoading()
             if (reader.canRead()) {
                 tImg = reader.read();
             }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
+            }
         } else {
             QImageReader readerF(path, format.toLatin1());
             readerF.setAutoTransform(true);
@@ -103,6 +109,10 @@ void ImageLoader::startLoading()
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(path, format.toLatin1());
@@ -147,6 +157,10 @@ void ImageLoader::addImageLoader(QStringList pathlist)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(path, format.toLatin1());
@@ -201,6 +215,10 @@ void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(path, format.toLatin1());
@@ -280,6 +298,10 @@ void ImageLoader::onLoadMountImagesStart(QString mountName, QString path)
             if (reader.canRead()) {
                 tImg = reader.read();
             }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
+            }
         } else {
             QImageReader readerF(fileInfo.filePath(), format.toLatin1());
             readerF.setAutoTransform(true);
@@ -353,19 +375,14 @@ Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
 {
     initI18n();
-    setApplicationDisplayName(tr("深度相册"));
+    setApplicationDisplayName(tr("相册"));
     setProductIcon(QIcon::fromTheme("deepin-album"));
     setApplicationVersion(DApplication::buildVersion("20191011"));
-    setApplicationDescription(QString("%1\n%2\n").arg(tr("深度相册是深度操作系统自带的相册软件。")).arg(tr("满足对照片的常用功能，快速、轻巧、使用简单。")));
-
-
-
+//    setApplicationDescription(QString("%1\n%2\n").arg(tr("相册是一款可多种方式浏览照片、")).arg(tr("整理照片和简单编辑的相册管理工具。")));
+    setApplicationDescription(DApplication::translate("Main","相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。"));
     installEventFilter(new GlobalEventFilter());
-
     initChildren();
-
     initDB();
-
 }
 
 Application::~Application()

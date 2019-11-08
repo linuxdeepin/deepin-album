@@ -60,6 +60,7 @@ const QString                       thumbnailPath(const QString &path, Thumbnail
 bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
 
 QStringList                         supportedImageFormats();
+const QImage loadTga(QString filePath, bool &success);
 }  // namespace image
 
 }  // namespace utils

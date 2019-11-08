@@ -124,21 +124,38 @@ void AlbumView::initConnections()
     connect(m_pRightThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pRightTitle, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
+        pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+        m_pRightTitle->setPalette(pa);
+        pLabel1->setPalette(pa);
+        m_pFavoriteTitle->setPalette(pa);
+    });
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pLeftTabList,[=]{
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+        item->newAlbumStatus();
+    });
 }
 
 void AlbumView::initLeftView()
 {
     m_pLeftTabList = new LeftListWidget();
 
+    DStyledItemDelegate* itemDelegate = new DStyledItemDelegate(m_pLeftTabList);
+    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
+    m_pLeftTabList->setItemDelegate(itemDelegate);
+
     m_pLeftTabList->setFixedWidth(162);
     m_pLeftTabList->setSpacing(ITEM_SPACING);
     m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
     m_pLeftTabList->setFrameShape(DTableView::NoFrame);
-    m_pLeftTabList->setFocusPolicy(Qt::NoFocus);
+//    m_pLeftTabList->setFocusPolicy(Qt::NoFocus);
 //    m_pLeftTabList->setBackgroundRole(DPalette::Base);
 
     m_pLeftWidget = new DWidget();
@@ -174,7 +191,7 @@ void AlbumView::initLeftView()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
         {
             continue;
         }
@@ -221,7 +238,7 @@ void AlbumView::updateLeftView()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
         {
             continue;
         }
@@ -261,7 +278,7 @@ void AlbumView::onCreateNewAlbumFromDialog()
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
-        if (COMMON_STR_FAVORITES == albumName)
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_TRASH == albumName || COMMON_STR_RECENT_IMPORTED == albumName)
         {
             continue;
         }
@@ -286,6 +303,7 @@ void AlbumView::onCreateNewAlbumFromDialog()
     m_pLeftTabList->setCurrentRow((m_allAlbumNames.length() - 1));
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item((m_allAlbumNames.length() - 1)));
     item->newAlbumStatus();
+    m_curListWidgetItem = m_pLeftTabList->currentItem();
 
     m_mounts = getVfsMountList();
     updateExternalDevice();
@@ -299,6 +317,8 @@ void AlbumView::initRightView()
 
     // Import View
     m_pImportView = new ImportView();
+    QList<QLabel*> labelList = m_pImportView->findChildren<QLabel*>();
+    labelList[1]->setText("您也可以拖拽或导入图片到相册");
 
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
@@ -313,19 +333,16 @@ void AlbumView::initRightView()
     QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft.setFamily("SourceHanSansSC");
     ft.setWeight(QFont::Medium);
-
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft1.setFamily("SourceHanSansSC");
     ft1.setWeight(QFont::Medium);
-
     m_pRightTitle->setFont(ft);
-
     DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_pRightTitle->setForegroundRole(DPalette::Text);
     m_pRightTitle->setPalette(pa);
 
     m_pRightPicTotal = new DLabel();
-
     QString str = tr("%1张照片");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
     m_pRightPicTotal->setFont(ft1);
@@ -334,8 +351,6 @@ void AlbumView::initRightView()
 //    palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
     palette.setBrush(DPalette::WindowText, QColor(119,119,119));
     m_pRightPicTotal->setPalette(palette);
-
-
     m_pRightThumbnailList = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
@@ -343,7 +358,7 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
     pNoTrashVBoxLayout->addSpacing(9);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
-    pNoTrashVBoxLayout->addSpacing(7);
+    pNoTrashVBoxLayout->addSpacing(-6);
     pNoTrashVBoxLayout->setContentsMargins(10,0,0,0);
 
     //手机相片导入窗体
@@ -378,9 +393,10 @@ void AlbumView::initRightView()
     QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
     QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
-    DLabel *pLabel1 = new DLabel();
+    pLabel1 = new DLabel();
     pLabel1->setText("最近删除");
     pLabel1->setFont(ft);
+    pLabel1->setForegroundRole(DPalette::Text);
     pLabel1->setPalette(pa);
 
     DLabel *pLabel2 = new DLabel();
@@ -392,7 +408,7 @@ void AlbumView::initRightView()
     pTopLeftVBoxLayout->addWidget(pLabel1);
     pTopLeftVBoxLayout->addSpacing(9);
     pTopLeftVBoxLayout->addWidget(pLabel2);
-    pTopLeftVBoxLayout->addSpacing(7);
+    pTopLeftVBoxLayout->addSpacing(-4);
     pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
@@ -448,6 +464,7 @@ void AlbumView::initRightView()
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setText(COMMON_STR_FAVORITES);
     m_pFavoriteTitle->setFont(ft);
+    m_pFavoriteTitle->setForegroundRole(DPalette::Text);
     m_pFavoriteTitle->setPalette(pa);
 
     m_pFavoritePicTotal = new DLabel();
@@ -466,7 +483,7 @@ void AlbumView::initRightView()
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
     pFavoriteVBoxLayout->addSpacing(9);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
-    pFavoriteVBoxLayout->addSpacing(7);
+    pFavoriteVBoxLayout->addSpacing(-6);
 
     pFavoriteVBoxLayout->setContentsMargins(10,0,0,0);
 
@@ -603,7 +620,8 @@ void AlbumView::updateRightNoTrashView()
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
             DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-            palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+            palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+            m_pRightTitle->setForegroundRole(DPalette::Text);
             m_pRightPicTotal->setPalette(palette);
             QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
             ft.setFamily("SourceHanSansSC");
@@ -617,6 +635,7 @@ void AlbumView::updateRightNoTrashView()
         }
         else
         {
+            m_pImportView->setAlbumname(QString());
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
             m_pStatusBar->hide();
         }
@@ -643,7 +662,8 @@ void AlbumView::updateRightNoTrashView()
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
         DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-        palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+        palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+        m_pRightTitle->setForegroundRole(DPalette::Text);
         m_pFavoritePicTotal->setPalette(palette);
 
         QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -695,7 +715,8 @@ void AlbumView::updateRightNoTrashView()
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
                 DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-                palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+                palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+                m_pRightTitle->setForegroundRole(DPalette::Text);
                 m_pRightPicTotal->setPalette(palette);
                 QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
                 ft.setFamily("SourceHanSansSC");
@@ -730,7 +751,9 @@ void AlbumView::updateRightNoTrashView()
 
             m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
 
-            m_pRightTitle->setText(m_currentAlbum);
+                if (0 < m_iAlubmPicsNum)
+                {
+                m_pRightTitle->setText(m_currentAlbum);
 
             QFontMetrics elideFont(m_pRightTitle->font());
             m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
@@ -744,7 +767,8 @@ void AlbumView::updateRightNoTrashView()
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
             DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-            palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
+            palette.setBrush(DPalette::Text, palette.color(DPalette::WindowText));
+            m_pRightTitle->setForegroundRole(DPalette::Text);
             m_pRightPicTotal->setPalette(palette);
             QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
             ft.setFamily("SourceHanSansSC");
@@ -755,6 +779,13 @@ void AlbumView::updateRightNoTrashView()
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
 
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            m_pStatusBar->show();
+            }
+            else {
+                m_pImportView->setAlbumname(m_currentAlbum);
+                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+                m_pStatusBar->hide();
+            }
             setAcceptDrops(true);
         }
 
@@ -827,8 +858,7 @@ void AlbumView::leftTabClicked(const QModelIndex &index)
 //    if(m_curListWidgetItem == m_pLeftTabList->currentItem()) return;
     if(m_curListWidgetItem == m_pLeftTabList->currentItem())
     {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
-        item->newAlbumStatus();
+        return;
     }
     m_curListWidgetItem = m_pLeftTabList->currentItem();
     for(int i = 0; i < m_pLeftTabList->count(); i++)
@@ -943,6 +973,8 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
 
+        m_curListWidgetItem = m_pLeftTabList->currentItem();
+
         m_currentAlbum = item->m_albumNameStr;
         updateRightNoTrashView();
     }
@@ -1028,6 +1060,7 @@ void AlbumView::createNewAlbum()
     item->m_opeMode = OPE_MODE_ADDNEWALBUM;
     item->editAlbumEdit();
 
+    m_curListWidgetItem = m_pLeftTabList->currentItem();
     m_currentAlbum = albumName;
     updateRightNoTrashView();
 }
@@ -1144,6 +1177,10 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     info.viewType = m_currentAlbum;
     if(info.slideShow)
     {
+        if(imagelist.count() == 1)
+        {
+            info.paths = paths;
+        }
         emit dApp->signalM->startSlideShow(info);
     }
     else {
@@ -1364,6 +1401,10 @@ void AlbumView::loadMountPicture(QString path)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
             }
         } else {
             QImageReader readerF(fileInfo.filePath(), format.toLatin1());

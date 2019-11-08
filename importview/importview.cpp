@@ -12,22 +12,42 @@ ImportView::ImportView()
 void ImportView::initConnections()
 {
     connect(m_pImportBtn, &DPushButton::clicked, this, &ImportView::onImprotBtnClicked);
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pLabel,[=]{
+        QPixmap pixmap;
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
+        }
+        pLabel->setPixmap(pixmap);
+    });
 }
 
 void ImportView::initUI()
 {
     QVBoxLayout* pImportFrameLayout = new QVBoxLayout();
 
-    DLabel* pLabel = new DLabel();
+    pLabel = new DLabel();
     pLabel->setFixedSize(128, 128);
 
     QPixmap pixmap;
-    pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
-
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
+    }
+    if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
+    }
     pLabel->setPixmap(pixmap);
 
     m_pImportBtn = new DPushButton();
-    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
+//    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
     m_pImportBtn->setText("导入图片");
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
@@ -35,6 +55,7 @@ void ImportView::initUI()
     DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
     pa.setColor(QPalette::Light,QColor(37,183,255));
     pa.setColor(QPalette::Dark,QColor(0,152,255));
+    pa.setColor(QPalette::Highlight,QColor(0,0,0,0));
     pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
     m_pImportBtn->setPalette(pa);
 
@@ -181,6 +202,7 @@ void ImportView::onImprotBtnClicked()
 
     using namespace utils::image;
 
+    QStringList albumlistpath;
     for (auto imagePath : image_list)
     {
         if (! imageSupportRead(imagePath)) {
@@ -203,6 +225,12 @@ void ImportView::onImprotBtnClicked()
         dbi.time = fi.birthTime();
 
         dbInfos << dbi;
+        albumlistpath.append(imagePath);
+    }
+
+    if(m_albumname.length() > 0)
+    {
+        DBManager::instance()->insertIntoAlbum(m_albumname, albumlistpath);
     }
 
     if (! dbInfos.isEmpty())
@@ -216,4 +244,9 @@ void ImportView::onImprotBtnClicked()
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
     }
+}
+
+void ImportView::setAlbumname(const QString &name)
+{
+    m_albumname = name;
 }

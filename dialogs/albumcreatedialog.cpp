@@ -32,40 +32,27 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
 {
     setModal(true);
 
-//    setIconPixmap(QPixmap(":/dialogs/images/resources/images/album_bg_normal.png"));
-//    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-//    addButton(tr("OK"), true, DDialog::ButtonRecommend);
-
-
     // 添加标题
     const QString subStyle =
     utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
-    title->setText("新建相册");
+    title->setText("新建相册");   
     DPalette pe = DApplicationHelper::instance()->palette(title);
     pe.setBrush(DPalette::WindowText,pe.color(DPalette::TextTitle));
-    title->setPalette(pe);
+    title->setPalette(pe);    
     title->setFixedSize(68,25);
     title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
-//    QFont ft;
-//    ft.setPixelSize(17);
-//    ft.setFamily("SourceHanSansSC-Bold");
-//    title->setFont(ft);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
 
     //添加输入文本框
     DLineEdit *edit = new DLineEdit(this);
-    edit->setText("新建相册");
     edit->setObjectName("DialogEdit");
     edit->setText(getNewAlbumName());
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
     edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-//    QFont ft1;
-//    ft1.setPixelSize(14);         //设置字体大小
-//    edit->setFont(ft1);
 
     connect(this, &AlbumCreateDialog::visibleChanged, this, [=] (bool v) {
         if (! v) return;

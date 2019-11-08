@@ -6,7 +6,6 @@
 
 LeftListWidget::LeftListWidget()
 {
-
 }
 
 void LeftListWidget::mousePressEvent(QMouseEvent* e)
@@ -22,8 +21,8 @@ void LeftListWidget::mousePressEvent(QMouseEvent* e)
 //        qDebug()<<index.row();
 //    }
 
-    AlbumLeftTabItem *item = (AlbumLeftTabItem*)this->itemWidget(this->currentItem());
-    item->onCheckNameValid();
+//    AlbumLeftTabItem *item = (AlbumLeftTabItem*)this->itemWidget(this->currentItem());
+//    item->onCheckNameValid();
 
     DListWidget::mousePressEvent(e);
 
