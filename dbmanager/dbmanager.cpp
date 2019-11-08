@@ -24,9 +24,11 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QStandardPaths>
 
 namespace {
 
+//const QString DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);//QDir::homePath() + "/.local/share/deepin/deepin-album/";
 const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-album/";
 const QString DATABASE_NAME = "deepinalbum.db";
 const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
