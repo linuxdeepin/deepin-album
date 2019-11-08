@@ -14,6 +14,7 @@ const int ITEM_SPACING = 5;
 const int BASE_HEIGHT = 100;
 const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
+const int MENUSHOW_MAX = 12;
 
 const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
@@ -342,6 +343,8 @@ void ThumbnailListView::updateMenuContents()
     if (!(1 == paths.length() && utils::image::imageSupportSave(paths[0]))) {
         m_MenuActionMap.value(SETASWALLPAPER_CONTEXT_MENU)->setVisible(false);
     }
+
+    updatMenushow();
 }
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
@@ -362,6 +365,74 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
     ac->setShortcutContext(Qt::WidgetShortcut);
     m_MenuActionMap.insert(text, ac);
     m_pMenu->addAction(ac);
+    m_actLst.append(ac);
+}
+
+QMap<int, QWidgetAction*> ThumbnailListView::initMenuArrow()
+{
+    //    DImageButton *btn_up = new DImageButton(m_pMenu);
+        DIconButton *btn_up = new DIconButton(m_pMenu);
+        QObject::connect(btn_up, &DIconButton::clicked, this, &ThumbnailListView::onUpAction);
+        btn_up->setFixedHeight(20);
+        btn_up->setIcon(QIcon(QPixmap(":/resources/menu/arrow_up.svg")));
+        btn_up->setFlat(true);
+    //    btn_up->setNormalPic(":/resources/menu/arrow_up.svg");
+    //    btn_up->setHoverPic(":/resources/menu/arrow_up.svg");
+    //    btn_up->setPressPic(":/resources/menu/arrow_up.svg");
+
+    //    DImageButton *btn_down = new DImageButton(m_pMenu);
+        DIconButton *btn_down = new DIconButton(m_pMenu);
+        QObject::connect(btn_down, &DIconButton::clicked, this, &ThumbnailListView::onDownAction);
+        btn_down->setFixedHeight(20);
+        btn_down->setIcon(QIcon(QPixmap(":/resources/menu/arrow_down.svg")));
+        btn_down->setFlat(true);
+    //    btn_down->setNormalPic(":/resources/menu/arrow_down.svg");
+    //    btn_down->setHoverPic(":/resources/menu/arrow_down.svg");
+    //    btn_down->setPressPic(":/resources/menu/arrow_down.svg");
+
+        QMap<int, QWidgetAction*> menuArrowMap;
+        menuArrowMap.clear();
+
+        QWidgetAction *up_wgtact = new QWidgetAction(m_pMenu);
+        QWidgetAction *down_wgtact = new QWidgetAction(m_pMenu);
+        up_wgtact->setDefaultWidget(btn_up);
+        down_wgtact->setDefaultWidget(btn_down);
+
+        menuArrowMap.insert(IdArrowUp, up_wgtact);
+        menuArrowMap.insert(IdArrowDown, down_wgtact);
+
+        return menuArrowMap;
+}
+
+void ThumbnailListView::updatMenushow()
+{
+    int act_count = m_actLst.size();
+    if (act_count <= MENUSHOW_MAX) {
+        return;
+    }
+
+#ifdef QT_DEBUG
+    qDebug() << "act_count: " << act_count;
+#endif
+
+    for (int index = 0; index < act_count; ++index) {
+        if (index > MENUSHOW_MAX - 1) {
+            QAction *act = dynamic_cast<QAction*>(m_actLst[index]);
+            act->setVisible(false);
+#ifdef QT_DEBUG
+            qDebug() << "hide text: "<< index << m_actLst[index]->text();
+#endif
+        }
+        else {
+            m_new_actLst.append(m_actLst[index]);
+#ifdef QT_DEBUG
+            qDebug() << "m_new_actLst text: " << index << m_new_actLst[index]->text();
+#endif
+        }
+    }
+
+    m_new_first_index = m_new_actLst.indexOf(m_new_actLst.first()) - 1;
+    m_new_last_index = m_new_actLst.indexOf(m_new_actLst.last());
 }
 
 void ThumbnailListView::initMenuAction()
@@ -371,7 +442,11 @@ void ThumbnailListView::initMenuAction()
         return;
     }
 
+    m_pMenu->setContentsMargins(0, 0, 0, 0);
+    QMap<int, QWidgetAction*> menuArrowMap = initMenuArrow();
+
     m_MenuActionMap.clear();
+    m_pMenu->addAction(menuArrowMap[IdArrowUp]);
     appendAction(IdView, tr(VIEW_CONTEXT_MENU), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr(FULLSCREEN_CONTEXT_MENU), ss(FULLSCREEN_CONTEXT_MENU));
     appendAction(IdStartSlideShow, tr(SLIDESHOW_CONTEXT_MENU), ss(SLIDESHOW_CONTEXT_MENU));
@@ -393,7 +468,14 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdDisplayInFileManager, tr(DISPLAYINFILEMANAGER_CONTEXT_MENU),
                  ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
     appendAction(IdImageInfo, tr(ImageInfo_CONTEXT_MENU), ss(ImageInfo_CONTEXT_MENU));
+    m_pMenu->addAction(menuArrowMap[IdArrowDown]);
+
+    if (m_actLst.size() <= MENUSHOW_MAX) {
+        menuArrowMap[IdArrowUp]->setVisible(false);
+        menuArrowMap[IdArrowDown]->setVisible(false);
+    }
 }
+
 
 QMenu *ThumbnailListView::createAlbumMenu()
 {
@@ -626,6 +708,59 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     m_model->removeRow(index.row());
 }
 
+
+void ThumbnailListView::onUpAction()
+{
+    if (m_new_actLst.size() <= 0
+            || m_actLst.size() <= 0) {
+        return;
+    }
+
+    if (-1 == m_new_first_index) {
+        return;
+    }
+
+    m_new_actLst.at(m_new_first_index)->setVisible(true);
+    m_actLst.at(m_new_last_index)->setVisible(false);
+
+    --m_new_first_index;
+    --m_new_last_index;
+
+    if (m_new_actLst.size() < m_new_first_index
+            || m_actLst.size() - 1 <= m_new_last_index) {
+        return;
+    }
+
+#ifdef QT_DEBUG
+    qDebug() << "m_new_first_index: " << m_new_first_index;
+    qDebug() << "m_new_last_index: " << m_new_last_index;
+    qDebug() << "m_new_actLst.size():" << m_new_actLst.size();
+    qDebug() << "m_actLst.size():" << m_actLst.size() << endl;
+#endif
+}
+
+void ThumbnailListView::onDownAction()
+{
+    if (m_new_actLst.size() <= 0
+            || m_actLst.size() <= 0) {
+        return;
+    }
+
+    if (m_new_actLst.size() < m_new_first_index
+            || m_actLst.size() - 1 <= m_new_last_index) {
+        return;
+    }
+
+    m_new_actLst.at(++m_new_first_index)->setVisible(false);
+    m_actLst.at(++m_new_last_index)->setVisible(true);
+
+#ifdef QT_DEBUG
+    qDebug() << "m_new_first_index: " << m_new_first_index;
+    qDebug() << "m_new_last_index: " << m_new_last_index;
+    qDebug() << "m_new_actLst.size():" << m_new_actLst.size();
+    qDebug() << "m_actLst.size():" << m_actLst.size() << endl;
+#endif
+}
 
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
