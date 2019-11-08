@@ -25,6 +25,8 @@
         <file>resources/common/images/input_clear_press.svg</file>
         <file>resources/common/images/input_clear_normal.svg</file>
         <file>resources/common/images/input_clear_hover.svg</file>
+        <file>resources/menu/arrow_down.svg</file>
+        <file>resources/menu/arrow_up.svg</file>
     </qresource>
     <qresource prefix="/images/loadings">
         <file>resources/dark/images/dark_loading/loading_1.png</file>

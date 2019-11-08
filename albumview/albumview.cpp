@@ -136,6 +136,8 @@ void AlbumView::initConnections()
         m_pRightTitle->setPalette(pa);
         pLabel1->setPalette(pa);
         m_pFavoriteTitle->setPalette(pa);
+    });
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pLeftTabList,[=]{
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
         item->newAlbumStatus();
     });
@@ -406,7 +408,7 @@ void AlbumView::initRightView()
     pTopLeftVBoxLayout->addWidget(pLabel1);
     pTopLeftVBoxLayout->addSpacing(9);
     pTopLeftVBoxLayout->addWidget(pLabel2);
-    pTopLeftVBoxLayout->addSpacing(7);
+    pTopLeftVBoxLayout->addSpacing(-4);
     pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
@@ -481,7 +483,7 @@ void AlbumView::initRightView()
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
     pFavoriteVBoxLayout->addSpacing(9);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
-    pFavoriteVBoxLayout->addSpacing(7);
+    pFavoriteVBoxLayout->addSpacing(-6);
 
     pFavoriteVBoxLayout->setContentsMargins(10,0,0,0);
 
