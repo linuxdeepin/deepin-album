@@ -74,7 +74,6 @@ private:
     ImportView* pImportView;
     QMap<ThumbnailListView*, QStringList> selpicQmap;
     int allnum;
-    DLabel* pDate;
     DLabel* m_pDate;
 
 public:

@@ -283,7 +283,6 @@ void ThumbnailListView::updateMenuContents()
         }
         m_MenuActionMap.value(EXPORT_CONTEXT_MENU)->setEnabled(ret);
     }
-
     if (COMMON_STR_TRASH == m_imageType)
     {
         m_MenuActionMap.value(THROWTOTRASH_CONTEXT_MENU)->setVisible(false);
