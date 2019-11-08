@@ -256,6 +256,11 @@ void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
     backToLastPanel();
 }
 
+void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
+{
+    backToLastPanel();
+}
+
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
     dApp->setOverrideCursor(Qt::ArrowCursor);

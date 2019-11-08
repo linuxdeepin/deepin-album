@@ -50,6 +50,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
 
+    void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
+
 private:
     void backToLastPanel();
 
