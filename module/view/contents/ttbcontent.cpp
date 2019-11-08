@@ -35,6 +35,7 @@
 #include <DImageButton>
 #include <DThumbnailProvider>
 #include <DApplicationHelper>
+#include <DSpinner>
 
 DWIDGET_USE_NAMESPACE
 namespace {
@@ -191,11 +192,13 @@ TTBContent::TTBContent(bool inDB,
     m_imgInfos = m_infos;
     if ( m_imgInfos.size() <= 1 ) {
         m_contentWidth = 482;
-    } else {
-        m_contentWidth = 1280;
     }
-
-    m_bClBTChecked = false;
+    else if (m_imgInfos.size() <= 3 ) {
+        m_contentWidth = 782;
+    }
+    else {
+        m_contentWidth = qMin((782+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));
+    }
 
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
@@ -253,7 +256,7 @@ TTBContent::TTBContent(bool inDB,
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
     m_preButton->setIconSize(QSize(36,36));
 //    m_preButton->setToolTip(tr("Previous"));
-    m_preButton->setToolTip(tr("上一个"));
+     m_preButton->setToolTip(tr("上一张"));
     m_preButton->hide();
 
     connect(m_preButton, &DIconButton::clicked, this, [=] {
@@ -272,7 +275,7 @@ TTBContent::TTBContent(bool inDB,
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
     m_nextButton->setIconSize(QSize(36,36));
 //    m_nextButton->setToolTip(tr("Next"));
-    m_nextButton->setToolTip(tr("下一个"));
+     m_nextButton->setToolTip(tr("下一张"));
     m_nextButton->hide();
 
 
@@ -392,7 +395,18 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setMargin(0);
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
-    m_imgListView->setFixedSize(QSize(658,60));
+//    m_imgListView->setFixedSize(QSize(658,60));
+    if (m_imgInfos.size() <= 3 ) {
+       m_imgListView->setFixedSize(QSize(114,60));
+    }
+    else{
+      m_imgListView->setFixedSize(QSize(qMin((782+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280))-668,60));
+    }
+    m_imgListView->hide();
+    QPalette palette ;
+    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
+    m_imgList->setPalette(palette);
+    m_imgListView->setPalette(palette);
     hb->addWidget(m_imgListView);
     hb->addSpacing(ICON_SPACING+14);
 
@@ -422,9 +436,7 @@ void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;
     m_fileNameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-    QFont font;
-    font.setPixelSize(12);   
-    QFontMetrics fm(font);
+    QFontMetrics fm(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     QString filename = QFileInfo(m_imagePath).fileName();
     QString name;
 
@@ -491,6 +503,23 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
+    qDebug()<<m_windowWidth;
+    if ( m_imgInfos.size() <= 1 ) {
+        m_contentWidth = 482;
+    }
+    else if ( m_imgInfos.size() <= 3 ) {
+        m_contentWidth = 782;
+        m_imgListView->setFixedSize(QSize(114,60));
+    }
+    else {
+        m_contentWidth = qMin((782+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));
+        m_imgListView->setFixedSize(QSize(qMin((782+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280))-668,60));
+    }
+
+    qDebug()<<m_windowWidth;
+
+    setFixedWidth(m_contentWidth);
+
     QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
     for(int j = 0; j < labelList.size(); j++){
         labelList.at(j)->setFixedSize (QSize(30,40));
@@ -539,7 +568,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
 
         int t=0;
-        if ( m_imgInfos.size() > 1 ) {
+        if ( m_imgInfos.size() > 3 ) {
             m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
             m_imgList->resize((m_imgInfos.size()+1)*32,60);
 
@@ -609,14 +638,18 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 //                labelList.at(t)->setContentsMargins(0,0,0,0);
 //                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
             }
+
+
             m_imgList->show();
             m_imgListView->show();
             QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");  //设置动画
             animation->setDuration(500);           //延迟
             animation->setEasingCurve(QEasingCurve::NCurveTypes);     //缓动曲线
             animation->setStartValue(m_imgList->pos());               //可选起始值
-            animation->setKeyValueAt(1,  QPoint(297-(num*t),0));
-            animation->setEndValue(QPoint(297-(num*t),0));        //最终值
+            animation->setKeyValueAt(1,  QPoint((qMin((782+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-668-52)/2-((num)*t),0));
+//            qDebug()<<QPoint((qMin((782+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-668-52)/2-((num)*t),0)<<width();
+            animation->setEndValue(QPoint((qMin((782+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-668-52)/2-((num)*t),0));
+//            qDebug()<<QPoint((qMin((782+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-668-52)/2-((num)*t),0);
             animation->start(QAbstractAnimation::DeleteWhenStopped);  //开始动画
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
@@ -628,7 +661,20 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_preButton_spc->show();
             m_nextButton->show();
             m_nextButton_spc->show();
-        }else {
+
+
+            if(m_nowIndex == 0){
+                m_preButton->setDisabled(true);
+            }else {
+                m_preButton->setDisabled(false);
+            }
+            if(m_nowIndex == labelList.size()-1){
+                m_nextButton->setDisabled(true);
+            }else {
+                m_nextButton->setDisabled(false);
+            }
+        }
+		else {
             m_imgList->hide();
             m_imgListView->hide();
             m_preButton->hide();

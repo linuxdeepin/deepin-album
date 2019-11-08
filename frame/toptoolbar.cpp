@@ -38,15 +38,16 @@
 #include <QProcess>
 #include <QResizeEvent>
 #include <QShortcut>
-#include <QMenu>
 #include <QStyleFactory>
 #include <QImageReader>
 #include <QLabel>
+#include <DFontSizeManager>
+#include <DApplicationHelper>
 DWIDGET_USE_NAMESPACE
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 39;
+const int TOP_TOOLBAR_HEIGHT = 50;
 const int ICON_MARGIN = 6;
 
 //const QColor DARK_COVERCOLOR = QColor(0, 0, 0, 217);
@@ -301,13 +302,29 @@ void TopToolbar::initWidgets()
 //            filename = QFileInfo(vinfo.path).fileName();
 //        }
 //        m_titlebar->setTitle(filename);
-        m_titletxt->setText(filename);
+        QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+        m_titletxt->setText(a);
+        connect(dApp->signalM, &SignalManager::resizeFileName,
+                this, [ = ](){
+            QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+            m_titletxt->setText(b);
+        });
     });
+}
+
+QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
+{
+    QFontMetrics fontWidth(font);
+    int width = fontWidth.width(str);
+    if(width>=MaxWidth){
+        str = fontWidth.elidedText(str,Qt::ElideRight,MaxWidth);
+    }
+    return str;
 }
 
 void TopToolbar::initMenu()
 {
-    m_menu = new QMenu(this);
+    m_menu = new DMenu(this);
 //    m_menu->setStyle(QStyleFactory::create("dlight"));
 
 #ifndef LITE_DIV

@@ -59,7 +59,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 private:
     int _index;
-    int _indexNow;
+    int _indexNow = -1;
     DLabel *_image=nullptr;
     QString _path = NULL;
     QPixmap _pixmap;

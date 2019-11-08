@@ -50,6 +50,7 @@ signals:
     void updateTopToolbarMiddleContent(QWidget *content);
     void updateBottomToolbarContent(QWidget *content, bool wideMode = false);
     void updateTopToolbar();
+    void updateBottomToolbar(bool wideMode = false);
     void updateExtensionPanelContent(QWidget *content);
     void showTopToolbar();
     void hideTopToolbar(bool immediately = false);
@@ -60,6 +61,9 @@ signals:
 
     void showImageView(int index);
     void hideImageView();
+	void extensionPanelHeight(int height, bool immediately = false);
+    void sendPathlist(QStringList pathlist);
+    void enterView(bool immediately = false);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
@@ -78,6 +82,8 @@ signals:
     void viewImage(const ViewInfo &vinfo);
     void exportImage(const QStringList &paths);
     void updateFileName(const QString &fileName);
+    void resizeFileName();
+
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());

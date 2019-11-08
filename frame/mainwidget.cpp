@@ -22,7 +22,7 @@
 //#include "module/edit/EditPanel.h"
 //#include "module/timeline/timelinepanel.h"
 #include "module/slideshow/slideshowpanel.h"
-#include "module/view/viewpanel.h"
+//#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/separator.h"
 #include "widgets/processtooltip.h"
@@ -41,7 +41,7 @@ using namespace Dtk::Widget;
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 39;
+const int TOP_TOOLBAR_HEIGHT = 50;
 const int BOTTOM_TOOLBAR_HEIGHT = 70;
 const int EXTENSION_PANEL_WIDTH = 300;
 
@@ -79,22 +79,29 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
         m_topSeparatorLine->setVisible(true);
 //        emit m_topToolbar->move(0, 0);
+        emit dApp->signalM->resizeFileName();
         if (e->oldSize()  != e->size()) {
             emit m_topToolbar->updateMaxBtn();
         }
     }
     if (m_bottomToolbar) {
 //        m_bottomToolbar->resize(310, m_bottomToolbar->height());
-        if (m_bottomToolbar->isVisible())
-            m_bottomToolbar->setRadius(18);
-        if (window()->isFullScreen())
-        {
-            m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height());
-        }
-        else
-        {
-            m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
-        }
+//        if (m_bottomToolbar->isVisible()){
+//            m_bottomToolbar->setRadius(18);
+//            if(window()->isFullScreen() || window()->isMaximized()){
+//                m_bottomToolbar->resize(window()->width()-20,m_bottomToolbar->height());
+//                m_bottomToolbar->setFixedWidth(width()-20);
+                if ( m_viewPanel->getPicCount() <= 1 ) {
+                    m_bottomToolbar->setFixedWidth(482);
+                }
+                else if(m_viewPanel->getPicCount() <= 3 ){
+                    m_bottomToolbar->setFixedWidth(782);
+                }
+                else {
+                    m_bottomToolbar->setFixedWidth(qMin((782+31*(m_viewPanel->getPicCount()-3)),qMax(width()-20,1280)));
+                }
+                m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
+//            }
 
     }
 #ifndef LITE_DIV
@@ -120,17 +127,17 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     }
     if(m_extensionPanel){
         if (this->window()->isFullScreen()) {
-            if(m_extensionPanel->x()<width()){
-                m_extensionPanel->move(width(), 0);
-            }else {
+            if(m_extensionPanel->x()<e->oldSize().width()){
                 m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), 0);
-            }
-        } else {
-            if(m_extensionPanel->x()<width()){
-                  m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
-//                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
             }else {
+                m_extensionPanel->move(width(), 0);
+            }
+        }
+        else{
+            if(m_extensionPanel->x() < e->oldSize().width()){
                 m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
+            }else {
+                m_extensionPanel->move(width(),TOP_TOOLBAR_HEIGHT);
             }
         }
     }
@@ -211,7 +218,7 @@ void MainWidget::initPanelStack(bool manager)
         SlideShowPanel *m_slideShowPanel = new SlideShowPanel();
         m_panelStack->addWidget(m_slideShowPanel);
 #endif
-        ViewPanel *m_viewPanel = new ViewPanel();
+        m_viewPanel = new ViewPanel();
         m_panelStack->addWidget(m_viewPanel);
         SlideShowPanel *m_slidePanel = new SlideShowPanel();
         m_panelStack->addWidget(m_slidePanel);
@@ -344,20 +351,34 @@ void MainWidget::initBottomToolbar()
 //    m_btmSeparatorLine->resize(window()->width(), 1);
 //    m_btmSeparatorLine->move(0, window()->height() -
 //                           m_bottomToolbar->height() - 1);
-//    connect(dApp->signalM,&SignalManager::updateBottomToolbar,this,[=](bool wideMode){
-//        if (wideMode) {
-//            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+    connect(dApp->signalM,&SignalManager::updateBottomToolbar,this,[=](bool wideMode){
+        if (wideMode) {
+            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
 //            m_bottomToolbar->setFixedWidth(1280);
-//        }
-//        else {
-//            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-//            m_bottomToolbar->setFixedWidth(482);
-//        }
-//        if(window()->isFullScreen() || window()->isMaximized()){
+            if(m_viewPanel->getPicCount()<= 3){
+                m_bottomToolbar->setFixedWidth(782);
+            }else {
+                m_bottomToolbar->setFixedWidth(qMin(782+31*(m_viewPanel->getPicCount()-3),qMax(width()-20,1280)));
+            }
+            m_bottomToolbar->setVisible(true);
+            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+        }
+        else {
+            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+            m_bottomToolbar->setFixedWidth(482);
+            if(m_viewPanel->getPicCount() == 1){
+                m_bottomToolbar->setVisible(true);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }else {
+                m_bottomToolbar->setVisible(false);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }
+        }
+        if(window()->isFullScreen() || window()->isMaximized()){
 //            m_bottomToolbar->setFixedWidth(window()->width()-20);
-//        }
-//        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
-//    });
+        }
+        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
+    });
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
             this, [=](QWidget *c, bool wideMode) {
@@ -366,21 +387,32 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->setContent(c);
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            m_bottomToolbar->setFixedWidth(1280);
+//            m_bottomToolbar->setFixedWidth(1280);
+            if(m_viewPanel->getPicCount()<= 3){
+                m_bottomToolbar->setFixedWidth(782);
+            }else {
+                m_bottomToolbar->setFixedWidth(qMin(782+31*(m_viewPanel->getPicCount()-3),qMax(width()-20,1280)));
+            }
+            m_bottomToolbar->setVisible(true);
+            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(482);
+            if(m_viewPanel->getPicCount() == 1){
+                m_bottomToolbar->setVisible(true);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }else {
+                m_bottomToolbar->setVisible(false);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }
         }
 
-        if (window()->isFullScreen())
-        {
-            m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height());
+        if(window()->isFullScreen() || window()->isMaximized()){
+//            m_bottomToolbar->setFixedWidth(window()->width()-20);
         }
-        else
-        {
-            m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
-        }
+//        m_bottomToolbar->setRadius(18);
+        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->setVisible(true);
@@ -463,7 +495,6 @@ void MainWidget::initExtensionPanel()
 //                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
 //                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
                 m_extensionPanel->moveWithAnimation(width(), TOP_TOOLBAR_HEIGHT);
-                m_extensionPanel->hide();
             }
         }
     });

@@ -786,8 +786,9 @@ bool ViewPanel::showPrevious()
     }
 
     if (m_current <= 0) {
-        m_current = m_infos.size()-1;
-    }else {
+//        m_current = m_infos.size()-1;
+    }
+    else {
         --m_current;
     }
 
@@ -805,8 +806,8 @@ bool ViewPanel::showNext()
         return false;
     }
 
-    if (m_current >= m_infos.size()-1) {
-        m_current = 0;
+    if (m_current == m_infos.size()-1) {
+//        m_current = 0;
     }else{
         ++m_current;
     }
@@ -853,6 +854,7 @@ void ViewPanel::removeCurrentImage()
         qDebug() << "No images to show!";
         m_current = 0;
         emit imageChanged("",m_infos);
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
         emit dApp->signalM->hideImageView();

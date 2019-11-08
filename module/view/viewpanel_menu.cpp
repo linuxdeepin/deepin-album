@@ -25,7 +25,7 @@
 #include "utils/imageutils.h"
 #include "widgets/dialogs/filedeletedialog.h"
 #include "widgets/printhelper.h"
-#include <QMenu>
+#include <DMenu>
 #include <QKeySequence>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -72,8 +72,8 @@ enum MenuItemId {
 
 void ViewPanel::initPopupMenu()
 {
-    m_menu = new QMenu;
-    m_menu->setStyle(QStyleFactory::create("dlight"));
+    m_menu = new DMenu;
+//    m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         if (! m_infos.isEmpty()
         #ifdef LITE_DIV
@@ -85,10 +85,10 @@ void ViewPanel::initPopupMenu()
             m_menu->popup(QCursor::pos());
         }
     });
-    connect(m_menu, &QMenu::aboutToHide, this, [=] {
+    connect(m_menu, &DMenu::aboutToHide, this, [=] {
         dApp->restoreOverrideCursor();
     });
-    connect(m_menu, &QMenu::triggered, this, &ViewPanel::onMenuItemClicked);
+    connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] {
         if (this && this->isVisible()) {
             updateMenuContent();
@@ -127,13 +127,13 @@ void ViewPanel::appendAction_darkmenu(int id, const QString &text, const QString
 }
 
 #ifndef LITE_DIV
-QMenu *ViewPanel::createAlbumMenu()
+DMenu *ViewPanel::createAlbumMenu()
 {
     if (m_infos.isEmpty() || m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
         return nullptr;
     }
 
-    QMenu *am = new QMenu(tr("Add to album"));
+    DMenu *am = new DMenu(tr("Add to album"));
     am->setStyle(QStyleFactory::create("dlight"));
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
@@ -341,10 +341,10 @@ void ViewPanel::updateMenuContent()
 #ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
-
+//    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
-        QMenu *am = createAlbumMenu();
+        DMenu *am = createAlbumMenu();
         if (am) {
             m_menu->addMenu(am);
         }

@@ -23,11 +23,12 @@
 #include "danchors.h"
 #include "thumbnailwidget.h"
 #include "lockwidget.h"
-#include "frame/mainwidget.h"
+//#include "frame/mainwidget.h"
 
 #include <QFileInfo>
 #include <QJsonObject>
 #include <QDirIterator>
+#include <DMenu>
 
 DWIDGET_USE_NAMESPACE
 
@@ -38,7 +39,6 @@ class ImageWidget;
 class NavigationWidget;
 class QFileSystemWatcher;
 class QLabel;
-class QMenu;
 class QStackedWidget;
 class SlideEffectPlayer;
 
@@ -55,6 +55,9 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     const SignalManager::ViewInfo viewInfo() const;
+    int getPicCount(){
+        return m_infos.count();
+    }
 
 signals:
     void updateCollectButton();
@@ -94,7 +97,7 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut="");
     void appendAction_darkmenu(int id, const QString &text, const QString &shortcut="");
 #ifndef LITE_DIV
-    QMenu* createAlbumMenu();
+    DMenu* createAlbumMenu();
 #endif
     void onMenuItemClicked(QAction *action);
     void updateMenuContent();
@@ -137,7 +140,7 @@ private:
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
     ThumbnailWidget* m_emptyWidget=nullptr;
-    QMenu *m_menu;
+    DMenu *m_menu;
     QStackedWidget *m_stack;
     LockWidget* m_lockWidget;
 

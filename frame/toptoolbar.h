@@ -28,13 +28,13 @@
 #include <QGraphicsDropShadowEffect>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
+#include <DMenu>
 
 DWIDGET_USE_NAMESPACE
 
 class SettingsWindow;
 class QHBoxLayout;
 class QProcess;
-class QMenu;
 
 class TopToolbar : public DBlurEffectWidget
 {
@@ -68,6 +68,7 @@ private:
     void initRightContent();
     void initMenu();
     void initWidgets();
+    QString  geteElidedText(QFont font, QString str, int MaxWidth);
 
 private slots:
 //    void onAbout();
@@ -100,8 +101,9 @@ private:
 #ifndef LITE_DIV
     SettingsWindow *m_settingsWindow;
 #endif
-    QMenu *m_menu;
+    DMenu *m_menu;
     bool m_manager;
+    bool m_viewChange;
 };
 
 #endif // TOPTOOLBAR_H
