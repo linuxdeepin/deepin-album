@@ -42,6 +42,7 @@ private:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void onImprotBtnClicked();
+    DLabel *pLabel;
 
 public:
     DPushButton* m_pImportBtn;

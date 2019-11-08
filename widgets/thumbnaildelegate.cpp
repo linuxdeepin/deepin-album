@@ -31,6 +31,7 @@
 #include <QMouseEvent>
 #include <QImageReader>
 #include <DFontSizeManager>
+#include <DGuiApplicationHelper>
 
 namespace
 {
@@ -73,8 +74,15 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->fillRect(backgroundRect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
 
         QPixmap selectedPixmap;
-        selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
-
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
+        }
         painter->drawPixmap(backgroundRect, selectedPixmap);
     }
 
@@ -140,8 +148,15 @@ void ThumbnailDelegate::paint(QPainter *painter,
     if (selected)
     {
         QPixmap selectedPixmap;
-        selectedPixmap = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
-
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            selectedPixmap = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28));
+        }
         QRect selectedRect(backgroundRect.x()+backgroundRect.width()-28,backgroundRect.y(),28,28);
         QPainterPath selectedBp;
         selectedBp.addRoundedRect(selectedRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);

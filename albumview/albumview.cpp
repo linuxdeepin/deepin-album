@@ -136,6 +136,8 @@ void AlbumView::initConnections()
         m_pRightTitle->setPalette(pa);
         pLabel1->setPalette(pa);
         m_pFavoriteTitle->setPalette(pa);
+    });
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pLeftTabList,[=]{
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
         item->newAlbumStatus();
     });
