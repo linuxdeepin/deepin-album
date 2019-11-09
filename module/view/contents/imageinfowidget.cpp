@@ -164,7 +164,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 //    contentLayout->setContentsMargins(10, 10, 10, 10);
 
     // Title field
-    SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
+    SimpleFormLabel *title = new SimpleFormLabel(tr("图片信息"));
     title->setFixedHeight(50);
     title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
