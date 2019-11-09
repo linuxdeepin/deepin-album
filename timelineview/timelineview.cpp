@@ -70,12 +70,10 @@ void TimeLineView::initConnections(){
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &TimeLineView::restorePicNum);
 
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_dateItem, [=]{
-        DPalette pa = DApplicationHelper::instance()->palette(m_dateItem);
-        pa.setBrush(DPalette::Window, pa.color(DPalette::Base));
-        m_dateItem->setPalette(pa);
-    });
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pDate, [=]{
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+        DPalette pa1 = DApplicationHelper::instance()->palette(m_dateItem);
+        pa1.setBrush(DPalette::Window, pa1.color(DPalette::Base));
+        m_dateItem->setPalette(pa1);
         DPalette pa = DApplicationHelper::instance()->palette(m_pDate);
         pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
         m_pDate->setPalette(pa);

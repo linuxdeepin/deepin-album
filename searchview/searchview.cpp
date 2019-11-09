@@ -1,6 +1,7 @@
 #include "searchview.h"
 #include <DApplicationHelper>
 #include "utils/snifferimageformat.h"
+#include <QGraphicsDropShadowEffect>
 
 namespace {
 const int VIEW_MAINWINDOW_SEARCH = 3;
@@ -82,6 +83,11 @@ void SearchView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &SearchView::changeTheme);
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pSearchResultLabel, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
+        pa.setBrush(DPalette::Text, pa.color(DPalette::Text));
+        m_pSearchResultLabel->setPalette(pa);
+    });
 }
 
 void SearchView::initNoSearchResultView()
@@ -112,7 +118,9 @@ void SearchView::initSearchResultView()
 //    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
     pLabel1->setText("搜索结果");
-    pLabel1->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T3));
+    QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+    font.setWeight(QFont::Medium);
+    pLabel1->setFont(font);
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
     pLabel1->setPalette(pa);
@@ -131,6 +139,12 @@ void SearchView::initSearchResultView()
     pal.setColor(QPalette::Dark,QColor(237,86,86));
     pal.setColor(QPalette::ButtonText,QColor(255,255,255));
     m_pSlideShowBtn->setPalette(pal);
+
+    QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
+    shadow_effect->setOffset(0,4);
+    shadow_effect->setColor(QColor(248,44,71,102));
+    shadow_effect->setBlurRadius(6);
+    m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
 
     QPixmap pixmap;
     pixmap = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 17));
@@ -209,7 +223,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
         m_pSearchResultLabel->setText(searchStr.arg(str));
         m_pSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
         DPalette pa = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
-        pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
+        pa.setBrush(DPalette::Text, pa.color(DPalette::Text));
         m_pSearchResultLabel->setPalette(pa);
 
         m_stackWidget->setCurrentIndex(1);
