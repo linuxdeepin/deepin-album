@@ -121,7 +121,6 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
 //    m_expandGroup->expands().last()->setExpandedSeparatorVisible(true);
 //    m_mainLayout->addStretch(1);
 
-
 }
 void ImgInfoDialog::initUI()
 {
@@ -142,9 +141,19 @@ void ImgInfoDialog::updateInfo()
     auto mds = getAllMetaData(m_path);
     // Minus layout margins
     m_maxFieldWidth = width() - m_maxTitleWidth - (10 + 8) * 2;
-
     updateBaseInfo(mds);
-    updateDetailsInfo(mds);
+    bool ret = false;
+    for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
+        if(mds.value(i->key).length() > 0)
+        {
+            ret = true;
+            break;
+        }
+    }
+    if(ret)
+    {
+        updateDetailsInfo(mds);
+    }
 }
 
 QFrame *ImgInfoDialog::createBaseInfoFrame()
@@ -186,17 +195,13 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
-
         SimpleFormField *field = new SimpleFormField;
-
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
-
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignRight | Qt::AlignTop);
-
         m_exifLayout_base->addRow(title, field);
         baseInfoHeidht+=40;
     }
