@@ -332,7 +332,7 @@ void AlbumView::initRightView()
 
     QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft.setFamily("SourceHanSansSC");
-    ft.setWeight(QFont::Medium);
+    ft.setWeight(QFont::DemiBold);
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft1.setFamily("SourceHanSansSC");
     ft1.setWeight(QFont::Medium);
@@ -613,7 +613,7 @@ void AlbumView::updateRightNoTrashView()
             m_pRightTitle->setText(m_currentAlbum);
             QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
             ft1.setFamily("SourceHanSansSC");
-            ft1.setWeight(QFont::Medium);
+            ft1.setWeight(QFont::DemiBold);
             m_pRightTitle->setFont(ft1);
 
             QString str = tr("%1张照片");
@@ -708,7 +708,7 @@ void AlbumView::updateRightNoTrashView()
 
                 QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
                 ft1.setFamily("SourceHanSansSC");
-                ft1.setWeight(QFont::Medium);
+                ft1.setWeight(QFont::DemiBold);
                 m_pRightTitle->setFont(ft1);
 
                 QString str = tr("%1张照片");
@@ -760,7 +760,7 @@ void AlbumView::updateRightNoTrashView()
 
             QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
             ft1.setFamily("SourceHanSansSC");
-            ft1.setWeight(QFont::Medium);
+            ft1.setWeight(QFont::DemiBold);
             m_pRightTitle->setFont(ft1);
 
             QString str = tr("%1张照片");

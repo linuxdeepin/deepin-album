@@ -119,7 +119,7 @@ void SearchView::initSearchResultView()
     pLabel1 = new DLabel();
     pLabel1->setText("搜索结果");
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
-    font.setWeight(QFont::Medium);
+    font.setWeight(QFont::DemiBold);
     pLabel1->setFont(font);
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));

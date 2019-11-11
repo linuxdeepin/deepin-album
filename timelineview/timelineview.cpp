@@ -111,7 +111,7 @@ void TimeLineView::initTimeLineViewWidget()
 
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft3.setFamily("SourceHanSansSC");
-    ft3.setWeight(QFont::Medium);
+    ft3.setWeight(QFont::DemiBold);
 
     DPalette color = DApplicationHelper::instance()->palette(m_pDate);
     color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
@@ -124,7 +124,7 @@ void TimeLineView::initTimeLineViewWidget()
     pNum->setFixedHeight(24);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
-    ft6.setWeight(QFont::Medium);
+    ft6.setWeight(QFont::DemiBold);
     pNum->setFont(ft6);
     DPalette pal = DApplicationHelper::instance()->palette(pNum);
     pal.setBrush(DPalette::WindowText, QColor(119,119,119));
@@ -232,7 +232,7 @@ void TimeLineView::updataLayout()
 
         QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
         ft3.setFamily("SourceHanSansSC");
-        ft3.setWeight(QFont::Medium);
+        ft3.setWeight(QFont::DemiBold);
 
         pDate->setFont(ft3);
         pDate->setForegroundRole(DPalette::Text);
@@ -246,7 +246,7 @@ void TimeLineView::updataLayout()
         pNum->setText(listItem->m_snum);
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
         ft6.setFamily("SourceHanSansSC");
-        ft6.setWeight(QFont::Medium);
+        ft6.setWeight(QFont::DemiBold);
         pNum->setFont(ft6);
         DPalette pal = DApplicationHelper::instance()->palette(pNum);
         pal.setBrush(DPalette::Text, QColor(119,119,119));
