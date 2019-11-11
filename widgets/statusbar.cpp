@@ -9,7 +9,7 @@ StatusBar::StatusBar()
 
 void StatusBar::initUI()
 {
-    setFixedHeight(30);
+    setFixedHeight(27);
 
     QString str = tr("%1张照片");
     m_allPicNum = DBManager::instance()->getImgsCount();
@@ -22,7 +22,7 @@ void StatusBar::initUI()
 
     m_pSlider = new DSlider(Qt::Horizontal, this);
     m_pSlider->setFixedWidth(180);
-    m_pSlider->setFixedHeight(30);
+    m_pSlider->setFixedHeight(27);
     m_pSlider->setMinimum(0);
     m_pSlider->setMaximum(4);
     m_pSlider->slider()->setSingleStep(1);
@@ -53,5 +53,5 @@ void StatusBar::onUpdateAllpicsNumLabel()
 
 void StatusBar::resizeEvent(QResizeEvent *e)
 {
-    m_pSlider->move(width()-214, -2);
+    m_pSlider->move(width()-214, -1);
 }
