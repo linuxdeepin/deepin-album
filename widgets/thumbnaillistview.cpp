@@ -385,38 +385,32 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
 
 QMap<int, QWidgetAction*> ThumbnailListView::initMenuArrow()
 {
-    //    DImageButton *btn_up = new DImageButton(m_pMenu);
-        DIconButton *btn_up = new DIconButton(m_pMenu);
-        QObject::connect(btn_up, &DIconButton::clicked, this, &ThumbnailListView::onUpAction);
-        btn_up->setFixedHeight(20);
-        btn_up->setIcon(QIcon(QPixmap(":/resources/menu/arrow_up.svg")));
-        btn_up->setFlat(true);
-    //    btn_up->setNormalPic(":/resources/menu/arrow_up.svg");
-    //    btn_up->setHoverPic(":/resources/menu/arrow_up.svg");
-    //    btn_up->setPressPic(":/resources/menu/arrow_up.svg");
+    m_up_arrow = new DLMenuArrow;
+    QObject::connect(m_up_arrow, &DLMenuArrow::clicked, this, &ThumbnailListView::onUpAction);
+    QObject::connect(m_up_arrow, &DLMenuArrow::sigMouseEnter, this, &ThumbnailListView::onMouseEnter);
+    m_up_arrow->setFixedHeight(25);
 
-    //    DImageButton *btn_down = new DImageButton(m_pMenu);
-        DIconButton *btn_down = new DIconButton(m_pMenu);
-        QObject::connect(btn_down, &DIconButton::clicked, this, &ThumbnailListView::onDownAction);
-        btn_down->setFixedHeight(20);
-        btn_down->setIcon(QIcon(QPixmap(":/resources/menu/arrow_down.svg")));
-        btn_down->setFlat(true);
-    //    btn_down->setNormalPic(":/resources/menu/arrow_down.svg");
-    //    btn_down->setHoverPic(":/resources/menu/arrow_down.svg");
-    //    btn_down->setPressPic(":/resources/menu/arrow_down.svg");
+    m_down_arrow = new DLMenuArrow;
+    QObject::connect(m_down_arrow, &DLMenuArrow::clicked, this, &ThumbnailListView::onDownAction);
+    QObject::connect(m_down_arrow, &DLMenuArrow::sigMouseEnter, this, &ThumbnailListView::onMouseEnter);
+    m_down_arrow->setFixedHeight(25);
 
-        QMap<int, QWidgetAction*> menuArrowMap;
-        menuArrowMap.clear();
 
-        QWidgetAction *up_wgtact = new QWidgetAction(m_pMenu);
-        QWidgetAction *down_wgtact = new QWidgetAction(m_pMenu);
-        up_wgtact->setDefaultWidget(btn_up);
-        down_wgtact->setDefaultWidget(btn_down);
+    QMap<int, QWidgetAction*> menuArrowMap;
+    menuArrowMap.clear();
 
-        menuArrowMap.insert(IdArrowUp, up_wgtact);
-        menuArrowMap.insert(IdArrowDown, down_wgtact);
+    QWidgetAction *up_action = new QWidgetAction(m_pMenu);
+    QWidgetAction *down_action = new QWidgetAction(m_pMenu);
+    up_action->setDefaultWidget(m_up_arrow);
+    down_action->setDefaultWidget(m_down_arrow);
 
-        return menuArrowMap;
+    m_up_arrow->setWgt(up_action->parentWidget(), IdArrowUp);
+    m_down_arrow->setWgt(up_action->parentWidget(), IdArrowDown);
+
+    menuArrowMap.insert(IdArrowUp, up_action);
+    menuArrowMap.insert(IdArrowDown, down_action);
+
+    return menuArrowMap;
 }
 
 void ThumbnailListView::updatMenushow()
@@ -464,6 +458,7 @@ void ThumbnailListView::initMenuAction()
     QMap<int, QWidgetAction*> menuArrowMap = initMenuArrow();
 
     m_MenuActionMap.clear();
+    m_actLst.clear();
     m_pMenu->addAction(menuArrowMap[IdArrowUp]);
     appendAction(IdView, tr(VIEW_CONTEXT_MENU), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr(FULLSCREEN_CONTEXT_MENU), ss(FULLSCREEN_CONTEXT_MENU));
@@ -782,6 +777,31 @@ void ThumbnailListView::onDownAction()
 #endif
 }
 
+void ThumbnailListView::onMouseEnter()
+{
+    if (m_actLst.size() <= 0) {
+        return;
+    }
+#ifdef QT_DEBUG
+    qDebug() << "arrow hover enter";
+#endif
+
+    for (int index = 0; index < m_actLst.size(); ++index) {
+#ifdef QT_DEBUG
+    qDebug() << "action hover leave";
+#endif
+        DApplication::postEvent(m_actLst[index]->parentWidget(), new QEvent(QEvent::ActionChanged));
+    }
+}
+
+void ThumbnailListView::onHoverArrow()
+{
+#ifdef QT_DEBUG
+    qDebug() << "arrow hover leave";
+#endif
+    m_up_arrow->setMouseEnter(false);
+    m_down_arrow->setMouseEnter(false);
+}
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {

@@ -23,6 +23,7 @@
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "dbmanager/dbmanager.h"
+#include "dlmenuarrow.h"
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QListView>
@@ -70,9 +71,7 @@ public:
         IdImageInfo,
         IdSubMenu,
         IdSeparator,
-        IdTrashRecovery,
-        IdArrowUp,
-        IdArrowDown
+        IdTrashRecovery
     };
 
     struct ItemInfo
@@ -113,6 +112,8 @@ private slots:
 
     void onUpAction();
     void onDownAction();
+    void onMouseEnter();
+    void onHoverArrow();
 
 private:
     void initConnections();
@@ -149,6 +150,8 @@ private:
     QMap<QString, QAction*> m_MenuActionMap;
     QMenu *m_albumMenu;
 
+    DLMenuArrow *m_up_arrow;
+    DLMenuArrow *m_down_arrow;
     QList<QAction* > m_actLst;
     QList<QAction* > m_new_actLst;
     int m_new_first_index = -1;
