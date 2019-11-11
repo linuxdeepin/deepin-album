@@ -676,6 +676,48 @@ const QImage loadTga(QString filePath, bool &success)
     return img;
 }
 
+QStringList checkImage(const QString  path)
+{
+    QStringList imagelist;
+    QDir dir(path);
+
+    if(!dir.exists())
+    {
+        return imagelist;
+    }
+
+    QFileInfoList dirlist = dir.entryInfoList(QDir::Dirs);
+
+    foreach(QFileInfo e_dir, dirlist)
+    {
+        if(e_dir.fileName()== "." || e_dir.fileName()=="..")
+        {
+            continue;
+        }
+        if(e_dir.exists())
+        {
+            imagelist << checkImage(e_dir.filePath());
+        }
+    }
+
+    static QStringList sList;
+
+    for (const QByteArray &i : QImageReader::supportedImageFormats())
+        sList << "*." + QString::fromLatin1(i);
+
+    dir.setNameFilters(sList);
+
+
+    for (int i=0;i < dir.count();i++)
+    {
+         QString ImageName  = dir[i];
+         imagelist<<path + QDir::separator() + ImageName;
+         qDebug() << path + QDir::separator() + ImageName;//输出图片名
+    }
+
+    return imagelist;
+}
+
 }  // namespace image
 
 }  //namespace utils

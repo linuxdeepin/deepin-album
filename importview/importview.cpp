@@ -1,5 +1,6 @@
 #include "importview.h"
 #include <DApplicationHelper>
+#include <DFileDialog>
 
 ImportView::ImportView()
 {
@@ -173,7 +174,7 @@ void ImportView::onImprotBtnClicked()
     for (const QByteArray &i : QImageReader::supportedImageFormats())
         sList << "*." + QString::fromLatin1(i);
 
-    QString filter = tr("All images");
+    QString filter = tr("所有图片");
 
     filter.append('(');
     filter.append(sList.join(" "));
@@ -188,8 +189,38 @@ void ImportView::onImprotBtnClicked()
 
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
 
-    const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Open Image"),
-                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
+//    const QStringList &image_list = DFileDialog::getOpenFileNames(this, tr("打开图片"),
+//                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
+    DFileDialog dialog;
+    dialog.setFileMode(DFileDialog::ExistingFiles);
+    dialog.setAllowMixedSelection(true);
+    dialog.setDirectory(pictureFolder);
+    dialog.setNameFilter(filter);
+    dialog.setOption(QFileDialog::HideNameFilterDetails);
+    dialog.setWindowTitle(tr("打开图片"));
+    dialog.setAllowMixedSelection(true);
+    const int mode = dialog.exec();
+    if (mode != QDialog::Accepted) {
+        return;
+    }
+//    const QStringList &image_list = dialog.getOpenFileNames(this, tr("打开图片"),
+//                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
+    const QStringList &file_list = dialog.selectedFiles();
+    if (file_list.isEmpty())
+        return;
+
+    QStringList image_list;
+    foreach(QString path, file_list)
+    {
+        QFileInfo file(path);
+        if(file.isDir())
+        {
+            image_list<<utils::image::checkImage(path);
+        }
+        else {
+            image_list<<path;
+        }
+    }
 
     if (image_list.isEmpty())
         return;
