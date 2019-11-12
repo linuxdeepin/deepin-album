@@ -110,11 +110,6 @@ private slots:
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
 
-    void onUpAction();
-    void onDownAction();
-    void onMouseEnter();
-    void onHoverArrow();
-
 private:
     void initConnections();
     void calBasePixMapWandH();
@@ -125,8 +120,6 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onShowImageInfo(const QString &path);
     void initMenuAction();
-    QMap<int, QWidgetAction*> initMenuArrow();
-    void updatMenushow();
     QMenu* createAlbumMenu();
 
     void resizeEvent(QResizeEvent *e) override;
@@ -149,13 +142,6 @@ private:
     DMenu *m_pMenu;
     QMap<QString, QAction*> m_MenuActionMap;
     QMenu *m_albumMenu;
-
-    DLMenuArrow *m_up_arrow;
-    DLMenuArrow *m_down_arrow;
-    QList<QAction* > m_actLst;
-    QList<QAction* > m_new_actLst;
-    int m_new_first_index = -1;
-    int m_new_last_index = -1;
 };
 
 #endif // THUMBNAILLISTVIEW_H

@@ -15,7 +15,6 @@ const int ITEM_SPACING = 5;
 const int BASE_HEIGHT = 100;
 const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
-const int MENUSHOW_MAX = 12;
 
 const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
@@ -358,8 +357,6 @@ void ThumbnailListView::updateMenuContents()
     if (!(1 == paths.length() && utils::image::imageSupportSave(paths[0]))) {
         m_MenuActionMap.value(SETASWALLPAPER_CONTEXT_MENU)->setVisible(false);
     }
-
-    updatMenushow();
 }
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
@@ -380,68 +377,6 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
     ac->setShortcutContext(Qt::WidgetShortcut);
     m_MenuActionMap.insert(text, ac);
     m_pMenu->addAction(ac);
-    m_actLst.append(ac);
-}
-
-QMap<int, QWidgetAction*> ThumbnailListView::initMenuArrow()
-{
-    m_up_arrow = new DLMenuArrow;
-    QObject::connect(m_up_arrow, &DLMenuArrow::clicked, this, &ThumbnailListView::onUpAction);
-    QObject::connect(m_up_arrow, &DLMenuArrow::sigMouseEnter, this, &ThumbnailListView::onMouseEnter);
-    m_up_arrow->setFixedHeight(25);
-
-    m_down_arrow = new DLMenuArrow;
-    QObject::connect(m_down_arrow, &DLMenuArrow::clicked, this, &ThumbnailListView::onDownAction);
-    QObject::connect(m_down_arrow, &DLMenuArrow::sigMouseEnter, this, &ThumbnailListView::onMouseEnter);
-    m_down_arrow->setFixedHeight(25);
-
-
-    QMap<int, QWidgetAction*> menuArrowMap;
-    menuArrowMap.clear();
-
-    QWidgetAction *up_action = new QWidgetAction(m_pMenu);
-    QWidgetAction *down_action = new QWidgetAction(m_pMenu);
-    up_action->setDefaultWidget(m_up_arrow);
-    down_action->setDefaultWidget(m_down_arrow);
-
-    m_up_arrow->setWgt(up_action->parentWidget(), IdArrowUp);
-    m_down_arrow->setWgt(up_action->parentWidget(), IdArrowDown);
-
-    menuArrowMap.insert(IdArrowUp, up_action);
-    menuArrowMap.insert(IdArrowDown, down_action);
-
-    return menuArrowMap;
-}
-
-void ThumbnailListView::updatMenushow()
-{
-    int act_count = m_actLst.size();
-    if (act_count <= MENUSHOW_MAX) {
-        return;
-    }
-
-#ifdef QT_DEBUG
-    qDebug() << "act_count: " << act_count;
-#endif
-
-    for (int index = 0; index < act_count; ++index) {
-        if (index > MENUSHOW_MAX - 1) {
-            QAction *act = dynamic_cast<QAction*>(m_actLst[index]);
-            act->setVisible(false);
-#ifdef QT_DEBUG
-            qDebug() << "hide text: "<< index << m_actLst[index]->text();
-#endif
-        }
-        else {
-            m_new_actLst.append(m_actLst[index]);
-#ifdef QT_DEBUG
-            qDebug() << "m_new_actLst text: " << index << m_new_actLst[index]->text();
-#endif
-        }
-    }
-
-    m_new_first_index = m_new_actLst.indexOf(m_new_actLst.first()) - 1;
-    m_new_last_index = m_new_actLst.indexOf(m_new_actLst.last());
 }
 
 void ThumbnailListView::initMenuAction()
@@ -454,12 +389,8 @@ void ThumbnailListView::initMenuAction()
         return;
     }
 
-    m_pMenu->setContentsMargins(0, 0, 0, 0);
-    QMap<int, QWidgetAction*> menuArrowMap = initMenuArrow();
 
     m_MenuActionMap.clear();
-    m_actLst.clear();
-    m_pMenu->addAction(menuArrowMap[IdArrowUp]);
     appendAction(IdView, tr(VIEW_CONTEXT_MENU), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr(FULLSCREEN_CONTEXT_MENU), ss(FULLSCREEN_CONTEXT_MENU));
     appendAction(IdStartSlideShow, tr(SLIDESHOW_CONTEXT_MENU), ss(SLIDESHOW_CONTEXT_MENU));
@@ -481,12 +412,6 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdDisplayInFileManager, tr(DISPLAYINFILEMANAGER_CONTEXT_MENU),
                  ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
     appendAction(IdImageInfo, tr(ImageInfo_CONTEXT_MENU), ss(ImageInfo_CONTEXT_MENU));
-    m_pMenu->addAction(menuArrowMap[IdArrowDown]);
-
-    if (m_actLst.size() <= MENUSHOW_MAX) {
-        menuArrowMap[IdArrowUp]->setVisible(false);
-        menuArrowMap[IdArrowDown]->setVisible(false);
-    }
 }
 
 
@@ -555,6 +480,7 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         if (IMAGE_DEFAULTTYPE != m_imageType
             && COMMON_STR_RECENT_IMPORTED != m_imageType
             && COMMON_STR_TRASH != m_imageType
+                && COMMON_STR_VIEW_TIMELINE != m_imageType
                 && COMMON_STR_FAVORITES != m_imageType)
         {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
@@ -721,86 +647,6 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     DBManager::instance()->removeFromAlbumNoSignal(COMMON_STR_FAVORITES, str);
 
     m_model->removeRow(index.row());
-}
-
-
-void ThumbnailListView::onUpAction()
-{
-    if (m_new_actLst.size() <= 0
-            || m_actLst.size() <= 0) {
-        return;
-    }
-
-    if (-1 == m_new_first_index) {
-        return;
-    }
-
-    m_new_actLst.at(m_new_first_index)->setVisible(true);
-    m_actLst.at(m_new_last_index)->setVisible(false);
-
-    --m_new_first_index;
-    --m_new_last_index;
-
-    if (m_new_actLst.size() < m_new_first_index
-            || m_actLst.size() - 1 <= m_new_last_index) {
-        return;
-    }
-
-#ifdef QT_DEBUG
-    qDebug() << "m_new_first_index: " << m_new_first_index;
-    qDebug() << "m_new_last_index: " << m_new_last_index;
-    qDebug() << "m_new_actLst.size():" << m_new_actLst.size();
-    qDebug() << "m_actLst.size():" << m_actLst.size() << endl;
-#endif
-}
-
-void ThumbnailListView::onDownAction()
-{
-    if (m_new_actLst.size() <= 0
-            || m_actLst.size() <= 0) {
-        return;
-    }
-
-    if (m_new_actLst.size() < m_new_first_index
-            || m_actLst.size() - 1 <= m_new_last_index) {
-        return;
-    }
-
-    m_new_actLst.at(++m_new_first_index)->setVisible(false);
-    m_actLst.at(++m_new_last_index)->setVisible(true);
-
-#ifdef QT_DEBUG
-    qDebug() << "m_new_first_index: " << m_new_first_index;
-    qDebug() << "m_new_last_index: " << m_new_last_index;
-    qDebug() << "m_new_actLst.size():" << m_new_actLst.size();
-    qDebug() << "m_actLst.size():" << m_actLst.size() << endl;
-#endif
-}
-
-void ThumbnailListView::onMouseEnter()
-{
-    if (m_actLst.size() <= 0) {
-        return;
-    }
-#ifdef QT_DEBUG
-    qDebug() << "arrow hover enter";
-#endif
-
-    for (int index = 0; index < m_actLst.size(); ++index) {
-#ifdef QT_DEBUG
-    qDebug() << "action hover leave";
-#endif
-        DApplication::postEvent(m_actLst[index]->parentWidget(), new QEvent(QEvent::ActionChanged));
-    }
-}
-
-void ThumbnailListView::onHoverArrow()
-{
-#ifdef QT_DEBUG
-    qDebug() << "arrow hover leave";
-#endif
-    m_up_arrow->setMouseEnter(false);
-    m_down_arrow->setMouseEnter(false);
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
