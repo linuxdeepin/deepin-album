@@ -100,8 +100,10 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
             QPixmap tmpImage(albumPaths[j]);
             QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(albumPaths[j])
         .baseName()).arg(QFileInfo(albumPaths[j]).completeSuffix());
-            if (!tmpImage.isNull() && !savePath.isEmpty())
-            tmpImage.save(savePath);
+            bool isSucceed = QFile::copy(albumPaths[j], savePath);
+            if (!isSucceed) {
+                qDebug() << tr("Failed to export");
+            }
         } else {
             continue;
         }
