@@ -478,9 +478,9 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     case IdMoveToTrash:
     {
         if (IMAGE_DEFAULTTYPE != m_imageType
+                &&COMMON_STR_VIEW_TIMELINE != m_imageType
             && COMMON_STR_RECENT_IMPORTED != m_imageType
             && COMMON_STR_TRASH != m_imageType
-                && COMMON_STR_VIEW_TIMELINE != m_imageType
                 && COMMON_STR_FAVORITES != m_imageType)
         {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);

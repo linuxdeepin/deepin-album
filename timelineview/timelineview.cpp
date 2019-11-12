@@ -2,13 +2,13 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
-
 #include <QScrollBar>
 #include <QScroller>
 #include <DPushButton>
 #include <QMimeData>
 #include <DTableView>
 #include <QGraphicsOpacityEffect>
+
 namespace  {
 const int VIEW_IMPORT = 0;
 const int VIEW_TIMELINE = 1;
