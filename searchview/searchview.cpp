@@ -199,11 +199,22 @@ void SearchView::initMainStackWidget()
     layout->addWidget(m_stackWidget);
 }
 
-void SearchView::improtSearchResultsIntoThumbnailView(QString s)
+void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 {
     m_keywords = s;
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
-    auto infos = DBManager::instance()->getInfosForKeyword(s);
+    DBImgInfoList infos;
+    if(album.isEmpty())
+    {
+        infos = DBManager::instance()->getInfosForKeyword(s);
+    }
+    else if ("trash" == album) {
+        infos = DBManager::instance()->getTrashInfosForKeyword(s);
+    }
+    else {
+        infos = DBManager::instance()->getInfosForKeyword(album , s);
+    }
+
 
     if (0 < infos.length())
     {
@@ -243,7 +254,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s)
 
 void SearchView::updateSearchResultsIntoThumbnailView()
 {
-    improtSearchResultsIntoThumbnailView(m_keywords);
+    improtSearchResultsIntoThumbnailView(m_keywords, nullptr);
 }
 
 void SearchView::changeTheme()

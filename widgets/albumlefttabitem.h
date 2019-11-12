@@ -20,6 +20,7 @@ public:
     void oriAlbumStatus();
     void newAlbumStatus();
     void setExternalDevicesMountPath(QString strPath);
+    QString getalbumname();
 
 private:
     void initConnections();

@@ -189,6 +189,11 @@ void AlbumLeftTabItem::setExternalDevicesMountPath(QString strPath)
     m_mountPath = strPath;
 }
 
+QString AlbumLeftTabItem::getalbumname()
+{
+    return m_nameLabel->text();
+}
+
 void AlbumLeftTabItem::onCheckNameValid()
 {
     QString newNameStr = m_pLineEdit->text().trimmed();

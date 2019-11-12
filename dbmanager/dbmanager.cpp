@@ -886,6 +886,88 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &keywords) const
     }
 }
 
+const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) const
+{
+    DBImgInfoList infos;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return infos;
+    }
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time FROM TrashTable "
+                       "WHERE FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
+
+    query.prepare(queryStr.arg(keywords));
+
+    if (!query.exec()) {
+        qWarning() << "Get Image from database failed: " << query.lastError();
+        mutex.unlock();
+    }
+    else {
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+
+            infos << info;
+        }
+    }
+    mutex.unlock();
+    return infos;
+}
+
+const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QString &keywords) const
+{
+
+
+//    QString queryStr = "SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
+//                       "WHERE FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
+
+//    query.prepare(queryStr.arg(keywords));
+
+    DBImgInfoList infos;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return infos;
+    }
+    QMutexLocker mutex(&m_mutex);
+
+    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time "
+                       "FROM ImageTable3 AS i, AlbumTable3 AS a "
+                       "WHERE i.PathHash=a.PathHash AND a.AlbumName=:album AND i.FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
+
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare(queryStr.arg(keywords));
+    query.bindValue(":album", album);
+
+
+    if (! query.exec()) {
+        qWarning() << "Get ImgInfo by album failed: " << query.lastError();
+        mutex.unlock();
+    }
+    else {
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+
+            infos << info;
+        }
+    }
+    mutex.unlock();
+    return infos;
+}
+
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value) const
 {
     DBImgInfoList infos;

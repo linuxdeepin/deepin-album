@@ -31,7 +31,7 @@ class SearchView : public QWidget
 
 public:
     SearchView();
-    void improtSearchResultsIntoThumbnailView(QString s);
+    void improtSearchResultsIntoThumbnailView(QString s, QString album);
 
 private:
     void initConnections();

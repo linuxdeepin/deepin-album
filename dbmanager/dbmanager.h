@@ -91,6 +91,8 @@ public:
     void removeDir(const QString &dir);
     void removeImgInfosNoSignal(const QStringList &paths);
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
+    const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
+    const DBImgInfoList     getInfosForKeyword(const QString &album, const QString &keywords) const;
 
     // TableAlbum
     const DBAlbumInfo       getAlbumInfo(const QString &album) const;

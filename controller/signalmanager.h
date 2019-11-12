@@ -90,7 +90,7 @@ signals:
     void importDir(const QString &dir);
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
-    void sigSendKeywordsIntoALLPic(QString keywords);
+    void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr);
     void sigCreateNewAlbumFromDialog();
     void sigMainwindowSliderValueChg(int value);
     void sigMouseMove();
