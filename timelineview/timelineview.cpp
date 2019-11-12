@@ -82,8 +82,11 @@ void TimeLineView::initConnections(){
             TimelineItem *item = (TimelineItem*)m_mainListWidget->itemWidget(m_mainListWidget->item(i));
             QList<DLabel*> pLabelList = item->findChildren<DLabel*>();
             pLabelList[0]->setPalette(pa);
-//            pLabelList[1]->setPalette(pa);
+            pLabelList[1]->setPalette(pa);
         }
+        DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
+        pal.setBrush(DPalette::Text, pal.color(DPalette::ToolTipText));
+        pNum_up->setPalette(pal);
     });
 }
 
@@ -120,18 +123,19 @@ void TimeLineView::initTimeLineViewWidget()
     m_pDate->setForegroundRole(DPalette::Text);
     m_pDate->setPalette(color);
 
-    DLabel* pNum = new DLabel();
-    pNum->setFixedHeight(24);
+    pNum_up = new DLabel();
+    pNum_up->setFixedHeight(24);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
     ft6.setWeight(QFont::Medium);
-    pNum->setFont(ft6);
-    DPalette pal = DApplicationHelper::instance()->palette(pNum);
-    pal.setBrush(DPalette::WindowText, QColor(119,119,119));
-    pNum->setPalette(pal);
+    pNum_up->setFont(ft6);
+    DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
+    pal.setBrush(DPalette::WindowText, pal.color(DPalette::Text));
+    pNum_up->setForegroundRole(DPalette::Text);
+    pNum_up->setPalette(pal);
 
     TitleViewLayout->addWidget(m_pDate);
-    TitleViewLayout->addWidget(pNum);
+    TitleViewLayout->addWidget(pNum_up);
 
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton("选择");
@@ -143,7 +147,7 @@ void TimeLineView::initTimeLineViewWidget()
     pSuspensionChose->setFixedHeight(24);
     pSuspensionChose->resize(36,27);
 
-    pNum->setLayout(Layout);
+    pNum_up->setLayout(Layout);
     Layout->addStretch(1);
     Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     Layout->setContentsMargins(0,0,22,0);
@@ -240,17 +244,18 @@ void TimeLineView::updataLayout()
 
         listItem->m_date=pDate;
 
-        DLabel* pNum = new DLabel();
-        pNum->setFixedHeight(24);
+        pNum_dn = new DLabel();
+        pNum_dn->setFixedHeight(24);
         listItem->m_snum = QString("%1张照片").arg(ImgInfoList.size());
-        pNum->setText(listItem->m_snum);
+        pNum_dn->setText(listItem->m_snum);
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
         ft6.setFamily("SourceHanSansSC");
         ft6.setWeight(QFont::Medium);
-        pNum->setFont(ft6);
-        DPalette pal = DApplicationHelper::instance()->palette(pNum);
-        pal.setBrush(DPalette::Text, QColor(119,119,119));
-        pNum->setPalette(pal);
+        pNum_dn->setFont(ft6);
+        DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
+        pal.setBrush(DPalette::Text, pal.color(DPalette::Text));
+        pNum_dn->setForegroundRole(DPalette::Text);
+        pNum_dn->setPalette(pal);
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton("选择");
@@ -263,16 +268,16 @@ void TimeLineView::updataLayout()
         pChose->setFixedHeight(24);
         pChose->resize(36,27);
 
-        pNum->setLayout(Layout);
+        pNum_dn->setLayout(Layout);
         Layout->addStretch(1);
         Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         Layout->setContentsMargins(0,0,0,0);
         Layout->addWidget(pChose);
 
         listItem->m_Chose = pChose;
-        listItem->m_num=pNum;
+        listItem->m_num=pNum_dn;
         TitleViewLayout->addWidget(pDate);
-        TitleViewLayout->addWidget(pNum);
+        TitleViewLayout->addWidget(pNum_dn);
         TitleView->setFixedHeight(87);
         listItem->m_title = TitleView;
 

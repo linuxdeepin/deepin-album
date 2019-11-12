@@ -75,6 +75,8 @@ private:
     QMap<ThumbnailListView*, QStringList> selpicQmap;
     int allnum;
     DLabel* m_pDate;
+    DLabel* pNum_up;
+    DLabel* pNum_dn;
 
 public:
     DStackedWidget* m_pStackedWidget;

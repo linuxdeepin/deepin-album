@@ -18,6 +18,7 @@
 #define ALBUMCREATEDIALOG_H
 
 #include "dialog.h"
+#include "controller/signalmanager.h"
 
 class AlbumCreateDialog : public Dialog
 {

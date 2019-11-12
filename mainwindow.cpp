@@ -53,24 +53,24 @@ void MainWindow::initConnections()
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
-        if (0 < DBManager::instance()->getImgsCount())
-        {
+//        if (0 < DBManager::instance()->getImgsCount())
+//        {
             m_pSearchEdit->setEnabled(true);
-        }
-        else
-        {
-            m_pSearchEdit->setEnabled(false);
-        }
+//        }
+//        else
+//        {
+//            m_pSearchEdit->setEnabled(false);
+//        }
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=]{
-        if (0 < DBManager::instance()->getImgsCount())
-        {
+//        if (0 < DBManager::instance()->getImgsCount())
+//        {
             m_pSearchEdit->setEnabled(true);
-        }
-        else
-        {
-            m_pSearchEdit->setEnabled(false);
-        }
+//        }
+//        else
+//        {
+//            m_pSearchEdit->setEnabled(false);
+//        }
     });
 	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
         m_backIndex = index;
@@ -255,14 +255,14 @@ void MainWindow::initTitleBar()
     m_pSearchEdit->setFixedSize(350, 36);
     m_pSearchEdit->setClearButtonEnabled(false);
 
-    if (0 < DBManager::instance()->getImgsCount())
-    {
-        m_pSearchEdit->setEnabled(true);
-    }
-    else
-    {
-        m_pSearchEdit->setEnabled(false);
-    }
+//    if (0 < DBManager::instance()->getImgsCount())
+//    {
+//        m_pSearchEdit->setEnabled(true);
+//    }
+//    else
+//    {
+//        m_pSearchEdit->setEnabled(false);
+//    }
 
     pTitleSearchLayout->addWidget(m_pSearchEdit);
     m_titleSearchWidget->setLayout(pTitleSearchLayout);
@@ -295,7 +295,7 @@ void MainWindow::initTitleBar()
     {
         m_pTimeLineBtn->setEnabled(false);
         m_pAlbumBtn->setEnabled(false);
-        m_pSearchEdit->setEnabled(false);
+//        m_pSearchEdit->setEnabled(false);
     }
 }
 
@@ -510,7 +510,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         m_pTimeLineBtn->setFlat(true);
         m_pAlbumBtn->setFlat(false);
 
-        DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+        DPalette pal = DApplicationHelper::instance()->palette(m_pAlbumBtn);
         pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
         pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
         pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
@@ -752,14 +752,14 @@ void MainWindow::onLoadingFinished()
 {
     m_pTimeLineBtn->setEnabled(true);
     m_pAlbumBtn->setEnabled(true);
-    if (0 < DBManager::instance()->getImgsCount())
-    {
-        m_pSearchEdit->setEnabled(true);
-    }
-    else
-    {
-        m_pSearchEdit->setEnabled(false);
-    }
+//    if (0 < DBManager::instance()->getImgsCount())
+//    {
+//        m_pSearchEdit->setEnabled(true);
+//    }
+//    else
+//    {
+//        m_pSearchEdit->setEnabled(false);
+//    }
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
