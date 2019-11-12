@@ -113,11 +113,27 @@ void AlbumView::initConnections()
         DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
         pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
         pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::LightLively));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
         m_pRecoveryBtn->setPalette(pal);
 
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
             });
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                        this, [=]
+    {
+        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+        m_pRecoveryBtn->setPalette(pal);
+
+        DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
+        dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
+        dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
+        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
+        m_pDeleteBtn->setPalette(dpa);
+
+    });
     connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
     connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
     connect(m_pRightThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
@@ -432,7 +448,7 @@ void AlbumView::initRightView()
     DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
     pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
     pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::Base));
+    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
     m_pRecoveryBtn->setPalette(pal);
 
     m_pDeleteBtn = new DPushButton();
@@ -1248,9 +1264,9 @@ void AlbumView::onTrashListClicked()
     {
         m_pRecoveryBtn->setEnabled(false);
         DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-        pal.setBrush(DPalette::Light, pal.color(DPalette::ButtonText));
-        pal.setBrush(DPalette::Dark, pal.color(DPalette::ButtonText));
-        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::ToolTipText));
+        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
+        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
         m_pRecoveryBtn->setPalette(pal);
 
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
