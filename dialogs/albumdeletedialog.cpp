@@ -14,7 +14,7 @@ AlbumDeleteDialog::AlbumDeleteDialog()
     this->setFixedSize(380,180);
 
     DLabel *m_pic = new DLabel(this);
-    QIcon icon = QIcon::fromTheme("deepin-album");     //图片路径
+    QIcon icon = QIcon::fromTheme("deepin-album");     //照片路径
     m_pic->setPixmap(icon.pixmap(QSize(32, 32)));  //图标大小
 
     DLabel *m_label = new DLabel(this);

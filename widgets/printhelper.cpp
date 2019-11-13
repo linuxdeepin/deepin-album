@@ -125,7 +125,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     // 如果在构造QPainter对象之前给QPrinter设置为横向，则实际可以横向打印，
     // 但是这时候手动选择纵向又不会生效。
     // 所以这里的hack是事先判断图像是“横向”还是“纵向”的，给QPrinter设置默认的纸张方向，
-    // 以满足大部分图片打印的需求。
+    // 以满足大部分照片打印的需求。
     QList<QImage> imgs;
 
     for (const QString &path : paths) {

@@ -336,7 +336,7 @@ void ImageLoader::onLoadMountImagesStart(QString mountName, QString path)
     }
 }
 
-//搜索手机中存储相机图片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
+//搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
 //经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下
 bool ImageLoader::findPicturePathByPhone(QString &path)
 {

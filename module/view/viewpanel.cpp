@@ -846,7 +846,7 @@ void ViewPanel::removeCurrentImage()
     }
 
 #ifdef LITE_DIV
-    // 在删除当前图片之前将图片列表初始化完成
+    // 在删除当前照片之前将照片列表初始化完成
 //    eatImageDirIterator();
 #endif
     m_infos.removeAt(m_current);

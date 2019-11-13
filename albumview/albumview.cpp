@@ -341,7 +341,7 @@ void AlbumView::initRightView()
     // Import View
     m_pImportView = new ImportView();
     QList<QLabel*> labelList = m_pImportView->findChildren<QLabel*>();
-    labelList[1]->setText("您也可以拖拽或导入图片到相册");
+    labelList[1]->setText("您也可以拖拽或导入照片到相册");
 
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
@@ -1558,7 +1558,7 @@ void AlbumView::SearchReturnUpdate()
     }
 }
 
-//搜索手机中存储相机图片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
+//搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
 //经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下
 bool AlbumView::findPicturePathByPhone(QString &path)
 {
@@ -1608,7 +1608,7 @@ void AlbumView::importAllBtnClicked()
     QString strHomePath = QDir::homePath();
     //获取系统现在的时间
     QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-    QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/图片/", strDate);
+    QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
     QDir dir;
     if (!dir.exists(basePath)) {
         dir.mkpath(basePath);
@@ -1657,7 +1657,7 @@ void AlbumView::importSelectBtnClicked()
     QString strHomePath = QDir::homePath();
     //获取系统现在的时间
     QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-    QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/图片/", strDate);
+    QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
     QDir dir;
     if (!dir.exists(basePath)) {
         dir.mkpath(basePath);

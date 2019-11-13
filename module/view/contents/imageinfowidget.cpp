@@ -44,10 +44,10 @@ struct MetaData {
 };
 
 static MetaData MetaDataBasics[] = {
-    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "图片名称")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "图片类型")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "图片尺寸")},
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "照片名称")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "照片类型")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "照片大小")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "照片尺寸")},
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "拍摄时间")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改时间")},
 //    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
@@ -164,7 +164,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 //    contentLayout->setContentsMargins(10, 10, 10, 10);
 
     // Title field
-    SimpleFormLabel *title = new SimpleFormLabel(tr("图片信息"));
+    SimpleFormLabel *title = new SimpleFormLabel(tr("照片信息"));
     title->setFixedHeight(50);
     title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 

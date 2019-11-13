@@ -71,7 +71,7 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
 
     //添加图标
     DLabel *m_picture = new DLabel(this);
-    QIcon icon = QIcon::fromTheme("deepin-album");     //图片路径
+    QIcon icon = QIcon::fromTheme("deepin-album");     //照片路径
     m_picture->setPixmap(icon.pixmap(QSize(32, 32)));  //图标大小
 
     //添加OK和取消按钮

@@ -712,7 +712,7 @@ QStringList checkImage(const QString  path)
     {
          QString ImageName  = dir[i];
          imagelist<<path + QDir::separator() + ImageName;
-         qDebug() << path + QDir::separator() + ImageName;//输出图片名
+         qDebug() << path + QDir::separator() + ImageName;//输出照片名
     }
 
     return imagelist;

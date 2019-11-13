@@ -244,7 +244,7 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
-    //外接设备显示图片时，禁用鼠标右键菜单
+    //外接设备显示照片时，禁用鼠标右键菜单
     if (!this->indexAt(pos).isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType)
     {
         return;
@@ -365,7 +365,7 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
     addAction(ac);
     ac->setText(text);
     ac->setProperty("MenuID", id);
-    //如果是查看图片，需要响应Enter键，而Enter键有两个Key-Enter和Return
+    //如果是查看照片，需要响应Enter键，而Enter键有两个Key-Enter和Return
     if (text.compare(VIEW_CONTEXT_MENU) == 0) {
         QList<QKeySequence> shortcuts;
         shortcuts.append(QKeySequence(ENTER_SHORTCUT));

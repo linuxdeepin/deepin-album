@@ -93,7 +93,7 @@ void NavigationWidget::setImage(const QImage &img)
 
     m_originRect = img.rect();
 
-    // 只在图片比可显示区域大时才缩放
+    // 只在照片比可显示区域大时才缩放
     if (tmpImageRect.width() < m_originRect.width() || tmpImageRect.height() < m_originRect.height()) {
         m_img = img.scaled(tmpImageRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     } else {

@@ -406,7 +406,7 @@ void ViewPanel::updateMenuContent()
     }
 
     appendAction(IdDisplayInFileManager,tr("在文件管理器中显示"), ss("Display in file manager", "Ctrl+D"));
-    appendAction(IdImageInfo, tr("图片信息"), ss("Image info", "Alt+Enter"));
+    appendAction(IdImageInfo, tr("照片信息"), ss("Image info", "Alt+Enter"));
 }
 
 void ViewPanel::initShortcut()

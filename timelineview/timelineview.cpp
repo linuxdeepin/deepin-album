@@ -206,7 +206,7 @@ void TimeLineView::updataLayout()
     m_timelines = DBManager::instance()->getAllTimelines();
     for(int i = 0; i < m_timelines.size(); i++)
     {
-        //获取当前时间图片
+        //获取当前时间照片
         DBImgInfoList ImgInfoList= DBManager::instance()->getInfosByTimeline(m_timelines.at(i));
 
         QListWidgetItem *item = new QListWidgetItem;
@@ -281,7 +281,7 @@ void TimeLineView::updataLayout()
         TitleView->setFixedHeight(87);
         listItem->m_title = TitleView;
 
-        //添加图片
+        //添加照片
         ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_VIEW_TIMELINE);
         pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -297,7 +297,7 @@ void TimeLineView::updataLayout()
             vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
             thumbnaiItemList.append(vi);
         }
-        //保存当前时间图片
+        //保存当前时间照片
        pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
        listItemlayout->addWidget(TitleView);

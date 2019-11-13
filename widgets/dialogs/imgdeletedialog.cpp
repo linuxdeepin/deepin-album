@@ -10,12 +10,12 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     this->setFixedSize(380,180);
 
     DLabel *m_pic = new DLabel(this);
-    QIcon icon = QIcon::fromTheme("deepin-album");     //图片路径
+    QIcon icon = QIcon::fromTheme("deepin-album");     //照片路径
     m_pic->setPixmap(icon.pixmap(QSize(32, 32)));  //图标大小
     DLabel *m_label = new DLabel(this);
     if(1 == count)
     {
-        m_label->setText("您确定要从相册删除此图片吗 ?");
+        m_label->setText("您确定要从相册删除此照片吗 ?");
         DPalette pa = DApplicationHelper::instance()->palette(m_label);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
         m_label->setPalette(pa);
@@ -23,7 +23,7 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     }
     else
     {
-        QString str = tr("您确定要从相册删除%1张图片吗 ?");
+        QString str = tr("您确定要从相册删除%1张照片吗 ?");
         m_label->setText(str.arg(count));
         DPalette pa = DApplicationHelper::instance()->palette(m_label);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));

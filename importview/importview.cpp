@@ -49,7 +49,7 @@ void ImportView::initUI()
 
     m_pImportBtn = new DPushButton();
 //    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
-    m_pImportBtn->setText("导入图片");
+    m_pImportBtn->setText("导入照片");
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
@@ -62,7 +62,7 @@ void ImportView::initUI()
 
     DLabel* pLabel2 = new DLabel();
     pLabel2->setFixedHeight(18);
-    pLabel2->setText("您也可以拖拽或导入图片到时间线");
+    pLabel2->setText("您也可以拖拽或导入照片到时间线");
     pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
 
     DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
@@ -174,7 +174,7 @@ void ImportView::onImprotBtnClicked()
     for (const QByteArray &i : QImageReader::supportedImageFormats())
         sList << "*." + QString::fromLatin1(i);
 
-    QString filter = tr("所有图片");
+    QString filter = tr("所有照片");
 
     filter.append('(');
     filter.append(sList.join(" "));
@@ -189,7 +189,7 @@ void ImportView::onImprotBtnClicked()
 
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
 
-//    const QStringList &image_list = DFileDialog::getOpenFileNames(this, tr("打开图片"),
+//    const QStringList &image_list = DFileDialog::getOpenFileNames(this, tr("打开照片"),
 //                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
     DFileDialog dialog;
     dialog.setFileMode(DFileDialog::ExistingFiles);
@@ -197,13 +197,13 @@ void ImportView::onImprotBtnClicked()
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
-    dialog.setWindowTitle(tr("打开图片"));
+    dialog.setWindowTitle(tr("打开照片"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {
         return;
     }
-//    const QStringList &image_list = dialog.getOpenFileNames(this, tr("打开图片"),
+//    const QStringList &image_list = dialog.getOpenFileNames(this, tr("打开照片"),
 //                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())

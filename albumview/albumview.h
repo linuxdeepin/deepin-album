@@ -124,7 +124,7 @@ private:
     DLabel* pLabel1;
     DLabel* pLabel2;
 
-    //手机图片导入窗体
+    //手机照片导入窗体
     DWidget* m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
     DPushButton *m_importAllByPhoneBtn;
