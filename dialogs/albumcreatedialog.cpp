@@ -26,6 +26,7 @@
 #include <DPushButton>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
+#include <DSuggestButton>
 
 AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     :Dialog(parent)
@@ -82,7 +83,7 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     DPushButton *m_line = new DPushButton(this);
     m_line->setFixedSize(3,28);
     m_line->setEnabled(false);
-    DPushButton *m_OK = new DPushButton(this);
+    DSuggestButton *m_OK = new DSuggestButton(this);
     m_OK->setText("新建");
     m_OK->setFixedSize(170,36);
     m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));

@@ -83,11 +83,6 @@ void SearchView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &SearchView::changeTheme);
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pSearchResultLabel, [=]{
-        DPalette pa = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
-        pa.setBrush(DPalette::Text, pa.color(DPalette::Text));
-        m_pSearchResultLabel->setPalette(pa);
-    });
 }
 
 void SearchView::initNoSearchResultView()
@@ -98,9 +93,27 @@ void SearchView::initNoSearchResultView()
     pNoResult->setText("无结果");
     pNoResult->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
 
-    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
-    pNoResult->setPalette(pa);
+//    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
+//    pa.setBrush(DPalette::Text, pa.color(DPalette::PlaceholderText));
+//    pNoResult->setPalette(pa);
+
+    DPalette palette = DApplicationHelper::instance()->palette(pNoResult);
+    QColor color_TTT = palette.color(DPalette::ToolTipText);
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        color_TTT.setAlphaF(0.3);
+        palette.setBrush(DPalette::Text, color_TTT);
+        pNoResult->setForegroundRole(DPalette::Text);
+        pNoResult->setPalette(palette);
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        color_TTT.setAlphaF(0.4);
+        palette.setBrush(DPalette::Text, color_TTT);
+        pNoResult->setForegroundRole(DPalette::Text);
+        pNoResult->setPalette(palette);
+    }
 
     m_pNoSearchResultLabel = new DLabel();
     pNoSearchResultLayout->addStretch();
@@ -122,7 +135,8 @@ void SearchView::initSearchResultView()
     font.setWeight(QFont::DemiBold);
     pLabel1->setFont(font);
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::ToolTipText));
+    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    pLabel1->setForegroundRole(DPalette::Text);
     pLabel1->setPalette(pa);
     pLabel1->setContentsMargins(13,0,0,0);
 
@@ -134,17 +148,33 @@ void SearchView::initSearchResultView()
     m_pSlideShowBtn ->setFocusPolicy(Qt::NoFocus);
     m_pSlideShowBtn->setFixedSize(105, 31);
 
-    QPalette pal = m_pSlideShowBtn->palette();
-    pal.setColor(QPalette::Light,QColor(253,94,94));
-    pal.setColor(QPalette::Dark,QColor(237,86,86));
-    pal.setColor(QPalette::ButtonText,QColor(255,255,255));
-    m_pSlideShowBtn->setPalette(pal);
-
-    QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
-    shadow_effect->setOffset(0,4);
-    shadow_effect->setColor(QColor(248,44,71,102));
-    shadow_effect->setBlurRadius(6);
-    m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        QPalette pal = m_pSlideShowBtn->palette();
+        pal.setColor(QPalette::Light,QColor(253,94,94));
+        pal.setColor(QPalette::Dark,QColor(237,86,86));
+        pal.setColor(QPalette::ButtonText,QColor(255,255,255));
+        m_pSlideShowBtn->setPalette(pal);
+        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
+        shadow_effect->setOffset(0,4);
+        shadow_effect->setColor(QColor(248,44,71,102));
+        shadow_effect->setBlurRadius(6);
+        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+    }
+    if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        QPalette pal = m_pSlideShowBtn->palette();
+        pal.setColor(QPalette::Light,QColor(218,45,45));
+        pal.setColor(QPalette::Dark,QColor(165,27,27));
+        pal.setColor(QPalette::ButtonText,QColor(255,255,255));
+        m_pSlideShowBtn->setPalette(pal);
+        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
+        shadow_effect->setOffset(0,2);
+        shadow_effect->setColor(QColor(193,10,10,127));
+        shadow_effect->setBlurRadius(4);
+        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+    }
 
     QPixmap pixmap;
     pixmap = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 17));
@@ -156,7 +186,7 @@ void SearchView::initSearchResultView()
     Label2->move(29,6);
 
     Label1->setPixmap(pixmap);
-    Label1->setPalette(pal);
+//    Label1->setPalette(pal);
 
     Label2->setText("幻灯片放映");
 
@@ -165,7 +195,7 @@ void SearchView::initSearchResultView()
     ft1.setWeight(QFont::Medium);
 
     Label2->setFont(ft1);
-    Label2->setPalette(pal);
+//    Label2->setPalette(pal);
 
     m_pSearchResultLabel = new DLabel();
 
@@ -233,9 +263,23 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
         QString str = QString::number(infos.length());
         m_pSearchResultLabel->setText(searchStr.arg(str));
         m_pSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-        DPalette pa = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
-        pa.setBrush(DPalette::Text, pa.color(DPalette::Text));
-        m_pSearchResultLabel->setPalette(pa);
+        DPalette palette = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
+        QColor color_BT = palette.color(DPalette::BrightText);
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            color_BT.setAlphaF(0.5);
+            palette.setBrush(DPalette::Text, color_BT);
+            m_pSearchResultLabel->setForegroundRole(DPalette::Text);
+            m_pSearchResultLabel->setPalette(palette);
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            color_BT.setAlphaF(0.75);
+            palette.setBrush(DPalette::Text, color_BT);
+            m_pSearchResultLabel->setForegroundRole(DPalette::Text);
+            m_pSearchResultLabel->setPalette(palette);
+        }
 
         m_stackWidget->setCurrentIndex(1);
     }
@@ -244,9 +288,23 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
         QString str = tr("没有“%1”的结果，请尝试搜索新词。");
         m_pNoSearchResultLabel->setText(str.arg(s));
         m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-        DPalette pa = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
-        pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTips));
-        m_pNoSearchResultLabel->setPalette(pa);
+        DPalette palette = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
+        QColor color_TTT = palette.color(DPalette::ToolTipText);
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            color_TTT.setAlphaF(0.3);
+            palette.setBrush(DPalette::Text, color_TTT);
+            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
+            m_pNoSearchResultLabel->setPalette(palette);
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            color_TTT.setAlphaF(0.4);
+            palette.setBrush(DPalette::Text, color_TTT);
+            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
+            m_pNoSearchResultLabel->setPalette(palette);
+        }
 
         m_stackWidget->setCurrentIndex(0);
     }
@@ -259,18 +317,60 @@ void SearchView::updateSearchResultsIntoThumbnailView()
 
 void SearchView::changeTheme()
 {
-    //无结果
-    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::Text));
-    pNoResult->setPalette(pa);
-    //尝试新搜索词
-    DPalette pal = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
-    pal.setBrush(DPalette::WindowText, pal.color(DPalette::TextTips));
-    m_pNoSearchResultLabel->setPalette(pal);
-    //"搜索结果"
     DPalette pale = DApplicationHelper::instance()->palette(pLabel1);
-    pale.setBrush(DPalette::WindowText, pale.color(DPalette::ToolTipText));
+    pale.setBrush(DPalette::Text, pale.color(DPalette::ToolTipText));
     pLabel1->setPalette(pale);
+
+    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
+    QColor color_TTT = pa.color(DPalette::ToolTipText);
+    DPalette pat = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
+    QColor color_BT = pat.color(DPalette::BrightText);
+
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        color_TTT.setAlphaF(0.3);
+        pa.setBrush(DPalette::Text, color_TTT);
+        pNoResult->setPalette(pa);
+        m_pNoSearchResultLabel->setPalette(pa);
+
+        color_BT.setAlphaF(0.5);
+        pat.setBrush(DPalette::Text, color_BT);
+        m_pSearchResultLabel->setPalette(pat);
+
+        QPalette pal = m_pSlideShowBtn->palette();
+        pal.setColor(QPalette::Light,QColor(253,94,94));
+        pal.setColor(QPalette::Dark,QColor(237,86,86));
+        pal.setColor(QPalette::ButtonText,QColor(255,255,255));
+        m_pSlideShowBtn->setPalette(pal);
+        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
+        shadow_effect->setOffset(0,4);
+        shadow_effect->setColor(QColor(248,44,71,102));
+        shadow_effect->setBlurRadius(6);
+        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        color_TTT.setAlphaF(0.4);
+        pa.setBrush(DPalette::Text, color_TTT);
+        pNoResult->setPalette(pa);
+        m_pNoSearchResultLabel->setPalette(pa);
+
+        color_BT.setAlphaF(0.75);
+        pat.setBrush(DPalette::Text, color_BT);
+        m_pSearchResultLabel->setPalette(pat);
+
+        QPalette pal = m_pSlideShowBtn->palette();
+        pal.setColor(QPalette::Light,QColor(218,45,45));
+        pal.setColor(QPalette::Dark,QColor(165,27,27));
+        pal.setColor(QPalette::ButtonText,QColor(255,255,255));
+        m_pSlideShowBtn->setPalette(pal);
+        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
+        shadow_effect->setOffset(0,2);
+        shadow_effect->setColor(QColor(193,10,10,127));
+        shadow_effect->setBlurRadius(4);
+        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+    }
 
 }
 

@@ -17,6 +17,10 @@
 #include <DComboBox>
 #include "widgets/dialogs/imgdeletedialog.h"
 #include <QShortcut>
+#include <DSuggestButton>
+#include <QGraphicsOpacityEffect>
+#include <DToast>
+#include "dmessagemanager.h"
 
 namespace {
 const int ITEM_SPACING = 0;
@@ -110,28 +114,27 @@ void AlbumView::initConnections()
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(dApp->signalM, &SignalManager::sigTrashViewBlankArea, this, [=]{
         m_pRecoveryBtn->setEnabled(false);
-        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-        m_pRecoveryBtn->setPalette(pal);
-
+//        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
+//        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
+//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+//        m_pRecoveryBtn->setPalette(pal);
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
             });
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                         this, [=]
     {
         DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-        m_pRecoveryBtn->setPalette(pal);
+//        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
+//        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
+//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+//        m_pRecoveryBtn->setPalette(pal);
 
-        DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
-        dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
-        dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
-        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
-        m_pDeleteBtn->setPalette(dpa);
+//        DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
+//        dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
+//        dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
+//        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
+//        m_pDeleteBtn->setPalette(dpa);
 
     });
     connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
@@ -146,23 +149,36 @@ void AlbumView::initConnections()
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
 
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pRightTitle, [=]{
-        DPalette pa = DApplicationHelper::instance()->palette(m_pRightTitle);
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(this);
         pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
         m_pRightTitle->setPalette(pa);
         pLabel1->setPalette(pa);
         m_pFavoriteTitle->setPalette(pa);
+
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        DPalette pal = DApplicationHelper::instance()->palette(this);
+        QColor color_BT = pal.color(DPalette::BrightText);
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            color_BT.setAlphaF(0.5);
+            pal.setBrush(DPalette::Text, color_BT);
+            m_pRightPicTotal->setPalette(pal);
+            pLabel2->setPalette(pal);
+            m_pFavoritePicTotal->setPalette(pal);
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            color_BT.setAlphaF(0.75);
+            pal.setBrush(DPalette::Text, color_BT);
+            m_pRightPicTotal->setPalette(pal);
+            pLabel2->setPalette(pal);
+            m_pFavoritePicTotal->setPalette(pal);
+        }
     });
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pLeftTabList,[=]{
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
         item->newAlbumStatus();
-    });
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pRightPicTotal, [=]{
-        DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-        palette.setBrush(DPalette::Text, palette.color(DPalette::ButtonText));
-        m_pRightPicTotal->setPalette(palette);
-        pLabel2->setPalette(palette);
-        m_pFavoritePicTotal->setPalette(palette);
     });
 }
 
@@ -368,13 +384,26 @@ void AlbumView::initRightView()
     m_pRightPicTotal = new DLabel();
     QString str = tr("%1张照片");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
-    m_pRightPicTotal->setFont(ft1);
+    m_pRightPicTotal->setFont(ft1); 
 
-    DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-//    palette.setBrush(DPalette::WindowText, palette.color(DPalette::WindowText));
-    palette.setBrush(DPalette::WindowText, palette.color(DPalette::ButtonText));
-    m_pRightPicTotal->setForegroundRole(DPalette::ButtonText);
-    m_pRightPicTotal->setPalette(palette);
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    DPalette pal = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+    QColor color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pRightPicTotal->setForegroundRole(DPalette::Text);
+        m_pRightPicTotal->setPalette(pal);
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pRightPicTotal->setForegroundRole(DPalette::Text);
+        m_pRightPicTotal->setPalette(pal);
+    }
+
     m_pRightThumbnailList = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
@@ -426,8 +455,21 @@ void AlbumView::initRightView()
     pLabel2 = new DLabel();
     pLabel2->setText("照片在删除前会显示剩余天数，之后将永久删除");
     pLabel2->setFont(ft1);
-    pLabel2->setForegroundRole(DPalette::ButtonText);
-    pLabel2->setPalette(palette);
+
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+        pLabel2->setForegroundRole(DPalette::Text);
+        pLabel2->setPalette(pal);
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+        pLabel2->setForegroundRole(DPalette::Text);
+        pLabel2->setPalette(pal);
+    }
 
     pTopLeftVBoxLayout->addSpacing(5);
     pTopLeftVBoxLayout->addWidget(pLabel1);
@@ -445,24 +487,24 @@ void AlbumView::initRightView()
 //    pal.setBrush(DPalette::Light, pal.color(DPalette::Text));
 //    pal.setBrush(DPalette::Dark, pal.color(DPalette::Text));
 //    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-    DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-    pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-    pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-    m_pRecoveryBtn->setPalette(pal);
+//    DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//    pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
+//    pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
+//    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::Base));
+//    m_pRecoveryBtn->setPalette(pal);
 
-    m_pDeleteBtn = new DPushButton();
+    m_pDeleteBtn = new DSuggestButton();
     m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
     m_pDeleteBtn->setFixedSize(100,36);
 //    DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
 //    dpa.setBrush(DPalette::Light, dpa.color(DPalette::Highlight));
 //    dpa.setBrush(DPalette::Dark, dpa.color(DPalette::Highlight));
 //    dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
-    DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
-    dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
-    dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
-    dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
-    m_pDeleteBtn->setPalette(dpa);
+//    DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
+//    dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
+//    dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
+//    dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
+//    m_pDeleteBtn->setPalette(dpa);
 
     pTopRightVBoxLayout->addWidget(m_pRecoveryBtn);
     pTopRightVBoxLayout->addSpacing(10);
@@ -495,8 +537,20 @@ void AlbumView::initRightView()
     m_pFavoritePicTotal = new DLabel();
     QString favoriteStr = tr("%1张照片");
     m_pFavoritePicTotal->setFont(ft1);
-    m_pFavoritePicTotal->setForegroundRole(DPalette::ButtonText);
-    m_pFavoritePicTotal->setPalette(palette);
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
+        m_pFavoritePicTotal->setPalette(pal);
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
+        m_pFavoritePicTotal->setPalette(pal);
+    }
 
 
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES);
@@ -649,10 +703,23 @@ void AlbumView::updateRightNoTrashView()
             QString str = tr("%1张照片");
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-            DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-            palette.setBrush(DPalette::Text, palette.color(DPalette::ButtonText));
-            m_pRightPicTotal->setForegroundRole(DPalette::ButtonText);
-            m_pRightPicTotal->setPalette(palette);
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            DPalette pal = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+            QColor color_BT = pal.color(DPalette::BrightText);
+            if (themeType == DGuiApplicationHelper::LightType)
+            {
+                color_BT.setAlphaF(0.5);
+                pal.setBrush(DPalette::Text, color_BT);
+                m_pRightPicTotal->setForegroundRole(DPalette::Text);
+                m_pRightPicTotal->setPalette(pal);
+            }
+            else if (themeType == DGuiApplicationHelper::DarkType)
+            {
+                color_BT.setAlphaF(0.75);
+                pal.setBrush(DPalette::Text, color_BT);
+                m_pRightPicTotal->setForegroundRole(DPalette::Text);
+                m_pRightPicTotal->setPalette(pal);
+            }
             QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
             ft.setFamily("SourceHanSansSC");
             ft.setWeight(QFont::Medium);
@@ -691,10 +758,23 @@ void AlbumView::updateRightNoTrashView()
         QString favoriteStr = tr("%1张照片");
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
-        DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-        palette.setBrush(DPalette::Text, palette.color(DPalette::ButtonText));
-        m_pFavoritePicTotal->setForegroundRole(DPalette::ButtonText);
-        m_pFavoritePicTotal->setPalette(palette);
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        DPalette pal = DApplicationHelper::instance()->palette(m_pFavoritePicTotal);
+        QColor color_BT = pal.color(DPalette::BrightText);
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            color_BT.setAlphaF(0.5);
+            pal.setBrush(DPalette::Text, color_BT);
+            m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
+            m_pFavoritePicTotal->setPalette(pal);
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            color_BT.setAlphaF(0.75);
+            pal.setBrush(DPalette::Text, color_BT);
+            m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
+            m_pFavoritePicTotal->setPalette(pal);
+        }
 
         QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
         ft.setFamily("SourceHanSansSC");
@@ -744,10 +824,24 @@ void AlbumView::updateRightNoTrashView()
                 QString str = tr("%1张照片");
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-                DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-                palette.setBrush(DPalette::Text, palette.color(DPalette::ButtonText));
-                m_pRightPicTotal->setForegroundRole(DPalette::ButtonText);
-                m_pRightPicTotal->setPalette(palette);
+                DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+                DPalette pal = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+                QColor color_BT = pal.color(DPalette::BrightText);
+                if (themeType == DGuiApplicationHelper::LightType)
+                {
+                    color_BT.setAlphaF(0.5);
+                    pal.setBrush(DPalette::Text, color_BT);
+                    m_pRightPicTotal->setForegroundRole(DPalette::Text);
+                    m_pRightPicTotal->setPalette(pal);
+                }
+                else if (themeType == DGuiApplicationHelper::DarkType)
+                {
+                    color_BT.setAlphaF(0.75);
+                    pal.setBrush(DPalette::Text, color_BT);
+                    m_pRightPicTotal->setForegroundRole(DPalette::Text);
+                    m_pRightPicTotal->setPalette(pal);
+                }
+
                 QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
                 ft.setFamily("SourceHanSansSC");
                 ft.setWeight(QFont::Medium);
@@ -805,10 +899,24 @@ void AlbumView::updateRightNoTrashView()
             QString str = tr("%1张照片");
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-            DPalette palette = DApplicationHelper::instance()->palette(m_pRightPicTotal);
-            palette.setBrush(DPalette::Text, palette.color(DPalette::ButtonText));
-            m_pRightPicTotal->setForegroundRole(DPalette::ButtonText);
-            m_pRightPicTotal->setPalette(palette);
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            DPalette pal = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+            QColor color_BT = pal.color(DPalette::BrightText);
+            if (themeType == DGuiApplicationHelper::LightType)
+            {
+                color_BT.setAlphaF(0.5);
+                pal.setBrush(DPalette::Text, color_BT);
+                m_pRightPicTotal->setForegroundRole(DPalette::Text);
+                m_pRightPicTotal->setPalette(pal);
+            }
+            else if (themeType == DGuiApplicationHelper::DarkType)
+            {
+                color_BT.setAlphaF(0.75);
+                pal.setBrush(DPalette::Text, color_BT);
+                m_pRightPicTotal->setForegroundRole(DPalette::Text);
+                m_pRightPicTotal->setPalette(pal);
+            }
+
             QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
             ft.setFamily("SourceHanSansSC");
             ft.setWeight(QFont::Medium);
@@ -1059,6 +1167,20 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         pDNotifySender->appBody(str1.arg(str));
         pDNotifySender->call();
 //        });
+
+//        DMessageManager *DelToast = DMessageManager::instance();
+//        QWidget *par = new QWidget();
+//        par->setFixedSize(222, 40);
+//        par->setStyleSheet("Background:Red");
+//        QIcon icon;
+//        icon.addFile(tr(":/images/logo/resources/images/other/icon_toast_sucess.svg"));
+//        QString str2 = "成功删除相册中的 “%1”";
+//        DelToast->sendMessage(par, icon, str2);
+
+
+
+
+
         for(int i = 0; i < m_pLeftTabList->count(); i++)
         {
             AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
@@ -1252,22 +1374,22 @@ void AlbumView::onTrashListClicked()
     if (0 < paths.length())
     {
         m_pRecoveryBtn->setEnabled(true);
-        DPalette dpa = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-        dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
-        dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
-        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
-        m_pRecoveryBtn->setPalette(dpa);
+//        DPalette dpa = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//        dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
+//        dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
+//        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
+//        m_pRecoveryBtn->setPalette(dpa);
 
         m_pDeleteBtn->setText(BUTTON_STR_DETELE);
     }
     else
     {
         m_pRecoveryBtn->setEnabled(false);
-        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-        m_pRecoveryBtn->setPalette(pal);
+//        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
+//        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
+//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
+//        m_pRecoveryBtn->setPalette(pal);
 
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
     }

@@ -1,6 +1,7 @@
 #include "importview.h"
 #include <DApplicationHelper>
 #include <DFileDialog>
+#include <DSuggestButton>
 
 ImportView::ImportView()
 {
@@ -47,27 +48,27 @@ void ImportView::initUI()
     }
     pLabel->setPixmap(pixmap);
 
-    m_pImportBtn = new DPushButton();
+    m_pImportBtn = new DSuggestButton();
 //    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
     m_pImportBtn->setText("导入照片");
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-    pa.setColor(QPalette::Light,QColor(37,183,255));
-    pa.setColor(QPalette::Dark,QColor(0,152,255));
-    pa.setColor(QPalette::Highlight,QColor(0,0,0,0));
-    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
-    m_pImportBtn->setPalette(pa);
+//    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+//    pa.setColor(QPalette::Light,QColor(37,183,255));
+//    pa.setColor(QPalette::Dark,QColor(0,152,255));
+//    pa.setColor(QPalette::Highlight,QColor(0,0,0,0));
+//    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
+//    m_pImportBtn->setPalette(pa);
 
     DLabel* pLabel2 = new DLabel();
     pLabel2->setFixedHeight(18);
     pLabel2->setText("您也可以拖拽或导入照片到时间线");
     pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
 
-    DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
-    pa1.setBrush(DPalette::WindowText, QColor(122,122,122));
-    pLabel2->setPalette(pa1);
+//    DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
+//    pa1.setBrush(DPalette::Text, pa1.color(DPalette::PlaceholderText);
+//    pLabel2->setPalette(pa1);
 
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);

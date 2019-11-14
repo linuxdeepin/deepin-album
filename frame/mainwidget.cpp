@@ -102,6 +102,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
                 }
                 m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
 //            }
+                if(window()->isFullScreen() || window()->isMaximized())
+                {
+                    emit dApp->signalM->sigShowFullScreen();
+                }
 
     }
 #ifndef LITE_DIV

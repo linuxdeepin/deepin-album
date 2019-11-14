@@ -28,6 +28,12 @@ MainWindow::MainWindow()
     m_iCurrentView = VIEW_ALLPIC;
     m_bTitleMenuImportClicked = false;
 
+//    QIcon icon;
+//    icon.addFile(tr(":/images/logo/resources/images/other/icon_toast_sucess.svg"));
+//    QString str2 = "成功删除相册中的 “%1”";
+
+//    sendMessage()
+
     initShortcutKey();
     initUI();
     initTitleBar();
@@ -808,6 +814,7 @@ void MainWindow::themeTypeChanged()
         pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
         pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
         m_pAllPicBtn->setPalette(pale);
+//        qDebug()<<pale.color(DPalette::DarkLively);
     }
     else if (1 == m_iCurrentView)
     {

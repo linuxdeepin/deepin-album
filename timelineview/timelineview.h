@@ -19,6 +19,7 @@
 #include <DStackedWidget>
 #include <DCommandLinkButton>
 #include <DApplicationHelper>
+#include <QGraphicsOpacityEffect>
 
 class Title : public QWidget{
 public:
@@ -63,6 +64,7 @@ private:
 public:
     void updatePicNum();
     void restorePicNum();
+    void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 
 private:
     TimelineList *m_mainListWidget=nullptr;
@@ -77,6 +79,9 @@ private:
     DLabel* m_pDate;
     DLabel* pNum_up;
     DLabel* pNum_dn;
+
+    QGraphicsOpacityEffect * m_oe;
+    QGraphicsOpacityEffect * m_oet;
 
 public:
     DStackedWidget* m_pStackedWidget;
