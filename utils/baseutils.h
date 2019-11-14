@@ -124,8 +124,8 @@ const QString CTRLSHIFTN_SHORTCUT = "Ctrl+Shift+N";
 const QString F2_SHORTCUT = "F2";
 const QString CTRLI_SHORTCUT = "Ctrl+I";
 const QString CTRLQ_SHORTCUT = "Ctrl+Q";
-const QString CTRLUP_SHORTCUT = "Ctrl+Up";
-const QString CTRLDOWN_SHORTCUT = "Ctrl+Down";
+const QString CTRLUP_SHORTCUT = "Ctrl+=";
+const QString CTRLDOWN_SHORTCUT = "Ctrl+-";
 }
 namespace timeline {
 const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);

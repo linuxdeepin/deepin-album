@@ -104,6 +104,8 @@ signals:
     void sigLoadMountImagesEnd(QString mountname);
     void sigBoxToChooseTimeLineAllPic();
     void sigTimeLineItemBlankArea();
+    void sigCtrlADDKeyActivated();
+    void sigCtrlSubtractKeyActivated();
 
 private:
     explicit SignalManager(QObject *parent = 0);

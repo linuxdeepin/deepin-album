@@ -206,7 +206,6 @@ void SearchView::initSearchResultView()
 
     m_pThumbnailListView = new ThumbnailListView();
 
-    m_pThumbnailListView->setStyleSheet("background-color:rgb(248, 248, 248)");
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
 
 //    pSearchResultLayout->addSpacing(5);
@@ -238,7 +237,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     {
         infos = DBManager::instance()->getInfosForKeyword(s);
     }
-    else if ("trash" == album) {
+    else if (COMMON_STR_TRASH == album) {
         infos = DBManager::instance()->getTrashInfosForKeyword(s);
     }
     else {
@@ -253,7 +252,15 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
-            vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
+            if (COMMON_STR_TRASH == album)
+            {
+                vi.image = dApp->m_imagetrashmap.value(info.filePath);//TODO_DS
+            }
+            else
+            {
+                vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
+            }
+
             thumbnaiItemList<<vi;
         }
 

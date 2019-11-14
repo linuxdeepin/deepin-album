@@ -1675,8 +1675,20 @@ void AlbumView::SearchReturnUpdate()
 {
     if (RIGHT_VIEW_SEARCH == m_pRightStackWidget->currentIndex())
     {
-        m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
-        updateRightView();
+//        m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
+//        updateRightView();
+        if (COMMON_STR_TRASH == m_currentAlbum)
+        {
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
+        }
+        else if (COMMON_STR_FAVORITES == m_currentAlbum)
+        {
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+        }
+        else
+        {
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+        }
     }
 }
 

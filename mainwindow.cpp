@@ -133,22 +133,60 @@ void MainWindow::initShortcut()
     QShortcut *CtrlUp = new QShortcut(QKeySequence(CTRLUP_SHORTCUT), this);
     CtrlUp->setContext(Qt::ApplicationShortcut);
     connect(CtrlUp, &QShortcut::activated, this, [=] {
-        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum()) {
-            m_pSliderPos = m_pSliderPos + 1;
-            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+        if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
+        {
+            emit dApp->signalM->sigCtrlADDKeyActivated();
+        }
+        else
+        {
+            if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum())
             {
-                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
-            {
-                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
-            {
-                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
+                m_pSliderPos = m_pSliderPos + 1;
+                if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+                {
+                    m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+                {
+                    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+                {
+                    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
 
-            dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+                emit dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            }
+        }
+    });
+
+    QShortcut *CtrlKeyUp = new QShortcut(QKeySequence(Qt::Key_Up), this);
+    CtrlKeyUp->setContext(Qt::ApplicationShortcut);
+    connect(CtrlKeyUp, &QShortcut::activated, this, [=] {
+        if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
+        {
+            emit dApp->signalM->sigCtrlADDKeyActivated();
+        }
+        else
+        {
+            if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum())
+            {
+                m_pSliderPos = m_pSliderPos + 1;
+                if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+                {
+                    m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+                {
+                    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+                {
+                    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+
+                emit dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            }
         }
     });
 
@@ -156,22 +194,60 @@ void MainWindow::initShortcut()
     QShortcut *CtrlDown = new QShortcut(QKeySequence(CTRLDOWN_SHORTCUT), this);
     CtrlDown->setContext(Qt::ApplicationShortcut);
     connect(CtrlDown, &QShortcut::activated, this, [=] {
-        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum()) {
-            m_pSliderPos = m_pSliderPos - 1;
-            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+        if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
+        {
+            emit dApp->signalM->sigCtrlSubtractKeyActivated();
+        }
+        else
+        {
+            if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum())
             {
-                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
-            {
-                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
-            {
-                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
+                m_pSliderPos = m_pSliderPos - 1;
+                if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+                {
+                    m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+                {
+                    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+                {
+                    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
 
-            dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+                dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            }
+        }
+    });
+
+    QShortcut *CtrlKeyDown = new QShortcut(QKeySequence(Qt::Key_Down), this);
+    CtrlKeyDown->setContext(Qt::ApplicationShortcut);
+    connect(CtrlKeyDown, &QShortcut::activated, this, [=] {
+        if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
+        {
+            emit dApp->signalM->sigCtrlSubtractKeyActivated();
+        }
+        else
+        {
+            if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum())
+            {
+                m_pSliderPos = m_pSliderPos - 1;
+                if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+                {
+                    m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+                {
+                    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+                else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+                {
+                    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                }
+
+                dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            }
         }
     });
 }
@@ -586,7 +662,7 @@ void MainWindow::onSearchEditFinished()
             }
             else if(tr("最近删除") == curitem->getalbumname())
             {
-                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, "trash");
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_TRASH);
             }
             else
             {
@@ -603,7 +679,7 @@ void MainWindow::onSearchEditFinished()
 //                item->oriAlbumStatus();
 //            }
 
-            m_pAlbumview->m_currentAlbum = COMMON_STR_SEARCH;
+//            m_pAlbumview->m_currentAlbum = COMMON_STR_SEARCH;
             m_pAlbumview->m_pRightStackWidget->setCurrentIndex(4);
         }
     }
@@ -641,7 +717,7 @@ void MainWindow::onImprotBtnClicked()
 
     DFileDialog dialog;
     dialog.setFileMode(DFileDialog::ExistingFiles);
-    dialog.setAllowMixedSelection(true);
+//    dialog.setAllowMixedSelection(true);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);

@@ -194,7 +194,7 @@ void ImportView::onImprotBtnClicked()
 //                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
     DFileDialog dialog;
     dialog.setFileMode(DFileDialog::ExistingFiles);
-    dialog.setAllowMixedSelection(true);
+//    dialog.setAllowMixedSelection(true);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
