@@ -680,7 +680,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     if (vinfo.fullScreen) {
         showFullScreen();
     }
-
     if (vinfo.slideShow)
     {
         m_iSlideShowTimerId = startTimer(3000);

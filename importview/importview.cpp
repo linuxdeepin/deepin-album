@@ -1,7 +1,9 @@
 #include "importview.h"
 #include <DApplicationHelper>
 #include <DFileDialog>
+#include <QGraphicsDropShadowEffect>
 #include <DSuggestButton>
+
 
 ImportView::ImportView()
 {
@@ -66,9 +68,15 @@ void ImportView::initUI()
     pLabel2->setText("您也可以拖拽或导入照片到时间线");
     pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
 
-//    DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
-//    pa1.setBrush(DPalette::Text, pa1.color(DPalette::PlaceholderText);
-//    pLabel2->setPalette(pa1);
+    DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
+    pa1.setBrush(DPalette::WindowText, QColor(122,122,122));
+    pLabel2->setPalette(pa1);
+
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+    effect->setOffset(0,4);
+    effect->setColor(QColor(0,145,255,77));
+    effect->setBlurRadius(4);
+    m_pImportBtn->setGraphicsEffect(effect);
 
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);

@@ -103,7 +103,6 @@ void AllPicView::initConnections()
         info.fullScreen = isFullScreen;
         info.slideShow = isSlideShow;
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
-
         if(info.slideShow)
         {
             if(imagelist.count() == 1)
@@ -115,10 +114,8 @@ void AllPicView::initConnections()
         }
         else {
             emit dApp->signalM->viewImage(info);
-
         }
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
-
     });
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);

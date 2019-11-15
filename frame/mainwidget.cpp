@@ -104,7 +104,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 //            }
                 if(window()->isFullScreen() || window()->isMaximized())
                 {
-                    emit dApp->signalM->sigShowFullScreen();
+                    m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height());
                 }
 
     }

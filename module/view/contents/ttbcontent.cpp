@@ -683,7 +683,6 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_nextButton_spc->hide();
             m_contentWidth = 482;
             setFixedWidth(m_contentWidth);
-
         }
 
 

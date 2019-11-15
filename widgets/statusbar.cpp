@@ -1,4 +1,5 @@
 #include "statusbar.h"
+#include <QGraphicsDropShadowEffect>
 
 StatusBar::StatusBar()
 {
@@ -28,6 +29,12 @@ void StatusBar::initUI()
     m_pSlider->slider()->setSingleStep(1);
     m_pSlider->slider()->setTickInterval(1);
     m_pSlider->setValue(2);
+
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+    effect->setOffset(0,2);
+    effect->setColor(QColor(44,167,248,127));
+    effect->setBlurRadius(4);
+    m_pSlider->setGraphicsEffect(effect);
 
     QHBoxLayout* pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setContentsMargins(0,0,0,3);
