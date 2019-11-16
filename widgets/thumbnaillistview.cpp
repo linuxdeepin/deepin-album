@@ -465,6 +465,18 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
+            if (1 == paths.count())
+            {
+                if (! DBManager::instance()->isImgExistInAlbum(album, paths[0]))
+                {
+                    emit dApp->signalM->sigAddToAlbToast(album);
+                }
+            }
+            else
+            {
+                emit dApp->signalM->sigAddToAlbToast(album);
+            }
+
            DBManager::instance()->insertIntoAlbum(album, paths);
         }
         else {

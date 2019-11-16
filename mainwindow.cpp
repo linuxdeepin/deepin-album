@@ -102,6 +102,18 @@ void MainWindow::initConnections()
         m_pSliderPos = step;
     });
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &MainWindow::themeTypeChanged);
+    connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [=](QString str1){
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+        QString str2 = "成功删除相册中的“%1”";
+        this->sendMessage(icon, str2.arg(str1));
+    });
+    connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [=](QString album){
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+        QString str2 = "成功添加图片到“%1”";
+        this->sendMessage(icon, str2.arg(album));
+    });
 }
 
 void MainWindow::initShortcut()
@@ -468,7 +480,7 @@ void MainWindow::allPicBtnClicked()
     pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
     pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
     pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-    pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+//    pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_pAllPicBtn->setPalette(pal);
 
     DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
@@ -659,7 +671,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         emit dApp->signalM->hideExtensionPanel();
 
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty()?QStringList(" "):imgpaths);
-        emit dApp->signalM->sigCreateNewAlbumFromDialog();
+        emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
 
         m_pAllPicBtn->setFlat(true);
         m_pTimeLineBtn->setFlat(true);

@@ -87,7 +87,7 @@ private slots:
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
 
-    void onCreateNewAlbumFromDialog();
+    void onCreateNewAlbumFromDialog(QString albumname);
     void onLoadMountImagesEnd(QString mountname);
     void updatePicNum();
     void restorePicNum();

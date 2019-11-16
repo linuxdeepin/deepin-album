@@ -56,12 +56,12 @@ void ImportView::initUI()
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-//    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
 //    pa.setColor(QPalette::Light,QColor(37,183,255));
 //    pa.setColor(QPalette::Dark,QColor(0,152,255));
-//    pa.setColor(QPalette::Highlight,QColor(0,0,0,0));
+    pa.setColor(QPalette::Highlight,QColor(0,0,0,0));
 //    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
-//    m_pImportBtn->setPalette(pa);
+    m_pImportBtn->setPalette(pa);
 
     DLabel* pLabel2 = new DLabel();
     pLabel2->setFixedHeight(18);

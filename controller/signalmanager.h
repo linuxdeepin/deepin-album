@@ -83,6 +83,8 @@ signals:
     void exportImage(const QStringList &paths);
     void updateFileName(const QString &fileName);
     void resizeFileName();
+    void sigAlbDelToast(const QString &albname);
+    void sigAddToAlbToast(const QString &album);
 
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
@@ -91,7 +93,7 @@ signals:
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
     void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr);
-    void sigCreateNewAlbumFromDialog();
+    void sigCreateNewAlbumFromDialog(QString albumname);
     void sigMainwindowSliderValueChg(int value);
     void sigMouseMove();
     void sigShowFullScreen();
