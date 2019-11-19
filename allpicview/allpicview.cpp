@@ -178,7 +178,7 @@ void AllPicView::updateStackedWidget()
     else
     {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-        m_pStatusBar->hide();
+        m_pStatusBar->show();
 
     }
 }

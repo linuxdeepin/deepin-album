@@ -17,7 +17,7 @@
 #include <DComboBox>
 #include "widgets/dialogs/imgdeletedialog.h"
 #include <QShortcut>
-#include <DSuggestButton>
+#include <DWarningButton>
 #include <QGraphicsOpacityEffect>
 #include <DToast>
 #include "dmessagemanager.h"
@@ -114,27 +114,34 @@ void AlbumView::initConnections()
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(dApp->signalM, &SignalManager::sigTrashViewBlankArea, this, [=]{
         m_pRecoveryBtn->setEnabled(false);
-//        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-//        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//        m_pRecoveryBtn->setPalette(pal);
+        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
+//        ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
+//        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
+        ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+        m_pRecoveryBtn->setPalette(ReBtn);
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
             });
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                         this, [=]
     {
-        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-//        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//        m_pRecoveryBtn->setPalette(pal);
+//        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
+//        ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
+//        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
+//        m_pRecoveryBtn->setPalette(ReBtn);
+        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+        ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+        m_pRecoveryBtn->setPalette(ReBtn);
 
 //        DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
 //        dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
 //        dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
 //        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
 //        m_pDeleteBtn->setPalette(dpa);
+        DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+        ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+        m_pDeleteBtn->setPalette(ReBtn);
 
     });
     connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
@@ -478,17 +485,16 @@ void AlbumView::initRightView()
     m_pRecoveryBtn->setText(BUTTON_STR_RECOVERY);
     m_pRecoveryBtn->setEnabled(false);
     m_pRecoveryBtn->setFixedSize(100,36);
-//    DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//    pal.setBrush(DPalette::Light, pal.color(DPalette::Text));
-//    pal.setBrush(DPalette::Dark, pal.color(DPalette::Text));
-//    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//    DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//    pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-//    pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-//    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::Base));
-//    m_pRecoveryBtn->setPalette(pal);
+//    DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//    ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
+//    ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
+//    ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
+//    m_pRecoveryBtn->setPalette(ReBtn);
+    DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+    ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+    m_pRecoveryBtn->setPalette(ReBtn);
 
-    m_pDeleteBtn = new DSuggestButton();
+    m_pDeleteBtn = new DWarningButton();
     m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
     m_pDeleteBtn->setFixedSize(100,36);
 //    DPalette dpa = DApplicationHelper::instance()->palette(m_pDeleteBtn);
@@ -500,6 +506,9 @@ void AlbumView::initRightView()
 //    dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
 //    dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
 //    m_pDeleteBtn->setPalette(dpa);
+    DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+    ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+    m_pDeleteBtn->setPalette(ReBtn);
 
     pTopRightVBoxLayout->addWidget(m_pRecoveryBtn);
     pTopRightVBoxLayout->addSpacing(10);
@@ -642,7 +651,7 @@ void AlbumView::initRightView()
     else
     {
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->hide();
+        m_pStatusBar->show();
 
     }
 }
@@ -729,7 +738,7 @@ void AlbumView::updateRightNoTrashView()
         {
             m_pImportView->setAlbumname(QString());
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-            m_pStatusBar->hide();
+            m_pStatusBar->show();
         }
 
         setAcceptDrops(true);
@@ -926,7 +935,7 @@ void AlbumView::updateRightNoTrashView()
             else {
                 m_pImportView->setAlbumname(m_currentAlbum);
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-                m_pStatusBar->hide();
+                m_pStatusBar->show();
             }
             setAcceptDrops(true);
         }
@@ -1361,22 +1370,28 @@ void AlbumView::onTrashListClicked()
     if (0 < paths.length())
     {
         m_pRecoveryBtn->setEnabled(true);
-//        DPalette dpa = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//        dpa.setBrush(DPalette::Light, dpa.color(DPalette::LightLively));
-//        dpa.setBrush(DPalette::Dark, dpa.color(DPalette::LightLively));
-//        dpa.setBrush(DPalette::ButtonText, dpa.color(DPalette::HighlightedText));
-//        m_pRecoveryBtn->setPalette(dpa);
+//        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
+//        ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
+//        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
+//        m_pRecoveryBtn->setPalette(ReBtn);
+        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+        ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+        m_pRecoveryBtn->setPalette(ReBtn);
 
         m_pDeleteBtn->setText(BUTTON_STR_DETELE);
     }
     else
     {
         m_pRecoveryBtn->setEnabled(false);
-//        DPalette pal = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//        pal.setBrush(DPalette::Light, pal.color(DPalette::TextTitle));
-//        pal.setBrush(DPalette::Dark, pal.color(DPalette::TextTitle));
-//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//        m_pRecoveryBtn->setPalette(pal);
+//        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
+//        ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
+//        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
+//        m_pRecoveryBtn->setPalette(ReBtn);
+        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+        ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+        m_pRecoveryBtn->setPalette(ReBtn);
 
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
     }

@@ -2,6 +2,8 @@
 #define IMGDELETEDIALOG_H
 
 #include <DDialog>
+#include "controller/signalmanager.h"
+#include "application.h"
 
 DWIDGET_USE_NAMESPACE
 

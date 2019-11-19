@@ -168,9 +168,18 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     title->setFixedHeight(50);
     title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-    DPalette pa = DApplicationHelper::instance()->palette(title);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
+    DPalette pa = DApplicationHelper::instance()->palette(title);//songsha
+//    pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
+    pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
     title->setPalette(pa);
+
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(title);
+        pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+        title->setPalette(pa);
+    });
+
+
 
 //    connect(m_close, &DIconButton::clicked, this, [ = ] {
 //        emit dApp->signalM->hideExtensionPanel();
@@ -452,8 +461,8 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-        DPalette pa2= DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTips));
+        DPalette pa2= DApplicationHelper::instance()->palette(title);//songsha
+        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
 
         m_exifLayout_details->addRow(title, field);

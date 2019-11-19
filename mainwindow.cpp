@@ -114,6 +114,12 @@ void MainWindow::initConnections()
         QString str2 = "成功添加图片到“%1”";
         this->sendMessage(icon, str2.arg(album));
     });
+    connect(dApp->signalM, &SignalManager::ImportSuccess, this, [=]{
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+        QString str2 = "导入成功";
+        this->sendMessage(icon, str2);
+    });
 }
 
 void MainWindow::initShortcut()
@@ -896,8 +902,11 @@ void MainWindow::onImprotBtnClicked()
             paths<<info.filePath;
         }
 
+
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
+
+        emit dApp->signalM->updateStatusBarImportLabel(paths);
 
         if (true == m_bTitleMenuImportClicked && VIEW_ALBUM == m_iCurrentView)
         {

@@ -161,6 +161,8 @@ void ImportView::dropEvent(QDropEvent *event)
 
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
+
+        emit dApp->signalM->updateStatusBarImportLabel(paths);
     }
 
     event->accept();
@@ -234,6 +236,8 @@ void ImportView::onImprotBtnClicked()
     if (image_list.isEmpty())
         return;
 
+
+    emit dApp->signalM->updateStatusBarImportLabel(file_list);
     QFileInfo firstFileInfo(image_list.first());
     dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
@@ -245,7 +249,7 @@ void ImportView::onImprotBtnClicked()
     QStringList albumlistpath;
     for (auto imagePath : image_list)
     {
-        if (! imageSupportRead(imagePath)) {
+        if (! imageSupportRead(imagePath) || true == DBManager::instance()->isImgExist(imagePath)) {
             continue;
         }
 
@@ -283,6 +287,8 @@ void ImportView::onImprotBtnClicked()
 
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
+
+       emit dApp->signalM->updateStatusBarImportLabel(paths);
     }
 }
 

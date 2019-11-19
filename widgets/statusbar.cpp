@@ -1,5 +1,6 @@
 #include "statusbar.h"
 #include <QGraphicsDropShadowEffect>
+#include <QItemSelectionModel>
 
 StatusBar::StatusBar()
 {
@@ -15,11 +16,23 @@ void StatusBar::initUI()
     QString str = tr("%1张照片");
     m_allPicNum = DBManager::instance()->getImgsCount();
 
-    m_pAllPicNumLabel = new DLabel(this);
+    m_pAllPicNumLabel = new DLabel();
     m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
     m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
-    m_pAllPicNumLabel->setFixedHeight(18);
+
+    m_pimporting = new DWidget();
+    TextLabel = new DLabel();
+    TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+    TextLabel->setText("");
+    TextLabel->adjustSize();
+    loadingicon = new DSpinner(m_pimporting);
+    loadingicon->hide();
+    loadingicon->setFixedSize(20, 20);
+//    TextLabel->setStyleSheet("Background:red");
+
+    addWidget(m_pAllPicNumLabel);
+    addWidget(TextLabel);
 
     m_pSlider = new DSlider(Qt::Horizontal, this);
     m_pSlider->setFixedWidth(180);
@@ -30,16 +43,10 @@ void StatusBar::initUI()
     m_pSlider->slider()->setTickInterval(1);
     m_pSlider->setValue(2);
 
-    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-    effect->setOffset(0,2);
-    effect->setColor(QColor(44,167,248,127));
-    effect->setBlurRadius(4);
-    m_pSlider->setGraphicsEffect(effect);
-
     QHBoxLayout* pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setContentsMargins(0,0,0,3);
-    pHBoxLayout->addWidget(m_pAllPicNumLabel,Qt::AlignCenter);
-    this->setLayout(pHBoxLayout);
+//    pHBoxLayout->addWidget(m_pStackedWidget, Qt::AlignCenter);
+//    this->setLayout(pHBoxLayout);
 
     initConnections();
 }
@@ -48,6 +55,23 @@ void StatusBar::initConnections()
 {
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &StatusBar::onUpdateAllpicsNumLabel);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &StatusBar::onUpdateAllpicsNumLabel);
+    connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [=](QStringList paths){
+        if(isVisible())
+        {
+            imgpaths = paths;
+            QString string = "正在导入:%1";
+            TextLabel->setAlignment(Qt::AlignCenter);
+            TextLabel->setText(string.arg(imgpaths[0]));
+//            TextLabel->setMinimumSize(TextLabel->sizeHint());
+//            TextLabel->adjustSize();
+
+            setCurrentIndex(1);
+            loadingicon->move(TextLabel->x()+102, 0);
+            loadingicon->show();
+            loadingicon->start();
+            interval = startTimer(100);
+        }
+    });
 }
 
 void StatusBar::onUpdateAllpicsNumLabel()
@@ -62,3 +86,57 @@ void StatusBar::resizeEvent(QResizeEvent *e)
 {
     m_pSlider->move(width()-214, -1);
 }
+
+void StatusBar::timerEvent(QTimerEvent *e)
+{
+    if (e->timerId() == interval)
+    {
+        loadingicon->move(TextLabel->x()+102, 0);
+
+//        qDebug()<<TextLabel->x();
+        setCurrentIndex(1);
+
+        QString string = "正在导入:%1";
+//        TextLabel->setAlignment(Qt::AlignCenter);
+//        TextLabel->adjustSize();
+
+        if(imgpaths.count() == 1)
+        {
+            i = 0;
+            killTimer(interval);
+            interval = 0;
+            setCurrentIndex(0);
+            QString str = tr("%1张照片");
+            m_allPicNum = DBManager::instance()->getImgsCount();
+            m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+            emit dApp->signalM->ImportSuccess();
+        }
+        else
+        {
+            TextLabel->setText(string.arg(imgpaths[i+1]));
+//            TextLabel->setMinimumSize(TextLabel->sizeHint());
+//            TextLabel->adjustSize();
+            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+            i ++;
+            if(i == imgpaths.count()-1)
+            {
+                i = 0;
+                killTimer(interval);
+                interval = 0;
+                emit dApp->signalM->ImportSuccess();
+
+                QTime time;
+                time.start();
+                while(time.elapsed() < 500)
+                    QCoreApplication::processEvents();
+
+                setCurrentIndex(0);
+                QString str = tr("%1张照片");
+                m_allPicNum = DBManager::instance()->getImgsCount();
+                m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+
+            }
+        }
+    }
+}
+

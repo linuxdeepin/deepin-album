@@ -7,15 +7,19 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <DFontSizeManager>
+#include <QStackedWidget>
+#include <DSpinner>
 
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
+#include "widgets/loadingicon.h"
+#include "widgets/thumbnaillistview.h"
 
 DWIDGET_USE_NAMESPACE
 
 
-class StatusBar : public DWidget
+class StatusBar : public DStackedWidget
 {
     Q_OBJECT
 
@@ -31,8 +35,22 @@ public:
 public:
     DLabel* m_pAllPicNumLabel;
     DSlider* m_pSlider;
+    DLabel* m_pstacklabel;
+    DWidget* m_pimporting;
+    DLabel* TextLabel;
+    QStringList imgpaths;
+    QStackedWidget* m_pStackedWidget;
+    DSpinner* loadingicon;
 
     int m_allPicNum;
+    int interval;
+private:
+    int i = 0;
+
+
+protected:
+    void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
+
 };
 
 

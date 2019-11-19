@@ -55,5 +55,6 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     connect(m_Delete,&DPushButton::clicked,this,[=]{
         emit imgdelete();
         this->close();
+        emit dApp->signalM->sigTrashViewBlankArea();
     });
 }
