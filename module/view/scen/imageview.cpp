@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "imageview.h"
-#include "controller/signalmanager.h"
 
 #include <QDebug>
 #include <QFile>
@@ -42,6 +41,8 @@
 #include "widgets/toast.h"
 #include "widgets/dspinner.h"
 #include <DSvgRenderer>
+#include <DGuiApplicationHelper>
+#include "controller/signalmanager.h"
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -57,7 +58,7 @@ const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
-const QSize SPINNER_SIZE = QSize(32, 32);
+const QSize SPINNER_SIZE = QSize(40, 40);
 
 QVariantList cachePixmap(const QString &path)
 {
@@ -69,10 +70,6 @@ QVariantList cachePixmap(const QString &path)
         reader.setAutoTransform(true);
         if (reader.canRead()) {
             tImg = reader.read();
-        }
-        else if (path.contains(".tga")) {
-            bool ret = false;
-            tImg = utils::image::loadTga(path, ret);
         }
     } else {
         QImageReader readerF(path, format.toLatin1());
@@ -145,6 +142,16 @@ ImageView::ImageView(QWidget *parent)
 
     // Use openGL to render by default
     //    setRenderer(OpenGL);
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
+        } else {
+            m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
+        }
+        update();
+
+    });
 }
 
 void ImageView::clear()
@@ -217,7 +224,7 @@ void ImageView::setImage(const QString &path)
 
                 auto spinner = new DSpinner;
                 spinner->setFixedSize(SPINNER_SIZE);
-                spinner->setBackgroundColor(Qt::transparent);
+//                spinner->setBackgroundColor(Qt::transparent);
                 spinner->start();
                 QWidget *w = new QWidget();
                 w->setFixedSize(SPINNER_SIZE);

@@ -23,6 +23,7 @@
 //#include <dlistwidget.h>
 //#include <DListWidget>
 #include <DListWidget>
+#include <DSpinner>
 //#include <DtkWidgets>
 //#include "dlistwidget.h"
 #include <QListWidget>
@@ -37,6 +38,7 @@
 #include <QHBoxLayout>
 #include <DIconButton>
 #include <DBlurEffectWidget>
+#include <DGuiApplicationHelper>
 DWIDGET_USE_NAMESPACE
 
 
@@ -63,6 +65,8 @@ private:
     DLabel *_image=nullptr;
     QString _path = NULL;
     QPixmap _pixmap;
+    DSpinner* m_spinner;
+    QString m_pixmapstring;
 };
 class TTBContent : public QLabel
 {

@@ -168,6 +168,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateItem = new QWidget(pTimeLineViewWidget);
     QVBoxLayout *TitleViewLayout = new QVBoxLayout();
     m_dateItem->setLayout(TitleViewLayout);
+
     m_pDate = new DLabel();
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft3.setFamily("SourceHanSansSC");
@@ -289,6 +290,7 @@ void TimeLineView::updataLayout()
     //获取所有时间线
     m_mainListWidget->clear();
     m_timelines = DBManager::instance()->getAllTimelines();
+    qDebug()<<m_timelines.size();
     for(int i = 0; i < m_timelines.size(); i++)
     {
         //获取当前时间照片
@@ -332,6 +334,7 @@ void TimeLineView::updataLayout()
         pNum_dn = new DLabel();
         listItem->m_snum = QString("%1张照片").arg(ImgInfoList.size());
         pNum_dn->setText(listItem->m_snum);
+
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
         ft6.setFamily("SourceHanSansSC");
         ft6.setWeight(QFont::Medium);    

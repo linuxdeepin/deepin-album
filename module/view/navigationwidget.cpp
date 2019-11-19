@@ -26,8 +26,6 @@
 #include <QGraphicsDropShadowEffect>
 #include <QtDebug>
 
-#include <dthememanager.h>
-
 namespace {
 
 const QString SETTINGS_GROUP = "VIEWPANEL";

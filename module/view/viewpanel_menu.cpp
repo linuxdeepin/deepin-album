@@ -73,7 +73,6 @@ enum MenuItemId {
 void ViewPanel::initPopupMenu()
 {
     m_menu = new DMenu;
-//    m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         if (! m_infos.isEmpty()
         #ifdef LITE_DIV
@@ -134,7 +133,6 @@ DMenu *ViewPanel::createAlbumMenu()
     }
 
     DMenu *am = new DMenu(tr("Add to album"));
-    am->setStyle(QStyleFactory::create("dlight"));
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
 

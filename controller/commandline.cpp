@@ -121,7 +121,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 
     // Load image after all UI elements has been init
     // BottomToolbar pos not correct on init
-    emit dApp->signalM->hideBottomToolbar(true);
+//    emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
 
     QTimer::singleShot(300, this, [=] {
@@ -177,6 +177,15 @@ bool CommandLine::processOption()
     if (! m_cmdParser.parse(dApp->arguments())) {
         showHelp();
         return false;
+    }
+
+    QString defaulttheme = dApp->setter->value(THEME_GROUP,
+                                                   THEME_TEXT).toString();
+
+    if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+    } else {
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     }
 
     QStringList names = m_cmdParser.optionNames();

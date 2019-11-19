@@ -8,7 +8,7 @@
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
 #include "widgets/thumbnaillistview.h"
-#include "widgets/statusbar.h"
+
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -43,7 +43,6 @@ private:
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void onImprotBtnClicked();
     DLabel *pLabel;
-    StatusBar* m_pStatusBar;
 
 public:
     DPushButton* m_pImportBtn;

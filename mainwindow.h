@@ -59,6 +59,11 @@ public:
 
 private:
     void initShortcutKey();
+    void thumbnailZoomIn();
+    void thumbnailZoomOut();
+
+protected:
+    void wheelEvent(QWheelEvent *event) override;
 
 signals:
     void sigTitleMenuImportClicked();
@@ -73,7 +78,7 @@ private slots:
     void onUpdateAllpicsNumLabel();
     void onImprotBtnClicked();
     void onUpdateCentralWidget();
-    void onNewAPPOpen();
+    void onNewAPPOpen(qint64 pid, const QStringList &arguments);
     void onLoadingFinished();
 private:
     Ui::MainWindow *ui;
@@ -102,6 +107,7 @@ private:
     QMap<QString, ImgInfoDialog*> m_propertyDialogs{};
     int m_backIndex;
     int m_pSliderPos = 2;
+    DPushButton* m_pItemButton;
 };
 
 #endif // MAINWINDOW_H

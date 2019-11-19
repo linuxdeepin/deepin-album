@@ -46,6 +46,11 @@ const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
+const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
+const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
+const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
+const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
+
 
 const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
 const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
@@ -158,17 +163,61 @@ void ImageItem::paintEvent(QPaintEvent *event){
         pixmapRect.setY(backgroundRect.y()+4);
         pixmapRect.setWidth(backgroundRect.width()-8);
         pixmapRect.setHeight(backgroundRect.height()-8);
+
+        m_pixmapstring = "";
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+          m_pixmapstring = LOCMAP_SELECTED_DARK;
+        }
+        else {
+          m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+        }
+        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                         this, [=](){
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            if (themeType == DGuiApplicationHelper::DarkType) {
+              m_pixmapstring = LOCMAP_SELECTED_DARK;
+            }
+            else {
+              m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+            }
+        });
+        QPixmap pixmap(m_pixmapstring);
+        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
+        QPainterPath bg;
+        bg.addRoundedRect(pixmapRect, 4, 4);
+        painter.fillPath(bg, bgColor);
     }else {
         pixmapRect.setX(backgroundRect.x()+1);
         pixmapRect.setY(backgroundRect.y()+0);
         pixmapRect.setWidth(backgroundRect.width()-2);
         pixmapRect.setHeight(backgroundRect.height()-0);
-    }
 
-    QPainterPath bg_white;
-    bg_white.addRoundedRect(pixmapRect, 4, 4);
-    painter.setClipPath(bg_white);
-    painter.fillRect(pixmapRect, QBrush(QColor("#FFFFFF")));
+        m_pixmapstring = "";
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+          m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+        }
+        else {
+          m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+        }
+        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                         this, [=](){
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            if (themeType == DGuiApplicationHelper::DarkType) {
+              m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+            }
+            else {
+              m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+            }
+        });
+        QPixmap pixmap(m_pixmapstring);
+//        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
+        QBrush bgColor = QBrush(pixmap.scaled(30,40));
+        QPainterPath bg;
+        bg.addRoundedRect(pixmapRect, 4, 4);
+        painter.fillPath(bg, bgColor);
+    }
 
     QPainterPath bp1;
     bp1.addRoundedRect(pixmapRect, 4, 4);
@@ -640,7 +689,6 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             }
 
 
-            m_imgList->show();
             m_imgListView->show();
             QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");  //设置动画
             animation->setDuration(500);           //延迟
@@ -653,6 +701,121 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->start(QAbstractAnimation::DeleteWhenStopped);  //开始动画
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
+
+            connect(animation, &QPropertyAnimation::finished,
+                    this, [=]{
+                m_imgList->show();
+
+            });
+
+
+            m_imgListView->update();
+            m_imgList->update();
+            m_preButton->show();
+            m_preButton_spc->show();
+            m_nextButton->show();
+            m_nextButton_spc->show();
+
+
+            if(m_nowIndex == 0){
+                m_preButton->setDisabled(true);
+            }else {
+                m_preButton->setDisabled(false);
+            }
+            if(m_nowIndex == labelList.size()-1){
+                m_nextButton->setDisabled(true);
+            }else {
+                m_nextButton->setDisabled(false);
+            }
+        }
+        else if (m_imgInfos.size() > 1) {
+            m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
+            m_imgList->resize((m_imgInfos.size()+1)*32,60);
+
+            m_imgList->setContentsMargins(0,0,0,0);
+
+            auto num=32;
+//            QHBoxLayout *layout= new QHBoxLayout();
+//            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+//            layout->setMargin(0);
+//            layout->setSpacing(0);
+
+            int i=0;
+            QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
+
+            for (DBImgInfo info : m_imgInfos) {
+                if(labelList.size()!=m_imgInfos.size()){
+//                    char *imageType=getImageType(info.filePath);
+                    ImageItem *imageItem = new ImageItem(i,info.filePath,m_imageType);
+//                    QImage image(info.filePath,imageType);
+//                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
+//                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
+//                    QPalette palette = imageItem->palette();
+//                    palette.setColor(QPalette::Background, QColor(0,0,0,100)); // 最后一项为透明度
+//                    palette.setBrush(QPalette::Background, QBrush(QPixmap(info.filePath).scaled(60,50)));
+//                    imageItem->setPalette(palette);
+//                    imageItem->setPic(image);
+//                    imageItem->setContentsMargins(1,5,1,5);
+                    imageItem->setFixedSize(QSize(num,40));
+                    imageItem->resize(QSize(num,40));
+
+                    
+                    m_imglayout->addWidget(imageItem);
+                    connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
+                        emit imageClicked(index,(index-indexNow));
+                        emit ttbcontentClicked();
+                    });
+                }
+                if ( path == info.filePath ) {
+                    t=i;
+                }
+
+                i++;
+            }
+            labelList = m_imgList->findChildren<ImageItem*>();
+            m_nowIndex = t;
+
+            if(COMMON_STR_TRASH == m_imageType)
+            {
+                labelList.at(t)->setPic(dApp->m_imagetrashmap.value(path));
+            }
+            else
+            {
+               labelList.at(t)->setPic(dApp->m_imagemap.value(path));
+            }
+            for(int j = 0; j < labelList.size(); j++){
+                labelList.at(j)->setFixedSize (QSize(num,40));
+                labelList.at(j)->resize (QSize(num,40));
+//                labelList.at(j)->setContentsMargins(1,5,1,5);
+//                labelList.at(j)->setFrameShape (QFrame::NoFrame);
+//                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
+                labelList.at(j)->setIndexNow(t);
+            }
+            if(labelList.size()>0){
+                labelList.at(t)->setFixedSize (QSize(58,58));
+                labelList.at(t)->resize (QSize(58,58));
+//                labelList.at(t)->setFrameShape (QFrame::Box);
+//                labelList.at(t)->setContentsMargins(0,0,0,0);
+//                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
+            }
+
+
+            m_imgListView->show();
+            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");  //设置动画
+            animation->setDuration(500);           //延迟
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);     //缓动曲线
+            animation->setStartValue(m_imgList->pos());               //可选起始值
+            animation->setKeyValueAt(1,  QPoint(31-((num)*t),0));
+            animation->setEndValue(QPoint(31-((num)*t),0));
+            animation->start(QAbstractAnimation::DeleteWhenStopped);  //开始动画
+            connect(animation, &QPropertyAnimation::finished,
+                    animation, &QPropertyAnimation::deleteLater);
+
+            connect(animation, &QPropertyAnimation::finished,
+                    this, [=]{
+                m_imgList->show();
+
+            });
 
 
             m_imgListView->update();
@@ -683,6 +846,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_nextButton_spc->hide();
             m_contentWidth = 482;
             setFixedWidth(m_contentWidth);
+
         }
 
 

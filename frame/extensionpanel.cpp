@@ -43,7 +43,7 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
 //    setBorderColor(QColor(255, 255, 255, 51));
 //    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
-    setFixedHeight(600);
+    setFixedHeight(540);
     setBlurRectYRadius(18);
     setBlurRectXRadius(18);
     setMaskAlpha(204);
@@ -99,7 +99,7 @@ void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this, [=](int height,bool immediately){
         if(!immediately)
-            setFixedHeight(qMin(height,600));
+            setFixedHeight(qMin(height,540));
     });
 
     if (m_content) {

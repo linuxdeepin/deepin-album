@@ -939,8 +939,9 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
     QMutexLocker mutex(&m_mutex);
 
     QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time "
-                       "FROM ImageTable3 AS i, AlbumTable3 AS a "
-                       "WHERE i.PathHash=a.PathHash AND a.AlbumName=:album AND i.FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
+                       "FROM ImageTable3 AS i "
+                       "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.AlbumName=:album "
+                       "WHERE i.FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
 
     QSqlQuery query( db );
     query.setForwardOnly(true);

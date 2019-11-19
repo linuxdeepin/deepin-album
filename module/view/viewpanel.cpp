@@ -39,7 +39,6 @@
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
 #include <QKeySequence>
-#include <QMenu>
 #include <QPixmapCache>
 #include <QProcess>
 #include <QResizeEvent>
@@ -55,7 +54,6 @@ using namespace Dtk::Widget;
 namespace
 {
 
-const int TOP_TOOLBAR_HEIGHT = 39;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 //const QSize ICON_SIZE = QSize(48, 40);
 
@@ -324,13 +322,7 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
 
 void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-    if (theme == ViewerThemeManager::Dark) {
-//        setStyleSheet(utils::base::getFileContent(
-//                          ":/resources/dark/qss/view.qss"));
-    } else {
-//        setStyleSheet(utils::base::getFileContent(
-//                          ":/resources/light/qss/view.qss"));
-    }
+
 }
 
 void ViewPanel::showNormal()
@@ -549,8 +541,7 @@ QWidget *ViewPanel::extensionPanelContent()
     l->setContentsMargins(0, 0, 0, 0);
 
     if (! m_info) {
-        m_info = new ImageInfoWidget(":/resources/dark/qss/view.qss",
-                                     ":/resources/light/qss/view.qss");
+        m_info = new ImageInfoWidget("","");
     }
 
     l->addSpacing(0);
@@ -676,10 +667,11 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
     using namespace utils::base;
     m_vinfo = vinfo;
-
+    dApp->setOverrideCursor(Qt::ArrowCursor);
     if (vinfo.fullScreen) {
         showFullScreen();
     }
+
     if (vinfo.slideShow)
     {
         m_iSlideShowTimerId = startTimer(3000);
@@ -862,7 +854,7 @@ void ViewPanel::removeCurrentImage()
             m_current = 0;
         }
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-//        emit dApp->signalM->updateBottomToolbar( m_infos.size() > 1 );
+        emit dApp->signalM->updateBottomToolbar( m_infos.size() > 1 );
     }
 //    if (m_current != m_infos.cend()) {
 //        m_infos.removeAt(imageIndex(m_current->filePath));
@@ -923,15 +915,14 @@ void ViewPanel::initStack()
     vl->addWidget(m_stack);
 
     // Empty frame
-    m_emptyWidget = new ThumbnailWidget(":/resources/dark/qss/thumbnailwidget.qss",
-                                        ":/resources/light/qss/thumbnailwidget.qss");
+    m_emptyWidget = new ThumbnailWidget("","");
+
 
     m_stack->addWidget(m_viewB);
     m_stack->addWidget(m_emptyWidget);
     //Lock frame: if the deepin-image-viewer
     //can't access to read the image
-    m_lockWidget = new LockWidget(":/resources/dark/qss/lockwidget.qss",
-                                  ":/resources/light/qss/lockwidget.qss");
+    m_lockWidget = new LockWidget("","");
     m_stack->addWidget(m_lockWidget);
 }
 

@@ -47,11 +47,13 @@ private:
 
     bool m_isDefaultThumbnail = false;
     QLabel* m_thumbnailLabel;
+    QPixmap m_logo;
 #ifndef LITE_DIV
     QLabel* m_tips;
 #endif
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
+    QString m_picString;
 };
 
 #endif // THUMBNAILWIDGET_H

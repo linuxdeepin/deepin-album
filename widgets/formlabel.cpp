@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "formlabel.h"
-#include <DFontSizeManager>
 
 SimpleFormLabel::SimpleFormLabel(const QString &t, QWidget *parent)
     : QLabel(t, parent) {

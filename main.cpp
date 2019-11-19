@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("deepin-album");
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
-    if(!a.setSingleInstance(a.applicationName(), DApplication::UserScope))
+    if(!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope))
     {
         exit(0);
     }

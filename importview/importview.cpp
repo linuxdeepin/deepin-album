@@ -249,7 +249,7 @@ void ImportView::onImprotBtnClicked()
     QStringList albumlistpath;
     for (auto imagePath : image_list)
     {
-        if (! imageSupportRead(imagePath) || true == DBManager::instance()->isImgExist(imagePath)) {
+        if (! imageSupportRead(imagePath)) {
             continue;
         }
 

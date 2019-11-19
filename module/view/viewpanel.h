@@ -23,7 +23,6 @@
 #include "danchors.h"
 #include "thumbnailwidget.h"
 #include "lockwidget.h"
-//#include "frame/mainwidget.h"
 
 #include <QFileInfo>
 #include <QJsonObject>

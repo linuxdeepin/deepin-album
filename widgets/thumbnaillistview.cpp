@@ -311,6 +311,11 @@ void ThumbnailListView::updateMenuContents()
 
         m_pMenu->addSeparator();
     }
+    else
+    {
+        m_MenuActionMap.value(FAVORITE_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(UNFAVORITE_CONTEXT_MENU)->setVisible(false);
+    }
 
     int flag_imageSupportSave = 0;
     for(auto path: paths)
