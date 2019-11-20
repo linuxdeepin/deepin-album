@@ -10,6 +10,8 @@ class LeftListWidget :public DListWidget
 public:
     LeftListWidget();
     void mousePressEvent(QMouseEvent* e) override;
+    QStyleOptionViewItem viewOptions() const override;
+    QModelIndex getModelIndex(QListWidgetItem *pItem);
 };
 
 #endif // LEFTLISTWIDGET_H

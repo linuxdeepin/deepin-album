@@ -63,6 +63,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     m_pMenu = new DMenu();
     initMenuAction();
     initConnections();
+    installEventFilter(this);
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -75,9 +76,13 @@ void ThumbnailListView::initConnections()
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
 	connect(this,&ThumbnailListView::doubleClicked,this,[=](const QModelIndex &index){
-        qDebug()<<"index is "<<index.row();
-        if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
-            emit openImage(index.row());
+        if (ALBUM_PATHTYPE_BY_PHONE != m_imageType)
+        {
+            qDebug()<<"index is "<<index.row();
+            if (m_imageType.compare(COMMON_STR_TRASH) != 0)
+            {
+                emit openImage(index.row());
+            }
         }
     });
     connect(this,&ThumbnailListView::clicked,this,[=](){
@@ -713,4 +718,14 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
     {
         emit sigTimeLineItemBlankArea();
     }
+}
+
+bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj)
+    if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers () == Qt::ControlModifier) {
+        return true;
+    }
+
+    return false;
 }

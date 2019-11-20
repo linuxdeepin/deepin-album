@@ -26,7 +26,8 @@ HEADERS += \
     $$PWD/printhelper.h \
     $$PWD/timelinelist.h \
     $$PWD/timelineitem.h \
-    $$PWD/dlmenuarrow.h
+    $$PWD/dlmenuarrow.h \
+    $$PWD/mountexternalbtn.h
 
 
 SOURCES += \
@@ -55,7 +56,8 @@ SOURCES += \
     $$PWD/printhelper.cpp \
     $$PWD/timelinelist.cpp \
     $$PWD/timelineitem.cpp \
-    $$PWD/dlmenuarrow.cpp
+    $$PWD/dlmenuarrow.cpp \
+    $$PWD/mountexternalbtn.cpp
 
 RESOURCES += \
     $$PWD/widgetstheme.qrc

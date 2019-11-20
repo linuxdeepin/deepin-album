@@ -38,44 +38,23 @@ Exporter *Exporter::instance()
 Exporter::Exporter(QObject *parent)
     : QObject(parent)
 {
+    m_exportImageDialog = new CExportImageDialog();
 }
 
 //TODO: if some format is valid to read, but can't support to export, should add some process ?
 //Such as: gif, svg, pbm, pgm
-
 void Exporter::exportImage(const QStringList imagePaths) {
     if (imagePaths.isEmpty()) {
         return;
     } else if (imagePaths.length() == 1) {
         initValidFormatMap();
         QFileDialog exportDialog;
-
         //Todo: need to filter the format of images.
-        QString imagePath = imagePaths.at(0);
-        QString imageName = QString("%1.%2").arg(QFileInfo(imagePath).baseName())
-                .arg(QFileInfo(imagePath).completeSuffix());
-        QString picLocation = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0);
-
-        QString imageSavePath = QString("%1/%2").arg(picLocation).arg(imageName);
-
-        qDebug() << "Exporter:" << QFileInfo(imagePath).baseName() << QFileInfo(imagePath).completeSuffix();
-        qDebug() << "imageSavePath:" << imageSavePath;
-        QString selectFilter = tr("JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns"
-                                  "*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)");
-        QString dialogFilePath = exportDialog.getSaveFileName(nullptr, "Save File",
-        imageSavePath, getOrderFormat(QFileInfo(imagePath).completeSuffix()),
-        &selectFilter, QFileDialog::DontUseNativeDialog);
-
-        qDebug() << "dialogFilePath:" << dialogFilePath;
-        QPixmap tmpImage(imagePaths.at(0));
-        if (!tmpImage.isNull() && !dialogFilePath.isEmpty()) {
-            bool exportStatus = tmpImage.save(dialogFilePath);
-            if (exportStatus) {
-                qDebug() << tr("Exported successfully");
-            } else {
-                qDebug() << tr("Failed to export");
-            }
-        }
+        QString imageName = QString("%1.%2").arg(QFileInfo(imagePaths.at(0)).baseName())
+                .arg(QFileInfo(imagePaths.at(0)).completeSuffix());
+        m_exportImageDialog->setPicFileName(imageName);
+        QPixmap pixmap(imagePaths.at(0));
+        m_exportImageDialog->showMe(pixmap);
     } else {
         popupDialogSaveImage(imagePaths);
     }

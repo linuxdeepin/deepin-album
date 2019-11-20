@@ -23,6 +23,8 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *e);
+    bool eventFilter(QObject *obj, QEvent *e) override;
+
 signals:
     void sigNewTime(QString date,QString num,int index);
     void sigDelTime();

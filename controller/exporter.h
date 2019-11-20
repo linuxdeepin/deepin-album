@@ -21,6 +21,7 @@
 #include <QMap>
 
 #include "dbmanager/dbmanager.h"
+#include "widgets/cexportimagedialog.h"
 
 class Exporter : public QObject {
     Q_OBJECT
@@ -38,6 +39,10 @@ private:
 
     void initValidFormatMap();
     QString getOrderFormat(QString defaultFormat);
+
+private:
+
+    CExportImageDialog *m_exportImageDialog;
 };
 
 #endif // EXPORTER_H

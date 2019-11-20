@@ -42,6 +42,7 @@
         <file>resources/images/sidebar/normal/icon_exit_normal_dark.svg</file>
         <file>resources/images/sidebar/normal/icon_import_normal_dark.svg</file>
         <file>resources/images/other/icon_import_photo_dark.svg</file>
+        <file>resources/images/other/photo_checked_dark.svg</file>
     </qresource>
     <qresource prefix="/qt-project.org/dialogs">
         <file>resources/images/qprintpreviewdialog/images/go-first-24.svg</file>

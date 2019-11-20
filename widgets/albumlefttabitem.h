@@ -6,6 +6,8 @@
 #include <DLineEdit>
 #include <DApplicationHelper>
 #include <DIconButton>
+#include "albumview/leftlistwidget.h"
+#include "mountexternalbtn.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -14,7 +16,7 @@ class AlbumLeftTabItem : public QWidget
     Q_OBJECT
 
 public:
-    AlbumLeftTabItem(QString str, QString strAlbumType = "");
+    AlbumLeftTabItem(QString str, LeftListWidget* pListWidget, QListWidgetItem *pListWidgetItem, QString strAlbumType = "");
     ~AlbumLeftTabItem();
     void editAlbumEdit();
     void oriAlbumStatus();
@@ -38,20 +40,20 @@ public:
     QString m_albumNameStr;
     QString m_albumTypeStr;
     int m_opeMode;
-    DLineEdit* m_pLineEdit;
+    QLineEdit* m_pLineEdit;
 
     DLineEdit* m_pNewLineEdit;
 
 private:
-    QLabel *m_nameLabel;
+    DLabel *m_nameLabel;
 
-    QLabel *pLabel;
-    QLabel *pNewLabel;
-    QLabel *m_newnameLabel;
+    DLabel *pImageLabel;
 
-    QLabel *pmainLabel;
-    DIconButton *m_unMountBtn;
+    MountExternalBtn *m_unMountBtn;
     QString m_mountPath;
+
+    LeftListWidget* m_pListWidget;
+    QListWidgetItem *m_pListWidgetItem;
 };
 
 #endif // ALBUMLEFTTABITEM_H

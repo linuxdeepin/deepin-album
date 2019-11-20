@@ -269,14 +269,26 @@ void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
 
 void ImageLoader::onLoadMountImagesStart(QString mountName, QString path)
 {
+    qDebug()<<"onLoadMountImagesStart()";
     //判断路径是否存在
     QDir dir(path);
-    if (!dir.exists()) return;
+    if (!dir.exists())
+    {
+        qDebug()<<"onLoadMountImagesStart() !dir.exists()";
+        dApp->signalM->sigLoadMountImagesEnd(mountName);
+        return;
+    }
 
     //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-    if(!path.contains("/media/")) {
+    if(!path.contains("/media/"))
+    {
         bool bFind = findPicturePathByPhone(path);
-        if(!bFind) return;
+        if(!bFind)
+        {
+            qDebug()<<"onLoadMountImagesStart() !bFind";
+            dApp->signalM->sigLoadMountImagesEnd(mountName);
+            return;
+        }
     }
 
     //获取所选文件类型过滤器
@@ -333,13 +345,13 @@ void ImageLoader::onLoadMountImagesStart(QString mountName, QString path)
         m_phoneImgPathList<<fileInfo.filePath();
     }
 
-
+    qDebug()<<"onLoadMountImagesStart() m_phoneImgPathList.length()"<<m_phoneImgPathList.length();
     if (0 < m_phoneImgPathList.length())
     {
         m_parent->m_phoneNameAndPathlist.insert(mountName, m_phoneImgPathList);
-
-        dApp->signalM->sigLoadMountImagesEnd(mountName);
     }
+
+    dApp->signalM->sigLoadMountImagesEnd(mountName);
 }
 
 //搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录

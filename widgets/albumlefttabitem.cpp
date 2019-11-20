@@ -15,12 +15,14 @@ const int OPE_MODE_RENAMEALBUM = 1;
 
 using namespace utils::common;
 
-AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
+AlbumLeftTabItem::AlbumLeftTabItem(QString str, LeftListWidget* pListWidget, QListWidgetItem *pListWidgetItem, QString strAlbumType)
 {
     m_albumNameStr = str;
     m_opeMode = 0;
     m_albumTypeStr = strAlbumType;
     m_mountPath = "";
+    m_pListWidget = pListWidget;
+    m_pListWidgetItem = pListWidgetItem;
 
     initUI();
     initConnections();
@@ -33,8 +35,8 @@ AlbumLeftTabItem::~AlbumLeftTabItem()
 
 void AlbumLeftTabItem::initConnections()
 {
-    connect(m_pLineEdit, &DLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
-    connect(m_unMountBtn, &DIconButton::clicked, this, &AlbumLeftTabItem::unMountBtnClicked);
+    connect(m_pLineEdit, &QLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
+    connect(m_unMountBtn, &MountExternalBtn::sigMountExternalBtnClicked, this, &AlbumLeftTabItem::unMountBtnClicked);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_nameLabel, [=]{
         oriAlbumStatus();
     });
@@ -48,48 +50,53 @@ void AlbumLeftTabItem::initUI()
     pHBoxLayout->setContentsMargins(0,0,0,0);
     pHBoxLayout->setSpacing(0);
 
-    pLabel = new QLabel();
-    pLabel->setFixedSize(18, 18);
+    pImageLabel = new DLabel();
+    pImageLabel->setFixedSize(18, 18);
 
 
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(22,22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
     else if (COMMON_STR_FAVORITES == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
     else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
     else
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
 
     DWidget *pWidget = new DWidget();
 
-    m_nameLabel = new QLabel(pWidget);
-    m_nameLabel->setGeometry(QRect(16, 0, 118, 40));
+    QWidget *widget = m_pListWidget->itemDelegate()->createEditor(m_pListWidget, m_pListWidget->viewOptions(), m_pListWidget->getModelIndex(m_pListWidgetItem));
+    m_pLineEdit = dynamic_cast<QLineEdit*>(widget);
 
-//    QString streElide = geteElidedText(m_nameLabel->font(),m_albumNameStr,20);
-//    m_nameLabel->setText(streElide);
+    if (!m_pLineEdit) {
+        qDebug() << "Create LineEdit Error!!!";
+        return;
+    }
+
+    m_nameLabel = new DLabel(pWidget);
+    m_nameLabel->setGeometry(QRect(16, 0, 118, 40));
 
     QFontMetrics elideFont(m_nameLabel->font());
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
@@ -120,7 +127,7 @@ void AlbumLeftTabItem::initUI()
     m_nameLabel->setForegroundRole(DPalette::Text);
     m_nameLabel->setPalette(pa);
 
-    m_pLineEdit = new DLineEdit(pWidget);
+    m_pLineEdit->setParent(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
@@ -139,8 +146,8 @@ void AlbumLeftTabItem::initUI()
         m_pLineEdit->setText(m_albumNameStr);
     }
 
-    m_pLineEdit->lineEdit()->setTextMargins(5,0,0,0);
-    m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
+    m_pLineEdit->setTextMargins(5,0,0,0);
+    m_pLineEdit->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
 //    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
 //    m_pLineEdit->setStyleSheet("border-radius:8px;"
 //                               "background: rgba(255,255,255,0.00);"
@@ -149,22 +156,20 @@ void AlbumLeftTabItem::initUI()
 //                               );
 
     m_pLineEdit->setVisible(false);
-    m_pLineEdit->lineEdit()->setMaxLength(64);
+    m_pLineEdit->setMaxLength(64);
     m_pLineEdit->setClearButtonEnabled(false);
 
-    pHBoxLayout->addWidget(pLabel, Qt::AlignVCenter);
+    pHBoxLayout->addWidget(pImageLabel, Qt::AlignVCenter);
     pHBoxLayout->addWidget(pWidget, Qt::AlignVCenter);
 
-    m_unMountBtn = new DIconButton(this);
-    m_unMountBtn->setIcon(QIcon(":/resources/images/sidebar/normal/icon_exit_normal.svg"));
-    m_unMountBtn->setIconSize(QSize(8, 8));
-    pHBoxLayout->addWidget(m_unMountBtn);
-    m_unMountBtn->setVisible(false);
-
-
+    m_unMountBtn = new MountExternalBtn(m_nameLabel);
     //外部设备插入，需要添加卸载按钮
-    if (m_albumTypeStr.compare(ALBUM_PATHTYPE_BY_PHONE) == 0) {
-        m_unMountBtn->setVisible(true);
+    if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
+        m_unMountBtn->setPixmap(pixmap);
+        m_unMountBtn->move(92,9);
     }
 
     this->setLayout(pHBoxLayout);
@@ -179,8 +184,8 @@ void AlbumLeftTabItem::editAlbumEdit()
 {
     m_nameLabel->setVisible(false);
     m_pLineEdit->setVisible(true);
-    m_pLineEdit->lineEdit()->selectAll();
-    m_pLineEdit->lineEdit()->setFocus();
+    m_pLineEdit->selectAll();
+    m_pLineEdit->setFocus();
 }
 
 //设置外部设备挂载的path，在相册中卸载外部设备时用（如果有两个外部设置挂载点name一样，就不能使用name做卸载判断，使用path没问题）
@@ -260,7 +265,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
         {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal_dark.svg", QSize(22,22));
         }
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
 
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
@@ -275,7 +280,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
         {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal_dark.svg", QSize(22,22));
         }
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
 
     }
     else if (COMMON_STR_FAVORITES == m_albumNameStr)
@@ -290,23 +295,28 @@ void AlbumLeftTabItem::oriAlbumStatus()
         {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal_dark.svg", QSize(22,22));
         }
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
 
     }
     else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
     {
         QPixmap pixmap;
+        QPixmap mountpixmap;
+
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(22, 22));
+            mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
         }
         if (themeType == DGuiApplicationHelper::DarkType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal_dark.svg", QSize(22,22));
+            mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal_dark.svg", QSize(24, 24));
         }
-        pLabel->setPixmap(pixmap);
 
+        pImageLabel->setPixmap(pixmap);
+        m_unMountBtn->setPixmap(mountpixmap);
     }
     else
     {
@@ -320,7 +330,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
         {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal_dark.svg", QSize(22,22));
         }
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
 
     }
 
@@ -336,33 +346,35 @@ void AlbumLeftTabItem::newAlbumStatus()
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_import_active.svg", QSize(22,22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_trash_active.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
     else if (COMMON_STR_FAVORITES == m_albumNameStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_collection_active.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
     else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
 
-        m_unMountBtn->setIcon(QIcon(":/resources/images/sidebar/active/icon_exit_active.svg"));
+        QPixmap mountpixmap;
+        mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_exit_active.svg", QSize(24, 24));
+        m_unMountBtn->setPixmap(mountpixmap);
     }
     else
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_album_active.svg", QSize(22, 22));
-        pLabel->setPixmap(pixmap);
+        pImageLabel->setPixmap(pixmap);
     }
 
     DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);

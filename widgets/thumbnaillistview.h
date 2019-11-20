@@ -126,6 +126,8 @@ private:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
 
+    bool eventFilter(QObject *obj, QEvent *e) override;
+
 public:
     QString m_imageType;
 

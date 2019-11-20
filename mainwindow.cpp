@@ -56,7 +56,6 @@ void MainWindow::initConnections()
     connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
     connect(dApp->signalM, &SignalManager::createAlbum,this, &MainWindow::onCreateAlbum);
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
-    connect(m_pSearchEdit,&DSearchEdit::selectionChanged,this,&MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
@@ -641,8 +640,8 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         m_pAlbumBtn->setFlat(false);
 
         DPalette pal = DApplicationHelper::instance()->palette(m_pItemButton);
-        pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
-        pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
+        pal.setBrush(DPalette::Light, pal.color(DPalette::LightLively));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::LightLively));
         pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
         pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pAlbumBtn->setPalette(pal);
@@ -997,44 +996,60 @@ void MainWindow::initShortcutKey()
 //缩略图放大
 void MainWindow::thumbnailZoomIn()
 {
-    if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum()) {
-        m_pSliderPos = m_pSliderPos + 1;
-        if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+    if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
+    {
+        emit dApp->signalM->sigCtrlADDKeyActivated();
+    }
+    else
+    {
+        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum())
         {
-            m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        }
-        else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
-        {
-            m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        }
-        else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
-        {
-            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        }
+            m_pSliderPos = m_pSliderPos + 1;
+            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+            {
+                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+            {
+                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+            {
+                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
 
-        dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            emit dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+        }
     }
 }
 
 //缩略图缩小
 void MainWindow::thumbnailZoomOut()
 {
-    if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum()) {
-        m_pSliderPos = m_pSliderPos - 1;
-        if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+    if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
+    {
+        emit dApp->signalM->sigCtrlSubtractKeyActivated();
+    }
+    else
+    {
+        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum())
         {
-            m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        }
-        else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
-        {
-            m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        }
-        else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
-        {
-            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        }
+            m_pSliderPos = m_pSliderPos - 1;
+            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
+            {
+                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
+            {
+                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
+            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
+            {
+                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            }
 
-        dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+        }
     }
 }
 

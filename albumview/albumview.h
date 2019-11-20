@@ -51,7 +51,6 @@ private:
     void initConnections();
     void initLeftView();
     void initRightView();
-    void updateLeftView();
     void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
@@ -70,7 +69,8 @@ private:
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
     bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
-    void updateExternalDevice();
+    void initExternalDevice();
+    void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount);
     bool findPicturePathByPhone(QString &path);
     void updateImportComboBox();
     void importAllBtnClicked();

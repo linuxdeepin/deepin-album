@@ -83,8 +83,8 @@ const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 const QColor DARK_BACKGROUND_COLOR = QColor("#252525");
 const QColor LIGHT_BACKGROUND_COLOR = QColor("#F8F8F8");
 
-const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
-const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
+const QColor LIGHT_CHECKER_COLOR = QColor(0,0,0,0);
+const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC00");
 
 const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 26);
 const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 15);
@@ -124,7 +124,7 @@ const QString CTRLD_SHORTCUT = "Ctrl+D";
 const QString ALTRETURN_SHORTCUT = "Alt+Return";
 const QString CTRLSHIFTN_SHORTCUT = "Ctrl+Shift+N";
 const QString F2_SHORTCUT = "F2";
-const QString CTRLI_SHORTCUT = "Ctrl+I";
+const QString CTRLI_SHORTCUT = "Ctrl+O";
 const QString CTRLQ_SHORTCUT = "Ctrl+Q";
 const QString CTRLUP_SHORTCUT = "Ctrl+=";
 const QString CTRLDOWN_SHORTCUT = "Ctrl+-";

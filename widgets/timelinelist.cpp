@@ -12,6 +12,7 @@ TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
 //    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     has = false;
+    installEventFilter(this);
 
 }
 
@@ -64,4 +65,14 @@ void TimelineList::paintEvent(QPaintEvent *e)
     }
 
     return QListWidget::paintEvent(e);
+}
+
+bool TimelineList::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj)
+    if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers () == Qt::ControlModifier) {
+        return true;
+    }
+
+    return false;
 }

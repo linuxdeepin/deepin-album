@@ -27,3 +27,27 @@ void LeftListWidget::mousePressEvent(QMouseEvent* e)
     DListWidget::mousePressEvent(e);
 
 }
+
+QStyleOptionViewItem LeftListWidget::viewOptions() const
+{
+    QStyleOptionViewItem option = QAbstractItemView::viewOptions();
+
+    if (this->viewMode() == QListView::IconMode) {
+        option.showDecorationSelected = false;
+        option.decorationPosition = QStyleOptionViewItem::Top;
+        option.displayAlignment = Qt::AlignCenter;
+    } else {
+        option.decorationPosition = QStyleOptionViewItem::Left;
+    }
+
+    if (this->gridSize().isValid()) {
+        option.rect.setSize(this->gridSize());
+    }
+
+    return option;
+}
+
+QModelIndex LeftListWidget::getModelIndex(QListWidgetItem * pItem)
+{
+    return indexFromItem(pItem);
+}
