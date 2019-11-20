@@ -62,14 +62,13 @@ void StatusBar::initConnections()
             QString string = "正在导入:%1";
             TextLabel->setAlignment(Qt::AlignCenter);
             TextLabel->setText(string.arg(imgpaths[0]));
-//            TextLabel->setMinimumSize(TextLabel->sizeHint());
-//            TextLabel->adjustSize();
+            TextLabel->adjustSize();
 
             setCurrentIndex(1);
-            loadingicon->move(TextLabel->x()+102, 0);
-            loadingicon->show();
-            loadingicon->start();
-            interval = startTimer(100);
+//            loadingicon->move(TextLabel->x()+102, 0);
+//            loadingicon->show();
+//            loadingicon->start();
+            interval = startTimer(3);
         }
     });
 }

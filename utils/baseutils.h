@@ -40,14 +40,14 @@
 
 #define COMMON_STR_RECENT_IMPORTED "已导入"
 #define COMMON_STR_TRASH "最近删除"
-#define COMMON_STR_FAVORITES "个人收藏"
+#define COMMON_STR_FAVORITES "我的收藏"
 #define COMMON_STR_SEARCH "搜索"
 #define ALBUM_PATHNAME_BY_PHONE "DCIM"
 #define ALBUM_PATHTYPE_BY_PHONE "External Devices"
 #define COMMON_STR_SLIDESHOW "幻灯片放映"
 #define COMMON_STR_CREATEALBUM "新建相册"
 #define COMMON_STR_RENAMEALBUM "重命名相册"
-#define COMMON_STR_EXPORT "导出"
+#define COMMON_STR_EXPORT "导出相册"
 #define COMMON_STR_DELETEALBUM "删除相册"
 #define COMMON_STR_VIEW_TIMELINE "timelineview"
 

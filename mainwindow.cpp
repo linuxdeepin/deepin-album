@@ -17,7 +17,7 @@ const int VIEW_SEARCH = 3;
 const int VIEW_IMAGE = 4;
 
 const QString TITLEBAR_NEWALBUM = "新建相册";
-const QString TITLEBAR_IMPORT = "导入";
+const QString TITLEBAR_IMPORT = "导入照片";
 
 }//namespace
 
@@ -59,24 +59,17 @@ void MainWindow::initConnections()
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
-//        if (0 < DBManager::instance()->getImgsCount())
-//        {
             m_pSearchEdit->setEnabled(true);
-//        }
-//        else
-//        {
-//            m_pSearchEdit->setEnabled(false);
-//        }
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=]{
-//        if (0 < DBManager::instance()->getImgsCount())
-//        {
+        if (0 < DBManager::instance()->getImgsCount())
+        {
             m_pSearchEdit->setEnabled(true);
-//        }
-//        else
-//        {
-//            m_pSearchEdit->setEnabled(false);
-//        }
+        }
+        else
+        {
+            m_pSearchEdit->setEnabled(false);
+        }
     });
 	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
         m_backIndex = index;
@@ -119,6 +112,42 @@ void MainWindow::initConnections()
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
         QString str2 = "导入成功";
         this->sendMessage(icon, str2);
+    });
+    connect(dApp->signalM, &SignalManager::SearchEditClear, this, [=]{
+        m_pSearchEdit->clear();
+    });
+    connect(dApp->signalM, &SignalManager::ImportFailed, this, [=]{
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
+        QString str = "导入失败";
+        this->sendMessage(icon, str);
+    });
+    connect(dApp->signalM, &SignalManager::TransmitAlbumName, this, [=](QString currentAlbum){
+        albumName = currentAlbum;
+    });
+    connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [=]{
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
+        QString str = "照片导出失败";
+        this->sendMessage(icon, str);
+    });
+    connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [=]{
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+        QString str = "照片导出成功";
+        this->sendMessage(icon, str);
+    });
+    connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [=]{
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
+        QString str = "相册导出失败";
+        this->sendMessage(icon, str);
+    });
+    connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [=]{
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+        QString str = "相册导出成功";
+        this->sendMessage(icon, str);
     });
 }
 
@@ -260,7 +289,8 @@ void MainWindow::initTitleBar()
     m_pAllPicBtn->setText("所有照片");
     m_pAllPicBtn->setFlat(false);
     m_pItemButton->setFlat(false);
-    m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(m_pAllPicBtn, DFontSizeManager::T6);
 
     DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
     pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
@@ -294,12 +324,15 @@ void MainWindow::initTitleBar()
     }
     m_pTimeLineBtn->setText("时间线");
     m_pTimeLineBtn ->setFlat(true);
-    m_pTimeLineBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    m_pTimeLineBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(m_pTimeLineBtn, DFontSizeManager::T6);
     m_pTimeLineBtn->setPalette(pal);
 
     m_pAlbumBtn->setText("相册");
     m_pAlbumBtn ->setFlat(true);
-    m_pAlbumBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    m_pAlbumBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(m_pAlbumBtn, DFontSizeManager::T6);
+
     m_pAlbumBtn->setPalette(pal);
 
     pTitleBtnLayout->addSpacing(11);
@@ -317,14 +350,14 @@ void MainWindow::initTitleBar()
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->setFixedSize(350, 36);
 
-//    if (0 < DBManager::instance()->getImgsCount())
-//    {
-//        m_pSearchEdit->setEnabled(true);
-//    }
-//    else
-//    {
-//        m_pSearchEdit->setEnabled(false);
-//    }
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        m_pSearchEdit->setEnabled(true);
+    }
+    else
+    {
+        m_pSearchEdit->setEnabled(false);
+    }
 
     pTitleSearchLayout->addWidget(m_pSearchEdit);
     m_titleSearchWidget->setLayout(pTitleSearchLayout);
@@ -357,7 +390,7 @@ void MainWindow::initTitleBar()
     {
         m_pTimeLineBtn->setEnabled(false);
         m_pAlbumBtn->setEnabled(false);
-//        m_pSearchEdit->setEnabled(false);
+        m_pSearchEdit->setEnabled(false);
     }
 }
 
@@ -617,6 +650,7 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
     if (m_pCenterWidget->currentWidget() == m_pAlbumview)
     {
         m_pAlbumview->createNewAlbum();
+        DBManager::instance()->insertIntoAlbum(albumName, imagepaths);
     }
     else
     {
@@ -640,8 +674,8 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         m_pAlbumBtn->setFlat(false);
 
         DPalette pal = DApplicationHelper::instance()->palette(m_pItemButton);
-        pal.setBrush(DPalette::Light, pal.color(DPalette::LightLively));
-        pal.setBrush(DPalette::Dark, pal.color(DPalette::LightLively));
+        pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
+        pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
         pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
         pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pAlbumBtn->setPalette(pal);
@@ -870,6 +904,10 @@ void MainWindow::onImprotBtnClicked()
             m_bTitleMenuImportClicked = false;
         }
     }
+    else
+    {
+        emit dApp->signalM->ImportFailed();
+    }
 }
 
 void MainWindow::onShowImageInfo(const QString &path)
@@ -951,14 +989,14 @@ void MainWindow::onLoadingFinished()
 {
     m_pTimeLineBtn->setEnabled(true);
     m_pAlbumBtn->setEnabled(true);
-//    if (0 < DBManager::instance()->getImgsCount())
-//    {
-//        m_pSearchEdit->setEnabled(true);
-//    }
-//    else
-//    {
-//        m_pSearchEdit->setEnabled(false);
-//    }
+    if (0 < DBManager::instance()->getImgsCount())
+    {
+        m_pSearchEdit->setEnabled(true);
+    }
+    else
+    {
+        m_pSearchEdit->setEnabled(false);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

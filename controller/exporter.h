@@ -20,8 +20,11 @@
 #include <QObject>
 #include <QMap>
 
+#include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
 #include "widgets/cexportimagedialog.h"
+#include "application.h"
+
 
 class Exporter : public QObject {
     Q_OBJECT

@@ -65,7 +65,7 @@ void ImportView::initUI()
 
     DLabel* pLabel2 = new DLabel();
     pLabel2->setFixedHeight(18);
-    pLabel2->setText("您也可以拖拽或导入照片到时间线");
+    pLabel2->setText("您也可以拖拽到此");
     pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
 
     DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
@@ -163,6 +163,10 @@ void ImportView::dropEvent(QDropEvent *event)
         DBManager::instance()->insertImgInfos(dbInfos);
 
         emit dApp->signalM->updateStatusBarImportLabel(paths);
+    }
+    else
+    {
+        emit dApp->signalM->ImportFailed();
     }
 
     event->accept();
@@ -289,6 +293,10 @@ void ImportView::onImprotBtnClicked()
         DBManager::instance()->insertImgInfos(dbInfos);
 
        emit dApp->signalM->updateStatusBarImportLabel(paths);
+    }
+    else
+    {
+        emit dApp->signalM->ImportFailed();
     }
 }
 

@@ -7,6 +7,7 @@
         <file>resources/images/other/photo_checked_dark.svg</file>
         <file>resources/images/other/select_active_dark.svg</file>
         <file>resources/images/other/icon_toast_sucess.svg</file>
+        <file>resources/images/other/warning .svg</file>
     </qresource>
     <qresource prefix="/">
         <file>resources/images/logo/deepin-image-viewer.png</file>

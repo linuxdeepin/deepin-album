@@ -88,6 +88,13 @@ signals:
     void updateStatusBarImportLabel(const QStringList paths);
     void updateIcon();
     void ImportSuccess();
+    void SearchEditClear();
+    void TransmitAlbumName(const QString &name);
+    void ImportFailed();
+    void ImgExportSuccess();
+    void ImgExportFailed();
+    void AlbExportSuccess();
+    void AlbExportFailed();
 
 
     // Handle by album

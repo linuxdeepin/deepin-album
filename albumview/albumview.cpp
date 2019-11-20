@@ -304,7 +304,7 @@ void AlbumView::initRightView()
     // Import View
     m_pImportView = new ImportView();
     QList<QLabel*> labelList = m_pImportView->findChildren<QLabel*>();
-    labelList[1]->setText("您也可以拖拽或导入照片到相册");
+    labelList[1]->setText("您也可以拖拽到此");
 
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
@@ -951,6 +951,7 @@ void AlbumView::updateRightTrashView()
 
 void AlbumView::leftTabClicked(const QModelIndex &index)
 {
+    emit dApp->signalM->SearchEditClear();
     //若点击当前的item，则不做任何处理
 //    if(m_curListWidgetItem == m_pLeftTabList->currentItem()) return;
     if(m_curListWidgetItem == m_pLeftTabList->currentItem())
@@ -1016,7 +1017,7 @@ void AlbumView::showLeftMenu(const QPoint &pos)
 
     if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
     {
-        m_MenuActionMap.value(tr("导出"))->setVisible(false);
+        m_MenuActionMap.value(tr("导出相册"))->setVisible(false);
     }
     m_pLeftMenu->popup(QCursor::pos());
 }
@@ -1169,6 +1170,7 @@ void AlbumView::createNewAlbum()
 
     m_curListWidgetItem = m_pLeftTabList->currentItem();
     m_currentAlbum = albumName;
+    emit dApp->signalM->TransmitAlbumName(m_currentAlbum);
     updateRightNoTrashView();
 }
 

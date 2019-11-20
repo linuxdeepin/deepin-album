@@ -144,6 +144,8 @@ private:
     DMenu *m_pMenu;
     QMap<QString, QAction*> m_MenuActionMap;
     QMenu *m_albumMenu;
+
+    QList<QString> m_timelines;
 };
 
 #endif // THUMBNAILLISTVIEW_H

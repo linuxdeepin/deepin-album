@@ -90,7 +90,7 @@ void SearchView::initNoSearchResultView()
     m_pNoSearchResultView = new DWidget();
     QVBoxLayout* pNoSearchResultLayout = new QVBoxLayout();
     pNoResult = new DLabel();
-    pNoResult->setText("无结果");
+    pNoResult->setText("无搜索结果");
     pNoResult->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
 
 //    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
