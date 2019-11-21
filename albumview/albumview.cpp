@@ -1410,6 +1410,11 @@ void AlbumView::dropEvent(QDropEvent *event)
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
         picsIntoAlbum(paths);
+        emit dApp->signalM->updateStatusBarImportLabel(paths);
+    }
+    else
+    {
+        emit dApp->signalM->ImportFailed();
     }
 
     event->accept();
