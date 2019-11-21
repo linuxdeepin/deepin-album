@@ -288,6 +288,7 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
         } else {
             doSave();
             hide();
+            emit dApp->signalM->ImgExportSuccess();
         }
     }
 }
@@ -298,6 +299,7 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
     if (index == 1) {
         QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
         doSave();
+        emit dApp->signalM->ImgExportSuccess();
     }
     m_questionDialog->hide();
 }

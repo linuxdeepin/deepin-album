@@ -27,6 +27,9 @@
 #include <DLabel>
 #include <DSlider>
 
+#include "controller/signalmanager.h"
+#include "application.h"
+
 DWIDGET_USE_NAMESPACE
 
 class CExportImageDialog : public DDialog

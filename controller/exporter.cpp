@@ -131,11 +131,11 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
         }
         if( failcount == imagePaths.length())
         {
-            emit dApp->signalM->AlbExportFailed();
+            emit dApp->signalM->ImgExportFailed();
         }
         else
         {
-            emit dApp->signalM->AlbExportSuccess();
+            emit dApp->signalM->ImgExportSuccess();
         }
     }
 }

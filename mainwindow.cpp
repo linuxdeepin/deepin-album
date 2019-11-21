@@ -833,6 +833,8 @@ void MainWindow::onImprotBtnClicked()
     if (mode != QDialog::Accepted) {
         return;
     }
+
+    emit dApp->signalM->ImportSuccessSwitchToThumbnailView();
 //    const QStringList &image_list = dialog.getOpenFileNames(this, tr("打开照片"),
 //                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
     const QStringList &file_list = dialog.selectedFiles();
@@ -907,6 +909,7 @@ void MainWindow::onImprotBtnClicked()
     else
     {
         emit dApp->signalM->ImportFailed();
+        emit dApp->signalM->ImportFailedSwitchToThumbnailView();
     }
 }
 

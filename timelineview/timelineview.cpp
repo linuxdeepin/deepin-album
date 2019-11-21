@@ -147,6 +147,12 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
             pLabelList[1]->setPalette(pal);
         }
     }
+    connect(dApp->signalM, &SignalManager::ImportSuccessSwitchToThumbnailView, this, [=]{
+        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
+    });
+    connect(dApp->signalM, &SignalManager::ImportFailedSwitchToThumbnailView, this, [=]{
+        updateStackedWidget();
+    });
 }
 
 void TimeLineView::initTimeLineViewWidget()
@@ -276,12 +282,10 @@ void TimeLineView::updateStackedWidget()
     if (0 < DBManager::instance()->getImgsCount())
     {
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
-        m_pStatusBar->show();
     }
     else
     {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-        m_pStatusBar->show();
     }
 }
 

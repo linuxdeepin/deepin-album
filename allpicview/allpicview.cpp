@@ -123,7 +123,13 @@ void AllPicView::initConnections()
     connect(m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
-    connect(m_pThumbnailListView, SIGNAL(currentChanged(QModelIndex)), this, SLOT());
+//    connect(m_pThumbnailListView, SIGNAL(currentChanged(QModelIndex)), this, SLOT());
+    connect(dApp->signalM, &SignalManager::ImportSuccessSwitchToThumbnailView, this, [=]{
+        m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+    });
+    connect(dApp->signalM, &SignalManager::ImportFailedSwitchToThumbnailView, this, [=]{
+        updateStackedWidget();
+    });
 }
 
 //void AllPicView::initThumbnailListView()
@@ -173,13 +179,10 @@ void AllPicView::updateStackedWidget()
     if (0 < DBManager::instance()->getImgsCount())
     {
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
-        m_pStatusBar->show();
-
     }
     else
     {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-        m_pStatusBar->show();
     }
 }
 

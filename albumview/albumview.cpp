@@ -212,6 +212,12 @@ void AlbumView::initConnections()
             }
         }
     });
+    connect(dApp->signalM, &SignalManager::ImportSuccessSwitchToThumbnailView, this, [=]{
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+    });
+    connect(dApp->signalM, &SignalManager::ImportFailedSwitchToThumbnailView, this, [=]{
+        updateRightNoTrashView();
+    });
 }
 
 void AlbumView::initLeftView()

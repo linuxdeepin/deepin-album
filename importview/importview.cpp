@@ -217,7 +217,7 @@ void ImportView::onImprotBtnClicked()
         return;
     }
 
-
+   emit dApp->signalM->ImportSuccessSwitchToThumbnailView();
 
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
@@ -296,6 +296,7 @@ void ImportView::onImprotBtnClicked()
     else
     {
         emit dApp->signalM->ImportFailed();
+        emit dApp->signalM->ImportFailedSwitchToThumbnailView();
     }
 }
 
