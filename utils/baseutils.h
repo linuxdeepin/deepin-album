@@ -68,6 +68,7 @@
 #define DISPLAYINFILEMANAGER_CONTEXT_MENU "在文件管理器中显示"
 #define ImageInfo_CONTEXT_MENU "照片信息"
 #define BUTTON_RECOVERY "恢复"
+#define SHOW_SHORTCUT_PREVIEW "显示快捷键预览"
 
 namespace utils {
 namespace common {
@@ -129,6 +130,8 @@ const QString CTRLI_SHORTCUT = "Ctrl+O";
 const QString CTRLQ_SHORTCUT = "Ctrl+Q";
 const QString CTRLUP_SHORTCUT = "Ctrl+=";
 const QString CTRLDOWN_SHORTCUT = "Ctrl+-";
+const QString CTRLSHIFTSLASH_SHORTCUT = "Ctrl+Shift+/";
+const QString CTRLE_SHORTCUT = "Ctrl+E";
 }
 namespace timeline {
 const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);

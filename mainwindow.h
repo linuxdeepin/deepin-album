@@ -61,6 +61,7 @@ private:
     void initShortcutKey();
     void thumbnailZoomIn();
     void thumbnailZoomOut();
+    QJsonObject createShorcutJson();
 
 protected:
     void wheelEvent(QWheelEvent *event) override;

@@ -8,6 +8,10 @@
 #include <DApplicationHelper>
 #include <DFileDialog>
 #include <QGraphicsDropShadowEffect>
+#include <QShortcut>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QProcess>
 
 namespace  {
 const int VIEW_ALLPIC = 0;
@@ -153,13 +157,6 @@ void MainWindow::initConnections()
 
 void MainWindow::initShortcut()
 {
-    //F11全屏
-    QShortcut *f11 = new QShortcut(QKeySequence(Qt::Key_F11), this);
-    f11->setContext(Qt::ApplicationShortcut);
-    connect(f11, &QShortcut::activated, this, [=] {
-        showFullScreen();
-    });
-
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::ApplicationShortcut);
     connect(esc, &QShortcut::activated, this, [=] {
@@ -224,6 +221,26 @@ void MainWindow::initShortcut()
     CtrlDown->setContext(Qt::ApplicationShortcut);
     connect(CtrlDown, &QShortcut::activated, this, [=] {
         thumbnailZoomOut();
+    });
+
+    //Ctrl+Shift+/ 显示快捷键预览
+    QShortcut *CtrlShiftSlash = new QShortcut(QKeySequence(CTRLSHIFTSLASH_SHORTCUT), this);
+    CtrlShiftSlash->setContext(Qt::ApplicationShortcut);
+    connect(CtrlShiftSlash, &QShortcut::activated, this, [this] {
+        QRect rect = window()->geometry();
+        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+        QStringList shortcutString;
+        QJsonObject json = createShorcutJson();
+
+        QString param1 = "-j=" + QString(QJsonDocument(json).toJson());
+        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+        shortcutString << param1 << param2;
+
+        QProcess *shortcutViewProcess = new QProcess();
+        shortcutViewProcess->startDetached("deepin-shortcut-viewer", shortcutString);
+
+        connect(shortcutViewProcess, SIGNAL(finished(int)),
+                shortcutViewProcess, SLOT(deleteLater()));
     });
 
 //    QShortcut *CtrlKeyDown = new QShortcut(QKeySequence(Qt::Key_Down), this);
@@ -1039,6 +1056,8 @@ void MainWindow::initShortcutKey()
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ImageInfo_CONTEXT_MENU, ALTRETURN_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_CREATEALBUM, CTRLSHIFTN_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_RENAMEALBUM, F2_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SHOW_SHORTCUT_PREVIEW, CTRLSHIFTSLASH_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, EXPORT_CONTEXT_MENU, CTRLE_SHORTCUT);
 }
 
 //缩略图放大
@@ -1099,6 +1118,132 @@ void MainWindow::thumbnailZoomOut()
             dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
         }
     }
+}
+
+QJsonObject MainWindow::createShorcutJson()
+{
+    QJsonObject shortcut1;
+    shortcut1.insert("name", tr("窗口大小切换"));
+    shortcut1.insert("value", "Ctrl+Alt+F");
+    QJsonObject shortcut2;
+    shortcut2.insert("name", tr("全屏"));
+    shortcut2.insert("value", "F11");
+    QJsonObject shortcut3;
+    shortcut3.insert("name", tr("退出全屏/退出幻灯片放映"));
+    shortcut3.insert("value", "Esc");
+    QJsonObject shortcut4;
+    shortcut4.insert("name", tr("关闭应用"));
+    shortcut4.insert("value", "Alt+F4");
+    QJsonObject shortcut5;
+    shortcut5.insert("name", tr("帮助"));
+    shortcut5.insert("value", "F1");
+    QJsonObject shortcut6;
+    shortcut6.insert("name", tr("显示快捷键预览"));
+    shortcut6.insert("value", "Ctrl+Shift+/");
+    QJsonObject shortcut7;
+    shortcut7.insert("name", tr("在文件管理器中显示"));
+    shortcut7.insert("value", "Ctrl+D");
+    QJsonObject shortcut8;
+    shortcut8.insert("name", tr("幻灯片放映"));
+    shortcut8.insert("value", "F5");
+    QJsonObject shortcut9;
+    shortcut9.insert("name", tr("查看图片"));
+    shortcut9.insert("value", "Enter");
+    QJsonObject shortcut10;
+    shortcut10.insert("name", tr("导出图片"));
+    shortcut10.insert("value", "Ctrl+E");
+    QJsonObject shortcut11;
+    shortcut11.insert("name", tr("导入图片"));
+    shortcut11.insert("value", "Ctrl+O");
+    QJsonObject shortcut12;
+    shortcut12.insert("name", tr("全选图片"));
+    shortcut12.insert("value", "Ctrl+A");
+    QJsonObject shortcut13;
+    shortcut13.insert("name", tr("复制"));
+    shortcut13.insert("value", "Ctrl+C");
+    QJsonObject shortcut14;
+    shortcut14.insert("name", tr("删除照片/删除相册"));
+    shortcut14.insert("value", "ADelete");
+    QJsonObject shortcut15;
+    shortcut15.insert("name", tr("图片信息"));
+    shortcut15.insert("value", "Alt+Enter");
+    QJsonObject shortcut16;
+    shortcut16.insert("name", tr("设为壁纸"));
+    shortcut16.insert("value", "Ctrl+F8");
+    QJsonObject shortcut17;
+    shortcut17.insert("name", tr("顺时针旋转"));
+    shortcut17.insert("value", "Ctrl+R");
+    QJsonObject shortcut18;
+    shortcut18.insert("name", tr("逆时针旋转"));
+    shortcut18.insert("value", "Ctrl+Shift+R");
+    QJsonObject shortcut19;
+    shortcut19.insert("name", tr("放大缩小图片"));
+    shortcut19.insert("value", "ctrl+鼠标滚轮缩放图片缩略图");
+    QJsonObject shortcut20;
+    shortcut20.insert("name", tr("放大图片"));
+    shortcut20.insert("value", "Ctrl+“+”");
+    QJsonObject shortcut21;
+    shortcut21.insert("name", tr("缩小图片"));
+    shortcut21.insert("value", "Ctrl+“-”");
+    QJsonObject shortcut22;
+    shortcut22.insert("name", tr("上一张"));
+    shortcut22.insert("value", "键盘<-");
+    QJsonObject shortcut23;
+    shortcut23.insert("name", tr("下一张"));
+    shortcut23.insert("value", "键盘->");
+    QJsonObject shortcut24;
+    shortcut24.insert("name", tr("收藏"));
+    shortcut24.insert("value", "Ctrl+K");
+    QJsonObject shortcut25;
+    shortcut25.insert("name", tr("取消收藏"));
+    shortcut25.insert("value", "Ctrl+Shift+K");
+    QJsonObject shortcut26;
+    shortcut26.insert("name", tr("新建相册"));
+    shortcut26.insert("value", "Ctrl+Shift+N");
+    QJsonObject shortcut27;
+    shortcut27.insert("name", tr("重命名相册"));
+    shortcut27.insert("value", "F2");
+
+    QJsonArray shortcutArray;
+    shortcutArray.append(shortcut1);
+    shortcutArray.append(shortcut2);
+    shortcutArray.append(shortcut3);
+    shortcutArray.append(shortcut4);
+    shortcutArray.append(shortcut5);
+    shortcutArray.append(shortcut6);
+    shortcutArray.append(shortcut7);
+    shortcutArray.append(shortcut8);
+    shortcutArray.append(shortcut9);
+    shortcutArray.append(shortcut10);
+    shortcutArray.append(shortcut11);
+    shortcutArray.append(shortcut12);
+    shortcutArray.append(shortcut13);
+    shortcutArray.append(shortcut14);
+    shortcutArray.append(shortcut15);
+    shortcutArray.append(shortcut16);
+    shortcutArray.append(shortcut17);
+    shortcutArray.append(shortcut18);
+    shortcutArray.append(shortcut19);
+    shortcutArray.append(shortcut20);
+    shortcutArray.append(shortcut21);
+    shortcutArray.append(shortcut22);
+    shortcutArray.append(shortcut23);
+    shortcutArray.append(shortcut24);
+    shortcutArray.append(shortcut25);
+    shortcutArray.append(shortcut26);
+    shortcutArray.append(shortcut27);
+
+    QJsonObject shortcut_group;
+    shortcut_group.insert("groupName", tr("热键"));
+    shortcut_group.insert("groupItems", shortcutArray);
+
+    QJsonArray shortcutArrayall;
+    shortcutArrayall.append(shortcut_group);
+
+    QJsonObject main_shortcut;
+    main_shortcut.insert("shortcut", shortcutArrayall);
+
+    return main_shortcut;
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)
