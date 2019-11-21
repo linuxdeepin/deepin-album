@@ -180,7 +180,6 @@ void AllPicView::updateStackedWidget()
     {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
         m_pStatusBar->show();
-
     }
 }
 

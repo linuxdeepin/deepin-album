@@ -59,45 +59,6 @@ void ImageLoader::startLoading()
     ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
     qDebug()<<"startLoading start time: "<<ms;
 
-
-    for(QString path : m_pathlisttrash)
-    {
-        QImage tImg;
-
-        QString format = DetectImageFormat(path);
-        if (format.isEmpty()) {
-            QImageReader reader(path);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
-            }
-            else if (path.contains(".tga")) {
-                bool ret = false;
-                tImg = utils::image::loadTga(path, ret);
-            }
-        } else {
-            QImageReader readerF(path, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
-            } else {
-                qWarning() << "can't read image:" << readerF.errorString()
-                           << format;
-
-                tImg = QImage(path);
-            }
-        }
-        QPixmap pixmaptrash = QPixmap::fromImage(tImg);
-        pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-
-        if (800 < pixmaptrash.width())
-        {
-            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
-        }
-
-        m_parent->m_imagetrashmap.insert(path, pixmaptrash);
-    }
-
     int num = 0;
     for(QString path : m_pathlist)
     {
@@ -141,6 +102,46 @@ void ImageLoader::startLoading()
         {
             emit sigFinishiLoad();
         }
+    }
+
+    emit sigFinishiLoad();
+
+    for(QString path : m_pathlisttrash)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(path);
+            }
+        }
+        QPixmap pixmaptrash = QPixmap::fromImage(tImg);
+        pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+
+        if (800 < pixmaptrash.width())
+        {
+            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
+        }
+
+        m_parent->m_imagetrashmap.insert(path, pixmaptrash);
     }
 
     qDebug()<<m_parent->m_imagemap.keys();

@@ -743,7 +743,7 @@ void AlbumView::updateRightNoTrashView()
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
         qDebug()<<item->m_albumTypeStr;
-        if ( ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr)
+        if ( ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
         {
             // 手机
             qDebug()<<item->m_albumNameStr;
@@ -994,7 +994,8 @@ void AlbumView::showLeftMenu(const QPoint &pos)
     if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr
         || COMMON_STR_TRASH == item->m_albumNameStr
         || COMMON_STR_FAVORITES == item->m_albumNameStr
-        || ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr)
+        || ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr
+        || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
     {
         return;
     }
@@ -1076,7 +1077,8 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr
             || COMMON_STR_TRASH == item->m_albumNameStr
             || COMMON_STR_FAVORITES == item->m_albumNameStr
-            || ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr)
+            || ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr
+            || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
         {
             return;
         }
@@ -1596,7 +1598,16 @@ void AlbumView::initExternalDevice()
         QString strPath = LocationFile->path();
         pListWidgetItem->setData(Qt::UserRole, strPath);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+        AlbumLeftTabItem *pAlbumLeftTabItem;
+        if (strPath.contains("/media/"))
+        {
+            pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
+        }
+        else
+        {
+            pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+        }
+
         pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
@@ -1611,7 +1622,17 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     QString strPath = LocationFile->path();
     pListWidgetItem->setData(Qt::UserRole, strPath);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+
+    AlbumLeftTabItem *pAlbumLeftTabItem;
+    if (strPath.contains("/media/"))
+    {
+        pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
+    }
+    else
+    {
+        pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+    }
+
     pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
     connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
     m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);

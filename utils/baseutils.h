@@ -44,6 +44,7 @@
 #define COMMON_STR_SEARCH "搜索"
 #define ALBUM_PATHNAME_BY_PHONE "DCIM"
 #define ALBUM_PATHTYPE_BY_PHONE "External Devices"
+#define ALBUM_PATHTYPE_BY_U "U Devices"
 #define COMMON_STR_SLIDESHOW "幻灯片放映"
 #define COMMON_STR_CREATEALBUM "新建相册"
 #define COMMON_STR_RENAMEALBUM "重命名相册"

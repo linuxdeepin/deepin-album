@@ -78,6 +78,12 @@ void AlbumLeftTabItem::initUI()
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(22, 22));
         pImageLabel->setPixmap(pixmap);
     }
+    else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal.svg", QSize(22, 22));
+        pImageLabel->setPixmap(pixmap);
+    }
     else
     {
         QPixmap pixmap;
@@ -164,7 +170,7 @@ void AlbumLeftTabItem::initUI()
 
     m_unMountBtn = new MountExternalBtn(m_nameLabel);
     //外部设备插入，需要添加卸载按钮
-    if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr)
+    if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr || ALBUM_PATHTYPE_BY_U == m_albumTypeStr)
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
@@ -318,6 +324,26 @@ void AlbumLeftTabItem::oriAlbumStatus()
         pImageLabel->setPixmap(pixmap);
         m_unMountBtn->setPixmap(mountpixmap);
     }
+    else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr)
+    {
+        QPixmap pixmap;
+        QPixmap mountpixmap;
+
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal.svg", QSize(22, 22));
+            mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal_dark.svg", QSize(22,22));
+            mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal_dark.svg", QSize(24, 24));
+        }
+
+        pImageLabel->setPixmap(pixmap);
+        m_unMountBtn->setPixmap(mountpixmap);
+    }
     else
     {
         QPixmap pixmap;
@@ -364,6 +390,16 @@ void AlbumLeftTabItem::newAlbumStatus()
     {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(22, 22));
+        pImageLabel->setPixmap(pixmap);
+
+        QPixmap mountpixmap;
+        mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_exit_active.svg", QSize(24, 24));
+        m_unMountBtn->setPixmap(mountpixmap);
+    }
+    else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr)
+    {
+        QPixmap pixmap;
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_usb_active.svg", QSize(22, 22));
         pImageLabel->setPixmap(pixmap);
 
         QPixmap mountpixmap;

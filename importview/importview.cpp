@@ -204,8 +204,6 @@ void ImportView::onImprotBtnClicked()
 
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
 
-//    const QStringList &image_list = DFileDialog::getOpenFileNames(this, tr("打开照片"),
-//                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
     DFileDialog dialog;
     dialog.setFileMode(DFileDialog::ExistingFiles);
 //    dialog.setAllowMixedSelection(true);
@@ -218,8 +216,9 @@ void ImportView::onImprotBtnClicked()
     if (mode != QDialog::Accepted) {
         return;
     }
-//    const QStringList &image_list = dialog.getOpenFileNames(this, tr("打开照片"),
-//                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
+
+
+
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
         return;
@@ -292,7 +291,7 @@ void ImportView::onImprotBtnClicked()
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
 
-       emit dApp->signalM->updateStatusBarImportLabel(paths);
+        emit dApp->signalM->updateStatusBarImportLabel(paths);
     }
     else
     {
