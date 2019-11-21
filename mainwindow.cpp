@@ -153,6 +153,13 @@ void MainWindow::initConnections()
 
 void MainWindow::initShortcut()
 {
+    //F11全屏
+    QShortcut *f11 = new QShortcut(QKeySequence(Qt::Key_F11), this);
+    f11->setContext(Qt::ApplicationShortcut);
+    connect(f11, &QShortcut::activated, this, [=] {
+        showFullScreen();
+    });
+
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::ApplicationShortcut);
     connect(esc, &QShortcut::activated, this, [=] {
