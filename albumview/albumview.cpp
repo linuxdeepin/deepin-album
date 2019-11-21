@@ -281,13 +281,15 @@ void AlbumView::initLeftView()
 
 void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
 {
-    QListWidgetItem *pListWidgetItem = new QListWidgetItem();
+    //新建相册需要在外接设备节点上面，此处调用getNewAlbumItemIndex函数，获取新建相册的index
+    int index = getNewAlbumItemIndex();
+
+    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = newalbumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, m_pLeftTabList, pListWidgetItem);
     m_customAlbumNames << albumName;
-    //新建相册需要在外接设备节点上面，此处调用getNewAlbumItemIndex函数，获取新建相册的index
-    int index = getNewAlbumItemIndex();
+
     m_pLeftTabList->insertItem(index, pListWidgetItem);
     m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftTabList->setCurrentRow(index);
@@ -953,24 +955,16 @@ void AlbumView::leftTabClicked(const QModelIndex &index)
 {
     emit dApp->signalM->SearchEditClear();
     //若点击当前的item，则不做任何处理
-//    if(m_curListWidgetItem == m_pLeftTabList->currentItem()) return;
+
     if(m_curListWidgetItem == m_pLeftTabList->currentItem())
     {
-//        AlbumLeftTabItem *item_0 = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(0));
-//        item_0->oriAlbumStatus();
-//        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
-//        item->newAlbumStatus();
+        SearchReturnUpdate();
         return;
     }
+
     m_curListWidgetItem = m_pLeftTabList->currentItem();
-//    for(int i = 0; i < m_pLeftTabList->count(); i++)
-//    {
-//        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
-//        item->oriAlbumStatus();
-//    }
 
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
-//    item->newAlbumStatus();
 
     if (COMMON_STR_TRASH == item->m_albumNameStr)
     {
@@ -1064,14 +1058,8 @@ void AlbumView::onLeftMenuClicked(QAction *action)
 
         m_pLeftTabList->setCurrentRow(m_pLeftTabList->currentRow()+1);
 
-//        for(int i = 0; i < m_pLeftTabList->count(); i++)
-//        {
-//            AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
-//            item->oriAlbumStatus();
-//        }
 
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
-//        item->newAlbumStatus();
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
 
@@ -1157,14 +1145,7 @@ void AlbumView::createNewAlbum()
 
     m_pLeftTabList->setCurrentRow(index);
 
-    for(int i = 0; i < m_pLeftTabList->count(); i++)
-    {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(i));
-        item->oriAlbumStatus();
-    }
-
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
-    item->newAlbumStatus();
     item->m_opeMode = OPE_MODE_ADDNEWALBUM;
     item->editAlbumEdit();
 
@@ -1656,8 +1637,6 @@ void AlbumView::SearchReturnUpdate()
 {
     if (RIGHT_VIEW_SEARCH == m_pRightStackWidget->currentIndex())
     {
-//        m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
-//        updateRightView();
         if (COMMON_STR_TRASH == m_currentAlbum)
         {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
