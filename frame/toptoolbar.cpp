@@ -91,11 +91,11 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 
     QPixmap pixmap(":/resources/common/ttb60.svg");
     const QPalette pal = QGuiApplication::palette();//this->palette();
-    QBrush bgColor = QBrush(pixmap.scaled(size().width(),66));
+    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
     QRectF bgRect;
     bgRect.setSize(size());
     QPainterPath pp;
-    pp.addRoundedRect(QRectF(bgRect.x(),bgRect.y(),bgRect.width(),66), 0, 0);
+    pp.addRoundedRect(QRectF(bgRect.x(),bgRect.y(),bgRect.width(),60), 0, 0);
     p.fillPath(pp, bgColor);
 }
 

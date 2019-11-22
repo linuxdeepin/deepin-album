@@ -78,12 +78,14 @@ void MainWindow::initConnections()
 	connect(dApp->signalM,&SignalManager::showImageView,this,[=](int index){
         m_backIndex = index;
         titlebar()->setFixedHeight(0);
+        setTitlebarShadowEnabled(false);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
     });
     connect(dApp->signalM,&SignalManager::hideImageView,this,[=](){
         emit dApp->signalM->hideExtensionPanel();
 
         titlebar()->setFixedHeight(50);
+        setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
     connect(dApp->signalM,&SignalManager::exportImage,this,[=](QStringList paths){
