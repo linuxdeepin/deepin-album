@@ -559,6 +559,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateCounterclockwise: {
+        int row = currentIndex().row();
+        int column = currentIndex().column();
         for (QString path : paths) {
             utils::image::rotate(path, -90);
         }
@@ -567,6 +569,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             dApp->m_imageloader->updateTrashImageLoader(paths);
         } else {
             dApp->m_imageloader->updateImageLoader(paths);
+        }
+        if (row < m_model->rowCount() && column < m_model->columnCount()) {
+            QModelIndex qindex = m_model->index(row, column);
+            setCurrentIndex(qindex);
         }
     }
     break;
