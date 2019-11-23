@@ -98,13 +98,13 @@ void ImageLoader::startLoading()
 
         m_parent->m_imagemap.insert(path, pixmap);
         num += 1;
-        if (0 == num%100)
-        {
-            emit sigFinishiLoad();
-        }
+//        if (0 == num%100)
+//        {
+//            emit sigFinishiLoad();
+//        }
     }
 
-    emit sigFinishiLoad();
+//    emit sigFinishiLoad();
 
     for(QString path : m_pathlisttrash)
     {

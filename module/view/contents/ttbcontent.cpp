@@ -240,7 +240,7 @@ TTBContent::TTBContent(bool inDB,
 //    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     m_imgInfos = m_infos;
     if ( m_imgInfos.size() <= 1 ) {
-        m_contentWidth = 482;
+        m_contentWidth = 532;
     }
     else if (m_imgInfos.size() <= 3 ) {
         m_contentWidth = 782;
@@ -554,7 +554,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     m_windowWidth =  this->window()->geometry().width();
     qDebug()<<m_windowWidth;
     if ( m_imgInfos.size() <= 1 ) {
-        m_contentWidth = 482;
+        m_contentWidth = 532;
     }
     else if ( m_imgInfos.size() <= 3 ) {
         m_contentWidth = 782;
@@ -565,9 +565,9 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         m_imgListView->setFixedSize(QSize(qMin((782+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280))-668,60));
     }
 
-    qDebug()<<m_windowWidth;
+//    qDebug()<<__func__<< m_windowWidth;
 
-    setFixedWidth(m_contentWidth);
+    setFixedWidth(m_contentWidth-10);
 
     QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
     for(int j = 0; j < labelList.size(); j++){
@@ -844,7 +844,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_preButton_spc->hide();
             m_nextButton->hide();
             m_nextButton_spc->hide();
-            m_contentWidth = 482;
+            m_contentWidth = 532;
             setFixedWidth(m_contentWidth);
 
         }

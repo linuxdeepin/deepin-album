@@ -44,7 +44,7 @@ namespace {
 const int TOP_TOOLBAR_HEIGHT = 50;
 const int BOTTOM_TOOLBAR_HEIGHT = 70+10;
 const int EXTENSION_PANEL_WIDTH = 300;
-const int BOTTOM_TOOLBAR_WIDTH_1 = 482+10;
+const int BOTTOM_TOOLBAR_WIDTH_1 = 532+10;
 const int BOTTOM_TOOLBAR_WIDTH_2 = 782+10;
 const int THUMBNAIL_ADD_WIDTH = 31;
 const int BOTTOM_SPACING = 10;
@@ -103,7 +103,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     {
         if ( m_viewPanel->getPicCount() <= 1 )
         {
-            m_bottomToolbar->setFixedWidth(482);
+            m_bottomToolbar->setFixedWidth(532);
         }
         else if(m_viewPanel->getPicCount() <= 3 )
         {
@@ -310,7 +310,7 @@ void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
 
-    m_bottomToolbar->resize(482, BOTTOM_TOOLBAR_HEIGHT);
+    m_bottomToolbar->resize(532, BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
 
     m_btmSeparatorLine = new QLabel(this);
@@ -333,7 +333,7 @@ void MainWidget::initBottomToolbar()
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            m_bottomToolbar->setFixedWidth(482);
+            m_bottomToolbar->setFixedWidth(532);
             if(m_viewPanel->getPicCount() == 1){
                 m_bottomToolbar->setVisible(true);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
@@ -364,7 +364,7 @@ void MainWidget::initBottomToolbar()
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            m_bottomToolbar->setFixedWidth(482);
+            m_bottomToolbar->setFixedWidth(532);
             if(m_viewPanel->getPicCount() == 1){
                 m_bottomToolbar->setVisible(true);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());

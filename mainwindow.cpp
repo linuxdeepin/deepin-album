@@ -1025,11 +1025,18 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             if (! dbInfos.isEmpty())
             {
                 qDebug()<<"DBManager::instance()->insertImgInfos(dbInfos)";
+                QStringList paths;
+                for(auto info : dbInfos)
+                {
+                    paths<<info.filePath;
+                }
+
+                dApp->m_imageloader->addImageLoader(paths);
                 DBManager::instance()->insertImgInfos(dbInfos);
             }
         }
 
-        dApp->LoadDbImage();
+//        dApp->LoadDbImage();
     }
     this->activateWindow();
 }
