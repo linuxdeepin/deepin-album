@@ -3,7 +3,7 @@
 
 TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
 {
-    setContentsMargins(0,0,0,0);
+    setContentsMargins(0, 0, 0, 0);
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::ListMode);
     setFlow(QListView::TopToBottom);
@@ -36,26 +36,21 @@ void TimelineList::mouseMoveEvent(QMouseEvent *event)
 
 void TimelineList::paintEvent(QPaintEvent *e)
 {
-    if(this->count() > 0)
-    {
+    if (this->count() > 0) {
         int ccount = count();
-        for(int i = 0; i < ccount; i++)
-        {
+        for (int i = 0; i < ccount; i++) {
             QListWidgetItem *pItem = this->item(i);
-            TimelineItem* pWidget = (TimelineItem*)itemWidget(pItem);
-            if((pWidget->y() <= pWidget->m_title->height()) && (pWidget->y() > 0))
-            {
+            TimelineItem *pWidget = (TimelineItem *)itemWidget(pItem);
+            if ((pWidget->y() <= pWidget->m_title->height()) && (pWidget->y() > 0)) {
                 emit sigMoveTime(pWidget->y() - pWidget->m_title->height());
                 pWidget->m_title->setVisible(true);
                 pWidget->m_date->setText(pWidget->m_sdate);
                 pWidget->m_num->setText(pWidget->m_snum);
                 pWidget->m_Chose->setVisible(true);
 
-            }
-            else if((pWidget->y() <= 0)&& (pWidget->y() + pWidget->m_title->height() > 0))
-            {
+            } else if ((pWidget->y() <= 0) && (pWidget->y() + pWidget->m_title->height() > 0)) {
                 has = false;
-                emit sigNewTime(pWidget->m_sdate,pWidget->m_snum,i);
+                emit sigNewTime(pWidget->m_sdate, pWidget->m_snum, i);
                 pWidget->m_date->setText("");
                 pWidget->m_num->setText("");
                 pWidget->m_Chose->setVisible(false);
@@ -63,7 +58,6 @@ void TimelineList::paintEvent(QPaintEvent *e)
             yList[i] = pWidget->y();
         }
     }
-
     return QListWidget::paintEvent(e);
 }
 

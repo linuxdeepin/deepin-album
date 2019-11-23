@@ -47,15 +47,14 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
 //    setFlow(QListView::LeftToRight);
     setSpacing(ITEM_SPACING);
     setDragEnabled(false);
-    if (COMMON_STR_VIEW_TIMELINE == m_imageType)
-    {
+    if (COMMON_STR_VIEW_TIMELINE == m_imageType) {
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-	setMinimumWidth(800);
+    setMinimumWidth(800);
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;
@@ -77,18 +76,16 @@ void ThumbnailListView::initConnections()
 {
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
-	connect(this,&ThumbnailListView::doubleClicked,this,[=](const QModelIndex &index){
-        if (ALBUM_PATHTYPE_BY_PHONE != m_imageType)
-        {
-            qDebug()<<"index is "<<index.row();
-            if (m_imageType.compare(COMMON_STR_TRASH) != 0)
-            {
+    connect(this, &ThumbnailListView::doubleClicked, this, [ = ](const QModelIndex & index) {
+        if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
+            qDebug() << "index is " << index.row();
+            if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
                 emit openImage(index.row());
             }
         }
     });
-    connect(this,&ThumbnailListView::clicked,this,[=](){
-            emit hideExtensionPanel();
+    connect(this, &ThumbnailListView::clicked, this, [ = ]() {
+        emit hideExtensionPanel();
     });
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, &ThumbnailListView::onPixMapScale);
     connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this, &ThumbnailListView::onCancelFavorite);
@@ -96,14 +93,10 @@ void ThumbnailListView::initConnections()
 
 void ThumbnailListView::calBasePixMapWandH()
 {
-    for(int i = 0; i < m_ItemList.length(); i++)
-    {
-        if (0 == m_ItemList[i].height)
-        {
+    for (int i = 0; i < m_ItemList.length(); i++) {
+        if (0 == m_ItemList[i].height) {
             m_ItemList[i].width = m_iBaseHeight;
-        }
-        else
-        {
+        } else {
             m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
         }
 
@@ -121,49 +114,40 @@ void ThumbnailListView::calWidgetItemWandH()
 
     m_gridItem.clear();
 
-    for(int i = 0; i< m_ItemList.length(); i++)
-    {
-        if ((i_baseWidth + m_ItemList[i].width) <= i_totalwidth)
-        {
+    for (int i = 0; i < m_ItemList.length(); i++) {
+        if ((i_baseWidth + m_ItemList[i].width) <= i_totalwidth) {
             i_baseWidth = i_baseWidth + m_ItemList[i].width + ITEM_SPACING;
-            itemInfoList<<m_ItemList[i];
+            itemInfoList << m_ItemList[i];
 
-            if (i == m_ItemList.length() -1 )
-            {
+            if (i == m_ItemList.length() - 1 ) {
                 i_baseWidth -= ITEM_SPACING;
-                rowWidthList<<i_baseWidth;
-                m_gridItem<<itemInfoList;
+                rowWidthList << i_baseWidth;
+                m_gridItem << itemInfoList;
             }
-        }
-        else
-        {
+        } else {
             i_baseWidth -= ITEM_SPACING;
-            rowWidthList<<i_baseWidth;
+            rowWidthList << i_baseWidth;
             i_baseWidth = m_ItemList[i].width + ITEM_SPACING;
 
-            m_gridItem<<itemInfoList;
+            m_gridItem << itemInfoList;
             itemInfoList.clear();
-            itemInfoList<<m_ItemList[i];
+            itemInfoList << m_ItemList[i];
 
-            if (i == m_ItemList.length() -1 )
-            {
+            if (i == m_ItemList.length() - 1 ) {
                 i_baseWidth -= ITEM_SPACING;
-                rowWidthList<<i_baseWidth;
-                m_gridItem<<itemInfoList;
+                rowWidthList << i_baseWidth;
+                m_gridItem << itemInfoList;
             }
         }
     }
 
-    for(int i = 0; i < rowWidthList.length(); i++)
-    {
-        if (i == rowWidthList.length() - 1)
-        {
+    for (int i = 0; i < rowWidthList.length(); i++) {
+        if (i == rowWidthList.length() - 1) {
             break;
         }
 
         int rowWidth = 0;
-        for(int j = 0; j < m_gridItem[i].length(); j++)
-        {
+        for (int j = 0; j < m_gridItem[i].length(); j++) {
             m_gridItem[i][j].width = m_gridItem[i][j].width * i_totalwidth / rowWidthList[i];
             m_gridItem[i][j].height = m_gridItem[i][j].height * i_totalwidth / rowWidthList[i];
 
@@ -174,16 +158,13 @@ void ThumbnailListView::calWidgetItemWandH()
     }
 
 
-    if (1 < rowWidthList.length() && rowWidthList[0] < i_totalwidth)
-    {
+    if (1 < rowWidthList.length() && rowWidthList[0] < i_totalwidth) {
         m_gridItem[0][0].width = m_gridItem[0][0].width + i_totalwidth - rowWidthList[0];
     }
 
-    if (0 < m_gridItem.length())
-    {
+    if (0 < m_gridItem.length()) {
         m_height = 0;
-        for(int i = 0; i < rowWidthList.length(); i++)
-        {
+        for (int i = 0; i < rowWidthList.length(); i++) {
             m_height = m_height + m_gridItem[i][0].height;
         }
     }
@@ -192,10 +173,8 @@ void ThumbnailListView::calWidgetItemWandH()
 void ThumbnailListView::addThumbnailView()
 {
     m_model->clear();
-    for(int i = 0; i < m_gridItem.length(); i++)
-    {
-        for(int j = 0; j < m_gridItem[i].length(); j++)
-        {
+    for (int i = 0; i < m_gridItem.length(); i++) {
+        for (int j = 0; j < m_gridItem[i].length(); j++) {
             QStandardItem *item = new QStandardItem;
 
             QVariantList datas;
@@ -216,10 +195,8 @@ void ThumbnailListView::addThumbnailView()
 void ThumbnailListView::updateThumbnailView()
 {
     int index = 0;
-    for(int i = 0; i < m_gridItem.length(); i++)
-    {
-        for(int j = 0; j < m_gridItem[i].length(); j++)
-        {
+    for (int i = 0; i < m_gridItem.length(); i++) {
+        for (int j = 0; j < m_gridItem[i].length(); j++) {
             QSize picSize(m_gridItem[i][j].width, m_gridItem[i][j].height);
 
             m_model->item(index, 0)->setSizeHint(picSize);
@@ -232,8 +209,7 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 {
     m_ItemList = itemList;
 
-    for(int i = 0; i < m_ItemList.length(); i++)
-    {
+    for (int i = 0; i < m_ItemList.length(); i++) {
         QImage tImg;
 
         m_ItemList[i].width = m_ItemList[i].image.width();
@@ -242,8 +218,7 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 
     calBasePixMapWandH();
 
-    if (0 != m_iDefaultWidth)
-    {
+    if (0 != m_iDefaultWidth) {
         calWidgetItemWandH();
         addThumbnailView();
     }
@@ -252,8 +227,7 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
     //外接设备显示照片时，禁用鼠标右键菜单
-    if (!this->indexAt(pos).isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType)
-    {
+    if (!this->indexAt(pos).isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType) {
         return;
     }
 
@@ -270,12 +244,11 @@ void ThumbnailListView::updateMenuContents()
     QStringList paths = selectedPaths();
     paths.removeAll(QString(""));
 
-    foreach (QAction* action , m_MenuActionMap.values()) {
+    foreach (QAction *action, m_MenuActionMap.values()) {
         action->setVisible(true);
     }
 
-    if (1 != paths.length())
-    {
+    if (1 != paths.length()) {
 
         m_MenuActionMap.value(tr("View"))->setVisible(false);
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
@@ -283,85 +256,66 @@ void ThumbnailListView::updateMenuContents()
     } else {
         bool ret = true;
         QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
-        if(strSuffix.compare("jpeg") && strSuffix.compare("jpg")&& strSuffix.compare("bmp")
-                && strSuffix.compare("png")&& strSuffix.compare("ppm")&& strSuffix.compare("xbm")
-                && strSuffix.compare("xpm"))
-        {
+        if (strSuffix.compare("jpeg") && strSuffix.compare("jpg") && strSuffix.compare("bmp")
+                && strSuffix.compare("png") && strSuffix.compare("ppm") && strSuffix.compare("xbm")
+                && strSuffix.compare("xpm")) {
             ret = false;
         }
 
         m_MenuActionMap.value(tr("Export"))->setEnabled(ret);
     }
-    if (COMMON_STR_TRASH == m_imageType)
-    {
+    if (COMMON_STR_TRASH == m_imageType) {
 
         m_MenuActionMap.value(tr("Move to trash"))->setVisible(false);
-    }
-    else
-    {
+    } else {
         m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
         if (m_albumMenu) {
 
-            QAction * action = m_MenuActionMap.value(tr("Export"));
+            QAction *action = m_MenuActionMap.value(tr("Export"));
             m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
 
 
-    if (1 == paths.length() && COMMON_STR_TRASH != m_imageType)
-    {
-        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0]))
-        {
+    if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
+        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0])) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
-        }
-        else
-        {
+        } else {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         }
 
         m_pMenu->addSeparator();
-    }
-    else
-    {
+    } else {
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
     }
 
     int flag_imageSupportSave = 0;
-    for(auto path: paths)
-    {
-        if(!utils::image::imageSupportSave(path))
-        {
+    for (auto path : paths) {
+        if (!utils::image::imageSupportSave(path)) {
             flag_imageSupportSave = 1;
             break;
         }
     }
 
-    if(0 == flag_imageSupportSave)
-    {
+    if (0 == flag_imageSupportSave) {
         int flag_isRW = 0;
-        for(auto path: paths){
-            if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable())
-            {
+        for (auto path : paths) {
+            if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
                 flag_isRW = 1;
                 break;
             }
         }
 
-        if(flag_isRW == 1)
-        {
+        if (flag_isRW == 1) {
             m_MenuActionMap.value(tr("Rotate clockwise"))->setDisabled(true);
             m_MenuActionMap.value(tr("Rotate counterclockwise"))->setDisabled(true);
-        }
-        else
-        {
+        } else {
             m_MenuActionMap.value(tr("Rotate clockwise"))->setDisabled(false);
             m_MenuActionMap.value(tr("Rotate counterclockwise"))->setDisabled(false);
         }
-    }
-    else
-    {
+    } else {
         m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(false);
         m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
     }
@@ -450,8 +404,7 @@ QMenu *ThumbnailListView::createAlbumMenu()
     ac->setData(QString(tr("Add to new album")));
     am->addAction(ac);
     am->addSeparator();
-    for (QString album : albums)
-    {
+    for (QString album : albums) {
         QAction *ac = new QAction(am);
         ac->setProperty("MenuID", IdAddToAlbum);
         ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
@@ -465,11 +418,11 @@ QMenu *ThumbnailListView::createAlbumMenu()
 void ThumbnailListView::onMenuItemClicked(QAction *action)
 {
 
-    if(m_imageType == COMMON_STR_VIEW_TIMELINE){
+    if (m_imageType == COMMON_STR_VIEW_TIMELINE) {
         emit sigMenuItemDeal(action);
-    }else {
+    } else {
         QStringList paths = selectedPaths();
-        menuItemDeal(paths,action);
+        menuItemDeal(paths, action);
     }
 
 
@@ -480,7 +433,7 @@ QStringList ThumbnailListView::selectedPaths()
     QStringList paths;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas =
-                index.model()->data(index, Qt::DisplayRole).toList();
+            index.model()->data(index, Qt::DisplayRole).toList();
         if (datas.length() == 6) {
             paths << datas[1].toString();
         }
@@ -515,24 +468,17 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdAddToAlbum: {
         const QString album = action->data().toString();
-        if (album != "Add to new album")
-        {
-            if (1 == paths.count())
-            {
-                if (! DBManager::instance()->isImgExistInAlbum(album, paths[0]))
-                {
+        if (album != "Add to new album") {
+            if (1 == paths.count()) {
+                if (! DBManager::instance()->isImgExistInAlbum(album, paths[0])) {
                     emit dApp->signalM->sigAddToAlbToast(album);
                 }
-            }
-            else
-            {
+            } else {
                 emit dApp->signalM->sigAddToAlbToast(album);
             }
 
-           DBManager::instance()->insertIntoAlbum(album, paths);
-        }
-        else
-        {
+            DBManager::instance()->insertIntoAlbum(album, paths);
+        } else {
             emit dApp->signalM->createAlbum(paths);
         }
 
@@ -541,39 +487,33 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdCopyToClipboard:
         utils::base::copyImageToClipboard(paths);
         break;
-    case IdMoveToTrash:
-    {
+    case IdMoveToTrash: {
         if (IMAGE_DEFAULTTYPE != m_imageType
-                &&COMMON_STR_VIEW_TIMELINE != m_imageType
-            && COMMON_STR_RECENT_IMPORTED != m_imageType
-            && COMMON_STR_TRASH != m_imageType
-                && COMMON_STR_FAVORITES != m_imageType)
-        {
+                && COMMON_STR_VIEW_TIMELINE != m_imageType
+                && COMMON_STR_RECENT_IMPORTED != m_imageType
+                && COMMON_STR_TRASH != m_imageType
+                && COMMON_STR_FAVORITES != m_imageType) {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
         }
 
-        else if (COMMON_STR_TRASH == m_imageType)
-        {
+        else if (COMMON_STR_TRASH == m_imageType) {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
             dialog->show();
-            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
-                for(auto path : paths)
+            connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
+                for (auto path : paths)
                 {
                     dApp->m_imagetrashmap.remove(path);
                 }
 
                 DBManager::instance()->removeTrashImgInfos(paths);
             });
-        }
-        else
-        {
+        } else {
             DBImgInfoList infos;
-            for(auto path : paths)
-            {
+            for (auto path : paths) {
                 DBImgInfo info;
                 info = DBManager::instance()->getInfoByPath(path);
                 info.time = QDateTime::currentDateTime();
-                infos<<info;
+                infos << info;
 
                 dApp->m_imagemap.remove(path);
             }
@@ -583,56 +523,53 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             DBManager::instance()->removeImgInfos(paths);
         }
     }
-        break;
+    break;
     case IdAddToFavorites:
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths);
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
         break;
-    case IdRemoveFromAlbum:
-    {
+    case IdRemoveFromAlbum: {
         ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
         dialog->show();
-        connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
+        connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
         });
     }
-        break;
-    case IdRotateClockwise:
-    {
-        for(QString path : paths)
-        {
+    break;
+    case IdRotateClockwise: {
+
+//        QModelIndex index = currentIndex();
+        int row = currentIndex().row();
+        int column = currentIndex().column();
+        for (QString path : paths) {
             utils::image::rotate(path, 90);
         }
 
-        if (COMMON_STR_TRASH == m_imageType)
-        {
+        if (COMMON_STR_TRASH == m_imageType) {
             dApp->m_imageloader->updateTrashImageLoader(paths);
-        }
-        else
-        {
+        } else {
             dApp->m_imageloader->updateImageLoader(paths);
         }
+        if (row < m_model->rowCount() && column < m_model->columnCount()) {
+            QModelIndex qindex = m_model->index(row, column);
+            setCurrentIndex(qindex);
+        }
     }
-        break;
-    case IdRotateCounterclockwise:
-    {
-        for(QString path : paths)
-        {
+    break;
+    case IdRotateCounterclockwise: {
+        for (QString path : paths) {
             utils::image::rotate(path, -90);
         }
 
-        if (COMMON_STR_TRASH == m_imageType)
-        {
+        if (COMMON_STR_TRASH == m_imageType) {
             dApp->m_imageloader->updateTrashImageLoader(paths);
-        }
-        else
-        {
+        } else {
             dApp->m_imageloader->updateImageLoader(paths);
         }
     }
-        break;
+    break;
     case IdSetAsWallpaper:
         dApp->wpSetter->setWallpaper(path);
         break;
@@ -657,8 +594,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 
 void ThumbnailListView::onPixMapScale(int value)
 {
-    switch(value)
-    {
+    switch (value) {
     case 0:
         m_iBaseHeight = 80;
         break;
@@ -679,7 +615,7 @@ void ThumbnailListView::onPixMapScale(int value)
     calBasePixMapWandH();
     calWidgetItemWandH();
     addThumbnailView();
-    emit loadend(m_height+15);
+    emit loadend(m_height + 15);
 }
 
 void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
@@ -688,7 +624,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
 
     if (datas.length() >= 2) {
-        str<<datas[1].toString();
+        str << datas[1].toString();
     }
 
     DBManager::instance()->removeFromAlbumNoSignal(COMMON_STR_FAVORITES, str);
@@ -698,18 +634,15 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-    if (0 == m_iDefaultWidth)
-    {
+    if (0 == m_iDefaultWidth) {
         calWidgetItemWandH();
         addThumbnailView();
-    }
-    else
-    {
+    } else {
         calWidgetItemWandH();
         updateThumbnailView();
     }
 //    emit loadend((m_height)*m_gridItem.size()+15);
-    emit loadend(m_height+15);
+    emit loadend(m_height + 15);
 
     m_iDefaultWidth = width();
 
@@ -719,8 +652,7 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
     QAbstractItemView::mouseMoveEvent(event);
-    if (COMMON_STR_TRASH == m_imageType)
-    {
+    if (COMMON_STR_TRASH == m_imageType) {
         emit dApp->signalM->sigBoxToChoose();
     }
 }
@@ -730,17 +662,14 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     QAbstractItemView::mouseReleaseEvent(event);
 
     emit sigMouseRelease();
-    if (COMMON_STR_TRASH == m_imageType)
-    {
-        if (!this->indexAt(event->pos()).isValid())
-        {
+    if (COMMON_STR_TRASH == m_imageType) {
+        if (!this->indexAt(event->pos()).isValid()) {
             emit dApp->signalM->sigTrashViewBlankArea();
 
         }
     }
-    if (COMMON_STR_VIEW_TIMELINE == m_imageType){
-        if (!this->indexAt(event->pos()).isValid())
-        {
+    if (COMMON_STR_VIEW_TIMELINE == m_imageType) {
+        if (!this->indexAt(event->pos()).isValid()) {
             emit sigTimeLineItemBlankArea();
         }
     }
