@@ -92,6 +92,8 @@ public:
     QStringList selectedPaths();
     QList<ItemInfo> getAllPaths();
 
+    void menuItemDeal(QStringList paths,QAction *action);
+
 signals:
     void loadend(int);
     void openImage(int);
@@ -103,6 +105,10 @@ signals:
     void sigBoxToChooseTimeLineAllPic();
     void sigTimeLineItemBlankArea();
     void trashRecovery();
+#if 1
+    void sigMouseRelease();
+    void sigMenuItemDeal( QAction *action);
+#endif
 
 private slots:
     void onMenuItemClicked(QAction *action);

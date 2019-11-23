@@ -455,7 +455,38 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
 void ThumbnailListView::onMenuItemClicked(QAction *action)
 {
-    QStringList paths = selectedPaths();
+
+    if(m_imageType == COMMON_STR_VIEW_TIMELINE){
+        emit sigMenuItemDeal(action);
+    }else {
+        QStringList paths = selectedPaths();
+        menuItemDeal(paths,action);
+    }
+
+
+}
+
+QStringList ThumbnailListView::selectedPaths()
+{
+    QStringList paths;
+    for (QModelIndex index : selectionModel()->selectedIndexes()) {
+        const QVariantList datas =
+                index.model()->data(index, Qt::DisplayRole).toList();
+        if (datas.length() == 6) {
+            paths << datas[1].toString();
+        }
+    }
+
+    return paths;
+}
+
+QList<ThumbnailListView::ItemInfo> ThumbnailListView::getAllPaths()
+{
+    return m_ItemList;
+}
+
+void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
+{
     paths.removeAll(QString(""));
     if (paths.isEmpty()) {
         return;
@@ -615,25 +646,6 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 //    updateMenuContents();
 }
 
-QStringList ThumbnailListView::selectedPaths()
-{
-    QStringList paths;
-    for (QModelIndex index : selectionModel()->selectedIndexes()) {
-        const QVariantList datas =
-                index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.length() == 6) {
-            paths << datas[1].toString();
-        }
-    }
-
-    return paths;
-}
-
-QList<ThumbnailListView::ItemInfo> ThumbnailListView::getAllPaths()
-{
-    return m_ItemList;
-}
-
 void ThumbnailListView::onPixMapScale(int value)
 {
     switch(value)
@@ -697,18 +709,18 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
+    QAbstractItemView::mouseMoveEvent(event);
     if (COMMON_STR_TRASH == m_imageType)
     {
         emit dApp->signalM->sigBoxToChoose();
     }
-
-    QAbstractItemView::mouseMoveEvent(event);
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
     QAbstractItemView::mouseReleaseEvent(event);
 
+    emit sigMouseRelease();
     if (COMMON_STR_TRASH == m_imageType)
     {
         if (!this->indexAt(event->pos()).isValid())
@@ -717,10 +729,11 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 
         }
     }
-
-    if (!this->indexAt(event->pos()).isValid())
-    {
-        emit sigTimeLineItemBlankArea();
+    if(COMMON_STR_VIEW_TIMELINE == m_imageType){
+        if (!this->indexAt(event->pos()).isValid())
+        {
+            emit sigTimeLineItemBlankArea();
+        }
     }
 }
 

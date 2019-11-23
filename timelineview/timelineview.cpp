@@ -289,6 +289,11 @@ void TimeLineView::updataLayout()
     m_mainListWidget->clear();
     m_timelines = DBManager::instance()->getAllTimelines();
     qDebug()<<m_timelines.size();
+
+#if 1
+    m_allThumbnailListView.clear();
+#endif
+
     for(int i = 0; i < m_timelines.size(); i++)
     {
         //获取当前时间照片
@@ -379,6 +384,10 @@ void TimeLineView::updataLayout()
 
         //添加照片
         ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_VIEW_TIMELINE);
+
+#if 1
+        m_allThumbnailListView.append(pThumbnailListView);
+#endif
         pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
         pThumbnailListView->setContentsMargins(0,0,0,0);
@@ -475,6 +484,7 @@ void TimeLineView::updataLayout()
                pChose->setText("选择");
                pThumbnailListView->clearSelection();
            }
+           updatePicNum();
        });
        connect(pThumbnailListView,&ThumbnailListView::clicked,this,[=]{
             QStringList paths = pThumbnailListView->selectedPaths();
@@ -513,6 +523,30 @@ void TimeLineView::updataLayout()
             }
        });
 
+#if 1
+       connect(pThumbnailListView,&ThumbnailListView::sigMouseRelease,this,[=]{
+           QStringList paths = pThumbnailListView->selectedPaths();
+           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+           {
+               pChose->setText("取消选择");
+           }
+
+            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            {
+                pChose->setText("选择");
+            }
+            updatePicNum();
+       });
+
+       connect(pThumbnailListView,&ThumbnailListView::sigMenuItemDeal,this,[=](QAction *action){
+          QStringList paths;
+          paths.clear();
+          for(int i = 0;i < m_allThumbnailListView.size();i++){
+              paths << m_allThumbnailListView[i]->selectedPaths();
+          }
+          pThumbnailListView->menuItemDeal(paths,action);
+       });
+#endif
        connect(pThumbnailListView, &ThumbnailListView::sigBoxToChooseTimeLineAllPic, this, [=]{
            QStringList paths = pThumbnailListView->selectedPaths();
            if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
@@ -528,26 +562,19 @@ void TimeLineView::updataLayout()
 
        connect(pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, [=]{
            QStringList paths = pThumbnailListView->selectedPaths();
-           if ("取消选择" == pChose->text())
+           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
            {
-               pChose->setText("选择");
+               pChose->setText("取消选择");
            }
+
+            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            {
+                pChose->setText("选择");
+            }
 
            selpicQmap.insert(pThumbnailListView, paths);
-           allnum = 0;
-           for(auto key : selpicQmap.keys())
-           {
-               allnum = allnum + selpicQmap.value(key).length();
-           }
+           updatePicNum();
 
-           if(0 == allnum)
-           {
-               m_pStatusBar->onUpdateAllpicsNumLabel();
-           }
-           else {
-               QString str = tr("已选择%1张照片");
-               m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(allnum));
-           }
        });
 
     }
@@ -705,7 +732,22 @@ void TimeLineView::updatePicNum()
          m_selPicNum = paths.length();
          m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
      }
+     else{
+         allnum = 0;
 
+         for(int i = 0; i< m_allThumbnailListView.size();i++){
+             allnum += m_allThumbnailListView[i]->selectedPaths().size();
+         }
+
+         if(0 == allnum)
+         {
+             m_pStatusBar->onUpdateAllpicsNumLabel();
+         }
+         else {
+             QString str = tr("已选择%1张照片");
+             m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(allnum));
+         }
+     }
 }
 
 void TimeLineView::restorePicNum()

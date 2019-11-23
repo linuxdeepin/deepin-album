@@ -112,6 +112,9 @@ void AllPicView::initConnections()
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
+#if 1
+    connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
+#endif
     connect(m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);

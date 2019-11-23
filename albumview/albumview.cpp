@@ -113,6 +113,9 @@ void AlbumView::initConnections()
     connect(m_importSelectByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importSelectBtnClicked);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(dApp->signalM, &SignalManager::sigTrashViewBlankArea, this, [=]{
+        onTrashListClicked();
+        updatePicNum();
+#if 0
         m_pRecoveryBtn->setEnabled(false);
         DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
 //        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
@@ -121,7 +124,8 @@ void AlbumView::initConnections()
         ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pRecoveryBtn->setPalette(ReBtn);
         m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
-            });
+#endif
+    });
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                         this, [=]
     {
@@ -137,6 +141,18 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
     connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
     connect(m_pRightThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
+#if 1
+    connect(m_pRightThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
+
+    connect(m_pRightThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
+
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onTrashListClicked);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
+#endif
     connect(m_pRightThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
@@ -1648,8 +1664,12 @@ void AlbumView::updatePicNum()
     if(item->m_albumNameStr == COMMON_STR_RECENT_IMPORTED || item->m_albumNameStr == m_currentAlbum)
     {
         QStringList paths = m_pRightThumbnailList->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+        if(paths.size() > 0){
+            m_selPicNum = paths.length();
+            m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+        }else {
+            restorePicNum();
+        }
     }
     if(item->m_albumNameStr == COMMON_STR_TRASH)
     {

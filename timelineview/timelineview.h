@@ -80,6 +80,8 @@ private:
     DLabel* pNum_up;
     DLabel* pNum_dn;
 
+    QList<ThumbnailListView*> m_allThumbnailListView;
+
     QGraphicsOpacityEffect * m_oe;
     QGraphicsOpacityEffect * m_oet;
 
