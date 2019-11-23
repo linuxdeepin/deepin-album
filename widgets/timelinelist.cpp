@@ -54,6 +54,11 @@ void TimelineList::paintEvent(QPaintEvent *e)
                 pWidget->m_date->setText("");
                 pWidget->m_num->setText("");
                 pWidget->m_Chose->setVisible(false);
+            } else {
+                pWidget->m_title->setVisible(true);
+                pWidget->m_date->setText(pWidget->m_sdate);
+                pWidget->m_num->setText(pWidget->m_snum);
+                pWidget->m_Chose->setVisible(true);
             }
             yList[i] = pWidget->y();
         }

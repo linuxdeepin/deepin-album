@@ -212,7 +212,7 @@ void TimeLineView::initTimeLineViewWidget()
     pNum_up->setLayout(Layout);
     Layout->addStretch(1);
     Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    Layout->setContentsMargins(0, 0, 22, 0);
+    Layout->setContentsMargins(0, 0, 12, 0);
     Layout->addWidget(pSuspensionChose);
     connect(pSuspensionChose, &DCommandLinkButton::clicked, this, [ = ] {
 //        if ("选择" == pSuspensionChose->text())
@@ -258,7 +258,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateItem->setPalette(ppal_light);
     m_dateItem->setGraphicsEffect(opacityEffect_light);
     m_dateItem->setAutoFillBackground(true);
-    m_dateItem->setFixedSize(this->width(), 87);
+    m_dateItem->setFixedSize(this->width() - 10, 87);
     m_dateItem->setContentsMargins(10, 0, 0, 0);
     m_dateItem->move(0, 0);
     m_dateItem->show();
@@ -606,7 +606,7 @@ void TimeLineView::on_MoveLabel(int y)
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
-    m_dateItem->setFixedSize(width(), 87);
+    m_dateItem->setFixedSize(width() - 10, 87);
 }
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
