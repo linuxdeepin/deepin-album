@@ -23,6 +23,7 @@
 #include <DStackedWidget>
 #include <DSlider>
 #include <QMimeData>
+#include <DFileDialog>
 
 DWIDGET_USE_NAMESPACE
 

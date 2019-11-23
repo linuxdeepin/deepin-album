@@ -16,7 +16,8 @@ const int BASE_HEIGHT = 100;
 const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;
 
-const QString IMAGE_DEFAULTTYPE = "All pics";
+//const QString IMAGE_DEFAULTTYPE = "All pics";
+const QString IMAGE_DEFAULTTYPE = "All Photos";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
 using namespace utils::common;
@@ -275,9 +276,10 @@ void ThumbnailListView::updateMenuContents()
 
     if (1 != paths.length())
     {
-        m_MenuActionMap.value(VIEW_CONTEXT_MENU)->setVisible(false);
-        m_MenuActionMap.value(FULLSCREEN_CONTEXT_MENU)->setVisible(false);
-        m_MenuActionMap.value(EXPORT_CONTEXT_MENU)->setEnabled(true);
+
+        m_MenuActionMap.value(tr("View"))->setVisible(false);
+        m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
+        m_MenuActionMap.value(tr("Export"))->setEnabled(true);
     } else {
         bool ret = true;
         QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
@@ -287,18 +289,21 @@ void ThumbnailListView::updateMenuContents()
         {
             ret = false;
         }
-        m_MenuActionMap.value(EXPORT_CONTEXT_MENU)->setEnabled(ret);
+
+        m_MenuActionMap.value(tr("Export"))->setEnabled(ret);
     }
     if (COMMON_STR_TRASH == m_imageType)
     {
-        m_MenuActionMap.value(THROWTOTRASH_CONTEXT_MENU)->setVisible(false);
+
+        m_MenuActionMap.value(tr("Move to trash"))->setVisible(false);
     }
     else
     {
         m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
         if (m_albumMenu) {
-            QAction * action = m_MenuActionMap.value(EXPORT_CONTEXT_MENU);
+
+            QAction * action = m_MenuActionMap.value(tr("Export"));
             m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
@@ -308,19 +313,19 @@ void ThumbnailListView::updateMenuContents()
     {
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0]))
         {
-            m_MenuActionMap.value(FAVORITE_CONTEXT_MENU)->setVisible(false);
+            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         }
         else
         {
-            m_MenuActionMap.value(UNFAVORITE_CONTEXT_MENU)->setVisible(false);
+            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         }
 
         m_pMenu->addSeparator();
     }
     else
     {
-        m_MenuActionMap.value(FAVORITE_CONTEXT_MENU)->setVisible(false);
-        m_MenuActionMap.value(UNFAVORITE_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+        m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
     }
 
     int flag_imageSupportSave = 0;
@@ -346,27 +351,29 @@ void ThumbnailListView::updateMenuContents()
 
         if(flag_isRW == 1)
         {
-            m_MenuActionMap.value(ROTATECLOCKWISE_CONTEXT_MENU)->setDisabled(true);
-            m_MenuActionMap.value(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU)->setDisabled(true);
+            m_MenuActionMap.value(tr("Rotate clockwise"))->setDisabled(true);
+            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setDisabled(true);
         }
         else
         {
-            m_MenuActionMap.value(ROTATECLOCKWISE_CONTEXT_MENU)->setDisabled(false);
-            m_MenuActionMap.value(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU)->setDisabled(false);
+            m_MenuActionMap.value(tr("Rotate clockwise"))->setDisabled(false);
+            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setDisabled(false);
         }
     }
     else
     {
-        m_MenuActionMap.value(ROTATECLOCKWISE_CONTEXT_MENU)->setVisible(false);
-        m_MenuActionMap.value(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU)->setVisible(false);
+        m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(false);
+        m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
     }
 
     if (1 != paths.length()) {
-        m_MenuActionMap.value(DISPLAYINFILEMANAGER_CONTEXT_MENU)->setVisible(false);
-        m_MenuActionMap.value(ImageInfo_CONTEXT_MENU)->setVisible(false);
+
+        m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
+        m_MenuActionMap.value(tr("Image info"))->setVisible(false);
     }
     if (!(1 == paths.length() && utils::image::imageSupportSave(paths[0]))) {
-        m_MenuActionMap.value(SETASWALLPAPER_CONTEXT_MENU)->setVisible(false);
+
+        m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
     }
 }
 
@@ -377,7 +384,8 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
     ac->setText(text);
     ac->setProperty("MenuID", id);
     //如果是查看照片，需要响应Enter键，而Enter键有两个Key-Enter和Return
-    if (text.compare(VIEW_CONTEXT_MENU) == 0) {
+
+    if (text.compare(tr("View")) == 0) {
         QList<QKeySequence> shortcuts;
         shortcuts.append(QKeySequence(ENTER_SHORTCUT));
         shortcuts.append(QKeySequence(RETURN_SHORTCUT));
@@ -394,41 +402,42 @@ void ThumbnailListView::initMenuAction()
 {
     m_pMenu->clear();
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
-        appendAction(IdImageInfo, tr(ImageInfo_CONTEXT_MENU), ss(ImageInfo_CONTEXT_MENU));
-        appendAction(IdMoveToTrash, tr(DELETE_CONTEXT_MENU), ss(THROWTOTRASH_CONTEXT_MENU));
-        appendAction(IdTrashRecovery, tr(BUTTON_RECOVERY), ss(BUTTON_RECOVERY));
+
+        appendAction(IdImageInfo, tr("Image info"), ss(ImageInfo_CONTEXT_MENU));
+        appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
+        appendAction(IdTrashRecovery, tr("Recovery"), ss(BUTTON_RECOVERY));
         return;
     }
 
 
     m_MenuActionMap.clear();
-    appendAction(IdView, tr(VIEW_CONTEXT_MENU), ss(VIEW_CONTEXT_MENU));
-    appendAction(IdFullScreen, tr(FULLSCREEN_CONTEXT_MENU), ss(FULLSCREEN_CONTEXT_MENU));
-    appendAction(IdStartSlideShow, tr(SLIDESHOW_CONTEXT_MENU), ss(SLIDESHOW_CONTEXT_MENU));
+    appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
+    appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
+    appendAction(IdStartSlideShow, tr("Slide show"), ss(SLIDESHOW_CONTEXT_MENU));
 
     m_pMenu->addSeparator();
-    appendAction(IdExport, tr(EXPORT_CONTEXT_MENU), ss(EXPORT_CONTEXT_MENU));
-    appendAction(IdCopyToClipboard, tr(COPYTOCLIPBOARD_CONTEXT_MENU), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
-    appendAction(IdMoveToTrash, tr(DELETE_CONTEXT_MENU), ss(THROWTOTRASH_CONTEXT_MENU));
+    appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
+    appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
+    appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
     m_pMenu->addSeparator();
-    appendAction(IdRemoveFromFavorites, tr(UNFAVORITE_CONTEXT_MENU), ss(UNFAVORITE_CONTEXT_MENU));
-    appendAction(IdAddToFavorites, tr(FAVORITE_CONTEXT_MENU), ss(FAVORITE_CONTEXT_MENU));
+    appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
+    appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
     m_pMenu->addSeparator();
-    appendAction(IdRotateClockwise, tr(ROTATECLOCKWISE_CONTEXT_MENU),
+    appendAction(IdRotateClockwise, tr("Rotate clockwise"),
                  ss(ROTATECLOCKWISE_CONTEXT_MENU));
-    appendAction(IdRotateCounterclockwise, tr(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU),
+    appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"),
                  ss(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU));
     m_pMenu->addSeparator();
-    appendAction(IdSetAsWallpaper, tr(SETASWALLPAPER_CONTEXT_MENU), ss(SETASWALLPAPER_CONTEXT_MENU));
-    appendAction(IdDisplayInFileManager, tr(DISPLAYINFILEMANAGER_CONTEXT_MENU),
+    appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss(SETASWALLPAPER_CONTEXT_MENU));
+    appendAction(IdDisplayInFileManager, tr("Display in file manager"),
                  ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
-    appendAction(IdImageInfo, tr(ImageInfo_CONTEXT_MENU), ss(ImageInfo_CONTEXT_MENU));
+    appendAction(IdImageInfo, tr("Image info"), ss(ImageInfo_CONTEXT_MENU));
 }
 
 
 QMenu *ThumbnailListView::createAlbumMenu()
 {
-    QMenu *am = new QMenu(tr("添加到相册"));
+    QMenu *am = new QMenu(tr("Add To Album"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
@@ -437,8 +446,8 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("新建相册"));
-    ac->setData(QString("Add to new album"));
+    ac->setText(tr("Creat Album"));
+    ac->setData(QString(tr("Add to new album")));
     am->addAction(ac);
     am->addSeparator();
     for (QString album : albums)
@@ -729,7 +738,7 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 
         }
     }
-    if(COMMON_STR_VIEW_TIMELINE == m_imageType){
+    if (COMMON_STR_VIEW_TIMELINE == m_imageType){
         if (!this->indexAt(event->pos()).isValid())
         {
             emit sigTimeLineItemBlankArea();

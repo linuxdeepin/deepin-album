@@ -84,7 +84,8 @@ public:
         QPixmap image;
     };
 
-    explicit ThumbnailListView(QString imgtype = "All pics");
+
+    explicit ThumbnailListView(QString imgtype = "All Photos");
     ~ThumbnailListView();
 
 

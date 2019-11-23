@@ -394,11 +394,13 @@ Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
 {
     initI18n();
-    setApplicationDisplayName(tr("相册"));
+
+    setApplicationDisplayName(tr("Album"));
     setProductIcon(QIcon::fromTheme("deepin-album"));
     setApplicationVersion(DApplication::buildVersion("20191011"));
-//    setApplicationDescription(QString("%1\n%2\n").arg(tr("相册是一款可多种方式浏览照片、")).arg(tr("整理照片和简单编辑的相册管理工具。")));
-    setApplicationDescription(DApplication::translate("Main","相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。"));
+
+//    setApplicationDescription(DApplication::translate("Main","相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。"));
+    setApplicationDescription(DApplication::translate("Main","Album is an album management tool that can browse, organize and edit photos in various ways."));
     installEventFilter(new GlobalEventFilter());
     initChildren();
     initDB();

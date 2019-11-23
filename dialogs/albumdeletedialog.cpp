@@ -21,17 +21,17 @@ AlbumDeleteDialog::AlbumDeleteDialog()
     DFontSizeManager::instance()->bind(m_label, DFontSizeManager::T5, QFont::DemiBold);
     m_label->setForegroundRole(DPalette::TextTitle);
     m_label->setFixedSize(180,36);
-    m_label->setText("您是否确定删除此相册 ?");
+    m_label->setText(tr("Are you sure to delete this album?"));
 
     DPushButton *m_Cancel = new DPushButton(this);
-    m_Cancel->setText("取消");
+    m_Cancel->setText(tr("Cancel"));
     m_Cancel->setFixedSize(170,36);
     m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DPushButton *m_line = new DPushButton(this);
     m_line->setFixedSize(3,28);
     m_line->setEnabled(false);
     DPushButton *m_Delete = new DPushButton(this);
-    m_Delete->setText("删除");
+    m_Delete->setText(tr("Delete"));
     m_Delete->setFixedSize(170,36);
     m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 

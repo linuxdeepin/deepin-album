@@ -20,8 +20,10 @@ const int VIEW_ALBUM = 2;
 const int VIEW_SEARCH = 3;
 const int VIEW_IMAGE = 4;
 
-const QString TITLEBAR_NEWALBUM = "新建相册";
-const QString TITLEBAR_IMPORT = "导入照片";
+//const QString TITLEBAR_NEWALBUM = "新建相册";
+//const QString TITLEBAR_IMPORT = "导入照片";
+const QString TITLEBAR_NEWALBUM = "Create album";
+const QString TITLEBAR_IMPORT = "Import photos";
 
 }//namespace
 
@@ -104,19 +106,21 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [=](QString str1){
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
-        QString str2 = "成功删除相册中的“%1”";
+        QString str2 = tr("Successfully deleted “%1” in album");
         this->sendMessage(icon, str2.arg(str1));
     });
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [=](QString album){
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
-        QString str2 = "成功添加图片到“%1”";
+
+        QString str2 = tr("Add image to “%1” successfully");
         this->sendMessage(icon, str2.arg(album));
     });
     connect(dApp->signalM, &SignalManager::ImportSuccess, this, [=]{
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
-        QString str2 = "导入成功";
+
+        QString str2 = tr("Import success");
         this->sendMessage(icon, str2);
     });
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [=]{
@@ -125,32 +129,39 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [=]{
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
-        QString str = "导入失败";
+
+        QString str = tr("Import failure");
         this->sendMessage(icon, str);
     });
-
+    connect(dApp->signalM, &SignalManager::TransmitAlbumName, this, [=](QString currentAlbum){
+        albumName = currentAlbum;
+    });
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [=]{
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
-        QString str = "照片导出失败";
+
+        QString str = tr("Photo export failed");
         this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [=]{
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
-        QString str = "照片导出成功";
+
+        QString str = tr("Photo exported successfully");
         this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [=]{
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
-        QString str = "相册导出失败";
+
+        QString str = tr("Album export failed");
         this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [=]{
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
-        QString str = "相册导出成功";
+
+        QString str = tr("Album export successfully");
         this->sendMessage(icon, str);
     });
 }
@@ -310,7 +321,8 @@ void MainWindow::initTitleBar()
     m_pTimeLineBtn->setFixedSize(60,36);
     m_pAlbumBtn->setFixedSize(60,36);
 
-    m_pAllPicBtn->setText("所有照片");
+
+    m_pAllPicBtn->setText(tr("Photos"));
     m_pAllPicBtn->setFlat(false);
     m_pItemButton->setFlat(false);
 //    m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
@@ -346,13 +358,15 @@ void MainWindow::initTitleBar()
         effect->setBlurRadius(6);
         m_pAllPicBtn->setGraphicsEffect(effect);
     }
-    m_pTimeLineBtn->setText("时间线");
+
+    m_pTimeLineBtn->setText(tr("Time"));
     m_pTimeLineBtn ->setFlat(true);
 //    m_pTimeLineBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DFontSizeManager::instance()->bind(m_pTimeLineBtn, DFontSizeManager::T6);
     m_pTimeLineBtn->setPalette(pal);
 
-    m_pAlbumBtn->setText("相册");
+
+    m_pAlbumBtn->setText(tr("Album"));
     m_pAlbumBtn ->setFlat(true);
 //    m_pAlbumBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DFontSizeManager::instance()->bind(m_pAlbumBtn, DFontSizeManager::T6);
@@ -390,13 +404,15 @@ void MainWindow::initTitleBar()
     m_pTitleBarMenu = new DMenu();
     QAction *pNewAlbum = new QAction();
     addAction(pNewAlbum);
-    pNewAlbum->setText(TITLEBAR_NEWALBUM);
+
+    pNewAlbum->setText(tr("Create album"));
     pNewAlbum->setShortcut(QKeySequence(CTRLSHIFTN_SHORTCUT));
     m_pTitleBarMenu->addAction(pNewAlbum);
 
     QAction *pImport = new QAction();
     addAction(pImport);
-    pImport->setText(TITLEBAR_IMPORT);
+
+    pImport->setText(tr("Import photos"));
     pImport->setShortcut(QKeySequence(CTRLI_SHORTCUT));
     m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
@@ -654,11 +670,13 @@ void MainWindow::albumBtnClicked()
 
 void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
-    if(TITLEBAR_NEWALBUM == action->text())
+
+    if(tr("Create album") == action->text())
     {
         emit dApp->signalM->createAlbum(QStringList(" "));
     }
-    else if (TITLEBAR_IMPORT == action->text())
+
+    else if (tr("Import photos") == action->text())
     {
         emit sigTitleMenuImportClicked();
     }
@@ -784,11 +802,13 @@ void MainWindow::onSearchEditFinished()
         else
         {
             AlbumLeftTabItem *curitem = (AlbumLeftTabItem*)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->currentItem());
-            if(tr("已导入") == curitem->getalbumname())
+
+            if(tr("Imported") == curitem->getalbumname())
             {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, nullptr);
             }
-            else if(tr("最近删除") == curitem->getalbumname())
+
+            else if(tr("Trash") == curitem->getalbumname())
             {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_TRASH);
             }
@@ -815,7 +835,8 @@ void MainWindow::onSearchEditFinished()
 
 void MainWindow::onUpdateAllpicsNumLabel()
 {
-    QString str = tr("%1张照片");
+
+    QString str = tr("%1 Photos");
 
     m_allPicNum = DBManager::instance()->getImgsCount();
 //    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
@@ -828,7 +849,8 @@ void MainWindow::onImprotBtnClicked()
     for (const QByteArray &i : QImageReader::supportedImageFormats())
         sList << "*." + QString::fromLatin1(i);
 
-    QString filter = tr("所有照片");
+
+    QString filter = tr("Photos");
 
     filter.append('(');
     filter.append(sList.join(" "));
@@ -849,7 +871,8 @@ void MainWindow::onImprotBtnClicked()
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
-    dialog.setWindowTitle(tr("打开照片"));
+
+    dialog.setWindowTitle(tr("Open the photo"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {

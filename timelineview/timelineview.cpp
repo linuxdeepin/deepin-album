@@ -212,7 +212,8 @@ void TimeLineView::initTimeLineViewWidget()
     TitleViewLayout->addWidget(pNum_up);
 
     QHBoxLayout *Layout = new QHBoxLayout();
-    pSuspensionChose = new DCommandLinkButton("选择");
+//    pSuspensionChose = new DCommandLinkButton("选择");
+    pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pSuspensionChose->setFixedHeight(24);
     pSuspensionChose->resize(36,27);
@@ -223,15 +224,18 @@ void TimeLineView::initTimeLineViewWidget()
     Layout->setContentsMargins(0,0,22,0);
     Layout->addWidget(pSuspensionChose);
     connect(pSuspensionChose, &DCommandLinkButton::clicked, this, [=]{
-        if ("选择" == pSuspensionChose->text())
+//        if ("选择" == pSuspensionChose->text())
+        if (QObject::tr("Select") == pSuspensionChose->text())
         {
-            pSuspensionChose->setText("取消选择");
+//            pSuspensionChose->setText("取消选择");
+            pSuspensionChose->setText(QObject::tr("Unselect"));
             QList<ThumbnailListView*> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView*>();
             p[0]->selectAll();
         }
         else
         {
-            pSuspensionChose->setText("选择");
+//            pSuspensionChose->setText("选择");
+            pSuspensionChose->setText(QObject::tr("Select"));
             QList<ThumbnailListView*> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView*>();
             p[0]->clearSelection();
         }
@@ -317,6 +321,7 @@ void TimeLineView::updataLayout()
         QStringList datelist = m_timelines.at(i).split(".");
         if(datelist.count() > 2)
         {
+//            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
             listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
         pDate->setText(listItem->m_sdate);
@@ -335,7 +340,8 @@ void TimeLineView::updataLayout()
         listItem->m_date=pDate;
 
         pNum_dn = new DLabel();
-        listItem->m_snum = QString("%1张照片").arg(ImgInfoList.size());
+//        listItem->m_snum = QString("%1张照片").arg(ImgInfoList.size());
+        listItem->m_snum = QString(tr("%1 Photos")).arg(ImgInfoList.size());
         pNum_dn->setText(listItem->m_snum);
 
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -363,7 +369,8 @@ void TimeLineView::updataLayout()
         pNum_dn->setFont(ft6);
 
         QHBoxLayout *Layout = new QHBoxLayout();
-        DCommandLinkButton *pChose = new DCommandLinkButton("选择");
+//        DCommandLinkButton *pChose = new DCommandLinkButton("选择");
+        DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
 
         pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
         pChose->setFixedHeight(24);
@@ -474,23 +481,28 @@ void TimeLineView::updataLayout()
 
        });
        connect(pChose, &DCommandLinkButton::clicked, this, [=]{
-           if ("选择" == pChose->text())
+//           if ("选择" == pChose->text())
+           if (QObject::tr("Select") == pChose->text())
            {
-               pChose->setText("取消选择");
+//               pChose->setText("取消选择");
+               pChose->setText(QObject::tr("Unselect"));
                pThumbnailListView->selectAll();
            }
            else
            {
-               pChose->setText("选择");
+//               pChose->setText("选择");
+               pChose->setText(QObject::tr("Select"));
                pThumbnailListView->clearSelection();
            }
            updatePicNum();
        });
        connect(pThumbnailListView,&ThumbnailListView::clicked,this,[=]{
             QStringList paths = pThumbnailListView->selectedPaths();
-            if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+//            if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
             {
-                pChose->setText("取消选择");
+//                pChose->setText("取消选择");
+                pChose->setText(QObject::tr("Unselect"));
 
 //                QList<DCommandLinkButton*> btnList = m_dateItem->findChildren<DCommandLinkButton*>();
 //                if( = m_dateItem)
@@ -501,9 +513,11 @@ void TimeLineView::updataLayout()
 
             }
 
-            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+//            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
             {
-                pChose->setText("选择");
+//                pChose->setText("选择");
+                pChose->setText(QObject::tr("Select"));
             }
 
             selpicQmap.insert(pThumbnailListView, paths);
@@ -518,22 +532,23 @@ void TimeLineView::updataLayout()
                 m_pStatusBar->onUpdateAllpicsNumLabel();
             }
             else {
-                QString str = tr("已选择%1张照片");
-                m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(allnum));
+//                QString str = tr("已选择%1张照片");
+                QString str1 = QObject::tr("Selected %1 photos");
+                m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(allnum));
             }
        });
 
 #if 1
        connect(pThumbnailListView,&ThumbnailListView::sigMouseRelease,this,[=]{
            QStringList paths = pThumbnailListView->selectedPaths();
-           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+           if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
            {
-               pChose->setText("取消选择");
+               pChose->setText(QObject::tr("Unselect"));
            }
 
-            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+           if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
             {
-                pChose->setText("选择");
+                pChose->setText(QObject::tr("Select"));
             }
             updatePicNum();
        });
@@ -549,27 +564,27 @@ void TimeLineView::updataLayout()
 #endif
        connect(pThumbnailListView, &ThumbnailListView::sigBoxToChooseTimeLineAllPic, this, [=]{
            QStringList paths = pThumbnailListView->selectedPaths();
-           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+           if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
            {
-               pChose->setText("取消选择");
+               pChose->setText(QObject::tr("Unselect"));
            }
 
-            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
             {
-                pChose->setText("选择");
+               pChose->setText(QObject::tr("Select"));
             }
        });
 
        connect(pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, [=]{
            QStringList paths = pThumbnailListView->selectedPaths();
-           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+           if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
            {
-               pChose->setText("取消选择");
+               pChose->setText(QObject::tr("Unselect"));
            }
 
-            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
             {
-                pChose->setText("选择");
+                pChose->setText(QObject::tr("Select"));
             }
 
            selpicQmap.insert(pThumbnailListView, paths);
@@ -724,13 +739,13 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void TimeLineView::updatePicNum()
 {
-     QString str = tr("已选择%1张照片");
+     QString str3 = QObject::tr("Selected %1 photos");
 
      if(2 == m_pStackedWidget->currentIndex())
      {
          QStringList paths = pSearchView->m_pThumbnailListView->selectedPaths();
          m_selPicNum = paths.length();
-         m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+         m_pStatusBar->m_pAllPicNumLabel->setText(str3.arg(m_selPicNum));
      }
      else{
          allnum = 0;
@@ -744,7 +759,7 @@ void TimeLineView::updatePicNum()
              m_pStatusBar->onUpdateAllpicsNumLabel();
          }
          else {
-             QString str = tr("已选择%1张照片");
+             QString str = QObject::tr("Selected %1 photos");
              m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(allnum));
          }
      }

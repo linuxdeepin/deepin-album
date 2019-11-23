@@ -108,15 +108,18 @@ void AlbumLeftTabItem::initUI()
     QFontMetrics elideFont(m_nameLabel->font());
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
-        m_nameLabel->setText(elideFont.elidedText(tr(COMMON_STR_RECENT_IMPORTED), Qt::ElideRight, 85));
+
+        m_nameLabel->setText(elideFont.elidedText(tr("Imported"), Qt::ElideRight, 85));
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
     {
-        m_nameLabel->setText(elideFont.elidedText(tr(COMMON_STR_TRASH), Qt::ElideRight, 85));
+
+        m_nameLabel->setText(elideFont.elidedText(tr("Trash"), Qt::ElideRight, 85));
     }
     else if (COMMON_STR_FAVORITES == m_albumNameStr)
     {
-        m_nameLabel->setText(elideFont.elidedText(tr(COMMON_STR_FAVORITES), Qt::ElideRight, 85));
+
+        m_nameLabel->setText(elideFont.elidedText(tr("Favorites"), Qt::ElideRight, 85));
     }
     else
     {
@@ -138,15 +141,18 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
-        m_pLineEdit->setText(tr(COMMON_STR_RECENT_IMPORTED));
+
+        m_pLineEdit->setText(tr("Imported"));
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
     {
-        m_pLineEdit->setText(tr(COMMON_STR_TRASH));
+
+        m_pLineEdit->setText(tr("Trash"));
     }
     else if (COMMON_STR_FAVORITES == m_albumNameStr)
     {
-        m_pLineEdit->setText(tr(COMMON_STR_FAVORITES));
+
+        m_pLineEdit->setText(tr("Favorites"));
     }
     else
     {

@@ -267,7 +267,7 @@ void AllPicView::resizeEvent(QResizeEvent *e)
 
 void AllPicView::updatePicNum()
 {
-    QString str = tr("已选择%1张照片");
+    QString str = tr("Selected %1 photos");
 
     if(VIEW_ALLPICS == m_pStackedWidget->currentIndex())
     {

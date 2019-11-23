@@ -289,8 +289,8 @@ TTBContent::TTBContent(bool inDB,
     m_backButton->setObjectName("ReturnBtn");
     m_backButton->setIcon(QIcon::fromTheme("dcc_previous"));
     m_backButton->setIconSize(QSize(36,36));
-//    m_backButton->setToolTip(tr("Return"));
-    m_backButton->setToolTip(tr("返回"));
+    m_backButton->setToolTip(tr("Return"));
+
     hb->addWidget(m_backButton);
     hb->addSpacing(ICON_SPACING*5);
     connect(m_backButton, &DIconButton::clicked, this, [=] {
@@ -304,8 +304,8 @@ TTBContent::TTBContent(bool inDB,
     m_preButton->setFixedSize(ICON_SIZE);
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
     m_preButton->setIconSize(QSize(36,36));
-//    m_preButton->setToolTip(tr("Previous"));
-     m_preButton->setToolTip(tr("上一张"));
+    m_preButton->setToolTip(tr("Previous"));
+
     m_preButton->hide();
 
     connect(m_preButton, &DIconButton::clicked, this, [=] {
@@ -323,8 +323,8 @@ TTBContent::TTBContent(bool inDB,
     m_nextButton->setFixedSize(ICON_SIZE);
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
     m_nextButton->setIconSize(QSize(36,36));
-//    m_nextButton->setToolTip(tr("Next"));
-     m_nextButton->setToolTip(tr("下一张"));
+    m_nextButton->setToolTip(tr("Next"));
+
     m_nextButton->hide();
 
 
@@ -352,8 +352,8 @@ TTBContent::TTBContent(bool inDB,
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
     m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
     m_adaptImageBtn->setIconSize(QSize(36,36));
-//    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
-    m_adaptImageBtn->setToolTip(tr("1:1 比例"));
+    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+
 
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
@@ -369,8 +369,8 @@ TTBContent::TTBContent(bool inDB,
     m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
     m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
     m_adaptScreenBtn->setIconSize(QSize(36,36));
-//    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
-    m_adaptScreenBtn->setToolTip(tr("适应窗口"));
+    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+
 
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
@@ -407,8 +407,8 @@ TTBContent::TTBContent(bool inDB,
     m_rotateLBtn->setObjectName("RotateBtn");
     m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
     m_rotateLBtn->setIconSize(QSize(36,36));
-//    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
-    m_rotateLBtn->setToolTip(tr("逆时针旋转"));
+    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+
     hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
     connect(m_rotateLBtn, &DIconButton::clicked, this, [=] {
@@ -422,8 +422,8 @@ TTBContent::TTBContent(bool inDB,
     m_rotateRBtn->setObjectName("RotateCounterBtn");
     m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
     m_rotateRBtn->setIconSize(QSize(36,36));
-//    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
-    m_rotateRBtn->setToolTip(tr("顺时针旋转"));
+    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+
     hb->addWidget(m_rotateRBtn);
     hb->addSpacing(ICON_SPACING+8);
     connect(m_rotateRBtn, &DIconButton::clicked, this, [=] {
@@ -464,8 +464,8 @@ TTBContent::TTBContent(bool inDB,
     m_trashBtn->setObjectName("TrashBtn");
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36,36));
-//    m_trashBtn->setToolTip(tr("Delete"));
-    m_trashBtn->setToolTip(tr("删除"));
+    m_trashBtn->setToolTip(tr("Delete"));
+
     hb->addWidget(m_trashBtn);
 
     m_fileNameLabel = new ElidedLabel();
@@ -886,16 +886,16 @@ void TTBContent::updateCollectButton()
 
     if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_imagePath))
     {
-//        m_clBT->setToolTip(tr("Favorite"));
-        m_clBT->setToolTip(tr("取消收藏"));
+        m_clBT->setToolTip(tr("Unavorite"));
+
         m_clBT->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_clBT->setIconSize(QSize(36,36));
         m_bClBTChecked = true;
     }
     else
     {
-//        m_clBT->setToolTip(tr("Unfavorite"));
-        m_clBT->setToolTip(tr("收藏"));
+        m_clBT->setToolTip(tr("Favorite"));
+
         m_clBT->setIcon(QIcon::fromTheme("dcc_ncollection"));
         m_clBT->setIconSize(QSize(36,36));
         m_bClBTChecked = false;

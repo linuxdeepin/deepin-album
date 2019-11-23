@@ -39,8 +39,9 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     DLabel *title = new DLabel(this);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T5, QFont::DemiBold);
     title->setForegroundRole(DPalette::TextTitle);
-    title->setText("新建相册");   
-    title->setFixedSize(68,25);
+    title->setText(tr("Create Album"));
+//    title->setFixedSize(68,25);
+    title->setFixedSize(130,25);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
 
@@ -75,20 +76,21 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
 
     //添加OK和取消按钮
     DPushButton *m_Cancel = new DPushButton(this);
-    m_Cancel->setText("取消");
+    m_Cancel->setText(tr("Cancel"));
     m_Cancel->setFixedSize(170,36);
     m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DPushButton *m_line = new DPushButton(this);
     m_line->setFixedSize(3,28);
     m_line->setEnabled(false);
     DSuggestButton *m_OK = new DSuggestButton(this);
-    m_OK->setText("新建");
+   m_OK->setText(tr("Create"));
     m_OK->setFixedSize(170,36);
     m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     //界面布局
     m_picture->move(9,9);
-    title->move(156,12);
+//    title->move(156,12);
+    title->move(130,12);
     edit->move(10,78);
     m_Cancel->move(10,134);
     m_line->move(189,138);

@@ -52,7 +52,7 @@ void ImportView::initUI()
 
     m_pImportBtn = new DSuggestButton();
 //    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
-    m_pImportBtn->setText("导入照片");
+    m_pImportBtn->setText(tr("Import photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
@@ -67,7 +67,7 @@ void ImportView::initUI()
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setFixedHeight(18);
-    pLabel2->setText("您也可以拖拽到此");
+    pLabel2->setText(tr("You can also drag it here"));
 
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
     effect->setOffset(0,4);
@@ -186,7 +186,7 @@ void ImportView::onImprotBtnClicked()
     for (const QByteArray &i : QImageReader::supportedImageFormats())
         sList << "*." + QString::fromLatin1(i);
 
-    QString filter = tr("所有照片");
+    QString filter = tr("All Photos");
 
     filter.append('(');
     filter.append(sList.join(" "));
@@ -207,7 +207,7 @@ void ImportView::onImprotBtnClicked()
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
-    dialog.setWindowTitle(tr("打开照片"));
+    dialog.setWindowTitle(tr("Open photos"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted)

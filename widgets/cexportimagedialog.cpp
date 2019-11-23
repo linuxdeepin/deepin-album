@@ -107,8 +107,7 @@ void CExportImageDialog::initUI()
     logoLable->move(12, 7);
     logoLable->setAlignment(Qt::AlignLeft);
 
-//    setWindowTitle(tr("Export"));
-    setWindowTitle(tr("导出"));
+    setWindowTitle(tr("Export"));
 
 //    DLabel *titleLabel = new DLabel(tr("Export"), this);
 //    titleLabel->setFixedSize(DIALOG_SIZE.width(), 40);
@@ -130,22 +129,22 @@ void CExportImageDialog::initUI()
 
 
     m_savePathCombox = new DComboBox(this);
-//    m_savePathCombox->insertItem(Pictures, tr("Pictures"));
-//    m_savePathCombox->insertItem(Documents, tr("Documents"));
-//    m_savePathCombox->insertItem(Downloads, tr("Downloads"));
-//    m_savePathCombox->insertItem(Desktop, tr("Desktop"));
-//    m_savePathCombox->insertItem(Videos, tr("Videos"));
-//    m_savePathCombox->insertItem(Music, tr("Music"));
-//    m_savePathCombox->insertItem(UsrSelect, tr("Select Other Dir"));
+    m_savePathCombox->insertItem(Pictures, tr("Pictures"));
+    m_savePathCombox->insertItem(Documents, tr("Documents"));
+    m_savePathCombox->insertItem(Downloads, tr("Downloads"));
+    m_savePathCombox->insertItem(Desktop, tr("Desktop"));
+    m_savePathCombox->insertItem(Videos, tr("Videos"));
+    m_savePathCombox->insertItem(Music, tr("Music"));
+    m_savePathCombox->insertItem(UsrSelect, tr("Select Other Dir"));
 
     //暂时使用中文字符串，后续需要做翻译
-    m_savePathCombox->insertItem(Pictures, tr("图片"));
-    m_savePathCombox->insertItem(Documents, tr("文档"));
-    m_savePathCombox->insertItem(Downloads, tr("下载"));
-    m_savePathCombox->insertItem(Desktop, tr("桌面"));
-    m_savePathCombox->insertItem(Videos, tr("视频"));
-    m_savePathCombox->insertItem(Music, tr("音乐"));
-    m_savePathCombox->insertItem(UsrSelect, tr("选择其他文件夹"));
+//    m_savePathCombox->insertItem(Pictures, tr("图片"));
+//    m_savePathCombox->insertItem(Documents, tr("文档"));
+//    m_savePathCombox->insertItem(Downloads, tr("下载"));
+//    m_savePathCombox->insertItem(Desktop, tr("桌面"));
+//    m_savePathCombox->insertItem(Videos, tr("视频"));
+//    m_savePathCombox->insertItem(Music, tr("音乐"));
+//    m_savePathCombox->insertItem(UsrSelect, tr("选择其他文件夹"));
     m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
@@ -182,18 +181,20 @@ void CExportImageDialog::initUI()
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(10);
-//    fLayout->addRow(tr("Name:"), m_fileNameEdit);
-//    fLayout->addRow(tr("Save to:"), m_savePathCombox);
-//    fLayout->addRow(tr("Format:"), m_formatCombox);
-//    fLayout->addRow(tr("Quality:"), qualityHLayout);
-    fLayout->addRow(tr("文件名:"), m_fileNameEdit);
-    fLayout->addRow(tr("保存到:"), m_savePathCombox);
-    fLayout->addRow(tr("文件格式:"), m_formatCombox);
-    fLayout->addRow(tr("图片质量:"), qualityHLayout);
+    fLayout->addRow(tr("Name:"), m_fileNameEdit);
+    fLayout->addRow(tr("Save to:"), m_savePathCombox);
+    fLayout->addRow(tr("Format:"), m_formatCombox);
+    fLayout->addRow(tr("Quality:"), qualityHLayout);
+//    fLayout->addRow(tr("文件名:"), m_fileNameEdit);
+//    fLayout->addRow(tr("保存到:"), m_savePathCombox);
+//    fLayout->addRow(tr("文件格式:"), m_formatCombox);
+//    fLayout->addRow(tr("图片质量:"), qualityHLayout);
     addContent(contentWidget);
 
-    addButton(tr("取消"), false, DDialog::ButtonNormal);
-    addButton(tr("保存"), true, DDialog::ButtonRecommend);
+//    addButton(tr("取消"), false, DDialog::ButtonNormal);
+//    addButton(tr("保存"), true, DDialog::ButtonRecommend);
+    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+    addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
     m_questionDialog = new DDialog(this);
     m_questionDialog->setModal(true);

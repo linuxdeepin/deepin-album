@@ -13,7 +13,7 @@ void StatusBar::initUI()
 {
     setFixedHeight(27);
 
-    QString str = tr("%1张照片");
+    QString str = tr("%1 Photos");
     m_allPicNum = DBManager::instance()->getImgsCount();
 
     m_pAllPicNumLabel = new DLabel();
@@ -31,9 +31,8 @@ void StatusBar::initUI()
     loadingicon->setFixedSize(20, 20);
 //    TextLabel->setStyleSheet("Background:red");
 
-    m_pStackedWidget = new DStackedWidget(this);
-    m_pStackedWidget->addWidget(m_pAllPicNumLabel);
-    m_pStackedWidget->addWidget(TextLabel);
+    addWidget(m_pAllPicNumLabel);
+    addWidget(TextLabel);
 
     m_pSlider = new DSlider(Qt::Horizontal, this);
     m_pSlider->setFixedWidth(180);
@@ -46,8 +45,8 @@ void StatusBar::initUI()
 
     QHBoxLayout* pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setContentsMargins(0,0,0,3);
-    pHBoxLayout->addWidget(m_pStackedWidget, Qt::AlignCenter);
-    this->setLayout(pHBoxLayout);
+//    pHBoxLayout->addWidget(m_pStackedWidget, Qt::AlignCenter);
+//    this->setLayout(pHBoxLayout);
 
     initConnections();
 }
@@ -60,12 +59,13 @@ void StatusBar::initConnections()
         if(isVisible())
         {
             imgpaths = paths;
-            QString string = "正在导入:%1";
+
+            QString string = tr("Being imported:'%1'");
             TextLabel->setAlignment(Qt::AlignCenter);
             TextLabel->setText(string.arg(imgpaths[0]));
             TextLabel->adjustSize();
 
-            m_pStackedWidget->setCurrentIndex(1);
+            setCurrentIndex(1);
 //            loadingicon->move(TextLabel->x()+102, 0);
 //            loadingicon->show();
 //            loadingicon->start();
@@ -76,7 +76,8 @@ void StatusBar::initConnections()
 
 void StatusBar::onUpdateAllpicsNumLabel()
 {
-    QString str = tr("%1张照片");
+
+    QString str = tr("%1 Photos");
 
     m_allPicNum = DBManager::instance()->getImgsCount();
     m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
@@ -94,9 +95,10 @@ void StatusBar::timerEvent(QTimerEvent *e)
         loadingicon->move(TextLabel->x()+102, 0);
 
 //        qDebug()<<TextLabel->x();
-        m_pStackedWidget->setCurrentIndex(1);
+        setCurrentIndex(1);
 
-        QString string = "正在导入:%1";
+
+        QString string = tr("Being imported:'%1'");
 //        TextLabel->setAlignment(Qt::AlignCenter);
 //        TextLabel->adjustSize();
 
@@ -105,8 +107,9 @@ void StatusBar::timerEvent(QTimerEvent *e)
             i = 0;
             killTimer(interval);
             interval = 0;
-            m_pStackedWidget->setCurrentIndex(0);
-            QString str = tr("%1张照片");
+            setCurrentIndex(0);
+
+            QString str = tr("%1 Photos");
             m_allPicNum = DBManager::instance()->getImgsCount();
             m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
             emit dApp->signalM->ImportSuccess();
@@ -130,8 +133,9 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 while(time.elapsed() < 500)
                     QCoreApplication::processEvents();
 
-                m_pStackedWidget->setCurrentIndex(0);
-                QString str = tr("%1张照片");
+                setCurrentIndex(0);
+
+                QString str = tr("%1 Photos");
                 m_allPicNum = DBManager::instance()->getImgsCount();
                 m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
 

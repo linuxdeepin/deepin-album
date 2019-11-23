@@ -90,7 +90,8 @@ void SearchView::initNoSearchResultView()
     m_pNoSearchResultView = new DWidget();
     QVBoxLayout* pNoSearchResultLayout = new QVBoxLayout();
     pNoResult = new DLabel();
-    pNoResult->setText("无搜索结果");
+
+    pNoResult->setText(tr("No search results"));
     pNoResult->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
 
 //    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
@@ -130,7 +131,8 @@ void SearchView::initSearchResultView()
     QVBoxLayout* pSearchResultLayout = new QVBoxLayout();
 //    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
-    pLabel1->setText("搜索结果");
+
+    pLabel1->setText(tr("Search Result"));
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     font.setWeight(QFont::DemiBold);
     pLabel1->setFont(font);
@@ -176,25 +178,25 @@ void SearchView::initSearchResultView()
         m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     }
 
-    QPixmap pixmap;
-    pixmap = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 17));
+    QIcon icon;
+    icon = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 18));
+    m_pSlideShowBtn->setIcon(icon);
+    m_pSlideShowBtn->setText(tr("Slideshow"));
 
-    DLabel* Label1 = new DLabel(m_pSlideShowBtn);
-    Label1->move(6,7);
-    DLabel* Label2 = new DLabel(m_pSlideShowBtn);
-    Label2->setFixedSize(70,18);
-    Label2->move(29,6);
-
-    Label1->setPixmap(pixmap);
+//    DLabel* Label1 = new DLabel(m_pSlideShowBtn);
+//    Label1->move(6,7);
+//    DLabel* Label2 = new DLabel(m_pSlideShowBtn);
+//    Label2->setFixedSize(70,18);
+//    Label2->move(29,6);
+//    Label1->setPixmap(pixmap);
 //    Label1->setPalette(pal);
-
-    Label2->setText("幻灯片放映");
+//    Label2->setText(tr("Slideshow"));
 
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft1.setFamily("SourceHanSansSC-Medium");
     ft1.setWeight(QFont::Medium);
 
-    Label2->setFont(ft1);
+//    Label2->setFont(ft1);
 //    Label2->setPalette(pal);
 
     m_pSearchResultLabel = new DLabel();
@@ -266,7 +268,8 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 
         m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
-        QString searchStr = tr("共搜到%1张照片");
+
+        QString searchStr = tr("Search %1 photos in total");
         QString str = QString::number(infos.length());
         m_pSearchResultLabel->setText(searchStr.arg(str));
         m_pSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
@@ -292,7 +295,8 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     }
     else
     {
-        QString str = tr("没有“%1”的结果，请尝试搜索新词。");
+
+        QString str = tr("No results for '%1', please try searching for new words.");
         m_pNoSearchResultLabel->setText(str.arg(s));
         m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette palette = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);

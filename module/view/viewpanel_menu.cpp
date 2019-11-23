@@ -331,10 +331,12 @@ void ViewPanel::updateMenuContent()
     }
 
     if (window()->isFullScreen()) {
-        appendAction(IdExitFullScreen, tr("退出全屏"), ss("Fullscreen", "F11"));
+
+        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
     }
     else {
-        appendAction(IdFullScreen, tr("全屏"), ss("Fullscreen", "F11"));
+
+        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
     }
 #ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
@@ -350,10 +352,12 @@ void ViewPanel::updateMenuContent()
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdCopy, tr("复制"), ss("Copy", "Ctrl+C"));
+
+    appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
 //    if (COMMON_STR_TRASH == m_viewType)
 //    {
-        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash", "Delete"));
+
+          appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
 //    }
 //    else
 //    {
@@ -373,11 +377,11 @@ void ViewPanel::updateMenuContent()
     /**************************************************************************/
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
-                     tr("显示导航窗口"), ss("Show navigation window", ""));
+                     tr("Show navigation window"), ss("Show navigation window", ""));
     }
     else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         appendAction(IdHideNavigationWindow,
-                     tr("隐藏导航窗口"), ss("Hide navigation window", ""));
+                     tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
@@ -385,26 +389,28 @@ void ViewPanel::updateMenuContent()
         if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
                 !QFileInfo(m_infos.at(m_current).filePath).isWritable()){
 
-             appendAction_darkmenu(IdRotateClockwise,
-                                 tr("顺时针旋转"), ss("Rotate clockwise", "Ctrl+R"));
-             appendAction_darkmenu(IdRotateCounterclockwise,
-                          tr("逆时针旋转"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+
+            appendAction_darkmenu(IdRotateClockwise,
+                                tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+            appendAction_darkmenu(IdRotateCounterclockwise,
+                         tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         }
         else {
             appendAction(IdRotateClockwise,
-                         tr("顺时针旋转"), ss("Rotate clockwise", "Ctrl+R"));
+                         tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise,
-                         tr("逆时针旋转"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+                         tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         }
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_infos.at(m_current).filePath))  {
         appendAction(IdSetAsWallpaper,
-                     tr("设为壁纸"), ss("Set as wallpaper", "Ctrl+F8"));
+                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
     }
 
-    appendAction(IdDisplayInFileManager,tr("在文件管理器中显示"), ss("Display in file manager", "Ctrl+D"));
-    appendAction(IdImageInfo, tr("照片信息"), ss("Image info", "Alt+Enter"));
+
+    appendAction(IdDisplayInFileManager,tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
 }
 
 void ViewPanel::initShortcut()

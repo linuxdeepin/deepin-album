@@ -15,7 +15,8 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     DLabel *m_label = new DLabel(this);
     if(1 == count)
     {
-        m_label->setText("您确定要从相册删除此照片吗 ?");
+
+        m_label->setText(tr("Are you sure to delete this photo from the album?"));
         DPalette pa = DApplicationHelper::instance()->palette(m_label);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
         m_label->setPalette(pa);
@@ -23,7 +24,8 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     }
     else
     {
-        QString str = tr("您确定要从相册删除%1张照片吗 ?");
+
+        QString str = tr("Are you sure to delete %1 photos from the album?");
         m_label->setText(str.arg(count));
         DPalette pa = DApplicationHelper::instance()->palette(m_label);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
@@ -35,14 +37,16 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     m_label->move((this->width() - m_label->width())/2,70);
 
     DPushButton *m_Cancel = new DPushButton(this);
-    m_Cancel->setText("取消");
+
+    m_Cancel->setText(tr("Cancel"));
     m_Cancel->setFixedSize(170,36);
     m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DPushButton *m_line = new DPushButton(this);
     m_line->setFixedSize(3,28);
     m_line->setEnabled(false);
     DPushButton *m_Delete = new DPushButton(this);
-    m_Delete->setText("删除");
+
+    m_Delete->setText(tr("Delete"));
     m_Delete->setFixedSize(170,36);
     m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 

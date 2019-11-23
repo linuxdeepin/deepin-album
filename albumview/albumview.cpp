@@ -123,7 +123,8 @@ void AlbumView::initConnections()
 //        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
         ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pRecoveryBtn->setPalette(ReBtn);
-        m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+        m_pDeleteBtn->setText(tr("Delete All"));
+		
 #endif
     });
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -285,7 +286,7 @@ void AlbumView::initRightView()
     // Import View
     m_pImportView = new ImportView();
     QList<QLabel*> labelList = m_pImportView->findChildren<QLabel*>();
-    labelList[1]->setText("您也可以拖拽到此");
+    labelList[1]->setText(tr("You can also drag it here"));
 
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
@@ -295,12 +296,13 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->setContentsMargins(0,0,0,0);
 
     m_pRightTitle = new DLabel();
+    m_pRightTitle->setText(tr("Imported"));
     DFontSizeManager::instance()->bind(m_pRightTitle, DFontSizeManager::T3, QFont::Medium);
     m_pRightTitle->setForegroundRole(DPalette::TextTitle);
-    m_pRightTitle->setText(tr(COMMON_STR_RECENT_IMPORTED));
 
     m_pRightPicTotal = new DLabel();
-    QString str = tr("%1张照片");
+
+    QString str = tr("%1 Photos");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
     DFontSizeManager::instance()->bind(m_pRightPicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pRightPicTotal->setForegroundRole(DPalette::TextTips);
@@ -319,10 +321,13 @@ void AlbumView::initRightView()
     m_importByPhoneWidget = new DWidget;
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
-    importLabel->setText(tr("导入到："));
+    importLabel->setText(tr("Imported into："));
+
     m_importByPhoneComboBox = new DComboBox;
-    m_importAllByPhoneBtn = new DPushButton(tr("全部导入"));
-    m_importSelectByPhoneBtn = new DPushButton(tr("导入所选"));
+
+    m_importAllByPhoneBtn = new DPushButton(tr("All Import"));
+
+    m_importSelectByPhoneBtn = new DPushButton(tr("Selected Import"));
     mainImportLayout->addWidget(importLabel, 2);
     mainImportLayout->addWidget(m_importByPhoneComboBox, 6);
     mainImportLayout->addWidget(m_importAllByPhoneBtn, 3);
@@ -351,12 +356,12 @@ void AlbumView::initRightView()
     pLabel1 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::Medium);
     pLabel1->setForegroundRole(DPalette::TextTitle);
-    pLabel1->setText("最近删除");
+    pLabel1->setText(tr("Trash"));
 
     pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
     pLabel2->setForegroundRole(DPalette::TextTips);
-    pLabel2->setText("照片在删除前会显示剩余天数，之后将永久删除");
+    pLabel2->setText(tr("The photos shows the number of days left before it is deleted, and then it is permanently deleted"));
 
     pTopLeftVBoxLayout->addSpacing(5);
     pTopLeftVBoxLayout->addWidget(pLabel1);
@@ -367,7 +372,8 @@ void AlbumView::initRightView()
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
     m_pRecoveryBtn = new DPushButton();
-    m_pRecoveryBtn->setText(BUTTON_STR_RECOVERY);
+
+    m_pRecoveryBtn->setText(tr("Recovery"));
     m_pRecoveryBtn->setEnabled(false);
     m_pRecoveryBtn->setFixedSize(100,36);
 
@@ -376,7 +382,8 @@ void AlbumView::initRightView()
     m_pRecoveryBtn->setPalette(ReBtn);
 
     m_pDeleteBtn = new DWarningButton();
-    m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+
+    m_pDeleteBtn->setText(tr("Delete All"));
     m_pDeleteBtn->setFixedSize(100,36);
 
     DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
@@ -408,12 +415,12 @@ void AlbumView::initRightView()
     m_pFavoriteTitle = new DLabel();
     DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::Medium);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
-    m_pFavoriteTitle->setText(COMMON_STR_FAVORITES);
+    m_pFavoriteTitle->setText(tr("Favorites"));
 
     m_pFavoritePicTotal = new DLabel();
     DFontSizeManager::instance()->bind(m_pFavoritePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pFavoritePicTotal->setForegroundRole(DPalette::TextTips);
-    QString favoriteStr = tr("%1张照片");
+    QString favoriteStr = tr("%1 Photos");
 
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES);
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
@@ -516,9 +523,9 @@ void AlbumView::updateRightNoTrashView()
 
         if (0 < m_iAlubmPicsNum)
         {
-            m_pRightTitle->setText(m_currentAlbum);
+            m_pRightTitle->setText(tr("Imported"));
 
-            QString str = tr("%1张照片");
+            QString str = tr("%1 Photos");
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
             m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
@@ -552,7 +559,7 @@ void AlbumView::updateRightNoTrashView()
 
         m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
 
-        QString favoriteStr = tr("%1张照片");
+        QString favoriteStr = tr("%1 Photos");
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
         m_pRightFavoriteThumbnailList->insertThumbnails(m_curThumbnaiItemList);
@@ -590,7 +597,7 @@ void AlbumView::updateRightNoTrashView()
                 QFontMetrics elideFont(m_pRightTitle->font());
                 m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
 
-                QString str = tr("%1张照片");
+                QString str = tr("%1 Photos");
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
                 m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
@@ -630,7 +637,7 @@ void AlbumView::updateRightNoTrashView()
                 QFontMetrics elideFont(m_pRightTitle->font());
                 m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
 
-                QString str = tr("%1张照片");
+                QString str = tr("%1 Photos");
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
                 m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
@@ -680,7 +687,7 @@ void AlbumView::updateRightTrashView()
             vi.name = info.fileName;
             vi.path = info.filePath;
             vi.image = dApp->m_imagetrashmap.value(info.filePath);
-            vi.remainDays = QString::number(30-Day) + "天";
+            vi.remainDays = QString::number(30-Day) + tr("Days");
 
             m_curThumbnaiItemList<<vi;
         }
@@ -702,7 +709,7 @@ void AlbumView::updateRightTrashView()
     }
     else
     {
-        m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+        m_pDeleteBtn->setText(tr("Delete All"));
         m_pRecoveryBtn->setEnabled(false);
         m_pDeleteBtn->setEnabled(false);
     }
@@ -766,12 +773,12 @@ void AlbumView::showLeftMenu(const QPoint &pos)
 
     if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
     {
-        m_MenuActionMap.value(tr("幻灯片放映"))->setVisible(false);
+        m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
     }
 
     if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
     {
-        m_MenuActionMap.value(tr("导出相册"))->setVisible(false);
+        m_MenuActionMap.value(tr("Export album"))->setVisible(false);
     }
     m_pLeftMenu->popup(QCursor::pos());
 }
@@ -926,7 +933,7 @@ void AlbumView::createNewAlbum(QStringList imagepaths)
 
     m_curListWidgetItem = m_pLeftTabList->currentItem();
     m_currentAlbum = albumName;
-
+    emit dApp->signalM->TransmitAlbumName(m_currentAlbum);
     updateRightNoTrashView();
 }
 
@@ -1086,7 +1093,7 @@ void AlbumView::onTrashListClicked()
         ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pRecoveryBtn->setPalette(ReBtn);
 
-        m_pDeleteBtn->setText(BUTTON_STR_DETELE);
+       m_pDeleteBtn->setText(tr("Delete"));
     }
     else
     {
@@ -1100,7 +1107,7 @@ void AlbumView::onTrashListClicked()
         ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pRecoveryBtn->setPalette(ReBtn);
 
-        m_pDeleteBtn->setText(BUTTON_STR_DETELEALL);
+        m_pDeleteBtn->setText(tr("Delete All"));
     }
 }
 
@@ -1327,15 +1334,20 @@ void AlbumView::initLeftMenu()
 {
     m_MenuActionMap.clear();
 
-    appendAction(IdStartSlideShow, tr(COMMON_STR_SLIDESHOW), ss(""));
+
+    appendAction(IdStartSlideShow, tr("Slide show"), ss(""));
     m_pLeftMenu->addSeparator();
-    appendAction(IdCreateAlbum, tr(COMMON_STR_CREATEALBUM), ss(""));
+
+    appendAction(IdCreateAlbum, tr("Creat album"), ss(""));
     m_pLeftMenu->addSeparator();
-    appendAction(IdRenameAlbum, tr(COMMON_STR_RENAMEALBUM), ss(COMMON_STR_RENAMEALBUM));
+
+    appendAction(IdRenameAlbum, tr("Rename album"), ss("COMMON_STR_RENAMEALBUM"));
     m_pLeftMenu->addSeparator();
-    appendAction(IdExport, tr(COMMON_STR_EXPORT), ss(""));
+
+    appendAction(IdExport, tr("Export album"), ss(""));
     m_pLeftMenu->addSeparator();
-    appendAction(IdDeleteAlbum, tr("删除相册"), ss(""));
+
+    appendAction(IdDeleteAlbum, tr("Remove album"), ss(""));
 }
 
 bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo>& thumbnaiItemList)
@@ -1658,7 +1670,7 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 
 void AlbumView::updatePicNum()
 {
-    QString str = tr("已选择%1张照片");
+    QString str = tr("Selected %1 photos");
     AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
     if(item->m_albumNameStr == COMMON_STR_RECENT_IMPORTED || item->m_albumNameStr == m_currentAlbum)

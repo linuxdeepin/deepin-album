@@ -109,6 +109,7 @@ private:
     int m_backIndex;
     int m_pSliderPos = 2;
     DPushButton* m_pItemButton;
+    QString albumName;
 };
 
 #endif // MAINWINDOW_H
