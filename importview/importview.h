@@ -33,6 +33,7 @@ class ImportView : public DWidget
 public:
     ImportView();
     void setAlbumname(const QString &name);
+    void onImprotBtnClicked();
 
 private:
     void initConnections();
@@ -41,12 +42,14 @@ private:
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
-    void onImprotBtnClicked();
-    DLabel *pLabel;
+
+signals:
+    void importFailedToView();
 
 public:
     DPushButton* m_pImportBtn;
     QString m_albumname;
+    DLabel *pLabel;
 };
 
 #endif // IMPORTVIEW_H

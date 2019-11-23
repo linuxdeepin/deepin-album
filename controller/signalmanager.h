@@ -95,8 +95,6 @@ signals:
     void ImgExportFailed();
     void AlbExportSuccess();
     void AlbExportFailed();
-    void ImportSuccessSwitchToThumbnailView();
-    void ImportFailedSwitchToThumbnailView();
 
 
     // Handle by album

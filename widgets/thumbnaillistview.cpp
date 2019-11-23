@@ -25,6 +25,7 @@ QString ss(const QString &text)
 {
     QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
     str.replace(" ", "");
+
     return str;
 }
 }  //namespace
@@ -474,7 +475,8 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         break;
     case IdAddToAlbum: {
         const QString album = action->data().toString();
-        if (album != "Add to new album") {
+        if (album != "Add to new album")
+        {
             if (1 == paths.count())
             {
                 if (! DBManager::instance()->isImgExistInAlbum(album, paths[0]))
@@ -489,9 +491,11 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 
            DBManager::instance()->insertIntoAlbum(album, paths);
         }
-        else {
+        else
+        {
             emit dApp->signalM->createAlbum(paths);
         }
+
         break;
     }
     case IdCopyToClipboard:
@@ -701,8 +705,10 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
     QAbstractItemView::mouseMoveEvent(event);
 }
 
-void ThumbnailListView::mousePressEvent(QMouseEvent *event)
+void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
+    QAbstractItemView::mouseReleaseEvent(event);
+
     if (COMMON_STR_TRASH == m_imageType)
     {
         if (!this->indexAt(event->pos()).isValid())
@@ -711,8 +717,6 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 
         }
     }
-
-    QAbstractItemView::mousePressEvent(event);
 
     if (!this->indexAt(event->pos()).isValid())
     {

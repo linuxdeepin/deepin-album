@@ -531,7 +531,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
     using namespace utils::base;
     m_vinfo = vinfo;
-    dApp->setOverrideCursor(Qt::ArrowCursor);
+    this->setCursor(Qt::ArrowCursor);
     if (vinfo.fullScreen) {
         showFullScreen();
     }

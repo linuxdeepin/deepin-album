@@ -37,12 +37,10 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     const QString subStyle =
     utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
+    DFontSizeManager::instance()->bind(title, DFontSizeManager::T5, QFont::DemiBold);
+    title->setForegroundRole(DPalette::TextTitle);
     title->setText("新建相册");   
-    DPalette pe = DApplicationHelper::instance()->palette(title);
-    pe.setBrush(DPalette::WindowText,pe.color(DPalette::TextTitle));
-    title->setPalette(pe);    
     title->setFixedSize(68,25);
-    title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
 

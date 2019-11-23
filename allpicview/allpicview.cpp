@@ -12,31 +12,23 @@ const int VIEW_MAINWINDOW_ALLPIC = 0;
 AllPicView::AllPicView()
 {
     setAcceptDrops(true);
-//    bool a = 0;
-    bool a = 1;
-    if ( a )
-    {
-        m_pStackedWidget = new DStackedWidget(this);
-        m_pImportView = new ImportView();
-        m_pThumbnailListView = new ThumbnailListView();
-        m_pSearchView = new SearchView();
-        m_pStackedWidget->addWidget(m_pImportView);
-        m_pStackedWidget->addWidget(m_pThumbnailListView);
-        m_pStackedWidget->addWidget(m_pSearchView);
-        m_pStatusBar = new StatusBar();
-        m_pStatusBar->setParent(this);
-        QVBoxLayout* pVBoxLayout = new QVBoxLayout();
-        pVBoxLayout->setContentsMargins(0,0,0,0);
-        pVBoxLayout->addWidget(m_pStackedWidget);
-        pVBoxLayout->addWidget(m_pStatusBar);
-        setLayout(pVBoxLayout);
-        updateStackedWidget();       
-        initConnections();
-    }
-    else
-    {
-        removeDBAllInfos();
-    }
+
+    m_pStackedWidget = new DStackedWidget(this);
+    m_pImportView = new ImportView();
+    m_pThumbnailListView = new ThumbnailListView();
+    m_pSearchView = new SearchView();
+    m_pStackedWidget->addWidget(m_pImportView);
+    m_pStackedWidget->addWidget(m_pThumbnailListView);
+    m_pStackedWidget->addWidget(m_pSearchView);
+    m_pStatusBar = new StatusBar();
+    m_pStatusBar->setParent(this);
+    QVBoxLayout* pVBoxLayout = new QVBoxLayout();
+    pVBoxLayout->setContentsMargins(0,0,0,0);
+    pVBoxLayout->addWidget(m_pStackedWidget);
+    pVBoxLayout->addWidget(m_pStatusBar);
+    setLayout(pVBoxLayout);
+    updateStackedWidget();
+    initConnections();
 
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
@@ -124,55 +116,14 @@ void AllPicView::initConnections()
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
 //    connect(m_pThumbnailListView, SIGNAL(currentChanged(QModelIndex)), this, SLOT());
-    connect(dApp->signalM, &SignalManager::ImportSuccessSwitchToThumbnailView, this, [=]{
+    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [=]{
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+        m_pImportView->onImprotBtnClicked();
     });
-    connect(dApp->signalM, &SignalManager::ImportFailedSwitchToThumbnailView, this, [=]{
+    connect(m_pImportView, &ImportView::importFailedToView, this, [=]{
         updateStackedWidget();
     });
 }
-
-//void AllPicView::initThumbnailListView()
-//{
-//    if (0 < DBManager::instance()->getImgsCount())
-//    {
-//        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
-
-//        auto infos = DBManager::instance()->getAllInfos();
-//        for(auto info : infos)
-//        {
-//            ThumbnailListView::ItemInfo vi;
-//            vi.name = info.fileName;
-//            QImage tImg;
-
-//            QString format = DetectImageFormat(info.filePath);
-//            if (format.isEmpty()) {
-//                QImageReader reader(info.filePath);
-//                reader.setAutoTransform(true);
-//                if (reader.canRead()) {
-//                    tImg = reader.read();
-//                }
-//            } else {
-//                QImageReader readerF(info.filePath, format.toLatin1());
-//                readerF.setAutoTransform(true);
-//                if (readerF.canRead()) {
-//                    tImg = readerF.read();
-//                } else {
-//                    qWarning() << "can't read image:" << readerF.errorString()
-//                               << format;
-
-//                    tImg = QImage(info.filePath);
-//                }
-//            }
-
-//            vi.image = QPixmap::fromImage(tImg);
-
-//            thumbnaiItemList<<vi;
-//        }
-
-//        m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
-//    }
-//}
 
 void AllPicView::updateStackedWidget()
 {
@@ -309,43 +260,6 @@ void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-}
-
-void AllPicView::removeDBAllInfos()
-{
-    auto infos = DBManager::instance()->getAllInfos();
-
-    QStringList paths;
-
-    for(auto info : infos)
-    {
-        paths<<info.filePath;
-    }
-
-
-    DBManager::instance()->removeImgInfos(paths);
-
-    //
-    auto albums = DBManager::instance()->getAllAlbumNames();
-
-    for(auto album : albums)
-    {
-        DBManager::instance()->removeAlbum(album);
-    }
-
-    //
-    auto infos1 = DBManager::instance()->getAllTrashInfos();
-
-    QStringList paths1;
-
-    for(auto info : infos1)
-    {
-        paths1<<info.filePath;
-    }
-
-
-    DBManager::instance()->removeTrashImgInfos(paths1);
-
 }
 
 void AllPicView::updatePicNum()

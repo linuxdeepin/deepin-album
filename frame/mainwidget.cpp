@@ -145,6 +145,19 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     }
 }
 
+void MainWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event);
+
+    if (m_bottomToolbar)
+    {
+        if(window()->isFullScreen())
+        {
+            emit dApp->signalM->sigShowFullScreen();
+        }
+    }
+}
+
 void MainWidget::onGotoPanel(ModulePanel *panel)
 {
     QPointer<ModulePanel> p(panel);

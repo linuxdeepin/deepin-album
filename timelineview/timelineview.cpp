@@ -147,12 +147,6 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
             pLabelList[1]->setPalette(pal);
         }
     }
-    connect(dApp->signalM, &SignalManager::ImportSuccessSwitchToThumbnailView, this, [=]{
-        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
-    });
-    connect(dApp->signalM, &SignalManager::ImportFailedSwitchToThumbnailView, this, [=]{
-        updateStackedWidget();
-    });
 }
 
 void TimeLineView::initTimeLineViewWidget()

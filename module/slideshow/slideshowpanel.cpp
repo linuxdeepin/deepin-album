@@ -149,7 +149,7 @@ void SlideShowPanel::backToLastPanel()
     ti.fill(0);
     setImage(ti);
 
-    dApp->setOverrideCursor(Qt::ArrowCursor);
+    this->setCursor(Qt::ArrowCursor);
     killTimer(m_hideCursorTid);
     m_hideCursorTid = 0;
 }
@@ -245,7 +245,7 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
         showFullScreen();
     }
     else if (event->timerId() == m_hideCursorTid) {
-        dApp->setOverrideCursor(Qt::BlankCursor);
+        this->setCursor(Qt::BlankCursor);
     }
 
     ModulePanel::timerEvent(event);
@@ -263,7 +263,7 @@ void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
-    dApp->setOverrideCursor(Qt::ArrowCursor);
+    this->setCursor(Qt::ArrowCursor);
 }
 
 void SlideShowPanel::setImage(const QImage &img)
@@ -288,7 +288,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 
     m_startTid = startTimer(DELAY_START_INTERVAL);
 
-    dApp->setOverrideCursor(Qt::BlankCursor);
+    this->setCursor(Qt::BlankCursor);
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
 
     if (!inDB) {

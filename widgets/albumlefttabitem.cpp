@@ -11,6 +11,7 @@ namespace
 const int LAYOUT_SPACING = 10;
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
+const int OPE_MODE_ADDRENAMEALBUM = 2;
 }// namespace
 
 using namespace utils::common;
@@ -218,7 +219,7 @@ void AlbumLeftTabItem::onCheckNameValid()
         newNameStr = m_albumNameStr;
     }
 
-    if (OPE_MODE_RENAMEALBUM == m_opeMode)
+    if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode)
     {
         m_nameLabel->setText(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
@@ -236,8 +237,7 @@ void AlbumLeftTabItem::onCheckNameValid()
         m_albumNameStr = newNameStr;
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     }
-
-    if (OPE_MODE_ADDNEWALBUM == m_opeMode)
+    else if (OPE_MODE_ADDNEWALBUM == m_opeMode)
     {
         m_nameLabel->setText(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());

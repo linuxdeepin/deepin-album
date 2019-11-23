@@ -105,7 +105,7 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
 
 void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
     QFileDialog exportDialog;
-    exportDialog.setFileMode(QFileDialog::DirectoryOnly);
+    exportDialog.setFileMode(QFileDialog::ExistingFiles);
     exportDialog.setLabelText(QFileDialog::Accept, tr("Save"));
     exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
 

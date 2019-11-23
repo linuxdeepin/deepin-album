@@ -80,7 +80,7 @@ void ViewPanel::initPopupMenu()
         #endif
                 ) {
             updateMenuContent();
-            dApp->setOverrideCursor(Qt::ArrowCursor);
+            this->setCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
         }
     });

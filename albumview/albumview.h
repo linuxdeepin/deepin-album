@@ -43,8 +43,7 @@ public:
     AlbumView();
     ~AlbumView();
 
-    void createNewAlbum();
-    void picsIntoAlbum(QStringList paths);
+    void createNewAlbum(QStringList imagepaths);
     void SearchReturnUpdate();
 
 private:
@@ -102,6 +101,8 @@ public:
 
     StatusBar* m_pStatusBar;
     DWidget* m_pWidget;
+    ThumbnailListView* m_pRightThumbnailList;
+
 private:
 
     QStringList m_allAlbumNames;
@@ -109,7 +110,6 @@ private:
 
     DWidget* m_pLeftWidget;
     ImportView* m_pImportView;
-    ThumbnailListView* m_pRightThumbnailList;
     ThumbnailListView* m_pRightTrashThumbnailList;
     ThumbnailListView* m_pRightFavoriteThumbnailList;
     DPushButton* m_pRecoveryBtn;

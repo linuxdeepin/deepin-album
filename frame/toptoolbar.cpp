@@ -123,11 +123,10 @@ void TopToolbar::initWidgets()
     m_titlebar->setTitle("");
 
     m_titletxt=new DLabel;
+    DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7, QFont::Normal);
+    m_titletxt->setForegroundRole(DPalette::TextLively);
     m_titletxt->setText("");
-    m_titletxt->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T7));
-    DPalette pa1 = DApplicationHelper::instance()->palette(m_titletxt);
-    pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextLively));
-    m_titletxt->setPalette(pa);
+
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
     shadowEffect->setOffset(0, 1);
     shadowEffect->setBlurRadius(1);

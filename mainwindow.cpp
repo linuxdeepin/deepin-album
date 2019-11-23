@@ -128,9 +128,7 @@ void MainWindow::initConnections()
         QString str = "导入失败";
         this->sendMessage(icon, str);
     });
-    connect(dApp->signalM, &SignalManager::TransmitAlbumName, this, [=](QString currentAlbum){
-        albumName = currentAlbum;
-    });
+
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [=]{
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
@@ -658,12 +656,11 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
     if(TITLEBAR_NEWALBUM == action->text())
     {
-        emit dApp->signalM->createAlbum();
+        emit dApp->signalM->createAlbum(QStringList(" "));
     }
     else if (TITLEBAR_IMPORT == action->text())
     {
         emit sigTitleMenuImportClicked();
-        m_bTitleMenuImportClicked = true;
     }
     else
     {
@@ -675,8 +672,7 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
     if (m_pCenterWidget->currentWidget() == m_pAlbumview)
     {
-        m_pAlbumview->createNewAlbum();
-        DBManager::instance()->insertIntoAlbum(albumName, imagepaths);
+        m_pAlbumview->createNewAlbum(imagepaths);
     }
     else
     {
@@ -860,9 +856,6 @@ void MainWindow::onImprotBtnClicked()
         return;
     }
 
-    emit dApp->signalM->ImportSuccessSwitchToThumbnailView();
-//    const QStringList &image_list = dialog.getOpenFileNames(this, tr("打开照片"),
-//                                                                  pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
         return;
@@ -921,21 +914,25 @@ void MainWindow::onImprotBtnClicked()
         }
 
 
+        if(VIEW_ALBUM == m_iCurrentView)
+        {
+            if (COMMON_STR_RECENT_IMPORTED != m_pAlbumview->m_currentAlbum
+                && COMMON_STR_TRASH != m_pAlbumview->m_currentAlbum
+                && COMMON_STR_FAVORITES != m_pAlbumview->m_currentAlbum
+                && ALBUM_PATHTYPE_BY_PHONE !=m_pAlbumview->m_pRightThumbnailList->m_imageType)
+            {
+                DBManager::instance()->insertIntoAlbumNoSignal(m_pAlbumview->m_currentAlbum, paths);
+            }
+        }
+
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
 
         emit dApp->signalM->updateStatusBarImportLabel(paths);
-
-        if (true == m_bTitleMenuImportClicked && VIEW_ALBUM == m_iCurrentView)
-        {
-            m_pAlbumview->picsIntoAlbum(image_list);
-            m_bTitleMenuImportClicked = false;
-        }
     }
     else
     {
         emit dApp->signalM->ImportFailed();
-        emit dApp->signalM->ImportFailedSwitchToThumbnailView();
     }
 }
 

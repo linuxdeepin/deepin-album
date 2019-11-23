@@ -108,6 +108,7 @@ public:
     void removeFromAlbum(const QString &album, const QStringList &paths);
     void renameAlbum(const QString &oldAlbum, const QString &newAlbum);
     void removeFromAlbumNoSignal(const QString &album, const QStringList &paths);
+    void insertIntoAlbumNoSignal(const QString &album, const QStringList &paths);
     // TabelTrash
     const QStringList       getAllTrashPaths() const;
     const DBImgInfoList     getAllTrashInfos() const;

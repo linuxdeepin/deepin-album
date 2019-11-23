@@ -104,7 +104,7 @@ void CExportImageDialog::initUI()
     QIcon icon = QIcon::fromTheme("deepin-album");
     logoLable->setPixmap(icon.pixmap(QSize(30, 30)));
 
-    logoLable->move(25, 3);
+    logoLable->move(12, 7);
     logoLable->setAlignment(Qt::AlignLeft);
 
 //    setWindowTitle(tr("Export"));

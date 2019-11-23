@@ -51,7 +51,6 @@ private:
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
-    void removeDBAllInfos();
     void updatePicNum();
     void restorePicNum();
 

@@ -743,6 +743,46 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     emit dApp->signalM->insertedIntoAlbum(album, paths);
 }
 
+void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList &paths)
+{
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid() || album.isEmpty()) {
+        return;
+    }
+    QStringList nameRows, pathHashRows;
+    for (QString path : paths) {
+        nameRows << album;
+        pathHashRows << utils::base::hash(path);
+    }
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash) "
+                  "VALUES (null, ?, ?)");
+    query.addBindValue(nameRows);
+    query.addBindValue(pathHashRows);
+    if (! query.execBatch()) {
+        qWarning() << "Insert data into AlbumTable3 failed: "
+                   << query.lastError();
+    }
+    query.exec("COMMIT");
+
+    //FIXME: Don't insert the repeated filepath into the same album
+    //Delete the same data
+    QString ps = "DELETE FROM AlbumTable3 where AlbumId NOT IN"
+                 "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY"
+                 " AlbumName, PathHash) AND PathHash != \"%1\" ";
+    query.prepare(ps.arg(EMPTY_HASH_STR));
+    if (!query.exec()) {
+        qDebug() << "delete same date failed!";
+    }
+    query.exec("COMMIT");
+    mutex.unlock();
+}
+
+
 void DBManager::removeAlbum(const QString &album)
 {
     const QSqlDatabase db = getDatabase();

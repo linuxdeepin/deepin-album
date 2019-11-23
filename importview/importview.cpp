@@ -15,7 +15,7 @@ ImportView::ImportView()
 
 void ImportView::initConnections()
 {
-    connect(m_pImportBtn, &DPushButton::clicked, this, &ImportView::onImprotBtnClicked);
+//    connect(m_pImportBtn, &DPushButton::clicked, this, &ImportView::onImprotBtnClicked);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pLabel,[=]{
         QPixmap pixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -64,13 +64,10 @@ void ImportView::initUI()
     m_pImportBtn->setPalette(pa);
 
     DLabel* pLabel2 = new DLabel();
+    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
+    pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setFixedHeight(18);
     pLabel2->setText("您也可以拖拽到此");
-    pLabel2->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-
-    DPalette pa1 = DApplicationHelper::instance()->palette(pLabel2);
-    pa1.setBrush(DPalette::WindowText, QColor(122,122,122));
-    pLabel2->setPalette(pa1);
 
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
     effect->setOffset(0,4);
@@ -213,11 +210,11 @@ void ImportView::onImprotBtnClicked()
     dialog.setWindowTitle(tr("打开照片"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
-    if (mode != QDialog::Accepted) {
+    if (mode != QDialog::Accepted)
+    {
+        emit importFailedToView();
         return;
     }
-
-   emit dApp->signalM->ImportSuccessSwitchToThumbnailView();
 
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
@@ -239,8 +236,6 @@ void ImportView::onImprotBtnClicked()
     if (image_list.isEmpty())
         return;
 
-
-    emit dApp->signalM->updateStatusBarImportLabel(file_list);
     QFileInfo firstFileInfo(image_list.first());
     dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
@@ -249,7 +244,6 @@ void ImportView::onImprotBtnClicked()
 
     using namespace utils::image;
 
-    QStringList albumlistpath;
     for (auto imagePath : image_list)
     {
         if (! imageSupportRead(imagePath)) {
@@ -272,12 +266,6 @@ void ImportView::onImprotBtnClicked()
         dbi.time = fi.birthTime();
 
         dbInfos << dbi;
-        albumlistpath.append(imagePath);
-    }
-
-    if(m_albumname.length() > 0)
-    {
-        DBManager::instance()->insertIntoAlbum(m_albumname, albumlistpath);
     }
 
     if (! dbInfos.isEmpty())
@@ -289,14 +277,20 @@ void ImportView::onImprotBtnClicked()
         }
 
         dApp->m_imageloader->addImageLoader(paths);
+
+        if(m_albumname.length() > 0)
+        {
+            DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, paths);
+        }
+
         DBManager::instance()->insertImgInfos(dbInfos);
 
         emit dApp->signalM->updateStatusBarImportLabel(paths);
     }
     else
     {
+        emit importFailedToView();
         emit dApp->signalM->ImportFailed();
-        emit dApp->signalM->ImportFailedSwitchToThumbnailView();
     }
 }
 
