@@ -20,15 +20,15 @@ public:
     void addItemForWidget(QListWidgetItem *aitem);
 protected:
 //    void wheelEvent(QWheelEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void paintEvent(QPaintEvent *e);
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *e) override;
 
 signals:
     void sigNewTime(QString date,QString num,int index);
     void sigDelTime();
-    void sigMoveTime(int y);
+    void sigMoveTime(int y,QString date,QString num,QString choseText);
 
 public slots:
 private:

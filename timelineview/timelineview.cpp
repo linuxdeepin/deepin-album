@@ -66,8 +66,8 @@ void TimeLineView::initConnections()
         on_DelLabel();
     });
 
-    connect(m_mainListWidget, &TimelineList::sigMoveTime, this, [ = ](int y) {
-        on_MoveLabel(y);
+    connect(m_mainListWidget,&TimelineList::sigMoveTime,this,[=](int y,QString date,QString num,QString choseText){
+        on_MoveLabel(y,date,num,choseText);
     });
 
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
@@ -231,6 +231,10 @@ void TimeLineView::initTimeLineViewWidget()
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
             p[0]->clearSelection();
         }
+#if 1
+        QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
+        b[0]->setText(pSuspensionChose->text());
+#endif
     });
 
 //    DPalette ppal_light = DApplicationHelper::instance()->palette(m_dateItem);
@@ -525,7 +529,9 @@ void TimeLineView::updataLayout()
             {
                 pChose->setText(QObject::tr("Select"));
             }
-            updatePicNum();
+            updatePicNum();	
+			QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
+            pSuspensionChose->setText(b[0]->text());
         });
 
        connect(pThumbnailListView,&ThumbnailListView::customContextMenuRequested,this,[=]{
@@ -584,6 +590,10 @@ void TimeLineView::on_AddLabel(QString date, QString num)
 
         m_dateItem->move(0, 0);
     }
+#if 1
+    QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
+    pSuspensionChose->setText(b[0]->text());
+#endif
 }
 
 void TimeLineView::on_DelLabel()
@@ -592,12 +602,23 @@ void TimeLineView::on_DelLabel()
     {
         m_dateItem->setVisible(false);
     }
+#if 1
+    QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
+    pSuspensionChose->setText(b[0]->text());
+#endif
 }
 
-void TimeLineView::on_MoveLabel(int y)
+#if 1
+void TimeLineView::on_MoveLabel(int y,QString date,QString num,QString choseText)
+#endif
 {
     if((nullptr != m_dateItem)&&(nullptr != m_mainListWidget))
     {
+        QList<QLabel*> labelList = m_dateItem->findChildren<QLabel*>();
+        labelList[0]->setText(date);
+        labelList[1]->setText(num);
+        pSuspensionChose->setText(choseText);
+        m_dateItem->setVisible(true);
         m_dateItem->move(0,y + 1);
     }
 }

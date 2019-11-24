@@ -23,7 +23,7 @@
 
 class Title : public QWidget{
 public:
-    Title(){};
+    Title(){}
 protected:
     void paintEvent(QPaintEvent *event){
 
@@ -45,8 +45,9 @@ public:
 public slots:
     void on_AddLabel(QString date,QString num);
     void on_DelLabel();
-    void on_MoveLabel(int y);
-
+#if 1
+    void on_MoveLabel(int y,QString date,QString num,QString choseText);
+#endif
 protected:
     void resizeEvent(QResizeEvent *ev) override;
 

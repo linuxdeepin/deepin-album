@@ -42,7 +42,12 @@ void TimelineList::paintEvent(QPaintEvent *e)
             QListWidgetItem *pItem = this->item(i);
             TimelineItem *pWidget = (TimelineItem *)itemWidget(pItem);
             if ((pWidget->y() <= pWidget->m_title->height()) && (pWidget->y() > 0)) {
-                emit sigMoveTime(pWidget->y() - pWidget->m_title->height());
+#if 1
+                QListWidgetItem *pLastItem;
+                pLastItem = this->item(i - 1);
+                TimelineItem* pLastWidget = (TimelineItem*)itemWidget(pLastItem);
+                emit sigMoveTime(pWidget->y() - pWidget->m_title->height(),pLastWidget->m_sdate,pLastWidget->m_snum,pLastWidget->m_Chose->text());
+#endif
                 pWidget->m_title->setVisible(true);
                 pWidget->m_date->setText(pWidget->m_sdate);
                 pWidget->m_num->setText(pWidget->m_snum);
