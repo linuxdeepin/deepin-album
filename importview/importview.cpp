@@ -156,6 +156,11 @@ void ImportView::dropEvent(QDropEvent *event)
             paths<<info.filePath;
         }
 
+        if(m_albumname.length() > 0)
+        {
+            DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, paths);
+        }
+
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
 

@@ -74,23 +74,15 @@ void TimeLineView::initConnections()
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
-    connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &TimeLineView::restorePicNum);
 
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &TimeLineView::themeChangeSlot);
-
-//    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pLabel,[=]{
-//        QPixmap pixmap;
-//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//        if (themeType == DGuiApplicationHelper::LightType)
-//        {
-//            pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
-//        }
-//        if (themeType == DGuiApplicationHelper::DarkType)
-//        {
-//            pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
-//        }
-//        pLabel->setPixmap(pixmap);
-//    });
+    connect(pImportView->m_pImportBtn, &DPushButton::clicked, this, [=]{
+        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
+        pImportView->onImprotBtnClicked();
+    });
+    connect(pImportView, &ImportView::importFailedToView, this, [=]{
+        updateStackedWidget();
+    });
 }
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
@@ -106,21 +98,25 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 
     DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
     QColor color_BT = pal.color(DPalette::BrightText);
-    if (themeType == DGuiApplicationHelper::LightType) {
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
         color_BT.setAlphaF(0.5);
         pal.setBrush(DPalette::Text, color_BT);
         pNum_up->setForegroundRole(DPalette::Text);
         pNum_up->setPalette(pal);
-    } else if (themeType == DGuiApplicationHelper::DarkType) {
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType)
+    {
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, color_BT);
         pNum_up->setForegroundRole(DPalette::Text);
         pNum_up->setPalette(pal);
     }
 
-    for (int i = 1; i < m_mainListWidget->count(); i++) {
-        TimelineItem *item = (TimelineItem *)m_mainListWidget->itemWidget(m_mainListWidget->item(i));
-        QList<DLabel *> pLabelList = item->findChildren<DLabel *>();
+    for(int i = 1; i < m_mainListWidget->count(); i++)
+    {
+        TimelineItem *item = (TimelineItem*)m_mainListWidget->itemWidget(m_mainListWidget->item(i));
+        QList<DLabel*> pLabelList = item->findChildren<DLabel*>();
         DPalette color = DApplicationHelper::instance()->palette(pLabelList[0]);
         color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
         pLabelList[0]->setForegroundRole(DPalette::Text);
@@ -129,12 +125,15 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
         DPalette pal = DApplicationHelper::instance()->palette(pLabelList[1]);
         QColor color_BT = pal.color(DPalette::BrightText);
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType) {
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
             color_BT.setAlphaF(0.5);
             pal.setBrush(DPalette::Text, color_BT);
             pLabelList[1]->setForegroundRole(DPalette::Text);
             pLabelList[1]->setPalette(pal);
-        } else if (themeType == DGuiApplicationHelper::DarkType) {
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType)
+        {
             color_BT.setAlphaF(0.75);
             pal.setBrush(DPalette::Text, color_BT);
             pLabelList[1]->setForegroundRole(DPalette::Text);
@@ -182,12 +181,15 @@ void TimeLineView::initTimeLineViewWidget()
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
     QColor color_BT = pal.color(DPalette::BrightText);
-    if (themeType == DGuiApplicationHelper::LightType) {
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
         color_BT.setAlphaF(0.5);
         pal.setBrush(DPalette::Text, color_BT);
         pNum_up->setForegroundRole(DPalette::Text);
         pNum_up->setPalette(pal);
-    } else if (themeType == DGuiApplicationHelper::DarkType) {
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType)
+    {
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, color_BT);
         pNum_up->setForegroundRole(DPalette::Text);
@@ -267,9 +269,12 @@ void TimeLineView::initTimeLineViewWidget()
 
 void TimeLineView::updateStackedWidget()
 {
-    if (0 < DBManager::instance()->getImgsCount()) {
+    if (0 < DBManager::instance()->getImgsCount())
+    {
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
-    } else {
+    }
+    else
+    {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
     }
 }
@@ -284,7 +289,9 @@ void TimeLineView::updataLayout()
 #if 1
     m_allThumbnailListView.clear();
 #endif
-    for (int i = 0; i < m_timelines.size(); i++) {
+
+    for(int i = 0; i < m_timelines.size(); i++)
+    {
         //获取当前时间照片
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(m_timelines.at(i));
 
@@ -304,7 +311,8 @@ void TimeLineView::updataLayout()
 
         pDate->setFixedHeight(24);
         QStringList datelist = m_timelines.at(i).split(".");
-        if (datelist.count() > 2) {
+        if (datelist.count() > 2) 
+		{
 //            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
             listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
@@ -334,12 +342,15 @@ void TimeLineView::updataLayout()
         DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
         QColor color_BT = pal.color(DPalette::BrightText);
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType) {
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
             color_BT.setAlphaF(0.5);
             pal.setBrush(DPalette::Text, color_BT);
             pNum_dn->setForegroundRole(DPalette::Text);
             pNum_dn->setPalette(pal);
-        } else if (themeType == DGuiApplicationHelper::DarkType) {
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType)
+        {
             color_BT.setAlphaF(0.75);
             pal.setBrush(DPalette::Text, color_BT);
             pNum_dn->setForegroundRole(DPalette::Text);
@@ -399,7 +410,8 @@ void TimeLineView::updataLayout()
         m_mainListWidget->addItemForWidget(item);
         m_mainListWidget->setItemWidget(item, listItem);
         connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
-            if (isVisible()) {
+            if (isVisible()) 
+			{
                 pThumbnailListView->setFixedHeight(h);
                 listItem->setFixedHeight(TitleView->height() + h);
                 item->setSizeHint(listItem->rect().size());
@@ -450,6 +462,42 @@ void TimeLineView::updataLayout()
 
 
         });
+       connect(pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen, bool isSlideShow){
+           SignalManager::ViewInfo info;
+           info.album = "";
+           info.lastPanel = nullptr;
+           if(paths.size()>1){
+               info.paths = paths;
+           }else
+           {
+               if(ImgInfoList.size()>1){
+                   for(auto image : ImgInfoList)
+                   {
+                       info.paths<<image.filePath;
+                   }
+               }else {
+                 info.paths.clear();
+                }
+           }
+           info.path = path;
+           info.fullScreen = isFullScreen;
+           info.slideShow = isSlideShow;
+           info.viewType = utils::common::VIEW_TIMELINE_SRN;
+
+           if(info.slideShow)
+           {
+               if(ImgInfoList.count() == 1)
+               {
+                   info.paths = paths;
+               }
+               emit dApp->signalM->startSlideShow(info);
+           }
+           else {
+               emit dApp->signalM->viewImage(info);
+           }
+           emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
+
+       });
         connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
 //           if ("选择" == pChose->text())
             if (QObject::tr("Select") == pChose->text())
@@ -465,48 +513,6 @@ void TimeLineView::updataLayout()
             }
             updatePicNum();
         });
-        connect(pThumbnailListView, &ThumbnailListView::clicked, this, [ = ] {
-            QStringList paths = pThumbnailListView->selectedPaths();
-//            if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
-            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-            {
-//                pChose->setText("取消选择");
-                pChose->setText(QObject::tr("Unselect"));
-
-//                QList<DCommandLinkButton*> btnList = m_dateItem->findChildren<DCommandLinkButton*>();
-//                if( = m_dateItem)
-//                {
-//                    btnList[0]->setText("取消选择");
-//                }
-
-
-            }
-
-//            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
-            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-            {
-//                pChose->setText("选择");
-                pChose->setText(QObject::tr("Select"));
-            }
-
-            selpicQmap.insert(pThumbnailListView, paths);
-            allnum = 0;
-            for (auto key : selpicQmap.keys())
-            {
-                allnum = allnum + selpicQmap.value(key).length();
-            }
-
-            if (0 == allnum)
-            {
-                m_pStatusBar->onUpdateAllpicsNumLabel();
-            } else
-            {
-//                QString str = tr("已选择%1张照片");
-                QString str1 = QObject::tr("Selected %1 photos");
-                m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(allnum));
-            }
-        });
-
 #if 1
         connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
             QStringList paths = pThumbnailListView->selectedPaths();
@@ -522,6 +528,20 @@ void TimeLineView::updataLayout()
             updatePicNum();
         });
 
+       connect(pThumbnailListView,&ThumbnailListView::customContextMenuRequested,this,[=]{
+           QStringList paths = pThumbnailListView->selectedPaths();
+           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+           {
+               pChose->setText("取消选择");
+           }
+
+            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
+            {
+                pChose->setText("选择");
+            }
+
+            updatePicNum();
+       });
         connect(pThumbnailListView, &ThumbnailListView::sigMenuItemDeal, this, [ = ](QAction * action) {
             QStringList paths;
             paths.clear();
@@ -531,49 +551,25 @@ void TimeLineView::updataLayout()
             pThumbnailListView->menuItemDeal(paths, action);
         });
 #endif
-        connect(pThumbnailListView, &ThumbnailListView::sigBoxToChooseTimeLineAllPic, this, [ = ] {
-            QStringList paths = pThumbnailListView->selectedPaths();
-            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Unselect"));
-            }
-
-            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Select"));
-            }
-        });
-
-        connect(pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, [ = ] {
-            QStringList paths = pThumbnailListView->selectedPaths();
-            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Unselect"));
-            }
-
-            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Select"));
-            }
-
-            selpicQmap.insert(pThumbnailListView, paths);
-            updatePicNum();
-
-        });
-
     }
 
-    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
+    if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
+    {
         // donothing
-    } else {
+    }
+    else
+    {
         updateStackedWidget();
     }
+
+    updatePicNum();
 }
 
 void TimeLineView::on_AddLabel(QString date, QString num)
 {
-    if ((nullptr != m_dateItem) && (nullptr != m_mainListWidget)) {
-        QList<QLabel *> labelList = m_dateItem->findChildren<QLabel *>();
+    if((nullptr != m_dateItem)&&(nullptr != m_mainListWidget))
+    {
+        QList<QLabel*> labelList = m_dateItem->findChildren<QLabel*>();
 //        QList<DCommandLinkButton*> buttonList = m_dateItem->findChildren<DCommandLinkButton*>();
         labelList[0]->setText(date);
         labelList[1]->setText(num);
@@ -592,15 +588,17 @@ void TimeLineView::on_AddLabel(QString date, QString num)
 
 void TimeLineView::on_DelLabel()
 {
-    if (nullptr != m_dateItem) {
+    if(nullptr != m_dateItem)
+    {
         m_dateItem->setVisible(false);
     }
 }
 
 void TimeLineView::on_MoveLabel(int y)
 {
-    if ((nullptr != m_dateItem) && (nullptr != m_mainListWidget)) {
-        m_dateItem->move(0, y + 1);
+    if((nullptr != m_dateItem)&&(nullptr != m_mainListWidget))
+    {
+        m_dateItem->move(0,y + 1);
     }
 }
 
@@ -638,7 +636,8 @@ void TimeLineView::dropEvent(QDropEvent *event)
         }
     }
 
-    if (paths.isEmpty()) {
+    if (paths.isEmpty())
+    {
         return;
     }
 
@@ -646,7 +645,8 @@ void TimeLineView::dropEvent(QDropEvent *event)
 
     using namespace utils::image;
 
-    for (auto path : paths) {
+    for (auto path : paths)
+    {
         if (! imageSupportRead(path)) {
             continue;
         }
@@ -669,16 +669,20 @@ void TimeLineView::dropEvent(QDropEvent *event)
         dbInfos << dbi;
     }
 
-    if (! dbInfos.isEmpty()) {
+    if (! dbInfos.isEmpty())
+    {
         QStringList paths;
-        for (auto info : dbInfos) {
-            paths << info.filePath;
+        for(auto info : dbInfos)
+        {
+            paths<<info.filePath;
         }
 
         dApp->m_imageloader->addImageLoader(paths);
         DBManager::instance()->insertImgInfos(dbInfos);
         emit dApp->signalM->updateStatusBarImportLabel(paths);
-    } else {
+    }
+    else
+    {
         emit dApp->signalM->ImportFailed();
     }
 
@@ -697,29 +701,48 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void TimeLineView::updatePicNum()
 {
-    QString str3 = QObject::tr("Selected %1 photos");
+    QString str = tr("Selected %1 photos");
 
-    if (2 == m_pStackedWidget->currentIndex()) {
-        QStringList paths = pSearchView->m_pThumbnailListView->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str3.arg(m_selPicNum));
-    } else {
-        allnum = 0;
+     if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
+     {
+         QStringList paths = pSearchView->m_pThumbnailListView->selectedPaths();
+         m_selPicNum = paths.length();
+         m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+     }
+     else
+     {
+         allnum = 0;
 
-        for (int i = 0; i < m_allThumbnailListView.size(); i++) {
-            allnum += m_allThumbnailListView[i]->selectedPaths().size();
-        }
+         for(int i = 0; i< m_allThumbnailListView.size();i++){
+             allnum += m_allThumbnailListView[i]->selectedPaths().size();
+         }
 
-        if (0 == allnum) {
-            m_pStatusBar->onUpdateAllpicsNumLabel();
-        } else {
-            QString str = QObject::tr("Selected %1 photos");
-            m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(allnum));
+         if(0 == allnum)
+         {
+             restorePicNum();
+         }
+         else
+         {
+            QString str1 = tr("Selected %1 photos");
+            m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(allnum));
         }
     }
 }
 
 void TimeLineView::restorePicNum()
 {
-    m_pStatusBar->onUpdateAllpicsNumLabel();
+    QString str = tr("%1 photos");
+    int selPicNum = 0;
+
+    if(VIEW_TIMELINE == m_pStackedWidget->currentIndex())
+    {
+        selPicNum = DBManager::instance()->getImgsCount();
+
+    }
+    else if (VIEW_SEARCH == m_pStackedWidget->currentIndex())
+    {
+        selPicNum = pSearchView->m_searchPicNum;
+    }
+
+    m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
 }

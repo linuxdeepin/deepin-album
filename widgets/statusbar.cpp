@@ -31,8 +31,9 @@ void StatusBar::initUI()
     loadingicon->setFixedSize(20, 20);
 //    TextLabel->setStyleSheet("Background:red");
 
-    addWidget(m_pAllPicNumLabel);
-    addWidget(TextLabel);
+    m_pStackedWidget = new DStackedWidget(this);
+    m_pStackedWidget->addWidget(m_pAllPicNumLabel);
+    m_pStackedWidget->addWidget(TextLabel);
 
     m_pSlider = new DSlider(Qt::Horizontal, this);
     m_pSlider->setFixedWidth(180);
@@ -45,16 +46,14 @@ void StatusBar::initUI()
 
     QHBoxLayout* pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setContentsMargins(0,0,0,3);
-//    pHBoxLayout->addWidget(m_pStackedWidget, Qt::AlignCenter);
-//    this->setLayout(pHBoxLayout);
+    pHBoxLayout->addWidget(m_pStackedWidget, Qt::AlignCenter);
+    this->setLayout(pHBoxLayout);
 
     initConnections();
 }
 
 void StatusBar::initConnections()
 {
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, &StatusBar::onUpdateAllpicsNumLabel);
-    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &StatusBar::onUpdateAllpicsNumLabel);
     connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [=](QStringList paths){
         if(isVisible())
         {
@@ -65,22 +64,13 @@ void StatusBar::initConnections()
             TextLabel->setText(string.arg(imgpaths[0]));
             TextLabel->adjustSize();
 
-            setCurrentIndex(1);
+            m_pStackedWidget->setCurrentIndex(1);
 //            loadingicon->move(TextLabel->x()+102, 0);
 //            loadingicon->show();
 //            loadingicon->start();
             interval = startTimer(3);
         }
     });
-}
-
-void StatusBar::onUpdateAllpicsNumLabel()
-{
-
-    QString str = tr("%1 Photos");
-
-    m_allPicNum = DBManager::instance()->getImgsCount();
-    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
 }
 
 void StatusBar::resizeEvent(QResizeEvent *e)
@@ -95,7 +85,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
         loadingicon->move(TextLabel->x()+102, 0);
 
 //        qDebug()<<TextLabel->x();
-        setCurrentIndex(1);
+        m_pStackedWidget->setCurrentIndex(1);
 
 
         QString string = tr("Being imported:'%1'");
@@ -107,11 +97,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
             i = 0;
             killTimer(interval);
             interval = 0;
-            setCurrentIndex(0);
-
-            QString str = tr("%1 Photos");
-            m_allPicNum = DBManager::instance()->getImgsCount();
-            m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+            m_pStackedWidget->setCurrentIndex(0);
             emit dApp->signalM->ImportSuccess();
         }
         else
@@ -133,12 +119,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 while(time.elapsed() < 500)
                     QCoreApplication::processEvents();
 
-                setCurrentIndex(0);
-
-                QString str = tr("%1 Photos");
-                m_allPicNum = DBManager::instance()->getImgsCount();
-                m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
-
+                m_pStackedWidget->setCurrentIndex(0);
             }
         }
     }

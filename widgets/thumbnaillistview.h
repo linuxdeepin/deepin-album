@@ -103,9 +103,8 @@ signals:
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);
     void showImageInfo(const QString &path);
-    void sigBoxToChooseTimeLineAllPic();
-    void sigTimeLineItemBlankArea();
     void trashRecovery();
+    void trashDelete();
 #if 1
     void sigMouseRelease();
     void sigMenuItemDeal( QAction *action);

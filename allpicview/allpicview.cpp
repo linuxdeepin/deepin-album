@@ -111,14 +111,11 @@ void AllPicView::initConnections()
     });
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-    connect(m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
-#if 1
+    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
-#endif
-    connect(m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
-    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AllPicView::updatePicNum);
-    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AllPicView::restorePicNum);
-//    connect(m_pThumbnailListView, SIGNAL(currentChanged(QModelIndex)), this, SLOT());
+    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
+    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
+
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [=]{
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
         m_pImportView->onImprotBtnClicked();
@@ -165,6 +162,8 @@ void AllPicView::updatePicsIntoThumbnailView()
     {
         updateStackedWidget();
     }
+
+    restorePicNum();
 }
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)
@@ -268,23 +267,43 @@ void AllPicView::resizeEvent(QResizeEvent *e)
 void AllPicView::updatePicNum()
 {
     QString str = tr("Selected %1 photos");
+    int selPicNum = 0;
 
     if(VIEW_ALLPICS == m_pStackedWidget->currentIndex())
     {
         QStringList paths = m_pThumbnailListView->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_selPicNum)));
-    }
+        selPicNum = paths.length();
 
-    if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
+    }
+    else if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
     {
         QStringList paths = m_pSearchView->m_pThumbnailListView->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_selPicNum)));
+        selPicNum = paths.length();
+    }
+
+    if (0 < selPicNum)
+    {
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+    }
+    else
+    {
+        restorePicNum();
     }
 }
 
 void AllPicView::restorePicNum()
 {
-    m_pStatusBar->onUpdateAllpicsNumLabel();
+    QString str = tr("%1 photos");
+    int selPicNum = 0;
+
+    if(VIEW_ALLPICS == m_pStackedWidget->currentIndex())
+    {
+        selPicNum = DBManager::instance()->getImgsCount();
+    }
+    else if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
+    {
+        selPicNum = m_pSearchView->m_searchPicNum;
+    }
+
+    m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
 }

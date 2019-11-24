@@ -19,7 +19,7 @@
 DWIDGET_USE_NAMESPACE
 
 
-class StatusBar : public DStackedWidget
+class StatusBar : public DWidget
 {
     Q_OBJECT
 

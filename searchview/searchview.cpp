@@ -9,6 +9,7 @@ const int VIEW_MAINWINDOW_SEARCH = 3;
 
 SearchView::SearchView()
 {
+    m_searchPicNum = 0;
     m_keywords = "";
     initNoSearchResultView();
     initSearchResultView();
@@ -271,6 +272,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 
         QString searchStr = tr("Search %1 photos in total");
         QString str = QString::number(infos.length());
+        m_searchPicNum = infos.length();
         m_pSearchResultLabel->setText(searchStr.arg(str));
         m_pSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
         DPalette palette = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
@@ -317,6 +319,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
             m_pNoSearchResultLabel->setPalette(palette);
         }
 
+        m_searchPicNum = 0;
         m_stackWidget->setCurrentIndex(0);
     }
 }

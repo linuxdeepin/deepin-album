@@ -37,6 +37,8 @@ public:
     AllPicView();
 
     void updateStackedWidget();
+    void restorePicNum();
+    void updatePicNum();
 
 private:
     void initConnections();
@@ -51,15 +53,13 @@ private:
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
-    void updatePicNum();
-    void restorePicNum();
+private slots:
 
 public:
     DStackedWidget* m_pStackedWidget;
     StatusBar* m_pStatusBar;
 
     int step;
-    int m_selPicNum;
 
 private:
     ThumbnailListView* m_pThumbnailListView;

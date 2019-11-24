@@ -110,13 +110,9 @@ signals:
     void sigShowFullScreen();
     void sigESCKeyActivated();
     void sigUpdataAlbumRightTitle(QString titlename);
-    void sigTrashViewBlankArea();
-    void sigBoxToChoose();
 	void sigUpdateTrashImageLoader();
 	void sigUpdateImageLoader();
     void sigLoadMountImagesEnd(QString mountname);
-    void sigBoxToChooseTimeLineAllPic();
-    void sigTimeLineItemBlankArea();
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();
 

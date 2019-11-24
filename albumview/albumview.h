@@ -45,6 +45,8 @@ public:
 
     void createNewAlbum(QStringList imagepaths);
     void SearchReturnUpdate();
+    void restorePicNum();
+    void updatePicNum();
 
 private:
     void initConnections();
@@ -88,8 +90,6 @@ private slots:
 
     void onCreateNewAlbumFromDialog(QString albumname);
     void onLoadMountImagesEnd(QString mountname);
-    void updatePicNum();
-    void restorePicNum();
 
 public:
     int m_iAlubmPicsNum;
@@ -132,11 +132,11 @@ private:
     QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
     QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     QListWidgetItem *m_curListWidgetItem;
-
     QMap<QString, QPixmap> m_phonePicMap;
     DSpinner *m_pSpinner;
     QMap<QString, QAction*> m_MenuActionMap;
 
+    int m_mountPicNum;
     int m_loadMountFlag;                        // 0:全部加载完成 1:有未加载完成
     QMap<QExplicitlySharedDataPointer<DGioMount>, int> m_loadMountMap;          // key: 外设 value: 标记是否加载完成
 };

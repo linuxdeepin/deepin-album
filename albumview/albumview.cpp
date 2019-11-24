@@ -59,6 +59,7 @@ AlbumView::AlbumView()
     m_vfsManager = new DGioVolumeManager;
     m_curListWidgetItem = nullptr;
     m_loadMountFlag = 0;
+    m_mountPicNum = 0;
 
     setAcceptDrops(true);
     initLeftView();
@@ -102,8 +103,7 @@ void AlbumView::initConnections()
     connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::openImage,this,&AlbumView::openImage);
     connect(m_pRightThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
     connect(m_pRightTrashThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
-    connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::onTrashListClicked);    
+    connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::menuOpenImage,this,&AlbumView::menuOpenImage); 
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);    
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
@@ -112,21 +112,6 @@ void AlbumView::initConnections()
     connect(m_importAllByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importAllBtnClicked);
     connect(m_importSelectByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importSelectBtnClicked);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-    connect(dApp->signalM, &SignalManager::sigTrashViewBlankArea, this, [=]{
-        onTrashListClicked();
-        updatePicNum();
-#if 0
-        m_pRecoveryBtn->setEnabled(false);
-        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
-//        ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
-//        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
-        ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
-        m_pRecoveryBtn->setPalette(ReBtn);
-        m_pDeleteBtn->setText(tr("Delete All"));
-		
-#endif
-    });
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                         this, [=]
     {
@@ -139,9 +124,7 @@ void AlbumView::initConnections()
         m_pDeleteBtn->setPalette(DeBtn);
 
     });
-    connect(dApp->signalM, &SignalManager::sigBoxToChoose, this, &AlbumView::onTrashListClicked);
     connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
-    connect(m_pRightThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
 #if 1
     connect(m_pRightThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
@@ -154,14 +137,9 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onTrashListClicked);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
 #endif
-    connect(m_pRightThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
-    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
-    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
-    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &AlbumView::updatePicNum);
-    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigTimeLineItemBlankArea, this, &AlbumView::restorePicNum);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashDelete, this, &AlbumView::onTrashListClicked);
+
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_pLeftTabList,[=]{
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
         item->newAlbumStatus();
@@ -179,7 +157,7 @@ void AlbumView::initConnections()
             if (COMMON_STR_TRASH == item->m_albumNameStr)
             {
                 m_currentAlbum = item->m_albumNameStr;
-                updateRightTrashView();
+                updateRightView();
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
 
                 m_iAlubmPicsNum = DBManager::instance()->getTrashImgsCount();
@@ -188,9 +166,15 @@ void AlbumView::initConnections()
             else
             {
                 m_currentAlbum = item->m_albumNameStr;
-                updateRightNoTrashView();
+                updateRightView();
             }
         }
+    });
+
+    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [=]{
+        m_pImportView->onImprotBtnClicked();
+    });
+    connect(m_pImportView, &ImportView::importFailedToView, this, [=]{
     });
 }
 
@@ -275,7 +259,7 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     m_pLeftTabList->setCurrentRow(index);
     m_curListWidgetItem = m_pLeftTabList->currentItem();
     m_currentAlbum = albumName;
-    updateRightNoTrashView();
+    updateRightView();
 }
 
 void AlbumView::initRightView()
@@ -489,12 +473,15 @@ void AlbumView::updateRightView()
 {
     if (COMMON_STR_TRASH == m_currentAlbum)
     {
+        onTrashListClicked();
         updateRightTrashView();
     }
     else
     {
         updateRightNoTrashView();
     }
+
+    restorePicNum();
 }
 
 void AlbumView::updateRightNoTrashView()
@@ -591,6 +578,7 @@ void AlbumView::updateRightNoTrashView()
                 }
 
                 m_iAlubmPicsNum = m_curThumbnaiItemList.size();
+                m_mountPicNum = m_curThumbnaiItemList.size();
 
                 m_pRightTitle->setText(m_currentAlbum);
 
@@ -607,6 +595,7 @@ void AlbumView::updateRightNoTrashView()
             }
             else
             {
+                m_mountPicNum = 0;
                 m_pSpinner->start();
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_SPINNER);
             }
@@ -833,7 +822,7 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         m_curListWidgetItem = m_pLeftTabList->currentItem();
 
         m_currentAlbum = item->m_albumNameStr;
-        updateRightNoTrashView();
+        updateRightView();
     }
         break;
     case IdRenameAlbum:
@@ -933,8 +922,8 @@ void AlbumView::createNewAlbum(QStringList imagepaths)
 
     m_curListWidgetItem = m_pLeftTabList->currentItem();
     m_currentAlbum = albumName;
-    emit dApp->signalM->TransmitAlbumName(m_currentAlbum);
-    updateRightNoTrashView();
+
+    updateRightView();
 }
 
 void AlbumView::onTrashRecoveryBtnClicked()
@@ -957,7 +946,8 @@ void AlbumView::onTrashRecoveryBtnClicked()
     dApp->m_imageloader->addImageLoader(paths);
     DBManager::instance()->insertImgInfos(infos);
     DBManager::instance()->removeTrashImgInfos(paths);
-    emit dApp->signalM->sigTrashViewBlankArea();
+
+    onTrashListClicked();
 }
 
 void AlbumView::onTrashDeleteBtnClicked()
@@ -984,7 +974,7 @@ void AlbumView::onTrashDeleteBtnClicked()
         DBManager::instance()->removeTrashImgInfos(paths);
     });
 
-    emit dApp->signalM->sigTrashViewBlankArea();
+    onTrashListClicked();
 }
 
 void AlbumView::openImage(int index)
@@ -1084,11 +1074,6 @@ void AlbumView::onTrashListClicked()
     if (0 < paths.length())
     {
         m_pRecoveryBtn->setEnabled(true);
-//        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
-//        ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
-//        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
-//        m_pRecoveryBtn->setPalette(ReBtn);
         DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
         ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pRecoveryBtn->setPalette(ReBtn);
@@ -1098,11 +1083,6 @@ void AlbumView::onTrashListClicked()
     else
     {
         m_pRecoveryBtn->setEnabled(false);
-//        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//        ReBtn.setBrush(DPalette::Light, ReBtn.color(DPalette::Light));
-//        ReBtn.setBrush(DPalette::Dark, ReBtn.color(DPalette::Dark));
-//        ReBtn.setBrush(DPalette::ButtonText, ReBtn.color(DPalette::TextTitle));
-//        m_pRecoveryBtn->setPalette(ReBtn);
         DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
         ReBtn.setBrush(DPalette::Highlight, QColor(0,0,0,0));
         m_pRecoveryBtn->setPalette(ReBtn);
@@ -1671,40 +1651,77 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 void AlbumView::updatePicNum()
 {
     QString str = tr("Selected %1 photos");
-    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+    int selPicNum = 0;
 
-    if(item->m_albumNameStr == COMMON_STR_RECENT_IMPORTED || item->m_albumNameStr == m_currentAlbum)
-    {
-        QStringList paths = m_pRightThumbnailList->selectedPaths();
-        if(paths.size() > 0){
-            m_selPicNum = paths.length();
-            m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
-        }else {
-            restorePicNum();
-        }
-    }
-    if(item->m_albumNameStr == COMMON_STR_TRASH)
-    {
-        QStringList paths = m_pRightTrashThumbnailList->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
-    }
-    if(item->m_albumNameStr == COMMON_STR_FAVORITES)
-    {
-        QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
-    }
     if(4 == m_pRightStackWidget->currentIndex())
     {
         QStringList paths = m_pSearchView->m_pThumbnailListView->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_selPicNum)));
+        selPicNum = paths.length();
+    }
+    else
+    {
+        if(m_currentAlbum == COMMON_STR_TRASH)
+        {
+            QStringList paths = m_pRightTrashThumbnailList->selectedPaths();
+            selPicNum = paths.length();
+        }
+        else if(m_currentAlbum == COMMON_STR_FAVORITES)
+        {
+            QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
+            selPicNum = paths.length();
+        }
+        else
+        {
+            QStringList paths = m_pRightThumbnailList->selectedPaths();
+            selPicNum = paths.length();
+        }
+    }
+
+    if (0 < selPicNum)
+    {
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+    }
+    else
+    {
+        restorePicNum();
     }
 }
 
 void AlbumView::restorePicNum()
 {
-    m_pStatusBar->onUpdateAllpicsNumLabel();
+    QString str = tr("%1 photos");
+    int selPicNum = 0;
 
+    if(4 == m_pRightStackWidget->currentIndex())
+    {
+        selPicNum = m_pSearchView->m_searchPicNum;
+    }
+    else
+    {
+        if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
+        {
+            selPicNum = DBManager::instance()->getImgsCount();
+        }
+        else if (COMMON_STR_TRASH == m_currentAlbum)
+        {
+            selPicNum = DBManager::instance()->getTrashImgsCount();
+        }
+        else if (COMMON_STR_FAVORITES == m_currentAlbum)
+        {
+            selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+        }
+        else
+        {
+            if (ALBUM_PATHTYPE_BY_PHONE == m_pRightThumbnailList->m_imageType)
+            {
+                selPicNum = m_mountPicNum;
+            }
+            else
+            {
+                selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+            }
+        }
+    }
+
+    m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
 }

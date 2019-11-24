@@ -53,6 +53,7 @@ private:
     DLabel *pLabel1;
 
 public:
+    int m_searchPicNum;
     ThumbnailListView *m_pThumbnailListView;
 };
 
