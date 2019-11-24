@@ -136,7 +136,7 @@ void ViewPanel::initConnect()
     });
 
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
-    connect(dApp, &Application::sigFinishLoad, this, [=]
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]
     {
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
     });
