@@ -58,7 +58,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     m_cancelslideshow->setIconSize(QSize(50, 50));
     m_cancelslideshow->setFixedSize(QSize(50, 50));
     connect(m_cancelslideshow, &DIconButton::clicked, m_player,
-            [ = ] {m_player->stop(); this->showNormal(); emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();});
+            [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/backToLastView();});
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
     connect(dApp->signalM, &SignalManager::imagesRemoved, [ = ](
