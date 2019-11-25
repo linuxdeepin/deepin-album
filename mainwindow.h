@@ -34,9 +34,9 @@
 
 DWIDGET_USE_NAMESPACE
 
-namespace Ui {
-class MainWindow;
-}
+//namespace Ui {
+//class MainWindow;
+//}
 
 class MainWindow : public DMainWindow
 {
@@ -54,7 +54,7 @@ public:
 //    void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
-    void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
     void themeTypeChanged();
 
 private:
@@ -82,33 +82,33 @@ private slots:
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
     void onLoadingFinished();
 private:
-    Ui::MainWindow *ui;
-    QListWidget* m_listWidget;
+//    Ui::MainWindow *ui;
+//    QListWidget *m_listWidget;
 
     int m_allPicNum;
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
 
-    QWidget* m_titleBtnWidget;
-    DMenu* m_pTitleBarMenu;
-    DPushButton* m_pAllPicBtn;
-    DPushButton* m_pTimeLineBtn;
-    DPushButton* m_pAlbumBtn;
-    DSearchEdit* m_pSearchEdit;
-    QStackedWidget* m_pCenterWidget;
+    QWidget *m_titleBtnWidget;
+    DMenu *m_pTitleBarMenu;
+    DPushButton *m_pAllPicBtn;
+    DPushButton *m_pTimeLineBtn;
+    DPushButton *m_pAlbumBtn;
+    DSearchEdit *m_pSearchEdit;
+    QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
-    AlbumView* m_pAlbumview;
-    AllPicView* m_pAllPicView;
-    TimeLineView* m_pTimeLineView;
-    SearchView* m_pSearchView;
+    AlbumView *m_pAlbumview;
+    AllPicView *m_pAllPicView;
+    TimeLineView *m_pTimeLineView;
+    SearchView *m_pSearchView;
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
 //    DSlider* m_pSlider;
-    DBManager* m_pDBManager;
-    QMap<QString, ImgInfoDialog*> m_propertyDialogs{};
+    DBManager *m_pDBManager;
+    QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
     int m_backIndex;
     int m_pSliderPos = 2;
-    DPushButton* m_pItemButton;
+    DPushButton *m_pItemButton;
 };
 
 #endif // MAINWINDOW_H
