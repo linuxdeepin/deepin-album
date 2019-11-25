@@ -105,6 +105,7 @@ signals:
     void showImageInfo(const QString &path);
     void trashRecovery();
     void trashDelete();
+    void sigGetSelectedPaths(QStringList *pPaths);
 #if 1
     void sigMouseRelease();
     void sigMenuItemDeal( QAction *action);

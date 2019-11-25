@@ -266,8 +266,12 @@ void ThumbnailListView::updateMenuContents()
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
         return;
     }
-
-    QStringList paths = selectedPaths();
+    QStringList paths;
+    if(m_imageType == COMMON_STR_VIEW_TIMELINE){
+        emit sigGetSelectedPaths(&paths);
+    }else {
+        paths = selectedPaths();
+    }
     paths.removeAll(QString(""));
 
     foreach (QAction *action, m_MenuActionMap.values()) {

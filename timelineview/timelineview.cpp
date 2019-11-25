@@ -518,6 +518,13 @@ void TimeLineView::updataLayout()
             updatePicNum();
         });
 #if 1
+        connect(pThumbnailListView,&ThumbnailListView::sigGetSelectedPaths,this,[=](QStringList *pPaths){
+            pPaths->clear();
+            for(int i = 0;i < m_allThumbnailListView.size(); i++){
+                pPaths->append(m_allThumbnailListView[i]->selectedPaths());
+            }
+        });
+
         connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
             QStringList paths = pThumbnailListView->selectedPaths();
             if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
