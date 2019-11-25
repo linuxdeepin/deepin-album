@@ -88,6 +88,7 @@ private:
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) override;
 
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);

@@ -1229,6 +1229,43 @@ void AlbumView::dragLeaveEvent(QDragLeaveEvent *e)
 
 }
 
+void AlbumView::keyPressEvent(QKeyEvent *event)
+{
+    qDebug() << "delete";
+    DWidget::keyPressEvent(event);
+    if(event->key() == Qt::Key_Delete){
+        QStringList paths = m_pRightThumbnailList->selectedPaths();
+
+        if (0 == paths.length())
+        {
+            if (COMMON_STR_RECENT_IMPORTED != m_currentAlbum
+                && COMMON_STR_TRASH != m_currentAlbum
+                && COMMON_STR_FAVORITES != m_currentAlbum
+                && ALBUM_PATHTYPE_BY_PHONE != m_pRightThumbnailList->m_imageType)
+            {
+                qDebug() << "删除相册";
+                QString str;
+                QListWidgetItem *item = m_pLeftTabList->currentItem();
+                AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(item);
+
+                str = pTabItem->m_albumNameStr;
+                DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
+                delete  item;
+
+                QModelIndex index;
+                emit m_pLeftTabList->clicked(index);
+
+                emit dApp->signalM->sigAlbDelToast(str);
+
+                AlbumLeftTabItem *currentItem = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+                m_currentAlbum = currentItem->m_albumNameStr;
+
+                updateRightView();
+            }
+        }
+    }
+}
+
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
     qDebug()<<"onVfsMountChangedAdd()"<<mount->name();
