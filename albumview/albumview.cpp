@@ -1086,6 +1086,7 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     info.fullScreen = isFullScreen;
     info.slideShow = isSlideShow;
     info.viewType = m_currentAlbum;
+    info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     if(info.slideShow)
     {
         if(imagelist.count() == 1)
@@ -1096,8 +1097,8 @@ void AlbumView::menuOpenImage(QString path,QStringList paths,bool isFullScreen, 
     }
     else {
         emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
     }
-    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
 QString AlbumView::getNewAlbumName()

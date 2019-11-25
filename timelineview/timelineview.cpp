@@ -487,7 +487,7 @@ void TimeLineView::updataLayout()
            info.fullScreen = isFullScreen;
            info.slideShow = isSlideShow;
            info.viewType = utils::common::VIEW_TIMELINE_SRN;
-
+           info.viewMainWindowID = VIEW_MAINWINDOW_TIMELINE;
            if(info.slideShow)
            {
                if(ImgInfoList.count() == 1)
@@ -498,9 +498,8 @@ void TimeLineView::updataLayout()
            }
            else {
                emit dApp->signalM->viewImage(info);
+               emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
            }
-           emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
-
        });
         connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
 //           if ("选择" == pChose->text())

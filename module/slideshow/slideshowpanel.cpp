@@ -67,7 +67,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
         m_player->setImagePaths(m_vinfo.paths);
     });
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [=]{
-        backToLastPanel();
+        backToLastView();
     });
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &SlideShowPanel::onThemeChanged);
@@ -116,6 +116,29 @@ void SlideShowPanel::resizeEvent(QResizeEvent *e)
     m_player->setFrameSize(e->size().width() * devicePixelRatioF(),
                            e->size().height() * devicePixelRatioF());
     ModulePanel::resizeEvent(e);
+}
+
+void SlideShowPanel::backToLastView()
+{
+    qDebug() << __func__;
+    m_player->stop();
+    showNormal();
+
+    m_vinfo.lastPanel = nullptr;
+    m_vinfo.slideShow = false;
+    m_vinfo.fullScreen = false;
+    m_vinfo.path = m_player->currentImagePath();
+    m_vinfo.viewType = "";
+    emit dApp->signalM->viewImage(m_vinfo);
+
+    // Clear cache
+    QImage ti(width(), height(), QImage::Format_ARGB32);
+    ti.fill(0);
+    setImage(ti);
+
+    this->setCursor(Qt::ArrowCursor);
+    killTimer(m_hideCursorTid);
+    m_hideCursorTid = 0;
 }
 
 void SlideShowPanel::backToLastPanel()
@@ -195,7 +218,7 @@ void SlideShowPanel::onMenuItemClicked(QAction *action) {
     const int id = action->property("MenuID").toInt();
     switch (id) {
     case IdStopslideshow:
-        backToLastPanel();
+        backToLastView();
         break;
     case IdPlayOrPause:
         m_player->pause();
@@ -242,6 +265,7 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
         m_player->start();
         emit dApp->signalM->gotoPanel(this);
+        emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID);
         showFullScreen();
     }
     else if (event->timerId() == m_hideCursorTid) {
@@ -253,12 +277,12 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
 void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    backToLastPanel();
+    backToLastView();
 }
 
 void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 {
-    backToLastPanel();
+    backToLastView();
 }
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)

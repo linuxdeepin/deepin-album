@@ -39,6 +39,7 @@ public:
 #endif
         bool fullScreen = false;
         bool slideShow = false;
+        int viewMainWindowID = 0;               // 0:all picture    1:time line     2:album
         QString album = QString();
         QString path;                           // Specific current open one
         QStringList paths = QStringList();      // Limit the view range
