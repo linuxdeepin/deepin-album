@@ -457,6 +457,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     if (paths.isEmpty()) {
         return;
     }
+    struct Listolditem {
+        int row;
+        int column;
+    };
 //    const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
     const QString path = paths.first();
     const int id = action->property("MenuID").toInt();
@@ -546,10 +550,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdRotateClockwise: {
         QModelIndexList mlist = selectedIndexes();
         QModelIndexList::iterator i;
-        struct Listolditem {
-            int row;
-            int column;
-        };
         QList<Listolditem> items;
         for (i = mlist.begin(); i != mlist.end(); ++i) {
             Listolditem item;
