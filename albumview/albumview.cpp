@@ -352,8 +352,14 @@ void AlbumView::initRightView()
     m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
 
     m_importAllByPhoneBtn = new DPushButton(tr("All Import"));
+    DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
+    importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+    m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
 
-    m_importSelectByPhoneBtn = new DPushButton(tr("Selected Import"));
+    m_importSelectByPhoneBtn = new DSuggestButton(tr("Selected Import"));
+    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
+    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
 
     mainImportLayout->addWidget(importLabel);
     mainImportLayout->addSpacing(11);
@@ -850,12 +856,13 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         break;
     case IdCreateAlbum:
     {
-        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
 
+        m_pLeftTabList->insertItem(m_pLeftTabList->currentRow()+1, pListWidgetItem);
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(getNewAlbumName(), m_pLeftTabList, pListWidgetItem);
 
-        m_pLeftTabList->insertItem(m_pLeftTabList->currentRow()+1, pListWidgetItem);
+
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
 
         m_pLeftTabList->setCurrentRow(m_pLeftTabList->currentRow()+1);

@@ -20,6 +20,7 @@
 #include <dgiomount.h>
 #include <DApplicationHelper>
 #include <DSpinner>
+#include <DSuggestButton>
 #include "leftlistwidget.h"
 
 DWIDGET_USE_NAMESPACE
@@ -159,7 +160,7 @@ private:
     DWidget* m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
     DPushButton *m_importAllByPhoneBtn;
-    DPushButton *m_importSelectByPhoneBtn;
+    DSuggestButton *m_importSelectByPhoneBtn;
     QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
     QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     QListWidgetItem *m_curListWidgetItem;
