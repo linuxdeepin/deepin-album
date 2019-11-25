@@ -912,28 +912,18 @@ void MainWindow::onImprotBtnClicked()
 
     if (! dbInfos.isEmpty())
     {
-        QStringList paths;
-        for(auto info : dbInfos)
-        {
-            paths<<info.filePath;
-        }
+//        if(VIEW_ALBUM == m_iCurrentView)
+//        {
+//            if (COMMON_STR_RECENT_IMPORTED != m_pAlbumview->m_currentAlbum
+//                && COMMON_STR_TRASH != m_pAlbumview->m_currentAlbum
+//                && COMMON_STR_FAVORITES != m_pAlbumview->m_currentAlbum
+//                && ALBUM_PATHTYPE_BY_PHONE !=m_pAlbumview->m_pRightThumbnailList->m_imageType)
+//            {
+//                DBManager::instance()->insertIntoAlbumNoSignal(m_pAlbumview->m_currentAlbum, paths);
+//            }
+//        }
 
-
-        if(VIEW_ALBUM == m_iCurrentView)
-        {
-            if (COMMON_STR_RECENT_IMPORTED != m_pAlbumview->m_currentAlbum
-                && COMMON_STR_TRASH != m_pAlbumview->m_currentAlbum
-                && COMMON_STR_FAVORITES != m_pAlbumview->m_currentAlbum
-                && ALBUM_PATHTYPE_BY_PHONE !=m_pAlbumview->m_pRightThumbnailList->m_imageType)
-            {
-                DBManager::instance()->insertIntoAlbumNoSignal(m_pAlbumview->m_currentAlbum, paths);
-            }
-        }
-
-        dApp->m_imageloader->addImageLoader(paths);
-        DBManager::instance()->insertImgInfos(dbInfos);
-
-        emit dApp->signalM->updateStatusBarImportLabel(paths);
+        dApp->m_imageloader->ImportImageLoader(dbInfos, m_pAlbumview->m_currentAlbum);
     }
     else
     {
@@ -1006,14 +996,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 
             if (! dbInfos.isEmpty())
             {
-                qDebug() << "DBManager::instance()->insertImgInfos(dbInfos)";
-                QStringList paths;
-                for (auto info : dbInfos) {
-                    paths << info.filePath;
-                }
-
-                dApp->m_imageloader->addImageLoader(paths);
-                DBManager::instance()->insertImgInfos(dbInfos);
+                dApp->m_imageloader->ImportImageLoader(dbInfos, m_pAlbumview->m_currentAlbum);
             }
         }
 

@@ -20,6 +20,8 @@
 #include <DApplication>
 #include <QThread>
 #include <dgiomount.h>
+#include "dbmanager/dbmanager.h"
+
 class Application;
 class ConfigSetter;
 class DatabaseManager;
@@ -44,6 +46,7 @@ public:
     explicit ImageLoader(Application* parent, QStringList pathlist, QStringList pathlisttrash);
 
     void addImageLoader(QStringList pathlist);
+    void ImportImageLoader(DBImgInfoList dbInfos, QString albumname = nullptr);
     void updateImageLoader(QStringList pathlist);
 
     void addTrashImageLoader(QStringList trashpathlist);

@@ -150,21 +150,7 @@ void ImportView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
-        QStringList paths;
-        for(auto info : dbInfos)
-        {
-            paths<<info.filePath;
-        }
-
-        if(m_albumname.length() > 0)
-        {
-            DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, paths);
-        }
-
-        dApp->m_imageloader->addImageLoader(paths);
-        DBManager::instance()->insertImgInfos(dbInfos);
-
-        emit dApp->signalM->updateStatusBarImportLabel(paths);
+        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
     }
     else
     {
@@ -275,22 +261,7 @@ void ImportView::onImprotBtnClicked()
 
     if (! dbInfos.isEmpty())
     {
-        QStringList paths;
-        for(auto info : dbInfos)
-        {
-            paths<<info.filePath;
-        }
-
-        dApp->m_imageloader->addImageLoader(paths);
-
-        if(m_albumname.length() > 0)
-        {
-            DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, paths);
-        }
-
-        DBManager::instance()->insertImgInfos(dbInfos);
-
-        emit dApp->signalM->updateStatusBarImportLabel(paths);
+        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
     }
     else
     {

@@ -1182,23 +1182,7 @@ void AlbumView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
-        QStringList paths;
-        for(auto info : dbInfos)
-        {
-            paths<<info.filePath;
-        }
-
-        if (COMMON_STR_RECENT_IMPORTED != m_currentAlbum
-            && COMMON_STR_TRASH != m_currentAlbum
-            && COMMON_STR_FAVORITES != m_currentAlbum
-            && ALBUM_PATHTYPE_BY_PHONE != m_pRightThumbnailList->m_imageType)
-        {
-            DBManager::instance()->insertIntoAlbumNoSignal(m_currentAlbum, paths);
-        }
-
-        dApp->m_imageloader->addImageLoader(paths);
-        DBManager::instance()->insertImgInfos(dbInfos);
-        emit dApp->signalM->updateStatusBarImportLabel(paths);
+        dApp->m_imageloader->ImportImageLoader(dbInfos, m_currentAlbum);
     }
     else
     {

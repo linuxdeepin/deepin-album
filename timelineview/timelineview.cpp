@@ -337,7 +337,7 @@ void TimeLineView::updataLayout()
 
         pNum_dn = new DLabel();
 //        listItem->m_snum = QString("%1张照片").arg(ImgInfoList.size());
-        listItem->m_snum = QString(tr("%1 Photos")).arg(ImgInfoList.size());
+        listItem->m_snum = QString(QObject::tr("%1 Photos")).arg(ImgInfoList.size());
         pNum_dn->setText(listItem->m_snum);
 
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -543,16 +543,15 @@ void TimeLineView::updataLayout()
 
        connect(pThumbnailListView,&ThumbnailListView::customContextMenuRequested,this,[=]{
            QStringList paths = pThumbnailListView->selectedPaths();
-           if (pThumbnailListView->model()->rowCount() == paths.length() && "选择" == pChose->text())
+           if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
            {
-               pChose->setText("取消选择");
+               pChose->setText(QObject::tr("Unselect"));
            }
 
-            if (pThumbnailListView->model()->rowCount() != paths.length() && "取消选择" == pChose->text())
-            {
-                pChose->setText("选择");
-            }
-
+           if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
+           {
+               pChose->setText(QObject::tr("Select"));
+           }
             updatePicNum();
        });
         connect(pThumbnailListView, &ThumbnailListView::sigMenuItemDeal, this, [ = ](QAction * action) {
@@ -699,15 +698,8 @@ void TimeLineView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
-        QStringList paths;
-        for(auto info : dbInfos)
-        {
-            paths<<info.filePath;
-        }
+        dApp->m_imageloader->ImportImageLoader(dbInfos);
 
-        dApp->m_imageloader->addImageLoader(paths);
-        DBManager::instance()->insertImgInfos(dbInfos);
-        emit dApp->signalM->updateStatusBarImportLabel(paths);
     }
     else
     {
@@ -729,7 +721,7 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void TimeLineView::updatePicNum()
 {
-    QString str = tr("Selected %1 photos");
+    QString str = QObject::tr("Selected %1 photos");
 
      if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
      {
@@ -751,7 +743,7 @@ void TimeLineView::updatePicNum()
          }
          else
          {
-            QString str1 = tr("Selected %1 photos");
+            QString str1 = QObject::tr("Selected %1 photos");
             m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(allnum));
         }
     }
@@ -759,7 +751,7 @@ void TimeLineView::updatePicNum()
 
 void TimeLineView::restorePicNum()
 {
-    QString str = tr("%1 photos");
+    QString str = QObject::tr("%1 photos");
     int selPicNum = 0;
 
     if(VIEW_TIMELINE == m_pStackedWidget->currentIndex())

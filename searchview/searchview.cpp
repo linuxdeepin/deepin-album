@@ -149,7 +149,7 @@ void SearchView::initSearchResultView()
 
     m_pSlideShowBtn = new DPushButton();
     m_pSlideShowBtn ->setFocusPolicy(Qt::NoFocus);
-    m_pSlideShowBtn->setFixedSize(105, 31);
+//    m_pSlideShowBtn->setFixedSize(105, 31);
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::LightType)
@@ -196,9 +196,7 @@ void SearchView::initSearchResultView()
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft1.setFamily("SourceHanSansSC-Medium");
     ft1.setWeight(QFont::Medium);
-
-//    Label2->setFont(ft1);
-//    Label2->setPalette(pal);
+    m_pSlideShowBtn->setFont(ft1);
 
     m_pSearchResultLabel = new DLabel();
 
@@ -206,6 +204,7 @@ void SearchView::initSearchResultView()
     pHBoxLayout->addWidget(m_pSlideShowBtn);
     pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSearchResultLabel);
+    pHBoxLayout->addStretch(0);
 
     m_pThumbnailListView = new ThumbnailListView();
 

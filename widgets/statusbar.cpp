@@ -29,7 +29,6 @@ void StatusBar::initUI()
     loadingicon = new DSpinner(m_pimporting);
     loadingicon->hide();
     loadingicon->setFixedSize(20, 20);
-//    TextLabel->setStyleSheet("Background:red");
 
     m_pStackedWidget = new DStackedWidget(this);
     m_pStackedWidget->addWidget(m_pAllPicNumLabel);

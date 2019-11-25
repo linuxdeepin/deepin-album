@@ -24,6 +24,8 @@
 #include "utils/snifferimageformat.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "widgets/thumbnaillistview.h"
+#include "mainwindow.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -151,6 +153,73 @@ void ImageLoader::startLoading()
     ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
     qDebug()<<"startLoading end time: "<<ms;
 }
+
+void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
+{
+    for(auto info : dbInfos)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(info.filePath);
+        if (format.isEmpty()) {
+            QImageReader reader(info.filePath);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+            else if (info.filePath.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(info.filePath, ret);
+            }
+        } else {
+            QImageReader readerF(info.filePath, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(info.filePath);
+            }
+        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+
+        if (800 < pixmap.width())
+        {
+            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+        }
+        m_parent->m_imagemap.insert(info.filePath, pixmap);
+    }
+
+    DBImgInfoList dbInfoList;
+    QStringList pathlist;
+
+    for(auto info : dbInfos)
+    {
+        if( dApp->m_imagemap.value(info.filePath).isNull()){
+            continue;
+        }
+        pathlist<<info.filePath;
+        dbInfoList<<info;
+    }
+
+    if(albumname.length() > 0)
+    {
+        if (COMMON_STR_RECENT_IMPORTED != albumname
+            && COMMON_STR_TRASH != albumname
+            && COMMON_STR_FAVORITES != albumname
+            && ALBUM_PATHTYPE_BY_PHONE != albumname)
+        {
+            DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
+        }
+        DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
+    }
+    DBManager::instance()->insertImgInfos(dbInfoList);
+    emit dApp->signalM->updateStatusBarImportLabel(pathlist);
+}
+
 
 void ImageLoader::addImageLoader(QStringList pathlist)
 {

@@ -132,12 +132,20 @@
         <source>The photos shows the number of days left before it is deleted, and then it is permanently deleted</source>
         <translation>照片在删除前会显示剩余天数，之后将永久删除</translation>
     </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>Selected %1 photos</source>
         <translation>已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -313,6 +321,10 @@ already exists, do you want to replace?</source>
         <source>Detailed information</source>
         <translation>详细信息</translation>
     </message>
+    <message>
+        <source>ExposureMode</source>
+        <translation type="unfinished">曝光模式</translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -416,6 +428,118 @@ already exists, do you want to replace?</source>
     <message>
         <source>Import photos</source>
         <translation>导入照片</translation>
+    </message>
+    <message>
+        <source>窗口大小切换</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>全屏</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>退出全屏/退出幻灯片放映</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>关闭应用</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>帮助</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>显示快捷键预览</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>在文件管理器中显示</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>幻灯片放映</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>查看图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>导出图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>导入图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>全选图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>复制</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>删除照片/删除相册</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>图片信息</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>设为壁纸</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>顺时针旋转</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>逆时针旋转</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>放大缩小图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>放大图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>缩小图片</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>上一张</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>下一张</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>收藏</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>取消收藏</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>新建相册</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>重命名相册</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>热键</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -541,6 +665,26 @@ already exists, do you want to replace?</source>
     <message>
         <source>Model</source>
         <translation>镜头型号</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">选择</translation>
+    </message>
+    <message>
+        <source>Unselect</source>
+        <translation type="unfinished">取消选择</translation>
+    </message>
+    <message>
+        <source>%1 Photos</source>
+        <translation type="unfinished">%1张照片</translation>
+    </message>
+    <message>
+        <source>Selected %1 photos</source>
+        <translation type="unfinished">已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -840,19 +984,19 @@ already exists, do you want to replace?</source>
     <name>TimeLineView</name>
     <message>
         <source>Select</source>
-        <translation>选择</translation>
+        <translation type="vanished">选择</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>取消选择</translation>
+        <translation type="vanished">取消选择</translation>
     </message>
     <message>
         <source>%1 Photos</source>
-        <translation>%1张照片</translation>
+        <translation type="vanished">%1张照片</translation>
     </message>
     <message>
         <source>Selected %1 photos</source>
-        <translation>已选择%1张照片</translation>
+        <translation type="vanished">已选择%1张照片</translation>
     </message>
 </context>
 <context>
@@ -867,7 +1011,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新建相册</translation>
+        <translation type="vanished">添加到新建相册</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -916,6 +1060,18 @@ already exists, do you want to replace?</source>
     <message>
         <source>Image info</source>
         <translation>照片信息</translation>
+    </message>
+    <message>
+        <source>Creat Album</source>
+        <translation type="unfinished">新建相册</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">导出</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">收藏</translation>
     </message>
 </context>
 </TS>

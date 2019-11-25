@@ -127,7 +127,7 @@ public:
     StatusBar* m_pStatusBar;
     DWidget* m_pWidget;
     ThumbnailListView* m_pRightThumbnailList;
-
+    QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     QMap<QString, QPixmap> m_phonePathAndImage;
 

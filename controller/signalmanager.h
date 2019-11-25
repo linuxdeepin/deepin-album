@@ -20,6 +20,7 @@
 #include "dbmanager/dbmanager.h"
 #include <QObject>
 #include <dgiomount.h>
+#include <widgets/thumbnaillistview.h>
 
 class ModulePanel;
 class SignalManager : public QObject

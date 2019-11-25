@@ -230,16 +230,7 @@ void AllPicView::dropEvent(QDropEvent *event)
 
     if (! dbInfos.isEmpty())
     {
-        QStringList paths;
-        for(auto info : dbInfos)
-        {
-            paths<<info.filePath;
-        }
-
-        dApp->m_imageloader->addImageLoader(paths);
-        DBManager::instance()->insertImgInfos(dbInfos);
-
-        emit dApp->signalM->updateStatusBarImportLabel(paths);
+        dApp->m_imageloader->ImportImageLoader(dbInfos);
     }
     else
     {
