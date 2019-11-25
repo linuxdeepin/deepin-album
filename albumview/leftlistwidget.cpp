@@ -6,6 +6,7 @@
 
 LeftListWidget::LeftListWidget()
 {
+    setViewportMargins(8,0,8,0);
 }
 
 void LeftListWidget::mousePressEvent(QMouseEvent* e)

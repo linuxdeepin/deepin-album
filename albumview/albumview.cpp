@@ -208,7 +208,7 @@ void AlbumView::initLeftView()
     itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pLeftTabList->setItemDelegate(itemDelegate);
 
-    m_pLeftTabList->setFixedWidth(162);
+    m_pLeftTabList->setFixedWidth(LEFT_VIEW_WIDTH);
     m_pLeftTabList->setSpacing(ITEM_SPACING);
     m_pLeftTabList->setContextMenuPolicy(Qt::CustomContextMenu);
     m_pLeftTabList->setFrameShape(DTableView::NoFrame);
