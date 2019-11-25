@@ -21,6 +21,7 @@
 #include <QFileInfo>
 #include <QPainter>
 #include <QTimerEvent>
+#include <DIconButton>
 
 namespace {
 

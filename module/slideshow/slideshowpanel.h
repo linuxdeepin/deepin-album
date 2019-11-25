@@ -48,7 +48,7 @@ protected:
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
     void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
     void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
 
@@ -64,7 +64,7 @@ private:
     void initFileSystemMonitor();
 
     void setImage(const QImage &img);
-    void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB=true);
+    void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB = true);
     void appendAction(int id, const QString &text, const QString &shortcut);
 
     void showFullScreen();
@@ -81,7 +81,7 @@ private:
     SlideEffectPlayer   *m_player;
     bool                 m_isMaximized;
     QFileSystemWatcher  *m_fileSystemMonitor;
-
+    DIconButton         *m_cancelslideshow;
     QColor               m_bgColor;
 };
 

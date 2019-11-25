@@ -120,5 +120,6 @@
         <file>resources/dark/images/icon_import_photo dark.svg</file>
         <file>resources/light/images/icon_import_photo.svg</file>
         <file>resources/dark/images/close_normal.svg</file>
+        <file>resources/exit_slider.svg</file>
     </qresource>
 </RCC>

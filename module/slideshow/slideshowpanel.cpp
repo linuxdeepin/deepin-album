@@ -53,11 +53,16 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     initShortcut();
     initFileSystemMonitor();
     setMouseTracking(true);
-
+    m_cancelslideshow = new DIconButton(this);
+    m_cancelslideshow->setIcon(QIcon(":/resources/exit_slider.svg"));
+    m_cancelslideshow->setIconSize(QSize(50, 50));
+    m_cancelslideshow->setFixedSize(QSize(50, 50));
+    connect(m_cancelslideshow, &DIconButton::clicked, m_player,
+            [ = ] {m_player->stop(); this->showNormal(); emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();});
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
-    connect(dApp->signalM, &SignalManager::imagesRemoved, [=](
-            const DBImgInfoList &infos){
+    connect(dApp->signalM, &SignalManager::imagesRemoved, [ = ](
+    const DBImgInfoList & infos) {
         foreach (DBImgInfo info, infos) {
             if (m_vinfo.paths.contains(info.filePath)) {
                 m_vinfo.paths.removeOne(info.filePath);
@@ -66,7 +71,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 
         m_player->setImagePaths(m_vinfo.paths);
     });
-    connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [=]{
+    connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
         backToLastView();
     });
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
@@ -214,7 +219,8 @@ void SlideShowPanel::initMenu()
 //    });
 }
 
-void SlideShowPanel::onMenuItemClicked(QAction *action) {
+void SlideShowPanel::onMenuItemClicked(QAction *action)
+{
     const int id = action->property("MenuID").toInt();
     switch (id) {
     case IdStopslideshow:
@@ -223,7 +229,7 @@ void SlideShowPanel::onMenuItemClicked(QAction *action) {
     case IdPlayOrPause:
         m_player->pause();
         break;
-    default:break;
+    default: break;
     }
 }
 
@@ -235,16 +241,18 @@ void SlideShowPanel::initShortcut()
 //    connect(m_sEsc, &QShortcut::activated, this, &SlideShowPanel::backToLastPanel);
 }
 
-void SlideShowPanel::mousePressEvent(QMouseEvent *e) {
+void SlideShowPanel::mousePressEvent(QMouseEvent *e)
+{
     if (e->button() == Qt::BackButton)
         m_sEsc->activated();
 }
 
-void SlideShowPanel::initFileSystemMonitor() {
+void SlideShowPanel::initFileSystemMonitor()
+{
     m_fileSystemMonitor = new QFileSystemWatcher(this);
 
-    connect(m_fileSystemMonitor, &QFileSystemWatcher::fileChanged, [=]
-            (const QString&path){
+    connect(m_fileSystemMonitor, &QFileSystemWatcher::fileChanged, [ = ]
+    (const QString & path) {
         if (!QFileInfo(path).exists()) {
             if (m_vinfo.paths.contains(path)) {
                 m_vinfo.paths.removeOne(path);
@@ -267,8 +275,7 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
         emit dApp->signalM->gotoPanel(this);
         emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID);
         showFullScreen();
-    }
-    else if (event->timerId() == m_hideCursorTid) {
+    } else if (event->timerId() == m_hideCursorTid) {
         this->setCursor(Qt::BlankCursor);
     }
 
@@ -319,6 +326,15 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
         qDebug() << "startSlideShow fileMonitor";
         m_fileSystemMonitor->addPaths(m_vinfo.paths);
     }
+
+    if (m_cancelslideshow != nullptr) {
+        int nParentWidth = QApplication::desktop()->screenGeometry().width();
+
+        m_cancelslideshow->move(nParentWidth - 50, 0);
+
+        m_cancelslideshow->show();
+        m_cancelslideshow->raise();
+    }
 }
 
 void SlideShowPanel::showNormal()
@@ -360,8 +376,7 @@ QImage SlideShowPanel::getFitImage(const QString &path)
     if (1.0 * dww / dwh > 1.0 * image.width() / image.height()) {
         const qreal w = 1.0 * image.width() * dwh / image.height();
         target = QRectF((dww - w) / 2, 0.0, w, dwh);
-    }
-    else {
+    } else {
         const qreal h = 1.0 * image.height() * dww / image.width();
         target = QRectF(0.0, (dwh - h) / 2, dww, h);
     }
@@ -374,7 +389,8 @@ QImage SlideShowPanel::getFitImage(const QString &path)
     return ti;
 }
 
-void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark) {
+void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
+{
     if (dark == ViewerThemeManager::Dark) {
         m_bgColor = DARK_BG_COLOR;
     } else {
@@ -383,10 +399,9 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark) {
     update();
 }
 
-void SlideShowPanel::keyPressEvent(QKeyEvent* e)
+void SlideShowPanel::keyPressEvent(QKeyEvent *e)
 {
-    if(Qt::Key_Space == e->key())
-    {
+    if (Qt::Key_Space == e->key()) {
         m_player->pause();
     }
 }
