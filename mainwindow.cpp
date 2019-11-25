@@ -1173,7 +1173,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut13.insert("value", "Ctrl+C");
     QJsonObject shortcut14;
     shortcut14.insert("name", tr("删除照片/删除相册"));
-    shortcut14.insert("value", "ADelete");
+    shortcut14.insert("value", "Delete");
     QJsonObject shortcut15;
     shortcut15.insert("name", tr("图片信息"));
     shortcut15.insert("value", "Alt+Enter");

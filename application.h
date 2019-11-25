@@ -49,13 +49,12 @@ public:
     void addTrashImageLoader(QStringList trashpathlist);
     void updateTrashImageLoader(QStringList trashpathlist);
 
-private:
-    void loadImageFromMount(QString path);
-    bool findPicturePathByPhone(QString &path);
+//private:
+//    bool findPicturePathByPhone(QString &path);
 
 public slots:
     void startLoading();
-    void onLoadMountImagesStart(QString mountName, QString path);
+//    void onLoadMountImagesStart(QString mountName, QString path);
 
 signals:
     void sigFinishiLoad();
@@ -87,13 +86,13 @@ public:
     ImageLoader* m_imageloader;
     void LoadDbImage();
 
-    QMap<QString, QStringList> m_phoneNameAndPathlist;
-    QMap<QString, QPixmap> m_phonePathAndImage;
+//    QMap<QString, QStringList> m_phoneNameAndPathlist;
+//    QMap<QString, QPixmap> m_phonePathAndImage;
 
 signals:
     void sigstartLoad();
     void sigFinishLoad();
-    void sigLoadMountImagesStart(QString mountName, QString path);
+//    void sigLoadMountImagesStart(QString mountName, QString path);
 
 public slots:
     void finishLoadSlot();

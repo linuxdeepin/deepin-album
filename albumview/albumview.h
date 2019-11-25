@@ -26,6 +26,28 @@ DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
 class DGioVolumeManager;
+class AlbumView;
+
+class MountLoader : public QObject
+{
+    Q_OBJECT
+public:
+    explicit MountLoader(AlbumView* parent);
+
+private:
+    bool findPicturePathByPhone(QString &path);
+
+public slots:
+    void onLoadMountImagesStart(QString mountName, QString path);
+
+signals:
+    void sigFinishiLoad();
+
+private:
+    AlbumView* m_parent;
+    QStringList m_phoneImgPathList;
+};
+
 class AlbumView : public QWidget
 //class AlbumView : public DSplitter
 {
@@ -81,6 +103,9 @@ private:
     void loadMountPicture(QString path);
     void initLeftMenu();
 
+signals:
+    void sigLoadMountImagesStart(QString mountName, QString path);
+
 private slots:
     void onLeftMenuClicked(QAction *action);
     void onTrashRecoveryBtnClicked();
@@ -102,6 +127,9 @@ public:
     StatusBar* m_pStatusBar;
     DWidget* m_pWidget;
     ThumbnailListView* m_pRightThumbnailList;
+
+    QMap<QString, QStringList> m_phoneNameAndPathlist;
+    QMap<QString, QPixmap> m_phonePathAndImage;
 
 private:
 
@@ -138,7 +166,10 @@ private:
 
     int m_mountPicNum;
     int m_loadMountFlag;                        // 0:全部加载完成 1:有未加载完成
-    QMap<QExplicitlySharedDataPointer<DGioMount>, int> m_loadMountMap;          // key: 外设 value: 标记是否加载完成
+    QMap<QString, int> m_loadMountMap;          // key: 外设挂载路径 value: 标记是否加载完成
+
+    MountLoader* m_mountloader;
+    QThread * m_LoadThread;
 };
 
 #endif // ALBUMVIEW_H

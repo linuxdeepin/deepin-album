@@ -60,6 +60,28 @@ AlbumView::AlbumView()
     m_curListWidgetItem = nullptr;
     m_loadMountFlag = 0;
     m_mountPicNum = 0;
+	
+    auto infos = DBManager::instance()->getAllInfos();
+    QStringList pathlist;
+    foreach(auto info, infos)
+    {
+        pathlist.append(info.filePath);
+    }
+
+    auto infostrash = DBManager::instance()->getAllTrashInfos();
+    QStringList pathlisttrash;
+    foreach(auto info, infostrash)
+    {
+        pathlisttrash.append(info.filePath);
+    }
+    m_mountloader= new MountLoader(this);
+    m_LoadThread = new QThread();
+
+    m_mountloader->moveToThread(m_LoadThread);
+    m_LoadThread->start();
+
+    connect(this, SIGNAL(sigLoadMountImagesStart(QString, QString)),
+            m_mountloader, SLOT(onLoadMountImagesStart(QString, QString)));
 
     setAcceptDrops(true);
     initLeftView();
@@ -308,14 +330,19 @@ void AlbumView::initRightView()
     importLabel->setText(tr("Imported into："));
 
     m_importByPhoneComboBox = new DComboBox;
+    m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
 
     m_importAllByPhoneBtn = new DPushButton(tr("All Import"));
 
     m_importSelectByPhoneBtn = new DPushButton(tr("Selected Import"));
-    mainImportLayout->addWidget(importLabel, 2);
-    mainImportLayout->addWidget(m_importByPhoneComboBox, 6);
-    mainImportLayout->addWidget(m_importAllByPhoneBtn, 3);
-    mainImportLayout->addWidget(m_importSelectByPhoneBtn, 3);
+
+    mainImportLayout->addWidget(importLabel);
+    mainImportLayout->addSpacing(11);
+    mainImportLayout->addWidget(m_importByPhoneComboBox);
+    mainImportLayout->addSpacing(30);
+    mainImportLayout->addWidget(m_importAllByPhoneBtn);
+    mainImportLayout->addSpacing(10);
+    mainImportLayout->addWidget(m_importSelectByPhoneBtn);
     m_importByPhoneWidget->setLayout(mainImportLayout);
     m_importByPhoneWidget->setVisible(false);
 
@@ -563,17 +590,17 @@ void AlbumView::updateRightNoTrashView()
         {
             // 手机
             qDebug()<<item->m_albumNameStr;
-            qDebug()<<dApp->m_phoneNameAndPathlist;
-            if (true == dApp->m_phoneNameAndPathlist.contains(item->m_albumNameStr))
+            qDebug()<<m_phoneNameAndPathlist;
+            if (true == m_phoneNameAndPathlist.contains(item->m_albumNameStr))
             {
                 updateImportComboBox();
                 m_importByPhoneWidget->setVisible(true);
 
-                for(auto path : dApp->m_phoneNameAndPathlist.value(item->m_albumNameStr))
+                for(auto path : m_phoneNameAndPathlist.value(item->m_albumNameStr))
                 {
                     ThumbnailListView::ItemInfo vi;
                     vi.path = path;
-                    vi.image = dApp->m_phonePathAndImage.value(path);
+                    vi.image = m_phonePathAndImage.value(path);
                     m_curThumbnaiItemList<<vi;
                 }
 
@@ -1204,13 +1231,15 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         return;
     }
 
-    m_loadMountMap.insert(mount, 0);
+    if (m_loadMountMap.keys().contains(strPath)) return;
+
+    m_loadMountMap.insert(mount->getDefaultLocationFile()->path(), 0);
 
     if (0 == m_loadMountFlag)
     {
         m_loadMountFlag = 1;
         qDebug()<<"onVfsMountChangedAdd() emit dApp->sigLoadMountImagesStart()"<<mount->name();
-        emit dApp->sigLoadMountImagesStart(mount->name(), strPath);
+        emit sigLoadMountImagesStart(mount->name(), strPath);
     }
 
     updateExternalDevice(mount);
@@ -1221,7 +1250,8 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     qDebug()<<"onVfsMountChangedRemove() mountname"<<mount->name();
     Q_UNUSED(mount);
 
-    m_loadMountMap.remove(mount);
+    m_loadMountMap.remove(mount->getDefaultLocationFile()->path());
+    m_mounts.removeOne(mount);
 
     for(int i = 0; i < m_pLeftTabList->count(); i++)
     {
@@ -1388,6 +1418,14 @@ void AlbumView::initExternalDevice()
         pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+
+        m_loadMountMap.insert(mount->getDefaultLocationFile()->path(), 0);
+        if (0 == m_loadMountFlag)
+        {
+            m_loadMountFlag = 1;
+            qDebug()<<"emit dApp->sigLoadMountImagesStart()"<<mount->name() << strPath;
+            emit sigLoadMountImagesStart(mount->name(), strPath);
+        }
     }
 }
 
@@ -1413,6 +1451,7 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
     connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
     m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+    m_mounts.append(mount);
 }
 
 void AlbumView::onUpdataAlbumRightTitle(QString titlename)
@@ -1598,6 +1637,7 @@ void AlbumView::onUnMountSignal(QString unMountPath)
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         if(LocationFile->path().compare(unMountPath) == 0 && mount->canUnmount()) {
             mount->unmount(true);
+            m_mounts.removeOne(mount);
             break;
         }
     }
@@ -1606,12 +1646,13 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 void AlbumView::onLoadMountImagesEnd(QString mountname)
 {
     qDebug()<<"onLoadMountImagesEnd() mountname"<<mountname;
-    qDebug()<<dApp->m_phoneNameAndPathlist;
-    for(auto mount : m_loadMountMap.keys())
+    qDebug()<<m_phoneNameAndPathlist;
+    for(auto path : m_loadMountMap.keys())
     {
-        if (mount->name() == mountname)
+        QStringList pathList = path.split("/");
+        if (pathList.last() == mountname)
         {
-            m_loadMountMap[mount] = 1;
+            m_loadMountMap[path] = 1;
             qDebug()<<"onLoadMountImagesEnd() updateRightView()";
             updateRightView();
             break;
@@ -1620,22 +1661,22 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 
     int iloadEndFlag = 0;
 
-    for(auto mount : m_loadMountMap.keys())
+    for(auto path : m_loadMountMap.keys())
     {
-        if(0 == m_loadMountMap.value(mount))
+        if(0 == m_loadMountMap.value(path))
         {
-            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-            QString strPath = LocationFile->path();
-            if (strPath.isEmpty())
+            if (path.isEmpty())
             {
                 continue;
             }
             else
             {
                 iloadEndFlag = 1;
-                m_loadMountMap.insert(mount, 0);
+                m_loadMountMap.insert(path, 0);
+                QStringList pathList = path.split("/");
+
                 qDebug()<<"onLoadMountImagesEnd() emit dApp->sigLoadMountImagesStart()";
-                emit dApp->sigLoadMountImagesStart(mount->name(), strPath);
+                emit sigLoadMountImagesStart(pathList.last(), path);
                 break;
             }
         }
@@ -1725,3 +1766,130 @@ void AlbumView::restorePicNum()
 
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
 }
+
+MountLoader::MountLoader(AlbumView* parent)
+{
+    m_parent = parent;
+}
+
+void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
+{
+    qDebug()<<"onLoadMountImagesStart()";
+    //判断路径是否存在
+    QDir dir(path);
+    if (!dir.exists())
+    {
+        qDebug()<<"onLoadMountImagesStart() !dir.exists()";
+        dApp->signalM->sigLoadMountImagesEnd(mountName);
+        return;
+    }
+
+    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+    if(!path.contains("/media/"))
+    {
+        bool bFind = findPicturePathByPhone(path);
+        if(!bFind)
+        {
+            qDebug()<<"onLoadMountImagesStart() !bFind";
+            dApp->signalM->sigLoadMountImagesEnd(mountName);
+            return;
+        }
+    }
+
+    //获取所选文件类型过滤器
+    QStringList filters;
+    filters << QString("*.jpeg") << QString("*.jpg");
+
+    //定义迭代器并设置过滤器
+    QDirIterator dir_iterator(path,
+                              filters,
+                              QDir::Files | QDir::NoSymLinks,
+                              QDirIterator::Subdirectories);
+
+    m_phoneImgPathList.clear();
+
+    while (dir_iterator.hasNext()) {
+        dir_iterator.next();
+        QFileInfo fileInfo = dir_iterator.fileInfo();
+
+        QImage tImg;
+
+        QString format = DetectImageFormat(fileInfo.filePath());
+        if (format.isEmpty()) {
+            QImageReader reader(fileInfo.filePath());
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+            else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
+            }
+        } else {
+            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(fileInfo.filePath());
+            }
+        }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        if(800 < pixmap.width())
+        {
+            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+        }
+
+        m_parent->m_phonePathAndImage.insert(fileInfo.filePath(), pixmap);
+
+        m_phoneImgPathList<<fileInfo.filePath();
+    }
+
+    qDebug()<<"onLoadMountImagesStart() m_phoneImgPathList.length()"<<m_phoneImgPathList.length();
+    if (0 < m_phoneImgPathList.length())
+    {
+        m_parent->m_phoneNameAndPathlist.insert(mountName, m_phoneImgPathList);
+    }
+
+    dApp->signalM->sigLoadMountImagesEnd(mountName);
+}
+
+//搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
+//经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下
+bool MountLoader::findPicturePathByPhone(QString &path)
+{
+    QDir dir(path);
+    if (!dir.exists()) return false;
+
+    QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QFileInfo tempFileInfo;
+    foreach (tempFileInfo, fileInfoList) {
+        if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0)
+        {
+            path = tempFileInfo.absoluteFilePath();
+            return true;
+        } else {
+            QDir subDir;
+            subDir.setPath(tempFileInfo.absoluteFilePath());
+
+            QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+            QFileInfo subTempFileInfo;
+            foreach (subTempFileInfo, subFileInfoList) {
+                if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0)
+                {
+                    path = subTempFileInfo.absoluteFilePath();
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    return false;
+}
+
