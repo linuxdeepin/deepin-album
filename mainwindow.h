@@ -74,6 +74,9 @@ private slots:
     void timeLineBtnClicked();
     void albumBtnClicked();
     void onCreateAlbum(QStringList imagepaths);
+#if 1
+    void onViewCreateAlbum(QString imgpath);
+#endif
     void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);
     void onUpdateAllpicsNumLabel();

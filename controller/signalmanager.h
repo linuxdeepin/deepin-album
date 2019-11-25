@@ -101,6 +101,10 @@ signals:
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());
+#if 1
+    void viewModeCreateAlbum(QString path);
+    void sigCreateNewAlbumFrom(QString albumname);
+#endif
     void importDir(const QString &dir);
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);

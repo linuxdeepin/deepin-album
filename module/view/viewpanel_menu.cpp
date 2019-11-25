@@ -52,6 +52,7 @@ enum MenuItemId {
     IdStartSlideShow,
     IdPrint,
     IdAddToAlbum,
+    IdExport,
     IdCopy,
     IdMoveToTrash,
     IdRemoveFromTimeline,
@@ -215,6 +216,40 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     }
+
+#if 1
+        //添加到相册
+    case IdAddToAlbum: {
+        const QString album = action->data().toString();
+        if (album != "Add to new album")
+        {
+            if (! DBManager::instance()->isImgExistInAlbum(album, path))
+            {
+                emit dApp->signalM->sigAddToAlbToast(album);
+            }
+            DBManager::instance()->insertIntoAlbum(album,QStringList(path));
+        }
+        else
+        {
+            emit dApp->signalM->viewModeCreateAlbum(path);
+        }
+    }
+    break;
+        //收藏
+    case IdAddToFavorites:{
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
+    }
+        break;
+        //取消收藏
+    case IdRemoveFromFavorites:{
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path));
+    }
+        break;
+        //导出
+    case IdExport:
+        emit dApp->signalM->exportImage(QStringList(path));
+        break;
+#endif
 #ifndef LITE_DIV
     case IdAddToAlbum: {
         const QString album = action->data().toString();
@@ -352,7 +387,10 @@ void ViewPanel::updateMenuContent()
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-
+#if 1   
+    m_menu->addMenu(createAblumMenu());                                         //添加到相册
+    appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU,"Ctrl+E"));     //导出
+#endif
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
 //    if (COMMON_STR_TRASH == m_viewType)
 //    {
@@ -375,6 +413,18 @@ void ViewPanel::updateMenuContent()
 //    }
     m_menu->addSeparator();
     /**************************************************************************/
+#if 1
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,m_infos.at(m_current).filePath))
+    {
+        appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
+    }
+    else
+    {
+        appendAction(IdAddToFavorites, tr("favorite"), ss("favorite", "Ctrl+K"));       //收藏
+    }
+
+    m_menu->addSeparator();
+#endif
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
                      tr("Show navigation window"), ss("Show navigation window", ""));
@@ -412,6 +462,35 @@ void ViewPanel::updateMenuContent()
     appendAction(IdDisplayInFileManager,tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
     appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
 }
+#if 1
+QMenu* ViewPanel::createAblumMenu(){
+    QMenu *am = new QMenu(tr("Add To Album"));
+
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
+    albums.removeAll(COMMON_STR_FAVORITES);
+    albums.removeAll(COMMON_STR_TRASH);
+    albums.removeAll(COMMON_STR_RECENT_IMPORTED);
+
+    QAction *ac = new QAction(am);
+    ac->setProperty("MenuID", IdAddToAlbum);
+    ac->setText(tr("Creat Album"));
+    ac->setData(QString(tr("Add to new album")));
+    ac->setShortcut(QKeySequence("Ctrl+Shift+N"));
+    am->addAction(ac);
+    am->addSeparator();
+
+    for (QString album : albums)
+    {
+        QAction *ac = new QAction(am);
+        ac->setProperty("MenuID", IdAddToAlbum);
+        ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
+        ac->setData(album);
+        am->addAction(ac);
+    }
+
+    return am;
+}
+#endif
 
 void ViewPanel::initShortcut()
 {

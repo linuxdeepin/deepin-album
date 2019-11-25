@@ -114,6 +114,9 @@ private slots:
     void onUpdataAlbumRightTitle(QString titlename);
 
     void onCreateNewAlbumFromDialog(QString albumname);
+#if 1
+    void onCreateNewAlbumFrom(QString albumname);
+#endif
     void onLoadMountImagesEnd(QString mountname);
 
 public:

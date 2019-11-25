@@ -109,6 +109,9 @@ void AlbumView::initConnections()
 {
     connect(m_pLeftTabList, &DListWidget::clicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
+#if 1
+    connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFrom, this, &AlbumView::onCreateNewAlbumFrom);
+#endif
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
@@ -283,6 +286,22 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     m_currentAlbum = albumName;
     updateRightView();
 }
+
+#if 1
+void AlbumView::onCreateNewAlbumFrom(QString albumname)
+{
+    int index = getNewAlbumItemIndex();
+
+    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
+    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+    QString albumName = albumname;
+    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, m_pLeftTabList, pListWidgetItem);
+    m_customAlbumNames << albumName;
+
+    m_pLeftTabList->insertItem(index, pListWidgetItem);
+    m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+}
+#endif
 
 void AlbumView::initRightView()
 {

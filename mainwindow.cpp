@@ -61,6 +61,9 @@ void MainWindow::initConnections()
     connect(m_pTimeLineBtn, &DPushButton::clicked, this, &MainWindow::timeLineBtnClicked);
     connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
+#if 1
+    connect(dApp->signalM,&SignalManager::viewModeCreateAlbum,this,&MainWindow::onViewCreateAlbum);
+#endif
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
@@ -696,7 +699,26 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
         showCreateDialog(imagepaths);
     }
 }
+#if 1
+void MainWindow::onViewCreateAlbum(QString imgpath)
+{
+    AlbumCreateDialog *d = new AlbumCreateDialog;
+    d->showInCenter(window());
+    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
 
+        emit dApp->signalM->hideExtensionPanel();
+
+        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
+        emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
+
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+
+        QString str = tr("Create Album “%1” successfully");
+        this->sendMessage(icon, str.arg(d->getCreateAlbumName()));
+    });
+}
+#endif
 void MainWindow::showCreateDialog(QStringList imgpaths)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog;
