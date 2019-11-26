@@ -133,6 +133,7 @@ const QString CTRLUP_SHORTCUT = "Ctrl+=";
 const QString CTRLDOWN_SHORTCUT = "Ctrl+-";
 const QString CTRLSHIFTSLASH_SHORTCUT = "Ctrl+Shift+/";
 const QString CTRLE_SHORTCUT = "Ctrl+E";
+const QString RECTRLUP_SHORTCUT = "Ctrl++";
 }
 namespace timeline {
 const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);

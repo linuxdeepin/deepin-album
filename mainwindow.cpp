@@ -8,7 +8,6 @@
 #include <DApplicationHelper>
 #include <DFileDialog>
 #include <QGraphicsDropShadowEffect>
-#include <QShortcut>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QProcess>
@@ -196,6 +195,12 @@ void MainWindow::initShortcut()
     QShortcut *CtrlUp = new QShortcut(QKeySequence(CTRLUP_SHORTCUT), this);
     CtrlUp->setContext(Qt::ApplicationShortcut);
     connect(CtrlUp, &QShortcut::activated, this, [ = ] {
+        thumbnailZoomIn();
+    });
+
+    QShortcut *ReCtrlUp = new QShortcut(QKeySequence(RECTRLUP_SHORTCUT), this);
+    ReCtrlUp->setContext(Qt::ApplicationShortcut);
+    connect(ReCtrlUp, &QShortcut::activated, this, [ = ] {
         thumbnailZoomIn();
     });
 
