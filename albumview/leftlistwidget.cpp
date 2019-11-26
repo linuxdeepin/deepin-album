@@ -7,6 +7,46 @@
 LeftListWidget::LeftListWidget()
 {
     setViewportMargins(8,0,8,0);
+    setAcceptDrops(true);
+}
+
+void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    QModelIndex index = this->indexAt(event->pos());
+    if (index.isValid())
+    {
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)this->itemWidget(this->item(index.row()));
+        QString leftTabListName = item->m_albumNameStr;
+        QString leftTabListType = item->m_albumTypeStr;
+        //qDebug()<<"leftTabListName: "<<leftTabListName<<" ;leftTabListType: "<<leftTabListType;
+
+        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName) ||
+                (COMMON_STR_TRASH == leftTabListName) ||
+                (ALBUM_PATHTYPE_BY_PHONE == leftTabListType) ||
+                (ALBUM_PATHTYPE_BY_U == leftTabListType))
+        {
+            qDebug()<<"Can not drop!";
+            return event->ignore();
+        }
+        else
+        {
+            return event->accept();
+        }
+    }
+
+}
+
+void LeftListWidget::dropEvent(QDropEvent *event)
+{
+    qDebug()<<"drop";
+    QModelIndex index = this->indexAt(event->pos());
+    if (index.isValid())
+    {
+        qDebug()<<"emit signalDropEvent:"<<index;
+        emit signalDropEvent(index);
+    }
+
+//    DListWidget::dropEvent(event);
 }
 
 void LeftListWidget::mousePressEvent(QMouseEvent* e)

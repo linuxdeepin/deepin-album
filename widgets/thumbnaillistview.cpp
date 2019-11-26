@@ -72,6 +72,76 @@ ThumbnailListView::~ThumbnailListView()
 
 }
 
+void ThumbnailListView::mousePressEvent(QMouseEvent *event)
+{
+    qDebug()<<"m_imageType: "<<m_imageType<<" ;dragDropMode(): "<<dragDropMode();
+    if ((m_imageType != COMMON_STR_VIEW_TIMELINE) &&
+            (m_imageType != "All Photos") &&
+            (m_imageType != COMMON_STR_TRASH) &&
+            (m_imageType != ALBUM_PATHTYPE_BY_PHONE))
+    {
+        if (dragDropMode() != NoDragDrop) {
+            setDragDropMode(DragDrop);
+        }
+    }
+    else
+    {
+        setDragEnabled(false);
+    }
+
+    bool isListArea = this->indexAt(event->pos()).isValid();
+    qDebug()<<"isListArea:"<<isListArea<<", keyboard:"<<QApplication::keyboardModifiers();
+    if (!isListArea)
+    {
+        if (QApplication::keyboardModifiers() != Qt::ControlModifier)
+        {
+            clearSelection();
+            update();
+        }
+    }
+
+    DListView::mousePressEvent(event);
+}
+
+void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
+{
+    DListView::mouseMoveEvent(event);
+}
+
+void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
+{
+    DListView::mouseReleaseEvent(event);
+
+    emit sigMouseRelease();
+}
+
+void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
+{
+    qDebug()<<"dragEnter";
+
+    DListView::dragEnterEvent(event);
+}
+
+void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
+{
+    DListView::dragMoveEvent(event);
+}
+
+void ThumbnailListView::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    m_dragItemPath = selectedPaths();
+    qDebug()<<m_dragItemPath;
+
+    DListView::dragLeaveEvent(event);
+}
+
+void ThumbnailListView::dropEvent(QDropEvent *event)
+{
+    qDebug()<<"drop";
+
+//    DListView::dropEvent(event);
+}
+
 void ThumbnailListView::initConnections()
 {
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
@@ -446,6 +516,11 @@ QStringList ThumbnailListView::selectedPaths()
     return paths;
 }
 
+QStringList ThumbnailListView::getDagItemPath()
+{
+    return m_dragItemPath;
+}
+
 QList<ThumbnailListView::ItemInfo> ThumbnailListView::getAllPaths()
 {
     return m_ItemList;
@@ -684,18 +759,6 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
     m_iDefaultWidth = width();
 
     QListView::resizeEvent(e);
-}
-
-void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
-{
-    QAbstractItemView::mouseMoveEvent(event);
-}
-
-void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
-{
-    QAbstractItemView::mouseReleaseEvent(event);
-
-    emit sigMouseRelease();
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)

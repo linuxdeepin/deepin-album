@@ -92,6 +92,7 @@ public:
     void insertThumbnails(const QList<ItemInfo> &itemList);
     QStringList selectedPaths();
     QList<ItemInfo> getAllPaths();
+    QStringList getDagItemPath();
 
     void menuItemDeal(QStringList paths,QAction *action);
 
@@ -110,6 +111,15 @@ signals:
     void sigMouseRelease();
     void sigMenuItemDeal( QAction *action);
 #endif
+
+protected:
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void onMenuItemClicked(QAction *action);
@@ -130,8 +140,6 @@ private:
     QMenu* createAlbumMenu();
 
     void resizeEvent(QResizeEvent *e) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
 
 
     bool eventFilter(QObject *obj, QEvent *e) override;
@@ -154,6 +162,7 @@ private:
     QMenu *m_albumMenu;
 
     QList<QString> m_timelines;
+    QStringList m_dragItemPath;
 };
 
 #endif // THUMBNAILLISTVIEW_H

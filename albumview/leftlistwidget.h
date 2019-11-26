@@ -1,6 +1,7 @@
 #ifndef LEFTLISTWIDGET_H
 #define LEFTLISTWIDGET_H
 #include <DListWidget>
+#include "utils/baseutils.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -12,6 +13,13 @@ public:
     void mousePressEvent(QMouseEvent* e) override;
     QStyleOptionViewItem viewOptions() const override;
     QModelIndex getModelIndex(QListWidgetItem *pItem);
+
+protected:
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+
+signals:
+    void signalDropEvent(QModelIndex index);
 };
 
 #endif // LEFTLISTWIDGET_H

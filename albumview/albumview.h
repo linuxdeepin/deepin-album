@@ -121,6 +121,7 @@ private slots:
     void onCreateNewAlbumFrom(QString albumname);
 #endif
     void onLoadMountImagesEnd(QString mountname);
+    void onLeftListDropEvent(QModelIndex dropIndex);
 
 public:
     int m_iAlubmPicsNum;

@@ -138,6 +138,7 @@ void AlbumView::initConnections()
     connect(m_importAllByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importAllBtnClicked);
     connect(m_importSelectByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importSelectBtnClicked);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
+    connect(m_pLeftTabList, &LeftListWidget::signalDropEvent, this, &AlbumView::onLeftListDropEvent);
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                         this, [=]
     {
@@ -1817,6 +1818,51 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
         qDebug()<<"onLoadMountImagesEnd() m_loadMountFlag = 0";
         m_loadMountFlag = 0;
     }
+}
+
+void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
+{
+    ThumbnailListView* currentViewList;
+    QStringList dropItemPaths;
+
+    AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->item(dropIndex.row()));
+    QString dropLeftTabListName = item->m_albumNameStr;
+    qDebug()<<"currentAlbum: "<<m_currentAlbum<<" ;dropLeftTabListName: "<<dropLeftTabListName;
+
+    //向自己的相册或“已导入”相册拖拽无效
+    //“已导入”相册在leftlistwidget.cpp中也屏蔽过
+    if ((m_currentAlbum == dropLeftTabListName) || (COMMON_STR_RECENT_IMPORTED == dropLeftTabListName))
+    {
+        qDebug()<<"Can not drop!";
+        return;
+    }
+
+    if (COMMON_STR_FAVORITES == m_currentAlbum)
+    {
+        currentViewList = m_pRightFavoriteThumbnailList;
+    }
+    else if (COMMON_STR_TRASH == m_currentAlbum)
+    {
+        currentViewList = m_pRightTrashThumbnailList;
+    }
+    else
+    {
+        currentViewList = m_pRightThumbnailList;
+    }
+    dropItemPaths = currentViewList->getDagItemPath();
+    qDebug()<<"dropItemPaths: "<<dropItemPaths;
+
+    if (COMMON_STR_TRASH == dropLeftTabListName)
+    {
+        //向回收站拖拽，动作删除
+        //回收站在leftlistwidget.cpp中屏蔽掉了
+    }
+    else
+    {
+        //向其他相册拖拽，动作添加
+        DBManager::instance()->insertIntoAlbum(item->m_albumNameStr, dropItemPaths);
+    }
+
 }
 
 void AlbumView::updatePicNum()
