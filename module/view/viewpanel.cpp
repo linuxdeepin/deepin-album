@@ -484,52 +484,52 @@ void ViewPanel::wheelEvent(QWheelEvent *e)
         qApp->sendEvent(m_viewB->viewport(), e);
 }
 
-void ViewPanel::dropEvent(QDropEvent *event)
-{
-    QList<QUrl> urls = event->mimeData()->urls();
-    if (urls.isEmpty()) {
-        return;
-    }
+//void ViewPanel::dropEvent(QDropEvent *event)
+//{
+//    QList<QUrl> urls = event->mimeData()->urls();
+//    if (urls.isEmpty()) {
+//        return;
+//    }
 
-    using namespace utils::image;
-    QStringList paths;
-    for (QUrl url : urls) {
-        const QString path = url.toLocalFile();
-        if (QFileInfo(path).isDir()) {
-            auto finfos =  getImagesInfo(path, false);
-            for (auto finfo : finfos) {
-                if (imageSupportRead(finfo.absoluteFilePath())) {
-                    paths << finfo.absoluteFilePath();
-                }
-            }
-        } else if (imageSupportRead(path)) {
-            paths << path;
-        }
-    }
+//    using namespace utils::image;
+//    QStringList paths;
+//    for (QUrl url : urls) {
+//        const QString path = url.toLocalFile();
+//        if (QFileInfo(path).isDir()) {
+//            auto finfos =  getImagesInfo(path, false);
+//            for (auto finfo : finfos) {
+//                if (imageSupportRead(finfo.absoluteFilePath())) {
+//                    paths << finfo.absoluteFilePath();
+//                }
+//            }
+//        } else if (imageSupportRead(path)) {
+//            paths << path;
+//        }
+//    }
 
-    if (! paths.isEmpty()) {
-#ifdef LITE_DIV
-        SignalManager::ViewInfo vinfo;
+//    if (! paths.isEmpty()) {
+//#ifdef LITE_DIV
+//        SignalManager::ViewInfo vinfo;
 
-        vinfo.path = paths.first();
-        vinfo.paths = paths;
+//        vinfo.path = paths.first();
+//        vinfo.paths = paths;
 
-        onViewImage(vinfo);
-#else
-        viewOnNewProcess(paths);
-#endif
-    }
+//        onViewImage(vinfo);
+//#else
+//        viewOnNewProcess(paths);
+//#endif
+//    }
 
-    event->accept();
-    ModulePanel::dropEvent(event);
-}
+//    event->accept();
+//    ModulePanel::dropEvent(event);
+//}
 
-void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
-{
-    event->setDropAction(Qt::CopyAction);
-    event->accept();
-    ModulePanel::dragEnterEvent(event);
-}
+//void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
+//{
+//    event->setDropAction(Qt::CopyAction);
+//    event->accept();
+//    ModulePanel::dragEnterEvent(event);
+//}
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {

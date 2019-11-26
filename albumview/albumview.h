@@ -104,6 +104,7 @@ private:
     void onUnMountSignal(QString unMountPath);
     void loadMountPicture(QString path);
     void initLeftMenu();
+    void importComboBoxChange(QString strText);
 
 signals:
     void sigLoadMountImagesStart(QString mountName, QString path);

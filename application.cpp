@@ -210,10 +210,12 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
         if (COMMON_STR_RECENT_IMPORTED != albumname
             && COMMON_STR_TRASH != albumname
             && COMMON_STR_FAVORITES != albumname
-            && ALBUM_PATHTYPE_BY_PHONE != albumname)
+            && ALBUM_PATHTYPE_BY_PHONE != albumname
+            && 0 != albumname.compare(tr("Imported")))
         {
             DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
         }
+
         DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
     }
     DBManager::instance()->insertImgInfos(dbInfoList);

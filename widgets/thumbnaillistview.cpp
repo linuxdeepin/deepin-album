@@ -404,7 +404,7 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("Creat Album"));
+    ac->setText(tr("Create Album"));
     ac->setData(QString(tr("Add to new album")));
     am->addAction(ac);
     am->addSeparator();
