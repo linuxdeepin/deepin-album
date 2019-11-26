@@ -38,6 +38,7 @@ namespace {
 
 const int SWITCH_IMAGE_DELAY = 300;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
+const int VIEW_MAINWINDOW_POPVIEW = 4;
 
 QString ss(const QString &text, const QString &defaultValue)
 {
@@ -209,6 +210,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths();
+        vinfo.viewMainWindowID = vinfo.viewMainWindowID|VIEW_MAINWINDOW_POPVIEW;
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
         break;
     }

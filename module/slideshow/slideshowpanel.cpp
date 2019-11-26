@@ -38,6 +38,7 @@ const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 const QColor DARK_BG_COLOR = QColor(27, 27, 27);
 const QColor LIGHT_BG_COLOR = QColor(255, 255, 255);
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
+const int FROM_MAINWINDOW_POPVIEW = 4;      // 从view页面进入幻灯片
 
 }  // namespace
 
@@ -58,7 +59,14 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     m_cancelslideshow->setIconSize(QSize(50, 50));
     m_cancelslideshow->setFixedSize(QSize(50, 50));
     connect(m_cancelslideshow, &DIconButton::clicked, m_player,
-            [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/backToLastView();});
+            [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/
+        if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
+            backToLastView();
+        }
+        else {
+            backToLastPanel();
+        }
+    });
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
     connect(dApp->signalM, &SignalManager::imagesRemoved, [ = ](
@@ -72,10 +80,12 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
         m_player->setImagePaths(m_vinfo.paths);
     });
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
-#if 1
-        if(isVisible())
-#endif
+        if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
             backToLastView();
+        }
+        else {
+            backToLastPanel();
+        }
     });
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &SlideShowPanel::onThemeChanged);
@@ -227,7 +237,12 @@ void SlideShowPanel::onMenuItemClicked(QAction *action)
     const int id = action->property("MenuID").toInt();
     switch (id) {
     case IdStopslideshow:
-        backToLastView();
+        if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
+            backToLastView();
+        }
+        else {
+            backToLastPanel();
+        }
         break;
     case IdPlayOrPause:
         m_player->pause();
@@ -276,7 +291,12 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
         m_player->start();
         emit dApp->signalM->gotoPanel(this);
-        emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID);
+        if(m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW){
+            emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID^FROM_MAINWINDOW_POPVIEW);
+        } else {
+            emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID);
+        }
+
         showFullScreen();
     } else if (event->timerId() == m_hideCursorTid) {
         this->setCursor(Qt::BlankCursor);
@@ -287,12 +307,22 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
 void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    backToLastView();
+    if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
+        backToLastView();
+    }
+    else {
+        backToLastPanel();
+    }
 }
 
 void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 {
-    backToLastView();
+    if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
+        backToLastView();
+    }
+    else {
+        backToLastPanel();
+    }
 }
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
