@@ -246,7 +246,7 @@ void AlbumView::initLeftView()
         }
 
         m_allAlbumNames<<albumName;
-        m_customAlbumNames << albumName;
+//        m_customAlbumNames << albumName;
     }
 
     for(auto albumName : m_allAlbumNames)
@@ -280,7 +280,7 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = newalbumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, m_pLeftTabList, pListWidgetItem);
-    m_customAlbumNames << albumName;
+//    m_customAlbumNames << albumName;
 
     m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftTabList->setCurrentRow(index);
@@ -298,7 +298,7 @@ void AlbumView::onCreateNewAlbumFrom(QString albumname)
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = albumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, m_pLeftTabList, pListWidgetItem);
-    m_customAlbumNames << albumName;
+//    m_customAlbumNames << albumName;
 
     m_pLeftTabList->insertItem(index, pListWidgetItem);
     m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
@@ -919,7 +919,7 @@ void AlbumView::onLeftMenuClicked(QAction *action)
         DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
         delete  item;
 
-        m_customAlbumNames.removeOne(str);
+//        m_customAlbumNames.removeOne(str);
         updateImportComboBox();
 
         QModelIndex index;
@@ -961,7 +961,7 @@ void AlbumView::createNewAlbum(QStringList imagepaths)
     }
 
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, m_pLeftTabList, pListWidgetItem);
-    m_customAlbumNames << albumName;
+//    m_customAlbumNames << albumName;
 
     m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
 
@@ -1432,6 +1432,7 @@ void AlbumView::importComboBoxChange(QString strText)
         AlbumCreateDialog *dialog = new AlbumCreateDialog;
         dialog->showInCenter(window());
         connect(dialog, &AlbumCreateDialog::albumAdded, this, [ = ] {
+            DBManager::instance()->insertIntoAlbum(dialog->getCreateAlbumName(), QStringList(" "));
             int index = getNewAlbumItemIndex();
             QListWidgetItem *pListWidgetItem = new QListWidgetItem();
             m_pLeftTabList->insertItem(index, pListWidgetItem);
@@ -1440,7 +1441,7 @@ void AlbumView::importComboBoxChange(QString strText)
             AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, m_pLeftTabList, pListWidgetItem);
             pAlbumLeftTabItem->oriAlbumStatus();
             m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-            m_customAlbumNames << albumName;
+//            m_customAlbumNames << albumName;
             updateImportComboBox();
             m_importByPhoneComboBox->setCurrentText(albumName);
         });
@@ -1543,9 +1544,9 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
 
 void AlbumView::onUpdataAlbumRightTitle(QString titlename)
 {
-    int index = m_customAlbumNames.indexOf(m_currentAlbum);
+//    int index = m_customAlbumNames.indexOf(m_currentAlbum);
     m_currentAlbum = titlename;
-    m_customAlbumNames.replace(index, m_currentAlbum);
+//    m_customAlbumNames.replace(index, m_currentAlbum);
     updateRightView();
 }
 
@@ -1607,6 +1608,17 @@ void AlbumView::updateImportComboBox()
     m_importByPhoneComboBox->clear();
     m_importByPhoneComboBox->addItem(tr("Imported"));
     m_importByPhoneComboBox->addItem(tr("Create Album"));
+    QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
+    for(auto albumName : allAlbumNames)
+    {
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
+        {
+            continue;
+        }
+
+        m_customAlbumNames << albumName;
+    }
+
     m_importByPhoneComboBox->addItems(m_customAlbumNames);
 }
 
