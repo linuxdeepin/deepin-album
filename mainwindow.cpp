@@ -11,6 +11,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QProcess>
+#include <DApplication>
+#include <QDesktopWidget>
 
 namespace  {
 const int VIEW_ALLPIC = 0;
@@ -61,7 +63,7 @@ void MainWindow::initConnections()
     connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
 #if 1
-    connect(dApp->signalM,&SignalManager::viewModeCreateAlbum,this,&MainWindow::onViewCreateAlbum);
+    connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
@@ -173,8 +175,7 @@ void MainWindow::initShortcut()
         if (window()->isFullScreen())
         {
             emit dApp->signalM->sigESCKeyActivated();
-        }
-        else
+        } else
         {
 #if 1
             this->close();
@@ -295,7 +296,9 @@ void MainWindow::initShortcut()
 void MainWindow::initUI()
 {
 //    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
-    setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
+    //  setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
+    QRect rect = DApplication::desktop()->geometry();
+    setMinimumSize(rect.width() * 0.9, rect.height() * 0.9);
 }
 
 void MainWindow::initTitleBar()
@@ -349,16 +352,13 @@ void MainWindow::initTitleBar()
     m_pAllPicBtn->setPalette(pale);
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(44, 167, 248, 102));
         effect->setBlurRadius(6);
         m_pAllPicBtn->setGraphicsEffect(effect);
-    }
-    else if (themeType == DGuiApplicationHelper::DarkType)
-    {
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(0, 42, 175, 102));
@@ -395,12 +395,9 @@ void MainWindow::initTitleBar()
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->setFixedSize(350, 36);
 
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
-    }
-    else
-    {
+    } else {
         m_pSearchEdit->setEnabled(false);
     }
 
@@ -429,12 +426,9 @@ void MainWindow::initTitleBar()
     titlebar()->addWidget(m_titleSearchWidget, Qt::AlignHCenter);
     titlebar()->setMenu(m_pTitleBarMenu);
 
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    if (0 < DBManager::instance()->getImgsCount()) {
         // dothing
-    }
-    else
-    {
+    } else {
         m_pTimeLineBtn->setEnabled(false);
         m_pAlbumBtn->setEnabled(false);
         m_pSearchEdit->setEnabled(false);
@@ -530,16 +524,13 @@ void MainWindow::allPicBtnClicked()
     m_pAlbumBtn->setPalette(pale);
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(44, 167, 248, 102));
         effect->setBlurRadius(6);
         m_pAllPicBtn->setGraphicsEffect(effect);
-    }
-    else if (themeType == DGuiApplicationHelper::DarkType)
-    {
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(0, 42, 175, 102));
@@ -589,16 +580,13 @@ void MainWindow::timeLineBtnClicked()
     m_pAlbumBtn->setPalette(pale);
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(44, 167, 248, 102));
         effect->setBlurRadius(6);
         m_pTimeLineBtn->setGraphicsEffect(effect);
-    }
-    else if (themeType == DGuiApplicationHelper::DarkType)
-    {
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(0, 42, 175, 102));
@@ -644,16 +632,13 @@ void MainWindow::albumBtnClicked()
     m_pTimeLineBtn->setPalette(pale);
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(44, 167, 248, 102));
         effect->setBlurRadius(6);
         m_pAlbumBtn->setGraphicsEffect(effect);
-    }
-    else if (themeType == DGuiApplicationHelper::DarkType)
-    {
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
         QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
         effect->setOffset(0, 4);
         effect->setColor(QColor(0, 42, 175, 102));
@@ -680,29 +665,22 @@ void MainWindow::albumBtnClicked()
 
 void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
-    if (tr("Create album") == action->text()) 
-	{
+    if (tr("Create album") == action->text()) {
         emit dApp->signalM->createAlbum(QStringList(" "));
     }
 
-    else if (tr("Import photos") == action->text()) 
-	{
+    else if (tr("Import photos") == action->text()) {
         emit sigTitleMenuImportClicked();
-    }
-    else
-    {
+    } else {
 
     }
 }
 
 void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
-    if (m_pCenterWidget->currentWidget() == m_pAlbumview) 
-	{
+    if (m_pCenterWidget->currentWidget() == m_pAlbumview) {
         m_pAlbumview->createNewAlbum(imagepaths);
-    } 
-	else 
-	{
+    } else {
         showCreateDialog(imagepaths);
     }
 }
@@ -764,8 +742,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
             effect->setColor(QColor(44, 167, 248, 102));
             effect->setBlurRadius(6);
             m_pAlbumBtn->setGraphicsEffect(effect);
-        }
-        else if (themeType == DGuiApplicationHelper::DarkType)
+        } else if (themeType == DGuiApplicationHelper::DarkType)
         {
             QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
             effect->setOffset(0, 4);
@@ -794,29 +771,20 @@ void MainWindow::onSearchEditFinished()
 {
     QString keywords = m_pSearchEdit->text();
     emit dApp->signalM->hideExtensionPanel();
-    if (0 == m_iCurrentView) 
-	{
-        if (keywords.isEmpty()) 
-		{
+    if (0 == m_iCurrentView) {
+        if (keywords.isEmpty()) {
             allPicBtnClicked();
             // donothing
-        }
-        else
-        {
+        } else {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
             m_pAllPicView->m_pStackedWidget->setCurrentIndex(2);
             m_pAllPicView->restorePicNum();
         }
-    } 
-	else if (1 == m_iCurrentView) 
-	{
-        if (keywords.isEmpty()) 
-		{
+    } else if (1 == m_iCurrentView) {
+        if (keywords.isEmpty()) {
             timeLineBtnClicked();
             // donothing
-        } 
-		else 
-		{
+        } else {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
             m_pTimeLineView->m_pStackedWidget->setCurrentIndex(2);
             m_pTimeLineView->restorePicNum();
@@ -895,15 +863,12 @@ void MainWindow::onImprotBtnClicked()
         return;
 
     QStringList image_list;
-    foreach(QString path, file_list)
-    {
+    foreach (QString path, file_list) {
         QFileInfo file(path);
-        if(file.isDir())
-        {
-            image_list<<utils::image::checkImage(path);
-        }
-        else {
-            image_list<<path;
+        if (file.isDir()) {
+            image_list << utils::image::checkImage(path);
+        } else {
+            image_list << path;
         }
     }
 
@@ -915,8 +880,7 @@ void MainWindow::onImprotBtnClicked()
 
     using namespace utils::image;
 
-    for (auto imagePath : image_list)
-    {
+    for (auto imagePath : image_list) {
         if (! imageSupportRead(imagePath)) {
             continue;
         }
@@ -939,8 +903,7 @@ void MainWindow::onImprotBtnClicked()
         dbInfos << dbi;
     }
 
-    if (! dbInfos.isEmpty())
-    {
+    if (! dbInfos.isEmpty()) {
 //        if(VIEW_ALBUM == m_iCurrentView)
 //        {
 //            if (COMMON_STR_RECENT_IMPORTED != m_pAlbumview->m_currentAlbum
@@ -953,9 +916,7 @@ void MainWindow::onImprotBtnClicked()
 //        }
 
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_pAlbumview->m_currentAlbum);
-    }
-    else
-    {
+    } else {
         emit dApp->signalM->ImportFailed();
     }
 }
@@ -994,8 +955,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
         for (int i = 1; i < arguments.size(); ++i) {
             paths.append(arguments.at(i));
         }
-        if(paths.count() > 0)
-        {
+        if (paths.count() > 0) {
             SignalManager::ViewInfo info;
             info.album = "";
 #ifndef LITE_DIV
@@ -1010,8 +970,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 
             DBImgInfoList dbInfos;
             using namespace utils::image;
-            for (auto path : paths)
-            {
+            for (auto path : paths) {
                 if (!imageSupportRead(path)) continue;
 
                 QFileInfo fi(path);
@@ -1023,8 +982,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 dbInfos << dbi;
             }
 
-            if (! dbInfos.isEmpty())
-            {
+            if (! dbInfos.isEmpty()) {
                 dApp->m_imageloader->ImportImageLoader(dbInfos, m_pAlbumview->m_currentAlbum);
             }
         }
@@ -1038,24 +996,19 @@ void MainWindow::onLoadingFinished()
 {
     m_pTimeLineBtn->setEnabled(true);
     m_pAlbumBtn->setEnabled(true);
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
-    }
-    else
-    {
+    } else {
         m_pSearchEdit->setEnabled(false);
     }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if(4 == m_pCenterWidget->currentIndex())
-    {
+    if (4 == m_pCenterWidget->currentIndex()) {
         emit dApp->signalM->hideImageView();
         event->ignore();
-    }
-    else {
+    } else {
         event->accept();
     }
 }
@@ -1085,25 +1038,16 @@ void MainWindow::initShortcutKey()
 //缩略图放大
 void MainWindow::thumbnailZoomIn()
 {
-    if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
-    {
+    if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
         emit dApp->signalM->sigCtrlADDKeyActivated();
-    }
-    else
-    {
-        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum())
-        {
+    } else {
+        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->maximum()) {
             m_pSliderPos = m_pSliderPos + 1;
-            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
-            {
+            if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
                 m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
-            {
+            } else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE) {
                 m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
-            {
+            } else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
                 m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
             }
 
@@ -1115,25 +1059,16 @@ void MainWindow::thumbnailZoomIn()
 //缩略图缩小
 void MainWindow::thumbnailZoomOut()
 {
-    if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
-    {
+    if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
         emit dApp->signalM->sigCtrlSubtractKeyActivated();
-    }
-    else
-    {
-        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum())
-        {
+    } else {
+        if (m_pSliderPos != m_pAllPicView->m_pStatusBar->m_pSlider->minimum()) {
             m_pSliderPos = m_pSliderPos - 1;
-            if (m_pCenterWidget->currentIndex() ==VIEW_ALLPIC)
-            {
+            if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
                 m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if(m_pCenterWidget->currentIndex() ==VIEW_TIMELINE)
-            {
+            } else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE) {
                 m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            }
-            else if (m_pCenterWidget->currentIndex() ==VIEW_ALBUM)
-            {
+            } else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
                 m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
             }
 
@@ -1270,7 +1205,7 @@ QJsonObject MainWindow::createShorcutJson()
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    if ( QApplication::keyboardModifiers () == Qt::ControlModifier) {
+    if (QApplication::keyboardModifiers() == Qt::ControlModifier) {
         if (event->delta() > 0) {
             thumbnailZoomIn();
         } else {
@@ -1282,8 +1217,7 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
 void MainWindow::themeTypeChanged()
 {
-    if(0 == m_iCurrentView)
-    {
+    if (0 == m_iCurrentView) {
         DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
         pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
         pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
@@ -1297,16 +1231,13 @@ void MainWindow::themeTypeChanged()
         m_pAllPicBtn->setPalette(pale);
 
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
+        if (themeType == DGuiApplicationHelper::LightType) {
             QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
             effect->setOffset(0, 4);
             effect->setColor(QColor(44, 167, 248, 102));
             effect->setBlurRadius(6);
             m_pAllPicBtn->setGraphicsEffect(effect);
-        }
-        else if (themeType == DGuiApplicationHelper::DarkType)
-        {
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
             QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
             effect->setOffset(0, 4);
             effect->setColor(QColor(0, 42, 175, 102));
@@ -1314,9 +1245,7 @@ void MainWindow::themeTypeChanged()
             m_pAllPicBtn->setGraphicsEffect(effect);
         }
 
-    }
-    else if (1 == m_iCurrentView)
-    {
+    } else if (1 == m_iCurrentView) {
         DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
         pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
         pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
@@ -1330,16 +1259,13 @@ void MainWindow::themeTypeChanged()
         m_pTimeLineBtn->setPalette(pale);
 
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
+        if (themeType == DGuiApplicationHelper::LightType) {
             QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
             effect->setOffset(0, 4);
             effect->setColor(QColor(44, 167, 248, 102));
             effect->setBlurRadius(6);
             m_pTimeLineBtn->setGraphicsEffect(effect);
-        }
-        else if (themeType == DGuiApplicationHelper::DarkType)
-        {
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
             QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
             effect->setOffset(0, 4);
             effect->setColor(QColor(0, 42, 175, 102));
@@ -1347,9 +1273,7 @@ void MainWindow::themeTypeChanged()
             m_pTimeLineBtn->setGraphicsEffect(effect);
         }
 
-    }
-    else if (2 == m_iCurrentView)
-    {
+    } else if (2 == m_iCurrentView) {
         DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
         pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
         pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
@@ -1363,16 +1287,13 @@ void MainWindow::themeTypeChanged()
         m_pAlbumBtn->setPalette(pale);
 
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
+        if (themeType == DGuiApplicationHelper::LightType) {
             QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
             effect->setOffset(0, 4);
             effect->setColor(QColor(44, 167, 248, 102));
             effect->setBlurRadius(6);
             m_pAlbumBtn->setGraphicsEffect(effect);
-        }
-        else if (themeType == DGuiApplicationHelper::DarkType)
-        {
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
             QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
             effect->setOffset(0, 4);
             effect->setColor(QColor(0, 42, 175, 102));

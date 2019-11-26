@@ -14,14 +14,13 @@ int main(int argc, char *argv[])
     Application a(argc, argv);
 
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
-    a.setAttribute(Qt::AA_EnableHighDpiScaling);
-    a.setAttribute(Qt::AA_ForceRasterWidgets);
+    //  a.setAttribute(Qt::AA_EnableHighDpiScaling);
+    //a.setAttribute(Qt::AA_ForceRasterWidgets);
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-album");
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
-    if(!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope))
-    {
+    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
         exit(0);
     }
 
