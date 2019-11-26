@@ -339,7 +339,7 @@ void AlbumView::initRightView()
     m_importByPhoneWidget = new DWidget;
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
-    importLabel->setText(tr("Import to"));
+    importLabel->setText(tr("Import to:"));
     DFontSizeManager::instance()->bind(importLabel, DFontSizeManager::T6, QFont::Medium);
     importLabel->setForegroundRole(DPalette::TextTips);
     importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);

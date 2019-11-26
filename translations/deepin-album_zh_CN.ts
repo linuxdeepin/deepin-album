@@ -170,7 +170,7 @@
     </message>
     <message>
         <source>Import to</source>
-        <translation>导入到</translation>
+        <translation type="vanished">导入到</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -199,6 +199,10 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>Import to:</source>
+        <translation>导入到：</translation>
     </message>
 </context>
 <context>
