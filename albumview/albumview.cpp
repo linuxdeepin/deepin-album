@@ -315,7 +315,7 @@ void AlbumView::initRightView()
 
     m_pRightTitle = new DLabel();
     m_pRightTitle->setText(tr("Import"));
-    DFontSizeManager::instance()->bind(m_pRightTitle, DFontSizeManager::T3, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_pRightTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pRightTitle->setForegroundRole(DPalette::TextTitle);
 
     m_pRightPicTotal = new DLabel();
@@ -340,6 +340,9 @@ void AlbumView::initRightView()
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
     importLabel->setText(tr("Import to"));
+    DFontSizeManager::instance()->bind(importLabel, DFontSizeManager::T6, QFont::Medium);
+    importLabel->setForegroundRole(DPalette::TextTips);
+    importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     m_importByPhoneComboBox = new DComboBox;
     m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
@@ -383,7 +386,7 @@ void AlbumView::initRightView()
     QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
 
     pLabel1 = new DLabel();
-    DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::Medium);
+    DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
     pLabel1->setForegroundRole(DPalette::TextTitle);
     pLabel1->setText(tr("Trash"));
 
@@ -442,7 +445,7 @@ void AlbumView::initRightView()
     QVBoxLayout *pFavoriteVBoxLayout = new QVBoxLayout();
 
     m_pFavoriteTitle = new DLabel();
-    DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
     m_pFavoriteTitle->setText(tr("Favorites"));
 
@@ -1525,10 +1528,8 @@ void AlbumView::updateImportComboBox()
             continue;
         }
 
-        m_customAlbumNames << albumName;
+        m_importByPhoneComboBox->addItem(albumName);
     }
-
-    m_importByPhoneComboBox->addItems(m_customAlbumNames);
 }
 
 //手机照片全部导入

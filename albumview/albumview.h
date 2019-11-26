@@ -141,7 +141,6 @@ public:
 private:
 
     QStringList m_allAlbumNames;
-    QStringList m_customAlbumNames;
 
     DWidget* m_pLeftWidget;
     ImportView* m_pImportView;
