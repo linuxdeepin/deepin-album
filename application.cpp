@@ -471,7 +471,7 @@ Application::Application(int& argc, char** argv)
     setApplicationVersion(DApplication::buildVersion("20191011"));
 
 //    setApplicationDescription(DApplication::translate("Main","相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。"));
-    setApplicationDescription(DApplication::translate("Main","Album is an album management tool that can browse, organize and edit photos in various ways."));
+    setApplicationDescription(DApplication::translate("Main","Album is a fashion photo manager for viewing and organizing pictures."));
     installEventFilter(new GlobalEventFilter());
     initChildren();
     initDB();

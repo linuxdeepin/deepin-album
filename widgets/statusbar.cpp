@@ -13,11 +13,11 @@ void StatusBar::initUI()
 {
     setFixedHeight(27);
 
-    QString str = tr("%1 Photos");
+//    QString str = QObject::tr("%1 photo(s)");
     m_allPicNum = DBManager::instance()->getImgsCount();
 
     m_pAllPicNumLabel = new DLabel();
-    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
+//    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
     m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
 
@@ -58,7 +58,7 @@ void StatusBar::initConnections()
         {
             imgpaths = paths;
 
-            QString string = tr("Being imported:'%1'");
+            QString string = tr("Importing photos:'%1'");
             TextLabel->setAlignment(Qt::AlignCenter);
             TextLabel->setText(string.arg(imgpaths[0]));
             TextLabel->adjustSize();
@@ -87,7 +87,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
         m_pStackedWidget->setCurrentIndex(1);
 
 
-        QString string = tr("Being imported:'%1'");
+        QString string = tr("Importing photos:'%1'");
 //        TextLabel->setAlignment(Qt::AlignCenter);
 //        TextLabel->adjustSize();
 

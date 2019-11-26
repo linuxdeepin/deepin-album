@@ -303,8 +303,8 @@ void AlbumView::initRightView()
 
     // Import View
     m_pImportView = new ImportView();
-    QList<QLabel *> labelList = m_pImportView->findChildren<QLabel *>();
-    labelList[1]->setText(tr("You can also drag it here"));
+    QList<QLabel*> labelList = m_pImportView->findChildren<QLabel*>();
+    labelList[1]->setText(tr("Or drag photos here"));
 
     // Thumbnail View
     DWidget *pNoTrashWidget = new DWidget();
@@ -314,13 +314,13 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pRightTitle = new DLabel();
-    m_pRightTitle->setText(tr("Imported"));
+    m_pRightTitle->setText(tr("Import"));
     DFontSizeManager::instance()->bind(m_pRightTitle, DFontSizeManager::T3, QFont::Medium);
     m_pRightTitle->setForegroundRole(DPalette::TextTitle);
 
     m_pRightPicTotal = new DLabel();
 
-    QString str = tr("%1 Photos");
+    QString str = tr("%1 photo(s)");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
     DFontSizeManager::instance()->bind(m_pRightPicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pRightPicTotal->setForegroundRole(DPalette::TextTips);
@@ -339,17 +339,17 @@ void AlbumView::initRightView()
     m_importByPhoneWidget = new DWidget;
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
-    importLabel->setText(tr("Imported into："));
+    importLabel->setText(tr("Import to"));
 
     m_importByPhoneComboBox = new DComboBox;
     m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
 
-    m_importAllByPhoneBtn = new DPushButton(tr("All Import"));
+    m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
     DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
-    importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+    importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
 
-    m_importSelectByPhoneBtn = new DSuggestButton(tr("Selected Import"));
+    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import"));
     DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
     importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
@@ -390,19 +390,19 @@ void AlbumView::initRightView()
     pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
     pLabel2->setForegroundRole(DPalette::TextTips);
-    pLabel2->setText(tr("The photos shows the number of days left before it is deleted, and then it is permanently deleted"));
+    pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
 
     pTopLeftVBoxLayout->addSpacing(5);
     pTopLeftVBoxLayout->addWidget(pLabel1);
     pTopLeftVBoxLayout->addSpacing(9);
     pTopLeftVBoxLayout->addWidget(pLabel2);
     pTopLeftVBoxLayout->addSpacing(-4);
-    pTopLeftVBoxLayout->setContentsMargins(10, 0, 0, 0);
+    pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
     m_pRecoveryBtn = new DPushButton();
 
-    m_pRecoveryBtn->setText(tr("Recovery"));
+    m_pRecoveryBtn->setText(tr("Restore"));
     m_pRecoveryBtn->setEnabled(false);
     m_pRecoveryBtn->setFixedSize(100, 36);
 
@@ -449,7 +449,7 @@ void AlbumView::initRightView()
     m_pFavoritePicTotal = new DLabel();
     DFontSizeManager::instance()->bind(m_pFavoritePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pFavoritePicTotal->setForegroundRole(DPalette::TextTips);
-    QString favoriteStr = tr("%1 Photos");
+    QString favoriteStr = tr("%1 photo(s)");
 
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES);
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
@@ -463,7 +463,7 @@ void AlbumView::initRightView()
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
     pFavoriteVBoxLayout->addSpacing(-6);
 
-    pFavoriteVBoxLayout->setContentsMargins(10, 0, 0, 0);
+    pFavoriteVBoxLayout->setContentsMargins(10,0,0,0);
 
     QVBoxLayout *p_all1 = new QVBoxLayout();
     p_all1->addLayout(pFavoriteVBoxLayout);
@@ -501,7 +501,8 @@ void AlbumView::initRightView()
     pVBoxLayout->addWidget(m_pStatusBar);
     m_pWidget->setLayout(pVBoxLayout);
 
-    if (0 < DBManager::instance()->getImgsCount()) {
+    if (0 < DBManager::instance()->getImgsCount())
+    {
         m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
         m_pStatusBar->show();
@@ -547,17 +548,20 @@ void AlbumView::updateRightNoTrashView()
 
         m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
 
-        if (0 < m_iAlubmPicsNum) {
-            m_pRightTitle->setText(tr("Imported"));
+        if (0 < m_iAlubmPicsNum)
+        {
+            m_pRightTitle->setText(tr("Import"));
 
-            QString str = tr("%1 Photos");
+            QString str = tr("%1 photo(s)");
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
             m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
             m_pStatusBar->show();
-        } else {
+        }
+        else
+        {
 
             m_pImportView->setAlbumname(QString());
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
@@ -565,10 +569,13 @@ void AlbumView::updateRightNoTrashView()
         }
 
         setAcceptDrops(true);
-    } else if (COMMON_STR_FAVORITES == m_currentAlbum) { //个人收藏
+    }
+    else if (COMMON_STR_FAVORITES == m_currentAlbum)    //个人收藏
+    {
         infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
 
-        for (auto info : infos) {
+        for(auto info : infos)
+        {
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
@@ -579,25 +586,30 @@ void AlbumView::updateRightNoTrashView()
 
         m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
 
-        QString favoriteStr = tr("%1 Photos");
+        QString favoriteStr = tr("%1 photo(s)");
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
         m_pRightFavoriteThumbnailList->insertThumbnails(m_curThumbnaiItemList);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
         setAcceptDrops(false);
-    } else {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
+    }
+    else
+    {
+        AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
-        qDebug() << item->m_albumTypeStr;
-        if ( ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr) {
+        qDebug()<<item->m_albumTypeStr;
+        if ( ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
+        {
             // 手机
-            qDebug() << item->m_albumNameStr;
-            qDebug() << m_phoneNameAndPathlist;
-            if (true == m_phoneNameAndPathlist.contains(item->m_albumNameStr)) {
+            qDebug()<<item->m_albumNameStr;
+            qDebug()<<m_phoneNameAndPathlist;
+            if (true == m_phoneNameAndPathlist.contains(item->m_albumNameStr))
+            {
                 updateImportComboBox();
                 m_importByPhoneWidget->setVisible(true);
 
-                for (auto path : m_phoneNameAndPathlist.value(item->m_albumNameStr)) {
+                for(auto path : m_phoneNameAndPathlist.value(item->m_albumNameStr))
+                {
                     ThumbnailListView::ItemInfo vi;
                     vi.path = path;
                     vi.image = m_phonePathAndImage.value(path);
@@ -610,27 +622,32 @@ void AlbumView::updateRightNoTrashView()
                 m_pRightTitle->setText(m_currentAlbum);
 
                 QFontMetrics elideFont(m_pRightTitle->font());
-                m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
+                m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
 
-                QString str = tr("%1 Photos");
+                QString str = tr("%1 photo(s)");
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
                 m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
                 m_pRightThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
 
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
-            } else {
+            }
+            else
+            {
                 m_mountPicNum = 0;
 //                m_pSpinner->start();
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_SPINNER);
             }
 
             setAcceptDrops(false);
-        } else {
+        }
+        else
+        {
             // 新建相册
             infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
 
-            for (auto info : infos) {
+            for(auto info : infos)
+            {
                 ThumbnailListView::ItemInfo vi;
                 vi.name = info.fileName;
                 vi.path = info.filePath;
@@ -641,13 +658,14 @@ void AlbumView::updateRightNoTrashView()
 
             m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
 
-            if (0 < m_iAlubmPicsNum) {
+            if (0 < m_iAlubmPicsNum)
+            {
                 m_pRightTitle->setText(m_currentAlbum);
 
                 QFontMetrics elideFont(m_pRightTitle->font());
                 m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
 
-                QString str = tr("%1 Photos");
+                QString str = tr("%1 photo(s)");
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
                 m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
@@ -655,7 +673,8 @@ void AlbumView::updateRightNoTrashView()
 
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
                 m_pStatusBar->show();
-            } else {
+            }
+            else {
                 m_pImportView->setAlbumname(m_currentAlbum);
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
                 m_pStatusBar->show();
@@ -676,7 +695,8 @@ void AlbumView::updateRightTrashView()
 
     infos = DBManager::instance()->getAllTrashInfos();
 
-    for (auto info : infos) {
+    for(auto info : infos)
+    {
         QDateTime start = QDateTime::currentDateTime();
         QDateTime end = info.time;
 
@@ -692,7 +712,7 @@ void AlbumView::updateRightTrashView()
             vi.name = info.fileName;
             vi.path = info.filePath;
             vi.image = dApp->m_imagetrashmap.value(info.filePath);
-            vi.remainDays = QString::number(30 - Day) + tr("Days");
+            vi.remainDays = QString::number(30-Day) + tr(" D");
 
             m_curThumbnaiItemList << vi;
         }
@@ -769,8 +789,9 @@ void AlbumView::showLeftMenu(const QPoint &pos)
         m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
     }
 
-    if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr)) {
-        m_MenuActionMap.value(tr("Export album"))->setVisible(false);
+    if (0 == DBManager::instance()->getImgsCountByAlbum(item->m_albumNameStr))
+    {
+        m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }
     m_pLeftMenu->popup(QCursor::pos());
 }
@@ -1314,21 +1335,21 @@ void AlbumView::initLeftMenu()
     appendAction(IdStartSlideShow, tr("Slide show"), ss(""));
     m_pLeftMenu->addSeparator();
 
-    appendAction(IdCreateAlbum, tr("Creat album"), ss(""));
+    appendAction(IdCreateAlbum, tr("New Album"), ss(""));
     m_pLeftMenu->addSeparator();
 
-    appendAction(IdRenameAlbum, tr("Rename album"), ss("COMMON_STR_RENAMEALBUM"));
+    appendAction(IdRenameAlbum, tr("Rename"), ss("COMMON_STR_RENAMEALBUM"));
     m_pLeftMenu->addSeparator();
 
-    appendAction(IdExport, tr("Export album"), ss(""));
+    appendAction(IdExport, tr("Export"), ss(""));
     m_pLeftMenu->addSeparator();
 
-    appendAction(IdDeleteAlbum, tr("Remove album"), ss(""));
+    appendAction(IdDeleteAlbum, tr("Delete"), ss(""));
 }
 
 void AlbumView::importComboBoxChange(QString strText)
 {
-    if (strText.compare(tr("Create Album")) == 0) {
+    if(strText.compare(tr("New Album")) == 0) {
         AlbumCreateDialog *dialog = new AlbumCreateDialog;
         dialog->showInCenter(window());
         connect(dialog, &AlbumCreateDialog::albumAdded, this, [ = ] {
@@ -1490,8 +1511,8 @@ bool AlbumView::findPicturePathByPhone(QString &path)
 void AlbumView::updateImportComboBox()
 {
     m_importByPhoneComboBox->clear();
-    m_importByPhoneComboBox->addItem(tr("Imported"));
-    m_importByPhoneComboBox->addItem(tr("Create Album"));
+    m_importByPhoneComboBox->addItem(tr("Import"));
+    m_importByPhoneComboBox->addItem(tr("New Album"));
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
     {
@@ -1736,7 +1757,7 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 
 void AlbumView::updatePicNum()
 {
-    QString str = tr("Selected %1 photos");
+    QString str = tr("%1 photo(s) selected");
     int selPicNum = 0;
 
     if (4 == m_pRightStackWidget->currentIndex()) {
@@ -1764,7 +1785,7 @@ void AlbumView::updatePicNum()
 
 void AlbumView::restorePicNum()
 {
-    QString str = tr("%1 photos");
+    QString str = tr("%1 photo(s)");
     int selPicNum = 0;
 
     if (4 == m_pRightStackWidget->currentIndex()) {

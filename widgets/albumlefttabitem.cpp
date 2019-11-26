@@ -109,7 +109,7 @@ void AlbumLeftTabItem::initUI()
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
 
-        m_nameLabel->setText(elideFont.elidedText(tr("Imported"), Qt::ElideRight, 85));
+        m_nameLabel->setText(elideFont.elidedText(tr("Import"), Qt::ElideRight, 85));
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
     {
@@ -142,7 +142,7 @@ void AlbumLeftTabItem::initUI()
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr)
     {
 
-        m_pLineEdit->setText(tr("Imported"));
+        m_pLineEdit->setText(tr("Import"));
     }
     else if (COMMON_STR_TRASH == m_albumNameStr)
     {

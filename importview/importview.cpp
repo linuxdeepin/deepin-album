@@ -52,7 +52,7 @@ void ImportView::initUI()
 
     m_pImportBtn = new DSuggestButton();
 //    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
-    m_pImportBtn->setText(tr("Import photos"));
+    m_pImportBtn->setText(tr("Import Photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
@@ -67,7 +67,7 @@ void ImportView::initUI()
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setFixedHeight(18);
-    pLabel2->setText(tr("You can also drag it here"));
+    pLabel2->setText(tr("Or drag photos here"));
 
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
     effect->setOffset(0,4);

@@ -205,7 +205,6 @@ void TimeLineView::initTimeLineViewWidget()
     TitleViewLayout->addWidget(pNum_up);
 
     QHBoxLayout *Layout = new QHBoxLayout();
-//    pSuspensionChose = new DCommandLinkButton("选择");
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pSuspensionChose->setFixedHeight(24);
@@ -217,19 +216,18 @@ void TimeLineView::initTimeLineViewWidget()
     Layout->setContentsMargins(0, 0, 12, 0);
     Layout->addWidget(pSuspensionChose);
     connect(pSuspensionChose, &DCommandLinkButton::clicked, this, [ = ] {
-//        if ("选择" == pSuspensionChose->text())
         if (QObject::tr("Select") == pSuspensionChose->text())
         {
-//            pSuspensionChose->setText("取消选择");
             pSuspensionChose->setText(QObject::tr("Unselect"));
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
             p[0]->selectAll();
+            updatePicNum();
         } else
         {
-//            pSuspensionChose->setText("选择");
             pSuspensionChose->setText(QObject::tr("Select"));
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
             p[0]->clearSelection();
+            updatePicNum();
         }
 #if 1
         QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
@@ -318,7 +316,7 @@ void TimeLineView::updataLayout()
         if (datelist.count() > 2) 
 		{
 //            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-            listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
         pDate->setText(listItem->m_sdate);
 
@@ -336,8 +334,7 @@ void TimeLineView::updataLayout()
         listItem->m_date = pDate;
 
         pNum_dn = new DLabel();
-//        listItem->m_snum = QString("%1张照片").arg(ImgInfoList.size());
-        listItem->m_snum = QString(QObject::tr("%1 Photos")).arg(ImgInfoList.size());
+        listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
         pNum_dn->setText(listItem->m_snum);
 
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -365,7 +362,6 @@ void TimeLineView::updataLayout()
         pNum_dn->setFont(ft6);
 
         QHBoxLayout *Layout = new QHBoxLayout();
-//        DCommandLinkButton *pChose = new DCommandLinkButton("选择");
         DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
 
         pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
@@ -502,15 +498,12 @@ void TimeLineView::updataLayout()
            }
        });
         connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
-//           if ("选择" == pChose->text())
             if (QObject::tr("Select") == pChose->text())
             {
-//               pChose->setText("取消选择");
                 pChose->setText(QObject::tr("Unselect"));
                 pThumbnailListView->selectAll();
             } else
             {
-//               pChose->setText("选择");
                 pChose->setText(QObject::tr("Select"));
                 pThumbnailListView->clearSelection();
             }
@@ -720,7 +713,7 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void TimeLineView::updatePicNum()
 {
-    QString str = QObject::tr("Selected %1 photos");
+    QString str = QObject::tr("%1 photo(s) selected");
 
      if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
      {
@@ -742,7 +735,7 @@ void TimeLineView::updatePicNum()
          }
          else
          {
-            QString str1 = QObject::tr("Selected %1 photos");
+            QString str1 = QObject::tr("%1 photo(s) selected");
             m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(allnum));
         }
     }
@@ -750,7 +743,7 @@ void TimeLineView::updatePicNum()
 
 void TimeLineView::restorePicNum()
 {
-    QString str = QObject::tr("%1 photos");
+    QString str = QObject::tr("%1 photo(s)");
     int selPicNum = 0;
 
     if(VIEW_TIMELINE == m_pStackedWidget->currentIndex())

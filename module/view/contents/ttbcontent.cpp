@@ -886,7 +886,7 @@ void TTBContent::updateCollectButton()
 
     if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_imagePath))
     {
-        m_clBT->setToolTip(tr("Unavorite"));
+        m_clBT->setToolTip(tr("Unfavorite"));
 
         m_clBT->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_clBT->setIconSize(QSize(36,36));

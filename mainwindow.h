@@ -26,6 +26,7 @@
 #include <DLabel>
 #include <QStatusBar>
 #include <DTabBar>
+#include <QButtonGroup>
 
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
@@ -54,8 +55,8 @@ public:
 //    void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
-    void closeEvent(QCloseEvent *event) override;
-    void themeTypeChanged();
+    void closeEvent(QCloseEvent* event) override;
+//    void themeTypeChanged();
 
 private:
     void initShortcutKey();
@@ -92,26 +93,32 @@ private:
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
 
-    QWidget *m_titleBtnWidget;
-    DMenu *m_pTitleBarMenu;
-    DPushButton *m_pAllPicBtn;
-    DPushButton *m_pTimeLineBtn;
-    DPushButton *m_pAlbumBtn;
-    DSearchEdit *m_pSearchEdit;
-    QStackedWidget *m_pCenterWidget;
+    QWidget* m_titleBtnWidget;
+    DMenu* m_pTitleBarMenu;
+//    DPushButton* m_pAllPicBtn;
+//    DPushButton* m_pTimeLineBtn;
+//    DPushButton* m_pAlbumBtn;
+    DSearchEdit* m_pSearchEdit;
+    QStackedWidget* m_pCenterWidget;
     CommandLine *m_commandLine;
-    AlbumView *m_pAlbumview;
-    AllPicView *m_pAllPicView;
-    TimeLineView *m_pTimeLineView;
-    SearchView *m_pSearchView;
+    AlbumView* m_pAlbumview;
+    AllPicView* m_pAllPicView;
+    TimeLineView* m_pTimeLineView;
+    SearchView* m_pSearchView;
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
 //    DSlider* m_pSlider;
-    DBManager *m_pDBManager;
-    QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
+    DBManager* m_pDBManager;
+    QMap<QString, ImgInfoDialog*> m_propertyDialogs{};
     int m_backIndex;
     int m_pSliderPos = 2;
-    DPushButton *m_pItemButton;
+    DPushButton* m_pItemButton;
+
+    QButtonGroup* btnGroup;
+    DToolButton* m_pAllPicBtn;
+    DToolButton* m_pTimeBtn;
+    DToolButton* m_pAlbumBtn;
+
 };
 
 #endif // MAINWINDOW_H

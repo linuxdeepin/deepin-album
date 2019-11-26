@@ -39,7 +39,7 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     DLabel *title = new DLabel(this);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T5, QFont::DemiBold);
     title->setForegroundRole(DPalette::TextTitle);
-    title->setText(tr("Create Album"));
+    title->setText(tr("New Album"));
 //    title->setFixedSize(68,25);
     title->setFixedSize(130,25);
     title->setObjectName("DialogTitle");

@@ -21,7 +21,7 @@ AlbumDeleteDialog::AlbumDeleteDialog()
     DFontSizeManager::instance()->bind(m_label, DFontSizeManager::T5, QFont::DemiBold);
     m_label->setForegroundRole(DPalette::TextTitle);
     m_label->setFixedSize(180,36);
-    m_label->setText(tr("Are you sure to delete this album?"));
+    m_label->setText(tr("Are you sure you want to delete this album?"));
 
     DPushButton *m_Cancel = new DPushButton(this);
     m_Cancel->setText(tr("Cancel"));

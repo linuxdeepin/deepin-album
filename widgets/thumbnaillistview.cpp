@@ -398,7 +398,7 @@ void ThumbnailListView::updateMenuContents()
     if (1 != paths.length()) {
 
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
-        m_MenuActionMap.value(tr("Image info"))->setVisible(false);
+        m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
     }
     if (!(1 == paths.length() && utils::image::imageSupportSave(paths[0]))) {
 
@@ -460,13 +460,13 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss(SETASWALLPAPER_CONTEXT_MENU));
     appendAction(IdDisplayInFileManager, tr("Display in file manager"),
                  ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
-    appendAction(IdImageInfo, tr("Image info"), ss(ImageInfo_CONTEXT_MENU));
+    appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
 }
 
 
 QMenu *ThumbnailListView::createAlbumMenu()
 {
-    QMenu *am = new QMenu(tr("Add To Album"));
+    QMenu *am = new QMenu(tr("Add to album"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
@@ -475,8 +475,8 @@ QMenu *ThumbnailListView::createAlbumMenu()
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("Create Album"));
-    ac->setData(QString(tr("Add to new album")));
+    ac->setText(tr("New Album"));
+    ac->setData("Add to new album");
     am->addAction(ac);
     am->addSeparator();
     for (QString album : albums) {

@@ -42,28 +42,22 @@ const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
 struct MetaData {
     QString key;
-    QString name;
+    const char *name;
 };
 
 static MetaData MetaDataBasics[] = {
-//    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "图片名称")},
-//    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "图片类型")},
-//    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
-//    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "图片尺寸")},
-//    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "拍摄时间")},
-//    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改时间")},
-//    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
-//    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-//    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
-//    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
-//    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimension")},
-//    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
-    {"FileName",            QObject::tr("FileName")},
-    {"FileFormat",          QObject::tr("FileFormat")},
-    {"FileSize",            QObject::tr("FileSize")},
-    {"Dimension",           QObject::tr("Dimension")},
-    {"DateTimeOriginal",    QObject::tr("DateTimeOriginal")},
-    {"DateTimeDigitized",   QObject::tr("DateTimeDigitized")},
+//    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "照片名称")},
+//    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "照片类型")},
+//    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "⽂件⼤⼩")},
+//    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "照片尺寸")},
+//    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "拍摄日期")},
+//    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改⽇期")},
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo Name")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
+    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
     {"", ""}
 };
 
@@ -79,34 +73,24 @@ static MetaData MetaDataDetails[] = {
 //    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "测光模式")},
 //    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "白平衡")},
 //    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "闪光灯补偿")},
+//    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "相机型号")},
 //    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "镜头型号")},
+//    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "颜色空间")},
 
-//    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
-//    {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
-//    {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
-//    {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
-//    {"Flash",               QT_TRANSLATE_NOOP("MetadataName", "Flash")},
-//    {"ApertureValue",       QT_TRANSLATE_NOOP("MetadataName", "Aperture")},
-//    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
-//    {"ISOSpeedRatings",     QT_TRANSLATE_NOOP("MetadataName", "ISO")},
-//    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
-//    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
-//    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "White balance")},
-//    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
-//    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
-//    {"LensType",            QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
-    {"ExposureMode",        QObject::tr("ExposureMode")},
-    {"ExposureProgram",     QObject::tr("ExposureProgram")},
-    {"ExposureTime",        QObject::tr("ExposureTime")},
-    {"Flash",               QObject::tr("Flash")},
-    {"ApertureValue",       QObject::tr("ApertureValue")},
-    {"FocalLength",         QObject::tr("FocalLength")},
-    {"ISOSpeedRatings",     QObject::tr("ISOSpeedRatings")},
-    {"MaxApertureValue",    QObject::tr("MaxApertureValue")},
-    {"MeteringMode",        QObject::tr("MeteringMode")},
-    {"WhiteBalance",        QObject::tr("WhiteBalance")},
-    {"FlashExposureComp",   QObject::tr("FlashExposureComp")},
-    {"Model",               QObject::tr("Model")},
+    {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
+    {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
+    {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
+    {"Flash",               QT_TRANSLATE_NOOP("MetadataName", "Flash")},
+    {"ApertureValue",       QT_TRANSLATE_NOOP("MetadataName", "Aperture")},
+    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
+    {"ISOSpeedRatings",     QT_TRANSLATE_NOOP("MetadataName", "ISO")},
+    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
+    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
+    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "White balance")},
+    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
+    {"CameraModel",         QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
+    {"LensModel",           QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
+    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
     {"", ""}
 };
 
@@ -192,7 +176,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 //    contentLayout->setContentsMargins(10, 10, 10, 10);
 
     // Title field
-    SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
+    SimpleFormLabel *title = new SimpleFormLabel(tr("Photo info"));
     title->setFixedHeight(50);
     title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
@@ -354,9 +338,9 @@ void ImageInfoWidget::setImagePath(const QString &path)
 
     if(m_isBaseInfo == true && m_isDetailsInfo == true ){
 
-        titleList << tr("Basic information");
+        titleList << tr("Basic info");
 
-        titleList << tr("Detailed information");
+        titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
         m_expandGroup.at(0)->setExpand(true);
@@ -366,14 +350,14 @@ void ImageInfoWidget::setImagePath(const QString &path)
     }
     else if(m_isBaseInfo == false && m_isDetailsInfo == true ){
 
-        titleList << tr("Basic information");
+        titleList << tr("Basic info");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_details);
         m_expandGroup.at(0)->setExpand(true);
     }
     else if(m_isBaseInfo == true && m_isDetailsInfo == false ){
 
-        titleList << tr("Detailed information");
+        titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
         m_expandGroup.at(0)->setExpand(true);
@@ -468,8 +452,8 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         field->setPalette(pa1);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
-//        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-        SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
+        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+//        SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -495,8 +479,8 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
             field->setPalette(pa1);
             field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
-//            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-            SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
+            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+//            SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
             title->setMinimumHeight(field->minimumHeight());
             title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
             title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -532,8 +516,8 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         field->setPalette(pa1);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
-//        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-        SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
+        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+//        SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -560,8 +544,8 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
                 field->setPalette(pa1);
                 field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
-//                SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-                SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
+                SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+//                SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
                 title->setMinimumHeight(field->minimumHeight());
                 title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
                 title->setAlignment(Qt::AlignLeft | Qt::AlignTop);

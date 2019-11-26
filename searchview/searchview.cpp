@@ -133,7 +133,7 @@ void SearchView::initSearchResultView()
 //    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
 
-    pLabel1->setText(tr("Search Result"));
+    pLabel1->setText(tr("Search Results"));
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     font.setWeight(QFont::DemiBold);
     pLabel1->setFont(font);
@@ -182,7 +182,7 @@ void SearchView::initSearchResultView()
     QIcon icon;
     icon = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 18));
     m_pSlideShowBtn->setIcon(icon);
-    m_pSlideShowBtn->setText(tr("Slideshow"));
+    m_pSlideShowBtn->setText(tr("Slide Show"));
 
 //    DLabel* Label1 = new DLabel(m_pSlideShowBtn);
 //    Label1->move(6,7);
@@ -191,7 +191,7 @@ void SearchView::initSearchResultView()
 //    Label2->move(29,6);
 //    Label1->setPixmap(pixmap);
 //    Label1->setPalette(pal);
-//    Label2->setText(tr("Slideshow"));
+//    Label2->setText(tr("Slide Show"));
 
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft1.setFamily("SourceHanSansSC-Medium");
@@ -269,7 +269,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
         m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
 
-        QString searchStr = tr("Search %1 photos in total");
+        QString searchStr = tr("%1 photo(s) found");
         QString str = QString::number(infos.length());
         m_searchPicNum = infos.length();
         m_pSearchResultLabel->setText(searchStr.arg(str));
@@ -297,7 +297,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     else
     {
 
-        QString str = tr("No results for '%1', please try searching for new words.");
+        QString str = tr("No results for '%1', please try another word");
         m_pNoSearchResultLabel->setText(str.arg(s));
         m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette palette = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);

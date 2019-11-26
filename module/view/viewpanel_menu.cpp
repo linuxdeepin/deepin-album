@@ -173,7 +173,7 @@ DMenu *ViewPanel::createAlbumMenu()
         removeCurrentImage();
     }
     ac->setText(tr("Add to new album"));
-    ac->setData(QString("Add to new album"));
+    ac->setData("Add to new album");
     am->addAction(ac);
     am->addSeparator();
     for (QString album : albums) {
@@ -463,11 +463,11 @@ void ViewPanel::updateMenuContent()
 
 
     appendAction(IdDisplayInFileManager,tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", ""));
+    appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", ""));
 }
 #if 1
 QMenu* ViewPanel::createAblumMenu(){
-    QMenu *am = new QMenu(tr("Add To Album"));
+    QMenu *am = new QMenu(tr("Add to album"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
@@ -476,8 +476,8 @@ QMenu* ViewPanel::createAblumMenu(){
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("Creat Album"));
-    ac->setData(QString(tr("Add to new album")));
+    ac->setText(tr("New Album"));
+    ac->setData("Add to new album");
     ac->setShortcut(QKeySequence("Ctrl+Shift+N"));
     am->addAction(ac);
     am->addSeparator();

@@ -64,7 +64,7 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise", "Ctrl + Shift + R"))<<
     ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F8"))<<
     ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))<<
-    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
+    ShortcutItem(tr("Photo info"), ss(VIEW_GROUP, "Photo info", "Alt + Enter"))<<
     ShortcutItem(tr("Previous"), "Left")<<
     ShortcutItem(tr("Next"), "Right")
                     #ifndef LITE_DIV
