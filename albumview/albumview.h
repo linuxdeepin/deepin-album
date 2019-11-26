@@ -174,6 +174,7 @@ private:
     int m_mountPicNum;
     int m_loadMountFlag;                        // 0:全部加载完成 1:有未加载完成
     QMap<QString, int> m_loadMountMap;          // key: 外设挂载路径 value: 标记是否加载完成
+    QMap<QString, QString> m_MountPathToNameMap;  //挂载设备path对name的map
 
     MountLoader* m_mountloader;
     QThread * m_LoadThread;

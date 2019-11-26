@@ -1225,6 +1225,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     if (m_loadMountMap.keys().contains(strPath)) return;
 
     m_loadMountMap.insert(mount->getDefaultLocationFile()->path(), 0);
+    m_MountPathToNameMap.insert(mount->getDefaultLocationFile()->path(), mount->name());
 
     if (0 == m_loadMountFlag) {
         m_loadMountFlag = 1;
@@ -1241,6 +1242,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     Q_UNUSED(mount);
 
     m_loadMountMap.remove(mount->getDefaultLocationFile()->path());
+    m_MountPathToNameMap.remove(mount->getDefaultLocationFile()->path());
     m_mounts.removeOne(mount);
 
     for (int i = 0; i < m_pLeftTabList->count(); i++) {
@@ -1406,6 +1408,7 @@ bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo
 
 void AlbumView::initExternalDevice()
 {
+    m_MountPathToNameMap.clear();
     for (auto mount : m_mounts) {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
         //pListWidgetItem缓存文件挂载路径
@@ -1425,6 +1428,7 @@ void AlbumView::initExternalDevice()
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
 
         m_loadMountMap.insert(mount->getDefaultLocationFile()->path(), 0);
+        m_MountPathToNameMap.insert(mount->getDefaultLocationFile()->path(), mount->name());
         if (0 == m_loadMountFlag) {
             m_loadMountFlag = 1;
             qDebug() << "emit dApp->sigLoadMountImagesStart()" << mount->name() << strPath;
@@ -1677,8 +1681,9 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
     qDebug() << "onLoadMountImagesEnd() mountname" << mountname;
     qDebug() << m_phoneNameAndPathlist;
     for (auto path : m_loadMountMap.keys()) {
+        QString name = m_MountPathToNameMap.value(path);
         QStringList pathList = path.split("/");
-        if (pathList.last() == mountname) {
+        if (name == mountname) {
             m_loadMountMap[path] = 1;
             qDebug() << "onLoadMountImagesEnd() updateRightView()";
             updateRightView();
@@ -1695,10 +1700,9 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
             } else {
                 iloadEndFlag = 1;
                 m_loadMountMap.insert(path, 0);
-                QStringList pathList = path.split("/");
-
-                qDebug() << "onLoadMountImagesEnd() emit dApp->sigLoadMountImagesStart()";
-                emit sigLoadMountImagesStart(pathList.last(), path);
+                QString mountName = m_MountPathToNameMap.value(path);
+                qDebug()<<"onLoadMountImagesEnd() emit dApp->sigLoadMountImagesStart()";
+                emit sigLoadMountImagesStart(mountName, path);
                 break;
             }
         }

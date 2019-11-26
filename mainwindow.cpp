@@ -305,6 +305,12 @@ void MainWindow::initShortcut()
 //            }
 //        }
 //    });
+    //Ctrl+F/ 搜索
+    QShortcut *CtrlF = new QShortcut(QKeySequence(CTRLF_SHORTCUT), this);
+    CtrlF->setContext(Qt::ApplicationShortcut);
+    connect(CtrlF, &QShortcut::activated, this, [this] {
+         m_pSearchEdit->lineEdit()->setFocus();
+    });
 }
 
 void MainWindow::initUI()
