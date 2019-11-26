@@ -166,11 +166,11 @@ void TopToolbar::initMenu()
 
     m_menu->addSeparator();
 
-    QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+//    QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
+//    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
 
-    connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
+//    connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+//    connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
 }
 
