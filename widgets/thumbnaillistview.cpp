@@ -235,8 +235,9 @@ void ThumbnailListView::calWidgetItemWandH()
     if (0 < m_gridItem.length()) {
         m_height = 0;
         for (int i = 0; i < rowWidthList.length(); i++) {
-            m_height = m_height + m_gridItem[i][0].height;
+            m_height = m_height + m_gridItem[i][0].height + ITEM_SPACING;
         }
+        m_height -= ITEM_SPACING;
     }
 }
 
