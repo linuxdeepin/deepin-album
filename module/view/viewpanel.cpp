@@ -142,13 +142,17 @@ void ViewPanel::initConnect()
     });
 
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [=]{
-        if (0 != m_iSlideShowTimerId)
-        {
-            killTimer(m_iSlideShowTimerId);
-            m_iSlideShowTimerId = 0;
-        }
+ #if 1
+        if(isVisible()){
+            if (0 != m_iSlideShowTimerId)
+            {
+                killTimer(m_iSlideShowTimerId);
+                m_iSlideShowTimerId = 0;
+            }
 
-        toggleFullScreen();
+            toggleFullScreen();
+        }
+#endif
     });
 }
 

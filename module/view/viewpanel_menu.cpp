@@ -94,7 +94,7 @@ void ViewPanel::initPopupMenu()
             updateMenuContent();
         }
     });
-    QShortcut* sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    QShortcut* sc = new QShortcut(QKeySequence("Alt+Enter"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         if (m_isInfoShowed)
@@ -390,7 +390,7 @@ void ViewPanel::updateMenuContent()
     /**************************************************************************/
 #if 1   
     m_menu->addMenu(createAblumMenu());                                         //添加到相册
-    appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU,"Ctrl+E"));     //导出
+    appendAction(IdExport, tr("Export"), ss("Export","Ctrl+E"));     //导出
 #endif
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
 //    if (COMMON_STR_TRASH == m_viewType)
@@ -461,7 +461,7 @@ void ViewPanel::updateMenuContent()
 
 
     appendAction(IdDisplayInFileManager,tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info", ""));
 }
 #if 1
 QMenu* ViewPanel::createAblumMenu(){

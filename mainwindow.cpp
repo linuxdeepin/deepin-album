@@ -177,7 +177,9 @@ void MainWindow::initShortcut()
         }
         else
         {
-            dApp->quit();
+#if 1
+            this->close();
+#endif
         }
 
         emit dApp->signalM->hideExtensionPanel();

@@ -72,7 +72,10 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
         m_player->setImagePaths(m_vinfo.paths);
     });
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
-        backToLastView();
+#if 1
+        if(isVisible())
+#endif
+            backToLastView();
     });
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &SlideShowPanel::onThemeChanged);
