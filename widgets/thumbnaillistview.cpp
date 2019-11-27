@@ -186,7 +186,7 @@ void ThumbnailListView::calBasePixMapWandH()
         m_ItemList[i].imgHeight = (1 > m_ItemList[i].imgHeight) ? 1 : m_ItemList[i].imgHeight;
         m_ItemList[i].imgWidth = (1 > m_ItemList[i].imgWidth) ? 1 : m_ItemList[i].imgWidth;
         m_ItemList[i].height = (m_iBaseHeight > m_ItemList[i].height) ? m_iBaseHeight : m_ItemList[i].height;
-        m_ItemList[i].width = (m_iBaseHeight > m_ItemList[i].width) ? m_iBaseHeight : m_ItemList[i].width;
+        m_ItemList[i].width = (28 > m_ItemList[i].width) ? 28 : m_ItemList[i].width;
     }
 }
 
@@ -250,14 +250,22 @@ void ThumbnailListView::calWidgetItemWandH()
         {
             int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].length();
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].length();
+            int rowWidth = 0;
             for (int j = 0; j < m_gridItem[i].length(); j++) {
                 m_gridItem[i][j].width = m_gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
                 m_gridItem[i][j].height = m_gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
                 m_gridItem[i][j].imgWidth = m_gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
                 m_gridItem[i][j].imgHeight = m_gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
+
+                rowWidth = rowWidth + m_gridItem[i][j].width + ITEM_SPACING;
             }
 
-            rowWidthList[i] = i_totalwidth;
+            rowWidthList[i] = rowWidth - ITEM_SPACING;
+
+            if (rowWidthList[i] < i_totalwidth)
+            {
+                m_gridItem[i][0].width = m_gridItem[i][0].width + i_totalwidth - rowWidthList[i];
+            }
         }
     }
 
