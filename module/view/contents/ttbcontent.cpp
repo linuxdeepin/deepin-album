@@ -289,7 +289,7 @@ TTBContent::TTBContent(bool inDB,
     m_backButton->setObjectName("ReturnBtn");
     m_backButton->setIcon(QIcon::fromTheme("dcc_previous"));
     m_backButton->setIconSize(QSize(36,36));
-    m_backButton->setToolTip(tr("Return"));
+    m_backButton->setToolTip(tr("Back"));
 
     hb->addWidget(m_backButton);
     hb->addSpacing(ICON_SPACING*5);

@@ -44,6 +44,7 @@ public:
 
     int m_allPicNum;
     int interval;
+    int pic_count;
 private:
     int i = 0;
 

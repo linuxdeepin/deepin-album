@@ -136,7 +136,7 @@ void SearchView::initSearchResultView()
 //    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
 
-    pLabel1->setText(tr("Search Results"));
+    pLabel1->setText(tr("Search results"));
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     font.setWeight(QFont::DemiBold);
     pLabel1->setFont(font);

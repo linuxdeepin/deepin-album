@@ -122,7 +122,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除相册</translation>
+        <translation>删除</translation>
     </message>
     <message>
         <source>Creat album</source>
@@ -410,19 +410,23 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Details Info</source>
-        <translation>详细信息</translation>
+        <translation type="vanished">详细信息</translation>
     </message>
     <message>
         <source>Basic information</source>
-        <translation>基本信息</translation>
+        <translation type="vanished">基本信息</translation>
     </message>
     <message>
         <source>Detailed information</source>
-        <translation>详细信息</translation>
+        <translation type="vanished">详细信息</translation>
     </message>
     <message>
         <source>ExposureMode</source>
         <translation type="vanished">曝光模式</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>详细信息</translation>
     </message>
 </context>
 <context>
@@ -845,7 +849,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>White balance</source>
-        <translation>White balance</translation>
+        <translation>白平衡</translation>
     </message>
     <message>
         <source>Flash compensation</source>
@@ -1049,7 +1053,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Search Results</source>
-        <translation>搜索结果</translation>
+        <translation type="vanished">搜索结果</translation>
     </message>
     <message>
         <source>Slide Show</source>
@@ -1062,6 +1066,10 @@ already exists, do you want to replace?</source>
     <message>
         <source>No results for &apos;%1&apos;, please try another word</source>
         <translation>没有“%1”的结果，请尝试搜索新词</translation>
+    </message>
+    <message>
+        <source>Search results</source>
+        <translation>搜索结果</translation>
     </message>
 </context>
 <context>
@@ -1189,12 +1197,16 @@ already exists, do you want to replace?</source>
         <source>Importing photos:&apos;%1&apos;</source>
         <translation>正在导入:%1</translation>
     </message>
+    <message>
+        <source>Exporting photos:&apos;%1&apos;</source>
+        <translation>正在导出:%1</translation>
+    </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>退出</translation>
+        <translation>返回</translation>
     </message>
     <message>
         <source>Image management</source>
@@ -1202,7 +1214,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Return</source>
-        <translation>返回</translation>
+        <translation type="vanished">返回</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -1214,7 +1226,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 比例</translation>
+        <translation>1:1 视图</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -1312,7 +1324,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Image info</source>
-        <translation>照片信息</translation>
+        <translation type="vanished">照片信息</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -1349,6 +1361,10 @@ already exists, do you want to replace?</source>
     <message>
         <source>New Album</source>
         <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation>从相册中移除</translation>
     </message>
 </context>
 <context>
@@ -1482,6 +1498,10 @@ already exists, do you want to replace?</source>
     <message>
         <source>New Album</source>
         <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation>从相册中移除</translation>
     </message>
 </context>
 </TS>

@@ -72,9 +72,6 @@ void MainWindow::initConnections()
             albumBtnClicked();
         }
     });
-//    connect(m_pAllPicBtn, &DPushButton::clicked, this, &MainWindow::allPicBtnClicked);
-//    connect(m_pTimeLineBtn, &DPushButton::clicked, this, &MainWindow::timeLineBtnClicked);
-//    connect(m_pAlbumBtn, &DPushButton::clicked, this, &MainWindow::albumBtnClicked);
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
 #if 1
     connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
@@ -119,7 +116,6 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, [ = ](int step) {
         m_pSliderPos = step;
     });
-//    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &MainWindow::themeTypeChanged);
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [ = ](QString str1) {
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
@@ -372,78 +368,6 @@ void MainWindow::initTitleBar()
 
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
-    /*************************************
-    m_titleBtnWidget = new QWidget();
-
-    QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
-
-    m_pAllPicBtn = new DPushButton();
-    m_pItemButton = new DPushButton();
-    m_pTimeLineBtn = new DPushButton();
-    m_pAlbumBtn = new DPushButton();
-
-    m_pAllPicBtn->setFixedSize(80, 36);
-    m_pTimeLineBtn->setFixedSize(60, 36);
-    m_pAlbumBtn->setFixedSize(60, 36);
-
-
-    m_pAllPicBtn->setText(tr("All Photos"));
-    m_pAllPicBtn->setFlat(false);
-    m_pItemButton->setFlat(false);
-//    m_pAllPicBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    DFontSizeManager::instance()->bind(m_pAllPicBtn, DFontSizeManager::T6);
-
-    DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
-    pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
-    pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
-    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
-    pal.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-
-    DPalette pale = DApplicationHelper::instance()->palette(m_pItemButton);
-    pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
-    pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
-    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
-    pale.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-    m_pAllPicBtn->setPalette(pale);
-
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType) {
-        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-        effect->setOffset(0, 4);
-        effect->setColor(QColor(44, 167, 248, 102));
-        effect->setBlurRadius(6);
-        m_pAllPicBtn->setGraphicsEffect(effect);
-    } else if (themeType == DGuiApplicationHelper::DarkType) {
-        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-        effect->setOffset(0, 4);
-        effect->setColor(QColor(0, 42, 175, 102));
-        effect->setBlurRadius(6);
-        m_pAllPicBtn->setGraphicsEffect(effect);
-    }
-
-    m_pTimeLineBtn->setText(tr("Time"));
-    m_pTimeLineBtn ->setFlat(true);
-//    m_pTimeLineBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    DFontSizeManager::instance()->bind(m_pTimeLineBtn, DFontSizeManager::T6);
-    m_pTimeLineBtn->setPalette(pal);
-
-
-    m_pAlbumBtn->setText(tr("Album"));
-    m_pAlbumBtn ->setFlat(true);
-//    m_pAlbumBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    DFontSizeManager::instance()->bind(m_pAlbumBtn, DFontSizeManager::T6);
-
-    m_pAlbumBtn->setPalette(pal);
-
-    pTitleBtnLayout->addSpacing(11);
-    pTitleBtnLayout->addWidget(m_pAllPicBtn);
-    pTitleBtnLayout->addSpacing(-6);
-    pTitleBtnLayout->addWidget(m_pTimeLineBtn);
-    pTitleBtnLayout->addSpacing(-6);
-    pTitleBtnLayout->addWidget(m_pAlbumBtn);
-
-    m_titleBtnWidget->setLayout(pTitleBtnLayout);
-    **************************************/
     // TitleBar Search
     QWidget *m_titleSearchWidget = new QWidget();
     QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
@@ -490,8 +414,6 @@ void MainWindow::initTitleBar()
     }
     else
     {
-//        m_pTimeLineBtn->setEnabled(false);
-//        m_pAlbumBtn->setEnabled(false);
         m_pSearchEdit->setEnabled(false);
     }
 }
@@ -522,93 +444,8 @@ void MainWindow::onUpdateCentralWidget()
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
-//void MainWindow::initStatusBar()
-//{
-//    m_pStatusBar = new DStatusBar(this);
-//    setStatusBar(m_pStatusBar);
-
-//    QString str = tr("%1张照片");
-
-//    m_pAllPicNumLabel = new DLabel();
-//    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
-//    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-//    m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
-//    m_pAllPicNumLabel->setFixedHeight(18);
-//    m_pAllPicNumLabel->setFrameShape(DLabel::NoFrame);
-
-
-//    m_pSlider = new DSlider();
-//    m_pSlider->setFixedWidth(120);
-//    m_pSlider->setFixedHeight(24);
-//    m_pSlider->setMinimum(0);
-//    m_pSlider->setMaximum(4);
-//    m_pSlider->slider()->setSingleStep(1);
-//    m_pSlider->slider()->setTickInterval(1);
-//    m_pSlider->setValue(2);
-
-/*
-//    QWidget *pWidget = new QWidget();
-//    pWidget->setFixedWidth(160);
-//    pWidget->setFixedHeight(30);
-
-//    QHBoxLayout *pHBoxLayout = new QHBoxLayout();
-//    pHBoxLayout->addWidget(m_pSlider, Qt::AlignLeft);
-
-//    pWidget->setLayout(pHBoxLayout);
-*/
-
-//    statusBar()->addWidget(m_pAllPicNumLabel, 1);
-//    statusBar()->addWidget(m_pSlider, 1);
-//    statusBar()->setSizeGripEnabled(false);
-//    statusBar()->setFixedHeight(30);
-//}
-
 void MainWindow::allPicBtnClicked()
 {
-//    m_pAllPicBtn->setFlat(false);
-//    m_pTimeLineBtn->setFlat(true);
-//    m_pAlbumBtn->setFlat(true);
-
-//    DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-//    pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
-//    pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
-//    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//    pal.setBrush(DPalette::Highlight, QColor(0,0,0,0));
-//    m_pAllPicBtn->setPalette(pal);
-
-//    DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-//    pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
-//    pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
-//    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
-//    pale.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_pTimeLineBtn->setPalette(pale);
-//    m_pAlbumBtn->setPalette(pale);
-
-//    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//    if (themeType == DGuiApplicationHelper::LightType)
-//    {
-//        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//        effect->setOffset(0, 4);
-//        effect->setColor(QColor(44, 167, 248, 102));
-//        effect->setBlurRadius(6);
-//        m_pAllPicBtn->setGraphicsEffect(effect);
-//    }
-//    else if (themeType == DGuiApplicationHelper::DarkType)
-//    {
-//        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//        effect->setOffset(0, 4);
-//        effect->setColor(QColor(0, 42, 175, 102));
-//        effect->setBlurRadius(6);
-//        m_pAllPicBtn->setGraphicsEffect(effect);
-//    }
-
-//    QGraphicsDropShadowEffect *Noeffect = new QGraphicsDropShadowEffect();
-//    Noeffect->setOffset(0, 0);
-//    Noeffect->setColor(QColor(0, 0, 0, 0));
-//    Noeffect->setBlurRadius(0);
-//    m_pTimeLineBtn->setGraphicsEffect(Noeffect);
-//    m_pAlbumBtn->setGraphicsEffect(Noeffect);
-
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
 
@@ -623,50 +460,6 @@ void MainWindow::allPicBtnClicked()
 
 void MainWindow::timeLineBtnClicked()
 {
-//    m_pAllPicBtn->setFlat(true);
-//    m_pTimeLineBtn->setFlat(false);
-//    m_pAlbumBtn->setFlat(true);
-
-//    DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-//    pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
-//    pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
-//    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//    pal.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_pTimeLineBtn->setPalette(pal);
-
-//    DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-//    pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
-//    pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
-//    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
-//    pale.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_pAllPicBtn->setPalette(pale);
-//    m_pAlbumBtn->setPalette(pale);
-
-//    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//    if (themeType == DGuiApplicationHelper::LightType)
-//    {
-//        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//        effect->setOffset(0, 4);
-//        effect->setColor(QColor(44, 167, 248, 102));
-//        effect->setBlurRadius(6);
-//        m_pTimeLineBtn->setGraphicsEffect(effect);
-//    }
-//    else if (themeType == DGuiApplicationHelper::DarkType)
-//    {
-//        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//        effect->setOffset(0, 4);
-//        effect->setColor(QColor(0, 42, 175, 102));
-//        effect->setBlurRadius(6);
-//        m_pTimeLineBtn->setGraphicsEffect(effect);
-//    }
-
-//    QGraphicsDropShadowEffect *Noeffect = new QGraphicsDropShadowEffect();
-//    Noeffect->setOffset(0, 0);
-//    Noeffect->setColor(QColor(0, 0, 0, 0));
-//    Noeffect->setBlurRadius(0);
-//    m_pAllPicBtn->setGraphicsEffect(Noeffect);
-//    m_pAlbumBtn->setGraphicsEffect(Noeffect);
-
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
     m_iCurrentView = VIEW_TIMELINE;
@@ -678,50 +471,6 @@ void MainWindow::timeLineBtnClicked()
 
 void MainWindow::albumBtnClicked()
 {
-//    m_pAllPicBtn->setFlat(true);
-//    m_pTimeLineBtn->setFlat(true);
-//    m_pAlbumBtn->setFlat(false);
-
-//    DPalette pal = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-//    pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
-//    pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
-//    pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//    pal.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_pAlbumBtn->setPalette(pal);
-
-//    DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-//    pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
-//    pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
-//    pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
-//    pale.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_pAllPicBtn->setPalette(pale);
-//    m_pTimeLineBtn->setPalette(pale);
-
-//    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//    if (themeType == DGuiApplicationHelper::LightType)
-//    {
-//        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//        effect->setOffset(0, 4);
-//        effect->setColor(QColor(44, 167, 248, 102));
-//        effect->setBlurRadius(6);
-//        m_pAlbumBtn->setGraphicsEffect(effect);
-//    }
-//    else if (themeType == DGuiApplicationHelper::DarkType)
-//    {
-//        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//        effect->setOffset(0, 4);
-//        effect->setColor(QColor(0, 42, 175, 102));
-//        effect->setBlurRadius(6);
-//        m_pAlbumBtn->setGraphicsEffect(effect);
-//    }
-
-//    QGraphicsDropShadowEffect *Noeffect = new QGraphicsDropShadowEffect();
-//    Noeffect->setOffset(0, 0);
-//    Noeffect->setColor(QColor(0, 0, 0, 0));
-//    Noeffect->setBlurRadius(0);
-//    m_pAllPicBtn->setGraphicsEffect(Noeffect);
-//    m_pTimeLineBtn->setGraphicsEffect(Noeffect);
-
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
     m_iCurrentView = VIEW_ALBUM;
@@ -1389,3 +1138,105 @@ void MainWindow::wheelEvent(QWheelEvent *event)
         event->accept();
     }
 }
+
+//void MainWindow::themeTypeChanged()
+//{
+//    if(0 == m_iCurrentView)
+//    {
+//        DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
+//        pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
+//        pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
+//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
+//        m_pTimeLineBtn->setPalette(pal);
+//        m_pAlbumBtn->setPalette(pal);
+//        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+//        pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
+//        pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
+//        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+//        m_pAllPicBtn->setPalette(pale);
+
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        if (themeType == DGuiApplicationHelper::LightType)
+//        {
+//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//            effect->setOffset(0, 4);
+//            effect->setColor(QColor(44, 167, 248, 102));
+//            effect->setBlurRadius(6);
+//            m_pAllPicBtn->setGraphicsEffect(effect);
+//        }
+//        else if (themeType == DGuiApplicationHelper::DarkType)
+//        {
+//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//            effect->setOffset(0, 4);
+//            effect->setColor(QColor(0, 42, 175, 102));
+//            effect->setBlurRadius(6);
+//            m_pAllPicBtn->setGraphicsEffect(effect);
+//        }
+
+//    }
+//    else if (1 == m_iCurrentView)
+//    {
+//        DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
+//        pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
+//        pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
+//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
+//        m_pAllPicBtn->setPalette(pal);
+//        m_pAlbumBtn->setPalette(pal);
+//        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+//        pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
+//        pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
+//        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+//        m_pTimeLineBtn->setPalette(pale);
+
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        if (themeType == DGuiApplicationHelper::LightType)
+//        {
+//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//            effect->setOffset(0, 4);
+//            effect->setColor(QColor(44, 167, 248, 102));
+//            effect->setBlurRadius(6);
+//            m_pTimeLineBtn->setGraphicsEffect(effect);
+//        }
+//        else if (themeType == DGuiApplicationHelper::DarkType)
+//        {
+//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//            effect->setOffset(0, 4);
+//            effect->setColor(QColor(0, 42, 175, 102));
+//            effect->setBlurRadius(6);
+//            m_pTimeLineBtn->setGraphicsEffect(effect);
+//        }
+
+//    }
+//    else if (2 == m_iCurrentView)
+//    {
+//        DPalette pal = DApplicationHelper::instance()->palette(m_pTimeLineBtn);
+//        pal.setBrush(DPalette::Light, pal.color(DPalette::Base));
+//        pal.setBrush(DPalette::Dark, pal.color(DPalette::Base));
+//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::TextTitle));
+//        m_pAllPicBtn->setPalette(pal);
+//        m_pTimeLineBtn->setPalette(pal);
+//        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
+//        pale.setBrush(DPalette::Light, pale.color(DPalette::DarkLively));
+//        pale.setBrush(DPalette::Dark, pale.color(DPalette::DarkLively));
+//        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::HighlightedText));
+//        m_pAlbumBtn->setPalette(pale);
+
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        if (themeType == DGuiApplicationHelper::LightType)
+//        {
+//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//            effect->setOffset(0, 4);
+//            effect->setColor(QColor(44, 167, 248, 102));
+//            effect->setBlurRadius(6);
+//            m_pAlbumBtn->setGraphicsEffect(effect);
+//        }
+//        else if (themeType == DGuiApplicationHelper::DarkType)
+//        {
+//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//            effect->setOffset(0, 4);
+//            effect->setColor(QColor(0, 42, 175, 102));
+//            effect->setBlurRadius(6);
+//            m_pAlbumBtn->setGraphicsEffect(effect);
+//        }
+//    }
+//}

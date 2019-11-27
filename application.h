@@ -70,6 +70,8 @@ private:
     QStringList m_pathlisttrash;
 
     QStringList m_phoneImgPathList;
+
+    int count = 0;
 };
 
 class Application : public DApplication {

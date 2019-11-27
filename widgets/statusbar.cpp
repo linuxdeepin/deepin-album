@@ -53,10 +53,11 @@ void StatusBar::initUI()
 
 void StatusBar::initConnections()
 {
-    connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [=](QStringList paths){
+    connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [=](QStringList paths, int count){
         if(isVisible())
         {
             imgpaths = paths;
+            pic_count = count;
 
             QString string = tr("Importing photos:'%1'");
             TextLabel->setAlignment(Qt::AlignCenter);
@@ -117,7 +118,14 @@ void StatusBar::timerEvent(QTimerEvent *e)
             killTimer(interval);
             interval = 0;
             m_pStackedWidget->setCurrentIndex(0);
-            emit dApp->signalM->ImportSuccess();
+            if(1 == pic_count)
+            {
+                emit dApp->signalM->ImportSuccess();
+            }
+            else {
+                emit dApp->signalM->ImportFailed();
+            }
+
         }
         else
         {
@@ -131,7 +139,14 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 i = 0;
                 killTimer(interval);
                 interval = 0;
-                emit dApp->signalM->ImportSuccess();
+
+                if(1 == pic_count)
+                {
+                    emit dApp->signalM->ImportSuccess();
+                }
+                else {
+                    emit dApp->signalM->ImportFailed();
+                }
 
                 QTime time;
                 time.start();

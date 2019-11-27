@@ -87,7 +87,7 @@ signals:
     void resizeFileName();
     void sigAlbDelToast(const QString &albname);
     void sigAddToAlbToast(const QString &album);
-    void updateStatusBarImportLabel(const QStringList paths);
+    void updateStatusBarImportLabel(const QStringList paths, int count);
     void updateIcon();
     void ImportSuccess();
     void SearchEditClear();

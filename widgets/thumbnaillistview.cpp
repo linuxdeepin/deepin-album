@@ -385,6 +385,13 @@ void ThumbnailListView::updateMenuContents()
 
 
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
+        if(COMMON_STR_RECENT_IMPORTED == m_imageType
+                || IMAGE_DEFAULTTYPE == m_imageType
+                || COMMON_STR_VIEW_TIMELINE == m_imageType)
+        {
+            m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
+        }
+
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0])) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         } else {
@@ -393,6 +400,12 @@ void ThumbnailListView::updateMenuContents()
 
         m_pMenu->addSeparator();
     } else {
+        if(COMMON_STR_RECENT_IMPORTED == m_imageType
+                || IMAGE_DEFAULTTYPE == m_imageType
+                || COMMON_STR_VIEW_TIMELINE == m_imageType)
+        {
+            m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
+        }
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
     }
@@ -463,14 +476,13 @@ void ThumbnailListView::initMenuAction()
     m_pMenu->clear();
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
 
-        appendAction(IdImageInfo, tr("Image info"), ss(ImageInfo_CONTEXT_MENU));
+        appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
         appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
         appendAction(IdTrashRecovery, tr("Recovery"), ss(BUTTON_RECOVERY));
         return;
     }
-
-
     m_MenuActionMap.clear();
+
     appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
     appendAction(IdStartSlideShow, tr("Slide show"), ss(SLIDESHOW_CONTEXT_MENU));
@@ -479,6 +491,7 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
     appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
     appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
+    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(THROWTOTRASH_CONTEXT_MENU));
     m_pMenu->addSeparator();
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
     appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
@@ -530,8 +543,6 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
         QStringList paths = selectedPaths();
         menuItemDeal(paths, action);
     }
-
-
 }
 
 QStringList ThumbnailListView::selectedPaths()
@@ -603,16 +614,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         utils::base::copyImageToClipboard(paths);
         break;
     case IdMoveToTrash: {
-        if (IMAGE_DEFAULTTYPE != m_imageType
-                && COMMON_STR_VIEW_TIMELINE != m_imageType
-                && COMMON_STR_RECENT_IMPORTED != m_imageType
-                && COMMON_STR_TRASH != m_imageType
-                && COMMON_STR_FAVORITES != m_imageType) {
-            DBManager::instance()->removeFromAlbum(m_imageType, paths);
-        }
-
-        else if (COMMON_STR_TRASH == m_imageType) {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(this,paths.length());
+        if (COMMON_STR_TRASH == m_imageType) {
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
             dialog->show();
             connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
                 for (auto path : paths)
@@ -623,7 +626,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
                 DBManager::instance()->removeTrashImgInfos(paths);
                 emit trashDelete();
             });
-        } else {
+        }
+
+
+        else {
             DBImgInfoList infos;
             for (auto path : paths) {
                 DBImgInfo info;
@@ -647,11 +653,13 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
         break;
     case IdRemoveFromAlbum: {
-        ImgDeleteDialog *dialog = new ImgDeleteDialog(this,paths.length());
-        dialog->show();
-        connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
+        if (IMAGE_DEFAULTTYPE != m_imageType
+                && COMMON_STR_VIEW_TIMELINE != m_imageType
+                && COMMON_STR_RECENT_IMPORTED != m_imageType
+                && COMMON_STR_TRASH != m_imageType
+                && COMMON_STR_FAVORITES != m_imageType) {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
-        });
+        }
     }
     break;
     case IdRotateClockwise: {

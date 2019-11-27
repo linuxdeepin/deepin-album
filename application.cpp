@@ -220,7 +220,16 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
         DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
     }
     DBManager::instance()->insertImgInfos(dbInfoList);
-    emit dApp->signalM->updateStatusBarImportLabel(pathlist);
+
+    if(dbInfoList.size() == dbInfos.size())
+    {
+        count = 1;
+    }
+    else {
+        count = 0;
+    }
+
+    emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
 }
 
 

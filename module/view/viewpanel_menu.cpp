@@ -268,29 +268,29 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
     {
-        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-                && utils::common::VIEW_TIMELINE_SRN != m_viewType
-                && utils::common::VIEW_SEARCH_SRN != m_viewType
-                && COMMON_STR_RECENT_IMPORTED != m_viewType
-                && COMMON_STR_TRASH != m_viewType
-                && COMMON_STR_FAVORITES != m_viewType)
-        {
-            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
-            removeCurrentImage();
-        }
-        else if (COMMON_STR_TRASH == m_viewType)
-        {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(this,1);
-            dialog->show();
-            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
-            {
-                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
-                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
-                removeCurrentImage();
-            });
-        }
-        else
-        {
+//        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+//                && utils::common::VIEW_TIMELINE_SRN != m_viewType
+//                && utils::common::VIEW_SEARCH_SRN != m_viewType
+//                && COMMON_STR_RECENT_IMPORTED != m_viewType
+//                && COMMON_STR_TRASH != m_viewType
+//                && COMMON_STR_FAVORITES != m_viewType)
+//        {
+//            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
+//            removeCurrentImage();
+//        }
+//        else if (COMMON_STR_TRASH == m_viewType)
+//        {
+//            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
+//            dialog->show();
+//            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
+//            {
+//                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+//                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+//                removeCurrentImage();
+//            });
+//        }
+//        else
+//        {
             DBImgInfoList infos;
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
@@ -301,7 +301,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
             removeCurrentImage();
-        }
+//        }
     }
         break;
     case IdRemoveFromAlbum:
@@ -395,25 +395,24 @@ void ViewPanel::updateMenuContent()
     appendAction(IdExport, tr("Export"), ss("Export","Ctrl+E"));     //导出
 #endif
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-//    if (COMMON_STR_TRASH == m_viewType)
-//    {
+    if (COMMON_STR_TRASH == m_viewType)
+    {
+//          appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+    }
+    else
+    {
+        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+    }
 
-          appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
-//    }
-//    else
-//    {
-//        appendAction(IdMoveToTrash, tr("删除"), ss("Throw to trash", "Delete"));
-//    }
-
-//    if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-//        && utils::common::VIEW_TIMELINE_SRN != m_viewType
-//        && utils::common::VIEW_SEARCH_SRN != m_viewType
-//        && COMMON_STR_RECENT_IMPORTED != m_viewType
-//        && COMMON_STR_TRASH != m_viewType
-//        && COMMON_STR_FAVORITES != m_viewType)
-//    {
-//        appendAction(IdRemoveFromAlbum, tr("从相册内删除"), ss("Remove from album", ""));
-//    }
+    if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+        && utils::common::VIEW_TIMELINE_SRN != m_viewType
+        && utils::common::VIEW_SEARCH_SRN != m_viewType
+        && COMMON_STR_RECENT_IMPORTED != m_viewType
+        && COMMON_STR_TRASH != m_viewType
+        && COMMON_STR_FAVORITES != m_viewType)
+    {
+        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
+    }
     m_menu->addSeparator();
     /**************************************************************************/
 #if 1

@@ -33,7 +33,7 @@ namespace {
 const int MAX_WIDTH = 250;
 const int THUMBNAIL_WIDTH = 240;
 const int THUMBNAIL_HEIGHT = 160;
-const int TITLE_MAXWIDTH = 100;
+const int TITLE_MAXWIDTH = 200;
 
 struct MetaData {
     QString key;
@@ -120,7 +120,7 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
                    & ~ Qt::WindowSystemMenuHint);
     m_path = path;
     QString basicInfo = tr("Basic info");
-    QString openWith = tr("Details Info");
+    QString openWith = tr("Details");
     initUI();
     QStringList titleList;
     titleList << basicInfo;
@@ -213,7 +213,7 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
     clearLayout(m_exifLayout_base);
 
 
-    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("Basic information"));
+    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("Basic info"));
     infoTitle->setAlignment(Qt::AlignLeft);
     m_exifLayout_base->addRow(infoTitle);
     baseInfoHeidht+=50;
@@ -244,7 +244,7 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
     clearLayout(m_exifLayout_details);
 
 
-    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("Detailed information"));
+    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("Details"));
     infoTitle->setAlignment(Qt::AlignLeft);
     m_exifLayout_details->addRow(infoTitle);
     detailsInfoHeidht+=40;
