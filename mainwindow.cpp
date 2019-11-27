@@ -764,7 +764,8 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
 void MainWindow::onViewCreateAlbum(QString imgpath)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog;
-    d->showInCenter(window());
+    d->show();
+    d->move(this->x()+(this->width()-d->width())/2,this->y()+(this->height()-d->height())/2);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
 
         emit dApp->signalM->hideExtensionPanel();
@@ -783,7 +784,8 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
 void MainWindow::showCreateDialog(QStringList imgpaths)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog;
-    d->showInCenter(window());
+    d->show();
+    d->move(this->x()+(this->width()-d->width())/2,this->y()+(this->height()-d->height())/2);
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         emit dApp->signalM->hideExtensionPanel();

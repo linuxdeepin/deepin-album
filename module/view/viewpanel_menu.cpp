@@ -280,7 +280,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         }
         else if (COMMON_STR_TRASH == m_viewType)
         {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this,1);
             dialog->show();
             connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
             {

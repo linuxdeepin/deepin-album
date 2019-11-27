@@ -346,7 +346,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::removed, this, [ = ] {
         if (COMMON_STR_TRASH == m_viewType)
         {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this,1);
             dialog->show();
             connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
                 dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);

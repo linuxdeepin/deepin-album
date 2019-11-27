@@ -581,7 +581,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         }
 
         else if (COMMON_STR_TRASH == m_imageType) {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this,paths.length());
             dialog->show();
             connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
                 for (auto path : paths)
@@ -616,7 +616,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
         break;
     case IdRemoveFromAlbum: {
-        ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.length());
+        ImgDeleteDialog *dialog = new ImgDeleteDialog(this,paths.length());
         dialog->show();
         connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);

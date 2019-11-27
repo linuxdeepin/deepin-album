@@ -28,14 +28,34 @@
 #include <DApplicationHelper>
 #include <DSuggestButton>
 
-AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
-    :Dialog(parent)
+AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
+    :DDialog(parent)
 {
-    setModal(true);
+    initUI();
+    initConnection();
+}
 
-    // 添加标题
+void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Escape) {
+        this->close();
+    }
+}
+
+void AlbumCreateDialog::initUI()
+{
+    setFixedSize(380,180);
+    setModal(true);
+    setContentsMargins(0, 0, 0, 0);
+//图标
+    DLabel *logoLable = new DLabel(this);
+    QIcon icon = QIcon::fromTheme("deepin-album");
+    logoLable->setPixmap(icon.pixmap(QSize(32, 32)));
+    logoLable->move(10, 9);
+    logoLable->setAlignment(Qt::AlignLeft);
+//title
     const QString subStyle =
-    utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
+            utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T5, QFont::DemiBold);
     title->setForegroundRole(DPalette::TextTitle);
@@ -44,16 +64,41 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     title->setFixedSize(130,25);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
-
-    //添加输入文本框
-    DLineEdit *edit = new DLineEdit(this);
+    title->move(130,12);
+//编辑框
+    edit = new DLineEdit(this);
     edit->setObjectName("DialogEdit");
     edit->setText(getNewAlbumName());
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
+    edit->move(10,78);
     edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//内容widget
+    DWidget *contentWidget = new DWidget(this);
+    contentWidget->setContentsMargins(0, 0, 0, 0);
+    addContent(contentWidget);
+//按钮
 
+    m_Cancel = new DPushButton(this);
+    m_Cancel->setText(tr("Cancel"));
+    m_Cancel->setFixedSize(170,36);
+    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DPushButton *m_line = new DPushButton(this);
+    m_line->setFixedSize(3,28);
+    m_line->setEnabled(false);
+    m_OK = new DSuggestButton(this);
+    m_OK->setText(tr("Create"));
+    m_OK->setFixedSize(170,36);
+    m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+
+    m_Cancel->move(10,134);
+    m_line->move(189,138);
+    m_OK->move(200,134);
+}
+
+void AlbumCreateDialog::initConnection()
+{
     connect(this, &AlbumCreateDialog::visibleChanged, this, [=] (bool v) {
         if (! v) return;
         edit->lineEdit()->selectAll();
@@ -66,59 +111,6 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
             this->close();
         }
     });
-
-    this->setFixedSize(380,180);
-
-    //添加图标
-    DLabel *m_picture = new DLabel(this);
-    QIcon icon = QIcon::fromTheme("deepin-album");     //照片路径
-    m_picture->setPixmap(icon.pixmap(QSize(32, 32)));  //图标大小
-
-    //添加OK和取消按钮
-    DPushButton *m_Cancel = new DPushButton(this);
-    m_Cancel->setText(tr("Cancel"));
-    m_Cancel->setFixedSize(170,36);
-    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    DPushButton *m_line = new DPushButton(this);
-    m_line->setFixedSize(3,28);
-    m_line->setEnabled(false);
-    DSuggestButton *m_OK = new DSuggestButton(this);
-   m_OK->setText(tr("Create"));
-    m_OK->setFixedSize(170,36);
-    m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-
-    //界面布局
-    m_picture->move(9,9);
-//    title->move(156,12);
-    title->move(130,12);
-    edit->move(10,78);
-    m_Cancel->move(10,134);
-    m_line->move(189,138);
-    m_OK->move(200,134);
-
-//    QHBoxLayout *h_layout  = new QHBoxLayout(this);
-//    QHBoxLayout *h_layout1 = new QHBoxLayout(this);
-//    QHBoxLayout *h_layout2 = new QHBoxLayout(this);
-//    QVBoxLayout *layout = new QVBoxLayout(this);
-//    layout->setContentsMargins(0, 0, 0, 0);
-//    h_layout->addWidget(title,Qt::AlignHCenter);
-//    layout->addSpacing(12);
-//    layout->addLayout(h_layout);
-//    layout->addSpacing(41);
-//    h_layout1->addStretch();
-//    h_layout1->addWidget(edit);
-//    h_layout1->addStretch();
-//    layout->addLayout(h_layout1);
-//    layout->addSpacing(20);
-//    h_layout2->addWidget(m_Cancel);
-//    h_layout2->addSpacing(9);
-//    h_layout2->addWidget(m_line);
-//    h_layout2->addSpacing(8);
-//    h_layout2->addWidget(m_OK);
-//    layout->addLayout(h_layout2);
-//    setLayout(layout);
-//    addContent(main);
-
     connect(m_Cancel,&DPushButton::clicked,this,&AlbumCreateDialog::deleteLater);
     connect(m_OK,&DPushButton::clicked,this,[=]{
         if (edit->text().simplified().length()!= 0)
@@ -145,13 +137,6 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
 
 //    });
 
-}
-
-void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
-{
-    if (e->key() == Qt::Key_Escape) {
-        this->close();
-    }
 }
 
 /*!

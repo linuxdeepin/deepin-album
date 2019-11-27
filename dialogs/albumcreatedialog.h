@@ -17,14 +17,15 @@
 #ifndef ALBUMCREATEDIALOG_H
 #define ALBUMCREATEDIALOG_H
 
-#include "dialog.h"
+#include "ddialog.h"
+#include "dlineedit.h"
 #include "controller/signalmanager.h"
 
-class AlbumCreateDialog : public Dialog
+class AlbumCreateDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit AlbumCreateDialog(QWidget *parent = 0);
+    explicit AlbumCreateDialog(DWidget *parent = 0);
 
     const QString getCreateAlbumName() const;
 
@@ -35,11 +36,16 @@ protected:
     void keyPressEvent(QKeyEvent *e) override;
 
 private:
+    void initUI();
+    void initConnection();
     void createAlbum(const QString &newName);
     const QString getNewAlbumName() const;
 
 private:
     QString m_createAlbumName = "";
+    DLineEdit * edit;
+    QAbstractButton *m_Cancel;
+    QAbstractButton *m_OK;
 };
 
 #endif // ALBUMCREATEDIALOG_H

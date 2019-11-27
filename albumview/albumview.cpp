@@ -978,7 +978,7 @@ void AlbumView::onTrashDeleteBtnClicked()
         paths = DBManager::instance()->getAllTrashPaths();
 //        m_pDeleteBtn->setEnabled(false);
     }
-    ImgDeleteDialog *dialog = new ImgDeleteDialog(paths.count());
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(this,paths.count());
     dialog->show();
     connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
         for (auto path : paths)
@@ -1356,7 +1356,8 @@ void AlbumView::importComboBoxChange(QString strText)
 {
     if(strText.compare(tr("New Album")) == 0) {
         AlbumCreateDialog *dialog = new AlbumCreateDialog;
-        dialog->showInCenter(window());
+        dialog->show();
+        dialog->move(this->x()+(this->width()-dialog->width())/2,this->y()+(this->height()-dialog->height())/2);
         connect(dialog, &AlbumCreateDialog::albumAdded, this, [ = ] {
             DBManager::instance()->insertIntoAlbum(dialog->getCreateAlbumName(), QStringList(" "));
             int index = getNewAlbumItemIndex();

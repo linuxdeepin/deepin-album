@@ -3,16 +3,27 @@
 #include <DPushButton>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
+#include <DSuggestButton>
 
-ImgDeleteDialog::ImgDeleteDialog(int count)
+ImgDeleteDialog::ImgDeleteDialog(DWidget *parent,int count)
+    :DDialog (parent)
 {
     setModal(true);
     this->setFixedSize(380,180);
+    setContentsMargins(0, 0, 0, 0);
 
     DLabel *m_pic = new DLabel(this);
     QIcon icon = QIcon::fromTheme("deepin-album");     //照片路径
     m_pic->setPixmap(icon.pixmap(QSize(32, 32)));  //图标大小
+    m_pic->move(10, 9);
+    m_pic->setAlignment(Qt::AlignLeft);
+
     DLabel *m_label = new DLabel(this);
+
+    DWidget *contentWidget = new DWidget(this);
+    contentWidget->setContentsMargins(0, 0, 0, 0);
+    addContent(contentWidget);
+
     if(1 == count)
     {
 
@@ -37,20 +48,19 @@ ImgDeleteDialog::ImgDeleteDialog(int count)
     m_label->move((this->width() - m_label->width())/2,70);
 
     DPushButton *m_Cancel = new DPushButton(this);
-
     m_Cancel->setText(tr("Cancel"));
     m_Cancel->setFixedSize(170,36);
     m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+
     DPushButton *m_line = new DPushButton(this);
     m_line->setFixedSize(3,28);
     m_line->setEnabled(false);
-    DPushButton *m_Delete = new DPushButton(this);
 
+    DSuggestButton *m_Delete = new DSuggestButton(this);
     m_Delete->setText(tr("Delete"));
     m_Delete->setFixedSize(170,36);
     m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-    m_pic->move(9,9);
     m_Cancel->move(10,134);
     m_line->move(189,138);
     m_Delete->move(200,134);
