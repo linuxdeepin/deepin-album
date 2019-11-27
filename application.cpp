@@ -91,7 +91,7 @@ void ImageLoader::startLoading()
         }
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+//        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
         if (800 < pixmap.width())
         {

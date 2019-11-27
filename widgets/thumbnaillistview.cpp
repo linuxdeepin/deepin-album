@@ -163,27 +163,46 @@ void ThumbnailListView::initConnections()
 
 void ThumbnailListView::calBasePixMapWandH()
 {
+    int i_totalwidth = width() - 36;      //same as i_totalwidth in calWidgetItemWandH()
+
     for (int i = 0; i < m_ItemList.length(); i++) {
-        if (0 == m_ItemList[i].height) {
+        if (0 == m_ItemList[i].height || 0 == m_ItemList[i].width) {
             m_ItemList[i].width = m_iBaseHeight;
+            m_ItemList[i].height = m_iBaseHeight;
         } else {
             m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
+            if (m_ItemList[i].width > i_totalwidth){
+                m_ItemList[i].height = m_ItemList[i].height * i_totalwidth / m_ItemList[i].width;
+                m_ItemList[i].width = i_totalwidth;
+            }
+            else {
+                m_ItemList[i].height = m_iBaseHeight;
+            }
         }
 
-        m_ItemList[i].height = m_iBaseHeight;
+        m_ItemList[i].imgHeight = m_ItemList[i].height;
+        m_ItemList[i].imgWidth = m_ItemList[i].width;
+        //Prevents height or width less than 2 after scaling
+        m_ItemList[i].imgHeight = (1 > m_ItemList[i].imgHeight) ? 1 : m_ItemList[i].imgHeight;
+        m_ItemList[i].imgWidth = (1 > m_ItemList[i].imgWidth) ? 1 : m_ItemList[i].imgWidth;
+        m_ItemList[i].height = (m_iBaseHeight > m_ItemList[i].height) ? m_iBaseHeight : m_ItemList[i].height;
+        m_ItemList[i].width = (m_iBaseHeight > m_ItemList[i].width) ? m_iBaseHeight : m_ItemList[i].width;
     }
 }
 
 void ThumbnailListView::calWidgetItemWandH()
 {
     int i_baseWidth = 0;
-    int i_totalwidth = width() - 36;
+    int i_totalwidth = width() - 36;      //same as i_totalwidth in calBasePixMapWandH()
 
     QList<int> rowWidthList;
     QList<ItemInfo> itemInfoList;
 
+    rowWidthList.clear();
+    itemInfoList.clear();
     m_gridItem.clear();
 
+    //set rows for list
     for (int i = 0; i < m_ItemList.length(); i++) {
         if ((i_baseWidth + m_ItemList[i].width) <= i_totalwidth) {
             i_baseWidth = i_baseWidth + m_ItemList[i].width + ITEM_SPACING;
@@ -194,6 +213,20 @@ void ThumbnailListView::calWidgetItemWandH()
                 rowWidthList << i_baseWidth;
                 m_gridItem << itemInfoList;
             }
+        } else if (i_totalwidth - i_baseWidth > 200){
+            m_ItemList[i].imgHeight = m_ItemList[i].imgHeight * (i_totalwidth - i_baseWidth) / m_ItemList[i].imgWidth;
+            m_ItemList[i].imgHeight = (1 > m_ItemList[i].imgHeight) ? 1 : m_ItemList[i].imgHeight;
+            m_ItemList[i].imgWidth = i_totalwidth - i_baseWidth;
+            m_ItemList[i].width = i_totalwidth - i_baseWidth;
+
+            i_baseWidth = i_totalwidth;
+            rowWidthList << i_baseWidth;
+
+            itemInfoList << m_ItemList[i];
+            m_gridItem << itemInfoList;
+
+            i_baseWidth = 0;
+            itemInfoList.clear();
         } else {
             i_baseWidth -= ITEM_SPACING;
             rowWidthList << i_baseWidth;
@@ -211,25 +244,21 @@ void ThumbnailListView::calWidgetItemWandH()
         }
     }
 
-    for (int i = 0; i < rowWidthList.length(); i++) {
-        if (i == rowWidthList.length() - 1) {
-            break;
+    //scaling for each row adapting list width except last one
+    for (int i = 0; i < rowWidthList.length() - 1; i++) {
+        if (rowWidthList[i] < i_totalwidth)
+        {
+            int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].length();
+            int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].length();
+            for (int j = 0; j < m_gridItem[i].length(); j++) {
+                m_gridItem[i][j].width = m_gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
+                m_gridItem[i][j].height = m_gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
+                m_gridItem[i][j].imgWidth = m_gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
+                m_gridItem[i][j].imgHeight = m_gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
+            }
+
+            rowWidthList[i] = i_totalwidth;
         }
-
-        int rowWidth = 0;
-        for (int j = 0; j < m_gridItem[i].length(); j++) {
-            m_gridItem[i][j].width = m_gridItem[i][j].width * i_totalwidth / rowWidthList[i];
-            m_gridItem[i][j].height = m_gridItem[i][j].height * i_totalwidth / rowWidthList[i];
-
-            rowWidth = rowWidth + m_gridItem[i][j].width + ITEM_SPACING;
-        }
-
-        rowWidthList[i] = rowWidth - ITEM_SPACING;
-    }
-
-
-    if (1 < rowWidthList.length() && rowWidthList[0] < i_totalwidth) {
-        m_gridItem[0][0].width = m_gridItem[0][0].width + i_totalwidth - rowWidthList[0];
     }
 
     if (0 < m_gridItem.length()) {
@@ -255,6 +284,8 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem[i][j].height));
             datas.append(QVariant(m_gridItem[i][j].remainDays));
             datas.append(QVariant(m_gridItem[i][j].image));
+            datas.append(QVariant(m_gridItem[i][j].imgWidth));
+            datas.append(QVariant(m_gridItem[i][j].imgHeight));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(m_gridItem[i][j].width, m_gridItem[i][j].height)), Qt::SizeHintRole);
@@ -509,7 +540,7 @@ QStringList ThumbnailListView::selectedPaths()
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas =
             index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.length() == 6) {
+        if (datas.length() == 8) {
             paths << datas[1].toString();
         }
     }

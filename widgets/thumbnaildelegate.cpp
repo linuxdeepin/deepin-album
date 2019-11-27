@@ -87,10 +87,22 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
 
     QRect pixmapRect;
-    pixmapRect.setX(backgroundRect.x()+7);
-    pixmapRect.setY(backgroundRect.y()+7);
-    pixmapRect.setWidth(backgroundRect.width()-14);
-    pixmapRect.setHeight(backgroundRect.height()-14);
+    if (data.width > data.imgWidth + 14) {
+        pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
+        pixmapRect.setWidth(data.imgWidth);
+    }
+    else {
+        pixmapRect.setX(backgroundRect.x()+7);
+        pixmapRect.setWidth(backgroundRect.width()-14);
+    }
+    if (data.height > data.imgHeight + 14) {
+        pixmapRect.setY(backgroundRect.y() + (data.height - data.imgHeight) / 2);
+        pixmapRect.setHeight(data.imgHeight);
+    }
+    else {
+        pixmapRect.setY(backgroundRect.y()+7);;
+        pixmapRect.setHeight(backgroundRect.height()-14);
+    }
 
     QPainterPath bp1;
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
@@ -195,6 +207,12 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     }
     if (datas.length() >= 6) {
         data.image = datas[5].value<QPixmap>();
+    }
+    if (datas.length() >= 7) {
+        data.imgWidth = datas[6].toInt();
+    }
+    if (datas.length() >= 8) {
+        data.imgHeight = datas[7].toInt();
     }
 
     return data;

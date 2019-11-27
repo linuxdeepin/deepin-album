@@ -80,6 +80,8 @@ public:
         QString path = QString();
         int width;
         int height;
+        int imgWidth;
+        int imgHeight;
         QString remainDays = "30天";
         QPixmap image;
     };
