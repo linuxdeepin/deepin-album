@@ -1173,7 +1173,7 @@ void AlbumView::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Delete) {
         QStringList paths = m_pRightThumbnailList->selectedPaths();
 
-        if (0 == paths.length()) {
+        if (0 == paths.length() || 0 == DBManager::instance()->getImgsCountByAlbum(m_currentAlbum)) {
             if (COMMON_STR_RECENT_IMPORTED != m_currentAlbum
                     && COMMON_STR_TRASH != m_currentAlbum
                     && COMMON_STR_FAVORITES != m_currentAlbum
