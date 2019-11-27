@@ -102,7 +102,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 void TopToolbar::initWidgets()
 {
     m_layout = new QHBoxLayout(this);
-    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setContentsMargins(10, 0, 0, 0);
     m_layout->setSpacing(0);
 
     m_titlebar = new DTitlebar(this);
@@ -110,7 +110,14 @@ void TopToolbar::initWidgets()
     m_titlebar->setMenu(m_menu);
     QPalette pa;
     pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
-    m_titlebar->setIcon(QIcon::fromTheme("deepin-album"));
+//    m_titlebar->setIcon(QIcon::fromTheme("deepin-album").pixmap(QSize(30, 30)));
+
+    // TitleBar Img
+    QLabel *pLabel = new QLabel();
+    pLabel->setFixedSize(33, 32);
+    QIcon icon = QIcon::fromTheme("deepin-album");
+    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
+    m_titlebar->addWidget(pLabel, Qt::AlignLeft);
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](){
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
