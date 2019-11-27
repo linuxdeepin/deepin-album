@@ -92,11 +92,11 @@ void ImageLoader::startLoading()
         }
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
-//        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (800 < pixmap.width())
+        if (pixmap.isNull())
         {
-            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+             pixmap = QPixmap::fromImage(tImg);
         }
 
         m_parent->m_imagemap.insert(path, pixmap);

@@ -322,8 +322,10 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
     for (int i = 0; i < m_ItemList.length(); i++) {
         QImage tImg;
 
-        m_ItemList[i].width = m_ItemList[i].image.width();
-        m_ItemList[i].height = m_ItemList[i].image.height();
+//        m_ItemList[i].width = m_ItemList[i].image.width();
+//        m_ItemList[i].height = m_ItemList[i].image.height();
+        m_ItemList[i].width = m_ItemList[i].width;
+        m_ItemList[i].height = m_ItemList[i].height;
     }
 
     calBasePixMapWandH();
