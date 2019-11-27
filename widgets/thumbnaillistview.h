@@ -107,6 +107,7 @@ signals:
     void trashRecovery();
     void trashDelete();
     void sigGetSelectedPaths(QStringList *pPaths);
+    void sigKeyEvent(int key);
 #if 1
     void sigMouseRelease();
     void sigMenuItemDeal( QAction *action);

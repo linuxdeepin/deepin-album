@@ -768,6 +768,43 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
     if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers () == Qt::ControlModifier) {
         return true;
     }
+    //add for pageup pagedown for time line view.
+    else if (e->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
+        if (m_imageType == COMMON_STR_VIEW_TIMELINE)
+        {
+            if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp)
+            {
+                qDebug()<<"sigKeyEvent"<<keyEvent->key();
+                //处理上下翻页
+                emit sigKeyEvent(keyEvent->key());
+
+                return true;
+            }
+        }
+        else
+        {
+            if (keyEvent->key() == Qt::Key_PageDown)
+            {
+                QScrollBar *vb = this->verticalScrollBar();
+                int posValue = vb->value();
+                posValue += this->height();
+                vb->setValue(posValue);
+
+                return true;
+            }
+            else if (keyEvent->key() == Qt::Key_PageUp)
+            {
+                QScrollBar *vb = this->verticalScrollBar();
+                int posValue = vb->value();
+                posValue -= this->height();
+                vb->setValue(posValue);
+
+                return true;
+            }
+        }
+    }
 
     return false;
 }

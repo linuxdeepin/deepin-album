@@ -557,6 +557,10 @@ void TimeLineView::updataLayout()
 #endif
     }
 
+    for (int i = 0; i < m_allThumbnailListView.size(); i++) {
+        connect(m_allThumbnailListView[i], &ThumbnailListView::sigKeyEvent, this, &TimeLineView::on_KeyEvent);
+    }
+
     if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
     {
         // donothing
@@ -619,6 +623,31 @@ void TimeLineView::on_MoveLabel(int y,QString date,QString num,QString choseText
         m_dateItem->setVisible(true);
         m_dateItem->move(0,y + 1);
     }
+}
+
+void TimeLineView::on_KeyEvent(int key)
+{
+    qDebug()<<key;
+
+    if (key == Qt::Key_PageDown)
+    {
+        QScrollBar *vb = m_mainListWidget->verticalScrollBar();
+        int posValue = vb->value();
+        qDebug()<<"posValue"<<posValue;
+
+        posValue += m_mainListWidget->height();
+        vb->setValue(posValue);
+    }
+    else if (key == Qt::Key_PageUp)
+    {
+        QScrollBar *vb = m_mainListWidget->verticalScrollBar();
+        int posValue = vb->value();
+        qDebug()<<"posValue"<<posValue;
+
+        posValue -= m_mainListWidget->height();
+        vb->setValue(posValue);
+    }
+
 }
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
