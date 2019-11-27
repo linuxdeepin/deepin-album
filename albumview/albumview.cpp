@@ -117,7 +117,10 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
-    connect(dApp, &Application::sigFinishLoad, this, &AlbumView::updateRightView);
+    connect(dApp, &Application::sigFinishLoad, this, [=] {
+        m_pRightThumbnailList->update();
+        m_pRightFavoriteThumbnailList->update();
+    });
     connect(m_pLeftTabList, &QListView::customContextMenuRequested, this, &AlbumView::showLeftMenu);
     connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
     connect(m_pRecoveryBtn, &DPushButton::clicked, this, &AlbumView::onTrashRecoveryBtnClicked);
@@ -530,6 +533,7 @@ void AlbumView::updateRightView()
 
 void AlbumView::updateRightNoTrashView()
 {
+    using namespace utils::image;
 //    m_pSpinner->stop();
     m_curThumbnaiItemList.clear();
     m_importByPhoneWidget->setVisible(false);
@@ -544,7 +548,19 @@ void AlbumView::updateRightNoTrashView()
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
-            vi.image = dApp->m_imagemap.value(info.filePath);
+//            vi.image = dApp->m_imagemap.value(info.filePath);
+            if (dApp->m_imagemap.value(info.filePath).isNull())
+            {
+                QSize imageSize = getImageQSize(vi.path);
+
+                vi.width = imageSize.width();
+                vi.height = imageSize.height();
+            }
+            else
+            {
+                vi.width = dApp->m_imagemap.value(info.filePath).width();
+                vi.height = dApp->m_imagemap.value(info.filePath).height();
+            }
 
             m_curThumbnaiItemList << vi;
         }
@@ -582,7 +598,19 @@ void AlbumView::updateRightNoTrashView()
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
-            vi.image = dApp->m_imagemap.value(info.filePath);
+//            vi.image = dApp->m_imagemap.value(info.filePath);
+            if (dApp->m_imagemap.value(info.filePath).isNull())
+            {
+                QSize imageSize = getImageQSize(vi.path);
+
+                vi.width = imageSize.width();
+                vi.height = imageSize.height();
+            }
+            else
+            {
+                vi.width = dApp->m_imagemap.value(info.filePath).width();
+                vi.height = dApp->m_imagemap.value(info.filePath).height();
+            }
 
             m_curThumbnaiItemList << vi;
         }
@@ -654,7 +682,19 @@ void AlbumView::updateRightNoTrashView()
                 ThumbnailListView::ItemInfo vi;
                 vi.name = info.fileName;
                 vi.path = info.filePath;
-                vi.image = dApp->m_imagemap.value(info.filePath);
+//                vi.image = dApp->m_imagemap.value(info.filePath);
+                if (dApp->m_imagemap.value(info.filePath).isNull())
+                {
+                    QSize imageSize = getImageQSize(vi.path);
+
+                    vi.width = imageSize.width();
+                    vi.height = imageSize.height();
+                }
+                else
+                {
+                    vi.width = dApp->m_imagemap.value(info.filePath).width();
+                    vi.height = dApp->m_imagemap.value(info.filePath).height();
+                }
 
                 m_curThumbnaiItemList << vi;
             }
@@ -690,6 +730,7 @@ void AlbumView::updateRightNoTrashView()
 
 void AlbumView::updateRightTrashView()
 {
+    using namespace utils::image;
     int idaysec = 24 * 60 * 60;
     m_curThumbnaiItemList.clear();
 
@@ -714,7 +755,19 @@ void AlbumView::updateRightTrashView()
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
-            vi.image = dApp->m_imagetrashmap.value(info.filePath);
+//            vi.image = dApp->m_imagetrashmap.value(info.filePath);
+            if (dApp->m_imagetrashmap.value(info.filePath).isNull())
+            {
+                QSize imageSize = getImageQSize(vi.path);
+
+                vi.width = imageSize.width();
+                vi.height = imageSize.height();
+            }
+            else
+            {
+                vi.width = dApp->m_imagetrashmap.value(info.filePath).width();
+                vi.height = dApp->m_imagetrashmap.value(info.filePath).height();
+            }
             vi.remainDays = QString::number(30-Day) + tr(" D");
 
             m_curThumbnaiItemList << vi;
@@ -972,7 +1025,7 @@ void AlbumView::onTrashDeleteBtnClicked()
 {
     QStringList paths;
 
-    if (BUTTON_STR_DETELE == m_pDeleteBtn->text()) {
+    if (tr("Delete") == m_pDeleteBtn->text()) {
         paths = m_pRightTrashThumbnailList->selectedPaths();
     } else {
         paths = DBManager::instance()->getAllTrashPaths();

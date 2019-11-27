@@ -44,6 +44,7 @@ namespace {
 }  // namespace
 
 #define IMAGE_HEIGHT_DEFAULT    100
+#define IMAGE_LOAD_DEFAULT    100
 
 ImageLoader::ImageLoader(Application* parent, QStringList pathlist, QStringList pathlisttrash)
 {
@@ -100,7 +101,7 @@ void ImageLoader::startLoading()
 
         m_parent->m_imagemap.insert(path, pixmap);
         num += 1;
-        if (0 == num%100)
+        if (0 == num%IMAGE_LOAD_DEFAULT)
         {
             emit sigFinishiLoad();
         }

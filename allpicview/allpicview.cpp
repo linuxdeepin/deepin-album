@@ -27,25 +27,28 @@ AllPicView::AllPicView()
     pVBoxLayout->addWidget(m_pStackedWidget);
     pVBoxLayout->addWidget(m_pStatusBar);
     setLayout(pVBoxLayout);
-    updateStackedWidget();
+//    updateStackedWidget();
     initConnections();
 
-    m_spinner = new DSpinner(this);
-    m_spinner->setFixedSize(40, 40);
-    m_spinner->hide();
+//    m_spinner = new DSpinner(this);
+//    m_spinner->setFixedSize(40, 40);
+//    m_spinner->hide();
 
-    if (0 < DBManager::instance()->getImgsCount())
-    {
-        m_spinner->show();
-        m_spinner->start();
-    }
+//    if (0 < DBManager::instance()->getImgsCount())
+//    {
+//        m_spinner->show();
+//        m_spinner->start();
+//    }
+    updatePicsIntoThumbnailView();
 }
 
 void AllPicView::initConnections()
 {
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::updatePicsIntoThumbnailView);
-    connect(dApp, &Application::sigFinishLoad, this, &AllPicView::updatePicsIntoThumbnailView);
+    connect(dApp, &Application::sigFinishLoad, this, [=] {
+        m_pThumbnailListView->update();
+    });
 
     connect(m_pThumbnailListView,&ThumbnailListView::openImage,this,[=](int index){
         SignalManager::ViewInfo info;
@@ -140,7 +143,8 @@ void AllPicView::updateStackedWidget()
 
 void AllPicView::updatePicsIntoThumbnailView()
 {
-    m_spinner->hide();
+    using namespace utils::image;
+//    m_spinner->hide();
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
     auto infos = DBManager::instance()->getAllInfos();
@@ -149,7 +153,20 @@ void AllPicView::updatePicsIntoThumbnailView()
         ThumbnailListView::ItemInfo vi;
         vi.name = info.fileName;
         vi.path = info.filePath;
-        vi.image = dApp->m_imagemap.value(info.filePath);
+//        vi.image = dApp->m_imagemap.value(info.filePath);
+        if (dApp->m_imagemap.value(info.filePath).isNull())
+        {
+            QSize imageSize = getImageQSize(vi.path);
+
+            vi.width = imageSize.width();
+            vi.height = imageSize.height();
+        }
+        else
+        {
+            vi.width = dApp->m_imagemap.value(info.filePath).width();
+            vi.height = dApp->m_imagemap.value(info.filePath).height();
+        }
+
         thumbnaiItemList<<vi;
     }
 
@@ -253,7 +270,7 @@ void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
-    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
+//    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
 }
 
 void AllPicView::updatePicNum()

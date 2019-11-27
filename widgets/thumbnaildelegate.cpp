@@ -133,7 +133,18 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
 //    QPixmap pixmapItem = QPixmap::fromImage(tImg);
 
-    painter->drawPixmap(pixmapRect, data.image);
+    if (COMMON_STR_TRASH == m_imageTypeStr)
+    {
+        painter->drawPixmap(pixmapRect, dApp->m_imagetrashmap.value(data.path));
+    }
+    else if (ALBUM_PATHTYPE_BY_PHONE == m_imageTypeStr)
+    {
+        painter->drawPixmap(pixmapRect, data.image);
+    }
+    else
+    {
+        painter->drawPixmap(pixmapRect, dApp->m_imagemap.value(data.path));
+    }
 
     if (COMMON_STR_TRASH == m_imageTypeStr)
     {

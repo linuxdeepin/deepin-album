@@ -718,6 +718,20 @@ QStringList checkImage(const QString  path)
     return imagelist;
 }
 
+const QSize getImageQSize(const QString &path)
+{
+
+
+    QSize tSize;
+    QStringList rl = getAllMetaData(path).value("Dimension").split("x");
+    if (rl.length() == 2)
+    {
+        tSize = QSize(QString(rl.first()).toInt(), QString(rl.last()).toInt());
+    }
+
+    return tSize;
+}
+
 }  // namespace image
 
 }  //namespace utils

@@ -84,6 +84,9 @@ void SearchView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &SearchView::changeTheme);
+    connect(dApp, &Application::sigFinishLoad, this, [=] {
+        m_pThumbnailListView->update();
+    });
 }
 
 void SearchView::initNoSearchResultView()
@@ -232,6 +235,7 @@ void SearchView::initMainStackWidget()
 
 void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 {
+    using namespace utils::image;
     m_keywords = s;
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
     DBImgInfoList infos;
@@ -254,13 +258,44 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
             ThumbnailListView::ItemInfo vi;
             vi.name = info.fileName;
             vi.path = info.filePath;
+//            if (COMMON_STR_TRASH == album)
+//            {
+//                vi.image = dApp->m_imagetrashmap.value(info.filePath);//TODO_DS
+//            }
+//            else
+//            {
+//                vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
+//            }
+
             if (COMMON_STR_TRASH == album)
             {
-                vi.image = dApp->m_imagetrashmap.value(info.filePath);//TODO_DS
+                if (dApp->m_imagetrashmap.value(info.filePath).isNull())
+                {
+                    QSize imageSize = getImageQSize(vi.path);
+
+                    vi.width = imageSize.width();
+                    vi.height = imageSize.height();
+                }
+                else
+                {
+                    vi.width = dApp->m_imagetrashmap.value(info.filePath).width();
+                    vi.height = dApp->m_imagetrashmap.value(info.filePath).height();
+                }
             }
             else
             {
-                vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
+                if (dApp->m_imagemap.value(info.filePath).isNull())
+                {
+                    QSize imageSize = getImageQSize(vi.path);
+
+                    vi.width = imageSize.width();
+                    vi.height = imageSize.height();
+                }
+                else
+                {
+                    vi.width = dApp->m_imagemap.value(info.filePath).width();
+                    vi.height = dApp->m_imagemap.value(info.filePath).height();
+                }
             }
 
             thumbnaiItemList<<vi;

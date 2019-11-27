@@ -56,7 +56,9 @@ void TimeLineView::initConnections()
 {
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::updataLayout);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::updataLayout);
-    connect(dApp, &Application::sigFinishLoad, this, &TimeLineView::updataLayout);
+    connect(dApp, &Application::sigFinishLoad, this, [=]{
+        m_mainListWidget->update();
+    });
     connect(m_mainListWidget, &TimelineList::sigNewTime, this, [ = ](QString date, QString num, int index) {
         m_index = index;
         on_AddLabel(date, num);
@@ -392,16 +394,30 @@ void TimeLineView::updataLayout()
         pThumbnailListView->setContentsMargins(0, 0, 0, 0);
         pThumbnailListView->setFrameShape(DTableView::NoFrame);
 
-
+        using namespace utils::image;
         QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
         for (int j = 0; j < ImgInfoList.size(); j++) {
             ThumbnailListView::ItemInfo vi;
             vi.name = ImgInfoList.at(j).fileName;
             vi.path = ImgInfoList.at(j).filePath;
-            vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
+//            vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
+            if (dApp->m_imagemap.value(ImgInfoList.at(j).filePath).isNull())
+            {
+                QSize imageSize = getImageQSize(vi.path);
+
+                vi.width = imageSize.width();
+                vi.height = imageSize.height();
+            }
+            else
+            {
+                vi.width = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).width();
+                vi.height = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).height();
+            }
+
             thumbnaiItemList.append(vi);
         }
         //保存当前时间照片
+
         pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
         listItemlayout->addWidget(TitleView);
