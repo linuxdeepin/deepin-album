@@ -82,6 +82,9 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(albumPaths[j])
            .baseName()).arg(QFileInfo(albumPaths[j]).completeSuffix());
                bool isSucceed = QFile::copy(albumPaths[j], savePath);
+
+               emit dApp->signalM->sigExporting(albumPaths[j]);
+
                if (!isSucceed) {
                    failcount ++;
                    qDebug() << tr("Failed to export");
@@ -98,6 +101,7 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
        else
        {
            emit dApp->signalM->AlbExportSuccess();
+           emit dApp->signalM->sigRestoreStatus();
        }
 
    }
@@ -121,6 +125,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
                                     .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());
 
                 bool isSucceed = QFile::copy(imagePaths[j], savePath);
+                emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
                     failcount ++;
                     qDebug() << tr("Failed to export");
@@ -137,6 +142,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
         else
         {
             emit dApp->signalM->ImgExportSuccess();
+            emit dApp->signalM->sigRestoreStatus();
         }
     }
 }

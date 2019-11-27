@@ -70,6 +70,26 @@ void StatusBar::initConnections()
             interval = startTimer(3);
         }
     });
+    connect(dApp->signalM, &SignalManager::sigExporting, this, [=](QString path){
+        if(isVisible())
+        {
+            m_pStackedWidget->setCurrentIndex(1);
+            QString string = tr("Exporting photos:'%1'");
+            TextLabel->setAlignment(Qt::AlignCenter);
+            TextLabel->setText(string.arg(path));
+            TextLabel->adjustSize();
+            QTime time;
+            time.start();
+            while(time.elapsed() < 10)
+                QCoreApplication::processEvents();
+        }
+    });
+    connect(dApp->signalM, &SignalManager::sigExporting, this, [=](QString path){
+        if(isVisible())
+        {
+            m_pStackedWidget->setCurrentIndex(0);
+        }
+    });
 }
 
 void StatusBar::resizeEvent(QResizeEvent *e)

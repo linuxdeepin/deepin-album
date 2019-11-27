@@ -97,6 +97,8 @@ signals:
     void ImgExportFailed();
     void AlbExportSuccess();
     void AlbExportFailed();
+    void sigExporting(const QString &path);
+    void sigRestoreStatus();
 
 
     // Handle by album
