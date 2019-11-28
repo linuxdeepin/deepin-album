@@ -146,6 +146,7 @@ private:
     ImportView* m_pImportView;
     ThumbnailListView* m_pRightTrashThumbnailList;
     ThumbnailListView* m_pRightFavoriteThumbnailList;
+    ThumbnailListView* m_pRightPhoneThumbnailList;
     DPushButton* m_pRecoveryBtn;
     DPushButton* m_pDeleteBtn;
     DMenu* m_pLeftMenu;
@@ -153,6 +154,8 @@ private:
     DLabel* m_pRightPicTotal;
     DLabel* m_pFavoriteTitle;
     DLabel* m_pFavoritePicTotal;
+    DLabel* m_pPhoneTitle;
+    DLabel* m_pPhonePicTotal;
     SearchView* m_pSearchView;
     DGioVolumeManager *m_vfsManager;
     DLabel* pLabel1;
@@ -167,7 +170,6 @@ private:
     QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     QListWidgetItem *m_curListWidgetItem;
     QMap<QString, QPixmap> m_phonePicMap;
-    DSpinner *m_pSpinner;
     QMap<QString, QAction*> m_MenuActionMap;
 
     int m_mountPicNum;

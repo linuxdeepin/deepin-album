@@ -39,7 +39,7 @@ const int RIGHT_VIEW_THUMBNAIL_LIST = 1;
 const int RIGHT_VIEW_TRASH_LIST = 2;
 const int RIGHT_VIEW_FAVORITE_LIST = 3;
 const int RIGHT_VIEW_SEARCH = 4;
-const int RIGHT_VIEW_SPINNER = 5;
+const int RIGHT_VIEW_PHONE = 5;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
@@ -79,8 +79,8 @@ AlbumView::AlbumView()
     m_mountloader->moveToThread(m_LoadThread);
     m_LoadThread->start();
 
-    connect(this, SIGNAL(sigLoadMountImagesStart(QString, QString)),
-            m_mountloader, SLOT(onLoadMountImagesStart(QString, QString)));
+    connect(this, SIGNAL(sigLoadMountImagesStart(QString, QString)), m_mountloader, SLOT(onLoadMountImagesStart(QString, QString)));
+    connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
 
     setAcceptDrops(true);
     initLeftView();
@@ -120,6 +120,7 @@ void AlbumView::initConnections()
     connect(dApp, &Application::sigFinishLoad, this, [=] {
         m_pRightThumbnailList->update();
         m_pRightFavoriteThumbnailList->update();
+        m_pRightTrashThumbnailList->update();
     });
     connect(m_pLeftTabList, &QListView::customContextMenuRequested, this, &AlbumView::showLeftMenu);
     connect(m_pLeftMenu, &DMenu::triggered, this, &AlbumView::onLeftMenuClicked);
@@ -151,15 +152,40 @@ void AlbumView::initConnections()
         m_pDeleteBtn->setPalette(DeBtn);
 
     });
-    connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
 #if 1
     connect(m_pRightThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
+    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::customContextMenuRequested, this, [=] {
+        QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+        if (0 < paths.length())
+        {
+            m_importSelectByPhoneBtn->setEnabled(true);
+        }
+        else
+        {
+            m_importSelectByPhoneBtn->setEnabled(false);
+        }
+
+        updatePicNum();
+    });
 
     connect(m_pRightThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
+    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigMouseRelease, this, [=] {
+        QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+        if (0 < paths.length())
+        {
+            m_importSelectByPhoneBtn->setEnabled(true);
+        }
+        else
+        {
+            m_importSelectByPhoneBtn->setEnabled(false);
+        }
+
+        updatePicNum();
+    });
 
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onTrashListClicked);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
@@ -338,45 +364,8 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->addSpacing(-6);
     pNoTrashVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
-    //手机相片导入窗体
-    m_importByPhoneWidget = new DWidget;
-    QHBoxLayout *mainImportLayout = new QHBoxLayout;
-    DLabel *importLabel = new DLabel();
-    importLabel->setText(tr("Import to:"));
-    DFontSizeManager::instance()->bind(importLabel, DFontSizeManager::T6, QFont::Medium);
-    importLabel->setForegroundRole(DPalette::TextTips);
-    importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-    m_importByPhoneComboBox = new DComboBox;
-    m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
-
-    m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
-    DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
-    importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0,0,0,0));
-    m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
-
-    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import"));
-    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
-    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
-
-    mainImportLayout->addWidget(importLabel);
-    mainImportLayout->addSpacing(11);
-    mainImportLayout->addWidget(m_importByPhoneComboBox);
-    mainImportLayout->addSpacing(30);
-    mainImportLayout->addWidget(m_importAllByPhoneBtn);
-    mainImportLayout->addSpacing(10);
-    mainImportLayout->addWidget(m_importSelectByPhoneBtn);
-    m_importByPhoneWidget->setLayout(mainImportLayout);
-    m_importByPhoneWidget->setVisible(false);
-
-    QHBoxLayout *allHLayout = new QHBoxLayout;
-    allHLayout->addLayout(pNoTrashVBoxLayout, 1);
-    allHLayout->addStretch();
-    allHLayout->addWidget(m_importByPhoneWidget, 1);
-
     QVBoxLayout *p_all = new QVBoxLayout();
-    p_all->addLayout(allHLayout);
+    p_all->addLayout(pNoTrashVBoxLayout);
     p_all->addWidget(m_pRightThumbnailList);
 
     pNoTrashWidget->setLayout(p_all);
@@ -480,15 +469,75 @@ void AlbumView::initRightView()
     //Search View
     m_pSearchView = new SearchView;
 
-    //Spinner View
-    DWidget *pSpinnerWidget = new DWidget();
-    QHBoxLayout *pSpinnerLayout = new QHBoxLayout();
-    m_pSpinner = new DSpinner();
-    m_pSpinner->setFixedSize(40, 40);
-    m_pSpinner->hide();
+    // Phone View
+    DWidget *pPhoneWidget = new DWidget();
+    pPhoneWidget->setBackgroundRole(DPalette::Window);
 
-    pSpinnerLayout->addWidget(m_pSpinner, Qt::AlignCenter);
-    pSpinnerWidget->setLayout(pSpinnerLayout);
+    QVBoxLayout *pPhoneVBoxLayout = new QVBoxLayout();
+    pPhoneVBoxLayout->setContentsMargins(0, 0, 0, 0);
+
+    m_pPhoneTitle = new DLabel();
+    DFontSizeManager::instance()->bind(m_pPhoneTitle, DFontSizeManager::T3, QFont::DemiBold);
+    m_pPhoneTitle->setForegroundRole(DPalette::TextTitle);
+
+    m_pPhonePicTotal = new DLabel();
+    DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
+    m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
+
+    m_pRightPhoneThumbnailList = new ThumbnailListView(ALBUM_PATHTYPE_BY_PHONE);
+    m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
+
+    pPhoneVBoxLayout->addSpacing(5);
+    pPhoneVBoxLayout->addWidget(m_pPhoneTitle);
+    pPhoneVBoxLayout->addSpacing(9);
+    pPhoneVBoxLayout->addWidget(m_pPhonePicTotal);
+    pPhoneVBoxLayout->addSpacing(-6);
+    pPhoneVBoxLayout->setContentsMargins(10, 0, 0, 0);
+
+    //手机相片导入窗体
+    m_importByPhoneWidget = new DWidget;
+    QHBoxLayout *mainImportLayout = new QHBoxLayout;
+    DLabel *importLabel = new DLabel();
+    importLabel->setText(tr("Import to:"));
+    DFontSizeManager::instance()->bind(importLabel, DFontSizeManager::T6, QFont::Medium);
+    importLabel->setForegroundRole(DPalette::TextTips);
+    importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+    m_importByPhoneComboBox = new DComboBox;
+    m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
+    m_importByPhoneComboBox->setEnabled(false);
+
+    m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
+    DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
+    importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0,0,0,0));
+    m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
+    m_importAllByPhoneBtn->setEnabled(false);
+
+    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
+    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
+    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
+    m_importSelectByPhoneBtn->setEnabled(false);
+
+    mainImportLayout->addWidget(importLabel);
+    mainImportLayout->addSpacing(11);
+    mainImportLayout->addWidget(m_importByPhoneComboBox);
+    mainImportLayout->addSpacing(30);
+    mainImportLayout->addWidget(m_importAllByPhoneBtn);
+    mainImportLayout->addSpacing(10);
+    mainImportLayout->addWidget(m_importSelectByPhoneBtn);
+    m_importByPhoneWidget->setLayout(mainImportLayout);
+
+    QHBoxLayout *allHLayout = new QHBoxLayout;
+    allHLayout->addLayout(pPhoneVBoxLayout, 1);
+    allHLayout->addStretch();
+    allHLayout->addWidget(m_importByPhoneWidget, 1);
+
+    QVBoxLayout *p_all2 = new QVBoxLayout();
+    p_all2->addLayout(allHLayout);
+    p_all2->addWidget(m_pRightPhoneThumbnailList);
+
+    pPhoneWidget->setLayout(p_all2);
 
     // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
@@ -496,8 +545,9 @@ void AlbumView::initRightView()
     m_pRightStackWidget->addWidget(pTrashWidget);
     m_pRightStackWidget->addWidget(pFavoriteWidget);
     m_pRightStackWidget->addWidget(m_pSearchView);
-    m_pRightStackWidget->addWidget(pSpinnerWidget);
+    m_pRightStackWidget->addWidget(pPhoneWidget);
 
+    // Statusbar
     m_pStatusBar = new StatusBar();
     m_pStatusBar->setParent(this);
 
@@ -507,16 +557,17 @@ void AlbumView::initRightView()
     pVBoxLayout->addWidget(m_pStatusBar);
     m_pWidget->setLayout(pVBoxLayout);
 
-    if (0 < DBManager::instance()->getImgsCount())
-    {
-        m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
-        m_pStatusBar->show();
-    } else {
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->show();
+//    if (0 < DBManager::instance()->getImgsCount())
+//    {
+//        m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
+//        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+//        m_pStatusBar->show();
+//    } else {
+//        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+//        m_pStatusBar->show();
 
-    }
+//    }
+    updateRightView();
 }
 
 void AlbumView::updateRightView()
@@ -536,7 +587,6 @@ void AlbumView::updateRightNoTrashView()
     using namespace utils::image;
 //    m_pSpinner->stop();
     m_curThumbnaiItemList.clear();
-    m_importByPhoneWidget->setVisible(false);
 
     DBImgInfoList infos;
 
@@ -574,8 +624,9 @@ void AlbumView::updateRightNoTrashView()
             QString str = tr("%1 photo(s)");
             m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-            m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
             m_pRightThumbnailList->m_imageType = m_currentAlbum;
+            m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
+
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
             m_pStatusBar->show();
         }
@@ -634,40 +685,66 @@ void AlbumView::updateRightNoTrashView()
             // 手机
             qDebug()<<item->m_albumNameStr;
             qDebug()<<m_phoneNameAndPathlist;
-            if (true == m_phoneNameAndPathlist.contains(item->m_albumNameStr))
+            if (true == m_phoneNameAndPathlist.contains(item->m_albumNameStr) && 0 < m_phoneNameAndPathlist.value(item->m_albumNameStr).length())
             {
+                m_importByPhoneComboBox->setEnabled(true);
+                m_importAllByPhoneBtn->setEnabled(true);
                 updateImportComboBox();
-                m_importByPhoneWidget->setVisible(true);
 
                 for(auto path : m_phoneNameAndPathlist.value(item->m_albumNameStr))
                 {
                     ThumbnailListView::ItemInfo vi;
                     vi.path = path;
                     vi.image = m_phonePathAndImage.value(path);
+                    vi.width = vi.image.width();
+                    vi.height = vi.image.height();
                     m_curThumbnaiItemList << vi;
                 }
 
                 m_iAlubmPicsNum = m_curThumbnaiItemList.size();
                 m_mountPicNum = m_curThumbnaiItemList.size();
 
-                m_pRightTitle->setText(m_currentAlbum);
+                m_pPhoneTitle->setText(m_currentAlbum);
 
-                QFontMetrics elideFont(m_pRightTitle->font());
-                m_pRightTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
+                QFontMetrics elideFont(m_pPhoneTitle->font());
+                m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
 
                 QString str = tr("%1 photo(s)");
-                m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+                m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-                m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
-                m_pRightThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+                m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+                m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
 
-                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+                QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+                if (0 < paths.length())
+                {
+                    m_importSelectByPhoneBtn->setEnabled(true);
+                }
+                else
+                {
+                    m_importSelectByPhoneBtn->setEnabled(false);
+                }
+
+                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
             }
             else
             {
+                m_importByPhoneComboBox->setEnabled(false);
+                m_importAllByPhoneBtn->setEnabled(false);
+                m_importSelectByPhoneBtn->setEnabled(false);
                 m_mountPicNum = 0;
-//                m_pSpinner->start();
-                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_SPINNER);
+                m_pPhoneTitle->setText(m_currentAlbum);
+
+                QFontMetrics elideFont(m_pPhoneTitle->font());
+                m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum,Qt::ElideRight, 525));
+
+                QString str = tr("%1 photo(s)");
+                m_pPhonePicTotal->setText(str.arg(QString::number(0)));
+
+                m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+                m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
+
+                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
             }
 
             setAcceptDrops(false);
@@ -711,8 +788,8 @@ void AlbumView::updateRightNoTrashView()
                 QString str = tr("%1 photo(s)");
                 m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-                m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
                 m_pRightThumbnailList->m_imageType = m_currentAlbum;
+                m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
 
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
                 m_pStatusBar->show();
@@ -1572,7 +1649,7 @@ bool AlbumView::findPicturePathByPhone(QString &path)
 void AlbumView::updateImportComboBox()
 {
     m_importByPhoneComboBox->clear();
-    m_importByPhoneComboBox->addItem(tr("Import"));
+    m_importByPhoneComboBox->addItem(tr("Album Gallery"));
     m_importByPhoneComboBox->addItem(tr("New Album"));
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for(auto albumName : allAlbumNames)
@@ -1829,6 +1906,9 @@ void AlbumView::updatePicNum()
         } else if (m_currentAlbum == COMMON_STR_FAVORITES) {
             QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
             selPicNum = paths.length();
+        } else if (5 == m_pRightStackWidget->currentIndex()){
+            QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+            selPicNum = paths.length();
         } else {
             QStringList paths = m_pRightThumbnailList->selectedPaths();
             selPicNum = paths.length();
@@ -1857,7 +1937,7 @@ void AlbumView::restorePicNum()
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
         } else {
-            if (ALBUM_PATHTYPE_BY_PHONE == m_pRightThumbnailList->m_imageType) {
+            if (5 == m_pRightStackWidget->currentIndex()) {
                 selPicNum = m_mountPicNum;
             } else {
                 selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);

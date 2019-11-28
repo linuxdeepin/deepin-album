@@ -317,6 +317,7 @@ void ThumbnailListView::updateThumbnailView()
 
 void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 {
+    m_delegate->m_imageTypeStr = m_imageType;
     m_ItemList = itemList;
 
     for (int i = 0; i < m_ItemList.length(); i++) {

@@ -5,7 +5,7 @@
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>新建相册</translation>
     </message>
     <message>
         <source>Create Album</source>
@@ -66,7 +66,7 @@
     <name>AlbumView</name>
     <message>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>新建相册</translation>
     </message>
     <message>
         <source>Imported</source>
@@ -204,6 +204,18 @@
         <source>Import to:</source>
         <translation>导入到：</translation>
     </message>
+    <message>
+        <source>Import Select</source>
+        <translation type="vanished">导入所选</translation>
+    </message>
+    <message>
+        <source>Album Gallery</source>
+        <translation>相册图库</translation>
+    </message>
+    <message>
+        <source>Import Selected</source>
+        <translation>导入所选</translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>
@@ -272,7 +284,7 @@
     <message>
         <source>%1 
 already exists, do you want to replace?</source>
-        <translation>%1\n已经存在，是否需要替换?</translation>
+        <translation type="vanished">%1\n已经存在，是否需要替换?</translation>
     </message>
     <message>
         <source>Export</source>
@@ -325,6 +337,10 @@ already exists, do you want to replace?</source>
     <message>
         <source>Save</source>
         <translation>保存</translation>
+    </message>
+    <message>
+        <source>Photo already exists, do you want to replace?</source>
+        <translation>照片已经存在，是否需要替换？</translation>
     </message>
 </context>
 <context>

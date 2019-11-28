@@ -330,7 +330,7 @@ void CExportImageDialog::showDirChoseDialog()
 
 void CExportImageDialog::showQuestionDialog(const QString &path)
 {
-    m_questionDialog->setMessage((QString(tr("%1 \nalready exists, do you want to replace?")).arg(path)));
+    m_questionDialog->setMessage(tr("Photo already exists, do you want to replace?"));
     m_questionDialog->show();
 }
 
