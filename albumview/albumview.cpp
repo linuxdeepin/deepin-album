@@ -1348,6 +1348,14 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     qDebug() << "onVfsMountChangedAdd()" << mount->name();
     Q_UNUSED(mount);
 
+    //TODO:
+    //Not support ftp,smb mount now
+    QString protocalType = mount->getRootFile()->uri().toLower();
+    if (protocalType.startsWith("ftp://") || protocalType.startsWith("smb://")) {
+        qDebug() <<  mount->name() << " protocal type:" << protocalType << "is not supported by album.";
+        return;
+    }
+
     QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
     QString strPath = LocationFile->path();
     if (strPath.isEmpty()) {
