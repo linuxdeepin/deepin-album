@@ -1399,7 +1399,18 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList
     const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = m_vfsManager->getMounts();
 
     for (auto mount : mounts) {
-        qDebug() << "getVfsMountList() mount.name" << mount->name();
+
+        //TODO:
+        //Not support ftp,smb mount now
+        QString protocalType = mount->getRootFile()->uri().toLower();
+
+        if (protocalType.startsWith("ftp://") || protocalType.startsWith("smb://")) {
+            qDebug() <<  mount->name() << " protocal type:" << protocalType << "is not supported by album.";
+            continue;
+        }
+
+        qDebug() << "getVfsMountList() mount.name" << mount->name() << " protocal type:" << protocalType;
+
         result.append(mount);
     }
 
