@@ -100,7 +100,6 @@ signals:
     void sigExporting(const QString &path);
     void sigRestoreStatus();
 
-
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());

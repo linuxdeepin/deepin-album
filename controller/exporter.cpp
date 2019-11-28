@@ -86,11 +86,13 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                emit dApp->signalM->sigExporting(albumPaths[j]);
 
                if (!isSucceed) {
-                   failcount ++;
                    qDebug() << tr("Failed to export");
 
                }
-           } else {
+           }
+           else
+           {
+               failcount++;
                continue;
            }
        }

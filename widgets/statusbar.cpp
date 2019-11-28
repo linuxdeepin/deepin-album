@@ -81,7 +81,7 @@ void StatusBar::initConnections()
             TextLabel->adjustSize();
             QTime time;
             time.start();
-            while(time.elapsed() < 10)
+            while(time.elapsed() < 5)
                 QCoreApplication::processEvents();
         }
     });

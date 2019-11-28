@@ -330,7 +330,26 @@ void CExportImageDialog::showDirChoseDialog()
 
 void CExportImageDialog::showQuestionDialog(const QString &path)
 {
-    m_questionDialog->setMessage(tr("Photo already exists, do you want to replace?"));
+    m_questionDialog->clearContents();
+    DWidget *wid = new DWidget();
+    DLabel *lab1 = new DLabel();
+    QFontMetrics elideFont(lab1->font());
+    lab1->setText(elideFont.elidedText(path, Qt::ElideRight, 255));
+    lab1->setToolTip(path);
+
+    DLabel *lab2 = new DLabel();
+    lab2->setText(tr("already exists, do you want to replace?"));
+    lab2->setAlignment(Qt::AlignCenter);
+
+    QVBoxLayout *lay = new QVBoxLayout();
+    lay->setContentsMargins(0,0,0,0);
+    lay->addWidget(lab1);
+    lay->addWidget(lab2);
+    lay->addSpacing(100);
+    wid->setLayout(lay);
+    m_questionDialog->addContent(wid, Qt::AlignCenter);
+
+//    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
     m_questionDialog->show();
 }
 
