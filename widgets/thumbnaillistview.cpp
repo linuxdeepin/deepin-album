@@ -74,27 +74,22 @@ ThumbnailListView::~ThumbnailListView()
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 {
-    qDebug()<<"m_imageType: "<<m_imageType<<" ;dragDropMode(): "<<dragDropMode();
+    qDebug() << "m_imageType: " << m_imageType << " ;dragDropMode(): " << dragDropMode();
     if ((m_imageType != COMMON_STR_VIEW_TIMELINE) &&
             (m_imageType != "All Photos") &&
             (m_imageType != COMMON_STR_TRASH) &&
-            (m_imageType != ALBUM_PATHTYPE_BY_PHONE))
-    {
+            (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
         if (dragDropMode() != NoDragDrop) {
             setDragDropMode(DragDrop);
         }
-    }
-    else
-    {
+    } else {
         setDragEnabled(false);
     }
 
     bool isListArea = this->indexAt(event->pos()).isValid();
-    qDebug()<<"isListArea:"<<isListArea<<", keyboard:"<<QApplication::keyboardModifiers();
-    if (!isListArea)
-    {
-        if (QApplication::keyboardModifiers() != Qt::ControlModifier)
-        {
+    qDebug() << "isListArea:" << isListArea << ", keyboard:" << QApplication::keyboardModifiers();
+    if (!isListArea) {
+        if (QApplication::keyboardModifiers() != Qt::ControlModifier) {
             clearSelection();
             update();
         }
@@ -117,7 +112,7 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 
 void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
 {
-    qDebug()<<"dragEnter";
+    qDebug() << "dragEnter";
 
     DListView::dragEnterEvent(event);
 }
@@ -130,14 +125,14 @@ void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
 void ThumbnailListView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     m_dragItemPath = selectedPaths();
-    qDebug()<<m_dragItemPath;
+    qDebug() << m_dragItemPath;
 
     DListView::dragLeaveEvent(event);
 }
 
 void ThumbnailListView::dropEvent(QDropEvent *event)
 {
-    qDebug()<<"drop";
+    qDebug() << "drop";
 
 //    DListView::dropEvent(event);
 }
@@ -171,11 +166,10 @@ void ThumbnailListView::calBasePixMapWandH()
             m_ItemList[i].height = m_iBaseHeight;
         } else {
             m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
-            if (m_ItemList[i].width > i_totalwidth){
+            if (m_ItemList[i].width > i_totalwidth) {
                 m_ItemList[i].height = m_ItemList[i].height * i_totalwidth / m_ItemList[i].width;
                 m_ItemList[i].width = i_totalwidth;
-            }
-            else {
+            } else {
                 m_ItemList[i].height = m_iBaseHeight;
             }
         }
@@ -213,7 +207,7 @@ void ThumbnailListView::calWidgetItemWandH()
                 rowWidthList << i_baseWidth;
                 m_gridItem << itemInfoList;
             }
-        } else if (i_totalwidth - i_baseWidth > 200){
+        } else if (i_totalwidth - i_baseWidth > 200) {
             m_ItemList[i].imgHeight = m_ItemList[i].imgHeight * (i_totalwidth - i_baseWidth) / m_ItemList[i].imgWidth;
             m_ItemList[i].imgHeight = (1 > m_ItemList[i].imgHeight) ? 1 : m_ItemList[i].imgHeight;
             m_ItemList[i].imgWidth = i_totalwidth - i_baseWidth;
@@ -246,8 +240,7 @@ void ThumbnailListView::calWidgetItemWandH()
 
     //scaling for each row adapting list width except last one
     for (int i = 0; i < rowWidthList.length() - 1; i++) {
-        if (rowWidthList[i] < i_totalwidth)
-        {
+        if (rowWidthList[i] < i_totalwidth) {
             int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].length();
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].length();
             int rowWidth = 0;
@@ -262,8 +255,7 @@ void ThumbnailListView::calWidgetItemWandH()
 
             rowWidthList[i] = rowWidth - ITEM_SPACING;
 
-            if (rowWidthList[i] < i_totalwidth)
-            {
+            if (rowWidthList[i] < i_totalwidth) {
                 m_gridItem[i][0].width = m_gridItem[i][0].width + i_totalwidth - rowWidthList[i];
             }
         }
@@ -396,10 +388,9 @@ void ThumbnailListView::updateMenuContents()
 
 
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
-        if(COMMON_STR_RECENT_IMPORTED == m_imageType
+        if (COMMON_STR_RECENT_IMPORTED == m_imageType
                 || IMAGE_DEFAULTTYPE == m_imageType
-                || COMMON_STR_VIEW_TIMELINE == m_imageType)
-        {
+                || COMMON_STR_VIEW_TIMELINE == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
 
@@ -411,10 +402,9 @@ void ThumbnailListView::updateMenuContents()
 
         m_pMenu->addSeparator();
     } else {
-        if(COMMON_STR_RECENT_IMPORTED == m_imageType
+        if (COMMON_STR_RECENT_IMPORTED == m_imageType
                 || IMAGE_DEFAULTTYPE == m_imageType
-                || COMMON_STR_VIEW_TIMELINE == m_imageType)
-        {
+                || COMMON_STR_VIEW_TIMELINE == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
@@ -502,7 +492,7 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
     appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
     appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
-    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(THROWTOTRASH_CONTEXT_MENU));
+//    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(THROWTOTRASH_CONTEXT_MENU));
     m_pMenu->addSeparator();
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
     appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
@@ -819,33 +809,25 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
         return true;
     }
     //add for pageup pagedown for time line view.
-    else if (e->type() == QEvent::KeyPress)
-    {
+    else if (e->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
-        if (m_imageType == COMMON_STR_VIEW_TIMELINE)
-        {
-            if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp)
-            {
-                qDebug()<<"sigKeyEvent"<<keyEvent->key();
+        if (m_imageType == COMMON_STR_VIEW_TIMELINE) {
+            if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp) {
+                qDebug() << "sigKeyEvent" << keyEvent->key();
                 //处理上下翻页
                 emit sigKeyEvent(keyEvent->key());
 
                 return true;
             }
-        }
-        else
-        {
-            if (keyEvent->key() == Qt::Key_PageDown)
-            {
+        } else {
+            if (keyEvent->key() == Qt::Key_PageDown) {
                 QScrollBar *vb = this->verticalScrollBar();
                 int posValue = vb->value();
                 posValue += this->height();
                 vb->setValue(posValue);
 
                 return true;
-            }
-            else if (keyEvent->key() == Qt::Key_PageUp)
-            {
+            } else if (keyEvent->key() == Qt::Key_PageUp) {
                 QScrollBar *vb = this->verticalScrollBar();
                 int posValue = vb->value();
                 posValue -= this->height();

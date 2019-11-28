@@ -75,29 +75,31 @@ enum MenuItemId {
 void ViewPanel::initPopupMenu()
 {
     m_menu = new DMenu;
-    connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
+    connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
         if (! m_infos.isEmpty()
-        #ifdef LITE_DIV
+#ifdef LITE_DIV
                 && !m_infos.at(m_current).filePath.isEmpty()
-        #endif
-                ) {
+#endif
+           )
+        {
             updateMenuContent();
             this->setCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
         }
     });
-    connect(m_menu, &DMenu::aboutToHide, this, [=] {
+    connect(m_menu, &DMenu::aboutToHide, this, [ = ] {
         dApp->restoreOverrideCursor();
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
-    connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] {
-        if (this && this->isVisible()) {
+    connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
+        if (this && this->isVisible())
+        {
             updateMenuContent();
         }
     });
-    QShortcut* sc = new QShortcut(QKeySequence("Alt+Enter"), this);
+    QShortcut *sc = new QShortcut(QKeySequence("Alt+Enter"), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
+    connect(sc, &QShortcut::activated, this, [ = ] {
         if (m_isInfoShowed)
             emit dApp->signalM->hideExtensionPanel();
         else
@@ -139,30 +141,26 @@ DMenu *ViewPanel::createAlbumMenu()
     albums.removeAll(FAVORITES_ALBUM_NAME);
 
     QAction *ac = new QAction(am);
-    ac->setProperty("MenuID", IdAddToAlbum);    {
+    ac->setProperty("MenuID", IdAddToAlbum);
+    {
         if (utils::common::VIEW_ALLPIC_SRN != m_viewType
                 && utils::common::VIEW_TIMELINE_SRN != m_viewType
                 && utils::common::VIEW_SEARCH_SRN != m_viewType
                 && COMMON_STR_RECENT_IMPORTED != m_viewType
                 && COMMON_STR_TRASH != m_viewType
-                && COMMON_STR_FAVORITES != m_viewType)
-        {
+                && COMMON_STR_FAVORITES != m_viewType) {
             DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
 
-        }
-        else if (COMMON_STR_TRASH == m_viewType)
-        {
+        } else if (COMMON_STR_TRASH == m_viewType) {
             dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
-        }
-        else
-        {
+        } else {
             DBImgInfoList infos;
             DBImgInfo info;
 
             info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
             info.time = QDateTime::currentDateTime();
-            infos<<info;
+            infos << info;
 
             dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
             dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
@@ -210,7 +208,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths();
-        vinfo.viewMainWindowID = vinfo.viewMainWindowID|VIEW_MAINWINDOW_POPVIEW;
+        vinfo.viewMainWindowID = vinfo.viewMainWindowID | VIEW_MAINWINDOW_POPVIEW;
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
         break;
     }
@@ -220,34 +218,30 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
 
 #if 1
-        //添加到相册
+    //添加到相册
     case IdAddToAlbum: {
         const QString album = action->data().toString();
-        if (album != "Add to new album")
-        {
-            if (! DBManager::instance()->isImgExistInAlbum(album, path))
-            {
+        if (album != "Add to new album") {
+            if (! DBManager::instance()->isImgExistInAlbum(album, path)) {
                 emit dApp->signalM->sigAddToAlbToast(album);
             }
-            DBManager::instance()->insertIntoAlbum(album,QStringList(path));
-        }
-        else
-        {
+            DBManager::instance()->insertIntoAlbum(album, QStringList(path));
+        } else {
             emit dApp->signalM->viewModeCreateAlbum(path);
         }
     }
     break;
-        //收藏
-    case IdAddToFavorites:{
+    //收藏
+    case IdAddToFavorites: {
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
     }
-        break;
-        //取消收藏
-    case IdRemoveFromFavorites:{
+    break;
+    //取消收藏
+    case IdRemoveFromFavorites: {
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path));
     }
-        break;
-        //导出
+    break;
+    //导出
     case IdExport:
         emit dApp->signalM->exportImage(QStringList(path));
         break;
@@ -266,8 +260,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
-    case IdMoveToTrash:
-    {
+    case IdMoveToTrash: {
 //        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
 //                && utils::common::VIEW_TIMELINE_SRN != m_viewType
 //                && utils::common::VIEW_SEARCH_SRN != m_viewType
@@ -291,19 +284,19 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 //        }
 //        else
 //        {
-            DBImgInfoList infos;
-            DBImgInfo info;
-            info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
-            info.time = QDateTime::currentDateTime();
-            infos<<info;
-            dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
-            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
-            DBManager::instance()->insertTrashImgInfos(infos);
-            DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
-            removeCurrentImage();
+        DBImgInfoList infos;
+        DBImgInfo info;
+        info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
+        info.time = QDateTime::currentDateTime();
+        infos << info;
+        dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
+        dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
+        DBManager::instance()->insertTrashImgInfos(infos);
+        DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
+        removeCurrentImage();
 //        }
     }
-        break;
+    break;
     case IdRemoveFromAlbum:
         DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
         removeCurrentImage();
@@ -370,8 +363,7 @@ void ViewPanel::updateMenuContent()
     if (window()->isFullScreen()) {
 
         appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
-    }
-    else {
+    } else {
 
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
     }
@@ -390,38 +382,31 @@ void ViewPanel::updateMenuContent()
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-#if 1   
+#if 1
     m_menu->addMenu(createAblumMenu());                                         //添加到相册
-    appendAction(IdExport, tr("Export"), ss("Export","Ctrl+E"));     //导出
+    appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));    //导出
 #endif
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    if (COMMON_STR_TRASH == m_viewType)
-    {
-//          appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
-    }
-    else
-    {
+    if (COMMON_STR_TRASH == m_viewType) {
+//        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+    } else {
         appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     }
 
     if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-        && utils::common::VIEW_TIMELINE_SRN != m_viewType
-        && utils::common::VIEW_SEARCH_SRN != m_viewType
-        && COMMON_STR_RECENT_IMPORTED != m_viewType
-        && COMMON_STR_TRASH != m_viewType
-        && COMMON_STR_FAVORITES != m_viewType)
-    {
+            && utils::common::VIEW_TIMELINE_SRN != m_viewType
+            && utils::common::VIEW_SEARCH_SRN != m_viewType
+            && COMMON_STR_RECENT_IMPORTED != m_viewType
+            && COMMON_STR_TRASH != m_viewType
+            && COMMON_STR_FAVORITES != m_viewType) {
         appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
     }
     m_menu->addSeparator();
     /**************************************************************************/
 #if 1
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,m_infos.at(m_current).filePath))
-    {
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_infos.at(m_current).filePath)) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
-    }
-    else
-    {
+    } else {
         appendAction(IdAddToFavorites, tr("favorite"), ss("favorite", "Ctrl+K"));       //收藏
     }
 
@@ -430,8 +415,7 @@ void ViewPanel::updateMenuContent()
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
                      tr("Show navigation window"), ss("Show navigation window", ""));
-    }
-    else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+    } else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         appendAction(IdHideNavigationWindow,
                      tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
@@ -439,15 +423,14 @@ void ViewPanel::updateMenuContent()
     if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
         m_menu->addSeparator();
         if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
-                !QFileInfo(m_infos.at(m_current).filePath).isWritable()){
+                !QFileInfo(m_infos.at(m_current).filePath).isWritable()) {
 
 
             appendAction_darkmenu(IdRotateClockwise,
-                                tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+                                  tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction_darkmenu(IdRotateCounterclockwise,
-                         tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
-        }
-        else {
+                                  tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+        } else {
             appendAction(IdRotateClockwise,
                          tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise,
@@ -461,11 +444,12 @@ void ViewPanel::updateMenuContent()
     }
 
 
-    appendAction(IdDisplayInFileManager,tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
+    appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
     appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", ""));
 }
 #if 1
-QMenu* ViewPanel::createAblumMenu(){
+QMenu *ViewPanel::createAblumMenu()
+{
     QMenu *am = new QMenu(tr("Add to album"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
@@ -481,8 +465,7 @@ QMenu* ViewPanel::createAblumMenu(){
     am->addAction(ac);
     am->addSeparator();
 
-    for (QString album : albums)
-    {
+    for (QString album : albums) {
         QAction *ac = new QAction(am);
         ac->setProperty("MenuID", IdAddToAlbum);
         ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
@@ -504,8 +487,9 @@ void ViewPanel::initShortcut()
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
-        if (! dt->isActive()) {
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        if (! dt->isActive())
+        {
             dt->start();
             showPrevious();
         }
@@ -513,19 +497,20 @@ void ViewPanel::initShortcut()
     // Next
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
-        if (! dt->isActive()) {
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        if (! dt->isActive())
+        {
             dt->start();
             showNext();
         }
     });
 
     // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
-    connect(dApp->signalM, &SignalManager::sigCtrlADDKeyActivated, this, [=] {
+    connect(dApp->signalM, &SignalManager::sigCtrlADDKeyActivated, this, [ = ] {
         m_viewB->setScaleValue(1.1);
     });
 
-    connect(dApp->signalM, &SignalManager::sigCtrlSubtractKeyActivated, this, [=] {
+    connect(dApp->signalM, &SignalManager::sigCtrlSubtractKeyActivated, this, [ = ] {
         m_viewB->setScaleValue(0.9);
     });
 
@@ -572,12 +557,13 @@ void ViewPanel::initShortcut()
     //1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);
-    connect(adaptImage, &QShortcut::activated, this, [=]{
+    connect(adaptImage, &QShortcut::activated, this, [ = ] {
         m_viewB->fitImage();
     });
 }
 
-void ViewPanel::popupDelDialog(const QString path) {
+void ViewPanel::popupDelDialog(const QString path)
+{
 #ifndef LITE_DIV
     const QStringList paths(path);
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);

@@ -74,8 +74,7 @@ public:
         IdTrashRecovery
     };
 
-    struct ItemInfo
-    {
+    struct ItemInfo {
         QString name = QString();
         QString path = QString();
         int width;
@@ -96,13 +95,13 @@ public:
     QList<ItemInfo> getAllPaths();
     QStringList getDagItemPath();
 
-    void menuItemDeal(QStringList paths,QAction *action);
+    void menuItemDeal(QStringList paths, QAction *action);
 
 signals:
     void loadend(int);
     void openImage(int);
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow = false);
-    void exportImage(QString,QStringList);
+    void exportImage(QString, QStringList);
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);
     void showImageInfo(const QString &path);
@@ -140,7 +139,7 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onShowImageInfo(const QString &path);
     void initMenuAction();
-    QMenu* createAlbumMenu();
+    QMenu *createAlbumMenu();
 
     void resizeEvent(QResizeEvent *e) override;
 
@@ -161,7 +160,7 @@ private:
     QStandardItemModel *m_model;
 
     DMenu *m_pMenu;
-    QMap<QString, QAction*> m_MenuActionMap;
+    QMap<QString, QAction *> m_MenuActionMap;
     QMenu *m_albumMenu;
 
     QList<QString> m_timelines;
