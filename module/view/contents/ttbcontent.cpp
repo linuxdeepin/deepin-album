@@ -287,7 +287,7 @@ TTBContent::TTBContent(bool inDB,
     m_backButton = new DIconButton(this);
     m_backButton->setFixedSize(ICON_SIZE);
     m_backButton->setObjectName("ReturnBtn");
-    m_backButton->setIcon(QIcon::fromTheme("dcc_previous"));
+    m_backButton->setIcon(QIcon::fromTheme("dcc_back"));
     m_backButton->setIconSize(QSize(36,36));
     m_backButton->setToolTip(tr("Back"));
 
