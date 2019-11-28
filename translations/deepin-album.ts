@@ -204,6 +204,14 @@
         <source>Import to:</source>
         <translation>导入到：</translation>
     </message>
+    <message>
+        <source>Import Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album Gallery</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>
@@ -377,7 +385,11 @@ already exists, do you want to replace?</source>
     <name>ImageLoader</name>
     <message>
         <source>Imported</source>
-        <translation>已导入</translation>
+        <translation type="vanished">已导入</translation>
+    </message>
+    <message>
+        <source>Album Gallery</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -546,11 +558,11 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>导入照片</translation>
+        <translation>导入图片</translation>
     </message>
     <message>
         <source>Window sizing</source>
-        <translation>窗口大小切换</translation>
+        <translation>窗口切换</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -582,15 +594,15 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Review images</source>
-        <translation>查看图片</translation>
+        <translation type="vanished">查看图片</translation>
     </message>
     <message>
         <source>Export images</source>
-        <translation>导出图片</translation>
+        <translation type="vanished">导出图片</translation>
     </message>
     <message>
         <source>Import images</source>
-        <translation>导入图片</translation>
+        <translation type="vanished">导入图片</translation>
     </message>
     <message>
         <source>Check all</source>
@@ -606,7 +618,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation type="vanished">图片信息</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -626,15 +638,15 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>ctrl+Mouse wheel zoom image thumbnails</source>
-        <translation>ctrl+鼠标滚轮缩放图片缩略图</translation>
+        <translation>ctrl+鼠标滚轮缩放图片缩略图;</translation>
     </message>
     <message>
         <source>Enlarge images</source>
-        <translation>放大图片</translation>
+        <translation type="vanished">放大图片</translation>
     </message>
     <message>
         <source>Reduce image</source>
-        <translation>缩小图片</translation>
+        <translation type="vanished">缩小图片</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -715,6 +727,26 @@ already exists, do you want to replace?</source>
     <message>
         <source>%1 photo(s)</source>
         <translation>%1张照片</translation>
+    </message>
+    <message>
+        <source>Review photos</source>
+        <translation>查看图片</translation>
+    </message>
+    <message>
+        <source>Export photos</source>
+        <translation>导出图片</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>照片信息</translation>
+    </message>
+    <message>
+        <source>Enlarge photo</source>
+        <translation>放大图片</translation>
+    </message>
+    <message>
+        <source>Reduce photo</source>
+        <translation>缩小图片</translation>
     </message>
 </context>
 <context>

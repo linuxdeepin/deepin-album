@@ -1027,13 +1027,13 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut8.insert("name", tr("Slide show"));
     shortcut8.insert("value", "F5");
     QJsonObject shortcut9;
-    shortcut9.insert("name", tr("Review images"));
+    shortcut9.insert("name", tr("Review photos"));
     shortcut9.insert("value", "Enter");
     QJsonObject shortcut10;
-    shortcut10.insert("name", tr("Export images"));
+    shortcut10.insert("name", tr("Export photos"));
     shortcut10.insert("value", "Ctrl+E");
     QJsonObject shortcut11;
-    shortcut11.insert("name", tr("Import images"));
+    shortcut11.insert("name", tr("Import photos"));
     shortcut11.insert("value", "Ctrl+O");
     QJsonObject shortcut12;
     shortcut12.insert("name", tr("Check all"));
@@ -1045,7 +1045,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut14.insert("name", tr("Delete photos/albums"));
     shortcut14.insert("value", "Delete");
     QJsonObject shortcut15;
-    shortcut15.insert("name", tr("Image info"));
+    shortcut15.insert("name", tr("Photo info"));
     shortcut15.insert("value", "Alt+Enter");
     QJsonObject shortcut16;
     shortcut16.insert("name", tr("Set as wallpaper"));
@@ -1060,10 +1060,10 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut19.insert("name", tr("Zoom in and out"));
     shortcut19.insert("value", tr("ctrl+Mouse wheel zoom image thumbnails"));
     QJsonObject shortcut20;
-    shortcut20.insert("name", tr("Enlarge images"));
+    shortcut20.insert("name", tr("Enlarge photo"));
     shortcut20.insert("value", "Ctrl+“+”");
     QJsonObject shortcut21;
-    shortcut21.insert("name", tr("Reduce image"));
+    shortcut21.insert("name", tr("Reduce photo"));
     shortcut21.insert("value", "Ctrl+“-”");
     QJsonObject shortcut22;
     shortcut22.insert("name", tr("Previous"));
