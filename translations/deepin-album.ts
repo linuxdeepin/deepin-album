@@ -530,7 +530,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="vanished">所有照片</translation>
+        <translation>照片</translation>
     </message>
     <message>
         <source>Time</source>
@@ -678,7 +678,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Hotkey</source>
-        <translation>热键</translation>
+        <translation type="vanished">热键</translation>
     </message>
     <message>
         <source>Create Album “%1” successfully</source>
@@ -803,6 +803,18 @@ already exists, do you want to replace?</source>
     <message>
         <source>New album</source>
         <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Page up</source>
+        <translation>向上滚动一屏</translation>
+    </message>
+    <message>
+        <source>Page down</source>
+        <translation>向下滚动一屏</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>设置</translation>
     </message>
 </context>
 <context>
