@@ -947,8 +947,27 @@ void TTBContent::updateCollectButton()
     else
     {
         m_clBT->setToolTip(tr("Favorite"));
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            m_clBT->setIcon(QIcon::fromTheme("dcc_ncollection"));
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            m_clBT->setIcon(QIcon::fromTheme("dcc_collection_normal"));
+        }
+        connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_clBT, [=]{
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            if (themeType == DGuiApplicationHelper::LightType)
+            {
+                m_clBT->setIcon(QIcon::fromTheme("dcc_ncollection"));
+            }
+            else if (themeType == DGuiApplicationHelper::DarkType)
+            {
+                m_clBT->setIcon(QIcon::fromTheme("dcc_collection_normal"));
+            }
+        });
 
-        m_clBT->setIcon(QIcon::fromTheme("dcc_ncollection"));
         m_clBT->setIconSize(QSize(36,36));
         m_bClBTChecked = false;
     }

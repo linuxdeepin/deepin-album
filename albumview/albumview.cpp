@@ -502,12 +502,14 @@ void AlbumView::initRightView()
     m_importByPhoneComboBox->setEnabled(false);
 
     m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
+    m_importAllByPhoneBtn ->setMinimumSize(100, 36);
     DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
     importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0,0,0,0));
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
     m_importAllByPhoneBtn->setEnabled(false);
 
     m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
+    m_importSelectByPhoneBtn->setMinimumSize(100, 36);
     DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
     importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);

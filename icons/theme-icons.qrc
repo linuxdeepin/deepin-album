@@ -11,6 +11,7 @@
         <file>icons/dcc_ncollection_36px.svg</file>
         <file>texts/dcc_previousdark_36px.svg</file>
         <file>texts/dcc_back_36px.svg</file>
+        <file>texts/dcc_collection_normal_36px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>

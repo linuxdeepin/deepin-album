@@ -85,6 +85,11 @@ void AlbumCreateDialog::initUI()
     m_Cancel->setFixedSize(170,36);
     m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     DPushButton *m_line = new DPushButton(this);
+
+    DPalette m_line_pa = DApplicationHelper::instance()->palette(m_line);
+    m_line_pa.setBrush(DPalette::FrameBorder, QColor(0, 0, 0, 0));
+    m_line->setPalette(m_line_pa);
+
     m_line->setFixedSize(3,28);
     m_line->setEnabled(false);
     m_OK = new DSuggestButton(this);
