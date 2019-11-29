@@ -68,6 +68,7 @@ void AllPicView::initConnections()
         }
         info.path = imagelist[index].filePath;
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
+        info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });

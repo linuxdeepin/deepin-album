@@ -80,11 +80,13 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
         m_player->setImagePaths(m_vinfo.paths);
     });
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
-        if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
-            backToLastView();
-        }
-        else {
-            backToLastPanel();
+        if(isVisible()){
+            if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
+                backToLastView();
+            }
+            else {
+                backToLastPanel();
+            }
         }
     });
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,

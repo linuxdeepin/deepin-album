@@ -185,13 +185,9 @@ void MainWindow::initShortcut()
         if (window()->isFullScreen())
         {
             emit dApp->signalM->sigESCKeyActivated();
-        } else
-        {
-#if 1
+        }else if(VIEW_IMAGE == m_pCenterWidget->currentIndex()){
             this->close();
-#endif
         }
-
         emit dApp->signalM->hideExtensionPanel();
     });
 

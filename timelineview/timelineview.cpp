@@ -450,7 +450,7 @@ void TimeLineView::updataLayout()
             }
             info.path = ImgInfoList[index].filePath;
             info.viewType = utils::common::VIEW_TIMELINE_SRN;
-
+            info.viewMainWindowID = VIEW_MAINWINDOW_TIMELINE;
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
 

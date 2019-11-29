@@ -149,7 +149,6 @@ void ViewPanel::initConnect()
                 killTimer(m_iSlideShowTimerId);
                 m_iSlideShowTimerId = 0;
             }
-
             toggleFullScreen();
         }
 #endif

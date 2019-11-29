@@ -1130,7 +1130,7 @@ void AlbumView::openImage(int index)
     }
     info.path = m_curThumbnaiItemList[index].path;
     info.viewType = m_currentAlbum;
-
+    info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->viewImage(info);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
