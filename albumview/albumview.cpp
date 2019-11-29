@@ -686,19 +686,21 @@ void AlbumView::updateRightNoTrashView()
     {
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
+
         qDebug()<<item->m_albumTypeStr;
         if ( ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
         {
             // 手机
             qDebug()<<item->m_albumNameStr;
             qDebug()<<m_phoneNameAndPathlist;
-            if (true == m_phoneNameAndPathlist.contains(item->m_albumNameStr) && 0 < m_phoneNameAndPathlist.value(item->m_albumNameStr).length())
+            QString strPath = m_pLeftTabList->currentItem()->data(Qt::UserRole).toString();
+            if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < m_phoneNameAndPathlist.value(strPath).length())
             {
                 m_importByPhoneComboBox->setEnabled(true);
                 m_importAllByPhoneBtn->setEnabled(true);
                 updateImportComboBox();
 
-                for(auto path : m_phoneNameAndPathlist.value(item->m_albumNameStr))
+                for(auto path : m_phoneNameAndPathlist.value(strPath))
                 {
                     ThumbnailListView::ItemInfo vi;
                     vi.path = path;
@@ -2074,7 +2076,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
     if (0 < m_phoneImgPathList.length()) {
         m_parent->m_phonePathAndImage = m_phonePathImage;
-        m_parent->m_phoneNameAndPathlist.insert(mountName, m_phoneImgPathList);
+        m_parent->m_phoneNameAndPathlist.insert(path, m_phoneImgPathList);
     }
 
     dApp->signalM->sigLoadMountImagesEnd(mountName);

@@ -28,6 +28,7 @@
 #include <DApplicationHelper>
 #include <DSuggestButton>
 
+
 AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
     :DDialog(parent)
 {
@@ -49,6 +50,12 @@ void AlbumCreateDialog::initUI()
     setFixedSize(380,180);
     setModal(true);
     setContentsMargins(0, 0, 0, 0);
+//内容widget
+    DWidget *contentWidget = new DWidget(this);
+    contentWidget->setContentsMargins(0, 0, 0, 0);
+    QVBoxLayout *contentLayout = new QVBoxLayout();
+
+
 //图标
     DLabel *logoLable = new DLabel(this);
     QIcon icon = QIcon::fromTheme("deepin-album");
@@ -68,18 +75,19 @@ void AlbumCreateDialog::initUI()
     title->setAlignment(Qt::AlignHCenter);
     title->move(130,12);
 //编辑框
-    edit = new DLineEdit(this);
+    edit = new DLineEdit(contentWidget);
+    edit->setEnabled(true);
     edit->setObjectName("DialogEdit");
     edit->setText(getNewAlbumName());
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
-    edit->move(10,78);
+    edit->move(0,23);
     edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-//内容widget
-    DWidget *contentWidget = new DWidget(this);
-    contentWidget->setContentsMargins(0, 0, 0, 0);
-    addContent(contentWidget);
+
+//    contentLayout->addWidget(edit);
+//    contentWidget->setLayout(contentLayout);
+
 //按钮
 
     m_Cancel = new DPushButton(this);
@@ -102,6 +110,8 @@ void AlbumCreateDialog::initUI()
     m_Cancel->move(10,134);
     m_line->move(189,138);
     m_OK->move(200,134);
+
+    addContent(contentWidget);
 }
 
 void AlbumCreateDialog::initConnection()

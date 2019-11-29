@@ -528,18 +528,18 @@ void ImageView::onCacheFinish()
             resetTransform();
             m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
-                if(!m_pixmapItem){
-                        qDebug()<<"onCacheFinish.............m_pixmapItem="<<m_pixmapItem;
-                        update();
-                        return;
-                }
-                if(scaledmode){
-                    m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-                }else{
-                    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-                }
-            });
+//            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
+//                if(!m_pixmapItem){
+//                        qDebug()<<"onCacheFinish.............m_pixmapItem="<<m_pixmapItem;
+//                        update();
+//                        return;
+//                }
+//                if(scaledmode){
+//                    m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+//                }else{
+//                    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+//                }
+//            });
             // Make sure item show in center of view after reload
             setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
