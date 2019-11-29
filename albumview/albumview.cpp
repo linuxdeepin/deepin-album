@@ -686,7 +686,6 @@ void AlbumView::updateRightNoTrashView()
     {
         AlbumLeftTabItem *item = (AlbumLeftTabItem*)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
 
-
         qDebug()<<item->m_albumTypeStr;
         if ( ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
         {
@@ -694,6 +693,10 @@ void AlbumView::updateRightNoTrashView()
             qDebug()<<item->m_albumNameStr;
             qDebug()<<m_phoneNameAndPathlist;
             QString strPath = m_pLeftTabList->currentItem()->data(Qt::UserRole).toString();
+            qDebug()<<"data(Qt::UserRole).toString()"<<strPath;
+            qDebug()<<m_phoneNameAndPathlist.contains(strPath);
+            qDebug()<<m_phoneNameAndPathlist.value(strPath).length();
+
             if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < m_phoneNameAndPathlist.value(strPath).length())
             {
                 m_importByPhoneComboBox->setEnabled(true);
@@ -712,7 +715,7 @@ void AlbumView::updateRightNoTrashView()
 
                 m_iAlubmPicsNum = m_curThumbnaiItemList.size();
                 m_mountPicNum = m_curThumbnaiItemList.size();
-
+                qDebug()<<"m_mountPicNum = "<<m_mountPicNum;
                 m_pPhoneTitle->setText(m_currentAlbum);
 
                 QFontMetrics elideFont(m_pPhoneTitle->font());
@@ -738,6 +741,7 @@ void AlbumView::updateRightNoTrashView()
             }
             else
             {
+                qDebug()<<"phone zero";
                 m_importByPhoneComboBox->setEnabled(false);
                 m_importAllByPhoneBtn->setEnabled(false);
                 m_importSelectByPhoneBtn->setEnabled(false);
@@ -1997,6 +2001,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 {
     qDebug() << "onLoadMountImagesStart() mountName: "<<mountName;
     qDebug() << "onLoadMountImagesStart() path: "<<path;
+    QString strPath = path;
     //判断路径是否存在
     QDir dir(path);
     if (!dir.exists()) {
@@ -2076,7 +2081,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
     if (0 < m_phoneImgPathList.length()) {
         m_parent->m_phonePathAndImage = m_phonePathImage;
-        m_parent->m_phoneNameAndPathlist.insert(path, m_phoneImgPathList);
+        m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
+        qDebug()<<"onLoadMountImagesStart() strPath:"<<strPath;
     }
 
     dApp->signalM->sigLoadMountImagesEnd(mountName);
