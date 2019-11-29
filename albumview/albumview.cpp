@@ -1349,35 +1349,38 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     Q_UNUSED(mount);
 
     //TODO:
-    //Not support ftp,smb mount now
-    QString protocalType = mount->getRootFile()->uri().toLower();
-    if (protocalType.startsWith("ftp://") || protocalType.startsWith("smb://")) {
-        qDebug() <<  mount->name() << " protocal type:" << protocalType << "is not supported by album.";
-        return;
+    //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
+    QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
+
+    if ((scheme == "file" && mount->canEject()) ||  //usb device
+            (scheme == "gphoto2") ||                //phone photo
+            (scheme == "mtp") ||                    //android phone file
+            (scheme == "afc")) {                    //iPhone document
+        qDebug() << "mount.name" << mount->name() << " scheme type:" << scheme;
+
+        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+        QString strPath = LocationFile->path();
+        if (strPath.isEmpty()) {
+            qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
+            return;
+        }
+
+        MountLoader *pMountloader = new MountLoader(this);
+        QThread *pLoadThread = new QThread();
+
+        pMountloader->moveToThread(pLoadThread);
+        pLoadThread->start();
+
+        connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
+
+        qDebug() << "onVfsMountChangedAdd() emit pMountloader->sigLoadMountImagesStart()";
+        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
+
+        m_mountLoaderList.insert(mount->name(), pMountloader);
+        m_loadThreadList.insert(mount->name(), pLoadThread);
+
+        updateExternalDevice(mount);
     }
-
-    QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-    QString strPath = LocationFile->path();
-    if (strPath.isEmpty()) {
-        qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
-        return;
-    }
-
-    MountLoader *pMountloader = new MountLoader(this);
-    QThread *pLoadThread = new QThread();
-
-    pMountloader->moveToThread(pLoadThread);
-    pLoadThread->start();
-
-    connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
-
-    qDebug() << "onVfsMountChangedAdd() emit pMountloader->sigLoadMountImagesStart()";
-    emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
-
-    m_mountLoaderList.insert(mount->name(), pMountloader);
-    m_loadThreadList.insert(mount->name(), pLoadThread);
-
-    updateExternalDevice(mount);
 }
 
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
@@ -1408,17 +1411,19 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList
     for (auto mount : mounts) {
 
         //TODO:
-        //Not support ftp,smb mount now
-        QString protocalType = mount->getRootFile()->uri().toLower();
+        //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
+        QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
 
-        if (protocalType.startsWith("ftp://") || protocalType.startsWith("smb://")) {
-            qDebug() <<  mount->name() << " protocal type:" << protocalType << "is not supported by album.";
-            continue;
+        if ((scheme == "file" && mount->canEject()) ||  //usb device
+                (scheme == "gphoto2") ||                //phone photo
+                (scheme == "mtp") ||                    //android phone file
+                (scheme == "afc")) {                    //iPhone document
+            qDebug() << "getVfsMountList() mount.name" << mount->name() << " scheme type:" << scheme;
+            result.append(mount);
         }
-
-        qDebug() << "getVfsMountList() mount.name" << mount->name() << " protocal type:" << protocalType;
-
-        result.append(mount);
+        else {
+            qDebug() <<  mount->name() << " scheme type:" << scheme << "is not supported by album.";
+        }
     }
 
     return result;
