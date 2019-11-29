@@ -353,12 +353,14 @@ void AlbumView::initRightView()
 
     pNoTrashVBoxLayout->addSpacing(5);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
-    pNoTrashVBoxLayout->addSpacing(9);
+    pNoTrashVBoxLayout->addSpacing(5);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
     pNoTrashVBoxLayout->addSpacing(-6);
     pNoTrashVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
     QVBoxLayout *p_all = new QVBoxLayout();
+    p_all->setMargin(2);
+    p_all->setSpacing(0);
     p_all->addLayout(pNoTrashVBoxLayout);
     p_all->addWidget(m_pRightThumbnailList);
 
@@ -383,7 +385,7 @@ void AlbumView::initRightView()
 
     pTopLeftVBoxLayout->addSpacing(5);
     pTopLeftVBoxLayout->addWidget(pLabel1);
-    pTopLeftVBoxLayout->addSpacing(9);
+    pTopLeftVBoxLayout->addSpacing(10);
     pTopLeftVBoxLayout->addWidget(pLabel2);
     pTopLeftVBoxLayout->addSpacing(-4);
     pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
@@ -421,6 +423,8 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList = new ThumbnailListView(COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
 
+    pMainVBoxLayout->setMargin(2);
+    pMainVBoxLayout->setSpacing(0);
     pMainVBoxLayout->addItem(pTopHBoxLayout);
     pMainVBoxLayout->addWidget(m_pRightTrashThumbnailList);
 
@@ -448,13 +452,16 @@ void AlbumView::initRightView()
 
     pFavoriteVBoxLayout->addSpacing(5);
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
-    pFavoriteVBoxLayout->addSpacing(9);
+    pFavoriteVBoxLayout->addSpacing(5);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
     pFavoriteVBoxLayout->addSpacing(-6);
 
     pFavoriteVBoxLayout->setContentsMargins(10,0,0,0);
 
     QVBoxLayout *p_all1 = new QVBoxLayout();
+
+    p_all1->setMargin(2);
+    p_all1->setSpacing(0);
     p_all1->addLayout(pFavoriteVBoxLayout);
     p_all1->addWidget(m_pRightFavoriteThumbnailList);
 
