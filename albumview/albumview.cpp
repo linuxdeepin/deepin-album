@@ -1352,13 +1352,24 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
-    QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
+    QString uri = mount->getRootFile()->uri();
+    QString scheme = QUrl(uri).scheme();
 
     if ((scheme == "file" && mount->canEject()) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
-            (scheme == "mtp") ||                    //android phone file
-            (scheme == "afc")) {                    //iPhone document
+//            (scheme == "afc") ||                    //iPhone document
+            (scheme == "mtp")) {                    //android file
         qDebug() << "mount.name" << mount->name() << " scheme type:" << scheme;
+
+        for (auto mountLoop : m_mounts)
+        {
+            QString uriLoop = mountLoop->getRootFile()->uri();
+            if (uri == uriLoop)
+            {
+                qDebug() << "Already has this device in mount list. uri:"<<uriLoop;
+                return;
+            }
+        }
 
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
@@ -1390,6 +1401,16 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     qDebug() << "onVfsMountChangedRemove() mountname" << mount->name();
     Q_UNUSED(mount);
 
+    QString uri = mount->getRootFile()->uri();
+    for (auto mountLoop : m_mounts)
+    {
+        QString uriLoop = mountLoop->getRootFile()->uri();
+        if (uri == uriLoop)
+        {
+            m_mounts.removeOne(mountLoop);
+        }
+    }
+
     for (int i = 0; i < m_pLeftTabList->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftTabList->item(i);
         AlbumLeftTabItem *pAlbumLeftTabItem = (AlbumLeftTabItem *)m_pLeftTabList->itemWidget(pListWidgetItem);
@@ -1413,13 +1434,13 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList
     for (auto mount : mounts) {
 
         //TODO:
-        //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
+        //Support android phone, iPhone, and usb devices. Not support ftp, smb, non removeable disk now
         QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
 
         if ((scheme == "file" && mount->canEject()) ||  //usb device
                 (scheme == "gphoto2") ||                //phone photo
-                (scheme == "mtp") ||                    //android phone file
-                (scheme == "afc")) {                    //iPhone document
+    //            (scheme == "afc") ||                    //iPhone document
+                (scheme == "mtp")) {                    //android file
             qDebug() << "getVfsMountList() mount.name" << mount->name() << " scheme type:" << scheme;
             result.append(mount);
         }
