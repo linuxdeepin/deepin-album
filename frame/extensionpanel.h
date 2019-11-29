@@ -22,8 +22,9 @@
 #include <QPropertyAnimation>
 #include "widgets/blureframe.h"
 #include "controller/viewerthememanager.h"
+#include <DFloatingWidget>
 
-class ExtensionPanel : public DBlurEffectWidget
+class ExtensionPanel : public DFloatingWidget
 {
     Q_OBJECT
 public:
@@ -33,12 +34,12 @@ public:
     void moveWithAnimation(int x, int y);
 signals:
     void requestStopAnimation();
-
 protected:
     void paintEvent(QPaintEvent *) override;
     void mouseMoveEvent(QMouseEvent *e) override;
 public slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+
 private:
     QColor m_coverBrush;
     QWidget *m_content;

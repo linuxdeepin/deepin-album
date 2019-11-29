@@ -36,7 +36,7 @@
 
 namespace {
 
-const int TITLE_MAXWIDTH = 72;
+const int TITLE_MAXWIDTH = 72-10;
 const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
 const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
@@ -46,37 +46,18 @@ struct MetaData {
 };
 
 static MetaData MetaDataBasics[] = {
-//    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "照片名称")},
-//    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "照片类型")},
-//    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "⽂件⼤⼩")},
-//    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "照片尺寸")},
-//    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "拍摄日期")},
-//    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改⽇期")},
-    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo Name")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
     {"", ""}
 };
 
 static MetaData MetaDataDetails[] = {
-//    {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "曝光模式")},
-//    {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "曝光程序")},
-//    {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "曝光时间")},
-//    {"Flash",               QT_TRANSLATE_NOOP("MetadataName", "闪光灯")},
-//    {"ApertureValue",       QT_TRANSLATE_NOOP("MetadataName", "光圈大小")},
-//    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "焦距")},
-//    {"ISOSpeedRatings",     QT_TRANSLATE_NOOP("MetadataName", "IOS光感度")},
-//    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "最大光圈值")},
-//    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "测光模式")},
-//    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "白平衡")},
-//    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "闪光灯补偿")},
-//    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "相机型号")},
-//    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "镜头型号")},
-//    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "颜色空间")},
-
+    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
     {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
     {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
     {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
@@ -88,9 +69,8 @@ static MetaData MetaDataDetails[] = {
     {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
     {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "White balance")},
     {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
-    {"CameraModel",         QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
-    {"LensModel",           QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
-    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
+    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
+    {"LensType",            QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
     {"", ""}
 };
 
@@ -121,11 +101,11 @@ class DFMDArrowLineExpand : public DArrowLineExpand{
 public:
     DFMDArrowLineExpand(){
         if (headerLine()) {
-            headerLine()->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
+
             DPalette pa = DApplicationHelper::instance()->palette(headerLine());
             pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
             headerLine()->setPalette(pa);
-
             connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
                 DPalette pa = DApplicationHelper::instance()->palette(headerLine());
                 pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
@@ -178,7 +158,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     // Title field
     SimpleFormLabel *title = new SimpleFormLabel(tr("Photo info"));
     title->setFixedHeight(50);
-    title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);
 
     DPalette pa = DApplicationHelper::instance()->palette(title);
     pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
@@ -337,9 +317,7 @@ void ImageInfoWidget::setImagePath(const QString &path)
     m_expandGroup.clear();
 
     if(m_isBaseInfo == true && m_isDetailsInfo == true ){
-
         titleList << tr("Basic info");
-
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
@@ -349,15 +327,13 @@ void ImageInfoWidget::setImagePath(const QString &path)
 
     }
     else if(m_isBaseInfo == false && m_isDetailsInfo == true ){
-
-        titleList << tr("Basic info");
+        titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_details);
         m_expandGroup.at(0)->setExpand(true);
     }
     else if(m_isBaseInfo == true && m_isDetailsInfo == false ){
-
-        titleList << tr("Details");
+        titleList << tr("Basic info");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
         m_expandGroup.at(0)->setExpand(true);
@@ -422,7 +398,8 @@ void ImageInfoWidget::updateInfo()
     using namespace utils::base;
     auto mds = getAllMetaData(m_path);
     // Minus layout margins
-    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2 -27;
+//    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2;
+    m_maxFieldWidth = width() - TITLE_MAXWIDTH - 20*2 - 10*2;
 
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
@@ -446,21 +423,23 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 
         SimpleFormField *field = new SimpleFormField;
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
-        field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
+        field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-//        SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
         title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+//        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+        title->setFixedWidth(TITLE_MAXWIDTH);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
+//        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
+        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
         m_exifLayout_base->addRow(title, field);
     }
@@ -473,21 +452,23 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 
             SimpleFormField *field = new SimpleFormField;
             field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+            DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
             DPalette pa1 = DApplicationHelper::instance()->palette(field);
             pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
             field->setPalette(pa1);
             field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
             SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-//            SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
             title->setMinimumHeight(field->minimumHeight());
-            title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+//            title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+            title->setFixedWidth(TITLE_MAXWIDTH);
             title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+            DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
             DPalette pa2= DApplicationHelper::instance()->palette(title);
             pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
             title->setPalette(pa2);
+//            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
         }
     });
 }
@@ -510,21 +491,23 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 
         SimpleFormField *field = new SimpleFormField;
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
-        field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
+        field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-//        SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
         title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+//        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+        title->setFixedWidth(TITLE_MAXWIDTH);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
+//        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
+        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
         m_exifLayout_details->addRow(title, field);
     }
@@ -538,21 +521,23 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 
                 SimpleFormField *field = new SimpleFormField;
                 field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-                field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+                DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
                 DPalette pa1 = DApplicationHelper::instance()->palette(field);
                 pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
                 field->setPalette(pa1);
                 field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
                 SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-//                SimpleFormLabel *title = new SimpleFormLabel(i->name + ":");
                 title->setMinimumHeight(field->minimumHeight());
-                title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+//                title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+                title->setFixedWidth(TITLE_MAXWIDTH);
                 title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-                title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+                DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
                 DPalette pa2= DApplicationHelper::instance()->palette(title);
                 pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
                 title->setPalette(pa2);
+//                title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
+                title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
             }
         });
 }
@@ -624,5 +609,5 @@ int ImageInfoWidget::contentHeight() const
 //        expandsHeight += firstExpandHeight;
     }
 
-    return ( expandsHeight + 45 );
+    return ( expandsHeight + 45 +4);
 }

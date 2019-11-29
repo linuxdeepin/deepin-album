@@ -690,6 +690,8 @@ void ViewPanel::removeCurrentImage()
     if (m_infos.isEmpty()) {
         qDebug() << "No images to show!";
         m_current = 0;
+        if(window()->isFullScreen())
+            showNormal();
         emit imageChanged("",m_infos);
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());

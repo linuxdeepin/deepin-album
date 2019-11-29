@@ -105,7 +105,7 @@ void ViewPanel::initScaleLabel()
     scalePerc->setFixedHeight(40+10);
     scalePerc->adjustSize();
     label->setText("100%");
-    label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(label, DFontSizeManager::T6);
     scalePerc->hide();
 
     QTimer *hideT = new QTimer(this);
@@ -114,6 +114,11 @@ void ViewPanel::initScaleLabel()
 
     connect(m_viewB, &ImageView::scaled, this, [=](qreal perc) {
         label->setText(QString("%1%").arg(int(perc)));
+        if(perc > 100){
+            emit dApp->signalM->enterScaledMode(true);
+        }else {
+            emit dApp->signalM->enterScaledMode(false);
+        }
     });
     connect(m_viewB, &ImageView::showScaleLabel, this, [=](){
         scalePerc->show();
