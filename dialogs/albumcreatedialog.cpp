@@ -31,6 +31,7 @@
 AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
     :DDialog(parent)
 {
+    m_OKClicked = false;
     initUI();
     initConnection();
 }
@@ -38,6 +39,7 @@ AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
 void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape) {
+        emit sigClose();
         this->close();
     }
 }
@@ -116,7 +118,11 @@ void AlbumCreateDialog::initConnection()
             this->close();
         }
     });
-    connect(m_Cancel,&DPushButton::clicked,this,&AlbumCreateDialog::deleteLater);
+    connect(m_Cancel,&DPushButton::clicked,this, [=]{
+        deleteLater();
+        emit sigClose();
+    });
+
     connect(m_OK,&DPushButton::clicked,this,[=]{
         if (edit->text().simplified().length()!= 0)
         {
@@ -124,14 +130,26 @@ void AlbumCreateDialog::initConnection()
         }
         else
         {
-            createAlbum(tr("Unnamed"));
+            QString str = tr("Unnamed") + QString::number(1);
+            createAlbum(str);
         }
 
+        m_OKClicked = true;
         this->close();
     });
 
-//    connect(this, &AlbumCreateDialog::closed,
-//            this, &AlbumCreateDialog::deleteLater);
+    connect(this, &AlbumCreateDialog::closed,this, [=]{
+        deleteLater();
+        if (true == m_OKClicked)
+        {
+            m_OKClicked = false;
+        }
+        else
+        {
+            emit sigClose();
+        }
+
+    });
 //    connect(this, &AlbumCreateDialog::buttonClicked, this, [=] (int id) {
 //        if (id == 1) {
 //            if (edit->text().simplified().length()!= 0)
@@ -152,7 +170,7 @@ const QString AlbumCreateDialog::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
        int num = 1;
-       QString albumName = nan;
+       QString albumName = nan + QString::number(num);
        while(DBManager::instance()->isAlbumExistInDB(albumName)) {
            num++;
            albumName = nan + QString::number(num);

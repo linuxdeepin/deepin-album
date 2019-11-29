@@ -31,6 +31,7 @@ public:
 
 signals:
     void albumAdded();
+    void sigClose();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -46,6 +47,7 @@ private:
     DLineEdit * edit;
     QAbstractButton *m_Cancel;
     QAbstractButton *m_OK;
+    bool m_OKClicked;
 };
 
 #endif // ALBUMCREATEDIALOG_H

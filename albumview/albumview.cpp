@@ -1190,7 +1190,7 @@ QString AlbumView::getNewAlbumName()
 {
     const QString nan = tr("Unnamed");
     int num = 1;
-    QString albumName = nan;
+    QString albumName = nan + QString::number(num);
     while (DBManager::instance()->isAlbumExistInDB(albumName)) {
         num++;
         albumName = nan + QString::number(num);
@@ -1509,10 +1509,14 @@ void AlbumView::initLeftMenu()
 
 void AlbumView::importComboBoxChange(QString strText)
 {
-    if(strText.compare(tr("New Album")) == 0) {
+    if(1 == m_importByPhoneComboBox->currentIndex()) {
         AlbumCreateDialog *dialog = new AlbumCreateDialog;
         dialog->show();
-        dialog->move(this->x()+(this->width()-dialog->width())/2,this->y()+(this->height()-dialog->height())/2);
+        qDebug()<<"xxxxxxxxxx"<<window()->x();
+        qDebug()<<"xxxxxxxxxx"<<window()->y();
+        qDebug()<<"xxxxxxxxxx"<<dialog->width();
+        qDebug()<<"xxxxxxxxxx"<<window()->width();
+        dialog->move(window()->x()+(window()->width()-dialog->width())/2,window()->y()+(window()->height()-dialog->height())/2);
         connect(dialog, &AlbumCreateDialog::albumAdded, this, [ = ] {
             DBManager::instance()->insertIntoAlbum(dialog->getCreateAlbumName(), QStringList(" "));
             int index = getNewAlbumItemIndex();
@@ -1525,7 +1529,11 @@ void AlbumView::importComboBoxChange(QString strText)
             m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
 //            m_customAlbumNames << albumName;
             updateImportComboBox();
-            m_importByPhoneComboBox->setCurrentText(albumName);
+            m_importByPhoneComboBox->setCurrentIndex(m_importByPhoneComboBox->count()-1);
+        });
+
+        connect(dialog, &AlbumCreateDialog::sigClose, this, [ = ] {
+            m_importByPhoneComboBox->setCurrentIndex(0);
         });
     }
 }
@@ -1680,6 +1688,7 @@ void AlbumView::updateImportComboBox()
     m_importByPhoneComboBox->addItem(tr("Album Gallery"));
     m_importByPhoneComboBox->addItem(tr("New Album"));
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
+    qDebug()<<"updateImportComboBox()"<<allAlbumNames;
     for(auto albumName : allAlbumNames)
     {
         if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
