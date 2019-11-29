@@ -62,14 +62,17 @@ void MainWindow::initConnections()
         if(0 == id)
         {
             allPicBtnClicked();
+            m_pSearchEdit->setVisible(true);
         }
         if(1 == id)
         {
             timeLineBtnClicked();
+            m_pSearchEdit->setVisible(true);
         }
         if(2 == id)
         {
             albumBtnClicked();
+            m_pSearchEdit->setVisible(true);
         }
     });
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
@@ -174,6 +177,9 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
         this->sendMessage(icon, str);
+    });
+    connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
+        m_pSearchEdit->setVisible(bIsDisp);
     });
 }
 

@@ -109,6 +109,7 @@ private:
     void importComboBoxChange(QString strText);
 
 signals:
+    void sigSearchEditIsDisplay(bool);
     void sigLoadMountImagesStart(QString mountName, QString path);
 
 private slots:

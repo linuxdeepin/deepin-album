@@ -205,6 +205,7 @@ void AlbumView::initConnections()
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
 
                 m_iAlubmPicsNum = DBManager::instance()->getTrashImgsCount();
+                emit sigSearchEditIsDisplay(false);
                 setAcceptDrops(false);
             } else {
                 m_currentAlbum = item->m_albumNameStr;
@@ -568,6 +569,7 @@ void AlbumView::updateRightView()
     if (COMMON_STR_TRASH == m_currentAlbum) {
         updateRightTrashView();
         onTrashListClicked();
+        emit sigSearchEditIsDisplay(false);
     } else {
         updateRightNoTrashView();
     }
@@ -631,6 +633,8 @@ void AlbumView::updateRightNoTrashView()
             m_pStatusBar->show();
         }
 
+        emit sigSearchEditIsDisplay(true);
+
         setAcceptDrops(true);
     }
     else if (COMMON_STR_FAVORITES == m_currentAlbum)    //个人收藏
@@ -666,6 +670,7 @@ void AlbumView::updateRightNoTrashView()
 
         m_pRightFavoriteThumbnailList->insertThumbnails(m_curThumbnaiItemList);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+        emit sigSearchEditIsDisplay(true);
         setAcceptDrops(false);
     }
     else
@@ -740,6 +745,7 @@ void AlbumView::updateRightNoTrashView()
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
             }
 
+            emit sigSearchEditIsDisplay(false);
             setAcceptDrops(false);
         }
         else
@@ -793,6 +799,7 @@ void AlbumView::updateRightNoTrashView()
                 m_pStatusBar->show();
             }
 
+            emit sigSearchEditIsDisplay(true);
             setAcceptDrops(true);
         }
     }

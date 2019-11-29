@@ -148,7 +148,6 @@ void SlideShowPanel::backToLastView()
     m_vinfo.slideShow = false;
     m_vinfo.fullScreen = false;
     m_vinfo.path = m_player->currentImagePath();
-    m_vinfo.viewType = "";
     emit dApp->signalM->viewImage(m_vinfo);
 
     // Clear cache
