@@ -187,9 +187,9 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
         QPixmap pixmap = QPixmap::fromImage(tImg);
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (800 < pixmap.width())
+        if (pixmap.isNull())
         {
-            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+             pixmap = QPixmap::fromImage(tImg);
         }
         m_parent->m_imagemap.insert(info.filePath, pixmap);
     }
@@ -264,9 +264,9 @@ void ImageLoader::addImageLoader(QStringList pathlist)
         QPixmap pixmap = QPixmap::fromImage(tImg);
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (800 < pixmap.width())
+        if (pixmap.isNull())
         {
-            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+             pixmap = QPixmap::fromImage(tImg);
         }
         m_parent->m_imagemap.insert(path, pixmap);
     }
@@ -279,9 +279,10 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
         QPixmap pixmap(path);
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (800 < pixmap.width())
+        if (pixmap.isNull())
         {
-            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+            QPixmap pixmapitem(path);
+             pixmap = pixmapitem;
         }
 
         m_parent->m_imagemap[path] = pixmap;

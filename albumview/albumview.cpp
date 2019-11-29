@@ -59,7 +59,6 @@ AlbumView::AlbumView()
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
     m_curListWidgetItem = nullptr;
-    m_loadMountFlag = 0;
     m_mountPicNum = 0;
 
     auto infos = DBManager::instance()->getAllInfos();
@@ -73,13 +72,7 @@ AlbumView::AlbumView()
     foreach (auto info, infostrash) {
         pathlisttrash.append(info.filePath);
     }
-    m_mountloader = new MountLoader(this);
-    m_LoadThread = new QThread();
 
-    m_mountloader->moveToThread(m_LoadThread);
-    m_LoadThread->start();
-
-    connect(this, SIGNAL(sigLoadMountImagesStart(QString, QString)), m_mountloader, SLOT(onLoadMountImagesStart(QString, QString)));
     connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
 
     setAcceptDrops(true);
@@ -1363,16 +1356,19 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         return;
     }
 
-    if (m_loadMountMap.keys().contains(strPath)) return;
+    MountLoader *pMountloader = new MountLoader(this);
+    QThread *pLoadThread = new QThread();
 
-    m_loadMountMap.insert(mount->getDefaultLocationFile()->path(), 0);
-    m_MountPathToNameMap.insert(mount->getDefaultLocationFile()->path(), mount->name());
+    pMountloader->moveToThread(pLoadThread);
+    pLoadThread->start();
 
-    if (0 == m_loadMountFlag) {
-        m_loadMountFlag = 1;
-        qDebug() << "onVfsMountChangedAdd() emit dApp->sigLoadMountImagesStart()" << mount->name();
-        emit sigLoadMountImagesStart(mount->name(), strPath);
-    }
+    connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
+
+    qDebug() << "onVfsMountChangedAdd() emit pMountloader->sigLoadMountImagesStart()";
+    emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
+
+    m_mountLoaderList.insert(mount->name(), pMountloader);
+    m_loadThreadList.insert(mount->name(), pLoadThread);
 
     updateExternalDevice(mount);
 }
@@ -1381,10 +1377,6 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
 {
     qDebug() << "onVfsMountChangedRemove() mountname" << mount->name();
     Q_UNUSED(mount);
-
-    m_loadMountMap.remove(mount->getDefaultLocationFile()->path());
-    m_MountPathToNameMap.remove(mount->getDefaultLocationFile()->path());
-    m_mounts.removeOne(mount);
 
     for (int i = 0; i < m_pLeftTabList->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftTabList->item(i);
@@ -1561,7 +1553,6 @@ bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo
 
 void AlbumView::initExternalDevice()
 {
-    m_MountPathToNameMap.clear();
     for (auto mount : m_mounts) {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftTabList);
         //pListWidgetItem缓存文件挂载路径
@@ -1580,13 +1571,17 @@ void AlbumView::initExternalDevice()
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
         m_pLeftTabList->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
 
-        m_loadMountMap.insert(mount->getDefaultLocationFile()->path(), 0);
-        m_MountPathToNameMap.insert(mount->getDefaultLocationFile()->path(), mount->name());
-        if (0 == m_loadMountFlag) {
-            m_loadMountFlag = 1;
-            qDebug() << "emit dApp->sigLoadMountImagesStart()" << mount->name() << strPath;
-            emit sigLoadMountImagesStart(mount->name(), strPath);
-        }
+        MountLoader *pMountloader = new MountLoader(this);
+        QThread *pLoadThread = new QThread();
+
+        pMountloader->moveToThread(pLoadThread);
+        pLoadThread->start();
+
+        connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
+        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
+
+        m_mountLoaderList.insert(mount->name(), pMountloader);
+        m_loadThreadList.insert(mount->name(), pLoadThread);
     }
 }
 
@@ -1829,39 +1824,12 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 
 void AlbumView::onLoadMountImagesEnd(QString mountname)
 {
-    qDebug() << "onLoadMountImagesEnd() mountname" << mountname;
-    qDebug() << m_phoneNameAndPathlist;
-    for (auto path : m_loadMountMap.keys()) {
-        QString name = m_MountPathToNameMap.value(path);
-        QStringList pathList = path.split("/");
-        if (name == mountname) {
-            m_loadMountMap[path] = 1;
-            qDebug() << "onLoadMountImagesEnd() updateRightView()";
-            updateRightView();
-            break;
-        }
-    }
+    qDebug()<<"onLoadMountImagesEnd() mountname: "<<mountname;
+    qDebug()<<"onLoadMountImagesEnd() m_currentAlbum: "<<m_currentAlbum;
 
-    int iloadEndFlag = 0;
-
-    for (auto path : m_loadMountMap.keys()) {
-        if (0 == m_loadMountMap.value(path)) {
-            if (path.isEmpty()) {
-                continue;
-            } else {
-                iloadEndFlag = 1;
-                m_loadMountMap.insert(path, 0);
-                QString mountName = m_MountPathToNameMap.value(path);
-                qDebug()<<"onLoadMountImagesEnd() emit dApp->sigLoadMountImagesStart()";
-                emit sigLoadMountImagesStart(mountName, path);
-                break;
-            }
-        }
-    }
-
-    if (0 == iloadEndFlag) {
-        qDebug() << "onLoadMountImagesEnd() m_loadMountFlag = 0";
-        m_loadMountFlag = 0;
+    if (mountname == m_currentAlbum)
+    {
+        updateRightView();
     }
 }
 
@@ -1974,7 +1942,8 @@ MountLoader::MountLoader(AlbumView *parent)
 
 void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 {
-    qDebug() << "onLoadMountImagesStart()";
+    qDebug() << "onLoadMountImagesStart() mountName: "<<mountName;
+    qDebug() << "onLoadMountImagesStart() path: "<<path;
     //判断路径是否存在
     QDir dir(path);
     if (!dir.exists()) {
@@ -2009,6 +1978,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
     m_phoneImgPathList.clear();
 
+    qDebug()<<"onLoadMountImagesStart() while (dir_iterator.hasNext())";
     while (dir_iterator.hasNext()) {
         dir_iterator.next();
         QFileInfo fileInfo = dir_iterator.fileInfo();
@@ -2040,17 +2010,19 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
         pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-        if (800 < pixmap.width()) {
-            pixmap = pixmap.scaledToWidth(800,  Qt::FastTransformation);
+        if (pixmap.isNull())
+        {
+             pixmap = QPixmap::fromImage(tImg);
         }
 
-        m_parent->m_phonePathAndImage.insert(fileInfo.filePath(), pixmap);
+        m_phonePathImage.insert(fileInfo.filePath(), pixmap);
 
         m_phoneImgPathList << fileInfo.filePath();
     }
 
     qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
     if (0 < m_phoneImgPathList.length()) {
+        m_parent->m_phonePathAndImage = m_phonePathImage;
         m_parent->m_phoneNameAndPathlist.insert(mountName, m_phoneImgPathList);
     }
 
