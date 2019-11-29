@@ -325,7 +325,7 @@ void MainWindow::initUI()
 //    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
     //  setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
     QRect rect = DApplication::desktop()->geometry();
-    setMinimumSize(rect.width() * 0.9, rect.height() * 0.9);
+    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
 }
 
 void MainWindow::initTitleBar()

@@ -1307,7 +1307,7 @@ void AlbumView::keyPressEvent(QKeyEvent *event)
             if (COMMON_STR_RECENT_IMPORTED != m_currentAlbum
                     && COMMON_STR_TRASH != m_currentAlbum
                     && COMMON_STR_FAVORITES != m_currentAlbum
-                    && ALBUM_PATHTYPE_BY_PHONE != m_pRightThumbnailList->m_imageType) {
+                    && 5 != m_pRightStackWidget->currentIndex()) {
                 QString str;
                 QListWidgetItem *item = m_pLeftTabList->currentItem();
                 AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem *)m_pLeftTabList->itemWidget(item);
@@ -1687,7 +1687,7 @@ void AlbumView::updateImportComboBox()
 //手机照片全部导入
 void AlbumView::importAllBtnClicked()
 {
-    QList<ThumbnailListView::ItemInfo> allPaths = m_pRightThumbnailList->getAllPaths();
+    QList<ThumbnailListView::ItemInfo> allPaths = m_pRightPhoneThumbnailList->getAllPaths();
     QString albumName = m_importByPhoneComboBox->currentText();
     QStringList picPathList;
     DBImgInfoList dbInfos;
@@ -1747,7 +1747,7 @@ void AlbumView::importAllBtnClicked()
 //手机照片导入选中
 void AlbumView::importSelectBtnClicked()
 {
-    QStringList selectPaths = m_pRightThumbnailList->selectedPaths();
+    QStringList selectPaths = m_pRightPhoneThumbnailList->selectedPaths();
     QString albumName = m_importByPhoneComboBox->currentText();
     QStringList picPathList;
     DBImgInfoList dbInfos;
@@ -1851,7 +1851,7 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 
     //向自己的相册或“已导入”相册拖拽无效
     //“已导入”相册在leftlistwidget.cpp中也屏蔽过
-    if ((m_currentAlbum == dropLeftTabListName) || (COMMON_STR_RECENT_IMPORTED == dropLeftTabListName))
+    if ((m_currentAlbum == dropLeftTabListName) || (COMMON_STR_RECENT_IMPORTED == dropLeftTabListName) || 5 == m_pRightStackWidget->currentIndex())
     {
         qDebug()<<"Can not drop!";
         return;

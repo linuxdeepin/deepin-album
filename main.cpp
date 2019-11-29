@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     DLogManager::registerFileAppender();
 
     MainWindow w;
+    w.resize(1300, 848);
     w.show();
 
     Dtk::Widget::moveToCenter(&w);

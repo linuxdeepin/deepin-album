@@ -76,7 +76,7 @@ namespace common {
 const int TOP_TOOLBAR_THEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
 
-const int BORDER_RADIUS = 10;
+const int BORDER_RADIUS = 8;
 const int BORDER_WIDTH = 0;
 const int BORDER_WIDTH_SELECTED = 7;
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
