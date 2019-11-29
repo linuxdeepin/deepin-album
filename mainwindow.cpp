@@ -72,7 +72,16 @@ void MainWindow::initConnections()
         if(2 == id)
         {
             albumBtnClicked();
-            m_pSearchEdit->setVisible(true);
+
+            // 如果是最近删除或者移动设备,则搜索框不显示
+            if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex())
+            {
+                m_pSearchEdit->setVisible(false);
+            }
+            else
+            {
+               m_pSearchEdit->setVisible(true);
+            }
         }
     });
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
