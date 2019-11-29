@@ -69,11 +69,11 @@ void ImportView::initUI()
     pLabel2->setFixedHeight(18);
     pLabel2->setText(tr("Or drag photos here"));
 
-    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-    effect->setOffset(0,4);
-    effect->setColor(QColor(0,145,255,77));
-    effect->setBlurRadius(4);
-    m_pImportBtn->setGraphicsEffect(effect);
+//    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//    effect->setOffset(0,4);
+//    effect->setColor(QColor(0,145,255,77));
+//    effect->setBlurRadius(4);
+//    m_pImportBtn->setGraphicsEffect(effect);
 
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);

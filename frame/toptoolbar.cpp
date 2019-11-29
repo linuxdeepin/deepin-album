@@ -137,10 +137,10 @@ void TopToolbar::initWidgets()
     pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
     m_titletxt->setPalette(pa);
 
-    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
-    shadowEffect->setOffset(0, 1);
-    shadowEffect->setBlurRadius(1);
-    m_titletxt->setGraphicsEffect(shadowEffect);
+//    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
+//    shadowEffect->setOffset(0, 1);
+//    shadowEffect->setBlurRadius(1);
+//    m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
     QPalette titleBarPA;
     titleBarPA.setColor(QPalette::ButtonText,QColor(255,255,255,204));

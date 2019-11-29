@@ -162,11 +162,11 @@ void SearchView::initSearchResultView()
         pal.setColor(QPalette::Dark,QColor(237,86,86));
         pal.setColor(QPalette::ButtonText,QColor(255,255,255));
         m_pSlideShowBtn->setPalette(pal);
-        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
-        shadow_effect->setOffset(0,4);
-        shadow_effect->setColor(QColor(248,44,71,102));
-        shadow_effect->setBlurRadius(6);
-        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+//        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
+//        shadow_effect->setOffset(0,4);
+//        shadow_effect->setColor(QColor(248,44,71,102));
+//        shadow_effect->setBlurRadius(6);
+//        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     }
     if (themeType == DGuiApplicationHelper::DarkType)
     {
@@ -175,11 +175,11 @@ void SearchView::initSearchResultView()
         pal.setColor(QPalette::Dark,QColor(165,27,27));
         pal.setColor(QPalette::ButtonText,QColor(255,255,255));
         m_pSlideShowBtn->setPalette(pal);
-        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
-        shadow_effect->setOffset(0,2);
-        shadow_effect->setColor(QColor(193,10,10,127));
-        shadow_effect->setBlurRadius(4);
-        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+//        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
+//        shadow_effect->setOffset(0,2);
+//        shadow_effect->setColor(QColor(193,10,10,127));
+//        shadow_effect->setBlurRadius(4);
+//        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     }
 
     QIcon icon;
@@ -391,11 +391,11 @@ void SearchView::changeTheme()
         pal.setColor(QPalette::Dark,QColor(237,86,86));
         pal.setColor(QPalette::ButtonText,QColor(255,255,255));
         m_pSlideShowBtn->setPalette(pal);
-        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
-        shadow_effect->setOffset(0,4);
-        shadow_effect->setColor(QColor(248,44,71,102));
-        shadow_effect->setBlurRadius(6);
-        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+//        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
+//        shadow_effect->setOffset(0,4);
+//        shadow_effect->setColor(QColor(248,44,71,102));
+//        shadow_effect->setBlurRadius(6);
+//        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     }
     else if (themeType == DGuiApplicationHelper::DarkType)
     {
@@ -413,11 +413,11 @@ void SearchView::changeTheme()
         pal.setColor(QPalette::Dark,QColor(165,27,27));
         pal.setColor(QPalette::ButtonText,QColor(255,255,255));
         m_pSlideShowBtn->setPalette(pal);
-        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
-        shadow_effect->setOffset(0,2);
-        shadow_effect->setColor(QColor(193,10,10,127));
-        shadow_effect->setBlurRadius(4);
-        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
+//        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
+//        shadow_effect->setOffset(0,2);
+//        shadow_effect->setColor(QColor(193,10,10,127));
+//        shadow_effect->setBlurRadius(4);
+//        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     }
 
 }
