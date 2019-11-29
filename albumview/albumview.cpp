@@ -1717,7 +1717,7 @@ void AlbumView::importAllBtnClicked()
         }
     }
 
-//    if (!picPathList.isEmpty() && albumName.compare(tr("Imported")) != 0) {
+//    if (!picPathList.isEmpty() && albumName.compare(tr("Import")) != 0) {
 //        DBManager::instance()->insertIntoAlbum(albumName, picPathList);
 //    }
 

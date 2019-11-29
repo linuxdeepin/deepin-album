@@ -206,11 +206,11 @@
     </message>
     <message>
         <source>Import Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>导入所选</translation>
     </message>
     <message>
         <source>Album Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>相册图库</translation>
     </message>
 </context>
 <context>
@@ -389,7 +389,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Album Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>相册图库</translation>
     </message>
 </context>
 <context>
@@ -494,7 +494,7 @@ already exists, do you want to replace?</source>
     <name>MainWindow</name>
     <message>
         <source>Imported</source>
-        <translation>已导入</translation>
+        <translation type="vanished">已导入</translation>
     </message>
     <message>
         <source>Successfully deleted “%1” in album</source>
@@ -570,7 +570,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Exit fullscreen/slide show</source>
-        <translation>退出全屏/退出幻灯片放映</translation>
+        <translation type="vanished">退出全屏/退出幻灯片放映</translation>
     </message>
     <message>
         <source>Close application</source>
@@ -582,7 +582,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Show shortcut preview</source>
-        <translation>显示快捷键预览</translation>
+        <translation type="vanished">显示快捷键预览</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -606,7 +606,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Check all</source>
-        <translation>全选图片</translation>
+        <translation type="vanished">全选图片</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -614,7 +614,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Delete photos/albums</source>
-        <translation>删除照片/删除相册</translation>
+        <translation type="vanished">删除照片/删除相册</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -634,11 +634,11 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Zoom in and out</source>
-        <translation>放大缩小图片</translation>
+        <translation type="vanished">放大缩小图片</translation>
     </message>
     <message>
         <source>ctrl+Mouse wheel zoom image thumbnails</source>
-        <translation>ctrl+鼠标滚轮缩放图片缩略图;</translation>
+        <translation type="vanished">ctrl+鼠标滚轮缩放图片缩略图;</translation>
     </message>
     <message>
         <source>Enlarge images</source>
@@ -654,7 +654,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Keyboard&lt;-</source>
-        <translation>键盘&lt;-</translation>
+        <translation type="vanished">键盘&lt;-</translation>
     </message>
     <message>
         <source>Next</source>
@@ -662,7 +662,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Keyboard-&gt;</source>
-        <translation>键盘-&gt;</translation>
+        <translation type="vanished">键盘-&gt;</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -730,11 +730,11 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Review photos</source>
-        <translation>查看图片</translation>
+        <translation type="vanished">查看图片</translation>
     </message>
     <message>
         <source>Export photos</source>
-        <translation>导出图片</translation>
+        <translation type="vanished">导出图片</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -742,11 +742,67 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Enlarge photo</source>
-        <translation>放大图片</translation>
+        <translation type="vanished">放大图片</translation>
     </message>
     <message>
         <source>Reduce photo</source>
+        <translation type="vanished">缩小图片</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen/slideshow</source>
+        <translation>退出全屏/退出幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>显示快捷键</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation>查看图片</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>导出图片</translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation>导入图片</translation>
+    </message>
+    <message>
+        <source>Select all</source>
+        <translation>全选图片</translation>
+    </message>
+    <message>
+        <source>Delete photo/album</source>
+        <translation>删除照片/删除相册</translation>
+    </message>
+    <message>
+        <source> </source>
+        <translation>放大缩小图片</translation>
+    </message>
+    <message>
+        <source>  </source>
+        <translation>ctrl+鼠标滚轮缩放图片缩略图;</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>放大图片</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
         <translation>缩小图片</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>Left</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>Right</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>新建相册</translation>
     </message>
 </context>
 <context>

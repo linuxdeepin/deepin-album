@@ -629,7 +629,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             });
         }
 
-
         else {
             DBImgInfoList infos;
             for (auto path : paths) {

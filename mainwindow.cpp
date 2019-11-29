@@ -631,7 +631,7 @@ void MainWindow::onSearchEditFinished()
         } else {
             AlbumLeftTabItem *curitem = (AlbumLeftTabItem *)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->currentItem());
 
-            if (tr("Imported") == curitem->getalbumname()) {
+            if (tr("Import") == curitem->getalbumname()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, nullptr);
             }
 
@@ -1005,7 +1005,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut2.insert("name", tr("Fullscreen"));
     shortcut2.insert("value", "F11");
     QJsonObject shortcut3;
-    shortcut3.insert("name", tr("Exit fullscreen/slide show"));
+    shortcut3.insert("name", tr("Exit fullscreen/slideshow"));
     shortcut3.insert("value", "Esc");
     QJsonObject shortcut4;
     shortcut4.insert("name", tr("Close application"));
@@ -1014,8 +1014,8 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut5.insert("name", tr("Help"));
     shortcut5.insert("value", "F1");
     QJsonObject shortcut6;
-    shortcut6.insert("name", tr("Show shortcut preview"));
-    shortcut6.insert("value", "Ctrl+Shift+/");
+    shortcut6.insert("name", tr("Display shortcuts"));
+    shortcut6.insert("value", "Ctrl+Shift+?");
     QJsonObject shortcut7;
     shortcut7.insert("name", tr("Display in file manager"));
     shortcut7.insert("value", "Ctrl+D");
@@ -1023,22 +1023,22 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut8.insert("name", tr("Slide show"));
     shortcut8.insert("value", "F5");
     QJsonObject shortcut9;
-    shortcut9.insert("name", tr("Review photos"));
+    shortcut9.insert("name", tr("View"));
     shortcut9.insert("value", "Enter");
     QJsonObject shortcut10;
-    shortcut10.insert("name", tr("Export photos"));
+    shortcut10.insert("name", tr("Export"));
     shortcut10.insert("value", "Ctrl+E");
     QJsonObject shortcut11;
-    shortcut11.insert("name", tr("Import photos"));
+    shortcut11.insert("name", tr("Import"));
     shortcut11.insert("value", "Ctrl+O");
     QJsonObject shortcut12;
-    shortcut12.insert("name", tr("Check all"));
+    shortcut12.insert("name", tr("Select all"));
     shortcut12.insert("value", "Ctrl+A");
     QJsonObject shortcut13;
     shortcut13.insert("name", tr("Copy"));
     shortcut13.insert("value", "Ctrl+C");
     QJsonObject shortcut14;
-    shortcut14.insert("name", tr("Delete photos/albums"));
+    shortcut14.insert("name", tr("Delete photo/album"));
     shortcut14.insert("value", "Delete");
     QJsonObject shortcut15;
     shortcut15.insert("name", tr("Photo info"));
@@ -1053,20 +1053,20 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut18.insert("name", tr("Rotate counterclockwise"));
     shortcut18.insert("value", "Ctrl+Shift+R");
     QJsonObject shortcut19;
-    shortcut19.insert("name", tr("Zoom in and out"));
-    shortcut19.insert("value", tr("ctrl+Mouse wheel zoom image thumbnails"));
+    shortcut19.insert("name", tr(" "));
+    shortcut19.insert("value", tr("  "));
     QJsonObject shortcut20;
-    shortcut20.insert("name", tr("Enlarge photo"));
+    shortcut20.insert("name", tr("Zoom in"));
     shortcut20.insert("value", "Ctrl+“+”");
     QJsonObject shortcut21;
-    shortcut21.insert("name", tr("Reduce photo"));
+    shortcut21.insert("name", tr("Zoom out"));
     shortcut21.insert("value", "Ctrl+“-”");
     QJsonObject shortcut22;
     shortcut22.insert("name", tr("Previous"));
-    shortcut22.insert("value", tr("Keyboard<-"));
+    shortcut22.insert("value", tr("Left"));
     QJsonObject shortcut23;
     shortcut23.insert("name", tr("Next"));
-    shortcut23.insert("value", tr("Keyboard->"));
+    shortcut23.insert("value", tr("Right"));
     QJsonObject shortcut24;
     shortcut24.insert("name", tr("Favorite"));
     shortcut24.insert("value", "Ctrl+K");
@@ -1074,7 +1074,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut25.insert("name", tr("Unfavorite"));
     shortcut25.insert("value", "Ctrl+Shift+K");
     QJsonObject shortcut26;
-    shortcut26.insert("name", tr("New Album"));
+    shortcut26.insert("name", tr("New album"));
     shortcut26.insert("value", "Ctrl+Shift+N");
     QJsonObject shortcut27;
     shortcut27.insert("name", tr("Rename album"));
