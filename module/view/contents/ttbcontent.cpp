@@ -661,10 +661,10 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
             int a =(qCeil(m_imgListView->width()-26)/32)/2;
             int b = m_imgInfos.size() - (qFloor(m_imgListView->width()-26)/32)/2;
-//            qDebug()<<"a="<<a;
-//            qDebug()<<"b="<<b;
-//            qDebug()<<"m_nowIndex="<<m_nowIndex;
-//            qDebug()<<"m_imgInfos.size()="<<m_imgInfos.size();
+            qDebug()<<"a="<<a;
+            qDebug()<<"b="<<b;
+            qDebug()<<"m_nowIndex="<<m_nowIndex;
+            qDebug()<<"m_imgInfos.size()="<<m_imgInfos.size();
             if(m_nowIndex > a && m_nowIndex < b){
                 m_startAnimation = 1;
             }

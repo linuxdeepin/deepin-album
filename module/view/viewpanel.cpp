@@ -667,7 +667,7 @@ bool ViewPanel::showImage(int index,int addindex)
         return false;
     }
 
-    m_current = addindex;
+    m_current = index;
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     return true;

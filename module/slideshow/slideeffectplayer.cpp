@@ -106,6 +106,7 @@ void SlideEffectPlayer::pause() {
 
 bool SlideEffectPlayer::startNext()
 {
+    qDebug()<<"SlideEffectPlayer::startNext()";
     if (m_paths.isEmpty())
         return false;
     QSize fSize(m_w, m_h);
@@ -130,13 +131,14 @@ bool SlideEffectPlayer::startNext()
     }
 
     QString newPath = currentImagePath();
-    qDebug()<<newPath;
-    qDebug()<<oldPath;
+    qDebug()<<"newPath"<<newPath;
+    qDebug()<<"oldPath"<<oldPath;
     m_effect = SlideEffect::create();
     m_effect->setDuration(ANIMATION_DURATION);
     m_effect->setSize(fSize);
 
     using namespace utils::image;
+    qDebug()<<"m_cacheImages.value";
     QImage oldImg = m_cacheImages.value(oldPath);
     QImage newImg = m_cacheImages.value(newPath);
     // The "newPath" would be the next "oldPath", so there is no need to remove it now
@@ -164,6 +166,7 @@ bool SlideEffectPlayer::startNext()
 
 void SlideEffectPlayer::cacheNext()
 {
+    qDebug()<<"SlideEffectPlayer::cacheNext()";
     QStringList::ConstIterator current = m_current;
     current ++;
     if (current == m_paths.constEnd()) {
@@ -181,6 +184,7 @@ void SlideEffectPlayer::cacheNext()
     CacheThread *t = new CacheThread(path);
     connect(t, &CacheThread::cached,
             this, [=] (const QString path, const QImage img) {
+        qDebug()<<"m_cacheImages.insert(path, img)";
         m_cacheImages.insert(path, img);
     });
     connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);

@@ -19,6 +19,7 @@
 #include "slideeffect.h"
 #include <QThread>
 #include <QMap>
+#include "application.h"
 
 class CacheThread : public QThread
 {
@@ -35,6 +36,8 @@ protected:
     void run() Q_DECL_OVERRIDE
     {
         QImage img = utils::image::getRotatedImage(m_path);
+//        QImage img = dApp->m_imagemap.value(m_path).toImage();
+        qDebug()<<"QImage img = utils::image::getRotatedImage(m_path)"<<m_path;
         emit cached(m_path, img);
     }
 
