@@ -11,7 +11,7 @@
 #include <QScrollBar>
 
 namespace {
-const int ITEM_SPACING = 5;
+const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
 const int LEFT_MARGIN = 12;
 const int RIGHT_MARGIN = 8;

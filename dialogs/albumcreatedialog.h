@@ -48,6 +48,7 @@ private:
     QAbstractButton *m_Cancel;
     QAbstractButton *m_OK;
     bool m_OKClicked;
+
 };
 
 #endif // ALBUMCREATEDIALOG_H

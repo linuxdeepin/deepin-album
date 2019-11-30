@@ -1072,10 +1072,10 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut19.insert("value", tr("  "));
     QJsonObject shortcut20;
     shortcut20.insert("name", tr("Zoom in"));
-    shortcut20.insert("value", "Ctrl+“+”");
+    shortcut20.insert("value", "Ctrl+'+'");
     QJsonObject shortcut21;
     shortcut21.insert("name", tr("Zoom out"));
-    shortcut21.insert("value", "Ctrl+“-”");
+    shortcut21.insert("value", "Ctrl+'-'");
     QJsonObject shortcut22;
     shortcut22.insert("name", tr("Previous"));
     shortcut22.insert("value", tr("Left"));
@@ -1106,6 +1106,7 @@ QJsonObject MainWindow::createShorcutJson()
     QJsonArray shortcutArray1;
     shortcutArray1.append(shortcut2);
     shortcutArray1.append(shortcut8);
+    shortcutArray1.append(shortcut3);
     shortcutArray1.append(shortcut9);
     shortcutArray1.append(shortcut10);
     shortcutArray1.append(shortcut11);
@@ -1117,7 +1118,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcutArray1.append(shortcut17);
     shortcutArray1.append(shortcut18);
     shortcutArray1.append(shortcut7);
-    shortcutArray1.append(shortcut19);
+//    shortcutArray1.append(shortcut19);
     shortcutArray1.append(shortcut20);
     shortcutArray1.append(shortcut21);
     shortcutArray1.append(shortcut28);
@@ -1130,7 +1131,6 @@ QJsonObject MainWindow::createShorcutJson()
     shortcutArray2.append(shortcut26);
     shortcutArray2.append(shortcut27);
     QJsonArray shortcutArray3;
-    shortcutArray3.append(shortcut3);
     shortcutArray3.append(shortcut5);
     shortcutArray3.append(shortcut6);
 

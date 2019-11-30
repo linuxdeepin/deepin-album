@@ -778,11 +778,11 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source> </source>
-        <translation>放大缩小图片</translation>
+        <translation type="unfinished">放大缩小图片</translation>
     </message>
     <message>
         <source>  </source>
-        <translation>ctrl+鼠标滚轮缩放图片缩略图;</translation>
+        <translation type="unfinished">ctrl+鼠标滚轮缩放图片缩略图;</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -970,6 +970,14 @@ already exists, do you want to replace?</source>
     <message>
         <source>Colorspace</source>
         <translation>颜⾊空间</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

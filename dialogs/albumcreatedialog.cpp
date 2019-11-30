@@ -28,7 +28,6 @@
 #include <DApplicationHelper>
 #include <DSuggestButton>
 
-
 AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
     :DDialog(parent)
 {
@@ -50,6 +49,7 @@ void AlbumCreateDialog::initUI()
     setFixedSize(380,180);
     setModal(true);
     setContentsMargins(0, 0, 0, 0);
+
 //内容widget
     DWidget *contentWidget = new DWidget(this);
     contentWidget->setContentsMargins(0, 0, 0, 0);
@@ -89,27 +89,37 @@ void AlbumCreateDialog::initUI()
 //    contentWidget->setLayout(contentLayout);
 
 //按钮
+    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+    addButton(tr("Create"), true, DDialog::ButtonRecommend);
 
-    m_Cancel = new DPushButton(this);
-    m_Cancel->setText(tr("Cancel"));
-    m_Cancel->setFixedSize(170,36);
-    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    DPushButton *m_line = new DPushButton(this);
+//    m_Cancel = new DPushButton(this);
+//    m_Cancel->setText(tr("Cancel"));
+//    m_Cancel->setFixedSize(170,36);
+//    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    DPushButton *m_line = new DPushButton(this);
 
-    DPalette m_line_pa = DApplicationHelper::instance()->palette(m_line);
-    m_line_pa.setBrush(DPalette::FrameBorder, QColor(0, 0, 0, 0));
-    m_line->setPalette(m_line_pa);
+//    DPalette m_line_pa = DApplicationHelper::instance()->palette(m_line);
+//    m_line_pa.setBrush(DPalette::TextWarning, QColor(0, 0, 0, 0));
+//    m_line->setPalette(m_line_pa);
 
-    m_line->setFixedSize(3,28);
-    m_line->setEnabled(false);
-    m_OK = new DSuggestButton(this);
-    m_OK->setText(tr("Create"));
-    m_OK->setFixedSize(170,36);
-    m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    m_line->setFixedSize(1,28);
+//    m_line->setEnabled(false);
 
-    m_Cancel->move(10,134);
-    m_line->move(189,138);
-    m_OK->move(200,134);
+//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+//    this, [ = ] {
+//        DPalette m_line_pa = DApplicationHelper::instance()->palette(m_line);
+//        m_line_pa.setBrush(DPalette::TextWarning, QColor(0, 0, 0, 0));
+//        m_line->setPalette(m_line_pa);
+//    });
+
+//    m_OK = new DSuggestButton(this);
+//    m_OK->setText(tr("Create"));
+//    m_OK->setFixedSize(170,36);
+//    m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+
+//    m_Cancel->move(10,134);
+//    m_line->move(189,138);
+//    m_OK->move(200,134);
 
     addContent(contentWidget);
 }
@@ -128,24 +138,47 @@ void AlbumCreateDialog::initConnection()
             this->close();
         }
     });
-    connect(m_Cancel,&DPushButton::clicked,this, [=]{
-        deleteLater();
-        emit sigClose();
-    });
+//    connect(m_Cancel,&DPushButton::clicked,this, [=]{
+//        deleteLater();
+//        emit sigClose();
+//    });
 
-    connect(m_OK,&DPushButton::clicked,this,[=]{
-        if (edit->text().simplified().length()!= 0)
-        {
-            createAlbum(edit->text().trimmed());
-        }
-        else
-        {
-            QString str = tr("Unnamed") + QString::number(1);
-            createAlbum(str);
-        }
+//    connect(m_OK,&DPushButton::clicked,this,[=]{
+//        if (edit->text().simplified().length()!= 0)
+//        {
+//            createAlbum(edit->text().trimmed());
+//        }
+//        else
+//        {
+//            QString str = tr("Unnamed") + QString::number(1);
+//            createAlbum(str);
+//        }
 
-        m_OKClicked = true;
-        this->close();
+//        m_OKClicked = true;
+//        this->close();
+//    });
+
+    connect(this, &AlbumCreateDialog::buttonClicked, this, [=](int index){
+        if(0 == index)
+        {
+            deleteLater();
+            emit sigClose();
+        }
+        if(1 == index)
+        {
+            if (edit->text().simplified().length()!= 0)
+            {
+                createAlbum(edit->text().trimmed());
+            }
+            else
+            {
+                QString str = tr("Unnamed") + QString::number(1);
+                createAlbum(str);
+            }
+
+            m_OKClicked = true;
+            this->close();
+        }
     });
 
     connect(this, &AlbumCreateDialog::closed,this, [=]{

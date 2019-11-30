@@ -87,21 +87,21 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
 
     QRect pixmapRect;
-    if (data.width > data.imgWidth + 14) {
+    if (data.width > data.imgWidth + 12) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
         pixmapRect.setWidth(data.imgWidth);
     }
     else {
-        pixmapRect.setX(backgroundRect.x()+7);
-        pixmapRect.setWidth(backgroundRect.width()-14);
+        pixmapRect.setX(backgroundRect.x()+6);
+        pixmapRect.setWidth(backgroundRect.width()-12);
     }
-    if (data.height > data.imgHeight + 14) {
+    if (data.height > data.imgHeight + 12) {
         pixmapRect.setY(backgroundRect.y() + (data.height - data.imgHeight) / 2);
         pixmapRect.setHeight(data.imgHeight);
     }
     else {
-        pixmapRect.setY(backgroundRect.y()+7);;
-        pixmapRect.setHeight(backgroundRect.height()-14);
+        pixmapRect.setY(backgroundRect.y()+6);;
+        pixmapRect.setHeight(backgroundRect.height()-12);
     }
 
     QPainterPath bp1;

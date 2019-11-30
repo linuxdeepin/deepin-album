@@ -342,7 +342,6 @@ void AlbumView::initRightView()
     m_pRightTitle->setForegroundRole(DPalette::TextTitle);
 
     m_pRightPicTotal = new DLabel();
-
     QString str = tr("%1 photo(s)");
     m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
     DFontSizeManager::instance()->bind(m_pRightPicTotal, DFontSizeManager::T6, QFont::Medium);
@@ -351,17 +350,17 @@ void AlbumView::initRightView()
     m_pRightThumbnailList = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
-    pNoTrashVBoxLayout->addSpacing(5);
+    pNoTrashVBoxLayout->addSpacing(3);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
-    pNoTrashVBoxLayout->addSpacing(5);
+    pNoTrashVBoxLayout->addSpacing(4);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
-    pNoTrashVBoxLayout->addSpacing(-6);
+    pNoTrashVBoxLayout->addSpacing(-1);
     pNoTrashVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
     QVBoxLayout *p_all = new QVBoxLayout();
     p_all->setMargin(2);
-    p_all->setSpacing(0);
     p_all->addLayout(pNoTrashVBoxLayout);
+    p_all->addSpacing(2);
     p_all->addWidget(m_pRightThumbnailList);
 
     pNoTrashWidget->setLayout(p_all);
@@ -383,11 +382,11 @@ void AlbumView::initRightView()
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
 
-    pTopLeftVBoxLayout->addSpacing(5);
+    pTopLeftVBoxLayout->addSpacing(3);
     pTopLeftVBoxLayout->addWidget(pLabel1);
-    pTopLeftVBoxLayout->addSpacing(10);
+    pTopLeftVBoxLayout->addSpacing(9);
     pTopLeftVBoxLayout->addWidget(pLabel2);
-    pTopLeftVBoxLayout->addSpacing(-4);
+    pTopLeftVBoxLayout->addSpacing(-1);
     pTopLeftVBoxLayout->setContentsMargins(10,0,0,0);
 
     QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
@@ -424,8 +423,8 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pMainVBoxLayout->setMargin(2);
-    pMainVBoxLayout->setSpacing(0);
     pMainVBoxLayout->addItem(pTopHBoxLayout);
+    pMainVBoxLayout->addSpacing(2);
     pMainVBoxLayout->addWidget(m_pRightTrashThumbnailList);
 
     pTrashWidget->setLayout(pMainVBoxLayout);
@@ -450,19 +449,19 @@ void AlbumView::initRightView()
     m_pRightFavoriteThumbnailList = new ThumbnailListView(COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
 
-    pFavoriteVBoxLayout->addSpacing(5);
+    pFavoriteVBoxLayout->addSpacing(3);
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
-    pFavoriteVBoxLayout->addSpacing(5);
+    pFavoriteVBoxLayout->addSpacing(4);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
-    pFavoriteVBoxLayout->addSpacing(-6);
+    pFavoriteVBoxLayout->addSpacing(-1);
 
     pFavoriteVBoxLayout->setContentsMargins(10,0,0,0);
 
     QVBoxLayout *p_all1 = new QVBoxLayout();
 
     p_all1->setMargin(2);
-    p_all1->setSpacing(0);
     p_all1->addLayout(pFavoriteVBoxLayout);
+    p_all1->addSpacing(2);
     p_all1->addWidget(m_pRightFavoriteThumbnailList);
 
     pFavoriteWidget->setLayout(p_all1);
@@ -488,11 +487,11 @@ void AlbumView::initRightView()
     m_pRightPhoneThumbnailList = new ThumbnailListView(ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
 
-    pPhoneVBoxLayout->addSpacing(5);
+    pPhoneVBoxLayout->addSpacing(3);
     pPhoneVBoxLayout->addWidget(m_pPhoneTitle);
-    pPhoneVBoxLayout->addSpacing(9);
+    pPhoneVBoxLayout->addSpacing(4);
     pPhoneVBoxLayout->addWidget(m_pPhonePicTotal);
-    pPhoneVBoxLayout->addSpacing(-6);
+    pPhoneVBoxLayout->addSpacing(-1);
     pPhoneVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
     //手机相片导入窗体
