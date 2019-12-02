@@ -72,11 +72,12 @@ void SearchView::initConnections()
                 info.paths = paths;
             }
             emit dApp->signalM->startSlideShow(info);
+            emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_SEARCH);
         }
         else {
             emit dApp->signalM->viewImage(info);
+            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
         }
-        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
 
     });
 

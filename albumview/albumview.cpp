@@ -1192,6 +1192,7 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
             info.paths = paths;
         }
         emit dApp->signalM->startSlideShow(info);
+        emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
     } else {
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);

@@ -63,6 +63,8 @@ signals:
 
     void showImageView(int index);
     void hideImageView();
+    void showSlidePanel(int index);
+    void hideSlidePanel();
 	void extensionPanelHeight(int height, bool immediately = false);
     void sendPathlist(QStringList pathlist);
     void enterView(bool immediately = false);
@@ -117,6 +119,7 @@ signals:
     void sigMouseMove();
     void sigShowFullScreen();
     void sigESCKeyActivated();
+    void sigESCKeyStopSlide();
     void sigUpdataAlbumRightTitle(QString titlename);
 	void sigUpdateTrashImageLoader();
 	void sigUpdateImageLoader();

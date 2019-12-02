@@ -108,6 +108,7 @@ void AllPicView::initConnections()
             }
 
             emit dApp->signalM->startSlideShow(info);
+            emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
         }
         else {
             emit dApp->signalM->viewImage(info);

@@ -481,6 +481,7 @@ void TimeLineView::updataLayout()
                     info.paths = paths;
                 }
                 emit dApp->signalM->startSlideShow(info);
+                emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_TIMELINE);
             } else {
                 emit dApp->signalM->viewImage(info);
                 emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);

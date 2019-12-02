@@ -9,6 +9,7 @@
 #include "controller/commandline.h"
 #include "controller/exporter.h"
 #include "widgets/dialogs/imginfodialog.h"
+#include "module/slideshow/slideshowpanel.h"
 //#include "plugin.h"
 //#include "plugintest.h"
 #include <QPluginLoader>
@@ -105,12 +106,14 @@ private:
     AllPicView* m_pAllPicView;
     TimeLineView* m_pTimeLineView;
     SearchView* m_pSearchView;
+    SlideShowPanel *m_slidePanel;
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
 //    DSlider* m_pSlider;
     DBManager* m_pDBManager;
     QMap<QString, ImgInfoDialog*> m_propertyDialogs{};
     int m_backIndex;
+    int m_backIndex_fromSlide;
     int m_pSliderPos = 2;
     DPushButton* m_pItemButton;
 

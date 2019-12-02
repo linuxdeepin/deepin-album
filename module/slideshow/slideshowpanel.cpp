@@ -60,12 +60,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     m_cancelslideshow->setFixedSize(QSize(50, 50));
     connect(m_cancelslideshow, &DIconButton::clicked, m_player,
             [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/
-        if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
-            backToLastView();
-        }
-        else {
-            backToLastPanel();
-        }
+        backToLastPanel();
     });
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
@@ -79,14 +74,9 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 
         m_player->setImagePaths(m_vinfo.paths);
     });
-    connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
+    connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, [ = ] {
         if(isVisible()){
-            if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
-                backToLastView();
-            }
-            else {
-                backToLastPanel();
-            }
+            backToLastPanel();
         }
     });
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
@@ -138,34 +128,22 @@ void SlideShowPanel::resizeEvent(QResizeEvent *e)
     ModulePanel::resizeEvent(e);
 }
 
-void SlideShowPanel::backToLastView()
-{
-    qDebug() << __func__;
-    m_player->stop();
-    showNormal();
-
-    m_vinfo.lastPanel = nullptr;
-    m_vinfo.slideShow = false;
-    m_vinfo.fullScreen = false;
-    m_vinfo.path = m_player->currentImagePath();
-    emit dApp->signalM->viewImage(m_vinfo);
-
-    // Clear cache
-    QImage ti(width(), height(), QImage::Format_ARGB32);
-    ti.fill(0);
-    setImage(ti);
-
-    this->setCursor(Qt::ArrowCursor);
-    killTimer(m_hideCursorTid);
-    m_hideCursorTid = 0;
-}
-
 void SlideShowPanel::backToLastPanel()
 {
     m_player->stop();
     showNormal();
 
-    emit dApp->signalM->hideImageView();
+    if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID) {
+        m_vinfo.path = m_player->currentImagePath();
+        m_vinfo.fullScreen = false;
+        m_vinfo.slideShow = false;
+        emit dApp->signalM->viewImage(m_vinfo);
+        emit dApp->signalM->hideSlidePanel();
+    }
+    else {
+        emit dApp->signalM->hideImageView();
+    }
+
 //    if (m_vinfo.lastPanel) {
 //        ViewPanel *vp = dynamic_cast<ViewPanel *>(m_vinfo.lastPanel);
 //        if (vp) {
@@ -238,12 +216,7 @@ void SlideShowPanel::onMenuItemClicked(QAction *action)
     const int id = action->property("MenuID").toInt();
     switch (id) {
     case IdStopslideshow:
-        if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
-            backToLastView();
-        }
-        else {
-            backToLastPanel();
-        }
+        backToLastPanel();
         break;
     case IdPlayOrPause:
         m_player->pause();
@@ -292,11 +265,6 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
         m_player->start();
         emit dApp->signalM->gotoPanel(this);
-        if(m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW){
-            emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID^FROM_MAINWINDOW_POPVIEW);
-        } else {
-            emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID);
-        }
 
         showFullScreen();
     } else if (event->timerId() == m_hideCursorTid) {
@@ -308,22 +276,12 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
 void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
-        backToLastView();
-    }
-    else {
-        backToLastPanel();
-    }
+    backToLastPanel();
 }
 
 void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 {
-    if (m_vinfo.viewMainWindowID&FROM_MAINWINDOW_POPVIEW) {
-        backToLastView();
-    }
-    else {
-        backToLastPanel();
-    }
+    backToLastPanel();
 }
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
@@ -351,7 +309,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     m_player->setImagePaths(vinfo.paths);
     m_player->setCurrentImage(vinfo.path);
 
-    m_startTid = startTimer(DELAY_START_INTERVAL);
+//    m_startTid = startTimer(DELAY_START_INTERVAL);
 
     this->setCursor(Qt::BlankCursor);
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -369,6 +327,10 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
         m_cancelslideshow->show();
         m_cancelslideshow->raise();
     }
+
+    m_player->start();
+//    emit dApp->signalM->gotoPanel(this);
+    showFullScreen();
 }
 
 void SlideShowPanel::showNormal()

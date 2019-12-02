@@ -54,7 +54,6 @@ protected:
 
 private:
     void backToLastPanel();
-    void backToLastView();
 
     QImage getFitImage(const QString &path);
 

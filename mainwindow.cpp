@@ -20,6 +20,7 @@ const int VIEW_TIMELINE = 1;
 const int VIEW_ALBUM = 2;
 const int VIEW_SEARCH = 3;
 const int VIEW_IMAGE = 4;
+const int VIEW_SLIDE = 5;
 
 //const QString TITLEBAR_NEWALBUM = "新建相册";
 //const QString TITLEBAR_IMPORT = "导入照片";
@@ -116,6 +117,20 @@ void MainWindow::initConnections()
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
+    connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
+        if (VIEW_IMAGE != index)
+        {
+            m_backIndex = index;
+        }
+        m_backIndex_fromSlide = index;
+        titlebar()->setFixedHeight(0);
+        setTitlebarShadowEnabled(false);
+        m_pCenterWidget->setCurrentIndex(VIEW_SLIDE);
+    });
+    connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
+        emit dApp->signalM->hideExtensionPanel();
+        m_pCenterWidget->setCurrentIndex(m_backIndex_fromSlide);
+    });
     connect(dApp->signalM, &SignalManager::exportImage, this, [ = ](QStringList paths) {
         Exporter::instance()->exportImage(paths);
     });
@@ -200,6 +215,7 @@ void MainWindow::initShortcut()
         if (window()->isFullScreen())
         {
             emit dApp->signalM->sigESCKeyActivated();
+            emit dApp->signalM->sigESCKeyStopSlide();
         }else if(VIEW_IMAGE == m_pCenterWidget->currentIndex()){
             this->close();
         }
@@ -436,6 +452,7 @@ void MainWindow::initCentralWidget()
     m_pAllPicView = new AllPicView();
     m_pTimeLineView = new TimeLineView();
     m_pSearchView = new SearchView();
+    m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pAllPicView);
     m_pCenterWidget->addWidget(m_pTimeLineView);
@@ -444,6 +461,7 @@ void MainWindow::initCentralWidget()
     m_commandLine = CommandLine::instance();
     m_commandLine->processOption();
     m_pCenterWidget->addWidget(m_commandLine);
+    m_pCenterWidget->addWidget(m_slidePanel);
 
     setCentralWidget(m_pCenterWidget);
 }

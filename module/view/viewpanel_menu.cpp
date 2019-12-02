@@ -208,8 +208,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths();
-        vinfo.viewMainWindowID = vinfo.viewMainWindowID | VIEW_MAINWINDOW_POPVIEW;
+        vinfo.viewMainWindowID = VIEW_MAINWINDOW_POPVIEW;
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
+        emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_POPVIEW);
         break;
     }
     case IdPrint: {
