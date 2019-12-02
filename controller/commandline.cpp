@@ -155,6 +155,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
                 dbi.filePath = path;
                 dbi.dirHash = utils::base::hash(QString());
                 dbi.time = fi.birthTime();
+                dbi.changeTime = QDateTime::currentDateTime();
 
                 qDebug()<<path;
                 dbInfos << dbi;

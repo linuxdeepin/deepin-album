@@ -692,6 +692,7 @@ void TimeLineView::dropEvent(QDropEvent *event)
         dbi.filePath = path;
         dbi.dirHash = utils::base::hash(QString());
         dbi.time = fi.birthTime();
+        dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
     }

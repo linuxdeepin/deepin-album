@@ -8,6 +8,7 @@
 #include "importview/importview.h"
 #include "searchview/searchview.h"
 #include "widgets/statusbar.h"
+#include "importtimelineview/importtimelineview.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -155,6 +156,7 @@ private:
     DMenu* m_pLeftMenu;
     DLabel* m_pRightTitle;
     DLabel* m_pRightPicTotal;
+    DLabel* m_pImportPicTotal;
     DLabel* m_pFavoriteTitle;
     DLabel* m_pFavoritePicTotal;
     DLabel* m_pPhoneTitle;
@@ -163,6 +165,8 @@ private:
     DGioVolumeManager *m_vfsManager;
     DLabel* pLabel1;
     DLabel* pLabel2;
+    // 已导入窗体
+    ImportTimeLineView* m_pImpTimeLineWidget;
 
     //手机照片导入窗体
     DWidget* m_importByPhoneWidget;

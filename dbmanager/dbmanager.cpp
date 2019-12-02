@@ -91,7 +91,7 @@ const DBImgInfoList DBManager::getAllInfos() const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare( "SELECT FilePath, FileName, Dir, Time "
+    query.prepare( "SELECT FilePath, FileName, Dir, Time, ChangeTime "
                    "FROM ImageTable3");
     if (! query.exec()) {
         qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
@@ -106,6 +106,7 @@ const DBImgInfoList DBManager::getAllInfos() const
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }
@@ -145,6 +146,44 @@ const QStringList DBManager::getAllTimelines() const
 const DBImgInfoList DBManager::getInfosByTimeline(const QString &timeline) const
 {
     const DBImgInfoList list = getImgInfos("Time", timeline);
+    if (list.count() < 1) {
+        return DBImgInfoList();
+    }
+    else {
+        return list;
+    }
+}
+
+const QStringList DBManager::getImportTimelines() const
+{
+    QStringList times;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid())
+        return times;
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlQuery query( db );
+    query.setForwardOnly(true);
+    query.prepare( "SELECT DISTINCT ChangeTime "
+                   "FROM ImageTable3 ORDER BY ChangeTime DESC");
+    if (! query.exec()) {
+        qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
+        mutex.unlock();
+        return times;
+    }
+    else {
+        while (query.next()) {
+            times << query.value(0).toString();
+        }
+    }
+    mutex.unlock();
+
+    return times;
+}
+
+const DBImgInfoList DBManager::getInfosByImportTimeline(const QString &timeline) const
+{
+    const DBImgInfoList list = getImgInfos("ChangeTime", timeline);
     if (list.count() < 1) {
         return DBImgInfoList();
     }
@@ -292,7 +331,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         return;
     }
 
-    QVariantList pathhashs, filenames, filepaths, dirs, times;
+    QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes;
 
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
@@ -300,6 +339,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         pathhashs << utils::base::hash(info.filePath);
         dirs << info.dirHash;
         times << utils::base::timeToString(info.time, true);
+        changetimes << utils::base::timeToString(info.changeTime, true);
     }
 
     QMutexLocker mutex(&m_mutex);
@@ -308,12 +348,13 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     query.prepare( "REPLACE INTO ImageTable3 "
-                   "(PathHash, FilePath, FileName, Dir, Time) VALUES (?, ?, ?, ?, ?)" );
+                   "(PathHash, FilePath, FileName, Dir, Time, ChangeTime) VALUES (?, ?, ?, ?, ?, ?)" );
     query.addBindValue(pathhashs);
     query.addBindValue(filepaths);
     query.addBindValue(filenames);
     query.addBindValue(dirs);
     query.addBindValue(times);
+    query.addBindValue(changetimes);
     if (! query.execBatch()) {
         qWarning() << "Insert data into ImageTable3 failed: "
                    << query.lastError();
@@ -586,7 +627,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time "
+    query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime "
                   "FROM ImageTable3 AS i, AlbumTable3 AS a "
                   "WHERE i.PathHash=a.PathHash AND a.AlbumName=:album");
     query.bindValue(":album", album);
@@ -602,6 +643,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }
@@ -890,7 +932,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
     QSqlQuery query( db );
     query.setForwardOnly(true);
 
-    QString queryStr = "SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime FROM ImageTable3 "
                        "WHERE FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
 
     query.prepare(queryStr.arg(value));
@@ -907,6 +949,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }
@@ -937,7 +980,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
     QSqlQuery query( db );
     query.setForwardOnly(true);
 
-    QString queryStr = "SELECT FilePath, FileName, Dir, Time FROM TrashTable "
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime FROM TrashTable "
                        "WHERE FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
 
     query.prepare(queryStr.arg(keywords));
@@ -954,6 +997,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }
@@ -978,7 +1022,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
     }
     QMutexLocker mutex(&m_mutex);
 
-    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time "
+    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime "
                        "FROM ImageTable3 AS i "
                        "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.AlbumName=:album "
                        "WHERE i.FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
@@ -1001,6 +1045,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }
@@ -1019,7 +1064,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
+    query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime FROM ImageTable3 "
                           "WHERE %1= :value ORDER BY Time DESC").arg(key));
 
     query.bindValue(":value", value);
@@ -1036,6 +1081,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }
@@ -1100,15 +1146,16 @@ void DBManager::checkDatabase()
         QSqlQuery query(db);
         // ImageTable3
         //////////////////////////////////////////////////////////////
-        //PathHash           | FilePath | FileName   | Dir  | Time  //
-        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT  //
+        //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime //
+        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT //
         //////////////////////////////////////////////////////////////
         query.exec( QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
                             "PathHash TEXT primary key, "
                             "FilePath TEXT, "
                             "FileName TEXT, "
                             "Dir TEXT, "
-                            "Time TEXT )"));
+                            "Time TEXT, "
+                            "ChangeTime TEXT)"));
 
         // AlbumTable3
         //////////////////////////////////////////////////////////
@@ -1122,15 +1169,16 @@ void DBManager::checkDatabase()
 
         // TrashTable
         //////////////////////////////////////////////////////////////
-        //PathHash           | FilePath | FileName   | Dir  | Time  //
-        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT  //
+        //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime  //
+        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT //
         //////////////////////////////////////////////////////////////
         query.exec( QString("CREATE TABLE IF NOT EXISTS TrashTable ( "
                             "PathHash TEXT primary key, "
                             "FilePath TEXT, "
                             "FileName TEXT, "
                             "Dir TEXT, "
-                            "Time TEXT )"));
+                            "Time TEXT, "
+                            "ChangeTime TEXT )"));
 //        // Check if there is an old version table exist or not
 
 //        //TODO: AlbumTable's primary key is changed, need to importVersion again
@@ -1162,7 +1210,7 @@ void DBManager::importVersion1Data()
         query.clear();
         query.setForwardOnly(true);
         QMutexLocker mutex(&m_mutex);
-        query.prepare( "SELECT filename, filepath, time "
+        query.prepare( "SELECT filename, filepath, time, changeTime "
                        "FROM ImageTable ORDER BY time DESC");
         if (! query.exec()) {
             qWarning() << "Import ImageTable into ImageTable3 failed: "
@@ -1177,6 +1225,7 @@ void DBManager::importVersion1Data()
                 info.fileName = query.value(0).toString();
                 info.filePath = query.value(1).toString();
                 info.time = stringToDateTime(query.value(2).toString());
+                info.changeTime = stringToDateTime(query.value(3).toString());
 
                 infos << info;
             }
@@ -1249,7 +1298,7 @@ void DBManager::importVersion2Data()
     if (tableExist) {
         // Import ImageTable2 into ImageTable3
         query.clear();
-        query.prepare( "SELECT FileName, FilePath, Time "
+        query.prepare( "SELECT FileName, FilePath, Time, ChangeTime "
                        "FROM ImageTable2 ORDER BY Time DESC");
         if (! query.exec()) {
             qWarning() << "Import ImageTable2 into ImageTable3 failed: "
@@ -1264,6 +1313,7 @@ void DBManager::importVersion2Data()
                 info.fileName = query.value(0).toString();
                 info.filePath = query.value(1).toString();
                 info.time = stringToDateTime(query.value(2).toString());
+                info.changeTime = stringToDateTime(query.value(3).toString());
 
                 infos << info;
             }
@@ -1353,7 +1403,7 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare( "SELECT FilePath, FileName, Dir, Time "
+    query.prepare( "SELECT FilePath, FileName, Dir, Time, ChangeTime "
                    "FROM TrashTable");
     if (! query.exec()) {
         qWarning() << "Get data from TrashTable failed: " << query.lastError();
@@ -1368,6 +1418,7 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }
@@ -1384,7 +1435,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
         return;
     }
 
-    QVariantList pathhashs, filenames, filepaths, dirs, times;
+    QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes;
 
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
@@ -1392,6 +1443,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
         pathhashs << utils::base::hash(info.filePath);
         dirs << info.dirHash;
         times << utils::base::timeToString(info.time, true);
+        changetimes << utils::base::timeToString(info.changeTime, true);
     }
 
     QMutexLocker mutex(&m_mutex);
@@ -1400,12 +1452,13 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     query.prepare( "REPLACE INTO TrashTable "
-                   "(PathHash, FilePath, FileName, Dir, Time) VALUES (?, ?, ?, ?, ?)" );
+                   "(PathHash, FilePath, FileName, Dir, Time, ChangeTime) VALUES (?, ?, ?, ?, ?, ?)" );
     query.addBindValue(pathhashs);
     query.addBindValue(filepaths);
     query.addBindValue(filenames);
     query.addBindValue(dirs);
     query.addBindValue(times);
+    query.addBindValue(changetimes);
     if (! query.execBatch()) {
         qWarning() << "Insert data into TrashTable failed: "
                    << query.lastError();
@@ -1539,7 +1592,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
     QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
-    query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM TrashTable "
+    query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime FROM TrashTable "
                           "WHERE %1= :value ORDER BY Time DESC").arg(key));
 
     query.bindValue(":value", value);
@@ -1556,6 +1609,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
 
             infos << info;
         }

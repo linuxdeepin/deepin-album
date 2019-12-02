@@ -17,7 +17,7 @@
 #ifndef IMPORTER_H
 #define IMPORTER_H
 
-#include "dbmanager.h"
+#include "dbmanager/dbmanager.h"
 #include <QFileInfo>
 #include <QFutureWatcher>
 #include <QObject>

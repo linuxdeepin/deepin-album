@@ -40,6 +40,7 @@ const int RIGHT_VIEW_TRASH_LIST = 2;
 const int RIGHT_VIEW_FAVORITE_LIST = 3;
 const int RIGHT_VIEW_SEARCH = 4;
 const int RIGHT_VIEW_PHONE = 5;
+const int RIGHT_VIEW_TIMELINE_IMPORT = 6;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
@@ -179,6 +180,7 @@ void AlbumView::initConnections()
 
         updatePicNum();
     });
+    connect(m_pImpTimeLineWidget, &ImportTimeLineView::sigUpdatePicNum, this, &AlbumView::updatePicNum);
 
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onTrashListClicked);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
@@ -540,6 +542,42 @@ void AlbumView::initRightView()
     p_all2->addWidget(m_pRightPhoneThumbnailList);
 
     pPhoneWidget->setLayout(p_all2);
+	
+    // 导入图片,按导入时间排列
+    DWidget *pImportTimeLineWidget = new DWidget();
+    pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
+
+    QVBoxLayout *pImpTimeLineVBoxLayout = new QVBoxLayout();
+    pImpTimeLineVBoxLayout->setContentsMargins(0, 0, 0, 0);
+
+    DLabel* pImportTitle = new DLabel();
+    pImportTitle->setText(tr("Import"));
+    DFontSizeManager::instance()->bind(pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
+    pImportTitle->setForegroundRole(DPalette::TextTitle);
+
+    m_pImportPicTotal = new DLabel();
+    QString strTitle = tr("%1 photo(s)");
+    m_pImportPicTotal->setText(strTitle.arg(QString::number(m_iAlubmPicsNum)));
+    DFontSizeManager::instance()->bind(m_pImportPicTotal, DFontSizeManager::T6, QFont::Medium);
+    m_pImportPicTotal->setForegroundRole(DPalette::TextTips);
+
+    m_pImpTimeLineWidget = new ImportTimeLineView();
+
+    pImpTimeLineVBoxLayout->addSpacing(3);
+    pImpTimeLineVBoxLayout->addWidget(pImportTitle);
+    pImpTimeLineVBoxLayout->addSpacing(4);
+    pImpTimeLineVBoxLayout->addWidget(m_pImportPicTotal);
+    pImpTimeLineVBoxLayout->addSpacing(-1);
+    pImpTimeLineVBoxLayout->setContentsMargins(10, 0, 0, 0);
+
+    QHBoxLayout *pImpTimeLineHLayout = new QHBoxLayout;
+    pImpTimeLineHLayout->addLayout(pImpTimeLineVBoxLayout, 1);
+    pImpTimeLineHLayout->addStretch();
+
+    QVBoxLayout *pImportAllV = new QVBoxLayout();
+    pImportAllV->addLayout(pImpTimeLineHLayout);
+    pImportAllV->addWidget(m_pImpTimeLineWidget);
+    pImportTimeLineWidget->setLayout(pImportAllV);
 
     // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
@@ -548,6 +586,7 @@ void AlbumView::initRightView()
     m_pRightStackWidget->addWidget(pFavoriteWidget);
     m_pRightStackWidget->addWidget(m_pSearchView);
     m_pRightStackWidget->addWidget(pPhoneWidget);
+    m_pRightStackWidget->addWidget(pImportTimeLineWidget);
 
     // Statusbar
     m_pStatusBar = new StatusBar();
@@ -595,42 +634,39 @@ void AlbumView::updateRightNoTrashView()
 
     // 已导入
     if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
-        infos = DBManager::instance()->getAllInfos();
+//        infos = DBManager::instance()->getAllInfos();
 
-        for (auto info : infos) {
-            ThumbnailListView::ItemInfo vi;
-            vi.name = info.fileName;
-            vi.path = info.filePath;
-//            vi.image = dApp->m_imagemap.value(info.filePath);
-            if (dApp->m_imagemap.value(info.filePath).isNull())
-            {
-                QSize imageSize = getImageQSize(vi.path);
+//        for (auto info : infos) {
+//            ThumbnailListView::ItemInfo vi;
+//            vi.name = info.fileName;
+//            vi.path = info.filePath;
+////            vi.image = dApp->m_imagemap.value(info.filePath);
+//            if (dApp->m_imagemap.value(info.filePath).isNull())
+//            {
+//                QSize imageSize = getImageQSize(vi.path);
 
-                vi.width = imageSize.width();
-                vi.height = imageSize.height();
-            }
-            else
-            {
-                vi.width = dApp->m_imagemap.value(info.filePath).width();
-                vi.height = dApp->m_imagemap.value(info.filePath).height();
-            }
+//                vi.width = imageSize.width();
+//                vi.height = imageSize.height();
+//            }
+//            else
+//            {
+//                vi.width = dApp->m_imagemap.value(info.filePath).width();
+//                vi.height = dApp->m_imagemap.value(info.filePath).height();
+//            }
 
-            m_curThumbnaiItemList << vi;
-        }
+//            m_curThumbnaiItemList << vi;
+//        }
 
         m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
 
         if (0 < m_iAlubmPicsNum)
         {
-            m_pRightTitle->setText(tr("Import"));
-
             QString str = tr("%1 photo(s)");
-            m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+            m_pImportPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-            m_pRightThumbnailList->m_imageType = m_currentAlbum;
-            m_pRightThumbnailList->insertThumbnails(m_curThumbnaiItemList);
+            m_pImpTimeLineWidget->updataLayout();
 
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
             m_pStatusBar->show();
         }
         else
@@ -1289,6 +1325,7 @@ void AlbumView::dropEvent(QDropEvent *event)
         dbi.filePath = path;
         dbi.dirHash = utils::base::hash(QString());
         dbi.time = fi.birthTime();
+        dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
     }
@@ -1678,6 +1715,8 @@ void AlbumView::SearchReturnUpdate()
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+        } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
         } else {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
         }
@@ -1769,6 +1808,7 @@ void AlbumView::importAllBtnClicked()
             dbi.filePath = strNewPath;
             dbi.dirHash = utils::base::hash(QString());
             dbi.time = fi.birthTime();
+            dbi.changeTime = QDateTime::currentDateTime();
 
             dbInfos << dbi;
         }
@@ -1829,6 +1869,7 @@ void AlbumView::importSelectBtnClicked()
             dbi.filePath = strNewPath;
             dbi.dirHash = utils::base::hash(QString());
             dbi.time = fi.birthTime();
+            dbi.changeTime = QDateTime::currentDateTime();
 
             dbInfos << dbi;
         }

@@ -20,7 +20,7 @@
 
 #include "frame/mainwidget.h"
 #include "controller/viewerthememanager.h"
-#include "controller/dbmanager.h"
+#include "dbmanager/dbmanager.h"
 //#include "controller/exporter.h"
 #include "controller/importer.h"
 

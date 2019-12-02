@@ -55,6 +55,7 @@ SOURCES += \
         searchview/searchview.cpp \
         widgets/albumlefttabitem.cpp \
         importview/importview.cpp \
+        importtimelineview/importtimelineview.cpp \
         dialogs/albumdeletedialog.cpp \
         widgets/statusbar.cpp \
     albumview/leftlistwidget.cpp \
@@ -72,6 +73,7 @@ HEADERS += \
         searchview/searchview.h \
         widgets/albumlefttabitem.h \
         importview/importview.h \
+        importtimelineview/importtimelineview.h \
         dialogs/albumdeletedialog.h \
         widgets/statusbar.h \
     albumview/leftlistwidget.h \

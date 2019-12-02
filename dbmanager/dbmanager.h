@@ -19,8 +19,8 @@
 
 // ImageTable
 ///////////////////////////////////////////////////////
-//FilePath           | FileName | Dir        | Time  //
-//TEXT primari key   | TEXT     | TEXT       | TEXT  //
+//FilePath           | FileName | Dir        | Time | ChangeTime //
+//TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT //
 ///////////////////////////////////////////////////////
 
 // AlbumTable
@@ -45,13 +45,16 @@ struct DBImgInfo {
     QString filePath;
     QString fileName;
     QString dirHash;
-    QDateTime time;
+    QDateTime time;     // 图片创建时间
+    QDateTime changeTime;   // 导入时间 Or 删除时间
 
     bool operator==(const DBImgInfo& other)
     {
         return (filePath == other.filePath &&
                 fileName == other.fileName &&
-                time == other.time);
+                dirHash == other.dirHash &&
+                time == other.time &&
+                changeTime == other.changeTime);
     }
 
     friend QDebug operator<<(QDebug &dbg, const DBImgInfo& info) {
@@ -60,6 +63,7 @@ struct DBImgInfo {
             << "Name:" << info.fileName
             << "Dir:" << info.dirHash
             << "Time:" << info.time
+            << "ChangeTime:" << info.changeTime
             << "]";
         return dbg;
     }
@@ -79,6 +83,8 @@ public:
     const DBImgInfoList     getAllInfos() const;
     const QStringList       getAllTimelines() const;
     const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
+    const QStringList       getImportTimelines() const;
+    const DBImgInfoList     getInfosByImportTimeline(const QString &timeline) const;
     const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
     const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;

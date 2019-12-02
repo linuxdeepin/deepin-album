@@ -30,7 +30,7 @@
 #include <DListView>
 #include <QAbstractItemModel>
 #include <QStandardItem>
-#include "controller/dbmanager.h"
+#include "dbmanager/dbmanager.h"
 #include <DAnchors>
 #include <dimagebutton.h>
 #include <DThumbnailProvider>

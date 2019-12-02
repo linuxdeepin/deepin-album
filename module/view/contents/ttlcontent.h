@@ -20,7 +20,7 @@
 #include <QWidget>
 #include <QLabel>
 #include "controller/viewerthememanager.h"
-#include "controller/dbmanager.h"
+#include "dbmanager/dbmanager.h"
 class PushButton;
 class ReturnButton;
 class ElidedLabel;

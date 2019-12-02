@@ -21,7 +21,7 @@
 
 #include "widgets/pushbutton.h"
 #include "widgets/returnbutton.h"
-#include "controller/dbmanager.h"
+#include "dbmanager/dbmanager.h"
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"
 #include "controller/signalmanager.h"

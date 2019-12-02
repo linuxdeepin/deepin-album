@@ -767,6 +767,7 @@ void MainWindow::onImprotBtnClicked()
         dbi.filePath = imagePath;
         dbi.dirHash = utils::base::hash(QString());
         dbi.time = fi.birthTime();
+        dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
     }
@@ -847,6 +848,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 dbi.filePath = path;
                 dbi.dirHash = utils::base::hash(QString());
                 dbi.time = fi.birthTime();
+                dbi.changeTime = QDateTime::currentDateTime();
                 dbInfos << dbi;
             }
 

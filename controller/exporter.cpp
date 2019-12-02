@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 //#include "application.h"
-//#include "controller/dbmanager.h"
+//#include "dbmanager/dbmanager.h"
 #include "exporter.h"
 #include "utils/imageutils.h"
 

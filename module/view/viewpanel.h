@@ -18,7 +18,7 @@
 #define VIEWPANEL_H
 
 #include "module/modulepanel.h"
-#include "controller/dbmanager.h"
+#include "dbmanager/dbmanager.h"
 #include "controller/viewerthememanager.h"
 #include "danchors.h"
 #include "thumbnailwidget.h"
