@@ -1779,7 +1779,7 @@ void AlbumView::updateImportComboBox()
 void AlbumView::importAllBtnClicked()
 {
     QList<ThumbnailListView::ItemInfo> allPaths = m_pRightPhoneThumbnailList->getAllPaths();
-    QString albumName = m_importByPhoneComboBox->currentText();
+    QString albumNameStr = m_importByPhoneComboBox->currentText();
     QStringList picPathList;
     DBImgInfoList dbInfos;
     QString strHomePath = QDir::homePath();
@@ -1794,15 +1794,17 @@ void AlbumView::importAllBtnClicked()
     foreach (ThumbnailListView::ItemInfo info, allPaths) {
         QString strPath = info.path;
         QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-        QString strNewPath = QString("%1%2%3").arg(basePath, "/", pathList.last());
+        QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+        QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
 
         //判断新路径下是否存在目标文件，若存在，先删除掉
         if (dir.exists(strNewPath)) {
             dir.remove(strNewPath);
         }
 
-        if (QFile::copy(strPath, strNewPath)) {
-            picPathList << strNewPath;
+        if (QFile::copy(strPath, strNewPath))
+        {
+            picPathList << strPath;
 
             QFileInfo fi(strNewPath);
             DBImgInfo dbi;
@@ -1816,20 +1818,55 @@ void AlbumView::importAllBtnClicked()
         }
     }
 
-//    if (!picPathList.isEmpty() && albumName.compare(tr("Import")) != 0) {
-//        DBManager::instance()->insertIntoAlbum(albumName, picPathList);
-//    }
+    if (!dbInfos.isEmpty()) {
+        DBImgInfoList dbInfoList;
+        QStringList pathslist;
 
-    if (! dbInfos.isEmpty()) {
-//        DBManager::instance()->insertImgInfos(dbInfos);
-        dApp->m_imageloader->ImportImageLoader(dbInfos, albumName);
+        for(int i = 0; i < dbInfos.length(); i++)
+        {
+            if(m_phonePathAndImage.value(picPathList[i]).isNull()){
+                continue;
+            }
+
+            dApp->m_imagemap.insert(dbInfos[i].filePath, m_phonePathAndImage.value(picPathList[i]));
+
+            pathslist<<dbInfos[i].filePath;
+            dbInfoList<<dbInfos[i];
+        }
+
+        if(albumNameStr.length() > 0)
+        {
+            if (COMMON_STR_RECENT_IMPORTED != albumNameStr
+                && COMMON_STR_TRASH != albumNameStr
+                && COMMON_STR_FAVORITES != albumNameStr
+                && ALBUM_PATHTYPE_BY_PHONE != albumNameStr
+                && 0 != albumNameStr.compare(tr("Album Gallery")))
+            {
+                DBManager::instance()->insertIntoAlbumNoSignal(albumNameStr, pathslist);
+            }
+        }
+
+        DBManager::instance()->insertImgInfos(dbInfoList);
+
+        if (dbInfoList.length() != allPaths.length())
+        {
+            emit dApp->signalM->ImportSomeFailed();
+        }
+        else
+        {
+            emit dApp->signalM->ImportSuccess();
+        }
+    }
+    else
+    {
+        emit dApp->signalM->ImportFailed();
     }
 
     for (int i = 0; i < m_pLeftTabList->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftTabList->item(i);
         AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftTabList->itemWidget(pListWidgetItem));
         if (!pAlbumLeftTabItem) continue;
-        if (albumName == pAlbumLeftTabItem->m_albumNameStr) {
+        if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
             m_pLeftTabList->setCurrentRow(i);
             break;
         }
@@ -1840,7 +1877,7 @@ void AlbumView::importAllBtnClicked()
 void AlbumView::importSelectBtnClicked()
 {
     QStringList selectPaths = m_pRightPhoneThumbnailList->selectedPaths();
-    QString albumName = m_importByPhoneComboBox->currentText();
+    QString albumNameStr = m_importByPhoneComboBox->currentText();
     QStringList picPathList;
     DBImgInfoList dbInfos;
     QString strHomePath = QDir::homePath();
@@ -1852,18 +1889,19 @@ void AlbumView::importSelectBtnClicked()
         dir.mkpath(basePath);
     }
 
-    foreach (QString path, selectPaths) {
+    foreach (QString strPath, selectPaths) {
         //取出文件名称
-        QStringList pathList = path.split("/", QString::SkipEmptyParts);
-        QString strNewPath = QString("%1%2%3").arg(basePath, "/", pathList.last());
+        QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
+        QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+        QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
 
         //判断新路径下是否存在目标文件，若存在，先删除掉
         if (dir.exists(strNewPath)) {
             dir.remove(strNewPath);
         }
 
-        if (QFile::copy(path, strNewPath)) {
-            picPathList << strNewPath;
+        if (QFile::copy(strPath, strNewPath)) {
+            picPathList << strPath;
 
             QFileInfo fi(strNewPath);
             DBImgInfo dbi;
@@ -1877,20 +1915,56 @@ void AlbumView::importSelectBtnClicked()
         }
     }
 
-//    if (!picPathList.isEmpty() && albumName.compare(tr("Imported")) != 0) {
-//        DBManager::instance()->insertIntoAlbum(albumName, picPathList);
-//    }
+    if (!dbInfos.isEmpty())
+    {
+        DBImgInfoList dbInfoList;
+        QStringList pathslist;
 
-    if (!dbInfos.isEmpty()) {
-//        DBManager::instance()->insertImgInfos(dbInfos);
-        dApp->m_imageloader->ImportImageLoader(dbInfos, albumName);
+        for(int i = 0; i < dbInfos.length(); i++)
+        {
+            if(m_phonePathAndImage.value(picPathList[i]).isNull()){
+                continue;
+            }
+
+            dApp->m_imagemap.insert(dbInfos[i].filePath, m_phonePathAndImage.value(picPathList[i]));
+
+            pathslist<<dbInfos[i].filePath;
+            dbInfoList<<dbInfos[i];
+        }
+
+        if(albumNameStr.length() > 0)
+        {
+            if (COMMON_STR_RECENT_IMPORTED != albumNameStr
+                && COMMON_STR_TRASH != albumNameStr
+                && COMMON_STR_FAVORITES != albumNameStr
+                && ALBUM_PATHTYPE_BY_PHONE != albumNameStr
+                && 0 != albumNameStr.compare(tr("Album Gallery")))
+            {
+                DBManager::instance()->insertIntoAlbumNoSignal(albumNameStr, pathslist);
+            }
+        }
+
+        DBManager::instance()->insertImgInfos(dbInfoList);
+
+        if (dbInfoList.length() != selectPaths.length())
+        {
+            emit dApp->signalM->ImportSomeFailed();
+        }
+        else
+        {
+            emit dApp->signalM->ImportSuccess();
+        }
+    }
+    else
+    {
+        emit dApp->signalM->ImportFailed();
     }
 
     for (int i = 0; i < m_pLeftTabList->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftTabList->item(i);
         AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftTabList->itemWidget(pListWidgetItem));
         if (!pAlbumLeftTabItem) continue;
-        if (albumName == pAlbumLeftTabItem->m_albumNameStr) {
+        if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
             m_pLeftTabList->setCurrentRow(i);
             break;
         }

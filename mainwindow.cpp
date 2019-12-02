@@ -166,11 +166,20 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [ = ] {
         m_pSearchEdit->clear();
     });
+
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [ = ] {
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
 
         QString str = tr("Import failed");
+        this->sendMessage(icon, str);
+    });
+
+    connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ] {
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning .svg", QSize(20, 20));
+
+        QString str = tr("Some photos have not been imported");
         this->sendMessage(icon, str);
     });
 

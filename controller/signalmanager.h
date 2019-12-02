@@ -96,6 +96,7 @@ signals:
     void SearchEditClear();
     void TransmitAlbumName(const QString &name);
     void ImportFailed();
+    void ImportSomeFailed();
     void ImgExportSuccess();
     void ImgExportFailed();
     void AlbExportSuccess();
