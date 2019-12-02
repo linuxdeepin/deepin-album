@@ -575,7 +575,9 @@ void AlbumView::initRightView()
     pImpTimeLineHLayout->addStretch();
 
     QVBoxLayout *pImportAllV = new QVBoxLayout();
+    pImportAllV->setMargin(2);
     pImportAllV->addLayout(pImpTimeLineHLayout);
+    pImportAllV->addSpacing(2);
     pImportAllV->addWidget(m_pImpTimeLineWidget);
     pImportTimeLineWidget->setLayout(pImportAllV);
 
