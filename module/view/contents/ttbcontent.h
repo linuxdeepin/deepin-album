@@ -56,6 +56,8 @@ public:
     ImageItem(int index= 0,QString path = NULL, QString imageType = NULL, QWidget *parent = 0);
     void setIndexNow(int i);
     void setPic(QPixmap pixmap);
+
+    QString _path = NULL;
 signals:
     void imageItemclicked(int index,int indexNow);
 protected:
@@ -65,7 +67,6 @@ private:
     int _index;
     int _indexNow = -1;
     DLabel *_image=nullptr;
-    QString _path = NULL;
     QPixmap _pixmap;
     DSpinner* m_spinner;
     QString m_pixmapstring;

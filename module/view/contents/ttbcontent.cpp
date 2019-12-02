@@ -489,6 +489,17 @@ TTBContent::TTBContent(bool inDB,
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TTBContent::onThemeChanged);
+
+    connect(dApp, &Application::sigFinishLoad, this, [=] {
+        if (isVisible())
+        {
+            QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
+            for(int i = 0; i < labelList.length(); i++)
+            {
+                labelList.at(i)->setPic(dApp->m_imagemap.value(labelList.at(i)->_path));
+            }
+        }
+    });
 }
 
 void TTBContent::updateFilenameLayout()

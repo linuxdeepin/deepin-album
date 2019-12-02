@@ -153,13 +153,6 @@ void ViewPanel::initConnect()
         }
 #endif
     });
-
-    connect(dApp, &Application::sigFinishLoad, this, [=] {
-        if (isVisible())
-        {
-            openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-        }
-    });
 }
 
 void ViewPanel::updateLocalImages()
