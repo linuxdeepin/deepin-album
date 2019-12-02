@@ -1185,6 +1185,29 @@ void DBManager::checkDatabase()
 //        importVersion1Data();
 //        importVersion2Data();
     }
+    else {
+       // 判断ImageTable3中是否有ChangeTime字段
+        QString strSqlImage = QString::fromLocal8Bit("select sql from sqlite_master where name = \"ImageTable3\" and sql like \"%ChangeTime%\"");
+        QSqlQuery queryImage(db);
+        queryImage.exec(strSqlImage);
+        if (!queryImage.next()){
+            // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
+            QString strDate = QDateTime::currentDateTime().toString("yyyy.MM.dd");
+            queryImage.exec( QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
+                        .arg(strDate));
+        }
+
+        // 判断TrashTable中是否有ChangeTime字段
+         QString strSqlTrash = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable\" and sql like \"%ChangeTime%\"");
+         QSqlQuery queryTrash(db);
+         queryTrash.exec(strSqlTrash);
+         if (!queryTrash.next()){
+             // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
+             QString strDate = QDateTime::currentDateTime().toString("yyyy.MM.dd");
+             queryTrash.exec( QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
+                         .arg(strDate));
+         }
+    }
     mutex.unlock();
 
 }
