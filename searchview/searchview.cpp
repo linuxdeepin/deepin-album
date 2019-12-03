@@ -215,7 +215,8 @@ void SearchView::initSearchResultView()
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
 
 //    pSearchResultLayout->addSpacing(5);
-    pSearchResultLayout->setMargin(2);
+//    pSearchResultLayout->setMargin(2);
+    pSearchResultLayout->setMargin(0);
     pSearchResultLayout->setSpacing(0);
     pSearchResultLayout->addWidget(pLabel1);
     pSearchResultLayout->addItem(pHBoxLayout);

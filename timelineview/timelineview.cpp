@@ -40,7 +40,7 @@ TimeLineView::TimeLineView()
     m_pStatusBar->setParent(this);
 
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(0, 0, 0, 0);
+    pVBoxLayout->setContentsMargins(0, 0, 2, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     pVBoxLayout->addWidget(m_pStatusBar);
     this->setLayout(pVBoxLayout);
@@ -151,6 +151,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
     m_mainLayout->addWidget(m_mainListWidget);
+    m_mainListWidget->setFrameShape(DTableView::NoFrame);
 
     //添加悬浮title
     m_dateItem = new QWidget(pTimeLineViewWidget);
