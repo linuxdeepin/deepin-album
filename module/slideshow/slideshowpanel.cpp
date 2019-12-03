@@ -135,7 +135,8 @@ void SlideShowPanel::backToLastPanel()
     m_player->stop();
     showNormal();
 
-    if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID) {
+    if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID)
+    {
         m_vinfo.path = m_player->currentImagePath();
         m_vinfo.fullScreen = false;
         m_vinfo.slideShow = false;
@@ -337,12 +338,15 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 
 void SlideShowPanel::showNormal()
 {
-    window()->showNormal();
-    window()->showMaximized();
-//    if (m_isMaximized)
-//        window()->showMaximized();
-//    else
-//        window()->showNormal();
+    if (m_isMaximized)
+    {
+        window()->showNormal();
+        window()->showMaximized();
+    }
+    else
+    {
+        window()->showNormal();
+    }
 }
 
 void SlideShowPanel::showFullScreen()

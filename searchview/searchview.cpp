@@ -9,6 +9,7 @@ const int VIEW_MAINWINDOW_SEARCH = 3;
 
 SearchView::SearchView()
 {
+    m_albumName = nullptr;
     m_searchPicNum = 0;
     m_keywords = "";
     initNoSearchResultView();
@@ -20,7 +21,22 @@ SearchView::SearchView()
 void SearchView::initConnections()
 {
     connect(m_pSlideShowBtn, &DPushButton::clicked, this, [=] {
-        auto imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        DBImgInfoList imagelist;
+        if (COMMON_STR_ALLPHOTOS == m_albumName
+            || COMMON_STR_TIMELINE == m_albumName
+            || COMMON_STR_RECENT_IMPORTED == m_albumName)
+        {
+            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        }
+        else if (COMMON_STR_TRASH == m_albumName)
+        {
+            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+        }
+        else
+        {
+            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName , m_keywords);
+        }
+
         QStringList paths;
         for(auto image : imagelist)
         {
@@ -36,7 +52,21 @@ void SearchView::initConnections()
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-        auto imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        DBImgInfoList imagelist;
+        if (COMMON_STR_ALLPHOTOS == m_albumName
+            || COMMON_STR_TIMELINE == m_albumName
+            || COMMON_STR_RECENT_IMPORTED == m_albumName)
+        {
+            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        }
+        else if (COMMON_STR_TRASH == m_albumName)
+        {
+            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+        }
+        else
+        {
+            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName , m_keywords);
+        }
         for(auto image : imagelist)
         {
             info.paths<<image.filePath;
@@ -45,13 +75,40 @@ void SearchView::initConnections()
         info.viewType = utils::common::VIEW_SEARCH_SRN;
 
         emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
+
+        if (COMMON_STR_ALLPHOTOS == m_albumName)
+        {
+            emit dApp->signalM->showImageView(0);
+        }
+        else if (COMMON_STR_TIMELINE == m_albumName)
+        {
+            emit dApp->signalM->showImageView(1);
+        }
+        else
+        {
+            emit dApp->signalM->showImageView(2);
+        }
     });
     connect(m_pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen, bool isSlideShow){
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-        auto imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        DBImgInfoList imagelist;
+        if (COMMON_STR_ALLPHOTOS == m_albumName
+            || COMMON_STR_TIMELINE == m_albumName
+            || COMMON_STR_RECENT_IMPORTED == m_albumName)
+        {
+            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+        }
+        else if (COMMON_STR_TRASH == m_albumName)
+        {
+            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+        }
+        else
+        {
+            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName , m_keywords);
+        }
+
         if(paths.size()>1){
             info.paths = paths;
         }else if(imagelist.size()>1){
@@ -72,11 +129,34 @@ void SearchView::initConnections()
                 info.paths = paths;
             }
             emit dApp->signalM->startSlideShow(info);
-            emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_SEARCH);
+
+            if (COMMON_STR_ALLPHOTOS == m_albumName)
+            {
+                emit dApp->signalM->showSlidePanel(0);
+            }
+            else if (COMMON_STR_TIMELINE == m_albumName)
+            {
+                emit dApp->signalM->showSlidePanel(1);
+            }
+            else
+            {
+                emit dApp->signalM->showSlidePanel(2);
+            }
         }
         else {
             emit dApp->signalM->viewImage(info);
-            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_SEARCH);
+            if (COMMON_STR_ALLPHOTOS == m_albumName)
+            {
+                emit dApp->signalM->showImageView(0);
+            }
+            else if (COMMON_STR_TIMELINE == m_albumName)
+            {
+                emit dApp->signalM->showImageView(1);
+            }
+            else
+            {
+                emit dApp->signalM->showImageView(2);
+            }
         }
 
     });
@@ -239,21 +319,23 @@ void SearchView::initMainStackWidget()
 
 void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 {
+    m_albumName = album;
     using namespace utils::image;
     m_keywords = s;
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
     DBImgInfoList infos;
-    if(album.isEmpty())
+    if (COMMON_STR_ALLPHOTOS == m_albumName
+        || COMMON_STR_TIMELINE == m_albumName
+        || COMMON_STR_RECENT_IMPORTED == m_albumName)
     {
         infos = DBManager::instance()->getInfosForKeyword(s);
     }
-    else if (COMMON_STR_TRASH == album) {
+    else if (COMMON_STR_TRASH == m_albumName) {
         infos = DBManager::instance()->getTrashInfosForKeyword(s);
     }
     else {
-        infos = DBManager::instance()->getInfosForKeyword(album , s);
+        infos = DBManager::instance()->getInfosForKeyword(m_albumName , s);
     }
-
 
     if (0 < infos.length())
     {
@@ -271,7 +353,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 //                vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
 //            }
 
-            if (COMMON_STR_TRASH == album)
+            if (COMMON_STR_TRASH == m_albumName)
             {
                 if (dApp->m_imagetrashmap.value(info.filePath).isNull())
                 {
@@ -364,7 +446,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 
 void SearchView::updateSearchResultsIntoThumbnailView()
 {
-    improtSearchResultsIntoThumbnailView(m_keywords, nullptr);
+    improtSearchResultsIntoThumbnailView(m_keywords, m_albumName);
 }
 
 void SearchView::changeTheme()

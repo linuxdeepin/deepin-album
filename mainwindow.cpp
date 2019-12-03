@@ -111,10 +111,10 @@ void MainWindow::initConnections()
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
-        if (VIEW_IMAGE != index)
-        {
-            m_backIndex = index;
-        }
+//        if (VIEW_IMAGE != index)
+//        {
+//            m_backIndex = index;
+//        }
         m_backIndex_fromSlide = index;
         titlebar()->setFixedHeight(0);
         setTitlebarShadowEnabled(false);
@@ -122,6 +122,12 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
         emit dApp->signalM->hideExtensionPanel();
+        if (VIEW_IMAGE != m_backIndex_fromSlide)
+        {
+            titlebar()->setFixedHeight(50);
+            setTitlebarShadowEnabled(true);
+        }
+
         m_pCenterWidget->setCurrentIndex(m_backIndex_fromSlide);
     });
     connect(dApp->signalM, &SignalManager::exportImage, this, [ = ](QStringList paths) {
@@ -341,9 +347,10 @@ void MainWindow::initShortcut()
 void MainWindow::initUI()
 {
 //    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
-    //  setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
-    QRect rect = DApplication::desktop()->geometry();
-    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
+//      setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
+//    QRect rect = DApplication::desktop()->geometry();
+//    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
+    setMinimumSize(880, 500);
 }
 
 void MainWindow::initTitleBar()
@@ -641,7 +648,7 @@ void MainWindow::onSearchEditFinished()
         }
         else
         {
-            emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
+            emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_ALLPHOTOS);
             m_pAllPicView->m_pStackedWidget->setCurrentIndex(2);
             m_pAllPicView->restorePicNum();
         }
@@ -655,7 +662,7 @@ void MainWindow::onSearchEditFinished()
         } 
 		else 
 		{
-            emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords);
+            emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_TIMELINE);
             m_pTimeLineView->m_pStackedWidget->setCurrentIndex(2);
             m_pTimeLineView->restorePicNum();
         }
@@ -667,7 +674,7 @@ void MainWindow::onSearchEditFinished()
             AlbumLeftTabItem *curitem = (AlbumLeftTabItem *)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->currentItem());
 
             if (tr("Import") == curitem->getalbumname()) {
-                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, nullptr);
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_RECENT_IMPORTED);
             }
 
             else if (tr("Trash") == curitem->getalbumname()) {

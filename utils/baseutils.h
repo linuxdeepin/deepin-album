@@ -38,6 +38,8 @@
 
 #endif
 
+#define COMMON_STR_ALLPHOTOS "所有照片"
+#define COMMON_STR_TIMELINE "时间线"
 #define COMMON_STR_RECENT_IMPORTED "已导入"
 #define COMMON_STR_TRASH "最近删除"
 #define COMMON_STR_FAVORITES "我的收藏"

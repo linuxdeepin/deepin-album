@@ -440,6 +440,10 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 {
     ModulePanel::resizeEvent(e);
 
+    if(!isVisible())
+    {
+        return;
+    }
     // There will be several times the size change during switch to full process
     // So correct it every times
     if (window()->isFullScreen()) {

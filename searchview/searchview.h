@@ -51,6 +51,7 @@ private:
     QString m_keywords;
     DLabel *pNoResult;
     DLabel *pLabel1;
+    QString m_albumName;
 
 public:
     int m_searchPicNum;
