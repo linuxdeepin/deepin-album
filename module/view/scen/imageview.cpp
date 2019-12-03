@@ -218,24 +218,24 @@ void ImageView::setImage(const QString &path)
                 m_watcher.setFuture(f);
 
                 //show loading gif.
-                m_pixmapItem = nullptr;
-                s->clear();
-                resetTransform();
+//                m_pixmapItem = nullptr;
+//                s->clear();
+//                resetTransform();
 
-                auto spinner = new DSpinner;
-                spinner->setFixedSize(SPINNER_SIZE);
+//                auto spinner = new DSpinner;
+//                spinner->setFixedSize(SPINNER_SIZE);
 //                spinner->setBackgroundColor(Qt::transparent);
-                spinner->start();
-                QWidget *w = new QWidget();
-                w->setFixedSize(SPINNER_SIZE);
-                QHBoxLayout *hLayout = new QHBoxLayout;
-                hLayout->setMargin(0);
-                hLayout->setSpacing(0);
-                hLayout->addWidget(spinner, 0, Qt::AlignCenter);
-                w->setLayout(hLayout);
+//                spinner->start();
+//                QWidget *w = new QWidget();
+//                w->setFixedSize(SPINNER_SIZE);
+//                QHBoxLayout *hLayout = new QHBoxLayout;
+//                hLayout->setMargin(0);
+//                hLayout->setSpacing(0);
+//                hLayout->addWidget(spinner, 0, Qt::AlignCenter);
+//                w->setLayout(hLayout);
                 // Make sure item show in center of view after reload
-                setSceneRect(w->rect());
-                s->addWidget(w);
+//                setSceneRect(w->rect());
+//                s->addWidget(w);
 
                 emit hideNavigation();
             }
