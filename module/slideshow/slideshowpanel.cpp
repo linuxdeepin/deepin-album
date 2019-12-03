@@ -47,6 +47,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     , m_hideCursorTid(0)
     , m_startTid(0)
 {
+    setFocusPolicy(Qt::StrongFocus);
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_bgColor = DARK_BG_COLOR;
     initeffectPlay();

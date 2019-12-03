@@ -816,6 +816,7 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
                 //处理上下翻页
                 emit sigKeyEvent(keyEvent->key());
 
+
                 return true;
             }
         } else {
