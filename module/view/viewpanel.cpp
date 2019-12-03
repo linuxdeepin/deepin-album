@@ -191,13 +191,13 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 
 void ViewPanel::showNormal()
 {
-    window()->showNormal();
     if (m_isMaximized) {
+        window()->showNormal();
         window()->showMaximized();
     }
-//    else {
-//        window()->showNormal();
-//    }
+    else {
+        window()->showNormal();
+    }
 
     emit dApp->signalM->showTopToolbar();
 }
@@ -440,10 +440,6 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 {
     ModulePanel::resizeEvent(e);
 
-    if(!isVisible())
-    {
-        return;
-    }
     // There will be several times the size change during switch to full process
     // So correct it every times
     if (window()->isFullScreen()) {
@@ -451,7 +447,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
 
-//    m_isMaximized = window()->isMaximized();
+    m_isMaximized = window()->isMaximized();
     if (window()->isMaximized()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));

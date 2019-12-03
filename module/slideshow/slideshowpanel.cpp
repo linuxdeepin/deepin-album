@@ -143,7 +143,7 @@ void SlideShowPanel::backToLastPanel()
         emit dApp->signalM->viewImage(m_vinfo);
         emit dApp->signalM->hideSlidePanel();
     } else {
-        emit dApp->signalM->hideImageView();
+        emit dApp->signalM->hideSlidePanel();
     }
 
 //    if (m_vinfo.lastPanel) {
