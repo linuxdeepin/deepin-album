@@ -60,7 +60,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     m_cancelslideshow->setIconSize(QSize(50, 50));
     m_cancelslideshow->setFixedSize(QSize(50, 50));
     connect(m_cancelslideshow, &DIconButton::clicked, m_player,
-            [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/
+    [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/
         backToLastPanel();
     });
     connect(dApp->signalM, &SignalManager::startSlideShow,
@@ -76,7 +76,8 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
         m_player->setImagePaths(m_vinfo.paths);
     });
     connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, [ = ] {
-        if(isVisible()){
+        if (isVisible())
+        {
             backToLastPanel();
         }
     });
@@ -140,8 +141,7 @@ void SlideShowPanel::backToLastPanel()
         m_vinfo.slideShow = false;
         emit dApp->signalM->viewImage(m_vinfo);
         emit dApp->signalM->hideSlidePanel();
-    }
-    else {
+    } else {
         emit dApp->signalM->hideImageView();
     }
 
@@ -222,7 +222,8 @@ void SlideShowPanel::onMenuItemClicked(QAction *action)
     case IdPlayOrPause:
         m_player->pause();
         break;
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -336,10 +337,12 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 
 void SlideShowPanel::showNormal()
 {
-    if (m_isMaximized)
-        window()->showMaximized();
-    else
-        window()->showNormal();
+    window()->showNormal();
+    window()->showMaximized();
+//    if (m_isMaximized)
+//        window()->showMaximized();
+//    else
+//        window()->showNormal();
 }
 
 void SlideShowPanel::showFullScreen()

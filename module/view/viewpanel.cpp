@@ -51,8 +51,7 @@
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
 
-namespace
-{
+namespace {
 
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 //const QSize ICON_SIZE = QSize(48, 40);
@@ -116,7 +115,7 @@ void ViewPanel::initConnect()
         m_viewType = vinfo.viewType;
         onViewImage(vinfo);
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
         if (NULL == vinfo.lastPanel) {
             return;
@@ -131,21 +130,20 @@ void ViewPanel::initConnect()
         //TODO: there will be some others panel
     });
 
-    connect(m_viewB, &ImageView::mouseHoverMoved, this, [=]{
+    connect(m_viewB, &ImageView::mouseHoverMoved, this, [ = ] {
         emit mouseMoved();
     });
 
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]
-    {
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, [ = ] {
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
     });
 
-    connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [=]{
- #if 1
-        if(isVisible()){
-            if (0 != m_iSlideShowTimerId)
-            {
+    connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
+#if 1
+        if (isVisible())
+        {
+            if (0 != m_iSlideShowTimerId) {
                 killTimer(m_iSlideShowTimerId);
                 m_iSlideShowTimerId = 0;
             }
@@ -178,8 +176,7 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
         }
     }
 
-    if (0 != m_iSlideShowTimerId)
-    {
+    if (0 != m_iSlideShowTimerId) {
         killTimer(m_iSlideShowTimerId);
         m_iSlideShowTimerId = 0;
     }
@@ -194,11 +191,13 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 
 void ViewPanel::showNormal()
 {
+    window()->showNormal();
     if (m_isMaximized) {
         window()->showMaximized();
-    } else {
-        window()->showNormal();
     }
+//    else {
+//        window()->showNormal();
+//    }
 
     emit dApp->signalM->showTopToolbar();
 }
@@ -265,13 +264,13 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
     ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current < m_infos.size()) {
-        ttlc->setImage(m_infos.at(m_current).filePath,m_infos);
+        ttlc->setImage(m_infos.at(m_current).filePath, m_infos);
     } else {
-        ttlc->setImage("",m_infos);
+        ttlc->setImage("", m_infos);
     }
 
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
-    connect(this, &ViewPanel::viewImageFrom, ttlc, [=](const QString &dir){
+    connect(this, &ViewPanel::viewImageFrom, ttlc, [ = ](const QString & dir) {
         ttlc->setCurrentDir(dir);
     });
 //    connect(ttlc, &TTLContent::contentWidthChanged,
@@ -312,23 +311,23 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 }
 QWidget *ViewPanel::bottomTopLeftContent()
 {
-    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase,m_infos);
+    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
     ttbc->m_imageType = m_viewType;
 //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current < m_infos.size()) {
-        ttbc->setImage(m_infos.at(m_current).filePath,m_infos);
+        ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
     } else {
-        ttbc->setImage("",m_infos);
+        ttbc->setImage("", m_infos);
     }
 
-    connect(ttbc, &TTBContent::ttbcontentClicked, this, [=] {
+    connect(ttbc, &TTBContent::ttbcontentClicked, this, [ = ] {
         if (0 != m_iSlideShowTimerId)
         {
             killTimer(m_iSlideShowTimerId);
             m_iSlideShowTimerId = 0;
         }
     });
-    connect(this, &ViewPanel::viewImageFrom, ttbc, [=](const QString &dir){
+    connect(this, &ViewPanel::viewImageFrom, ttbc, [ = ](const QString & dir) {
         ttbc->setCurrentDir(dir);
     });
 //    connect(ttlc, &TTLContent::contentWidthChanged,
@@ -345,22 +344,21 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::removed, this, [ = ] {
         if (COMMON_STR_TRASH == m_viewType)
         {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(this,1);
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
             dialog->show();
-            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]{
+            connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
                 dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
                 DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
                 removeCurrentImage();
             });
-        }
-        else
+        } else
         {
             DBImgInfoList infos;
             DBImgInfo info;
 
             info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
             info.time = QDateTime::currentDateTime();
-            infos<<info;
+            infos << info;
 
             dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
             dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
@@ -387,15 +385,15 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::showNext, this, [ = ]() {
         this->showNext();
     });
-    connect(ttbc,&TTBContent::imageClicked,this,[ = ](int index,int addIndex){
-        this->showImage(index,addIndex);
+    connect(ttbc, &TTBContent::imageClicked, this, [ = ](int index, int addIndex) {
+        this->showImage(index, addIndex);
     });
 
     return ttbc;
 }
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
-    QWidget* w = new QWidget();
+    QWidget *w = new QWidget();
     return w;
 }
 
@@ -408,7 +406,7 @@ QWidget *ViewPanel::extensionPanelContent()
     l->setContentsMargins(0, 0, 0, 0);
 
     if (! m_info) {
-        m_info = new ImageInfoWidget("","");
+        m_info = new ImageInfoWidget("", "");
     }
 
     l->addSpacing(0);
@@ -431,7 +429,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 
     if (e->type() == QEvent::Resize && this->isVisible()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -449,10 +447,10 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
 
-    m_isMaximized = window()->isMaximized();
+//    m_isMaximized = window()->isMaximized();
     if (window()->isMaximized()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -470,8 +468,7 @@ void ViewPanel::timerEvent(QTimerEvent *e)
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
-    if (e->timerId() == m_iSlideShowTimerId)
-    {
+    if (e->timerId() == m_iSlideShowTimerId) {
         showNext();
     }
 
@@ -540,14 +537,10 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         showFullScreen();
     }
 
-    if (vinfo.slideShow)
-    {
+    if (vinfo.slideShow) {
         m_iSlideShowTimerId = startTimer(3000);
-    }
-    else
-    {
-        if (0 != m_iSlideShowTimerId)
-        {
+    } else {
+        if (0 != m_iSlideShowTimerId) {
             killTimer(m_iSlideShowTimerId);
             m_iSlideShowTimerId = 0;
         }
@@ -558,7 +551,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     // The control buttons is difference
     if (! vinfo.inDatabase) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -569,9 +562,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             list << QFileInfo(path);
         }
         m_infos = getImageInfos(list);
-    }
-    else
-    {
+    } else {
         QFileInfo info(vinfo.path);
 
         m_infos = getImageInfos({info});
@@ -598,11 +589,11 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                    << vinfo.path << vinfo.paths;
         return;
     }
-    if(m_infos.at(m_current).filePath != nullptr){
-    openImage(m_infos.at(m_current).filePath);
+    if (m_infos.at(m_current).filePath != nullptr) {
+        openImage(m_infos.at(m_current).filePath);
 //        eatImageDirIterator();
     }
-    emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+    emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
 }
 
 void ViewPanel::toggleFullScreen()
@@ -633,8 +624,7 @@ bool ViewPanel::showPrevious()
 
     if (m_current <= 0) {
 //        m_current = m_infos.size()-1;
-    }
-    else {
+    } else {
         --m_current;
     }
 
@@ -652,9 +642,9 @@ bool ViewPanel::showNext()
         return false;
     }
 
-    if (m_current == m_infos.size()-1) {
+    if (m_current == m_infos.size() - 1) {
 //        m_current = 0;
-    }else{
+    } else {
         ++m_current;
     }
 
@@ -662,7 +652,7 @@ bool ViewPanel::showNext()
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     return true;
 }
-bool ViewPanel::showImage(int index,int addindex)
+bool ViewPanel::showImage(int index, int addindex)
 {
     if (m_infos.isEmpty()) {
         return false;
@@ -684,14 +674,14 @@ void ViewPanel::removeCurrentImage()
     if (m_infos.isEmpty()) {
         qDebug() << "No images to show!";
         m_current = 0;
-        if(window()->isFullScreen())
+        if (window()->isFullScreen())
             showNormal();
-        emit imageChanged("",m_infos);
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+        emit imageChanged("", m_infos);
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
         emit dApp->signalM->hideImageView();
-    }else {
+    } else {
         if (m_current == m_infos.size()) {
             m_current = 0;
         }
@@ -757,14 +747,14 @@ void ViewPanel::initStack()
     vl->addWidget(m_stack);
 
     // Empty frame
-    m_emptyWidget = new ThumbnailWidget("","");
+    m_emptyWidget = new ThumbnailWidget("", "");
 
 
     m_stack->addWidget(m_viewB);
     m_stack->addWidget(m_emptyWidget);
     //Lock frame: if the deepin-image-viewer
     //can't access to read the image
-    m_lockWidget = new LockWidget("","");
+    m_lockWidget = new LockWidget("", "");
     m_stack->addWidget(m_lockWidget);
 }
 
@@ -795,16 +785,13 @@ void ViewPanel::rotateImage(bool clockWise)
     }
     m_viewB->autoFit();
     m_info->updateInfo();
-    if(COMMON_STR_TRASH ==m_viewType)
-    {
+    if (COMMON_STR_TRASH == m_viewType) {
         dApp->m_imageloader->updateTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
-    }
-    else
-    {
+    } else {
         dApp->m_imageloader->updateImageLoader(QStringList(m_infos.at(m_current).filePath));
     }
 //    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    emit imageChanged(m_infos.at(m_current).filePath,m_infos);
+    emit imageChanged(m_infos.at(m_current).filePath, m_infos);
 }
 
 void ViewPanel::initViewContent()
@@ -818,7 +805,7 @@ void ViewPanel::initViewContent()
         dApp->signalM->hideExtensionPanel();
     });
     connect(m_viewB, &ImageView::imageChanged, this, [ = ](QString path) {
-        emit imageChanged(path,m_infos);
+        emit imageChanged(path, m_infos);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
         m_viewB->autoFit();
