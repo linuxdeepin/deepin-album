@@ -339,7 +339,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         pathhashs << utils::base::hash(info.filePath);
         dirs << info.dirHash;
         times << utils::base::timeToString(info.time, true);
-        changetimes << utils::base::timeToString(info.changeTime, true);
+        changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
     }
 
     QMutexLocker mutex(&m_mutex);
@@ -1192,7 +1192,7 @@ void DBManager::checkDatabase()
         queryImage.exec(strSqlImage);
         if (!queryImage.next()){
             // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
-            QString strDate = QDateTime::currentDateTime().toString("yyyy.MM.dd");
+            QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
             queryImage.exec( QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
                         .arg(strDate));
         }
@@ -1203,7 +1203,7 @@ void DBManager::checkDatabase()
          queryTrash.exec(strSqlTrash);
          if (!queryTrash.next()){
              // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
-             QString strDate = QDateTime::currentDateTime().toString("yyyy.MM.dd");
+             QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
              queryTrash.exec( QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
                          .arg(strDate));
          }
@@ -1466,7 +1466,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
         pathhashs << utils::base::hash(info.filePath);
         dirs << info.dirHash;
         times << utils::base::timeToString(info.time, true);
-        changetimes << utils::base::timeToString(info.changeTime, true);
+        changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
     }
 
     QMutexLocker mutex(&m_mutex);

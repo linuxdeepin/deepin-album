@@ -10,9 +10,7 @@
 #include <QGraphicsOpacityEffect>
 
 namespace  {
-const int VIEW_IMPORT = 0;
-const int VIEW_TIMELINE = 1;
-const int VIEW_SEARCH = 2;
+const int SUBTITLE_HEIGHT = 37;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 } //namespace
 
@@ -133,14 +131,15 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
     m_mainLayout->addWidget(m_mainListWidget);
+    m_mainListWidget->setFrameShape(DTableView::NoFrame);
 
     //添加悬浮title
     m_dateItem = new DWidget(pTimeLineViewWidget);
-    QVBoxLayout *TitleViewLayout = new QVBoxLayout();
+    QHBoxLayout *TitleViewLayout = new QHBoxLayout();
     m_dateItem->setLayout(TitleViewLayout);
 
     m_pDate = new DLabel();
-    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft3.setFamily("SourceHanSansSC");
     ft3.setWeight(QFont::DemiBold);
     DPalette color = DApplicationHelper::instance()->palette(m_pDate);
@@ -175,8 +174,8 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     pNum_up->setFixedHeight(24);
     pNum_up->setFont(ft6);
-    pNum_up->setForegroundRole(DPalette::Text);
-    pNum_up->setPalette(pal);
+//    pNum_up->setForegroundRole(DPalette::Text);
+//    pNum_up->setPalette(pal);
 
     TitleViewLayout->addWidget(m_pDate);
     TitleViewLayout->addWidget(pNum_up);
@@ -219,7 +218,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setPalette(ppal_light);
     m_dateItem->setGraphicsEffect(opacityEffect_light);
     m_dateItem->setAutoFillBackground(true);
-    m_dateItem->setFixedSize(this->width() - 10, 87);
+    m_dateItem->setFixedSize(this->width() - 10, SUBTITLE_HEIGHT);
     m_dateItem->setContentsMargins(10, 0, 0, 0);
     m_dateItem->move(0, 0);
     m_dateItem->show();
@@ -252,22 +251,29 @@ void ImportTimeLineView::updataLayout()
 
         //添加title
         DWidget *TitleView = new DWidget;
-        QVBoxLayout *TitleViewLayout = new QVBoxLayout();
+        QHBoxLayout *TitleViewLayout = new QHBoxLayout();
         TitleView->setLayout(TitleViewLayout);
         DLabel *pDate = new DLabel();
 
         pDate->setFixedHeight(24);
-        QStringList datelist = m_timelines.at(i).split(".");
-        if (datelist.count() >= 2)
+        QStringList dateTimeList = m_timelines.at(i).split(" ");
+        QStringList datelist = dateTimeList.at(0).split(".");
+        if (datelist.count() > 2)
 		{
-            listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            if (dateTimeList.count() == 2)
+            {
+                listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
+            }
+            else {
+                listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            }
         }
         pDate->setText(listItem->m_sdate);
 
         DPalette color = DApplicationHelper::instance()->palette(pDate);
         color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 
-        QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+        QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
         ft3.setFamily("SourceHanSansSC");
         ft3.setWeight(QFont::DemiBold);
 
@@ -322,7 +328,7 @@ void ImportTimeLineView::updataLayout()
         listItem->m_num = pNum_dn;
         TitleViewLayout->addWidget(pDate);
         TitleViewLayout->addWidget(pNum_dn);
-        TitleView->setFixedHeight(87);
+        TitleView->setFixedHeight(SUBTITLE_HEIGHT);
         listItem->m_title = TitleView;
 
         //添加照片
@@ -571,7 +577,7 @@ void ImportTimeLineView::on_KeyEvent(int key)
 
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
-    m_dateItem->setFixedSize(width() - 10, 87);
+    m_dateItem->setFixedSize(width() - 10, SUBTITLE_HEIGHT);
 }
 
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)

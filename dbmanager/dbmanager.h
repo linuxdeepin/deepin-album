@@ -34,6 +34,8 @@
 #include <QMutex>
 #include <QDebug>
 
+const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
+
 struct DBAlbumInfo {
     QString name;
     int count;

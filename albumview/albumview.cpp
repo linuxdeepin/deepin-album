@@ -555,18 +555,18 @@ void AlbumView::initRightView()
     DFontSizeManager::instance()->bind(pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
     pImportTitle->setForegroundRole(DPalette::TextTitle);
 
-    m_pImportPicTotal = new DLabel();
-    QString strTitle = tr("%1 photo(s)");
-    m_pImportPicTotal->setText(strTitle.arg(QString::number(m_iAlubmPicsNum)));
-    DFontSizeManager::instance()->bind(m_pImportPicTotal, DFontSizeManager::T6, QFont::Medium);
-    m_pImportPicTotal->setForegroundRole(DPalette::TextTips);
+//    m_pImportPicTotal = new DLabel();
+//    QString strTitle = tr("%1 photo(s)");
+//    m_pImportPicTotal->setText(strTitle.arg(QString::number(m_iAlubmPicsNum)));
+//    DFontSizeManager::instance()->bind(m_pImportPicTotal, DFontSizeManager::T6, QFont::Medium);
+//    m_pImportPicTotal->setForegroundRole(DPalette::TextTips);
 
     m_pImpTimeLineWidget = new ImportTimeLineView();
 
     pImpTimeLineVBoxLayout->addSpacing(3);
     pImpTimeLineVBoxLayout->addWidget(pImportTitle);
-    pImpTimeLineVBoxLayout->addSpacing(4);
-    pImpTimeLineVBoxLayout->addWidget(m_pImportPicTotal);
+//    pImpTimeLineVBoxLayout->addSpacing(4);
+//    pImpTimeLineVBoxLayout->addWidget(m_pImportPicTotal);
     pImpTimeLineVBoxLayout->addSpacing(-1);
     pImpTimeLineVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
@@ -663,8 +663,8 @@ void AlbumView::updateRightNoTrashView()
 
         if (0 < m_iAlubmPicsNum)
         {
-            QString str = tr("%1 photo(s)");
-            m_pImportPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+//            QString str = tr("%1 photo(s)");
+//            m_pImportPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
             m_pImpTimeLineWidget->updataLayout();
 

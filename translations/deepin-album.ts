@@ -1140,6 +1140,14 @@ already exists, do you want to replace?</source>
         <source>%1 photo(s) selected</source>
         <translation>已选择%1张照片</translation>
     </message>
+    <message>
+        <source>%1/%2/%3 %4</source>
+        <translation>%1年%2月%3日 %4</translation>
+    </message>
+    <message>
+        <source>Import on </source>
+        <translation>导入于 </translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
