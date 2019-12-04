@@ -112,25 +112,25 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 {
     qDebug() << "ThumbnailListView::startDrag()";
-    m_dragItemPath = selectedPaths();
-    qDebug() << m_dragItemPath;
+//    m_dragItemPath = selectedPaths();
+//    qDebug() << m_dragItemPath;
 
-    QString text = "xxxxxxxxxxxxxx";
-    QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
-    QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
-    QByteArray itemData;
-    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-    dataStream << text << icon << icon_hover;
+//    QString text = "xxxxxxxxxxxxxx";
+//    QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
+//    QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
+//    QByteArray itemData;
+//    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+//    dataStream << text << icon << icon_hover;
 
-    QMimeData *mimeData = new QMimeData;
-    mimeData->setData(myMimeType(), itemData);
+//    QMimeData *mimeData = new QMimeData;
+//    mimeData->setData(myMimeType(), itemData);
 
-    QDrag *pDrag = new QDrag(this);
-    QPixmap p = QPixmap(":/resources/images/other/deepin-album.svg");
-    pDrag->setMimeData(mimeData);
-    pDrag->setPixmap(p);
-    pDrag->setHotSpot(QPoint(0,0));
-    pDrag->exec(Qt::MoveAction);
+//    QDrag *pDrag = new QDrag(this);
+//    QPixmap p = QPixmap(":/resources/images/other/deepin-album.svg");
+//    pDrag->setMimeData(mimeData);
+//    pDrag->setPixmap(p);
+//    pDrag->setHotSpot(QPoint(0,0));
+//    pDrag->exec(Qt::MoveAction);
 
     DListView::startDrag(supportedActions);
 }
@@ -159,6 +159,8 @@ void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
 void ThumbnailListView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     qDebug() << "ThumbnailListView::dragLeaveEvent()";
+    m_dragItemPath = selectedPaths();
+    qDebug() << m_dragItemPath;
     DListView::dragLeaveEvent(event);
 }
 
