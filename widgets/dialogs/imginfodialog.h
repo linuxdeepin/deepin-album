@@ -19,58 +19,49 @@
 
 #include <DDialog>
 #include <DMainWindow>
-#include <DExpandGroup>
+#include "controller/viewerthememanager.h"
+#include "widgets/themewidget.h"
+
+#include <QWidget>
+#include <QLabel>
+#include <QScrollArea>
+#include <QVector>
+#include <DScrollArea>
 #include <DArrowLineExpand>
-#include <QFormLayout>
-
+#include <denhancedwidget.h>
 DWIDGET_USE_NAMESPACE
-
+class QFormLayout;
 class QVBoxLayout;
 class ImgInfoDialog : public DDialog
 {
     Q_OBJECT
 public:
     explicit ImgInfoDialog(const QString &path, QWidget *parent = 0);
-
-signals:
-    void closed();
-
-protected:
-    void hideEvent(QHideEvent *e) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-
+    int height();
 private:
-    void initThumbnail(const QString &path);
-    void initSeparator();
-    void initInfos(const QString &path);
-    void initCloseButton();
     void initUI();
-    DExpandGroup *expandGroup() const;
-    DExpandGroup *addExpandWidget(const QStringList &titleList);
-    void onExpandChanged(const bool &e);
-    void loadPluginExpandWidgets();
-    QFrame *createInfoFrame(const QList<QPair<QString, QString> >& properties);
-    QFrame *createBaseInfoFrame();
-    QFrame *createDetailsInfoFrame();
+    void setImagePath(const QString &path);
+    void updateInfo();
+    void clearLayout(QLayout* layout);
+    const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
-    void clearLayout(QLayout *layout);
-    void updateInfo();
-    const QString trLabel(const char *str);
+    QList<DBaseExpand *> addExpandWidget(const QStringList &titleList);
+    void initExpand(QVBoxLayout *layout, DBaseExpand *expand);
+    int contentHeight() const;
 
 private:
-//    DUrl m_url{};
-    QString m_path;
-    int m_maxTitleWidth;  //For align colon
     int m_maxFieldWidth;
-    int baseInfoHeidht=0;
-    int detailsInfoHeidht=0;
-    DExpandGroup* m_expandGroup{ nullptr };
-    QVBoxLayout *m_layout{ nullptr };
-    QVBoxLayout *m_mainLayout{ nullptr };
-    QFormLayout *m_exifLayout_base{ nullptr };
-    QFormLayout *m_exifLayout_details{ nullptr };
-
+    bool m_isBaseInfo = false;
+    bool m_isDetailsInfo = false;
+    QString m_path;
+    QFrame* m_exif_base = nullptr;
+    QFrame* m_exif_details = nullptr;
+    QFormLayout* m_exifLayout_base = nullptr;
+    QFormLayout* m_exifLayout_details = nullptr;
+    QList<DBaseExpand *> m_expandGroup;
+    QVBoxLayout *m_mainLayout = nullptr;
+    QScrollArea *m_scrollArea = nullptr;
 };
 
 #endif // IMGINFODIALOG_H

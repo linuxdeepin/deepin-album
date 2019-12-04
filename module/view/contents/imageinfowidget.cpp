@@ -47,11 +47,11 @@ struct MetaData {
 
 static MetaData MetaDataBasics[] = {
     {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
     {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
     {"", ""}
 };
@@ -284,6 +284,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
         DPalette palette1 ;
         palette1.setColor(DPalette::Background, QColor(0,0,0,1));
         m_close->setPalette(palette1);
+        this->setMaximumHeight(contentHeight());
     });
 
     connect(m_close, &DDialogCloseButton::clicked, this, [ = ] {
@@ -420,28 +421,28 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         if (value.isEmpty()) continue;
 
         m_isBaseInfo = true;
+        if(!((i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") && '0' == value.left(1)))
+        {
+            SimpleFormField *field = new SimpleFormField;
+            field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
+            DPalette pa1 = DApplicationHelper::instance()->palette(field);
+            pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
+            field->setPalette(pa1);
+            field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
-        SimpleFormField *field = new SimpleFormField;
-        field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
-        DPalette pa1 = DApplicationHelper::instance()->palette(field);
-        pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
-        field->setPalette(pa1);
-        field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
+            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+            title->setMinimumHeight(field->minimumHeight());
+            title->setFixedWidth(TITLE_MAXWIDTH);
+            title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
+            DPalette pa2= DApplicationHelper::instance()->palette(title);
+            pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
+            title->setPalette(pa2);
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
-        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-        title->setMinimumHeight(field->minimumHeight());
-//        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
-        title->setFixedWidth(TITLE_MAXWIDTH);
-        title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-        DPalette pa2= DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
-        title->setPalette(pa2);
-//        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
-        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
-
-        m_exifLayout_base->addRow(title, field);
+            m_exifLayout_base->addRow(title, field);
+        }
     }
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
         for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
@@ -571,9 +572,9 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
         rc.setHeight(contentHeight()+10);
         setGeometry(rc);
 
-        if(expand->expand()){
-            emit dApp->signalM->extensionPanelHeight(contentHeight()+20);
-        }
+        //        if(expand->expand()){
+        emit dApp->signalM->extensionPanelHeight(contentHeight()+20);
+        //        }
     });
 }
 
@@ -609,5 +610,5 @@ int ImageInfoWidget::contentHeight() const
 //        expandsHeight += firstExpandHeight;
     }
 
-    return ( expandsHeight + 45 +4);
+    return ( qMin(expandsHeight + 45 +4,530));
 }

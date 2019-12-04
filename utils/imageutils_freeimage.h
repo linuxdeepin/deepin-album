@@ -23,6 +23,7 @@
 #include <QMap>
 #include <QString>
 #include <QDebug>
+#include <QObject>
 
 namespace utils {
 
@@ -120,6 +121,14 @@ const QString getOrientation(const QString &path)
     return datas["Orientation"];
 }
 
+QString DateToString(QDateTime ot){
+    QStringList datelist;
+    datelist.append(QString::number(ot.date().year()));
+    datelist.append(QString::number(ot.date().month()));
+    datelist.append(QString::number(ot.date().day()));
+    return QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]) + " " + ot.toString("hh:MM") ;
+}
+
 /*!
  * \brief getAllMetaData
  * This function is very fast with FIF_LOAD_NOPIXELS flag
@@ -142,8 +151,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     QImageReader reader(path);
     if (admMap.isEmpty()) {
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy.MM.dd HH:mm:ss"));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));
+        admMap.insert("DateTimeOriginal",  DateToString(emptyTime));
+        admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
     }
     else {
         // ReFormat the date-time
@@ -158,12 +167,13 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
             // NO valid date information
             if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", info.created().toString("yyyy.MM.dd HH:mm:ss"));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));
+                admMap.insert("DateTimeOriginal", DateToString(info.created()));
+                admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy.MM.dd HH:mm:ss"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy.MM.dd HH:mm:ss"));
+        ;
+        admMap.insert("DateTimeOriginal", DateToString(ot));
+        admMap.insert("DateTimeDigitized", DateToString(dt));
     }
     // The value of width and height might incorrect
     int w = reader.size().width();
@@ -210,8 +220,6 @@ FIBITMAP * makeThumbnail(const QString &path, int size) {
             if(!dib) return NULL;
         }
         else {
-            // 某些损坏的图片� �式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
-            // 除了上面� 种可能� 速缩略图读取的方式，都返回空
             return NULL;
         }
     }

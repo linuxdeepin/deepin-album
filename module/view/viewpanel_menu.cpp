@@ -446,7 +446,7 @@ void ViewPanel::updateMenuContent()
 
 
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
-    appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", ""));
+    appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Alt+Return"));
 }
 #if 1
 QMenu *ViewPanel::createAblumMenu()

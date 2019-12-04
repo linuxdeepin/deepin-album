@@ -444,6 +444,10 @@ already exists, do you want to replace?</source>
         <source>Details</source>
         <translation>详细信息</translation>
     </message>
+    <message>
+        <source>Photo info</source>
+        <translation>照片信息</translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -816,6 +820,10 @@ already exists, do you want to replace?</source>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -897,7 +905,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Photo Name</source>
-        <translation>照片名称</translation>
+        <translation type="vanished">照片名称</translation>
     </message>
     <message>
         <source>Type</source>
@@ -973,11 +981,11 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>图片名称</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>标签</translation>
     </message>
 </context>
 <context>
