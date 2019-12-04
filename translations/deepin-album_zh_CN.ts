@@ -5,7 +5,7 @@
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>新建相册</translation>
     </message>
     <message>
         <source>Create Album</source>
@@ -66,7 +66,7 @@
     <name>AlbumView</name>
     <message>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>新建相册</translation>
     </message>
     <message>
         <source>Imported</source>
@@ -981,11 +981,15 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Name</source>
-        <translation>图片名称</translation>
+        <translation type="vanished">图片名称</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>标签</translation>
+        <translation>标记</translation>
+    </message>
+    <message>
+        <source>Photo name</source>
+        <translation>照片名称</translation>
     </message>
 </context>
 <context>

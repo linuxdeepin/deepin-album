@@ -44,7 +44,7 @@ struct MetaData {
 };
 
 static MetaData MetaDataBasics[] = {
-    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo name")},
     {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
     {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
     {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
@@ -53,6 +53,7 @@ static MetaData MetaDataBasics[] = {
     {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
     {"", ""}
 };
+
 
 static MetaData MetaDataDetails[] = {
     {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
