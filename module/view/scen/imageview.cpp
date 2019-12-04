@@ -215,10 +215,7 @@ void ImageView::setImage(const QString &path)
             m_movieItem = nullptr;
             qDebug()<<"Start cache pixmap: "<<path;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-            f.waitForFinished();
-            qDebug()<<"Finish cache pixmap: "<<path;
             if (! m_watcher.isRunning()) {
-                m_watcher.setFuture(f);
 
                 //show loading gif.
 //                m_pixmapItem = nullptr;
@@ -239,6 +236,10 @@ void ImageView::setImage(const QString &path)
                 // Make sure item show in center of view after reload
 //                setSceneRect(w->rect());
 //                s->addWidget(w);
+
+                f.waitForFinished();
+                qDebug()<<"Finish cache pixmap: "<<path;
+                m_watcher.setFuture(f);
 
                 emit hideNavigation();
             }
