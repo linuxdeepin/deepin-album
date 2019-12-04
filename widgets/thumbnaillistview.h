@@ -96,6 +96,7 @@ public:
     QStringList getDagItemPath();
 
     void menuItemDeal(QStringList paths, QAction *action);
+    QModelIndexList getSelectedIndexes();
 
 signals:
     void loadend(int);
@@ -122,6 +123,7 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
     void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
 private slots:
     void onMenuItemClicked(QAction *action);
@@ -148,6 +150,7 @@ private:
 
 public:
     QString m_imageType;
+    QStandardItemModel *m_model;
 
 private:
     int m_iDefaultWidth;
@@ -155,9 +158,7 @@ private:
     int m_height;
     QList<ItemInfo> m_ItemList;
     QList<QList<ItemInfo>> m_gridItem;
-
     ThumbnailDelegate *m_delegate;
-    QStandardItemModel *m_model;
 
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;

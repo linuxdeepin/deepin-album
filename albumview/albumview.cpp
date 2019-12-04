@@ -621,7 +621,7 @@ void AlbumView::updateRightView()
         updateRightNoTrashView();
     }
 
-    restorePicNum();
+    updatePicNum();
 }
 
 void AlbumView::updateRightNoTrashView()
@@ -745,8 +745,35 @@ void AlbumView::updateRightNoTrashView()
                 QString str = tr("%1 photo(s)");
                 m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
+                //保存更新之前的选择状态
+                QModelIndexList mlist = m_pRightPhoneThumbnailList->getSelectedIndexes();
+                QModelIndexList::iterator i;
+                struct Listolditem {
+                    int row;
+                    int column;
+                };
+                QList<Listolditem> items;
+                for (i = mlist.begin(); i != mlist.end(); ++i) {
+                    Listolditem item;
+                    item.row = (*i).row();
+                    item.column = (*i).column();
+                    items.append(item);
+                }
+
                 m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
                 m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
+
+                //设置更新之前的选择状态
+                QList<Listolditem>::iterator j;
+                for (j = items.begin(); j != items.end(); ++j)
+                {
+                    if ((*j).row < m_pRightPhoneThumbnailList->m_model->rowCount()
+                        && (*j).column < m_pRightPhoneThumbnailList->m_model->columnCount())
+                    {
+                        QModelIndex qindex = m_pRightPhoneThumbnailList->m_model->index((*j).row, (*j).column);
+                        m_pRightPhoneThumbnailList->selectionModel()->select(qindex, QItemSelectionModel::Select);
+                    }
+                }
 
                 QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
                 if (0 < paths.length()) {
@@ -756,6 +783,7 @@ void AlbumView::updateRightNoTrashView()
                 }
 
                 m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+
             } else {
                 qDebug() << "phone zero";
                 m_importByPhoneComboBox->setEnabled(false);
@@ -1516,8 +1544,18 @@ void AlbumView::loadMountPicture(QString path)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
+        if (pixmap.isNull())
+        {
+            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+        }
 
-        m_phonePicMap.insert(fileInfo.filePath(), pixmap.scaledToHeight(100,  Qt::FastTransformation));
+        pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        if (pixmap.isNull())
+        {
+             pixmap = QPixmap::fromImage(tImg);
+        }
+
+        m_phonePicMap.insert(fileInfo.filePath(), pixmap);
     }
 }
 
@@ -1949,6 +1987,7 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 
 void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 {
+    qDebug()<<"AlbumView::onLeftListDropEvent()";
     ThumbnailListView *currentViewList;
     QStringList dropItemPaths;
 
@@ -2115,6 +2154,11 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
         }
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
+        if (pixmap.isNull())
+        {
+            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+        }
+
         pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
         if (pixmap.isNull()) {
             pixmap = QPixmap::fromImage(tImg);
@@ -2123,6 +2167,13 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
         m_phonePathImage.insert(fileInfo.filePath(), pixmap);
 
         m_phoneImgPathList << fileInfo.filePath();
+
+        if(0 == m_phoneImgPathList.length()%50)
+        {
+            m_parent->m_phonePathAndImage = m_phonePathImage;
+            m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
+            dApp->signalM->sigLoadMountImagesEnd(mountName);
+        }
     }
 
     qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();

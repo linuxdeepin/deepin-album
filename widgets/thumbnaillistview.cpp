@@ -9,6 +9,8 @@
 #include <QFileInfo>
 #include "timelinelist.h"
 #include <QScrollBar>
+#include <QDrag>
+#include <QMimeData>
 
 namespace {
 const int ITEM_SPACING = 4;
@@ -54,7 +56,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-    setMinimumWidth(800);
+    setMinimumWidth(500);
 
     m_delegate = new ThumbnailDelegate();
     m_delegate->m_imageTypeStr = m_imageType;
@@ -98,13 +100,44 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
     DListView::mousePressEvent(event);
 }
 
+static QString myMimeType() { return QStringLiteral("TestListView/text-icon-icon_hover"); }
+
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
+    qDebug() << "ThumbnailListView::mouseMoveEvent()";
+
     DListView::mouseMoveEvent(event);
+}
+
+void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
+{
+    qDebug() << "ThumbnailListView::startDrag()";
+    m_dragItemPath = selectedPaths();
+    qDebug() << m_dragItemPath;
+
+    QString text = "xxxxxxxxxxxxxx";
+    QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
+    QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    dataStream << text << icon << icon_hover;
+
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setData(myMimeType(), itemData);
+
+    QDrag *pDrag = new QDrag(this);
+    QPixmap p = QPixmap(":/resources/images/other/deepin-album.svg");
+    pDrag->setMimeData(mimeData);
+    pDrag->setPixmap(p);
+    pDrag->setHotSpot(QPoint(0,0));
+    pDrag->exec(Qt::MoveAction);
+
+    DListView::startDrag(supportedActions);
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
+    qDebug() << "ThumbnailListView::mouseReleaseEvent()";
     DListView::mouseReleaseEvent(event);
 
     emit sigMouseRelease();
@@ -112,27 +145,26 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 
 void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
 {
-    qDebug() << "dragEnter";
+    qDebug() << "ThumbnailListView::dragEnterEvent()";
 
     DListView::dragEnterEvent(event);
 }
 
 void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
 {
+    qDebug() << "ThumbnailListView::dragMoveEvent()";
     DListView::dragMoveEvent(event);
 }
 
 void ThumbnailListView::dragLeaveEvent(QDragLeaveEvent *event)
 {
-    m_dragItemPath = selectedPaths();
-    qDebug() << m_dragItemPath;
-
+    qDebug() << "ThumbnailListView::dragLeaveEvent()";
     DListView::dragLeaveEvent(event);
 }
 
 void ThumbnailListView::dropEvent(QDropEvent *event)
 {
-    qDebug() << "drop";
+    qDebug() << "ThumbnailListView::dropEvent()";
 
 //    DListView::dropEvent(event);
 }
@@ -808,14 +840,17 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
         return true;
     }
     //add for pageup pagedown for time line view.
-    else if (e->type() == QEvent::KeyPress) {
+    else if (e->type() == QEvent::KeyPress)
+    {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
-        if (m_imageType == COMMON_STR_VIEW_TIMELINE) {
-            if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp) {
+        if (COMMON_STR_VIEW_TIMELINE == m_imageType
+            || COMMON_STR_RECENT_IMPORTED == m_imageType)
+        {
+            if (keyEvent->key() == Qt::Key_PageDown || keyEvent->key() == Qt::Key_PageUp)
+            {
                 qDebug() << "sigKeyEvent" << keyEvent->key();
                 //处理上下翻页
                 emit sigKeyEvent(keyEvent->key());
-
 
                 return true;
             }
@@ -839,4 +874,9 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
     }
 
     return false;
+}
+
+QModelIndexList ThumbnailListView::getSelectedIndexes()
+{
+    return selectedIndexes();
 }

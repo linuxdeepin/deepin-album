@@ -89,9 +89,11 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 {
     QPainter p(this);
 
-    QPixmap pixmap(":/resources/common/ttb60.svg");
+//    QPixmap pixmap(":/resources/common/ttb60.svg");
+    QPixmap pixmap(":/resources/common/titlebar.svg");
     const QPalette pal = QGuiApplication::palette();//this->palette();
-    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
+//    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
+    QBrush bgColor = QBrush(pixmap.scaled(size().width(),74));
     QRectF bgRect;
     bgRect.setSize(size());
     QPainterPath pp;
@@ -196,16 +198,6 @@ void TopToolbar::onViewShortcut() {
     QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
 }
 
-//void TopToolbar::onAbout()
-//{
-//    AboutDialog *ad = new AboutDialog;
-//    ad->show();
-//    QWidget *w = window();
-//    QPoint gp = w->mapToGlobal(QPoint(0, 0));
-//    ad->move((w->width() - ad->width()) / 2 + gp.x(),
-//               (w->height() - ad->sizeHint().height()) / 2 + gp.y());
-//}
-
 void TopToolbar::onHelp()
 {
     if (m_manualPro.isNull()) {
@@ -217,22 +209,6 @@ void TopToolbar::onHelp()
         m_manualPro->start(pro, args);
     }
 }
-
-#ifndef LITE_DIV
-void TopToolbar::onNewAlbum()
-{
-    emit dApp->signalM->createAlbum();
-}
-
-void TopToolbar::onSetting()
-{
-    m_settingsWindow->move((width() - m_settingsWindow->width()) / 2 +
-                           mapToGlobal(QPoint(0, 0)).x(),
-                           (window()->height() - m_settingsWindow->height()) / 2 +
-                           mapToGlobal(QPoint(0, 0)).y());
-    m_settingsWindow->show();
-}
-#endif
 
 void TopToolbar::onDeepColorMode() {
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {

@@ -38,7 +38,7 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
 
 void LeftListWidget::dropEvent(QDropEvent *event)
 {
-    qDebug()<<"drop";
+    qDebug()<<"LeftListWidget::dropEvent()";
     QModelIndex index = this->indexAt(event->pos());
     if (index.isValid())
     {

@@ -1514,22 +1514,22 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     QSqlQuery query(db);
     // Remove from albums table
     query.setForwardOnly(true);
-    query.exec("BEGIN IMMEDIATE TRANSACTION");
-    QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
-    query.prepare(qs);
-    query.addBindValue(pathHashs);
-    if (! query.execBatch()) {
-        qWarning() << "Remove data from AlbumTable3 failed: "
-                   << query.lastError();
-        query.exec("COMMIT");
-    }
-    else {
-        query.exec("COMMIT");
-    }
+//    query.exec("BEGIN IMMEDIATE TRANSACTION");
+//    QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
+//    query.prepare(qs);
+//    query.addBindValue(pathHashs);
+//    if (! query.execBatch()) {
+//        qWarning() << "Remove data from AlbumTable3 failed: "
+//                   << query.lastError();
+//        query.exec("COMMIT");
+//    }
+//    else {
+//        query.exec("COMMIT");
+//    }
 
     // Remove from image table
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    qs = "DELETE FROM TrashTable WHERE PathHash=?";
+    QString qs = "DELETE FROM TrashTable WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {

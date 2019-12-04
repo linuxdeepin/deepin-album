@@ -92,8 +92,12 @@ void ImageLoader::startLoading()
         }
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+        if (pixmap.isNull())
+        {
+            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+        }
 
+        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
         if (pixmap.isNull())
         {
              pixmap = QPixmap::fromImage(tImg);
@@ -139,11 +143,6 @@ void ImageLoader::startLoading()
         QPixmap pixmaptrash = QPixmap::fromImage(tImg);
         pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (800 < pixmaptrash.width())
-        {
-            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
-        }
-
         m_parent->m_imagetrashmap.insert(path, pixmaptrash);
     }
 
@@ -185,6 +184,11 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
+        if (pixmap.isNull())
+        {
+            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+        }
+
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
         if (pixmap.isNull())
@@ -262,8 +266,12 @@ void ImageLoader::addImageLoader(QStringList pathlist)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+        if (pixmap.isNull())
+        {
+            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+        }
 
+        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
         if (pixmap.isNull())
         {
              pixmap = QPixmap::fromImage(tImg);
@@ -323,11 +331,6 @@ void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
         QPixmap pixmaptrash = QPixmap::fromImage(tImg);
         pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (800 < pixmaptrash.width())
-        {
-            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
-        }
-
         m_parent->m_imagetrashmap.insert(path, pixmaptrash);
     }
 }
@@ -340,10 +343,6 @@ void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
 
         pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (800 < pixmaptrash.width())
-        {
-            pixmaptrash = pixmaptrash.scaledToWidth(800,  Qt::FastTransformation);
-        }
         m_parent->m_imagetrashmap[path] = pixmaptrash;
     }
 	emit dApp->signalM->sigUpdateTrashImageLoader();
