@@ -284,6 +284,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
         DPalette palette1 ;
         palette1.setColor(DPalette::Background, QColor(0,0,0,1));
         m_close->setPalette(palette1);
+        if(2 == m_expandGroup.count())
         this->setMaximumHeight(contentHeight());
     });
 
@@ -404,6 +405,7 @@ void ImageInfoWidget::updateInfo()
 
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
+
 }
 
 void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
@@ -573,7 +575,10 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
         setGeometry(rc);
 
         //        if(expand->expand()){
-        emit dApp->signalM->extensionPanelHeight(contentHeight()+20);
+        if(2 == m_expandGroup.count())
+            emit dApp->signalM->extensionPanelHeight(contentHeight()+27);
+        else
+            emit dApp->signalM->extensionPanelHeight(contentHeight()+15);
         //        }
     });
 }
@@ -610,5 +615,5 @@ int ImageInfoWidget::contentHeight() const
 //        expandsHeight += firstExpandHeight;
     }
 
-    return ( qMin(expandsHeight + 45 +4,530));
+    return ( qMin(expandsHeight + 45 +4,510));
 }

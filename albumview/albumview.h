@@ -92,6 +92,7 @@ private:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
+    void resizeEvent(QResizeEvent *e) override;
 
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
@@ -186,6 +187,8 @@ private:
 
     QMap<QString, MountLoader*> m_mountLoaderList;
     QMap<QString, QThread*> m_loadThreadList;
+
+    DWidget *pImportTimeLineWidget;
 };
 
 #endif // ALBUMVIEW_H

@@ -23,7 +23,7 @@ class ImportTimeLineView : public DWidget
 {
     Q_OBJECT
 public:
-    ImportTimeLineView();
+    ImportTimeLineView(DWidget* parent);
 
     void updateStackedWidget();
 public slots:

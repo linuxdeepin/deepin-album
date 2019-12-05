@@ -358,7 +358,7 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
     QVBoxLayout *p_all = new QVBoxLayout();
-    p_all->setMargin(2);
+    p_all->setContentsMargins(0, 0, 2, 0);
     p_all->addLayout(pNoTrashVBoxLayout);
     p_all->addSpacing(2);
     p_all->addWidget(m_pRightThumbnailList);
@@ -542,7 +542,8 @@ void AlbumView::initRightView()
     pPhoneWidget->setLayout(p_all2);
 
     // 导入图片,按导入时间排列
-    DWidget *pImportTimeLineWidget = new DWidget();
+    pImportTimeLineWidget = new DWidget();
+//    pImportTimeLineWidget->setStyleSheet("background:red");
     pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
 
     QVBoxLayout *pImpTimeLineVBoxLayout = new QVBoxLayout();
@@ -559,24 +560,25 @@ void AlbumView::initRightView()
 //    DFontSizeManager::instance()->bind(m_pImportPicTotal, DFontSizeManager::T6, QFont::Medium);
 //    m_pImportPicTotal->setForegroundRole(DPalette::TextTips);
 
-    m_pImpTimeLineWidget = new ImportTimeLineView();
+    m_pImpTimeLineWidget = new ImportTimeLineView(pImportTimeLineWidget);
+    m_pImpTimeLineWidget->move(-6,40);
 
-    pImpTimeLineVBoxLayout->addSpacing(3);
+    pImpTimeLineVBoxLayout->addSpacing(5);
     pImpTimeLineVBoxLayout->addWidget(pImportTitle);
 //    pImpTimeLineVBoxLayout->addSpacing(4);
 //    pImpTimeLineVBoxLayout->addWidget(m_pImportPicTotal);
-    pImpTimeLineVBoxLayout->addSpacing(-1);
-    pImpTimeLineVBoxLayout->setContentsMargins(10, 0, 0, 0);
+    pImpTimeLineVBoxLayout->addSpacing(-6);
 
     QHBoxLayout *pImpTimeLineHLayout = new QHBoxLayout;
-    pImpTimeLineHLayout->addLayout(pImpTimeLineVBoxLayout, 1);
-    pImpTimeLineHLayout->addStretch();
+    pImpTimeLineHLayout->addSpacing(10);
+    pImpTimeLineHLayout->addLayout(pImpTimeLineVBoxLayout);
+//    pImpTimeLineHLayout->addStretch();
 
     QVBoxLayout *pImportAllV = new QVBoxLayout();
-    pImportAllV->setMargin(2);
+    pImportAllV->setContentsMargins(0, 0, 2, 0);
     pImportAllV->addLayout(pImpTimeLineHLayout);
-    pImportAllV->addSpacing(2);
-    pImportAllV->addWidget(m_pImpTimeLineWidget);
+    pImportAllV->addStretch();
+//    pImportAllV->addWidget(m_pImpTimeLineWidget);
     pImportTimeLineWidget->setLayout(pImportAllV);
 
     // Add View
@@ -2219,3 +2221,8 @@ bool MountLoader::findPicturePathByPhone(QString &path)
     return false;
 }
 
+void AlbumView::resizeEvent(QResizeEvent *e)
+{
+    m_pImpTimeLineWidget->setFixedWidth(width()-181);
+    m_pImpTimeLineWidget->setFixedHeight(height()-55);
+}

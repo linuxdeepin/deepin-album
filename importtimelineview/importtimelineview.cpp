@@ -14,7 +14,7 @@ const int SUBTITLE_HEIGHT = 37;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 } //namespace
 
-ImportTimeLineView::ImportTimeLineView()
+ImportTimeLineView::ImportTimeLineView(DWidget* parent):DWidget(parent)
 {
     setAcceptDrops(true);
     m_index = 0;
@@ -66,55 +66,55 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
     pa1.setBrush(DPalette::Background, pa1.color(DPalette::Base));
     m_dateItem->setForegroundRole(DPalette::Background);
     m_dateItem->setPalette(pa1);
-    DPalette pa = DApplicationHelper::instance()->palette(m_pDate);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
-    m_pDate->setForegroundRole(DPalette::Text);
-    m_pDate->setPalette(pa);
+//    DPalette pa = DApplicationHelper::instance()->palette(m_pDate);
+//    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+//    m_pDate->setForegroundRole(DPalette::Text);
+//    m_pDate->setPalette(pa);
 
-    DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
-    QColor color_BT = pal.color(DPalette::BrightText);
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
-        color_BT.setAlphaF(0.5);
-        pal.setBrush(DPalette::Text, color_BT);
-        pNum_up->setForegroundRole(DPalette::Text);
-        pNum_up->setPalette(pal);
-    }
-    else if (themeType == DGuiApplicationHelper::DarkType)
-    {
-        color_BT.setAlphaF(0.75);
-        pal.setBrush(DPalette::Text, color_BT);
-        pNum_up->setForegroundRole(DPalette::Text);
-        pNum_up->setPalette(pal);
-    }
+//    DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
+//    QColor color_BT = pal.color(DPalette::BrightText);
+//    if (themeType == DGuiApplicationHelper::LightType)
+//    {
+//        color_BT.setAlphaF(0.5);
+//        pal.setBrush(DPalette::Text, color_BT);
+//        pNum_up->setForegroundRole(DPalette::Text);
+//        pNum_up->setPalette(pal);
+//    }
+//    else if (themeType == DGuiApplicationHelper::DarkType)
+//    {
+//        color_BT.setAlphaF(0.75);
+//        pal.setBrush(DPalette::Text, color_BT);
+//        pNum_up->setForegroundRole(DPalette::Text);
+//        pNum_up->setPalette(pal);
+//    }
 
-    for(int i = 1; i < m_mainListWidget->count(); i++)
-    {
-        TimelineItem *item = (TimelineItem*)m_mainListWidget->itemWidget(m_mainListWidget->item(i));
-        QList<DLabel*> pLabelList = item->findChildren<DLabel*>();
-        DPalette color = DApplicationHelper::instance()->palette(pLabelList[0]);
-        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
-        pLabelList[0]->setForegroundRole(DPalette::Text);
-        pLabelList[0]->setPalette(color);
+//    for(int i = 1; i < m_mainListWidget->count(); i++)
+//    {
+//        TimelineItem *item = (TimelineItem*)m_mainListWidget->itemWidget(m_mainListWidget->item(i));
+//        QList<DLabel*> pLabelList = item->findChildren<DLabel*>();
+//        DPalette color = DApplicationHelper::instance()->palette(pLabelList[0]);
+//        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+//        pLabelList[0]->setForegroundRole(DPalette::Text);
+//        pLabelList[0]->setPalette(color);
 
-        DPalette pal = DApplicationHelper::instance()->palette(pLabelList[1]);
-        QColor color_BT = pal.color(DPalette::BrightText);
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
-            color_BT.setAlphaF(0.5);
-            pal.setBrush(DPalette::Text, color_BT);
-            pLabelList[1]->setForegroundRole(DPalette::Text);
-            pLabelList[1]->setPalette(pal);
-        }
-        else if (themeType == DGuiApplicationHelper::DarkType)
-        {
-            color_BT.setAlphaF(0.75);
-            pal.setBrush(DPalette::Text, color_BT);
-            pLabelList[1]->setForegroundRole(DPalette::Text);
-            pLabelList[1]->setPalette(pal);
-        }
-    }
+//        DPalette pal = DApplicationHelper::instance()->palette(pLabelList[1]);
+//        QColor color_BT = pal.color(DPalette::BrightText);
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        if (themeType == DGuiApplicationHelper::LightType)
+//        {
+//            color_BT.setAlphaF(0.5);
+//            pal.setBrush(DPalette::Text, color_BT);
+//            pLabelList[1]->setForegroundRole(DPalette::Text);
+//            pLabelList[1]->setPalette(pal);
+//        }
+//        else if (themeType == DGuiApplicationHelper::DarkType)
+//        {
+//            color_BT.setAlphaF(0.75);
+//            pal.setBrush(DPalette::Text, color_BT);
+//            pLabelList[1]->setForegroundRole(DPalette::Text);
+//            pLabelList[1]->setPalette(pal);
+//        }
+//    }
 }
 
 void ImportTimeLineView::initTimeLineViewWidget()
@@ -136,44 +136,49 @@ void ImportTimeLineView::initTimeLineViewWidget()
     //添加悬浮title
     m_dateItem = new DWidget(pTimeLineViewWidget);
     QHBoxLayout *TitleViewLayout = new QHBoxLayout();
+    TitleViewLayout->setContentsMargins(18,0,0,0);
     m_dateItem->setLayout(TitleViewLayout);
 
     m_pDate = new DLabel();
-    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-    ft3.setFamily("SourceHanSansSC");
-    ft3.setWeight(QFont::DemiBold);
-    DPalette color = DApplicationHelper::instance()->palette(m_pDate);
-    color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+    DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T6, QFont::Medium);
+    m_pDate->setForegroundRole(DPalette::TextTips);
+//    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+//    ft3.setFamily("SourceHanSansSC");
+//    ft3.setWeight(QFont::DemiBold);
+//    DPalette color = DApplicationHelper::instance()->palette(m_pDate);
+//    color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 
-    m_pDate->setFixedHeight(24);
-    m_pDate->setFont(ft3);
-    m_pDate->setForegroundRole(DPalette::Text);
-    m_pDate->setPalette(color);
+//    m_pDate->setFixedHeight(24);
+//    m_pDate->setFont(ft3);
+//    m_pDate->setForegroundRole(DPalette::Text);
+//    m_pDate->setPalette(color);
 
     pNum_up = new DLabel();
-    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-    ft6.setFamily("SourceHanSansSC");
-    ft6.setWeight(QFont::Medium);
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
-    QColor color_BT = pal.color(DPalette::BrightText);
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
-        color_BT.setAlphaF(0.5);
-        pal.setBrush(DPalette::Text, color_BT);
-        pNum_up->setForegroundRole(DPalette::Text);
-        pNum_up->setPalette(pal);
-    }
-    else if (themeType == DGuiApplicationHelper::DarkType)
-    {
-        color_BT.setAlphaF(0.75);
-        pal.setBrush(DPalette::Text, color_BT);
-        pNum_up->setForegroundRole(DPalette::Text);
-        pNum_up->setPalette(pal);
-    }
+    DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
+    pNum_up->setForegroundRole(DPalette::TextTips);
+//    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+//    ft6.setFamily("SourceHanSansSC");
+//    ft6.setWeight(QFont::Medium);
+//    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//    DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
+//    QColor color_BT = pal.color(DPalette::BrightText);
+//    if (themeType == DGuiApplicationHelper::LightType)
+//    {
+//        color_BT.setAlphaF(0.5);
+//        pal.setBrush(DPalette::Text, color_BT);
+//        pNum_up->setForegroundRole(DPalette::Text);
+//        pNum_up->setPalette(pal);
+//    }
+//    else if (themeType == DGuiApplicationHelper::DarkType)
+//    {
+//        color_BT.setAlphaF(0.75);
+//        pal.setBrush(DPalette::Text, color_BT);
+//        pNum_up->setForegroundRole(DPalette::Text);
+//        pNum_up->setPalette(pal);
+//    }
 
-    pNum_up->setFixedHeight(24);
-    pNum_up->setFont(ft6);
+//    pNum_up->setFixedHeight(24);
+//    pNum_up->setFont(ft6);
 //    pNum_up->setForegroundRole(DPalette::Text);
 //    pNum_up->setPalette(pal);
 
@@ -219,7 +224,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setGraphicsEffect(opacityEffect_light);
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setFixedSize(this->width() - 10, SUBTITLE_HEIGHT);
-    m_dateItem->setContentsMargins(10, 0, 0, 0);
+    m_dateItem->setContentsMargins(0, 0, 0, 0);
     m_dateItem->move(0, 0);
     m_dateItem->show();
     m_dateItem->setVisible(false);
@@ -245,17 +250,20 @@ void ImportTimeLineView::updataLayout()
         TimelineItem *listItem = new TimelineItem;
         QVBoxLayout *listItemlayout = new QVBoxLayout();
         listItem->setLayout(listItemlayout);
-        listItemlayout->setMargin(0);
-        listItemlayout->setSpacing(0);
+//        listItemlayout->setMargin(2);
+//        listItemlayout->setSpacing(0);
         listItemlayout->setContentsMargins(0, 0, 0, 0);
 
         //添加title
         DWidget *TitleView = new DWidget;
         QHBoxLayout *TitleViewLayout = new QHBoxLayout();
+        TitleViewLayout->setContentsMargins(10,0,0,0);
         TitleView->setLayout(TitleViewLayout);
         DLabel *pDate = new DLabel();
 
-        pDate->setFixedHeight(24);
+        DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T6, QFont::Medium);
+        pDate->setForegroundRole(DPalette::TextTips);
+//        pDate->setFixedHeight(24);
         QStringList dateTimeList = m_timelines.at(i).split(" ");
         QStringList datelist = dateTimeList.at(0).split(".");
         if (datelist.count() > 2)
@@ -270,16 +278,16 @@ void ImportTimeLineView::updataLayout()
         }
         pDate->setText(listItem->m_sdate);
 
-        DPalette color = DApplicationHelper::instance()->palette(pDate);
-        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+//        DPalette color = DApplicationHelper::instance()->palette(pDate);
+//        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 
-        QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-        ft3.setFamily("SourceHanSansSC");
-        ft3.setWeight(QFont::DemiBold);
+//        QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+//        ft3.setFamily("SourceHanSansSC");
+//        ft3.setWeight(QFont::DemiBold);
 
-        pDate->setFont(ft3);
-        pDate->setForegroundRole(DPalette::Text);
-        pDate->setPalette(color);
+//        pDate->setFont(ft3);
+//        pDate->setForegroundRole(DPalette::Text);
+//        pDate->setPalette(color);
 
         listItem->m_date = pDate;
 
@@ -287,29 +295,32 @@ void ImportTimeLineView::updataLayout()
         listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
         pNum_dn->setText(listItem->m_snum);
 
-        QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-        ft6.setFamily("SourceHanSansSC");
-        ft6.setWeight(QFont::Medium);
-        DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
-        QColor color_BT = pal.color(DPalette::BrightText);
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
-            color_BT.setAlphaF(0.5);
-            pal.setBrush(DPalette::Text, color_BT);
-            pNum_dn->setForegroundRole(DPalette::Text);
-            pNum_dn->setPalette(pal);
-        }
-        else if (themeType == DGuiApplicationHelper::DarkType)
-        {
-            color_BT.setAlphaF(0.75);
-            pal.setBrush(DPalette::Text, color_BT);
-            pNum_dn->setForegroundRole(DPalette::Text);
-            pNum_dn->setPalette(pal);
-        }
+        DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
+        pNum_dn->setForegroundRole(DPalette::TextTips);
 
-        pNum_dn->setFixedHeight(24);
-        pNum_dn->setFont(ft6);
+//        QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+//        ft6.setFamily("SourceHanSansSC");
+//        ft6.setWeight(QFont::Medium);
+//        DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
+//        QColor color_BT = pal.color(DPalette::BrightText);
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        if (themeType == DGuiApplicationHelper::LightType)
+//        {
+//            color_BT.setAlphaF(0.5);
+//            pal.setBrush(DPalette::Text, color_BT);
+//            pNum_dn->setForegroundRole(DPalette::Text);
+//            pNum_dn->setPalette(pal);
+//        }
+//        else if (themeType == DGuiApplicationHelper::DarkType)
+//        {
+//            color_BT.setAlphaF(0.75);
+//            pal.setBrush(DPalette::Text, color_BT);
+//            pNum_dn->setForegroundRole(DPalette::Text);
+//            pNum_dn->setPalette(pal);
+//        }
+
+//        pNum_dn->setFixedHeight(24);
+//        pNum_dn->setFont(ft6);
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
@@ -321,7 +332,7 @@ void ImportTimeLineView::updataLayout()
         pNum_dn->setLayout(Layout);
         Layout->addStretch(1);
         Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        Layout->setContentsMargins(0, 0, 0, 0);
+        Layout->setContentsMargins(0, 0, 1, 0);
         Layout->addWidget(pChose);
 
         listItem->m_Chose = pChose;
@@ -374,6 +385,7 @@ void ImportTimeLineView::updataLayout()
         pThumbnailListView->m_imageType = COMMON_STR_RECENT_IMPORTED;
 
         listItemlayout->addWidget(TitleView);
+        listItemlayout->addSpacing(-8);
         listItemlayout->addWidget(pThumbnailListView);
         item->setFlags(Qt::NoItemFlags);
         m_mainListWidget->addItemForWidget(item);
