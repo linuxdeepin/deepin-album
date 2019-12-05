@@ -87,7 +87,6 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
 
                if (!isSucceed) {
                    qDebug() << tr("Failed to export");
-
                }
            }
            else
@@ -129,11 +128,11 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
                 bool isSucceed = QFile::copy(imagePaths[j], savePath);
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
-                    failcount ++;
                     qDebug() << tr("Failed to export");
                 }
 
             } else {
+                failcount ++;
                 continue;
             }
         }

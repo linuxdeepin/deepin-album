@@ -456,21 +456,31 @@ void MainWindow::initTitleBar()
 
 void MainWindow::initCentralWidget()
 {
+    QStringList pas;
     m_pCenterWidget = new QStackedWidget;
     m_pAlbumview = new AlbumView();
     m_pAllPicView = new AllPicView();
     m_pTimeLineView = new TimeLineView();
     m_pSearchView = new SearchView();
+    m_commandLine = CommandLine::instance();
     m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pAllPicView);
     m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumview);
     m_pCenterWidget->addWidget(m_pSearchView);
-    m_commandLine = CommandLine::instance();
-    m_commandLine->processOption();
     m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->addWidget(m_slidePanel);
+
+    m_commandLine->processOption(pas);
+    if (pas.length() > 0) {
+        m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
+        m_pCenterWidget->setCurrentIndex(4);
+    }
+    else {
+        m_commandLine->viewImage("", {});
+        m_pCenterWidget->setCurrentIndex(0);
+    }
 
     setCentralWidget(m_pCenterWidget);
 }

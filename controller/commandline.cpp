@@ -172,7 +172,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     });
 }
 
-bool CommandLine::processOption()
+bool CommandLine::processOption(QStringList &paslist)
 {
 
     if (! m_cmdParser.parse(dApp->arguments())) {
@@ -193,12 +193,13 @@ bool CommandLine::processOption()
     QStringList pas = m_cmdParser.positionalArguments();
     qDebug()<<"processOption()"<<names<<pas;
 
-    if (pas.length() > 0) {
-        viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
-    }
-    else {
-        viewImage("", {});
-    }
+    paslist = pas;
+//    if (pas.length() > 0) {
+//        viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
+//    }
+//    else {
+//        viewImage("", {});
+//    }
 
 
 
