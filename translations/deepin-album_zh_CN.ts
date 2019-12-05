@@ -1316,6 +1316,29 @@ already exists, do you want to replace?</source>
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>上一张</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>暂停</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>播放</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一张</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>退出</translation>
+    </message>
+</context>
+<context>
     <name>StatusBar</name>
     <message>
         <source>%1 Photos</source>
