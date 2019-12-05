@@ -98,9 +98,9 @@ QString SlideEffectPlayer::currentImagePath() const
 //    if (m_current == m_paths.constEnd())
 //        return *m_paths.constBegin();
 //    return *m_current;
-    if(m_current == m_paths.length()-1){
-        return m_paths[0];
-    }
+//    if(m_current == m_paths.length()-1){
+//        return m_paths[0];
+//    }
     return m_paths[m_current];
 
 }
