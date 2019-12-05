@@ -87,6 +87,7 @@ public:
     WallpaperSetter *wpSetter = nullptr;
 
     QMap<QString, QPixmap> m_imagemap;
+    QMap<QString, QPixmap> m_bigimagemap;
     QMap<QString, QPixmap> m_imagetrashmap;
     ImageLoader* m_imageloader;
     void LoadDbImage();

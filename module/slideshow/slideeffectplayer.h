@@ -20,6 +20,7 @@
 #include <QThread>
 #include <QMap>
 #include "application.h"
+#include "controller/signalmanager.h"
 
 class CacheThread : public QThread
 {
@@ -64,6 +65,7 @@ Q_SIGNALS:
     void finished();
     void currentImageChanged(const QString& path);
     void stepChanged(int steps);
+    void updateButton();
 
 public Q_SLOTS:
     void start();
@@ -73,20 +75,25 @@ public Q_SLOTS:
 protected:
     void timerEvent(QTimerEvent *e);
 
-private:
+public:
     int duration() const;
     bool startNext();
-    void cacheNext();
+//    void cacheNext();
+    bool startPrevious();
+//    void cachePrevious();
 
 private:
     bool m_running = false;
     bool m_pausing = false;
     bool m_random = true;
     int m_tid;
+    int m_newtid;
     int m_w, m_h;
     QMap<QString, QImage> m_cacheImages;
     QStringList m_paths;
-    QStringList::ConstIterator m_current;
+//    QStringList::ConstIterator m_current;
+    int m_current;
+
     QThread m_thread;
     SlideEffect *m_effect = NULL;
 };

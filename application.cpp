@@ -96,6 +96,7 @@ void ImageLoader::startLoading()
         {
             pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
         }
+        m_parent->m_bigimagemap.insert(path, pixmap);
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
         if (pixmap.isNull())

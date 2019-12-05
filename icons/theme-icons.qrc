@@ -12,6 +12,11 @@
         <file>texts/dcc_previousdark_36px.svg</file>
         <file>texts/dcc_back_36px.svg</file>
         <file>texts/dcc_collection_normal_36px.svg</file>
+        <file>texts/dcc_exit_normal_36px.svg</file>
+        <file>texts/dcc_next_normal_36px.svg</file>
+        <file>texts/dcc_play_normal_36px.svg</file>
+        <file>texts/dcc_previous_normal_36px.svg</file>
+        <file>texts/dcc_suspend_normal_36px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>

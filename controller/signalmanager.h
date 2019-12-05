@@ -104,6 +104,11 @@ signals:
     void sigExporting(const QString &path);
     void sigRestoreStatus();
 
+    void updateButton();
+    void sigStartTimer();
+    void updatePauseButton();
+    void initButton();
+
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());

@@ -19,6 +19,7 @@
 
 #include "module/modulepanel.h"
 #include "controller/viewerthememanager.h"
+#include "module/slideshow/slideshowbottombar.h"
 #include <QFileSystemWatcher>
 
 class QMenu;
@@ -82,6 +83,10 @@ private:
     QFileSystemWatcher  *m_fileSystemMonitor;
     DIconButton         *m_cancelslideshow;
     QColor               m_bgColor;
+    bool a = true;
+
+    SlideShowBottomBar *slideshowbottombar;
+
 };
 
 #endif // SLIDESHOWPANEL_H
