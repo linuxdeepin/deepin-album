@@ -106,9 +106,23 @@ void ImageLoader::startLoading()
 
         m_parent->m_imagemap.insert(path, pixmap);
         num += 1;
-        if (0 == num%IMAGE_LOAD_DEFAULT)
+        if (10 > num)
         {
             emit sigFinishiLoad();
+        }
+        else if (50 > num)
+        {
+            if (0 == num%3)
+            {
+                emit sigFinishiLoad();
+            }
+        }
+        else
+        {
+            if (0 == num%IMAGE_LOAD_DEFAULT)
+            {
+                emit sigFinishiLoad();
+            }
         }
     }
 

@@ -474,6 +474,8 @@ void MainWindow::initCentralWidget()
 
     m_commandLine->processOption(pas);
     if (pas.length() > 0) {
+        titlebar()->setFixedHeight(0);
+        setTitlebarShadowEnabled(false);
         m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
         m_pCenterWidget->setCurrentIndex(4);
     }

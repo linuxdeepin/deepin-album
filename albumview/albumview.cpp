@@ -2156,7 +2156,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
         QPixmap pixmap = QPixmap::fromImage(tImg);
         if (pixmap.isNull())
         {
-            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+            qDebug()<<"pixmap.isNull()";
+            continue;
         }
 
         pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
