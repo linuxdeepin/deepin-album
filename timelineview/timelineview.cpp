@@ -280,6 +280,7 @@ void TimeLineView::updataLayout()
 
 #if 1
     m_allThumbnailListView.clear();
+    m_allChoseButton.clear();
 #endif
 
     for (int i = 0; i < m_timelines.size(); i++) {
@@ -348,7 +349,7 @@ void TimeLineView::updataLayout()
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
-
+        m_allChoseButton << pChose;
         pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
         pChose->setFixedHeight(24);
         pChose->resize(36, 27);
@@ -461,11 +462,14 @@ void TimeLineView::updataLayout()
             SignalManager::ViewInfo info;
             info.album = "";
             info.lastPanel = nullptr;
+
+            auto photolist = DBManager::instance()->getAllInfos();
+
             if (paths.size() > 1) {
                 info.paths = paths;
             } else {
-                if (ImgInfoList.size() > 1) {
-                    for (auto image : ImgInfoList) {
+                if (photolist.size() > 1) {
+                    for (auto image : photolist) {
                         info.paths << image.filePath;
                     }
                 } else {
@@ -508,18 +512,29 @@ void TimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
-            QStringList paths = pThumbnailListView->selectedPaths();
-            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Unselect"));
+        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] {
+            if(!m_ctrlPress){
+                for(int i = 0;i < m_allThumbnailListView.length();i++){
+                    if(pThumbnailListView != m_allThumbnailListView[i]){
+                        m_allThumbnailListView[i]->clearSelection();
+                    }
+                }
             }
+        });
 
-            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Select"));
+        connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
+            for(int i = 0;i < m_allThumbnailListView.length();i++){
+                m_allThumbnailListView[i]->selectAll();
             }
             updatePicNum();
+            updateChoseText();
+            QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+            pSuspensionChose->setText(b[0]->text());
+        });
+
+        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
+            updatePicNum();
+            updateChoseText();
             QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
             pSuspensionChose->setText(b[0]->text());
         });
@@ -718,6 +733,20 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 }
 
+void TimeLineView::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Control){
+        m_ctrlPress = true;
+    }
+}
+
+void TimeLineView::keyReleaseEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Control){
+        m_ctrlPress = false;
+    }
+}
+
 void TimeLineView::updatePicNum()
 {
     QString str = QObject::tr("%1 photo(s) selected");
@@ -738,6 +767,21 @@ void TimeLineView::updatePicNum()
         } else {
             QString str1 = QObject::tr("%1 photo(s) selected");
             m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(allnum));
+        }
+    }
+}
+
+void TimeLineView::updateChoseText()
+{
+    for(int i = 0; i < m_allChoseButton.length();i++){
+        if (m_allThumbnailListView[i]->model()->rowCount() == m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Select") == m_allChoseButton[i]->text())
+        {
+            m_allChoseButton[i]->setText(QObject::tr("Unselect"));
+        }
+
+        if (m_allThumbnailListView[i]->model()->rowCount() != m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Unselect") == m_allChoseButton[i]->text())
+        {
+             m_allChoseButton[i]->setText(QObject::tr("Select"));
         }
     }
 }

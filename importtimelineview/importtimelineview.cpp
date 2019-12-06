@@ -117,6 +117,30 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 //    }
 }
 
+QStringList ImportTimeLineView::selectPaths()
+{
+    QStringList paths;
+    for(int i = 0;i < m_allThumbnailListView.length();i++){
+        paths << m_allThumbnailListView[i]->selectedPaths();
+    }
+    return paths;
+}
+
+void ImportTimeLineView::updateChoseText()
+{
+    for(int i = 0; i < m_allChoseButton.length();i++){
+        if (m_allThumbnailListView[i]->model()->rowCount() == m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Select") == m_allChoseButton[i]->text())
+        {
+            m_allChoseButton[i]->setText(QObject::tr("Unselect"));
+        }
+
+        if (m_allThumbnailListView[i]->model()->rowCount() != m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Unselect") == m_allChoseButton[i]->text())
+        {
+             m_allChoseButton[i]->setText(QObject::tr("Select"));
+        }
+    }
+}
+
 void ImportTimeLineView::initTimeLineViewWidget()
 {
     m_mainLayout = new QVBoxLayout();
@@ -234,6 +258,8 @@ void ImportTimeLineView::updataLayout()
 {
     //获取所有时间线
     m_mainListWidget->clear();
+    m_allChoseButton.clear();
+    m_timelines.clear();
     m_timelines = DBManager::instance()->getImportTimelines();
     qDebug() << __func__ << m_timelines.size();
 
@@ -324,7 +350,7 @@ void ImportTimeLineView::updataLayout()
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
-
+        m_allChoseButton << pChose;
         pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
         pChose->setFixedHeight(24);
         pChose->resize(36, 27);
@@ -411,12 +437,15 @@ void ImportTimeLineView::updataLayout()
            SignalManager::ViewInfo info;
            info.album = "";
            info.lastPanel = nullptr;
+
+           auto photolist = DBManager::instance()->getAllInfos();
+
            if(paths.size()>1){
                info.paths = paths;
            }else
            {
-               if(ImgInfoList.size()>1){
-                   for(auto image : ImgInfoList)
+               if(photolist.size()>1){
+                   for(auto image : photolist)
                    {
                        info.paths<<image.filePath;
                    }
@@ -463,19 +492,43 @@ void ImportTimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
-            QStringList paths = pThumbnailListView->selectedPaths();
-            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Unselect"));
-            }
-
-            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Select"));
+        connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
+            for(int i = 0;i < m_allThumbnailListView.length();i++){
+                m_allThumbnailListView[i]->selectAll();
             }
             emit sigUpdatePicNum();
-			QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
+            updateChoseText();
+            QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+            pSuspensionChose->setText(b[0]->text());
+        });
+
+        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] {
+            if(!m_ctrlPress){
+                for(int i = 0;i < m_allThumbnailListView.length();i++){
+                    if(pThumbnailListView != m_allThumbnailListView[i]){
+                        m_allThumbnailListView[i]->clearSelection();
+                    }
+                }
+            }
+        });
+
+        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
+//            QStringList paths = pThumbnailListView->selectedPaths();
+//            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
+//            {
+//                pChose->setText(QObject::tr("Unselect"));
+//            }
+
+//            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
+//            {
+//                pChose->setText(QObject::tr("Select"));
+//            }
+//
+//			QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
+//            pSuspensionChose->setText(b[0]->text());
+            emit sigUpdatePicNum();
+            updateChoseText();
+            QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
             pSuspensionChose->setText(b[0]->text());
         });
 
@@ -668,4 +721,18 @@ void ImportTimeLineView::dragMoveEvent(QDragMoveEvent *event)
 void ImportTimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
 
+}
+
+void ImportTimeLineView::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Control){
+        m_ctrlPress = true;
+    }
+}
+
+void ImportTimeLineView::keyReleaseEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Control){
+        m_ctrlPress = false;
+    }
 }

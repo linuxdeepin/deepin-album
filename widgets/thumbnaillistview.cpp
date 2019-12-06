@@ -96,6 +96,10 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
             update();
         }
     }
+    if(m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED){
+        if(event->button() == Qt::LeftButton)
+            emit sigMousePress();
+    }
 
     DListView::mousePressEvent(event);
 }
@@ -141,6 +145,17 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     DListView::mouseReleaseEvent(event);
 
     emit sigMouseRelease();
+}
+
+void ThumbnailListView::keyPressEvent(QKeyEvent *event)
+{
+    DListView::keyPressEvent(event);
+    if(m_imageType == COMMON_STR_RECENT_IMPORTED || m_imageType == COMMON_STR_VIEW_TIMELINE){
+        if ((event->modifiers() == Qt::ControlModifier) && (event->key() == Qt::Key_A))
+        {
+            emit sigSelectAll();
+        }
+    }
 }
 
 void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
@@ -380,7 +395,7 @@ void ThumbnailListView::updateMenuContents()
         return;
     }
     QStringList paths;
-    if (m_imageType == COMMON_STR_VIEW_TIMELINE) {
+    if (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED) {
         emit sigGetSelectedPaths(&paths);
     } else {
         paths = selectedPaths();
@@ -572,7 +587,7 @@ QMenu *ThumbnailListView::createAlbumMenu()
 void ThumbnailListView::onMenuItemClicked(QAction *action)
 {
 
-    if (m_imageType == COMMON_STR_VIEW_TIMELINE) {
+    if (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED) {
         emit sigMenuItemDeal(action);
     } else {
         QStringList paths = selectedPaths();

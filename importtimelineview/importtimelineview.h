@@ -48,10 +48,16 @@ private:
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
+
+    void keyPressEvent(QKeyEvent *e) override;
+    void keyReleaseEvent(QKeyEvent *e) override;
 public:
     void updataLayout();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
-
+#if 1
+    QStringList selectPaths();
+    void updateChoseText();
+#endif
 signals:
     void sigUpdatePicNum();
 
@@ -70,9 +76,12 @@ private:
     DLabel* pNum_dn;
 
     QList<ThumbnailListView*> m_allThumbnailListView;
+    QList<DCommandLinkButton*> m_allChoseButton;
 
     QGraphicsOpacityEffect * m_oe;
     QGraphicsOpacityEffect * m_oet;
+
+    bool m_ctrlPress;
 
 public:
     int m_index;

@@ -112,13 +112,16 @@ signals:
     void sigKeyEvent(int key);
 #if 1
     void sigMouseRelease();
+    void sigMousePress();
     void sigMenuItemDeal( QAction *action);
+    void sigSelectAll();
 #endif
 
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
     void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
