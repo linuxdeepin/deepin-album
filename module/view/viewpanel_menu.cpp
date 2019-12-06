@@ -129,66 +129,6 @@ void ViewPanel::appendAction_darkmenu(int id, const QString &text, const QString
     m_menu->addAction(ac);
 }
 
-#ifndef LITE_DIV
-DMenu *ViewPanel::createAlbumMenu()
-{
-    if (m_infos.isEmpty() || m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
-        return nullptr;
-    }
-
-    DMenu *am = new DMenu(tr("Add to album"));
-    QStringList albums = DBManager::instance()->getAllAlbumNames();
-    albums.removeAll(FAVORITES_ALBUM_NAME);
-
-    QAction *ac = new QAction(am);
-    ac->setProperty("MenuID", IdAddToAlbum);
-    {
-        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-                && utils::common::VIEW_TIMELINE_SRN != m_viewType
-                && utils::common::VIEW_SEARCH_SRN != m_viewType
-                && COMMON_STR_RECENT_IMPORTED != m_viewType
-                && COMMON_STR_TRASH != m_viewType
-                && COMMON_STR_FAVORITES != m_viewType) {
-            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
-
-        } else if (COMMON_STR_TRASH == m_viewType) {
-            dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
-            DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
-        } else {
-            DBImgInfoList infos;
-            DBImgInfo info;
-
-            info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
-            info.time = QDateTime::currentDateTime();
-            infos << info;
-
-            dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
-            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
-            DBManager::instance()->insertTrashImgInfos(infos);
-            DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
-        }
-
-        removeCurrentImage();
-    }
-    ac->setText(tr("Add to new album"));
-    ac->setData("Add to new album");
-    am->addAction(ac);
-    am->addSeparator();
-    for (QString album : albums) {
-        const QStringList paths = DBManager::instance()->getPathsByAlbum(album);
-        if (! paths.contains(m_current->filePath)) {
-            QAction *ac = new QAction(am);
-            ac->setProperty("MenuID", IdAddToAlbum);
-            ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
-            ac->setData(album);
-            am->addAction(ac);
-        }
-    }
-
-    return am;
-}
-#endif
-
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
     using namespace utils::base;
@@ -247,17 +187,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->exportImage(QStringList(path));
         break;
 #endif
-#ifndef LITE_DIV
-    case IdAddToAlbum: {
-        const QString album = action->data().toString();
-        if (album != "Add to new album") {
-            DBManager::instance()->insertIntoAlbum(album, QStringList(path));
-        } else {
-            dApp->signalM->createAlbum(QStringList(path));
-        }
-        break;
-    }
-#endif
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
@@ -291,7 +220,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         info.time = QDateTime::currentDateTime();
         infos << info;
         dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
-        dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
+//        dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
         DBManager::instance()->insertTrashImgInfos(infos);
         DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
         removeCurrentImage();
@@ -302,19 +231,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
         removeCurrentImage();
         break;
-#ifndef LITE_DIV
-    case IdRemoveFromAlbum:
-        DBManager::instance()->removeFromAlbum(m_vinfo.album, QStringList(path));
-        break;
-    case IdAddToFavorites:
-        DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
-        emit updateCollectButton();
-        break;
-    case IdRemoveFromFavorites:
-        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
-        emit updateCollectButton();
-        break;
-#endif
     case IdShowNavigationWindow:
         m_nav->setAlwaysHidden(false);
         break;

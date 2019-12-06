@@ -106,7 +106,8 @@ const DBImgInfoList DBManager::getAllInfos() const
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }
@@ -643,7 +644,8 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }
@@ -949,7 +951,8 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }
@@ -997,7 +1000,8 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }
@@ -1045,7 +1049,8 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }
@@ -1081,7 +1086,8 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }
@@ -1248,7 +1254,8 @@ void DBManager::importVersion1Data()
                 info.fileName = query.value(0).toString();
                 info.filePath = query.value(1).toString();
                 info.time = stringToDateTime(query.value(2).toString());
-                info.changeTime = stringToDateTime(query.value(3).toString());
+//                info.changeTime = stringToDateTime(query.value(3).toString());
+                info.changeTime = QDateTime::fromString(query.value(3).toString(), DATETIME_FORMAT_DATABASE);
 
                 infos << info;
             }
@@ -1336,7 +1343,8 @@ void DBManager::importVersion2Data()
                 info.fileName = query.value(0).toString();
                 info.filePath = query.value(1).toString();
                 info.time = stringToDateTime(query.value(2).toString());
-                info.changeTime = stringToDateTime(query.value(3).toString());
+//                info.changeTime = stringToDateTime(query.value(3).toString());
+                info.changeTime = QDateTime::fromString(query.value(3).toString(), DATETIME_FORMAT_DATABASE);
 
                 infos << info;
             }
@@ -1441,7 +1449,8 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }
@@ -1632,7 +1641,8 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = stringToDateTime(query.value(4).toString());
+//            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
 
             infos << info;
         }

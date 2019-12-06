@@ -347,7 +347,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
             dialog->show();
             connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+//                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
                 DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
                 removeCurrentImage();
             });
@@ -361,7 +361,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             infos << info;
 
             dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
-            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
+//            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
             removeCurrentImage();

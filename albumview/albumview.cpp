@@ -901,9 +901,9 @@ void AlbumView::updateRightTrashView()
     }
 
     if (0 < removepaths.length()) {
-        for (auto path : removepaths) {
-            dApp->m_imagetrashmap.remove(path);
-        }
+//        for (auto path : removepaths) {
+//            dApp->m_imagetrashmap.remove(path);
+//        }
 
         DBManager::instance()->removeTrashImgInfosNoSignal(removepaths);
     }
@@ -1136,10 +1136,10 @@ void AlbumView::onTrashRecoveryBtnClicked()
         info.time = fi.birthTime();
         infos << info;
 
-        dApp->m_imagetrashmap.remove(path);
+//        dApp->m_imagetrashmap.remove(path);
     }
 
-    dApp->m_imageloader->addImageLoader(paths);
+//    dApp->m_imageloader->addImageLoader(paths);
     DBManager::instance()->insertImgInfos(infos);
     DBManager::instance()->removeTrashImgInfos(paths);
 
@@ -1159,10 +1159,10 @@ void AlbumView::onTrashDeleteBtnClicked()
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count());
     dialog->show();
     connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-        for (auto path : paths)
-        {
-            dApp->m_imagetrashmap.remove(path);
-        }
+//        for (auto path : paths)
+//        {
+//            dApp->m_imagetrashmap.remove(path);
+//        }
 
         DBManager::instance()->removeTrashImgInfos(paths);
     });

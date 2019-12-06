@@ -653,10 +653,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
             dialog->show();
             connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-                for (auto path : paths)
-                {
-                    dApp->m_imagetrashmap.remove(path);
-                }
+//                for (auto path : paths)
+//                {
+//                    dApp->m_imagetrashmap.remove(path);
+//                }
 
                 DBManager::instance()->removeTrashImgInfos(paths);
                 emit trashDelete();
@@ -671,7 +671,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
                 info.time = QDateTime::currentDateTime();
                 infos << info;
 
-                dApp->m_imagemap.remove(path);
+//                dApp->m_imagemap.remove(path);
             }
 
             dApp->m_imageloader->addTrashImageLoader(paths);
