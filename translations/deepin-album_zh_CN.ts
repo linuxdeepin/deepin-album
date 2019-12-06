@@ -822,7 +822,11 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="unfinished"></translation>
+        <translation>部分照片导入失败</translation>
+    </message>
+    <message>
+        <source>Delete %1 photo(s) successful</source>
+        <translation>已成功删除%1张照片</translation>
     </message>
 </context>
 <context>
@@ -1572,7 +1576,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新建相册</translation>
+        <translation type="vanished">添加到新建相册</translation>
     </message>
     <message>
         <source>Slide show</source>

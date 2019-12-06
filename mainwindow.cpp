@@ -213,6 +213,15 @@ void MainWindow::initConnections()
     connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
         m_pSearchEdit->setVisible(bIsDisp);
     });
+
+    connect(dApp->signalM, &SignalManager::sigDeletePhotos, this, [ = ](int num) {
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+
+        QString str = tr("Delete %1 photo(s) successful");
+        this->sendMessage(icon, str.arg(num));
+    });
+
 }
 
 void MainWindow::initShortcut()

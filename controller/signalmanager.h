@@ -132,6 +132,7 @@ signals:
     void sigLoadMountImagesEnd(QString mountname);
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();
+    void sigDeletePhotos(int num);
 
 private:
     explicit SignalManager(QObject *parent = 0);

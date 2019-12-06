@@ -657,7 +657,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //                {
 //                    dApp->m_imagetrashmap.remove(path);
 //                }
-
+                emit dApp->signalM->sigDeletePhotos(paths.length());
                 DBManager::instance()->removeTrashImgInfos(paths);
                 emit trashDelete();
             });
