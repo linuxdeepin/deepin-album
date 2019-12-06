@@ -665,12 +665,20 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 
         else {
             DBImgInfoList infos;
-            for (auto path : paths) {
+            for (auto path : paths)
+            {
                 DBImgInfo info;
                 info = DBManager::instance()->getInfoByPath(path);
                 info.time = QDateTime::currentDateTime();
+                QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+                for(auto eachname : allalbumnames)
+                {
+                    if(DBManager::instance()->isImgExistInAlbum(eachname, path))
+                    {
+                        info.albumname += (eachname + ",");
+                    }
+                }
                 infos << info;
-
 //                dApp->m_imagemap.remove(path);
             }
 

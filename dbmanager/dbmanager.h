@@ -49,6 +49,7 @@ struct DBImgInfo {
     QString dirHash;
     QDateTime time;     // 图片创建时间
     QDateTime changeTime;   // 导入时间 Or 删除时间
+    QString albumname;      // 图片所属相册名，以","分隔
 
     bool operator==(const DBImgInfo& other)
     {
@@ -56,7 +57,8 @@ struct DBImgInfo {
                 fileName == other.fileName &&
                 dirHash == other.dirHash &&
                 time == other.time &&
-                changeTime == other.changeTime);
+                changeTime == other.changeTime &&
+                albumname == other.albumname);
     }
 
     friend QDebug operator<<(QDebug &dbg, const DBImgInfo& info) {
@@ -66,6 +68,7 @@ struct DBImgInfo {
             << "Dir:" << info.dirHash
             << "Time:" << info.time
             << "ChangeTime:" << info.changeTime
+            << "AlbumName:" << info.albumname
             << "]";
         return dbg;
     }

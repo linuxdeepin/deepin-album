@@ -1141,6 +1141,21 @@ void AlbumView::onTrashRecoveryBtnClicked()
 
 //    dApp->m_imageloader->addImageLoader(paths);
     DBManager::instance()->insertImgInfos(infos);
+
+    for(auto path : paths)
+    {
+        DBImgInfo info;
+        info = DBManager::instance()->getTrashInfoByPath(path);
+        QStringList namelist = info.albumname.split(",");
+        for(auto eachname : namelist)
+        {
+            if(DBManager::instance()->isAlbumExistInDB(eachname))
+            {
+                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
+            }
+        }
+    }
+
     DBManager::instance()->removeTrashImgInfos(paths);
 
     onTrashListClicked();
