@@ -96,7 +96,7 @@ void ImageLoader::startLoading()
         {
             pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
         }
-        m_parent->m_bigimagemap.insert(path, pixmap);
+        m_parent->m_bigimagemap.insert(path, pixmap.scaledToWidth(800,  Qt::FastTransformation));
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
         if (pixmap.isNull())
@@ -204,7 +204,7 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
             pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
         }
 
-        m_parent->m_bigimagemap.insert(info.filePath, pixmap);
+        m_parent->m_bigimagemap.insert(info.filePath, pixmap.scaledToWidth(800,  Qt::FastTransformation));
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
@@ -288,7 +288,7 @@ void ImageLoader::addImageLoader(QStringList pathlist)
             pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
         }
 
-        m_parent->m_bigimagemap.insert(path, pixmap);
+        m_parent->m_bigimagemap.insert(path, pixmap.scaledToWidth(800,  Qt::FastTransformation));
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
         if (pixmap.isNull())
@@ -304,7 +304,7 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
     for(QString path : pathlist)
     {
         QPixmap pixmap(path);
-        m_parent->m_bigimagemap[path] = pixmap;
+        m_parent->m_bigimagemap[path] = pixmap.scaledToWidth(800,  Qt::FastTransformation);
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 

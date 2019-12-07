@@ -1214,6 +1214,17 @@ void DBManager::checkDatabase()
              queryTrash.exec( QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
                          .arg(strDate));
          }
+
+         // 判断TrashTable中是否有AlbumName字段
+          QString strSqlTrashs = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable\" and sql like \"%AlbumName%\"");
+          QSqlQuery queryTrashs(db);
+          queryTrashs.exec(strSqlTrashs);
+          if (!queryTrashs.next()){
+              // 无AlbumName字段,则增加AlbumName字段,赋值空
+              QString strAlbumName = "";
+              queryTrashs.exec( QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"AlbumName\" TEXT default \"%1\"")
+                          .arg(strAlbumName));
+          }
     }
     mutex.unlock();
 

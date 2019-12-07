@@ -73,6 +73,10 @@
         <translation type="vanished">已导入</translation>
     </message>
     <message>
+        <source>%1 Volume</source>
+        <translation>%1 卷</translation>
+    </message>
+    <message>
         <source>Trash</source>
         <translation>最近删除</translation>
     </message>

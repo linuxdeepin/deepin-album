@@ -12,6 +12,7 @@
 
 #include <QWidget>
 #include <QSplitter>
+#include <QUrl>
 #include <DListWidget>
 #include <QListWidgetItem>
 #include <QVBoxLayout>
@@ -22,6 +23,9 @@
 #include <DApplicationHelper>
 #include <DSpinner>
 #include <DSuggestButton>
+#include <ddiskmanager.h>
+#include <dblockdevice.h>
+#include <ddiskdevice.h>
 #include "leftlistwidget.h"
 
 DWIDGET_USE_NAMESPACE
@@ -34,20 +38,22 @@ class MountLoader : public QObject
 {
     Q_OBJECT
 public:
-    explicit MountLoader(AlbumView* parent);
+    explicit MountLoader(AlbumView *parent);
 
 private:
     bool findPicturePathByPhone(QString &path);
 
 public slots:
     void onLoadMountImagesStart(QString mountName, QString path);
+    void onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
 
 signals:
     void sigFinishiLoad();
     void sigLoadMountImagesStart(QString mountName, QString path);
+    void sigCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
 
 private:
-    AlbumView* m_parent;
+    AlbumView *m_parent;
     QStringList m_phoneImgPathList;
     QMap<QString, QPixmap> m_phonePathImage;
 };
@@ -85,7 +91,7 @@ private:
     void showLeftMenu(const QPoint &pos);
     void appendAction(int id, const QString &text, const QString &shortcut);
     void openImage(int index);
-    void menuOpenImage(QString path,QStringList paths,bool isFullScreen, bool isSlideShow);
+    void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
     QString getNewAlbumName();
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *e) override;
@@ -133,12 +139,13 @@ public:
     QString m_currentAlbum;
     int m_selPicNum;
 
-    DStackedWidget* m_pRightStackWidget;
-    LeftListWidget* m_pLeftTabList;
+    DStackedWidget *m_pRightStackWidget;
+    LeftListWidget *m_pLeftTabList;
 
-    StatusBar* m_pStatusBar;
-    DWidget* m_pWidget;
-    ThumbnailListView* m_pRightThumbnailList;
+    StatusBar *m_pStatusBar;
+    DWidget *m_pWidget;
+    ThumbnailListView *m_pRightThumbnailList;
+    ThumbnailListView *m_pRightPhoneThumbnailList;
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     QMap<QString, QPixmap> m_phonePathAndImage;
@@ -147,30 +154,31 @@ private:
 
     QStringList m_allAlbumNames;
 
-    DWidget* m_pLeftWidget;
-    ImportView* m_pImportView;
-    ThumbnailListView* m_pRightTrashThumbnailList;
-    ThumbnailListView* m_pRightFavoriteThumbnailList;
-    ThumbnailListView* m_pRightPhoneThumbnailList;
-    DPushButton* m_pRecoveryBtn;
-    DPushButton* m_pDeleteBtn;
-    DMenu* m_pLeftMenu;
-    DLabel* m_pRightTitle;
-    DLabel* m_pRightPicTotal;
-    DLabel* m_pImportPicTotal;
-    DLabel* m_pFavoriteTitle;
-    DLabel* m_pFavoritePicTotal;
-    DLabel* m_pPhoneTitle;
-    DLabel* m_pPhonePicTotal;
-    SearchView* m_pSearchView;
+    DWidget *m_pLeftWidget;
+    ImportView *m_pImportView;
+    ThumbnailListView *m_pRightTrashThumbnailList;
+    ThumbnailListView *m_pRightFavoriteThumbnailList;
+
+    DPushButton *m_pRecoveryBtn;
+    DPushButton *m_pDeleteBtn;
+    DMenu *m_pLeftMenu;
+    DLabel *m_pRightTitle;
+    DLabel *m_pRightPicTotal;
+    DLabel *m_pImportPicTotal;
+    DLabel *m_pFavoriteTitle;
+    DLabel *m_pFavoritePicTotal;
+    DLabel *m_pPhoneTitle;
+    DLabel *m_pPhonePicTotal;
+    SearchView *m_pSearchView;
     DGioVolumeManager *m_vfsManager;
-    DLabel* pLabel1;
-    DLabel* pLabel2;
+    DDiskManager *m_diskManager;
+    DLabel *pLabel1;
+    DLabel *pLabel2;
     // 已导入窗体
-    ImportTimeLineView* m_pImpTimeLineWidget;
+    ImportTimeLineView *m_pImpTimeLineWidget;
 
     //手机照片导入窗体
-    DWidget* m_importByPhoneWidget;
+    DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
     DPushButton *m_importAllByPhoneBtn;
     DSuggestButton *m_importSelectByPhoneBtn;
@@ -178,17 +186,19 @@ private:
     QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     QListWidgetItem *m_curListWidgetItem;
     QMap<QString, QPixmap> m_phonePicMap;
-    QMap<QString, QAction*> m_MenuActionMap;
+    QMap<QString, QAction *> m_MenuActionMap;
 
     int m_mountPicNum;
 
-    MountLoader* m_mountloader;
-    QThread* m_LoadThread;
+    MountLoader *m_mountloader;
+    QThread *m_LoadThread;
 
-    QMap<QString, MountLoader*> m_mountLoaderList;
-    QMap<QString, QThread*> m_loadThreadList;
+    QMap<QString, MountLoader *> m_mountLoaderList;
+    QMap<QString, QThread *> m_loadThreadList;
 
     DWidget *pImportTimeLineWidget;
+    QMap<QUrl, QString> durlAndNameMap;
+    void getAllDeviceName();
 };
 
 #endif // ALBUMVIEW_H

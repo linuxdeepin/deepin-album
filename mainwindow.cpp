@@ -802,6 +802,7 @@ void MainWindow::onImprotBtnClicked()
         dbInfos << dbi;
     }
 
+    AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->currentItem());
     if (! dbInfos.isEmpty()) {
 //        if(VIEW_ALBUM == m_iCurrentView)
 //        {
@@ -814,9 +815,21 @@ void MainWindow::onImprotBtnClicked()
 //            }
 //        }
 
+
+        if (ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
+        {
+            m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
+        }
+
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_pAlbumview->m_currentAlbum);
     } else {
         emit dApp->signalM->ImportFailed();
+    }
+
+    if(m_pCenterWidget->currentIndex() == VIEW_ALBUM
+       && (ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr))
+    {
+        m_pAlbumview->m_pLeftTabList->setCurrentRow(0);
     }
 }
 
@@ -883,7 +896,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             }
 
             if (! dbInfos.isEmpty()) {
-                dApp->m_imageloader->ImportImageLoader(dbInfos, m_pAlbumview->m_currentAlbum);
+                dApp->m_imageloader->ImportImageLoader(dbInfos);
             }
         }
 

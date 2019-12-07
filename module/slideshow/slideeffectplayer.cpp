@@ -49,8 +49,8 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() != m_tid || m_pausing)
         return;
-//    if (m_effect)
-//        m_effect->deleteLater();
+    if (m_effect)
+        m_effect->deleteLater();
 
 //    if(m_current == m_paths.size()-1){
 //        emit dApp->signalM->updateButton();

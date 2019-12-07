@@ -11,6 +11,7 @@
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
+#include <dgiovolume.h>
 #include <DFontSizeManager>
 #include "utils/snifferimageformat.h"
 #include <QDirIterator>
@@ -44,6 +45,36 @@ const int RIGHT_VIEW_TIMELINE_IMPORT = 6;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
+static QMap<QString, const char *> i18nMap {
+    {"data", "Data Disk"}
+};
+const QString ddeI18nSym = QStringLiteral("_dde_");
+
+static std::initializer_list<std::pair<QString, QString>> opticalmediakeys {
+    {"optical",                "Optical"},
+    {"optical_cd",             "CD-ROM"},
+    {"optical_cd_r",           "CD-R"},
+    {"optical_cd_rw",          "CD-RW"},
+    {"optical_dvd",            "DVD-ROM"},
+    {"optical_dvd_r",          "DVD-R"},
+    {"optical_dvd_rw",         "DVD-RW"},
+    {"optical_dvd_ram",        "DVD-RAM"},
+    {"optical_dvd_plus_r",     "DVD+R"},
+    {"optical_dvd_plus_rw",    "DVD+RW"},
+    {"optical_dvd_plus_r_dl",  "DVD+R/DL"},
+    {"optical_dvd_plus_rw_dl", "DVD+RW/DL"},
+    {"optical_bd",             "BD-ROM"},
+    {"optical_bd_r",           "BD-R"},
+    {"optical_bd_re",          "BD-RE"},
+    {"optical_hddvd",          "HD DVD-ROM"},
+    {"optical_hddvd_r",        "HD DVD-R"},
+    {"optical_hddvd_rw",       "HD DVD-RW"},
+    {"optical_mo",             "MO"}
+};
+static QVector<std::pair<QString, QString>> opticalmediakv(opticalmediakeys);
+static QMap<QString, QString> opticalmediamap(opticalmediakeys);
+
+
 QString ss(const QString &text)
 {
     QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
@@ -59,8 +90,11 @@ AlbumView::AlbumView()
     m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
+    m_diskManager = new DDiskManager(this);
+    m_diskManager->setWatchChanges(true);
     m_curListWidgetItem = nullptr;
     m_mountPicNum = 0;
+    durlAndNameMap.clear();
 
     auto infos = DBManager::instance()->getAllInfos();
     QStringList pathlist;
@@ -98,6 +132,63 @@ AlbumView::~AlbumView()
     }
 }
 
+QString sizeString(const QString &str)
+{
+    int begin_pos = str.indexOf('.');
+
+    if (begin_pos < 0)
+        return str;
+
+    QString size = str;
+
+    while (size.count() - 1 > begin_pos) {
+        if (!size.endsWith('0'))
+            return size;
+
+        size = size.left(size.count() - 1);
+    }
+
+    return size.left(size.count() - 1);
+}
+
+QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, int forceUnit = -1, QStringList unitList = QStringList())
+{
+    if (num < 0) {
+        qWarning() << "Negative number passed to formatSize():" << num;
+        num = 0;
+    }
+
+    bool isForceUnit = (forceUnit >= 0);
+    QStringList list;
+    qreal fileSize(num);
+
+    if (unitList.size() == 0) {
+        list << " B" << " KB" << " MB" << " GB" << " TB"; // should we use KiB since we use 1024 here?
+    } else {
+        list = unitList;
+    }
+
+    QStringListIterator i(list);
+    QString unit = i.hasNext() ? i.next() : QStringLiteral(" B");
+
+    int index = 0;
+    while (i.hasNext()) {
+        if (fileSize < 1024 && !isForceUnit) {
+            break;
+        }
+
+        if (isForceUnit && index == forceUnit) {
+            break;
+        }
+
+        unit = i.next();
+        fileSize /= 1024;
+        index++;
+    }
+    QString unitString = withUnitVisible ? unit : QString();
+    return QString("%1%2").arg(sizeString(QString::number(fileSize, 'f', precision)), unitString);
+}
+
 void AlbumView::initConnections()
 {
     connect(m_pLeftTabList, &DListWidget::clicked, this, &AlbumView::leftTabClicked);
@@ -131,6 +222,84 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
+    connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, [ = ](const QString & blks) {
+        qDebug() << "--------------blks:" << blks;
+        QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
+        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
+
+        if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+            return;
+        }
+        if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
+            return;
+        }
+        DBlockDevice *pblk = blk.data();
+        QByteArrayList mps = blk->mountPoints();
+        qulonglong size = blk->size();
+        QString label = blk->idLabel();
+        QString fs = blk->idType();
+        QString udispname = "";
+        if (label.startsWith(ddeI18nSym)) {
+            QString i18nKey = label.mid(ddeI18nSym.size(), label.size() - ddeI18nSym.size());
+            udispname = qApp->translate("DeepinStorage", i18nMap.value(i18nKey, i18nKey.toUtf8().constData()));
+            goto runend;
+//            blk->mount({});
+//            return;
+        }
+
+        if (mps.contains(QByteArray("/\0", 2))) {
+            udispname = QCoreApplication::translate("PathManager", "System Disk");
+            goto runend;
+//            blk->mount({});
+//            return;
+        }
+        if (label.length() == 0) {
+            QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(pblk->drive()));
+            if (!drv->mediaAvailable() && drv->mediaCompatibility().join(" ").contains("optical")) {
+                QString maxmediacompat;
+                for (auto i = opticalmediakv.rbegin(); i != opticalmediakv.rend(); ++i) {
+                    if (drv->mediaCompatibility().contains(i->first)) {
+                        maxmediacompat = i->second;
+                        break;
+                    }
+                }
+                udispname = QCoreApplication::translate("DeepinStorage", "%1 Drive").arg(maxmediacompat);
+                goto runend;
+                //            blk->mount({});
+                //            return;
+            }
+            if (drv->opticalBlank()) {
+                udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[drv->media()]);
+                goto runend;
+                //            blk->mount({});
+                //            return;
+            }
+            if (pblk->isEncrypted() && !blk) {
+                udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(size));
+                goto runend;
+                //            blk->mount({});
+                //            return;
+            }
+//            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
+            udispname += tr("卷");
+            goto runend;
+//            blk->mount({});
+//            return;
+        }
+        udispname = label;
+
+runend:
+        blk->mount({});
+        QByteArrayList qbl = blk->mountPoints();
+        QString mountPoint = "file://";
+        for (QByteArray qb : qbl) {
+            mountPoint += qb;
+        }
+        QUrl qurl(mountPoint);
+        durlAndNameMap[qurl] = udispname;
+        return;
+    });
     connect(m_importAllByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importAllBtnClicked);
     connect(m_importSelectByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importSelectBtnClicked);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
@@ -561,7 +730,7 @@ void AlbumView::initRightView()
 //    m_pImportPicTotal->setForegroundRole(DPalette::TextTips);
 
     m_pImpTimeLineWidget = new ImportTimeLineView(pImportTimeLineWidget);
-    m_pImpTimeLineWidget->move(-6,40);
+    m_pImpTimeLineWidget->move(-6, 40);
 
     pImpTimeLineVBoxLayout->addSpacing(5);
     pImpTimeLineVBoxLayout->addWidget(pImportTitle);
@@ -767,11 +936,9 @@ void AlbumView::updateRightNoTrashView()
 
                 //设置更新之前的选择状态
                 QList<Listolditem>::iterator j;
-                for (j = items.begin(); j != items.end(); ++j)
-                {
+                for (j = items.begin(); j != items.end(); ++j) {
                     if ((*j).row < m_pRightPhoneThumbnailList->m_model->rowCount()
-                        && (*j).column < m_pRightPhoneThumbnailList->m_model->columnCount())
-                    {
+                            && (*j).column < m_pRightPhoneThumbnailList->m_model->columnCount()) {
                         QModelIndex qindex = m_pRightPhoneThumbnailList->m_model->index((*j).row, (*j).column);
                         m_pRightPhoneThumbnailList->selectionModel()->select(qindex, QItemSelectionModel::Select);
                     }
@@ -1142,15 +1309,12 @@ void AlbumView::onTrashRecoveryBtnClicked()
 //    dApp->m_imageloader->addImageLoader(paths);
     DBManager::instance()->insertImgInfos(infos);
 
-    for(auto path : paths)
-    {
+    for (auto path : paths) {
         DBImgInfo info;
         info = DBManager::instance()->getTrashInfoByPath(path);
         QStringList namelist = info.albumname.split(",");
-        for(auto eachname : namelist)
-        {
-            if(DBManager::instance()->isAlbumExistInDB(eachname))
-            {
+        for (auto eachname : namelist) {
+            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
                 DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
             }
         }
@@ -1410,9 +1574,8 @@ void AlbumView::keyPressEvent(QKeyEvent *event)
 
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    qDebug() << "onVfsMountChangedAdd()" << mount->name();
+    qDebug() << "onVfsMountChangedAdd() name:" << mount->name();
     Q_UNUSED(mount);
-
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
@@ -1448,10 +1611,20 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
 
         qDebug() << "onVfsMountChangedAdd() emit pMountloader->sigLoadMountImagesStart()";
-        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
+//        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
 
-        m_mountLoaderList.insert(mount->name(), pMountloader);
-        m_loadThreadList.insert(mount->name(), pLoadThread);
+//        m_mountLoaderList.insert(mount->name(), pMountloader);
+//        m_loadThreadList.insert(mount->name(), pLoadThread);
+        QString rename = "";
+        rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
+        if ("" == rename) {
+            rename = mount->name();
+        }
+
+        emit pMountloader->sigLoadMountImagesStart(rename, strPath);
+
+        m_mountLoaderList.insert(rename, pMountloader);
+        m_loadThreadList.insert(rename, pLoadThread);
 
         updateExternalDevice(mount);
     }
@@ -1473,7 +1646,13 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     for (int i = 0; i < m_pLeftTabList->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftTabList->item(i);
         AlbumLeftTabItem *pAlbumLeftTabItem = (AlbumLeftTabItem *)m_pLeftTabList->itemWidget(pListWidgetItem);
-        if (mount->name() == pAlbumLeftTabItem->m_albumNameStr) {
+//        if (mount->name() == pAlbumLeftTabItem->m_albumNameStr) {
+        QString rename = "";
+        rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
+        if ("" == rename) {
+            rename = mount->name();
+        }
+        if (rename == pAlbumLeftTabItem->m_albumNameStr) {
             delete pListWidgetItem;
             AlbumLeftTabItem *currentItem = (AlbumLeftTabItem *)m_pLeftTabList->itemWidget(m_pLeftTabList->currentItem());
             m_currentAlbum = currentItem->m_albumNameStr;
@@ -1485,8 +1664,93 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     }
 }
 
+void AlbumView::getAllDeviceName()
+{
+    QStringList blDevList = m_diskManager->blockDevices();
+    qDebug() << "blDevList:" << blDevList;
+    for (const QString &blks : blDevList) {
+        QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
+        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
+
+        if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+            continue;
+        }
+        if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
+            continue;
+        }
+        DBlockDevice *pblk = blk.data();
+        QByteArrayList mps = blk->mountPoints();
+        qulonglong size = blk->size();
+        QString label = blk->idLabel();
+        QString fs = blk->idType();
+        QString udispname = "";
+
+        if (label.startsWith(ddeI18nSym)) {
+            QString i18nKey = label.mid(ddeI18nSym.size(), label.size() - ddeI18nSym.size());
+            udispname = qApp->translate("DeepinStorage", i18nMap.value(i18nKey, i18nKey.toUtf8().constData()));
+            goto runend1;
+//            blk->mount({});
+//            return;
+        }
+
+        if (mps.contains(QByteArray("/\0", 2))) {
+            udispname = QCoreApplication::translate("PathManager", "System Disk");
+            goto runend1;
+//            blk->mount({});
+//            return;
+        }
+        if (label.length() == 0) {
+            QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(pblk->drive()));
+            if (!drv->mediaAvailable() && drv->mediaCompatibility().join(" ").contains("optical")) {
+                QString maxmediacompat;
+                for (auto i = opticalmediakv.rbegin(); i != opticalmediakv.rend(); ++i) {
+                    if (drv->mediaCompatibility().contains(i->first)) {
+                        maxmediacompat = i->second;
+                        break;
+                    }
+                }
+                udispname = QCoreApplication::translate("DeepinStorage", "%1 Drive").arg(maxmediacompat);
+                goto runend1;
+                //            blk->mount({});
+                //            return;
+            }
+            if (drv->opticalBlank()) {
+                udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[drv->media()]);
+                goto runend1;
+                //            blk->mount({});
+                //            return;
+            }
+            if (pblk->isEncrypted() && !blk) {
+                udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(size));
+                goto runend1;
+                //            blk->mount({});
+                //            return;
+            }
+//            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
+            udispname += tr("卷");
+            goto runend1;
+//            blk->mount({});
+//            return;
+        }
+        udispname = label;
+
+runend1:
+        blk->mount({});
+        QByteArrayList qbl = blk->mountPoints();
+        QString mountPoint = "file://";
+        for (QByteArray qb : qbl) {
+            mountPoint += qb;
+        }
+        qDebug() << "mountPoint:" << mountPoint;
+        QUrl qurl(mountPoint);
+        durlAndNameMap[qurl] = udispname;
+    }
+}
+
 const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList()
 {
+    getAllDeviceName();
     QList<QExplicitlySharedDataPointer<DGioMount> > result;
     const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = m_vfsManager->getMounts();
 
@@ -1561,15 +1825,13 @@ void AlbumView::loadMountPicture(QString path)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (pixmap.isNull())
-        {
+        if (pixmap.isNull()) {
             pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
         }
 
         pixmap.scaledToHeight(100,  Qt::FastTransformation);
-        if (pixmap.isNull())
-        {
-             pixmap = QPixmap::fromImage(tImg);
+        if (pixmap.isNull()) {
+            pixmap = QPixmap::fromImage(tImg);
         }
 
         m_phonePicMap.insert(fileInfo.filePath(), pixmap);
@@ -1672,10 +1934,17 @@ void AlbumView::initExternalDevice()
         pListWidgetItem->setData(Qt::UserRole, strPath);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem;
+        QString rename = "";
+        rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
+        if ("" == rename) {
+            rename = mount->name();
+        }
         if (strPath.contains("/media/")) {
-            pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
+//            pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
+            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
         } else {
-            pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+//            pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
         }
 
         pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
@@ -1689,10 +1958,14 @@ void AlbumView::initExternalDevice()
         pLoadThread->start();
 
         connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
-        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
+//        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
+        emit pMountloader->sigLoadMountImagesStart(rename, strPath);
 
-        m_mountLoaderList.insert(mount->name(), pMountloader);
-        m_loadThreadList.insert(mount->name(), pLoadThread);
+
+//        m_mountLoaderList.insert(mount->name(), pMountloader);
+//        m_loadThreadList.insert(mount->name(), pLoadThread);
+        m_mountLoaderList.insert(rename, pMountloader);
+        m_loadThreadList.insert(rename, pLoadThread);
     }
 }
 
@@ -1706,10 +1979,17 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
 
     AlbumLeftTabItem *pAlbumLeftTabItem;
+    QString rename = "";
+    rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
+    if ("" == rename) {
+        rename = mount->name();
+    }
     if (strPath.contains("/media/")) {
-        pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
+//        pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
+        pAlbumLeftTabItem = new AlbumLeftTabItem(rename, m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_U);
     } else {
-        pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+//        pAlbumLeftTabItem = new AlbumLeftTabItem(mount->name(), m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
+        pAlbumLeftTabItem = new AlbumLeftTabItem(rename, m_pLeftTabList, pListWidgetItem, ALBUM_PATHTYPE_BY_PHONE);
     }
 
     pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
@@ -1795,6 +2075,7 @@ void AlbumView::importAllBtnClicked()
     QList<ThumbnailListView::ItemInfo> allPaths = m_pRightPhoneThumbnailList->getAllPaths();
     QString albumNameStr = m_importByPhoneComboBox->currentText();
     QStringList picPathList;
+    QStringList newPathList;
     DBImgInfoList dbInfos;
     QString strHomePath = QDir::homePath();
     //获取系统现在的时间
@@ -1816,20 +2097,29 @@ void AlbumView::importAllBtnClicked()
             dir.remove(strNewPath);
         }
 
-        if (QFile::copy(strPath, strNewPath)) {
-            picPathList << strPath;
+//        if (QFile::copy(strPath, strNewPath)) {
+        picPathList << strPath;
+        newPathList << strNewPath;
+        QFileInfo fi(strPath);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = strNewPath;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+        dbi.changeTime = QDateTime::currentDateTime();
 
-            QFileInfo fi(strNewPath);
-            DBImgInfo dbi;
-            dbi.fileName = fi.fileName();
-            dbi.filePath = strNewPath;
-            dbi.dirHash = utils::base::hash(QString());
-            dbi.time = fi.birthTime();
-            dbi.changeTime = QDateTime::currentDateTime();
-
-            dbInfos << dbi;
-        }
+        dbInfos << dbi;
+//        }
     }
+
+    MountLoader *pMountloader = new MountLoader(this);
+    QThread *pLoadThread = new QThread();
+
+    pMountloader->moveToThread(pLoadThread);
+    pLoadThread->start();
+
+    connect(pMountloader, SIGNAL(sigCopyPhotoFromPhone(QStringList, QStringList)), pMountloader, SLOT(onCopyPhotoFromPhone(QStringList, QStringList)));
+    emit pMountloader->sigCopyPhotoFromPhone(picPathList, newPathList);
 
     if (!dbInfos.isEmpty()) {
         DBImgInfoList dbInfoList;
@@ -1884,6 +2174,7 @@ void AlbumView::importSelectBtnClicked()
     QStringList selectPaths = m_pRightPhoneThumbnailList->selectedPaths();
     QString albumNameStr = m_importByPhoneComboBox->currentText();
     QStringList picPathList;
+    QStringList newPathList;
     DBImgInfoList dbInfos;
     QString strHomePath = QDir::homePath();
     //获取系统现在的时间
@@ -1905,20 +2196,30 @@ void AlbumView::importSelectBtnClicked()
             dir.remove(strNewPath);
         }
 
-        if (QFile::copy(strPath, strNewPath)) {
-            picPathList << strPath;
+//        if (QFile::copy(strPath, strNewPath)) {
+        picPathList << strPath;
+        newPathList << strNewPath;
 
-            QFileInfo fi(strNewPath);
-            DBImgInfo dbi;
-            dbi.fileName = fi.fileName();
-            dbi.filePath = strNewPath;
-            dbi.dirHash = utils::base::hash(QString());
-            dbi.time = fi.birthTime();
-            dbi.changeTime = QDateTime::currentDateTime();
+        QFileInfo fi(strNewPath);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = strNewPath;
+        dbi.dirHash = utils::base::hash(QString());
+        dbi.time = fi.birthTime();
+        dbi.changeTime = QDateTime::currentDateTime();
 
-            dbInfos << dbi;
-        }
+        dbInfos << dbi;
+//        }
     }
+
+    MountLoader *pMountloader = new MountLoader(this);
+    QThread *pLoadThread = new QThread();
+
+    pMountloader->moveToThread(pLoadThread);
+    pLoadThread->start();
+
+    connect(pMountloader, SIGNAL(sigCopyPhotoFromPhone(QStringList, QStringList)), pMountloader, SLOT(onCopyPhotoFromPhone(QStringList, QStringList)));
+    emit pMountloader->sigCopyPhotoFromPhone(picPathList, newPathList);
 
     if (!dbInfos.isEmpty()) {
         DBImgInfoList dbInfoList;
@@ -1986,6 +2287,7 @@ void AlbumView::onUnMountSignal(QString unMountPath)
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         if (LocationFile->path().compare(unMountPath) == 0 && mount->canUnmount()) {
             mount->unmount(true);
+            durlAndNameMap.erase(durlAndNameMap.find(QUrl(mount->getRootFile()->uri())));
             m_mounts.removeOne(mount);
             break;
         }
@@ -2004,7 +2306,7 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 
 void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 {
-    qDebug()<<"AlbumView::onLeftListDropEvent()";
+    qDebug() << "AlbumView::onLeftListDropEvent()";
     ThumbnailListView *currentViewList;
     QStringList dropItemPaths;
 
@@ -2053,6 +2355,9 @@ void AlbumView::updatePicNum()
             selPicNum = paths.length();
         } else if (m_currentAlbum == COMMON_STR_FAVORITES) {
             QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
+            selPicNum = paths.length();
+        } else if (m_currentAlbum == COMMON_STR_RECENT_IMPORTED) {
+            QStringList paths = m_pImpTimeLineWidget->selectPaths();
             selPicNum = paths.length();
         } else if (5 == m_pRightStackWidget->currentIndex()) {
             QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
@@ -2171,9 +2476,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
         }
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (pixmap.isNull())
-        {
-            qDebug()<<"pixmap.isNull()";
+        if (pixmap.isNull()) {
+            qDebug() << "pixmap.isNull()";
             continue;
         }
 
@@ -2186,8 +2490,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
         m_phoneImgPathList << fileInfo.filePath();
 
-        if(0 == m_phoneImgPathList.length()%50)
-        {
+        if (0 == m_phoneImgPathList.length() % 50) {
             m_parent->m_phonePathAndImage = m_phonePathImage;
             m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
             dApp->signalM->sigLoadMountImagesEnd(mountName);
@@ -2202,6 +2505,18 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     }
 
     dApp->signalM->sigLoadMountImagesEnd(mountName);
+}
+
+
+void MountLoader::onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths)
+{
+    for(int i = 0; i< phonepaths.length(); i++)
+    {
+        if(QFile::copy(phonepaths[i], systempaths[i]))
+        {
+            qDebug()<<"onCopyPhotoFromPhone()";
+        }
+    }
 }
 
 //搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
@@ -2238,6 +2553,6 @@ bool MountLoader::findPicturePathByPhone(QString &path)
 
 void AlbumView::resizeEvent(QResizeEvent *e)
 {
-    m_pImpTimeLineWidget->setFixedWidth(width()-181);
-    m_pImpTimeLineWidget->setFixedHeight(height()-55);
+    m_pImpTimeLineWidget->setFixedWidth(width() - 181);
+    m_pImpTimeLineWidget->setFixedHeight(height() - 55);
 }
