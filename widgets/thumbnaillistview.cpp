@@ -107,7 +107,7 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
     qDebug() << "ThumbnailListView::mouseMoveEvent()";
-
+    emit sigMouseMove();
     DListView::mouseMoveEvent(event);
 }
 
@@ -205,10 +205,10 @@ void ThumbnailListView::dragLeaveEvent(QDragLeaveEvent *event)
 
 void ThumbnailListView::dropEvent(QDropEvent *event)
 {
+    emit sigDrop();
     qDebug() << "ThumbnailListView::dropEvent()";
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover"))
-        return;
-
+        return;    
     DListView::dropEvent(event);
 }
 

@@ -115,6 +115,8 @@ signals:
     void sigMousePress();
     void sigMenuItemDeal( QAction *action);
     void sigSelectAll();
+    void sigMouseMove();
+    void sigDrop();
 #endif
 
 protected:

@@ -195,6 +195,12 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
 #if 1
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFrom, this, &AlbumView::onCreateNewAlbumFrom);
+    connect(m_pRightThumbnailList, &ThumbnailListView::sigMouseMove, this, [ = ] {
+        updatePicNum();
+    });
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseMove, this, [ = ] {
+        updatePicNum();
+    });
 #endif
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
@@ -2317,7 +2323,7 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 
     //向自己的相册或“已导入”相册拖拽无效
     //“已导入”相册在leftlistwidget.cpp中也屏蔽过
-    if ((m_currentAlbum == dropLeftTabListName) || (COMMON_STR_RECENT_IMPORTED == dropLeftTabListName) || 5 == m_pRightStackWidget->currentIndex()) {
+    if ((m_currentAlbum == dropLeftTabListName) /*|| (COMMON_STR_RECENT_IMPORTED == dropLeftTabListName)*/ || 5 == m_pRightStackWidget->currentIndex()) {
         qDebug() << "Can not drop!";
         return;
     }

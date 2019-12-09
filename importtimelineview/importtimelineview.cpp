@@ -502,7 +502,22 @@ void ImportTimeLineView::updataLayout()
             pSuspensionChose->setText(b[0]->text());
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] {
+        connect(pThumbnailListView, &ThumbnailListView::sigDrop, this, [ = ] {
+            for(int i = 0;i < m_allThumbnailListView.length();i++){
+                if(pThumbnailListView != m_allThumbnailListView[i]){
+                    m_allThumbnailListView[i]->clearSelection();
+                }
+            }
+            emit sigUpdatePicNum();
+            updateChoseText();
+        });
+
+        connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ] {
+            emit sigUpdatePicNum();
+            updateChoseText();
+        });
+
+        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
             if(!m_ctrlPress){
                 for(int i = 0;i < m_allThumbnailListView.length();i++){
                     if(pThumbnailListView != m_allThumbnailListView[i]){
@@ -510,22 +525,6 @@ void ImportTimeLineView::updataLayout()
                     }
                 }
             }
-        });
-
-        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
-//            QStringList paths = pThumbnailListView->selectedPaths();
-//            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-//            {
-//                pChose->setText(QObject::tr("Unselect"));
-//            }
-
-//            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-//            {
-//                pChose->setText(QObject::tr("Select"));
-//            }
-//
-//			QList<DCommandLinkButton*> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton*>();
-//            pSuspensionChose->setText(b[0]->text());
             emit sigUpdatePicNum();
             updateChoseText();
             QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();

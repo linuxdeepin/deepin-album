@@ -21,7 +21,7 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
         QString leftTabListType = item->m_albumTypeStr;
         // qDebug()<<"leftTabListName: "<<leftTabListName<<" ;leftTabListType: "<<leftTabListType;
 
-        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName) ||
+        if (/*(COMMON_STR_RECENT_IMPORTED == leftTabListName) ||*/
             (COMMON_STR_TRASH == leftTabListName) || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType) ||
             (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
             qDebug() << "Can not drop!";
