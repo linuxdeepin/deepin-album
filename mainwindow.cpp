@@ -211,7 +211,10 @@ void MainWindow::initConnections()
         this->sendMessage(icon, str);
     });
     connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
-        m_pSearchEdit->setVisible(bIsDisp);
+        if(m_pCenterWidget->currentIndex() == VIEW_ALBUM)
+        {
+            m_pSearchEdit->setVisible(bIsDisp);
+        }
     });
 
     connect(dApp->signalM, &SignalManager::sigDeletePhotos, this, [ = ](int num) {
