@@ -114,7 +114,7 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 {
     qDebug() << "ThumbnailListView::startDrag()";
-    //    m_dragItemPath = selectedPaths();
+//        m_dragItemPath = selectedPaths();
     //    qDebug() << m_dragItemPath;
 
     QString text = "xxxxxxxxxxxxxx";
@@ -134,7 +134,7 @@ void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
     //    pDrag->setHotSpot(QPoint(0, 0));
     pDrag->exec(Qt::MoveAction);
 
-    DListView::startDrag(supportedActions);
+//    DListView::startDrag(supportedActions);
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
@@ -147,19 +147,21 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 
 void ThumbnailListView::keyPressEvent(QKeyEvent *event)
 {
+    qDebug() << "ThumbnailListView::keyPressEvent()";
     DListView::keyPressEvent(event);
     if (m_imageType == COMMON_STR_RECENT_IMPORTED || m_imageType == COMMON_STR_VIEW_TIMELINE) {
         if ((event->modifiers() == Qt::ControlModifier) && (event->key() == Qt::Key_A)) {
             emit sigSelectAll();
         }
     }
+
+    m_dragItemPath = selectedPaths();
+    qDebug() << m_dragItemPath;
 }
 
 void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
 {
     qDebug() << "ThumbnailListView::dragEnterEvent()";
-    m_dragItemPath = selectedPaths();
-    qDebug() << m_dragItemPath;
 
     if (event->mimeData()->hasFormat(myMimeType())) {
         if (event->source() == this) {

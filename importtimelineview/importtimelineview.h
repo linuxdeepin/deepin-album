@@ -62,7 +62,6 @@ signals:
     void sigUpdatePicNum();
 
 private:
-    TimelineList *m_mainListWidget=nullptr;
     QLayout *m_mainLayout=nullptr;
     QList<QString> m_timelines;
     DWidget *m_dateItem=nullptr;
@@ -86,6 +85,7 @@ private:
 public:
     int m_index;
     int m_selPicNum;
+    TimelineList *m_mainListWidget=nullptr;
 };
 
 #endif // IMPORTTIMELINEVIEW_H

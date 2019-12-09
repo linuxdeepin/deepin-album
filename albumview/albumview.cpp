@@ -203,6 +203,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
     connect(dApp, &Application::sigFinishLoad, this, [ = ] {
+        m_pImpTimeLineWidget->m_mainListWidget->update();
         m_pRightThumbnailList->update();
         m_pRightFavoriteThumbnailList->update();
         m_pRightTrashThumbnailList->update();
@@ -2321,14 +2322,26 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
         return;
     }
 
-    if (COMMON_STR_FAVORITES == m_currentAlbum) {
+    if (COMMON_STR_FAVORITES == m_currentAlbum)
+    {
         currentViewList = m_pRightFavoriteThumbnailList;
-    } else if (COMMON_STR_TRASH == m_currentAlbum) {
-        currentViewList = m_pRightTrashThumbnailList;
-    } else {
-        currentViewList = m_pRightThumbnailList;
+        dropItemPaths = currentViewList->getDagItemPath();
     }
-    dropItemPaths = currentViewList->getDagItemPath();
+    else if (COMMON_STR_TRASH == m_currentAlbum)
+    {
+        currentViewList = m_pRightTrashThumbnailList;
+        dropItemPaths = currentViewList->getDagItemPath();
+    }
+    else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum)
+    {
+        dropItemPaths = m_pImpTimeLineWidget->selectPaths();
+    }
+    else
+    {
+        currentViewList = m_pRightThumbnailList;
+        dropItemPaths = currentViewList->getDagItemPath();
+    }
+
     qDebug() << "dropItemPaths: " << dropItemPaths;
 
     if (COMMON_STR_TRASH == dropLeftTabListName) {
