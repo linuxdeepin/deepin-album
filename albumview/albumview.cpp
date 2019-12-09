@@ -1313,7 +1313,7 @@ void AlbumView::onTrashRecoveryBtnClicked()
 //        dApp->m_imagetrashmap.remove(path);
     }
 
-//    dApp->m_imageloader->addImageLoader(paths);
+    dApp->m_imageloader->addImageLoader(paths);
     DBManager::instance()->insertImgInfos(infos);
 
     for (auto path : paths) {
@@ -2548,7 +2548,6 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
     dApp->signalM->sigLoadMountImagesEnd(mountName);
 }
-
 
 void MountLoader::onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths)
 {
