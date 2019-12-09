@@ -837,9 +837,21 @@ void MainWindow::onShowImageInfo(const QString &path)
 {
     ImgInfoDialog *dialog;
     if (m_propertyDialogs.contains(path)) {
+        m_propertyDialogs.remove(path);
+
+        dialog = new ImgInfoDialog(path);
         dialog->setModal(true);
-        dialog = m_propertyDialogs.value(path);
-        dialog->raise();
+        m_propertyDialogs.insert(path, dialog);
+        dialog->show();
+        dialog->move((width() - dialog->width()) / 2 +
+                     mapToGlobal(QPoint(0, 0)).x(),
+                     (window()->height() - dialog->height()) / 2 +
+                     mapToGlobal(QPoint(0, 0)).y());
+        dialog->setWindowState(Qt::WindowActive);
+        connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
+            dialog->deleteLater();
+            m_propertyDialogs.remove(path);
+        });
     } else {
         dialog = new ImgInfoDialog(path);
         dialog->setModal(true);

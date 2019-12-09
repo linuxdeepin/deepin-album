@@ -2112,7 +2112,18 @@ void AlbumView::importAllBtnClicked()
         dbi.fileName = fi.fileName();
         dbi.filePath = strNewPath;
         dbi.dirHash = utils::base::hash(QString());
-        dbi.time = fi.birthTime();
+        if(fi.birthTime().isValid())
+        {
+            dbi.time = fi.birthTime();
+        }
+        else if (fi.metadataChangeTime().isValid())
+        {
+            dbi.time = fi.metadataChangeTime();
+        }
+        else
+        {
+            dbi.time = QDateTime::currentDateTime();
+        }
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
@@ -2212,7 +2223,19 @@ void AlbumView::importSelectBtnClicked()
         dbi.fileName = fi.fileName();
         dbi.filePath = strNewPath;
         dbi.dirHash = utils::base::hash(QString());
-        dbi.time = fi.birthTime();
+        if(fi.birthTime().isValid())
+        {
+            dbi.time = fi.birthTime();
+        }
+        else if (fi.metadataChangeTime().isValid())
+        {
+            dbi.time = fi.metadataChangeTime();
+        }
+        else
+        {
+            dbi.time = QDateTime::currentDateTime();
+        }
+
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
