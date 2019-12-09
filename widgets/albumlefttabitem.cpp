@@ -36,7 +36,7 @@ AlbumLeftTabItem::~AlbumLeftTabItem()
 
 void AlbumLeftTabItem::initConnections()
 {
-    connect(m_pLineEdit, &QLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
+    connect(m_pLineEdit, &DLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
     connect(m_unMountBtn, &MountExternalBtn::sigMountExternalBtnClicked, this, &AlbumLeftTabItem::unMountBtnClicked);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_nameLabel, [=]{
         oriAlbumStatus();
@@ -94,8 +94,11 @@ void AlbumLeftTabItem::initUI()
 
     DWidget *pWidget = new DWidget();
 
-    QWidget *widget = m_pListWidget->itemDelegate()->createEditor(m_pListWidget, m_pListWidget->viewOptions(), m_pListWidget->getModelIndex(m_pListWidgetItem));
-    m_pLineEdit = dynamic_cast<QLineEdit*>(widget);
+//    QWidget *widget = m_pListWidget->itemDelegate()->createEditor(m_pListWidget, m_pListWidget->viewOptions(), m_pListWidget->getModelIndex(m_pListWidgetItem));
+//    m_pLineEdit = dynamic_cast<QLineEdit*>(widget);
+//    m_pLineEdit = dynamic_cast<DLineEdit*>(widget);
+
+    m_pLineEdit = new DLineEdit();
 
     if (!m_pLineEdit) {
         qDebug() << "Create LineEdit Error!!!";
@@ -159,8 +162,11 @@ void AlbumLeftTabItem::initUI()
         m_pLineEdit->setText(m_albumNameStr);
     }
 
-    m_pLineEdit->setTextMargins(5,0,0,0);
-    m_pLineEdit->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
+//    m_pLineEdit->setTextMargins(5,0,0,0);
+    m_pLineEdit->lineEdit()->setTextMargins(5,0,0,0);
+//    m_pLineEdit->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
+    m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+
 //    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
 //    m_pLineEdit->setStyleSheet("border-radius:8px;"
 //                               "background: rgba(255,255,255,0.00);"
@@ -169,7 +175,9 @@ void AlbumLeftTabItem::initUI()
 //                               );
 
     m_pLineEdit->setVisible(false);
-    m_pLineEdit->setMaxLength(64);
+//    m_pLineEdit->setMaxLength(64);
+    m_pLineEdit->lineEdit()->setMaxLength(64);
+
     m_pLineEdit->setClearButtonEnabled(false);
 
     pHBoxLayout->addWidget(pImageLabel, Qt::AlignVCenter);
@@ -197,8 +205,10 @@ void AlbumLeftTabItem::editAlbumEdit()
 {
     m_nameLabel->setVisible(false);
     m_pLineEdit->setVisible(true);
-    m_pLineEdit->selectAll();
-    m_pLineEdit->setFocus();
+//    m_pLineEdit->selectAll();
+    m_pLineEdit->lineEdit()->selectAll();
+//    m_pLineEdit->setFocus();
+    m_pLineEdit->lineEdit()->setFocus();
 }
 
 //设置外部设备挂载的path，在相册中卸载外部设备时用（如果有两个外部设置挂载点name一样，就不能使用name做卸载判断，使用path没问题）
@@ -214,7 +224,8 @@ QString AlbumLeftTabItem::getalbumname()
 
 void AlbumLeftTabItem::onCheckNameValid()
 {
-    QString newNameStr = m_pLineEdit->text().trimmed();
+//    QString newNameStr = m_pLineEdit->text().trimmed();
+    QString newNameStr = m_pLineEdit->lineEdit()->text().trimmed();
 
     if (DBManager::instance()->getAllAlbumNames().contains(newNameStr)
         || COMMON_STR_RECENT_IMPORTED == newNameStr
@@ -234,7 +245,6 @@ void AlbumLeftTabItem::onCheckNameValid()
         ft.setPixelSize(14);
 
         m_pLineEdit->setText(newNameStr);
-
         m_nameLabel->setVisible(true);
         m_pLineEdit->setVisible(false);
 

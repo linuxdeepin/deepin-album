@@ -40,7 +40,9 @@ public:
     QString m_albumNameStr;
     QString m_albumTypeStr;
     int m_opeMode;
-    QLineEdit* m_pLineEdit;
+//    QLineEdit* m_pLineEdit;
+    DLineEdit* m_pLineEdit;
+
 
     DLineEdit* m_pNewLineEdit;
 
