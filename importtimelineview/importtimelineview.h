@@ -51,6 +51,7 @@ private:
 
     void keyPressEvent(QKeyEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
 public:
     void updataLayout();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);

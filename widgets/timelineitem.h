@@ -5,6 +5,7 @@
 #include <DLabel>
 #include <QDebug>
 #include <DCommandLinkButton>
+#include <QMouseEvent>
 DWIDGET_USE_NAMESPACE
 class TimelineItem : public QWidget
 {
@@ -17,8 +18,9 @@ public:
     QString m_sdate;
     QString m_snum;
     DCommandLinkButton *m_Chose;
+    void mousePressEvent(QMouseEvent *e) override;
 signals:
-
+    void sigMousePress();
 public slots:
 };
 

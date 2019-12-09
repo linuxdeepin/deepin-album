@@ -560,6 +560,14 @@ void TimeLineView::updataLayout()
             }
             pThumbnailListView->menuItemDeal(paths, action);
         });
+
+        connect(listItem,&TimelineItem::sigMousePress,this,[=]{
+            for(int i = 0; i < m_allThumbnailListView.length();i++){
+                m_allThumbnailListView[i]->clearSelection();
+            }
+            updatePicNum();
+            updateChoseText();
+        });
 #endif
     }
 
@@ -745,6 +753,18 @@ void TimeLineView::keyReleaseEvent(QKeyEvent *e)
     if(e->key() == Qt::Key_Control){
         m_ctrlPress = false;
     }
+}
+
+void TimeLineView::mousePressEvent(QMouseEvent *e)
+{
+    if(!m_ctrlPress && e->button() == Qt::LeftButton){
+        for(int i = 0; i < m_allThumbnailListView.length();i++){
+            m_allThumbnailListView[i]->clearSelection();
+        }
+        updatePicNum();
+        updateChoseText();
+    }
+    DWidget::mousePressEvent(e);
 }
 
 void TimeLineView::updatePicNum()
