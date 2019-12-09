@@ -50,36 +50,57 @@ class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;
 class ImageButton;
-class ImageItem : public DLabel{
+class MyImageListWidget;
+
+class MyImageListWidget : public DWidget
+{
     Q_OBJECT
 public:
-    ImageItem(int index= 0,QString path = NULL, QString imageType = NULL, QWidget *parent = 0);
+    MyImageListWidget(QWidget *parent = 0);
+    bool ifMouseLeftPressed();
+    void setObj(QObject *obj);
+protected:
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
+signals:
+    void mouseLeftReleased();
+private:
+    bool bmouseleftpressed = false;
+    QObject *m_obj = nullptr;
+    QPoint m_prepoint;
+};
+class ImageItem : public DLabel
+{
+    Q_OBJECT
+public:
+    ImageItem(int index = 0, QString path = NULL, QString imageType = NULL, QWidget *parent = 0);
     void setIndexNow(int i);
     void setPic(QPixmap pixmap);
 
     QString _path = NULL;
 signals:
-    void imageItemclicked(int index,int indexNow);
+    void imageItemclicked(int index, int indexNow);
 protected:
     void mousePressEvent(QMouseEvent *ev) override;
+    void mouseReleaseEvent(QMouseEvent *ev) override;
     void paintEvent(QPaintEvent *event) override;
 private:
     int _index;
     int _indexNow = -1;
-    DLabel *_image=nullptr;
+    DLabel *_image = nullptr;
     QPixmap _pixmap;
-    DSpinner* m_spinner;
+    DSpinner *m_spinner;
     QString m_pixmapstring;
+    bool bmouserelease = false;
 };
 class TTBContent : public QLabel
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos , QWidget *parent = 0);
+    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
 
 signals:
     void ttbcontentClicked();
-    void imageClicked(int index,int addIndex);
+    void imageClicked(int index, int addIndex);
     void resetTransform(bool fitWindow);
     void rotateClockwise();
     void rotateCounterClockwise();
@@ -92,7 +113,7 @@ signals:
 
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path,DBImgInfoList infos);
+    void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
 
 private slots:
@@ -113,19 +134,20 @@ private:
     bool m_inDB;
     bool m_bClBTChecked;
 
-    DIconButton* m_adaptImageBtn;
-    DIconButton* m_adaptScreenBtn;
-    DIconButton* m_clBT;
-    DIconButton* m_rotateLBtn;
-    DIconButton* m_rotateRBtn;
-    DIconButton* m_trashBtn;
+    DIconButton *m_adaptImageBtn;
+    DIconButton *m_adaptScreenBtn;
+    DIconButton *m_clBT;
+    DIconButton *m_rotateLBtn;
+    DIconButton *m_rotateRBtn;
+    DIconButton *m_trashBtn;
     DIconButton *m_preButton;
     DIconButton *m_nextButton;
     DIconButton *m_backButton;
-    ElidedLabel* m_fileNameLabel;
+    ElidedLabel *m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
-    DWidget *m_imgListView;
+//    DWidget *m_imgListView;
+    MyImageListWidget *m_imgListView;
     DWidget *m_preButton_spc;
     DWidget *m_nextButton_spc;
     DBImgInfoList m_imgInfos ;
