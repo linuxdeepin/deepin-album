@@ -390,3 +390,11 @@ int ImgInfoDialog::contentHeight() const
     }
     return ( qMin(expandsHeight + 45 +4,530));
 }
+
+void ImgInfoDialog::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Escape){
+        emit closed();
+    }
+    DDialog::keyPressEvent(e);
+}

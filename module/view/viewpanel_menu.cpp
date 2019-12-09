@@ -217,7 +217,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         DBImgInfoList infos;
         DBImgInfo info;
         info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
-        info.time = QDateTime::currentDateTime();
+#if 1
+//        info.time = QDateTime::currentDateTime();
+        info.changeTime = QDateTime::currentDateTime();
+#endif
         infos << info;
         dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
 //        dApp->m_imagemap.remove(m_infos.at(m_current).filePath);

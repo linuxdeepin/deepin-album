@@ -1045,7 +1045,7 @@ void AlbumView::updateRightTrashView()
 
     for (auto info : infos) {
         QDateTime start = QDateTime::currentDateTime();
-        QDateTime end = info.time;
+        QDateTime end = info.changeTime;
 
         uint etime = start.toTime_t();
         uint stime = end.toTime_t();
@@ -1307,7 +1307,7 @@ void AlbumView::onTrashRecoveryBtnClicked()
         DBImgInfo info;
         info = DBManager::instance()->getTrashInfoByPath(path);
         QFileInfo fi(info.filePath);
-        info.time = fi.birthTime();
+        info.changeTime = QDateTime::currentDateTime();
         infos << info;
 
 //        dApp->m_imagetrashmap.remove(path);

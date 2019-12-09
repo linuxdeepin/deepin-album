@@ -62,6 +62,11 @@ private:
     QList<DBaseExpand *> m_expandGroup;
     QVBoxLayout *m_mainLayout = nullptr;
     QScrollArea *m_scrollArea = nullptr;
+    void keyPressEvent(QKeyEvent *e) override;
+
+signals:
+    void closed();
+
 };
 
 #endif // IMGINFODIALOG_H

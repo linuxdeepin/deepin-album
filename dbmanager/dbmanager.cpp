@@ -1447,7 +1447,7 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT FilePath, FileName, Dir, Time, ChangeTime, AlbumName "
-                   "FROM TrashTable");
+                   "FROM TrashTable ORDER BY ChangeTime DESC");
     if (! query.exec()) {
         qWarning() << "Get data from TrashTable failed: " << query.lastError();
         mutex.unlock();

@@ -704,7 +704,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
                 for (auto path : paths) {
                     DBImgInfo info;
                     info = DBManager::instance()->getInfoByPath(path);
-                    info.time = QDateTime::currentDateTime();
+#if 1
+//                    info.time = QDateTime::currentDateTime();
+                    info.changeTime = QDateTime::currentDateTime();
+#endif
                     QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
                     for (auto eachname : allalbumnames) {
                         if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
