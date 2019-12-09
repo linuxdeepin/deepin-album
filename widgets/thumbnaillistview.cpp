@@ -149,11 +149,11 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
 {
     qDebug() << "ThumbnailListView::keyPressEvent()";
     DListView::keyPressEvent(event);
-    if (m_imageType == COMMON_STR_RECENT_IMPORTED || m_imageType == COMMON_STR_VIEW_TIMELINE) {
+//    if (m_imageType == COMMON_STR_RECENT_IMPORTED || m_imageType == COMMON_STR_VIEW_TIMELINE) {
         if ((event->modifiers() == Qt::ControlModifier) && (event->key() == Qt::Key_A)) {
             emit sigSelectAll();
         }
-    }
+//    }
 
     m_dragItemPath = selectedPaths();
     qDebug() << m_dragItemPath;

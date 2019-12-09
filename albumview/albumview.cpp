@@ -200,7 +200,12 @@ void AlbumView::initConnections()
     });
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseMove, this, [ = ] {
         updatePicNum();
-    });
+    });    
+    connect(m_pRightFavoriteThumbnailList,&ThumbnailListView::sigSelectAll,this,&AlbumView::updatePicNum);
+    connect(m_pRightThumbnailList,&ThumbnailListView::sigSelectAll,this,&AlbumView::updatePicNum);
+    connect(m_pRightPhoneThumbnailList,&ThumbnailListView::sigSelectAll,this,&AlbumView::updatePicNum);
+    connect(m_pRightTrashThumbnailList,&ThumbnailListView::sigSelectAll,this,&AlbumView::updatePicNum);
+
 #endif
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);

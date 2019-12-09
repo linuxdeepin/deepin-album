@@ -129,6 +129,8 @@ void AllPicView::initConnections()
     connect(m_pImportView, &ImportView::importFailedToView, this, [=]{
         updateStackedWidget();
     });
+
+    connect(m_pThumbnailListView,&ThumbnailListView::sigSelectAll,this,&AllPicView::updatePicNum);
 }
 
 void AllPicView::updateStackedWidget()
