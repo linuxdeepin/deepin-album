@@ -1,6 +1,10 @@
 #include "allpicview.h"
 #include <QMimeData>
 #include "utils/snifferimageformat.h"
+#include <dgiovolumemanager.h>
+#include <dgiofile.h>
+#include <dgiofileinfo.h>
+#include <dgiovolume.h>
 
 namespace {
 const int VIEW_IMPORT = 0;
@@ -222,6 +226,60 @@ void AllPicView::dropEvent(QDropEvent *event)
         return;
     }
 
+    // 判断当前导入路径是否为外接设备
+    int isMountFlag = 0;
+    DGioVolumeManager *pvfsManager = new DGioVolumeManager;
+    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
+    for(auto mount : mounts)
+    {
+        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+        QString strPath = LocationFile->path();
+        if (paths.first().compare(strPath))
+        {
+            isMountFlag = 1;
+            break;
+        }
+    }
+
+    // 当前导入路径
+    if(isMountFlag)
+    {
+        QString strHomePath = QDir::homePath();
+        //获取系统现在的时间
+        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
+        QDir dir;
+        if (!dir.exists(basePath))
+        {
+            dir.mkpath(basePath);
+        }
+
+        QStringList newImagePaths;
+        foreach (QString strPath, paths)
+        {
+            //取出文件名称
+            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
+            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
+
+            newImagePaths << strNewPath;
+            //判断新路径下是否存在目标文件，若存在，下一次张
+            if (dir.exists(strNewPath))
+            {
+                continue;
+            }
+
+            // 外接设备图片拷贝到系统
+            if (QFile::copy(strPath, strNewPath))
+            {
+
+            }
+        }
+
+        paths.clear();
+        paths = newImagePaths;
+    }
+
     DBImgInfoList dbInfos;
 
     using namespace utils::image;
@@ -245,7 +303,18 @@ void AllPicView::dropEvent(QDropEvent *event)
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
         dbi.dirHash = utils::base::hash(QString());
-        dbi.time = fi.birthTime();
+        if(fi.birthTime().isValid())
+        {
+            dbi.time = fi.birthTime();
+        }
+        else if (fi.metadataChangeTime().isValid())
+        {
+            dbi.time = fi.metadataChangeTime();
+        }
+        else
+        {
+            dbi.time = QDateTime::currentDateTime();
+        }
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;

@@ -154,7 +154,18 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
                 dbi.fileName = fi.fileName();
                 dbi.filePath = path;
                 dbi.dirHash = utils::base::hash(QString());
-                dbi.time = fi.birthTime();
+                if(fi.birthTime().isValid())
+                {
+                    dbi.time = fi.birthTime();
+                }
+                else if (fi.metadataChangeTime().isValid())
+                {
+                    dbi.time = fi.metadataChangeTime();
+                }
+                else
+                {
+                    dbi.time = QDateTime::currentDateTime();
+                }
                 dbi.changeTime = QDateTime::currentDateTime();
 
                 qDebug()<<path;
