@@ -71,6 +71,7 @@ private slots:
     void slotOnFormatChange(int index);
     void slotOnDialogButtonClick(int index, const QString &text);
     void slotOnQuestionDialogButtonClick(int index, const QString &text);
+    void slotOnEmptyWarningDialogButtonClick(int, const QString & );
     void slotOnQualityChanged(int value);
 
 private:
@@ -86,6 +87,7 @@ private:
     int m_quality;
 
     DDialog *m_questionDialog;
+    DDialog *m_emptyWarningDialog;
     QPixmap m_saveImage;
 
 private:
@@ -94,6 +96,7 @@ private:
 
     void showDirChoseDialog();
     void showQuestionDialog(const QString &path);
+    void showEmptyWarningDialog();
     void doSave();
 };
 

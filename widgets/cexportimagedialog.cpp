@@ -20,6 +20,7 @@
 
 #include <DFileDialog>
 #include <DDialog>
+#include <DMessageBox>
 
 #include <QFormLayout>
 #include <QImageWriter>
@@ -201,6 +202,11 @@ void CExportImageDialog::initUI()
     m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
     m_questionDialog->setFixedSize(400, 170);
 
+    m_emptyWarningDialog = new DDialog(this);
+    m_emptyWarningDialog->setModal(true);
+    m_emptyWarningDialog->addButtons(QStringList() << tr("Ok"));
+    m_emptyWarningDialog->setFixedSize(400, 170);
+
 
 
 //    setLayout(titleLayout);
@@ -213,6 +219,7 @@ void CExportImageDialog::initConnection()
     connect(this, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnDialogButtonClick(int, const QString & )));
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
     connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnQuestionDialogButtonClick(int, const QString & )));
+    connect(m_emptyWarningDialog, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnEmptyWarningDialogButtonClick(int, const QString & )));
 
 }
 
@@ -282,7 +289,23 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
     Q_UNUSED(text)
 
     if (index == 1) {
-        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
+        QString filename = m_fileNameEdit->text().trimmed();
+        if ("" == filename) {
+//            DDialog msgbox(this);
+//            msgbox.setFixedWidth(400);
+//            msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Warning));
+//            msgbox.setTitle(tr("文件命名错误"));
+//            msgbox.setTextFormat(Qt::AutoText);
+//            msgbox.setMessage(tr("文件名不可为空"));
+////            msgbox.insertButton(0, tr("Cancel"), true, DDialog::ButtonRecommend);
+//            msgbox.insertButton(1, tr("确定"), false, DDialog::ButtonWarning);
+
+//            auto ret = msgbox.exec();
+            hide();
+            showEmptyWarningDialog();
+            return;
+        }
+        QString completePath = m_savePath + "/" + filename;
         if (QFileInfo(completePath).exists()) {
             hide();
             showQuestionDialog(completePath);
@@ -292,6 +315,13 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
             emit dApp->signalM->ImgExportSuccess();
         }
     }
+}
+
+void CExportImageDialog::slotOnEmptyWarningDialogButtonClick(int index, const QString &text)
+{
+    Q_UNUSED(text);
+    Q_UNUSED(index);
+    m_emptyWarningDialog->hide();
 }
 
 void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QString &text)
@@ -328,6 +358,28 @@ void CExportImageDialog::showDirChoseDialog()
     }
 }
 
+void CExportImageDialog::showEmptyWarningDialog()
+{
+    m_emptyWarningDialog->clearContents();
+    DWidget *wid = new DWidget();
+//    DLabel *lab1 = new DLabel();
+//    QFontMetrics elideFont(lab1->font());
+    DLabel *lab2 = new DLabel();
+    lab2->setText(tr("文件名称不可为空"));
+    lab2->setAlignment(Qt::AlignCenter);
+
+    QVBoxLayout *lay = new QVBoxLayout();
+    lay->setContentsMargins(0, 0, 0, 0);
+//    lay->addWidget(lab1);
+    lay->addWidget(lab2);
+    lay->addSpacing(100);
+    wid->setLayout(lay);
+    m_emptyWarningDialog->addContent(wid, Qt::AlignCenter);
+
+//    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
+    m_emptyWarningDialog->show();
+}
+
 void CExportImageDialog::showQuestionDialog(const QString &path)
 {
     m_questionDialog->clearContents();
@@ -342,7 +394,7 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     lab2->setAlignment(Qt::AlignCenter);
 
     QVBoxLayout *lay = new QVBoxLayout();
-    lay->setContentsMargins(0,0,0,0);
+    lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(lab1);
     lay->addWidget(lab2);
     lay->addSpacing(100);
