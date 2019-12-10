@@ -506,7 +506,7 @@ TTBContent::TTBContent(bool inDB,
 //    qDebug()<<"init:m_imgList.width=============="<<m_imgList->width();
 
     m_imgList->setDisabled(false);
-    m_imgList->setHidden(true);
+//    m_imgList->setHidden(true);
     m_imglayout = new QHBoxLayout();
     m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_imglayout->setMargin(0);
@@ -519,7 +519,7 @@ TTBContent::TTBContent(bool inDB,
         m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
 //    qDebug()<<"init:m_imgListView.width=============="<<m_imgListView->width();
-    m_imgListView->hide();
+//    m_imgListView->hide();
     QPalette palette ;
     palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
     m_imgList->setPalette(palette);
@@ -644,15 +644,16 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     } else if ( m_imgInfos_size <= 3 ) {
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
         m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
 //    qDebug()<<"resizeEvent:m_contentWidth=============="<<m_contentWidth;
 //    qDebug()<<"resizeEvent:m_imgListView.width=============="<<m_imgListView->width();
 
     setFixedWidth(m_contentWidth);
+    move(7, this->y());
 
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
     for (int j = 0; j < labelList.size(); j++) {
@@ -665,6 +666,18 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(m_nowIndex)->setFixedSize (QSize(60, 58));
         labelList.at(m_nowIndex)->resize (QSize(60, 58));
         labelList.at(m_nowIndex)->setContentsMargins(0, 0, 0, 0);
+    }
+
+    m_trashBtn->move(m_contentWidth - 27 - m_trashBtn->width(), m_trashBtn->y());
+
+    if ( m_imgInfos_size <= 1 ) {
+        //        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if ( m_imgInfos_size <= 3 ) {
+        //        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+    } else {
+        //        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
 }
 
