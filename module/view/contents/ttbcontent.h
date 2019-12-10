@@ -158,6 +158,7 @@ private:
     int m_nowIndex = 0;
     int m_imgInfos_size = 0;
     int m_startAnimation = 0;
+    bool bresized = true;
 };
 
 #endif // TTLCONTENT_H
