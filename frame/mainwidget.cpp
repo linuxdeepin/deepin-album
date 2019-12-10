@@ -42,15 +42,15 @@ using namespace Dtk::Widget;
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 50;
-const int BOTTOM_TOOLBAR_HEIGHT = 70+10;
+const int BOTTOM_TOOLBAR_HEIGHT = 70 + 10;
 const int EXTENSION_PANEL_WIDTH = 300;
-const int BOTTOM_TOOLBAR_WIDTH_1 = 532+10+2;
-const int BOTTOM_TOOLBAR_WIDTH_2 = 782+10+2;
+const int BOTTOM_TOOLBAR_WIDTH_1 = 532 + 10 + 2;
+const int BOTTOM_TOOLBAR_WIDTH_2 = 782 + 10 + 2;
 const int THUMBNAIL_ADD_WIDTH = 32;
 const int BOTTOM_SPACING = 10;
 const int RT_SPACING = 10;
 const int BOTTOM_REPAIR_SPACING = 5;
-const int TOOLBAR_MINIMUN_WIDTH = 630-20+10+2;
+const int TOOLBAR_MINIMUN_WIDTH = 630 - 20 + 10 + 2;
 const int BOTTOM_ADJUST = 0;
 
 const QString SETTINGS_GROUP = "MAINWIDGET";
@@ -91,35 +91,25 @@ void MainWidget::resizeEvent(QResizeEvent *e)
             emit m_topToolbar->updateMaxBtn();
         }
 
-        if(window()->isFullScreen())
-        {
+        if (window()->isFullScreen()) {
             m_topToolbar->setVisible(false);
-        }
-        else
-        {
+        } else {
             m_topToolbar->setVisible(true);
         }
     }
 
-    if (m_bottomToolbar)
-    {
-        if ( m_viewPanel->getPicCount() <= 1 )
-        {
-                m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
+    if (m_bottomToolbar) {
+        if ( m_viewPanel->getPicCount() <= 1 ) {
+            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
+        } else if (m_viewPanel->getPicCount() <= 3 ) {
+            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
+        } else {
+            m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3)) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
         }
-        else if(m_viewPanel->getPicCount() <= 3 )
-        {
-                m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
-        }
-        else
-        {
-                m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3))+BOTTOM_ADJUST,qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
-        }
-            qDebug()<<"resizeEvent============="<<m_bottomToolbar->width();
-            m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - m_bottomToolbar->height()-BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
+        qDebug() << "resizeEvent=============" << m_bottomToolbar->width();
+        m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - m_bottomToolbar->height() - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 
-        if(window()->isFullScreen())
-        {
+        if (window()->isFullScreen()) {
             emit dApp->signalM->sigShowFullScreen();
         }
     }
@@ -127,21 +117,20 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     if (m_btmSeparatorLine) {
         m_btmSeparatorLine->resize(window()->width(), 1);
         m_btmSeparatorLine->move(0, window()->height() -
-                               m_bottomToolbar->height() - 1);
+                                 m_bottomToolbar->height() - 1);
     }
-    if(m_extensionPanel){
+    if (m_extensionPanel) {
         if (this->window()->isFullScreen()) {
-            if(m_extensionPanel->x()<e->oldSize().width()){
-                m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), 0);
-            }else {
+            if (m_extensionPanel->x() < e->oldSize().width()) {
+                m_extensionPanel->move((width() - EXTENSION_PANEL_WIDTH - 24), 0);
+            } else {
                 m_extensionPanel->move(width(), 0);
             }
-        }
-        else{
-            if(m_extensionPanel->x() < e->oldSize().width()){
-                m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
-            }else {
-                m_extensionPanel->move(width(),TOP_TOOLBAR_HEIGHT);
+        } else {
+            if (m_extensionPanel->x() < e->oldSize().width()) {
+                m_extensionPanel->move((width() - EXTENSION_PANEL_WIDTH - 24), TOP_TOOLBAR_HEIGHT);
+            } else {
+                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
             }
         }
     }
@@ -151,10 +140,8 @@ void MainWidget::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
 
-    if (m_bottomToolbar)
-    {
-        if(window()->isFullScreen())
-        {
+    if (m_bottomToolbar) {
+        if (window()->isFullScreen()) {
             emit dApp->signalM->sigShowFullScreen();
         }
     }
@@ -198,7 +185,7 @@ void MainWidget::onShowImageInfo(const QString &path)
                mapToGlobal(QPoint(0, 0)).y());
     info->show();
     info->setWindowState(Qt::WindowActive);
-    connect(info, &ImgInfoDialog::closed, this, [=] {
+    connect(info, &ImgInfoDialog::closed, this, [ = ] {
         info->deleteLater();
         m_infoShowingList.removeAll(path);
     });
@@ -238,18 +225,20 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
-    connect(dApp->signalM, &SignalManager::backToMainPanel, this, [=] {
+    connect(dApp->signalM, &SignalManager::backToMainPanel, this, [ = ] {
         window()->show();
         window()->raise();
         window()->activateWindow();
         QString name = dApp->setter->value(SETTINGS_GROUP,
                                            SETTINGS_MAINPANEL_KEY).toString();
-        if (name.isEmpty()) {
+        if (name.isEmpty())
+        {
             emit dApp->signalM->gotoTimelinePanel();
             return;
         }
 
-        for (int i = 0; i < m_panelStack->count(); i++) {
+        for (int i = 0; i < m_panelStack->count(); i++)
+        {
             if (ModulePanel *p =
                     static_cast<ModulePanel *>(m_panelStack->widget(i))) {
                 if ((p->moduleName() == name) && p->isMainPanel()) {
@@ -259,7 +248,7 @@ void MainWidget::initConnection()
             }
         }
     });
-    connect(dApp->signalM, &SignalManager::activeWindow, this, [=]{
+    connect(dApp->signalM, &SignalManager::activeWindow, this, [ = ] {
         window()->raise();
         window()->activateWindow();
     });
@@ -267,7 +256,7 @@ void MainWidget::initConnection()
     connect(dApp->signalM, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);
     connect(dApp->signalM, &SignalManager::showInFileManager,
-            this, [=] (const QString &path) {
+    this, [ = ] (const QString & path) {
         utils::base::showInFileManager(path);
     });
     connect(dApp->signalM, &SignalManager::showImageInfo,
@@ -276,35 +265,32 @@ void MainWidget::initConnection()
 //        onImported(tr("Imported successfully"), v);
 //    });
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &MainWidget::initStyleSheet);
-    connect(dApp->signalM, &SignalManager::sigMouseMove, this, [=] {
+    connect(dApp->signalM, &SignalManager::sigMouseMove, this, [ = ] {
         if (window()->isFullScreen())
         {
             QPoint pos = mapFromGlobal(QCursor::pos());
             if (height() - 20 < pos.y()
-                && height() > pos.y()
-                && height() == m_bottomToolbar->y())
-            {
+                    && height() > pos.y()
+                    && height() == m_bottomToolbar->y()) {
                 QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
                 animation->setDuration(200);
                 animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(QPoint((width()-m_bottomToolbar->width())/2, m_bottomToolbar->y()));
-                animation->setEndValue(QPoint((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10));
+                animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
                 animation->start(QAbstractAnimation::DeleteWhenStopped);
-            }
-            else if (height() - m_bottomToolbar->height()- 10 > pos.y()
-                     && height() - m_bottomToolbar->height()- 10 == m_bottomToolbar->y())
-            {
+            } else if (height() - m_bottomToolbar->height() - 10 > pos.y()
+                       && height() - m_bottomToolbar->height() - 10 == m_bottomToolbar->y()) {
                 QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
                 animation->setDuration(200);
                 animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(QPoint((width()-m_bottomToolbar->width())/2, m_bottomToolbar->y()));
-                animation->setEndValue(QPoint((width()-m_bottomToolbar->width())/2, height()));
+                animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
                 animation->start(QAbstractAnimation::DeleteWhenStopped);
             }
         }
     });
-    connect(dApp->signalM, &SignalManager::sigShowFullScreen, this, [=] {
-        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height());
+    connect(dApp->signalM, &SignalManager::sigShowFullScreen, this, [ = ] {
+        m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
     });
 }
 
@@ -313,66 +299,64 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar = new BottomToolbar(this);
 
     m_bottomToolbar->resize(532, BOTTOM_TOOLBAR_HEIGHT);
-    m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
+    m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10);
 
     m_btmSeparatorLine = new QLabel(this);
 
-    connect(dApp->signalM,&SignalManager::updateBottomToolbar,this,[=](bool wideMode){
+    connect(dApp->signalM, &SignalManager::updateBottomToolbar, this, [ = ](bool wideMode) {
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            if(m_viewPanel->getPicCount()<= 3){
+            if (m_viewPanel->getPicCount() <= 3) {
                 m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
-            }else {
-                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3)+BOTTOM_ADJUST,qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
+            } else {
+                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
             }
             m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-        }
-        else {
+        } else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
-            if(m_viewPanel->getPicCount() == 1){
+            if (m_viewPanel->getPicCount() == 1) {
                 m_bottomToolbar->setVisible(true);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-            }else {
+            } else {
                 m_bottomToolbar->setVisible(false);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
             }
         }
         //qDebug()<<"updateBottomToolbar============="<<m_bottomToolbar->width();
-        m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - BOTTOM_TOOLBAR_HEIGHT -BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
+        m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
     });
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
-            this, [=](QWidget *c, bool wideMode) {
+    this, [ = ](QWidget * c, bool wideMode) {
         if (c == nullptr)
             return;
         m_bottomToolbar->setContent(c);
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            if(m_viewPanel->getPicCount()<= 3){
+            if (m_viewPanel->getPicCount() <= 3) {
                 m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
-            }else {
-                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3)+BOTTOM_ADJUST,qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
+            } else {
+                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
             }
             m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-        }
-        else {
+        } else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
-            if(m_viewPanel->getPicCount() == 1){
+            if (m_viewPanel->getPicCount() == 1) {
                 m_bottomToolbar->setVisible(true);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-            }else {
+            } else {
                 m_bottomToolbar->setVisible(false);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
             }
         }
         //qDebug()<<"updateBottomToolbarContent============="<<m_bottomToolbar->width();
-        m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - BOTTOM_TOOLBAR_HEIGHT-BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
+        m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
     });
-    connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
+    connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [ = ] {
         m_bottomToolbar->setVisible(true);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
 //        // Make the bottom toolbar always stay at the bottom after windows resize
@@ -381,8 +365,8 @@ void MainWidget::initBottomToolbar()
     });
 
     connect(dApp->signalM, &SignalManager::hideBottomToolbar,
-            this, [=](bool immediately) {
-        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height());
+    this, [ = ](bool immediately) {
+        m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
         m_bottomToolbar->setVisible(false);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         Q_UNUSED(immediately)
@@ -402,13 +386,14 @@ void MainWidget::initExtensionPanel()
     m_extensionPanel->move(width(), 0);
     m_extensionPanel->hide();
     connect(dApp->signalM, &SignalManager::updateExtensionPanelContent,
-            this, [=](QWidget *c) {
+    this, [ = ](QWidget * c) {
         if (c != nullptr)
             m_extensionPanel->setContent(c);
     });
-    connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
+    connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [ = ] {
         // Is visible
-        if (m_extensionPanel->x() == (width()-EXTENSION_PANEL_WIDTH-24)) {
+        if (m_extensionPanel->x() == (width() - EXTENSION_PANEL_WIDTH - 24))
+        {
             return;
         }
 #ifdef LITE_DIV
@@ -416,22 +401,24 @@ void MainWidget::initExtensionPanel()
 #endif
         m_extensionPanel->show();
         //m_extensionPanel's height is dependent on the visible of topToolbar
-        if (this->window()->isFullScreen()) {
+        if (this->window()->isFullScreen())
+        {
 //            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
 //                                          EXTENSION_PANEL_WIDTH), 0);
 //            m_extensionPanel->moveWithAnimation(0, 0);
             m_extensionPanel->move(width(), 0);
-            m_extensionPanel->moveWithAnimation((width()-EXTENSION_PANEL_WIDTH-24), 0);
-        } else {
+            m_extensionPanel->moveWithAnimation((width() - EXTENSION_PANEL_WIDTH - 24), 0);
+        } else
+        {
 //            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
 //                                   EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
 //            m_extensionPanel->moveWithAnimation(0, TOP_TOOLBAR_HEIGHT);
             m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
-            m_extensionPanel->moveWithAnimation((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
+            m_extensionPanel->moveWithAnimation((width() - EXTENSION_PANEL_WIDTH - 24), TOP_TOOLBAR_HEIGHT);
         }
     });
     connect(dApp->signalM, &SignalManager::hideExtensionPanel,
-            this, [=] (bool immediately) {
+    this, [ = ] (bool immediately) {
         if (immediately) {
             m_extensionPanel->requestStopAnimation();
             if (this->window()->isFullScreen()) {
@@ -443,8 +430,7 @@ void MainWidget::initExtensionPanel()
 //                                    EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
                 m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
             }
-        }
-        else {
+        } else {
             if (this->window()->isFullScreen()) {
 //                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
 //                                                      EXTENSION_PANEL_WIDTH), 0);

@@ -194,8 +194,7 @@ void ViewPanel::showNormal()
     if (m_isMaximized) {
         window()->showNormal();
         window()->showMaximized();
-    }
-    else {
+    } else {
         window()->showNormal();
     }
 
@@ -450,8 +449,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
 
-    if (!window()->isFullScreen())
-    {
+    if (!window()->isFullScreen()) {
         m_isMaximized = window()->isMaximized();
     }
 

@@ -291,16 +291,6 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
     if (index == 1) {
         QString filename = m_fileNameEdit->text().trimmed();
         if ("" == filename) {
-//            DDialog msgbox(this);
-//            msgbox.setFixedWidth(400);
-//            msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Warning));
-//            msgbox.setTitle(tr("文件命名错误"));
-//            msgbox.setTextFormat(Qt::AutoText);
-//            msgbox.setMessage(tr("文件名不可为空"));
-////            msgbox.insertButton(0, tr("Cancel"), true, DDialog::ButtonRecommend);
-//            msgbox.insertButton(1, tr("确定"), false, DDialog::ButtonWarning);
-
-//            auto ret = msgbox.exec();
             hide();
             showEmptyWarningDialog();
             return;
