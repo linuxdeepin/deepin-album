@@ -644,10 +644,10 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     } else if ( m_imgInfos_size <= 3 ) {
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
         m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
 //    qDebug()<<"resizeEvent:m_contentWidth=============="<<m_contentWidth;
 //    qDebug()<<"resizeEvent:m_imgListView.width=============="<<m_imgListView->width();
@@ -668,26 +668,26 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(m_nowIndex)->setContentsMargins(0, 0, 0, 0);
     }
 
-//    bresized = true;
-    if (1 == m_startAnimation) {
-        m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - (32 * m_nowIndex), 0));
-    } else if (2 == m_startAnimation) {
-        m_imgList->move(QPoint(0, 0));
-    } else if (3 == m_startAnimation) {
-        m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
-    }
+////    bresized = true;
+//    if (1 == m_startAnimation) {
+//        m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - (32 * m_nowIndex), 0));
+//    } else if (2 == m_startAnimation) {
+//        m_imgList->move(QPoint(0, 0));
+//    } else if (3 == m_startAnimation) {
+//        m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+//    }
 
     m_trashBtn->move(m_contentWidth - 27 - m_trashBtn->width(), m_trashBtn->y());
 
-    if ( m_imgInfos_size <= 1 ) {
-        //        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-    } else if ( m_imgInfos_size <= 3 ) {
-        //        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-    } else {
-        //        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-    }
+//    if ( m_imgInfos_size <= 1 ) {
+//        //        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+//    } else if ( m_imgInfos_size <= 3 ) {
+//        //        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//    } else {
+//        //        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//    }
 
 }
 
