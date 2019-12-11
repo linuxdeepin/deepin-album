@@ -277,11 +277,14 @@ void CExportImageDialog::slotOnFormatChange(int index)
 
     QString name = m_fileNameEdit->text().trimmed();
 
-    name = name.mid(0, name.lastIndexOf(".") + 1);
+    if ("" != name) {
 
-    name += m_saveFormat;
+        name = name.mid(0, name.lastIndexOf(".") + 1);
 
-    m_fileNameEdit->setText(name);
+        name += m_saveFormat;
+
+        m_fileNameEdit->setText(name);
+    }
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
