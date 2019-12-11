@@ -77,17 +77,15 @@ void SlideEffectPlayer::setFrameSize(int width, int height)
 void SlideEffectPlayer::setImagePaths(const QStringList& paths)
 {
     m_paths = paths;
-//    m_current = m_paths.constBegin();
     m_current = 0;
 }
 
 void SlideEffectPlayer::setCurrentImage(const QString &path)
 {
-//    m_current = std::find(m_paths.cbegin(), m_paths.cend(),  path);
-//    if (m_current == m_paths.constEnd())
-//        m_current = m_paths.constBegin();
-    for (int i = 0; i < m_paths.length(); i++) {
-        if(path == m_paths[i]){
+    for (int i = 0; i < m_paths.length(); i++)
+    {
+        if(path == m_paths[i])
+        {
             m_current = i;
         }
     }
@@ -95,14 +93,7 @@ void SlideEffectPlayer::setCurrentImage(const QString &path)
 
 QString SlideEffectPlayer::currentImagePath() const
 {
-//    if (m_current == m_paths.constEnd())
-//        return *m_paths.constBegin();
-//    return *m_current;
-//    if(m_current == m_paths.length()-1){
-//        return m_paths[0];
-//    }
     return m_paths[m_current];
-
 }
 
 bool SlideEffectPlayer::isRunning() const
@@ -115,7 +106,8 @@ void SlideEffectPlayer::start()
     if (m_paths.isEmpty())
         return;
 
-//    cacheNext();
+    cacheNext();
+    cachePrevious();
     m_running = true;
     m_tid = startTimer(SLIDER_DURATION);
 }
@@ -130,9 +122,6 @@ void SlideEffectPlayer::pause() {
 
 bool SlideEffectPlayer::startNext()
 {
-//    killTimer(m_tid);
-//    m_tid = 0;
-
     qDebug()<<"SlideEffectPlayer::startNext()";
     if (m_paths.isEmpty())
         return false;
@@ -144,26 +133,16 @@ bool SlideEffectPlayer::startNext()
 
     const QString oldPath = m_paths[m_current];
 
-//    if (m_paths.length() > 1) {
-//        m_current ++;
-//        if (m_current == m_paths.constEnd()) {
-//            m_current = m_paths.constBegin();
-//            if (!QFileInfo(*m_current).exists()) {
-//                m_current = m_paths.constBegin() + 1;
-//            }
-//        }
-    if(m_paths.length() > 1){
-        m_current ++;
+    if(m_paths.length() > 1)
+    {
+        m_current++;
         if(m_current == m_paths.length()){
             m_current = 0;
         }
     }
 
-        // Cache next
-//        cacheNext();
-//    }
+    cacheNext();
 
-//    QString newPath = currentImagePath();
     QString newPath = m_paths[m_current];
     m_effect = SlideEffect::create();
     m_effect->setDuration(ANIMATION_DURATION);
@@ -171,17 +150,10 @@ bool SlideEffectPlayer::startNext()
 
     using namespace utils::image;
     qDebug()<<"m_cacheImages.value";
-//    QImage oldImg = m_cacheImages.value(oldPath);
-//    QImage newImg = m_cacheImages.value(newPath);
-    QImage oldImg = dApp->m_bigimagemap.value(oldPath).toImage();
-    QImage newImg = dApp->m_bigimagemap.value(newPath).toImage();
+    QImage oldImg = m_cacheImages.value(oldPath);
+    QImage newImg = m_cacheImages.value(newPath);
     // The "newPath" would be the next "oldPath", so there is no need to remove it now
-
-    if(oldPath != newPath)
-    {
-        m_cacheImages.remove(oldPath);
-    }
-
+//    m_cacheImages.remove(oldPath);
 
     qDebug()<<m_cacheImages;
     m_effect->setImages(oldImg, newImg);
@@ -206,34 +178,27 @@ bool SlideEffectPlayer::startNext()
 
 bool SlideEffectPlayer::startPrevious()
 {
-//    killTimer(m_tid);
-//    m_tid = 0;
-
     if (m_paths.isEmpty())
+    {
         return false;
+    }
+
     QSize fSize(m_w, m_h);
-    if (! fSize.isValid()) {
+    if (! fSize.isValid())
+    {
         return false;
     }
 
     const QString oldPath = m_paths[m_current];
 
-//    if (m_paths.length() > 1) {
-//        m_current --;
-//        if (m_current == m_paths.constBegin()) {
-//            m_current = m_paths.constEnd();
-//            if (!QFileInfo(*m_current).exists()) {
-//                m_current = m_paths.constEnd() - 1;
-//            }
-//        }
-////        cachePrevious();
-//    }
     if(m_paths.length() > 1){
         m_current --;
         if(m_current == -1){
             m_current = m_paths.length()-1;
         }
     }
+
+    cachePrevious();
 
     QString newPath = m_paths[m_current];
     m_effect = SlideEffect::create();
@@ -242,17 +207,11 @@ bool SlideEffectPlayer::startPrevious()
 
     using namespace utils::image;
     qDebug()<<"m_cacheImages.value";
-//    QImage oldImg = m_cacheImages.value(oldPath);
-//    QImage newImg = m_cacheImages.value(newPath);
-    QImage oldImg = dApp->m_bigimagemap.value(oldPath).toImage();
-    QImage newImg = dApp->m_bigimagemap.value(newPath).toImage();
+    QImage oldImg = m_cacheImages.value(oldPath);
+    QImage newImg = m_cacheImages.value(newPath);
     // The "newPath" would be the next "oldPath", so there is no need to remove it now
 
-//    if(oldPath != newPath)
-//    {
-//        m_cacheImages.remove(oldPath);
-//    }
-
+//    m_cacheImages.remove(oldPath);
 
     m_effect->setImages(oldImg, newImg);
     if (!m_thread.isRunning())
@@ -268,61 +227,49 @@ bool SlideEffectPlayer::startPrevious()
     return true;
 }
 
-//void SlideEffectPlayer::cacheNext()
-//{
-//    qDebug()<<"SlideEffectPlayer::cacheNext()";
-//    QStringList::ConstIterator current = m_current;
-//    current ++;
-//    if (current == m_paths.constEnd()) {
-//        current = m_paths.constBegin();
-//        if (!QFileInfo(*current).exists()) {
-//            current = m_paths.constBegin() + 1;
-//        }
-//    }
-//    QString path;
-//    if (current == m_paths.constEnd())
-//        path = *m_paths.constBegin();
-//    else
-//        path = *current;
+void SlideEffectPlayer::cacheNext()
+{
+    qDebug()<<"SlideEffectPlayer::cacheNext()";
+    int current = m_current;
+    current ++;
+    if (current == m_paths.length())
+    {
+        current = 0;
+    }
 
-//    CacheThread *t = new CacheThread(path);
-//    connect(t, &CacheThread::cached,
-//            this, [=] (const QString path, const QImage img) {
-//        qDebug()<<"m_cacheImages.insert(path, img)";
-//        m_cacheImages.insert(path, img);
-//    });
-//    connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
-//    t->start();
+    QString path = m_paths[current];
 
+    CacheThread *t = new CacheThread(path);
+    connect(t, &CacheThread::cached,
+            this, [=] (const QString path, const QImage img) {
+        qDebug()<<"m_cacheImages.insert(path, img)";
+        m_cacheImages.insert(path, img);
+    });
+    connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
+    t->start();
+}
 
-//}
+void SlideEffectPlayer::cachePrevious()
+{
+    qDebug()<<"SlideEffectPlayer::cachePrevious()";
+    int current = m_current;
+    current--;
+    if (-1 == current)
+    {
+        current = m_paths.length() - 1;
+    }
 
-//void SlideEffectPlayer::cachePrevious()
-//{
-//    qDebug()<<"SlideEffectPlayer::cacheNext()";
-//    QStringList::ConstIterator current = m_current;
-//    current --;
-//    if (current == m_paths.constBegin()) {
-//        current = m_paths.constEnd();
-//        if (!QFileInfo(*current).exists()) {
-//            current = m_paths.constEnd() - 1;
-//        }
-//    }
-//    QString path;
-//    if (current == m_paths.constEnd())
-//        path = *m_paths.constBegin();
-//    else
-//        path = *current;
+    QString path = m_paths[current];
 
-//    CacheThread *t = new CacheThread(path);
-//    connect(t, &CacheThread::cached,
-//            this, [=] (const QString path, const QImage img) {
-//        qDebug()<<"m_cacheImages.insert(path, img)";
-//        m_cacheImages.insert(path, img);
-//    });
-//    connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
-//    t->start();
-//}
+    CacheThread *t = new CacheThread(path);
+    connect(t, &CacheThread::cached,
+            this, [=] (const QString path, const QImage img) {
+        qDebug()<<"m_cacheImages.insert(path, img)";
+        m_cacheImages.insert(path, img);
+    });
+    connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
+    t->start();
+}
 
 void SlideEffectPlayer::stop()
 {

@@ -131,7 +131,7 @@ void ImportView::dropEvent(QDropEvent *event)
     {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (paths.first().compare(strPath))
+        if (0 == paths.first().compare(strPath))
         {
             isMountFlag = 1;
             break;
@@ -307,7 +307,7 @@ void ImportView::onImprotBtnClicked()
     {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (image_list.first().compare(strPath))
+        if (0 == image_list.first().compare(strPath))
         {
             isMountFlag = 1;
             break;

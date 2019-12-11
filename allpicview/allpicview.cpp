@@ -234,7 +234,7 @@ void AllPicView::dropEvent(QDropEvent *event)
     {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (paths.first().compare(strPath))
+        if (0 == paths.first().compare(strPath))
         {
             isMountFlag = 1;
             break;

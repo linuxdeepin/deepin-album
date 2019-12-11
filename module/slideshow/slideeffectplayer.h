@@ -78,9 +78,9 @@ protected:
 public:
     int duration() const;
     bool startNext();
-//    void cacheNext();
+    void cacheNext();
     bool startPrevious();
-//    void cachePrevious();
+    void cachePrevious();
 
 private:
     bool m_running = false;

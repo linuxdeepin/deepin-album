@@ -789,7 +789,7 @@ void MainWindow::onImprotBtnClicked()
     {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (image_list.first().compare(strPath))
+        if (0 == image_list.first().compare(strPath))
         {
             isMountFlag = 1;
             break;
