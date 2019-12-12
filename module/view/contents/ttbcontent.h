@@ -116,6 +116,8 @@ public slots:
     void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
 
+    void onResize();
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

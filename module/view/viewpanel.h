@@ -67,6 +67,8 @@ signals:
     void updateTopLeftContentImage(const QString &path);
     void imgloader();
 
+    void sigResize();
+
 protected:
 //    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 //    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;

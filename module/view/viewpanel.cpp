@@ -310,7 +310,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 }
 QWidget *ViewPanel::bottomTopLeftContent()
 {
-    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
+    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos,this);
     ttbc->m_imageType = m_viewType;
 //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current < m_infos.size()) {
@@ -431,7 +431,8 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 
     if (e->type() == QEvent::Resize && this->isVisible()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+        emit sigResize();
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -453,11 +454,12 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         m_isMaximized = window()->isMaximized();
     }
 
-    if (window()->isMaximized()) {
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-    }
+//    if (window()->isMaximized()) {
+//        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+//        emit sigResize();
+//        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+//    }
 
     if (m_viewB->isFitImage()) {
         m_viewB->fitImage();
