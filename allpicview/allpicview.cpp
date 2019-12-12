@@ -20,6 +20,7 @@ AllPicView::AllPicView()
     m_pStackedWidget = new DStackedWidget(this);
     m_pImportView = new ImportView();
     m_pThumbnailListView = new ThumbnailListView();
+//    m_pThumbnailListView->setStyleSheet("background:red");
     m_pSearchView = new SearchView();
     m_pStackedWidget->addWidget(m_pImportView);
     m_pStackedWidget->addWidget(m_pThumbnailListView);
@@ -27,7 +28,7 @@ AllPicView::AllPicView()
     m_pStatusBar = new StatusBar();
     m_pStatusBar->setParent(this);
     QVBoxLayout* pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(2,0,2,0);
+    pVBoxLayout->setContentsMargins(10,0,0,0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     pVBoxLayout->addWidget(m_pStatusBar);
     setLayout(pVBoxLayout);

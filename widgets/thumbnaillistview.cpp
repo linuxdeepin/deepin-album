@@ -36,14 +36,16 @@ QString ss(const QString &text)
 ThumbnailListView::ThumbnailListView(QString imgtype)
     : m_model(new QStandardItemModel(this))
 {
+
+//    setStyleSheet("Background:green");
     m_imageType = imgtype;
 
     m_iDefaultWidth = 0;
     m_iBaseHeight = BASE_HEIGHT;
     m_albumMenu = nullptr;
 
-    //    setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
-    setIconSize(QSize(400, 400));
+//        setViewportMargins(0, 0, 10, 0);
+//    setIconSize(QSize(400, 400));
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
     //    setFlow(QListView::LeftToRight);
@@ -233,7 +235,8 @@ void ThumbnailListView::initConnections()
 
 void ThumbnailListView::calBasePixMapWandH()
 {
-    int i_totalwidth = width() - 36;  // same as i_totalwidth in calWidgetItemWandH()
+//    int i_totalwidth = width() - 36;  // same as i_totalwidth in calWidgetItemWandH()
+    int i_totalwidth = width() - 30;  // same as i_totalwidth in calWidgetItemWandH()
 
     for (int i = 0; i < m_ItemList.length(); i++) {
         if (0 == m_ItemList[i].height || 0 == m_ItemList[i].width) {
@@ -263,7 +266,9 @@ void ThumbnailListView::calBasePixMapWandH()
 void ThumbnailListView::calWidgetItemWandH()
 {
     int i_baseWidth = 0;
-    int i_totalwidth = width() - 36;  // same as i_totalwidth in calBasePixMapWandH()
+//    int i_totalwidth = width() - 36;  // same as i_totalwidth in calBasePixMapWandH()
+    int i_totalwidth = width() - 30;  // same as i_totalwidth in calBasePixMapWandH()
+
 
     QList<int> rowWidthList;
     QList<ItemInfo> itemInfoList;
