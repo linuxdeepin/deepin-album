@@ -65,10 +65,11 @@ void StatusBar::initConnections()
             TextLabel->adjustSize();
 
             m_pStackedWidget->setCurrentIndex(1);
-//            loadingicon->move(TextLabel->x()+102, 0);
-//            loadingicon->show();
-//            loadingicon->start();
+//                loadingicon->move(TextLabel->x()+102, 0);
+//                loadingicon->show();
+//                loadingicon->start();
             interval = startTimer(3);
+
         }
     });
     connect(dApp->signalM, &SignalManager::sigExporting, this, [=](QString path){

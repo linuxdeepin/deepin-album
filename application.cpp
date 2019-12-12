@@ -208,10 +208,10 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
 
-        if (pixmap.isNull())
-        {
-            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
-        }
+//        if (pixmap.isNull())
+//        {
+//            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+//        }
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
@@ -234,29 +234,32 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
         dbInfoList<<info;
     }
 
-    if(albumname.length() > 0)
-    {
-        if (COMMON_STR_RECENT_IMPORTED != albumname
-            && COMMON_STR_TRASH != albumname
-            && COMMON_STR_FAVORITES != albumname
-            && ALBUM_PATHTYPE_BY_PHONE != albumname
-            && 0 != albumname.compare(tr("Album Gallery")))
-        {
-            DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
-        }
-    }
-
-    DBManager::instance()->insertImgInfos(dbInfoList);
-
     if(dbInfoList.size() == dbInfos.size())
     {
-        count = 1;
+        count = 1;      
+        if(albumname.length() > 0)
+        {
+            if (COMMON_STR_RECENT_IMPORTED != albumname
+                && COMMON_STR_TRASH != albumname
+                && COMMON_STR_FAVORITES != albumname
+                && ALBUM_PATHTYPE_BY_PHONE != albumname
+                && 0 != albumname.compare(tr("Album Gallery")))
+            {
+                DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
+            }
+        }
+
+        DBManager::instance()->insertImgInfos(dbInfoList);
+        emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
     }
     else {
-        count = 0;
+        count = 0;       
+        emit dApp->signalM->ImportFailed();
+
+
     }
 
-    emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
+
 }
 
 
