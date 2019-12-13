@@ -150,6 +150,8 @@ public:
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     QMap<QString, QPixmap> m_phonePathAndImage;
 
+    QWidget* m_pwidget;
+
 private:
 
     QStringList m_allAlbumNames;

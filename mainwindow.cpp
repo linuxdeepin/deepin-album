@@ -16,6 +16,8 @@
 #include <QProcess>
 #include <DApplication>
 #include <QDesktopWidget>
+#include <DMessageManager>
+#include <DFloatingMessage>
 
 namespace  {
 const int VIEW_ALLPIC = 0;
@@ -163,7 +165,31 @@ void MainWindow::initConnections()
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str2 = tr("Import successful");
-        this->sendMessage(icon, str2);
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str2);
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str2);
     });
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [ = ] {
         m_pSearchEdit->clear();

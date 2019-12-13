@@ -55,6 +55,8 @@ TimeLineView::TimeLineView()
     updataLayout();
 
     initConnections();
+
+    m_pwidget = new QWidget(this);
 }
 
 void TimeLineView::initConnections()
@@ -673,6 +675,9 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
 //        m_allThumbnailListView[i]->setStyleSheet("Background:yellow");
         m_allThumbnailListView[i]->setFixedWidth(width()+2);
     }
+    m_pwidget->setFixedWidth(160);
+    m_pwidget->setFixedHeight(54);
+    m_pwidget->move(this->width() / 2 - 80, this->height() - 81);
 }
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)

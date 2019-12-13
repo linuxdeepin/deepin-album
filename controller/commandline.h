@@ -30,11 +30,15 @@ public:
     ~CommandLine();
     void viewImage(const QString &path, const QStringList &paths);
 
+    QWidget* m_pwidget;
+
 private:
     void addOption(const CMOption *option);
     void showHelp();
 
     explicit CommandLine();
+
+    void resizeEvent(QResizeEvent *e) override;
 
 private:
     static CommandLine *m_commandLine;

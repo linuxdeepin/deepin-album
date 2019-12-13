@@ -79,6 +79,8 @@ CommandLine::CommandLine()
     for (const CMOption* i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
     }
+
+    m_pwidget = new QWidget(this);
 }
 
 CommandLine::~CommandLine() {
@@ -278,4 +280,12 @@ bool CommandLine::processOption(QStringList &paslist)
 //    }
 
     return false;
+}
+
+void CommandLine::resizeEvent(QResizeEvent *e)
+{
+//    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
+    m_pwidget->setFixedWidth(160);
+    m_pwidget->setFixedHeight(54);
+    m_pwidget->move(this->width() / 2 - 80, this->height() - 81);
 }

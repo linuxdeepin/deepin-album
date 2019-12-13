@@ -45,6 +45,8 @@ AllPicView::AllPicView()
 //        m_spinner->start();
 //    }
     updatePicsIntoThumbnailView();
+
+    m_pwidget = new QWidget(this);
 }
 
 void AllPicView::initConnections()
@@ -346,6 +348,9 @@ void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
 //    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
+    m_pwidget->setFixedWidth(160);
+    m_pwidget->setFixedHeight(54);
+    m_pwidget->move(this->width() / 2 - 80, this->height() - 81);
 }
 
 void AllPicView::updatePicNum()
