@@ -34,10 +34,11 @@ signals:
     void cached(QString, QImage);
 
 protected:
-    void run() Q_DECL_OVERRIDE {
+    void run() Q_DECL_OVERRIDE
+    {
         QImage img = utils::image::getRotatedImage(m_path);
 //        QImage img = dApp->m_imagemap.value(m_path).toImage();
-        qDebug() << "QImage img = utils::image::getRotatedImage(m_path)" << m_path;
+        qDebug()<<"QImage img = utils::image::getRotatedImage(m_path)"<<m_path;
         emit cached(m_path, img);
     }
 
@@ -49,30 +50,21 @@ class SlideEffectPlayer : public QObject
 {
     Q_OBJECT
 public:
-    SlideEffectPlayer(QObject *parent = 0);
-    ~SlideEffectPlayer()
-    {
-        if (m_effect) {
-            m_effect->deleteLater();
-            m_effect = nullptr;
-        }
-    }
+    SlideEffectPlayer(QObject* parent = 0);
+    ~SlideEffectPlayer();
     void setFrameSize(int width, int height);
-    QSize frameSize() const
-    {
-        return QSize(m_w, m_h);
-    }
+    QSize frameSize() const { return QSize(m_w, m_h);}
     // call setCurrentImage later
-    void setImagePaths(const QStringList &paths);
+    void setImagePaths(const QStringList& paths);
     // invalid path: black image+1st image
-    void setCurrentImage(const QString &path = QString());
+    void setCurrentImage(const QString& path = QString());
     QString currentImagePath() const;
     bool isRunning() const;
 
 Q_SIGNALS:
-    void frameReady(const QImage &image);
+    void frameReady(const QImage& image);
     void finished();
-    void currentImageChanged(const QString &path);
+    void currentImageChanged(const QString& path);
     void stepChanged(int steps);
     void updateButton();
 
@@ -104,8 +96,5 @@ private:
     int m_current;
 
     QThread m_thread;
-    SlideEffect *m_effect = nullptr;
-//    QRect m_screenrect = QRect(0, 0, 0, 0);
-//    qreal m_ratio = 1;
-    bool b_4k = false;
+    SlideEffect *m_effect = NULL;
 };

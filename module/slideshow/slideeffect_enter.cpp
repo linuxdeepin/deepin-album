@@ -35,8 +35,8 @@
 
 #include "slideeffect.h"
 
-static const EffectId kEnterFromTop = "enter_from_top";
-static const EffectId kEnterFromBottom = "enter_from_bottom";
+//static const EffectId kEnterFromTop = "enter_from_top";
+//static const EffectId kEnterFromBottom = "enter_from_bottom";
 static const EffectId kEnterFromLeft = "enter_from_left";
 static const EffectId kEnterFromRight = "enter_from_right";
 
@@ -48,8 +48,9 @@ public:
         return Slide;
     }
     virtual QVector<EffectId> supportedTypes() const {
-        return QVector<EffectId>() << kEnterFromBottom << kEnterFromLeft
-                 << kEnterFromRight  << kEnterFromTop;
+//        return QVector<EffectId>() << kEnterFromBottom << kEnterFromLeft
+//                 << kEnterFromRight  << kEnterFromTop;
+        return QVector<EffectId>() << kEnterFromLeft<< kEnterFromRight;
     }
 protected:
     virtual bool prepareFrameAt(int frame);
@@ -72,14 +73,14 @@ bool SlideEffect_Enter::prepare()
 {
     SlideEffect::prepare(); //Important!!!
     setEasingCurve(QEasingCurve::InOutQuint);
-    if (effect_type == kEnterFromBottom)
-        calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromBottom;
-    else if (effect_type == kEnterFromLeft)
+//    if (effect_type == kEnterFromBottom)
+//        calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromBottom;
+    if (effect_type == kEnterFromLeft)
         calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromLeft;
     else if (effect_type == kEnterFromRight)
         calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromRight;
-    else if (effect_type == kEnterFromTop)
-        calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromTop;
+//    else if (effect_type == kEnterFromTop)
+//        calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromTop;
 	else
         calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromRight; //calculateRegion_Random
 

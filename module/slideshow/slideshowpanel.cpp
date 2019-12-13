@@ -88,16 +88,16 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //            &SlideShowPanel::onThemeChanged);
 
     slideshowbottombar = new SlideShowBottomBar(this);
-    connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
+    connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [=]{
         m_player->startPrevious();
     });
 //    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [=]{
 
 //    });
-    connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
+    connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [=]{
         m_player->startNext();
     });
-    connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [ = ] {
+    connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [=]{
         backToLastPanel();
     });
 
@@ -131,6 +131,7 @@ QWidget *SlideShowPanel::extensionPanelContent()
 
 void SlideShowPanel::paintEvent(QPaintEvent *e)
 {
+    ModulePanel::paintEvent(e);
 
     if (m_img.isNull())
         return;
@@ -139,7 +140,6 @@ void SlideShowPanel::paintEvent(QPaintEvent *e)
 //    p.setRenderHint(QPainter::Antialiasing);
     p.fillRect(this->rect(), QBrush(QColor(m_bgColor)));
     p.drawPixmap(this->rect(), QPixmap::fromImage(m_img));
-//    ModulePanel::paintEvent(e);
 }
 
 void SlideShowPanel::resizeEvent(QResizeEvent *e)
@@ -154,7 +154,8 @@ void SlideShowPanel::backToLastPanel()
     m_player->stop();
     showNormal();
 
-    if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID) {
+    if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID)
+    {
         m_vinfo.path = m_player->currentImagePath();
         m_vinfo.fullScreen = false;
         m_vinfo.slideShow = false;
@@ -308,31 +309,35 @@ void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
 //    if (!(e->buttons() | Qt::NoButton)) {
-    this->setCursor(Qt::ArrowCursor);
+        this->setCursor(Qt::ArrowCursor);
 //        emit mouseHoverMoved();
 //    } else {
 //        this->setCursor(Qt::ClosedHandCursor);
 //        emit transformChanged();
 //    }
 
-    if (window()->isFullScreen()) {
+    if (window()->isFullScreen())
+    {
         QPoint pos = mapFromGlobal(QCursor::pos());
         if (height() - 20 < pos.y()
-                && height() > pos.y()
-                && height() == slideshowbottombar->y()) {
+            && height() > pos.y()
+            && height() == slideshowbottombar->y())
+        {
             QPropertyAnimation *animation = new QPropertyAnimation(slideshowbottombar, "pos");
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
-            animation->setStartValue(QPoint((width() - slideshowbottombar->width()) / 2, slideshowbottombar->y()));
-            animation->setEndValue(QPoint((width() - slideshowbottombar->width()) / 2, height() - slideshowbottombar->height() - 10));
+            animation->setStartValue(QPoint((width()-slideshowbottombar->width())/2, slideshowbottombar->y()));
+            animation->setEndValue(QPoint((width()-slideshowbottombar->width())/2, height() - slideshowbottombar->height()-10));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
-        } else if (height() - slideshowbottombar->height() - 10 > pos.y()
-                   && height() - slideshowbottombar->height() - 10 == slideshowbottombar->y()) {
+        }
+        else if (height() - slideshowbottombar->height()- 10 > pos.y()
+                 && height() - slideshowbottombar->height()- 10 == slideshowbottombar->y())
+        {
             QPropertyAnimation *animation = new QPropertyAnimation(slideshowbottombar, "pos");
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
-            animation->setStartValue(QPoint((width() - slideshowbottombar->width()) / 2, slideshowbottombar->y()));
-            animation->setEndValue(QPoint((width() - slideshowbottombar->width()) / 2, height()));
+            animation->setStartValue(QPoint((width()-slideshowbottombar->width())/2, slideshowbottombar->y()));
+            animation->setEndValue(QPoint((width()-slideshowbottombar->width())/2, height()));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
         }
     }
@@ -344,8 +349,7 @@ void SlideShowPanel::setImage(const QImage &img)
     m_img = img;
     m_img.setDevicePixelRatio(devicePixelRatioF());
 
-//    update();
-    repaint();
+    update();
 }
 
 void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
@@ -385,7 +389,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 
     int nParentWidth = QApplication::desktop()->screenGeometry().width();
     int nParentHeight = QApplication::desktop()->screenGeometry().height();
-    slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
+    slideshowbottombar->move((nParentWidth - slideshowbottombar->width())/2, nParentHeight);
 
     m_player->start();
 //    emit dApp->signalM->gotoPanel(this);
@@ -394,10 +398,13 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 
 void SlideShowPanel::showNormal()
 {
-    if (m_isMaximized) {
+    if (m_isMaximized)
+    {
         window()->showNormal();
         window()->showMaximized();
-    } else {
+    }
+    else
+    {
         window()->showNormal();
     }
 }
