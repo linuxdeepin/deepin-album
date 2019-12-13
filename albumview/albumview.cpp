@@ -2666,7 +2666,7 @@ bool MountLoader::findPicturePathByPhone(QString &path)
 void AlbumView::resizeEvent(QResizeEvent *e)
 {
     m_pImpTimeLineWidget->setFixedWidth(width() - 181);
-    m_pImpTimeLineWidget->setFixedHeight(height() - 55);
+    m_pImpTimeLineWidget->setFixedHeight(height() - 75);
     m_pwidget->setFixedWidth(160);
     m_pwidget->setFixedHeight(54);
     m_pwidget->move(this->width() / 2 - 80, this->height() - 81);

@@ -368,7 +368,7 @@ void TimeLineView::updataLayout()
         Layout->addStretch(1);
         Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 //        Layout->setContentsMargins(0, 0, 0, 0);
-        Layout->setContentsMargins(0, 0, 32, 0);
+        Layout->setContentsMargins(0, 0, 37, 0);
         Layout->addWidget(pChose);
 
         listItem->m_Chose = pChose;
@@ -669,7 +669,7 @@ void TimeLineView::on_KeyEvent(int key)
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
-    m_dateItem->setFixedSize(width() - 10, 87);
+    m_dateItem->setFixedSize(width() - 15, 87);
     for(int i = 0; i < m_allThumbnailListView.length(); i++)
     {
 //        m_allThumbnailListView[i]->setStyleSheet("Background:yellow");
