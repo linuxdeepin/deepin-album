@@ -28,7 +28,7 @@ AllPicView::AllPicView()
     m_pStatusBar = new StatusBar();
     m_pStatusBar->setParent(this);
     QVBoxLayout* pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(10,0,0,0);
+    pVBoxLayout->setContentsMargins(20,0,0,0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     pVBoxLayout->addWidget(m_pStatusBar);
     setLayout(pVBoxLayout);

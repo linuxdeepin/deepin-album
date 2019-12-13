@@ -390,7 +390,8 @@ void MainWindow::initTitleBar()
     btnGroup->setExclusive(true);
     QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
 
-    m_pAllPicBtn = new DToolButton();
+    m_pAllPicBtn = new DPushButton();
+    m_pAllPicBtn->setFlat(true);
 //    m_pAllPicBtn->setFixedSize(80, 36);
     m_pAllPicBtn->setCheckable(true);
     m_pAllPicBtn->setChecked(true);
@@ -399,7 +400,8 @@ void MainWindow::initTitleBar()
     DFontSizeManager::instance()->bind(m_pAllPicBtn, DFontSizeManager::T6);
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
 
-    m_pTimeBtn = new DToolButton();
+    m_pTimeBtn = new DPushButton();
+    m_pTimeBtn->setFlat(true);
 //    m_pTimeBtn->setFixedSize(60, 36);
     m_pTimeBtn->setCheckable(true);
     m_pTimeBtn->setText(tr("Timelines"));
@@ -408,7 +410,8 @@ void MainWindow::initTitleBar()
     pTitleBtnLayout->addSpacing(-6);
     pTitleBtnLayout->addWidget(m_pTimeBtn);
 
-    m_pAlbumBtn = new DToolButton();
+    m_pAlbumBtn = new DPushButton();
+    m_pAlbumBtn->setFlat(true);
 //    m_pAlbumBtn->setFixedSize(60, 36);
     m_pAlbumBtn->setCheckable(true);
     m_pAlbumBtn->setText(tr("Albums"));

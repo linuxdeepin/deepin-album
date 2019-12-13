@@ -44,7 +44,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     m_iBaseHeight = BASE_HEIGHT;
     m_albumMenu = nullptr;
 
-//        setViewportMargins(0, 0, 10, 0);
+//        setViewportMargins(0, 0, -10, 0);
 //    setIconSize(QSize(400, 400));
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);

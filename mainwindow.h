@@ -118,9 +118,9 @@ private:
     DPushButton* m_pItemButton;
 
     QButtonGroup* btnGroup;
-    DToolButton* m_pAllPicBtn;
-    DToolButton* m_pTimeBtn;
-    DToolButton* m_pAlbumBtn;
+    DPushButton* m_pAllPicBtn;
+    DPushButton* m_pTimeBtn;
+    DPushButton* m_pAlbumBtn;
 
 };
 

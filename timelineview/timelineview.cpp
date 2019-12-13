@@ -12,6 +12,7 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <dgiovolume.h>
+#include <QDesktopWidget>
 
 namespace  {
 const int VIEW_IMPORT = 0;
@@ -44,7 +45,7 @@ TimeLineView::TimeLineView()
     m_pStatusBar->setParent(this);
 
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(0, 0, 2, 0);
+    pVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     pVBoxLayout->addWidget(m_pStatusBar);
     this->setLayout(pVBoxLayout);
@@ -152,6 +153,9 @@ void TimeLineView::initTimeLineViewWidget()
     pTimeLineViewWidget->setPalette(palcolor);
 
     m_mainListWidget = new TimelineList;
+
+//    m_mainListWidget->setStyleSheet("Background:blue");
+
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
     m_mainLayout->addWidget(m_mainListWidget);
@@ -361,7 +365,8 @@ void TimeLineView::updataLayout()
         pNum_dn->setLayout(Layout);
         Layout->addStretch(1);
         Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        Layout->setContentsMargins(0, 0, 0, 0);
+//        Layout->setContentsMargins(0, 0, 0, 0);
+        Layout->setContentsMargins(0, 0, 32, 0);
         Layout->addWidget(pChose);
 
         listItem->m_Chose = pChose;
@@ -373,6 +378,7 @@ void TimeLineView::updataLayout()
 
         //添加照片
         ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_VIEW_TIMELINE);
+
         connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
             if (isVisible()) {
                 pThumbnailListView->setFixedHeight(h);
@@ -662,6 +668,11 @@ void TimeLineView::on_KeyEvent(int key)
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
     m_dateItem->setFixedSize(width() - 10, 87);
+    for(int i = 0; i < m_allThumbnailListView.length(); i++)
+    {
+//        m_allThumbnailListView[i]->setStyleSheet("Background:yellow");
+        m_allThumbnailListView[i]->setFixedWidth(width()+2);
+    }
 }
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
