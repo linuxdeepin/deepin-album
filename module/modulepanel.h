@@ -23,17 +23,20 @@
 #include <QFile>
 #include <QFrame>
 
-class ModulePanel : public QFrame
+class ModulePanel : public /*QFrame*/QWidget
 {
     Q_OBJECT
 public:
     ModulePanel(QWidget *parent = 0)
-        :QFrame(parent)
+        : /*QFrame*/QWidget(parent)
     {
         connect(dApp->signalM, &SignalManager::gotoPanel,
                 this, &ModulePanel::showPanelEvent);
     }
-    virtual bool isMainPanel() {return false;}
+    virtual bool isMainPanel()
+    {
+        return false;
+    }
     virtual QString moduleName() = 0;
     virtual QWidget *extensionPanelContent() = 0;
     virtual QWidget *toolbarBottomContent() = 0;
@@ -41,7 +44,8 @@ public:
     virtual QWidget *toolbarTopLeftContent() = 0;
 
 protected:
-    virtual void showPanelEvent(ModulePanel *p) {
+    virtual void showPanelEvent(ModulePanel *p)
+    {
         if (p != this)
             return;
 
