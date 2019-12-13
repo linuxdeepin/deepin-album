@@ -80,6 +80,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
     installEventFilter(this);
+    m_ttbc = nullptr;
 }
 
 QString ViewPanel::moduleName()
@@ -310,37 +311,39 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 }
 QWidget *ViewPanel::bottomTopLeftContent()
 {
-    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos,this);
-    ttbc->m_imageType = m_viewType;
+    if(m_ttbc != nullptr)
+        delete m_ttbc;
+    m_ttbc = new TTBContent(m_vinfo.inDatabase, m_infos,this);
+    m_ttbc->m_imageType = m_viewType;
 //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current < m_infos.size()) {
-        ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
+        m_ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
     } else {
-        ttbc->setImage("", m_infos);
+        m_ttbc->setImage("", m_infos);
     }
 
-    connect(ttbc, &TTBContent::ttbcontentClicked, this, [ = ] {
+    connect(m_ttbc, &TTBContent::ttbcontentClicked, this, [ = ] {
         if (0 != m_iSlideShowTimerId)
         {
             killTimer(m_iSlideShowTimerId);
             m_iSlideShowTimerId = 0;
         }
     });
-    connect(this, &ViewPanel::viewImageFrom, ttbc, [ = ](const QString & dir) {
-        ttbc->setCurrentDir(dir);
+    connect(this, &ViewPanel::viewImageFrom, m_ttbc, [ = ](const QString & dir) {
+        m_ttbc->setCurrentDir(dir);
     });
 //    connect(ttlc, &TTLContent::contentWidthChanged,
 //            this, &ViewPanel::updateTopLeftWidthChanged);
 //    connect(this, &ViewPanel::updateCollectButton,
 //            ttlc, &TTLContent::updateCollectButton);
-    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage);
-    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] {
+    connect(this, &ViewPanel::imageChanged, m_ttbc, &TTBContent::setImage);
+    connect(m_ttbc, &TTBContent::rotateClockwise, this, [ = ] {
         rotateImage(true);
     });
-    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] {
+    connect(m_ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] {
         rotateImage(false);
     });
-    connect(ttbc, &TTBContent::removed, this, [ = ] {
+    connect(m_ttbc, &TTBContent::removed, this, [ = ] {
         if (COMMON_STR_TRASH == m_viewType)
         {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
@@ -370,7 +373,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         }
     });
 
-    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
+    connect(m_ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
         if (fitWindow) {
             m_viewB->fitWindow();
         } else {
@@ -378,20 +381,20 @@ QWidget *ViewPanel::bottomTopLeftContent()
         }
     });
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
-            ttbc, &TTBContent::updateCollectButton);
+            m_ttbc, &TTBContent::updateCollectButton);
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
-            ttbc, &TTBContent::updateCollectButton);
-    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
+            m_ttbc, &TTBContent::updateCollectButton);
+    connect(m_ttbc, &TTBContent::showPrevious, this, [ = ]() {
         this->showPrevious();
     });
-    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
+    connect(m_ttbc, &TTBContent::showNext, this, [ = ]() {
         this->showNext();
     });
-    connect(ttbc, &TTBContent::imageClicked, this, [ = ](int index, int addIndex) {
+    connect(m_ttbc, &TTBContent::imageClicked, this, [ = ](int index, int addIndex) {
         this->showImage(index, addIndex);
     });
 
-    return ttbc;
+    return m_ttbc;
 }
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {

@@ -1152,7 +1152,7 @@ void TTBContent::onResize()
 //                m_imgList->show();
 //            });
 //        }
-//    } else if (0 == m_startAnimation) {
-//        m_imgList->show();
+    } else if (0 == m_startAnimation) {
+        m_imgList->move(QPoint(0, 0));
     }
 }

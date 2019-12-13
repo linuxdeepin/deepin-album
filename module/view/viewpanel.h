@@ -23,6 +23,7 @@
 #include "danchors.h"
 #include "thumbnailwidget.h"
 #include "lockwidget.h"
+#include "contents/ttbcontent.h"
 
 #include <QFileInfo>
 #include <QJsonObject>
@@ -152,6 +153,8 @@ private:
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
 //    DBImgInfoList::ConstIterator m_current =NULL;
+
+    TTBContent *m_ttbc;
     int m_current =0;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
