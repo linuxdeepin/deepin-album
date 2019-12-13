@@ -858,7 +858,10 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
     DBManager::instance()->removeFromAlbumNoSignal(COMMON_STR_FAVORITES, str);
 
+    emit dApp->signalM->updateFavoriteNum();
+
     m_model->removeRow(index.row());
+
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)

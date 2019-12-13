@@ -402,6 +402,11 @@ runend:
     connect(m_pImportView, &ImportView::importFailedToView, this, [ = ] {
     });
     connect(m_importByPhoneComboBox, &DComboBox::currentTextChanged, this, &AlbumView::importComboBoxChange);
+    connect(dApp->signalM, &SignalManager::updateFavoriteNum, this, [=]{
+        m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+        QString favoriteStr = tr("%1 photo(s)");
+        m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
+    });
 }
 
 void AlbumView::initLeftView()
