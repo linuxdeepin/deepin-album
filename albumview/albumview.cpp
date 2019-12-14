@@ -468,15 +468,15 @@ void AlbumView::initRightView()
     m_pRightThumbnailList = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
-    pNoTrashVBoxLayout->addSpacing(3);
+    pNoTrashVBoxLayout->addSpacing(5);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
-    pNoTrashVBoxLayout->addSpacing(4);
+    pNoTrashVBoxLayout->addSpacing(2);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
     pNoTrashVBoxLayout->addSpacing(-1);
     pNoTrashVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
     QVBoxLayout *p_all = new QVBoxLayout();
-    p_all->setContentsMargins(0, 0, 2, 0);
+    p_all->setContentsMargins(2, 0, 2, 0);
     p_all->addLayout(pNoTrashVBoxLayout);
     p_all->addSpacing(2);
     p_all->addWidget(m_pRightThumbnailList);
@@ -502,7 +502,7 @@ void AlbumView::initRightView()
 
     pTopLeftVBoxLayout->addSpacing(3);
     pTopLeftVBoxLayout->addWidget(pLabel1);
-    pTopLeftVBoxLayout->addSpacing(9);
+    pTopLeftVBoxLayout->addSpacing(7);
     pTopLeftVBoxLayout->addWidget(pLabel2);
     pTopLeftVBoxLayout->addSpacing(-1);
     pTopLeftVBoxLayout->setContentsMargins(10, 0, 0, 0);
@@ -569,7 +569,7 @@ void AlbumView::initRightView()
 
     pFavoriteVBoxLayout->addSpacing(3);
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
-    pFavoriteVBoxLayout->addSpacing(4);
+    pFavoriteVBoxLayout->addSpacing(2);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
     pFavoriteVBoxLayout->addSpacing(-1);
 
