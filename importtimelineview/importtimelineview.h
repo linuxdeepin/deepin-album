@@ -83,6 +83,9 @@ private:
 
     bool m_ctrlPress;
 
+    int lastClickedIndex;
+    int lastRow = -1;
+    bool lastChanged = false;
 public:
     int m_index;
     int m_selPicNum;

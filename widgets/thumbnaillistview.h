@@ -98,6 +98,12 @@ public:
     void menuItemDeal(QStringList paths, QAction *action);
     QModelIndexList getSelectedIndexes();
 
+    void selectCurrent(int row);
+    int getRow(QPoint point);
+    void selectRear(int row);
+    void selectFront(int row);
+    void selectExtent(int start,int end);
+
 signals:
     void loadend(int);
     void openImage(int);
@@ -112,7 +118,9 @@ signals:
     void sigKeyEvent(int key);
 #if 1
     void sigMouseRelease();
-    void sigMousePress();
+    void sigMousePress(QMouseEvent *event);
+    void sigShiftMousePress(QMouseEvent *event);
+    void sigCtrlMousePress(QMouseEvent *event);
     void sigMenuItemDeal( QAction *action);
     void sigSelectAll();
     void sigMouseMove();

@@ -98,6 +98,10 @@ private:
 
     bool m_ctrlPress = false;
 
+    int lastClickedIndex;
+    int lastRow = -1;
+    bool lastChanged = false;
+
 public:
     DStackedWidget* m_pStackedWidget;
     StatusBar* m_pStatusBar;

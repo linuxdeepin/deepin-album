@@ -229,6 +229,13 @@ void ImportTimeLineView::initTimeLineViewWidget()
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
             p[0]->selectAll();
             emit sigUpdatePicNum();
+            for(int i = 0; i < m_allChoseButton.length();i++){
+                if(m_allThumbnailListView[i] == p[0]){
+                    lastClickedIndex = i;
+                    lastRow = 0;
+                    lastChanged = true;
+                }
+            }
         } else
         {
             pSuspensionChose->setText(QObject::tr("Select"));
@@ -477,6 +484,12 @@ void ImportTimeLineView::updataLayout()
             {
                 pChose->setText(QObject::tr("Unselect"));
                 pThumbnailListView->selectAll();
+                for(int i = 0;i < m_allChoseButton.length();i++){
+                    if(pChose == m_allChoseButton[i])
+                        lastClickedIndex = i;
+                }
+                lastRow = 0;
+                lastChanged = true;
             } else
             {
                 pChose->setText(QObject::tr("Select"));
@@ -485,6 +498,74 @@ void ImportTimeLineView::updataLayout()
             emit sigUpdatePicNum();
         });
 #if 1
+
+        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] (QMouseEvent *event){
+            lastRow = -1;
+            for(int i = 0;i < m_allThumbnailListView.length();i++){
+                if(pThumbnailListView == m_allThumbnailListView[i]){
+                    lastClickedIndex = i;
+                    lastRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
+                    if(-1 != lastRow)
+                        lastChanged = true;
+                }
+            }
+        });
+
+        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ] (QMouseEvent *event){
+            int curClickedIndex = -1;
+            int curRow = -1;
+            for(int i = 0;i < m_allThumbnailListView.length();i++){
+                if(pThumbnailListView == m_allThumbnailListView[i]){
+                    curClickedIndex = i;
+                    curRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
+                }
+            }
+            if(!lastChanged && -1 != curRow){
+                for(int i = 0;i < m_allThumbnailListView.length();i++){
+                    m_allThumbnailListView[i]->clearSelection();
+                }
+            }
+            if(curRow == -1 || lastRow == -1)
+                for(int i = 0;i < m_allThumbnailListView.length();i++){
+                    m_allThumbnailListView[i]->clearSelection();
+                }
+            else{
+                if(lastClickedIndex < curClickedIndex){
+                    m_allThumbnailListView[lastClickedIndex]->selectRear(lastRow);
+                    m_allThumbnailListView[curClickedIndex]->selectFront(curRow);
+                    for(int i = lastClickedIndex+1;i < curClickedIndex;i++){
+                        m_allThumbnailListView[i]->selectAll();
+                    }
+                }else if(lastClickedIndex > curClickedIndex){
+                    m_allThumbnailListView[lastClickedIndex]->selectFront(lastRow);
+                    m_allThumbnailListView[curClickedIndex]->selectRear(curRow);
+                    for(int i = curClickedIndex+1;i < lastClickedIndex;i++){
+                        m_allThumbnailListView[i]->selectAll();
+                    }
+                }else if(lastClickedIndex == curClickedIndex){
+                    if(lastRow <= curRow)
+                        pThumbnailListView->selectExtent(lastRow,curRow);
+                    else
+                        pThumbnailListView->selectExtent(curRow,lastRow);
+                }
+                emit sigUpdatePicNum();
+                updateChoseText();
+                curRow = -1;
+                lastChanged = false;
+            }
+        });
+
+        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ] (QMouseEvent *event){
+            for(int i = 0;i < m_allThumbnailListView.length();i++){
+                if(pThumbnailListView == m_allThumbnailListView[i]){
+                    lastClickedIndex = i;
+                    lastRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
+                    if(-1 != lastRow)
+                        lastChanged = true;
+                }
+            }
+        });
+
         connect(pThumbnailListView, &ThumbnailListView::sigGetSelectedPaths, this, [ = ](QStringList * pPaths) {
             pPaths->clear();
             for (int i = 0; i < m_allThumbnailListView.size(); i++) {
@@ -561,6 +642,7 @@ void ImportTimeLineView::updataLayout()
             {
                 m_allThumbnailListView[i]->clearSelection();
             }
+            lastRow = -1;
             emit sigUpdatePicNum();
             updateChoseText();
         });
