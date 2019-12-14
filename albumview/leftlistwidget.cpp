@@ -21,9 +21,11 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
         QString leftTabListType = item->m_albumTypeStr;
         // qDebug()<<"leftTabListName: "<<leftTabListName<<" ;leftTabListType: "<<leftTabListType;
 
-        if (/*(COMMON_STR_RECENT_IMPORTED == leftTabListName) ||*/
-            (COMMON_STR_TRASH == leftTabListName) || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType) ||
-            (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
+        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName)
+                || (COMMON_STR_TRASH == leftTabListName)
+                || (COMMON_STR_FAVORITES == leftTabListName)
+                || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType)
+                || (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
             qDebug() << "Can not drop!";
             return event->ignore();
         } else {
@@ -47,6 +49,10 @@ void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
 {
     qDebug() << "xxxxxxxxxxxxxx";
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover")) {
+//        const QMimeData *mimeData = event->mimeData();
+//        if (!utils::base::checkMimeData(mimeData)) {
+//            return;
+//        }
         event->acceptProposedAction();
     } else {
         event->ignore();

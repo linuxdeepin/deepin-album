@@ -16,7 +16,7 @@ class AlbumLeftTabItem : public QWidget
     Q_OBJECT
 
 public:
-    AlbumLeftTabItem(QString str, LeftListWidget* pListWidget, QListWidgetItem *pListWidgetItem, QString strAlbumType = "");
+    AlbumLeftTabItem(QString str, QString strAlbumType = "");
     ~AlbumLeftTabItem();
     void editAlbumEdit();
     void oriAlbumStatus();

@@ -67,6 +67,7 @@ private:
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
+    void timerEvent(QTimerEvent *e);
 
 signals:
     void sigTitleMenuImportClicked();
@@ -121,7 +122,7 @@ private:
     DPushButton* m_pAllPicBtn;
     DPushButton* m_pTimeBtn;
     DPushButton* m_pAlbumBtn;
-
+    int timer;
 };
 
 #endif // MAINWINDOW_H

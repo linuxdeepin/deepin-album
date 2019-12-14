@@ -206,7 +206,41 @@ bool CommandLine::processOption(QStringList &paslist)
     QStringList pas = m_cmdParser.positionalArguments();
     qDebug()<<"processOption()"<<names<<pas;
 
-    paslist = pas;
+    QImage* pimg = new QImage();
+
+    if(pas.count() > 0)
+    {
+        for(int i = 0; i < pas.count(); i++)
+        {
+            if(QFileInfo(pas.at(i)).isDir())
+            {
+                continue;
+//                if(!pas.at(i).isEmpty())
+//                {
+//                    //checkFileType(QDir(pas.at(i)).entryList(), paslist);
+
+//                }
+//                else
+//                {
+//                    continue;
+//                }
+            }
+            else if(pimg->load(pas.at(i)))
+            {
+                paslist.append(pas.at(i));
+            }
+            else
+            {
+                continue;
+            }
+        }
+        if(paslist.isEmpty())
+        {
+            exit(0);
+        }
+    }
+
+    //paslist = pas;
 //    if (pas.length() > 0) {
 //        viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
 //    }
@@ -282,10 +316,31 @@ bool CommandLine::processOption(QStringList &paslist)
     return false;
 }
 
+//void CommandLine::checkFileType(QStringList pas, QStringList &paslist)
+//{
+//    QImage* pimg = new QImage();
+
+//    for(int i = 2; i < pas.count(); i++)
+//    {
+//        if(QFileInfo(pas.at(i)).isDir())
+//        {
+//            break;
+//        }
+//        else if(pimg->load(pas.at(i)))
+//        {
+//            paslist.append(pas.at(i));
+//        }
+//        else
+//        {
+//            continue;
+//        }
+//    }
+//}
+
 void CommandLine::resizeEvent(QResizeEvent *e)
 {
 //    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-    m_pwidget->setFixedWidth(160);
+    m_pwidget->setFixedWidth(320);
     m_pwidget->setFixedHeight(54);
-    m_pwidget->move(this->width() / 2 - 80, this->height() - 81);
+    m_pwidget->move(this->width() / 2 - 160, this->height() - 81);
 }

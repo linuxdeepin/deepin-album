@@ -67,7 +67,7 @@ private:
     ThumbnailListView* m_pThumbnailListView;
     ImportView* m_pImportView;
     SearchView* m_pSearchView;
-    DSpinner* m_spinner=nullptr;
+    DSpinner* m_spinner;
 };
 
 #endif // ALLPICVIEW_H

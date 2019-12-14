@@ -27,17 +27,17 @@ AllPicView::AllPicView()
     m_pStackedWidget->addWidget(m_pSearchView);
     m_pStatusBar = new StatusBar();
     m_pStatusBar->setParent(this);
-    QVBoxLayout* pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(20,0,0,0);
+    QVBoxLayout *pVBoxLayout = new QVBoxLayout();
+    pVBoxLayout->setContentsMargins(20, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     pVBoxLayout->addWidget(m_pStatusBar);
     setLayout(pVBoxLayout);
 //    updateStackedWidget();
     initConnections();
 
-//    m_spinner = new DSpinner(this);
-//    m_spinner->setFixedSize(40, 40);
-//    m_spinner->hide();
+    m_spinner = new DSpinner(this);
+    m_spinner->setFixedSize(40, 40);
+    m_spinner->hide();
 
 //    if (0 < DBManager::instance()->getImgsCount())
 //    {
@@ -53,25 +53,21 @@ void AllPicView::initConnections()
 {
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::updatePicsIntoThumbnailView);
-    connect(dApp, &Application::sigFinishLoad, this, [=] {
+    connect(dApp, &Application::sigFinishLoad, this, [ = ] {
         m_pThumbnailListView->update();
     });
 
-    connect(m_pThumbnailListView,&ThumbnailListView::openImage,this,[=](int index){
+    connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
         auto imagelist = DBManager::instance()->getAllInfos();
-        if(imagelist.size()>1)
-        {
-            for(auto image : imagelist)
-            {
-                info.paths<<image.filePath;
+        if (imagelist.size() > 1) {
+            for (auto image : imagelist) {
+                info.paths << image.filePath;
             }
-        }
-        else
-        {
-          info.paths.clear();
+        } else {
+            info.paths.clear();
         }
         info.path = imagelist[index].filePath;
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
@@ -79,27 +75,20 @@ void AllPicView::initConnections()
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
-    connect(m_pThumbnailListView,&ThumbnailListView::menuOpenImage,this,[=](QString path,QStringList paths,bool isFullScreen, bool isSlideShow){
+    connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
         auto imagelist = DBManager::instance()->getAllInfos();
-        if(paths.size()>1)
-        {
+        if (paths.size() > 1) {
             info.paths = paths;
-        }
-        else
-        {
-            if(imagelist.size()>1)
-            {
-                for(auto image : imagelist)
-                {
-                    info.paths<<image.filePath;
+        } else {
+            if (imagelist.size() > 1) {
+                for (auto image : imagelist) {
+                    info.paths << image.filePath;
                 }
-            }
-            else
-            {
-              info.paths.clear();
+            } else {
+                info.paths.clear();
             }
         }
         info.path = path;
@@ -107,17 +96,14 @@ void AllPicView::initConnections()
         info.slideShow = isSlideShow;
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
         info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
-        if(info.slideShow)
-        {
-            if(imagelist.count() == 1)
-            {
+        if (info.slideShow) {
+            if (imagelist.count() == 1) {
                 info.paths = paths;
             }
 
             emit dApp->signalM->startSlideShow(info);
             emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
-        }
-        else {
+        } else {
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
         }
@@ -129,25 +115,29 @@ void AllPicView::initConnections()
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
 
-    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [=]{
+    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
+        m_spinner->show();
+        m_spinner->start();
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
         m_pImportView->onImprotBtnClicked();
     });
-    connect(m_pImportView, &ImportView::importFailedToView, this, [=]{
-        updateStackedWidget();
+    connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
+        if(isVisible())
+        {
+            m_spinner->hide();
+            m_spinner->stop();
+            updateStackedWidget();
+        }
     });
 
-    connect(m_pThumbnailListView,&ThumbnailListView::sigSelectAll,this,&AllPicView::updatePicNum);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
 }
 
 void AllPicView::updateStackedWidget()
 {
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    if (0 < DBManager::instance()->getImgsCount()) {
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
-    }
-    else
-    {
+    } else {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
     }
 }
@@ -155,40 +145,34 @@ void AllPicView::updateStackedWidget()
 void AllPicView::updatePicsIntoThumbnailView()
 {
     using namespace utils::image;
-//    m_spinner->hide();
+    m_spinner->hide();
+    m_spinner->stop();
     QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
     auto infos = DBManager::instance()->getAllInfos();
-    for(auto info : infos)
-    {
+    for (auto info : infos) {
         ThumbnailListView::ItemInfo vi;
         vi.name = info.fileName;
         vi.path = info.filePath;
 //        vi.image = dApp->m_imagemap.value(info.filePath);
-        if (dApp->m_imagemap.value(info.filePath).isNull())
-        {
+        if (dApp->m_imagemap.value(info.filePath).isNull()) {
             QSize imageSize = getImageQSize(vi.path);
 
             vi.width = imageSize.width();
             vi.height = imageSize.height();
-        }
-        else
-        {
+        } else {
             vi.width = dApp->m_imagemap.value(info.filePath).width();
             vi.height = dApp->m_imagemap.value(info.filePath).height();
         }
 
-        thumbnaiItemList<<vi;
+        thumbnaiItemList << vi;
     }
 
     m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
-    if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
-    {
+    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
-    }
-    else
-    {
+    } else {
         updateStackedWidget();
     }
 
@@ -197,6 +181,10 @@ void AllPicView::updatePicsIntoThumbnailView()
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)
 {
+    const QMimeData *mimeData = e->mimeData();
+    if (!utils::base::checkMimeData(mimeData)) {
+        return;
+    }
     e->setDropAction(Qt::CopyAction);
     e->accept();
 }
@@ -224,8 +212,7 @@ void AllPicView::dropEvent(QDropEvent *event)
         }
     }
 
-    if (paths.isEmpty())
-    {
+    if (paths.isEmpty()) {
         return;
     }
 
@@ -233,33 +220,28 @@ void AllPicView::dropEvent(QDropEvent *event)
     int isMountFlag = 0;
     DGioVolumeManager *pvfsManager = new DGioVolumeManager;
     QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-    for(auto mount : mounts)
-    {
+    for (auto mount : mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (0 == paths.first().compare(strPath))
-        {
+        if (0 == paths.first().compare(strPath)) {
             isMountFlag = 1;
             break;
         }
     }
 
     // 当前导入路径
-    if(isMountFlag)
-    {
+    if (isMountFlag) {
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
         QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
         QDir dir;
-        if (!dir.exists(basePath))
-        {
+        if (!dir.exists(basePath)) {
             dir.mkpath(basePath);
         }
 
         QStringList newImagePaths;
-        foreach (QString strPath, paths)
-        {
+        foreach (QString strPath, paths) {
             //取出文件名称
             QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
             QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
@@ -267,14 +249,12 @@ void AllPicView::dropEvent(QDropEvent *event)
 
             newImagePaths << strNewPath;
             //判断新路径下是否存在目标文件，若存在，下一次张
-            if (dir.exists(strNewPath))
-            {
+            if (dir.exists(strNewPath)) {
                 continue;
             }
 
             // 外接设备图片拷贝到系统
-            if (QFile::copy(strPath, strNewPath))
-            {
+            if (QFile::copy(strPath, strNewPath)) {
 
             }
         }
@@ -287,8 +267,7 @@ void AllPicView::dropEvent(QDropEvent *event)
 
     using namespace utils::image;
 
-    for (auto path : paths)
-    {
+    for (auto path : paths) {
         if (! imageSupportRead(path)) {
             continue;
         }
@@ -306,16 +285,11 @@ void AllPicView::dropEvent(QDropEvent *event)
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
         dbi.dirHash = utils::base::hash(QString());
-        if(fi.birthTime().isValid())
-        {
+        if (fi.birthTime().isValid()) {
             dbi.time = fi.birthTime();
-        }
-        else if (fi.metadataChangeTime().isValid())
-        {
+        } else if (fi.metadataChangeTime().isValid()) {
             dbi.time = fi.metadataChangeTime();
-        }
-        else
-        {
+        } else {
             dbi.time = QDateTime::currentDateTime();
         }
         dbi.changeTime = QDateTime::currentDateTime();
@@ -323,12 +297,9 @@ void AllPicView::dropEvent(QDropEvent *event)
         dbInfos << dbi;
     }
 
-    if (! dbInfos.isEmpty())
-    {
+    if (! dbInfos.isEmpty()) {
         dApp->m_imageloader->ImportImageLoader(dbInfos);
-    }
-    else
-    {
+    } else {
         emit dApp->signalM->ImportFailed();
     }
 
@@ -347,10 +318,10 @@ void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
-//    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-    m_pwidget->setFixedWidth(160);
+    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
+    m_pwidget->setFixedWidth(320);
     m_pwidget->setFixedHeight(54);
-    m_pwidget->move(this->width() / 2 - 80, this->height() - 81);
+    m_pwidget->move(this->width() / 2 - 160, this->height() - 81);
 }
 
 void AllPicView::updatePicNum()
@@ -358,24 +329,18 @@ void AllPicView::updatePicNum()
     QString str = tr("%1 photo(s) selected");
     int selPicNum = 0;
 
-    if(VIEW_ALLPICS == m_pStackedWidget->currentIndex())
-    {
+    if (VIEW_ALLPICS == m_pStackedWidget->currentIndex()) {
         QStringList paths = m_pThumbnailListView->selectedPaths();
         selPicNum = paths.length();
 
-    }
-    else if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
-    {
+    } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         QStringList paths = m_pSearchView->m_pThumbnailListView->selectedPaths();
         selPicNum = paths.length();
     }
 
-    if (0 < selPicNum)
-    {
+    if (0 < selPicNum) {
         m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
-    }
-    else
-    {
+    } else {
         restorePicNum();
     }
 }
@@ -385,12 +350,9 @@ void AllPicView::restorePicNum()
     QString str = tr("%1 photo(s)");
     int selPicNum = 0;
 
-    if(VIEW_ALLPICS == m_pStackedWidget->currentIndex())
-    {
+    if (VIEW_ALLPICS == m_pStackedWidget->currentIndex()) {
         selPicNum = DBManager::instance()->getImgsCount();
-    }
-    else if(VIEW_SEARCH == m_pStackedWidget->currentIndex())
-    {
+    } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         selPicNum = m_pSearchView->m_searchPicNum;
     }
 

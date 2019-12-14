@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QColor>
+#include <QMimeData>
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \
@@ -53,6 +54,7 @@
 #define COMMON_STR_EXPORT "导出相册"
 #define COMMON_STR_DELETEALBUM "删除相册"
 #define COMMON_STR_VIEW_TIMELINE "timelineview"
+#define COMMON_STR_CUSTOM "自定义"
 
 
 #define VIEW_CONTEXT_MENU "View"
@@ -224,6 +226,7 @@ bool        onMountDevice(const QString &path);
 bool        mountDeviceExist(const QString &path);
 bool        isCommandExist(const QString &command);
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
+bool checkMimeData(const QMimeData *mimeData);
 }  // namespace base
 
 }  // namespace utils

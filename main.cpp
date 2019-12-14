@@ -31,6 +31,20 @@ int main(int argc, char *argv[])
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
 
+
+//    QImage* pimg = new QImage();
+
+//    if(argc > 1)
+//    {
+//        for(int i = 0; i < argc - 1; i++)
+//        {
+//            if(!pimg->load(argv[i + 1]))
+//            {
+//                exit(0);
+//            }
+//        }
+//    }
+
     MainWindow w;
     w.resize(1300, 848);
     w.show();

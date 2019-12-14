@@ -52,15 +52,20 @@ TimeLineView::TimeLineView()
 
     initTimeLineViewWidget();
 
-    updataLayout();
+//    updataLayout();
 
     initConnections();
 
     m_pwidget = new QWidget(this);
+
+    m_spinner = new DSpinner(this);
+    m_spinner->setFixedSize(40, 40);
+    m_spinner->hide();
 }
 
 void TimeLineView::initConnections()
 {
+    connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &TimeLineView::updataLayout);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::updataLayout);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::updataLayout);
     connect(dApp, &Application::sigFinishLoad, this, [ = ] {
@@ -86,11 +91,18 @@ void TimeLineView::initConnections()
 
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &TimeLineView::themeChangeSlot);
     connect(pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
+        m_spinner->show();
+        m_spinner->start();
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
         pImportView->onImprotBtnClicked();
     });
-    connect(pImportView, &ImportView::importFailedToView, this, [ = ] {
-        updateStackedWidget();
+    connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
+        if(isVisible())
+        {
+            m_spinner->hide();
+            m_spinner->stop();
+            updateStackedWidget();
+        }
     });
 }
 
@@ -283,6 +295,8 @@ void TimeLineView::updateStackedWidget()
 
 void TimeLineView::updataLayout()
 {
+    m_spinner->hide();
+    m_spinner->stop();
     //获取所有时间线
     m_mainListWidget->clear();
     m_timelines = DBManager::instance()->getAllTimelines();
@@ -525,9 +539,10 @@ void TimeLineView::updataLayout()
         });
 
         connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] {
-            if(!m_ctrlPress){
-                for(int i = 0;i < m_allThumbnailListView.length();i++){
-                    if(pThumbnailListView != m_allThumbnailListView[i]){
+            if (!m_ctrlPress)
+            {
+                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                    if (pThumbnailListView != m_allThumbnailListView[i]) {
                         m_allThumbnailListView[i]->clearSelection();
                     }
                 }
@@ -535,7 +550,8 @@ void TimeLineView::updataLayout()
         });
 
         connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
+            for (int i = 0; i < m_allThumbnailListView.length(); i++)
+            {
                 m_allThumbnailListView[i]->selectAll();
             }
             updatePicNum();
@@ -573,8 +589,9 @@ void TimeLineView::updataLayout()
             pThumbnailListView->menuItemDeal(paths, action);
         });
 
-        connect(listItem,&TimelineItem::sigMousePress,this,[=]{
-            for(int i = 0; i < m_allThumbnailListView.length();i++){
+        connect(listItem, &TimelineItem::sigMousePress, this, [ = ] {
+            for (int i = 0; i < m_allThumbnailListView.length(); i++)
+            {
                 m_allThumbnailListView[i]->clearSelection();
             }
             updatePicNum();
@@ -669,19 +686,23 @@ void TimeLineView::on_KeyEvent(int key)
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
+    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
     m_dateItem->setFixedSize(width() - 15, 87);
-    for(int i = 0; i < m_allThumbnailListView.length(); i++)
-    {
+    for (int i = 0; i < m_allThumbnailListView.length(); i++) {
 //        m_allThumbnailListView[i]->setStyleSheet("Background:yellow");
-        m_allThumbnailListView[i]->setFixedWidth(width()+2);
+        m_allThumbnailListView[i]->setFixedWidth(width() + 2);
     }
-    m_pwidget->setFixedWidth(160);
+    m_pwidget->setFixedWidth(320);
     m_pwidget->setFixedHeight(54);
-    m_pwidget->move(this->width() / 2 - 80, this->height() - 81);
+    m_pwidget->move(this->width() / 2 - 160, this->height() - 81);
 }
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
 {
+    const QMimeData *mimeData = e->mimeData();
+    if (!utils::base::checkMimeData(mimeData)) {
+        return;
+    }
     e->setDropAction(Qt::CopyAction);
     e->accept();
 }
@@ -717,33 +738,28 @@ void TimeLineView::dropEvent(QDropEvent *event)
     int isMountFlag = 0;
     DGioVolumeManager *pvfsManager = new DGioVolumeManager;
     QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-    for(auto mount : mounts)
-    {
+    for (auto mount : mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (0 == paths.first().compare(strPath))
-        {
+        if (0 == paths.first().compare(strPath)) {
             isMountFlag = 1;
             break;
         }
     }
 
     // 当前导入路径
-    if(isMountFlag)
-    {
+    if (isMountFlag) {
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
         QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
         QDir dir;
-        if (!dir.exists(basePath))
-        {
+        if (!dir.exists(basePath)) {
             dir.mkpath(basePath);
         }
 
         QStringList newImagePaths;
-        foreach (QString strPath, paths)
-        {
+        foreach (QString strPath, paths) {
             //取出文件名称
             QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
             QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
@@ -751,14 +767,12 @@ void TimeLineView::dropEvent(QDropEvent *event)
 
             newImagePaths << strNewPath;
             //判断新路径下是否存在目标文件，若存在，下一次张
-            if (dir.exists(strNewPath))
-            {
+            if (dir.exists(strNewPath)) {
                 continue;
             }
 
             // 外接设备图片拷贝到系统
-            if (QFile::copy(strPath, strNewPath))
-            {
+            if (QFile::copy(strPath, strNewPath)) {
 
             }
         }
@@ -789,16 +803,11 @@ void TimeLineView::dropEvent(QDropEvent *event)
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
         dbi.dirHash = utils::base::hash(QString());
-        if(fi.birthTime().isValid())
-        {
+        if (fi.birthTime().isValid()) {
             dbi.time = fi.birthTime();
-        }
-        else if (fi.metadataChangeTime().isValid())
-        {
+        } else if (fi.metadataChangeTime().isValid()) {
             dbi.time = fi.metadataChangeTime();
-        }
-        else
-        {
+        } else {
             dbi.time = QDateTime::currentDateTime();
         }
         dbi.changeTime = QDateTime::currentDateTime();
@@ -828,6 +837,7 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void TimeLineView::keyPressEvent(QKeyEvent *e)
 {
+    qDebug()<<"TimeLineView::keyPressEvent()";
     if(e->key() == Qt::Key_Control){
         m_ctrlPress = true;
     }
@@ -835,15 +845,15 @@ void TimeLineView::keyPressEvent(QKeyEvent *e)
 
 void TimeLineView::keyReleaseEvent(QKeyEvent *e)
 {
-    if(e->key() == Qt::Key_Control){
+    if (e->key() == Qt::Key_Control) {
         m_ctrlPress = false;
     }
 }
 
 void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
-    if(!m_ctrlPress && e->button() == Qt::LeftButton){
-        for(int i = 0; i < m_allThumbnailListView.length();i++){
+    if (!m_ctrlPress && e->button() == Qt::LeftButton) {
+        for (int i = 0; i < m_allThumbnailListView.length(); i++) {
             m_allThumbnailListView[i]->clearSelection();
         }
         updatePicNum();
@@ -878,15 +888,13 @@ void TimeLineView::updatePicNum()
 
 void TimeLineView::updateChoseText()
 {
-    for(int i = 0; i < m_allChoseButton.length();i++){
-        if (m_allThumbnailListView[i]->model()->rowCount() == m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Select") == m_allChoseButton[i]->text())
-        {
+    for (int i = 0; i < m_allChoseButton.length(); i++) {
+        if (m_allThumbnailListView[i]->model()->rowCount() == m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Select") == m_allChoseButton[i]->text()) {
             m_allChoseButton[i]->setText(QObject::tr("Unselect"));
         }
 
-        if (m_allThumbnailListView[i]->model()->rowCount() != m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Unselect") == m_allChoseButton[i]->text())
-        {
-             m_allChoseButton[i]->setText(QObject::tr("Select"));
+        if (m_allThumbnailListView[i]->model()->rowCount() != m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Unselect") == m_allChoseButton[i]->text()) {
+            m_allChoseButton[i]->setText(QObject::tr("Select"));
         }
     }
 }

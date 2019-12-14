@@ -38,6 +38,7 @@ AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
 
 void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 {
+    qDebug()<<"AlbumCreateDialog::keyPressEvent()";
     if (e->key() == Qt::Key_Escape) {
         emit sigClose();
         this->close();

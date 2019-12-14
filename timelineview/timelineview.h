@@ -107,6 +107,7 @@ public:
 
     int m_index;
     int m_selPicNum;
+    DSpinner* m_spinner;
 };
 
 #endif // TIMELINEVIEW_H

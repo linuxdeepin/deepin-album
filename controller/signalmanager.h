@@ -135,6 +135,10 @@ signals:
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();
     void sigDeletePhotos(int num);
+    void sigLoadOnePhoto();
+    void sigImportFailedToView();
+	void sigShortcutKeyDelete();
+    void sigShortcutKeyF2();
 
 private:
     explicit SignalManager(QObject *parent = 0);

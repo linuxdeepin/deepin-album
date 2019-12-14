@@ -20,7 +20,6 @@ HEADERS += \
     $$PWD/formlabel.h \
     $$PWD/elidedlabel.h \
     $$PWD/returnbutton.h \
-    $$PWD/dspinner.h \
     $$PWD/toast.h \
     $$PWD/printoptionspage.h \
     $$PWD/printhelper.h \
@@ -50,7 +49,6 @@ SOURCES += \
     $$PWD/formlabel.cpp \
     $$PWD/elidedlabel.cpp \
     $$PWD/returnbutton.cpp \
-    $$PWD/dspinner.cpp \
     $$PWD/toast.cpp \
     $$PWD/printoptionspage.cpp \
     $$PWD/printhelper.cpp \

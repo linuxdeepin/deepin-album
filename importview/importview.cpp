@@ -7,6 +7,50 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <dgiovolume.h>
+#include "utils/baseutils.h"
+#include "utils/imageutils.h"
+#include "utils/snifferimageformat.h"
+
+void ImportQThread::run()
+{
+    for(auto info : m_dbInfos)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(info.filePath);
+        if (format.isEmpty()) {
+            QImageReader reader(info.filePath);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+            else if (info.filePath.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(info.filePath, ret);
+            }
+        } else {
+            QImageReader readerF(info.filePath, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(info.filePath);
+            }
+        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+
+        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+
+        if (pixmap.isNull())
+        {
+             pixmap = QPixmap::fromImage(tImg);
+        }
+        dApp->m_imagemap.insert(info.filePath, pixmap);
+    }
+}
 
 ImportView::ImportView()
 {
@@ -19,7 +63,7 @@ ImportView::ImportView()
 void ImportView::initConnections()
 {
 //    connect(m_pImportBtn, &DPushButton::clicked, this, &ImportView::onImprotBtnClicked);
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pLabel,[=]{
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pLabel, [ = ] {
         QPixmap pixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType)
@@ -36,19 +80,17 @@ void ImportView::initConnections()
 
 void ImportView::initUI()
 {
-    QVBoxLayout* pImportFrameLayout = new QVBoxLayout();
+    QVBoxLayout *pImportFrameLayout = new QVBoxLayout();
 
     pLabel = new DLabel();
     pLabel->setFixedSize(128, 128);
 
     QPixmap pixmap;
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
     }
-    if (themeType == DGuiApplicationHelper::DarkType)
-    {
+    if (themeType == DGuiApplicationHelper::DarkType) {
         pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
     }
     pLabel->setPixmap(pixmap);
@@ -62,11 +104,11 @@ void ImportView::initUI()
     DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
 //    pa.setColor(QPalette::Light,QColor(37,183,255));
 //    pa.setColor(QPalette::Dark,QColor(0,152,255));
-    pa.setColor(QPalette::Highlight,QColor(0,0,0,0));
+    pa.setColor(QPalette::Highlight, QColor(0, 0, 0, 0));
 //    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
     m_pImportBtn->setPalette(pa);
 
-    DLabel* pLabel2 = new DLabel();
+    DLabel *pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setFixedHeight(18);
@@ -91,6 +133,10 @@ void ImportView::initUI()
 
 void ImportView::dragEnterEvent(QDragEnterEvent *e)
 {
+    const QMimeData *mimeData = e->mimeData();
+    if (!utils::base::checkMimeData(mimeData)) {
+        return;
+    }
     e->setDropAction(Qt::CopyAction);
     e->accept();
 }
@@ -118,8 +164,7 @@ void ImportView::dropEvent(QDropEvent *event)
         }
     }
 
-    if (paths.isEmpty())
-    {
+    if (paths.isEmpty()) {
         return;
     }
 
@@ -127,33 +172,28 @@ void ImportView::dropEvent(QDropEvent *event)
     int isMountFlag = 0;
     DGioVolumeManager *pvfsManager = new DGioVolumeManager;
     QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-    for(auto mount : mounts)
-    {
+    for (auto mount : mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (0 == paths.first().compare(strPath))
-        {
+        if (0 == paths.first().compare(strPath)) {
             isMountFlag = 1;
             break;
         }
     }
 
     // 当前导入路径
-    if(isMountFlag)
-    {
+    if (isMountFlag) {
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
         QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
         QDir dir;
-        if (!dir.exists(basePath))
-        {
+        if (!dir.exists(basePath)) {
             dir.mkpath(basePath);
         }
 
         QStringList newImagePaths;
-        foreach (QString strPath, paths)
-        {
+        foreach (QString strPath, paths) {
             //取出文件名称
             QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
             QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
@@ -161,14 +201,12 @@ void ImportView::dropEvent(QDropEvent *event)
 
             newImagePaths << strNewPath;
             //判断新路径下是否存在目标文件，若存在，下一次张
-            if (dir.exists(strNewPath))
-            {
+            if (dir.exists(strNewPath)) {
                 continue;
             }
 
             // 外接设备图片拷贝到系统
-            if (QFile::copy(strPath, strNewPath))
-            {
+            if (QFile::copy(strPath, strNewPath)) {
 
             }
         }
@@ -181,8 +219,7 @@ void ImportView::dropEvent(QDropEvent *event)
 
     using namespace utils::image;
 
-    for (auto path : paths)
-    {
+    for (auto path : paths) {
         if (! imageSupportRead(path)) {
             continue;
         }
@@ -200,16 +237,11 @@ void ImportView::dropEvent(QDropEvent *event)
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
         dbi.dirHash = utils::base::hash(QString());
-        if(fi.birthTime().isValid())
-        {
+        if (fi.birthTime().isValid()) {
             dbi.time = fi.birthTime();
-        }
-        else if (fi.metadataChangeTime().isValid())
-        {
+        } else if (fi.metadataChangeTime().isValid()) {
             dbi.time = fi.metadataChangeTime();
-        }
-        else
-        {
+        } else {
             dbi.time = QDateTime::currentDateTime();
         }
         dbi.changeTime = QDateTime::currentDateTime();
@@ -217,12 +249,9 @@ void ImportView::dropEvent(QDropEvent *event)
         dbInfos << dbi;
     }
 
-    if (! dbInfos.isEmpty())
-    {
+    if (! dbInfos.isEmpty()) {
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-    }
-    else
-    {
+    } else {
         emit dApp->signalM->ImportFailed();
     }
 
@@ -270,9 +299,8 @@ void ImportView::onImprotBtnClicked()
     dialog.setWindowTitle(tr("Open photos"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
-    if (mode != QDialog::Accepted)
-    {
-        emit importFailedToView();
+    if (mode != QDialog::Accepted) {
+        emit dApp->signalM->sigImportFailedToView();
         return;
     }
 
@@ -281,15 +309,12 @@ void ImportView::onImprotBtnClicked()
         return;
 
     QStringList image_list;
-    foreach(QString path, file_list)
-    {
+    foreach (QString path, file_list) {
         QFileInfo file(path);
-        if(file.isDir())
-        {
-            image_list<<utils::image::checkImage(path);
-        }
-        else {
-            image_list<<path;
+        if (file.isDir()) {
+            image_list << utils::image::checkImage(path);
+        } else {
+            image_list << path;
         }
     }
 
@@ -303,33 +328,28 @@ void ImportView::onImprotBtnClicked()
     int isMountFlag = 0;
     DGioVolumeManager *pvfsManager = new DGioVolumeManager;
     QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-    for(auto mount : mounts)
-    {
+    for (auto mount : mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (0 == image_list.first().compare(strPath))
-        {
+        if (0 == image_list.first().compare(strPath)) {
             isMountFlag = 1;
             break;
         }
     }
 
     // 当前导入路径
-    if(isMountFlag)
-    {
+    if (isMountFlag) {
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
         QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
         QDir dir;
-        if (!dir.exists(basePath))
-        {
+        if (!dir.exists(basePath)) {
             dir.mkpath(basePath);
         }
 
         QStringList newImagePaths;
-        foreach (QString strPath, image_list)
-        {
+        foreach (QString strPath, image_list) {
             //取出文件名称
             QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
             QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
@@ -337,14 +357,12 @@ void ImportView::onImprotBtnClicked()
 
             newImagePaths << strNewPath;
             //判断新路径下是否存在目标文件，若存在，下一次张
-            if (dir.exists(strNewPath))
-            {
+            if (dir.exists(strNewPath)) {
                 continue;
             }
 
             // 外接设备图片拷贝到系统
-            if (QFile::copy(strPath, strNewPath))
-            {
+            if (QFile::copy(strPath, strNewPath)) {
 
             }
         }
@@ -353,13 +371,11 @@ void ImportView::onImprotBtnClicked()
         image_list = newImagePaths;
     }
 
-
-    DBImgInfoList dbInfos;
+    m_dbInfos.clear();
 
     using namespace utils::image;
 
-    for (auto imagePath : image_list)
-    {
+    for (auto imagePath : image_list) {
         if (! imageSupportRead(imagePath)) {
             continue;
         }
@@ -377,30 +393,65 @@ void ImportView::onImprotBtnClicked()
         dbi.fileName = fi.fileName();
         dbi.filePath = imagePath;
         dbi.dirHash = utils::base::hash(QString());
-        if(fi.birthTime().isValid())
-        {
+        if (fi.birthTime().isValid()) {
             dbi.time = fi.birthTime();
-        }
-        else if (fi.metadataChangeTime().isValid())
-        {
+        } else if (fi.metadataChangeTime().isValid()) {
             dbi.time = fi.metadataChangeTime();
-        }
-        else
-        {
+        } else {
             dbi.time = QDateTime::currentDateTime();
         }
         dbi.changeTime = QDateTime::currentDateTime();
 
-        dbInfos << dbi;
+        m_dbInfos << dbi;
     }
 
-    if (! dbInfos.isEmpty())
+    if (! m_dbInfos.isEmpty())
     {
-        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+        ImportQThread *t = new ImportQThread(m_dbInfos, m_albumname);
+        connect(t, &ImportQThread::finished, this,[=] {
+            DBImgInfoList dbInfoList;
+            QStringList pathlist;
+
+            for(auto info : m_dbInfos)
+            {
+                if( dApp->m_imagemap.value(info.filePath).isNull()){
+                    continue;
+                }
+                pathlist<<info.filePath;
+                dbInfoList<<info;
+            }
+
+            int count = 0;
+            if(dbInfoList.size() == m_dbInfos.size())
+            {
+                count = 1;
+                if(m_albumname.length() > 0)
+                {
+                    if (COMMON_STR_RECENT_IMPORTED != m_albumname
+                        && COMMON_STR_TRASH != m_albumname
+                        && COMMON_STR_FAVORITES != m_albumname
+                        && ALBUM_PATHTYPE_BY_PHONE != m_albumname
+                        && 0 != m_albumname.compare(tr("Album Gallery")))
+                    {
+                        DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlist);
+                    }
+                }
+
+                DBManager::instance()->insertImgInfos(dbInfoList);
+                emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
+            }
+            else {
+                count = 0;
+                emit dApp->signalM->ImportFailed();
+                emit dApp->signalM->sigImportFailedToView();
+            }
+        });
+        t->start();
     }
     else
     {
-        emit importFailedToView();
+        emit dApp->signalM->sigImportFailedToView();
         emit dApp->signalM->ImportFailed();
     }
 }

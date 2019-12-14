@@ -36,6 +36,8 @@ private:
     void addOption(const CMOption *option);
     void showHelp();
 
+//    void checkFileType(QStringList pas, QStringList &paslist);
+
     explicit CommandLine();
 
     void resizeEvent(QResizeEvent *e) override;

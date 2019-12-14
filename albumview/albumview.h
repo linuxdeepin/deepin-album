@@ -9,6 +9,7 @@
 #include "searchview/searchview.h"
 #include "widgets/statusbar.h"
 #include "importtimelineview/importtimelineview.h"
+#include "leftlistview.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -87,9 +88,10 @@ private:
     void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
-    void leftTabClicked(const QModelIndex &index);
-    void showLeftMenu(const QPoint &pos);
-    void appendAction(int id, const QString &text, const QString &shortcut);
+    void updateRightImportView();
+    void updateRightMyFavoriteView();
+    void updateRightMountView();
+    void leftTabClicked();
     void openImage(int index);
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
     QString getNewAlbumName();
@@ -97,7 +99,6 @@ private:
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
-    void keyPressEvent(QKeyEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
@@ -110,7 +111,6 @@ private:
     void updateImportComboBox();
     void importAllBtnClicked();
     void importSelectBtnClicked();
-    int getNewAlbumItemIndex();
     void onUnMountSignal(QString unMountPath);
     void loadMountPicture(QString path);
     void initLeftMenu();
@@ -121,7 +121,6 @@ signals:
     void sigLoadMountImagesStart(QString mountName, QString path);
 
 private slots:
-    void onLeftMenuClicked(QAction *action);
     void onTrashRecoveryBtnClicked();
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
@@ -133,37 +132,33 @@ private slots:
 #endif
     void onLoadMountImagesEnd(QString mountname);
     void onLeftListDropEvent(QModelIndex dropIndex);
+    void onKeyDelete();
+    void onKeyF2();
 
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
+    QString m_currentType;
     int m_selPicNum;
 
     DStackedWidget *m_pRightStackWidget;
-    LeftListWidget *m_pLeftTabList;
-
+    LeftListView* m_pLeftListView;
     StatusBar *m_pStatusBar;
-    DWidget *m_pWidget;
+    DWidget *m_pRightWidget;
     ThumbnailListView *m_pRightThumbnailList;
     ThumbnailListView *m_pRightPhoneThumbnailList;
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     QMap<QString, QPixmap> m_phonePathAndImage;
-
-    QWidget* m_pwidget;
+    DWidget *m_pwidget;
 
 private:
-
-    QStringList m_allAlbumNames;
-
-    DWidget *m_pLeftWidget;
     ImportView *m_pImportView;
     ThumbnailListView *m_pRightTrashThumbnailList;
     ThumbnailListView *m_pRightFavoriteThumbnailList;
 
     DPushButton *m_pRecoveryBtn;
     DPushButton *m_pDeleteBtn;
-    DMenu *m_pLeftMenu;
     DLabel *m_pRightTitle;
     DLabel *m_pRightPicTotal;
     DLabel *m_pImportPicTotal;
@@ -188,7 +183,6 @@ private:
     QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     QListWidgetItem *m_curListWidgetItem;
     QMap<QString, QPixmap> m_phonePicMap;
-    QMap<QString, QAction *> m_MenuActionMap;
 
     int m_mountPicNum;
 
@@ -201,6 +195,8 @@ private:
     DWidget *pImportTimeLineWidget;
     QMap<QUrl, QString> durlAndNameMap;
     void getAllDeviceName();
+    DSpinner* m_spinner;
+    DLabel *m_pImportTitle;
 };
 
 #endif // ALBUMVIEW_H

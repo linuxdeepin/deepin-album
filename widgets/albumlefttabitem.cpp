@@ -16,14 +16,12 @@ const int OPE_MODE_ADDRENAMEALBUM = 2;
 
 using namespace utils::common;
 
-AlbumLeftTabItem::AlbumLeftTabItem(QString str, LeftListWidget* pListWidget, QListWidgetItem *pListWidgetItem, QString strAlbumType)
+AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
 {
     m_albumNameStr = str;
     m_opeMode = 0;
     m_albumTypeStr = strAlbumType;
     m_mountPath = "";
-    m_pListWidget = pListWidget;
-    m_pListWidgetItem = pListWidgetItem;
 
     initUI();
     initConnections();
@@ -135,10 +133,10 @@ void AlbumLeftTabItem::initUI()
     ft.setWeight(QFont::Medium);
     m_nameLabel->setFont(ft);
 
-    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
-    m_nameLabel->setForegroundRole(DPalette::Text);
-    m_nameLabel->setPalette(pa);
+//    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
+//    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    m_nameLabel->setForegroundRole(DPalette::TextTitle);
+//    m_nameLabel->setPalette(pa);
 
     m_pLineEdit->setParent(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
@@ -376,10 +374,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
 
     }
 
-    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
-    m_nameLabel->setForegroundRole(DPalette::Text);
-    m_nameLabel->setPalette(pa);
+    m_nameLabel->setForegroundRole(DPalette::TextTitle);
 }
 
 void AlbumLeftTabItem::newAlbumStatus()
@@ -429,9 +424,9 @@ void AlbumLeftTabItem::newAlbumStatus()
         pImageLabel->setPixmap(pixmap);
     }
 
-    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::HighlightedText));
-    m_nameLabel->setForegroundRole(DPalette::Text);
-    m_nameLabel->setPalette(pa);
+//    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
+//    pa.setBrush(DPalette::Text, pa.color(DPalette::HighlightedText));
+    m_nameLabel->setForegroundRole(DPalette::HighlightedText);
+//    m_nameLabel->setPalette(pa);
 
 }

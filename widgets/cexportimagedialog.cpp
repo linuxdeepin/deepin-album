@@ -358,7 +358,7 @@ void CExportImageDialog::showEmptyWarningDialog()
 //    DLabel *lab1 = new DLabel();
 //    QFontMetrics elideFont(lab1->font());
     DLabel *lab2 = new DLabel();
-    lab2->setText(tr("文件名称不可为空"));
+    lab2->setText(tr("File name cannot be empty"));
     lab2->setAlignment(Qt::AlignCenter);
 
     QVBoxLayout *lay = new QVBoxLayout();

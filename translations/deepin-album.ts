@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Export album</source>
@@ -186,7 +186,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>导出相册</translation>
+        <translation type="vanished">导出相册</translation>
     </message>
     <message>
         <source>New Album</source>
@@ -194,7 +194,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名相册</translation>
+        <translation type="vanished">重命名相册</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -211,6 +211,10 @@
     <message>
         <source>Album Gallery</source>
         <translation>相册图库</translation>
+    </message>
+    <message>
+        <source>Disk</source>
+        <translation>卷</translation>
     </message>
 </context>
 <context>
@@ -337,6 +341,33 @@ already exists, do you want to replace?</source>
     <message>
         <source>already exists, do you want to replace?</source>
         <translation>已经存在，是否需要替换?</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>File name cannot be empty</source>
+        <translation>文件名称不能为空</translation>
+    </message>
+</context>
+<context>
+    <name>DeepinStorage</name>
+    <message>
+        <source>%1 Drive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blank %1 Disc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Encrypted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 </source>
+        <translation type="unfinished">%1年%2月%3日 {1 ?}</translation>
     </message>
 </context>
 <context>
@@ -475,6 +506,49 @@ already exists, do you want to replace?</source>
         <source>Or drag photos here</source>
         <translation>您也可以拖拽照片到此</translation>
     </message>
+    <message>
+        <source>Album Gallery</source>
+        <translation>相册图库</translation>
+    </message>
+</context>
+<context>
+    <name>LeftListView</name>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>导出</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Unnamed</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Album Gallery</source>
+        <translation>照片库</translation>
+    </message>
+    <message>
+        <source>Album List</source>
+        <translation>相册列表</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation>设备</translation>
+    </message>
 </context>
 <context>
     <name>LockWidget</name>
@@ -550,7 +624,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Trash</source>
-        <translation>回收站</translation>
+        <translation type="vanished">回收站</translation>
     </message>
     <message>
         <source>%1 Photos</source>
@@ -994,6 +1068,13 @@ already exists, do you want to replace?</source>
     <message>
         <source>Photo name</source>
         <translation>照片名称</translation>
+    </message>
+</context>
+<context>
+    <name>PathManager</name>
+    <message>
+        <source>System Disk</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

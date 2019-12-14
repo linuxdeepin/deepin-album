@@ -393,6 +393,7 @@ int ImgInfoDialog::contentHeight() const
 
 void ImgInfoDialog::keyPressEvent(QKeyEvent *e)
 {
+    qDebug()<<"ImgInfoDialog::keyPressEvent()";
     if(e->key() == Qt::Key_Escape){
         emit closed();
     }

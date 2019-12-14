@@ -170,6 +170,10 @@ void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
             event->setDropAction(Qt::MoveAction);
             event->accept();
         } else {
+            const QMimeData *mimeData = event->mimeData();
+            if (!utils::base::checkMimeData(mimeData)) {
+                return;
+            }
             event->acceptProposedAction();
         }
     } else {
@@ -188,6 +192,10 @@ void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
             event->setDropAction(Qt::MoveAction);
             event->accept();
         } else {
+            const QMimeData *mimeData = event->mimeData();
+            if (!utils::base::checkMimeData(mimeData)) {
+                return;
+            }
             event->acceptProposedAction();
         }
     } else {
@@ -226,7 +234,9 @@ void ThumbnailListView::initConnections()
             }
         }
     });
-    connect(this, &ThumbnailListView::clicked, this, [=]() { emit hideExtensionPanel(); });
+    connect(this, &ThumbnailListView::clicked, this, [ = ]() {
+        emit hideExtensionPanel();
+    });
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this,
             &ThumbnailListView::onPixMapScale);
     connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this,
@@ -556,7 +566,7 @@ void ThumbnailListView::initMenuAction()
     m_pMenu->clear();
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
         appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
-        appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
+        appendAction(IdMoveToTrash, tr("Delete"), ss(""));
         appendAction(IdTrashRecovery, tr("Recovery"), ss(BUTTON_RECOVERY));
         return;
     }
@@ -569,7 +579,7 @@ void ThumbnailListView::initMenuAction()
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
     appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
-    appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
+    appendAction(IdMoveToTrash, tr("Delete"), ss(""));
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
     m_pMenu->addSeparator();
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));

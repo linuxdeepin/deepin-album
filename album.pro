@@ -59,7 +59,9 @@ SOURCES += \
         dialogs/albumdeletedialog.cpp \
         widgets/statusbar.cpp \
     albumview/leftlistwidget.cpp \
-    widgets/cexportimagedialog.cpp
+    widgets/cexportimagedialog.cpp \
+    albumview/leftlistview.cpp \
+    albumview/albumimagebutton.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -77,7 +79,9 @@ HEADERS += \
         dialogs/albumdeletedialog.h \
         widgets/statusbar.h \
     albumview/leftlistwidget.h \
-    widgets/cexportimagedialog.h
+    widgets/cexportimagedialog.h \
+    albumview/leftlistview.h \
+    albumview/albumimagebutton.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

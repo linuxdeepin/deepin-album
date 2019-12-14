@@ -45,14 +45,32 @@ MainWindow::MainWindow()
     initShortcutKey();
     initUI();
     initTitleBar();
-    initCentralWidget();
-    initShortcut();
-    initConnections();
+//    initCentralWidget();
+//    initShortcut();
+//    initConnections();
+    m_pCenterWidget = new QStackedWidget;
+    m_pAllPicView = new AllPicView();
+    m_pCenterWidget->addWidget(m_pAllPicView);
+    setCentralWidget(m_pCenterWidget);
+
+    timer = startTimer(500);
 }
 
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::timerEvent(QTimerEvent *e)
+{
+    if(e->timerId() == timer)
+    {
+        killTimer(timer);
+        timer = 0;
+        initCentralWidget();
+        initShortcut();
+        initConnections();
+    }
 }
 
 void MainWindow::initConnections()
@@ -151,14 +169,62 @@ void MainWindow::initConnections()
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
         QString str2 = tr("Album “%1” removed");
-        this->sendMessage(icon, str2.arg(str1));
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str2.arg(str1));
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str2.arg(str1));
     });
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str2 = tr("Successfully added to “%1”");
-        this->sendMessage(icon, str2.arg(album));
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str2.arg(album));
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str2.arg(album));
     });
     connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] {
         QIcon icon;
@@ -200,7 +266,31 @@ void MainWindow::initConnections()
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Import failed");
-        this->sendMessage(icon, str);
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str);
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str);
     });
 
     connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ] {
@@ -208,7 +298,31 @@ void MainWindow::initConnections()
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Some photos have not been imported");
-        this->sendMessage(icon, str);
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str);
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str);
     });
 
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [ = ] {
@@ -216,28 +330,124 @@ void MainWindow::initConnections()
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Photo export failed");
-        this->sendMessage(icon, str);
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str);
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [ = ] {
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str = tr("Photo exported successfully");
-        this->sendMessage(icon, str);
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str);
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [ = ] {
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Export failed");
-        this->sendMessage(icon, str);
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str);
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [ = ] {
         QIcon icon;
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str = tr("Export successful");
-        this->sendMessage(icon, str);
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str);
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str);
     });
     connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
         if(m_pCenterWidget->currentIndex() == VIEW_ALBUM)
@@ -251,7 +461,31 @@ void MainWindow::initConnections()
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str = tr("Delete %1 photo(s) successful");
-        this->sendMessage(icon, str.arg(num));
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str.arg(num));
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str.arg(num));
     });
 
 }
@@ -269,6 +503,20 @@ void MainWindow::initShortcut()
             this->close();
         }
         emit dApp->signalM->hideExtensionPanel();
+    });
+
+    // Album View画面按DEL快捷键
+    QShortcut *del = new QShortcut(QKeySequence(Qt::Key_Delete), this);
+    del->setContext(Qt::ApplicationShortcut);
+    connect(del, &QShortcut::activated, this, [ = ] {
+        emit dApp->signalM->sigShortcutKeyDelete();
+    });
+
+    // Album View画面按F2快捷键
+    QShortcut *keyF2 = new QShortcut(QKeySequence(Qt::Key_F2), this);
+    keyF2->setContext(Qt::ApplicationShortcut);
+    connect(keyF2, &QShortcut::activated, this, [ = ] {
+        emit dApp->signalM->sigShortcutKeyF2();
     });
 
     //Ctrl+Q退出
@@ -501,15 +749,17 @@ void MainWindow::initTitleBar()
 void MainWindow::initCentralWidget()
 {
     QStringList pas;
-    m_pCenterWidget = new QStackedWidget;
+
+//    m_pCenterWidget = new QStackedWidget;
+//    m_pAllPicView = new AllPicView();
+//    m_pCenterWidget->addWidget(m_pAllPicView);
+
     m_pAlbumview = new AlbumView();
-    m_pAllPicView = new AllPicView();
     m_pTimeLineView = new TimeLineView();
     m_pSearchView = new SearchView();
     m_commandLine = CommandLine::instance();
     m_slidePanel = new SlideShowPanel();
 
-    m_pCenterWidget->addWidget(m_pAllPicView);
     m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumview);
     m_pCenterWidget->addWidget(m_pSearchView);
@@ -528,7 +778,7 @@ void MainWindow::initCentralWidget()
         m_pCenterWidget->setCurrentIndex(0);
     }
 
-    setCentralWidget(m_pCenterWidget);
+//    setCentralWidget(m_pCenterWidget);
 }
 
 void MainWindow::onUpdateCentralWidget()
@@ -594,14 +844,14 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
 
 void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
-    if (m_pCenterWidget->currentWidget() == m_pAlbumview) 
-	{
-        m_pAlbumview->createNewAlbum(imagepaths);
-    } 
-	else 
-	{
+//    if (m_pCenterWidget->currentWidget() == m_pAlbumview)
+//	{
+//        m_pAlbumview->createNewAlbum(imagepaths);
+//    }
+//	else
+//	{
         showCreateDialog(imagepaths);
-    }
+//    }
 }
 #if 1
 void MainWindow::onViewCreateAlbum(QString imgpath)
@@ -620,7 +870,31 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
 
         QString str = tr("Create Album “%1” successfully");
-        this->sendMessage(icon, str.arg(d->getCreateAlbumName()));
+
+        QWidget* pwidget = new QWidget();
+        switch(m_pCenterWidget->currentIndex())
+        {
+            case 0:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+            case 1:
+                pwidget = m_pTimeLineView->m_pwidget;
+                break;
+            case 2:
+                pwidget = m_pAlbumview->m_pwidget;
+                break;
+            case 4:
+                pwidget = m_commandLine->m_pwidget;
+                break;
+            default:
+                pwidget = m_pAllPicView->m_pwidget;
+                break;
+        }
+        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setMessage(str.arg(d->getCreateAlbumName()));
+        pDFloatingMessage->setIcon(icon);
+        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        //this->sendMessage(icon, str.arg(d->getCreateAlbumName()));
     });
 }
 #endif
@@ -727,16 +1001,12 @@ void MainWindow::onSearchEditFinished()
             albumBtnClicked();
             // donothing
         } else {
-            AlbumLeftTabItem *curitem = (AlbumLeftTabItem *)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->currentItem());
-
-            if (tr("Import") == curitem->getalbumname()) {
+            if (COMMON_STR_RECENT_IMPORTED == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_RECENT_IMPORTED);
             }
-
-            else if (tr("Trash") == curitem->getalbumname()) {
-                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_TRASH);
-            } else {
-                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, curitem->getalbumname());
+            else if (COMMON_STR_CUSTOM == m_pAlbumview->m_pLeftListView->getItemCurrentType())
+            {
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, m_pAlbumview->m_pLeftListView->getItemCurrentName());
             }
 
             m_pAlbumview->m_pRightStackWidget->setCurrentIndex(4);
@@ -903,7 +1173,6 @@ void MainWindow::onImprotBtnClicked()
         dbInfos << dbi;
     }
 
-    AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pAlbumview->m_pLeftTabList->itemWidget(m_pAlbumview->m_pLeftTabList->currentItem());
     if (! dbInfos.isEmpty()) {
 //        if(VIEW_ALBUM == m_iCurrentView)
 //        {
@@ -917,7 +1186,7 @@ void MainWindow::onImprotBtnClicked()
 //        }
 
 
-        if (ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr)
+        if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType())
         {
             m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
         }
@@ -928,9 +1197,9 @@ void MainWindow::onImprotBtnClicked()
     }
 
     if(m_pCenterWidget->currentIndex() == VIEW_ALBUM
-       && (ALBUM_PATHTYPE_BY_PHONE == item->m_albumTypeStr || ALBUM_PATHTYPE_BY_U == item->m_albumTypeStr))
+       && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType())
     {
-        m_pAlbumview->m_pLeftTabList->setCurrentRow(0);
+        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
     }
 }
 
@@ -973,6 +1242,7 @@ void MainWindow::onShowImageInfo(const QString &path)
 
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
+    qDebug()<<"onNewAPPOpen";
     Q_UNUSED(pid);
     QStringList paths;
     if (arguments.length() > 1) {

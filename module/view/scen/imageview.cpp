@@ -39,7 +39,6 @@
 #include "utils/snifferimageformat.h"
 #include "application.h"
 #include "widgets/toast.h"
-#include "widgets/dspinner.h"
 #include <DSvgRenderer>
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
@@ -50,8 +49,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-namespace
-{
+namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
@@ -142,7 +140,7 @@ ImageView::ImageView(QWidget *parent)
 
     // Use openGL to render by default
     //    setRenderer(OpenGL);
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::DarkType) {
             m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
@@ -213,7 +211,7 @@ void ImageView::setImage(const QString &path)
             emit imageChanged(path);
         } else {
             m_movieItem = nullptr;
-            qDebug()<<"Start cache pixmap: "<<path;
+            qDebug() << "Start cache pixmap: " << path;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (! m_watcher.isRunning()) {
 
@@ -238,7 +236,7 @@ void ImageView::setImage(const QString &path)
 //                s->addWidget(w);
 
                 f.waitForFinished();
-                qDebug()<<"Finish cache pixmap: "<<path;
+                qDebug() << "Finish cache pixmap: " << path;
                 m_watcher.setFuture(f);
 
                 emit hideNavigation();
@@ -289,7 +287,7 @@ void ImageView::autoFit()
     QSize image_size = image().size();
 
     if ((image_size.width() >= width() ||
-         image_size.height() >= height()) &&
+            image_size.height() >= height()) &&
             width() > 0 && height() > 0) {
         fitWindow();
     } else {
@@ -488,6 +486,10 @@ void ImageView::paintEvent(QPaintEvent *event)
 
 void ImageView::dragEnterEvent(QDragEnterEvent *e)
 {
+    const QMimeData *mimeData = e->mimeData();
+    if (!utils::base::checkMimeData(mimeData)) {
+        return;
+    }
     e->accept();
 }
 
@@ -515,7 +517,7 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 bool ImageView::event(QEvent *event)
 {
     if (event->type() == QEvent::Gesture)
-        handleGestureEvent(static_cast<QGestureEvent*>(event));
+        handleGestureEvent(static_cast<QGestureEvent *>(event));
 
     return QGraphicsView::event(event);
 }
@@ -592,9 +594,9 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
     if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-        swipeTriggered(static_cast<QSwipeGesture*>(swipe));
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
     else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
-        pinchTriggered(static_cast<QPinchGesture*>(pinch));
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
@@ -607,12 +609,9 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 {
     if (gesture->state() == Qt::GestureFinished) {
         if (gesture->horizontalDirection() == QSwipeGesture::Left
-                || gesture->verticalDirection() == QSwipeGesture::Up)
-        {
+                || gesture->verticalDirection() == QSwipeGesture::Up) {
             emit nextRequested();
-        }
-        else
-        {
+        } else {
             emit previousRequested();
         }
     }

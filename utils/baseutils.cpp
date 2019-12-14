@@ -390,8 +390,9 @@ bool mountDeviceExist(const QString &path)
 
     return QFileInfo(mountPoint).exists();
 }
-bool        isCommandExist(const QString &command) {
-    QProcess* proc = new QProcess;
+bool        isCommandExist(const QString &command)
+{
+    QProcess *proc = new QProcess;
     QString cm = QString("which %1\n").arg(command);
     proc->start(cm);
     proc->waitForFinished(1000);
@@ -402,6 +403,34 @@ bool        isCommandExist(const QString &command) {
         return false;
     }
 
+}
+
+bool checkMimeData(const QMimeData *mimeData)
+{
+    if (!mimeData->hasUrls()) {
+        return false;
+    }
+
+    QList<QUrl> urlList = mimeData->urls();
+    if (1 != urlList.size()) {
+        return false;
+    }
+
+    QFileInfo info(urlList.first().toLocalFile());
+    QString mqs = info.suffix().toLower();
+    if ("jpeg" == mqs ||
+            "jpg" == mqs ||
+            "bmp" == mqs ||
+            "png" == mqs ||
+            "ppm" == mqs ||
+            "xbm" == mqs ||
+            "xpm" == mqs ||
+            "gif" == mqs ||
+            "svg" == mqs) {
+        return true;
+    }
+
+    return false;
 }
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
