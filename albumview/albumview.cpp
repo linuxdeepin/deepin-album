@@ -1408,6 +1408,9 @@ void AlbumView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void AlbumView::onKeyDelete()
 {
+    if (!isVisible()) return;
+    if (RIGHT_VIEW_SEARCH == m_pRightStackWidget->currentIndex()) return;
+
     bool bMoveToTrash = false;
     QStringList paths;
     paths.clear();

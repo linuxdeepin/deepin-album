@@ -131,6 +131,7 @@ void AllPicView::initConnections()
     });
 
     connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
+    connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AllPicView::onKeyDelete);
 }
 
 void AllPicView::updateStackedWidget()
@@ -357,4 +358,38 @@ void AllPicView::restorePicNum()
     }
 
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+}
+
+void AllPicView::onKeyDelete()
+{
+    if (!isVisible()) return;
+    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) return;
+
+    QStringList paths;
+    paths.clear();
+
+    paths = m_pThumbnailListView->selectedPaths();
+    if (0 >= paths.length())
+    {
+        return;
+    }
+
+    DBImgInfoList infos;
+    for (auto path : paths) {
+        DBImgInfo info;
+        info = DBManager::instance()->getInfoByPath(path);
+        info.changeTime = QDateTime::currentDateTime();
+
+        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+        for (auto eachname : allalbumnames) {
+            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+                info.albumname += (eachname + ",");
+            }
+        }
+        infos << info;
+    }
+
+    dApp->m_imageloader->addTrashImageLoader(paths);
+    DBManager::instance()->insertTrashImgInfos(infos);
+    DBManager::instance()->removeImgInfos(paths);
 }

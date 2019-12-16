@@ -104,6 +104,7 @@ void TimeLineView::initConnections()
             updateStackedWidget();
         }
     });
+    connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &TimeLineView::onKeyDelete);
 }
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
@@ -989,4 +990,41 @@ void TimeLineView::restorePicNum()
     }
 
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+}
+
+void TimeLineView::onKeyDelete()
+{
+    if (!isVisible()) return;
+    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) return;
+
+    QStringList paths;
+    paths.clear();
+
+    for (int i = 0; i < m_allThumbnailListView.size(); i++) {
+        paths << m_allThumbnailListView[i]->selectedPaths();
+    }
+
+    if (0 >= paths.length())
+    {
+        return;
+    }
+
+    DBImgInfoList infos;
+    for (auto path : paths) {
+        DBImgInfo info;
+        info = DBManager::instance()->getInfoByPath(path);
+        info.changeTime = QDateTime::currentDateTime();
+
+        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+        for (auto eachname : allalbumnames) {
+            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+                info.albumname += (eachname + ",");
+            }
+        }
+        infos << info;
+    }
+
+    dApp->m_imageloader->addTrashImageLoader(paths);
+    DBManager::instance()->insertTrashImgInfos(infos);
+    DBManager::instance()->removeImgInfos(paths);
 }

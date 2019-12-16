@@ -40,6 +40,7 @@ private:
     void initMainStackWidget();
     void updateSearchResultsIntoThumbnailView();
     void changeTheme();
+    void onKeyDelete();
 
 private:
     DStackedWidget *m_stackWidget;

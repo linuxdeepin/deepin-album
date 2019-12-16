@@ -46,6 +46,7 @@ private:
 //    void initThumbnailListView();
     void updatePicsIntoThumbnailView();
     void onUpdateAllpicsNumLabel();
+    void onKeyDelete();
 
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *e) override;

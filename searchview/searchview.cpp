@@ -168,6 +168,7 @@ void SearchView::initConnections()
     connect(dApp, &Application::sigFinishLoad, this, [=] {
         m_pThumbnailListView->update();
     });
+    connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &SearchView::onKeyDelete);
 }
 
 void SearchView::initNoSearchResultView()
@@ -508,3 +509,35 @@ void SearchView::changeTheme()
 
 }
 
+void SearchView::onKeyDelete()
+{
+    if (!isVisible()) return;
+
+    QStringList paths;
+    paths.clear();
+
+    paths = m_pThumbnailListView->selectedPaths();
+    if (0 >= paths.length())
+    {
+        return;
+    }
+
+    DBImgInfoList infos;
+    for (auto path : paths) {
+        DBImgInfo info;
+        info = DBManager::instance()->getInfoByPath(path);
+        info.changeTime = QDateTime::currentDateTime();
+
+        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+        for (auto eachname : allalbumnames) {
+            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+                info.albumname += (eachname + ",");
+            }
+        }
+        infos << info;
+    }
+
+    dApp->m_imageloader->addTrashImageLoader(paths);
+    DBManager::instance()->insertTrashImgInfos(infos);
+    DBManager::instance()->removeImgInfos(paths);
+}
