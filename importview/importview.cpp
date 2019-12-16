@@ -270,6 +270,7 @@ void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void ImportView::onImprotBtnClicked()
 {
+    qDebug()<<"ImportView::onImprotBtnClicked()";
     static QStringList sList;
 
     for (const QByteArray &i : QImageReader::supportedImageFormats())
@@ -300,18 +301,26 @@ void ImportView::onImprotBtnClicked()
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {
+        qDebug()<<"mode != QDialog::Accepted";
         emit dApp->signalM->sigImportFailedToView();
         return;
     }
 
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
+    {
+        qDebug()<<"file_list.isEmpty()";
+        emit dApp->signalM->sigImportFailedToView();
+        emit dApp->signalM->ImportFailed();
         return;
+    }
+
 
     QStringList image_list;
     foreach (QString path, file_list) {
         QFileInfo file(path);
         if (file.isDir()) {
+            qDebug()<<"file.isDir()";
             image_list << utils::image::checkImage(path);
         } else {
             image_list << path;
@@ -319,7 +328,12 @@ void ImportView::onImprotBtnClicked()
     }
 
     if (image_list.isEmpty())
+    {
+        qDebug()<<"image_list.isEmpty()";
+        emit dApp->signalM->sigImportFailedToView();
+        emit dApp->signalM->ImportFailed();
         return;
+    }
 
     QFileInfo firstFileInfo(image_list.first());
     dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
@@ -337,8 +351,9 @@ void ImportView::onImprotBtnClicked()
         }
     }
 
-    // 当前导入路径
+    // 当前导入路径为外接设备
     if (isMountFlag) {
+        qDebug()<<"isMountFlag";
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
@@ -376,7 +391,8 @@ void ImportView::onImprotBtnClicked()
     using namespace utils::image;
 
     for (auto imagePath : image_list) {
-        if (! imageSupportRead(imagePath)) {
+        if (!imageSupportRead(imagePath)) {
+            qDebug()<<"!imageSupportRead(imagePath)";
             continue;
         }
 
@@ -405,8 +421,9 @@ void ImportView::onImprotBtnClicked()
         m_dbInfos << dbi;
     }
 
-    if (! m_dbInfos.isEmpty())
+    if (!m_dbInfos.isEmpty())
     {
+        qDebug()<<"!m_dbInfos.isEmpty()";
 //        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         ImportQThread *t = new ImportQThread(m_dbInfos, m_albumname);
         connect(t, &ImportQThread::finished, this,[=] {
@@ -416,6 +433,7 @@ void ImportView::onImprotBtnClicked()
             for(auto info : m_dbInfos)
             {
                 if( dApp->m_imagemap.value(info.filePath).isNull()){
+                    qDebug()<<"dApp->m_imagemap.value(info.filePath).isNull()";
                     continue;
                 }
                 pathlist<<info.filePath;
@@ -425,6 +443,7 @@ void ImportView::onImprotBtnClicked()
             int count = 0;
             if(dbInfoList.size() == m_dbInfos.size())
             {
+                qDebug()<<"dbInfoList.size() == m_dbInfos.size()";
                 count = 1;
                 if(m_albumname.length() > 0)
                 {
@@ -442,6 +461,7 @@ void ImportView::onImprotBtnClicked()
                 emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
             }
             else {
+                qDebug()<<"dbInfoList.size() != m_dbInfos.size()";
                 count = 0;
                 emit dApp->signalM->ImportFailed();
                 emit dApp->signalM->sigImportFailedToView();
@@ -451,6 +471,7 @@ void ImportView::onImprotBtnClicked()
     }
     else
     {
+        qDebug()<<"m_dbInfos.isEmpty()";
         emit dApp->signalM->sigImportFailedToView();
         emit dApp->signalM->ImportFailed();
     }
