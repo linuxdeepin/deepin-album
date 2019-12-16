@@ -28,12 +28,12 @@ public:
     QString getItemCurrentType();
     void updatePhotoListView();
     void updateAlbumItemsColor();
+    void updateCustomizeListView();
 
 private:
     void initUI();
     void initMenu();
     void initConnections();
-    void updateCustomizeListView();
     void updateMountListView();
     void showMenu(const QPoint &pos);
     void appendAction(int id, const QString &text, const QString &shortcut);

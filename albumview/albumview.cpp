@@ -1457,7 +1457,16 @@ void AlbumView::onKeyDelete()
 
             str = pTabItem->m_albumNameStr;
             DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
-            delete  item;
+
+            if (1 < m_pLeftListView->m_pCustomizeListView->count())
+            {
+                delete  item;
+            }
+            else
+            {
+                m_pLeftListView->updateCustomizeListView();
+                m_pLeftListView->updatePhotoListView();
+            }
 
             emit dApp->signalM->sigAlbDelToast(str);
         }
