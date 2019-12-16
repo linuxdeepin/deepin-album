@@ -18,32 +18,39 @@
 #ifndef EXTENSIONPANEL_H
 #define EXTENSIONPANEL_H
 
+#include <DDialog>
+#include <DFloatingWidget>
 #include <QHBoxLayout>
 #include <QPropertyAnimation>
-#include "widgets/blureframe.h"
+#include <QScrollArea>
 #include "controller/viewerthememanager.h"
-#include <DFloatingWidget>
+#include "widgets/blureframe.h"
 
-class ExtensionPanel : public DFloatingWidget
+// class ExtensionPanel : public DFloatingWidget
+class ExtensionPanel : public DDialog
 {
     Q_OBJECT
 public:
-    explicit ExtensionPanel(QWidget *parent);
+    static ExtensionPanel* getInstance(QWidget *parent);
     void setContent(QWidget *content);
     void updateRectWithContent();
-    void moveWithAnimation(int x, int y);
+//    void moveWithAnimation(int x, int y);
 signals:
     void requestStopAnimation();
 protected:
     void paintEvent(QPaintEvent *) override;
     void mouseMoveEvent(QMouseEvent *e) override;
 public slots:
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
 private:
+    static ExtensionPanel *instance;
+    explicit ExtensionPanel(QWidget *parent);
     QColor m_coverBrush;
     QWidget *m_content;
-    QHBoxLayout *m_contentLayout;
+    QVBoxLayout *m_contentLayout;
+
+    QVBoxLayout *m_mainLayout {nullptr};
+    QScrollArea *m_scrollArea {nullptr};
 };
 
 #endif // EXTENSIONPANEL_H

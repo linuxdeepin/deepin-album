@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "extensionpanel.h"
+#include <QPainter>
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "darrowbutton.h"
-#include <QPainter>
+#include <DFontSizeManager>
 
 using namespace Dtk::Widget;
 
 namespace {
 
-//const int CONTROL_BUTTON_WIDTH = 20;
-//const int CONTROL_BUTTON_HEIGHT = 60;
-//const int CONTROL_BUTTON_CUBIC_LENGTH = 30;
-const int EXTENSION_PANEL_WIDTH = 300+10;
-//const int EXTENSION_PANEL_MAX_WIDTH = 340;
+// const int CONTROL_BUTTON_WIDTH = 20;
+// const int CONTROL_BUTTON_HEIGHT = 60;
+// const int CONTROL_BUTTON_CUBIC_LENGTH = 30;
+const int EXTENSION_PANEL_WIDTH = 300 + 20;
+// const int EXTENSION_PANEL_MAX_WIDTH = 340;
 
 const QColor DARK_COVERBRUSH = QColor(0, 0, 0, 100);
 const QColor LIGHT_COVERBRUSH = QColor(255, 255, 255, 179);
@@ -36,51 +37,31 @@ const int ANIMATION_DURATION = 500;
 const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 }  // namespace
 
-ExtensionPanel::ExtensionPanel(QWidget *parent)
-    : DFloatingWidget(parent)
-{
-//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+ExtensionPanel* ExtensionPanel::instance = nullptr;
 
-    m_contentLayout = new QHBoxLayout(this);
-    m_contentLayout->setContentsMargins(0, 0, 0, 0);
+ExtensionPanel::ExtensionPanel(QWidget *parent)
+    //    : DFloatingWidget(parent)
+    : DDialog(parent)
+{
+    //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    this->setWindowTitle(tr("Photo info"));
+    DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Medium);
+
+    m_contentLayout = new QVBoxLayout(this);
+//    m_contentLayout->setContentsMargins(10, 0, 10, 0);
     m_contentLayout->setSpacing(0);
-    //    setBlurRectYRadius(18);
-    //    setBlurRectXRadius(18);
-    //    setMaskAlpha(204);
-    //    setBorderRadius(18);
-    setBlurBackgroundEnabled(true);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
     setFixedHeight(540);
-//    setFixedHeight(qMin(580,window()->height()-80));
-
-
-
-
-//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-//            &ExtensionPanel::onThemeChanged);
-//    DArrowButton *hideButton = new DArrowButton();
-//    hideButton->setFixedSize(CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_WIDTH);
-//    hideButton->setArrowDirection(DArrowButton::ArrowLeft);
-//    connect(hideButton, &DArrowButton::mouseRelease, [=] {
-//        emit dApp->signalM->hideExtensionPanel();
-//    });
-
-//    QHBoxLayout *mainLayout = new QHBoxLayout(this);
-//    mainLayout->setContentsMargins(0, 0, 0, 0);
-//    mainLayout->setSpacing(0);
-
-//    mainLayout->addLayout(m_contentLayout);
-//    mainLayout->addWidget(hideButton);
-//    mainLayout->addSpacing(5);
+    setContentLayoutContentsMargins(QMargins(0,0,0,0));
+    setModal(true);
 }
 
-void ExtensionPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-//    if (theme == ViewerThemeManager::Dark) {
-//        m_coverBrush = DARK_COVERBRUSH;
-//    } else {
-//        m_coverBrush = LIGHT_COVERBRUSH;
-//    }
-//    setCoverBrush(m_coverBrush);
+ExtensionPanel *ExtensionPanel::getInstance(QWidget *parent)
+{
+    if(instance == nullptr){
+        instance = new ExtensionPanel(parent);
+    }
+    return instance;
 }
 
 void ExtensionPanel::setContent(QWidget *content)
@@ -95,48 +76,50 @@ void ExtensionPanel::setContent(QWidget *content)
 
         m_content = content;
         updateRectWithContent();
-        m_contentLayout->addWidget(content);
+//        m_contentLayout->addWidget(content);
+        this->addContent(content);
     }
 }
 
 void ExtensionPanel::updateRectWithContent()
 {
-    connect(dApp->signalM, &SignalManager::extensionPanelHeight, this, [=](int height,bool immediately){
-        if(!immediately)
-            setFixedHeight(qMin(height+10,560));
-    });
+    connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
+            [=](int height) {
+                    setFixedHeight(qMin(615, height+5));//tmp for imageinfo
+            });
 
     if (m_content) {
-        resize(qMax(m_content->sizeHint().width(), EXTENSION_PANEL_WIDTH),
-               height());
+//                resize(qMax(m_content->sizeHint().width(), EXTENSION_PANEL_WIDTH), height());
     }
 }
 
 void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
+    DDialog::mouseMoveEvent(e);
 }
 
 void ExtensionPanel::paintEvent(QPaintEvent *pe)
 {
-//    QPainter painter(this);
-//    painter.setRenderHint(QPainter::Antialiasing);
-//    QRectF bgRect;
-//    bgRect.setSize(size());
-//    const QPalette pal = QGuiApplication::palette();//this->palette();
-//    QColor bgColor = pal.color(QPalette::ToolTipBase);
+    //    QPainter painter(this);
+    //    painter.setRenderHint(QPainter::Antialiasing);
+    //    QRectF bgRect;
+    //    bgRect.setSize(size());
+    //    const QPalette pal = QGuiApplication::palette();//this->palette();
+    //    QColor bgColor = pal.color(QPalette::ToolTipBase);
 
-//    QPainterPath pp;
-//    pp.addRoundedRect(bgRect, 18, 18);
-//    painter.fillPath(pp, QColor(0,0,0,22));
+    //    QPainterPath pp;
+    //    pp.addRoundedRect(bgRect, 18, 18);
+    //    painter.fillPath(pp, QColor(0,0,0,22));
 
-//    {
-//        auto view_rect = bgRect.marginsRemoved(QMargins(1, 1, 1, 1));
-//        QPainterPath pp;
-//        pp.addRoundedRect(view_rect, 18, 18);
-//        painter.fillPath(pp, bgColor);
-//    }
-//    QWidget::paintEvent(pe);
+    //    {
+    //        auto view_rect = bgRect.marginsRemoved(QMargins(1, 1, 1, 1));
+    //        QPainterPath pp;
+    //        pp.addRoundedRect(view_rect, 18, 18);
+    //        painter.fillPath(pp, bgColor);
+    //    }
+    //    QWidget::paintEvent(pe);
+    DDialog::paintEvent(pe);
 }
 //{
 //    QPainter painter(this);
@@ -179,18 +162,18 @@ void ExtensionPanel::paintEvent(QPaintEvent *pe)
 //    painter.drawPath(path);
 //    painter.end();
 //}
-void ExtensionPanel::moveWithAnimation(int x, int y)
-{
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(ANIMATION_DURATION);
-    animation->setEasingCurve(ANIMATION_EASING_CURVE);
-    animation->setStartValue(pos());
-    animation->setEndValue(QPoint(x, y));
-    animation->start();
-    connect(this, &ExtensionPanel::requestStopAnimation,
-            animation, &QPropertyAnimation::stop);
-    connect(this, &ExtensionPanel::requestStopAnimation,
-            animation, &QPropertyAnimation::deleteLater);
-    connect(animation, &QPropertyAnimation::finished,
-            animation, &QPropertyAnimation::deleteLater);
-}
+//void ExtensionPanel::moveWithAnimation(int x, int y)
+//{
+    //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+    //    animation->setDuration(ANIMATION_DURATION);
+    //    animation->setEasingCurve(ANIMATION_EASING_CURVE);
+    //    animation->setStartValue(pos());
+    //    animation->setEndValue(QPoint(x, y));
+    //    animation->start();
+    //    connect(this, &ExtensionPanel::requestStopAnimation, animation,
+    //    &QPropertyAnimation::stop); connect(this, &ExtensionPanel::requestStopAnimation,
+    //    animation,
+    //            &QPropertyAnimation::deleteLater);
+    //    connect(animation, &QPropertyAnimation::finished, animation,
+    //    &QPropertyAnimation::deleteLater);
+//}

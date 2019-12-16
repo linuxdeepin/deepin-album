@@ -1216,7 +1216,7 @@ void MainWindow::onShowImageInfo(const QString &path)
         dialog->move((width() - dialog->width()) / 2 +
                      mapToGlobal(QPoint(0, 0)).x(),
                      (window()->height() - dialog->height()) / 2 +
-                     mapToGlobal(QPoint(0, 0)).y());
+                     window()->y()-120);
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
             dialog->deleteLater();
@@ -1230,7 +1230,7 @@ void MainWindow::onShowImageInfo(const QString &path)
         dialog->move((width() - dialog->width()) / 2 +
                      mapToGlobal(QPoint(0, 0)).x(),
                      (window()->height() - dialog->height()) / 2 +
-                     mapToGlobal(QPoint(0, 0)).y());
+                     window()->y()-120);
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
             dialog->deleteLater();

@@ -97,16 +97,16 @@ void ViewPanel::initPopupMenu()
             updateMenuContent();
         }
     });
-    QShortcut *sc = new QShortcut(QKeySequence("Alt+Enter"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [ = ] {
-        if (m_isInfoShowed)
-            emit dApp->signalM->hideExtensionPanel();
-        else
-            emit dApp->signalM->showExtensionPanel();
-        // Update panel info
-        m_info->setImagePath(m_infos.at(m_current).filePath);
-    });
+//    QShortcut *sc = new QShortcut(QKeySequence("Alt+Enter"), this);
+//    sc->setContext(Qt::WindowShortcut);
+//    connect(sc, &QShortcut::activated, this, [ = ] {
+//        if (m_isInfoShowed)
+//            emit dApp->signalM->hideExtensionPanel();
+//        else
+//            emit dApp->signalM->showExtensionPanel();
+//        // Update panel info
+//        m_info->setImagePath(m_infos.at(m_current).filePath);
+//    });
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
@@ -253,9 +253,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
-        if (m_isInfoShowed)
-            emit dApp->signalM->hideExtensionPanel();
-        else
+//        if (m_isInfoShowed)
+//            emit dApp->signalM->hideExtensionPanel();
+//        else
             emit dApp->signalM->showExtensionPanel();
         // Update panel info
         m_info->setImagePath(path);

@@ -386,6 +386,13 @@ already exists, do you want to replace?</source>
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Photo info</source>
+        <translation>照片信息</translation>
+    </message>
+</context>
+<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
@@ -401,7 +408,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation type="vanished">照片信息</translation>
     </message>
     <message>
         <source>Basic info</source>

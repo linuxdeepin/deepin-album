@@ -128,8 +128,8 @@ void ImgInfoDialog::initUI()
 {
 //    setAutoFillBackground(true);
     setAttribute(Qt::WA_TranslucentBackground, true);
-    setFixedWidth(300);
-
+    setFixedWidth(320);
+    setMaximumHeight(540);
     setContentLayoutContentsMargins(QMargins(0,0,0,0));
 
     //title
@@ -206,10 +206,10 @@ void ImgInfoDialog::setImagePath(const QString &path)
     if(nullptr != layout)
     {
         QLayoutItem *child;
-        while ((child = layout->takeAt(0)) != 0)
+        while ((child = layout->takeAt(0)) != nullptr)
         {
             layout->removeWidget(child->widget());
-            child->widget()->setParent(0);
+            child->widget()->setParent(nullptr);
             delete child;
         }
     }
@@ -368,27 +368,31 @@ void ImgInfoDialog::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);
     connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=](){
         QRect rc = geometry();
-        rc.setHeight(contentHeight()+10);
+        rc.setHeight(contentHeight()+20);
         setGeometry(rc);
-
-        if(expand->expand()){
-            emit dApp->signalM->extensionPanelHeight(contentHeight()+20);
-        }
+        this->setFixedHeight(qMin(615,contentHeight()+5));
+//        if(expand->expand()){
+//            emit dApp->signalM->extensionPanelHeight(qMin(615,contentHeight()+5));
+//        }
     });
 }
 
 int ImgInfoDialog::contentHeight() const
 {
-    int expandsHeight = 0;
-    bool atleastOneExpand = false;
-    for (const DBaseExpand* expand : m_expandGroup) {
-        expandsHeight += 30 + 15;
-        if (expand->expand()) {
-            expandsHeight += expand->getContent()->height();
-            atleastOneExpand = true;
-        }
+    int expandsHeight = 10;
+//    bool atleastOneExpand = false;
+//    for (const DBaseExpand* expand : m_expandGroup) {
+//        expandsHeight += 30 + 15;
+//        if (expand->expand()) {
+//            expandsHeight += expand->getContent()->height();
+//            atleastOneExpand = true;
+//        }
+//    }
+    for (const DBaseExpand *expand : m_expandGroup) {
+        expandsHeight += expand->height();
     }
-    return ( qMin(expandsHeight + 45 +4,530));
+    return (70 + expandsHeight + contentsMargins().top() +
+             contentsMargins().bottom());
 }
 
 void ImgInfoDialog::keyPressEvent(QKeyEvent *e)

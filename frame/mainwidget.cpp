@@ -16,11 +16,10 @@
  */
 #include "mainwidget.h"
 #include "application.h"
-#include "controller/importer.h"
 #include "controller/configsetter.h"
+#include "controller/importer.h"
 //#include "module/album/albumpanel.h"
 //#include "module/edit/EditPanel.h"
-//#include "module/timeline/timelinepanel.h"
 #include "module/slideshow/slideshowpanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
@@ -382,41 +381,43 @@ void MainWidget::initBottomToolbar()
 
 void MainWidget::initExtensionPanel()
 {
-    m_extensionPanel = new ExtensionPanel(this);
-    m_extensionPanel->move(width(), 0);
-    m_extensionPanel->hide();
+    m_extensionPanel = ExtensionPanel::getInstance(this);
+//    m_extensionPanel->move(width(), 0);
+    m_extensionPanel->close();
     connect(dApp->signalM, &SignalManager::updateExtensionPanelContent,
     this, [ = ](QWidget * c) {
         if (c != nullptr)
             m_extensionPanel->setContent(c);
     });
-    connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [ = ] {
-        // Is visible
-        if (m_extensionPanel->x() == (width() - EXTENSION_PANEL_WIDTH - 24))
-        {
-            return;
-        }
+    connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
+    // Is visible
+//        if (m_extensionPanel->x() == (width() - EXTENSION_PANEL_WIDTH - 24)) {
+//            return;
+//        }
 #ifdef LITE_DIV
-        m_extensionPanel->resize(m_extensionPanel->width(), height());
+//        m_extensionPanel->resize(m_extensionPanel->width(), height());
 #endif
+        m_extensionPanel->move(window()->x() + (window()->width()-m_extensionPanel->width())/2,window()->y() + (window()->height() - m_extensionPanel->height())/2);
         m_extensionPanel->show();
-        //m_extensionPanel's height is dependent on the visible of topToolbar
-        if (this->window()->isFullScreen())
-        {
-//            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-//                                          EXTENSION_PANEL_WIDTH), 0);
-//            m_extensionPanel->moveWithAnimation(0, 0);
-            m_extensionPanel->move(width(), 0);
-            m_extensionPanel->moveWithAnimation((width() - EXTENSION_PANEL_WIDTH - 24), 0);
-        } else
-        {
-//            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-//                                   EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
-//            m_extensionPanel->moveWithAnimation(0, TOP_TOOLBAR_HEIGHT);
-            m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
-            m_extensionPanel->moveWithAnimation((width() - EXTENSION_PANEL_WIDTH - 24), TOP_TOOLBAR_HEIGHT);
-        }
+        // m_extensionPanel's height is dependent on the visible of topToolbar
+        //        if (this->window()->isFullScreen()) {
+        //            //            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+        //            //                                          EXTENSION_PANEL_WIDTH), 0);
+        //            //                                    m_extensionPanel->moveWithAnimation(0,
+        //            0); m_extensionPanel->move(width(), 0);
+        //            // m_extensionPanel->moveWithAnimation((width()-EXTENSION_PANEL_WIDTH-24),
+        //            //            0);
+        //        } else {
+        //            //            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+        //            //                                   EXTENSION_PANEL_WIDTH),
+        //            TOP_TOOLBAR_HEIGHT);
+        //            //            m_extensionPanel->moveWithAnimation(0, TOP_TOOLBAR_HEIGHT);
+        //            m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
+        //            // m_extensionPanel->moveWithAnimation((width()-EXTENSION_PANEL_WIDTH-24),
+        //            //            TOP_TOOLBAR_HEIGHT);
+        //        }
     });
+#if 0
     connect(dApp->signalM, &SignalManager::hideExtensionPanel,
     this, [ = ] (bool immediately) {
         if (immediately) {
@@ -442,4 +443,5 @@ void MainWidget::initExtensionPanel()
             }
         }
     });
+#endif
 }
