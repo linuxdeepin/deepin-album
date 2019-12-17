@@ -290,9 +290,9 @@ TTBContent::TTBContent(bool inDB,
 
 //    qDebug()<<"init:m_contentWidth=============="<<m_contentWidth;
     setFixedWidth(m_contentWidth);
-    setFixedHeight(70);
+    setFixedHeight(72);
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 0);
+    hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 3);
     hb->setSpacing(0);
     m_inDB = inDB;
 #ifndef LITE_DIV
