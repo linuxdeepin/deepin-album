@@ -311,9 +311,9 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 }
 QWidget *ViewPanel::bottomTopLeftContent()
 {
-    if(m_ttbc != nullptr)
+    if (m_ttbc != nullptr)
         delete m_ttbc;
-    m_ttbc = new TTBContent(m_vinfo.inDatabase, m_infos,this);
+    m_ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, this);
     m_ttbc->m_imageType = m_viewType;
 //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current < m_infos.size()) {
@@ -380,6 +380,14 @@ QWidget *ViewPanel::bottomTopLeftContent()
             m_viewB->fitImage();
         }
     });
+    connect(m_viewB, &ImageView::disCheckAdaptImageBtn,
+            m_ttbc, &TTBContent::disCheckAdaptImageBtn);
+    connect(m_viewB, &ImageView::disCheckAdaptScreenBtn,
+            m_ttbc, &TTBContent::disCheckAdaptScreenBtn);
+    connect(m_viewB, &ImageView::checkAdaptImageBtn,
+            m_ttbc, &TTBContent::checkAdaptImageBtn);
+    connect(m_viewB, &ImageView::checkAdaptScreenBtn,
+            m_ttbc, &TTBContent::checkAdaptScreenBtn);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
             m_ttbc, &TTBContent::updateCollectButton);
     connect(dApp->signalM, &SignalManager::removedFromAlbum,

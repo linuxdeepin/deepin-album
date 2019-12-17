@@ -261,6 +261,7 @@ void ImageView::setRenderer(RendererType type)
 void ImageView::setScaleValue(qreal v)
 {
     scale(v, v);
+
     const qreal irs = imageRelativeScale();
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
@@ -274,6 +275,21 @@ void ImageView::setScaleValue(qreal v)
         m_isFitWindow = false;
     }
 
+    qreal rescale = imageRelativeScale();
+    if (rescale - 1 > -0.01 &&
+            rescale - 1 < 0.01) {
+        emit checkAdaptImageBtn();
+    } else {
+        emit disCheckAdaptImageBtn();
+    }
+
+    qreal wrs = windowRelativeScale();
+    if ( rescale - wrs > -0.01 &&
+            rescale - wrs < 0.01) {
+        emit checkAdaptScreenBtn();
+    } else {
+        emit disCheckAdaptScreenBtn();
+    }
     emit scaled(imageRelativeScale() * 100);
     emit showScaleLabel();
     emit transformChanged();
@@ -318,6 +334,13 @@ void ImageView::fitWindow()
     qreal wrs = windowRelativeScale();
     resetTransform();
     scale(wrs, wrs);
+    emit checkAdaptScreenBtn();
+    if (wrs - 1 > -0.01 &&
+            wrs - 1 < 0.01) {
+        emit checkAdaptImageBtn();
+    } else {
+        emit disCheckAdaptImageBtn();
+    }
     m_isFitImage = false;
     m_isFitWindow = true;
     scaled(imageRelativeScale() * 100);
@@ -326,8 +349,16 @@ void ImageView::fitWindow()
 
 void ImageView::fitImage()
 {
+    qreal wrs = windowRelativeScale();
     resetTransform();
     scale(1, 1);
+    emit checkAdaptImageBtn();
+    if (wrs - 1 > -0.01 &&
+            wrs - 1 < 0.01) {
+        emit checkAdaptScreenBtn();
+    } else {
+        emit disCheckAdaptScreenBtn();
+    }
     m_isFitImage = true;
     m_isFitWindow = false;
     scaled(imageRelativeScale() * 100);

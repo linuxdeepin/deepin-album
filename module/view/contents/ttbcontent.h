@@ -117,6 +117,10 @@ public slots:
     void updateCollectButton();
 
     void onResize();
+    void disCheckAdaptImageBtn();
+    void disCheckAdaptScreenBtn();
+    void checkAdaptImageBtn();
+    void checkAdaptScreenBtn();
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
@@ -161,6 +165,8 @@ private:
     int m_imgInfos_size = 0;
     int m_startAnimation = 0;
     bool bresized = true;
+    bool badaptImageBtnChecked = false;
+    bool badaptScreenBtnChecked = false;
 };
 
 #endif // TTLCONTENT_H

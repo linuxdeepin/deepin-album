@@ -365,9 +365,10 @@ TTBContent::TTBContent(bool inDB,
     m_nextButton->setIconSize(QSize(36, 36));
     m_nextButton->setToolTip(tr("Next"));
 
+
     m_nextButton->hide();
 
-    connect(parent,SIGNAL(sigResize()),this,SLOT(onResize()));
+    connect(parent, SIGNAL(sigResize()), this, SLOT(onResize()));
 
 
     connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
@@ -393,13 +394,19 @@ TTBContent::TTBContent(bool inDB,
     m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
     m_adaptImageBtn->setIconSize(QSize(36, 36));
     m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+    m_adaptImageBtn->setCheckable(true);
 
 
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
     connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
-        emit resetTransform(false);
-        emit ttbcontentClicked();
+        m_adaptImageBtn->setChecked(true);
+        if (!badaptImageBtnChecked)
+        {
+            badaptImageBtnChecked = true;
+            emit resetTransform(false);
+            emit ttbcontentClicked();
+        }
     });
 
 
@@ -410,13 +417,19 @@ TTBContent::TTBContent(bool inDB,
     m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
     m_adaptScreenBtn->setIconSize(QSize(36, 36));
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+    m_adaptScreenBtn->setCheckable(true);
 
 
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
     connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] {
-        emit resetTransform(true);
-        emit ttbcontentClicked();
+        m_adaptScreenBtn->setChecked(true);
+        if (!badaptScreenBtnChecked)
+        {
+            badaptScreenBtnChecked = true;
+            emit resetTransform(true);
+            emit ttbcontentClicked();
+        }
     });
 
     // Collection button////////////////////////////////////////////////////////
@@ -573,6 +586,29 @@ TTBContent::TTBContent(bool inDB,
             }
         }
     });
+}
+
+
+void TTBContent::disCheckAdaptImageBtn()
+{
+    m_adaptImageBtn->setChecked(false);
+    badaptImageBtnChecked = false;
+}
+void TTBContent::disCheckAdaptScreenBtn()
+{
+    m_adaptScreenBtn->setChecked(false);
+    badaptScreenBtnChecked = false;
+}
+
+void TTBContent::checkAdaptImageBtn()
+{
+    m_adaptImageBtn->setChecked(true);
+    badaptImageBtnChecked = true;
+}
+void TTBContent::checkAdaptScreenBtn()
+{
+    m_adaptScreenBtn->setChecked(true);
+    badaptScreenBtnChecked = true;
 }
 
 void TTBContent::updateFilenameLayout()
@@ -1092,8 +1128,8 @@ void TTBContent::onResize()
     if (1 == m_startAnimation) {
 //        if (bresized) {
 //            bresized = false;
-            m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                                         (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 228 + 18) / 2 - ((32)*m_nowIndex), 0));
+        m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                                     (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 228 + 18) / 2 - ((32)*m_nowIndex), 0));
 //        } else {
 //            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
 //            animation->setDuration(0);
@@ -1115,7 +1151,7 @@ void TTBContent::onResize()
     } else if (2 == m_startAnimation) {
 //        if (bresized) {
 //            bresized = false;
-            m_imgList->move(QPoint(0, 0));
+        m_imgList->move(QPoint(0, 0));
 //        } else {
 //            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
 //            animation->setDuration(0);
@@ -1135,7 +1171,7 @@ void TTBContent::onResize()
     } else if (3 == m_startAnimation) {
 //        if (bresized) {
 //            bresized = false;
-            m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+        m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
 //        } else {
 //            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
 //            animation->setDuration(0);
