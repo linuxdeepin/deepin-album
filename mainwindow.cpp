@@ -697,7 +697,7 @@ void MainWindow::initTitleBar()
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
     // TitleBar Search
-    QWidget *m_titleSearchWidget = new QWidget();
+    //QWidget *m_titleSearchWidget = new QWidget();
     QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->setFixedSize(350, 36);
@@ -712,7 +712,7 @@ void MainWindow::initTitleBar()
     }
 
     pTitleSearchLayout->addWidget(m_pSearchEdit);
-    m_titleSearchWidget->setLayout(pTitleSearchLayout);
+    //m_titleSearchWidget->setLayout(pTitleSearchLayout);
 
     // TitleBar Menu
     m_pTitleBarMenu = new DMenu();
@@ -733,7 +733,7 @@ void MainWindow::initTitleBar()
 
     titlebar()->addWidget(m_ImgWidget, Qt::AlignLeft);
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
-    titlebar()->addWidget(m_titleSearchWidget, Qt::AlignHCenter);
+    titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
     titlebar()->setMenu(m_pTitleBarMenu);
 
     if (0 < DBManager::instance()->getImgsCount())
