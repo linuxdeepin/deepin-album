@@ -770,9 +770,9 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
         QList<DLabel *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(i))->findChildren<DLabel *>();
         b[1]->setFixedWidth(width()-14);
     }
-    m_pwidget->setFixedWidth(320);
+    m_pwidget->setFixedWidth(this->width()/2);
     m_pwidget->setFixedHeight(54);
-    m_pwidget->move(this->width() / 2 - 160, this->height() - 81);
+    m_pwidget->move(this->width() / 4, this->height() - 81);
 }
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)

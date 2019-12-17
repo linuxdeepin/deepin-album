@@ -2503,7 +2503,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_spinner->move(width()/2 + 60, (height()-50)/2-20);
     m_pImpTimeLineWidget->setFixedWidth(width() - 181);
     m_pImpTimeLineWidget->setFixedHeight(height() - 75);
-    m_pwidget->setFixedWidth(320);
+    m_pwidget->setFixedWidth(this->width()/2);
     m_pwidget->setFixedHeight(54);
-    m_pwidget->move(this->width() / 2 - 160, this->height() - 81);
+    m_pwidget->move(this->width() / 4, this->height() - 81);
 }
