@@ -63,7 +63,10 @@ void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
 void LeftListWidget::mousePressEvent(QMouseEvent *e)
 {
     QModelIndex index = indexAt(e->pos());
-
+    if (!index.isValid())
+    {
+        emit sigMousePressIsNoValid();
+    }
     //    qDebug()<<this->currentRow();
     //    if (!index.isValid())
     //    {

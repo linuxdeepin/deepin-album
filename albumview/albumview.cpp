@@ -506,6 +506,8 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
 
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
+
+    m_pLeftListView->moveMountListWidget();
 }
 
 #if 1
@@ -520,6 +522,8 @@ void AlbumView::onCreateNewAlbumFrom(QString albumname)
 
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+
+    m_pLeftListView->moveMountListWidget();
 }
 #endif
 
@@ -1495,6 +1499,7 @@ void AlbumView::onKeyDelete()
                 m_pLeftListView->updatePhotoListView();
             }
 
+            m_pLeftListView->moveMountListWidget();
             emit dApp->signalM->sigAlbDelToast(str);
         } else {
             bMoveToTrash = true;

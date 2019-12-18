@@ -22,6 +22,7 @@ protected:
 
 signals:
     void signalDropEvent(QModelIndex index);
+    void sigMousePressIsNoValid();
 };
 
 #endif  // LEFTLISTWIDGET_H

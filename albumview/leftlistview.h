@@ -29,6 +29,7 @@ public:
     void updatePhotoListView();
     void updateAlbumItemsColor();
     void updateCustomizeListView();
+    void moveMountListWidget();
 
 private:
     void initUI();
@@ -68,6 +69,7 @@ private:
     QString m_ItemCurrentType;
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;
+    DWidget *m_pMountWidget;
 };
 
 #endif // LEFTLISTVIEW_H

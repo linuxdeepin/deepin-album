@@ -241,6 +241,10 @@ void LeftListView::initConnections()
                                           ":/resources/images/sidebar/active/add_focus_dark.svg");
         }
     });
+
+    connect(m_pMountListView, &LeftListWidget::sigMousePressIsNoValid, this, [=]{
+        setFocusPolicy(Qt::ClickFocus);
+    });
 }
 
 void LeftListView::initUI()
@@ -267,14 +271,14 @@ void LeftListView::initUI()
     pPhotoLibLayout->addWidget(m_pPhotoLibLabel);
 
     // 线
-    QHBoxLayout *pLineLayout = new QHBoxLayout();
-    pLineLayout->setContentsMargins(0, 0, 0, 0);
+//    QHBoxLayout *pLineLayout = new QHBoxLayout();
+//    pLineLayout->setContentsMargins(0, 0, 0, 0);
 
-    DLabel *pLineLabel = new DLabel();
-    pLineLabel->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
+//    DLabel *pLineLabel = new DLabel();
+//    pLineLabel->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
 
-    pLineLayout->addSpacing(14);
-    pLineLayout->addWidget(pLineLabel);
+//    pLineLayout->addSpacing(14);
+//    pLineLayout->addWidget(pLineLabel);
 
     // 照片库列表
     m_pPhotoLibListView = new LeftListWidget();
@@ -350,24 +354,23 @@ void LeftListView::initUI()
     pCustomizeLayout->addWidget(m_pAddListBtn, 0, Qt::AlignRight|Qt::AlignVCenter);
 
     // 线
-    QHBoxLayout *pLineLayout1 = new QHBoxLayout();
-    pLineLayout1->setContentsMargins(0, 0, 0, 0);
+//    QHBoxLayout *pLineLayout1 = new QHBoxLayout();
+//    pLineLayout1->setContentsMargins(0, 0, 0, 0);
 
-    DLabel *pLineLabel1 = new DLabel();
-    pLineLabel1->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
+//    DLabel *pLineLabel1 = new DLabel();
+//    pLineLabel1->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
 
-    pLineLayout1->addSpacing(14);
-    pLineLayout1->addWidget(pLineLabel1);
+//    pLineLayout1->addSpacing(14);
+//    pLineLayout1->addWidget(pLineLabel1);
 
     // 相册列表
     m_pCustomizeListView = new LeftListWidget();
-//    m_pPhotoLibListView->setViewportMargins(8, 0, 8, 0);
     DStyledItemDelegate *itemDelegate1 = new DStyledItemDelegate(m_pCustomizeListView);
     itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pCustomizeListView->setItemDelegate(itemDelegate1);
 
     m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_180);
-    m_pCustomizeListView->setFixedHeight(320);
+    m_pCustomizeListView->setFixedHeight(400);
     m_pCustomizeListView->setSpacing(0);
     m_pCustomizeListView->setFrameShape(DListWidget::NoFrame);
     m_pCustomizeListView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -389,9 +392,18 @@ void LeftListView::initUI()
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
 
+
+    // 设备Widget
+    m_pMountWidget = new DWidget(this);
+    m_pMountWidget->setFixedWidth(180);
+    m_pMountWidget->setFixedHeight(200);
+
+    QVBoxLayout *pMountVLayout = new QVBoxLayout();
+    pMountVLayout->setContentsMargins(0, 0, 0, 0);
+
     // 设备Title
     QHBoxLayout *pMountLayout = new QHBoxLayout();
-    pPhotoLibLayout->setContentsMargins(0, 0, 0, 0);
+    pMountLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pMountLabel = new DLabel();
     m_pMountLabel->setFixedHeight(40);
@@ -401,16 +413,17 @@ void LeftListView::initUI()
 
     pMountLayout->addSpacing(14);
     pMountLayout->addWidget(m_pMountLabel);
+    pMountLayout->addStretch();
 
     // 线
-    QHBoxLayout *pLineLayout2 = new QHBoxLayout();
-    pLineLayout2->setContentsMargins(0, 0, 0, 0);
+//    QHBoxLayout *pLineLayout2 = new QHBoxLayout();
+//    pLineLayout2->setContentsMargins(0, 0, 0, 0);
 
-    DLabel *pLineLabel2 = new DLabel();
-    pLineLabel2->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
+//    DLabel *pLineLabel2 = new DLabel();
+//    pLineLabel2->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
 
-    pLineLayout2->addSpacing(14);
-    pLineLayout2->addWidget(pLineLabel2);
+//    pLineLayout2->addSpacing(14);
+//    pLineLayout2->addWidget(pLineLabel2);
 
     // 设备列表
     m_pMountListView = new LeftListWidget();
@@ -423,17 +436,27 @@ void LeftListView::initUI()
     m_pMountListView->setSpacing(0);
     m_pMountListView->setFrameShape(DListWidget::NoFrame);
 
+    // 添加layout/widget
     pMainLayout->addLayout(pPhotoLibLayout);
-    pMainLayout->addLayout(pLineLayout);
+//    pMainLayout->addLayout(pLineLayout);
     pMainLayout->addWidget(m_pPhotoLibListView);
     pMainLayout->addLayout(pCustomizeLayout);
-    pMainLayout->addLayout(pLineLayout1);
+//    pMainLayout->addLayout(pLineLayout1);
     pMainLayout->addWidget(m_pCustomizeListView);
-    pMainLayout->addLayout(pMountLayout);
-    pMainLayout->addLayout(pLineLayout2);
-    pMainLayout->addWidget(m_pMountListView);
-
+//    pMainLayout->addLayout(pMountLayout);
+//    pMainLayout->addLayout(pLineLayout2);
+//    pMainLayout->addWidget(m_pMountListView);
+    pMainLayout->addStretch();
     setLayout(pMainLayout);
+
+    pMountVLayout->addLayout(pMountLayout);
+    pMountVLayout->addWidget(m_pMountListView);
+    pMountVLayout->addStretch();
+    m_pMountWidget->setLayout(pMountVLayout);
+
+    moveMountListWidget();
+    m_pMountWidget->raise();
+    m_pMountWidget->show();
 }
 
 void LeftListView::updatePhotoListView()
@@ -586,6 +609,8 @@ void LeftListView::onMenuClicked(QAction *action)
         AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
+
+        moveMountListWidget();
     }
     break;
     case IdRenameAlbum:
@@ -620,6 +645,7 @@ void LeftListView::onMenuClicked(QAction *action)
             updatePhotoListView();
         }
 
+        moveMountListWidget();
         emit dApp->signalM->sigAlbDelToast(str);
     }
     break;
@@ -695,4 +721,19 @@ void LeftListView::keyPressEvent(QKeyEvent *event)
             emit sigKeyF2();
         }
     }
+}
+
+void LeftListView::moveMountListWidget()
+{
+    int iMountY = 200;
+    if (11 > m_pCustomizeListView->count())
+    {
+        iMountY = iMountY + m_pCustomizeListView->count() * 40;
+    }
+    else
+    {
+        iMountY = iMountY + 10 * 40;
+    }
+
+    m_pMountWidget->move(0, iMountY);
 }
