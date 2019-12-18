@@ -349,7 +349,8 @@ void SlideShowPanel::setImage(const QImage &img)
     m_img = img;
     m_img.setDevicePixelRatio(devicePixelRatioF());
 
-    update();
+//    update();
+    repaint();
 }
 
 void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
