@@ -162,7 +162,7 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>已导入</translation>
+        <translation type="vanished">已导入</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -485,6 +485,13 @@ already exists, do you want to replace?</source>
     <message>
         <source>Photo info</source>
         <translation>照片信息</translation>
+    </message>
+</context>
+<context>
+    <name>ImportTimeLineView</name>
+    <message>
+        <source>Import</source>
+        <translation>已导入</translation>
     </message>
 </context>
 <context>
