@@ -160,6 +160,25 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_mainListWidget->setFrameShape(DTableView::NoFrame);
 
     //添加悬浮title
+
+    //add start 3975
+    m_pImportTitle = new DLabel(pTimeLineViewWidget);
+    m_pImportTitle->setText(tr("Import"));
+    m_pImportTitle->setContentsMargins(17,0,0,0);
+    DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
+    m_pImportTitle->setForegroundRole(DPalette::TextTitle);
+    m_pImportTitle->setFixedSize(width() - 10 ,47);
+    m_pImportTitle->move(0,0);
+
+    DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_pImportTitle);
+    ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
+    QGraphicsOpacityEffect *opacityEffect_light2 = new QGraphicsOpacityEffect;
+    opacityEffect_light2->setOpacity(0.95);
+    m_pImportTitle->setPalette(ppal_light2);
+    m_pImportTitle->setGraphicsEffect(opacityEffect_light2);
+    m_pImportTitle->setAutoFillBackground(true);
+    //add end 3975
+
     m_dateItem = new DWidget(pTimeLineViewWidget);
     QHBoxLayout *TitleViewLayout = new QHBoxLayout();
     TitleViewLayout->setContentsMargins(18, 0, 0, 0);
@@ -258,7 +277,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setFixedSize(this->width() - 10, SUBTITLE_HEIGHT);
     m_dateItem->setContentsMargins(0, 0, 0, 0);
-    m_dateItem->move(0, 0);
+    m_dateItem->move(0, m_pImportTitle->height());  //edit 3975
     m_dateItem->show();
     m_dateItem->setVisible(false);
 }
@@ -283,6 +302,15 @@ void ImportTimeLineView::updataLayout()
     {
         m_dateItem->setVisible(false);
     }
+    //add start 3975
+        TimelineItem *blankWidget = new TimelineItem;
+        blankWidget->m_type = "blank";
+        QListWidgetItem *blankItem=new QListWidgetItem();
+        blankItem->setFlags(Qt::NoItemFlags);
+        m_mainListWidget->addItemForWidget(blankItem);
+        m_mainListWidget->setItemWidget(blankItem, blankWidget);
+        blankItem->setSizeHint(QSize(width(),m_pImportTitle->height()));
+    //add end 3975
     for (int i = 0; i < m_timelines.size(); i++) {
         //获取当前时间照片
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(m_timelines.at(i));
@@ -672,7 +700,7 @@ void ImportTimeLineView::on_AddLabel(QString date, QString num)
 //            buttonList.at(0)->setText(buttonList1.at(0)->text());
 //        }
 
-        m_dateItem->move(0, 0);
+        m_dateItem->move(0, m_pImportTitle->height()); //edit 3975
     }
 #if 1
     QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
@@ -701,7 +729,7 @@ void ImportTimeLineView::on_MoveLabel(int y, QString date, QString num, QString 
         labelList[1]->setText(num);
         pSuspensionChose->setText(choseText);
         m_dateItem->setVisible(true);
-        m_dateItem->move(0, y + 1);
+//        m_dateItem->move(0, y + 1); //del 3975
     }
 }
 
@@ -730,6 +758,7 @@ void ImportTimeLineView::on_KeyEvent(int key)
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
     m_dateItem->setFixedSize(width() - 10, SUBTITLE_HEIGHT);
+    m_pImportTitle->setFixedSize(width() - 10 ,47); //add 3975
 }
 
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)

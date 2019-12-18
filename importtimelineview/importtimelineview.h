@@ -74,7 +74,7 @@ private:
     DLabel* m_pDate;
     DLabel* pNum_up;
     DLabel* pNum_dn;
-
+    DLabel *m_pImportTitle; //add 3975
     QList<ThumbnailListView*> m_allThumbnailListView;
     QList<DCommandLinkButton*> m_allChoseButton;
 

@@ -224,6 +224,20 @@ private:
     void getAllDeviceName();
     DSpinner *m_spinner;
     DLabel *m_pImportTitle;
+
+    //add start 3975
+    QListWidgetItem *m_noTrashItem;
+    DWidget *m_pNoTrashTitle;
+    DWidget *m_pNoTrashWidget;
+
+    QListWidgetItem *m_FavoriteItem;
+    DWidget *m_FavoriteTitle;
+    DWidget *m_pFavoriteWidget;
+
+    QListWidgetItem *m_TrashitemItem;
+    DWidget *m_TrashTitle;
+    DWidget *m_pTrashWidget;
+    //add end 3975
 };
 
 #endif // ALBUMVIEW_H

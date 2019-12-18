@@ -97,7 +97,7 @@ public:
 
     void menuItemDeal(QStringList paths, QAction *action);
     QModelIndexList getSelectedIndexes();
-
+    int getListViewHeight();     //add 3975
     void selectCurrent(int row);
     int getRow(QPoint point);
     void selectRear(int row);

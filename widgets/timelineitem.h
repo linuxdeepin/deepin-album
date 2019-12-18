@@ -17,6 +17,7 @@ public:
     DLabel *m_num;
     QString m_sdate;
     QString m_snum;
+    QString m_type;  //add 3975
     DCommandLinkButton *m_Chose;
     void mousePressEvent(QMouseEvent *e) override;
 signals:

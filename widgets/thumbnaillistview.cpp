@@ -977,3 +977,9 @@ void ThumbnailListView::selectExtent(int start, int end)
         selectionModel()->select(qindex, QItemSelectionModel::Select);
     }
 }
+//add start 3975
+int ThumbnailListView::getListViewHeight()
+{
+    return m_height;
+}
+//add end 3975
