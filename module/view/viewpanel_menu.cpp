@@ -280,6 +280,12 @@ void ViewPanel::updateMenuContent()
         return;
     }
 
+    // 如果该图片原文件不存在,则不显示右键菜单
+    if (!QFileInfo(m_infos.at(m_current).filePath).exists())
+    {
+        return;
+    }
+
     if (window()->isFullScreen()) {
 
         appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));

@@ -441,6 +441,15 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
         return;
     }
 
+    // 如果选中1张图片,且该图片原文件不存在,则不显示右键菜单
+    if (1 == selectedPaths().length())
+    {
+        if (!QFileInfo(selectedPaths().at(0)).exists())
+        {
+            return;
+        }
+    }
+
     updateMenuContents();
     m_pMenu->popup(QCursor::pos());
 }
