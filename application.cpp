@@ -46,7 +46,7 @@ namespace {
 #define IMAGE_HEIGHT_DEFAULT    100
 #define IMAGE_LOAD_DEFAULT    100
 
-ImageLoader::ImageLoader(Application* parent, QStringList pathlist, QStringList pathlisttrash)
+ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QStringList pathlisttrash)
 {
     m_parent = parent;
     m_pathlist = pathlist;
@@ -58,13 +58,12 @@ void ImageLoader::startLoading()
 {
     struct timeval tv;
     long long ms;
-    gettimeofday(&tv,NULL);
-    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
-    qDebug()<<"startLoading start time: "<<ms;
+    gettimeofday(&tv, NULL);
+    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    qDebug() << "startLoading start time: " << ms;
 
     int num = 0;
-    for(QString path : m_pathlist)
-    {
+    for (QString path : m_pathlist) {
         QImage tImg;
 
         QString format = DetectImageFormat(path);
@@ -73,8 +72,7 @@ void ImageLoader::startLoading()
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
-            }
-            else if (path.contains(".tga")) {
+            } else if (path.contains(".tga")) {
                 bool ret = false;
                 tImg = utils::image::loadTga(path, ret);
             }
@@ -92,39 +90,28 @@ void ImageLoader::startLoading()
         }
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (pixmap.isNull())
-        {
+        if (pixmap.isNull()) {
             pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
         }
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-        if (pixmap.isNull())
-        {
-             pixmap = QPixmap::fromImage(tImg);
+        if (pixmap.isNull()) {
+            pixmap = QPixmap::fromImage(tImg);
         }
 
         m_parent->m_imagemap.insert(path, pixmap);
         num += 1;
-        if (1 == num)
-        {
+        if (1 == num) {
             dApp->signalM->sigLoadOnePhoto();
             emit sigFinishiLoad();
-        }
-        else if (10 > num)
-        {
+        } else if (10 > num) {
             emit sigFinishiLoad();
-        }
-        else if (100 > num)
-        {
-            if (0 == num%3)
-            {
+        } else if (100 > num) {
+            if (0 == num % 3) {
                 emit sigFinishiLoad();
             }
-        }
-        else
-        {
-            if (0 == num%IMAGE_LOAD_DEFAULT)
-            {
+        } else {
+            if (0 == num % IMAGE_LOAD_DEFAULT) {
                 emit sigFinishiLoad();
             }
         }
@@ -132,8 +119,7 @@ void ImageLoader::startLoading()
 
     emit sigFinishiLoad();
 
-    for(QString path : m_pathlisttrash)
-    {
+    for (QString path : m_pathlisttrash) {
         QImage tImg;
 
         QString format = DetectImageFormat(path);
@@ -142,8 +128,7 @@ void ImageLoader::startLoading()
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
-            }
-            else if (path.contains(".tga")) {
+            } else if (path.contains(".tga")) {
                 bool ret = false;
                 tImg = utils::image::loadTga(path, ret);
             }
@@ -160,32 +145,29 @@ void ImageLoader::startLoading()
             }
         }
         QPixmap pixmaptrash = QPixmap::fromImage(tImg);
-        if (pixmaptrash.isNull())
-        {
+        if (pixmaptrash.isNull()) {
             pixmaptrash = QPixmap(":/resources/images/other/deepin-album.svg");
         }
 
         pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-        if (pixmaptrash.isNull())
-        {
-             pixmaptrash = QPixmap::fromImage(tImg);
+        if (pixmaptrash.isNull()) {
+            pixmaptrash = QPixmap::fromImage(tImg);
         }
 
         m_parent->m_imagetrashmap.insert(path, pixmaptrash);
     }
 
-    qDebug()<<m_parent->m_imagemap.keys();
+    qDebug() << m_parent->m_imagemap.keys();
     emit sigFinishiLoad();
 
-    gettimeofday(&tv,NULL);
-    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
-    qDebug()<<"startLoading end time: "<<ms;
+    gettimeofday(&tv, NULL);
+    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    qDebug() << "startLoading end time: " << ms;
 }
 
 void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 {
-    for(auto info : dbInfos)
-    {
+    for (auto info : dbInfos) {
         QImage tImg;
 
         QString format = DetectImageFormat(info.filePath);
@@ -194,8 +176,7 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
-            }
-            else if (info.filePath.contains(".tga")) {
+            } else if (info.filePath.contains(".tga")) {
                 bool ret = false;
                 tImg = utils::image::loadTga(info.filePath, ret);
             }
@@ -220,9 +201,8 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (pixmap.isNull())
-        {
-             pixmap = QPixmap::fromImage(tImg);
+        if (pixmap.isNull()) {
+            pixmap = QPixmap::fromImage(tImg);
         }
         m_parent->m_imagemap.insert(info.filePath, pixmap);
     }
@@ -230,39 +210,37 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
     DBImgInfoList dbInfoList;
     QStringList pathlist;
 
-    for(auto info : dbInfos)
-    {
-        if( dApp->m_imagemap.value(info.filePath).isNull()){
+    for (auto info : dbInfos) {
+        if ( dApp->m_imagemap.value(info.filePath).isNull()) {
             continue;
         }
-        pathlist<<info.filePath;
-        dbInfoList<<info;
+        pathlist << info.filePath;
+        dbInfoList << info;
     }
 
-    if(dbInfoList.size() == dbInfos.size())
-    {
-        count = 1;      
-        if(albumname.length() > 0)
-        {
-            if (COMMON_STR_RECENT_IMPORTED != albumname
+//    if (dbInfoList.size() == dbInfos.size()) {
+    count = 1;
+    if (albumname.length() > 0) {
+        if (COMMON_STR_RECENT_IMPORTED != albumname
                 && COMMON_STR_TRASH != albumname
                 && COMMON_STR_FAVORITES != albumname
                 && ALBUM_PATHTYPE_BY_PHONE != albumname
-                && 0 != albumname.compare(tr("Album Gallery")))
-            {
-                DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
-            }
+                && 0 != albumname.compare(tr("Album Gallery"))) {
+            DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
         }
+    }
 
-        DBManager::instance()->insertImgInfos(dbInfoList);
+    DBManager::instance()->insertImgInfos(dbInfoList);
+    if (pathlist.size() > 0) {
         emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
-    }
-    else {
-        count = 0;       
+    } else {
+        count = 0;
         emit dApp->signalM->ImportFailed();
-
-
     }
+//    } else {
+//        count = 0;
+//        emit dApp->signalM->ImportFailed();
+//    }
 
 
 }
@@ -270,24 +248,21 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 
 void ImageLoader::addImageLoader(QStringList pathlist)
 {
-    for(QString path : pathlist)
-    {
+    for (QString path : pathlist) {
         m_parent->m_imagemap.insert(path, m_parent->m_imagetrashmap.value(path));
     }
 }
 
 void ImageLoader::updateImageLoader(QStringList pathlist)
 {
-    for(QString path : pathlist)
-    {
+    for (QString path : pathlist) {
         QPixmap pixmap(path);
 
         pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
-        if (pixmap.isNull())
-        {
+        if (pixmap.isNull()) {
             QPixmap pixmapitem(path);
-             pixmap = pixmapitem;
+            pixmap = pixmapitem;
         }
 
         m_parent->m_imagemap[path] = pixmap;
@@ -298,26 +273,24 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
 
 void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
 {
-    for(QString path : trashpathlist)
-    {
+    for (QString path : trashpathlist) {
         m_parent->m_imagetrashmap.insert(path, m_parent->m_imagemap.value(path));
     }
 }
 
 void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
 {
-    for(QString path : trashpathlist)
-    {
+    for (QString path : trashpathlist) {
         QPixmap pixmaptrash(path);
 
         pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
         m_parent->m_imagetrashmap[path] = pixmaptrash;
     }
-	emit dApp->signalM->sigUpdateTrashImageLoader();
+    emit dApp->signalM->sigUpdateTrashImageLoader();
 }
 
-Application::Application(int& argc, char** argv)
+Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)
 {
     initI18n();
@@ -327,7 +300,7 @@ Application::Application(int& argc, char** argv)
     setApplicationVersion(DApplication::buildVersion("20191011"));
 
 //    setApplicationDescription(DApplication::translate("Main","相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。"));
-    setApplicationDescription(DApplication::translate("Main","Album is a fashion photo manager for viewing and organizing pictures."));
+    setApplicationDescription(DApplication::translate("Main", "Album is a fashion photo manager for viewing and organizing pictures."));
     installEventFilter(new GlobalEventFilter());
     initChildren();
     initDB();
@@ -335,8 +308,7 @@ Application::Application(int& argc, char** argv)
 
 Application::~Application()
 {
-    if(m_imageloader)
-    {
+    if (m_imageloader) {
         delete m_imageloader;
         m_imageloader = nullptr;
     }
@@ -346,19 +318,17 @@ void Application::LoadDbImage()
 {
     auto infos = DBManager::instance()->getAllInfos();
     QStringList pathlist;
-    foreach(auto info, infos)
-    {
+    foreach (auto info, infos) {
         pathlist.append(info.filePath);
     }
 
     auto infostrash = DBManager::instance()->getAllTrashInfos();
     QStringList pathlisttrash;
-    foreach(auto info, infostrash)
-    {
+    foreach (auto info, infostrash) {
         pathlisttrash.append(info.filePath);
     }
 
-    m_imageloader= new ImageLoader(this, pathlist, pathlisttrash);
+    m_imageloader = new ImageLoader(this, pathlist, pathlisttrash);
     m_LoadThread = new QThread();
 
     m_imageloader->moveToThread(m_LoadThread);
@@ -367,13 +337,13 @@ void Application::LoadDbImage()
     connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
     connect(m_imageloader, SIGNAL(sigFinishiLoad()), this, SLOT(finishLoadSlot()));
 //    connect(this, SIGNAL(sigLoadMountImagesStart(QString, QString)), m_imageloader, SLOT(onLoadMountImagesStart(QString, QString)));
-    qDebug()<<"emit sigstartLoad();";
+    qDebug() << "emit sigstartLoad();";
     emit sigstartLoad();
 }
 
 void Application::finishLoadSlot()
 {
-    qDebug()<<"finishLoadSlot";
+    qDebug() << "finishLoadSlot";
     emit sigFinishLoad();
 }
 
@@ -391,22 +361,20 @@ void Application::initDB()
     QStringList removeTrashPaths;
 
     auto infos = DBManager::instance()->getAllInfos();
-    for(auto info : infos)
-    {
+    for (auto info : infos) {
         QFile file(info.filePath);
         if (!file.open(QIODevice::ReadOnly)) {
             qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
-            removePaths<<info.filePath;
+            removePaths << info.filePath;
         }
     }
 
     auto trashInfos = DBManager::instance()->getAllTrashInfos();
-    for(auto info : trashInfos)
-    {
+    for (auto info : trashInfos) {
         QFile file(info.filePath);
         if (!file.open(QIODevice::ReadOnly)) {
             qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
-            removeTrashPaths<<info.filePath;
+            removeTrashPaths << info.filePath;
         }
     }
 

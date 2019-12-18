@@ -13,8 +13,7 @@
 
 void ImportQThread::run()
 {
-    for(auto info : m_dbInfos)
-    {
+    for (auto info : m_dbInfos) {
         QImage tImg;
 
         QString format = DetectImageFormat(info.filePath);
@@ -23,8 +22,7 @@ void ImportQThread::run()
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
-            }
-            else if (info.filePath.contains(".tga")) {
+            } else if (info.filePath.contains(".tga")) {
                 bool ret = false;
                 tImg = utils::image::loadTga(info.filePath, ret);
             }
@@ -44,9 +42,8 @@ void ImportQThread::run()
 
         pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
 
-        if (pixmap.isNull())
-        {
-             pixmap = QPixmap::fromImage(tImg);
+        if (pixmap.isNull()) {
+            pixmap = QPixmap::fromImage(tImg);
         }
         dApp->m_imagemap.insert(info.filePath, pixmap);
     }
@@ -270,7 +267,7 @@ void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void ImportView::onImprotBtnClicked()
 {
-    qDebug()<<"ImportView::onImprotBtnClicked()";
+    qDebug() << "ImportView::onImprotBtnClicked()";
     static QStringList sList;
 
     for (const QByteArray &i : QImageReader::supportedImageFormats())
@@ -301,15 +298,14 @@ void ImportView::onImprotBtnClicked()
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {
-        qDebug()<<"mode != QDialog::Accepted";
+        qDebug() << "mode != QDialog::Accepted";
         emit dApp->signalM->sigImportFailedToView();
         return;
     }
 
     const QStringList &file_list = dialog.selectedFiles();
-    if (file_list.isEmpty())
-    {
-        qDebug()<<"file_list.isEmpty()";
+    if (file_list.isEmpty()) {
+        qDebug() << "file_list.isEmpty()";
         emit dApp->signalM->sigImportFailedToView();
         emit dApp->signalM->ImportFailed();
         return;
@@ -320,16 +316,15 @@ void ImportView::onImprotBtnClicked()
     foreach (QString path, file_list) {
         QFileInfo file(path);
         if (file.isDir()) {
-            qDebug()<<"file.isDir()";
+            qDebug() << "file.isDir()";
             image_list << utils::image::checkImage(path);
         } else {
             image_list << path;
         }
     }
 
-    if (image_list.isEmpty())
-    {
-        qDebug()<<"image_list.isEmpty()";
+    if (image_list.isEmpty()) {
+        qDebug() << "image_list.isEmpty()";
         emit dApp->signalM->sigImportFailedToView();
         emit dApp->signalM->ImportFailed();
         return;
@@ -353,7 +348,7 @@ void ImportView::onImprotBtnClicked()
 
     // 当前导入路径为外接设备
     if (isMountFlag) {
-        qDebug()<<"isMountFlag";
+        qDebug() << "isMountFlag";
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
@@ -392,7 +387,7 @@ void ImportView::onImprotBtnClicked()
 
     for (auto imagePath : image_list) {
         if (!imageSupportRead(imagePath)) {
-            qDebug()<<"!imageSupportRead(imagePath)";
+            qDebug() << "!imageSupportRead(imagePath)";
             continue;
         }
 
@@ -421,57 +416,61 @@ void ImportView::onImprotBtnClicked()
         m_dbInfos << dbi;
     }
 
-    if (!m_dbInfos.isEmpty())
-    {
-        qDebug()<<"!m_dbInfos.isEmpty()";
+    if (!m_dbInfos.isEmpty()) {
+        qDebug() << "!m_dbInfos.isEmpty()";
 //        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         ImportQThread *t = new ImportQThread(m_dbInfos, m_albumname);
-        connect(t, &ImportQThread::finished, this,[=] {
+        connect(t, &ImportQThread::finished, this, [ = ] {
             DBImgInfoList dbInfoList;
             QStringList pathlist;
 
-            for(auto info : m_dbInfos)
+            for (auto info : m_dbInfos)
             {
-                if( dApp->m_imagemap.value(info.filePath).isNull()){
-                    qDebug()<<"dApp->m_imagemap.value(info.filePath).isNull()";
+                if ( dApp->m_imagemap.value(info.filePath).isNull()) {
+                    qDebug() << "dApp->m_imagemap.value(info.filePath).isNull()";
                     continue;
                 }
-                pathlist<<info.filePath;
-                dbInfoList<<info;
+                pathlist << info.filePath;
+                dbInfoList << info;
             }
 
             int count = 0;
-            if(dbInfoList.size() == m_dbInfos.size())
+//            if(dbInfoList.size() == m_dbInfos.size())
+//            {
+            qDebug() << "dbInfoList.size() == m_dbInfos.size()";
+            count = 1;
+            if (m_albumname.length() > 0)
             {
-                qDebug()<<"dbInfoList.size() == m_dbInfos.size()";
-                count = 1;
-                if(m_albumname.length() > 0)
-                {
-                    if (COMMON_STR_RECENT_IMPORTED != m_albumname
+                if (COMMON_STR_RECENT_IMPORTED != m_albumname
                         && COMMON_STR_TRASH != m_albumname
                         && COMMON_STR_FAVORITES != m_albumname
                         && ALBUM_PATHTYPE_BY_PHONE != m_albumname
-                        && 0 != m_albumname.compare(tr("Album Gallery")))
-                    {
-                        DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlist);
-                    }
+                        && 0 != m_albumname.compare(tr("Album Gallery"))) {
+                    DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlist);
                 }
-
-                DBManager::instance()->insertImgInfos(dbInfoList);
-                emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
             }
-            else {
-                qDebug()<<"dbInfoList.size() != m_dbInfos.size()";
+
+            DBManager::instance()->insertImgInfos(dbInfoList);
+            if (pathlist.size() > 0)
+            {
+                emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
+            } else
+            {
+                qDebug() << "dbInfoList.size() != m_dbInfos.size()";
                 count = 0;
                 emit dApp->signalM->ImportFailed();
                 emit dApp->signalM->sigImportFailedToView();
             }
+//        } else {
+//            qDebug() << "dbInfoList.size() != m_dbInfos.size()";
+//            count = 0;
+//            emit dApp->signalM->ImportFailed();
+//            emit dApp->signalM->sigImportFailedToView();
+//        }
         });
         t->start();
-    }
-    else
-    {
-        qDebug()<<"m_dbInfos.isEmpty()";
+    } else {
+        qDebug() << "m_dbInfos.isEmpty()";
         emit dApp->signalM->sigImportFailedToView();
         emit dApp->signalM->ImportFailed();
     }
