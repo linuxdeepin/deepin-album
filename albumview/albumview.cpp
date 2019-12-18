@@ -1470,6 +1470,18 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
         if (imagelist.count() == 1) {
             info.paths = paths;
         }
+
+        QStringList pathlist;
+        pathlist.clear();
+        for(auto path: info.paths)
+        {
+            if (QFileInfo(path).exists())
+            {
+                pathlist<<path;
+            }
+        }
+
+        info.paths = pathlist;
         emit dApp->signalM->startSlideShow(info);
         emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
     } else {

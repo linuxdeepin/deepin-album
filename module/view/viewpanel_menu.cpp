@@ -149,6 +149,18 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.path = path;
         vinfo.paths = paths();
         vinfo.viewMainWindowID = VIEW_MAINWINDOW_POPVIEW;
+
+        QStringList pathlist;
+        pathlist.clear();
+        for(auto path: m_vinfo.paths)
+        {
+            if (QFileInfo(path).exists())
+            {
+                pathlist<<path;
+            }
+        }
+
+        m_vinfo.paths = pathlist;
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
         emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_POPVIEW);
         break;

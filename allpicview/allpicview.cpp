@@ -106,6 +106,17 @@ void AllPicView::initConnections()
                 info.paths = paths;
             }
 
+            QStringList pathlist;
+            pathlist.clear();
+            for(auto path: info.paths)
+            {
+                if (QFileInfo(path).exists())
+                {
+                    pathlist<<path;
+                }
+            }
+
+            info.paths = pathlist;
             emit dApp->signalM->startSlideShow(info);
             emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
         } else {

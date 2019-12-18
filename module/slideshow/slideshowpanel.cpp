@@ -384,9 +384,24 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 //        m_cancelslideshow->raise();
 //    }
 
-    emit dApp->signalM->initButton();
+//    emit dApp->signalM->initButton();
 
 //    slideshowbottombar->playpauseButton(a);
+
+    if (1 < vinfo.paths.length())
+    {
+        slideshowbottombar->m_preButton->setEnabled(true);
+        slideshowbottombar->m_nextButton->setEnabled(true);
+        slideshowbottombar->m_playpauseButton->setEnabled(true);
+        emit dApp->signalM->initButton();
+    }
+    else
+    {
+        slideshowbottombar->m_preButton->setEnabled(false);
+        slideshowbottombar->m_nextButton->setEnabled(false);
+        slideshowbottombar->m_playpauseButton->setEnabled(false);
+        emit dApp->signalM->updatePauseButton();
+    }
 
     int nParentWidth = QApplication::desktop()->screenGeometry().width();
     int nParentHeight = QApplication::desktop()->screenGeometry().height();
