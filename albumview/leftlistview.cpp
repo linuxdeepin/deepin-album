@@ -224,6 +224,23 @@ void LeftListView::initConnections()
             item->newAlbumStatus();
         }
     });
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=] {
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if(themeType == DGuiApplicationHelper::LightType)
+        {
+            m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",
+                                          ":/resources/images/sidebar/active/add_hover.svg",
+                                          ":/resources/images/sidebar/active/add_press.svg",
+                                          ":/resources/images/sidebar/active/add_focus.svg");
+        }
+        if(themeType == DGuiApplicationHelper::DarkType)
+        {
+            m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/active/add_normal_dark.svg",
+                                          ":/resources/images/sidebar/active/add_hover_dark.svg",
+                                          ":/resources/images/sidebar/active/add_press_dark.svg",
+                                          ":/resources/images/sidebar/active/add_focus_dark.svg");
+        }
+    });
 }
 
 void LeftListView::initUI()
@@ -307,10 +324,23 @@ void LeftListView::initUI()
     DFontSizeManager::instance()->bind(m_pCustomizeLabel, DFontSizeManager::T6, QFont::Medium);
     m_pCustomizeLabel->setForegroundRole(DPalette::TextTips);
     m_pCustomizeLabel->setText(tr("Album List"));
+    m_pAddListBtn = new AlbumImageButton();
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if(themeType == DGuiApplicationHelper::LightType)
+    {
+        m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",
+                                      ":/resources/images/sidebar/active/add_hover.svg",
+                                      ":/resources/images/sidebar/active/add_press.svg",
+                                      ":/resources/images/sidebar/active/add_focus.svg");
+    }
+    if(themeType == DGuiApplicationHelper::DarkType)
+    {
+        m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/active/add_normal_dark.svg",
+                                      ":/resources/images/sidebar/active/add_hover_dark.svg",
+                                      ":/resources/images/sidebar/active/add_press_dark.svg",
+                                      ":/resources/images/sidebar/active/add_focus_dark.svg");
+    }
 
-    m_pAddListBtn = new AlbumImageButton(":/resources/images/sidebar/normal/add_normal.svg",
-                                        ":/resources/images/sidebar/active/add_hover.svg",
-                                        ":/resources/images/sidebar/active/add_press.svg");
     m_pAddListBtn->setFixedSize(37, 37);
     m_pAddListBtn->setFocusPolicy(Qt::NoFocus);
 
