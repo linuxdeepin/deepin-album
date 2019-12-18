@@ -28,12 +28,39 @@
 #include <dblockdevice.h>
 #include <ddiskdevice.h>
 #include "leftlistwidget.h"
+#include <QRunnable>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
 class DGioVolumeManager;
 class AlbumView;
+
+class ThreadRenderImage : public QObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ThreadRenderImage();
+    void setData(QFileInfo fileinfo, QString path, QMap<QString, QPixmap> *map, QStringList *list);
+//    void setRestart();
+//    bool isRunning();
+//    void setRunningTrue();
+
+protected:
+    virtual void run();
+
+//signals:
+//    void signal_RenderFinish(QPixmap, QString);
+private:
+    QString m_path = "";
+    QFileInfo m_fileinfo;
+    QMap<QString, QPixmap> *m_map = nullptr;
+    QStringList *m_pathlist = nullptr;
+//    bool restart;
+//    double m_width;
+//    double m_height;
+//    bool b_running;
+};
 
 class MountLoader : public QObject
 {
@@ -142,7 +169,7 @@ public:
     int m_selPicNum;
 
     DStackedWidget *m_pRightStackWidget;
-    LeftListView* m_pLeftListView;
+    LeftListView *m_pLeftListView;
     StatusBar *m_pStatusBar;
     DWidget *m_pRightWidget;
     ThumbnailListView *m_pRightThumbnailList;
@@ -195,7 +222,7 @@ private:
     DWidget *pImportTimeLineWidget;
     QMap<QUrl, QString> durlAndNameMap;
     void getAllDeviceName();
-    DSpinner* m_spinner;
+    DSpinner *m_spinner;
     DLabel *m_pImportTitle;
 };
 
