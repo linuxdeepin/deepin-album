@@ -85,17 +85,14 @@ SlideEffect *SlideEffect::create(const EffectId &id)
         int count = 0; // To avoid find no match effect
         while (true || count < 100) {
             QList<std::function<SlideEffect*()>> cs = effects.values();
-//            const int idx = rand() % cs.size();
-//            std::function<SlideEffect*()> c = cs.at(idx);
-            std::function<SlideEffect*()> c;
-            if ("enter_from_left" == id)
-            {
-                c = cs.at(0);
-            }
-            else if ("enter_from_right" == id)
-            {
-                c = cs.at(1);
-            }
+            const int idx = rand() % cs.size();
+            std::function<SlideEffect*()> c = cs.at(idx);
+//            std::function<SlideEffect*()> c;
+//            if ("enter_from_left" == id) {
+//                c = cs.at(0);
+//            } else if ("enter_from_right" == id) {
+//                c = cs.at(1);
+//            }
 
             SlideEffect *e = c();
             // Check if effect should show

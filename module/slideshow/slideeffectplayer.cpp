@@ -68,13 +68,11 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
 
 SlideEffectPlayer::~SlideEffectPlayer()
 {
-    if (m_thread.isRunning())
-    {
+    if (m_thread.isRunning()) {
         m_thread.quit();
     }
 
-    if (m_effect)
-    {
+    if (m_effect) {
         delete m_effect;
         m_effect = nullptr;
     }
@@ -164,8 +162,7 @@ bool SlideEffectPlayer::startNext()
         return false;
     }
 
-    if(1 == m_paths.length())
-    {
+    if (1 == m_paths.length()) {
         return false;
     }
 
@@ -174,8 +171,7 @@ bool SlideEffectPlayer::startNext()
         current = 0;
     }
 
-    if (m_cacheImages.value(m_paths[current]).isNull())
-    {
+    if (m_cacheImages.value(m_paths[current]).isNull()) {
         return false;
     }
 
@@ -200,7 +196,8 @@ bool SlideEffectPlayer::startNext()
 //        loop.exec();
 //    }
     QString newPath = m_paths[m_current];
-    m_effect = SlideEffect::create("enter_from_right");
+    m_effect = SlideEffect::create("");
+//    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
     if (!b_4k) {
         m_effect->setDuration(ANIMATION_DURATION);
@@ -251,19 +248,16 @@ bool SlideEffectPlayer::startPrevious()
         return false;
     }
 
-    if(1 == m_paths.length())
-    {
+    if (1 == m_paths.length()) {
         return false;
     }
 
     int current = m_current - 1;
-    if (current == -1)
-    {
+    if (current == -1) {
         current = m_paths.length() - 1;
     }
 
-    if (m_cacheImages.value(m_paths[current]).isNull())
-    {
+    if (m_cacheImages.value(m_paths[current]).isNull()) {
         return false;
     }
 
@@ -326,12 +320,11 @@ void SlideEffectPlayer::cacheNext()
 
     QString path = m_paths[current];
 
-    if(m_cacheImages.value(path).isNull())
-    {
+    if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
-                this, [=] (const QString path, const QImage img) {
-            qDebug()<<"m_cacheImages.insert(path, img)";
+        this, [ = ] (const QString path, const QImage img) {
+            qDebug() << "m_cacheImages.insert(path, img)";
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
@@ -350,8 +343,7 @@ void SlideEffectPlayer::cachePrevious()
 
     QString path = m_paths[current];
 
-    if(m_cacheImages.value(path).isNull())
-    {
+    if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
