@@ -566,16 +566,40 @@ void ImportTimeLineView::updataLayout()
                     curRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
                 }
             }
-            if(!lastChanged && -1 != curRow){
+
+            if(!lastChanged && -1 != curRow && -1 != m_lastShiftRow){
                 for(int i = 0;i < m_allThumbnailListView.length();i++){
                     m_allThumbnailListView[i]->clearSelection();
                 }
+//                qDebug() << "lastClickedIndex" << lastClickedIndex << endl
+//                         <<  "m_lastShiftClickedIndex"  << m_lastShiftClickedIndex << endl
+//                         << lastRow << endl
+//                         <<m_lastShiftRow;
+//                if(m_lastShiftClickedIndex < lastClickedIndex){
+//                    m_allThumbnailListView[m_lastShiftClickedIndex]->clearSelectionRear(m_lastShiftRow);
+//                    m_allThumbnailListView[lastClickedIndex]->clearSelectionFront(lastRow);
+//                    for(int i = m_lastShiftClickedIndex+1;i < lastClickedIndex;i++){
+//                        m_allThumbnailListView[i]->clearSelection();
+//                    }
+//                }else if(m_lastShiftClickedIndex > lastClickedIndex){
+//                    m_allThumbnailListView[m_lastShiftClickedIndex]->clearSelectionFront(m_lastShiftRow);
+//                    m_allThumbnailListView[lastClickedIndex]->clearSelectionRear(lastRow);
+//                    for(int i = lastClickedIndex+1;i < m_lastShiftClickedIndex;i++){
+//                        m_allThumbnailListView[i]->clearSelection();
+//                    }
+//                }else if(m_lastShiftClickedIndex == lastClickedIndex){
+//                    if(m_lastShiftRow <= lastRow)
+//                        pThumbnailListView->clearSelectionExtent(m_lastShiftRow,lastRow);
+//                    else
+//                        pThumbnailListView->clearSelectionExtent(lastRow,m_lastShiftRow);
+//                }
             }
-            if(curRow == -1 || lastRow == -1)
+
+            if(curRow == -1 || lastRow == -1){
                 for(int i = 0;i < m_allThumbnailListView.length();i++){
                     m_allThumbnailListView[i]->clearSelection();
                 }
-            else{
+            }else{
                 if(lastClickedIndex < curClickedIndex){
                     m_allThumbnailListView[lastClickedIndex]->selectRear(lastRow);
                     m_allThumbnailListView[curClickedIndex]->selectFront(curRow);
@@ -596,6 +620,8 @@ void ImportTimeLineView::updataLayout()
                 }
                 emit sigUpdatePicNum();
                 updateChoseText();
+                m_lastShiftRow = curRow;
+                m_lastShiftClickedIndex = curClickedIndex;
                 curRow = -1;
                 lastChanged = false;
             }
@@ -610,6 +636,8 @@ void ImportTimeLineView::updataLayout()
                         lastChanged = true;
                 }
             }
+            emit sigUpdatePicNum();
+            updateChoseText();
         });
 
         connect(pThumbnailListView, &ThumbnailListView::sigGetSelectedPaths, this, [ = ](QStringList * pPaths) {
@@ -630,16 +658,16 @@ void ImportTimeLineView::updataLayout()
             pSuspensionChose->setText(b[0]->text());
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigDrop, this, [ = ] {
-            for (int i = 0; i < m_allThumbnailListView.length(); i++)
-            {
-                if (pThumbnailListView != m_allThumbnailListView[i]) {
-                    m_allThumbnailListView[i]->clearSelection();
-                }
-            }
-            emit sigUpdatePicNum();
-            updateChoseText();
-        });
+//        connect(pThumbnailListView, &ThumbnailListView::sigDrop, this, [ = ] {
+//            for (int i = 0; i < m_allThumbnailListView.length(); i++)
+//            {
+//                if (pThumbnailListView != m_allThumbnailListView[i]) {
+//                    m_allThumbnailListView[i]->clearSelection();
+//                }
+//            }
+//            emit sigUpdatePicNum();
+//            updateChoseText();
+//        });
 
         connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ] {
             emit sigUpdatePicNum();

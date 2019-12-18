@@ -85,6 +85,8 @@ private:
 
     int lastClickedIndex;
     int lastRow = -1;
+    int m_lastShiftRow = -1;
+    int m_lastShiftClickedIndex = -1;
     bool lastChanged = false;
 public:
     int m_index;

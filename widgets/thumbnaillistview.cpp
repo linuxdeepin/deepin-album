@@ -80,6 +80,11 @@ static QString myMimeType()
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 {
+    if((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
+            && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED));
+        else
+        DListView::mousePressEvent(event);
+
     qDebug() << "m_imageType: " << m_imageType << " ;dragDropMode(): " << dragDropMode();
     if ((m_imageType != COMMON_STR_VIEW_TIMELINE) && (m_imageType != "All Photos") &&
         (m_imageType != COMMON_STR_TRASH) && (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
@@ -108,10 +113,6 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         }
     }
 
-    if((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
-            && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED));
-        else
-        DListView::mousePressEvent(event);
 }
 
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
@@ -151,8 +152,12 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
     qDebug() << "ThumbnailListView::mouseReleaseEvent()";
     DListView::mouseReleaseEvent(event);
-    if(QApplication::keyboardModifiers() == Qt::NoModifier)
-    emit sigMouseRelease();
+    if(COMMON_STR_RECENT_IMPORTED  == m_imageType){
+        if(QApplication::keyboardModifiers() == Qt::NoModifier)
+            emit sigMouseRelease();
+    }else {
+        emit sigMouseRelease();
+    }
 }
 
 void ThumbnailListView::keyPressEvent(QKeyEvent *event)
@@ -223,7 +228,7 @@ void ThumbnailListView::dragLeaveEvent(QDragLeaveEvent *event)
 
 void ThumbnailListView::dropEvent(QDropEvent *event)
 {
-    emit sigDrop();
+//    emit sigDrop();
     qDebug() << "ThumbnailListView::dropEvent()";
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover"))
         return;    
@@ -971,7 +976,7 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
 
     return false;
 }
-
+#if 1
 QModelIndexList ThumbnailListView::getSelectedIndexes()
 {
     return selectedIndexes();
@@ -1011,6 +1016,33 @@ void ThumbnailListView::selectExtent(int start, int end)
         selectionModel()->select(qindex, QItemSelectionModel::Select);
     }
 }
+
+void ThumbnailListView::clearSelectionRear(int row)
+{
+    for(int i = row;i < m_model->rowCount();i++){
+        QModelIndex qindex = m_model->index(i,0);
+        selectionModel()->select(qindex,QItemSelectionModel::Deselect);
+    }
+//    QModelIndex qindex = m_model->index(row,0);
+//    selectionModel()->select(qindex,QItemSelectionModel::Clear);
+}
+
+void ThumbnailListView::clearSelectionFront(int row)
+{
+    for(int i = row;i >= 0;i--){
+        QModelIndex qindex = m_model->index(i,0);
+        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
+    }
+}
+
+void ThumbnailListView::clearSelectionExtent(int start, int end)
+{
+    for(int i = start;i <= end;i++){
+        QModelIndex qindex = m_model->index(i,0);
+        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
+    }
+}
+#endif
 //add start 3975
 int ThumbnailListView::getListViewHeight()
 {

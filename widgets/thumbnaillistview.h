@@ -103,6 +103,9 @@ public:
     void selectRear(int row);
     void selectFront(int row);
     void selectExtent(int start,int end);
+    void clearSelectionRear(int row);
+    void clearSelectionFront(int row);
+    void clearSelectionExtent(int start,int end);
 
 signals:
     void loadend(int);
@@ -118,13 +121,14 @@ signals:
     void sigKeyEvent(int key);
 #if 1
     void sigMouseRelease();
+//    void sigCtrlMouseRelease();
     void sigMousePress(QMouseEvent *event);
     void sigShiftMousePress(QMouseEvent *event);
     void sigCtrlMousePress(QMouseEvent *event);
     void sigMenuItemDeal( QAction *action);
     void sigSelectAll();
     void sigMouseMove();
-    void sigDrop();
+//    void sigDrop();
 #endif
 
 protected:
