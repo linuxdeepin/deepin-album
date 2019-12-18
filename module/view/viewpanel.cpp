@@ -228,7 +228,8 @@ DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
         DBImgInfo imgInfo;
 
         // 在 Qt 5.6 上的一个Bug，QFileInfo("").absoluteFilePath()会返回当前目录的绝对路径
-        if (info.isFile()) {
+//        if (info.isFile())
+        {
             imgInfo.fileName = info.fileName();
             imgInfo.filePath = info.absoluteFilePath();
         }
@@ -856,7 +857,8 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
 
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+//        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+        m_emptyWidget->setThumbnailImage(dApp->m_imagemap.value(path));
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable()) {
         m_stack->setCurrentIndex(2);

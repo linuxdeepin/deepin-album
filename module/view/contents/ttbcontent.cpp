@@ -729,6 +729,16 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
 void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 {
+    if (!infos.isEmpty() && !QFileInfo(path).exists()) {
+        emit dApp->signalM->picNotExists(true);
+        if (infos.size() == 1)
+            return;
+        qDebug() << "QFileInfo(path) is not exists.Path:" << path;
+    }
+    else {
+        emit dApp->signalM->picNotExists(false);
+    }
+
     if (infos.size() != m_imgInfos.size()) {
         m_imgInfos.clear();
         m_imgInfos = infos;
@@ -741,8 +751,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 
         }
     }
-    if (path.isEmpty() || !QFileInfo(path).exists()
-            || !QFileInfo(path).isReadable()) {
+
+    if ((QFileInfo(path).exists()) &&
+            (path.isEmpty() || !QFileInfo(path).exists() || !QFileInfo(path).isReadable())) {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
@@ -752,7 +763,6 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     } else {
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
-
 
         int t = 0;
         if ( m_imgInfos.size() > 3 ) {

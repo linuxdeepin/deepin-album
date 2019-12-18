@@ -139,6 +139,7 @@ signals:
     void sigImportFailedToView();
 	void sigShortcutKeyDelete();
     void sigShortcutKeyF2();
+    void picNotExists(bool immediately = false);
 
 private:
     explicit SignalManager(QObject *parent = 0);

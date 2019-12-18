@@ -25,12 +25,15 @@
 #include "utils/baseutils.h"
 #include <QImageReader>
 #include <DGuiApplicationHelper>
+#include "controller/signalmanager.h"
+#include <DLabel>
+#include <DFontSizeManager>
 
 namespace  {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
 const QString ICON_IMPORT_PHOTO_DARK = ":/resources/dark/images/icon_import_photo dark.svg";
-const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/58.svg";
+const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/icon_import_photo.svg";
 }
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
@@ -38,37 +41,35 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 {
 
     m_picString = "";
-
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
-      m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
+      m_picString = ICON_IMPORT_PHOTO_DARK;
+      m_theme = true;
     }
     else {
-      m_picString = ":/resources/light/images/icon_import_photo.svg";
+      m_picString = ICON_IMPORT_PHOTO_LIGHT;
+      m_theme = false;
     }
 
-    QImageReader ir(m_picString);
-    ir.setScaledSize(QSize(128, 128) * devicePixelRatioF());
-    QPixmap logo_pix = QPixmap::fromImage(ir.read());
-    logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
+    QPixmap logo_pix = utils::base::renderSVG(m_picString,THUMBNAIL_SIZE);
     m_logo = logo_pix;
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-
         m_picString = "";
         if (themeType == DGuiApplicationHelper::DarkType) {
-          m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
+          m_picString = ICON_IMPORT_PHOTO_DARK;
+          m_theme = true;
         }
         else {
-          m_picString = ":/resources/light/images/icon_import_photo.svg";
+          m_picString = ICON_IMPORT_PHOTO_LIGHT;
+          m_theme = false;
         }
 
-        QImageReader ir(m_picString);
-        ir.setScaledSize(QSize(128, 128) * devicePixelRatioF());
-        QPixmap logo_pix = QPixmap::fromImage(ir.read());
-        logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
+        QPixmap logo_pix = utils::base::renderSVG(m_picString,THUMBNAIL_SIZE);
         m_logo = logo_pix;
+        if(m_isDefaultThumbnail)
+            m_defaultImage = logo_pix;
         update();
     });
 
@@ -84,11 +85,25 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     m_tips->setText(tr("No image files found"));
 #else
 
-    DSuggestButton *button = new DSuggestButton(tr("Open the picture"), this);
-    button->setFixedWidth(302);
-    button->setFixedHeight(36);
-    button->setShortcut(QKeySequence("Ctrl+O"));
-    connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
+    DLabel* tips = new DLabel(this);
+    tips->setText(tr("Image file not found"));
+    DFontSizeManager::instance()->bind(tips, DFontSizeManager::T6);
+    tips->setForegroundRole(DPalette::TextTips);
+    tips->hide();
+
+//    DSuggestButton *button = new DSuggestButton(tr("Open the picture"), this);
+//    button->setFixedWidth(302);
+//    button->setFixedHeight(36);
+//    button->setShortcut(QKeySequence("Ctrl+O"));
+//    connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
+
+    connect(dApp->signalM, &SignalManager::picNotExists, this, [=](bool visible) {
+        if(visible){
+            tips->show();
+        }else {
+            tips->hide();
+        }
+    });
 #endif
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addStretch();
@@ -97,7 +112,8 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 #ifndef LITE_DIV
     layout->addWidget(m_tips,  0, Qt::AlignCenter);
 #else
-    layout->addWidget(button,  0, Qt::AlignCenter);
+    layout->addWidget(tips,  0, Qt::AlignCenter);
+//    layout->addWidget(button,  0, Qt::AlignCenter);
 #endif
     layout->addStretch();
     setLayout(layout);
@@ -111,11 +127,11 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
     if (theme == ViewerThemeManager::Dark) {
         m_inBorderColor = utils::common::DARK_BORDER_COLOR;
         if(m_isDefaultThumbnail)
-            m_defaultImage = QPixmap(m_logo);
+            m_defaultImage = m_logo;
     } else {
         m_inBorderColor = utils::common::LIGHT_BORDER_COLOR;
         if(m_isDefaultThumbnail)
-            m_defaultImage = QPixmap(m_logo);
+            m_defaultImage = m_logo;
     }
 
     ThemeWidget::onThemeChanged(theme);
@@ -125,12 +141,11 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
 void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 {
     if (thumbnail.isNull()) {
-        if (isDeepMode()) {
-            m_defaultImage = QPixmap(m_logo);
+        if (m_theme) {
+            m_defaultImage = m_logo;
         } else {
-            m_defaultImage = QPixmap(m_logo);
+            m_defaultImage = m_logo;
         }
-
         m_isDefaultThumbnail = true;
     } else {
         m_defaultImage = thumbnail;
@@ -148,31 +163,32 @@ bool ThumbnailWidget::isDefaultThumbnail()
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-//    if (m_defaultImage.isNull()) {
-//        if (isDeepMode()) {
-//            m_defaultImage = QPixmap(m_logo);
-//        } else {
-//            m_defaultImage = QPixmap(m_logo);
-//        }
-//        m_isDefaultThumbnail = true;
-//    }
-//    if (m_defaultImage.size() != THUMBNAIL_SIZE) {
-//        m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
-//                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
-//    }
-	
+    if (m_defaultImage.isNull()) {
+        if (m_theme) {
+            m_defaultImage = m_logo;
+        } else {
+            m_defaultImage = m_logo;
+        }
+        m_isDefaultThumbnail = true;
+    }
+
+    if (m_defaultImage.size() != THUMBNAIL_SIZE) {
+        m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
+                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+
     QPoint startPoint = mapToParent(QPoint(m_thumbnailLabel->x(),
                                            m_thumbnailLabel->y()));
     QPoint imgStartPoint = QPoint(startPoint.x() + (THUMBNAIL_SIZE.width() -
-           m_logo.width())/2 + 1, startPoint.y() + (THUMBNAIL_SIZE.height()
-           - m_logo.height())/2 + 1);
+           128)/2 + 1, startPoint.y() + (THUMBNAIL_SIZE.height()
+           - 128)/2 + 1);
     QRect imgRect = QRect(imgStartPoint.x(), imgStartPoint.y(),
-                          m_logo.width(), m_logo.height());
+                          128, 128);
 
     QPainter painter(this);
     painter.setRenderHints(QPainter::HighQualityAntialiasing |
                            QPainter::SmoothPixmapTransform);
-    painter.drawPixmap(imgRect, m_logo);
+    painter.drawPixmap(imgRect, m_defaultImage);
 }
 
 void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
