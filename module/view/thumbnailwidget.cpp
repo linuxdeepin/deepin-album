@@ -86,7 +86,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 #else
 
     DLabel* tips = new DLabel(this);
-    tips->setText(tr("Image file not found"));
+    tips->setText(tr("Photo not found"));
     DFontSizeManager::instance()->bind(tips, DFontSizeManager::T6);
     tips->setForegroundRole(DPalette::TextTips);
     tips->hide();

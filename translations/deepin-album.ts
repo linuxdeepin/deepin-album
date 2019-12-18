@@ -1629,7 +1629,11 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Open the picture</source>
-        <translation>打开图片</translation>
+        <translation type="vanished">打开图片</translation>
+    </message>
+    <message>
+        <source>Photo not found</source>
+        <translation>没有发现照片文件</translation>
     </message>
 </context>
 <context>
