@@ -154,7 +154,7 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onShowImageInfo(const QString &path);
     void initMenuAction();
-    QMenu *createAlbumMenu();
+    DMenu *createAlbumMenu();
 
     void resizeEvent(QResizeEvent *e) override;
 
@@ -175,7 +175,7 @@ private:
 
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;
-    QMenu *m_albumMenu;
+    DMenu *m_albumMenu;
 
     QList<QString> m_timelines;
     QStringList m_dragItemPath;

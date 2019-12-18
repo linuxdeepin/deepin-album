@@ -441,15 +441,6 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
         return;
     }
 
-    // 如果选中1张图片,且该图片原文件不存在,则不显示右键菜单
-    if (1 == selectedPaths().length())
-    {
-        if (!QFileInfo(selectedPaths().at(0)).exists())
-        {
-            return;
-        }
-    }
-
     updateMenuContents();
     m_pMenu->popup(QCursor::pos());
 }
@@ -469,6 +460,40 @@ void ThumbnailListView::updateMenuContents()
 
     foreach (QAction *action, m_MenuActionMap.values()) {
         action->setVisible(true);
+        action->setEnabled(true);
+    }
+
+    if ((1 == paths.length()) && (!QFileInfo(paths[0]).exists()) && (COMMON_STR_TRASH != m_imageType))
+    {
+        m_MenuActionMap.value(tr("View"))->setEnabled(true);
+        m_MenuActionMap.value(tr("Fullscreen"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Export"))->setEnabled(false);
+        m_albumMenu->deleteLater();
+        m_albumMenu = createAlbumMenu();
+        if (m_albumMenu) {
+            QAction *action = m_MenuActionMap.value(tr("Export"));
+            action->setEnabled(false);
+            m_albumMenu->setEnabled(false);
+            m_pMenu->insertMenu(action, m_albumMenu);
+        }
+        m_MenuActionMap.value(tr("Copy"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Delete"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
+        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0])) {
+            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+            m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
+        } else {
+            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+            m_MenuActionMap.value(tr("Favorite"))->setEnabled(false);
+        }
+        m_MenuActionMap.value(tr("Rotate clockwise"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Rotate counterclockwise"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Display in file manager"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Photo info"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Set as wallpaper"))->setEnabled(false);
+
+        return;
     }
 
     if (1 != paths.length()) {
@@ -612,9 +637,9 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
 }
 
-QMenu *ThumbnailListView::createAlbumMenu()
+DMenu *ThumbnailListView::createAlbumMenu()
 {
-    QMenu *am = new QMenu(tr("Add to album"));
+    DMenu *am = new DMenu(tr("Add to album"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
