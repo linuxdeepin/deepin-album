@@ -368,9 +368,15 @@ void ImgInfoDialog::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);
     connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=](){
         QRect rc = geometry();
-        rc.setHeight(contentHeight()+20);
-        setGeometry(rc);
-        this->setFixedHeight(qMin(615,contentHeight()+5));
+        if(m_expandGroup.count() == 2){
+            rc.setHeight(contentHeight()+40);
+            setGeometry(rc);
+            this->setFixedHeight(qMin(615,contentHeight()+ 15));
+        }else {
+            rc.setHeight(contentHeight()+40);
+            setGeometry(rc);
+            this->setFixedHeight(qMin(615,contentHeight()+ 25));
+        }
 //        if(expand->expand()){
 //            emit dApp->signalM->extensionPanelHeight(qMin(615,contentHeight()+5));
 //        }
@@ -391,7 +397,7 @@ int ImgInfoDialog::contentHeight() const
     for (const DBaseExpand *expand : m_expandGroup) {
         expandsHeight += expand->height();
     }
-    return (70 + expandsHeight + contentsMargins().top() +
+    return (50 + expandsHeight + contentsMargins().top() +
              contentsMargins().bottom());
 }
 

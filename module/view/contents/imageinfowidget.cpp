@@ -127,6 +127,10 @@ public:
         }
     }
 protected:
+
+    void mouseMoveEvent(QMouseEvent *e) override{
+        qDebug() << "mouseMoveEvent";
+    }
     void paintEvent(QPaintEvent *event) override
     {
         Q_UNUSED(event);

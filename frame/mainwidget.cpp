@@ -118,21 +118,21 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         m_btmSeparatorLine->move(0, window()->height() -
                                  m_bottomToolbar->height() - 1);
     }
-    if (m_extensionPanel) {
-        if (this->window()->isFullScreen()) {
-            if (m_extensionPanel->x() < e->oldSize().width()) {
-                m_extensionPanel->move((width() - EXTENSION_PANEL_WIDTH - 24), 0);
-            } else {
-                m_extensionPanel->move(width(), 0);
-            }
-        } else {
-            if (m_extensionPanel->x() < e->oldSize().width()) {
-                m_extensionPanel->move((width() - EXTENSION_PANEL_WIDTH - 24), TOP_TOOLBAR_HEIGHT);
-            } else {
-                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
-            }
-        }
-    }
+//    if (m_extensionPanel) {
+//        if (this->window()->isFullScreen()) {
+//            if (m_extensionPanel->x() < e->oldSize().width()) {
+//                m_extensionPanel->move((width() - EXTENSION_PANEL_WIDTH - 24), 0);
+//            } else {
+//                m_extensionPanel->move(width(), 0);
+//            }
+//        } else {
+//            if (m_extensionPanel->x() < e->oldSize().width()) {
+//                m_extensionPanel->move((width() - EXTENSION_PANEL_WIDTH - 24), TOP_TOOLBAR_HEIGHT);
+//            } else {
+//                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
+//            }
+//        }
+//    }
 }
 
 void MainWidget::showEvent(QShowEvent *event)
