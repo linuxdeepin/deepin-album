@@ -70,6 +70,12 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
     pa1.setBrush(DPalette::Background, pa1.color(DPalette::Base));
     m_dateItem->setForegroundRole(DPalette::Background);
     m_dateItem->setPalette(pa1);
+
+    //add start 3975
+    DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_pImportTitle);
+    ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
+    m_pImportTitle->setPalette(ppal_light2);
+    //add end 3975
 //    DPalette pa = DApplicationHelper::instance()->palette(m_pDate);
 //    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
 //    m_pDate->setForegroundRole(DPalette::Text);
