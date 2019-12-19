@@ -97,7 +97,7 @@ void TimeLineView::initConnections()
         pImportView->onImprotBtnClicked();
     });
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
-        if(isVisible())
+        if (isVisible())
         {
             m_spinner->hide();
             m_spinner->stop();
@@ -238,8 +238,8 @@ void TimeLineView::initTimeLineViewWidget()
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
             p[0]->selectAll();
             updatePicNum();
-            for(int i = 0; i < m_allChoseButton.length();i++){
-                if(m_allThumbnailListView[i] == p[0]){
+            for (int i = 0; i < m_allChoseButton.length(); i++) {
+                if (m_allThumbnailListView[i] == p[0]) {
                     lastClickedIndex = i;
                     lastRow = 0;
                     lastChanged = true;
@@ -542,8 +542,8 @@ void TimeLineView::updataLayout()
             if (QObject::tr("Select") == pChose->text())
             {
                 pChose->setText(QObject::tr("Unselect"));
-                for(int i = 0;i < m_allChoseButton.length();i++){
-                    if(pChose == m_allChoseButton[i])
+                for (int i = 0; i < m_allChoseButton.length(); i++) {
+                    if (pChose == m_allChoseButton[i])
                         lastClickedIndex = i;
                 }
                 lastRow = 0;
@@ -564,70 +564,69 @@ void TimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] (QMouseEvent *event){
+        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] (QMouseEvent * event) {
             lastRow = -1;
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
-                if(pThumbnailListView != m_allThumbnailListView[i]){
+            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                if (pThumbnailListView != m_allThumbnailListView[i]) {
                     m_allThumbnailListView[i]->clearSelection();
                 }
             }
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
-                if(pThumbnailListView == m_allThumbnailListView[i]){
+            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                if (pThumbnailListView == m_allThumbnailListView[i]) {
                     lastClickedIndex = i;
-                    lastRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
-                    if(-1 != lastRow)
+                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+                    if (-1 != lastRow)
                         lastChanged = true;
                 }
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ] (QMouseEvent *event){
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
-                if(pThumbnailListView == m_allThumbnailListView[i]){
+        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ] (QMouseEvent * event) {
+            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                if (pThumbnailListView == m_allThumbnailListView[i]) {
                     lastClickedIndex = i;
-                    lastRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
-                    if(-1 != lastRow)
+                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+                    if (-1 != lastRow)
                         lastChanged = true;
                 }
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ] (QMouseEvent *event){
+        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ] (QMouseEvent * event) {
             int curClickedIndex = -1;
             int curRow = -1;
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
-                if(pThumbnailListView == m_allThumbnailListView[i]){
+            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                if (pThumbnailListView == m_allThumbnailListView[i]) {
                     curClickedIndex = i;
-                    curRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
+                    curRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
                 }
             }
-            if(!lastChanged && -1 != curRow){
-                for(int i = 0;i < m_allThumbnailListView.length();i++){
+            if (!lastChanged && -1 != curRow) {
+                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                     m_allThumbnailListView[i]->clearSelection();
                 }
             }
-            if(curRow == -1 || lastRow == -1)
-                for(int i = 0;i < m_allThumbnailListView.length();i++){
+            if (curRow == -1 || lastRow == -1)
+                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                     m_allThumbnailListView[i]->clearSelection();
-                }
-            else{
-                if(lastClickedIndex < curClickedIndex){
+                } else {
+                if (lastClickedIndex < curClickedIndex) {
                     m_allThumbnailListView[lastClickedIndex]->selectRear(lastRow);
                     m_allThumbnailListView[curClickedIndex]->selectFront(curRow);
-                    for(int i = lastClickedIndex+1;i < curClickedIndex;i++){
+                    for (int i = lastClickedIndex + 1; i < curClickedIndex; i++) {
                         m_allThumbnailListView[i]->selectAll();
                     }
-                }else if(lastClickedIndex > curClickedIndex){
+                } else if (lastClickedIndex > curClickedIndex) {
                     m_allThumbnailListView[lastClickedIndex]->selectFront(lastRow);
                     m_allThumbnailListView[curClickedIndex]->selectRear(curRow);
-                    for(int i = curClickedIndex+1;i < lastClickedIndex;i++){
+                    for (int i = curClickedIndex + 1; i < lastClickedIndex; i++) {
                         m_allThumbnailListView[i]->selectAll();
                     }
-                }else if(lastClickedIndex == curClickedIndex){
-                    if(lastRow <= curRow)
-                        pThumbnailListView->selectExtent(lastRow,curRow);
+                } else if (lastClickedIndex == curClickedIndex) {
+                    if (lastRow <= curRow)
+                        pThumbnailListView->selectExtent(lastRow, curRow);
                     else
-                        pThumbnailListView->selectExtent(curRow,lastRow);
+                        pThumbnailListView->selectExtent(curRow, lastRow);
                 }
                 updatePicNum();
                 updateChoseText();
@@ -774,15 +773,15 @@ void TimeLineView::on_KeyEvent(int key)
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
-    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
+    m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
     m_dateItem->setFixedSize(width() - 15, 87);
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
 //        m_allThumbnailListView[i]->setStyleSheet("Background:yellow");
         m_allThumbnailListView[i]->setFixedWidth(width() + 2);
         QList<DLabel *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(i))->findChildren<DLabel *>();
-        b[1]->setFixedWidth(width()-14);
+        b[1]->setFixedWidth(width() - 14);
     }
-    m_pwidget->setFixedWidth(this->width()/2);
+    m_pwidget->setFixedWidth(this->width() / 2);
     m_pwidget->setFixedHeight(54);
     m_pwidget->move(this->width() / 4, this->height() - 81);
 }
@@ -927,8 +926,8 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void TimeLineView::keyPressEvent(QKeyEvent *e)
 {
-    qDebug()<<"TimeLineView::keyPressEvent()";
-    if(e->key() == Qt::Key_Control){
+    qDebug() << "TimeLineView::keyPressEvent()";
+    if (e->key() == Qt::Key_Control) {
         m_ctrlPress = true;
     }
 }
@@ -942,8 +941,8 @@ void TimeLineView::keyReleaseEvent(QKeyEvent *e)
 
 void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
-    if(QApplication::keyboardModifiers() != Qt::ControlModifier && e->button() == Qt::LeftButton){
-        for(int i = 0; i < m_allThumbnailListView.length();i++){
+    if (QApplication::keyboardModifiers() != Qt::ControlModifier && e->button() == Qt::LeftButton) {
+        for (int i = 0; i < m_allThumbnailListView.length(); i++) {
             m_allThumbnailListView[i]->clearSelection();
         }
         updatePicNum();
@@ -1016,8 +1015,7 @@ void TimeLineView::onKeyDelete()
         paths << m_allThumbnailListView[i]->selectedPaths();
     }
 
-    if (0 >= paths.length())
-    {
+    if (0 >= paths.length()) {
         return;
     }
 

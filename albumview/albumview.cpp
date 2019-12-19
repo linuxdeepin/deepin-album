@@ -569,7 +569,7 @@ void AlbumView::initRightView()
 
     // Thumbnail View
     //    DWidget *pNoTrashWidget = new DWidget();  //del 3975
-        m_pNoTrashWidget = new DWidget(); //add 3975
+    m_pNoTrashWidget = new DWidget(); //add 3975
     //    pNoTrashWidget->setBackgroundRole(DPalette::Window);  //del 3975
     //add start 3975
     DPalette palcolor = DApplicationHelper::instance()->palette(m_pNoTrashWidget);
@@ -608,7 +608,7 @@ void AlbumView::initRightView()
 //del end 3975
     //add start 3975
     DListWidget *lsitWidget = new DListWidget();
-    lsitWidget->setContentsMargins(0 ,0, 0, 0);
+    lsitWidget->setContentsMargins(0, 0, 0, 0);
     lsitWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     lsitWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
@@ -621,23 +621,23 @@ void AlbumView::initRightView()
     m_pNoTrashWidget->setLayout(p_all);
 
     DWidget *blankWidget = new DWidget();
-    QListWidgetItem *item=new QListWidgetItem();
+    QListWidgetItem *item = new QListWidgetItem();
 
     item->setFlags(Qt::NoItemFlags);
-    lsitWidget->insertItem(0,item);
+    lsitWidget->insertItem(0, item);
     lsitWidget->setItemWidget(item, blankWidget);
-    item->setSizeHint(QSize(width(),83));
+    item->setSizeHint(QSize(width(), 83));
 
-    m_noTrashItem=new QListWidgetItem();
+    m_noTrashItem = new QListWidgetItem();
     m_noTrashItem->setFlags(Qt::NoItemFlags);
-    lsitWidget->insertItem(1,m_noTrashItem);
+    lsitWidget->insertItem(1, m_noTrashItem);
     lsitWidget->setItemWidget(m_noTrashItem, m_pRightThumbnailList);
 
     m_pRightThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_pRightThumbnailList->setViewportMargins(-6,0,0,0);
-    m_pRightThumbnailList->setContentsMargins(0,0,0,0);
+    m_pRightThumbnailList->setViewportMargins(-6, 0, 0, 0);
+    m_pRightThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_pNoTrashTitle = new DWidget(m_pNoTrashWidget);
     m_pNoTrashTitle->setLayout(pNoTrashVBoxLayout);
 
@@ -648,8 +648,8 @@ void AlbumView::initRightView()
     m_pNoTrashTitle->setPalette(ppal_light);
     m_pNoTrashTitle->setGraphicsEffect(opacityEffect_light);
     m_pNoTrashTitle->setAutoFillBackground(true);
-    m_pNoTrashTitle->move(0,0);
-    m_pNoTrashTitle->setFixedSize(this->width()-200,83);
+    m_pNoTrashTitle->move(0, 0);
+    m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
     //add end 3975
 
     // Trash View
@@ -724,7 +724,7 @@ void AlbumView::initRightView()
 //del end 3975
     //add start 3975
     DListWidget *lsitWidget3 = new DListWidget();
-    lsitWidget3->setContentsMargins(0 ,0, 0, 0);
+    lsitWidget3->setContentsMargins(0, 0, 0, 0);
     lsitWidget3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     lsitWidget3->setVerticalScrollMode(QListWidget::ScrollPerPixel);
@@ -737,23 +737,23 @@ void AlbumView::initRightView()
     m_pTrashWidget->setLayout(p_Trash);
 
     DWidget *blankWidget3 = new DWidget();
-    QListWidgetItem *Trashitem=new QListWidgetItem();
+    QListWidgetItem *Trashitem = new QListWidgetItem();
 
     Trashitem->setFlags(Qt::NoItemFlags);
-    lsitWidget3->insertItem(0,Trashitem);
+    lsitWidget3->insertItem(0, Trashitem);
     lsitWidget3->setItemWidget(Trashitem, blankWidget3);
-    Trashitem->setSizeHint(QSize(width(),83));
+    Trashitem->setSizeHint(QSize(width(), 83));
 
-    m_TrashitemItem=new QListWidgetItem();
+    m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
-    lsitWidget3->insertItem(1,m_TrashitemItem);
+    lsitWidget3->insertItem(1, m_TrashitemItem);
     lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
 
     m_pRightTrashThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightTrashThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_pRightTrashThumbnailList->setViewportMargins(-6,0,0,0);
-    m_pRightTrashThumbnailList->setContentsMargins(0,0,0,0);
+    m_pRightTrashThumbnailList->setViewportMargins(-6, 0, 0, 0);
+    m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_TrashTitle = new DWidget(m_pTrashWidget);
     m_TrashTitle->setLayout(pTopHBoxLayout);
 
@@ -764,13 +764,13 @@ void AlbumView::initRightView()
     m_TrashTitle->setPalette(ppal_light3);
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
-    m_TrashTitle->move(0,0);
-    m_TrashTitle->setFixedSize(this->width()-200,83);
+    m_TrashTitle->move(0, 0);
+    m_TrashTitle->setFixedSize(this->width() - 200, 83);
     //add end 3975
 
     // Favorite View
     // DWidget *pFavoriteWidget = new DWidget(); //del 3975
-    m_pFavoriteWidget= new DWidget(); //add 3975
+    m_pFavoriteWidget = new DWidget(); //add 3975
     //add start 3975
     DPalette palcolor2 = DApplicationHelper::instance()->palette(m_pFavoriteWidget);
     palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
@@ -813,7 +813,7 @@ void AlbumView::initRightView()
     //del end 3975
     //add start 3975
     DListWidget *lsitWidget2 = new DListWidget();
-    lsitWidget2->setContentsMargins(0 ,0, 0, 0);
+    lsitWidget2->setContentsMargins(0, 0, 0, 0);
     lsitWidget2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     lsitWidget2->setVerticalScrollMode(QListWidget::ScrollPerPixel);
@@ -826,23 +826,23 @@ void AlbumView::initRightView()
     m_pFavoriteWidget->setLayout(p_Favorite);
 
     DWidget *blankWidget2 = new DWidget();
-    QListWidgetItem *Favoriteitem=new QListWidgetItem();
+    QListWidgetItem *Favoriteitem = new QListWidgetItem();
 
     Favoriteitem->setFlags(Qt::NoItemFlags);
-    lsitWidget2->insertItem(0,Favoriteitem);
+    lsitWidget2->insertItem(0, Favoriteitem);
     lsitWidget2->setItemWidget(Favoriteitem, blankWidget2);
-    Favoriteitem->setSizeHint(QSize(width(),83));
+    Favoriteitem->setSizeHint(QSize(width(), 83));
 
-    m_FavoriteItem=new QListWidgetItem();
+    m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
-    lsitWidget2->insertItem(1,m_FavoriteItem);
+    lsitWidget2->insertItem(1, m_FavoriteItem);
     lsitWidget2->setItemWidget(m_FavoriteItem, m_pRightFavoriteThumbnailList);
 
     m_pRightFavoriteThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightFavoriteThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_pRightFavoriteThumbnailList->setViewportMargins(-6,0,0,0);
-    m_pRightFavoriteThumbnailList->setContentsMargins(0,0,0,0);
+    m_pRightFavoriteThumbnailList->setViewportMargins(-6, 0, 0, 0);
+    m_pRightFavoriteThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_FavoriteTitle = new DWidget(m_pFavoriteWidget);
     m_FavoriteTitle->setLayout(pFavoriteVBoxLayout);
 
@@ -853,8 +853,8 @@ void AlbumView::initRightView()
     m_FavoriteTitle->setPalette(ppal_light2);
     m_FavoriteTitle->setGraphicsEffect(opacityEffect_light2);
     m_FavoriteTitle->setAutoFillBackground(true);
-    m_FavoriteTitle->move(0,0);
-    m_FavoriteTitle->setFixedSize(this->width()-200,83);
+    m_FavoriteTitle->move(0, 0);
+    m_FavoriteTitle->setFixedSize(this->width() - 200, 83);
     //add end 3975
 
     //Search View
@@ -1244,8 +1244,8 @@ void AlbumView::updateRightNoTrashView()
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(true);
     //add start 3975
-    m_noTrashItem->setSizeHint(QSize(this->width()-200,m_pRightThumbnailList->getListViewHeight()+8));
-    m_FavoriteItem->setSizeHint(QSize(this->width()-200,m_pRightFavoriteThumbnailList->getListViewHeight()+8));
+    m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8));
+    m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
     //add end 3975
 }
 
@@ -1309,7 +1309,7 @@ void AlbumView::updateRightTrashView()
 
     m_pRightTrashThumbnailList->insertThumbnails(m_curThumbnaiItemList);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
-    m_TrashitemItem->setSizeHint(QSize(this->width()-200,m_pRightTrashThumbnailList->getListViewHeight()+8)); //add 3975
+    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
 }
 
 void AlbumView::leftTabClicked()
@@ -2727,31 +2727,28 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width() / 2 + 60, (height() - 50) / 2 - 20);
     m_pImpTimeLineWidget->setFixedWidth(width() - 181);
-    m_pImpTimeLineWidget->setFixedHeight(height()-35); //edit 3975
-    m_pwidget->setFixedWidth(this->width()/2);
+    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
+    m_pwidget->setFixedWidth(this->width() / 2);
     m_pwidget->setFixedHeight(54);
     m_pwidget->move(this->width() / 4, this->height() - 81);
     //add start 3975
-    if(nullptr != m_noTrashItem){
-        m_noTrashItem->setSizeHint(QSize(this->width()-200,m_pRightThumbnailList->getListViewHeight() + 8 ));
+    if (nullptr != m_noTrashItem) {
+        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 ));
     }
-    if(nullptr != m_FavoriteItem){
-        m_FavoriteItem->setSizeHint(QSize(this->width()-200,m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+    if (nullptr != m_FavoriteItem) {
+        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
     }
-    if(nullptr != m_FavoriteItem){
-        m_TrashitemItem->setSizeHint(QSize(this->width()-200,m_pRightTrashThumbnailList->getListViewHeight()+8));
+    if (nullptr != m_FavoriteItem) {
+        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
     }
-    if(nullptr != m_pNoTrashTitle)
-    {
-        m_pNoTrashTitle->setFixedSize(this->width()-200 ,83);
+    if (nullptr != m_pNoTrashTitle) {
+        m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
     }
-    if(nullptr != m_FavoriteTitle)
-    {
-        m_FavoriteTitle->setFixedSize(this->width()-200 ,83);
+    if (nullptr != m_FavoriteTitle) {
+        m_FavoriteTitle->setFixedSize(this->width() - 200, 83);
     }
-    if(nullptr != m_TrashTitle)
-    {
-        m_TrashTitle->setFixedSize(this->width()-200 ,83);
+    if (nullptr != m_TrashTitle) {
+        m_TrashTitle->setFixedSize(this->width() - 200, 83);
     }
     //add end 3975
 }

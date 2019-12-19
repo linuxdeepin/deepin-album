@@ -44,10 +44,10 @@ const QString THEME_TEXT = "AppTheme";
 }
 
 struct CMOption {
-   QString shortOption;
-   QString longOption;
-   QString description;
-   QString valueName;
+    QString shortOption;
+    QString longOption;
+    QString description;
+    QString valueName;
 };
 
 static CMOption options[] = {
@@ -76,14 +76,15 @@ CommandLine::CommandLine()
 //    m_cmdParser.addVersionOption();
 //    m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
 //        "main", "Value that use for options."), "[value]");
-    for (const CMOption* i = options; ! i->shortOption.isEmpty(); ++i) {
+    for (const CMOption *i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
     }
 
     m_pwidget = new QWidget(this);
 }
 
-CommandLine::~CommandLine() {
+CommandLine::~CommandLine()
+{
 
 }
 
@@ -112,8 +113,8 @@ void CommandLine::showHelp()
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
 //    ViewMainWindow *w = new ViewMainWindow(false);
-    QHBoxLayout *m_layout= new QHBoxLayout;
-    m_layout->setContentsMargins(0,0,0,0);
+    QHBoxLayout *m_layout = new QHBoxLayout;
+    m_layout->setContentsMargins(0, 0, 0, 0);
     MainWidget *m_mainWidget = new MainWidget(false);
     m_layout->addWidget(m_mainWidget);
     setLayout(m_layout);
@@ -126,15 +127,15 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 //    emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
 
-    QTimer::singleShot(300, this, [=] {
+    QTimer::singleShot(300, this, [ = ] {
 
-        if(paths.count() > 0)
+        if (paths.count() > 0)
         {
             SignalManager::ViewInfo info;
             info.album = "";
-    #ifndef LITE_DIV
+#ifndef LITE_DIV
             info.inDatabase = false;
-    #endif
+#endif
             info.lastPanel = nullptr;
             info.path = path;
             info.paths = paths;
@@ -144,9 +145,8 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 
             DBImgInfoList dbInfos;
             using namespace utils::image;
-            for (auto path : paths)
-            {
-                qDebug()<<path;
+            for (auto path : paths) {
+                qDebug() << path;
                 if (! imageSupportRead(path)) {
                     continue;
                 }
@@ -156,27 +156,21 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
                 dbi.fileName = fi.fileName();
                 dbi.filePath = path;
                 dbi.dirHash = utils::base::hash(QString());
-                if(fi.birthTime().isValid())
-                {
+                if (fi.birthTime().isValid()) {
                     dbi.time = fi.birthTime();
-                }
-                else if (fi.metadataChangeTime().isValid())
-                {
+                } else if (fi.metadataChangeTime().isValid()) {
                     dbi.time = fi.metadataChangeTime();
-                }
-                else
-                {
+                } else {
                     dbi.time = QDateTime::currentDateTime();
                 }
                 dbi.changeTime = QDateTime::currentDateTime();
 
-                qDebug()<<path;
+                qDebug() << path;
                 dbInfos << dbi;
             }
 
-            if (! dbInfos.isEmpty())
-            {
-                qDebug()<<"DBManager::instance()->insertImgInfos(dbInfos)";
+            if (! dbInfos.isEmpty()) {
+                qDebug() << "DBManager::instance()->insertImgInfos(dbInfos)";
                 DBManager::instance()->insertImgInfos(dbInfos);
             }
         }
@@ -194,9 +188,9 @@ bool CommandLine::processOption(QStringList &paslist)
     }
 
     QString defaulttheme = dApp->setter->value(THEME_GROUP,
-                                                   THEME_TEXT).toString();
+                                               THEME_TEXT).toString();
 
-    if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
+    if (DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ) {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
     } else {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
@@ -204,16 +198,13 @@ bool CommandLine::processOption(QStringList &paslist)
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
-    qDebug()<<"processOption()"<<names<<pas;
+    qDebug() << "processOption()" << names << pas;
 
-    QImage* pimg = new QImage();
+    QImage *pimg = new QImage();
 
-    if(pas.count() > 0)
-    {
-        for(int i = 0; i < pas.count(); i++)
-        {
-            if(QFileInfo(pas.at(i)).isDir())
-            {
+    if (pas.count() > 0) {
+        for (int i = 0; i < pas.count(); i++) {
+            if (QFileInfo(pas.at(i)).isDir()) {
                 continue;
 //                if(!pas.at(i).isEmpty())
 //                {
@@ -224,18 +215,13 @@ bool CommandLine::processOption(QStringList &paslist)
 //                {
 //                    continue;
 //                }
-            }
-            else if(pimg->load(pas.at(i)))
-            {
+            } else if (pimg->load(pas.at(i))) {
                 paslist.append(pas.at(i));
-            }
-            else
-            {
+            } else {
                 continue;
             }
         }
-        if(paslist.isEmpty())
-        {
+        if (paslist.isEmpty()) {
             exit(0);
         }
     }
@@ -340,7 +326,7 @@ bool CommandLine::processOption(QStringList &paslist)
 void CommandLine::resizeEvent(QResizeEvent *e)
 {
 //    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-    m_pwidget->setFixedWidth(this->width()/2);
+    m_pwidget->setFixedWidth(this->width() / 2);
     m_pwidget->setFixedHeight(54);
     m_pwidget->move(this->width() / 4, this->height() - 81);
 }

@@ -21,8 +21,8 @@ AllPicView::AllPicView()
     m_pImportView = new ImportView();
     m_pThumbnailListView = new ThumbnailListView();
 //    m_pThumbnailListView->setStyleSheet("background:red");
-    DWidget* pThumbnailListView = new DWidget();
-    QLayout* m_mainLayout = new QVBoxLayout();
+    DWidget *pThumbnailListView = new DWidget();
+    QLayout *m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(8, 0, 0, 0);
     m_mainLayout->addWidget(m_pThumbnailListView);
     pThumbnailListView->setLayout(m_mainLayout);
@@ -138,7 +138,7 @@ void AllPicView::initConnections()
         m_pImportView->onImprotBtnClicked();
     });
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
-        if(isVisible())
+        if (isVisible())
         {
             m_spinner->hide();
             m_spinner->stop();
@@ -335,8 +335,8 @@ void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
-    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-    m_pwidget->setFixedWidth(this->width()/2);
+    m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
+    m_pwidget->setFixedWidth(this->width() / 2);
     m_pwidget->setFixedHeight(54);
     m_pwidget->move(this->width() / 4, this->height() - 81);
 }
@@ -385,8 +385,7 @@ void AllPicView::onKeyDelete()
     paths.clear();
 
     paths = m_pThumbnailListView->selectedPaths();
-    if (0 >= paths.length())
-    {
+    if (0 >= paths.length()) {
         return;
     }
 
