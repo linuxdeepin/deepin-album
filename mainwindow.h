@@ -28,6 +28,7 @@
 #include <QStatusBar>
 #include <DTabBar>
 #include <QButtonGroup>
+#include <DSuggestButton>
 
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
@@ -56,7 +57,7 @@ public:
 //    void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
-    void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
 //    void themeTypeChanged();
 
 private:
@@ -95,33 +96,36 @@ private:
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
 
-    QWidget* m_titleBtnWidget;
-    DMenu* m_pTitleBarMenu;
+    QWidget *m_titleBtnWidget;
+    DMenu *m_pTitleBarMenu;
 //    DPushButton* m_pAllPicBtn;
 //    DPushButton* m_pTimeLineBtn;
 //    DPushButton* m_pAlbumBtn;
-    DSearchEdit* m_pSearchEdit;
-    QStackedWidget* m_pCenterWidget;
+    DSearchEdit *m_pSearchEdit;
+    QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
-    AlbumView* m_pAlbumview;
-    AllPicView* m_pAllPicView;
-    TimeLineView* m_pTimeLineView;
-    SearchView* m_pSearchView;
+    AlbumView *m_pAlbumview;
+    AllPicView *m_pAllPicView;
+    TimeLineView *m_pTimeLineView;
+    SearchView *m_pSearchView;
     SlideShowPanel *m_slidePanel;
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
 //    DSlider* m_pSlider;
-    DBManager* m_pDBManager;
-    QMap<QString, ImgInfoDialog*> m_propertyDialogs{};
+    DBManager *m_pDBManager;
+    QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
     int m_backIndex;
     int m_backIndex_fromSlide;
     int m_pSliderPos = 2;
-    DPushButton* m_pItemButton;
+    DPushButton *m_pItemButton;
 
-    QButtonGroup* btnGroup;
-    DPushButton* m_pAllPicBtn;
-    DPushButton* m_pTimeBtn;
-    DPushButton* m_pAlbumBtn;
+    QButtonGroup *btnGroup;
+    DPushButton *m_pAllPicBtn;
+    DPushButton *m_pTimeBtn;
+    DPushButton *m_pAlbumBtn;
+//    DSuggestButton *m_pAllPicBtn;
+//    DSuggestButton *m_pTimeBtn;
+//    DSuggestButton *m_pAlbumBtn;
     int timer;
 };
 

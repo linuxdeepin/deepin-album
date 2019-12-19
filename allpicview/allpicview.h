@@ -57,18 +57,19 @@ private:
 private slots:
 
 public:
-    DStackedWidget* m_pStackedWidget;
-    StatusBar* m_pStatusBar;
+    DStackedWidget *m_pStackedWidget;
+    StatusBar *m_pStatusBar;
 
-    QWidget* m_pwidget;
+    QWidget *m_pwidget;
 
     int step;
 
 private:
-    ThumbnailListView* m_pThumbnailListView;
-    ImportView* m_pImportView;
-    SearchView* m_pSearchView;
-    DSpinner* m_spinner;
+    ThumbnailListView *m_pThumbnailListView;
+    ImportView *m_pImportView;
+    SearchView *m_pSearchView;
+    DSpinner *m_spinner;
+    DWidget *fatherwidget = nullptr;
 };
 
 #endif // ALLPICVIEW_H

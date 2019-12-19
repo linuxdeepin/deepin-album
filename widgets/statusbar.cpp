@@ -2,15 +2,20 @@
 #include <QGraphicsDropShadowEffect>
 #include <QItemSelectionModel>
 
-StatusBar::StatusBar()
+StatusBar::StatusBar(QWidget *parent)
+    : DBlurEffectWidget(parent)
 {
 
+//    QPalette palette;
+//    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
+//    setPalette(palette);
     initUI();
 
 }
 
 void StatusBar::initUI()
 {
+//    setFixedHeight(27);
     setFixedHeight(27);
 
 //    QString str = QObject::tr("%1 photo(s)");
@@ -43,8 +48,8 @@ void StatusBar::initUI()
     m_pSlider->slider()->setTickInterval(1);
     m_pSlider->setValue(2);
 
-    QHBoxLayout* pHBoxLayout = new QHBoxLayout();
-    pHBoxLayout->setContentsMargins(0,0,0,3);
+    QHBoxLayout *pHBoxLayout = new QHBoxLayout();
+    pHBoxLayout->setContentsMargins(0, 0, 0, 3);
     pHBoxLayout->addWidget(m_pStackedWidget, Qt::AlignCenter);
     this->setLayout(pHBoxLayout);
 
@@ -53,9 +58,8 @@ void StatusBar::initUI()
 
 void StatusBar::initConnections()
 {
-    connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [=](QStringList paths, int count){
-        if(isVisible())
-        {
+    connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [ = ](QStringList paths, int count) {
+        if (isVisible()) {
             imgpaths = paths;
             pic_count = count;
 
@@ -72,9 +76,8 @@ void StatusBar::initConnections()
 
         }
     });
-    connect(dApp->signalM, &SignalManager::sigExporting, this, [=](QString path){
-        if(isVisible())
-        {
+    connect(dApp->signalM, &SignalManager::sigExporting, this, [ = ](QString path) {
+        if (isVisible()) {
             m_pStackedWidget->setCurrentIndex(1);
             QString string = tr("Exporting photos:'%1'");
             TextLabel->setAlignment(Qt::AlignCenter);
@@ -82,13 +85,12 @@ void StatusBar::initConnections()
             TextLabel->adjustSize();
             QTime time;
             time.start();
-            while(time.elapsed() < 5)
+            while (time.elapsed() < 5)
                 QCoreApplication::processEvents();
         }
     });
-    connect(dApp->signalM, &SignalManager::sigExporting, this, [=](QString path){
-        if(isVisible())
-        {
+    connect(dApp->signalM, &SignalManager::sigExporting, this, [ = ](QString path) {
+        if (isVisible()) {
             m_pStackedWidget->setCurrentIndex(0);
         }
     });
@@ -96,14 +98,13 @@ void StatusBar::initConnections()
 
 void StatusBar::resizeEvent(QResizeEvent *e)
 {
-    m_pSlider->move(width()-214, -1);
+    m_pSlider->move(width() - 214, -1);
 }
 
 void StatusBar::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() == interval)
-    {
-        loadingicon->move(TextLabel->x()+102, 0);
+    if (e->timerId() == interval) {
+        loadingicon->move(TextLabel->x() + 102, 0);
 
 //        qDebug()<<TextLabel->x();
         m_pStackedWidget->setCurrentIndex(1);
@@ -113,45 +114,37 @@ void StatusBar::timerEvent(QTimerEvent *e)
 //        TextLabel->setAlignment(Qt::AlignCenter);
 //        TextLabel->adjustSize();
 
-        if(imgpaths.count() == 1)
-        {
+        if (imgpaths.count() == 1) {
             i = 0;
             killTimer(interval);
             interval = 0;
             m_pStackedWidget->setCurrentIndex(0);
-            if(1 == pic_count)
-            {
+            if (1 == pic_count) {
                 emit dApp->signalM->ImportSuccess();
-            }
-            else {
+            } else {
                 emit dApp->signalM->ImportFailed();
             }
 
-        }
-        else
-        {
-            TextLabel->setText(string.arg(imgpaths[i+1]));
+        } else {
+            TextLabel->setText(string.arg(imgpaths[i + 1]));
 //            TextLabel->setMinimumSize(TextLabel->sizeHint());
 //            TextLabel->adjustSize();
             TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
             i ++;
-            if(i == imgpaths.count()-1)
-            {
+            if (i == imgpaths.count() - 1) {
                 i = 0;
                 killTimer(interval);
                 interval = 0;
 
-                if(1 == pic_count)
-                {
+                if (1 == pic_count) {
                     emit dApp->signalM->ImportSuccess();
-                }
-                else {
+                } else {
                     emit dApp->signalM->ImportFailed();
                 }
 
                 QTime time;
                 time.start();
-                while(time.elapsed() < 500)
+                while (time.elapsed() < 500)
                     QCoreApplication::processEvents();
 
                 m_pStackedWidget->setCurrentIndex(0);

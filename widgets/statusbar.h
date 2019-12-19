@@ -9,6 +9,7 @@
 #include <DFontSizeManager>
 #include <QStackedWidget>
 #include <DSpinner>
+#include <DBlurEffectWidget>
 
 #include "application.h"
 #include "controller/signalmanager.h"
@@ -19,12 +20,12 @@
 DWIDGET_USE_NAMESPACE
 
 
-class StatusBar : public DWidget
+class StatusBar : public DBlurEffectWidget
 {
     Q_OBJECT
 
 public:
-    StatusBar();
+    StatusBar(QWidget *parent = nullptr);
 
 public:
     void initUI();
@@ -33,14 +34,14 @@ public:
     void resizeEvent(QResizeEvent *e) override;
 
 public:
-    DLabel* m_pAllPicNumLabel;
-    DSlider* m_pSlider;
-    DLabel* m_pstacklabel;
-    DWidget* m_pimporting;
-    DLabel* TextLabel;
+    DLabel *m_pAllPicNumLabel;
+    DSlider *m_pSlider;
+    DLabel *m_pstacklabel;
+    DWidget *m_pimporting;
+    DLabel *TextLabel;
     QStringList imgpaths;
-    QStackedWidget* m_pStackedWidget;
-    DSpinner* loadingicon;
+    QStackedWidget *m_pStackedWidget;
+    DSpinner *loadingicon;
 
     int m_allPicNum;
     int interval;

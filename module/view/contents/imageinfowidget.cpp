@@ -128,7 +128,8 @@ public:
     }
 protected:
 
-    void mouseMoveEvent(QMouseEvent *e) override{
+    void mouseMoveEvent(QMouseEvent *e) override
+    {
         qDebug() << "mouseMoveEvent";
     }
     void paintEvent(QPaintEvent *event) override
@@ -259,7 +260,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_close->setPalette(palette1);
 
     connect(m_close, &DDialogCloseButton::clicked, this,
-            [=] { emit dApp->signalM->hideExtensionPanel(); });
+            [ = ] { emit dApp->signalM->hideExtensionPanel(); });
 #endif
 }
 
@@ -285,7 +286,7 @@ void ImageInfoWidget::setImagePath(const QString &path)
 
 //    m_exif_base->setParent(this);
 //    m_exif_details->setParent(this);
-//    qDeleteAll(m_expandGroup);
+    qDeleteAll(m_expandGroup);
     m_expandGroup.clear();
 
     if (m_isBaseInfo == true && m_isDetailsInfo == true ) {
@@ -397,7 +398,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         QString value = infos.value(i->key);
         if (value.isEmpty())
             continue;
-        if((i->key == "DateTimeOriginal"  || i->key == "DateTimeDigitized") && value.left(1) == QString("0"))
+        if ((i->key == "DateTimeOriginal"  || i->key == "DateTimeDigitized") && value.left(1) == QString("0"))
             continue;
 
         m_isBaseInfo = true;
@@ -446,15 +447,15 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
-            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-            title->setMinimumHeight(field->minimumHeight());
-            title->setFixedWidth(TITLE_MAXWIDTH);
-            title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-            DPalette pa2 = DApplicationHelper::instance()->palette(title);
-            pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
-            title->setPalette(pa2);
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
+        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+        title->setMinimumHeight(field->minimumHeight());
+        title->setFixedWidth(TITLE_MAXWIDTH);
+        title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
+        DPalette pa2 = DApplicationHelper::instance()->palette(title);
+        pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
+        title->setPalette(pa2);
+        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
         m_exifLayout_details->addRow(title, field);
     }
@@ -485,7 +486,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, expand);
-    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=]() {
+    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [ = ]() {
         QRect rc = geometry();
         rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
         setGeometry(rc);
@@ -501,7 +502,7 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
         if (e) {
             expand->setSeparatorVisible(false);
         } else {
-            QTimer::singleShot(200, expand, [=] { expand->setSeparatorVisible(true); });
+            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
         }
     }
 }

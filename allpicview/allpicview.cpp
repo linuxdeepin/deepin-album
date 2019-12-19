@@ -17,6 +17,8 @@ AllPicView::AllPicView()
 {
     setAcceptDrops(true);
 
+    fatherwidget = new DWidget(this);
+    fatherwidget->setFixedSize(this->size());
     m_pStackedWidget = new DStackedWidget(this);
     m_pImportView = new ImportView();
     m_pThumbnailListView = new ThumbnailListView();
@@ -30,13 +32,16 @@ AllPicView::AllPicView()
     m_pStackedWidget->addWidget(m_pImportView);
     m_pStackedWidget->addWidget(pThumbnailListView);
     m_pStackedWidget->addWidget(m_pSearchView);
-    m_pStatusBar = new StatusBar();
-    m_pStatusBar->setParent(this);
+    m_pStatusBar = new StatusBar(this);
+    m_pStatusBar->raise();
+    m_pStatusBar->setFixedWidth(this->width());
+    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+//    m_pStatusBar->setParent(this);
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
     pVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
-    pVBoxLayout->addWidget(m_pStatusBar);
-    setLayout(pVBoxLayout);
+//    pVBoxLayout->addWidget(m_pStatusBar);
+    fatherwidget->setLayout(pVBoxLayout);
 //    updateStackedWidget();
     initConnections();
 
@@ -108,11 +113,9 @@ void AllPicView::initConnections()
 
             QStringList pathlist;
             pathlist.clear();
-            for(auto path: info.paths)
-            {
-                if (QFileInfo(path).exists())
-                {
-                    pathlist<<path;
+            for (auto path : info.paths) {
+                if (QFileInfo(path).exists()) {
+                    pathlist << path;
                 }
             }
 
@@ -339,6 +342,9 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pwidget->setFixedWidth(this->width() / 2);
     m_pwidget->setFixedHeight(54);
     m_pwidget->move(this->width() / 4, this->height() - 81);
+    m_pStatusBar->setFixedWidth(this->width());
+    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+    fatherwidget->setFixedSize(this->size());
 }
 
 void AllPicView::updatePicNum()

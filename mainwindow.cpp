@@ -63,8 +63,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::timerEvent(QTimerEvent *e)
 {
-    if(e->timerId() == timer)
-    {
+    if (e->timerId() == timer) {
         killTimer(timer);
         timer = 0;
         initCentralWidget();
@@ -75,29 +74,23 @@ void MainWindow::timerEvent(QTimerEvent *e)
 
 void MainWindow::initConnections()
 {
-    connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id){
-        if(0 == id)
-        {
+    connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [ = ](int id) {
+        if (0 == id) {
             allPicBtnClicked();
             m_pSearchEdit->setVisible(true);
         }
-        if(1 == id)
-        {
+        if (1 == id) {
             timeLineBtnClicked();
             m_pSearchEdit->setVisible(true);
         }
-        if(2 == id)
-        {
+        if (2 == id) {
             albumBtnClicked();
 
             // 如果是最近删除或者移动设备,则搜索框不显示
-            if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex())
-            {
+            if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex()) {
                 m_pSearchEdit->setVisible(false);
-            }
-            else
-            {
-               m_pSearchEdit->setVisible(true);
+            } else {
+                m_pSearchEdit->setVisible(true);
             }
         }
     });
@@ -145,8 +138,7 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
         emit dApp->signalM->hideExtensionPanel();
-        if (VIEW_IMAGE != m_backIndex_fromSlide)
-        {
+        if (VIEW_IMAGE != m_backIndex_fromSlide) {
             titlebar()->setFixedHeight(50);
             setTitlebarShadowEnabled(true);
         }
@@ -170,29 +162,28 @@ void MainWindow::initConnections()
         icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
         QString str2 = tr("Album “%1” removed");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
-        {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex()) {
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str2.arg(str1));
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str2.arg(str1));
     });
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
@@ -201,29 +192,28 @@ void MainWindow::initConnections()
 
         QString str2 = tr("Successfully added to “%1”");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
-        {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex()) {
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str2.arg(album));
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str2.arg(album));
     });
     connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] {
@@ -232,29 +222,29 @@ void MainWindow::initConnections()
 
         QString str2 = tr("Import successful");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str2);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str2);
     });
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [ = ] {
@@ -267,29 +257,29 @@ void MainWindow::initConnections()
 
         QString str = tr("Import failed");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
 
@@ -299,29 +289,29 @@ void MainWindow::initConnections()
 
         QString str = tr("Some photos have not been imported");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
 
@@ -331,29 +321,29 @@ void MainWindow::initConnections()
 
         QString str = tr("Photo export failed");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [ = ] {
@@ -362,29 +352,29 @@ void MainWindow::initConnections()
 
         QString str = tr("Photo exported successfully");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [ = ] {
@@ -393,29 +383,29 @@ void MainWindow::initConnections()
 
         QString str = tr("Export failed");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [ = ] {
@@ -424,34 +414,33 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
     connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
-        if(m_pCenterWidget->currentIndex() == VIEW_ALBUM)
-        {
+        if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
             m_pSearchEdit->setVisible(bIsDisp);
         }
     });
@@ -462,29 +451,28 @@ void MainWindow::initConnections()
 
         QString str = tr("Delete %1 photo(s) successful");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
-        {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex()) {
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str.arg(num));
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str.arg(num));
     });
 
@@ -499,7 +487,8 @@ void MainWindow::initShortcut()
         {
             emit dApp->signalM->sigESCKeyActivated();
             emit dApp->signalM->sigESCKeyStopSlide();
-        }else if(VIEW_IMAGE == m_pCenterWidget->currentIndex()){
+        } else if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
+        {
             this->close();
         }
         emit dApp->signalM->hideExtensionPanel();
@@ -629,7 +618,7 @@ void MainWindow::initShortcut()
     QShortcut *CtrlF = new QShortcut(QKeySequence(CTRLF_SHORTCUT), this);
     CtrlF->setContext(Qt::ApplicationShortcut);
     connect(CtrlF, &QShortcut::activated, this, [this] {
-         m_pSearchEdit->lineEdit()->setFocus();
+        m_pSearchEdit->lineEdit()->setFocus();
     });
 }
 
@@ -665,6 +654,7 @@ void MainWindow::initTitleBar()
     QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
 
     m_pAllPicBtn = new DPushButton();
+//    m_pAllPicBtn = new DSuggestButton();
     m_pAllPicBtn->setFlat(true);
 //    m_pAllPicBtn->setFixedSize(80, 36);
     m_pAllPicBtn->setCheckable(true);
@@ -675,6 +665,7 @@ void MainWindow::initTitleBar()
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
 
     m_pTimeBtn = new DPushButton();
+//    m_pTimeBtn = new DSuggestButton();
     m_pTimeBtn->setFlat(true);
 //    m_pTimeBtn->setFixedSize(60, 36);
     m_pTimeBtn->setCheckable(true);
@@ -685,6 +676,7 @@ void MainWindow::initTitleBar()
     pTitleBtnLayout->addWidget(m_pTimeBtn);
 
     m_pAlbumBtn = new DPushButton();
+//    m_pAlbumBtn = new DSuggestButton();
     m_pAlbumBtn->setFlat(true);
 //    m_pAlbumBtn->setFixedSize(60, 36);
     m_pAlbumBtn->setCheckable(true);
@@ -702,12 +694,9 @@ void MainWindow::initTitleBar()
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->setFixedSize(350, 36);
 
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
-    }
-    else
-    {
+    } else {
         m_pSearchEdit->setEnabled(false);
     }
 
@@ -735,13 +724,10 @@ void MainWindow::initTitleBar()
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
     titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
     titlebar()->setMenu(m_pTitleBarMenu);
-
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    titlebar()->setBlurBackground(true);
+    if (0 < DBManager::instance()->getImgsCount()) {
         // dothing
-    }
-    else
-    {
+    } else {
         m_pSearchEdit->setEnabled(false);
     }
 }
@@ -772,8 +758,7 @@ void MainWindow::initCentralWidget()
         setTitlebarShadowEnabled(false);
         m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
         m_pCenterWidget->setCurrentIndex(4);
-    }
-    else {
+    } else {
         m_commandLine->viewImage("", {});
         m_pCenterWidget->setCurrentIndex(0);
     }
@@ -827,17 +812,13 @@ void MainWindow::albumBtnClicked()
 
 void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
-    if (tr("New Album") == action->text())
-	{
+    if (tr("New Album") == action->text()) {
         emit dApp->signalM->createAlbum(QStringList(" "));
     }
 
-    else if (tr("Import photos") == action->text()) 
-	{
+    else if (tr("Import photos") == action->text()) {
         emit sigTitleMenuImportClicked();
-    }
-    else
-    {
+    } else {
 
     }
 }
@@ -845,12 +826,12 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
 void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
 //    if (m_pCenterWidget->currentWidget() == m_pAlbumview)
-//	{
+//  {
 //        m_pAlbumview->createNewAlbum(imagepaths);
 //    }
-//	else
-//	{
-        showCreateDialog(imagepaths);
+//  else
+//  {
+    showCreateDialog(imagepaths);
 //    }
 }
 #if 1
@@ -858,7 +839,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog;
     d->show();
-    d->move(this->x()+(this->width()-d->width())/2,this->y()+(this->height()-d->height())/2);
+    d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
 
         emit dApp->signalM->hideExtensionPanel();
@@ -871,29 +852,29 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
 
         QString str = tr("Create Album “%1” successfully");
 
-        QWidget* pwidget = new QWidget();
-        switch(m_pCenterWidget->currentIndex())
+        QWidget *pwidget = new QWidget();
+        switch (m_pCenterWidget->currentIndex())
         {
-            case 0:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
-            case 1:
-                pwidget = m_pTimeLineView->m_pwidget;
-                break;
-            case 2:
-                pwidget = m_pAlbumview->m_pwidget;
-                break;
-            case 4:
-                pwidget = m_commandLine->m_pwidget;
-                break;
-            default:
-                pwidget = m_pAllPicView->m_pwidget;
-                break;
+        case 0:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
+        case 1:
+            pwidget = m_pTimeLineView->m_pwidget;
+            break;
+        case 2:
+            pwidget = m_pAlbumview->m_pwidget;
+            break;
+        case 4:
+            pwidget = m_commandLine->m_pwidget;
+            break;
+        default:
+            pwidget = m_pAllPicView->m_pwidget;
+            break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setMessage(str.arg(d->getCreateAlbumName()));
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget,pDFloatingMessage);
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str.arg(d->getCreateAlbumName()));
     });
 }
@@ -902,7 +883,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog;
     d->show();
-    d->move(this->x()+(this->width()-d->width())/2,this->y()+(this->height()-d->height())/2);
+    d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         emit dApp->signalM->hideExtensionPanel();
@@ -969,29 +950,20 @@ void MainWindow::onSearchEditFinished()
 {
     QString keywords = m_pSearchEdit->text();
     emit dApp->signalM->hideExtensionPanel();
-    if (0 == m_iCurrentView) 
-	{
-        if (keywords.isEmpty()) 
-		{
+    if (0 == m_iCurrentView) {
+        if (keywords.isEmpty()) {
             allPicBtnClicked();
             // donothing
-        }
-        else
-        {
+        } else {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_ALLPHOTOS);
             m_pAllPicView->m_pStackedWidget->setCurrentIndex(2);
             m_pAllPicView->restorePicNum();
         }
-    } 
-	else if (1 == m_iCurrentView) 
-	{
-        if (keywords.isEmpty()) 
-		{
+    } else if (1 == m_iCurrentView) {
+        if (keywords.isEmpty()) {
             timeLineBtnClicked();
             // donothing
-        } 
-		else 
-		{
+        } else {
             emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_TIMELINE);
             m_pTimeLineView->m_pStackedWidget->setCurrentIndex(2);
             m_pTimeLineView->restorePicNum();
@@ -1003,9 +975,7 @@ void MainWindow::onSearchEditFinished()
         } else {
             if (COMMON_STR_RECENT_IMPORTED == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_RECENT_IMPORTED);
-            }
-            else if (COMMON_STR_CUSTOM == m_pAlbumview->m_pLeftListView->getItemCurrentType())
-            {
+            } else if (COMMON_STR_CUSTOM == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, m_pAlbumview->m_pLeftListView->getItemCurrentName());
             }
 
@@ -1084,33 +1054,28 @@ void MainWindow::onImprotBtnClicked()
     int isMountFlag = 0;
     DGioVolumeManager *pvfsManager = new DGioVolumeManager;
     QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-    for(auto mount : mounts)
-    {
+    for (auto mount : mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        if (0 == image_list.first().compare(strPath))
-        {
+        if (0 == image_list.first().compare(strPath)) {
             isMountFlag = 1;
             break;
         }
     }
 
     // 当前导入路径
-    if(isMountFlag)
-    {
+    if (isMountFlag) {
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
         QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
         QDir dir;
-        if (!dir.exists(basePath))
-        {
+        if (!dir.exists(basePath)) {
             dir.mkpath(basePath);
         }
 
         QStringList newImagePaths;
-        foreach (QString strPath, image_list)
-        {
+        foreach (QString strPath, image_list) {
             //取出文件名称
             QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
             QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
@@ -1118,14 +1083,12 @@ void MainWindow::onImprotBtnClicked()
 
             newImagePaths << strNewPath;
             //判断新路径下是否存在目标文件，若存在，下一次张
-            if (dir.exists(strNewPath))
-            {
+            if (dir.exists(strNewPath)) {
                 continue;
             }
 
             // 外接设备图片拷贝到系统
-            if (QFile::copy(strPath, strNewPath))
-            {
+            if (QFile::copy(strPath, strNewPath)) {
 
             }
         }
@@ -1156,16 +1119,11 @@ void MainWindow::onImprotBtnClicked()
         dbi.fileName = fi.fileName();
         dbi.filePath = imagePath;
         dbi.dirHash = utils::base::hash(QString());
-        if(fi.birthTime().isValid())
-        {
+        if (fi.birthTime().isValid()) {
             dbi.time = fi.birthTime();
-        }
-        else if (fi.metadataChangeTime().isValid())
-        {
+        } else if (fi.metadataChangeTime().isValid()) {
             dbi.time = fi.metadataChangeTime();
-        }
-        else
-        {
+        } else {
             dbi.time = QDateTime::currentDateTime();
         }
         dbi.changeTime = QDateTime::currentDateTime();
@@ -1186,8 +1144,7 @@ void MainWindow::onImprotBtnClicked()
 //        }
 
 
-        if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType())
-        {
+        if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
             m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
         }
 
@@ -1196,9 +1153,8 @@ void MainWindow::onImprotBtnClicked()
         emit dApp->signalM->ImportFailed();
     }
 
-    if(m_pCenterWidget->currentIndex() == VIEW_ALBUM
-       && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType())
-    {
+    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
+            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
         m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
     }
 }
@@ -1216,7 +1172,7 @@ void MainWindow::onShowImageInfo(const QString &path)
         dialog->move((width() - dialog->width()) / 2 +
                      mapToGlobal(QPoint(0, 0)).x(),
                      (window()->height() - dialog->height()) / 2 +
-                     window()->y()-120);
+                     window()->y() - 120);
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
             dialog->deleteLater();
@@ -1230,7 +1186,7 @@ void MainWindow::onShowImageInfo(const QString &path)
         dialog->move((width() - dialog->width()) / 2 +
                      mapToGlobal(QPoint(0, 0)).x(),
                      (window()->height() - dialog->height()) / 2 +
-                     window()->y()-120);
+                     window()->y() - 120);
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
             dialog->deleteLater();
@@ -1242,7 +1198,7 @@ void MainWindow::onShowImageInfo(const QString &path)
 
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
-    qDebug()<<"onNewAPPOpen";
+    qDebug() << "onNewAPPOpen";
     Q_UNUSED(pid);
     QStringList paths;
     if (arguments.length() > 1) {
@@ -1273,16 +1229,11 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 dbi.fileName = fi.fileName();
                 dbi.filePath = path;
                 dbi.dirHash = utils::base::hash(QString());
-                if(fi.birthTime().isValid())
-                {
+                if (fi.birthTime().isValid()) {
                     dbi.time = fi.birthTime();
-                }
-                else if (fi.metadataChangeTime().isValid())
-                {
+                } else if (fi.metadataChangeTime().isValid()) {
                     dbi.time = fi.metadataChangeTime();
-                }
-                else
-                {
+                } else {
                     dbi.time = QDateTime::currentDateTime();
                 }
                 dbi.changeTime = QDateTime::currentDateTime();
@@ -1303,8 +1254,7 @@ void MainWindow::onLoadingFinished()
 {
 //    m_pTimeLineBtn->setEnabled(true);
 //    m_pAlbumBtn->setEnabled(true);
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
     } else {
         m_pSearchEdit->setEnabled(false);

@@ -21,18 +21,21 @@
 #include <DApplicationHelper>
 #include <QGraphicsOpacityEffect>
 
-class Title : public QWidget{
+class Title : public QWidget
+{
 public:
-    Title(){}
+    Title() {}
 protected:
-    void paintEvent(QPaintEvent *event){
+    void paintEvent(QPaintEvent *event)
+    {
 
-        qDebug() << "x is "<<x();
-        qDebug() << "pos.x is "<<pos().x();
+        qDebug() << "x is " << x();
+        qDebug() << "pos.x is " << pos().x();
     }
-    void moveEvent(QMoveEvent *event){
-        qDebug() << "moveEvent x is "<<x();
-        qDebug() << "moveEvent pos.x is "<<pos().x();
+    void moveEvent(QMoveEvent *event)
+    {
+        qDebug() << "moveEvent x is " << x();
+        qDebug() << "moveEvent pos.x is " << pos().x();
     }
 
 };
@@ -43,10 +46,10 @@ public:
 
     void updateStackedWidget();
 public slots:
-    void on_AddLabel(QString date,QString num);
+    void on_AddLabel(QString date, QString num);
     void on_DelLabel();
 #if 1
-    void on_MoveLabel(int y,QString date,QString num,QString choseText);
+    void on_MoveLabel(int y, QString date, QString num, QString choseText);
 #endif
     void on_KeyEvent(int key);
 
@@ -78,41 +81,42 @@ public:
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 
 private:
-    TimelineList *m_mainListWidget=nullptr;
-    QLayout *m_mainLayout=nullptr;
+    TimelineList *m_mainListWidget = nullptr;
+    QLayout *m_mainLayout = nullptr;
     QList<QString> m_timelines;
-    QWidget *m_dateItem=nullptr;
+    QWidget *m_dateItem = nullptr;
     DCommandLinkButton *pSuspensionChose;
-    DWidget* pTimeLineViewWidget;
-    ImportView* pImportView;
-    QMap<ThumbnailListView*, QStringList> selpicQmap;
+    DWidget *pTimeLineViewWidget;
+    ImportView *pImportView;
+    QMap<ThumbnailListView *, QStringList> selpicQmap;
     int allnum;
-    DLabel* m_pDate;
-    DLabel* pNum_up;
-    DLabel* pNum_dn;
+    DLabel *m_pDate;
+    DLabel *pNum_up;
+    DLabel *pNum_dn;
 
-    QList<ThumbnailListView*> m_allThumbnailListView;
-    QList<DCommandLinkButton*> m_allChoseButton;
+    QList<ThumbnailListView *> m_allThumbnailListView;
+    QList<DCommandLinkButton *> m_allChoseButton;
 
-    QGraphicsOpacityEffect * m_oe;
-    QGraphicsOpacityEffect * m_oet;
+    QGraphicsOpacityEffect *m_oe;
+    QGraphicsOpacityEffect *m_oet;
 
     bool m_ctrlPress = false;
 
     int lastClickedIndex;
     int lastRow = -1;
     bool lastChanged = false;
+    DWidget *fatherwidget = nullptr;
 
 public:
-    DStackedWidget* m_pStackedWidget;
-    StatusBar* m_pStatusBar;
-    SearchView* pSearchView;
+    DStackedWidget *m_pStackedWidget;
+    StatusBar *m_pStatusBar;
+    SearchView *pSearchView;
 
-    QWidget* m_pwidget;
+    QWidget *m_pwidget;
 
     int m_index;
     int m_selPicNum;
-    DSpinner* m_spinner;
+    DSpinner *m_spinner;
 };
 
 #endif // TIMELINEVIEW_H

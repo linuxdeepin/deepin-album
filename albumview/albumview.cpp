@@ -192,6 +192,8 @@ AlbumView::AlbumView()
 
     connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
 
+    fatherwidget = new DWidget(this);
+    fatherwidget->setFixedSize(this->size());
     setAcceptDrops(true);
     initLeftView();
     initRightView();
@@ -200,7 +202,7 @@ AlbumView::AlbumView()
     pLayout->setContentsMargins(0, 0, 0, 0);
     pLayout->addWidget(m_pLeftListView);
     pLayout->addWidget(m_pRightWidget);
-    setLayout(pLayout);
+    fatherwidget->setLayout(pLayout);
 
     initConnections();
     m_pwidget = new DWidget(this);
@@ -989,13 +991,16 @@ void AlbumView::initRightView()
     m_pRightStackWidget->addWidget(pImportTimeLineWidget);
 
     // Statusbar
-    m_pStatusBar = new StatusBar();
-    m_pStatusBar->setParent(this);
+    m_pStatusBar = new StatusBar(this);
+//    m_pStatusBar->setParent(this);
+    m_pStatusBar->raise();
+    m_pStatusBar->setFixedWidth(this->width());
+    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
 
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
     pVBoxLayout->setContentsMargins(0, 0, 0, 0);
     pVBoxLayout->addWidget(m_pRightStackWidget);
-    pVBoxLayout->addWidget(m_pStatusBar);
+//    pVBoxLayout->addWidget(m_pStatusBar);
     m_pRightWidget->setLayout(pVBoxLayout);
 
     if (0 < DBManager::instance()->getImgsCount()) {
@@ -1473,11 +1478,9 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
 
         QStringList pathlist;
         pathlist.clear();
-        for(auto path: info.paths)
-        {
-            if (QFileInfo(path).exists())
-            {
-                pathlist<<path;
+        for (auto path : info.paths) {
+            if (QFileInfo(path).exists()) {
+                pathlist << path;
             }
         }
 
@@ -2727,10 +2730,12 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width() / 2 + 60, (height() - 50) / 2 - 20);
     m_pImpTimeLineWidget->setFixedWidth(width() - 181);
-    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
+//    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
+    m_pImpTimeLineWidget->setFixedHeight(height());
     m_pwidget->setFixedWidth(this->width() / 2);
     m_pwidget->setFixedHeight(54);
     m_pwidget->move(this->width() / 4, this->height() - 81);
+
     //add start 3975
     if (nullptr != m_noTrashItem) {
         m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 ));
@@ -2750,5 +2755,10 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     if (nullptr != m_TrashTitle) {
         m_TrashTitle->setFixedSize(this->width() - 200, 83);
     }
+//    m_pStatusBar->move(this->width() / 4, this->height() - 27 - 81);
+
     //add end 3975
+    m_pStatusBar->setFixedWidth(this->width());
+    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+    fatherwidget->setFixedSize(this->size());
 }

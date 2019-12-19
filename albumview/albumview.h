@@ -238,6 +238,9 @@ private:
     DWidget *m_TrashTitle;
     DWidget *m_pTrashWidget;
     //add end 3975
+
+//    QGridLayout *pVBoxLayout = nullptr;
+    DWidget *fatherwidget = nullptr;
 };
 
 #endif // ALBUMVIEW_H
