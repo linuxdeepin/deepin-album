@@ -20,8 +20,9 @@ SlideShowButton::SlideShowButton(DWidget *parent) :
 void SlideShowButton::paintEvent(QPaintEvent *event)
 {
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    QColor disablecolor, raisedcolor, disraisedcolor, textcolor;
+    QColor disablecolor, raisedcolor, disraisedcolor, textcolor, pressedcolor;
     textcolor = QColor(255, 255, 255);
+    pressedcolor = QColor(0, 0, 0, 50);
 //    disablecolor = QColor(0, 0, 0, 13);
     if (themeType == DGuiApplicationHelper::LightType) {
         raisedcolor = QColor(237, 86, 86);
@@ -58,6 +59,11 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
     int offsetleft = (this->width() - widthOfTitle - iconsize.width() - 5) / 2;
     painter.drawPixmap(offsetleft, (this->height() - iconsize.height()) / 2, iconsize.width(), iconsize.height(), qpx);
     painter.drawText(offsetleft + iconsize.width() + 5, 0, this->width() - iconsize.width() - 5 - offsetleft, this->height(), Qt::AlignLeft | Qt::AlignVCenter, text());
+    if (ispressed) {
+        painter.setPen(QColor(0, 0, 0, 0));
+        painter.setBrush(QBrush(pressedcolor));
+        painter.drawRoundedRect(rect, m_filletradii, m_filletradii);
+    }
     //    DPushButton::paintEvent(event);
 }
 
@@ -72,6 +78,18 @@ void SlideShowButton::leaveEvent(QEvent *e)
 {
     israised = true;
     repaint();
+}
+
+void  SlideShowButton::mouseReleaseEvent(QMouseEvent *event)
+{
+    ispressed = false;
+    update();
+}
+
+void  SlideShowButton::mousePressEvent(QMouseEvent *event)
+{
+    ispressed = true;
+    update();
 }
 
 void SlideShowButton::mouseEvent(QMouseEvent *e)

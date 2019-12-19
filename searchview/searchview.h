@@ -40,10 +40,13 @@ protected:
     void  enterEvent(QEvent *e) override;
     void  leaveEvent(QEvent *e) override;
     void  mouseEvent(QMouseEvent *e);
+    void  mousePressEvent(QMouseEvent *event) override;
+    void  mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
     qreal m_filletradii;
     bool  israised;
+    bool ispressed = false;
 };
 
 class SearchView : public QWidget
