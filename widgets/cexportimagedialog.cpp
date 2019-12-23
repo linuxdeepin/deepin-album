@@ -91,7 +91,8 @@ int CExportImageDialog::getQuality() const
 
 void CExportImageDialog::setPicFileName(QString strFileName)
 {
-    m_fileNameEdit->setText(strFileName);
+    QString name = strFileName.mid(0, strFileName.lastIndexOf("."));
+    m_fileNameEdit->setText(name);
 }
 
 void CExportImageDialog::initUI()
@@ -275,16 +276,16 @@ void CExportImageDialog::slotOnFormatChange(int index)
 
     m_saveFormat = m_formatCombox->itemText(index);
 
-    QString name = m_fileNameEdit->text().trimmed();
+//    QString name = m_fileNameEdit->text().trimmed();
 
-    if ("" != name) {
+//    if ("" != name) {
 
-        name = name.mid(0, name.lastIndexOf(".") + 1);
+//        name = name.mid(0, name.lastIndexOf("."));
 
-        name += m_saveFormat;
+//        name += m_saveFormat;
 
-        m_fileNameEdit->setText(name);
-    }
+//        m_fileNameEdit->setText(name);
+//    }
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
@@ -400,7 +401,7 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
 
 void CExportImageDialog::doSave()
 {
-    QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
+    QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + "." + m_saveFormat;
     bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
     qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;
 }
