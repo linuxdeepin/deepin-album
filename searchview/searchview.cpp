@@ -83,12 +83,14 @@ void SlideShowButton::leaveEvent(QEvent *e)
 void  SlideShowButton::mouseReleaseEvent(QMouseEvent *event)
 {
     ispressed = false;
+    DPushButton::mouseReleaseEvent(event);
     update();
 }
 
 void  SlideShowButton::mousePressEvent(QMouseEvent *event)
 {
     ispressed = true;
+    DPushButton::mousePressEvent(event);
     update();
 }
 
