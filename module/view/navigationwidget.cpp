@@ -137,7 +137,7 @@ void NavigationWidget::setImage(const QImage &img)
 {
     const qreal ratio = devicePixelRatioF();
 
-    QRect tmpImageRect = QRect(m_mainRect.x(), m_mainRect.y(),
+    QRect tmpImageRect = QRect(m_mainRect.x() * ratio, m_mainRect.y() * ratio,
                                qRound(m_mainRect.width() * ratio),
                                qRound(m_mainRect.height() * ratio));
 

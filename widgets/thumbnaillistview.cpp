@@ -80,14 +80,14 @@ static QString myMimeType()
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 {
-    if((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
+    if ((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
             && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED));
-        else
+    else
         DListView::mousePressEvent(event);
 
     qDebug() << "m_imageType: " << m_imageType << " ;dragDropMode(): " << dragDropMode();
     if ((m_imageType != COMMON_STR_VIEW_TIMELINE) && (m_imageType != "All Photos") &&
-        (m_imageType != COMMON_STR_TRASH) && (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
+            (m_imageType != COMMON_STR_TRASH) && (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
         if (dragDropMode() != NoDragDrop) {
             setDragDropMode(DragDrop);
         }
@@ -106,9 +106,9 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
     if (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED) {
         if (QApplication::keyboardModifiers() == Qt::NoModifier && event->button() == Qt::LeftButton)
             emit sigMousePress(event);
-        else if(QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
+        else if (QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
             emit sigShiftMousePress(event);
-        else if(QApplication::keyboardModifiers() == Qt::ControlModifier && event->button() == Qt::LeftButton){
+        else if (QApplication::keyboardModifiers() == Qt::ControlModifier && event->button() == Qt::LeftButton) {
             emit sigCtrlMousePress(event);
         }
     }
@@ -152,10 +152,10 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
     qDebug() << "ThumbnailListView::mouseReleaseEvent()";
     DListView::mouseReleaseEvent(event);
-    if(COMMON_STR_RECENT_IMPORTED  == m_imageType){
-        if(QApplication::keyboardModifiers() == Qt::NoModifier)
+    if (COMMON_STR_RECENT_IMPORTED  == m_imageType) {
+        if (QApplication::keyboardModifiers() == Qt::NoModifier)
             emit sigMouseRelease();
-    }else {
+    } else {
         emit sigMouseRelease();
     }
 }
@@ -165,9 +165,9 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
     qDebug() << "ThumbnailListView::keyPressEvent()";
     DListView::keyPressEvent(event);
 //    if (m_imageType == COMMON_STR_RECENT_IMPORTED || m_imageType == COMMON_STR_VIEW_TIMELINE) {
-        if ((event->modifiers() == Qt::ControlModifier) && (event->key() == Qt::Key_A)) {
-            emit sigSelectAll();
-        }
+    if ((event->modifiers() == Qt::ControlModifier) && (event->key() == Qt::Key_A)) {
+        emit sigSelectAll();
+    }
 //    }
 
     m_dragItemPath = selectedPaths();
@@ -231,7 +231,7 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 //    emit sigDrop();
     qDebug() << "ThumbnailListView::dropEvent()";
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover"))
-        return;    
+        return;
     DListView::dropEvent(event);
 }
 
@@ -239,7 +239,7 @@ void ThumbnailListView::initConnections()
 {
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
-    connect(this, &ThumbnailListView::doubleClicked, this, [=](const QModelIndex &index) {
+    connect(this, &ThumbnailListView::doubleClicked, this, [ = ](const QModelIndex & index) {
         if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
             qDebug() << "index is " << index.row();
             if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
@@ -468,8 +468,7 @@ void ThumbnailListView::updateMenuContents()
         action->setEnabled(true);
     }
 
-    if ((1 == paths.length()) && (!QFileInfo(paths[0]).exists()) && (COMMON_STR_TRASH != m_imageType))
-    {
+    if ((1 == paths.length()) && (!QFileInfo(paths[0]).exists()) && (COMMON_STR_TRASH != m_imageType)) {
         m_MenuActionMap.value(tr("View"))->setEnabled(true);
         m_MenuActionMap.value(tr("Fullscreen"))->setEnabled(false);
         m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
@@ -509,8 +508,8 @@ void ThumbnailListView::updateMenuContents()
         bool ret = true;
         QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
         if (strSuffix.compare("jpeg") && strSuffix.compare("jpg") && strSuffix.compare("bmp") &&
-            strSuffix.compare("png") && strSuffix.compare("ppm") && strSuffix.compare("xbm") &&
-            strSuffix.compare("xpm")) {
+                strSuffix.compare("png") && strSuffix.compare("ppm") && strSuffix.compare("xbm") &&
+                strSuffix.compare("xpm") && strSuffix.compare("gif")) {
             ret = false;
         }
 
@@ -529,7 +528,7 @@ void ThumbnailListView::updateMenuContents()
 
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
         if (COMMON_STR_RECENT_IMPORTED == m_imageType || IMAGE_DEFAULTTYPE == m_imageType ||
-            COMMON_STR_VIEW_TIMELINE == m_imageType) {
+                COMMON_STR_VIEW_TIMELINE == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
 
@@ -542,7 +541,7 @@ void ThumbnailListView::updateMenuContents()
         m_pMenu->addSeparator();
     } else {
         if (COMMON_STR_RECENT_IMPORTED == m_imageType || IMAGE_DEFAULTTYPE == m_imageType ||
-            COMMON_STR_VIEW_TIMELINE == m_imageType) {
+                COMMON_STR_VIEW_TIMELINE == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
@@ -716,163 +715,167 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     const QString path = paths.first();
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
-        case IdView:
-            emit menuOpenImage(path, paths, false, false);
-            break;
-        case IdFullScreen:
-            emit menuOpenImage(path, paths, true, false);
-            break;
-        case IdStartSlideShow:
-            emit menuOpenImage(path, paths, true, true);
-            break;
-        case IdAddToAlbum: {
-            const QString album = action->data().toString();
-            if (album != "Add to new album") {
-                if (1 == paths.count()) {
-                    if (!DBManager::instance()->isImgExistInAlbum(album, paths[0])) {
-                        emit dApp->signalM->sigAddToAlbToast(album);
-                    }
-                } else {
+    case IdView:
+        emit menuOpenImage(path, paths, false, false);
+        break;
+    case IdFullScreen:
+        emit menuOpenImage(path, paths, true, false);
+        break;
+    case IdStartSlideShow:
+        emit menuOpenImage(path, paths, true, true);
+        break;
+    case IdAddToAlbum: {
+        const QString album = action->data().toString();
+        if (album != "Add to new album") {
+            if (1 == paths.count()) {
+                if (!DBManager::instance()->isImgExistInAlbum(album, paths[0])) {
                     emit dApp->signalM->sigAddToAlbToast(album);
                 }
-
-                DBManager::instance()->insertIntoAlbum(album, paths);
             } else {
-                emit dApp->signalM->createAlbum(paths);
+                emit dApp->signalM->sigAddToAlbToast(album);
             }
 
-            break;
+            DBManager::instance()->insertIntoAlbum(album, paths);
+        } else {
+            emit dApp->signalM->createAlbum(paths);
         }
-        case IdCopyToClipboard:
-            utils::base::copyImageToClipboard(paths);
-            break;
-        case IdMoveToTrash: {
-            if (COMMON_STR_TRASH == m_imageType) {
-                ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
-                dialog->show();
-                connect(dialog, &ImgDeleteDialog::imgdelete, this, [=] {
-                    //                for (auto path : paths)
-                    //                {
-                    //                    dApp->m_imagetrashmap.remove(path);
-                    //                }
-                    emit dApp->signalM->sigDeletePhotos(paths.length());
-                    DBManager::instance()->removeTrashImgInfos(paths);
-                    emit trashDelete();
-                });
-            }
 
-            else {
-                DBImgInfoList infos;
-                for (auto path : paths) {
-                    DBImgInfo info;
-                    info = DBManager::instance()->getInfoByPath(path);
+        break;
+    }
+    case IdCopyToClipboard:
+        utils::base::copyImageToClipboard(paths);
+        break;
+    case IdMoveToTrash: {
+        if (COMMON_STR_TRASH == m_imageType) {
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
+            dialog->show();
+            connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
+                //                for (auto path : paths)
+                //                {
+                //                    dApp->m_imagetrashmap.remove(path);
+                //                }
+                emit dApp->signalM->sigDeletePhotos(paths.length());
+                DBManager::instance()->removeTrashImgInfos(paths);
+                emit trashDelete();
+            });
+        }
+
+        else {
+            DBImgInfoList infos;
+            for (auto path : paths) {
+                DBImgInfo info;
+                info = DBManager::instance()->getInfoByPath(path);
 #if 1
 //                    info.time = QDateTime::currentDateTime();
-                    info.changeTime = QDateTime::currentDateTime();
+                info.changeTime = QDateTime::currentDateTime();
 #endif
-                    QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-                    for (auto eachname : allalbumnames) {
-                        if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-                            info.albumname += (eachname + ",");
-                        }
+                QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+                for (auto eachname : allalbumnames) {
+                    if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+                        info.albumname += (eachname + ",");
                     }
-                    infos << info;
-                    //                dApp->m_imagemap.remove(path);
                 }
-
-                dApp->m_imageloader->addTrashImageLoader(paths);
-                DBManager::instance()->insertTrashImgInfos(infos);
-                DBManager::instance()->removeImgInfos(paths);
+                infos << info;
+                //                dApp->m_imagemap.remove(path);
             }
-        } break;
-        case IdAddToFavorites:
-            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths);
-            break;
-        case IdRemoveFromFavorites:
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
-            break;
-        case IdRemoveFromAlbum: {
-            if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
+
+            dApp->m_imageloader->addTrashImageLoader(paths);
+            DBManager::instance()->insertTrashImgInfos(infos);
+            DBManager::instance()->removeImgInfos(paths);
+        }
+    }
+    break;
+    case IdAddToFavorites:
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths);
+        break;
+    case IdRemoveFromFavorites:
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
+        break;
+    case IdRemoveFromAlbum: {
+        if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
                 COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType &&
                 COMMON_STR_FAVORITES != m_imageType) {
-                DBManager::instance()->removeFromAlbum(m_imageType, paths);
-            }
-        } break;
-        case IdRotateClockwise: {
-            QModelIndexList mlist = selectedIndexes();
-            QModelIndexList::iterator i;
-            QList<Listolditem> items;
-            for (i = mlist.begin(); i != mlist.end(); ++i) {
-                Listolditem item;
-                item.row = (*i).row();
-                item.column = (*i).column();
-                items.append(item);
-            }
-            for (QString path : paths) {
-                utils::image::rotate(path, 90);
-            }
+            DBManager::instance()->removeFromAlbum(m_imageType, paths);
+        }
+    }
+    break;
+    case IdRotateClockwise: {
+        QModelIndexList mlist = selectedIndexes();
+        QModelIndexList::iterator i;
+        QList<Listolditem> items;
+        for (i = mlist.begin(); i != mlist.end(); ++i) {
+            Listolditem item;
+            item.row = (*i).row();
+            item.column = (*i).column();
+            items.append(item);
+        }
+        for (QString path : paths) {
+            utils::image::rotate(path, 90);
+        }
 
-            if (COMMON_STR_TRASH == m_imageType) {
-                dApp->m_imageloader->updateTrashImageLoader(paths);
-            } else {
-                dApp->m_imageloader->updateImageLoader(paths);
+        if (COMMON_STR_TRASH == m_imageType) {
+            dApp->m_imageloader->updateTrashImageLoader(paths);
+        } else {
+            dApp->m_imageloader->updateImageLoader(paths);
+        }
+        QList<Listolditem>::iterator j;
+        for (j = items.begin(); j != items.end(); ++j) {
+            if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
+                QModelIndex qindex = m_model->index((*j).row, (*j).column);
+                selectionModel()->select(qindex, QItemSelectionModel::Select);
             }
-            QList<Listolditem>::iterator j;
-            for (j = items.begin(); j != items.end(); ++j) {
-                if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
-                    QModelIndex qindex = m_model->index((*j).row, (*j).column);
-                    selectionModel()->select(qindex, QItemSelectionModel::Select);
-                }
-            }
-        } break;
-        case IdRotateCounterclockwise: {
-            QModelIndexList mlist = selectedIndexes();
-            QModelIndexList::iterator i;
-            struct Listolditem {
-                int row;
-                int column;
-            };
-            QList<Listolditem> items;
-            for (i = mlist.begin(); i != mlist.end(); ++i) {
-                Listolditem item;
-                item.row = (*i).row();
-                item.column = (*i).column();
-                items.append(item);
-            }
-            for (QString path : paths) {
-                utils::image::rotate(path, -90);
-            }
+        }
+    }
+    break;
+    case IdRotateCounterclockwise: {
+        QModelIndexList mlist = selectedIndexes();
+        QModelIndexList::iterator i;
+        struct Listolditem {
+            int row;
+            int column;
+        };
+        QList<Listolditem> items;
+        for (i = mlist.begin(); i != mlist.end(); ++i) {
+            Listolditem item;
+            item.row = (*i).row();
+            item.column = (*i).column();
+            items.append(item);
+        }
+        for (QString path : paths) {
+            utils::image::rotate(path, -90);
+        }
 
-            if (COMMON_STR_TRASH == m_imageType) {
-                dApp->m_imageloader->updateTrashImageLoader(paths);
-            } else {
-                dApp->m_imageloader->updateImageLoader(paths);
+        if (COMMON_STR_TRASH == m_imageType) {
+            dApp->m_imageloader->updateTrashImageLoader(paths);
+        } else {
+            dApp->m_imageloader->updateImageLoader(paths);
+        }
+        QList<Listolditem>::iterator j;
+        for (j = items.begin(); j != items.end(); ++j) {
+            if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
+                QModelIndex qindex = m_model->index((*j).row, (*j).column);
+                selectionModel()->select(qindex, QItemSelectionModel::Select);
             }
-            QList<Listolditem>::iterator j;
-            for (j = items.begin(); j != items.end(); ++j) {
-                if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
-                    QModelIndex qindex = m_model->index((*j).row, (*j).column);
-                    selectionModel()->select(qindex, QItemSelectionModel::Select);
-                }
-            }
-        } break;
-        case IdSetAsWallpaper:
-            dApp->wpSetter->setWallpaper(path);
-            break;
-        case IdDisplayInFileManager:
-            utils::base::showInFileManager(path);
-            break;
-        case IdImageInfo:
-            emit dApp->signalM->showImageInfo(path);
-            break;
-        case IdExport:
-            emit dApp->signalM->exportImage(paths);
-            break;
-        case IdTrashRecovery:
-            emit trashRecovery();
-            break;
-        default:
-            break;
+        }
+    }
+    break;
+    case IdSetAsWallpaper:
+        dApp->wpSetter->setWallpaper(path);
+        break;
+    case IdDisplayInFileManager:
+        utils::base::showInFileManager(path);
+        break;
+    case IdImageInfo:
+        emit dApp->signalM->showImageInfo(path);
+        break;
+    case IdExport:
+        emit dApp->signalM->exportImage(paths);
+        break;
+    case IdTrashRecovery:
+        emit trashRecovery();
+        break;
+    default:
+        break;
     }
 
     //    updateMenuContents();
@@ -881,21 +884,21 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 void ThumbnailListView::onPixMapScale(int value)
 {
     switch (value) {
-        case 0:
-            m_iBaseHeight = 80;
-            break;
-        case 1:
-            m_iBaseHeight = 90;
-            break;
-        case 2:
-            m_iBaseHeight = 100;
-            break;
-        case 3:
-            m_iBaseHeight = 110;
-            break;
-        case 4:
-            m_iBaseHeight = 120;
-            break;
+    case 0:
+        m_iBaseHeight = 80;
+        break;
+    case 1:
+        m_iBaseHeight = 90;
+        break;
+    case 2:
+        m_iBaseHeight = 100;
+        break;
+    case 3:
+        m_iBaseHeight = 110;
+        break;
+    case 4:
+        m_iBaseHeight = 120;
+        break;
     }
 
     calBasePixMapWandH();
@@ -984,7 +987,7 @@ QModelIndexList ThumbnailListView::getSelectedIndexes()
 
 void ThumbnailListView::selectCurrent(int row)
 {
-    QModelIndex qindex = m_model->index(row,0);
+    QModelIndex qindex = m_model->index(row, 0);
     selectionModel()->select(qindex, QItemSelectionModel::Select);
 }
 
@@ -995,33 +998,33 @@ int ThumbnailListView::getRow(QPoint point)
 
 void ThumbnailListView::selectRear(int row)
 {
-    for(int i = row;i < m_model->rowCount();i++){
-        QModelIndex qindex = m_model->index(i,0);
+    for (int i = row; i < m_model->rowCount(); i++) {
+        QModelIndex qindex = m_model->index(i, 0);
         selectionModel()->select(qindex, QItemSelectionModel::Select);
     }
 }
 
 void ThumbnailListView::selectFront(int row)
 {
-    for(int i = row;i >= 0;i--){
-        QModelIndex qindex = m_model->index(i,0);
+    for (int i = row; i >= 0; i--) {
+        QModelIndex qindex = m_model->index(i, 0);
         selectionModel()->select(qindex, QItemSelectionModel::Select);
     }
 }
 
 void ThumbnailListView::selectExtent(int start, int end)
 {
-    for(int i = start;i <= end;i++){
-        QModelIndex qindex = m_model->index(i,0);
+    for (int i = start; i <= end; i++) {
+        QModelIndex qindex = m_model->index(i, 0);
         selectionModel()->select(qindex, QItemSelectionModel::Select);
     }
 }
 
 void ThumbnailListView::clearSelectionRear(int row)
 {
-    for(int i = row;i < m_model->rowCount();i++){
-        QModelIndex qindex = m_model->index(i,0);
-        selectionModel()->select(qindex,QItemSelectionModel::Deselect);
+    for (int i = row; i < m_model->rowCount(); i++) {
+        QModelIndex qindex = m_model->index(i, 0);
+        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
     }
 //    QModelIndex qindex = m_model->index(row,0);
 //    selectionModel()->select(qindex,QItemSelectionModel::Clear);
@@ -1029,16 +1032,16 @@ void ThumbnailListView::clearSelectionRear(int row)
 
 void ThumbnailListView::clearSelectionFront(int row)
 {
-    for(int i = row;i >= 0;i--){
-        QModelIndex qindex = m_model->index(i,0);
+    for (int i = row; i >= 0; i--) {
+        QModelIndex qindex = m_model->index(i, 0);
         selectionModel()->select(qindex, QItemSelectionModel::Deselect);
     }
 }
 
 void ThumbnailListView::clearSelectionExtent(int start, int end)
 {
-    for(int i = start;i <= end;i++){
-        QModelIndex qindex = m_model->index(i,0);
+    for (int i = start; i <= end; i++) {
+        QModelIndex qindex = m_model->index(i, 0);
         selectionModel()->select(qindex, QItemSelectionModel::Deselect);
     }
 }

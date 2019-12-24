@@ -59,26 +59,21 @@ QString sizeToHuman(const qlonglong bytes)
     qlonglong sb = 1024;
     if (bytes < sb) {
         return QString::number(bytes) + " B";
-    }
-    else if (bytes < sb * sb) {
+    } else if (bytes < sb * sb) {
         QString vs = QString::number((double)bytes / sb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
             return QString::number((int)vs.toDouble()) + " KB";
-        }
-        else {
+        } else {
             return vs + " KB";
         }
-    }
-    else if (bytes < sb * sb * sb) {
+    } else if (bytes < sb * sb * sb) {
         QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
             return QString::number((int)vs.toDouble()) + " MB";
-        }
-        else {
+        } else {
             return vs + " MB";
         }
-    }
-    else {
+    } else {
         return QString::number(bytes);
     }
 }
@@ -153,7 +148,8 @@ void showInFileManager(const QString &path)
 //    }
 }
 
-void copyOneImageToClipboard(const QString &path) {
+void copyOneImageToClipboard(const QString &path)
+{
     QImage img(path);
     Q_ASSERT(!img.isNull());
     QClipboard *cb = QApplication::clipboard();
@@ -166,7 +162,7 @@ void copyImageToClipboard(const QStringList &paths)
     QClipboard *cb = qApp->clipboard();
 
     // Ownership of the new data is transferred to the clipboard.
-    QMimeData* newMimeData = new QMimeData();
+    QMimeData *newMimeData = new QMimeData();
 
 //    // Copy old mimedata
 //    const QMimeData* oldMimeData = cb->mimeData();
@@ -198,20 +194,21 @@ void copyImageToClipboard(const QStringList &paths)
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
 }
 
-QString getFileContent(const QString &file) {
+QString getFileContent(const QString &file)
+{
     QFile f(file);
     QString fileContent = "";
-    if (f.open(QFile::ReadOnly))
-    {
+    if (f.open(QFile::ReadOnly)) {
         fileContent = QLatin1String(f.readAll());
         f.close();
     }
     return fileContent;
 }
 
-bool writeTextFile(QString filePath, QString content) {
+bool writeTextFile(QString filePath, QString content)
+{
     QFile file(filePath);
-    if (file.open(QIODevice::WriteOnly|QIODevice::Text)) {
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream in(&file);
         in << content << endl;
         file.close();
@@ -243,7 +240,7 @@ bool trashFile(const QString &file)
     }
 
     QFileInfo originalInfo(file);
-    if(! originalInfo.exists()) {
+    if (! originalInfo.exists()) {
         qWarning() << "File doesn't exists, can't move to trash";
         return false;
     }
@@ -259,10 +256,10 @@ bool trashFile(const QString &file)
     QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
     QString filepath = trashFilesPath + "/" + trashname;
     int nr = 1;
-    while( QFileInfo( infopath ).exists() || QFileInfo( filepath ).exists() ){
+    while ( QFileInfo( infopath ).exists() || QFileInfo( filepath ).exists() ) {
         nr++;
         trashname = originalInfo.baseName() + "." + QString::number( nr );
-        if( !originalInfo.completeSuffix().isEmpty() ){
+        if ( !originalInfo.completeSuffix().isEmpty() ) {
             trashname += QString( "." ) + originalInfo.completeSuffix();
         }
         infopath = trashInfoPath + "/" + trashname + ".trashinfo";
@@ -273,12 +270,11 @@ bool trashFile(const QString &file)
         infoFile.write(infoStr.toUtf8());
         infoFile.close();
 
-        if( !QDir().rename( originalInfo.absoluteFilePath(), filepath ) ){
+        if ( !QDir().rename( originalInfo.absoluteFilePath(), filepath ) ) {
             qWarning() << "move to trash failed!";
             return false;
         }
-    }
-    else {
+    } else {
         qDebug() << "Move to trash failed! Could not write *.trashinfo!";
         return false;
     }
@@ -328,22 +324,22 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
 }
 
 
-QString SpliteText(const QString& text,const QFont &font,int nLabelSize)
+QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 {
     QFontMetrics fm(font);
     int nTextSize = fm.width(text);
-    if(nTextSize > nLabelSize){
+    if (nTextSize > nLabelSize) {
         int nPos = 0;
         long nOffset = 0;
-        for (int i = 0; i < text.size(); i++){
+        for (int i = 0; i < text.size(); i++) {
             nOffset += fm.width(text.at(i));
-            if(nOffset >= nLabelSize){
+            if (nOffset >= nLabelSize) {
                 nPos = i;
                 break;
             }
         }
 
-        nPos = (nPos -1 < 0) ? 0 : nPos -1;
+        nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
 
         QString qstrLeftData = text.left(nPos);
         QString qstrMidData = text.mid(nPos);
@@ -353,7 +349,8 @@ QString SpliteText(const QString& text,const QFont &font,int nLabelSize)
 }
 
 
-QString symFilePath(const QString &path) {
+QString symFilePath(const QString &path)
+{
     QFileInfo fileInfo(path);
     if (fileInfo.isSymLink()) {
         return fileInfo.symLinkTarget();
@@ -381,8 +378,7 @@ bool mountDeviceExist(const QString &path)
         const int ep = path.indexOf("/", sp) + 1;
         mountPoint = path.mid(0, ep);
 
-    }
-    else if (path.startsWith("/run/media/")) {
+    } else if (path.startsWith("/run/media/")) {
         const int sp = path.indexOf("/", 11) + 1;
         const int ep = path.indexOf("/", sp) + 1;
         mountPoint = path.mid(0, ep);
@@ -412,23 +408,56 @@ bool checkMimeData(const QMimeData *mimeData)
     }
 
     QList<QUrl> urlList = mimeData->urls();
-    if (1 != urlList.size()) {
+    if (1 > urlList.size()) {
         return false;
     }
 
-    QFileInfo info(urlList.first().toLocalFile());
-    QString mqs = info.suffix().toLower();
-    if ("jpeg" == mqs ||
-            "jpg" == mqs ||
-            "bmp" == mqs ||
-            "png" == mqs ||
-            "ppm" == mqs ||
-            "xbm" == mqs ||
-            "xpm" == mqs ||
-            "gif" == mqs ||
-            "svg" == mqs) {
-        return true;
+    using namespace utils::image;
+//    QStringList paths;
+    for (QUrl url : urlList) {
+        const QString path = url.toLocalFile();
+        if (QFileInfo(path).isDir()) {
+            auto finfos =  getImagesInfo(path, false);
+            for (auto finfo : finfos) {
+                if (imageSupportRead(finfo.absoluteFilePath())) {
+//                    paths << finfo.absoluteFilePath();
+                    QFileInfo info(finfo.absoluteFilePath());
+                    QString mqs = info.suffix().toLower();
+                    if ("jpeg" == mqs ||
+                            "jpg" == mqs ||
+                            "bmp" == mqs ||
+                            "png" == mqs ||
+                            "ppm" == mqs ||
+                            "xbm" == mqs ||
+                            "xpm" == mqs ||
+                            "gif" == mqs ||
+                            "svg" == mqs) {
+                        return true;
+                    }
+                }
+            }
+        } else if (imageSupportRead(path)) {
+//            paths << path;
+            QFileInfo info(path);
+            QString mqs = info.suffix().toLower();
+            if ("jpeg" == mqs ||
+                    "jpg" == mqs ||
+                    "bmp" == mqs ||
+                    "png" == mqs ||
+                    "ppm" == mqs ||
+                    "xbm" == mqs ||
+                    "xpm" == mqs ||
+                    "gif" == mqs ||
+                    "svg" == mqs) {
+                return true;
+            }
+        }
     }
+
+//    if (paths.isEmpty()) {
+//        return;
+//    }
+
 
     return false;
 }
