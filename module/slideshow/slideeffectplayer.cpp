@@ -145,12 +145,11 @@ void SlideEffectPlayer::start()
     cacheNext();
     cachePrevious();
     m_running = true;
-//    if (!b_4k)
-//        m_tid = startTimer(SLIDER_DURATION);
-//    else
-//        m_tid = startTimer(SLIDER_DURATION_4K);
     bfirstrun = true;
-    m_tid = startTimer(200);
+    if (!b_4k)
+        m_tid = startTimer(ANIMATION_DURATION - 100);
+    else
+        m_tid = startTimer(ANIMATION_DURATION_4K - 100);
 }
 
 void SlideEffectPlayer::pause()
