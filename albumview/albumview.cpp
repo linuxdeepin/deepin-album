@@ -2600,8 +2600,9 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     QStringList filters;
     filters << QString("*.jpeg") << QString("*.jpg")
             << QString("*.bmp") << QString("*.png")
-            << QString("*.ppm") << QString("*.xbm")
-            << QString("*.xpm") << QString("*.gif")
+            << QString("*.gif")
+//            << QString("*.ppm") << QString("*.xbm")
+//            << QString("*.xpm")
             ;
 
     //定义迭代器并设置过滤器
