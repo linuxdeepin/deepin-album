@@ -87,6 +87,14 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 //        emit dApp->signalM->updatePauseButton();
 //    }
 
+    if (bfirstrun) {
+        killTimer(m_tid);
+        bfirstrun = false;
+        if (!b_4k)
+            m_tid = startTimer(SLIDER_DURATION);
+        else
+            m_tid = startTimer(SLIDER_DURATION_4K);
+    }
     if (! startNext()) {
         stop();
     }
@@ -137,10 +145,12 @@ void SlideEffectPlayer::start()
     cacheNext();
     cachePrevious();
     m_running = true;
-    if (!b_4k)
-        m_tid = startTimer(SLIDER_DURATION);
-    else
-        m_tid = startTimer(SLIDER_DURATION_4K);
+//    if (!b_4k)
+//        m_tid = startTimer(SLIDER_DURATION);
+//    else
+//        m_tid = startTimer(SLIDER_DURATION_4K);
+    bfirstrun = true;
+    m_tid = startTimer(200);
 }
 
 void SlideEffectPlayer::pause()

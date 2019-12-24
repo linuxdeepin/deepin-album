@@ -49,21 +49,24 @@ class SlideEffectPlayer : public QObject
 {
     Q_OBJECT
 public:
-    SlideEffectPlayer(QObject* parent = 0);
+    SlideEffectPlayer(QObject *parent = 0);
     ~SlideEffectPlayer();
     void setFrameSize(int width, int height);
-    QSize frameSize() const { return QSize(m_w, m_h);}
+    QSize frameSize() const
+    {
+        return QSize(m_w, m_h);
+    }
     // call setCurrentImage later
-    void setImagePaths(const QStringList& paths);
+    void setImagePaths(const QStringList &paths);
     // invalid path: black image+1st image
-    void setCurrentImage(const QString& path = QString());
+    void setCurrentImage(const QString &path = QString());
     QString currentImagePath() const;
     bool isRunning() const;
 
 Q_SIGNALS:
-    void frameReady(const QImage& image);
+    void frameReady(const QImage &image);
     void finished();
-    void currentImageChanged(const QString& path);
+    void currentImageChanged(const QString &path);
     void stepChanged(int steps);
     void updateButton();
 
@@ -97,4 +100,5 @@ private:
     QThread m_thread;
     SlideEffect *m_effect = NULL;
     bool b_4k = false;
+    bool bfirstrun = true;
 };
