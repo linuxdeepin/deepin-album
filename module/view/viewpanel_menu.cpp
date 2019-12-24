@@ -152,11 +152,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 
         QStringList pathlist;
         pathlist.clear();
-        for(auto path: m_vinfo.paths)
-        {
-            if (QFileInfo(path).exists())
-            {
-                pathlist<<path;
+        for (auto path : m_vinfo.paths) {
+            if (QFileInfo(path).exists()) {
+                pathlist << path;
             }
         }
 
@@ -203,42 +201,45 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash: {
-//        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-//                && utils::common::VIEW_TIMELINE_SRN != m_viewType
-//                && utils::common::VIEW_SEARCH_SRN != m_viewType
-//                && COMMON_STR_RECENT_IMPORTED != m_viewType
-//                && COMMON_STR_TRASH != m_viewType
-//                && COMMON_STR_FAVORITES != m_viewType)
-//        {
-//            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
-//            removeCurrentImage();
-//        }
-//        else if (COMMON_STR_TRASH == m_viewType)
-//        {
-//            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
-//            dialog->show();
-//            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
-//            {
-//                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
-//                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
-//                removeCurrentImage();
-//            });
-//        }
-//        else
-//        {
-        DBImgInfoList infos;
-        DBImgInfo info;
-        info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
-#if 1
-//        info.time = QDateTime::currentDateTime();
-        info.changeTime = QDateTime::currentDateTime();
-#endif
-        infos << info;
-        dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
-//        dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
-        DBManager::instance()->insertTrashImgInfos(infos);
-        DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
-        removeCurrentImage();
+        SignalManager::instance()->deleteByMenu();
+////        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+////                && utils::common::VIEW_TIMELINE_SRN != m_viewType
+////                && utils::common::VIEW_SEARCH_SRN != m_viewType
+////                && COMMON_STR_RECENT_IMPORTED != m_viewType
+////                && COMMON_STR_TRASH != m_viewType
+////                && COMMON_STR_FAVORITES != m_viewType)
+////        {
+////            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
+////            removeCurrentImage();
+////        }
+////        else if (COMMON_STR_TRASH == m_viewType)
+////        {
+////            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
+////            dialog->show();
+////            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
+////            {
+////                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+////                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+////                removeCurrentImage();
+////            });
+////        }
+////        else
+////        {
+//        DBImgInfoList infos;
+//        DBImgInfo info;
+//        info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
+//#if 1
+////        info.time = QDateTime::currentDateTime();
+//        info.changeTime = QDateTime::currentDateTime();
+//#endif
+//        infos << info;
+//        dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
+////        dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
+//        DBManager::instance()->insertTrashImgInfos(infos);
+//        DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
+
+
+//        removeCurrentImage();
 //        }
     }
     break;
@@ -268,7 +269,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 //        if (m_isInfoShowed)
 //            emit dApp->signalM->hideExtensionPanel();
 //        else
-            emit dApp->signalM->showExtensionPanel();
+        emit dApp->signalM->showExtensionPanel();
         // Update panel info
         m_info->setImagePath(path);
         break;
@@ -293,8 +294,7 @@ void ViewPanel::updateMenuContent()
     }
 
     // 如果该图片原文件不存在,则不显示右键菜单
-    if (!QFileInfo(m_infos.at(m_current).filePath).exists())
-    {
+    if (!QFileInfo(m_infos.at(m_current).filePath).exists()) {
         return;
     }
 

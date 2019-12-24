@@ -196,7 +196,7 @@ void ImageItem::mousePressEvent(QMouseEvent *ev)
     QEventLoop loop;
     QTimer::singleShot(200, &loop, SLOT(quit()));
     loop.exec();
-    if (bmouserelease )
+    if (bmouserelease)
         emit imageItemclicked(_index, _indexNow);
 }
 
@@ -283,9 +283,9 @@ TTBContent::TTBContent(bool inDB,
 //    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     m_imgInfos = m_infos;
     m_imgInfos_size = m_imgInfos.size();
-    if ( m_imgInfos.size() <= 1 ) {
+    if (m_imgInfos.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-    } else if (m_imgInfos.size() <= 3 ) {
+    } else if (m_imgInfos.size() <= 3) {
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
     } else {
         m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
@@ -514,7 +514,7 @@ TTBContent::TTBContent(bool inDB,
     });
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
-    if (m_imgInfos.size() <= 3 ) {
+    if (m_imgInfos.size() <= 3) {
         m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
         m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
@@ -529,7 +529,7 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
 
-    if (m_imgInfos.size() <= 3 ) {
+    if (m_imgInfos.size() <= 3) {
         m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
         m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
@@ -554,41 +554,26 @@ TTBContent::TTBContent(bool inDB,
 
     m_fileNameLabel = new ElidedLabel();
 //    hb->addWidget(m_fileNameLabel);
-    connect(m_trashBtn, &DIconButton::clicked, this, [ = ] {
-        emit removed();
-        emit ttbcontentClicked();
 
-        m_imgInfos_size = m_imgInfos_size - 1;
-        int windowWidth =  this->window()->geometry().width();
-        if ( m_imgInfos_size <= 1 )
-        {
-            m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-        } else if ( m_imgInfos_size <= 3 )
-        {
-            m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-            m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-        } else
-        {
-            m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-            m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-        }
-        setFixedWidth(m_contentWidth);
-//        qDebug()<<"m_trashBtn:m_contentWidth=============="<<m_contentWidth;
-//        qDebug()<<"m_trashBtn:m_imgListView.width=============="<<m_imgListView->width();
-    });
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &TTBContent::onThemeChanged);
+    connect(SignalManager::instance(), &SignalManager::deleteByMenu, this, &TTBContent::deleteImage);
 
-    connect(dApp, &Application::sigFinishLoad, this, [ = ] {
-        if (isVisible())
-        {
-            QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-            for (int i = 0; i < labelList.length(); i++) {
-                labelList.at(i)->setPic(dApp->m_imagemap.value(labelList.at(i)->_path));
-            }
-        }
-    });
+
+    connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::deleteImage);
+
+
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &TTBContent::onThemeChanged);
+
+//    connect(dApp, &Application::sigFinishLoad, this, [ = ] {
+//        if (isVisible())
+//        {
+//            QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+//            for (int i = 0; i < labelList.length(); i++) {
+//                labelList.at(i)->setPic(dApp->m_imagemap.value(labelList.at(i)->_path));
+//            }
+//        }
+//    });
 }
 
 
@@ -612,6 +597,27 @@ void TTBContent::checkAdaptScreenBtn()
 {
     m_adaptScreenBtn->setChecked(true);
     badaptScreenBtnChecked = true;
+}
+
+void TTBContent::deleteImage()
+{
+    emit removed();
+    emit ttbcontentClicked();
+
+    m_imgInfos_size = m_imgInfos_size - 1;
+    int windowWidth =  this->window()->geometry().width();
+    if (m_imgInfos_size <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_imgInfos_size <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+    } else {
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+    }
+    setFixedWidth(m_contentWidth);
+    //        qDebug() << "m_trashBtn:m_contentWidth==============" << m_contentWidth;
+    //        qDebug() << "m_trashBtn:m_imgListView.width==============" << m_imgListView->width();
 }
 
 void TTBContent::updateFilenameLayout()
@@ -679,9 +685,9 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
-    if ( m_imgInfos_size <= 1 ) {
+    if (m_imgInfos_size <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-    } else if ( m_imgInfos_size <= 3 ) {
+    } else if (m_imgInfos_size <= 3) {
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
         m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
@@ -767,7 +773,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_adaptScreenBtn->setDisabled(false);
 
         int t = 0;
-        if ( m_imgInfos.size() > 3 ) {
+        if (m_imgInfos.size() > 3) {
             m_imgList->setFixedSize((m_imgInfos.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
             m_imgList->resize((m_imgInfos.size() + 1)*THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT);
 
@@ -804,7 +810,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                         emit ttbcontentClicked();
                     });
                 }
-                if ( path == info.filePath ) {
+                if (path == info.filePath) {
                     t = i;
                 }
                 i++;
@@ -836,13 +842,13 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 labelList.at(t)->setPic(dApp->m_imagemap.value(path));
             }
             for (int j = 0; j < labelList.size(); j++) {
-                labelList.at(j)->setFixedSize (QSize(num, 40));
-                labelList.at(j)->resize (QSize(num, 40));
+                labelList.at(j)->setFixedSize(QSize(num, 40));
+                labelList.at(j)->resize(QSize(num, 40));
                 labelList.at(j)->setIndexNow(t);
             }
             if (labelList.size() > 0) {
-                labelList.at(t)->setFixedSize (QSize(58, 58));
-                labelList.at(t)->resize (QSize(58, 58));
+                labelList.at(t)->setFixedSize(QSize(58, 58));
+                labelList.at(t)->resize(QSize(58, 58));
             }
 
 
@@ -984,7 +990,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                         emit ttbcontentClicked();
                     });
                 }
-                if ( path == info.filePath ) {
+                if (path == info.filePath) {
                     t = i;
                 }
                 i++;
@@ -998,13 +1004,13 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 labelList.at(t)->setPic(dApp->m_imagemap.value(path));
             }
             for (int j = 0; j < labelList.size(); j++) {
-                labelList.at(j)->setFixedSize (QSize(num, 40));
-                labelList.at(j)->resize (QSize(num, 40));
+                labelList.at(j)->setFixedSize(QSize(num, 40));
+                labelList.at(j)->resize(QSize(num, 40));
                 labelList.at(j)->setIndexNow(t);
             }
             if (labelList.size() > 0) {
-                labelList.at(t)->setFixedSize (QSize(58, 58));
-                labelList.at(t)->resize (QSize(58, 58));
+                labelList.at(t)->setFixedSize(QSize(58, 58));
+                labelList.at(t)->resize(QSize(58, 58));
             }
 
             m_imgListView->show();

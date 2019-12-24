@@ -121,6 +121,8 @@ public slots:
     void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
+protected slots:
+    void deleteImage();
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

@@ -345,6 +345,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
         rotateImage(false);
     });
     connect(m_ttbc, &TTBContent::removed, this, [ = ] {
+
+
+//        SignalManager::instance()->deleteByMenu();
         if (COMMON_STR_TRASH == m_viewType)
         {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
@@ -705,7 +708,7 @@ void ViewPanel::removeCurrentImage()
             m_current = 0;
         }
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-        emit dApp->signalM->updateBottomToolbar( m_infos.size() > 1 );
+        emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
     }
 //    if (m_current != m_infos.cend()) {
 //        m_infos.removeAt(imageIndex(m_current->filePath));

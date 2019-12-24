@@ -65,14 +65,14 @@ signals:
     void hideImageView();
     void showSlidePanel(int index);
     void hideSlidePanel();
-	void extensionPanelHeight(int height, bool immediately = false);
+    void extensionPanelHeight(int height, bool immediately = false);
     void sendPathlist(QStringList pathlist);
     void enterView(bool immediately = false);
     void enterScaledMode(bool immediately = false);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
-    void gotoPanel(ModulePanel* panel);
+    void gotoPanel(ModulePanel *panel);
     void backToMainPanel();
     void activeWindow();
 
@@ -129,17 +129,19 @@ signals:
     void sigESCKeyActivated();
     void sigESCKeyStopSlide();
     void sigUpdataAlbumRightTitle(QString titlename);
-	void sigUpdateTrashImageLoader();
-	void sigUpdateImageLoader();
+    void sigUpdateTrashImageLoader();
+    void sigUpdateImageLoader();
     void sigLoadMountImagesEnd(QString mountname);
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();
     void sigDeletePhotos(int num);
     void sigLoadOnePhoto();
     void sigImportFailedToView();
-	void sigShortcutKeyDelete();
+    void sigShortcutKeyDelete();
     void sigShortcutKeyF2();
     void picNotExists(bool immediately = false);
+
+    void deleteByMenu();
 
 private:
     explicit SignalManager(QObject *parent = 0);
