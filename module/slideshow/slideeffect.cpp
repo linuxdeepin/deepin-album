@@ -223,7 +223,7 @@ void SlideEffect::start()
 //    loop.exec();
     scurrent = 0;
     bfirsttimeout = true;
-    tid = startTimer(all_ms - duration_ms - 100);
+    tid = startTimer(all_ms - duration_ms - 1000);
 //    tid = startTimer(duration() / frames_total);
 }
 
