@@ -74,7 +74,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }
-    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewType == m_delegatetype) {
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }

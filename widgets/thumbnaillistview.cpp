@@ -396,7 +396,7 @@ void ThumbnailListView::addThumbnailView()
                     height += 27;
                     qsfirstorlast = "Last";
                 }
-            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewType == m_delegatetype) {
                 if (i == m_gridItem.length() - 1) {
                     height += 27;
                     qsfirstorlast = "Last";
@@ -434,7 +434,7 @@ void ThumbnailListView::updateThumbnailView()
                 } else if (i == m_gridItem.length() - 1) {
                     height += 27;
                 }
-            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewType == m_delegatetype) {
                 if (i == m_gridItem.length() - 1) {
                     height += 27;
                 }
@@ -955,8 +955,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-    if ( COMMON_STR_RECENT_IMPORTED == m_imageType)
-    {
+    if ( COMMON_STR_RECENT_IMPORTED == m_imageType) {
         int a = 0;
     }
     if (0 == m_iDefaultWidth) {

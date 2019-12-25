@@ -903,6 +903,8 @@ void AlbumView::initRightView()
 
     //手机相片导入窗体
     m_importByPhoneWidget = new DWidget;
+    DWidget *topwidget = new DWidget;
+    topwidget->setFixedHeight(50);
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
     importLabel->setText(tr("Import to:"));
@@ -927,7 +929,6 @@ void AlbumView::initRightView()
     importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
     m_importSelectByPhoneBtn->setEnabled(false);
-
     mainImportLayout->addWidget(importLabel);
     mainImportLayout->addSpacing(11);
     mainImportLayout->addWidget(m_importByPhoneComboBox);
@@ -943,6 +944,7 @@ void AlbumView::initRightView()
     allHLayout->addWidget(m_importByPhoneWidget, 1);
 
     QVBoxLayout *p_all2 = new QVBoxLayout();
+    p_all2->addWidget(topwidget);
     p_all2->addLayout(allHLayout);
     p_all2->addWidget(m_pRightPhoneThumbnailList);
 
