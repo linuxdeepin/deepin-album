@@ -33,8 +33,8 @@ QString ss(const QString &text)
 }
 }  // namespace
 
-ThumbnailListView::ThumbnailListView(QString imgtype)
-    : m_model(new QStandardItemModel(this))
+ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QString imgtype)
+    : m_model(new QStandardItemModel(this)), m_delegatetype(type)
 {
 
 //    setStyleSheet("Background:green");
@@ -60,7 +60,7 @@ ThumbnailListView::ThumbnailListView(QString imgtype)
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setMinimumWidth(500);
 
-    m_delegate = new ThumbnailDelegate();
+    m_delegate = new ThumbnailDelegate(type);
     m_delegate->m_imageTypeStr = m_imageType;
 
     setItemDelegate(m_delegate);
@@ -386,7 +386,22 @@ void ThumbnailListView::addThumbnailView()
     for (int i = 0; i < m_gridItem.length(); i++) {
         for (int j = 0; j < m_gridItem[i].length(); j++) {
             QStandardItem *item = new QStandardItem;
-
+            QString qsfirstorlast = "NotFirstOrLast";
+            int height = m_gridItem[i][j].height;
+            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                if (i == 0) {
+                    height += 50;
+                    qsfirstorlast = "First";
+                } else if (i == m_gridItem.length() - 1) {
+                    height += 27;
+                    qsfirstorlast = "Last";
+                }
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+                if (i == m_gridItem.length() - 1) {
+                    height += 27;
+                    qsfirstorlast = "Last";
+                }
+            }
             QVariantList datas;
             datas.append(QVariant(m_gridItem[i][j].name));
             datas.append(QVariant(m_gridItem[i][j].path));
@@ -396,9 +411,10 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem[i][j].image));
             datas.append(QVariant(m_gridItem[i][j].imgWidth));
             datas.append(QVariant(m_gridItem[i][j].imgHeight));
+            datas.append(QVariant(qsfirstorlast));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
-            item->setData(QVariant(QSize(m_gridItem[i][j].width, m_gridItem[i][j].height)),
+            item->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
                           Qt::SizeHintRole);
             m_model->appendRow(item);
         }
@@ -410,7 +426,20 @@ void ThumbnailListView::updateThumbnailView()
     int index = 0;
     for (int i = 0; i < m_gridItem.length(); i++) {
         for (int j = 0; j < m_gridItem[i].length(); j++) {
-            QSize picSize(m_gridItem[i][j].width, m_gridItem[i][j].height);
+
+            int height = m_gridItem[i][j].height;
+            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                if (i == 0) {
+                    height += 50;
+                } else if (i == m_gridItem.length() - 1) {
+                    height += 27;
+                }
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+                if (i == m_gridItem.length() - 1) {
+                    height += 27;
+                }
+            }
+            QSize picSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height);
 
             m_model->item(index, 0)->setSizeHint(picSize);
             index++;

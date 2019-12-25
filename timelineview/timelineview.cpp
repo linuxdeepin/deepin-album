@@ -19,6 +19,7 @@ const int VIEW_IMPORT = 0;
 const int VIEW_TIMELINE = 1;
 const int VIEW_SEARCH = 2;
 const int VIEW_MAINWINDOW_TIMELINE = 1;
+const int TITLEHEIGHT = 50;
 } //namespace
 
 TimeLineView::TimeLineView()
@@ -292,7 +293,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setFixedSize(this->width() - 10, 87);
     m_dateItem->setContentsMargins(10, 0, 0, 0);
-    m_dateItem->move(0, 0);
+    m_dateItem->move(0, TITLEHEIGHT);
     m_dateItem->show();
     m_dateItem->setVisible(false);
 }
@@ -406,12 +407,19 @@ void TimeLineView::updataLayout()
         listItem->m_title = TitleView;
 
         //添加照片
-        ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_VIEW_TIMELINE);
+        ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, COMMON_STR_VIEW_TIMELINE);
         pThumbnailListView->setFixedWidth(width() + 2);
         connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
             if (isVisible()) {
-                pThumbnailListView->setFixedHeight(h);
-                listItem->setFixedHeight(TitleView->height() + h);
+                int mh = h;
+                if (0 == i) {
+                    mh += 50;
+                }
+                if (i == m_timelines.size() - 1) {
+                    mh += 27;
+                }
+                pThumbnailListView->setFixedHeight(mh);
+                listItem->setFixedHeight(TitleView->height() + mh);
                 item->setSizeHint(listItem->rect().size());
             }
 
@@ -448,8 +456,18 @@ void TimeLineView::updataLayout()
 
         pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
+        if (0 == i) {
+            DWidget *topwidget = new DWidget;
+            topwidget->setFixedHeight(50);
+            listItemlayout->addWidget(topwidget);
+        }
         listItemlayout->addWidget(TitleView);
         listItemlayout->addWidget(pThumbnailListView);
+        if (i == m_timelines.size() - 1) {
+            DWidget *bottomwidget = new DWidget;
+            bottomwidget->setFixedHeight(27);
+            listItemlayout->addWidget(bottomwidget);
+        }
         item->setFlags(Qt::NoItemFlags);
         m_mainListWidget->addItemForWidget(item);
         m_mainListWidget->setItemWidget(item, listItem);
@@ -719,7 +737,7 @@ void TimeLineView::on_AddLabel(QString date, QString num)
 //            buttonList.at(0)->setText(buttonList1.at(0)->text());
 //        }
 
-        m_dateItem->move(0, 0);
+        m_dateItem->move(0, TITLEHEIGHT);
     }
 #if 1
     QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
@@ -748,7 +766,7 @@ void TimeLineView::on_MoveLabel(int y, QString date, QString num, QString choseT
         labelList[1]->setText(num);
         pSuspensionChose->setText(choseText);
         m_dateItem->setVisible(true);
-        m_dateItem->move(0, y + 1);
+        m_dateItem->move(0, TITLEHEIGHT + y + 1);
     }
 }
 

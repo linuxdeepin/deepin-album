@@ -198,9 +198,23 @@ AlbumView::AlbumView()
     initLeftView();
     initRightView();
 
+    DWidget *leftwidget = new DWidget;
+    leftwidget->setFixedWidth(180);
+
+    DWidget *lefttopwidget = new DWidget;
+    lefttopwidget->setFixedHeight(45);
+    DWidget *leftbottomwidget = new DWidget;
+    leftbottomwidget->setFixedHeight(22);
+
+    QVBoxLayout *pvLayout = new QVBoxLayout();
+    leftwidget->setLayout(pvLayout);
+    pvLayout->addWidget(lefttopwidget);
+    pvLayout->addWidget(m_pLeftListView);
+    pvLayout->addWidget(leftbottomwidget);
+
     QHBoxLayout *pLayout = new QHBoxLayout();
     pLayout->setContentsMargins(0, 0, 0, 0);
-    pLayout->addWidget(m_pLeftListView);
+    pLayout->addWidget(leftwidget);
     pLayout->addWidget(m_pRightWidget);
     fatherwidget->setLayout(pLayout);
 
@@ -590,7 +604,7 @@ void AlbumView::initRightView()
     DFontSizeManager::instance()->bind(m_pRightPicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pRightPicTotal->setForegroundRole(DPalette::TextTips);
 
-    m_pRightThumbnailList = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
+    m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pNoTrashVBoxLayout->addSpacing(5);
@@ -628,7 +642,7 @@ void AlbumView::initRightView()
     item->setFlags(Qt::NoItemFlags);
     lsitWidget->insertItem(0, item);
     lsitWidget->setItemWidget(item, blankWidget);
-    item->setSizeHint(QSize(width(), 83));
+    item->setSizeHint(QSize(width(), 83 + 50));
 
     m_noTrashItem = new QListWidgetItem();
     m_noTrashItem->setFlags(Qt::NoItemFlags);
@@ -650,7 +664,7 @@ void AlbumView::initRightView()
     m_pNoTrashTitle->setPalette(ppal_light);
     m_pNoTrashTitle->setGraphicsEffect(opacityEffect_light);
     m_pNoTrashTitle->setAutoFillBackground(true);
-    m_pNoTrashTitle->move(0, 0);
+    m_pNoTrashTitle->move(0, 50);
     m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
     //add end 3975
 
@@ -714,7 +728,7 @@ void AlbumView::initRightView()
     pTopHBoxLayout->addSpacing(20);
 
 
-    m_pRightTrashThumbnailList = new ThumbnailListView(COMMON_STR_TRASH);
+    m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
 //del start 3975
 //    pMainVBoxLayout->setMargin(2);
@@ -744,7 +758,7 @@ void AlbumView::initRightView()
     Trashitem->setFlags(Qt::NoItemFlags);
     lsitWidget3->insertItem(0, Trashitem);
     lsitWidget3->setItemWidget(Trashitem, blankWidget3);
-    Trashitem->setSizeHint(QSize(width(), 83));
+    Trashitem->setSizeHint(QSize(width(), 83 + 50));
 
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
@@ -766,7 +780,7 @@ void AlbumView::initRightView()
     m_TrashTitle->setPalette(ppal_light3);
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
-    m_TrashTitle->move(0, 0);
+    m_TrashTitle->move(0, 50);
     m_TrashTitle->setFixedSize(this->width() - 200, 83);
     //add end 3975
 
@@ -793,7 +807,7 @@ void AlbumView::initRightView()
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES);
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
 
-    m_pRightFavoriteThumbnailList = new ThumbnailListView(COMMON_STR_FAVORITES);
+    m_pRightFavoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pFavoriteVBoxLayout->addSpacing(3);
@@ -833,7 +847,7 @@ void AlbumView::initRightView()
     Favoriteitem->setFlags(Qt::NoItemFlags);
     lsitWidget2->insertItem(0, Favoriteitem);
     lsitWidget2->setItemWidget(Favoriteitem, blankWidget2);
-    Favoriteitem->setSizeHint(QSize(width(), 83));
+    Favoriteitem->setSizeHint(QSize(width(), 83 + 50));
 
     m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
@@ -855,7 +869,7 @@ void AlbumView::initRightView()
     m_FavoriteTitle->setPalette(ppal_light2);
     m_FavoriteTitle->setGraphicsEffect(opacityEffect_light2);
     m_FavoriteTitle->setAutoFillBackground(true);
-    m_FavoriteTitle->move(0, 0);
+    m_FavoriteTitle->move(0, 50);
     m_FavoriteTitle->setFixedSize(this->width() - 200, 83);
     //add end 3975
 
@@ -877,7 +891,7 @@ void AlbumView::initRightView()
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
 
-    m_pRightPhoneThumbnailList = new ThumbnailListView(ALBUM_PATHTYPE_BY_PHONE);
+    m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pPhoneVBoxLayout->addSpacing(3);

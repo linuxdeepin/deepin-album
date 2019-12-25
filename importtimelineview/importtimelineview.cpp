@@ -170,11 +170,11 @@ void ImportTimeLineView::initTimeLineViewWidget()
     //add start 3975
     m_pImportTitle = new DLabel(pTimeLineViewWidget);
     m_pImportTitle->setText(tr("Import"));
-    m_pImportTitle->setContentsMargins(17,0,0,0);
+    m_pImportTitle->setContentsMargins(17, 0, 0, 0);
     DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pImportTitle->setForegroundRole(DPalette::TextTitle);
-    m_pImportTitle->setFixedSize(width() - 10 ,47);
-    m_pImportTitle->move(0,0);
+    m_pImportTitle->setFixedSize(width() - 10, 47);
+    m_pImportTitle->move(0, 50);
 
     DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_pImportTitle);
     ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
@@ -254,8 +254,8 @@ void ImportTimeLineView::initTimeLineViewWidget()
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
             p[0]->selectAll();
             emit sigUpdatePicNum();
-            for(int i = 0; i < m_allChoseButton.length();i++){
-                if(m_allThumbnailListView[i] == p[0]){
+            for (int i = 0; i < m_allChoseButton.length(); i++) {
+                if (m_allThumbnailListView[i] == p[0]) {
                     lastClickedIndex = i;
                     lastRow = 0;
                     lastChanged = true;
@@ -283,7 +283,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setFixedSize(this->width() - 10, SUBTITLE_HEIGHT);
     m_dateItem->setContentsMargins(0, 0, 0, 0);
-    m_dateItem->move(0, m_pImportTitle->height());  //edit 3975
+    m_dateItem->move(0, 50 + m_pImportTitle->height()); //edit 3975
     m_dateItem->show();
     m_dateItem->setVisible(false);
 }
@@ -300,22 +300,19 @@ void ImportTimeLineView::updataLayout()
 #if 1
     m_allThumbnailListView.clear();
 #endif
-    if (0 < m_timelines.size())
-    {
+    if (0 < m_timelines.size()) {
 
-    }
-    else
-    {
+    } else {
         m_dateItem->setVisible(false);
     }
     //add start 3975
-        TimelineItem *blankWidget = new TimelineItem;
-        blankWidget->m_type = "blank";
-        QListWidgetItem *blankItem=new QListWidgetItem();
-        blankItem->setFlags(Qt::NoItemFlags);
-        m_mainListWidget->addItemForWidget(blankItem);
-        m_mainListWidget->setItemWidget(blankItem, blankWidget);
-        blankItem->setSizeHint(QSize(width(),m_pImportTitle->height()));
+    TimelineItem *blankWidget = new TimelineItem;
+    blankWidget->m_type = "blank";
+    QListWidgetItem *blankItem = new QListWidgetItem();
+    blankItem->setFlags(Qt::NoItemFlags);
+    m_mainListWidget->addItemForWidget(blankItem);
+    m_mainListWidget->setItemWidget(blankItem, blankWidget);
+    blankItem->setSizeHint(QSize(width(), m_pImportTitle->height()));
     //add end 3975
     for (int i = 0; i < m_timelines.size(); i++) {
         //获取当前时间照片
@@ -415,11 +412,18 @@ void ImportTimeLineView::updataLayout()
         listItem->m_title = TitleView;
 
         //添加照片
-        ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
+        ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::NullType, COMMON_STR_RECENT_IMPORTED);
         connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
             if (isVisible()) {
-                pThumbnailListView->setFixedHeight(h);
-                listItem->setFixedHeight(TitleView->height() + h);
+                int mh = h;
+                if (0 == i) {
+                    mh += 50;
+                }
+                if (i == m_timelines.size() - 1) {
+                    mh += 27;
+                }
+                pThumbnailListView->setFixedHeight(mh);
+                listItem->setFixedHeight(TitleView->height() + mh);
                 item->setSizeHint(listItem->rect().size());
             }
 
@@ -456,9 +460,19 @@ void ImportTimeLineView::updataLayout()
         pThumbnailListView->insertThumbnails(thumbnaiItemList);
         pThumbnailListView->m_imageType = COMMON_STR_RECENT_IMPORTED;
 
+        if (0 == i) {
+            DWidget *topwidget = new DWidget;
+            topwidget->setFixedHeight(50);
+            listItemlayout->addWidget(topwidget);
+        }
         listItemlayout->addWidget(TitleView);
         listItemlayout->addSpacing(-8);
         listItemlayout->addWidget(pThumbnailListView);
+        if (i == m_timelines.size() - 1) {
+            DWidget *bottomwidget = new DWidget;
+            bottomwidget->setFixedHeight(27);
+            listItemlayout->addWidget(bottomwidget);
+        }
         item->setFlags(Qt::NoItemFlags);
         m_mainListWidget->addItemForWidget(item);
         m_mainListWidget->setItemWidget(item, listItem);
@@ -509,11 +523,9 @@ void ImportTimeLineView::updataLayout()
 
                 QStringList pathlist;
                 pathlist.clear();
-                for(auto path: info.paths)
-                {
-                    if (QFileInfo(path).exists())
-                    {
-                        pathlist<<path;
+                for (auto path : info.paths) {
+                    if (QFileInfo(path).exists()) {
+                        pathlist << path;
                     }
                 }
 
@@ -530,8 +542,8 @@ void ImportTimeLineView::updataLayout()
             {
                 pChose->setText(QObject::tr("Unselect"));
                 pThumbnailListView->selectAll();
-                for(int i = 0;i < m_allChoseButton.length();i++){
-                    if(pChose == m_allChoseButton[i])
+                for (int i = 0; i < m_allChoseButton.length(); i++) {
+                    if (pChose == m_allChoseButton[i])
                         lastClickedIndex = i;
                 }
                 lastRow = 0;
@@ -545,30 +557,30 @@ void ImportTimeLineView::updataLayout()
         });
 #if 1
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] (QMouseEvent *event){
+        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] (QMouseEvent * event) {
             lastRow = -1;
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
-                if(pThumbnailListView == m_allThumbnailListView[i]){
+            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                if (pThumbnailListView == m_allThumbnailListView[i]) {
                     lastClickedIndex = i;
-                    lastRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
-                    if(-1 != lastRow)
+                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+                    if (-1 != lastRow)
                         lastChanged = true;
                 }
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ] (QMouseEvent *event){
+        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ] (QMouseEvent * event) {
             int curClickedIndex = -1;
             int curRow = -1;
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
-                if(pThumbnailListView == m_allThumbnailListView[i]){
+            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                if (pThumbnailListView == m_allThumbnailListView[i]) {
                     curClickedIndex = i;
-                    curRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
+                    curRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
                 }
             }
 
-            if(!lastChanged && -1 != curRow && -1 != m_lastShiftRow){
-                for(int i = 0;i < m_allThumbnailListView.length();i++){
+            if (!lastChanged && -1 != curRow && -1 != m_lastShiftRow) {
+                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                     m_allThumbnailListView[i]->clearSelection();
                 }
 //                qDebug() << "lastClickedIndex" << lastClickedIndex << endl
@@ -595,28 +607,28 @@ void ImportTimeLineView::updataLayout()
 //                }
             }
 
-            if(curRow == -1 || lastRow == -1){
-                for(int i = 0;i < m_allThumbnailListView.length();i++){
+            if (curRow == -1 || lastRow == -1) {
+                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                     m_allThumbnailListView[i]->clearSelection();
                 }
-            }else{
-                if(lastClickedIndex < curClickedIndex){
+            } else {
+                if (lastClickedIndex < curClickedIndex) {
                     m_allThumbnailListView[lastClickedIndex]->selectRear(lastRow);
                     m_allThumbnailListView[curClickedIndex]->selectFront(curRow);
-                    for(int i = lastClickedIndex+1;i < curClickedIndex;i++){
+                    for (int i = lastClickedIndex + 1; i < curClickedIndex; i++) {
                         m_allThumbnailListView[i]->selectAll();
                     }
-                }else if(lastClickedIndex > curClickedIndex){
+                } else if (lastClickedIndex > curClickedIndex) {
                     m_allThumbnailListView[lastClickedIndex]->selectFront(lastRow);
                     m_allThumbnailListView[curClickedIndex]->selectRear(curRow);
-                    for(int i = curClickedIndex+1;i < lastClickedIndex;i++){
+                    for (int i = curClickedIndex + 1; i < lastClickedIndex; i++) {
                         m_allThumbnailListView[i]->selectAll();
                     }
-                }else if(lastClickedIndex == curClickedIndex){
-                    if(lastRow <= curRow)
-                        pThumbnailListView->selectExtent(lastRow,curRow);
+                } else if (lastClickedIndex == curClickedIndex) {
+                    if (lastRow <= curRow)
+                        pThumbnailListView->selectExtent(lastRow, curRow);
                     else
-                        pThumbnailListView->selectExtent(curRow,lastRow);
+                        pThumbnailListView->selectExtent(curRow, lastRow);
                 }
                 emit sigUpdatePicNum();
                 updateChoseText();
@@ -627,12 +639,12 @@ void ImportTimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ] (QMouseEvent *event){
-            for(int i = 0;i < m_allThumbnailListView.length();i++){
-                if(pThumbnailListView == m_allThumbnailListView[i]){
+        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ] (QMouseEvent * event) {
+            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+                if (pThumbnailListView == m_allThumbnailListView[i]) {
                     lastClickedIndex = i;
-                    lastRow = pThumbnailListView->getRow(QPoint(event->x(),event->y()));
-                    if(-1 != lastRow)
+                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+                    if (-1 != lastRow)
                         lastChanged = true;
                 }
             }
@@ -746,7 +758,7 @@ void ImportTimeLineView::on_AddLabel(QString date, QString num)
 //            buttonList.at(0)->setText(buttonList1.at(0)->text());
 //        }
 
-        m_dateItem->move(0, m_pImportTitle->height()); //edit 3975
+        m_dateItem->move(0, 50 + m_pImportTitle->height()); //edit 3975
     }
 #if 1
     QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
@@ -804,7 +816,7 @@ void ImportTimeLineView::on_KeyEvent(int key)
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
     m_dateItem->setFixedSize(width() - 10, SUBTITLE_HEIGHT);
-    m_pImportTitle->setFixedSize(width() - 10 ,47); //add 3975
+    m_pImportTitle->setFixedSize(width() - 10, 47); //add 3975
 }
 
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)
@@ -939,8 +951,8 @@ void ImportTimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void ImportTimeLineView::keyPressEvent(QKeyEvent *e)
 {
-    qDebug()<<"ImportTimeLineView::keyPressEvent()";
-    if(e->key() == Qt::Key_Control){
+    qDebug() << "ImportTimeLineView::keyPressEvent()";
+    if (e->key() == Qt::Key_Control) {
         m_ctrlPress = true;
     }
 }

@@ -370,7 +370,7 @@ void SearchView::initSearchResultView()
     pHBoxLayout->addWidget(m_pSearchResultLabel);
     pHBoxLayout->addStretch(0);
 
-    m_pThumbnailListView = new ThumbnailListView();
+    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType);
 
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
 
@@ -387,13 +387,16 @@ void SearchView::initSearchResultView()
 
 void SearchView::initMainStackWidget()
 {
+    DWidget *topwidget = new DWidget;
+    topwidget->setFixedHeight(50);
     m_stackWidget = new DStackedWidget();
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
     m_stackWidget->addWidget(m_pNoSearchResultView);
     m_stackWidget->addWidget(m_pSearchResultView);
 
-    QLayout *layout = new QHBoxLayout(this);
+    QLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(topwidget);
     layout->addWidget(m_stackWidget);
 }
 
