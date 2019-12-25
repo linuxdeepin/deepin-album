@@ -420,7 +420,7 @@ TTBContent::TTBContent(bool inDB,
     m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
     m_adaptScreenBtn->setIconSize(QSize(36, 36));
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
-    m_adaptScreenBtn->setCheckable(true);
+//    m_adaptScreenBtn->setCheckable(true);
 
 
     hb->addWidget(m_adaptScreenBtn);
