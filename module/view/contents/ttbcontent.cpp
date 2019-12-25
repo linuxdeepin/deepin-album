@@ -602,10 +602,15 @@ void TTBContent::checkAdaptScreenBtn()
 void TTBContent::deleteImage()
 {
     emit removed();
+
+    if (m_imgInfos_size < 2) {
+        return;
+    }
     emit ttbcontentClicked();
 
     m_imgInfos_size = m_imgInfos_size - 1;
     int windowWidth =  this->window()->geometry().width();
+//    int windowWidth = 1000;
     if (m_imgInfos_size <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     } else if (m_imgInfos_size <= 3) {
