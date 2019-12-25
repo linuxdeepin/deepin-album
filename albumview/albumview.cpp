@@ -23,8 +23,6 @@
 #include <DToast>
 #include "dmessagemanager.h"
 #include "dialogs/albumcreatedialog.h"
-#include <QRunnable>
-#include <QThreadPool>
 #include <QScrollBar> //add 3975
 
 namespace {
@@ -2628,8 +2626,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
                               QDirIterator::Subdirectories);
 
     m_phoneImgPathList.clear();
-    QThreadPool qtpool;
-    qtpool.setMaxThreadCount(10);
+    qtpool.setMaxThreadCount(6);
     qDebug() << "onLoadMountImagesStart() while (dir_iterator.hasNext())";
     int i = 0;
     while (dir_iterator.hasNext()) {
