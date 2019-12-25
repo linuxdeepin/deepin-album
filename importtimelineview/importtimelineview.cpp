@@ -415,7 +415,7 @@ void ImportTimeLineView::updataLayout()
         listItem->m_title = TitleView;
 
         //添加照片
-        ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_VIEW_TIMELINE);
+        ThumbnailListView *pThumbnailListView = new ThumbnailListView(COMMON_STR_RECENT_IMPORTED);
         connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
             if (isVisible()) {
                 pThumbnailListView->setFixedHeight(h);

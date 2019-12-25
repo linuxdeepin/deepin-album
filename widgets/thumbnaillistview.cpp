@@ -259,16 +259,17 @@ void ThumbnailListView::initConnections()
 void ThumbnailListView::calBasePixMapWandH()
 {
 //    int i_totalwidth = width() - 36;  // same as i_totalwidth in calWidgetItemWandH()
-    int i_totalwidth = width() - 30;  // same as i_totalwidth in calWidgetItemWandH()
+    int i_totalwidth = window()->width() - 30;  // same as i_totalwidth in calWidgetItemWandH()
 
     for (int i = 0; i < m_ItemList.length(); i++) {
         if (0 == m_ItemList[i].height || 0 == m_ItemList[i].width) {
             m_ItemList[i].width = m_iBaseHeight;
             m_ItemList[i].height = m_iBaseHeight;
         } else {
-            m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
+            m_ItemList[i].width = m_ItemList[i].baseWidth * m_iBaseHeight / m_ItemList[i].height;
             if (m_ItemList[i].width > i_totalwidth) {
-                m_ItemList[i].height = m_ItemList[i].height * i_totalwidth / 4 / m_ItemList[i].width;
+//                m_ItemList[i].height = m_ItemList[i].height * i_totalwidth / 4 / m_ItemList[i].width;
+                m_ItemList[i].height = m_iBaseHeight / 4;
                 m_ItemList[i].width = i_totalwidth / 4;
             } else {
                 m_ItemList[i].height = m_iBaseHeight;
@@ -427,13 +428,12 @@ void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 
         //        m_ItemList[i].width = m_ItemList[i].image.width();
         //        m_ItemList[i].height = m_ItemList[i].image.height();
-        m_ItemList[i].width = m_ItemList[i].width;
-        m_ItemList[i].height = m_ItemList[i].height;
+        m_ItemList[i].baseWidth = m_ItemList[i].width;
+        m_ItemList[i].baseHeight = m_ItemList[i].height;
     }
 
-    calBasePixMapWandH();
-
     if (0 != m_iDefaultWidth) {
+        calBasePixMapWandH();
         calWidgetItemWandH();
         addThumbnailView();
     }
@@ -926,7 +926,12 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
+    if ( COMMON_STR_RECENT_IMPORTED == m_imageType)
+    {
+        int a = 0;
+    }
     if (0 == m_iDefaultWidth) {
+        calBasePixMapWandH();
         calWidgetItemWandH();
         addThumbnailView();
     } else {

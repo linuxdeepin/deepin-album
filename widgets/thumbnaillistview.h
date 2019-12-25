@@ -77,6 +77,8 @@ public:
     struct ItemInfo {
         QString name = QString();
         QString path = QString();
+        int baseWidth;
+        int baseHeight;
         int width;
         int height;
         int imgWidth;
