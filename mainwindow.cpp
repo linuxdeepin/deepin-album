@@ -1176,10 +1176,12 @@ void MainWindow::onShowImageInfo(const QString &path)
         dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
-        dialog->move((width() - dialog->width()) / 2 +
-                     mapToGlobal(QPoint(0, 0)).x(),
-                     (window()->height() - dialog->height()) / 2 +
-                     window()->y() - 120);
+//        dialog->move((width() - dialog->width()) / 2 +
+//                     mapToGlobal(QPoint(0, 0)).x(),
+//                     (window()->height() - dialog->height()) / 2 +
+//                     window()->y() - 120);
+//        dialog->move((width() - dialog->width() + mapToGlobal(QPoint(0, 0)).x()), (window()->height() - dialog->height()) - 650);
+        dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
             dialog->deleteLater();
@@ -1190,10 +1192,11 @@ void MainWindow::onShowImageInfo(const QString &path)
         dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
-        dialog->move((width() - dialog->width()) / 2 +
-                     mapToGlobal(QPoint(0, 0)).x(),
-                     (window()->height() - dialog->height()) / 2 +
-                     window()->y() - 120);
+//        dialog->move((width() - dialog->width()) / 2 +
+//                     mapToGlobal(QPoint(0, 0)).x(),
+//                     (window()->height() - dialog->height()) / 2 +
+//                     window()->y() - 120);
+        dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
             dialog->deleteLater();
@@ -1576,7 +1579,7 @@ QJsonObject MainWindow::createShorcutJson()
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    if ( QApplication::keyboardModifiers () == Qt::ControlModifier) {
+    if (QApplication::keyboardModifiers() == Qt::ControlModifier) {
         if (event->delta() > 0) {
             thumbnailZoomIn();
         } else {

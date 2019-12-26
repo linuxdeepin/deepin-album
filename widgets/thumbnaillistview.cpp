@@ -989,7 +989,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-    if ( COMMON_STR_RECENT_IMPORTED == m_imageType) {
+    if (COMMON_STR_RECENT_IMPORTED == m_imageType) {
         int a = 0;
     }
     if (0 == m_iDefaultWidth) {

@@ -269,7 +269,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 //        if (m_isInfoShowed)
 //            emit dApp->signalM->hideExtensionPanel();
 //        else
-        emit dApp->signalM->showExtensionPanel();
+        //emit dApp->signalM->showExtensionPanel();
+        emit dApp->signalM->showImageInfo(path);
         // Update panel info
         m_info->setImagePath(path);
         break;
