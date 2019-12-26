@@ -334,8 +334,12 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
+    connect(m_diskManager, &DDiskManager::fileSystemAdded, this, [ = ](const QString & dbusPath) {
+        DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
+        blDev->mount({});
+    });
     connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, [ = ](const QString & blks) {
-        qDebug() << "--------------blks:" << blks;
+//        qDebug() << "--------------blks:" << blks;
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
         QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
 
@@ -401,7 +405,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1941,7 +1945,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
