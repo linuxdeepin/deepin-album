@@ -712,7 +712,7 @@ QStringList ThumbnailListView::selectedPaths()
     QStringList paths;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.length() == 8) {
+        if (datas.length() >= 8) {
             paths << datas[1].toString();
         }
     }
