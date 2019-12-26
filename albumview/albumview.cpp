@@ -862,9 +862,6 @@ void AlbumView::initRightView()
     m_pRightFavoriteThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightFavoriteThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-
-    qDebug() << "11111111111111";
-
     m_pRightFavoriteThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightFavoriteThumbnailList->setContentsMargins(0, 0, 0, 0);
 
@@ -2754,6 +2751,7 @@ bool MountLoader::findPicturePathByPhone(QString &path)
 
 void AlbumView::paintEvent(QPaintEvent *event)
 {
+    qDebug() << "paintEvevt" << endl;
     QWidget::paintEvent(event);
     if (nullptr != m_FavoriteItem) {
         m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
