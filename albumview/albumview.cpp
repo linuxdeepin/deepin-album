@@ -863,6 +863,8 @@ void AlbumView::initRightView()
     m_pRightFavoriteThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 
+    qDebug() << "11111111111111";
+
     m_pRightFavoriteThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightFavoriteThumbnailList->setContentsMargins(0, 0, 0, 0);
 
