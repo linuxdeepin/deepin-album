@@ -389,7 +389,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -745,11 +745,15 @@ void AlbumView::initRightView()
     lsitWidget3->insertItem(0, Trashitem);
     lsitWidget3->setItemWidget(Trashitem, blankWidget3);
     Trashitem->setSizeHint(QSize(width(), 83));
+    qDebug() << "blankWidget3 height" << blankWidget3->height() << endl;
+
 
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
     lsitWidget3->insertItem(1, m_TrashitemItem);
     lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
+    qDebug() << "m_pRightTrashThumbnailList height" << m_pRightTrashThumbnailList->height() << endl;
+    qDebug() << "listWidget3 height" << lsitWidget3->height() << endl;
 
     m_pRightTrashThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightTrashThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -834,17 +838,24 @@ void AlbumView::initRightView()
     lsitWidget2->insertItem(0, Favoriteitem);
     lsitWidget2->setItemWidget(Favoriteitem, blankWidget2);
     Favoriteitem->setSizeHint(QSize(width(), 83));
+    qDebug() << "blankWidget2 height" << blankWidget2->height() << endl;
 
     m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
     lsitWidget2->insertItem(1, m_FavoriteItem);
     lsitWidget2->setItemWidget(m_FavoriteItem, m_pRightFavoriteThumbnailList);
+//    m_pRightFavoriteThumbnailList->resize(480, 5000);
+    qDebug() << "m_pRightThumbnailList height" << m_pRightFavoriteThumbnailList->height() << endl;
+    qDebug() << "listWidget2 height" << lsitWidget2->height() << endl;
+    //    m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
 
     m_pRightFavoriteThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightFavoriteThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+
     m_pRightFavoriteThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightFavoriteThumbnailList->setContentsMargins(0, 0, 0, 0);
+
     m_FavoriteTitle = new DWidget(m_pFavoriteWidget);
     m_FavoriteTitle->setLayout(pFavoriteVBoxLayout);
 
@@ -1070,7 +1081,6 @@ void AlbumView::updateRightMyFavoriteView()
 {
     using namespace utils::image;
     DBImgInfoList infos;
-
     infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
 
     for (auto info : infos) {
@@ -1322,8 +1332,10 @@ void AlbumView::leftTabClicked()
     emit dApp->signalM->SearchEditClear();
     //若点击当前的item，则不做任何处理
     if (m_currentAlbum == m_pLeftListView->getItemCurrentName()) {
+//        if (m_currentAlbum != COMMON_STR_FAVORITES) {
         SearchReturnUpdate();
         return;
+//        }
     }
 
     m_currentAlbum = m_pLeftListView->getItemCurrentName();
@@ -1918,7 +1930,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2727,6 +2739,17 @@ bool MountLoader::findPicturePathByPhone(QString &path)
     return false;
 }
 
+void AlbumView::paintEvent(QPaintEvent *event)
+{
+    QWidget::paintEvent(event);
+    if (nullptr != m_FavoriteItem) {
+        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+    }
+    if (nullptr != m_FavoriteItem) {
+        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
+    }
+}
+
 void AlbumView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width() / 2 + 60, (height() - 50) / 2 - 20);
@@ -2739,7 +2762,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 
     //add start 3975
     if (nullptr != m_noTrashItem) {
-        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 ));
+        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8));
     }
     if (nullptr != m_FavoriteItem) {
         m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));

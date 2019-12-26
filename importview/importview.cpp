@@ -93,7 +93,7 @@ void ImportView::initUI()
     pLabel->setPixmap(pixmap);
 
     m_pImportBtn = new DSuggestButton();
-//    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
+    //m_pImportBtn->setFocusPolicy(Qt::NoFocus);
     m_pImportBtn->setText(tr("Import Photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
@@ -103,7 +103,7 @@ void ImportView::initUI()
 //    pa.setColor(QPalette::Dark,QColor(0,152,255));
     pa.setColor(QPalette::Highlight, QColor(0, 0, 0, 0));
 //    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
-    m_pImportBtn->setPalette(pa);
+//    m_pImportBtn->setPalette(pa);
 
     DLabel *pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
@@ -426,7 +426,7 @@ void ImportView::onImprotBtnClicked()
 
             for (auto info : m_dbInfos)
             {
-                if ( dApp->m_imagemap.value(info.filePath).isNull()) {
+                if (dApp->m_imagemap.value(info.filePath).isNull()) {
                     qDebug() << "dApp->m_imagemap.value(info.filePath).isNull()";
                     continue;
                 }
