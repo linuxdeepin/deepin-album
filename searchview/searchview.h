@@ -25,6 +25,7 @@
 #include <DWidget>
 #include <DGuiApplicationHelper>
 #include <QMouseEvent>
+#include <DBlurEffectWidget>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -65,12 +66,16 @@ private:
     void updateSearchResultsIntoThumbnailView();
     void changeTheme();
     void onKeyDelete();
+    void resizeEvent(QResizeEvent *e) override;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     DStackedWidget *m_stackWidget;
     DWidget *m_pNoSearchResultView;
     DLabel *m_pNoSearchResultLabel;
     DWidget *m_pSearchResultView;
+    DWidget *m_searchResultViewbody;
+    DBlurEffectWidget *m_searchResultViewTop;
 //    DPushButton *m_pSlideShowBtn;
     SlideShowButton *m_pSlideShowBtn;
     DLabel *m_pSearchResultLabel;

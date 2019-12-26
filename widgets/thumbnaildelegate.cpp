@@ -74,7 +74,18 @@ void ThumbnailDelegate::paint(QPainter *painter,
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }
-    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+    } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+        if ("Last" == data.firstorlast) {
+            backgroundRect.setHeight(backgroundRect.height() - 27);
+        }
+    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+        if ("First" == data.firstorlast) {
+            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
+            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 130);
+            //绘制
+            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
+            backgroundRect.setY(backgroundRect.y() + 130);
+        }
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }

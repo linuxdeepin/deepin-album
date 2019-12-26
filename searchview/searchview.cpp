@@ -294,7 +294,6 @@ void SearchView::initNoSearchResultView()
 void SearchView::initSearchResultView()
 {
     m_pSearchResultView = new DWidget();
-    QVBoxLayout *pSearchResultLayout = new QVBoxLayout();
 //    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
 
@@ -370,25 +369,36 @@ void SearchView::initSearchResultView()
     pHBoxLayout->addWidget(m_pSearchResultLabel);
     pHBoxLayout->addStretch(0);
 
+    m_searchResultViewTop = new DBlurEffectWidget(m_pSearchResultView);
+    m_searchResultViewbody = new DWidget(m_pSearchResultView);
+    QVBoxLayout *pSearchResultbodyLayout = new QVBoxLayout();
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType);
 
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
 
+    pSearchResultbodyLayout->addWidget(m_pThumbnailListView);
+    QVBoxLayout *pSearchResultLayout = new QVBoxLayout();
 //    pSearchResultLayout->addSpacing(5);
 //    pSearchResultLayout->setMargin(2);
     pSearchResultLayout->setMargin(0);
     pSearchResultLayout->setSpacing(0);
     pSearchResultLayout->addWidget(pLabel1);
     pSearchResultLayout->addItem(pHBoxLayout);
-    pSearchResultLayout->addWidget(m_pThumbnailListView);
+//    pSearchResultLayout->addWidget(m_pThumbnailListView);
+    pSearchResultLayout->addStretch();
 
-    m_pSearchResultView->setLayout(pSearchResultLayout);
+    m_searchResultViewTop->setFixedHeight(80);
+    m_searchResultViewTop->move(0, 50);
+    m_searchResultViewbody->setLayout(pSearchResultbodyLayout);
+    m_searchResultViewTop->setLayout(pSearchResultLayout);
+    m_searchResultViewTop->raise();
+//    m_pSearchResultView->setLayout(pSearchResultLayout);
 }
 
 void SearchView::initMainStackWidget()
 {
-    DWidget *topwidget = new DWidget;
-    topwidget->setFixedHeight(50);
+//    DWidget *topwidget = new DWidget;
+//    topwidget->setFixedHeight(50);
     m_stackWidget = new DStackedWidget();
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
     m_stackWidget->addWidget(m_pNoSearchResultView);
@@ -396,7 +406,7 @@ void SearchView::initMainStackWidget()
 
     QLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(topwidget);
+//    layout->addWidget(topwidget);
     layout->addWidget(m_stackWidget);
 }
 
@@ -564,6 +574,20 @@ void SearchView::changeTheme()
 //        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     }
 
+}
+
+void SearchView::paintEvent(QPaintEvent *event)
+{
+    QWidget::paintEvent(event);
+    m_searchResultViewTop->setFixedWidth(m_pSearchResultView->width());
+    m_searchResultViewbody->setFixedSize(m_pSearchResultView->size());
+}
+
+void SearchView::resizeEvent(QResizeEvent *e)
+{
+    QWidget::resizeEvent(e);
+    m_searchResultViewTop->setFixedWidth(m_pSearchResultView->width());
+    m_searchResultViewbody->setFixedSize(m_pSearchResultView->size());
 }
 
 void SearchView::onKeyDelete()
