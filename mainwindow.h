@@ -69,6 +69,7 @@ private:
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void timerEvent(QTimerEvent *e);
+    void resizeEvent(QResizeEvent *e) override;
 
 signals:
     void sigTitleMenuImportClicked();

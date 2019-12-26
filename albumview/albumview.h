@@ -29,6 +29,7 @@
 #include <ddiskdevice.h>
 #include "leftlistwidget.h"
 #include <QRunnable>
+#include <QThreadPool>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -67,7 +68,10 @@ class MountLoader : public QObject
     Q_OBJECT
 public:
     explicit MountLoader(AlbumView *parent);
-
+    ~MountLoader()
+    {
+        qtpool.waitForDone();
+    }
 private:
     bool findPicturePathByPhone(QString &path);
 
@@ -84,6 +88,7 @@ private:
     AlbumView *m_parent;
     QStringList m_phoneImgPathList;
     QMap<QString, QPixmap> m_phonePathImage;
+    QThreadPool qtpool;
 };
 
 class AlbumView : public QWidget

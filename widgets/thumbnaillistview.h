@@ -77,6 +77,8 @@ public:
     struct ItemInfo {
         QString name = QString();
         QString path = QString();
+        int baseWidth;
+        int baseHeight;
         int width;
         int height;
         int imgWidth;
@@ -86,7 +88,7 @@ public:
     };
 
 
-    explicit ThumbnailListView(QString imgtype = "All Photos");
+    explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, QString imgtype = "All Photos");
     ~ThumbnailListView();
 
 
@@ -102,10 +104,10 @@ public:
     int getRow(QPoint point);
     void selectRear(int row);
     void selectFront(int row);
-    void selectExtent(int start,int end);
+    void selectExtent(int start, int end);
     void clearSelectionRear(int row);
     void clearSelectionFront(int row);
-    void clearSelectionExtent(int start,int end);
+    void clearSelectionExtent(int start, int end);
 
 signals:
     void loadend(int);
@@ -183,6 +185,7 @@ private:
 
     QList<QString> m_timelines;
     QStringList m_dragItemPath;
+    ThumbnailDelegate::DelegateType m_delegatetype = ThumbnailDelegate::NullType;
 };
 
 #endif // THUMBNAILLISTVIEW_H

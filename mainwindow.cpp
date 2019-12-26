@@ -48,10 +48,12 @@ MainWindow::MainWindow()
 //    initCentralWidget();
 //    initShortcut();
 //    initConnections();
-    m_pCenterWidget = new QStackedWidget;
+    m_pCenterWidget = new QStackedWidget(this);
     m_pAllPicView = new AllPicView();
     m_pCenterWidget->addWidget(m_pAllPicView);
-    setCentralWidget(m_pCenterWidget);
+    m_pCenterWidget->setFixedSize(size());
+    m_pCenterWidget->lower();
+//    setCentralWidget(m_pCenterWidget);
 
     timer = startTimer(500);
 }
@@ -59,6 +61,11 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::resizeEvent(QResizeEvent *e)
+{
+    m_pCenterWidget->setFixedSize(size());
 }
 
 void MainWindow::timerEvent(QTimerEvent *e)

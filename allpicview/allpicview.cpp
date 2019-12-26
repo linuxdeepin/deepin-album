@@ -21,7 +21,7 @@ AllPicView::AllPicView()
     fatherwidget->setFixedSize(this->size());
     m_pStackedWidget = new DStackedWidget(this);
     m_pImportView = new ImportView();
-    m_pThumbnailListView = new ThumbnailListView();
+    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType);
 //    m_pThumbnailListView->setStyleSheet("background:red");
     DWidget *pThumbnailListView = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();

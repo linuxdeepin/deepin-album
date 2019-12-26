@@ -28,7 +28,7 @@ QString ss(const QString &text)
 }
 };
 
-LeftListView::LeftListView(DWidget* parent):DWidget(parent)
+LeftListView::LeftListView(DWidget *parent): DWidget(parent)
 {
     m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
     m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
@@ -40,29 +40,23 @@ LeftListView::LeftListView(DWidget* parent):DWidget(parent)
 
 void LeftListView::initConnections()
 {
-    connect(m_pPhotoLibListView, &DListWidget::pressed, this, [=](QModelIndex index){
-        qDebug()<<"m_pPhotoLibListView, &DListWidget::pressed";
+    connect(m_pPhotoLibListView, &DListWidget::pressed, this, [ = ](QModelIndex index) {
+        qDebug() << "m_pPhotoLibListView, &DListWidget::pressed";
         m_pCustomizeListView->clearSelection();
         m_pMountListView->clearSelection();
         updateAlbumItemsColor();
 
-        if (m_pPhotoLibListView->currentItem())
-        {
+        if (m_pPhotoLibListView->currentItem()) {
             AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
             item->newAlbumStatus();
 
-            if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr)
-            {
+            if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
                 m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
                 m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
-            }
-            else if (COMMON_STR_TRASH == item->m_albumNameStr)
-            {
+            } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
                 m_ItemCurrentName = COMMON_STR_TRASH;
                 m_ItemCurrentType = COMMON_STR_TRASH;
-            }
-            else
-            {
+            } else {
                 m_ItemCurrentName = COMMON_STR_FAVORITES;
                 m_ItemCurrentType = COMMON_STR_FAVORITES;
             }
@@ -74,8 +68,8 @@ void LeftListView::initConnections()
         emit itemClicked();
     });
 
-    connect(m_pCustomizeListView, &DListWidget::pressed, this, [=]{
-        qDebug()<<"m_pCustomizeListView, &DListWidget::pressed";
+    connect(m_pCustomizeListView, &DListWidget::pressed, this, [ = ] {
+        qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
         m_pPhotoLibListView->clearSelection();
         m_pMountListView->clearSelection();
         updateAlbumItemsColor();
@@ -96,8 +90,8 @@ void LeftListView::initConnections()
         emit itemClicked();
     });
 
-    connect(m_pMountListView, &DListWidget::pressed, this, [=]{
-        qDebug()<<"m_pMountListView, &DListWidget::pressed";
+    connect(m_pMountListView, &DListWidget::pressed, this, [ = ] {
+        qDebug() << "m_pMountListView, &DListWidget::pressed";
         m_pPhotoLibListView->clearSelection();
         m_pCustomizeListView->clearSelection();
         updateAlbumItemsColor();
@@ -118,8 +112,8 @@ void LeftListView::initConnections()
         emit itemClicked();
     });
 
-    connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, [=]{
-        qDebug()<<"m_pPhotoLibListView, &DListWidget::currentItemChanged";
+    connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, [ = ] {
+        qDebug() << "m_pPhotoLibListView, &DListWidget::currentItemChanged";
         m_pCustomizeListView->clearSelection();
         m_pMountListView->clearSelection();
         updateAlbumItemsColor();
@@ -129,18 +123,13 @@ void LeftListView::initConnections()
             AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
             item->newAlbumStatus();
 
-            if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr)
-            {
+            if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
                 m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
                 m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
-            }
-            else if (COMMON_STR_TRASH == item->m_albumNameStr)
-            {
+            } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
                 m_ItemCurrentName = COMMON_STR_TRASH;
                 m_ItemCurrentType = COMMON_STR_TRASH;
-            }
-            else
-            {
+            } else {
                 m_ItemCurrentName = COMMON_STR_FAVORITES;
                 m_ItemCurrentType = COMMON_STR_FAVORITES;
             }
@@ -149,16 +138,15 @@ void LeftListView::initConnections()
         emit itemClicked();
     });
 
-    connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, [=]{
-        qDebug()<<"m_pCustomizeListView, &DListWidget::currentItemChanged";
+    connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, [ = ] {
+        qDebug() << "m_pCustomizeListView, &DListWidget::currentItemChanged";
         if (0 < m_pCustomizeListView->count())
         {
             m_pPhotoLibListView->clearSelection();
             m_pMountListView->clearSelection();
             updateAlbumItemsColor();
 
-            if (m_pCustomizeListView->currentItem())
-            {
+            if (m_pCustomizeListView->currentItem()) {
                 AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
                 item->newAlbumStatus();
 
@@ -171,16 +159,15 @@ void LeftListView::initConnections()
         }
     });
 
-    connect(m_pMountListView, &DListWidget::currentItemChanged, this, [=]{
-        qDebug()<<"m_pMountListView, &DListWidget::currentItemChanged";
+    connect(m_pMountListView, &DListWidget::currentItemChanged, this, [ = ] {
+        qDebug() << "m_pMountListView, &DListWidget::currentItemChanged";
         if (0 < m_pMountListView->count())
         {
             m_pPhotoLibListView->clearSelection();
             m_pCustomizeListView->clearSelection();
             updateAlbumItemsColor();
 
-            if (m_pMountListView->currentItem())
-            {
+            if (m_pMountListView->currentItem()) {
                 AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
                 item->newAlbumStatus();
 
@@ -194,46 +181,46 @@ void LeftListView::initConnections()
 
     connect(m_pCustomizeListView, &QListView::customContextMenuRequested, this, &LeftListView::showMenu);
     connect(m_pMenu, &DMenu::triggered, this, &LeftListView::onMenuClicked);
-    connect(m_pAddListBtn, &DPushButton::clicked, this, [=]{
+    connect(m_pAddListBtn, &DPushButton::clicked, this, [ = ] {
         emit dApp->signalM->createAlbum(QStringList(" "));
     });
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
         if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item= (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
             item->newAlbumStatus();
         }
         if (COMMON_STR_TRASH == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item= (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
             item->newAlbumStatus();
         }
         if (COMMON_STR_FAVORITES == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item= (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
             item->newAlbumStatus();
         }
         if (COMMON_STR_CUSTOM == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item= (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
             item->newAlbumStatus();
         }
         if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item= (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
+            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
             item->newAlbumStatus();
         }
     });
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=] {
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if(themeType == DGuiApplicationHelper::LightType)
+        if (themeType == DGuiApplicationHelper::LightType)
         {
             m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",
                                           ":/resources/images/sidebar/active/add_hover.svg",
                                           ":/resources/images/sidebar/active/add_press.svg",
                                           ":/resources/images/sidebar/active/add_focus.svg");
         }
-        if(themeType == DGuiApplicationHelper::DarkType)
+        if (themeType == DGuiApplicationHelper::DarkType)
         {
             m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/active/add_normal_dark.svg",
                                           ":/resources/images/sidebar/active/add_hover_dark.svg",
@@ -242,7 +229,7 @@ void LeftListView::initConnections()
         }
     });
 
-    connect(m_pMountListView, &LeftListWidget::sigMousePressIsNoValid, this, [=]{
+    connect(m_pMountListView, &LeftListWidget::sigMousePressIsNoValid, this, [ = ] {
         setFocusPolicy(Qt::ClickFocus);
     });
 }
@@ -291,6 +278,7 @@ void LeftListView::initUI()
     m_pPhotoLibListView->setFixedHeight(120);
     m_pPhotoLibListView->setSpacing(0);
     m_pPhotoLibListView->setFrameShape(DListWidget::NoFrame);
+    m_pPhotoLibListView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // 已导入
     QListWidgetItem *pListWidgetItem1 = new QListWidgetItem(m_pPhotoLibListView);
@@ -330,15 +318,13 @@ void LeftListView::initUI()
     m_pCustomizeLabel->setText(tr("Album List"));
     m_pAddListBtn = new AlbumImageButton();
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if(themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",
                                       ":/resources/images/sidebar/active/add_hover.svg",
                                       ":/resources/images/sidebar/active/add_press.svg",
                                       ":/resources/images/sidebar/active/add_focus.svg");
     }
-    if(themeType == DGuiApplicationHelper::DarkType)
-    {
+    if (themeType == DGuiApplicationHelper::DarkType) {
         m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/active/add_normal_dark.svg",
                                       ":/resources/images/sidebar/active/add_hover_dark.svg",
                                       ":/resources/images/sidebar/active/add_press_dark.svg",
@@ -351,7 +337,7 @@ void LeftListView::initUI()
     pCustomizeLayout->addSpacing(14);
     pCustomizeLayout->addWidget(m_pCustomizeLabel, 100, Qt::AlignLeft);
     pCustomizeLayout->addStretch();
-    pCustomizeLayout->addWidget(m_pAddListBtn, 0, Qt::AlignRight|Qt::AlignVCenter);
+    pCustomizeLayout->addWidget(m_pAddListBtn, 0, Qt::AlignRight | Qt::AlignVCenter);
 
     // 线
 //    QHBoxLayout *pLineLayout1 = new QHBoxLayout();
@@ -376,10 +362,8 @@ void LeftListView::initUI()
     m_pCustomizeListView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
-    for (auto albumName : allAlbumNames)
-    {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
-        {
+    for (auto albumName : allAlbumNames) {
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName) {
             continue;
         }
 
@@ -496,10 +480,8 @@ void LeftListView::updateCustomizeListView()
 {
     m_pCustomizeListView->clear();
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
-    for (auto albumName : allAlbumNames)
-    {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName)
-        {
+    for (auto albumName : allAlbumNames) {
+        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName) {
             continue;
         }
 
@@ -560,13 +542,11 @@ void LeftListView::showMenu(const QPoint &pos)
         action->setVisible(true);
     }
 
-    if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName))
-    {
+    if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName)) {
         m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
     }
 
-    if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName))
-    {
+    if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName)) {
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }
 
@@ -576,14 +556,11 @@ void LeftListView::showMenu(const QPoint &pos)
 void LeftListView::onMenuClicked(QAction *action)
 {
     const int id = action->property("MenuID").toInt();
-    switch (MenuItemId(id))
-    {
-    case IdStartSlideShow:
-    {
+    switch (MenuItemId(id)) {
+    case IdStartSlideShow: {
         auto imagelist = DBManager::instance()->getInfosByAlbum(m_ItemCurrentName);
         QStringList paths;
-        for (auto image : imagelist)
-        {
+        for (auto image : imagelist) {
             paths << image.filePath;
         }
 
@@ -592,8 +569,7 @@ void LeftListView::onMenuClicked(QAction *action)
         emit menuOpenImage(path, paths, true, true);
     }
     break;
-    case IdCreateAlbum:
-    {
+    case IdCreateAlbum: {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
@@ -613,21 +589,18 @@ void LeftListView::onMenuClicked(QAction *action)
         moveMountListWidget();
     }
     break;
-    case IdRenameAlbum:
-    {
+    case IdRenameAlbum: {
         AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
 
         item->m_opeMode = OPE_MODE_RENAMEALBUM;
         item->editAlbumEdit();
     }
     break;
-    case IdExport:
-    {
+    case IdExport: {
         Exporter::instance()->exportAlbum(DBManager::instance()->getPathsByAlbum(m_ItemCurrentName), m_ItemCurrentName);
     }
     break;
-    case IdDeleteAlbum:
-    {
+    case IdDeleteAlbum: {
         QString str;
         QListWidgetItem *item = m_pCustomizeListView->currentItem();
         AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(item);
@@ -635,12 +608,9 @@ void LeftListView::onMenuClicked(QAction *action)
         str = pTabItem->m_albumNameStr;
         DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
 
-        if (1 < m_pCustomizeListView->count())
-        {
+        if (1 < m_pCustomizeListView->count()) {
             delete  item;
-        }
-        else
-        {
+        } else {
             updateCustomizeListView();
             updatePhotoListView();
         }
@@ -678,25 +648,20 @@ QString LeftListView::getItemCurrentType()
 
 void LeftListView::updateAlbumItemsColor()
 {
-    for(int i = 0; i < m_pPhotoLibListView->count(); i++)
-    {
+    for (int i = 0; i < m_pPhotoLibListView->count(); i++) {
         AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->item(i));
         item->oriAlbumStatus();
     }
 
-    if (0 < m_pCustomizeListView->count())
-    {
-        for(int i = 0; i < m_pCustomizeListView->count(); i++)
-        {
+    if (0 < m_pCustomizeListView->count()) {
+        for (int i = 0; i < m_pCustomizeListView->count(); i++) {
             AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->item(i));
             item->oriAlbumStatus();
         }
     }
 
-    if (0 < m_pMountListView->count())
-    {
-        for(int i = 0; i < m_pMountListView->count(); i++)
-        {
+    if (0 < m_pMountListView->count()) {
+        for (int i = 0; i < m_pMountListView->count(); i++) {
             AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->item(i));
             item->oriAlbumStatus();
         }
@@ -705,19 +670,14 @@ void LeftListView::updateAlbumItemsColor()
 
 void LeftListView::keyPressEvent(QKeyEvent *event)
 {
-    qDebug()<<"LeftListView::keyPressEvent()";
+    qDebug() << "LeftListView::keyPressEvent()";
     QWidget::keyPressEvent(event);
-    if (event->key() == Qt::Key_Delete)
-    {
-        if (COMMON_STR_CUSTOM == m_ItemCurrentType)
-        {
+    if (event->key() == Qt::Key_Delete) {
+        if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
             emit sigKeyDelete();
         }
-    }
-    else if (event->key() == Qt::Key_F2)
-    {
-        if (COMMON_STR_CUSTOM == m_ItemCurrentType)
-        {
+    } else if (event->key() == Qt::Key_F2) {
+        if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
             emit sigKeyF2();
         }
     }
@@ -726,12 +686,9 @@ void LeftListView::keyPressEvent(QKeyEvent *event)
 void LeftListView::moveMountListWidget()
 {
     int iMountY = 200;
-    if (11 > m_pCustomizeListView->count())
-    {
+    if (11 > m_pCustomizeListView->count()) {
         iMountY = iMountY + m_pCustomizeListView->count() * 40;
-    }
-    else
-    {
+    } else {
         iMountY = iMountY + 10 * 40;
     }
 
