@@ -323,11 +323,11 @@ void ViewPanel::updateMenuContent()
     /**************************************************************************/
 #if 1
     m_menu->addMenu(createAblumMenu());                                         //添加到相册
-    appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));    //导出
+    appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));   //导出
 #endif
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
     if (COMMON_STR_TRASH == m_viewType) {
-//        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     } else {
         appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     }
@@ -339,6 +339,7 @@ void ViewPanel::updateMenuContent()
             && COMMON_STR_TRASH != m_viewType
             && COMMON_STR_FAVORITES != m_viewType) {
         appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
+//        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", "Delete"));
     }
     m_menu->addSeparator();
     /**************************************************************************/

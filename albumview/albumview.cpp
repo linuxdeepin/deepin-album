@@ -405,7 +405,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -530,6 +530,8 @@ runend:
 //    connect(m_pLeftListView, &LeftListView::sigKeyF2, this, &AlbumView::onKeyF2);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AlbumView::onKeyDelete);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyF2, this, &AlbumView::onKeyF2);
+
+    connect(dApp->signalM, &SignalManager::updateThumbnailViewSize, this, &AlbumView::onUpdateThumbnailViewSize);
 }
 
 void AlbumView::initLeftView()
@@ -1952,7 +1954,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2198,6 +2200,18 @@ void AlbumView::onUpdataAlbumRightTitle(QString titlename)
     m_currentAlbum = titlename;
 //    m_customAlbumNames.replace(index, m_currentAlbum);
     updateRightView();
+}
+
+void AlbumView::onUpdateThumbnailViewSize()
+{
+    qDebug() << "adasdasd" << endl;
+    if (nullptr != m_FavoriteItem) {
+        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+    }
+    if (nullptr != m_FavoriteItem) {
+        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
+    }
+
 }
 
 void AlbumView::SearchReturnUpdate()

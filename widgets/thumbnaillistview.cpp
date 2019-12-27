@@ -950,6 +950,7 @@ void ThumbnailListView::onPixMapScale(int value)
     switch (value) {
     case 0:
         m_iBaseHeight = 80;
+
         break;
     case 1:
         m_iBaseHeight = 90;
@@ -968,6 +969,8 @@ void ThumbnailListView::onPixMapScale(int value)
     calBasePixMapWandH();
     calWidgetItemWandH();
     addThumbnailView();
+
+    emit SignalManager::instance()->updateThumbnailViewSize();
     emit loadend(m_height + 15);
 }
 

@@ -159,6 +159,7 @@ private slots:
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
+    void onUpdateThumbnailViewSize();
 
     void onCreateNewAlbumFromDialog(QString albumname);
 #if 1

@@ -142,6 +142,7 @@ signals:
     void picNotExists(bool immediately = false);
 
     void deleteByMenu();
+    void updateThumbnailViewSize();
 
 private:
     explicit SignalManager(QObject *parent = 0);
