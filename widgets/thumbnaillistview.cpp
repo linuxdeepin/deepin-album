@@ -401,7 +401,7 @@ void ThumbnailListView::addThumbnailView()
                     height += 27;
                     qsfirstorlast = "Last";
                 }
-            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
                 if (i == 0) {
                     height += 130;
                     qsfirstorlast = "First";
@@ -452,7 +452,7 @@ void ThumbnailListView::updateThumbnailView()
                     height += 27;
                     qsfirstorlast = "Last";
                 }
-            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype) {
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
                 if (i == 0) {
                     height += 130;
                     qsfirstorlast = "First";

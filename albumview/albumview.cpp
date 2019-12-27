@@ -887,7 +887,7 @@ void AlbumView::initRightView()
     m_pSearchView = new SearchView;
 
     // Phone View
-    DWidget *pPhoneWidget = new DWidget();
+    pPhoneWidget = new DWidget();
     pPhoneWidget->setBackgroundRole(DPalette::Window);
 
     QVBoxLayout *pPhoneVBoxLayout = new QVBoxLayout();
@@ -901,7 +901,7 @@ void AlbumView::initRightView()
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
 
-    m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, ALBUM_PATHTYPE_BY_PHONE);
+    m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pPhoneVBoxLayout->addSpacing(3);
@@ -913,8 +913,8 @@ void AlbumView::initRightView()
 
     //手机相片导入窗体
     m_importByPhoneWidget = new DWidget;
-    DWidget *topwidget = new DWidget;
-    topwidget->setFixedHeight(50);
+//    DWidget *topwidget = new DWidget;
+//    topwidget->setFixedHeight(50);
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
     importLabel->setText(tr("Import to:"));
@@ -954,11 +954,18 @@ void AlbumView::initRightView()
     allHLayout->addWidget(m_importByPhoneWidget, 1);
 
     QVBoxLayout *p_all2 = new QVBoxLayout();
-    p_all2->addWidget(topwidget);
+//    p_all2->addWidget(topwidget);
     p_all2->addLayout(allHLayout);
-    p_all2->addWidget(m_pRightPhoneThumbnailList);
+//    p_all2->addWidget(m_pRightPhoneThumbnailList);
 
-    pPhoneWidget->setLayout(p_all2);
+    m_pRightPhoneThumbnailList->setParent(pPhoneWidget);
+    phonetopwidget = new DBlurEffectWidget(pPhoneWidget);
+    phonetopwidget->setFixedHeight(80);
+    phonetopwidget->setLayout(p_all2);
+    phonetopwidget->move(0, 50);
+    phonetopwidget->raise();
+
+//    pPhoneWidget->setLayout(p_all2);
 
     // 导入图片列表,按导入时间排列
 //del start 3975
@@ -2763,6 +2770,10 @@ void AlbumView::paintEvent(QPaintEvent *event)
     if (nullptr != m_FavoriteItem) {
         m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
     }
+    if (nullptr != pPhoneWidget) {
+        m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
+        phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
+    }
 }
 
 void AlbumView::resizeEvent(QResizeEvent *e)
@@ -2793,6 +2804,10 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     }
     if (nullptr != m_TrashTitle) {
         m_TrashTitle->setFixedSize(this->width() - 200, 83);
+    }
+    if (nullptr != pPhoneWidget) {
+        m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
+        phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
     }
 //    m_pStatusBar->move(this->width() / 4, this->height() - 27 - 81);
 

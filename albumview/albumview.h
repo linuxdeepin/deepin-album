@@ -247,6 +247,8 @@ private:
 
 //    QGridLayout *pVBoxLayout = nullptr;
     DWidget *fatherwidget = nullptr;
+    DWidget *pPhoneWidget = nullptr;
+    DBlurEffectWidget *phonetopwidget = nullptr;
 };
 
 #endif // ALBUMVIEW_H

@@ -34,6 +34,7 @@ public:
         NullType = 0,
         AllPicViewType,
         AlbumViewType,
+        AlbumViewPhoneType,
         TimeLineViewType,
         SearchViewType
     };
