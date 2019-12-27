@@ -266,7 +266,8 @@ void ThumbnailListView::calBasePixMapWandH()
             m_ItemList[i].width = m_iBaseHeight;
             m_ItemList[i].height = m_iBaseHeight;
         } else {
-            m_ItemList[i].width = m_ItemList[i].baseWidth * m_iBaseHeight / m_ItemList[i].height;
+//            m_ItemList[i].width = m_ItemList[i].baseWidth * m_iBaseHeight / m_ItemList[i].height;
+            m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
             if (m_ItemList[i].width > i_totalwidth) {
 //                m_ItemList[i].height = m_ItemList[i].height * i_totalwidth / 4 / m_ItemList[i].width;
                 m_ItemList[i].height = m_iBaseHeight / 4;

@@ -21,14 +21,16 @@
 
 // For more information about image file extension, see:
 // https://en.wikipedia.org/wiki/Image_file_formats
-QString DetectImageFormat(const QString &filepath) {
+QString DetectImageFormat(const QString &filepath)
+{
     QFile file(filepath);
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "DetectImageFormat() failed to open file:" << filepath;
         return "";
     }
 
-    const QByteArray data = file.read(1024);
+//    const QByteArray data = file.read(1024);
+    const QByteArray data = file.read(32);
 
     // Check bmp file.
     if (data.startsWith("BM")) {
@@ -102,7 +104,7 @@ QString DetectImageFormat(const QString &filepath) {
 
     // Check xbm file.
     if (data.indexOf("#define max_width ") > -1 &&
-        data.indexOf("#define max_height ") > -1) {
+            data.indexOf("#define max_height ") > -1) {
         return "xbm";
     }
 

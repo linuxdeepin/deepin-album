@@ -2646,7 +2646,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
                               QDirIterator::Subdirectories);
 
     m_phoneImgPathList.clear();
-    qtpool.setMaxThreadCount(6);
+//    qtpool.setMaxThreadCount(5);
     qDebug() << "onLoadMountImagesStart() while (dir_iterator.hasNext())";
     int i = 0;
     while (dir_iterator.hasNext()) {
@@ -2656,7 +2656,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
         ThreadRenderImage *randerimage = new ThreadRenderImage;
         randerimage->setData(fileInfo, path, &m_phonePathImage, &m_phoneImgPathList);
-        qtpool.start(randerimage);
+//        qtpool.start(randerimage);
+        QThreadPool::globalInstance()->start(randerimage);
 //        QImage tImg;
 
 //        QString format = DetectImageFormat(fileInfo.filePath());
@@ -2699,7 +2700,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
 //        if (0 == m_phoneImgPathList.length() % 50) {
         if (i >= 50) {
-            qtpool.waitForDone();
+//            qtpool.waitForDone();
+            QThreadPool::globalInstance()->waitForDone();
             i = 0;
             m_parent->m_phonePathAndImage = m_phonePathImage;
             m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
@@ -2708,7 +2710,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 //        }
     }
 
-    qtpool.waitForDone();
+//    qtpool.waitForDone();
+    QThreadPool::globalInstance()->waitForDone();
     qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
     if (0 < m_phoneImgPathList.length()) {
         m_parent->m_phonePathAndImage = m_phonePathImage;
