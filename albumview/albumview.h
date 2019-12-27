@@ -70,7 +70,7 @@ public:
     explicit MountLoader(AlbumView *parent);
     ~MountLoader()
     {
-//        qtpool.waitForDone();
+        qtpool.waitForDone();
         QThreadPool::globalInstance()->waitForDone();
     }
 private:
@@ -89,7 +89,7 @@ private:
     AlbumView *m_parent;
     QStringList m_phoneImgPathList;
     QMap<QString, QPixmap> m_phonePathImage;
-//    QThreadPool qtpool;
+    QThreadPool qtpool;
 };
 
 class AlbumView : public QWidget

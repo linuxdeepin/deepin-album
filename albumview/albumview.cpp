@@ -24,6 +24,10 @@
 #include "dmessagemanager.h"
 #include "dialogs/albumcreatedialog.h"
 #include <QScrollBar> //add 3975
+#include <QMutex>
+
+static QMutex m_mutex;
+
 
 namespace {
 const int ITEM_SPACING = 0;
@@ -152,6 +156,8 @@ void ThreadRenderImage::run()
     if (pixmap.isNull()) {
         pixmap = QPixmap::fromImage(tImg);
     }
+
+    QMutexLocker mutex(&m_mutex);
     if (m_map)
         m_map->insert(m_fileinfo.filePath(), pixmap);
 
@@ -2660,7 +2666,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
                               QDirIterator::Subdirectories);
 
     m_phoneImgPathList.clear();
-//    qtpool.setMaxThreadCount(5);
+    qtpool.setMaxThreadCount(10);
     qDebug() << "onLoadMountImagesStart() while (dir_iterator.hasNext())";
     int i = 0;
     while (dir_iterator.hasNext()) {
@@ -2670,8 +2676,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
         ThreadRenderImage *randerimage = new ThreadRenderImage;
         randerimage->setData(fileInfo, path, &m_phonePathImage, &m_phoneImgPathList);
-//        qtpool.start(randerimage);
-        QThreadPool::globalInstance()->start(randerimage);
+        qtpool.start(randerimage);
+//        QThreadPool::globalInstance()->start(randerimage);
 //        QImage tImg;
 
 //        QString format = DetectImageFormat(fileInfo.filePath());
@@ -2714,8 +2720,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 
 //        if (0 == m_phoneImgPathList.length() % 50) {
         if (i >= 50) {
-//            qtpool.waitForDone();
-            QThreadPool::globalInstance()->waitForDone();
+            qtpool.waitForDone();
+//            QThreadPool::globalInstance()->waitForDone();
             i = 0;
             m_parent->m_phonePathAndImage = m_phonePathImage;
             m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
@@ -2724,8 +2730,8 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
 //        }
     }
 
-//    qtpool.waitForDone();
-    QThreadPool::globalInstance()->waitForDone();
+    qtpool.waitForDone();
+//    QThreadPool::globalInstance()->waitForDone();
     qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
     if (0 < m_phoneImgPathList.length()) {
         m_parent->m_phonePathAndImage = m_phonePathImage;
