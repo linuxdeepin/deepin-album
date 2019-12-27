@@ -327,7 +327,7 @@ void ViewPanel::updateMenuContent()
 #endif
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
     if (COMMON_STR_TRASH == m_viewType) {
-        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+//        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     } else {
         appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     }
