@@ -557,6 +557,7 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+
     QString albumName = newalbumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
 
@@ -775,8 +776,6 @@ void AlbumView::initRightView()
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
     lsitWidget3->insertItem(1, m_TrashitemItem);
     lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
-    qDebug() << "m_pRightTrashThumbnailList height" << m_pRightTrashThumbnailList->height() << endl;
-    qDebug() << "listWidget3 height" << lsitWidget3->height() << endl;
 
     m_pRightTrashThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightTrashThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -2210,7 +2209,6 @@ void AlbumView::onUpdataAlbumRightTitle(QString titlename)
 
 void AlbumView::onUpdateThumbnailViewSize()
 {
-    qDebug() << "adasdasd" << endl;
     if (nullptr != m_FavoriteItem) {
         m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
     }
@@ -2785,19 +2783,23 @@ bool MountLoader::findPicturePathByPhone(QString &path)
 
 void AlbumView::paintEvent(QPaintEvent *event)
 {
-    qDebug() << "paintEvevt" << endl;
     QWidget::paintEvent(event);
     if (nullptr != m_FavoriteItem) {
-        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_FavoriteItem) {
         m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
+    }
+    if (nullptr != m_noTrashItem) {
+        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != pPhoneWidget) {
         m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
         phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
     }
+
 }
+
 
 void AlbumView::resizeEvent(QResizeEvent *e)
 {
@@ -2814,7 +2816,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
         m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8));
     }
     if (nullptr != m_FavoriteItem) {
-        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_FavoriteItem) {
         m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));

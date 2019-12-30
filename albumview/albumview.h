@@ -135,6 +135,7 @@ private:
     void resizeEvent(QResizeEvent *e) override;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
+
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();

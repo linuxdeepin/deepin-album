@@ -93,7 +93,7 @@ void ImportView::initUI()
     pLabel->setPixmap(pixmap);
 
     m_pImportBtn = new DSuggestButton();
-    //m_pImportBtn->setFocusPolicy(Qt::NoFocus);
+    m_pImportBtn->setFocusPolicy(Qt::NoFocus);
     m_pImportBtn->setText(tr("Import Photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
