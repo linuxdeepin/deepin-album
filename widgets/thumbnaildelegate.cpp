@@ -70,6 +70,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
             //绘制
             QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
             backgroundRect.setY(backgroundRect.y() + 50);
+            delete FrameOption;
         }
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);

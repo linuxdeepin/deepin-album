@@ -697,7 +697,7 @@ void MainWindow::initTitleBar()
 
     // TitleBar Search
     //QWidget *m_titleSearchWidget = new QWidget();
-    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
+//    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->setFixedSize(350, 36);
 
@@ -707,7 +707,7 @@ void MainWindow::initTitleBar()
         m_pSearchEdit->setEnabled(false);
     }
 
-    pTitleSearchLayout->addWidget(m_pSearchEdit);
+//    pTitleSearchLayout->addWidget(m_pSearchEdit);
     //m_titleSearchWidget->setLayout(pTitleSearchLayout);
 
     // TitleBar Menu

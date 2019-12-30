@@ -26,7 +26,7 @@ void StatusBar::initUI()
     m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
 
-    m_pimporting = new DWidget();
+    m_pimporting = new DWidget(this);
     TextLabel = new DLabel();
     TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     TextLabel->setText("");

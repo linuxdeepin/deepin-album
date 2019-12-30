@@ -29,8 +29,8 @@ TimeLineView::TimeLineView()
     fatherwidget->setFixedSize(this->size());
     m_index = 0;
 
-    m_oe = new QGraphicsOpacityEffect;
-    m_oet = new QGraphicsOpacityEffect;
+    m_oe = new QGraphicsOpacityEffect(this);
+    m_oet = new QGraphicsOpacityEffect(this);
     m_oe->setOpacity(0.5);
     m_oet->setOpacity(0.75);
 

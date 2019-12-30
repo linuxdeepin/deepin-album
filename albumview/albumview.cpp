@@ -411,7 +411,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -687,7 +687,7 @@ void AlbumView::initRightView()
     palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
     m_pTrashWidget->setPalette(palcolor3);
     //add end 3975
-    QVBoxLayout *pMainVBoxLayout = new QVBoxLayout();
+//    QVBoxLayout *pMainVBoxLayout = new QVBoxLayout();
     QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
     QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
@@ -1959,7 +1959,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

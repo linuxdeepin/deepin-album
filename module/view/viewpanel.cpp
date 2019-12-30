@@ -115,9 +115,9 @@ void ViewPanel::initConnect()
     this, [ = ](const SignalManager::ViewInfo & vinfo) {
         m_viewType = vinfo.viewType;
         onViewImage(vinfo);
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+//        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+//        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
         if (NULL == vinfo.lastPanel) {
             return;
         } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
@@ -445,10 +445,10 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
     }
 
     if (e->type() == QEvent::Resize && this->isVisible()) {
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+//        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
 //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit sigResize();
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+//        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
     if (e->type() == QEvent::ShortcutOverride) {
@@ -579,9 +579,9 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
     // The control buttons is difference
     if (! vinfo.inDatabase) {
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+//        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+//        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
     // Get view range

@@ -226,6 +226,7 @@ bool CommandLine::processOption(QStringList &paslist)
         }
     }
 
+    delete pimg;
     //paslist = pas;
 //    if (pas.length() > 0) {
 //        viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);

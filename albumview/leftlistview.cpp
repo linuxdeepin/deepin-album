@@ -502,7 +502,7 @@ void LeftListView::updateMountListView()
 
 void LeftListView::initMenu()
 {
-    m_pMenu = new DMenu();
+    m_pMenu = new DMenu(this);
     m_MenuActionMap.clear();
 
     appendAction(IdStartSlideShow, tr("Slide show"), ss(""));

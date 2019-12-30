@@ -51,8 +51,8 @@ protected:
 
         emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
         emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+//        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+//        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 };
 
