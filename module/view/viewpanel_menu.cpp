@@ -339,7 +339,6 @@ void ViewPanel::updateMenuContent()
             && COMMON_STR_TRASH != m_viewType
             && COMMON_STR_FAVORITES != m_viewType) {
         appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
-//        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", "Delete"));
     }
     m_menu->addSeparator();
     /**************************************************************************/
@@ -500,6 +499,7 @@ void ViewPanel::initShortcut()
     connect(adaptImage, &QShortcut::activated, this, [ = ] {
         m_viewB->fitImage();
     });
+
 }
 
 void ViewPanel::popupDelDialog(const QString path)

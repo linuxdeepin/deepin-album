@@ -55,13 +55,14 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     const SignalManager::ViewInfo viewInfo() const;
-    int getPicCount(){
+    int getPicCount()
+    {
         return m_infos.count();
     }
 
 signals:
     void updateCollectButton();
-    void imageChanged(const QString &path,DBImgInfoList infos);
+    void imageChanged(const QString &path, DBImgInfoList infos);
     void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
@@ -78,6 +79,7 @@ protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *e) override;
+//    void keyPressEvent(QKeyEvent *e)Q_DECL_OVERRIDE;
 
 private:
     void initConnect();
@@ -96,23 +98,23 @@ private:
     void initNavigation();
 
     // Menu control
-    void appendAction(int id, const QString &text, const QString &shortcut="");
-    void appendAction_darkmenu(int id, const QString &text, const QString &shortcut="");
-    QMenu* createAblumMenu();
+    void appendAction(int id, const QString &text, const QString &shortcut = "");
+    void appendAction_darkmenu(int id, const QString &text, const QString &shortcut = "");
+    QMenu *createAblumMenu();
 #ifndef LITE_DIV
-    DMenu* createAlbumMenu();
+    DMenu *createAlbumMenu();
 #endif
     void onMenuItemClicked(QAction *action);
     void updateMenuContent();
 
     // View control
     void onViewImage(const SignalManager::ViewInfo &vinfo);
-    void openImage(const QString& path, bool inDB = true);
+    void openImage(const QString &path, bool inDB = true);
     void removeCurrentImage();
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();
-    bool showImage(int index,int addIndex);
+    bool showImage(int index, int addIndex);
 
     // Geometry
     void toggleFullScreen();
@@ -142,10 +144,10 @@ private:
     int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
-    ThumbnailWidget* m_emptyWidget=nullptr;
+    ThumbnailWidget *m_emptyWidget = nullptr;
     DMenu *m_menu;
     QStackedWidget *m_stack;
-    LockWidget* m_lockWidget;
+    LockWidget *m_lockWidget;
 
     // Floating component
     DAnchors<NavigationWidget> m_nav;
@@ -155,7 +157,7 @@ private:
 //    DBImgInfoList::ConstIterator m_current =NULL;
 
     TTBContent *m_ttbc;
-    int m_current =0;
+    int m_current = 0;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 

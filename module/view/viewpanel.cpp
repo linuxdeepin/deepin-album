@@ -451,6 +451,13 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
+    if (e->type() == QEvent::ShortcutOverride) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
+
+        if (keyEvent->key() == Qt::Key_Delete) {
+            emit SignalManager::instance()->deleteByMenu();
+        }
+    }
     return false;
 }
 
