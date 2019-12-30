@@ -87,6 +87,9 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 //        emit dApp->signalM->updatePauseButton();
 //    }
 
+    if (! startNext()) {
+        stop();
+    }
     if (bfirstrun) {
         killTimer(m_tid);
         bfirstrun = false;
@@ -94,9 +97,6 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
             m_tid = startTimer(SLIDER_DURATION);
         else
             m_tid = startTimer(SLIDER_DURATION_4K);
-    }
-    if (! startNext()) {
-        stop();
     }
 }
 
@@ -142,10 +142,10 @@ void SlideEffectPlayer::start()
     if (m_paths.isEmpty())
         return;
 
+    bfirstrun = true;
     cacheNext();
     cachePrevious();
     m_running = true;
-    bfirstrun = true;
     if (!b_4k)
         m_tid = startTimer(ANIMATION_DURATION );
     else
@@ -324,7 +324,11 @@ void SlideEffectPlayer::cacheNext()
     int current = m_current;
     current ++;
     if (current == m_paths.length()) {
-        current = 0;
+        if (bfirstrun) {
+            current = m_paths.length() - 1;
+        } else {
+            current = 0;
+        }
     }
 
     QString path = m_paths[current];
