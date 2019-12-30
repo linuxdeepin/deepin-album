@@ -2788,7 +2788,7 @@ void AlbumView::paintEvent(QPaintEvent *event)
         m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_FavoriteItem) {
-        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
+        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_noTrashItem) {
         m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
@@ -2813,13 +2813,13 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 
     //add start 3975
     if (nullptr != m_noTrashItem) {
-        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8));
+        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_FavoriteItem) {
         m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_FavoriteItem) {
-        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
+        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_pNoTrashTitle) {
         m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
