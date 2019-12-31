@@ -498,7 +498,7 @@ already exists, do you want to replace?</source>
     <name>ImportView</name>
     <message>
         <source>Import photos</source>
-        <translation type="vanished">导入照片</translation>
+        <translation type="vanished">导入相册</translation>
     </message>
     <message>
         <source>You can also drag it here</source>
@@ -514,7 +514,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>导入照片</translation>
+        <translation>导入相册</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
@@ -650,7 +650,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>导入图片</translation>
+        <translation>导入</translation>
     </message>
     <message>
         <source>Window sizing</source>
