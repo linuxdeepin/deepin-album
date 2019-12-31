@@ -1055,6 +1055,10 @@ void MainWindow::onImprotBtnClicked()
         }
     }
 
+    if (image_list.size() < 1) {
+        emit dApp->signalM->ImportFailed();
+        return;
+    }
     QFileInfo firstFileInfo(image_list.first());
     dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
