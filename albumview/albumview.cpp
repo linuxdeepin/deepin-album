@@ -2073,18 +2073,29 @@ void AlbumView::importComboBoxChange(QString strText)
         qDebug() << "xxxxxxxxxx" << window()->width();
         dialog->move(window()->x() + (window()->width() - dialog->width()) / 2, window()->y() + (window()->height() - dialog->height()) / 2);
         connect(dialog, &AlbumCreateDialog::albumAdded, this, [ = ] {
+//            emit dApp->signalM->hideExtensionPanel();
             DBManager::instance()->insertIntoAlbum(dialog->getCreateAlbumName(), QStringList(" "));
-            int index = m_pLeftListView->m_pMountListView->count();;
-            QListWidgetItem *pListWidgetItem = new QListWidgetItem();
-            m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
-            pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-            QString albumName = dialog->getCreateAlbumName();
-            AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-            pAlbumLeftTabItem->oriAlbumStatus();
-            m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-//            m_customAlbumNames << albumName;
+            onCreateNewAlbumFrom(dialog->getCreateAlbumName());
+//            int index = m_pLeftListView->m_pMountListView->count();;
+//            QListWidgetItem *pListWidgetItem = new QListWidgetItem();
+//            m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
+//            pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+//            QString albumName = dialog->getCreateAlbumName();
+//            AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
+//            pAlbumLeftTabItem->oriAlbumStatus();
+//            m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+////            m_customAlbumNames << albumName;
             updateImportComboBox();
             m_importByPhoneComboBox->setCurrentIndex(m_importByPhoneComboBox->count() - 1);
+
+//            QIcon icon;
+//            icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+
+//            QString str = tr("Create Album “%1” successfully");
+//            DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, m_pwidget);
+//            pDFloatingMessage->setMessage(str.arg(dialog->getCreateAlbumName()));
+//            pDFloatingMessage->setIcon(icon);
+//            DMessageManager::instance()->sendMessage(m_pwidget, pDFloatingMessage);
         });
 
         connect(dialog, &AlbumCreateDialog::sigClose, this, [ = ] {

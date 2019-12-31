@@ -859,7 +859,8 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
 
         QString str = tr("Create Album “%1” successfully");
 
-        QWidget *pwidget = new QWidget();
+//        QWidget *pwidget = new QWidget();
+        QWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
