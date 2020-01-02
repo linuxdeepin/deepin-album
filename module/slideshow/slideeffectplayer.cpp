@@ -87,6 +87,12 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 //        emit dApp->signalM->updatePauseButton();
 //    }
 
+    if (bneedupdatepausebutton) {
+        emit dApp->signalM->updateButton();
+        emit dApp->signalM->updatePauseButton();
+        bneedupdatepausebutton = false;
+        return;
+    }
     if (! startNext()) {
         stop();
     }
@@ -239,8 +245,9 @@ bool SlideEffectPlayer::startNext()
     QMetaObject::invokeMethod(m_effect, "start");
 
     if (m_current == m_paths.length() - 1) {
-        emit dApp->signalM->updateButton();
-        emit dApp->signalM->updatePauseButton();
+//        emit dApp->signalM->updateButton();
+//        emit dApp->signalM->updatePauseButton();
+        bneedupdatepausebutton = true;
     }
 
     return true;
@@ -326,7 +333,8 @@ void SlideEffectPlayer::cacheNext()
     if (current == m_paths.length()) {
         if (bfirstrun) {
             current = m_paths.length() - 1;
-            emit dApp->signalM->updatePauseButton();
+            bneedupdatepausebutton = true;
+//            emit dApp->signalM->updatePauseButton();
         } else {
             current = 0;
         }
@@ -373,7 +381,6 @@ void SlideEffectPlayer::stop()
 {
     if (!isRunning())
         return;
-
     if (m_pausing) {
         m_pausing = !m_pausing;
         m_effect->pause();

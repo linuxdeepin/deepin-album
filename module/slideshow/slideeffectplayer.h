@@ -101,4 +101,5 @@ private:
     SlideEffect *m_effect = NULL;
     bool b_4k = false;
     bool bfirstrun = true;
+    bool bneedupdatepausebutton = false;
 };
