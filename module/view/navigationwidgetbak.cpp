@@ -113,7 +113,6 @@ NavigationWidget::NavigationWidget(QWidget *parent)
                        rect().width() - IMAGE_MARGIN * 2,
                        rect().height() - IMAGE_MARGIN_BOTTOM * 2);
 
-
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &NavigationWidget::onThemeChanged);
 }
@@ -134,19 +133,13 @@ bool NavigationWidget::isAlwaysHidden() const
                                QVariant(false)).toBool();
 }
 
-QPoint NavigationWidget::transImagePos(QPoint pos)
-{
-    return pos - QPoint(imageDrawRect.x(), imageDrawRect.y());
-}
-
 void NavigationWidget::setImage(const QImage &img)
 {
     const qreal ratio = devicePixelRatioF();
 
-    QRect tmpImageRect = QRect(m_mainRect.x(), m_mainRect.y(),
+    QRect tmpImageRect = QRect(m_mainRect.x() * ratio, m_mainRect.y() * ratio,
                                qRound(m_mainRect.width() * ratio),
                                qRound(m_mainRect.height() * ratio));
-//    QRect tmpImageRect = m_mainRect;
 
     m_originRect = img.rect();
 
@@ -160,17 +153,7 @@ void NavigationWidget::setImage(const QImage &img)
     m_pix = QPixmap::fromImage(m_img);
     m_pix.setDevicePixelRatio(ratio);
     m_imageScale = qMax(1.0, qMax(qreal(img.width()) / qreal(m_img.width()), qreal(img.height()) / qreal(m_img.height())));
-//    m_r = QRectF(0, 0, m_img.width() / ratio, m_img.height() / ratio);
-//    m_widthScale = img.width() / m_img.width();
-//    m_heightScale = img.height() / m_img.height();
-
-    m_r = QRectF(0, 0, m_img.width(), m_img.height());
-
-
-
-    imageDrawRect = QRect((m_mainRect.width() - m_img.width() / ratio) / 2 + IMAGE_MARGIN,
-                          (m_mainRect.height() - m_img.height() / ratio) / 2 + utils::common::BORDER_WIDTH,
-                          m_img.width() / ratio, m_img.height() / ratio);
+    m_r = QRectF(0, 0, m_img.width() / ratio, m_img.height() / ratio);
 
     update();
 }
@@ -179,10 +162,10 @@ void NavigationWidget::setRectInImage(const QRect &r)
 {
     if (m_img.isNull())
         return;
-    m_r.setX(qreal(r.x()) / m_imageScale);
-    m_r.setY(qreal(r.y()) / m_imageScale);
-    m_r.setWidth(qreal(r.width()) / m_imageScale);
-    m_r.setHeight(qreal(r.height()) / m_imageScale);
+    m_r.setX((qreal)r.x() / m_imageScale );
+    m_r.setY((qreal)r.y() / m_imageScale );
+    m_r.setWidth((qreal)r.width() / m_imageScale );
+    m_r.setHeight((qreal)r.height() / m_imageScale );
 
     update();
 }
@@ -190,34 +173,23 @@ void NavigationWidget::setRectInImage(const QRect &r)
 void NavigationWidget::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
-        tryMoveRect(transImagePos(e->pos()));
+        tryMoveRect(e->pos() / devicePixelRatioF());
 }
 
 void NavigationWidget::mouseMoveEvent(QMouseEvent *e)
 {
-    tryMoveRect(transImagePos(e->pos()));
+    tryMoveRect(e->pos() / devicePixelRatioF());
 }
 
 void NavigationWidget::tryMoveRect(const QPoint &p)
 {
-//    int x0 = (m_mainRect.width() - m_img.width()) / 2 / devicePixelRatioF();
-//    int y0 = (m_mainRect.height() - m_img.height()) / 2 / devicePixelRatioF();
-//    const QRect imageRect(x0, y0, m_img.width(), m_img.height());
-//    if (! imageRect.contains(p))
-//        return;
-
-    if (!m_mainRect.contains(p))
+    const int x0 = (m_mainRect.width() - m_img.width()) / 2;
+    const int y0 = (m_mainRect.height() - m_img.height()) / 2;
+    const QRect imageRect(x0, y0, m_img.width(), m_img.height());
+    if (! imageRect.contains(p))
         return;
-
-//    const qreal x = 1.0 * (p.x() / devicePixelRatioF() - x0) / m_img.width() * m_originRect.width();
-//    const qreal y = 1.0 * (p.y() / devicePixelRatioF() - y0) / m_img.height() * m_originRect.height();
-    qreal x = p.x() * m_imageScale;
-    qreal y = p.y() * m_imageScale;
-
-//    qDebug() << p ;
-//    qDebug() << x << y;
-//    qDebug() << m_r;
-
+    const qreal x = 1.0 * (p.x() - x0) / m_img.width() * m_originRect.width();
+    const qreal y = 1.0 * (p.y() - y0) / m_img.height() * m_originRect.height();
 
     Q_EMIT requestMove(x, y);
 }
@@ -236,7 +208,6 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QPainter p(&img);
     p.fillRect(m_r, m_mrBgColor);
     p.setPen(m_mrBorderColor);
-//    p.setPen(QPen(Qt::green));
     p.drawRect(m_r);
     p.end();
     p.begin(this);
@@ -244,7 +215,9 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QImage background(m_bgImgUrl);
 
     p.drawImage(this->rect(), background);
-
+    QRect imageDrawRect =  QRect((m_mainRect.width() - m_img.width() / ratio) / 2 + IMAGE_MARGIN,
+                                 (m_mainRect.height() - m_img.height() / ratio) / 2 + utils::common::BORDER_WIDTH,
+                                 m_img.width() / ratio, m_img.height() / ratio);
     //**draw transparent background
 //    QPixmap pm(12, 12);
 //    QPainter pmp(&pm);
@@ -258,9 +231,9 @@ void NavigationWidget::paintEvent(QPaintEvent *)
 
 //    p.fillRect(imageDrawRect, QBrush(pm));
     p.drawImage(imageDrawRect, img);
-    QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y() + 1, imageDrawRect.width(), imageDrawRect.height() + 1);
+    QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y(), imageDrawRect.width()
+                             - utils::common::BORDER_WIDTH, imageDrawRect.height() - utils::common::BORDER_WIDTH);
     p.setPen(m_imgRBorderColor);
-//    p.setPen(QPen(Qt::red));
     p.drawRect(borderRect);
     p.end();
 }
