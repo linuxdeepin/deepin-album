@@ -573,7 +573,10 @@ void ThumbnailListView::updateMenuContents()
         QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
         if (strSuffix.compare("jpeg") && strSuffix.compare("jpg") && strSuffix.compare("bmp") &&
                 strSuffix.compare("png") && strSuffix.compare("ppm") && strSuffix.compare("xbm") &&
-                strSuffix.compare("xpm") && strSuffix.compare("gif")) {
+                strSuffix.compare("xpm") && strSuffix.compare("gif") && strSuffix.compare("JPEG") &&
+                strSuffix.compare("JPG") && strSuffix.compare("BMP") && strSuffix.compare("PNG") &&
+                strSuffix.compare("PPM") && strSuffix.compare("XBM") && strSuffix.compare("XPM") &&
+                strSuffix.compare("GIF")) {
             ret = false;
         }
 

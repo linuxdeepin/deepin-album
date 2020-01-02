@@ -125,6 +125,7 @@ void MainWindow::initConnections()
         titlebar()->setFixedHeight(0);
         setTitlebarShadowEnabled(false);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
+//        m_pCenterWidget->setFocus();
     });
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
         emit dApp->signalM->hideExtensionPanel();
