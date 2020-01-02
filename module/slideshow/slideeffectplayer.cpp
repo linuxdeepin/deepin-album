@@ -326,6 +326,7 @@ void SlideEffectPlayer::cacheNext()
     if (current == m_paths.length()) {
         if (bfirstrun) {
             current = m_paths.length() - 1;
+            emit dApp->signalM->updatePauseButton();
         } else {
             current = 0;
         }
