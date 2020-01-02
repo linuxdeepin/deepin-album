@@ -231,12 +231,16 @@ void NavigationWidget::paintEvent(QPaintEvent *)
         return;
     }
 
-    const qreal ratio = devicePixelRatioF();
+//    const qreal ratio = devicePixelRatioF();
 
     QPainter p(&img);
+    p.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     p.fillRect(m_r, m_mrBgColor);
-    p.setPen(m_mrBorderColor);
+//    p.setPen(m_mrBorderColor);
+    p.setPen(QColor(0, 0, 0, 0));
 //    p.setPen(QPen(Qt::green));
+
+
     p.drawRect(m_r);
     p.end();
     p.begin(this);
@@ -259,7 +263,8 @@ void NavigationWidget::paintEvent(QPaintEvent *)
 //    p.fillRect(imageDrawRect, QBrush(pm));
     p.drawImage(imageDrawRect, img);
     QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y() + 1, imageDrawRect.width(), imageDrawRect.height() + 1);
-    p.setPen(m_imgRBorderColor);
+//    p.setPen(m_imgRBorderColor);
+    p.setPen(QColor(0, 0, 0, 0));
 //    p.setPen(QPen(Qt::red));
     p.drawRect(borderRect);
     p.end();
