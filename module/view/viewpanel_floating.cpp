@@ -134,7 +134,7 @@ void ViewPanel::initNavigation()
 {
     m_nav = new NavigationWidget(this);
     m_nav.setBottomMargin(100);
-    m_nav.setLeftMargin(100);
+    m_nav.setLeftMargin(10);
     m_nav.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
