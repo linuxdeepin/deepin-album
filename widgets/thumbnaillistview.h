@@ -149,6 +149,7 @@ private slots:
     void onShowMenu(const QPoint &pos);
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
+    void slotPageNeedResize(int index);
 
 private:
     void initConnections();

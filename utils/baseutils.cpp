@@ -434,7 +434,18 @@ bool checkMimeData(const QMimeData *mimeData)
                             "xbm" == mqs ||
                             "xpm" == mqs ||
                             "gif" == mqs ||
-                            "svg" == mqs) {
+                            "svg" == mqs
+//                            ||
+//                            "JPEG" == mqs ||
+//                            "JPG" == mqs ||
+//                            "BMP" == mqs ||
+//                            "PNG" == mqs ||
+//                            "PPM" == mqs ||
+//                            "XBM" == mqs ||
+//                            "XPM" == mqs ||
+//                            "GIF" == mqs ||
+//                            "SVG" == mqs
+                       ) {
                         return true;
                     }
                 }
@@ -451,7 +462,18 @@ bool checkMimeData(const QMimeData *mimeData)
                     "xbm" == mqs ||
                     "xpm" == mqs ||
                     "gif" == mqs ||
-                    "svg" == mqs) {
+                    "svg" == mqs
+//                    ||
+//                    "JPEG" == mqs ||
+//                    "JPG" == mqs ||
+//                    "BMP" == mqs ||
+//                    "PNG" == mqs ||
+//                    "PPM" == mqs ||
+//                    "XBM" == mqs ||
+//                    "XPM" == mqs ||
+//                    "GIF" == mqs ||
+//                    "SVG" == mqs
+               ) {
                 return true;
             }
         }

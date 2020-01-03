@@ -45,6 +45,8 @@ public:
         int height;
         int imgWidth;
         int imgHeight;
+        int baseWidth;
+        int baseHeight;
         QString remainDays = "30天";
         QPixmap image;
         QString firstorlast = "NotFirstOrLast";
@@ -65,6 +67,7 @@ public:
 
 signals:
     void sigCancelFavorite(const QModelIndex &index);
+    void sigPageNeedResize(const int &index) const;
 
 private:
     ItemData itemData(const QModelIndex &index) const;

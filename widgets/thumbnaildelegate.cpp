@@ -161,6 +161,14 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->drawPixmap(pixmapRect, data.image);
     } else {
         painter->drawPixmap(pixmapRect, dApp->m_imagemap.value(data.path));
+        if (!dApp->m_imagemap.value(data.path).isNull()) {
+            if (data.baseWidth != dApp->m_imagemap.value(data.path).width() ||
+                    data.baseHeight != dApp->m_imagemap.value(data.path).height()) {
+//            qDebug() << "1111111";
+                const int row = index.row();
+                emit sigPageNeedResize(row);
+            }
+        }
     }
 
     if (COMMON_STR_TRASH == m_imageTypeStr) {
@@ -244,10 +252,14 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
         data.imgHeight = datas[7].toInt();
     }
     if (datas.length() >= 9) {
-        data.firstorlast = datas[8].toString();
+        data.baseWidth = datas[8].toInt();
     }
-
-
+    if (datas.length() >= 10) {
+        data.baseHeight = datas[9].toInt();
+    }
+    if (datas.length() >= 11) {
+        data.firstorlast = datas[10].toString();
+    }
     return data;
 }
 

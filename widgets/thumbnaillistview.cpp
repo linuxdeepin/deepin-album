@@ -254,6 +254,8 @@ void ThumbnailListView::initConnections()
             &ThumbnailListView::onPixMapScale);
     connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this,
             &ThumbnailListView::onCancelFavorite);
+    connect(m_delegate, &ThumbnailDelegate::sigPageNeedResize, this,
+            &ThumbnailListView::slotPageNeedResize);
 }
 
 void ThumbnailListView::calBasePixMapWandH()
@@ -420,6 +422,8 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem[i][j].image));
             datas.append(QVariant(m_gridItem[i][j].imgWidth));
             datas.append(QVariant(m_gridItem[i][j].imgHeight));
+            datas.append(QVariant(m_gridItem[i][j].baseWidth));
+            datas.append(QVariant(m_gridItem[i][j].baseHeight));
             datas.append(QVariant(qsfirstorlast));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
@@ -470,6 +474,8 @@ void ThumbnailListView::updateThumbnailView()
             newdatas.append(QVariant(m_gridItem[i][j].image));
             newdatas.append(QVariant(m_gridItem[i][j].imgWidth));
             newdatas.append(QVariant(m_gridItem[i][j].imgHeight));
+            newdatas.append(QVariant(m_gridItem[i][j].baseWidth));
+            newdatas.append(QVariant(m_gridItem[i][j].baseHeight));
             newdatas.append(QVariant(qsfirstorlast));
 
             m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
@@ -975,6 +981,27 @@ void ThumbnailListView::onPixMapScale(int value)
 
     emit SignalManager::instance()->updateThumbnailViewSize();
     emit loadend(m_height + 15);
+}
+
+void ThumbnailListView::slotPageNeedResize(int index)
+{
+    qDebug() << index;
+    m_ItemList[index].baseWidth = dApp->m_imagemap.value(m_ItemList[index].path).width();
+    m_ItemList[index].baseHeight = dApp->m_imagemap.value(m_ItemList[index].path).height();
+
+    for (int i = 0; i < m_ItemList.length(); i++) {
+        m_ItemList[i].width = m_ItemList[i].baseWidth;
+        m_ItemList[i].height = m_ItemList[i].baseHeight;
+        m_ItemList[i].imgWidth = 0;
+        m_ItemList[i].imgHeight = 0;
+    }
+    calBasePixMapWandH();
+//    calWidgetItemWandH();
+//    updateThumbnailView();
+
+    resize(QSize(size().width() + 1, size().height()));
+    resize(QSize(size().width() - 1, size().height())); //触发resizeevent
+
 }
 
 void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
