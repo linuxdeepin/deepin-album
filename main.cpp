@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 //    }
 
     MainWindow w;
-    w.resize(1300, 848);
+//    w.resize(1300, 848);
     w.show();
 
     Dtk::Widget::moveToCenter(&w);

@@ -65,6 +65,8 @@ private:
     void thumbnailZoomIn();
     void thumbnailZoomOut();
     QJsonObject createShorcutJson();
+    void saveWindowState();
+    void loadWindowState();
 
 protected:
     void wheelEvent(QWheelEvent *event) override;

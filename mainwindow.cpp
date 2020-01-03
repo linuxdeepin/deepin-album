@@ -638,6 +638,9 @@ void MainWindow::initUI()
 //    QRect rect = DApplication::desktop()->geometry();
 //    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
     setMinimumSize(880, 500);
+    resize(1300, 848);
+
+    loadWindowState();
 }
 
 void MainWindow::initTitleBar()
@@ -1280,11 +1283,27 @@ void MainWindow::onLoadingFinished()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    saveWindowState();
     if (4 == m_pCenterWidget->currentIndex()) {
         emit dApp->signalM->hideImageView();
         event->ignore();
     } else {
         event->accept();
+    }
+}
+
+void MainWindow::saveWindowState()
+{
+    QSettings settings(objectName());
+    settings.setValue("album-geometry", saveGeometry());
+}
+
+void MainWindow::loadWindowState()
+{
+    QSettings settings(objectName());
+    const QByteArray geometry = settings.value("album-geometry").toByteArray();
+    if (!geometry.isEmpty()) {
+        restoreGeometry(geometry);
     }
 }
 
