@@ -458,6 +458,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
             emit SignalManager::instance()->deleteByMenu();
         }
     }
+
     return false;
 }
 

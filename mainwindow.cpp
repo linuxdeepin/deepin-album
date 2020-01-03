@@ -68,6 +68,7 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     m_pCenterWidget->setFixedSize(size());
 }
 
+
 void MainWindow::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == timer) {
@@ -489,7 +490,7 @@ void MainWindow::initConnections()
 void MainWindow::initShortcut()
 {
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    esc->setContext(Qt::ApplicationShortcut);
+    esc->setContext(Qt::WindowShortcut);
     connect(esc, &QShortcut::activated, this, [ = ] {
         if (window()->isFullScreen())
         {

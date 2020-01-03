@@ -68,7 +68,7 @@ private:
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
-    void timerEvent(QTimerEvent *e);
+    void timerEvent(QTimerEvent *e)Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) override;
 
 signals:
