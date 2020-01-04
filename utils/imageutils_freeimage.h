@@ -163,8 +163,10 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     QImageReader reader(path);
     if (admMap.isEmpty()) {
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  DateToString(emptyTime));
-        admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
+//        admMap.insert("DateTimeOriginal",  DateToString(emptyTime));
+//        admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
     } else {
         // ReFormat the date-time
         using namespace utils::base;
@@ -178,13 +180,18 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
             // NO valid date information
             if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", DateToString(info.created()));
-                admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
+//                admMap.insert("DateTimeOriginal", DateToString(info.created()));
+//                admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
+                admMap.insert("DateTimeOriginal", info.created().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
             }
         }
         ;
-        admMap.insert("DateTimeOriginal", DateToString(ot));
-        admMap.insert("DateTimeDigitized", DateToString(dt));
+//        admMap.insert("DateTimeOriginal", DateToString(ot));
+//        admMap.insert("DateTimeDigitized", DateToString(dt));
+        admMap.insert("DateTimeOriginal", ot.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+        admMap.insert("DateTimeDigitized", dt.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+
     }
     // The value of width and height might incorrect
     int w = reader.size().width();
