@@ -44,6 +44,7 @@
 #include <DApplication>
 #include <DDesktopServices>
 #include <QImageReader>
+#include <QMimeDatabase>
 
 DWIDGET_USE_NAMESPACE
 
@@ -425,57 +426,102 @@ bool checkMimeData(const QMimeData *mimeData)
                 if (imageSupportRead(finfo.absoluteFilePath())) {
 //                    paths << finfo.absoluteFilePath();
                     QFileInfo info(finfo.absoluteFilePath());
-                    QString mqs = info.suffix().toLower();
-                    if ("jpeg" == mqs ||
-                            "jpg" == mqs ||
-                            "bmp" == mqs ||
-                            "png" == mqs ||
-                            "ppm" == mqs ||
-                            "xbm" == mqs ||
-                            "xpm" == mqs ||
-                            "gif" == mqs ||
-                            "svg" == mqs
-//                            ||
-//                            "JPEG" == mqs ||
-//                            "JPG" == mqs ||
-//                            "BMP" == mqs ||
-//                            "PNG" == mqs ||
-//                            "PPM" == mqs ||
-//                            "XBM" == mqs ||
-//                            "XPM" == mqs ||
-//                            "GIF" == mqs ||
-//                            "SVG" == mqs
-                       ) {
-                        return true;
+                    QMimeDatabase db;
+                    QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+                    QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+                    qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
+
+                    QString str = info.suffix().toLower();
+                    if (str.isEmpty()) {
+                        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+                            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                                return true;
+                            } else if (str.isEmpty()) {
+                                return true;
+                            }
+                        }
+                    } else {
+                        if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                                return true;
+                            }
+                        }
                     }
+
+//                    QString mqs = info.suffix().toLower();
+//                    if ("jpeg" == mqs ||
+//                            "jpg" == mqs ||
+//                            "bmp" == mqs ||
+//                            "png" == mqs ||
+//                            "ppm" == mqs ||
+//                            "xbm" == mqs ||
+//                            "xpm" == mqs ||
+//                            "gif" == mqs ||
+//                            "svg" == mqs
+////                            ||
+////                            "JPEG" == mqs ||
+////                            "JPG" == mqs ||
+////                            "BMP" == mqs ||
+////                            "PNG" == mqs ||
+////                            "PPM" == mqs ||
+////                            "XBM" == mqs ||
+////                            "XPM" == mqs ||
+////                            "GIF" == mqs ||
+////                            "SVG" == mqs
+//                       ) {
+//                        return true;
+//                    }
                 }
             }
         } else if (imageSupportRead(path)) {
 //            paths << path;
             QFileInfo info(path);
-            QString mqs = info.suffix().toLower();
-            if ("jpeg" == mqs ||
-                    "jpg" == mqs ||
-                    "bmp" == mqs ||
-                    "png" == mqs ||
-                    "ppm" == mqs ||
-                    "xbm" == mqs ||
-                    "xpm" == mqs ||
-                    "gif" == mqs ||
-                    "svg" == mqs
-//                    ||
-//                    "JPEG" == mqs ||
-//                    "JPG" == mqs ||
-//                    "BMP" == mqs ||
-//                    "PNG" == mqs ||
-//                    "PPM" == mqs ||
-//                    "XBM" == mqs ||
-//                    "XPM" == mqs ||
-//                    "GIF" == mqs ||
-//                    "SVG" == mqs
-               ) {
-                return true;
+            QMimeDatabase db;
+            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+            qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
+
+            QString str = info.suffix().toLower();
+            if (str.isEmpty()) {
+                if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+                    if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                        return true;
+                    } else if (str.isEmpty()) {
+                        return true;
+                    }
+                }
+            } else {
+                if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                    if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                        return true;
+                    }
+                }
             }
+
+
+//            QString mqs = info.suffix().toLower();
+//            if ("jpeg" == mqs ||
+//                    "jpg" == mqs ||
+//                    "bmp" == mqs ||
+//                    "png" == mqs ||
+//                    "ppm" == mqs ||
+//                    "xbm" == mqs ||
+//                    "xpm" == mqs ||
+//                    "gif" == mqs ||
+//                    "svg" == mqs
+////                    ||
+////                    "JPEG" == mqs ||
+////                    "JPG" == mqs ||
+////                    "BMP" == mqs ||
+////                    "PNG" == mqs ||
+////                    "PPM" == mqs ||
+////                    "XBM" == mqs ||
+////                    "XPM" == mqs ||
+////                    "GIF" == mqs ||
+////                    "SVG" == mqs
+//               ) {
+//                return true;
+//            }
         }
     }
 

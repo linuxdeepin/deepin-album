@@ -58,21 +58,52 @@ int main(int argc, char *argv[])
     QStringList urls;
     QStringList arguments = parser.positionalArguments();
 
-    QString filepath;
+    QString filepath = "";
+    bool bneedexit = true;
     for (const QString &path : arguments) {
         filepath = UrlInfo(path).toLocalFile();
-        if (!filepath.endsWith("jpg") &&
-                !filepath.endsWith("jpeg") &&
-                !filepath.endsWith("bmp") &&
-                !filepath.endsWith("png") &&
-                !filepath.endsWith("ppm") &&
-                !filepath.endsWith("xbm") &&
-                !filepath.endsWith("xpm") &&
-                !filepath.endsWith("gif")) {
-            exit(0);
+
+
+        QFileInfo info(filepath);
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
+
+        QString str = info.suffix().toLower();
+        if (str.isEmpty()) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    bneedexit = false;
+                    break;
+                } else if (str.isEmpty()) {
+                    bneedexit = false;
+                    break;
+                }
+            }
+        } else {
+            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    bneedexit = false;
+                    break;
+                }
+            }
         }
+//        if (!filepath.endsWith("jpg") &&
+//                !filepath.endsWith("jpeg") &&
+//                !filepath.endsWith("bmp") &&
+//                !filepath.endsWith("png") &&
+//                !filepath.endsWith("ppm") &&
+//                !filepath.endsWith("xbm") &&
+//                !filepath.endsWith("xpm") &&
+//                !filepath.endsWith("gif")) {
+//            exit(0);
+//        }
     }
 
+    if ("" != filepath && bneedexit) {
+        exit(0);
+    }
 
     if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
         exit(0);

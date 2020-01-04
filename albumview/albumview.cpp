@@ -2012,7 +2012,8 @@ void AlbumView::loadMountPicture(QString path)
 
     //获取所选文件类型过滤器
     QStringList filters;
-    filters << QString("*.jpeg") << QString("*.jpg");
+    filters << QString("*.jpeg") << QString("*.jpg")
+            << QString("*.JPEG") << QString("*.JPG");
 
     //定义迭代器并设置过滤器
     QDirIterator dir_iterator(path,
@@ -2118,7 +2119,8 @@ bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo
 
     //获取所选文件类型过滤器
     QStringList filters;
-    filters << QString("*.jpeg") << QString("*.jpg");
+    filters << QString("*.jpeg") << QString("*.jpg")
+            << QString("*.JPEG") << QString("*.JPG");
 
     //定义迭代器并设置过滤器
     QDirIterator dir_iterator(path,
@@ -2666,6 +2668,9 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
             << QString("*.gif")
 //            << QString("*.ppm") << QString("*.xbm")
 //            << QString("*.xpm")
+            << QString("*.JPEG") << QString("*.JPG")
+            << QString("*.BMP") << QString("*.PNG")
+            << QString("*.GIF")
             ;
 
     //定义迭代器并设置过滤器
