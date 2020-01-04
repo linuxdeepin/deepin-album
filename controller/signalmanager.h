@@ -143,6 +143,7 @@ signals:
 
     void deleteByMenu();
     void updateThumbnailViewSize();
+    void updateLeftListview();
 
 private:
     explicit SignalManager(QObject *parent = 0);

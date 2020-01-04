@@ -637,7 +637,7 @@ void MainWindow::initUI()
 //      setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
 //    QRect rect = DApplication::desktop()->geometry();
 //    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
-    setMinimumSize(880, 500);
+    setMinimumSize(920, 500);
     resize(1300, 848);
 
     loadWindowState();

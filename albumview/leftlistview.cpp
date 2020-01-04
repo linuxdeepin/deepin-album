@@ -232,6 +232,8 @@ void LeftListView::initConnections()
     connect(m_pMountListView, &LeftListWidget::sigMousePressIsNoValid, this, [ = ] {
         setFocusPolicy(Qt::ClickFocus);
     });
+
+    connect(SignalManager::instance(), &SignalManager::updateLeftListview, this, &LeftListView::onUpdateLeftListview);
 }
 
 void LeftListView::initUI()
@@ -336,7 +338,7 @@ void LeftListView::initUI()
 
     pCustomizeLayout->addSpacing(14);
     pCustomizeLayout->addWidget(m_pCustomizeLabel, 100, Qt::AlignLeft);
-    pCustomizeLayout->addStretch();
+//    pCustomizeLayout->addStretch();
     pCustomizeLayout->addWidget(m_pAddListBtn, 0, Qt::AlignRight | Qt::AlignVCenter);
 
     // 线
@@ -356,7 +358,11 @@ void LeftListView::initUI()
     m_pCustomizeListView->setItemDelegate(itemDelegate1);
 
     m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_160);
-    m_pCustomizeListView->setFixedHeight(400);
+//    m_pCustomizeListView->setFixedHeight(400);
+//    m_pCustomizeListView->setMinimumHeight(400);
+//    m_pCustomizeListView->setMaximumHeight(400);
+
+//    m_pCustomizeListView->setMaximumHeight(700);
     m_pCustomizeListView->setSpacing(0);
     m_pCustomizeListView->setFrameShape(DListWidget::NoFrame);
     m_pCustomizeListView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -379,7 +385,7 @@ void LeftListView::initUI()
 
     // 设备Widget
     m_pMountWidget = new DWidget(this);
-    m_pMountWidget->setFixedWidth(180);
+//    m_pMountWidget->setMaximumHeight(200);
     m_pMountWidget->setFixedHeight(200);
 
     QVBoxLayout *pMountVLayout = new QVBoxLayout();
@@ -417,6 +423,7 @@ void LeftListView::initUI()
     m_pMountListView->setItemDelegate(itemDelegate2);
 
     m_pMountListView->setFixedWidth(LEFT_VIEW_WIDTH_160);
+    m_pMountListView->setMaximumHeight(200);
     m_pMountListView->setSpacing(0);
     m_pMountListView->setFrameShape(DListWidget::NoFrame);
 
@@ -424,23 +431,26 @@ void LeftListView::initUI()
     pMainLayout->addLayout(pPhotoLibLayout);
 //    pMainLayout->addLayout(pLineLayout);
     pMainLayout->addWidget(m_pPhotoLibListView);
+//    pMainLayout->addStretch();
     pMainLayout->addLayout(pCustomizeLayout);
+//    pMainLayout->addStretch();
 //    pMainLayout->addLayout(pLineLayout1);
     pMainLayout->addWidget(m_pCustomizeListView);
-//    pMainLayout->addLayout(pMountLayout);
+//    pMainLayout->addStretch();
+    pMainLayout->addLayout(pMountLayout);
 //    pMainLayout->addLayout(pLineLayout2);
-//    pMainLayout->addWidget(m_pMountListView);
+    pMainLayout->addWidget(m_pMountListView);
     pMainLayout->addStretch();
     setLayout(pMainLayout);
 
-    pMountVLayout->addLayout(pMountLayout);
-    pMountVLayout->addWidget(m_pMountListView);
-    pMountVLayout->addStretch();
-    m_pMountWidget->setLayout(pMountVLayout);
+//    pMountVLayout->addLayout(pMountLayout);
+//    pMountVLayout->addWidget(m_pMountListView);
+////    pMountVLayout->addStretch();
+//    m_pMountWidget->setLayout(pMountVLayout);
 
     moveMountListWidget();
-    m_pMountWidget->raise();
-    m_pMountWidget->show();
+//    m_pMountWidget->raise();
+//    m_pMountWidget->show();
 }
 
 void LeftListView::updatePhotoListView()
@@ -624,6 +634,13 @@ void LeftListView::onMenuClicked(QAction *action)
     }
 }
 
+void LeftListView::onUpdateLeftListview()
+{
+    if (m_pCustomizeListView->count() <= 13) {
+        m_pCustomizeListView->setMaximumHeight(m_pCustomizeListView->count() * LEFT_VIEW_LISTITEM_HEIGHT_40);
+    }
+}
+
 QString LeftListView::getNewAlbumName()
 {
     const QString nan = tr("Unnamed");
@@ -686,11 +703,15 @@ void LeftListView::keyPressEvent(QKeyEvent *event)
 void LeftListView::moveMountListWidget()
 {
     int iMountY = 200;
+
     if (11 > m_pCustomizeListView->count()) {
         iMountY = iMountY + m_pCustomizeListView->count() * 40;
+//        m_pCustomizeListView->setMaximumHeight(m_pCustomizeListView->count() * LEFT_VIEW_LISTITEM_HEIGHT_40);
     } else {
         iMountY = iMountY + 10 * 40;
     }
 
+    emit SignalManager::instance()->updateLeftListview();
     m_pMountWidget->move(0, iMountY);
+
 }

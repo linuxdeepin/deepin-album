@@ -23,7 +23,7 @@ public:
         IdDeleteAlbum,
     };
 
-    LeftListView(DWidget* parent);
+    LeftListView(DWidget *parent);
     QString getItemCurrentName();
     QString getItemCurrentType();
     void updatePhotoListView();
@@ -41,6 +41,8 @@ private:
     QString getNewAlbumName();
     void keyPressEvent(QKeyEvent *e) override;
 
+
+
 signals:
     void itemClicked();
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
@@ -49,20 +51,21 @@ signals:
 
 private slots:
     void onMenuClicked(QAction *action);
+    void onUpdateLeftListview();
 
 public:
     // 照片库
-    DLabel* m_pPhotoLibLabel;
-    LeftListWidget* m_pPhotoLibListView;
+    DLabel *m_pPhotoLibLabel;
+    LeftListWidget *m_pPhotoLibListView;
 
     // 相册列表
-    DLabel* m_pCustomizeLabel;
-    AlbumImageButton* m_pAddListBtn;
-    LeftListWidget* m_pCustomizeListView;
+    DLabel *m_pCustomizeLabel;
+    AlbumImageButton *m_pAddListBtn;
+    LeftListWidget *m_pCustomizeListView;
 
     // 设备
-    DLabel* m_pMountLabel;
-    LeftListWidget* m_pMountListView;
+    DLabel *m_pMountLabel;
+    LeftListWidget *m_pMountListView;
 
 private:
     QString m_ItemCurrentName;

@@ -411,7 +411,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -556,7 +556,7 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
 
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
-    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH - 20, LEFT_VIEW_LISTITEM_HEIGHT));
 
     QString albumName = newalbumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
@@ -1959,7 +1959,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
