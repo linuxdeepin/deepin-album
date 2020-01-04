@@ -30,6 +30,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QMimeDatabase>
 
 
 const QSize DIALOG_SIZE = QSize(380, 280);
@@ -93,6 +94,24 @@ void CExportImageDialog::setPicFileName(QString strFileName)
 {
     QString name = strFileName.mid(0, strFileName.lastIndexOf("."));
     m_fileNameEdit->setText(name);
+}
+
+void CExportImageDialog::setGifType(QString strFilePath)
+{
+    gifpath = strFilePath;
+    m_formatCombox->addItem(tr("gif"));
+    m_formatCombox->setCurrentText(tr("gif"));
+}
+
+void CExportImageDialog::removeGifType()
+{
+    gifpath = "";
+    for (int i = 0; i < m_formatCombox->count(); i++) {
+        if (tr("gif") == m_formatCombox->itemText(i)) {
+            m_formatCombox->removeItem(i);
+            return;
+        }
+    }
 }
 
 void CExportImageDialog::initUI()
@@ -402,6 +421,12 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
 void CExportImageDialog::doSave()
 {
     QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + "." + m_saveFormat;
-    bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
-    qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;
+    if (tr("gif") == m_saveFormat) {
+        if ("" != gifpath) {
+            QFile::copy(gifpath, completePath);
+        }
+    } else {
+        bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
+        qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;
+    }
 }

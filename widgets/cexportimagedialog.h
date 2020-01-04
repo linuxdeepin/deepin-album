@@ -65,6 +65,8 @@ public:
     QString getImageFormate() const;
     int getQuality() const;
     void setPicFileName(QString strFileName);
+    void setGifType(QString strFilePath);
+    void removeGifType();
 
 private slots:
     void slotOnSavePathChange(int index);
@@ -89,6 +91,7 @@ private:
     DDialog *m_questionDialog;
     DDialog *m_emptyWarningDialog;
     QPixmap m_saveImage;
+    QString gifpath = "";
 
 private:
     void initUI();
