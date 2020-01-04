@@ -112,7 +112,6 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
             emit sigCtrlMousePress(event);
         }
     }
-
 }
 
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)

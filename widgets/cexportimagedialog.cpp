@@ -30,7 +30,6 @@
 
 #include <QDebug>
 #include <QDateTime>
-#include <QMimeDatabase>
 
 
 const QSize DIALOG_SIZE = QSize(380, 280);

@@ -223,7 +223,7 @@ AlbumView::AlbumView()
     fatherwidget->setLayout(pLayout);
 
     initConnections();
-    m_pwidget = new DWidget(this);
+//    m_pwidget = new DWidget(this);
 
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
@@ -2823,9 +2823,9 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pImpTimeLineWidget->setFixedWidth(width() - 181);
 //    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
     m_pImpTimeLineWidget->setFixedHeight(height());
-    m_pwidget->setFixedWidth(this->width() / 2);
-    m_pwidget->setFixedHeight(54);
-    m_pwidget->move(this->width() / 4, this->height() - 81);
+//    m_pwidget->setFixedWidth(this->width() / 2);
+//    m_pwidget->setFixedHeight(54);
+//    m_pwidget->move(this->width() / 4, this->height() - 81);
 
     //add start 3975
     if (nullptr != m_noTrashItem) {

@@ -112,7 +112,7 @@ public:
     StatusBar *m_pStatusBar;
     SearchView *pSearchView;
 
-    QWidget *m_pwidget;
+//    QWidget *m_pwidget;
 
     int m_index;
     int m_selPicNum;
