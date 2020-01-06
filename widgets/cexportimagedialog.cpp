@@ -322,9 +322,14 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
             hide();
             showQuestionDialog(completePath);
         } else {
-            doSave();
+            bool savere = doSave();
             hide();
-            emit dApp->signalM->ImgExportSuccess();
+            if (savere) {
+                emit dApp->signalM->ImgExportSuccess();
+            } else {
+                emit dApp->signalM->ImgExportFailed();
+
+            }
         }
     }
 }
@@ -341,8 +346,11 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
     Q_UNUSED(text);
     if (index == 1) {
         QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
-        doSave();
-        emit dApp->signalM->ImgExportSuccess();
+        if (doSave()) {
+            emit dApp->signalM->ImgExportSuccess();
+        } else {
+            emit dApp->signalM->ImgExportFailed();
+        }
     }
     m_questionDialog->hide();
 }
@@ -417,7 +425,7 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     m_questionDialog->show();
 }
 
-void CExportImageDialog::doSave()
+bool CExportImageDialog::doSave()
 {
     QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + "." + m_saveFormat;
     if (tr("gif") == m_saveFormat) {
@@ -427,5 +435,7 @@ void CExportImageDialog::doSave()
     } else {
         bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
         qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;
+        return isSuccess;
     }
+    return true;
 }

@@ -411,7 +411,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1959,7 +1959,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2666,8 +2666,6 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     filters << QString("*.jpeg") << QString("*.jpg")
             << QString("*.bmp") << QString("*.png")
             << QString("*.gif")
-//            << QString("*.ppm") << QString("*.xbm")
-//            << QString("*.xpm")
             << QString("*.JPEG") << QString("*.JPG")
             << QString("*.BMP") << QString("*.PNG")
             << QString("*.GIF")

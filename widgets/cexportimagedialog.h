@@ -100,7 +100,7 @@ private:
     void showDirChoseDialog();
     void showQuestionDialog(const QString &path);
     void showEmptyWarningDialog();
-    void doSave();
+    bool doSave();
 };
 
 #endif // CEXPORTIMAGEDIALOG_H
