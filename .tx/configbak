@@ -9,3 +9,8 @@ source_file = deepin-album/translations/deepin-album.ts
 source_lang = en
 type = QT
 
+[deepin-album.desktop]
+file_filter = deepin-album/translations/desktop/desktop_<lang>.ts
+source_file = deepin-album/translations/desktop/desktop.ts
+source_lang = en
+type = QT

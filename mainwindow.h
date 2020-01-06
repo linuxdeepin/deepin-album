@@ -67,6 +67,8 @@ private:
     QJsonObject createShorcutJson();
     void saveWindowState();
     void loadWindowState();
+    void saveZoomRatio();
+    void loadZoomRatio();
 
 protected:
     void wheelEvent(QWheelEvent *event) override;

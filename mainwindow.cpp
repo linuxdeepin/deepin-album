@@ -56,6 +56,7 @@ MainWindow::MainWindow()
 //    setCentralWidget(m_pCenterWidget);
 
     timer = startTimer(500);
+    loadZoomRatio();
 }
 
 MainWindow::~MainWindow()
@@ -165,6 +166,7 @@ void MainWindow::initConnections()
 
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, [ = ](int step) {
         m_pSliderPos = step;
+        saveZoomRatio();
     });
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [ = ](QString str1) {
         QIcon icon;
@@ -1305,6 +1307,30 @@ void MainWindow::loadWindowState()
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
     }
+}
+
+
+void MainWindow::saveZoomRatio()
+{
+    QSettings settings(objectName());
+    settings.setValue("album-zoomratio", m_pSliderPos);
+}
+
+void MainWindow::loadZoomRatio()
+{
+    QSettings settings(objectName());
+    const int sliderpos = settings.value("album-zoomratio").toInt();
+    m_pSliderPos = sliderpos;
+//    if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
+    m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+//} else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE)
+//{
+//    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+//} else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM)
+//{
+//    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+//}
+    dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
 }
 
 void MainWindow::initShortcutKey()
