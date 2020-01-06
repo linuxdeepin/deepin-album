@@ -94,7 +94,7 @@ ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
     , m_pool(new QThreadPool(this))
-    , m_svgItem(nullptr)
+//    , m_svgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
 {
@@ -205,7 +205,8 @@ void ImageView::setImage(const QString &path)
         s->addItem(m_imgSvgItem);
         emit imageChanged(path);
     } else {
-        m_svgItem = nullptr;
+//        m_svgItem = nullptr;
+        m_imgSvgItem = nullptr;
         // Support gif and mng
         if (QMovie(path).frameCount() > 1) {
             m_pixmapItem = nullptr;
@@ -326,11 +327,12 @@ const QImage ImageView::image()
     } else if (m_pixmapItem) {
         //FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
-    } else if (m_svgItem) {    // svg
-        QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+//    } else if (m_svgItem) {    // svg
+    } else if (m_imgSvgItem) {    // svg
+        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         image.fill(QColor(0, 0, 0, 0));
         QPainter imagePainter(&image);
-        m_svgItem->renderer()->render(&imagePainter);
+        m_imgSvgItem->renderer()->render(&imagePainter);
         imagePainter.end();
         return image;
     } else {

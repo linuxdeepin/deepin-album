@@ -128,7 +128,7 @@ private:
     QThreadPool *m_pool;
     DTK_WIDGET_NAMESPACE::Toast *m_toast;
 
-    QGraphicsSvgItem *m_svgItem = nullptr;
+//    QGraphicsSvgItem *m_svgItem = nullptr;
     ImageSvgItem *m_imgSvgItem {nullptr};
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
