@@ -998,8 +998,10 @@ void ThumbnailListView::slotPageNeedResize(int index)
 //    calWidgetItemWandH();
 //    updateThumbnailView();
 
-    resize(QSize(size().width() + 1, size().height()));
-    resize(QSize(size().width() - 1, size().height())); //触发resizeevent
+    setFixedSize(QSize(size().width() + 1, size().height()));
+    setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
+//    resize(QSize(size().width() + 1, size().height()));
+//    resize(QSize(size().width() - 1, size().height())); //触发resizeevent
 
 }
 
