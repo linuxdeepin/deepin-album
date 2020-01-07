@@ -7,6 +7,24 @@
 #include <dgiovolume.h>
 
 namespace {
+struct MetaData {
+    QString key;
+    const char *name;
+};
+
+static MetaData MetaDataBasics[] = {
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo name")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
+    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
+    {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
+    {"", ""}
+};
+};
+
+namespace {
 const int VIEW_IMPORT = 0;
 const int VIEW_ALLPICS = 1;
 const int VIEW_SEARCH = 2;
@@ -286,7 +304,6 @@ void AllPicView::dropEvent(QDropEvent *event)
     DBImgInfoList dbInfos;
 
     using namespace utils::image;
-
     for (auto path : paths) {
         if (! imageSupportRead(path)) {
             continue;
@@ -301,11 +318,18 @@ void AllPicView::dropEvent(QDropEvent *event)
 //        }
 
         QFileInfo fi(path);
+        using namespace utils::image;
+        using namespace utils::base;
+        auto mds = getAllMetaData(path);
+        QString value = mds.value("DateTimeOriginal");
+        qDebug() << value;
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
         dbi.dirHash = utils::base::hash(QString());
-        if (fi.birthTime().isValid()) {
+        if ("" != value) {
+            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+        } else if (fi.birthTime().isValid()) {
             dbi.time = fi.birthTime();
         } else if (fi.metadataChangeTime().isValid()) {
             dbi.time = fi.metadataChangeTime();

@@ -152,11 +152,18 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
                 }
 
                 QFileInfo fi(path);
+                using namespace utils::image;
+                using namespace utils::base;
+                auto mds = getAllMetaData(path);
+                QString value = mds.value("DateTimeOriginal");
+//                qDebug() << value;
                 DBImgInfo dbi;
                 dbi.fileName = fi.fileName();
                 dbi.filePath = path;
                 dbi.dirHash = utils::base::hash(QString());
-                if (fi.birthTime().isValid()) {
+                if ("" != value) {
+                    dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+                } else if (fi.birthTime().isValid()) {
                     dbi.time = fi.birthTime();
                 } else if (fi.metadataChangeTime().isValid()) {
                     dbi.time = fi.metadataChangeTime();
