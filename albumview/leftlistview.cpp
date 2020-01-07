@@ -15,7 +15,7 @@ namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
 const int ITEM_SPACING_ZERO = 0;
-const int LEFT_VIEW_WIDTH_160 = 160;
+const int LEFT_VIEW_WIDTH_160 = 172;
 const int LEFT_VIEW_LISTITEM_WIDTH_140 = 140;
 const int LEFT_VIEW_LISTITEM_HEIGHT_40 = 40;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
@@ -247,8 +247,11 @@ void LeftListView::initUI()
     pMainLayout->setSpacing(0);
 
     // 照片库Title
+    DWidget *photowidget = new DWidget;
     QHBoxLayout *pPhotoLibLayout = new QHBoxLayout();
     pPhotoLibLayout->setContentsMargins(0, 0, 0, 0);
+    photowidget->setLayout(pPhotoLibLayout);
+    photowidget->setFixedHeight(40);
 
     m_pPhotoLibLabel = new DLabel();
     m_pPhotoLibLabel->setFixedHeight(40);
@@ -272,9 +275,9 @@ void LeftListView::initUI()
     // 照片库列表
     m_pPhotoLibListView = new LeftListWidget();
 //    m_pPhotoLibListView->setViewportMargins(8, 0, 8, 0);
-    DStyledItemDelegate *itemDelegate = new DStyledItemDelegate(m_pPhotoLibListView);
-    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
-    m_pPhotoLibListView->setItemDelegate(itemDelegate);
+//    DStyledItemDelegate *itemDelegate = new DStyledItemDelegate(m_pPhotoLibListView);
+//    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
+//    m_pPhotoLibListView->setItemDelegate(itemDelegate);
 
     m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_160);
     m_pPhotoLibListView->setFixedHeight(120);
@@ -310,6 +313,9 @@ void LeftListView::initUI()
     m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
 
     // 相册列表Title
+    DWidget *lableCustomixeWidget = new DWidget(this);
+    lableCustomixeWidget->setFixedHeight(40);
+
     QHBoxLayout *pCustomizeLayout = new QHBoxLayout();
     pCustomizeLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -353,16 +359,18 @@ void LeftListView::initUI()
 
     // 相册列表
     m_pCustomizeListView = new LeftListWidget();
-    DStyledItemDelegate *itemDelegate1 = new DStyledItemDelegate(m_pCustomizeListView);
-    itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
-    m_pCustomizeListView->setItemDelegate(itemDelegate1);
+//    DStyledItemDelegate *itemDelegate1 = new DStyledItemDelegate(m_pCustomizeListView);
+//    itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
+//    m_pCustomizeListView->setItemDelegate(itemDelegate1);
 
     m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_160);
 //    m_pCustomizeListView->setFixedHeight(400);
-//    m_pCustomizeListView->setMinimumHeight(400);
-//    m_pCustomizeListView->setMaximumHeight(400);
+    m_pCustomizeListView->setMinimumHeight(40);
 
-//    m_pCustomizeListView->setMaximumHeight(700);
+    m_pCustomizeListView->setMaximumHeight(400);
+
+//    m_pCustomizeListView->setMinimumHeight(400);
+//    emit SignalManager::instance()->updateLeftListview();
     m_pCustomizeListView->setSpacing(0);
     m_pCustomizeListView->setFrameShape(DListWidget::NoFrame);
     m_pCustomizeListView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -385,13 +393,16 @@ void LeftListView::initUI()
 
     // 设备Widget
     m_pMountWidget = new DWidget(this);
-//    m_pMountWidget->setMaximumHeight(200);
-    m_pMountWidget->setFixedHeight(200);
+    m_pMountWidget->setMaximumHeight(200);
+//    m_pMountWidget->setFixedHeight(200);
 
     QVBoxLayout *pMountVLayout = new QVBoxLayout();
     pMountVLayout->setContentsMargins(0, 0, 0, 0);
 
     // 设备Title
+    DWidget *pMountWidget = new DWidget(this);
+    pMountWidget->setFixedHeight(40);
+
     QHBoxLayout *pMountLayout = new QHBoxLayout();
     pMountLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -428,16 +439,19 @@ void LeftListView::initUI()
     m_pMountListView->setFrameShape(DListWidget::NoFrame);
 
     // 添加layout/widget
-    pMainLayout->addLayout(pPhotoLibLayout);
+//    pMainLayout->addLayout(pPhotoLibLayout);
+    pMainLayout->addWidget(photowidget);
 //    pMainLayout->addLayout(pLineLayout);
     pMainLayout->addWidget(m_pPhotoLibListView);
 //    pMainLayout->addStretch();
-    pMainLayout->addLayout(pCustomizeLayout);
+    lableCustomixeWidget->setLayout(pCustomizeLayout);
+    pMainLayout->addWidget(lableCustomixeWidget);
 //    pMainLayout->addStretch();
 //    pMainLayout->addLayout(pLineLayout1);
     pMainLayout->addWidget(m_pCustomizeListView);
 //    pMainLayout->addStretch();
-    pMainLayout->addLayout(pMountLayout);
+    pMountWidget->setLayout(pMountLayout);
+    pMainLayout->addWidget(pMountWidget);
 //    pMainLayout->addLayout(pLineLayout2);
     pMainLayout->addWidget(m_pMountListView);
     pMainLayout->addStretch();
@@ -698,6 +712,37 @@ void LeftListView::keyPressEvent(QKeyEvent *event)
             emit sigKeyF2();
         }
     }
+}
+
+void LeftListView::resizeEvent(QResizeEvent *e)
+{
+    DWidget::resizeEvent(e);
+    int height = this->height() - 240 - 120;
+    int reheight = 0;
+    if (m_pCustomizeListView->count() <= 10) {
+        reheight = m_pCustomizeListView->count() * LEFT_VIEW_LISTITEM_HEIGHT_40;
+    } else {
+        reheight = 10 * LEFT_VIEW_LISTITEM_HEIGHT_40;
+    }
+    if (height > reheight)
+        height = reheight;
+    m_pCustomizeListView->setFixedHeight(height);
+}
+
+void LeftListView::paintEvent(QPaintEvent *event)
+{
+    qDebug() << "height:       " << m_pCustomizeListView->height() << endl;
+    DWidget::paintEvent(event);
+    int height = this->height() - 240 - 120;
+    int reheight = 0;
+    if (m_pCustomizeListView->count() <= 10) {
+        reheight = m_pCustomizeListView->count() * LEFT_VIEW_LISTITEM_HEIGHT_40;
+    } else {
+        reheight = 10 * LEFT_VIEW_LISTITEM_HEIGHT_40;
+    }
+    if (height > reheight)
+        height = reheight;
+    m_pCustomizeListView->setFixedHeight(height);
 }
 
 void LeftListView::moveMountListWidget()

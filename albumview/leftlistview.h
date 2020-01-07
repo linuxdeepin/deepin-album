@@ -39,7 +39,9 @@ private:
     void showMenu(const QPoint &pos);
     void appendAction(int id, const QString &text, const QString &shortcut);
     QString getNewAlbumName();
-    void keyPressEvent(QKeyEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 
 
