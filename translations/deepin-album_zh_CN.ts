@@ -350,10 +350,6 @@ already exists, do you want to replace?</source>
         <source>File name cannot be empty</source>
         <translation>文件名称不能为空</translation>
     </message>
-    <message>
-        <source>gif</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>DeepinStorage</name>
@@ -654,7 +650,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>导入</translation>
+        <translation>导入照片</translation>
     </message>
     <message>
         <source>Window sizing</source>
@@ -1262,10 +1258,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>Import on </source>
         <translation>导入于 </translation>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

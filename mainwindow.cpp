@@ -169,8 +169,13 @@ void MainWindow::initConnections()
         saveZoomRatio();
     });
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [ = ](QString str1) {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
         QString str2 = tr("Album “%1” removed");
 
         QWidget *pwidget = new QWidget();
@@ -198,8 +203,13 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str2.arg(str1));
     });
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str2 = tr("Successfully added to “%1”");
 
@@ -263,8 +273,13 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [ = ] {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str = tr("Import failed");
 
@@ -295,9 +310,15 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ] {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg",QSize(20,20));
+        //autor: jia.dong
+>>>>>>> Stashed changes
         QString str = tr("Some photos have not been imported");
 
         QWidget *pwidget = new QWidget();
@@ -327,8 +348,13 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [ = ] {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str = tr("Photo export failed");
 
@@ -358,8 +384,13 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [ = ] {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str = tr("Photo exported successfully");
 
@@ -389,8 +420,13 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [ = ] {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str = tr("Export failed");
 
@@ -420,8 +456,13 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [ = ] {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str = tr("Export successful");
 
@@ -448,6 +489,7 @@ void MainWindow::initConnections()
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+//        DMessageManager::instance()->sendMessage(pwidget,QIcon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg"),tr("点击"));
         //this->sendMessage(icon, str);
     });
     connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
@@ -457,8 +499,13 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::sigDeletePhotos, this, [ = ](int num) {
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str = tr("Delete %1 photo(s) successful");
 
@@ -861,8 +908,13 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
         emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
 
+<<<<<<< Updated upstream
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+=======
+        QIcon icon;
+        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg",QSize(20,20));
+>>>>>>> Stashed changes
 
         QString str = tr("Create Album “%1” successfully");
 
