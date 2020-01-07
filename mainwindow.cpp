@@ -19,6 +19,8 @@
 #include <DMessageManager>
 #include <DFloatingMessage>
 
+bool bfirstopen = true;
+bool bfirstandviewimage = false;
 namespace  {
 const int VIEW_ALLPIC = 0;
 const int VIEW_TIMELINE = 1;
@@ -130,6 +132,7 @@ void MainWindow::initConnections()
 //        m_pCenterWidget->setFocus();
     });
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
+        viewImageClose();
         emit dApp->signalM->hideExtensionPanel();
 
         titlebar()->setFixedHeight(50);
@@ -1277,6 +1280,13 @@ void MainWindow::onShowImageInfo(const QString &path)
 
 }
 
+void MainWindow::viewImageClose()
+{
+    if (bfirstandviewimage) {
+        exit(0);
+    }
+}
+
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
     qDebug() << "onNewAPPOpen";
@@ -1299,7 +1309,6 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(0);
-
             DBImgInfoList dbInfos;
             using namespace utils::image;
             for (auto path : paths) {

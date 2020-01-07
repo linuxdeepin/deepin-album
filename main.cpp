@@ -109,6 +109,12 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
+
+    if (!bneedexit) {
+        if (bfirstopen) {
+            bfirstandviewimage = true;
+        }
+    }
     //save theme
     DApplicationSettings savetheme;
 
@@ -135,5 +141,7 @@ int main(int argc, char *argv[])
     w.show();
 
     Dtk::Widget::moveToCenter(&w);
+    if (bneedexit)
+        bfirstopen = false;
     return a.exec();
 }

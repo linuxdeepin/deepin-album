@@ -37,6 +37,8 @@
 
 DWIDGET_USE_NAMESPACE
 
+extern bool bfirstopen;
+extern bool bfirstandviewimage;
 //namespace Ui {
 //class MainWindow;
 //}
@@ -69,6 +71,7 @@ private:
     void loadWindowState();
     void saveZoomRatio();
     void loadZoomRatio();
+    void viewImageClose();
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
