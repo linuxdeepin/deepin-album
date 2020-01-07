@@ -169,8 +169,8 @@ void MainWindow::initConnections()
         saveZoomRatio();
     });
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [ = ](QString str1) {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
         QString str2 = tr("Album “%1” removed");
 
         QWidget *pwidget = new QWidget();
@@ -198,8 +198,8 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str2.arg(str1));
     });
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str2 = tr("Successfully added to “%1”");
 
@@ -228,8 +228,8 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str2.arg(album));
     });
     connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str2 = tr("Import successful");
 
@@ -263,8 +263,8 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [ = ] {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Import failed");
 
@@ -295,8 +295,8 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ] {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Some photos have not been imported");
 
@@ -327,8 +327,8 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [ = ] {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Photo export failed");
 
@@ -358,8 +358,8 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [ = ] {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str = tr("Photo exported successfully");
 
@@ -389,8 +389,8 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [ = ] {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
         QString str = tr("Export failed");
 
@@ -420,8 +420,8 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [ = ] {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str = tr("Export successful");
 
@@ -457,8 +457,8 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::sigDeletePhotos, this, [ = ](int num) {
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str = tr("Delete %1 photo(s) successful");
 
@@ -861,8 +861,8 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
         emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
 
-        QIcon icon;
-        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
+        QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
+//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
 
         QString str = tr("Create Album “%1” successfully");
 
