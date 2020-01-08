@@ -104,9 +104,9 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         }
     }
     if (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED) {
-        if (QApplication::keyboardModifiers() == Qt::NoModifier && event->button() == Qt::LeftButton)
+        if (QApplication::keyboardModifiers() == Qt::NoModifier && event->button() == Qt::LeftButton) {
             emit sigMousePress(event);
-        else if (QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
+        } else if (QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
             emit sigShiftMousePress(event);
         else if (QApplication::keyboardModifiers() == Qt::ControlModifier && event->button() == Qt::LeftButton) {
             emit sigCtrlMousePress(event);
@@ -152,8 +152,9 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     qDebug() << "ThumbnailListView::mouseReleaseEvent()";
     DListView::mouseReleaseEvent(event);
     if (COMMON_STR_RECENT_IMPORTED  == m_imageType) {
-        if (QApplication::keyboardModifiers() == Qt::NoModifier)
+        if (QApplication::keyboardModifiers() == Qt::NoModifier) {
             emit sigMouseRelease();
+        }
     } else {
         emit sigMouseRelease();
     }
@@ -517,6 +518,7 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
 
     updateMenuContents();
     m_pMenu->popup(QCursor::pos());
+    emit sigMouseRelease();
 }
 
 void ThumbnailListView::updateMenuContents()
