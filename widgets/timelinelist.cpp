@@ -46,7 +46,6 @@ TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     has = false;
     installEventFilter(this);
-
 }
 
 void TimelineList::addItemForWidget(QListWidgetItem *aitem)
@@ -69,6 +68,7 @@ void TimelineList::mouseMoveEvent(QMouseEvent *event)
 
 void TimelineList::paintEvent(QPaintEvent *e)
 {
+    QListWidget::paintEvent(e);
     int blankHeight = 0; //add 3975
     if (this->count() > 0) {
         int ccount = count();
@@ -111,7 +111,6 @@ void TimelineList::paintEvent(QPaintEvent *e)
             } //add 3975
         }
     }
-    return QListWidget::paintEvent(e);
 }
 
 bool TimelineList::eventFilter(QObject *obj, QEvent *e)

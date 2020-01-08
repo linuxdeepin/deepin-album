@@ -104,7 +104,7 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         }
     }
     if (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED) {
-        if (QApplication::keyboardModifiers() == Qt::NoModifier && event->button() == Qt::LeftButton) {
+        if (QApplication::keyboardModifiers() == Qt::NoModifier /*&& event->button() == Qt::LeftButton*/) {
             emit sigMousePress(event);
         } else if (QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
             emit sigShiftMousePress(event);
