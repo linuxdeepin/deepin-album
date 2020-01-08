@@ -114,11 +114,25 @@ void showInFileManager(const QString &path)
         return;
     }
 
-//    qDebug() << "path:" << path;
-//    qDebug() << "absoluteFilePath:" << QFileInfo(path).absoluteFilePath();
-    QUrl url = QUrl::fromLocalFile(/*"\"" + */QFileInfo(path).absoluteFilePath()/* + "\""*/);
-//    qDebug() << "url Path:" << url.path();
+    QString m_Path = static_cast<QString>(path);
+
+    QStringList spc {"#", "&", "@", "!", "?"};
+    for (QString c : spc) {
+        m_Path.replace(c,  QUrl::toPercentEncoding(c));
+    }
+    qDebug() << "m_Path             " << m_Path << endl;
+
+//    m_Path.replace('%', "%25");
+
+//    qDebug() << "m_Path             " << m_Path << endl;
+
+//    QUrl url = QUrl::fromLocalFile(/*"\"" + */QFileInfo(m_Path).absoluteFilePath()/* + "\""*/);
+    QUrl url = QUrl::fromUserInput(/*"\"" + */m_Path/* + "\""*/);
+    url.setPath(m_Path, QUrl::TolerantMode);
+    qDebug() << "url                  " << url << endl;
     Dtk::Widget::DDesktopServices::showFileItem(url);
+
+
 //    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
 //    QUrlQuery query;
 //    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
@@ -260,11 +274,11 @@ bool trashFile(const QString &file)
     QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
     QString filepath = trashFilesPath + "/" + trashname;
     int nr = 1;
-    while ( QFileInfo( infopath ).exists() || QFileInfo( filepath ).exists() ) {
+    while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
         nr++;
-        trashname = originalInfo.baseName() + "." + QString::number( nr );
-        if ( !originalInfo.completeSuffix().isEmpty() ) {
-            trashname += QString( "." ) + originalInfo.completeSuffix();
+        trashname = originalInfo.baseName() + "." + QString::number(nr);
+        if (!originalInfo.completeSuffix().isEmpty()) {
+            trashname += QString(".") + originalInfo.completeSuffix();
         }
         infopath = trashInfoPath + "/" + trashname + ".trashinfo";
         filepath = trashFilesPath + "/" + trashname;
@@ -274,7 +288,7 @@ bool trashFile(const QString &file)
         infoFile.write(infoStr.toUtf8());
         infoFile.close();
 
-        if ( !QDir().rename( originalInfo.absoluteFilePath(), filepath ) ) {
+        if (!QDir().rename(originalInfo.absoluteFilePath(), filepath)) {
             qWarning() << "move to trash failed!";
             return false;
         }
@@ -286,7 +300,7 @@ bool trashFile(const QString &file)
     utils::image::removeThumbnail(file);
     return true;
 #else
-    Q_UNUSED( file );
+    Q_UNUSED(file);
     qWarning() << "Trash in server-mode not supported";
     return false;
 #endif

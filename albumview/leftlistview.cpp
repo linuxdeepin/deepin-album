@@ -731,7 +731,6 @@ void LeftListView::resizeEvent(QResizeEvent *e)
 
 void LeftListView::paintEvent(QPaintEvent *event)
 {
-    qDebug() << "height:       " << m_pCustomizeListView->height() << endl;
     DWidget::paintEvent(event);
     int height = this->height() - 240 - 120;
     int reheight = 0;
