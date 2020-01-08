@@ -186,7 +186,7 @@ public:
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     QMap<QString, QPixmap> m_phonePathAndImage;
-//    DWidget *m_pwidget;
+    DWidget *m_pwidget;
 
 private:
     ImportView *m_pImportView;

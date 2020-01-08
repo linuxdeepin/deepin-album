@@ -80,7 +80,8 @@ CommandLine::CommandLine()
         addOption(i);
     }
 
-//    m_pwidget = new QWidget(this);
+    m_pwidget = new QWidget(this);
+    m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 CommandLine::~CommandLine()
@@ -335,7 +336,7 @@ void CommandLine::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
 //    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-//    m_pwidget->setFixedWidth(this->width() / 2);
-//    m_pwidget->setFixedHeight(54);
-//    m_pwidget->move(this->width() / 4, this->height() - 81);
+    m_pwidget->setFixedWidth(this->width() / 2);
+    m_pwidget->setFixedHeight(54);
+    m_pwidget->move(this->width() / 4, this->height() - 81);
 }

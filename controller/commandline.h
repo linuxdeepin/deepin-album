@@ -31,7 +31,7 @@ public:
     ~CommandLine();
     void viewImage(const QString &path, const QStringList &paths);
 
-//    QWidget* m_pwidget;
+    QWidget *m_pwidget;
 
 private:
     void addOption(const CMOption *option);

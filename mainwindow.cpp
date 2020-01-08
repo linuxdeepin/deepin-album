@@ -179,19 +179,19 @@ void MainWindow::initConnections()
         QWidget *pwidget = new QWidget();
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -209,19 +209,19 @@ void MainWindow::initConnections()
         QWidget *pwidget = new QWidget();
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -240,19 +240,19 @@ void MainWindow::initConnections()
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -275,19 +275,19 @@ void MainWindow::initConnections()
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -307,19 +307,19 @@ void MainWindow::initConnections()
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -339,19 +339,19 @@ void MainWindow::initConnections()
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -370,19 +370,19 @@ void MainWindow::initConnections()
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -401,19 +401,19 @@ void MainWindow::initConnections()
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -432,19 +432,19 @@ void MainWindow::initConnections()
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -469,19 +469,19 @@ void MainWindow::initConnections()
         QWidget *pwidget = new QWidget();
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
@@ -875,19 +875,19 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         case 1:
-            pwidget = m_pTimeLineView;
+            pwidget = m_pTimeLineView->m_pwidget;
             break;
         case 2:
-            pwidget = m_pAlbumview;
+            pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine;
+            pwidget = m_commandLine->m_pwidget;
             break;
         default:
-            pwidget = m_pAllPicView;
+            pwidget = m_pAllPicView->m_pwidget;
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);

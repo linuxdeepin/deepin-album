@@ -74,7 +74,8 @@ AllPicView::AllPicView()
 //    }
     updatePicsIntoThumbnailView();
 
-//    m_pwidget = new QWidget(this);
+    m_pwidget = new QWidget(this);
+    m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 void AllPicView::initConnections()
@@ -363,9 +364,9 @@ void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
-//    m_pwidget->setFixedWidth(this->width() / 2);
-//    m_pwidget->setFixedHeight(54);
-//    m_pwidget->move(this->width() / 4, this->height() - 81);
+    m_pwidget->setFixedWidth(this->width() / 2);
+    m_pwidget->setFixedHeight(54);
+    m_pwidget->move(this->width() / 4, this->height() - 81);
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
