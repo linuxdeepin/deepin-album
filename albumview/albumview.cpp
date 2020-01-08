@@ -2449,7 +2449,7 @@ void AlbumView::importSelectBtnClicked()
         QFileInfo fi(strNewPath);
         using namespace utils::image;
         using namespace utils::base;
-        auto mds = getAllMetaData(strNewPath);
+        auto mds = getAllMetaData(strPath);
         QString value = mds.value("DateTimeOriginal");
 //        qDebug() << value;
         DBImgInfo dbi;

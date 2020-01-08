@@ -997,8 +997,8 @@ void ThumbnailListView::slotPageNeedResize(int index)
         m_ItemList[i].imgHeight = 0;
     }
     calBasePixMapWandH();
-    calWidgetItemWandH();
-    updateThumbnailView();
+//    calWidgetItemWandH();
+//    updateThumbnailView();
 
     setFixedSize(QSize(size().width() + 1, size().height()));
     setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
