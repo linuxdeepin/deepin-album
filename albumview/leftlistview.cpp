@@ -433,7 +433,7 @@ void LeftListView::initUI()
     itemDelegate2->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pMountListView->setItemDelegate(itemDelegate2);
 
-    m_pMountListView->setFixedWidth(LEFT_VIEW_WIDTH_160);
+    m_pMountListView->setFixedWidth(180);
     m_pMountListView->setMaximumHeight(200);
     m_pMountListView->setSpacing(0);
     m_pMountListView->setFrameShape(DListWidget::NoFrame);
