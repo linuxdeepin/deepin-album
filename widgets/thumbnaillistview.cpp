@@ -997,13 +997,17 @@ void ThumbnailListView::slotPageNeedResize(int index)
         m_ItemList[i].imgHeight = 0;
     }
     calBasePixMapWandH();
-//    calWidgetItemWandH();
-//    updateThumbnailView();
+    calWidgetItemWandH();
+    updateThumbnailView();
 
     setFixedSize(QSize(size().width() + 1, size().height()));
     setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
+    setMinimumSize(0, 0);
+    setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
 //    resize(QSize(size().width() + 1, size().height()));
 //    resize(QSize(size().width() - 1, size().height())); //触发resizeevent
+//    resize(size() - QSize(1, 1));
+//    resize(size() + QSize(1, 1)); //触发resizeevent
 
 }
 
