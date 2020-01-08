@@ -4,6 +4,10 @@
 <context>
     <name>AlbumCreateDialog</name>
     <message>
+        <source>Unnamed</source>
+        <translation>Unnamed</translation>
+    </message>
+    <message>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>

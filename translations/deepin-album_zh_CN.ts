@@ -4,6 +4,10 @@
 <context>
     <name>AlbumCreateDialog</name>
     <message>
+        <source>Unnamed</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
