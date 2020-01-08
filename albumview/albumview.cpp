@@ -2446,7 +2446,7 @@ void AlbumView::importSelectBtnClicked()
         picPathList << strPath;
         newPathList << strNewPath;
 
-        QFileInfo fi(strNewPath);
+        QFileInfo fi(strPath);
         using namespace utils::image;
         using namespace utils::base;
         auto mds = getAllMetaData(strPath);
