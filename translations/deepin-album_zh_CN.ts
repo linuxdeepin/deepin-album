@@ -4,14 +4,6 @@
 <context>
     <name>AlbumCreateDialog</name>
     <message>
-        <source>Unnamed</source>
-        <translation>新建相册</translation>
-    </message>
-    <message>
-        <source>Create Album</source>
-        <translation type="vanished">新建相册</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -26,10 +18,6 @@
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are you sure to delete this album?</source>
-        <translation type="vanished">您是否确定删除此相册?</translation>
-    </message>
     <message>
         <source>Cancel</source>
         <translation>取消</translation>
@@ -46,10 +34,6 @@
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
-        <source>Imported</source>
-        <translation type="vanished">已导入</translation>
-    </message>
-    <message>
         <source>Trash</source>
         <translation>最近删除</translation>
     </message>
@@ -65,14 +49,6 @@
 <context>
     <name>AlbumView</name>
     <message>
-        <source>Unnamed</source>
-        <translation>新建相册</translation>
-    </message>
-    <message>
-        <source>Imported</source>
-        <translation type="vanished">已导入</translation>
-    </message>
-    <message>
         <source>Trash</source>
         <translation>最近删除</translation>
     </message>
@@ -85,92 +61,20 @@
         <translation>全部删除</translation>
     </message>
     <message>
-        <source>You can also drag it here</source>
-        <translation type="vanished">您也可以拖拽到此</translation>
-    </message>
-    <message>
-        <source>%1 Photos</source>
-        <translation type="vanished">%1张照片</translation>
-    </message>
-    <message>
-        <source>Imported into：</source>
-        <translation type="vanished">导入到：</translation>
-    </message>
-    <message>
-        <source>All Import</source>
-        <translation type="vanished">全部导入</translation>
-    </message>
-    <message>
-        <source>Selected Import</source>
-        <translation type="vanished">导入所选</translation>
-    </message>
-    <message>
-        <source>Recovery</source>
-        <translation type="vanished">恢复</translation>
-    </message>
-    <message>
-        <source>Days</source>
-        <translation type="vanished">天</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">幻灯片放映</translation>
-    </message>
-    <message>
-        <source>Export album</source>
-        <translation type="vanished">导出相册</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>删除</translation>
-    </message>
-    <message>
-        <source>Creat album</source>
-        <translation type="vanished">新建相册</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation type="vanished">重命名相册</translation>
-    </message>
-    <message>
-        <source>Remove album</source>
-        <translation type="vanished">删除相册</translation>
-    </message>
-    <message>
-        <source>Selected %1 photos</source>
-        <translation type="vanished">已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>The photos shows the number of days left before it is deleted, and then it is permanently deleted</source>
-        <translation type="vanished">照片在删除前会显示剩余天数，之后将永久删除</translation>
-    </message>
-    <message>
-        <source>%1 photos</source>
-        <translation type="vanished">%1张照片</translation>
     </message>
     <message>
         <source> D</source>
         <translation>天</translation>
     </message>
     <message>
-        <source>Create Album</source>
-        <translation type="vanished">新建相册</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>您也可以拖拽照片到此</translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation type="vanished">已导入</translation>
-    </message>
-    <message>
         <source>%1 photo(s)</source>
         <translation>%1张照片</translation>
-    </message>
-    <message>
-        <source>Import to</source>
-        <translation type="vanished">导入到</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -185,16 +89,8 @@
         <translation>恢复</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">导出相册</translation>
-    </message>
-    <message>
         <source>New Album</source>
         <translation>新建相册</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="vanished">重命名相册</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -220,14 +116,6 @@
 <context>
     <name>AllPicView</name>
     <message>
-        <source>Selected %1 photos</source>
-        <translation type="vanished">已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>%1 photos</source>
-        <translation type="vanished">%1张照片</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>已选择%1张照片</translation>
     </message>
@@ -246,45 +134,12 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <source>jpg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>jpeg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>png</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>bmp</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>pgm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>xbm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>xpm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
         <source>Replace</source>
         <translation>替换</translation>
-    </message>
-    <message>
-        <source>%1 
-already exists, do you want to replace?</source>
-        <translation type="vanished">%1已经存在，是否需要替换?</translation>
     </message>
     <message>
         <source>Export</source>
@@ -352,25 +207,6 @@ already exists, do you want to replace?</source>
     </message>
 </context>
 <context>
-    <name>DeepinStorage</name>
-    <message>
-        <source>%1 Drive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 </source>
-        <translation type="unfinished">%1年%2月%3日 {1 ?}</translation>
-    </message>
-</context>
-<context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
@@ -395,22 +231,6 @@ already exists, do you want to replace?</source>
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation type="vanished">照片信息</translation>
-    </message>
-    <message>
-        <source>Basic information</source>
-        <translation type="vanished">基本信息</translation>
-    </message>
-    <message>
-        <source>Detailed information</source>
-        <translation type="vanished">详细信息</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">照片信息</translation>
-    </message>
-    <message>
         <source>Basic info</source>
         <translation>基本信息</translation>
     </message>
@@ -421,10 +241,6 @@ already exists, do you want to replace?</source>
 </context>
 <context>
     <name>ImageLoader</name>
-    <message>
-        <source>Imported</source>
-        <translation type="vanished">已导入</translation>
-    </message>
     <message>
         <source>Album Gallery</source>
         <translation>相册图库</translation>
@@ -463,22 +279,6 @@ already exists, do you want to replace?</source>
         <translation>基本信息</translation>
     </message>
     <message>
-        <source>Details Info</source>
-        <translation type="vanished">详细信息</translation>
-    </message>
-    <message>
-        <source>Basic information</source>
-        <translation type="vanished">基本信息</translation>
-    </message>
-    <message>
-        <source>Detailed information</source>
-        <translation type="vanished">详细信息</translation>
-    </message>
-    <message>
-        <source>ExposureMode</source>
-        <translation type="vanished">曝光模式</translation>
-    </message>
-    <message>
         <source>Details</source>
         <translation>详细信息</translation>
     </message>
@@ -496,14 +296,6 @@ already exists, do you want to replace?</source>
 </context>
 <context>
     <name>ImportView</name>
-    <message>
-        <source>Import photos</source>
-        <translation type="vanished">导入相册</translation>
-    </message>
-    <message>
-        <source>You can also drag it here</source>
-        <translation type="vanished">您也可以拖拽到此</translation>
-    </message>
     <message>
         <source>All Photos</source>
         <translation>所有照片</translation>
@@ -574,36 +366,12 @@ already exists, do you want to replace?</source>
 <context>
     <name>Main</name>
     <message>
-        <source>Album is an album management tool that can browse, organize and edit photos in various ways.</source>
-        <translation type="vanished">相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。</translation>
-    </message>
-    <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
         <translation>相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
-    <message>
-        <source>Imported</source>
-        <translation type="vanished">已导入</translation>
-    </message>
-    <message>
-        <source>Successfully deleted “%1” in album</source>
-        <translation type="vanished">成功删除相册中的“%1”</translation>
-    </message>
-    <message>
-        <source>Add image to “%1” successfully</source>
-        <translation type="vanished">成功添加图片到“%1”</translation>
-    </message>
-    <message>
-        <source>Import success</source>
-        <translation type="vanished">导入成功</translation>
-    </message>
-    <message>
-        <source>Import failure</source>
-        <translation type="vanished">导入失败</translation>
-    </message>
     <message>
         <source>Photo export failed</source>
         <translation>照片导出失败</translation>
@@ -613,36 +381,8 @@ already exists, do you want to replace?</source>
         <translation>照片导出成功</translation>
     </message>
     <message>
-        <source>Album export failed</source>
-        <translation type="vanished">相册导出失败</translation>
-    </message>
-    <message>
-        <source>Album export successfully</source>
-        <translation type="vanished">相册导出成功</translation>
-    </message>
-    <message>
         <source>Photos</source>
         <translation>照片</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation type="vanished">时间线</translation>
-    </message>
-    <message>
-        <source>Album</source>
-        <translation type="vanished">相册</translation>
-    </message>
-    <message>
-        <source>Create album</source>
-        <translation type="vanished">新建相册</translation>
-    </message>
-    <message>
-        <source>Trash</source>
-        <translation type="vanished">回收站</translation>
-    </message>
-    <message>
-        <source>%1 Photos</source>
-        <translation type="vanished">%1张照片</translation>
     </message>
     <message>
         <source>Open the photo</source>
@@ -661,20 +401,12 @@ already exists, do you want to replace?</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <source>Exit fullscreen/slide show</source>
-        <translation type="vanished">退出全屏/退出幻灯片放映</translation>
-    </message>
-    <message>
         <source>Close application</source>
         <translation>关闭应用</translation>
     </message>
     <message>
         <source>Help</source>
         <translation>帮助</translation>
-    </message>
-    <message>
-        <source>Show shortcut preview</source>
-        <translation type="vanished">显示快捷键预览</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -685,32 +417,8 @@ already exists, do you want to replace?</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
-        <source>Review images</source>
-        <translation type="vanished">查看图片</translation>
-    </message>
-    <message>
-        <source>Export images</source>
-        <translation type="vanished">导出图片</translation>
-    </message>
-    <message>
-        <source>Import images</source>
-        <translation type="vanished">导入图片</translation>
-    </message>
-    <message>
-        <source>Check all</source>
-        <translation type="vanished">全选图片</translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation>复制</translation>
-    </message>
-    <message>
-        <source>Delete photos/albums</source>
-        <translation type="vanished">删除照片/删除相册</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="vanished">图片信息</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -725,36 +433,12 @@ already exists, do you want to replace?</source>
         <translation>逆时针旋转</translation>
     </message>
     <message>
-        <source>Zoom in and out</source>
-        <translation type="vanished">放大缩小图片</translation>
-    </message>
-    <message>
-        <source>ctrl+Mouse wheel zoom image thumbnails</source>
-        <translation type="vanished">ctrl+鼠标滚轮缩放图片缩略图;</translation>
-    </message>
-    <message>
-        <source>Enlarge images</source>
-        <translation type="vanished">放大图片</translation>
-    </message>
-    <message>
-        <source>Reduce image</source>
-        <translation type="vanished">缩小图片</translation>
-    </message>
-    <message>
         <source>Previous</source>
         <translation>上一张</translation>
     </message>
     <message>
-        <source>Keyboard&lt;-</source>
-        <translation type="vanished">键盘&lt;-</translation>
-    </message>
-    <message>
         <source>Next</source>
         <translation>下一张</translation>
-    </message>
-    <message>
-        <source>Keyboard-&gt;</source>
-        <translation type="vanished">键盘-&gt;</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -767,10 +451,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>Rename album</source>
         <translation>重命名相册</translation>
-    </message>
-    <message>
-        <source>Hotkey</source>
-        <translation type="vanished">热键</translation>
     </message>
     <message>
         <source>Create Album “%1” successfully</source>
@@ -821,24 +501,8 @@ already exists, do you want to replace?</source>
         <translation>%1张照片</translation>
     </message>
     <message>
-        <source>Review photos</source>
-        <translation type="vanished">查看图片</translation>
-    </message>
-    <message>
-        <source>Export photos</source>
-        <translation type="vanished">导出图片</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>照片信息</translation>
-    </message>
-    <message>
-        <source>Enlarge photo</source>
-        <translation type="vanished">放大图片</translation>
-    </message>
-    <message>
-        <source>Reduce photo</source>
-        <translation type="vanished">缩小图片</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -867,14 +531,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>Delete photo/album</source>
         <translation>删除照片/删除相册</translation>
-    </message>
-    <message>
-        <source> </source>
-        <translation type="unfinished">放大缩小图片</translation>
-    </message>
-    <message>
-        <source>  </source>
-        <translation type="unfinished">ctrl+鼠标滚轮缩放图片缩略图;</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -920,84 +576,8 @@ already exists, do you want to replace?</source>
 <context>
     <name>MetadataName</name>
     <message>
-        <source>Dimension</source>
-        <translation type="vanished">图片尺寸</translation>
-    </message>
-    <message>
         <source>Flash</source>
         <translation>闪光灯</translation>
-    </message>
-    <message>
-        <source>ExposureMode</source>
-        <translation type="vanished">曝光模式</translation>
-    </message>
-    <message>
-        <source>ExposureProgram</source>
-        <translation type="vanished">曝光程序</translation>
-    </message>
-    <message>
-        <source>ExposureTime</source>
-        <translation type="vanished">曝光时间</translation>
-    </message>
-    <message>
-        <source>ApertureValue</source>
-        <translation type="vanished">光圈大小</translation>
-    </message>
-    <message>
-        <source>FocalLength</source>
-        <translation type="vanished">焦距</translation>
-    </message>
-    <message>
-        <source>ISOSpeedRatings</source>
-        <translation type="vanished">IOS光感度</translation>
-    </message>
-    <message>
-        <source>MaxApertureValue</source>
-        <translation type="vanished">最大光圈值</translation>
-    </message>
-    <message>
-        <source>MeteringMode</source>
-        <translation type="vanished">测光模式</translation>
-    </message>
-    <message>
-        <source>WhiteBalance</source>
-        <translation type="vanished">白平衡</translation>
-    </message>
-    <message>
-        <source>FlashExposureComp</source>
-        <translation type="vanished">闪光灯补偿</translation>
-    </message>
-    <message>
-        <source>Model</source>
-        <translation type="vanished">镜头型号</translation>
-    </message>
-    <message>
-        <source>FileName</source>
-        <translation type="vanished">照片名称</translation>
-    </message>
-    <message>
-        <source>FileFormat</source>
-        <translation type="vanished">照片类型</translation>
-    </message>
-    <message>
-        <source>FileSize</source>
-        <translation type="vanished">照片大小</translation>
-    </message>
-    <message>
-        <source>DateTimeOriginal</source>
-        <translation type="vanished">拍摄时间</translation>
-    </message>
-    <message>
-        <source>DateTimeDigitized</source>
-        <translation type="vanished">修改时间</translation>
-    </message>
-    <message>
-        <source>LensType</source>
-        <translation type="obsolete">镜头型号</translation>
-    </message>
-    <message>
-        <source>Photo Name</source>
-        <translation type="vanished">照片名称</translation>
     </message>
     <message>
         <source>Type</source>
@@ -1072,23 +652,12 @@ already exists, do you want to replace?</source>
         <translation>颜⾊空间</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="vanished">图片名称</translation>
-    </message>
-    <message>
         <source>Tag</source>
         <translation>标记</translation>
     </message>
     <message>
         <source>Photo name</source>
         <translation>照片名称</translation>
-    </message>
-</context>
-<context>
-    <name>PathManager</name>
-    <message>
-        <source>System Disk</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1144,100 +713,12 @@ already exists, do you want to replace?</source>
 <context>
     <name>QObject</name>
     <message>
-        <source>FileName</source>
-        <translation type="vanished">照片名称</translation>
-    </message>
-    <message>
-        <source>FileFormat</source>
-        <translation type="vanished">照片类型</translation>
-    </message>
-    <message>
-        <source>FileSize</source>
-        <translation type="vanished">照片大小</translation>
-    </message>
-    <message>
-        <source>Dimension</source>
-        <translation type="vanished">照片尺寸</translation>
-    </message>
-    <message>
-        <source>DateTimeOriginal</source>
-        <translation type="vanished">拍摄时间</translation>
-    </message>
-    <message>
-        <source>DateTimeDigitized</source>
-        <translation type="vanished">修改时间</translation>
-    </message>
-    <message>
-        <source>ExposureMode</source>
-        <translation type="vanished">曝光模式</translation>
-    </message>
-    <message>
-        <source>ExposureProgram</source>
-        <translation type="vanished">曝光程序</translation>
-    </message>
-    <message>
-        <source>ExposureTime</source>
-        <translation type="vanished">曝光时间</translation>
-    </message>
-    <message>
-        <source>Flash</source>
-        <translation type="vanished">闪光灯</translation>
-    </message>
-    <message>
-        <source>ApertureValue</source>
-        <translation type="vanished">光圈大小</translation>
-    </message>
-    <message>
-        <source>FocalLength</source>
-        <translation type="vanished">焦距</translation>
-    </message>
-    <message>
-        <source>ISOSpeedRatings</source>
-        <translation type="vanished">IOS光感度</translation>
-    </message>
-    <message>
-        <source>MaxApertureValue</source>
-        <translation type="vanished">最大光圈值</translation>
-    </message>
-    <message>
-        <source>MeteringMode</source>
-        <translation type="vanished">测光模式</translation>
-    </message>
-    <message>
-        <source>WhiteBalance</source>
-        <translation type="vanished">白平衡</translation>
-    </message>
-    <message>
-        <source>FlashExposureComp</source>
-        <translation type="vanished">闪光灯补偿</translation>
-    </message>
-    <message>
-        <source>Model</source>
-        <translation type="vanished">镜头型号</translation>
-    </message>
-    <message>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
         <source>Unselect</source>
         <translation>取消选择</translation>
-    </message>
-    <message>
-        <source>%1 Photos</source>
-        <translation type="vanished">%1张照片</translation>
-    </message>
-    <message>
-        <source>Selected %1 photos</source>
-        <translation type="vanished">已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>%1 photos</source>
-        <translation type="vanished">%1 张照片</translation>
-    </message>
-    <message>
-        <source>%1photos</source>
-        <translation type="vanished">%1张照片</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -1265,26 +746,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>No search results</source>
         <translation>无搜索结果</translation>
-    </message>
-    <message>
-        <source>Search Result</source>
-        <translation type="vanished">搜索结果</translation>
-    </message>
-    <message>
-        <source>No results for &apos;%1&apos;, please try searching for new words.</source>
-        <translation type="vanished">没有“%1”的结果，请尝试搜索新词。</translation>
-    </message>
-    <message>
-        <source>Slideshow</source>
-        <translation type="vanished">幻灯片放映</translation>
-    </message>
-    <message>
-        <source>Search %1 photos in total</source>
-        <translation type="vanished">共搜到%1张照片</translation>
-    </message>
-    <message>
-        <source>Search Results</source>
-        <translation type="vanished">搜索结果</translation>
     </message>
     <message>
         <source>Slide Show</source>
@@ -1370,10 +831,6 @@ already exists, do you want to replace?</source>
         <translation>在文件管理器中显示</translation>
     </message>
     <message>
-        <source>Image info</source>
-        <translation type="vanished">照片信息</translation>
-    </message>
-    <message>
         <source>Previous</source>
         <translation>上一张</translation>
     </message>
@@ -1440,14 +897,6 @@ already exists, do you want to replace?</source>
 <context>
     <name>StatusBar</name>
     <message>
-        <source>%1 Photos</source>
-        <translation type="vanished">%1张照片</translation>
-    </message>
-    <message>
-        <source>Being imported:&apos;%1&apos;</source>
-        <translation type="vanished">正在导入:%1</translation>
-    </message>
-    <message>
         <source>Importing photos:&apos;%1&apos;</source>
         <translation>正在导入:%1</translation>
     </message>
@@ -1465,10 +914,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>Image management</source>
         <translation>图片管理</translation>
-    </message>
-    <message>
-        <source>Return</source>
-        <translation type="vanished">返回</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -1499,10 +944,6 @@ already exists, do you want to replace?</source>
         <translation>删除</translation>
     </message>
     <message>
-        <source>Unavorite</source>
-        <translation type="vanished">取消收藏</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
@@ -1528,18 +969,6 @@ already exists, do you want to replace?</source>
 </context>
 <context>
     <name>ThumbnailListView</name>
-    <message>
-        <source>Add To Album</source>
-        <translation type="vanished">添加到相册</translation>
-    </message>
-    <message>
-        <source>Creat Album</source>
-        <translation type="vanished">新建相册</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation type="vanished">添加到新建相册</translation>
-    </message>
     <message>
         <source>View</source>
         <translation>查看</translation>
@@ -1577,10 +1006,6 @@ already exists, do you want to replace?</source>
         <translation>在文件管理器中显示</translation>
     </message>
     <message>
-        <source>Image info</source>
-        <translation type="vanished">照片信息</translation>
-    </message>
-    <message>
         <source>Set as wallpaper</source>
         <translation>设为壁纸</translation>
     </message>
@@ -1599,10 +1024,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>Copy</source>
         <translation>复制</translation>
-    </message>
-    <message>
-        <source>Create Album</source>
-        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -1628,39 +1049,8 @@ already exists, do you want to replace?</source>
         <translation>没有找到图片文件</translation>
     </message>
     <message>
-        <source>Open the picture</source>
-        <translation type="vanished">打开图片</translation>
-    </message>
-    <message>
         <source>Photo not found</source>
         <translation>没有发现照片文件</translation>
-    </message>
-</context>
-<context>
-    <name>TimeLineView</name>
-    <message>
-        <source>Select</source>
-        <translation type="vanished">选择</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation type="vanished">取消选择</translation>
-    </message>
-    <message>
-        <source>%1 Photos</source>
-        <translation type="vanished">%1张照片</translation>
-    </message>
-    <message>
-        <source>Selected %1 photos</source>
-        <translation type="vanished">已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>%1 photos</source>
-        <translation type="vanished">%1 张照片</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3</source>
-        <translation type="vanished">%1年%2月%3日</translation>
     </message>
 </context>
 <context>
@@ -1672,10 +1062,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>Add to album</source>
         <translation>添加到相册</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation type="vanished">添加到新建相册</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -1722,20 +1108,8 @@ already exists, do you want to replace?</source>
         <translation>在文件管理器中显示</translation>
     </message>
     <message>
-        <source>Image info</source>
-        <translation type="vanished">照片信息</translation>
-    </message>
-    <message>
-        <source>Creat Album</source>
-        <translation type="vanished">新建相册</translation>
-    </message>
-    <message>
         <source>Export</source>
         <translation>导出</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -1744,10 +1118,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>favorite</source>
         <translation>收藏</translation>
-    </message>
-    <message>
-        <source>Add To Album</source>
-        <translation type="vanished">添加到相册</translation>
     </message>
     <message>
         <source>Photo info</source>
