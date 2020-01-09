@@ -1,6 +1,6 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS language="en" version="2.1">
+<TS version="2.1" language="en">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -116,6 +116,22 @@
         <source>Disk</source>
         <translation>Disk</translation>
     </message>
+    <message>
+        <source>Disk is busy, cannot eject now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished">Ok</translation>
+    </message>
+    <message>
+        <source>Unnamed</source>
+        <translation type="unfinished">Unnamed</translation>
+    </message>
+    <message>
+        <source>System Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>
@@ -208,6 +224,25 @@
     <message>
         <source>File name cannot be empty</source>
         <translation>File name cannot be empty</translation>
+    </message>
+</context>
+<context>
+    <name>DeepinStorage</name>
+    <message>
+        <source>%1 Drive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blank %1 Disc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Encrypted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 </source>
+        <translation type="unfinished">%1 </translation>
     </message>
 </context>
 <context>
@@ -665,6 +700,13 @@
     </message>
 </context>
 <context>
+    <name>PathManager</name>
+    <message>
+        <source>System Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
@@ -766,113 +808,6 @@
     <message>
         <source>Search results</source>
         <translation>Search results</translation>
-    </message>
-</context>
-<context>
-    <name>Shortcut</name>
-    <message>
-        <source>Image Viewing</source>
-        <translation>Image Viewing</translation>
-    </message>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Settings</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>View</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slide show</translation>
-    </message>
-    <message>
-        <source>End show</source>
-        <translation>End show</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copy</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Remove from album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorite</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Previous</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Next</translation>
-    </message>
-    <message>
-        <source>Previous screen</source>
-        <translation>Previous screen</translation>
-    </message>
-    <message>
-        <source>Next screen</source>
-        <translation>Next screen</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>New album</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Rename</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Help</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Exit</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Display shortcuts</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Photo info</translation>
     </message>
 </context>
 <context>

@@ -23,7 +23,7 @@
 #include "settings/settingswindow.h"
 #include "widgets/dialogs/aboutdialog.h"
 #include "utils/baseutils.h"
-#include "utils/shortcut.h"
+//#include "utils/shortcut.h"
 
 #include <dwindowminbutton.h>
 #include <dwindowmaxbutton.h>
@@ -187,15 +187,15 @@ void TopToolbar::initMenu()
 }
 
 void TopToolbar::onViewShortcut() {
-    QRect rect = window()->geometry();
-    QPoint pos(rect.x() + rect.width()/2 , rect.y() + rect.height()/2);
-    Shortcut sc;
-    QStringList shortcutString;
-    QString param1 = "-j="+sc.toStr();
-    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-    shortcutString << param1 << param2;
+//    QRect rect = window()->geometry();
+//    QPoint pos(rect.x() + rect.width()/2 , rect.y() + rect.height()/2);
+//    Shortcut sc;
+//    QStringList shortcutString;
+//    QString param1 = "-j="+sc.toStr();
+//    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+//    shortcutString << param1 << param2;
 
-    QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
+//    QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
 }
 
 void TopToolbar::onHelp()

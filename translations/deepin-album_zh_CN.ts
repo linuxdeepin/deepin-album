@@ -116,6 +116,22 @@
         <source>Disk</source>
         <translation>卷</translation>
     </message>
+    <message>
+        <source>Unnamed</source>
+        <translation type="unfinished">新建相册</translation>
+    </message>
+    <message>
+        <source>Disk is busy, cannot eject now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <source>System Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>
@@ -208,6 +224,29 @@
     <message>
         <source>File name cannot be empty</source>
         <translation>文件名称不能为空</translation>
+    </message>
+    <message>
+        <source>gif</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeepinStorage</name>
+    <message>
+        <source>%1 Drive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blank %1 Disc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Encrypted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 </source>
+        <translation type="unfinished">%1年%2月%3日 %4 {1 ?}</translation>
     </message>
 </context>
 <context>
@@ -665,6 +704,13 @@
     </message>
 </context>
 <context>
+    <name>PathManager</name>
+    <message>
+        <source>System Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
@@ -771,108 +817,88 @@
 <context>
     <name>Shortcut</name>
     <message>
-        <source>Image Viewing</source>
-        <translation>图片预览</translation>
-    </message>
-    <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation type="obsolete">相册</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>设置</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>查看</translation>
+        <translation type="obsolete">设置</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation type="obsolete">全屏</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
-    </message>
-    <message>
-        <source>End show</source>
-        <translation>结束放映</translation>
+        <translation type="obsolete">幻灯片放映</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation type="obsolete">复制</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册内删除</translation>
+        <translation type="obsolete">从相册中移除</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation type="obsolete">收藏</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation type="obsolete">取消收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation type="obsolete">顺时针旋转</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation type="obsolete">逆时针旋转</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation type="obsolete">设为壁纸</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>上一张</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>下一张</translation>
-    </message>
-    <message>
-        <source>Previous screen</source>
-        <translation>上一页</translation>
-    </message>
-    <message>
-        <source>Next screen</source>
-        <translation>下一页</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>新建相册</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>重命名</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>帮助</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>退出</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>显示快捷键</translation>
+        <translation type="obsolete">在文件管理器中显示</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation type="obsolete">照片信息</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="obsolete">上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="obsolete">下一张</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="obsolete">新建相册</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="obsolete">重命名</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="obsolete">帮助</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="obsolete">退出</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation type="obsolete">显示快捷键</translation>
     </message>
 </context>
 <context>

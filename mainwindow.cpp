@@ -1561,8 +1561,8 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut18.insert("name", tr("Rotate counterclockwise"));
     shortcut18.insert("value", "Ctrl+Shift+R");
     QJsonObject shortcut19;
-    shortcut19.insert("name", tr(" "));
-    shortcut19.insert("value", tr("  "));
+    shortcut19.insert("name", " ");
+    shortcut19.insert("value", "  ");
     QJsonObject shortcut20;
     shortcut20.insert("name", tr("Zoom in"));
     shortcut20.insert("value", "Ctrl+'+'");

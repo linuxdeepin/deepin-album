@@ -165,8 +165,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
 //        admMap.insert("DateTimeOriginal",  DateToString(emptyTime));
 //        admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm:dd"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
     } else {
         // ReFormat the date-time
         using namespace utils::base;
@@ -182,15 +182,15 @@ QMap<QString, QString> getAllMetaData(const QString &path)
             if (! ot.isValid()) {
 //                admMap.insert("DateTimeOriginal", DateToString(info.created()));
 //                admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
-                admMap.insert("DateTimeOriginal", info.created().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
             }
         }
         ;
 //        admMap.insert("DateTimeOriginal", DateToString(ot));
 //        admMap.insert("DateTimeDigitized", DateToString(dt));
-        admMap.insert("DateTimeOriginal", ot.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-        admMap.insert("DateTimeDigitized", dt.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm:dd"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
 
     }
     // The value of width and height might incorrect

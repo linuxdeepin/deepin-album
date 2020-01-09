@@ -169,13 +169,13 @@ void CExportImageDialog::initUI()
 
 
     m_formatCombox = new DComboBox(this);
-    m_formatCombox->insertItem(JPG, tr("jpg"));
-    m_formatCombox->insertItem(JPG, tr("jpeg"));
-    m_formatCombox->insertItem(PNG, tr("png"));
-    m_formatCombox->insertItem(BMP, tr("bmp"));
-    m_formatCombox->insertItem(BMP, tr("pgm"));
-    m_formatCombox->insertItem(TIF, tr("xbm"));
-    m_formatCombox->insertItem(PDF, tr("xpm"));
+    m_formatCombox->insertItem(JPG, "jpg");
+    m_formatCombox->insertItem(JPG, "jpeg");
+    m_formatCombox->insertItem(PNG, "png");
+    m_formatCombox->insertItem(BMP, "bmp");
+    m_formatCombox->insertItem(BMP, "pgm");
+    m_formatCombox->insertItem(TIF, "xbm");
+    m_formatCombox->insertItem(PDF, "xpm");
     m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
