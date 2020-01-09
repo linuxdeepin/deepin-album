@@ -239,7 +239,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
-    pSuspensionChose->setFixedHeight(24);
+    pSuspensionChose->setFixedHeight(32);
     pSuspensionChose->resize(36, 27);
 
     pNum_up->setLayout(Layout);
@@ -557,7 +557,7 @@ void ImportTimeLineView::updataLayout()
         });
 #if 1
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] (QMouseEvent * event) {
+        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
             lastRow = -1;
             for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                 if (pThumbnailListView == m_allThumbnailListView[i]) {
@@ -569,7 +569,7 @@ void ImportTimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ] (QMouseEvent * event) {
+        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ](QMouseEvent * event) {
             int curClickedIndex = -1;
             int curRow = -1;
             for (int i = 0; i < m_allThumbnailListView.length(); i++) {
@@ -639,7 +639,7 @@ void ImportTimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ] (QMouseEvent * event) {
+        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ](QMouseEvent * event) {
             for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                 if (pThumbnailListView == m_allThumbnailListView[i]) {
                     lastClickedIndex = i;

@@ -442,7 +442,7 @@ static void scaleImageToMax(QImage *image, int width, int height)
     *image = image->scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
-static void addBackground(QImage *image, int width, int height, const QColor &color )
+static void addBackground(QImage *image, int width, int height, const QColor &color)
 {
     QImage bg(width, height, QImage::Format_ARGB32);
     bg.fill(0);

@@ -175,11 +175,18 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
         painter->setPen(QColor(85, 85, 85, 170));
 //        QBrush brush;
-        painter->setBrush(QBrush(QColor(85, 85, 85, 170)));
-        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 40, pixmapRect.y() + pixmapRect.height() - 18, 38, 16, 8, 8);
-        painter->setPen(QColor(255, 255, 255));
+
         painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-        painter->drawText(pixmapRect.x() + pixmapRect.width() - 34, pixmapRect.y() + pixmapRect.height() - 5, data.remainDays);
+        int m_Width = painter->fontMetrics().width(data.remainDays);
+//        int m_Height = painter->fontMetrics().height();
+
+        painter->setBrush(QBrush(QColor(85, 85, 85, 170)));
+//        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 40, pixmapRect.y() + pixmapRect.height() - 18, 48, 16, 8, 8);
+        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 50, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 4, 20, 8, 8);
+        painter->setPen(QColor(255, 255, 255));
+
+        qDebug() << "m_Width      " << m_Width << endl;
+        painter->drawText(pixmapRect.x() + pixmapRect.width() - 48, pixmapRect.y() + pixmapRect.height() - 13, data.remainDays);
     }
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {

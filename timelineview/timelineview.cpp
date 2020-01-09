@@ -20,6 +20,7 @@ const int VIEW_TIMELINE = 1;
 const int VIEW_SEARCH = 2;
 const int VIEW_MAINWINDOW_TIMELINE = 1;
 const int TITLEHEIGHT = 50;
+const int TIMELINE_TITLEHEIGHT = 32;
 } //namespace
 
 TimeLineView::TimeLineView()
@@ -195,7 +196,7 @@ void TimeLineView::initTimeLineViewWidget()
     DPalette color = DApplicationHelper::instance()->palette(m_pDate);
     color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 
-    m_pDate->setFixedHeight(24);
+    m_pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     m_pDate->setFont(ft3);
     m_pDate->setForegroundRole(DPalette::Text);
     m_pDate->setPalette(color);
@@ -219,7 +220,7 @@ void TimeLineView::initTimeLineViewWidget()
         pNum_up->setPalette(pal);
     }
 
-    pNum_up->setFixedHeight(24);
+    pNum_up->setFixedHeight(TIMELINE_TITLEHEIGHT);
     pNum_up->setFont(ft6);
     pNum_up->setForegroundRole(DPalette::Text);
     pNum_up->setPalette(pal);
@@ -230,7 +231,7 @@ void TimeLineView::initTimeLineViewWidget()
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
-    pSuspensionChose->setFixedHeight(24);
+    pSuspensionChose->setFixedHeight(TIMELINE_TITLEHEIGHT);
     pSuspensionChose->resize(36, 27);
 
     pNum_up->setLayout(Layout);
@@ -340,7 +341,7 @@ void TimeLineView::updataLayout()
         TitleView->setLayout(TitleViewLayout);
         DLabel *pDate = new DLabel();
 
-        pDate->setFixedHeight(24);
+        pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
         QStringList datelist = m_timelines.at(i).split(".");
         if (datelist.count() > 2) {
 //            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
@@ -383,14 +384,14 @@ void TimeLineView::updataLayout()
             pNum_dn->setPalette(pal);
         }
 
-        pNum_dn->setFixedHeight(24);
+        pNum_dn->setFixedHeight(TIMELINE_TITLEHEIGHT);
         pNum_dn->setFont(ft6);
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
         m_allChoseButton << pChose;
         pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
-        pChose->setFixedHeight(24);
+        pChose->setFixedHeight(TIMELINE_TITLEHEIGHT);
         pChose->resize(36, 27);
 
         pNum_dn->setLayout(Layout);
@@ -586,7 +587,7 @@ void TimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ] (QMouseEvent * event) {
+        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
             lastRow = -1;
             for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                 if (pThumbnailListView != m_allThumbnailListView[i]) {
@@ -603,7 +604,7 @@ void TimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ] (QMouseEvent * event) {
+        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ](QMouseEvent * event) {
             for (int i = 0; i < m_allThumbnailListView.length(); i++) {
                 if (pThumbnailListView == m_allThumbnailListView[i]) {
                     lastClickedIndex = i;
@@ -614,7 +615,7 @@ void TimeLineView::updataLayout()
             }
         });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ] (QMouseEvent * event) {
+        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ](QMouseEvent * event) {
             int curClickedIndex = -1;
             int curRow = -1;
             for (int i = 0; i < m_allThumbnailListView.length(); i++) {

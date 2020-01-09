@@ -413,7 +413,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -696,6 +696,7 @@ void AlbumView::initRightView()
 
     pLabel1 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
+    pLabel1->setFixedHeight(32);
     pLabel1->setForegroundRole(DPalette::TextTitle);
     pLabel1->setText(tr("Trash"));
 
@@ -706,7 +707,7 @@ void AlbumView::initRightView()
 
     pTopLeftVBoxLayout->addSpacing(3);
     pTopLeftVBoxLayout->addWidget(pLabel1);
-    pTopLeftVBoxLayout->addSpacing(7);
+    pTopLeftVBoxLayout->addSpacing(10);
     pTopLeftVBoxLayout->addWidget(pLabel2);
     pTopLeftVBoxLayout->addSpacing(-1);
     pTopLeftVBoxLayout->setContentsMargins(3, 0, 0, 0); //edit 3975
@@ -1974,7 +1975,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
