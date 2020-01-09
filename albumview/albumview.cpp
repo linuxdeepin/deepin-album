@@ -25,6 +25,7 @@
 #include "dialogs/albumcreatedialog.h"
 #include <QScrollBar> //add 3975
 #include <QMutex>
+#include <DMessageBox>
 
 static QMutex m_mutex;
 
@@ -1836,6 +1837,8 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         MountLoader *pMountloader = new MountLoader(this);
         QThread *pLoadThread = new QThread();
 
+
+        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
         pMountloader->moveToThread(pLoadThread);
         pLoadThread->start();
 
@@ -1854,8 +1857,8 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 
         emit pMountloader->sigLoadMountImagesStart(rename, strPath);
 
-        m_mountLoaderList.insert(rename, pMountloader);
-        m_loadThreadList.insert(rename, pLoadThread);
+        m_mountLoaderList.insert(strPath, pMountloader);
+        m_loadThreadList.insert(strPath, pLoadThread);
 
         updateExternalDevice(mount);
     }
@@ -1879,11 +1882,14 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         AlbumLeftTabItem *pAlbumLeftTabItem = (AlbumLeftTabItem *)m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem);
 //        if (mount->name() == pAlbumLeftTabItem->m_albumNameStr) {
         QString rename = "";
-        rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
+        QString dpath = mount->getRootFile()->uri();
+        QUrl qurl(mount->getRootFile()->uri());
+        rename = durlAndNameMap[qurl];
         if ("" == rename) {
             rename = mount->name();
         }
-        if (rename == pAlbumLeftTabItem->m_albumNameStr) {
+        if (rename == pAlbumLeftTabItem->m_albumNameStr &&
+                mount->getRootFile()->uri().contains(pAlbumLeftTabItem->m_mountPath)) {
             if (1 < m_pLeftListView->m_pMountListView->count()) {
                 delete pListWidgetItem;
             } else {
@@ -1891,6 +1897,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
                 m_pLeftListView->updatePhotoListView();
             }
 
+            durlAndNameMap.erase(durlAndNameMap.find(qurl));
             break;
         }
     }
@@ -2177,6 +2184,7 @@ void AlbumView::initExternalDevice()
         MountLoader *pMountloader = new MountLoader(this);
         QThread *pLoadThread = new QThread();
 
+        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
         pMountloader->moveToThread(pLoadThread);
         pLoadThread->start();
 
@@ -2187,8 +2195,8 @@ void AlbumView::initExternalDevice()
 
 //        m_mountLoaderList.insert(mount->name(), pMountloader);
 //        m_loadThreadList.insert(mount->name(), pLoadThread);
-        m_mountLoaderList.insert(rename, pMountloader);
-        m_loadThreadList.insert(rename, pLoadThread);
+        m_mountLoaderList.insert(strPath, pMountloader);
+        m_loadThreadList.insert(strPath, pLoadThread);
     }
 }
 
@@ -2360,6 +2368,7 @@ void AlbumView::importAllBtnClicked()
 
     MountLoader *pMountloader = new MountLoader(this);
     QThread *pLoadThread = new QThread();
+    connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
 
     pMountloader->moveToThread(pLoadThread);
     pLoadThread->start();
@@ -2475,6 +2484,7 @@ void AlbumView::importSelectBtnClicked()
     MountLoader *pMountloader = new MountLoader(this);
     QThread *pLoadThread = new QThread();
 
+    connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
     pMountloader->moveToThread(pLoadThread);
     pLoadThread->start();
 
@@ -2528,18 +2538,87 @@ void AlbumView::importSelectBtnClicked()
     }
 }
 
-//卸载外部设备
-void AlbumView::onUnMountSignal(QString unMountPath)
+
+void AlbumView::needUnMount(QString path)
 {
+    QStringList blDevList = m_diskManager->blockDevices();
+    qDebug() << "blDevList:" << blDevList;
+    QSharedPointer<DBlockDevice> blkget;
+    QString mountPoint = "";
+    for (const QString &blks : blDevList) {
+        QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
+        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
+        if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+            continue;
+        }
+        if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
+            continue;
+        }
+
+        QByteArrayList qbl = blk->mountPoints();
+        mountPoint = "file://";
+        for (QByteArray qb : qbl) {
+            mountPoint += qb;
+        }
+        if (mountPoint.contains(path, Qt::CaseSensitive)) {
+            blkget = blk;
+            break;
+        } else {
+            mountPoint = "";
+        }
+    }
+    if ("" == mountPoint) {
+        return;
+    }
     for (auto mount : m_mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-        if (LocationFile->path().compare(unMountPath) == 0 && mount->canUnmount()) {
-            mount->unmount(true);
-            durlAndNameMap.erase(durlAndNameMap.find(QUrl(mount->getRootFile()->uri())));
-            m_mounts.removeOne(mount);
+        if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+//            mount->unmount(true);
+
+            QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
+            QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
+            bool err = false;
+            if (!blkget->mountPoints().empty()) {
+                blkget->unmount({});
+                err |= blkget->lastError().isValid();
+            }
+            if (blkget->cryptoBackingDevice().length() > 1) {
+                cbblk->lock({});
+                err |= cbblk->lastError().isValid();
+                drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
+            }
+            drv->powerOff({});
+            err |= drv->lastError().isValid();
+            if (err) {
+                DDialog msgbox(this);
+                msgbox.setFixedWidth(400);
+                msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+//                msgbox.setTitle(tr("Format USB flash drive"));
+                msgbox.setTextFormat(Qt::AutoText);
+                msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+                msgbox.insertButton(1, tr("Ok"), false, DDialog::ButtonWarning);
+
+                auto ret = msgbox.exec();
+                return;
+//                dialogManager->showErrorDialog(tr("Disk is busy, cannot eject now"), QString());
+            }
+//            m_mounts.removeOne(mount);
             break;
         }
     }
+}
+//卸载外部设备
+void AlbumView::onUnMountSignal(QString unMountPath)
+{
+    QMap<QString, MountLoader *>::iterator itmount;
+    itmount = m_mountLoaderList.find(unMountPath);
+    if ( itmount != m_mountLoaderList.end()) {
+        if (itmount.value()->isRunning()) {
+            itmount.value()->stopRunning(unMountPath);
+            return;
+        }
+    }
+    needUnMount(unMountPath);
 }
 
 void AlbumView::onLoadMountImagesEnd(QString mountname)
@@ -2665,6 +2744,7 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     qDebug() << "onLoadMountImagesStart() mountName: " << mountName;
     qDebug() << "onLoadMountImagesStart() path: " << path;
     QString strPath = path;
+    bIsRunning = true;
     //判断路径是否存在
     QDir dir(path);
     if (!dir.exists()) {
@@ -2704,6 +2784,10 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     qDebug() << "onLoadMountImagesStart() while (dir_iterator.hasNext())";
     int i = 0;
     while (dir_iterator.hasNext()) {
+        if (!bIsRunning) {
+            qtpool.waitForDone();
+            break;
+        }
         i++;
         dir_iterator.next();
         QFileInfo fileInfo = dir_iterator.fileInfo();
@@ -2774,6 +2858,11 @@ void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
     }
 
     dApp->signalM->sigLoadMountImagesEnd(mountName);
+    if (bneedunmountpath) {
+        emit needUnMount(m_unmountpath);
+    }
+
+    bIsRunning = false;
 }
 
 void MountLoader::onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths)

@@ -41,10 +41,11 @@ public:
     QString m_albumTypeStr;
     int m_opeMode;
 //    QLineEdit* m_pLineEdit;
-    DLineEdit* m_pLineEdit;
+    DLineEdit *m_pLineEdit;
 
 
-    DLineEdit* m_pNewLineEdit;
+    DLineEdit *m_pNewLineEdit;
+    QString m_mountPath;
 
 private:
     DLabel *m_nameLabel;
@@ -52,9 +53,8 @@ private:
     DLabel *pImageLabel;
 
     MountExternalBtn *m_unMountBtn;
-    QString m_mountPath;
 
-    LeftListWidget* m_pListWidget;
+    LeftListWidget *m_pListWidget;
     QListWidgetItem *m_pListWidgetItem;
 };
 

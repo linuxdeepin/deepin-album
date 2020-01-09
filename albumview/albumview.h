@@ -73,6 +73,16 @@ public:
         qtpool.waitForDone();
         QThreadPool::globalInstance()->waitForDone();
     }
+    bool isRunning()
+    {
+        return bIsRunning;
+    }
+    void stopRunning(QString path)
+    {
+        bIsRunning = false;
+        bneedunmountpath = true;
+        m_unmountpath = path;
+    }
 private:
     bool findPicturePathByPhone(QString &path);
 
@@ -84,12 +94,16 @@ signals:
     void sigFinishiLoad();
     void sigLoadMountImagesStart(QString mountName, QString path);
     void sigCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
+    void needUnMount(QString path);
 
 private:
     AlbumView *m_parent;
     QStringList m_phoneImgPathList;
     QMap<QString, QPixmap> m_phonePathImage;
     QThreadPool qtpool;
+    bool bIsRunning = false;
+    QString m_unmountpath = "";
+    bool bneedunmountpath = false;
 };
 
 class AlbumView : public QWidget
@@ -170,6 +184,7 @@ private slots:
     void onLeftListDropEvent(QModelIndex dropIndex);
     void onKeyDelete();
     void onKeyF2();
+    void needUnMount(QString path);
 
 public:
     int m_iAlubmPicsNum;
