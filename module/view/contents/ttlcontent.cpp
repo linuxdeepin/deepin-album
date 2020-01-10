@@ -60,12 +60,12 @@ TTLContent::TTLContent(bool inDB,
     m_returnBtn->setMaxWidth(RETURN_BTN_MAX);
     m_returnBtn->setMaximumWidth(RETURN_BTN_MAX);
     m_returnBtn->setObjectName("ReturnBtn");
-    m_returnBtn->setToolTip(tr("Back"));
+    m_returnBtn->setToolTip("Back");
 
     m_folderBtn = new PushButton();
     m_folderBtn->setFixedSize(QSize(24, 24));
     m_folderBtn->setObjectName("FolderBtn");
-    m_folderBtn->setToolTip(tr("Image management"));
+    m_folderBtn->setToolTip("Image management");
     if(m_inDB) {
         hb->addWidget(m_returnBtn);
     } else {
@@ -290,7 +290,7 @@ void TTLContent::updateCollectButton()
 #ifndef LITE_DIV
     else if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,
                                                       m_imagePath)) {
-        m_clBT->setToolTip(tr("Unfavorite"));
+        m_clBT->setToolTip("Unfavorite");
         m_clBT->setChecked(true);
     }
 #endif

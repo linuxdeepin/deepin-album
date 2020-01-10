@@ -107,7 +107,7 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                 emit dApp->signalM->sigExporting(albumPaths[j]);
 
                 if (!isSucceed) {
-                    qDebug() << tr("Failed to export");
+                    qDebug() << "Export failed";
                 }
             } else {
                 failcount++;
@@ -127,8 +127,10 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
 void Exporter::popupDialogSaveImage(const QStringList imagePaths)
 {
     QFileDialog exportDialog;
+    exportDialog.setWindowTitle(tr("Export Photos"));
+
     exportDialog.setFileMode(QFileDialog::Directory);
-    exportDialog.setLabelText(QFileDialog::Reject, tr("Cancle"));
+    exportDialog.setLabelText(QFileDialog::Reject, tr("Cancel"));
     exportDialog.setLabelText(QFileDialog::Accept, tr("Save"));
     exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
 
@@ -144,7 +146,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 bool isSucceed = QFile::copy(imagePaths[j], savePath);
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
-                    qDebug() << tr("Failed to export");
+                    qDebug() << "Export failed";
                 }
 
             } else {

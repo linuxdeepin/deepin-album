@@ -943,7 +943,7 @@ void AlbumView::initRightView()
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
     m_importAllByPhoneBtn->setEnabled(false);
 
-    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
+    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import"));
     m_importSelectByPhoneBtn->setMinimumSize(100, 36);
 //    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
 //    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
@@ -1332,7 +1332,7 @@ void AlbumView::updateRightTrashView()
                 vi.width = dApp->m_imagetrashmap.value(info.filePath).width();
                 vi.height = dApp->m_imagetrashmap.value(info.filePath).height();
             }
-            vi.remainDays = QString::number(30 - Day) + tr(" D");
+            vi.remainDays = QString::number(30 - Day) + tr("days");
 
             m_curThumbnaiItemList << vi;
         }
@@ -2299,8 +2299,8 @@ bool AlbumView::findPicturePathByPhone(QString &path)
 void AlbumView::updateImportComboBox()
 {
     m_importByPhoneComboBox->clear();
-    m_importByPhoneComboBox->addItem(tr("Album Gallery"));
-    m_importByPhoneComboBox->addItem(tr("New Album"));
+    m_importByPhoneComboBox->addItem(tr("Gallery"));
+    m_importByPhoneComboBox->addItem(tr("New album"));
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     qDebug() << "updateImportComboBox()" << allAlbumNames;
     for (auto albumName : allAlbumNames) {
@@ -2398,7 +2398,7 @@ void AlbumView::importAllBtnClicked()
                     && COMMON_STR_TRASH != albumNameStr
                     && COMMON_STR_FAVORITES != albumNameStr
                     && ALBUM_PATHTYPE_BY_PHONE != albumNameStr
-                    && 0 != albumNameStr.compare(tr("Album Gallery"))) {
+                    && 0 != albumNameStr.compare(tr("Gallery"))) {
                 DBManager::instance()->insertIntoAlbumNoSignal(albumNameStr, pathslist);
             }
         }
@@ -2513,7 +2513,7 @@ void AlbumView::importSelectBtnClicked()
                     && COMMON_STR_TRASH != albumNameStr
                     && COMMON_STR_FAVORITES != albumNameStr
                     && ALBUM_PATHTYPE_BY_PHONE != albumNameStr
-                    && 0 != albumNameStr.compare(tr("Album Gallery"))) {
+                    && 0 != albumNameStr.compare(tr("Gallery"))) {
                 DBManager::instance()->insertIntoAlbumNoSignal(albumNameStr, pathslist);
             }
         }
@@ -2598,7 +2598,7 @@ void AlbumView::needUnMount(QString path)
 //                msgbox.setTitle(tr("Format USB flash drive"));
                 msgbox.setTextFormat(Qt::AutoText);
                 msgbox.setMessage(tr("Disk is busy, cannot eject now"));
-                msgbox.insertButton(1, tr("Ok"), false, DDialog::ButtonWarning);
+                msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonWarning);
 
                 auto ret = msgbox.exec();
                 return;

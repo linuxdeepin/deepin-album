@@ -31,7 +31,7 @@ const int VIEW_SLIDE = 5;
 
 //const QString TITLEBAR_NEWALBUM = "新建相册";
 //const QString TITLEBAR_IMPORT = "导入照片";
-const QString TITLEBAR_NEWALBUM = "New Album";
+const QString TITLEBAR_NEWALBUM = "New album";
 const QString TITLEBAR_IMPORT = "Import photos";
 
 }//namespace
@@ -333,7 +333,7 @@ void MainWindow::initConnections()
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
 
-        QString str = tr("Photo export failed");
+        QString str = tr("Export failed");
 
         QWidget *pwidget = new QWidget();
         switch (m_pCenterWidget->currentIndex())
@@ -364,7 +364,7 @@ void MainWindow::initConnections()
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
-        QString str = tr("Photo exported successfully");
+        QString str = tr("Export successful");
 
         QWidget *pwidget = new QWidget();
         switch (m_pCenterWidget->currentIndex())
@@ -464,7 +464,7 @@ void MainWindow::initConnections()
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
-        QString str = tr("Delete %1 photo(s) successful");
+        QString str = "Delete %1 photo(s) successful";
 
         QWidget *pwidget = new QWidget();
         switch (m_pCenterWidget->currentIndex()) {
@@ -726,7 +726,7 @@ void MainWindow::initTitleBar()
     QAction *pNewAlbum = new QAction();
     addAction(pNewAlbum);
 
-    pNewAlbum->setText(tr("New Album"));
+    pNewAlbum->setText(tr("New album"));
     pNewAlbum->setShortcut(QKeySequence(CTRLSHIFTN_SHORTCUT));
     m_pTitleBarMenu->addAction(pNewAlbum);
 
@@ -830,7 +830,7 @@ void MainWindow::albumBtnClicked()
 
 void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
-    if (tr("New Album") == action->text()) {
+    if (tr("New album") == action->text()) {
         emit dApp->signalM->createAlbum(QStringList(" "));
     }
 
@@ -868,7 +868,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
 
-        QString str = tr("Create Album “%1” successfully");
+        QString str = "Create Album “%1” successfully";
 
 //        QWidget *pwidget = new QWidget();
         QWidget *pwidget = nullptr;
@@ -1043,7 +1043,7 @@ void MainWindow::onImprotBtnClicked()
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
 
-    dialog.setWindowTitle(tr("Open the photo"));
+    dialog.setWindowTitle(tr("Import Photos"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {
@@ -1507,7 +1507,7 @@ QJsonObject MainWindow::createShorcutJson()
 
     //Translations
     QJsonObject shortcut1;
-    shortcut1.insert("name", tr("Window sizing"));
+    shortcut1.insert("name", "Window sizing");
     shortcut1.insert("value", "Ctrl+Alt+F");
     QJsonObject shortcut2;
     shortcut2.insert("name", tr("Fullscreen"));
@@ -1516,7 +1516,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut3.insert("name", tr("Exit fullscreen/slideshow"));
     shortcut3.insert("value", "Esc");
     QJsonObject shortcut4;
-    shortcut4.insert("name", tr("Close application"));
+    shortcut4.insert("name", "Close application");
     shortcut4.insert("value", "Alt+F4");
     QJsonObject shortcut5;
     shortcut5.insert("name", tr("Help"));
@@ -1571,10 +1571,10 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut21.insert("value", "Ctrl+'-'");
     QJsonObject shortcut22;
     shortcut22.insert("name", tr("Previous"));
-    shortcut22.insert("value", tr("Left"));
+    shortcut22.insert("value", "Left");
     QJsonObject shortcut23;
     shortcut23.insert("name", tr("Next"));
-    shortcut23.insert("value", tr("Right"));
+    shortcut23.insert("value", "Right");
     QJsonObject shortcut24;
     shortcut24.insert("name", tr("Favorite"));
     shortcut24.insert("value", "Ctrl+K");

@@ -24,7 +24,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_preButton->setFixedSize(ICON_SIZE);
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous_normal"));
     m_preButton->setIconSize(QSize(36,36));
-    m_preButton->setToolTip(tr("Previous"));
+    m_preButton->setToolTip("Previous");
     hb->addWidget(m_preButton);
     hb->addSpacing(4);
 
@@ -76,7 +76,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_nextButton->setFixedSize(ICON_SIZE);
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next_normal"));
     m_nextButton->setIconSize(QSize(36,36));
-    m_nextButton->setToolTip(tr("Next"));
+    m_nextButton->setToolTip("Next");
     hb->addWidget(m_nextButton);
     hb->addSpacing(4);
     connect(m_nextButton, &DIconButton::clicked, this, [=]{

@@ -590,7 +590,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Export"))->setEnabled(ret);
     }
     if (COMMON_STR_TRASH == m_imageType) {
-        m_MenuActionMap.value(tr("Move to trash"))->setVisible(false);
+        m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
         m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
@@ -599,10 +599,9 @@ void ThumbnailListView::updateMenuContents()
             m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
-
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
         if (COMMON_STR_RECENT_IMPORTED == m_imageType || IMAGE_DEFAULTTYPE == m_imageType ||
-                COMMON_STR_VIEW_TIMELINE == m_imageType) {
+                COMMON_STR_VIEW_TIMELINE == m_imageType || COMMON_STR_FAVORITES == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
 
@@ -687,7 +686,7 @@ void ThumbnailListView::initMenuAction()
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
         appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
         appendAction(IdMoveToTrash, tr("Delete"), ss(""));
-        appendAction(IdTrashRecovery, tr("Recovery"), ss(BUTTON_RECOVERY));
+        appendAction(IdTrashRecovery, tr("Restore"), ss(BUTTON_RECOVERY));
         return;
     }
     m_MenuActionMap.clear();
@@ -726,7 +725,7 @@ DMenu *ThumbnailListView::createAlbumMenu()
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("New Album"));
+    ac->setText(tr("New album"));
     ac->setData("Add to new album");
     am->addAction(ac);
     am->addSeparator();
@@ -867,8 +866,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdRemoveFromAlbum: {
         if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
-                COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType &&
-                COMMON_STR_FAVORITES != m_imageType) {
+                COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType ) {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
         }
     }

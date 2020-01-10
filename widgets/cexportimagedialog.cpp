@@ -155,7 +155,7 @@ void CExportImageDialog::initUI()
     m_savePathCombox->insertItem(Desktop, tr("Desktop"));
     m_savePathCombox->insertItem(Videos, tr("Videos"));
     m_savePathCombox->insertItem(Music, tr("Music"));
-    m_savePathCombox->insertItem(UsrSelect, tr("Select Other Dir"));
+    m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
 
     //暂时使用中文字符串，后续需要做翻译
 //    m_savePathCombox->insertItem(Pictures, tr("图片"));
@@ -223,7 +223,7 @@ void CExportImageDialog::initUI()
 
     m_emptyWarningDialog = new DDialog(this);
     m_emptyWarningDialog->setModal(true);
-    m_emptyWarningDialog->addButtons(QStringList() << tr("Ok"));
+    m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
     m_emptyWarningDialog->setFixedSize(400, 170);
 
 
@@ -410,7 +410,7 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     lab1->setToolTip(path);
 
     DLabel *lab2 = new DLabel();
-    lab2->setText(tr("already exists, do you want to replace?"));
+    lab2->setText(tr("already exists. Do you want to replace it?"));
     lab2->setAlignment(Qt::AlignCenter);
 
     QVBoxLayout *lay = new QVBoxLayout();

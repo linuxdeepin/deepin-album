@@ -301,7 +301,7 @@ void ImportView::onImprotBtnClicked()
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
-    dialog.setWindowTitle(tr("Open photos"));
+    dialog.setWindowTitle(tr("Import Photos"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {
@@ -459,7 +459,7 @@ void ImportView::onImprotBtnClicked()
                         && COMMON_STR_TRASH != m_albumname
                         && COMMON_STR_FAVORITES != m_albumname
                         && ALBUM_PATHTYPE_BY_PHONE != m_albumname
-                        && 0 != m_albumname.compare(tr("Album Gallery"))) {
+                        && 0 != m_albumname.compare(tr("Gallery"))) {
                     DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlist);
                 }
             }

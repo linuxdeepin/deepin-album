@@ -120,10 +120,10 @@ ImageView::ImageView(QWidget *parent)
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
 
-    m_toast = new Toast(this);
-    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
-    m_toast->setText(tr("This file contains multiple pages, please use Evince to view all pages."));
-    m_toast->hide();
+//    m_toast = new Toast(this);
+//    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
+//    m_toast->setText(tr("This file contains multiple pages, please use Evince to view all pages."));
+//    m_toast->hide();
     // TODO
     //    QPixmap pm(12, 12);
     //    QPainter pmp(&pm);
@@ -168,19 +168,19 @@ void ImageView::setImage(const QString &path)
 
     QFileInfo fi(path);
 
-    QString oldHintPath = m_toast->property("hint_path").toString();
-    if (oldHintPath != fi.canonicalFilePath()) {
-        m_toast->setProperty("hide_by_user", false);
-    }
-    m_toast->setProperty("hint_path", fi.canonicalFilePath());
+//    QString oldHintPath = m_toast->property("hint_path").toString();
+//    if (oldHintPath != fi.canonicalFilePath()) {
+//        m_toast->setProperty("hide_by_user", false);
+//    }
+//    m_toast->setProperty("hint_path", fi.canonicalFilePath());
 
-    if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
-//        m_toast->show();
-        m_toast->move(width() / 2 - m_toast->width() / 2,
-                      height() - 80 - m_toast->height() / 2 - 11);
-    } else {
-        m_toast->hide();
-    }
+//    if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
+////        m_toast->show();
+//        m_toast->move(width() / 2 - m_toast->width() / 2,
+//                      height() - 80 - m_toast->height() / 2 - 11);
+//    } else {
+//        m_toast->hide();
+//    }
 
     // The suffix of svf file should be svg
     if (QFileInfo(path).suffix().toLower() == "svg" && DSvgRenderer().load(path)) {
@@ -517,8 +517,8 @@ void ImageView::leaveEvent(QEvent *e)
 void ImageView::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
-    m_toast->move(width() / 2 - m_toast->width() / 2,
-                  height() - 80 - m_toast->height() / 2 - 11);
+//    m_toast->move(width() / 2 - m_toast->width() / 2,
+//                  height() - 80 - m_toast->height() / 2 - 11);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

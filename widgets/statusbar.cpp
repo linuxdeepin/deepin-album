@@ -63,7 +63,7 @@ void StatusBar::initConnections()
             imgpaths = paths;
             pic_count = count;
 
-            QString string = tr("Importing photos:'%1'");
+            QString string = tr("Importing photos: '%1'");
             TextLabel->setAlignment(Qt::AlignCenter);
             TextLabel->setText(string.arg(imgpaths[0]));
             TextLabel->adjustSize();
@@ -79,7 +79,7 @@ void StatusBar::initConnections()
     connect(dApp->signalM, &SignalManager::sigExporting, this, [ = ](QString path) {
         if (isVisible()) {
             m_pStackedWidget->setCurrentIndex(1);
-            QString string = tr("Exporting photos:'%1'");
+            QString string = tr("Exporting photos: '%1'");
             TextLabel->setAlignment(Qt::AlignCenter);
             TextLabel->setText(string.arg(path));
             TextLabel->adjustSize();
@@ -110,7 +110,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
         m_pStackedWidget->setCurrentIndex(1);
 
 
-        QString string = tr("Importing photos:'%1'");
+        QString string = tr("Importing photos: '%1'");
 //        TextLabel->setAlignment(Qt::AlignCenter);
 //        TextLabel->adjustSize();
 

@@ -308,7 +308,7 @@ TTBContent::TTBContent(bool inDB,
     m_folderBtn = new PushButton();
     m_folderBtn->setFixedSize(QSize(24, 24));
     m_folderBtn->setObjectName("FolderBtn");
-    m_folderBtn->setToolTip(tr("Image management"));
+    m_folderBtn->setToolTip("Image management");
     if (m_inDB) {
         hb->addWidget(m_returnBtn);
     } else {

@@ -126,7 +126,7 @@ private:
     QString m_path;
     QString m_loadingIconPath;
     QThreadPool *m_pool;
-    DTK_WIDGET_NAMESPACE::Toast *m_toast;
+//    DTK_WIDGET_NAMESPACE::Toast *m_toast;
 
 //    QGraphicsSvgItem *m_svgItem = nullptr;
     ImageSvgItem *m_imgSvgItem {nullptr};

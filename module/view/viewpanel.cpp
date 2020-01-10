@@ -125,8 +125,8 @@ void ViewPanel::initConnect()
             m_currentImageLastDir = vinfo.album;
             emit viewImageFrom(vinfo.album);
         } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
-            m_currentImageLastDir = tr("Timeline");
-            emit viewImageFrom(tr("Timeline"));
+            m_currentImageLastDir = "Timeline";
+            emit viewImageFrom("Timeline");
         }
         //TODO: there will be some others panel
     });

@@ -27,7 +27,7 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent,int count)
     if(1 == count)
     {
 
-        m_label->setText(tr("Are you sure to delete this photo from the album?"));
+        m_label->setText(tr("Are you sure you want to delete this photo from the album?"));
         DPalette pa = DApplicationHelper::instance()->palette(m_label);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
         m_label->setPalette(pa);
@@ -36,7 +36,7 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent,int count)
     else
     {
 
-        QString str = tr("Are you sure to delete %1 photos from the album?");
+        QString str = tr("Are you sure you want to delete %1 photos from albums?");
         m_label->setText(str.arg(count));
         DPalette pa = DApplicationHelper::instance()->palette(m_label);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));

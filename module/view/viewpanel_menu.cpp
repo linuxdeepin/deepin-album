@@ -202,29 +202,29 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash: {
         SignalManager::instance()->deleteByMenu();
-////        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-////                && utils::common::VIEW_TIMELINE_SRN != m_viewType
-////                && utils::common::VIEW_SEARCH_SRN != m_viewType
-////                && COMMON_STR_RECENT_IMPORTED != m_viewType
-////                && COMMON_STR_TRASH != m_viewType
-////                && COMMON_STR_FAVORITES != m_viewType)
-////        {
-////            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
-////            removeCurrentImage();
-////        }
-////        else if (COMMON_STR_TRASH == m_viewType)
-////        {
-////            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
-////            dialog->show();
-////            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
-////            {
-////                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
-////                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
-////                removeCurrentImage();
-////            });
-////        }
-////        else
-////        {
+//        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
+//                && utils::common::VIEW_TIMELINE_SRN != m_viewType
+//                && utils::common::VIEW_SEARCH_SRN != m_viewType
+//                && COMMON_STR_RECENT_IMPORTED != m_viewType
+//                && COMMON_STR_TRASH != m_viewType
+//                && COMMON_STR_FAVORITES != m_viewType)
+//        {
+//            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
+//            removeCurrentImage();
+//        }
+//        else if (COMMON_STR_TRASH == m_viewType)
+//        {
+//            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
+//            dialog->show();
+//            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
+//            {
+//                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+//                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
+//                removeCurrentImage();
+//            });
+//        }
+//        else
+//        {
 //        DBImgInfoList infos;
 //        DBImgInfo info;
 //        info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
@@ -346,7 +346,7 @@ void ViewPanel::updateMenuContent()
     if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_infos.at(m_current).filePath)) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
     } else {
-        appendAction(IdAddToFavorites, tr("favorite"), ss("favorite", "Ctrl+K"));       //收藏
+        appendAction(IdAddToFavorites, tr("Favorite"), ss("favorite", "Ctrl+K"));       //收藏
     }
 
     m_menu->addSeparator();
@@ -398,7 +398,7 @@ QMenu *ViewPanel::createAblumMenu()
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("New Album"));
+    ac->setText(tr("New album"));
     ac->setData("Add to new album");
     ac->setShortcut(QKeySequence("Ctrl+Shift+N"));
     am->addAction(ac);

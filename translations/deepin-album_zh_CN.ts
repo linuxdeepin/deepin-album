@@ -17,7 +17,11 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">新建相册</translation>
     </message>
 </context>
 <context>
@@ -70,7 +74,7 @@
     </message>
     <message>
         <source> D</source>
-        <translation>天</translation>
+        <translation type="vanished">天</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
@@ -94,7 +98,7 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -106,11 +110,11 @@
     </message>
     <message>
         <source>Import Selected</source>
-        <translation>导入所选</translation>
+        <translation type="vanished">导入所选</translation>
     </message>
     <message>
         <source>Album Gallery</source>
-        <translation>相册图库</translation>
+        <translation type="vanished">相册图库</translation>
     </message>
     <message>
         <source>Disk</source>
@@ -126,10 +130,30 @@
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished">确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>System Disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">新建相册</translation>
+    </message>
+    <message>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -191,7 +215,7 @@
     </message>
     <message>
         <source>Select Other Dir</source>
-        <translation>选择其他文件夹</translation>
+        <translation type="vanished">选择其他文件夹</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -215,11 +239,11 @@
     </message>
     <message>
         <source>already exists, do you want to replace?</source>
-        <translation>已经存在，是否需要替换?</translation>
+        <translation type="vanished">已经存在，是否需要替换?</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation>确定</translation>
+        <translation type="vanished">确定</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
@@ -227,6 +251,18 @@
     </message>
     <message>
         <source>gif</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select other directories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>already exists. Do you want to replace it?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -257,11 +293,19 @@
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>导出失败</translation>
+        <translation type="vanished">导出失败</translation>
     </message>
     <message>
         <source>Cancle</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
+    </message>
+    <message>
+        <source>Export Photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
     </message>
 </context>
 <context>
@@ -286,25 +330,29 @@
     <name>ImageLoader</name>
     <message>
         <source>Album Gallery</source>
-        <translation>相册图库</translation>
+        <translation type="vanished">相册图库</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>此文件包含多个页面，请使用文档查看器查看所有页面。</translation>
+        <translation type="vanished">此文件包含多个页面，请使用文档查看器查看所有页面。</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Are you sure to delete this photo from the album?</source>
-        <translation>您确定要从相册删除此照片吗 ?</translation>
+        <translation type="vanished">您确定要从相册删除此照片吗 ?</translation>
     </message>
     <message>
         <source>Are you sure to delete %1 photos from the album?</source>
-        <translation>您确定要从相册删除%1张照片吗 ?</translation>
+        <translation type="vanished">您确定要从相册删除%1张照片吗 ?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -313,6 +361,14 @@
     <message>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this photo from the album?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 photos from albums?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -345,7 +401,7 @@
     </message>
     <message>
         <source>Open photos</source>
-        <translation>打开照片</translation>
+        <translation type="vanished">打开照片</translation>
     </message>
     <message>
         <source>Import Photos</source>
@@ -357,7 +413,11 @@
     </message>
     <message>
         <source>Album Gallery</source>
-        <translation>相册图库</translation>
+        <translation type="vanished">相册图库</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -368,7 +428,7 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -388,15 +448,27 @@
     </message>
     <message>
         <source>Album Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
     <message>
         <source>Album List</source>
-        <translation>相册列表</translation>
+        <translation type="vanished">相册列表</translation>
     </message>
     <message>
         <source>Device</source>
         <translation>设备</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">相册</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">新建相册</translation>
     </message>
 </context>
 <context>
@@ -417,11 +489,11 @@
     <name>MainWindow</name>
     <message>
         <source>Photo export failed</source>
-        <translation>照片导出失败</translation>
+        <translation type="vanished">照片导出失败</translation>
     </message>
     <message>
         <source>Photo exported successfully</source>
-        <translation>照片导出成功</translation>
+        <translation type="vanished">照片导出成功</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -429,7 +501,7 @@
     </message>
     <message>
         <source>Open the photo</source>
-        <translation>打开照片</translation>
+        <translation type="vanished">打开照片</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -437,7 +509,7 @@
     </message>
     <message>
         <source>Window sizing</source>
-        <translation>窗口切换</translation>
+        <translation type="vanished">窗口切换</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -445,7 +517,7 @@
     </message>
     <message>
         <source>Close application</source>
-        <translation>关闭应用</translation>
+        <translation type="vanished">关闭应用</translation>
     </message>
     <message>
         <source>Help</source>
@@ -497,7 +569,7 @@
     </message>
     <message>
         <source>Create Album “%1” successfully</source>
-        <translation>成功创建相册“%1”</translation>
+        <translation type="vanished">成功创建相册“%1”</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
@@ -537,7 +609,7 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -585,11 +657,11 @@
     </message>
     <message>
         <source>Left</source>
-        <translation>Left</translation>
+        <translation type="vanished">Left</translation>
     </message>
     <message>
         <source>Right</source>
-        <translation>Right</translation>
+        <translation type="vanished">Right</translation>
     </message>
     <message>
         <source>New album</source>
@@ -613,7 +685,11 @@
     </message>
     <message>
         <source>Delete %1 photo(s) successful</source>
-        <translation>已成功删除%1张照片</translation>
+        <translation type="vanished">已成功删除%1张照片</translation>
+    </message>
+    <message>
+        <source>Import Photos</source>
+        <translation type="unfinished">导入相册</translation>
     </message>
 </context>
 <context>
@@ -807,7 +883,7 @@
     </message>
     <message>
         <source>No results for &apos;%1&apos;, please try another word</source>
-        <translation>没有“%1”的结果，请尝试搜索新词</translation>
+        <translation type="vanished">没有“%1”的结果，请尝试搜索新词</translation>
     </message>
     <message>
         <source>Search results</source>
@@ -905,7 +981,7 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation type="vanished">上一张</translation>
     </message>
     <message>
         <source>Pause</source>
@@ -917,7 +993,7 @@
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation type="vanished">下一张</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -928,11 +1004,19 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos:&apos;%1&apos;</source>
-        <translation>正在导入:%1</translation>
+        <translation type="vanished">正在导入:%1</translation>
     </message>
     <message>
         <source>Exporting photos:&apos;%1&apos;</source>
-        <translation>正在导出:%1</translation>
+        <translation type="vanished">正在导出:%1</translation>
+    </message>
+    <message>
+        <source>Importing photos: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting photos: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -943,7 +1027,7 @@
     </message>
     <message>
         <source>Image management</source>
-        <translation>图片管理</translation>
+        <translation type="vanished">图片管理</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -986,15 +1070,15 @@
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation type="vanished">返回</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>图片管理</translation>
+        <translation type="vanished">图片管理</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
 </context>
 <context>
@@ -1013,7 +1097,7 @@
     </message>
     <message>
         <source>Move to trash</source>
-        <translation>移动到回收站</translation>
+        <translation type="vanished">移动到回收站</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -1045,7 +1129,7 @@
     </message>
     <message>
         <source>Recovery</source>
-        <translation>恢复</translation>
+        <translation type="vanished">恢复</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -1065,11 +1149,19 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">恢复</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">新建相册</translation>
     </message>
 </context>
 <context>
@@ -1087,7 +1179,7 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>时间线</translation>
+        <translation type="vanished">时间线</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -1147,7 +1239,7 @@
     </message>
     <message>
         <source>favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -1155,11 +1247,19 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">收藏</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">新建相册</translation>
     </message>
 </context>
 </TS>

@@ -257,7 +257,7 @@ void LeftListView::initUI()
     m_pPhotoLibLabel->setFixedHeight(40);
     DFontSizeManager::instance()->bind(m_pPhotoLibLabel, DFontSizeManager::T6, QFont::Medium);
     m_pPhotoLibLabel->setForegroundRole(DPalette::TextTips);
-    m_pPhotoLibLabel->setText(tr("Album Gallery"));
+    m_pPhotoLibLabel->setText(tr("Gallery"));
 
     pPhotoLibLayout->addSpacing(14);
     pPhotoLibLayout->addWidget(m_pPhotoLibLabel);
@@ -323,7 +323,7 @@ void LeftListView::initUI()
     m_pCustomizeLabel->setFixedHeight(40);
     DFontSizeManager::instance()->bind(m_pCustomizeLabel, DFontSizeManager::T6, QFont::Medium);
     m_pCustomizeLabel->setForegroundRole(DPalette::TextTips);
-    m_pCustomizeLabel->setText(tr("Album List"));
+    m_pCustomizeLabel->setText(tr("Albums"));
     m_pAddListBtn = new AlbumImageButton();
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::LightType) {
@@ -532,7 +532,7 @@ void LeftListView::initMenu()
     appendAction(IdStartSlideShow, tr("Slide show"), ss(""));
     m_pMenu->addSeparator();
 
-    appendAction(IdCreateAlbum, tr("New Album"), ss(""));
+    appendAction(IdCreateAlbum, tr("New album"), ss(""));
     m_pMenu->addSeparator();
 
     appendAction(IdRenameAlbum, tr("Rename"), ss(""));
