@@ -43,7 +43,7 @@
 
 namespace {
 
-const int TITLE_MAXWIDTH = 72 - 3;
+const int TITLE_MAXWIDTH = 72 - 3;//73-3
 const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
 const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
@@ -202,7 +202,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 //    m_separator = new ViewSeparator();
 //    m_separator->setVisible(false);
     m_exifLayout_details = new QFormLayout();
-//    m_exifLayout_details->setSpacing(3);
+    m_exifLayout_details->setSpacing(3);
     m_exifLayout_details->setVerticalSpacing(7);
     m_exifLayout_details->setHorizontalSpacing(16);
     m_exifLayout_details->setContentsMargins(10, 1, 7, 10);
@@ -313,7 +313,6 @@ void ImageInfoWidget::setImagePath(const QString &path)
     for (auto i = 0; i < m_expandGroup.count(); ++i) {
         layout->addWidget(m_expandGroup.at(i));
     }
-
     if (m_expandGroup.count() > 1)
         layout->addStretch();
 }

@@ -1,246 +1,246 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Без назви</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>新建</translation>
+        <translation>Створити</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>您确定要删除此相册吗？</translation>
+        <translation>Ви справді хочете вилучити цей альбом?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>最近删除</translation>
+        <translation>Смітник</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>我的收藏</translation>
+        <translation>Вибрані</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>已导入</translation>
+        <translation>Імпортувати</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>最近删除</translation>
+        <translation>Смітник</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>我的收藏</translation>
+        <translation>Вибрані</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>全部删除</translation>
+        <translation>Вилучити всі</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>您也可以拖拽照片到此</translation>
+        <translation>Або перетягніть сюди фотографії</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation>%1 фотографії</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>全部导入</translation>
+        <translation>Імпортувати все</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>照片在删除前会显示剩余天数，之后将永久删除</translation>
+        <translation>Кількість днів, за яку фотографії буде остаточно вилучено, показано на мініатюрах</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>恢复</translation>
+        <translation>Відновити</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>已选择%1张照片</translation>
+        <translation>Позначено %1 фотографій</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>导入到：</translation>
+        <translation>Імпортувати до:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation>磁盘</translation>
+        <translation>Диск</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>days</source>
-        <translation>天</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Без назви</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>系统盘</translation>
+        <translation>Системний диск</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>磁盘文件被占用，无法弹出</translation>
+        <translation>Диск зайнято — зараз його не можна від&apos;єднувати</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>已选择%1张照片</translation>
+        <translation>Позначено %1 фотографій</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation>%1 фотографії</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Альбом</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>替换</translation>
+        <translation>Замінити</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>图片</translation>
+        <translation>Зображення</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>文档</translation>
+        <translation>Документи</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>下载</translation>
+        <translation>Завантаження</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>桌面</translation>
+        <translation>Стільниця</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>视频</translation>
+        <translation>Відео</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>音乐</translation>
+        <translation>Музика</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>文件名：</translation>
+        <translation>Назва:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>保存到：</translation>
+        <translation>Зберегти у:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>文件格式：</translation>
+        <translation>Формат:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>照片质量：</translation>
+        <translation>Якість:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>Зберегти</translation>
     </message>
     <message>
         <source>gif</source>
-        <translation>gif</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>选择其他目录</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>文件名不能为空</translation>
+        <translation>Назва файла не може бути порожньою</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>已存在，您是否要替换？</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 驱动器</translation>
+        <translation>Диск %1</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>空白%1光盘</translation>
+        <translation>Порожній диск %1</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 已加密</translation>
+        <translation>Зашифрований %1</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -251,475 +251,475 @@
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>Зберегти</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>导出照片</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation>Базові відомості</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>详细信息</translation>
+        <translation>Подробиці</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>您确定要从相册中删除此照片吗？</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>您确定要从相册中删除这%1张照片吗？</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation>Базові відомості</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>详细信息</translation>
+        <translation>Подробиці</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>已导入</translation>
+        <translation>Імпортувати</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>所有照片</translation>
+        <translation>Усі фотографії</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>导入照片</translation>
+        <translation>Імпортувати фотографії</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>您也可以拖拽照片到此</translation>
+        <translation>Або перетягніть сюди фотографії</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Перейменувати</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Без назви</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>设备</translation>
+        <translation>Пристрій</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Albums</source>
-        <translation>相册</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>您没有权限查看此图片</translation>
+        <translation>У вас немає прав доступу до перегляду цього зображення</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。</translation>
+        <translation>«Альбом» — чудова програма для перегляду і упорядковування фотографій.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>照片</translation>
+        <translation>Фотографії</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>На весь екран</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>帮助</translation>
+        <translation>Довідка</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Показати у менеджері файлів</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Копіювати</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Встановити зображенням тла</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation>Далі</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Додати до вибраних</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Вилучити з вибраних</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>重命名相册</translation>
+        <translation>Перейменувати альбом</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>已成功删除“%1”相册</translation>
+        <translation>Альбом «%1» вилучено</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>成功添加照片到“%1”</translation>
+        <translation>Успішно додано до «%1»</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>导入成功</translation>
+        <translation>Успішне імпортування</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>导入失败</translation>
+        <translation>Імпортування зазнало невдачі</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>导出失败</translation>
+        <translation>Не вдалося експортувати</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>导出成功</translation>
+        <translation>Успішне експортування</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>所有照片</translation>
+        <translation>Усі фотографії</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>时间线</translation>
+        <translation>Розклади</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>相册</translation>
+        <translation>Альбоми</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation>%1 фотографії</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>退出全屏/幻灯片放映</translation>
+        <translation>Вийти з повноекранного режиму або показу слайдів</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>显示快捷键</translation>
+        <translation>Показати клавіатурні скорочення</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看照片</translation>
+        <translation>Перегляд</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出照片</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>导入照片</translation>
+        <translation>Імпортувати</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>全选照片</translation>
+        <translation>Позначити все</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>删除照片/相册</translation>
+        <translation>Вилучити фотографію або альбом</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>放大照片</translation>
+        <translation>Збільшити</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>缩小照片</translation>
+        <translation>Зменшити</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Новий альбом</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>向上滚动一屏</translation>
+        <translation>Сторінка вгору</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>向下滚动一屏</translation>
+        <translation>Сторінка вниз</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>设置</translation>
+        <translation>Параметри</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>部分照片导入失败</translation>
+        <translation>Деякі з фотографій не імпортовано</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>导入照片</translation>
+        <translation>Імпортувати фотографії</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>导入照片</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>闪光灯</translation>
+        <translation>Спалах</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>照片类型</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>⽂件⼤⼩</translation>
+        <translation>Розмір файла</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>照片尺寸</translation>
+        <translation>Розміри</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>拍摄⽇期</translation>
+        <translation>Дата створення</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改⽇期</translation>
+        <translation>Дата зміни</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>曝光模式</translation>
+        <translation>Режим експозиції</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>曝光程序</translation>
+        <translation>Програма експозиції</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>曝光时间</translation>
+        <translation>Час експозиції</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>光圈⼤⼩</translation>
+        <translation>Діафрагма</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>焦距</translation>
+        <translation>Фокальна відстань</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO感光度</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>最大光圈值</translation>
+        <translation>Макс. апертура</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>测光模式</translation>
+        <translation>Режим вимірювання</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>白平衡</translation>
+        <translation>Баланс білого</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>闪光灯补偿</translation>
+        <translation>Компенсація спалаху</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>相机型号</translation>
+        <translation>Модель фотоапарата</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>镜头型号</translation>
+        <translation>Модель об&apos;єктива</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>颜⾊空间</translation>
+        <translation>Простір кольорів</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>标记</translation>
+        <translation>Мітка</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>照片名称</translation>
+        <translation>Назва фотографії</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>系统盘</translation>
+        <translation>Системний диск</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>无缩放</translation>
+        <translation>Без зміни масштабу</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>图像适应页面</translation>
+        <translation>Підібрати сторінку за зображенням</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>页面适应图像</translation>
+        <translation>Вмістити зображення в сторінку</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>缩放至：</translation>
+        <translation>Масштаб:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>毫米</translation>
+        <translation>Міліметри</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>厘米</translation>
+        <translation>Сантиметри</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>英寸</translation>
+        <translation>Дюйми</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>图像位置</translation>
+        <translation>Розташування зображення</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>缩放</translation>
+        <translation>Масштаб</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>图像设置</translation>
+        <translation>Параметри зображення</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>图像设置</translation>
+        <translation>Параметри зображення</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>选择</translation>
+        <translation>Вибрати</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>取消选择</translation>
+        <translation>Зняти вибір</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -727,11 +727,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>共%1张照片</translation>
+        <translation>%1 фотографії</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>已选择%1张照片</translation>
+        <translation>Позначено %1 фотографій</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -739,252 +739,252 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>导入于</translation>
+        <translation>Імпортовано </translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>无搜索结果</translation>
+        <translation>Нічого не знайдено</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>共找到%1张照片</translation>
+        <translation>Знайдено %1 фотографії</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>搜索结果</translation>
+        <translation>Результати пошуку</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>暂停</translation>
+        <translation>Пауза</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>播放</translation>
+        <translation>Відтворити</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation>Вийти</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>正在导入：&apos;%1&apos;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>正在导出：&apos;%1&apos;</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation>Далі</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1视图</translation>
+        <translation>Розмір 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>适应窗口</translation>
+        <translation>Вмістити у вікно</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Додати до вибраних</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Вилучити з вибраних</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Перегляд</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>На весь екран</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Додати до вибраних</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Вилучити з вибраних</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Показати у менеджері файлів</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Встановити зображенням тла</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Копіювати</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Додати до альбому</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Вилучити з альбому</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>恢复</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>没有找到图片文件</translation>
+        <translation>Файлів зображень не знайдено</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>没有发现照片文件</translation>
+        <translation>Фотографії не знайдено</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Додати до альбому</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>退出全屏</translation>
+        <translation>Звичайний режим</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>На весь екран</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Копіювати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>显示导航窗口</translation>
+        <translation>Показати навігаційне вікно</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>隐藏导航窗口</translation>
+        <translation>Приховати навігаційне вікно</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Встановити зображенням тла</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Показати у менеджері файлів</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Вилучити з вибраних</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Вилучити з альбому</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

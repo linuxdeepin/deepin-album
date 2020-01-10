@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="en" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -15,6 +13,9 @@
         <source>Create</source>
         <translation>Create</translation>
     </message>
+    <message>
+        <source>New Album</source>
+        <translation>New Album</translation>
     </message>
 </context>
 <context>
@@ -99,31 +100,35 @@
     </message>
     <message>
         <source>Import</source>
-        <translation type="unfinished">Import</translation>
+        <translation>Import</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>days</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="unfinished">Unnamed</translation>
+        <translation>Unnamed</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>System Disk</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallery</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation type="unfinished"></translation>
+        <translation>Disk is busy, cannot eject now</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>New album</translation>
     </message>
 </context>
 <context>
@@ -204,57 +209,57 @@
     </message>
     <message>
         <source>gif</source>
-        <translation type="unfinished"></translation>
+        <translation>gif</translation>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Select other directories</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation type="unfinished"></translation>
+        <translation>File name cannot be empty</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation type="unfinished"></translation>
+        <translation>already exists. Do you want to replace it?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Drive</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation type="unfinished"></translation>
+        <translation>Blank %1 Disc</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Encrypted</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="unfinished">%1 </translation>
+        <translation>%1 </translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Save</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Export Photos</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation>Cancel</translation>
     </message>
 </context>
 <context>
@@ -279,7 +284,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallery</translation>
     </message>
 </context>
 <context>
@@ -294,11 +299,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="unfinished"></translation>
+        <translation>Are you sure you want to delete this photo from the album?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="unfinished"></translation>
+        <translation>Are you sure you want to delete %1 photos from albums?</translation>
     </message>
 </context>
 <context>
@@ -339,7 +344,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallery</translation>
     </message>
 </context>
 <context>
@@ -370,15 +375,15 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallery</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished">Albums</translation>
+        <translation>Albums</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">New album</translation>
+        <translation>New album</translation>
     </message>
 </context>
 <context>
@@ -555,11 +560,11 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Import photos</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation type="unfinished">Import Photos</translation>
+        <translation>Import Photos</translation>
     </message>
 </context>
 <context>
@@ -653,7 +658,7 @@
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>System Disk</translation>
     </message>
 </context>
 <context>
@@ -775,11 +780,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Importing photos: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporting photos: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -889,11 +894,11 @@
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Restore</translation>
+        <translation>Restore</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">New album</translation>
+        <translation>New album</translation>
     </message>
 </context>
 <context>
@@ -975,11 +980,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorite</translation>
+        <translation>Favorite</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">New album</translation>
+        <translation>New album</translation>
     </message>
 </context>
 </TS>

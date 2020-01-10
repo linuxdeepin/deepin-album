@@ -1,246 +1,246 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Naamloos</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>新建</translation>
+        <translation>Maken</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>您确定要删除此相册吗？</translation>
+        <translation>Weet je zeker dat je dit album wilt verwijderen?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>最近删除</translation>
+        <translation>Prullenbak</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>我的收藏</translation>
+        <translation>Favorieten</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>已导入</translation>
+        <translation>Importeren</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>最近删除</translation>
+        <translation>Prullenbak</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>我的收藏</translation>
+        <translation>Favorieten</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>全部删除</translation>
+        <translation>Alles verwijderen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>您也可以拖拽照片到此</translation>
+        <translation>of sleep foto&apos;s hierheen</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation>%1 foto(&apos;s)</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>全部导入</translation>
+        <translation>Alles importeren</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>照片在删除前会显示剩余天数，之后将永久删除</translation>
+        <translation>De foto&apos;s worden verwijderd na het vermelde aantal dagen</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>恢复</translation>
+        <translation>Herstellen</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>已选择%1张照片</translation>
+        <translation>%1 foto(&apos;s) geselecteerd</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>导入到：</translation>
+        <translation>Importeren naar:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation>磁盘</translation>
+        <translation>Schijf</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>days</source>
-        <translation>天</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Naamloos</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>系统盘</translation>
+        <translation>Systeemschijf</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>磁盘文件被占用，无法弹出</translation>
+        <translation>De schijf is bezig en kan daarom niet worden uitgeworpen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>已选择%1张照片</translation>
+        <translation>%1 foto(&apos;s) geselecteerd</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation>%1 foto(&apos;s)</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>替换</translation>
+        <translation>Vervangen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>图片</translation>
+        <translation>Afbeeldingen</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>文档</translation>
+        <translation>Documenten</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>下载</translation>
+        <translation>Downloads</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>桌面</translation>
+        <translation>Bureaublad</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>视频</translation>
+        <translation>Video&apos;s</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>音乐</translation>
+        <translation>Muziek</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>文件名：</translation>
+        <translation>Naam:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>保存到：</translation>
+        <translation>Opslaan in:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>文件格式：</translation>
+        <translation>Bestandsformaat:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>照片质量：</translation>
+        <translation>Kwaliteit:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <source>gif</source>
-        <translation>gif</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>选择其他目录</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>文件名不能为空</translation>
+        <translation>Voer een bestandsnaam in</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>已存在，您是否要替换？</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 驱动器</translation>
+        <translation>%1-schijf</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>空白%1光盘</translation>
+        <translation>Blanco %1-schijf</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 已加密</translation>
+        <translation>%1-versleuteld</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -251,475 +251,475 @@
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>导出照片</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Foto-informatie</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>详细信息</translation>
+        <translation>Details</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>您确定要从相册中删除此照片吗？</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>您确定要从相册中删除这%1张照片吗？</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>详细信息</translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Foto-informatie</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>已导入</translation>
+        <translation>Importeren</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>所有照片</translation>
+        <translation>Alle foto&apos;s</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>导入照片</translation>
+        <translation>Importeer foto&apos;s</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>您也可以拖拽照片到此</translation>
+        <translation>of sleep foto&apos;s hierheen</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Naam wijzigen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Naamloos</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>设备</translation>
+        <translation>Apparaat</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Albums</source>
-        <translation>相册</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>您没有权限查看此图片</translation>
+        <translation>Je bent niet gemachtigd om deze foto te bekijken</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。</translation>
+        <translation>Album is een mooi vormgegeven progrmma waarmee je afbeeldingen kunt bekijken en beheren.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>照片</translation>
+        <translation>Foto&apos;s</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Beeldvullende modus</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>帮助</translation>
+        <translation>Hulp</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation>Vorige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>重命名相册</translation>
+        <translation>Albumnaam wijzigen</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>已成功删除“%1”相册</translation>
+        <translation>Het album &apos;%1&apos; is verwijderd</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>成功添加照片到“%1”</translation>
+        <translation>Toegevoegd aan &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>导入成功</translation>
+        <translation>Importeren voltooid</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>导入失败</translation>
+        <translation>Importeren mislukt</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>导出失败</translation>
+        <translation>Exporteren mislukt</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>导出成功</translation>
+        <translation>Exporteren voltooid</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>所有照片</translation>
+        <translation>Alle foto&apos;s</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>时间线</translation>
+        <translation>Tijdlijn</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>相册</translation>
+        <translation>Albums</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation>%1 foto(&apos;s)</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Foto-informatie</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>退出全屏/幻灯片放映</translation>
+        <translation>Beeldvullende modus verlaten</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>显示快捷键</translation>
+        <translation>Sneltoetsen tonen</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看照片</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出照片</translation>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>导入照片</translation>
+        <translation>Importeren</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>全选照片</translation>
+        <translation>Alles selecteren</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>删除照片/相册</translation>
+        <translation>Foto/Album verwijderen</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>放大照片</translation>
+        <translation>Inzoomen</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>缩小照片</translation>
+        <translation>Uitzoomen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>向上滚动一屏</translation>
+        <translation>Pagina omhoog</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>向下滚动一屏</translation>
+        <translation>Pagina omlaag</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>设置</translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>部分照片导入失败</translation>
+        <translation>Enkele foto&apos;s zijn niet geïmporteerd</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>导入照片</translation>
+        <translation>Foto&apos;s importeren</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>导入照片</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>闪光灯</translation>
+        <translation>Flits</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>照片类型</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>⽂件⼤⼩</translation>
+        <translation>Bestandsgrootte</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>照片尺寸</translation>
+        <translation>Afmetingen</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>拍摄⽇期</translation>
+        <translation>Genomen op</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改⽇期</translation>
+        <translation>Aangepast op</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>曝光模式</translation>
+        <translation>Belichtingsmodus</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>曝光程序</translation>
+        <translation>Belichtingsprogramma</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>曝光时间</translation>
+        <translation>Belichtingstijd</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>光圈⼤⼩</translation>
+        <translation>Diafragma</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>焦距</translation>
+        <translation>Brandpuntsafstand</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO感光度</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>最大光圈值</translation>
+        <translation>Max. diafragma</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>测光模式</translation>
+        <translation>Meetmodus</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>白平衡</translation>
+        <translation>Witbalans</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>闪光灯补偿</translation>
+        <translation>Flitscompensatie</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>相机型号</translation>
+        <translation>Cameramodel</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>镜头型号</translation>
+        <translation>Lensmodel</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>颜⾊空间</translation>
+        <translation>Kleurruimte</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>标记</translation>
+        <translation>Label</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>照片名称</translation>
+        <translation>Naam</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>系统盘</translation>
+        <translation>Systeemschijf</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>无缩放</translation>
+        <translation>Niet inpassen</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>图像适应页面</translation>
+        <translation>Pagina aanpassen aan afbeelding</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>页面适应图像</translation>
+        <translation>Afbeelding aanpassen aan pagina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>缩放至：</translation>
+        <translation>Aanpassen aan:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>毫米</translation>
+        <translation>Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>厘米</translation>
+        <translation>Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>英寸</translation>
+        <translation>Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>图像位置</translation>
+        <translation>Afbeeldingspositie</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>缩放</translation>
+        <translation>Inpassen</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>图像设置</translation>
+        <translation>Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>图像设置</translation>
+        <translation>Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>选择</translation>
+        <translation>Selecteren</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>取消选择</translation>
+        <translation>Niets selecteren</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -727,11 +727,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>共%1张照片</translation>
+        <translation>%1 foto(&apos;s)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>已选择%1张照片</translation>
+        <translation>%1 foto(&apos;s) geselecteerd</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -739,252 +739,252 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>导入于</translation>
+        <translation>Importeren naar </translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>无搜索结果</translation>
+        <translation>Geen zoekresultaten</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>共找到%1张照片</translation>
+        <translation>%1 foto(&apos;s) gevonden</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>搜索结果</translation>
+        <translation>Geen zoekresultaten</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>暂停</translation>
+        <translation>Pauzeren</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>播放</translation>
+        <translation>Afspelen</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation>Afsluiten</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>正在导入：&apos;%1&apos;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>正在导出：&apos;%1&apos;</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation>Vorige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1视图</translation>
+        <translation>1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>适应窗口</translation>
+        <translation>Aanpassen aan venster</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Beeldvullende modus</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Foto-informatie</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Toevoegen aan album</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Verwijderen uit album</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>恢复</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>没有找到图片文件</translation>
+        <translation>Geen afbeeldingsbestanden aangetroffen</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>没有发现照片文件</translation>
+        <translation>Foto niet aangetroffen</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Toevoegen aan album</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>退出全屏</translation>
+        <translation>Beeldvullende modus verlaten</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Beeldvullende modus</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>显示导航窗口</translation>
+        <translation>Navigatievenster tonen</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>隐藏导航窗口</translation>
+        <translation>Navigatievenster verbergen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation>Foto-informatie</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
