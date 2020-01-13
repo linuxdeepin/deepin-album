@@ -944,13 +944,10 @@ void AlbumView::initRightView()
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
     m_importAllByPhoneBtn->setEnabled(false);
 
-<<<<<<< Updated upstream
+
     m_importSelectByPhoneBtn = new DSuggestButton(tr("Import"));
-=======
-//    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
-    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
+
     DFontSizeManager::instance()->bind(m_importSelectByPhoneBtn, DFontSizeManager::T6);
->>>>>>> Stashed changes
     m_importSelectByPhoneBtn->setMinimumSize(100, 36);
 //    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
 //    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
