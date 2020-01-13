@@ -19,6 +19,8 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include "utils/snifferimageformat.h"
+#include "controller/signalmanager.h"
+
 #include <QDateTime>
 
 #include <QHBoxLayout>
@@ -41,6 +43,11 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     : QStyledItemDelegate(parent), m_delegatetype(type)
 {
     m_imageTypeStr = IMAGE_DEFAULTTYPE;
+
+    connect(dApp->signalM, &SignalManager::sliderValueChange,
+            this, &ThumbnailDelegate::getSliderValue);
+
+
 }
 
 void ThumbnailDelegate::paint(QPainter *painter,
@@ -64,6 +71,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
     QRect backgroundRect = option.rect;
     if (AllPicViewType == m_delegatetype) {
+
         if ("First" == data.firstorlast) {
             QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
             FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 50);
@@ -76,10 +84,26 @@ void ThumbnailDelegate::paint(QPainter *painter,
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }
     } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+
+//        if (COMMON_STR_TRASH == m_imageTypeStr) {
+//            if ("Last" == data.firstorlast) {
+//                backgroundRect.setHeight(backgroundRect.height() - 27);
+//            }
+//            if (backgroundRect.width() < 100) {
+//                backgroundRect.setWidth(100);
+////                backgroundRect.setX(backgroundRect.x() + 100);
+//            }
+//        } else {
+//            if ("Last" == data.firstorlast) {
+//                backgroundRect.setHeight(backgroundRect.height() - 27);
+//            }
+
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }
+//        }
     } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
+
         if ("First" == data.firstorlast) {
             QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
             FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 130);
@@ -156,7 +180,18 @@ void ThumbnailDelegate::paint(QPainter *painter,
 //    QPixmap pixmapItem = QPixmap::fromImage(tImg);
 
     if (COMMON_STR_TRASH == m_imageTypeStr) {
+//        if (pixmapRect.width() < 1) {
+//         pixmapRect.setWidth(100);
+//        }
+//        painter->drawPixmap(pixmapRect, dApp->m_imagetrashmap.value(data.path));
+//        if (pixmapRect.width() < 60) {
+//            pixmapRect.setWidth(60);
+//        }
+        QPainterPath bp2;
+        bp2.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(bp2);
         painter->drawPixmap(pixmapRect, dApp->m_imagetrashmap.value(data.path));
+
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_imageTypeStr) {
         painter->drawPixmap(pixmapRect, data.image);
     } else {
@@ -179,16 +214,20 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         int m_Width = painter->fontMetrics().width(data.remainDays);
 //        int m_Height = painter->fontMetrics().height();
-
+//        int m_Height = painter->fontMetrics().height();
+//        qDebug() << "pixmapRect.width       " << pixmapRect.width() << endl;
         painter->setBrush(QBrush(QColor(85, 85, 85, 170)));
 //        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 40, pixmapRect.y() + pixmapRect.height() - 18, 48, 16, 8, 8);
-        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 50, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 4, 20, 8, 8);
+
+
+        int m_ChangingWidth = getSpacing();
+        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - m_ChangingWidth - 8, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 8, 20, 8, 8);
         painter->setPen(QColor(255, 255, 255));
 
-        qDebug() << "m_Width      " << m_Width << endl;
-        painter->drawText(pixmapRect.x() + pixmapRect.width() - 48, pixmapRect.y() + pixmapRect.height() - 13, data.remainDays);
+//        qDebug() << "m_Width      " << m_Width << endl;
+//        painter->drawText(pixmapRect.x() + pixmapRect.width() - 48, pixmapRect.y() + pixmapRect.height() - 14, data.remainDays);
+        painter->drawText(pixmapRect.x() + pixmapRect.width() - m_ChangingWidth - 4, pixmapRect.y() + pixmapRect.height() - 12, data.remainDays);
     }
-
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         QPixmap favPixmap;
         favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
@@ -270,6 +309,24 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     return data;
 }
 
+int ThumbnailDelegate::getSpacing() const
+{
+    switch (step) {
+    case 0:
+        return 40;
+    case 1:
+        return 43;
+    case 2:
+        return 44;
+    case 3:
+        return 45;
+    case 4:
+        return 50;
+    default:
+        return 10;
+    }
+}
+
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 24, 24);
@@ -281,4 +338,9 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
     }
 
     return QStyledItemDelegate::editorEvent(event, model, option, index);
+}
+
+void ThumbnailDelegate::getSliderValue(int step)
+{
+    this->step = step;
 }

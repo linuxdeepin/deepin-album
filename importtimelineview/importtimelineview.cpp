@@ -238,6 +238,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
+    DFontSizeManager::instance()->bind(pSuspensionChose, DFontSizeManager::T5);
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pSuspensionChose->setFixedHeight(32);
     pSuspensionChose->resize(36, 27);
@@ -394,6 +395,7 @@ void ImportTimeLineView::updataLayout()
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
         m_allChoseButton << pChose;
+        DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
         pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
         pChose->setFixedHeight(24);
         pChose->resize(36, 27);

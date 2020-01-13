@@ -15,7 +15,7 @@ namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
 const int ITEM_SPACING_ZERO = 0;
-const int LEFT_VIEW_WIDTH_160 = 172;
+const int LEFT_VIEW_WIDTH_172 = 172;
 const int LEFT_VIEW_LISTITEM_WIDTH_140 = 140;
 const int LEFT_VIEW_LISTITEM_HEIGHT_40 = 40;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
@@ -279,7 +279,7 @@ void LeftListView::initUI()
 //    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
 //    m_pPhotoLibListView->setItemDelegate(itemDelegate);
 
-    m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_160);
+    m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_172);
     m_pPhotoLibListView->setFixedHeight(120);
     m_pPhotoLibListView->setSpacing(0);
     m_pPhotoLibListView->setFrameShape(DListWidget::NoFrame);
@@ -363,7 +363,7 @@ void LeftListView::initUI()
 //    itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
 //    m_pCustomizeListView->setItemDelegate(itemDelegate1);
 
-    m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_160);
+    m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_172);
 //    m_pCustomizeListView->setFixedHeight(400);
     m_pCustomizeListView->setMinimumHeight(40);
 
@@ -382,10 +382,10 @@ void LeftListView::initUI()
         }
 
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView);
-        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140 + 8, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140 + 8);
         pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }

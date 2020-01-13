@@ -144,6 +144,7 @@ signals:
     void deleteByMenu();
     void updateThumbnailViewSize();
     void updateLeftListview();
+    void sliderValueChange(int step);
 
 private:
     explicit SignalManager(QObject *parent = 0);

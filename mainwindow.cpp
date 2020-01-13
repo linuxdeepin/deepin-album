@@ -169,6 +169,7 @@ void MainWindow::initConnections()
 
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, [ = ](int step) {
         m_pSliderPos = step;
+        emit SignalManager::instance()->sliderValueChange(step);
         saveZoomRatio();
     });
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [ = ](QString str1) {

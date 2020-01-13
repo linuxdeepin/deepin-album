@@ -64,6 +64,9 @@ public:
                      QAbstractItemModel *model,
                      const QStyleOptionViewItem &option,
                      const QModelIndex &index);
+    int getSpacing() const;
+private slots:
+    void getSliderValue(int step);
 
 signals:
     void sigCancelFavorite(const QModelIndex &index);
@@ -71,6 +74,7 @@ signals:
 
 private:
     ItemData itemData(const QModelIndex &index) const;
+
 
 public:
     QString m_imageTypeStr;
@@ -80,6 +84,7 @@ private:
     QString  m_defaultThumbnail;
     bool m_itemdata = false;
     DelegateType m_delegatetype = NullType;
+    int step = -1;
 };
 
 #endif // ALBUMDELEGATE_H

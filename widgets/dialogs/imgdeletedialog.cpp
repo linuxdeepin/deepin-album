@@ -5,11 +5,11 @@
 #include <DApplicationHelper>
 #include <DSuggestButton>
 
-ImgDeleteDialog::ImgDeleteDialog(DWidget *parent,int count)
-    :DDialog (parent)
+ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
+    : DDialog(parent)
 {
     setModal(true);
-    this->setFixedSize(380,180);
+    this->setFixedSize(380, 180);
     setContentsMargins(0, 0, 0, 0);
 
     DLabel *m_pic = new DLabel(this);
@@ -24,17 +24,14 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent,int count)
     contentWidget->setContentsMargins(0, 0, 0, 0);
     addContent(contentWidget);
 
-    if(1 == count)
-    {
+    if (1 == count) {
 
         m_label->setText(tr("Are you sure you want to delete this photo from the album?"));
         DPalette pa = DApplicationHelper::instance()->palette(m_label);
         pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
         m_label->setPalette(pa);
 
-    }
-    else
-    {
+    } else {
 
         QString str = tr("Are you sure you want to delete %1 photos from albums?");
         m_label->setText(str.arg(count));
@@ -45,28 +42,29 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent,int count)
     }
     m_label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     m_label->adjustSize();
-    m_label->move((this->width() - m_label->width())/2,70);
+    m_label->move((this->width() - m_label->width()) / 2, 70);
 
     DPushButton *m_Cancel = new DPushButton(this);
     m_Cancel->setText(tr("Cancel"));
-    m_Cancel->setFixedSize(170,36);
+    m_Cancel->setFixedSize(170, 36);
     m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPushButton *m_line = new DPushButton(this);
-    m_line->setFixedSize(3,28);
+    m_line->setFixedSize(3, 28);
     m_line->setEnabled(false);
 
     DSuggestButton *m_Delete = new DSuggestButton(this);
+    DFontSizeManager::instance()->bind(m_Delete, DFontSizeManager::T6);
     m_Delete->setText(tr("Delete"));
-    m_Delete->setFixedSize(170,36);
+    m_Delete->setFixedSize(170, 36);
     m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-    m_Cancel->move(10,134);
-    m_line->move(189,138);
-    m_Delete->move(200,134);
+    m_Cancel->move(10, 134);
+    m_line->move(189, 138);
+    m_Delete->move(200, 134);
 
-    connect(m_Cancel,&DPushButton::clicked,this,&ImgDeleteDialog::deleteLater);
-    connect(m_Delete,&DPushButton::clicked,this,[=]{
+    connect(m_Cancel, &DPushButton::clicked, this, &ImgDeleteDialog::deleteLater);
+    connect(m_Delete, &DPushButton::clicked, this, [ = ] {
         emit imgdelete();
         this->close();
     });

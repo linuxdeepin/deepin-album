@@ -190,6 +190,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateItem->setLayout(TitleViewLayout);
 
     m_pDate = new DLabel();
+    DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T3, QFont::DemiBold);
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft3.setFamily("SourceHanSansSC");
     ft3.setWeight(QFont::DemiBold);
@@ -202,6 +203,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_pDate->setPalette(color);
 
     pNum_up = new DLabel();
+    DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
     ft6.setWeight(QFont::Medium);
@@ -230,6 +232,7 @@ void TimeLineView::initTimeLineViewWidget()
 
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
+    DFontSizeManager::instance()->bind(pSuspensionChose, DFontSizeManager::T5);
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pSuspensionChose->setFixedHeight(TIMELINE_TITLEHEIGHT);
     pSuspensionChose->resize(36, 27);
@@ -340,6 +343,8 @@ void TimeLineView::updataLayout()
         QVBoxLayout *TitleViewLayout = new QVBoxLayout();
         TitleView->setLayout(TitleViewLayout);
         DLabel *pDate = new DLabel();
+        DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T3, QFont::DemiBold);
+
 
         pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
         QStringList datelist = m_timelines.at(i).split(".");
@@ -364,6 +369,7 @@ void TimeLineView::updataLayout()
 
         pNum_dn = new DLabel();
         listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
+        DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
         pNum_dn->setText(listItem->m_snum);
 
         QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -389,6 +395,7 @@ void TimeLineView::updataLayout()
 
         QHBoxLayout *Layout = new QHBoxLayout();
         DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
+        DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
         m_allChoseButton << pChose;
         pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
         pChose->setFixedHeight(TIMELINE_TITLEHEIGHT);

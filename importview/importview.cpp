@@ -94,6 +94,7 @@ void ImportView::initUI()
 
     m_pImportBtn = new DSuggestButton();
     m_pImportBtn->setFocusPolicy(Qt::NoFocus);
+    DFontSizeManager::instance()->bind(m_pImportBtn, DFontSizeManager::T6);
     m_pImportBtn->setText(tr("Import Photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));

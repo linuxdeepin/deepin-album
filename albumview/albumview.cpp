@@ -937,13 +937,20 @@ void AlbumView::initRightView()
     m_importByPhoneComboBox->setEnabled(false);
 
     m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
+    DFontSizeManager::instance()->bind(m_importAllByPhoneBtn, DFontSizeManager::T6);
     m_importAllByPhoneBtn ->setMinimumSize(100, 36);
     DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
     importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
     m_importAllByPhoneBtn->setEnabled(false);
 
+<<<<<<< Updated upstream
     m_importSelectByPhoneBtn = new DSuggestButton(tr("Import"));
+=======
+//    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
+    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
+    DFontSizeManager::instance()->bind(m_importSelectByPhoneBtn, DFontSizeManager::T6);
+>>>>>>> Stashed changes
     m_importSelectByPhoneBtn->setMinimumSize(100, 36);
 //    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
 //    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
@@ -2614,7 +2621,7 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 {
     QMap<QString, MountLoader *>::iterator itmount;
     itmount = m_mountLoaderList.find(unMountPath);
-    if ( itmount != m_mountLoaderList.end()) {
+    if (itmount != m_mountLoaderList.end()) {
         if (itmount.value()->isRunning()) {
             itmount.value()->stopRunning(unMountPath);
             return;
