@@ -86,7 +86,6 @@ void ViewMainWindow::moveFirstWindow() {
     //TODO use QLocalServer more safe ?
     QString cachePath = QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0);
     QFile processFile(QString("%1/%2").arg(cachePath).arg("process.pid"));
-
     if (processFile.exists()) {
         if (processFile.open(QIODevice::ReadWrite)) {
             int historyId = processFile.readAll().toInt();

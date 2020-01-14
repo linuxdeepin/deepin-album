@@ -944,10 +944,11 @@ void AlbumView::initRightView()
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
     m_importAllByPhoneBtn->setEnabled(false);
 
-
     m_importSelectByPhoneBtn = new DSuggestButton(tr("Import"));
-
+//    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
+//    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
     DFontSizeManager::instance()->bind(m_importSelectByPhoneBtn, DFontSizeManager::T6);
+
     m_importSelectByPhoneBtn->setMinimumSize(100, 36);
 //    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
 //    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
@@ -1461,7 +1462,7 @@ void AlbumView::onTrashDeleteBtnClicked()
 //        {
 //            dApp->m_imagetrashmap.remove(path);
 //        }
-        emit dApp->signalM->sigDeletePhotos(paths.length());
+//        emit dApp->signalM->sigDeletePhotos(paths.length());
         DBManager::instance()->removeTrashImgInfos(paths);
     });
 
@@ -1739,7 +1740,7 @@ void AlbumView::onKeyDelete()
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
             dialog->show();
             connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-                emit dApp->signalM->sigDeletePhotos(paths.length());
+//                emit dApp->signalM->sigDeletePhotos(paths.length());
                 DBManager::instance()->removeTrashImgInfos(paths);
                 onTrashListClicked();
             });
