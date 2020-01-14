@@ -274,6 +274,9 @@ void LeftListView::initUI()
 
     // 照片库列表
     m_pPhotoLibListView = new LeftListWidget();
+    DStyledItemDelegate *itemDelegate0 = new DStyledItemDelegate(m_pPhotoLibListView);
+    itemDelegate0->setBackgroundType(DStyledItemDelegate::NoBackground);
+    m_pPhotoLibListView->setItemDelegate(itemDelegate0);
 //    m_pPhotoLibListView->setViewportMargins(8, 0, 8, 0);
 //    DStyledItemDelegate *itemDelegate = new DStyledItemDelegate(m_pPhotoLibListView);
 //    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
@@ -292,6 +295,8 @@ void LeftListView::initUI()
     AlbumLeftTabItem *pAlbumLeftTabItem1 = new AlbumLeftTabItem(COMMON_STR_RECENT_IMPORTED);
     pAlbumLeftTabItem1->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
     pAlbumLeftTabItem1->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+
+    pAlbumLeftTabItem1->setFocusPolicy(Qt::NoFocus);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem1, pAlbumLeftTabItem1);
 
     // 最新删除
@@ -301,6 +306,7 @@ void LeftListView::initUI()
     AlbumLeftTabItem *pAlbumLeftTabItem2 = new AlbumLeftTabItem(COMMON_STR_TRASH);
     pAlbumLeftTabItem2->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
     pAlbumLeftTabItem2->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+//    pAlbumLeftTabItem2->setFocusPolicy(Qt::NoFocus);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem2, pAlbumLeftTabItem2);
 
     // 我的收藏
@@ -310,6 +316,7 @@ void LeftListView::initUI()
     AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_FAVORITES);
     pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
     pAlbumLeftTabItem3->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+//    pAlbumLeftTabItem3->setFocusPolicy(Qt::NoFocus);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
 
     // 相册列表Title
@@ -359,9 +366,9 @@ void LeftListView::initUI()
 
     // 相册列表
     m_pCustomizeListView = new LeftListWidget();
-//    DStyledItemDelegate *itemDelegate1 = new DStyledItemDelegate(m_pCustomizeListView);
-//    itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
-//    m_pCustomizeListView->setItemDelegate(itemDelegate1);
+    DStyledItemDelegate *itemDelegate1 = new DStyledItemDelegate(m_pCustomizeListView);
+    itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
+    m_pCustomizeListView->setItemDelegate(itemDelegate1);
 
     m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_172);
 //    m_pCustomizeListView->setFixedHeight(400);
@@ -466,7 +473,6 @@ void LeftListView::initUI()
 //    m_pMountWidget->raise();
 //    m_pMountWidget->show();
 }
-
 void LeftListView::updatePhotoListView()
 {
     m_pPhotoLibListView->clear();
