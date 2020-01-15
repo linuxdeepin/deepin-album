@@ -342,6 +342,11 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
+    connect(m_vfsManager, &DGioVolumeManager::volumeAdded, [](QExplicitlySharedDataPointer<DGioVolume> vol) {
+        if (vol->volumeMonitorName().contains(QRegularExpression("(MTP|GPhoto2|Afc)$"))) {
+            vol->mount();
+        }
+    });
     connect(m_diskManager, &DDiskManager::fileSystemAdded, this, [ = ](const QString & dbusPath) {
         DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
         blDev->mount({});
@@ -1902,6 +1907,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         }
 
         if (rename == pAlbumLeftTabItem->m_albumNameStr &&  mount->getDefaultLocationFile()->path().contains(pAlbumLeftTabItem->m_mountPath)) {
+
             if (1 < m_pLeftListView->m_pMountListView->count()) {
                 delete pListWidgetItem;
             } else {
@@ -2241,6 +2247,20 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_mounts.append(mount);
 }
+
+void AlbumView::onUnMountSignal(QString unMountPath)
+{
+    QMap<QString, MountLoader *>::iterator itmount;
+    itmount = m_mountLoaderList.find(unMountPath);
+    if (itmount != m_mountLoaderList.end()) {
+        if (itmount.value()->isRunning()) {
+            itmount.value()->stopRunning(unMountPath);
+            return;
+        }
+    }
+    needUnMount(unMountPath);
+}
+
 
 void AlbumView::onUpdataAlbumRightTitle(QString titlename)
 {
@@ -2586,8 +2606,6 @@ void AlbumView::needUnMount(QString path)
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
             if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
                 mount->unmount(true);
-//                m_mounts.removeOne(mount);
-                break;
             }
         }
         return;
