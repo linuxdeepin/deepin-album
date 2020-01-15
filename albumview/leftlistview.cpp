@@ -108,6 +108,7 @@ void LeftListView::initConnections()
 
         m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
         m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
+
         m_pMountListView->setFocus();
         emit itemClicked();
     });

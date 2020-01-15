@@ -31,6 +31,16 @@
 #include <QRunnable>
 #include <QThreadPool>
 
+
+//#define GIO_COMPILATION
+#undef signals
+extern "C" {
+#include <gio/gio.h>
+}
+#define signals public
+
+
+
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 

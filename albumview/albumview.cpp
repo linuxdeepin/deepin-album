@@ -584,6 +584,11 @@ void AlbumView::onCreateNewAlbumFrom(QString albumname)
 
     m_pLeftListView->moveMountListWidget();
 }
+
+void AlbumView::onLoadMountImagesEnd(QString mountname)
+{
+
+}
 #endif
 
 void AlbumView::initRightView()
@@ -1886,6 +1891,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
         AlbumLeftTabItem *pAlbumLeftTabItem = (AlbumLeftTabItem *)m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem);
+
 //        if (mount->name() == pAlbumLeftTabItem->m_albumNameStr) {
         QString rename = "";
         QString dpath = mount->getRootFile()->uri();
@@ -1894,19 +1900,19 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         if ("" == rename) {
             rename = mount->name();
         }
-        if (rename == pAlbumLeftTabItem->m_albumNameStr &&
-                mount->getRootFile()->uri().contains(pAlbumLeftTabItem->m_mountPath)) {
+
+        if (rename == pAlbumLeftTabItem->m_albumNameStr &&  mount->getDefaultLocationFile()->path().contains(pAlbumLeftTabItem->m_mountPath)) {
             if (1 < m_pLeftListView->m_pMountListView->count()) {
                 delete pListWidgetItem;
             } else {
                 m_pLeftListView->m_pMountListView->clear();
                 m_pLeftListView->updatePhotoListView();
             }
-
             durlAndNameMap.erase(durlAndNameMap.find(qurl));
             break;
         }
     }
+//    }
 }
 
 void AlbumView::getAllDeviceName()
@@ -2170,6 +2176,7 @@ void AlbumView::initExternalDevice()
         //pListWidgetItem缓存文件挂载路径
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
+        qDebug() << "strPath :" << strPath << endl;
         pListWidgetItem->setData(Qt::UserRole, strPath);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem;
@@ -2575,6 +2582,14 @@ void AlbumView::needUnMount(QString path)
         }
     }
     if ("" == mountPoint) {
+        for (auto mount : m_mounts) {
+            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+            if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+                mount->unmount(true);
+//                m_mounts.removeOne(mount);
+                break;
+            }
+        }
         return;
     }
     for (auto mount : m_mounts) {
@@ -2614,29 +2629,8 @@ void AlbumView::needUnMount(QString path)
         }
     }
 }
-//卸载外部设备
-void AlbumView::onUnMountSignal(QString unMountPath)
-{
-    QMap<QString, MountLoader *>::iterator itmount;
-    itmount = m_mountLoaderList.find(unMountPath);
-    if (itmount != m_mountLoaderList.end()) {
-        if (itmount.value()->isRunning()) {
-            itmount.value()->stopRunning(unMountPath);
-            return;
-        }
-    }
-    needUnMount(unMountPath);
-}
 
-void AlbumView::onLoadMountImagesEnd(QString mountname)
-{
-    qDebug() << "onLoadMountImagesEnd() mountname: " << mountname;
-    qDebug() << "onLoadMountImagesEnd() m_currentAlbum: " << m_currentAlbum;
 
-    if (mountname == m_currentAlbum) {
-        updateRightView();
-    }
-}
 
 void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 {
