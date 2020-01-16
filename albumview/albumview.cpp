@@ -409,9 +409,9 @@ void AlbumView::initConnections()
                 //            blk->mount({});
                 //            return;
             }
-//            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
-            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
-            udispname = QCoreApplication::translate("PathManager", "System Disk");
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
+//            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
+//            udispname = QCoreApplication::translate("PathManager", "System Disk");
             goto runend;
 //            blk->mount({});
 //            return;
@@ -1984,9 +1984,9 @@ void AlbumView::getAllDeviceName()
                 //            blk->mount({});
                 //            return;
             }
-//            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
-            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
-            udispname += tr("Disk");
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
+//            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
+//            udispname += tr("Disk");
             goto runend1;
 //            blk->mount({});
 //            return;
