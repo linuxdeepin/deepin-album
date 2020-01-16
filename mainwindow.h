@@ -34,6 +34,9 @@
 #define DEFAULT_WINDOWS_HEIGHT  640
 #define MIX_WINDOWS_WIDTH       1300
 #define MIX_WINDOWS_HEIGHT      848
+#define TITLEBAR_BLANK_WIDTH    235
+#define TITLEBAR_BTNWIDGET_WIDTH 240
+#define TITLEBAR_ICON_WIDTH 50
 
 DWIDGET_USE_NAMESPACE
 
@@ -59,7 +62,8 @@ public:
 //    void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
-    void closeEvent(QCloseEvent *event) override;
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 //    void themeTypeChanged();
 
 private:
@@ -74,9 +78,9 @@ private:
     void viewImageClose();
 
 protected:
-    void wheelEvent(QWheelEvent *event) override;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *e)Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *e) override;
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
 signals:
     void sigTitleMenuImportClicked();
@@ -105,6 +109,7 @@ private:
     bool m_bTitleMenuImportClicked;
 
     QWidget *m_titleBtnWidget;
+    QWidget *m_ImgWidget;
     DMenu *m_pTitleBarMenu;
 //    DPushButton* m_pAllPicBtn;
 //    DPushButton* m_pTimeLineBtn;

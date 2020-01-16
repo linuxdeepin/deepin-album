@@ -644,7 +644,7 @@ void MainWindow::initUI()
 //      setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
 //    QRect rect = DApplication::desktop()->geometry();
 //    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
-    setMinimumSize(920, 500);
+    setMinimumSize(880, 500);
     resize(1300, 848);
 
     loadWindowState();
@@ -661,7 +661,8 @@ void MainWindow::initTitleBar()
     pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
 
     QHBoxLayout *pAllTitleLayout = new QHBoxLayout();
-    QWidget *m_ImgWidget = new QWidget();
+    m_ImgWidget = new QWidget();
+
     pAllTitleLayout->addSpacing(2);
     pAllTitleLayout->addWidget(pLabel);
     m_ImgWidget->setLayout(pAllTitleLayout);
@@ -713,7 +714,8 @@ void MainWindow::initTitleBar()
     //QWidget *m_titleSearchWidget = new QWidget();
 //    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
-    m_pSearchEdit->setFixedSize(350, 36);
+//    m_pSearchEdit->setFixedSize(350, 36);
+    m_pSearchEdit->setMaximumSize(350, 36);
 
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
@@ -1319,6 +1321,25 @@ void MainWindow::closeEvent(QCloseEvent *event)
     } else {
         event->accept();
     }
+}
+
+void MainWindow::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+//    qDebug() << "m_ImgWidget width:          " << m_ImgWidget->width();
+//    qDebug() << "m_titleBtnWidget width:     " << m_titleBtnWidget->width();
+//    qDebug() << "m_pSearchEdit width:        " << m_pSearchEdit->width();
+//    qDebug() << "titlebar()->width():        " << titlebar()->width();
+//    qDebug() << "blank width:                " << titlebar()->width() - m_pSearchEdit->width() - m_titleBtnWidget->width() - m_ImgWidget->width();
+    int m_SearchEditWidth = titlebar()->width() - TITLEBAR_BLANK_WIDTH - TITLEBAR_BTNWIDGET_WIDTH - TITLEBAR_ICON_WIDTH - 120;
+//    qDebug() << "m_SearchEditWidth:            " << m_SearchEditWidth;
+    if (m_SearchEditWidth <= 350) {
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+    } else {
+        m_SearchEditWidth = 350;
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+    }
+
 }
 
 void MainWindow::saveWindowState()
