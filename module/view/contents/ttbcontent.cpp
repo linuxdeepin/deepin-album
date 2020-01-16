@@ -239,7 +239,9 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
 
         QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
+//        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(100, 100));
         QPainterPath bg;
+//        bg.addRoundedRect(pixmapRect, 4, 4);
         bg.addRoundedRect(pixmapRect, 4, 4);
         if (_pixmap.isNull()) {
             painter.setClipPath(bg);
@@ -267,8 +269,11 @@ void ImageItem::paintEvent(QPaintEvent *event)
     }
 
     QPainterPath bp1;
+//    bp1.addRoundedRect(pixmapRect, 4, 4);
+//    bp1.addRoundedRect(pixmapRect, 4, 4);
     bp1.addRoundedRect(pixmapRect, 4, 4);
     painter.setClipPath(bp1);
+
 
     painter.drawPixmap(pixmapRect, _pixmap);
 
