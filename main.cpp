@@ -141,6 +141,10 @@ int main(int argc, char *argv[])
     w.show();
 
     Dtk::Widget::moveToCenter(&w);
+    if(w.isMaximized()){
+        w.setWindowFlags(Qt::Window);
+    }
+
     if (bneedexit)
         bfirstopen = false;
     return a.exec();
