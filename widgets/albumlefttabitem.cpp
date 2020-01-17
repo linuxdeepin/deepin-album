@@ -215,7 +215,8 @@ void AlbumLeftTabItem::onCheckNameValid()
     if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode) {
         m_nameLabel->setText(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
-        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+//        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        m_nameLabel->Settext(newNameStr);
         QFont ft;
         ft.setPixelSize(14);
 
@@ -228,9 +229,9 @@ void AlbumLeftTabItem::onCheckNameValid()
         m_albumNameStr = newNameStr;
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     } else if (OPE_MODE_ADDNEWALBUM == m_opeMode) {
-        m_nameLabel->setText(newNameStr);
+        m_nameLabel->Settext(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
-        m_nameLabel->setText(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        m_nameLabel->Settext(newNameStr);
         QFont ft;
         ft.setPixelSize(14);
 
