@@ -8,6 +8,7 @@
 #include <DIconButton>
 #include "albumview/leftlistwidget.h"
 #include "mountexternalbtn.h"
+#include "widgets/ddlabel.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -48,7 +49,7 @@ public:
     QString m_mountPath;
 
 private:
-    DLabel *m_nameLabel;
+    DDlabel *m_nameLabel;
 
     DLabel *pImageLabel;
 

@@ -91,26 +91,27 @@ void AlbumLeftTabItem::initUI()
         return;
     }
 
-    m_nameLabel = new DLabel(pWidget);
+    m_nameLabel = new DDlabel(pWidget);
     m_nameLabel->setGeometry(QRect(16, 0, 118, 40));
 
     QFontMetrics elideFont(m_nameLabel->font());
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
-//        m_nameLabel->setText(elideFont.elidedText(tr("Import"), Qt::ElideRight, 85));
+//        m_nameLabel->Settext(elideFont.elidedText(tr("Import"), Qt::ElideRight, 85));
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->setText(tr("Import"));
+        m_nameLabel->Settext(tr("Import"));
     } else if (COMMON_STR_TRASH == m_albumNameStr) {
-//        m_nameLabel->setText(elideFont.elidedText(tr("Trash"), Qt::ElideRight, 85));
+//        m_nameLabel->Settext(elideFont.elidedText(tr("Trash"), Qt::ElideRight, 85));
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->setText(tr("Trash"));
+        m_nameLabel->Settext(tr("Trash"));
     } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
-//        m_nameLabel->setText(elideFont.elidedText(tr("Favorites"), Qt::ElideRight, 85));
+//        m_nameLabel->Settext(elideFont.elidedText(tr("Favorites"), Qt::ElideRight, 85));
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->setText(tr("Favorites"));
+        m_nameLabel->Settext(tr("Favorites"));
     } else {
-//        m_nameLabel->setText(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->setText(m_albumNameStr);
+//        m_nameLabel->Settext(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
+        m_nameLabel->Settext(m_albumNameStr);
+        //        m_nameLabel->setText(m_albumNameStr);
     }
     m_nameLabel->setAlignment(Qt::AlignVCenter);
 
