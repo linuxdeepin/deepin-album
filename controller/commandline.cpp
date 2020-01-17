@@ -187,6 +187,35 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     });
 }
 
+QUrl UrlInfo1(QString path)
+{
+    QUrl url;
+    // Just check if the path is an existing file.
+    if (QFile::exists(path)) {
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+        return url;
+    }
+
+    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
+
+    if (match.isValid()) {
+        // cut away line/column specification from the path.
+        path.chop(match.capturedLength());
+    }
+
+    // make relative paths absolute using the current working directory
+    // prefer local file, if in doubt!
+    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
+
+    // in some cases, this will fail, e.g.
+    // assume a local file and just convert it to an url.
+    if (!url.isValid()) {
+        // create absolute file path, we will e.g. pass this over dbus to other processes
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+    }
+    return url;
+}
+
 bool CommandLine::processOption(QStringList &paslist)
 {
 
@@ -198,43 +227,96 @@ bool CommandLine::processOption(QStringList &paslist)
     QString defaulttheme = dApp->setter->value(THEME_GROUP,
                                                THEME_TEXT).toString();
 
-    if (DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ) {
+    if (DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType()) {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
     } else {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     }
 
-    QStringList names = m_cmdParser.optionNames();
-    QStringList pas = m_cmdParser.positionalArguments();
-    qDebug() << "processOption()" << names << pas;
+    QStringList arguments = m_cmdParser.positionalArguments();
 
-    QImage *pimg = new QImage();
+    QString filepath = "";
+    bool bneedexit = true;
+    for (const QString &path : arguments) {
+        filepath = UrlInfo1(path).toLocalFile();
 
-    if (pas.count() > 0) {
-        for (int i = 0; i < pas.count(); i++) {
-            if (QFileInfo(pas.at(i)).isDir()) {
-                continue;
-//                if(!pas.at(i).isEmpty())
-//                {
-//                    //checkFileType(QDir(pas.at(i)).entryList(), paslist);
 
-//                }
-//                else
-//                {
-//                    continue;
-//                }
-            } else if (pimg->load(pas.at(i))) {
-                paslist.append(pas.at(i));
-            } else {
-                continue;
+        QFileInfo info(filepath);
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
+
+        QString str = info.suffix().toLower();
+//        if (str.isEmpty()) {
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
+                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                bneedexit = false;
+//                break;
+                paslist << info.filePath();
+            } else if (str.isEmpty()) {
+                bneedexit = false;
+                paslist << info.filePath();
+//                break;
             }
         }
-        if (paslist.isEmpty()) {
-            exit(0);
-        }
+//        }
+//        else {
+//            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+//                    bneedexit = false;
+//                    break;
+//                }
+//            }
+//        }
+//        if (!filepath.endsWith("jpg") &&
+//                !filepath.endsWith("jpeg") &&
+//                !filepath.endsWith("bmp") &&
+//                !filepath.endsWith("png") &&
+//                !filepath.endsWith("ppm") &&
+//                !filepath.endsWith("xbm") &&
+//                !filepath.endsWith("xpm") &&
+//                !filepath.endsWith("gif")) {
+//            exit(0);
+//        }
     }
 
-    delete pimg;
+    if ("" != filepath && bneedexit) {
+        exit(0);
+    }
+//    QStringList names = m_cmdParser.optionNames();
+//    QStringList pas = m_cmdParser.positionalArguments();
+//    qDebug() << "processOption()" << names << pas;
+
+//    QImage *pimg = new QImage();
+
+//    if (pas.count() > 0) {
+//        for (int i = 0; i < pas.count(); i++) {
+//            if (QFileInfo(pas.at(i)).isDir()) {
+//                continue;
+////                if(!pas.at(i).isEmpty())
+////                {
+////                    //checkFileType(QDir(pas.at(i)).entryList(), paslist);
+
+////                }
+////                else
+////                {
+////                    continue;
+////                }
+//            } else if (pimg->load(pas.at(i))) {
+//                paslist.append(pas.at(i));
+//            } else {
+//                continue;
+//            }
+//        }
+//        if (paslist.isEmpty()) {
+//            qDebug() << "11111111exit";
+//            exit(0);
+//        }
+//    }
+
+//    delete pimg;
     //paslist = pas;
 //    if (pas.length() > 0) {
 //        viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);

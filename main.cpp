@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
     w.show();
 
     Dtk::Widget::moveToCenter(&w);
-    if(w.isMaximized()){
+    if (w.isMaximized()) {
         w.setWindowFlags(Qt::Window);
     }
 
