@@ -11,5 +11,5 @@ Homepage: <insert the upstream URL, if relevant>
 Package: deepin-album
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: 
+  Album is a fashion photo manager for viewing and organizing pictures.
