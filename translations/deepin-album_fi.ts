@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation type="unfinished"/>
+        <translation>Uusi albumi</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     </message>
     <message>
         <source>Disk</source>
-        <translation>Levy</translation>
+        <translation type="vanished">Levy</translation>
     </message>
     <message>
         <source>Import</source>
@@ -244,7 +244,11 @@
     </message>
     <message>
         <source>%1 </source>
-        <translation>%1 </translation>
+        <translation type="vanished">%1 </translation>
+    </message>
+    <message>
+        <source>%1 Volume</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

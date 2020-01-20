@@ -1,147 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Ohne Namen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Create</translation>
+        <translation>Erstellen</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>New Album</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Are you sure you want to delete this album?</translation>
+        <translation>Sind Sie sicher, dass Sie dieses Album löschen möchten?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Papierkorb</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Favoriten</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importieren</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Papierkorb</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Favoriten</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Delete All</translation>
+        <translation>Alle löschen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Oder ziehen Sie die Fotos hierher</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Import All</translation>
+        <translation>Alle importieren</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>The photos will be permanently deleted after the days shown on it</translation>
+        <translation>Die Fotos werden nach der angegebenen Anzahl von Tagen gelöscht</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 Foto(s) ausgewählt</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Import to:</translation>
+        <translation>Importieren nach:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disk</translation>
+        <translation type="vanished">Speichermedium</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importieren</translation>
     </message>
     <message>
         <source>days</source>
-        <translation>days</translation>
+        <translation>Tage</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Ohne Namen</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Systemlaufwerk</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galerie</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk is busy, cannot eject now</translation>
+        <translation>Laufwerk arbeitet, kann jetzt nicht ausgeworfen werden</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 Foto(s) ausgewählt</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
 </context>
 <context>
@@ -155,23 +153,23 @@
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Replace</translation>
+        <translation>Ersetzen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Pictures</translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Documents</translation>
+        <translation>Dokumente</translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -179,7 +177,7 @@
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>Schreibtisch</translation>
     </message>
     <message>
         <source>Videos</source>
@@ -187,7 +185,7 @@
     </message>
     <message>
         <source>Music</source>
-        <translation>Music</translation>
+        <translation>Musik</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -195,7 +193,7 @@
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Save to:</translation>
+        <translation>Speichern unter:</translation>
     </message>
     <message>
         <source>Format:</source>
@@ -203,11 +201,11 @@
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Quality:</translation>
+        <translation>Qualität:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <source>gif</source>
@@ -215,71 +213,71 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Select other directories</translation>
+        <translation>Andere Ordner auswählen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>File name cannot be empty</translation>
+        <translation>Dateiname kann nicht leer sein</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>already exists. Do you want to replace it?</translation>
+        <translation>existiert schon. Möchten Sie es ersetzen?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 Drive</translation>
+        <translation>%1 Laufwerk</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Blank %1 Disc</translation>
+        <translation>Leeres %1 Laufwerk</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 Encrypted</translation>
+        <translation>%1 verschlüsselt</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="vanished">%1 </translation>
+        <translation type="vanished">%1</translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Export Photos</translation>
+        <translation>Fotos exportieren</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Abbrechen</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Foto Info</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Allgemeine Informationen</translation>
     </message>
     <message>
         <source>Details</source>
@@ -290,33 +288,33 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Are you sure you want to delete this photo from the album?</translation>
+        <translation>Sind Sie sicher, dass Sie dieses Foto aus dem Album löschen möchten?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Are you sure you want to delete %1 photos from albums?</translation>
+        <translation>Sind Sie sicher, dass Sie %1 Fotos aus Alben löschen möchten?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Allgemeine Informationen</translation>
     </message>
     <message>
         <source>Details</source>
@@ -324,300 +322,300 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Foto Info</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importieren</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Alle Fotos</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Fotos importieren</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Oder ziehen Sie die Fotos hierher</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galerie</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Rename</translation>
+        <translation>Umbenennen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Ohne Namen</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Device</translation>
+        <translation>Gerät</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galerie</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Alben</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>You have no permission to view the image</translation>
+        <translation>Sie haben keine Berechtigung das Bild anzeigen zu lassen</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album is a fashion photo manager for viewing and organizing pictures.</translation>
+        <translation>Album ist ein moderner Fotomanager zum Betrachten und Organisieren von Bildern.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Photos</translation>
+        <translation>Fotos</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Als Hintergrundbild einrichten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Rename album</translation>
+        <translation>Album umbenennen</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” removed</translation>
+        <translation>Album &quot;%1&quot; gelöscht</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Successfully added to “%1”</translation>
+        <translation>Erfolgreich zu &quot;%1&quot; hinzugefügt</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Import successful</translation>
+        <translation>Import erfolgreich</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Import failed</translation>
+        <translation>Import gescheitert</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Export failed</translation>
+        <translation>Export gescheitert</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Export successful</translation>
+        <translation>Export erfolgreich</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Alle Fotos</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Timelines</translation>
+        <translation>Zeitleisten</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Alben</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Foto Info</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Exit fullscreen/slideshow</translation>
+        <translation>Vollbildmodus/Diashow verlassen</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Display shortcuts</translation>
+        <translation>Tastenkombinationen anzeigen</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Anzeigen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importieren</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Select all</translation>
+        <translation>Alle auswählen</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Delete photo/album</translation>
+        <translation>Foto/Album löschen</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Zoom in</translation>
+        <translation>Einzoomen</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Zoom out</translation>
+        <translation>Rauszoomen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Neues Album</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Page up</translation>
+        <translation>Seite hoch</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Page down</translation>
+        <translation>Seite runter</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>Some photos have not been imported</translation>
+        <translation>Einige Fotos wurden nicht importiert</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Import photos</translation>
+        <translation>Fotos importieren</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Fotos importieren</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Blitz</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>File size</translation>
+        <translation>Dateigröße</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimensions</translation>
+        <translation>Abmessungen</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Date captured</translation>
+        <translation>Aufnahmedatum</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Date modified</translation>
+        <translation>Zeitpunkt der Änderung</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Exposure mode</translation>
+        <translation>Belichtungsmodus</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Exposure program</translation>
+        <translation>Belichtunsprogramm</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Exposure time</translation>
+        <translation>Belichtungszeit</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Aperture</translation>
+        <translation>Blende</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Focal length</translation>
+        <translation>Brennweite</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -625,31 +623,31 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Max aperture</translation>
+        <translation>Maximale Blende</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Metering mode</translation>
+        <translation>Messmodus</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>White balance</translation>
+        <translation>Weißabgleich</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Flash compensation</translation>
+        <translation>Blitzbelichtungskorrektur</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Camera model</translation>
+        <translation>Kameramodell</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lens model</translation>
+        <translation>Objektivmodell</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Colorspace</translation>
+        <translation>Farbraum</translation>
     </message>
     <message>
         <source>Tag</source>
@@ -657,75 +655,75 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Photo name</translation>
+        <translation>Name des Fotos</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Systemlaufwerk</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>No scaling</translation>
+        <translation>Keine Skalierung</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Fit page to image</translation>
+        <translation>Seite an Bild anpassen</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Fit image to page</translation>
+        <translation>Bild an Seite anpassen</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scale to:</translation>
+        <translation>Skalieren auf:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeters</translation>
+        <translation>Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeters</translation>
+        <translation>Zentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inches</translation>
+        <translation>Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Image Position</translation>
+        <translation>Bildposition</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scaling</translation>
+        <translation>Skalierung</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Bildeinstellungen</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Bildeinstellungen</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Select</translation>
+        <translation>Auswählen</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Unselect</translation>
+        <translation>Abwählen</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -733,11 +731,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 Foto(s) ausgewählt</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -745,26 +743,26 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import on </translation>
+        <translation>Importiert am</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>No search results</translation>
+        <translation>Keine Suchergebnisse</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Slide Show</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 photo(s) found</translation>
+        <translation>%1 Foto(s) gefunden</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Search results</translation>
+        <translation>Suchergebnisse</translation>
     </message>
 </context>
 <context>
@@ -775,222 +773,222 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Play</translation>
+        <translation>Abspielen</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Exit</translation>
+        <translation>Beenden</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importing photos: &apos;%1&apos;</translation>
+        <translation>Importiere Fotos: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exporting photos: &apos;%1&apos;</translation>
+        <translation>Exportiere Fotos: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Back</translation>
+        <translation>Zurück</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Size</translation>
+        <translation>1:1 Größe</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Fit to window</translation>
+        <translation>An Fenster anpassen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Anzeigen</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Als Hintergrundbild einrichten</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Foto Info</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Zum Album hinzufügen</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Aus Album entfernen</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>No image files found</translation>
+        <translation>Keine Bilddateien gefunden</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Photo not found</translation>
+        <translation>Foto nicht gefunden</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Zum Album hinzufügen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Exit fullscreen</translation>
+        <translation>Vollbildmodus beenden</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Show navigation window</translation>
+        <translation>Zeige Navigations-Fenster</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Hide navigation window</translation>
+        <translation>Navigations-Fenster ausblenden</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Als Hintergrundbild einrichten</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Foto Info</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Aus Album entfernen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 </TS>

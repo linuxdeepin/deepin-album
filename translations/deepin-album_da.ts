@@ -1,100 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Unavngivet</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Create</translation>
+        <translation>Opret</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>New Album</translation>
+        <translation>Nyt album</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Are you sure you want to delete this album?</translation>
+        <translation>Er du sikker på, at du vil slette albummet?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Papirkurv</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Favoritter</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importér</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Papirkurv</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Favoritter</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Delete All</translation>
+        <translation>Slet alle</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Eller træk billeder hertil</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 billed(er)</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Import All</translation>
+        <translation>Importér alle</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>The photos will be permanently deleted after the days shown on it</translation>
+        <translation>Billederne slettes permanent efter det antal dage som vises på dem</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Gendan</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 billed(er) valgt</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Import to:</translation>
+        <translation>Importér til:</translation>
     </message>
     <message>
         <source>Disk</source>
@@ -102,27 +100,27 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importér</translation>
     </message>
     <message>
         <source>days</source>
-        <translation>days</translation>
+        <translation>dage</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Unavngivet</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Systemdisk</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galleri</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk is busy, cannot eject now</translation>
+        <translation>Disken er optaget — kan ikke skubbe ud nu</translation>
     </message>
     <message>
         <source>OK</source>
@@ -130,18 +128,18 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Nyt album</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 billed(er) valgt</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 billed(er)</translation>
     </message>
 </context>
 <context>
@@ -155,23 +153,23 @@
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Replace</translation>
+        <translation>Erstat</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Pictures</translation>
+        <translation>Billeder</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Documents</translation>
+        <translation>Dokumenter</translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -179,23 +177,23 @@
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>Skrivebord</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation>Videoer</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Music</translation>
+        <translation>Musik</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation>Navn:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Save to:</translation>
+        <translation>Gem til:</translation>
     </message>
     <message>
         <source>Format:</source>
@@ -203,11 +201,11 @@
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Quality:</translation>
+        <translation>Kvalitet:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Gem</translation>
     </message>
     <message>
         <source>gif</source>
@@ -215,7 +213,7 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Select other directories</translation>
+        <translation>Vælg andre mapper</translation>
     </message>
     <message>
         <source>OK</source>
@@ -223,26 +221,26 @@
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>File name cannot be empty</translation>
+        <translation>Filnavnet må ikke være tomt</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>already exists. Do you want to replace it?</translation>
+        <translation>findes allerede. Vil du erstatte den?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 Drive</translation>
+        <translation>%1-drev</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Blank %1 Disc</translation>
+        <translation>Ryd %1-disk</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 Encrypted</translation>
+        <translation>%1-krypteret</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -250,334 +248,334 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Gem</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Export Photos</translation>
+        <translation>Eksportér billeder</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Annuller</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Billedinformation</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Grundlæggende information</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>Detaljer</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galleri</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Are you sure you want to delete this photo from the album?</translation>
+        <translation>Er du sikker på, at du vil slette billedet fra albummet?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Are you sure you want to delete %1 photos from albums?</translation>
+        <translation>Er du sikker på, at du vil slette %1 billeder fra albummet?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Grundlæggende information</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>Detaljer</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Billedinformation</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importér</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Alle billeder</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Importér billeder</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Eller træk billeder hertil</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galleri</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Slideshow</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Rename</translation>
+        <translation>Omdøb</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Unavngivet</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Device</translation>
+        <translation>Enhed</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galleri</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Albummer</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Nyt album</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>You have no permission to view the image</translation>
+        <translation>Du har ikke tilladelse til at vise billedet</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album is a fashion photo manager for viewing and organizing pictures.</translation>
+        <translation>Album er en smuk billedhåndtering til at vise og organisere billeder.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Photos</translation>
+        <translation>Billeder</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Fuldskærm</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation>Hjælp</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Vis i filhåndtering</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Slideshow</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopiér</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Indstil som tapet</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Drej med urets retning</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Drej modsat urets retning</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Næste</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Indstil som favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Fjern fra favorit</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Rename album</translation>
+        <translation>Omdøb album</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” removed</translation>
+        <translation>Albummet “%1” blev fjernet</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Successfully added to “%1”</translation>
+        <translation>Tilføjet til “%1”</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Import successful</translation>
+        <translation>Import lykkedes</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Import failed</translation>
+        <translation>Import mislykkedes</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Export failed</translation>
+        <translation>Eksport mislykkedes</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Export successful</translation>
+        <translation>Eksport lykkedes</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Alle billeder</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Timelines</translation>
+        <translation>Tidslinjer</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Albummer</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 billed(er)</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Billedinformation</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Exit fullscreen/slideshow</translation>
+        <translation>Afslut fuldskærm/slideshow</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Display shortcuts</translation>
+        <translation>Vis genveje</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Vis</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importér</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Select all</translation>
+        <translation>Vælg alle</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Delete photo/album</translation>
+        <translation>Slet billed/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Zoom in</translation>
+        <translation>Zoom ind</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Zoom out</translation>
+        <translation>Zoom ud</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Nyt album</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Page up</translation>
+        <translation>Side op</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Page down</translation>
+        <translation>Side ned</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation>Indstillinger</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>Some photos have not been imported</translation>
+        <translation>Nogle billeder blev ikke importeret</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Import photos</translation>
+        <translation>Importér billeder</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Importér billeder</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Blitz</translation>
     </message>
     <message>
         <source>Type</source>
@@ -585,39 +583,39 @@
     </message>
     <message>
         <source>File size</source>
-        <translation>File size</translation>
+        <translation>Filstørrelse</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimensions</translation>
+        <translation>Dimensioner</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Date captured</translation>
+        <translation>Optagelsesdato</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Date modified</translation>
+        <translation>Ændringsdato</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Exposure mode</translation>
+        <translation>Eksponeringstilstand</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Exposure program</translation>
+        <translation>Eksponeringsprogram</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Exposure time</translation>
+        <translation>Eksponeringstid</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Aperture</translation>
+        <translation>Blænde</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Focal length</translation>
+        <translation>Brændvidde</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -625,146 +623,146 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Max aperture</translation>
+        <translation>Maksimal blænde</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Metering mode</translation>
+        <translation>Målingstilstand</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>White balance</translation>
+        <translation>Hvidbalance</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Flash compensation</translation>
+        <translation>Blitzkompensering</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Camera model</translation>
+        <translation>Kameramodel</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lens model</translation>
+        <translation>Lensemodel</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Colorspace</translation>
+        <translation>Farverum</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Tag</translation>
+        <translation>Mærkat</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Photo name</translation>
+        <translation>Billednavn</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Systemdisk</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>No scaling</translation>
+        <translation>Ingen skalering</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Fit page to image</translation>
+        <translation>Tilpas side til billede</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Fit image to page</translation>
+        <translation>Tilpas billede til side</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scale to:</translation>
+        <translation>Skaler til:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeters</translation>
+        <translation>Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeters</translation>
+        <translation>Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inches</translation>
+        <translation>Tommer</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Image Position</translation>
+        <translation>Billedposition</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scaling</translation>
+        <translation>Skalering</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Billedindstillinger</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Billedindstillinger</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Select</translation>
+        <translation>Vælg</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Unselect</translation>
+        <translation>Fravælg</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>%3/%2/%1</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 billed(er)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 billed(er) valgt</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation>%3/%2/%1 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import on </translation>
+        <translation>Importeret </translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>No search results</translation>
+        <translation>Ingen søgeresultater</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Slide Show</translation>
+        <translation>Slideshow</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 photo(s) found</translation>
+        <translation>%1 billed(er) fundet</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Search results</translation>
+        <translation>Søgeresultater</translation>
     </message>
 </context>
 <context>
@@ -775,222 +773,222 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Play</translation>
+        <translation>Afspil</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Exit</translation>
+        <translation>Afslut</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importing photos: &apos;%1&apos;</translation>
+        <translation>Importerer billeder: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exporting photos: &apos;%1&apos;</translation>
+        <translation>Eksporterer billeder: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Back</translation>
+        <translation>Tilbage</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Næste</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Size</translation>
+        <translation>1:1 størrelse</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Fit to window</translation>
+        <translation>Tilpas til vindue</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Drej modsat urets retning</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Drej med urets retning</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Indstil som favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Fjern fra favorit</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Vis</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Fuldskærm</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Indstil som favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Fjern fra favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Drej med urets retning</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Drej modsat urets retning</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Vis i filhåndtering</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Indstil som tapet</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Slideshow</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopiér</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Billedinformation</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Tilføj til album</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Fjern fra album</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Gendan</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Nyt album</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>No image files found</translation>
+        <translation>Fandt ingen billedfiler</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Photo not found</translation>
+        <translation>Billedet blev ikke fundet</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Tilføj til album</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Slideshow</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Exit fullscreen</translation>
+        <translation>Afslut fuldskærm</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Fuldskærm</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopiér</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Slet</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Show navigation window</translation>
+        <translation>Vis navigationsvindue</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Hide navigation window</translation>
+        <translation>Skjul navigationsvindue</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Drej med urets retning</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Drej modsat urets retning</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Indstil som tapet</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Vis i filhåndtering</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Fjern fra favorit</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Billedinformation</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Fjern fra album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Favorit</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Nyt album</translation>
     </message>
 </context>
 </TS>

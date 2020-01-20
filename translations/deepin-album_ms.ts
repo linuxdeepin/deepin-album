@@ -1,49 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Tidak bernama</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Create</translation>
+        <translation>Cipta</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>New Album</translation>
+        <translation>Album Baharu</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Are you sure you want to delete this album?</translation>
+        <translation>Anda pasti mahu memadam album ini</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Tong Sampah</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Import</source>
@@ -54,51 +52,51 @@
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Tong Sampah</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Delete All</translation>
+        <translation>Padam Semua</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Atau seret foto di sini</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Import All</translation>
+        <translation>Import Semua</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>The photos will be permanently deleted after the days shown on it</translation>
+        <translation>Foto akan kekal terpadam selepas hari ditunjuk padanya</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Pulih</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 foto terpilih</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Import to:</translation>
+        <translation>Import ke:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disk</translation>
+        <translation type="vanished">Cakera</translation>
     </message>
     <message>
         <source>Import</source>
@@ -106,23 +104,23 @@
     </message>
     <message>
         <source>days</source>
-        <translation>days</translation>
+        <translation>hari</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Tidak bernama</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Cakera Sistem</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeri</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk is busy, cannot eject now</translation>
+        <translation>Cakera sibuk, tidak dapat dilenting sekarang</translation>
     </message>
     <message>
         <source>OK</source>
@@ -130,18 +128,18 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album baharu</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 foto terpilih</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto</translation>
     </message>
 </context>
 <context>
@@ -155,27 +153,27 @@
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Replace</translation>
+        <translation>Ganti</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Pictures</translation>
+        <translation>Gambar</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Documents</translation>
+        <translation>Dokumen</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation>Muat turun</translation>
     </message>
     <message>
         <source>Desktop</source>
@@ -183,19 +181,19 @@
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Music</translation>
+        <translation>Muzik</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation>Nama:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Save to:</translation>
+        <translation>Simpan ke:</translation>
     </message>
     <message>
         <source>Format:</source>
@@ -203,11 +201,11 @@
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Quality:</translation>
+        <translation>Kualiti:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <source>gif</source>
@@ -215,7 +213,7 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Select other directories</translation>
+        <translation>Pilih direktori lain</translation>
     </message>
     <message>
         <source>OK</source>
@@ -223,108 +221,108 @@
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>File name cannot be empty</translation>
+        <translation>Nama fail tidak boleh kosong</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>already exists. Do you want to replace it?</translation>
+        <translation>sudah wujud. Anda mahu menggantikannya?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 Drive</translation>
+        <translation>Pemacu %1</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Blank %1 Disc</translation>
+        <translation>Cakera %1 Kosong</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 Encrypted</translation>
+        <translation>%1 Disulitkan</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="vanished">%1 </translation>
+        <translation type="vanished">%1</translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Export Photos</translation>
+        <translation>Eksport Foto</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Batal</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Maklumat foto</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Maklumat asas</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>Perincian</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeri</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Are you sure you want to delete this photo from the album?</translation>
+        <translation>Anda pasti mahu memadam foto ini dari album?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Are you sure you want to delete %1 photos from albums?</translation>
+        <translation>Anda pasti mahu memadam %1 foto dari album?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Maklumat asas</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>Perincian</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Maklumat foto</translation>
     </message>
 </context>
 <context>
@@ -338,191 +336,191 @@
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Semua Foto</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Import Foto</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Atau seret foto di sini</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeri</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Rename</translation>
+        <translation>Nama semula</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Tidak bernama</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Device</translation>
+        <translation>Peranti</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeri</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album baharu</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>You have no permission to view the image</translation>
+        <translation>Anda tidak memiliki keizinan untuk melihat imej</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album is a fashion photo manager for viewing and organizing pictures.</translation>
+        <translation>Album ialah sebuah pengurus foto untuk melihat dan mengurus gambar.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Photos</translation>
+        <translation>Foto</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation>Bantuan</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>Terdahulu</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Berikutnya</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Rename album</translation>
+        <translation>Nama semula album</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” removed</translation>
+        <translation>Album “%1” dibuang</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Successfully added to “%1”</translation>
+        <translation>Berjaya ditambah ke dalam &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Import successful</translation>
+        <translation>Import berjaya</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Import failed</translation>
+        <translation>Import gagal</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Export failed</translation>
+        <translation>Eksport gagal</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Export successful</translation>
+        <translation>Eksport berjaya</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Semua Foto</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Timelines</translation>
+        <translation>Garis Masa</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Maklumat foto</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Exit fullscreen/slideshow</translation>
+        <translation>Keluar skrin penuh/paparan slaid</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Display shortcuts</translation>
+        <translation>Papar pintasan</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Import</source>
@@ -530,94 +528,94 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation>Select all</translation>
+        <translation>Pilih semua</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Delete photo/album</translation>
+        <translation>Padam foto/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Zoom in</translation>
+        <translation>Zum masuk</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Zoom out</translation>
+        <translation>Zum keluar</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album baharu</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Page up</translation>
+        <translation>Halaman atas</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Page down</translation>
+        <translation>Halaman bawah</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation>Tetapan</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>Some photos have not been imported</translation>
+        <translation>Beberapa foto tidak dapat diimport</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Import photos</translation>
+        <translation>Import foto</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Import Foto</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Denyar</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>Jenis</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>File size</translation>
+        <translation>Saiz fail</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimensions</translation>
+        <translation>Dimensi</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Date captured</translation>
+        <translation>Tarikh ditangkap</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Date modified</translation>
+        <translation>Tarikh diubah suai</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Exposure mode</translation>
+        <translation>Mod dedahan</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Exposure program</translation>
+        <translation>Program dedahan</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Exposure time</translation>
+        <translation>Masa dedahan</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Aperture</translation>
+        <translation>Bukaan</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Focal length</translation>
+        <translation>Panjang fokus</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -625,31 +623,31 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Max aperture</translation>
+        <translation>Bukaan maks.</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Metering mode</translation>
+        <translation>Mod pemeteran</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>White balance</translation>
+        <translation>Imbangan putih</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Flash compensation</translation>
+        <translation>Pemampasan denyar</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Camera model</translation>
+        <translation>Model kamera</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lens model</translation>
+        <translation>Model kanta</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Colorspace</translation>
+        <translation>Ruang warna</translation>
     </message>
     <message>
         <source>Tag</source>
@@ -657,75 +655,75 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Photo name</translation>
+        <translation>Nama foto</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Cakera Sistem</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>No scaling</translation>
+        <translation>Tiada penskalaan</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Fit page to image</translation>
+        <translation>Suai muat halaman dengan imej</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Fit image to page</translation>
+        <translation>Suai muat imej dengan halaman</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scale to:</translation>
+        <translation>Skala pada:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeters</translation>
+        <translation>Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeters</translation>
+        <translation>Sentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inches</translation>
+        <translation>Inci</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Image Position</translation>
+        <translation>Kedudukan Foto</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scaling</translation>
+        <translation>Penskalaan</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Tetapan Imej</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Tetapan Imej</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Select</translation>
+        <translation>Pilih</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Unselect</translation>
+        <translation>Nyahpilih</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -733,11 +731,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 foto terpilih</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -745,252 +743,252 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import on </translation>
+        <translation>Import pada</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>No search results</translation>
+        <translation>Tiada keputusan gelintar</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Slide Show</translation>
+        <translation>Paparan Slaid</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 photo(s) found</translation>
+        <translation>%1 foto ditemui</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Search results</translation>
+        <translation>Keputusan gelintar</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pause</translation>
+        <translation>Jeda</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Play</translation>
+        <translation>Main</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Exit</translation>
+        <translation>Keluar</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importing photos: &apos;%1&apos;</translation>
+        <translation>Mengimport foto: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exporting photos: &apos;%1&apos;</translation>
+        <translation>Mengeksport foto: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Back</translation>
+        <translation>Undur</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>Terdahulu</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Berikutnya</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Size</translation>
+        <translation>Saiz 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Fit to window</translation>
+        <translation>Suai muat tetingkap</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Nyahgemar</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Maklumat foto</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Tambah ke album</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Buang dari album</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Pulih</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album baharu</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>No image files found</translation>
+        <translation>Tiada fail imej ditemui</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Photo not found</translation>
+        <translation>Foto tidak ditemui</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Tambah ke album</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Exit fullscreen</translation>
+        <translation>Keluar dari skrin penuh</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Show navigation window</translation>
+        <translation>Tunjuk tetingkap navigasi</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Hide navigation window</translation>
+        <translation>Sembunyi tetingkap navigasi</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Maklumat foto</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Buang dari album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album baharu</translation>
     </message>
 </context>
 </TS>

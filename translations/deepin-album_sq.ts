@@ -1,128 +1,126 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Pa emer</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Anulo</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Create</translation>
+        <translation>Krijo</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>New Album</translation>
+        <translation>Album i ri</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Anulo</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Are you sure you want to delete this album?</translation>
+        <translation>A jeni i sigurt qe doni te fshini kete album?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Koshi</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Te preferuarat</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importo</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Trash</translation>
+        <translation>Koshi</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favorites</translation>
+        <translation>Te preferuarat</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Delete All</translation>
+        <translation>Fshije te gjitha</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Ose zvarrit fotot ketu</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto(t)</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Import All</translation>
+        <translation>Importo te gjitha</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>The photos will be permanently deleted after the days shown on it</translation>
+        <translation>Fotot do te fshihen pergjithmone pas diteve te shfaqur ne te </translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Rikthe</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 foto(t) te selektuara</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Import to:</translation>
+        <translation>Importo te:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disk</translation>
+        <translation type="vanished">Disku</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importo</translation>
     </message>
     <message>
         <source>days</source>
-        <translation>days</translation>
+        <translation>ditet</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Pa emer</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Disku i Sistemit</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeria</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk is busy, cannot eject now</translation>
+        <translation>Disku eshte i zene, nuk te nxirret tani</translation>
     </message>
     <message>
         <source>OK</source>
@@ -130,18 +128,18 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album i ri</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 foto(t) te selektuara</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto(t)</translation>
     </message>
 </context>
 <context>
@@ -155,59 +153,59 @@
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Anulo</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Replace</translation>
+        <translation>Zevendeso</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksporto</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Pictures</translation>
+        <translation>Pikturat</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Documents</translation>
+        <translation>Dokumentat</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation>Shkarkimet</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>Ekrani</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation>Videot</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Music</translation>
+        <translation>Muzik</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation>Emri:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Save to:</translation>
+        <translation>Ruaj te:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>Formati:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Quality:</translation>
+        <translation>Kualiteti:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Ruaj:</translation>
     </message>
     <message>
         <source>gif</source>
@@ -215,7 +213,7 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Select other directories</translation>
+        <translation>Selekto nje vendodhje  tjeter</translation>
     </message>
     <message>
         <source>OK</source>
@@ -223,11 +221,11 @@
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>File name cannot be empty</translation>
+        <translation>Emri i dosjes nuk mund te jete bosh</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>already exists. Do you want to replace it?</translation>
+        <translation>ekziston. Deshiron ta zevendesoni?</translation>
     </message>
 </context>
 <context>
@@ -238,339 +236,339 @@
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Blank %1 Disc</translation>
+        <translation>Zbrazet %1 Disk</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 Encrypted</translation>
+        <translation>%1 Koduare</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="vanished">%1 </translation>
+        <translation type="vanished">%1</translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>Ruaj</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Export Photos</translation>
+        <translation>Eksporto fotot</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Anulo</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Infot e fotos</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Infot themelore </translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>Te dhenat</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeria</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>Anulo </translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Are you sure you want to delete this photo from the album?</translation>
+        <translation>A jeni i sigurt qe doni te shini kete foto nga albumi?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Are you sure you want to delete %1 photos from albums?</translation>
+        <translation>A jeni te sigurt qe doni te fshini %1 oto nga albumi?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation>Infot themelore</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>Te dhenat</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Infot e fotos</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importo</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Te gjitha fotot</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Importo fotot</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Or drag photos here</translation>
+        <translation>Ose zvarrit fotot ketu</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeria</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Shfaqja rrëshqitëse</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Rename</translation>
+        <translation>Riemero</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksporto</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>Pa emer</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Device</translation>
+        <translation>Paisja</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation>Galeria</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Albumi</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album i ri</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>You have no permission to view the image</translation>
+        <translation>Ju nuk keni leje per te pare kete foto</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album is a fashion photo manager for viewing and organizing pictures.</translation>
+        <translation>Albumi eshte nje menaxher fotosh per te pare dhe organizuar ato.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Photos</translation>
+        <translation>Fotot</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Gjithe ekranin</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation>Ndihme</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Shfaqe ne menaxherin e dosjeve</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Shfaqje</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopjo</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Vendose si leter-murin</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Rotulloje ne drejtim te ores</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Rrotulloje kunder drejtimit te ores</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>E meparshmja </translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Tjetra</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Te preferuarat</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Jo te preferuarat</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Rename album</translation>
+        <translation>Riemero albumin</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” removed</translation>
+        <translation>Albumi %1 u hoq</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Successfully added to “%1”</translation>
+        <translation>Me sukses u shtua te %1</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Import successful</translation>
+        <translation>Me suskes u importua</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Import failed</translation>
+        <translation>Importimi deshtoi</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Export failed</translation>
+        <translation>Eksportimi deshtoi</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Export successful</translation>
+        <translation>Eksportimi i sukseshem</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>All Photos</translation>
+        <translation>Te gjitha fotot</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Timelines</translation>
+        <translation>Koha</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albums</translation>
+        <translation>Albumet</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto(t)</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Infot e fotos</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Exit fullscreen/slideshow</translation>
+        <translation>Dil ekranin e plote/shfaqjen</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Display shortcuts</translation>
+        <translation>Shfaq rrugen e shkurter</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Shiko</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksoprto</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importo</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Select all</translation>
+        <translation>Selekto te gjitha</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Delete photo/album</translation>
+        <translation>Fshi foto/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Zoom in</translation>
+        <translation>Smadho</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Zoom out</translation>
+        <translation>Zvogelo</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album i ri</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Page up</translation>
+        <translation>Faqja siper</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Page down</translation>
+        <translation>Faqja poshte</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation>Parametrat</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>Some photos have not been imported</translation>
+        <translation>Disa foto nuk jane importuar</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Import photos</translation>
+        <translation>Importo fotot</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation>Importo Fotot</translation>
     </message>
 </context>
 <context>
@@ -581,43 +579,43 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>Lloji</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>File size</translation>
+        <translation>Madhesia e dosjes</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimensions</translation>
+        <translation>Dimensioni</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Date captured</translation>
+        <translation>Data e kapur</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Date modified</translation>
+        <translation>Data e modifikuar</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Exposure mode</translation>
+        <translation>Menyra e ekspozuar</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Exposure program</translation>
+        <translation>Programi i ekspozimit</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Exposure time</translation>
+        <translation>Koha e ekspozuar</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Aperture</translation>
+        <translation>Hapja</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Focal length</translation>
+        <translation>Gjatesia e vokalit</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -625,372 +623,372 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Max aperture</translation>
+        <translation>Hapja maksimale</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Metering mode</translation>
+        <translation>Menyra e matjes</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>White balance</translation>
+        <translation>Balanca e bardhe</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Flash compensation</translation>
+        <translation>Kompensim flash</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Camera model</translation>
+        <translation>Modeli i kameras</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lens model</translation>
+        <translation>Modeli i lentes</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Colorspace</translation>
+        <translation>Hapesira e ngjyres</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Tag</translation>
+        <translation>Etiketim</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Photo name</translation>
+        <translation>Emri i fotos</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>System Disk</translation>
+        <translation>Sistemi i diskut </translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>No scaling</translation>
+        <translation>Ska madhesi</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Fit page to image</translation>
+        <translation>Pershtate faqen te imazhi</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Fit image to page</translation>
+        <translation>Pershtate imazhin ne foto</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scale to:</translation>
+        <translation>Madhesoje te:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeters</translation>
+        <translation>Milimetrat</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeters</translation>
+        <translation>Cemtimetrat</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inches</translation>
+        <translation>Inc</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Image Position</translation>
+        <translation>Pozicioni i imazhit</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scaling</translation>
+        <translation>Madhesia</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Parametrat e Imazhit</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation>Parametrat e Imazhit</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Select</translation>
+        <translation>Selekto </translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Unselect</translation>
+        <translation>C&apos;selekto</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>%1%2%3</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation>%1 foto(t)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
+        <translation>%1 foto(t) te selektuara</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation>%1%2%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import on </translation>
+        <translation>Importo ne </translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>No search results</translation>
+        <translation>Ska rezultate kerkimi</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Slide Show</translation>
+        <translation>Shfaqja</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 photo(s) found</translation>
+        <translation>%1 foto(t) te gjetura</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Search results</translation>
+        <translation>Rezultatet e kerkimit</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pause</translation>
+        <translation>Pusho</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Play</translation>
+        <translation>Luaj</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Exit</translation>
+        <translation>Dil</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importing photos: &apos;%1&apos;</translation>
+        <translation>Importo fotot: %1</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exporting photos: &apos;%1&apos;</translation>
+        <translation>Eksoprto fotot: %1</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Back</translation>
+        <translation>Pas</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Previous</translation>
+        <translation>Me pareshmja</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Next</translation>
+        <translation>Tjetra</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Size</translation>
+        <translation>1:1 Madhesia</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Fit to window</translation>
+        <translation>Pershtate ne dritare</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Rrotulloje kunder drejtimit te ores</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Rrotulloje ne drejtimin e ores</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Te preferuarat</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Jo te preferuarat</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>View</translation>
+        <translation>Shiko</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Ekran i plote</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksporto</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Te preferuarat</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Jo te preferuarat</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Rrotulloje ne drejtimin e ores</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Rrotulloje ne drejtimin e kunder te orees</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Shfaqe ne menaxherin e dosjeve</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Vendose si leter-muri</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Shfaqja</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopjo</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Infot e fotos</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Shto te albumi </translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation>Riktheje</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album i ri</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>No image files found</translation>
+        <translation>Asnje dosje imazh nuk u gjet</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Photo not found</translation>
+        <translation>Fotoja nuk u gjet</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Add to album</translation>
+        <translation>Shto te albumi</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation>Shfaqja</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Exit fullscreen</translation>
+        <translation>Dil ekranin e plote</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation>Ekrani i plote</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>Kopjo</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Show navigation window</translation>
+        <translation>Shfaq dritaren e navigimit</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Hide navigation window</translation>
+        <translation>Fshehe driteren e navigimit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation>Rrotulloje ne drejtimin e ores </translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation>Rrotulloje kunder drejtimit te ores</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation>Vendose si leter-muri</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation>Shfaqe ne menaxherin e dosjeve</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Eksporto</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
+        <translation>Jo te preferuarat</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation>Infot e fotos</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remove from album</translation>
+        <translation>Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation>Te preferuarat</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>New album</translation>
+        <translation>Album i ri</translation>
     </message>
 </context>
 </TS>
