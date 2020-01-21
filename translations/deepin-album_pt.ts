@@ -248,7 +248,7 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"/>
+        <translation>Volume %1</translation>
     </message>
 </context>
 <context>
