@@ -295,7 +295,6 @@ void ImportView::onImprotBtnClicked()
     }
 
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
-
     DFileDialog dialog;
     dialog.setFileMode(DFileDialog::ExistingFiles);
 //    dialog.setAllowMixedSelection(true);

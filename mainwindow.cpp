@@ -196,6 +196,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str2.arg(str1));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -226,6 +227,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str2.arg(album));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -257,6 +259,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str2);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -292,6 +295,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -324,6 +328,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -356,6 +361,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -387,6 +393,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -418,6 +425,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -449,6 +457,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -486,6 +495,7 @@ void MainWindow::initConnections()
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str.arg(num));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -896,6 +906,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
             break;
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str.arg(d->getCreateAlbumName()));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
@@ -1346,8 +1357,8 @@ void MainWindow::saveWindowState()
 {
     QSettings settings(objectName());
     settings.setValue("album-geometry", saveGeometry());
-    settings.setValue("album-isMaximized",isMaximized());
-    settings.setValue("album-pos",pos());
+    settings.setValue("album-isMaximized", isMaximized());
+    settings.setValue("album-pos", pos());
 }
 
 void MainWindow::loadWindowState()
@@ -1358,9 +1369,9 @@ void MainWindow::loadWindowState()
     const QByteArray pos = settings.value("album-pos").toByteArray();
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
-        if(isMaximized){
-            QDesktopWidget* desktop = QApplication::desktop(); // =qApp->desktop();也可以
-            move((desktop->width() - this->width())/2, (desktop->height() - this->height())/2);
+        if (isMaximized) {
+            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
+            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
         }
     }
 }
