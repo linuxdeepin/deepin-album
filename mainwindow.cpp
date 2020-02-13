@@ -687,7 +687,7 @@ void MainWindow::initTitleBar()
 //    m_pAllPicBtn = new DSuggestButton();
     m_pAllPicBtn->setFlat(true);
 //    m_pAllPicBtn->setFixedSize(80, 36);
-    m_pAllPicBtn->setMaximumSize(100, 36);
+    m_pAllPicBtn->setMaximumSize(110, 36);
     m_pAllPicBtn->setCheckable(true);
     m_pAllPicBtn->setChecked(true);
     m_pAllPicBtn->setText(tr("All Photos"));
@@ -699,7 +699,7 @@ void MainWindow::initTitleBar()
 //    m_pTimeBtn = new DSuggestButton();
     m_pTimeBtn->setFlat(true);
 //    m_pTimeBtn->setFixedSize(60, 36);
-    m_pTimeBtn->setMaximumSize(78, 36);
+    m_pTimeBtn->setMaximumSize(110, 36);
     m_pTimeBtn->setCheckable(true);
     m_pTimeBtn->setText(tr("Timelines"));
     btnGroup->addButton(m_pTimeBtn, 1);
@@ -710,7 +710,7 @@ void MainWindow::initTitleBar()
     m_pAlbumBtn = new DPushButton();
 //    m_pAlbumBtn = new DSuggestButton();
     m_pAlbumBtn->setFlat(true);
-    m_pAlbumBtn->setFixedSize(60, 36);
+    m_pAlbumBtn->setMaximumSize(90, 36);
     m_pAlbumBtn->setCheckable(true);
     m_pAlbumBtn->setText(tr("Albums"));
     btnGroup->addButton(m_pAlbumBtn, 2);
@@ -1337,15 +1337,16 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
-//    qDebug() << "m_ImgWidget width:          " << m_ImgWidget->width();
-//    qDebug() << "m_titleBtnWidget width:     " << m_titleBtnWidget->width();
-//    qDebug() << "m_pSearchEdit width:        " << m_pSearchEdit->width();
-//    qDebug() << "titlebar()->width():        " << titlebar()->width();
-//    qDebug() << "blank width:                " << titlebar()->width() - m_pSearchEdit->width() - m_titleBtnWidget->width() - m_ImgWidget->width();
-    int m_SearchEditWidth = titlebar()->width() - TITLEBAR_BLANK_WIDTH - TITLEBAR_BTNWIDGET_WIDTH - TITLEBAR_ICON_WIDTH - 120;
-//    qDebug() << "m_SearchEditWidth:            " << m_SearchEditWidth;
+    qDebug() << "m_ImgWidget width:          " << m_ImgWidget->width();
+    qDebug() << "m_titleBtnWidget width:     " << m_titleBtnWidget->width();
+    qDebug() << "m_pSearchEdit width:        " << m_pSearchEdit->width();
+    qDebug() << "titlebar()->width():        " << titlebar()->width();
+    qDebug() << "blank width:                " << titlebar()->width() - m_pSearchEdit->width() - m_titleBtnWidget->width() - m_ImgWidget->width();
+//    int m_SearchEditWidth = titlebar()->width() - TITLEBAR_BLANK_WIDTH - TITLEBAR_BTNWIDGET_WIDTH - TITLEBAR_ICON_WIDTH - 120;
+    int m_SearchEditWidth = titlebar()->width() - m_ImgWidget->width() -  m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
+    qDebug() << "m_SearchEditWidth:            " << m_SearchEditWidth;
     if (m_SearchEditWidth <= 350) {
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
     } else {
         m_SearchEditWidth = 350;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
