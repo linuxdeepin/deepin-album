@@ -490,25 +490,25 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
         }
 
         m_stackWidget->setCurrentIndex(1);
-    } else {
+    }else {
 
-        QString str = "No results for '%1', please try another word";
-        m_pNoSearchResultLabel->setText(str.arg(s));
-        m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-        DPalette palette = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
-        QColor color_TTT = palette.color(DPalette::ToolTipText);
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType) {
-            color_TTT.setAlphaF(0.3);
-            palette.setBrush(DPalette::Text, color_TTT);
-            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
-            m_pNoSearchResultLabel->setPalette(palette);
-        } else if (themeType == DGuiApplicationHelper::DarkType) {
-            color_TTT.setAlphaF(0.4);
-            palette.setBrush(DPalette::Text, color_TTT);
-            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
-            m_pNoSearchResultLabel->setPalette(palette);
-        }
+//        QString str = tr("No results for '%1',please try another word");
+//        m_pNoSearchResultLabel->setText(str.arg(s));
+//        m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+//        DPalette palette = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
+//        QColor color_TTT = palette.color(DPalette::ToolTipText);
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        if (themeType == DGuiApplicationHelper::LightType) {
+//            color_TTT.setAlphaF(0.3);
+//            palette.setBrush(DPalette::Text, color_TTT);
+//            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
+//            m_pNoSearchResultLabel->setPalette(palette);
+//        } else if (themeType == DGuiApplicationHelper::DarkType) {
+//            color_TTT.setAlphaF(0.4);
+//            palette.setBrush(DPalette::Text, color_TTT);
+//            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
+//            m_pNoSearchResultLabel->setPalette(palette);
+//        }
 
         m_searchPicNum = 0;
         m_stackWidget->setCurrentIndex(0);
