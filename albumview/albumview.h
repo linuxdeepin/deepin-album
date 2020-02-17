@@ -1,7 +1,7 @@
 #ifndef ALBUMVIEW_H
 #define ALBUMVIEW_H
 
-#include "widgets/thumbnaillistview.h"
+#include "thumbnail/thumbnaillistview.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/signalmanager.h"
 #include "widgets/albumlefttabitem.h"
@@ -37,31 +37,31 @@ DCORE_USE_NAMESPACE
 class DGioVolumeManager;
 class AlbumView;
 
-class ThreadRenderImage : public QObject, public QRunnable
-{
-    Q_OBJECT
-public:
-    ThreadRenderImage();
-    void setData(QFileInfo fileinfo, QString path, QMap<QString, QPixmap> *map, QStringList *list);
-//    void setRestart();
-//    bool isRunning();
-//    void setRunningTrue();
+//class ThreadRenderImage : public QObject, public QRunnable
+//{
+//    Q_OBJECT
+//public:
+//    ThreadRenderImage();
+//    void setData(QFileInfo fileinfo, QString path, QMap<QString, QPixmap> *map, QStringList *list);
+////    void setRestart();
+////    bool isRunning();
+////    void setRunningTrue();
 
-protected:
-    virtual void run();
+//protected:
+//    virtual void run();
 
-//signals:
-//    void signal_RenderFinish(QPixmap, QString);
-private:
-    QString m_path = "";
-    QFileInfo m_fileinfo;
-    QMap<QString, QPixmap> *m_map = nullptr;
-    QStringList *m_pathlist = nullptr;
-//    bool restart;
-//    double m_width;
-//    double m_height;
-//    bool b_running;
-};
+////signals:
+////    void signal_RenderFinish(QPixmap, QString);
+//private:
+//    QString m_path = "";
+//    QFileInfo m_fileinfo;
+//    QMap<QString, QPixmap> *m_map = nullptr;
+//    QStringList *m_pathlist = nullptr;
+////    bool restart;
+////    double m_width;
+////    double m_height;
+////    bool b_running;
+//};
 
 class MountLoader : public QObject
 {
@@ -87,12 +87,12 @@ private:
     bool findPicturePathByPhone(QString &path);
 
 public slots:
-    void onLoadMountImagesStart(QString mountName, QString path);
+//    void onLoadMountImagesStart(QString mountName, QString path);
     void onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
 
 signals:
     void sigFinishiLoad();
-    void sigLoadMountImagesStart(QString mountName, QString path);
+//    void sigLoadMountImagesStart(QString mountName, QString path);
     void sigCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
     void needUnMount(QString path);
 
@@ -106,7 +106,7 @@ private:
     bool bneedunmountpath = false;
 };
 
-class AlbumView : public QWidget
+class AlbumView : public QWidget, public ImageEngineImportObject, public ImageMountGetPathsObject
 //class AlbumView : public DSplitter
 {
     Q_OBJECT
@@ -122,6 +122,12 @@ public:
 
     AlbumView();
     ~AlbumView();
+
+    bool imageImported(bool success) override
+    {
+        return true;
+    }
+    bool imageGeted(QStringList &filelist, QString path) override;
 
     void createNewAlbum(QStringList imagepaths);
     void SearchReturnUpdate();
@@ -231,7 +237,9 @@ private:
     DPushButton *m_importAllByPhoneBtn;
     DSuggestButton *m_importSelectByPhoneBtn;
     QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
-    QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
+//    QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
+    DBImgInfoList m_curThumbnaiItemList_info;
+    QStringList m_curThumbnaiItemList_str;
     QListWidgetItem *m_curListWidgetItem;
     QMap<QString, QPixmap> m_phonePicMap;
 
@@ -240,8 +248,8 @@ private:
     MountLoader *m_mountloader;
     QThread *m_LoadThread;
 
-    QMap<QString, MountLoader *> m_mountLoaderList;
-    QMap<QString, QThread *> m_loadThreadList;
+//    QMap<QString, MountLoader *> m_mountLoaderList;
+//    QMap<QString, QThread *> m_loadThreadList;
 
     DWidget *pImportTimeLineWidget;
     QMap<QUrl, QString> durlAndNameMap;

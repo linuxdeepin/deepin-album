@@ -39,6 +39,9 @@ include (module/modules.pri)
 include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
+include (imageengine/imageengine.pri)
+include (thumbnail/thumbnail.pri)
+include (dbmanager/dbmanager.pri)
 
 INCLUDEPATH += /usr/include/git-qt
 
@@ -48,7 +51,7 @@ SOURCES += \
         albumview/albumview.cpp \
         allpicview/allpicview.cpp \
         timelineview/timelineview.cpp \
-        dbmanager/dbmanager.cpp \
+#        dbmanager/dbmanager.cpp \
         application.cpp \
         dialogs/albumcreatedialog.cpp \
         dialogs/dialog.cpp \
@@ -61,14 +64,15 @@ SOURCES += \
     albumview/leftlistwidget.cpp \
     widgets/cexportimagedialog.cpp \
     albumview/leftlistview.cpp \
-    albumview/albumimagebutton.cpp
+    albumview/albumimagebutton.cpp \
+    dtktest.cpp
 
 HEADERS += \
         mainwindow.h \
         albumview/albumview.h \
         allpicview/allpicview.h \
         timelineview/timelineview.h \
-        dbmanager/dbmanager.h \
+#        dbmanager/dbmanager.h \
         application.h \
         dialogs/albumcreatedialog.h \
         dialogs/dialog.h \
@@ -81,7 +85,8 @@ HEADERS += \
     albumview/leftlistwidget.h \
     widgets/cexportimagedialog.h \
     albumview/leftlistview.h \
-    albumview/albumimagebutton.h
+    albumview/albumimagebutton.h \
+    dtktest.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

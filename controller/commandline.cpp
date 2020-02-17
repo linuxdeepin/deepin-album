@@ -128,63 +128,63 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 //    emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
 
-    QTimer::singleShot(300, this, [ = ] {
+//    QTimer::singleShot(300, this, [ = ] {
 
-        if (paths.count() > 0)
-        {
-            SignalManager::ViewInfo info;
-            info.album = "";
-#ifndef LITE_DIV
-            info.inDatabase = false;
-#endif
-            info.lastPanel = nullptr;
-            info.path = path;
-            info.paths = paths;
+//        if (paths.count() > 0)
+//        {
+//            SignalManager::ViewInfo info;
+//            info.album = "";
+//#ifndef LITE_DIV
+//            info.inDatabase = false;
+//#endif
+//            info.lastPanel = nullptr;
+//            info.path = path;
+//            info.paths = paths;
 
-            emit dApp->signalM->viewImage(info);
-            emit dApp->signalM->showImageView(0);
+//            emit dApp->signalM->viewImage(info);
+//            emit dApp->signalM->showImageView(0);
 
-            DBImgInfoList dbInfos;
-            using namespace utils::image;
-            for (auto path : paths) {
-                qDebug() << path;
-                if (! imageSupportRead(path)) {
-                    continue;
-                }
+//            DBImgInfoList dbInfos;
+//            using namespace utils::image;
+//            for (auto path : paths) {
+//                qDebug() << path;
+//                if (! imageSupportRead(path)) {
+//                    continue;
+//                }
 
-                QFileInfo fi(path);
-                using namespace utils::image;
-                using namespace utils::base;
-                auto mds = getAllMetaData(path);
-                QString value = mds.value("DateTimeOriginal");
-//                qDebug() << value;
-                DBImgInfo dbi;
-                dbi.fileName = fi.fileName();
-                dbi.filePath = path;
-                dbi.dirHash = utils::base::hash(QString());
-                if ("" != value) {
-                    dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-                } else if (fi.birthTime().isValid()) {
-                    dbi.time = fi.birthTime();
-                } else if (fi.metadataChangeTime().isValid()) {
-                    dbi.time = fi.metadataChangeTime();
-                } else {
-                    dbi.time = QDateTime::currentDateTime();
-                }
-                dbi.changeTime = QDateTime::currentDateTime();
+//                QFileInfo fi(path);
+//                using namespace utils::image;
+//                using namespace utils::base;
+//                auto mds = getAllMetaData(path);
+//                QString value = mds.value("DateTimeOriginal");
+////                qDebug() << value;
+//                DBImgInfo dbi;
+//                dbi.fileName = fi.fileName();
+//                dbi.filePath = path;
+//                dbi.dirHash = utils::base::hash(QString());
+//                if ("" != value) {
+//                    dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+//                } else if (fi.birthTime().isValid()) {
+//                    dbi.time = fi.birthTime();
+//                } else if (fi.metadataChangeTime().isValid()) {
+//                    dbi.time = fi.metadataChangeTime();
+//                } else {
+//                    dbi.time = QDateTime::currentDateTime();
+//                }
+//                dbi.changeTime = QDateTime::currentDateTime();
 
-                qDebug() << path;
-                dbInfos << dbi;
-            }
+//                qDebug() << path;
+//                dbInfos << dbi;
+//            }
 
-            if (! dbInfos.isEmpty()) {
-                qDebug() << "DBManager::instance()->insertImgInfos(dbInfos)";
-                DBManager::instance()->insertImgInfos(dbInfos);
-            }
-        }
+//            if (! dbInfos.isEmpty()) {
+//                qDebug() << "DBManager::instance()->insertImgInfos(dbInfos)";
+//                DBManager::instance()->insertImgInfos(dbInfos);
+//            }
+//        }
 
-        dApp->LoadDbImage();
-    });
+//    dApp->LoadDbImage();
+//    });
 }
 
 bool CommandLine::processOption(QStringList &paslist)

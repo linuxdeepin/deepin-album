@@ -76,9 +76,9 @@ void ViewPanel::initPopupMenu()
 {
     m_menu = new DMenu;
     connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
-        if (! m_infos.isEmpty()
+        if (! m_filepathlist.isEmpty()
 #ifdef LITE_DIV
-                && !m_infos.at(m_current).filePath.isEmpty()
+                && !m_currentpath.isEmpty()
 #endif
            )
         {
@@ -134,7 +134,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::base;
     using namespace utils::image;
 
-    const QString path = m_infos.at(m_current).filePath;
+    const QString path = m_currentpath;
     const int id = action->property("MenuID").toInt();
 
     switch (MenuItemId(id)) {
@@ -147,7 +147,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.fullScreen = window()->isFullScreen();
         vinfo.lastPanel = this;
         vinfo.path = path;
-        vinfo.paths = paths();
+//        vinfo.paths = paths();
+        vinfo.paths = m_filepathlist;
         vinfo.viewMainWindowID = VIEW_MAINWINDOW_POPVIEW;
 
         QStringList pathlist;
@@ -244,7 +245,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     break;
     case IdRemoveFromAlbum:
-        DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
+        DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_currentpath));
         removeCurrentImage();
         break;
     case IdShowNavigationWindow:
@@ -290,12 +291,13 @@ void ViewPanel::updateMenuContent()
         return;
     }
 
-    if (m_infos.isEmpty()) {
+    if (m_filepathlist.isEmpty()) {
         return;
     }
 
+
     // 如果该图片原文件不存在,则不显示右键菜单
-    if (!QFileInfo(m_infos.at(m_current).filePath).exists()) {
+    if (!QFileInfo(m_currentpath).exists()) {
         return;
     }
 
@@ -326,24 +328,24 @@ void ViewPanel::updateMenuContent()
     appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));   //导出
 #endif
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    if (COMMON_STR_TRASH == m_viewType) {
+    if (COMMON_STR_TRASH == m_vinfo.viewType) {
 //        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     } else {
         appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     }
 
-    if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-            && utils::common::VIEW_TIMELINE_SRN != m_viewType
-            && utils::common::VIEW_SEARCH_SRN != m_viewType
-            && COMMON_STR_RECENT_IMPORTED != m_viewType
-            && COMMON_STR_TRASH != m_viewType
-            && COMMON_STR_FAVORITES != m_viewType) {
+    if (utils::common::VIEW_ALLPIC_SRN != m_vinfo.viewType
+            && utils::common::VIEW_TIMELINE_SRN != m_vinfo.viewType
+            && utils::common::VIEW_SEARCH_SRN != m_vinfo.viewType
+            && COMMON_STR_RECENT_IMPORTED != m_vinfo.viewType
+            && COMMON_STR_TRASH != m_vinfo.viewType
+            && COMMON_STR_FAVORITES != m_vinfo.viewType) {
         appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
     }
     m_menu->addSeparator();
     /**************************************************************************/
 #if 1
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_infos.at(m_current).filePath)) {
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath)) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), ss("favorite", "Ctrl+K"));       //收藏
@@ -359,10 +361,10 @@ void ViewPanel::updateMenuContent()
                      tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
+    if (utils::image::imageSupportSave(m_currentpath)) {
         m_menu->addSeparator();
-        if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
-                !QFileInfo(m_infos.at(m_current).filePath).isWritable()) {
+        if (QFileInfo(m_currentpath).isReadable() &&
+                !QFileInfo(m_currentpath).isWritable()) {
 
 
             appendAction_darkmenu(IdRotateClockwise,
@@ -377,7 +379,7 @@ void ViewPanel::updateMenuContent()
         }
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
+    if (utils::image::imageSupportSave(m_currentpath)) {
         appendAction(IdSetAsWallpaper,
                      tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
     }

@@ -4,7 +4,7 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
-#include "widgets/thumbnaillistview.h"
+#include "thumbnail/thumbnaillistview.h"
 #include "widgets/timelinelist.h"
 #include "widgets/timelineitem.h"
 #include "importview/importview.h"
@@ -39,11 +39,15 @@ protected:
     }
 
 };
-class TimeLineView : public DWidget
+class TimeLineView : public DWidget, public ImageEngineImportObject
 {
 public:
     TimeLineView();
 
+    bool imageImported(bool success) override
+    {
+        return true;
+    }
     void updateStackedWidget();
 public slots:
     void on_AddLabel(QString date, QString num);
@@ -61,7 +65,9 @@ private:
     void initConnections();
     void sigImprotPicsIntoThumbnailView();
     void getImageInfos();
-    void updataLayout();
+//    void updataLayout();
+    void clearAndStartLayout();
+    void addTimelineLayout();
     void initMainStackWidget();
     void onKeyDelete();
     void dragEnterEvent(QDragEnterEvent *e) override;
@@ -117,6 +123,7 @@ public:
     int m_index;
     int m_selPicNum;
     DSpinner *m_spinner;
+    int currentTimeLineLoad = 0;
 };
 
 #endif // TIMELINEVIEW_H

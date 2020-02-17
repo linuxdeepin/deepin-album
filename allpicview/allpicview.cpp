@@ -1,6 +1,7 @@
 #include "allpicview.h"
 #include <QMimeData>
 #include "utils/snifferimageformat.h"
+#include "imageengine/imageengineapi.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -80,6 +81,7 @@ AllPicView::AllPicView()
 
 void AllPicView::initConnections()
 {
+    qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp, &Application::sigFinishLoad, this, [ = ] {
@@ -183,31 +185,34 @@ void AllPicView::updateStackedWidget()
 
 void AllPicView::updatePicsIntoThumbnailView()
 {
-    using namespace utils::image;
     m_spinner->hide();
     m_spinner->stop();
-    QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
+    m_pThumbnailListView->stopLoadAndClear();
+    m_pThumbnailListView->loadFilesFromDB();
 
-    auto infos = DBManager::instance()->getAllInfos();
-    for (auto info : infos) {
-        ThumbnailListView::ItemInfo vi;
-        vi.name = info.fileName;
-        vi.path = info.filePath;
-//        vi.image = dApp->m_imagemap.value(info.filePath);
-        if (dApp->m_imagemap.value(info.filePath).isNull()) {
-            QSize imageSize = getImageQSize(vi.path);
+//    using namespace utils::image;
+//    QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
-            vi.width = imageSize.width();
-            vi.height = imageSize.height();
-        } else {
-            vi.width = dApp->m_imagemap.value(info.filePath).width();
-            vi.height = dApp->m_imagemap.value(info.filePath).height();
-        }
+//    auto infos = DBManager::instance()->getAllInfos();
+//    for (auto info : infos) {
+//        ThumbnailListView::ItemInfo vi;
+//        vi.name = info.fileName;
+//        vi.path = info.filePath;
+////        vi.image = dApp->m_imagemap.value(info.filePath);
+//        if (dApp->m_imagemap.value(info.filePath).isNull()) {
+//            QSize imageSize = getImageQSize(vi.path);
 
-        thumbnaiItemList << vi;
-    }
+//            vi.width = imageSize.width();
+//            vi.height = imageSize.height();
+//        } else {
+//            vi.width = dApp->m_imagemap.value(info.filePath).width();
+//            vi.height = dApp->m_imagemap.value(info.filePath).height();
+//        }
 
-    m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
+//        thumbnaiItemList << vi;
+//    }
+
+//    m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
 
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
@@ -234,119 +239,120 @@ void AllPicView::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
+    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, nullptr, this);
 
-    using namespace utils::image;
-    QStringList paths;
-    for (QUrl url : urls) {
-        const QString path = url.toLocalFile();
-        if (QFileInfo(path).isDir()) {
-            auto finfos =  getImagesInfo(path, false);
-            for (auto finfo : finfos) {
-                if (imageSupportRead(finfo.absoluteFilePath())) {
-                    paths << finfo.absoluteFilePath();
-                }
-            }
-        } else if (imageSupportRead(path)) {
-            paths << path;
-        }
-    }
+//    using namespace utils::image;
+//    QStringList paths;
+//    for (QUrl url : urls) {
+//        const QString path = url.toLocalFile();
+//        if (QFileInfo(path).isDir()) {
+//            auto finfos =  getImagesInfo(path, false);
+//            for (auto finfo : finfos) {
+//                if (imageSupportRead(finfo.absoluteFilePath())) {
+//                    paths << finfo.absoluteFilePath();
+//                }
+//            }
+//        } else if (imageSupportRead(path)) {
+//            paths << path;
+//        }
+//    }
 
-    if (paths.isEmpty()) {
-        return;
-    }
+//    if (paths.isEmpty()) {
+//        return;
+//    }
 
-    // 判断当前导入路径是否为外接设备
-    int isMountFlag = 0;
-    DGioVolumeManager *pvfsManager = new DGioVolumeManager;
-    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-    for (auto mount : mounts) {
-        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-        QString strPath = LocationFile->path();
-        if (0 == paths.first().compare(strPath)) {
-            isMountFlag = 1;
-            break;
-        }
-    }
+//    // 判断当前导入路径是否为外接设备
+//    int isMountFlag = 0;
+//    DGioVolumeManager *pvfsManager = new DGioVolumeManager;
+//    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
+//    for (auto mount : mounts) {
+//        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+//        QString strPath = LocationFile->path();
+//        if (0 == paths.first().compare(strPath)) {
+//            isMountFlag = 1;
+//            break;
+//        }
+//    }
 
-    // 当前导入路径
-    if (isMountFlag) {
-        QString strHomePath = QDir::homePath();
-        //获取系统现在的时间
-        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-        QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
-        QDir dir;
-        if (!dir.exists(basePath)) {
-            dir.mkpath(basePath);
-        }
+//    // 当前导入路径
+//    if (isMountFlag) {
+//        QString strHomePath = QDir::homePath();
+//        //获取系统现在的时间
+//        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+//        QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
+//        QDir dir;
+//        if (!dir.exists(basePath)) {
+//            dir.mkpath(basePath);
+//        }
 
-        QStringList newImagePaths;
-        foreach (QString strPath, paths) {
-            //取出文件名称
-            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
-            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
+//        QStringList newImagePaths;
+//        foreach (QString strPath, paths) {
+//            //取出文件名称
+//            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
+//            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+//            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
 
-            newImagePaths << strNewPath;
-            //判断新路径下是否存在目标文件，若存在，下一次张
-            if (dir.exists(strNewPath)) {
-                continue;
-            }
-
-            // 外接设备图片拷贝到系统
-            if (QFile::copy(strPath, strNewPath)) {
-
-            }
-        }
-
-        paths.clear();
-        paths = newImagePaths;
-    }
-
-    DBImgInfoList dbInfos;
-
-    using namespace utils::image;
-    for (auto path : paths) {
-        if (! imageSupportRead(path)) {
-            continue;
-        }
-
-//        // Generate thumbnail and storage into cache dir
-//        if (! utils::image::thumbnailExist(path)) {
-//            // Generate thumbnail failed, do not insert into DB
-//            if (! utils::image::generateThumbnail(path)) {
+//            newImagePaths << strNewPath;
+//            //判断新路径下是否存在目标文件，若存在，下一次张
+//            if (dir.exists(strNewPath)) {
 //                continue;
+//            }
+
+//            // 外接设备图片拷贝到系统
+//            if (QFile::copy(strPath, strNewPath)) {
+
 //            }
 //        }
 
-        QFileInfo fi(path);
-        using namespace utils::image;
-        using namespace utils::base;
-        auto mds = getAllMetaData(path);
-        QString value = mds.value("DateTimeOriginal");
-        qDebug() << value;
-        DBImgInfo dbi;
-        dbi.fileName = fi.fileName();
-        dbi.filePath = path;
-        dbi.dirHash = utils::base::hash(QString());
-        if ("" != value) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-        } else if (fi.birthTime().isValid()) {
-            dbi.time = fi.birthTime();
-        } else if (fi.metadataChangeTime().isValid()) {
-            dbi.time = fi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
+//        paths.clear();
+//        paths = newImagePaths;
+//    }
 
-        dbInfos << dbi;
-    }
+//    DBImgInfoList dbInfos;
 
-    if (! dbInfos.isEmpty()) {
-        dApp->m_imageloader->ImportImageLoader(dbInfos);
-    } else {
-        emit dApp->signalM->ImportFailed();
-    }
+//    using namespace utils::image;
+//    for (auto path : paths) {
+//        if (! imageSupportRead(path)) {
+//            continue;
+//        }
+
+////        // Generate thumbnail and storage into cache dir
+////        if (! utils::image::thumbnailExist(path)) {
+////            // Generate thumbnail failed, do not insert into DB
+////            if (! utils::image::generateThumbnail(path)) {
+////                continue;
+////            }
+////        }
+
+//        QFileInfo fi(path);
+//        using namespace utils::image;
+//        using namespace utils::base;
+//        auto mds = getAllMetaData(path);
+//        QString value = mds.value("DateTimeOriginal");
+//        qDebug() << value;
+//        DBImgInfo dbi;
+//        dbi.fileName = fi.fileName();
+//        dbi.filePath = path;
+//        dbi.dirHash = utils::base::hash(QString());
+//        if ("" != value) {
+//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+//        } else if (fi.birthTime().isValid()) {
+//            dbi.time = fi.birthTime();
+//        } else if (fi.metadataChangeTime().isValid()) {
+//            dbi.time = fi.metadataChangeTime();
+//        } else {
+//            dbi.time = QDateTime::currentDateTime();
+//        }
+//        dbi.changeTime = QDateTime::currentDateTime();
+
+//        dbInfos << dbi;
+//    }
+
+//    if (! dbInfos.isEmpty()) {
+//        dApp->m_imageloader->ImportImageLoader(dbInfos);
+//    } else {
+//        emit dApp->signalM->ImportFailed();
+//    }
 
     event->accept();
 }
@@ -435,7 +441,7 @@ void AllPicView::onKeyDelete()
         infos << info;
     }
 
-    dApp->m_imageloader->addTrashImageLoader(paths);
+//    dApp->m_imageloader->addTrashImageLoader(paths);
     DBManager::instance()->insertTrashImgInfos(infos);
     DBManager::instance()->removeImgInfos(paths);
 }

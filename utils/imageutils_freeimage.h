@@ -26,6 +26,9 @@
 #include <QObject>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QMutex>
+
+static QMutex freeimage_mutex;
 
 namespace utils {
 
@@ -58,7 +61,8 @@ const QString getFileFormat(const QString &path)
 #endif
     //use mimedatabase get image mimetype
     QFileInfo fi(path);
-    QString suffix = fi.suffix(); QMimeDatabase db;
+    QString suffix = fi.suffix();
+    QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
     QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
     if (suffix.isEmpty()) {
@@ -149,6 +153,7 @@ QString DateToString(QDateTime ot)
  */
 QMap<QString, QString> getAllMetaData(const QString &path)
 {
+    QMutexLocker mutex(&freeimage_mutex);
     FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
     QMap<QString, QString> admMap;
     admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
@@ -160,45 +165,41 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
     // Basic extended data
     QFileInfo info(path);
-    QImageReader reader(path);
+//    QImageReader reader(path);
     if (admMap.isEmpty()) {
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-//        admMap.insert("DateTimeOriginal",  DateToString(emptyTime));
-//        admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
         admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm:dd"));
         admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
     } else {
         // ReFormat the date-time
         using namespace utils::base;
         // Exif version 0231
-        QDateTime ot = stringToDateTime(admMap.value("DateTimeOriginal"));
-        QDateTime dt = stringToDateTime(admMap.value("DateTimeDigitized"));
+        QString qsdto = admMap.value("DateTimeOriginal");
+        QString qsdtd = admMap.value("DateTimeDigitized");
+        QDateTime ot = stringToDateTime(qsdto);
+        QDateTime dt = stringToDateTime(qsdtd);
         if (! ot.isValid()) {
             // Exif version 0221
-            ot = stringToDateTime(admMap.value("DateTime"));
+            QString qsdt = admMap.value("DateTime");
+            ot = stringToDateTime(qsdt);
             dt = ot;
 
             // NO valid date information
             if (! ot.isValid()) {
-//                admMap.insert("DateTimeOriginal", DateToString(info.created()));
-//                admMap.insert("DateTimeDigitized", DateToString(info.lastModified()));
                 admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
                 admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
             }
         }
-        ;
-//        admMap.insert("DateTimeOriginal", DateToString(ot));
-//        admMap.insert("DateTimeDigitized", DateToString(dt));
         admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm:dd"));
         admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
 
     }
-    // The value of width and height might incorrect
-    int w = reader.size().width();
-    w = w > 0 ? w : FreeImage_GetWidth(dib);
-    int h = reader.size().height();
-    h = h > 0 ? h : FreeImage_GetHeight(dib);
-    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
+//    // The value of width and height might incorrect
+//    int w = reader.size().width();
+//    w = w > 0 ? w : FreeImage_GetWidth(dib);
+//    int h = reader.size().height();
+//    h = h > 0 ? h : FreeImage_GetHeight(dib);
+//    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
     admMap.insert("FileName", info.fileName());
     admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));

@@ -125,6 +125,7 @@ SearchView::SearchView()
 
 void SearchView::initConnections()
 {
+    qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(m_pSlideShowBtn, &DPushButton::clicked, this, [ = ] {
         DBImgInfoList imagelist;
         if (COMMON_STR_ALLPHOTOS == m_albumName
@@ -245,6 +246,7 @@ void SearchView::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &SearchView::updateSearchResultsIntoThumbnailView);
+//    qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &SearchView::changeTheme);
@@ -428,47 +430,44 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     }
 
     if (0 < infos.length()) {
-        for (auto info : infos) {
-            ThumbnailListView::ItemInfo vi;
-            vi.name = info.fileName;
-            vi.path = info.filePath;
-//            if (COMMON_STR_TRASH == album)
-//            {
-//                vi.image = dApp->m_imagetrashmap.value(info.filePath);//TODO_DS
+//        for (auto info : infos) {
+//            ThumbnailListView::ItemInfo vi;
+//            vi.name = info.fileName;
+//            vi.path = info.filePath;
+////            if (COMMON_STR_TRASH == album)
+////            {
+////                vi.image = dApp->m_imagetrashmap.value(info.filePath);//TODO_DS
+////            }
+////            else
+////            {
+////                vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
+////            }
+
+//            if (COMMON_STR_TRASH == m_albumName) {
+//                if (dApp->m_imagetrashmap.value(info.filePath).isNull()) {
+//                    QSize imageSize = getImageQSize(vi.path);
+
+//                    vi.width = imageSize.width();
+//                    vi.height = imageSize.height();
+//                } else {
+//                    vi.width = dApp->m_imagetrashmap.value(info.filePath).width();
+//                    vi.height = dApp->m_imagetrashmap.value(info.filePath).height();
+//                }
+//            } else {
+//                if (dApp->m_imagemap.value(info.filePath).isNull()) {
+//                    QSize imageSize = getImageQSize(vi.path);
+
+//                    vi.width = imageSize.width();
+//                    vi.height = imageSize.height();
+//                } else {
+//                    vi.width = dApp->m_imagemap.value(info.filePath).width();
+//                    vi.height = dApp->m_imagemap.value(info.filePath).height();
+//                }
 //            }
-//            else
-//            {
-//                vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
-//            }
-
-            if (COMMON_STR_TRASH == m_albumName) {
-                if (dApp->m_imagetrashmap.value(info.filePath).isNull()) {
-                    QSize imageSize = getImageQSize(vi.path);
-
-                    vi.width = imageSize.width();
-                    vi.height = imageSize.height();
-                } else {
-                    vi.width = dApp->m_imagetrashmap.value(info.filePath).width();
-                    vi.height = dApp->m_imagetrashmap.value(info.filePath).height();
-                }
-            } else {
-                if (dApp->m_imagemap.value(info.filePath).isNull()) {
-                    QSize imageSize = getImageQSize(vi.path);
-
-                    vi.width = imageSize.width();
-                    vi.height = imageSize.height();
-                } else {
-                    vi.width = dApp->m_imagemap.value(info.filePath).width();
-                    vi.height = dApp->m_imagemap.value(info.filePath).height();
-                }
-            }
-
-            thumbnaiItemList << vi;
-        }
-
-        m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
-
-
+//            thumbnaiItemList << vi;
+//        }
+//        m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
+        m_pThumbnailListView->loadFilesFromLocal(infos);
         QString searchStr = tr("%1 photo(s) found");
         QString str = QString::number(infos.length());
         m_searchPicNum = infos.length();
@@ -617,7 +616,7 @@ void SearchView::onKeyDelete()
         infos << info;
     }
 
-    dApp->m_imageloader->addTrashImageLoader(paths);
+//    dApp->m_imageloader->addTrashImageLoader(paths);
     DBManager::instance()->insertTrashImgInfos(infos);
     DBManager::instance()->removeImgInfos(paths);
 }

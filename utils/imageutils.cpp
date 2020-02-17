@@ -54,7 +54,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
         QStringList rl = getAllMetaData(path).value("Dimension").split("x");
         if (rl.length() == 2) {
             tSize = QSize(QString(rl.first()).toInt(),
-                           QString(rl.last()).toInt());
+                          QString(rl.last()).toInt());
         }
     }
     tSize.scale(size, Qt::KeepAspectRatio);
@@ -64,20 +64,17 @@ const QImage scaleImage(const QString &path, const QSize &size)
     if (tImg.width() > size.width() || tImg.height() > size.height()) {
         if (tImg.isNull()) {
             return QImage();
-        }
-        else {
+        } else {
             // Save as supported format and scale it again
             const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
             QFile::remove(tmp);
             if (tImg.save(tmp, "png", 50)) {
                 return scaleImage(tmp, size);
-            }
-            else {
+            } else {
                 return QImage();
             }
         }
-    }
-    else {
+    } else {
         return tImg;
     }
 }
@@ -109,30 +106,29 @@ bool imageSupportSave(const QString &path)
     // RAW image decode is too slow, and most of these does not support saving
     // RAW formats render incorrectly by freeimage
     const QStringList raws = QStringList()
-            << "CR2" << "CRW"   // Canon cameras
-            << "DCR" << "KDC"   // Kodak cameras
-            << "MRW"            // Minolta cameras
-            << "NEF"            // Nikon cameras
-            << "ORF"            // Olympus cameras
-            << "PEF"            // Pentax cameras
-            << "RAF"            // Fuji cameras
-            << "SRF"            // Sony cameras
-            << "PSD"
-            << "ICO"
-            << "TGA"
-            << "WEBP"
-            << "PBM"
-            << "XPM"
-            << "PPM"
-            << "PGM"
-            << "X3F";           // Sigma cameras
+                             << "CR2" << "CRW"   // Canon cameras
+                             << "DCR" << "KDC"   // Kodak cameras
+                             << "MRW"            // Minolta cameras
+                             << "NEF"            // Nikon cameras
+                             << "ORF"            // Olympus cameras
+                             << "PEF"            // Pentax cameras
+                             << "RAF"            // Fuji cameras
+                             << "SRF"            // Sony cameras
+                             << "PSD"
+                             << "ICO"
+                             << "TGA"
+                             << "WEBP"
+                             << "PBM"
+                             << "XPM"
+                             << "PPM"
+                             << "PGM"
+                             << "X3F";           // Sigma cameras
 
 
     if (raws.indexOf(suffix.toUpper()) != -1
             || QImageReader(path).imageCount() > 1) {
         return false;
-    }
-    else {
+    } else {
         return freeimage::canSave(path);
     }
 }
@@ -270,8 +266,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     QDirIterator dirIterator(dir,
                              QDir::Files,
                              QDirIterator::Subdirectories);
-    while(dirIterator.hasNext())
-    {
+    while (dirIterator.hasNext()) {
         dirIterator.next();
         if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
@@ -309,8 +304,7 @@ const QImage getRotatedImage(const QString &path)
         reader.setAutoTransform(true);
         if (reader.canRead()) {
             tImg = reader.read();
-        }
-        else if (path.contains(".tga")) {
+        } else if (path.contains(".tga")) {
             bool ret = false;
             tImg = utils::image::loadTga(path, ret);
         }
@@ -355,11 +349,11 @@ const QString toMd5(const QByteArray &data)
  * \param url
  * \return
  */
-QMap<QString,QString> thumbnailAttribute(const QUrl&  url)
+QMap<QString, QString> thumbnailAttribute(const QUrl  &url)
 {
-    QMap<QString,QString> set;
+    QMap<QString, QString> set;
 
-    if(url.isLocalFile()) {
+    if (url.isLocalFile()) {
         const QString path = url.path();
         QFileInfo info(path);
         set.insert("Thumb::Mimetype", QMimeDatabase().mimeTypeForFile(path).name());
@@ -369,13 +363,12 @@ QMap<QString,QString> thumbnailAttribute(const QUrl&  url)
         set.insert("Software", "Deepin Image Viewer");
 
         QImageReader reader(path);
-        if(reader.canRead()){
+        if (reader.canRead()) {
             set.insert("Thumb::Image::Width", QString::number(reader.size().width()));
             set.insert("Thumb::Image::Height", QString::number(reader.size().height()));
         }
         return set;
-    }
-    else{
+    } else {
         //TODO for other's scheme
     }
 
@@ -389,7 +382,7 @@ const QString thumbnailCachePath()
     QStringList systemEnvs = QProcess::systemEnvironment();
     for (QString it : systemEnvs) {
         QStringList el = it.split("=");
-        if(el.length() == 2 && el.first() == "XDG_CACHE_HOME") {
+        if (el.length() == 2 && el.first() == "XDG_CACHE_HOME") {
             cacheP = el.last();
             break;
         }
@@ -417,17 +410,14 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     const QString failEncodePath = cacheP + "/fail/" + md5s + ".png";
     if (QFileInfo(encodePath).exists()) {
         return QPixmap(encodePath);
-    }
-    else if (QFileInfo(failEncodePath).exists()) {
+    } else if (QFileInfo(failEncodePath).exists()) {
         qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
         return QPixmap();
-    }
-    else {
+    } else {
         // Try to generate thumbnail and load it later
         if (! cacheOnly && generateThumbnail(path)) {
             return QPixmap(encodePath);
-        }
-        else {
+        } else {
             return QPixmap();
         }
     }
@@ -451,24 +441,23 @@ bool generateThumbnail(const QString &path)
 
     // Normal thumbnail
     QImage nImg = lImg.scaled(
-                QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
-                , Qt::KeepAspectRatio
-                , Qt::SmoothTransformation);
+                      QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
+                      , Qt::KeepAspectRatio
+                      , Qt::SmoothTransformation);
 
     // Create filed thumbnail
-    if(lImg.isNull() || nImg.isNull()) {
+    if (lImg.isNull() || nImg.isNull()) {
         const QString failedP = cacheP + "/fail/" + md5 + ".png";
-        QImage img(1,1,QImage::Format_ARGB32_Premultiplied);
+        QImage img(1, 1, QImage::Format_ARGB32_Premultiplied);
         const auto keys = attributes.keys();
         for (QString key : keys) {
             img.setText(key, attributes[key]);
         }
 
-        qDebug()<<"Save failed thumbnail:" << img.save(failedP,  "png")
-               << failedP << url;
+        qDebug() << "Save failed thumbnail:" << img.save(failedP,  "png")
+                 << failedP << url;
         return false;
-    }
-    else {
+    } else {
         for (QString key : attributes.keys()) {
             lImg.setText(key, attributes[key]);
             nImg.setText(key, attributes[key]);
@@ -477,8 +466,7 @@ bool generateThumbnail(const QString &path)
         const QString normalP = cacheP + "/normal/" + md5 + ".png";
         if (lImg.save(largeP, "png", 50) && nImg.save(normalP, "png", 50)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -518,10 +506,9 @@ bool thumbnailExist(const QString &path, ThumbnailType type)
     if (QFileInfo(thumbnailPath(path, type)).exists()
 //            || QFileInfo(thumbnailPath(path, ThumbNormal)).exists()
 //            || QFileInfo(thumbnailPath(path, ThumbFail)).exists()
-            ) {
+       ) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -553,14 +540,12 @@ QStringList supportedImageFormats()
 const QImage loadTga(QString filePath, bool &success)
 {
     QImage img;
-    if (!img.load(filePath))
-    {
+    if (!img.load(filePath)) {
 
         // open the file
         std::fstream fsPicture(filePath.toUtf8().constData(), std::ios::in | std::ios::binary);
 
-        if (!fsPicture.is_open())
-        {
+        if (!fsPicture.is_open()) {
             img = QImage(1, 1, QImage::Format_RGB32);
             img.fill(Qt::red);
             success = false;
@@ -568,14 +553,14 @@ const QImage loadTga(QString filePath, bool &success)
         }
 
         // some variables
-        std::vector<std::uint8_t>* vui8Pixels;
+        std::vector<std::uint8_t> *vui8Pixels;
         std::uint32_t ui32BpP;
         std::uint32_t ui32Width;
         std::uint32_t ui32Height;
 
         // read in the header
         std::uint8_t ui8x18Header[19] = { 0 };
-        fsPicture.read(reinterpret_cast<char*>(&ui8x18Header), sizeof(ui8x18Header) - 1);
+        fsPicture.read(reinterpret_cast<char *>(&ui8x18Header), sizeof(ui8x18Header) - 1);
 
         //get variables
         vui8Pixels = new std::vector<std::uint8_t>;
@@ -601,43 +586,36 @@ const QImage loadTga(QString filePath, bool &success)
         // jump to the data block
         fsPicture.seekg(ui32IDLength + ui32PaletteLength, std::ios_base::cur);
 
-        if (ui32PicType == 2 && (ui32BpP == 24 || ui32BpP == 32))
-        {
-            fsPicture.read(reinterpret_cast<char*>(vui8Pixels->data()), ui32Size);
+        if (ui32PicType == 2 && (ui32BpP == 24 || ui32BpP == 32)) {
+            fsPicture.read(reinterpret_cast<char *>(vui8Pixels->data()), ui32Size);
         }
         // else if compressed 24 or 32 bit
-        else if (ui32PicType == 10 && (ui32BpP == 24 || ui32BpP == 32))	// compressed
-        {
+        else if (ui32PicType == 10 && (ui32BpP == 24 || ui32BpP == 32)) { // compressed
             std::uint8_t tempChunkHeader;
             std::uint8_t tempData[5];
             unsigned int tempByteIndex = 0;
 
             do {
-                fsPicture.read(reinterpret_cast<char*>(&tempChunkHeader), sizeof(tempChunkHeader));
+                fsPicture.read(reinterpret_cast<char *>(&tempChunkHeader), sizeof(tempChunkHeader));
 
-                if (tempChunkHeader >> 7)	// repeat count
-                {
+                if (tempChunkHeader >> 7) { // repeat count
                     // just use the first 7 bits
                     tempChunkHeader = (uint8_t(tempChunkHeader << 1) >> 1);
 
-                    fsPicture.read(reinterpret_cast<char*>(&tempData), ui32BpP / 8);
+                    fsPicture.read(reinterpret_cast<char *>(&tempData), ui32BpP / 8);
 
-                    for (int i = 0; i <= tempChunkHeader; i++)
-                    {
+                    for (int i = 0; i <= tempChunkHeader; i++) {
                         vui8Pixels->at(tempByteIndex++) = tempData[0];
                         vui8Pixels->at(tempByteIndex++) = tempData[1];
                         vui8Pixels->at(tempByteIndex++) = tempData[2];
                         if (ui32BpP == 32) vui8Pixels->at(tempByteIndex++) = tempData[3];
                     }
-                }
-                else						// data count
-                {
+                } else {                    // data count
                     // just use the first 7 bits
                     tempChunkHeader = (uint8_t(tempChunkHeader << 1) >> 1);
 
-                    for (int i = 0; i <= tempChunkHeader; i++)
-                    {
-                        fsPicture.read(reinterpret_cast<char*>(&tempData), ui32BpP / 8);
+                    for (int i = 0; i <= tempChunkHeader; i++) {
+                        fsPicture.read(reinterpret_cast<char *>(&tempData), ui32BpP / 8);
 
                         vui8Pixels->at(tempByteIndex++) = tempData[0];
                         vui8Pixels->at(tempByteIndex++) = tempData[1];
@@ -648,8 +626,7 @@ const QImage loadTga(QString filePath, bool &success)
             } while (tempByteIndex < ui32Size);
         }
         // not useable format
-        else
-        {
+        else {
             fsPicture.close();
             img = QImage(1, 1, QImage::Format_RGB32);
             img.fill(Qt::red);
@@ -663,10 +640,8 @@ const QImage loadTga(QString filePath, bool &success)
 
         int pixelSize = ui32BpP == 32 ? 4 : 3;
         //TODO: write direct into img
-        for (unsigned int x = 0; x < ui32Width; x++)
-        {
-            for (unsigned int y = 0; y < ui32Height; y++)
-            {
+        for (unsigned int x = 0; x < ui32Width; x++) {
+            for (unsigned int y = 0; y < ui32Height; y++) {
                 int valr = vui8Pixels->at(y * ui32Width * pixelSize + x * pixelSize + 2);
                 int valg = vui8Pixels->at(y * ui32Width * pixelSize + x * pixelSize + 1);
                 int valb = vui8Pixels->at(y * ui32Width * pixelSize + x * pixelSize);
@@ -683,26 +658,40 @@ const QImage loadTga(QString filePath, bool &success)
     return img;
 }
 
+bool  checkFileType(const QString &path)
+{
+    if (imageSupportRead(path)) {
+        //            paths << path;
+        QFileInfo info(path);
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+
+        QString str = info.suffix().toLower();
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 QStringList checkImage(const QString  path)
 {
     QStringList imagelist;
     QDir dir(path);
 
-    if(!dir.exists())
-    {
+    if (!dir.exists()) {
         return imagelist;
     }
 
     QFileInfoList dirlist = dir.entryInfoList(QDir::Dirs);
 
-    foreach(QFileInfo e_dir, dirlist)
-    {
-        if(e_dir.fileName()== "." || e_dir.fileName()=="..")
-        {
+    foreach (QFileInfo e_dir, dirlist) {
+        if (e_dir.fileName() == "." || e_dir.fileName() == "..") {
             continue;
         }
-        if(e_dir.exists())
-        {
+        if (e_dir.exists()) {
             imagelist << checkImage(e_dir.filePath());
         }
     }
@@ -715,11 +704,12 @@ QStringList checkImage(const QString  path)
     dir.setNameFilters(sList);
 
 
-    for (int i=0;i < dir.count();i++)
-    {
-         QString ImageName  = dir[i];
-         imagelist<<path + QDir::separator() + ImageName;
-         qDebug() << path + QDir::separator() + ImageName;//输出照片名
+    for (int i = 0; i < dir.count(); i++) {
+        QString ImageName  = dir[i];
+        if (checkFileType(path + QDir::separator() + ImageName)) {
+            imagelist << path + QDir::separator() + ImageName;
+            qDebug() << path + QDir::separator() + ImageName;//输出照片名
+        }
     }
 
     return imagelist;
@@ -731,8 +721,7 @@ const QSize getImageQSize(const QString &path)
 
     QSize tSize;
     QStringList rl = getAllMetaData(path).value("Dimension").split("x");
-    if (rl.length() == 2)
-    {
+    if (rl.length() == 2) {
         tSize = QSize(QString(rl.first()).toInt(), QString(rl.last()).toInt());
     }
 

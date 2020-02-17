@@ -7,7 +7,7 @@
 #include "controller/configsetter.h"
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
-#include "widgets/thumbnaillistview.h"
+#include "thumbnail/thumbnaillistview.h"
 
 
 #include <QWidget>
@@ -27,29 +27,30 @@
 
 DWIDGET_USE_NAMESPACE
 
-class ImportQThread : public QThread
-{
-    Q_OBJECT
-public:
-    ImportQThread(DBImgInfoList dbInfos, QString albumname)
-        : QThread(NULL)
-        , m_dbInfos(dbInfos)
-        , m_albumname(albumname){}
+//class ImportQThread : public QThread
+//{
+//    Q_OBJECT
+//public:
+//    ImportQThread(DBImgInfoList dbInfos, QString albumname)
+//        : QThread(NULL)
+//        , m_dbInfos(dbInfos)
+//        , m_albumname(albumname) {}
 
-protected:
-       void run() Q_DECL_OVERRIDE;
+//protected:
+//    void run() Q_DECL_OVERRIDE;
 
-private:
-    DBImgInfoList m_dbInfos;
-    QString m_albumname;
-};
+//private:
+//    DBImgInfoList m_dbInfos;
+//    QString m_albumname;
+//};
 
-class ImportView : public DWidget
+class ImportView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT
 
 public:
     ImportView();
+    bool imageImported(bool success) override;
     void setAlbumname(const QString &name);
     void onImprotBtnClicked();
 
@@ -64,7 +65,7 @@ private:
 signals:
 
 public:
-    DPushButton* m_pImportBtn;
+    DPushButton *m_pImportBtn;
     QString m_albumname;
     DLabel *pLabel;
     DBImgInfoList m_dbInfos;

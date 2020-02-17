@@ -43,7 +43,7 @@ extern bool bfirstandviewimage;
 //class MainWindow;
 //}
 
-class MainWindow : public DMainWindow
+class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT
 
@@ -51,6 +51,7 @@ public:
     explicit MainWindow();
     ~MainWindow();
 
+    bool imageImported(bool success) override;
     void initConnections();
     void initUI();
     void initShortcut();
@@ -80,6 +81,7 @@ protected:
 
 signals:
     void sigTitleMenuImportClicked();
+    bool sigImageImported(bool success);
 
 private slots:
     void allPicBtnClicked();

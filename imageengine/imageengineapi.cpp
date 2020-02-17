@@ -1,0 +1,227 @@
+#include "imageengineapi.h"
+#include <QMetaType>
+
+ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
+
+ImageEngineApi *ImageEngineApi::instance(QObject *parent)
+{
+    if (nullptr == parent && nullptr == s_ImageEngine) {
+        return nullptr;
+    }
+    if (nullptr != parent && nullptr == s_ImageEngine) {
+        s_ImageEngine = new ImageEngineApi(parent);
+    }
+    return  s_ImageEngine;
+}
+
+ImageEngineApi::ImageEngineApi(QObject *parent)
+    : QObject(parent)
+{
+    m_qtpool.setMaxThreadCount(20);
+    qRegisterMetaType<QStringList>("QStringList &");
+    qRegisterMetaType<ImageDataSt>("ImageDataSt &");
+}
+
+bool ImageEngineApi::removeImage(QString imagepath)
+{
+    QMap<QString, ImageDataSt>::iterator it;
+    it = m_AllImageData.find(imagepath);
+    if ( it != m_AllImageData.end()) {
+        m_AllImageData.erase(it);
+        return true;
+    }
+    return false;
+}
+
+bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
+{
+    QMap<QString, ImageDataSt>::iterator it;
+    it = m_AllImageData.find(imagepath);
+    if ( it != m_AllImageData.end()) {
+        return false;
+    }
+    ImageDataSt data;
+    data.remainDays = remainDay;
+    m_AllImageData.insert(imagepath, data);
+    return true;
+}
+
+void ImageEngineApi::sltInsert(QString imagepath, QString remainDay)
+{
+    insertImage(imagepath, remainDay);
+}
+
+bool ImageEngineApi::updateImageDataPixmap(QString imagepath, QPixmap &pix)
+{
+    ImageDataSt data;
+    if (getImageData(imagepath, data)) {
+        data.imgpixmap = pix;
+        m_AllImageData[imagepath] = data;
+        return true;
+    }
+    return false;
+}
+
+bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
+{
+    QMap<QString, ImageDataSt>::iterator it;
+    it = m_AllImageData.find(imagepath);
+    if ( it == m_AllImageData.end()) {
+        return false;
+    }
+    data = it.value();
+    return true;
+}
+
+bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj)
+{
+
+    if (nullptr == obj) {
+        return false;
+    }
+    QMap<QString, ImageDataSt>::iterator it;
+    it = m_AllImageData.find(imagepath);
+    if ( it == m_AllImageData.end()) {
+        return false;
+    }
+    ImageDataSt data = it.value();
+    ((ImageEngineObject *)obj)->addCheckPath(imagepath);
+    if (ImageLoadStatu_Loaded == data.loaded) {
+        ((ImageEngineObject *)obj)->checkAndReturnPath(imagepath);
+    } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread) {
+        ((ImageEngineThread *)data.thread)->addObject(obj);
+        obj->addThread((ImageEngineThreadObject *)data.thread);
+    } else {
+        ImageEngineThread *imagethread = new ImageEngineThread;
+        connect(imagethread, &ImageEngineThread::sigImageLoaded, this, &ImageEngineApi::sltImageLoaded);
+        imagethread->setData(imagepath, obj, data);
+        data.thread = imagethread;
+        data.loaded = ImageLoadStatu_BeLoading;
+        m_AllImageData[imagepath] = data;
+        obj->addThread(imagethread);
+        m_qtpool.start(imagethread);
+    }
+    return true;
+}
+
+bool ImageEngineApi::imageNeedReload(QString imagepath)
+{
+    QMap<QString, ImageDataSt>::iterator it;
+    it = m_AllImageData.find(imagepath);
+    if ( it == m_AllImageData.end()) {
+        return false;
+    }
+    ImageDataSt data = it.value();
+    data.loaded = ImageLoadStatu_False;
+    m_AllImageData[imagepath] = data;
+    return true;
+}
+
+void ImageEngineApi::sltImageLoaded(void *imgobject, QString path, ImageDataSt &data)
+{
+    m_AllImageData[path] = data;
+    ImageEngineThread *thread = (ImageEngineThread *)sender();
+    if (nullptr != thread)
+        thread->needStop();
+    if (nullptr != imgobject) {
+        ((ImageEngineObject *)imgobject)->checkAndReturnPath(path);
+    }
+}
+
+void ImageEngineApi::sltImageLocalLoaded(void *imgobject, QStringList &filelist)
+{
+    if (nullptr != imgobject) {
+        ((ImageEngineObject *)imgobject)->imageLocalLoaded(filelist);
+    }
+}
+
+void ImageEngineApi::sltImageDBLoaded(void *imgobject, QStringList &filelist)
+{
+    if (nullptr != imgobject) {
+        ((ImageEngineObject *)imgobject)->imageFromDBLoaded(filelist);
+    }
+}
+
+void ImageEngineApi::sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path)
+{
+    if (nullptr != imgobject) {
+        ((ImageMountGetPathsObject *)imgobject)->imageGeted(filelist, path);
+    }
+}
+
+
+bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
+{
+    ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
+    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
+    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
+    imagethread->setData(files, obj, ImageLoadFromLocalThread::DataType_TrashList);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+
+bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj)
+{
+    ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
+    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
+    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
+    imagethread->setData(files, obj);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
+{
+    ImportImagesThread *imagethread = new ImportImagesThread;
+//    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
+//    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
+    imagethread->setData(files, albumname, obj, bdialogselect);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+
+bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
+{
+    ImportImagesThread *imagethread = new ImportImagesThread;
+//    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
+//    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
+    imagethread->setData(files, albumname, obj, bdialogselect);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+
+bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *obj)
+{
+    ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
+    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
+    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
+    imagethread->setData(files, obj);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+
+bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name)
+{
+    ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread;
+    connect(imagethread, &ImageLoadFromDBThread::sigImageLoaded, this, &ImageEngineApi::sltImageDBLoaded);
+    connect(imagethread, &ImageLoadFromDBThread::sigInsert, this, &ImageEngineApi::sltInsert);
+    imagethread->setData(type, obj, name);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+
+bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj)
+{
+    ImageGetFilesFromMountThread *imagethread = new ImageGetFilesFromMountThread;
+    connect(imagethread, &ImageGetFilesFromMountThread::sigImageFilesGeted, this, &ImageEngineApi::sltImageFilesGeted);
+    imagethread->setData(mountname, path, obj);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+

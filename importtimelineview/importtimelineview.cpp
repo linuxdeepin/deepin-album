@@ -2,6 +2,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
+#include "imageengine/imageengineapi.h"
 #include <QScrollBar>
 #include <QScroller>
 #include <DPushButton>
@@ -37,7 +38,8 @@ ImportTimeLineView::ImportTimeLineView(DWidget *parent): DWidget(parent)
 
     initTimeLineViewWidget();
 
-    updataLayout();
+//    updataLayout();
+    clearAndStartLayout();
 
     initConnections();
 }
@@ -289,7 +291,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setVisible(false);
 }
 
-void ImportTimeLineView::updataLayout()
+void ImportTimeLineView::clearAndStartLayout()
 {
     //获取所有时间线
     m_mainListWidget->clear();
@@ -298,14 +300,13 @@ void ImportTimeLineView::updataLayout()
     m_timelines = DBManager::instance()->getImportTimelines();
     qDebug() << __func__ << m_timelines.size();
 
-#if 1
     m_allThumbnailListView.clear();
-#endif
     if (0 < m_timelines.size()) {
 
     } else {
         m_dateItem->setVisible(false);
     }
+    currentTimeLineLoad = 0;
     //add start 3975
     TimelineItem *blankWidget = new TimelineItem;
     blankWidget->m_type = "blank";
@@ -315,38 +316,49 @@ void ImportTimeLineView::updataLayout()
     m_mainListWidget->setItemWidget(blankItem, blankWidget);
     blankItem->setSizeHint(QSize(width(), m_pImportTitle->height()));
     //add end 3975
-    for (int i = 0; i < m_timelines.size(); i++) {
-        //获取当前时间照片
-        DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(m_timelines.at(i));
+//    updataLayout();
+    addTimelineLayout();
+}
 
-        QListWidgetItem *item = new QListWidgetItem;
-        TimelineItem *listItem = new TimelineItem;
-        QVBoxLayout *listItemlayout = new QVBoxLayout();
-        listItem->setLayout(listItemlayout);
+//void ImportTimeLineView::updataLayout()
+void ImportTimeLineView::addTimelineLayout()
+{
+    if (currentTimeLineLoad >= m_timelines.size()) {
+        return;
+    }
+    int nowTimeLineLoad = currentTimeLineLoad;
+//    for (int i = 0; i < m_timelines.size(); i++) {
+    //获取当前时间照片
+    DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(m_timelines.at(nowTimeLineLoad));
+
+    QListWidgetItem *item = new QListWidgetItem;
+    TimelineItem *listItem = new TimelineItem;
+    QVBoxLayout *listItemlayout = new QVBoxLayout();
+    listItem->setLayout(listItemlayout);
 //        listItemlayout->setMargin(2);
 //        listItemlayout->setSpacing(0);
-        listItemlayout->setContentsMargins(0, 0, 0, 0);
+    listItemlayout->setContentsMargins(0, 0, 0, 0);
 
-        //添加title
-        DWidget *TitleView = new DWidget;
-        QHBoxLayout *TitleViewLayout = new QHBoxLayout();
-        TitleViewLayout->setContentsMargins(10, 0, 0, 0);
-        TitleView->setLayout(TitleViewLayout);
-        DLabel *pDate = new DLabel();
+    //添加title
+    DWidget *TitleView = new DWidget;
+    QHBoxLayout *TitleViewLayout = new QHBoxLayout();
+    TitleViewLayout->setContentsMargins(10, 0, 0, 0);
+    TitleView->setLayout(TitleViewLayout);
+    DLabel *pDate = new DLabel();
 
-        DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T6, QFont::Medium);
-        pDate->setForegroundRole(DPalette::TextTips);
+    DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T6, QFont::Medium);
+    pDate->setForegroundRole(DPalette::TextTips);
 //        pDate->setFixedHeight(24);
-        QStringList dateTimeList = m_timelines.at(i).split(" ");
-        QStringList datelist = dateTimeList.at(0).split(".");
-        if (datelist.count() > 2) {
-            if (dateTimeList.count() == 2) {
-                listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
-            } else {
-                listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-            }
+    QStringList dateTimeList = m_timelines.at(nowTimeLineLoad).split(" ");
+    QStringList datelist = dateTimeList.at(0).split(".");
+    if (datelist.count() > 2) {
+        if (dateTimeList.count() == 2) {
+            listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
+        } else {
+            listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
-        pDate->setText(listItem->m_sdate);
+    }
+    pDate->setText(listItem->m_sdate);
 
 //        DPalette color = DApplicationHelper::instance()->palette(pDate);
 //        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
@@ -359,14 +371,14 @@ void ImportTimeLineView::updataLayout()
 //        pDate->setForegroundRole(DPalette::Text);
 //        pDate->setPalette(color);
 
-        listItem->m_date = pDate;
+    listItem->m_date = pDate;
 
-        pNum_dn = new DLabel();
-        listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
-        pNum_dn->setText(listItem->m_snum);
+    pNum_dn = new DLabel();
+    listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
+    pNum_dn->setText(listItem->m_snum);
 
-        DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
-        pNum_dn->setForegroundRole(DPalette::TextTips);
+    DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
+    pNum_dn->setForegroundRole(DPalette::TextTips);
 
 //        QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
 //        ft6.setFamily("SourceHanSansSC");
@@ -392,199 +404,209 @@ void ImportTimeLineView::updataLayout()
 //        pNum_dn->setFixedHeight(24);
 //        pNum_dn->setFont(ft6);
 
-        QHBoxLayout *Layout = new QHBoxLayout();
-        DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
-        m_allChoseButton << pChose;
-        DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
-        pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
-        pChose->setFixedHeight(24);
-        pChose->resize(36, 27);
+    QHBoxLayout *Layout = new QHBoxLayout();
+    DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
+    m_allChoseButton << pChose;
+    DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
+    pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
+    pChose->setFixedHeight(24);
+    pChose->resize(36, 27);
 
-        pNum_dn->setLayout(Layout);
-        Layout->addStretch(1);
-        Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        Layout->setContentsMargins(0, 0, 1, 0);
-        Layout->addWidget(pChose);
+    pNum_dn->setLayout(Layout);
+    Layout->addStretch(1);
+    Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    Layout->setContentsMargins(0, 0, 1, 0);
+    Layout->addWidget(pChose);
 
-        listItem->m_Chose = pChose;
-        listItem->m_num = pNum_dn;
-        TitleViewLayout->addWidget(pDate);
-        TitleViewLayout->addWidget(pNum_dn);
-        TitleView->setFixedHeight(SUBTITLE_HEIGHT);
-        listItem->m_title = TitleView;
+    listItem->m_Chose = pChose;
+    listItem->m_num = pNum_dn;
+    TitleViewLayout->addWidget(pDate);
+    TitleViewLayout->addWidget(pNum_dn);
+    TitleView->setFixedHeight(SUBTITLE_HEIGHT);
+    listItem->m_title = TitleView;
 
-        //添加照片
-        ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::NullType, COMMON_STR_RECENT_IMPORTED);
-        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
-            if (isVisible()) {
-                int mh = h;
-                if (0 == i) {
-                    mh += 50;
-                }
-                if (i == m_timelines.size() - 1) {
-                    mh += 27;
-                }
-                pThumbnailListView->setFixedHeight(mh);
-                listItem->setFixedHeight(TitleView->height() + mh);
-                item->setSizeHint(listItem->rect().size());
+    //添加照片
+    ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::NullType, COMMON_STR_RECENT_IMPORTED);
+    connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, [ = ]() {
+        addTimelineLayout();
+    });
+//        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
+    connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
+        if (isVisible()) {
+            int mh = h;
+            if (0 == nowTimeLineLoad) {
+                mh += 50;
             }
+            if (nowTimeLineLoad == m_timelines.size() - 1) {
+                mh += 27;
+            }
+            pThumbnailListView->setFixedHeight(mh);
+            listItem->setFixedHeight(TitleView->height() + mh);
+            item->setSizeHint(listItem->rect().size());
+//                emit albumviewResize();
+//                setFixedSize(QSize(size().width() + 1, size().height()));
+//                setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
+//                setMinimumSize(0, 0);
+//                setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
+        }
 
-        });
+    });
 
 #if 1
-        m_allThumbnailListView.append(pThumbnailListView);
+    m_allThumbnailListView.append(pThumbnailListView);
 #endif
-        pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
-        pThumbnailListView->setContentsMargins(0, 0, 0, 0);
-        pThumbnailListView->setFrameShape(DTableView::NoFrame);
+    pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
+    pThumbnailListView->setContentsMargins(0, 0, 0, 0);
+    pThumbnailListView->setFrameShape(DTableView::NoFrame);
 
-        using namespace utils::image;
-        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
-        for (int j = 0; j < ImgInfoList.size(); j++) {
-            ThumbnailListView::ItemInfo vi;
-            vi.name = ImgInfoList.at(j).fileName;
-            vi.path = ImgInfoList.at(j).filePath;
-//            vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
-            if (dApp->m_imagemap.value(ImgInfoList.at(j).filePath).isNull()) {
-                QSize imageSize = getImageQSize(vi.path);
+//        using namespace utils::image;
+//        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
+//        for (int j = 0; j < ImgInfoList.size(); j++) {
+//            ThumbnailListView::ItemInfo vi;
+//            vi.name = ImgInfoList.at(j).fileName;
+//            vi.path = ImgInfoList.at(j).filePath;
+////            vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
+//            if (dApp->m_imagemap.value(ImgInfoList.at(j).filePath).isNull()) {
+//                QSize imageSize = getImageQSize(vi.path);
 
-                vi.width = imageSize.width();
-                vi.height = imageSize.height();
-            } else {
-                vi.width = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).width();
-                vi.height = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).height();
+//                vi.width = imageSize.width();
+//                vi.height = imageSize.height();
+//            } else {
+//                vi.width = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).width();
+//                vi.height = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).height();
+//            }
+
+//            thumbnaiItemList.append(vi);
+//        }
+    //保存当前时间照片
+//        pThumbnailListView->insertThumbnails(thumbnaiItemList);
+    pThumbnailListView->loadFilesFromLocal(ImgInfoList);
+    pThumbnailListView->m_imageType = COMMON_STR_RECENT_IMPORTED;
+
+    if (0 == nowTimeLineLoad) {
+        DWidget *topwidget = new DWidget;
+        topwidget->setFixedHeight(50);
+        listItemlayout->addWidget(topwidget);
+    }
+    listItemlayout->addWidget(TitleView);
+    listItemlayout->addSpacing(-8);
+    listItemlayout->addWidget(pThumbnailListView);
+    if (nowTimeLineLoad == m_timelines.size() - 1) {
+        DWidget *bottomwidget = new DWidget;
+        bottomwidget->setFixedHeight(27);
+        listItemlayout->addWidget(bottomwidget);
+    }
+    item->setFlags(Qt::NoItemFlags);
+    m_mainListWidget->addItemForWidget(item);
+    m_mainListWidget->setItemWidget(item, listItem);
+    connect(pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
+        SignalManager::ViewInfo info;
+        info.album = "";
+        info.lastPanel = nullptr;
+        if (ImgInfoList.size() <= 1) {
+            info.paths.clear();
+        } else {
+            for (auto image : ImgInfoList) {
+                info.paths << image.filePath;
             }
+        }
+        info.path = ImgInfoList[index].filePath;
+        info.viewType = COMMON_STR_RECENT_IMPORTED;
+        info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
+        emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
+    });
+    connect(pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
+        SignalManager::ViewInfo info;
+        info.album = "";
+        info.lastPanel = nullptr;
 
-            thumbnaiItemList.append(vi);
-        }
-        //保存当前时间照片
-        pThumbnailListView->insertThumbnails(thumbnaiItemList);
-        pThumbnailListView->m_imageType = COMMON_STR_RECENT_IMPORTED;
+        auto photolist = DBManager::instance()->getAllInfos();
 
-        if (0 == i) {
-            DWidget *topwidget = new DWidget;
-            topwidget->setFixedHeight(50);
-            listItemlayout->addWidget(topwidget);
-        }
-        listItemlayout->addWidget(TitleView);
-        listItemlayout->addSpacing(-8);
-        listItemlayout->addWidget(pThumbnailListView);
-        if (i == m_timelines.size() - 1) {
-            DWidget *bottomwidget = new DWidget;
-            bottomwidget->setFixedHeight(27);
-            listItemlayout->addWidget(bottomwidget);
-        }
-        item->setFlags(Qt::NoItemFlags);
-        m_mainListWidget->addItemForWidget(item);
-        m_mainListWidget->setItemWidget(item, listItem);
-        connect(pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
-            SignalManager::ViewInfo info;
-            info.album = "";
-            info.lastPanel = nullptr;
-            if (ImgInfoList.size() <= 1) {
-                info.paths.clear();
-            } else {
-                for (auto image : ImgInfoList) {
+        if (paths.size() > 1) {
+            info.paths = paths;
+        } else {
+            if (photolist.size() > 1) {
+                for (auto image : photolist) {
                     info.paths << image.filePath;
                 }
+            } else {
+                info.paths.clear();
             }
-            info.path = ImgInfoList[index].filePath;
-            info.viewType = COMMON_STR_RECENT_IMPORTED;
-            info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
+        }
+        info.path = path;
+        info.fullScreen = isFullScreen;
+        info.slideShow = isSlideShow;
+        info.viewType = COMMON_STR_RECENT_IMPORTED;
+        info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
+        if (info.slideShow) {
+            if (ImgInfoList.count() == 1) {
+                info.paths = paths;
+            }
+
+            QStringList pathlist;
+            pathlist.clear();
+            for (auto path : info.paths) {
+                if (QFileInfo(path).exists()) {
+                    pathlist << path;
+                }
+            }
+
+            info.paths = pathlist;
+            emit dApp->signalM->startSlideShow(info);
+            emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
+        } else {
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
-        });
-        connect(pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
-            SignalManager::ViewInfo info;
-            info.album = "";
-            info.lastPanel = nullptr;
-
-            auto photolist = DBManager::instance()->getAllInfos();
-
-            if (paths.size() > 1) {
-                info.paths = paths;
-            } else {
-                if (photolist.size() > 1) {
-                    for (auto image : photolist) {
-                        info.paths << image.filePath;
-                    }
-                } else {
-                    info.paths.clear();
-                }
+        }
+    });
+    connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
+        if (QObject::tr("Select") == pChose->text())
+        {
+            pChose->setText(QObject::tr("Unselect"));
+            pThumbnailListView->selectAll();
+            for (int j = 0; j < m_allChoseButton.length(); j++) {
+                if (pChose == m_allChoseButton[j])
+                    lastClickedIndex = j;
             }
-            info.path = path;
-            info.fullScreen = isFullScreen;
-            info.slideShow = isSlideShow;
-            info.viewType = COMMON_STR_RECENT_IMPORTED;
-            info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-            if (info.slideShow) {
-                if (ImgInfoList.count() == 1) {
-                    info.paths = paths;
-                }
-
-                QStringList pathlist;
-                pathlist.clear();
-                for (auto path : info.paths) {
-                    if (QFileInfo(path).exists()) {
-                        pathlist << path;
-                    }
-                }
-
-                info.paths = pathlist;
-                emit dApp->signalM->startSlideShow(info);
-                emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
-            } else {
-                emit dApp->signalM->viewImage(info);
-                emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
-            }
-        });
-        connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
-            if (QObject::tr("Select") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Unselect"));
-                pThumbnailListView->selectAll();
-                for (int i = 0; i < m_allChoseButton.length(); i++) {
-                    if (pChose == m_allChoseButton[i])
-                        lastClickedIndex = i;
-                }
-                lastRow = 0;
-                lastChanged = true;
-            } else
-            {
-                pChose->setText(QObject::tr("Select"));
-                pThumbnailListView->clearSelection();
-            }
-            emit sigUpdatePicNum();
-        });
+            lastRow = 0;
+            lastChanged = true;
+        } else
+        {
+            pChose->setText(QObject::tr("Select"));
+            pThumbnailListView->clearSelection();
+        }
+        emit sigUpdatePicNum();
+    });
 #if 1
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
-            lastRow = -1;
-            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-                if (pThumbnailListView == m_allThumbnailListView[i]) {
-                    lastClickedIndex = i;
-                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
-                    if (-1 != lastRow)
-                        lastChanged = true;
-                }
+    connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
+        lastRow = -1;
+        for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+            if (pThumbnailListView == m_allThumbnailListView[j]) {
+                lastClickedIndex = j;
+                lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+                if (-1 != lastRow)
+                    lastChanged = true;
             }
-        });
+        }
+    });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ](QMouseEvent * event) {
-            int curClickedIndex = -1;
-            int curRow = -1;
-            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-                if (pThumbnailListView == m_allThumbnailListView[i]) {
-                    curClickedIndex = i;
-                    curRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
-                }
+    connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ](QMouseEvent * event) {
+        int curClickedIndex = -1;
+        int curRow = -1;
+        for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+            if (pThumbnailListView == m_allThumbnailListView[j]) {
+                curClickedIndex = j;
+                curRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
             }
+        }
 
-            if (!lastChanged && -1 != curRow && -1 != m_lastShiftRow) {
-                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-                    m_allThumbnailListView[i]->clearSelection();
-                }
+        if (!lastChanged && -1 != curRow && -1 != m_lastShiftRow) {
+            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                m_allThumbnailListView[j]->clearSelection();
+            }
 //                qDebug() << "lastClickedIndex" << lastClickedIndex << endl
 //                         <<  "m_lastShiftClickedIndex"  << m_lastShiftClickedIndex << endl
 //                         << lastRow << endl
@@ -607,70 +629,70 @@ void ImportTimeLineView::updataLayout()
 //                    else
 //                        pThumbnailListView->clearSelectionExtent(lastRow,m_lastShiftRow);
 //                }
-            }
+        }
 
-            if (curRow == -1 || lastRow == -1) {
-                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-                    m_allThumbnailListView[i]->clearSelection();
-                }
-            } else {
-                if (lastClickedIndex < curClickedIndex) {
-                    m_allThumbnailListView[lastClickedIndex]->selectRear(lastRow);
-                    m_allThumbnailListView[curClickedIndex]->selectFront(curRow);
-                    for (int i = lastClickedIndex + 1; i < curClickedIndex; i++) {
-                        m_allThumbnailListView[i]->selectAll();
-                    }
-                } else if (lastClickedIndex > curClickedIndex) {
-                    m_allThumbnailListView[lastClickedIndex]->selectFront(lastRow);
-                    m_allThumbnailListView[curClickedIndex]->selectRear(curRow);
-                    for (int i = curClickedIndex + 1; i < lastClickedIndex; i++) {
-                        m_allThumbnailListView[i]->selectAll();
-                    }
-                } else if (lastClickedIndex == curClickedIndex) {
-                    if (lastRow <= curRow)
-                        pThumbnailListView->selectExtent(lastRow, curRow);
-                    else
-                        pThumbnailListView->selectExtent(curRow, lastRow);
-                }
-                emit sigUpdatePicNum();
-                updateChoseText();
-                m_lastShiftRow = curRow;
-                m_lastShiftClickedIndex = curClickedIndex;
-                curRow = -1;
-                lastChanged = false;
+        if (curRow == -1 || lastRow == -1) {
+            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                m_allThumbnailListView[j]->clearSelection();
             }
-        });
-
-        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ](QMouseEvent * event) {
-            for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-                if (pThumbnailListView == m_allThumbnailListView[i]) {
-                    lastClickedIndex = i;
-                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
-                    if (-1 != lastRow)
-                        lastChanged = true;
+        } else {
+            if (lastClickedIndex < curClickedIndex) {
+                m_allThumbnailListView[lastClickedIndex]->selectRear(lastRow);
+                m_allThumbnailListView[curClickedIndex]->selectFront(curRow);
+                for (int j = lastClickedIndex + 1; j < curClickedIndex; j++) {
+                    m_allThumbnailListView[j]->selectAll();
                 }
+            } else if (lastClickedIndex > curClickedIndex) {
+                m_allThumbnailListView[lastClickedIndex]->selectFront(lastRow);
+                m_allThumbnailListView[curClickedIndex]->selectRear(curRow);
+                for (int j = curClickedIndex + 1; j < lastClickedIndex; j++) {
+                    m_allThumbnailListView[j]->selectAll();
+                }
+            } else if (lastClickedIndex == curClickedIndex) {
+                if (lastRow <= curRow)
+                    pThumbnailListView->selectExtent(lastRow, curRow);
+                else
+                    pThumbnailListView->selectExtent(curRow, lastRow);
             }
             emit sigUpdatePicNum();
             updateChoseText();
-        });
+            m_lastShiftRow = curRow;
+            m_lastShiftClickedIndex = curClickedIndex;
+            curRow = -1;
+            lastChanged = false;
+        }
+    });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigGetSelectedPaths, this, [ = ](QStringList * pPaths) {
-            pPaths->clear();
-            for (int i = 0; i < m_allThumbnailListView.size(); i++) {
-                pPaths->append(m_allThumbnailListView[i]->selectedPaths());
+    connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ](QMouseEvent * event) {
+        for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+            if (pThumbnailListView == m_allThumbnailListView[j]) {
+                lastClickedIndex = j;
+                lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+                if (-1 != lastRow)
+                    lastChanged = true;
             }
-        });
+        }
+        emit sigUpdatePicNum();
+        updateChoseText();
+    });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
-            for (int i = 0; i < m_allThumbnailListView.length(); i++)
-            {
-                m_allThumbnailListView[i]->selectAll();
-            }
-            emit sigUpdatePicNum();
-            updateChoseText();
-            QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-            pSuspensionChose->setText(b[0]->text());
-        });
+    connect(pThumbnailListView, &ThumbnailListView::sigGetSelectedPaths, this, [ = ](QStringList * pPaths) {
+        pPaths->clear();
+        for (int j = 0; j < m_allThumbnailListView.size(); j++) {
+            pPaths->append(m_allThumbnailListView[j]->selectedPaths());
+        }
+    });
+
+    connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
+        for (int j = 0; j < m_allThumbnailListView.length(); j++)
+        {
+            m_allThumbnailListView[j]->selectAll();
+        }
+        emit sigUpdatePicNum();
+        updateChoseText();
+        QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+        pSuspensionChose->setText(b[0]->text());
+    });
 
 //        connect(pThumbnailListView, &ThumbnailListView::sigDrop, this, [ = ] {
 //            for (int i = 0; i < m_allThumbnailListView.length(); i++)
@@ -683,66 +705,529 @@ void ImportTimeLineView::updataLayout()
 //            updateChoseText();
 //        });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ] {
-            emit sigUpdatePicNum();
-            updateChoseText();
-        });
+    connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ] {
+        emit sigUpdatePicNum();
+        updateChoseText();
+    });
 
-        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
-            if (!m_ctrlPress)
-            {
-                for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-                    if (pThumbnailListView != m_allThumbnailListView[i]) {
-                        m_allThumbnailListView[i]->clearSelection();
-                    }
+    connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
+        if (!m_ctrlPress)
+        {
+            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                if (pThumbnailListView != m_allThumbnailListView[j]) {
+                    m_allThumbnailListView[j]->clearSelection();
                 }
             }
-            emit sigUpdatePicNum();
-            updateChoseText();
-            QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-            pSuspensionChose->setText(b[0]->text());
-        });
+        }
+        emit sigUpdatePicNum();
+        updateChoseText();
+        QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+        pSuspensionChose->setText(b[0]->text());
+    });
 
-        connect(pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, [ = ] {
-            QStringList paths = pThumbnailListView->selectedPaths();
-            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Unselect"));
-            }
+    connect(pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, [ = ] {
+        QStringList paths = pThumbnailListView->selectedPaths();
+        if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
+        {
+            pChose->setText(QObject::tr("Unselect"));
+        }
 
-            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-            {
-                pChose->setText(QObject::tr("Select"));
-            }
-            emit sigUpdatePicNum();
-        });
-        connect(pThumbnailListView, &ThumbnailListView::sigMenuItemDeal, this, [ = ](QAction * action) {
-            QStringList paths;
-            paths.clear();
-            for (int i = 0; i < m_allThumbnailListView.size(); i++) {
-                paths << m_allThumbnailListView[i]->selectedPaths();
-            }
-            pThumbnailListView->menuItemDeal(paths, action);
-        });
+        if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
+        {
+            pChose->setText(QObject::tr("Select"));
+        }
+        emit sigUpdatePicNum();
+    });
+    connect(pThumbnailListView, &ThumbnailListView::sigMenuItemDeal, this, [ = ](QAction * action) {
+        QStringList paths;
+        paths.clear();
+        for (int j = 0; j < m_allThumbnailListView.size(); j++) {
+            paths << m_allThumbnailListView[j]->selectedPaths();
+        }
+        pThumbnailListView->menuItemDeal(paths, action);
+    });
 
-        connect(listItem, &TimelineItem::sigMousePress, this, [ = ] {
-            for (int i = 0; i < m_allThumbnailListView.length(); i++)
-            {
-                m_allThumbnailListView[i]->clearSelection();
-            }
-            lastRow = -1;
-            emit sigUpdatePicNum();
-            updateChoseText();
-        });
+    connect(listItem, &TimelineItem::sigMousePress, this, [ = ] {
+        for (int j = 0; j < m_allThumbnailListView.length(); j++)
+        {
+            m_allThumbnailListView[j]->clearSelection();
+        }
+        lastRow = -1;
+        emit sigUpdatePicNum();
+        updateChoseText();
+    });
 #endif
-    }
+//    }
 
-    for (int i = 0; i < m_allThumbnailListView.size(); i++) {
-        connect(m_allThumbnailListView[i], &ThumbnailListView::sigKeyEvent, this, &ImportTimeLineView::on_KeyEvent);
-    }
+//    for (int j = 0; j < m_allThumbnailListView.size(); j++) {
+    connect(m_allThumbnailListView[nowTimeLineLoad], &ThumbnailListView::sigKeyEvent, this, &ImportTimeLineView::on_KeyEvent);
+//    }
 
     emit sigUpdatePicNum();
+    currentTimeLineLoad++;
 }
+
+//void ImportTimeLineView::updataLayout()
+//{
+//    //获取所有时间线
+//    m_mainListWidget->clear();
+//    m_allChoseButton.clear();
+//    m_timelines.clear();
+//    m_timelines = DBManager::instance()->getImportTimelines();
+//    qDebug() << __func__ << m_timelines.size();
+
+//#if 1
+//    m_allThumbnailListView.clear();
+//#endif
+//    if (0 < m_timelines.size()) {
+
+//    } else {
+//        m_dateItem->setVisible(false);
+//    }
+//    //add start 3975
+//    TimelineItem *blankWidget = new TimelineItem;
+//    blankWidget->m_type = "blank";
+//    QListWidgetItem *blankItem = new QListWidgetItem();
+//    blankItem->setFlags(Qt::NoItemFlags);
+//    m_mainListWidget->addItemForWidget(blankItem);
+//    m_mainListWidget->setItemWidget(blankItem, blankWidget);
+//    blankItem->setSizeHint(QSize(width(), m_pImportTitle->height()));
+//    //add end 3975
+//    for (int i = 0; i < m_timelines.size(); i++) {
+//        //获取当前时间照片
+//        DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(m_timelines.at(i));
+
+//        QListWidgetItem *item = new QListWidgetItem;
+//        TimelineItem *listItem = new TimelineItem;
+//        QVBoxLayout *listItemlayout = new QVBoxLayout();
+//        listItem->setLayout(listItemlayout);
+////        listItemlayout->setMargin(2);
+////        listItemlayout->setSpacing(0);
+//        listItemlayout->setContentsMargins(0, 0, 0, 0);
+
+//        //添加title
+//        DWidget *TitleView = new DWidget;
+//        QHBoxLayout *TitleViewLayout = new QHBoxLayout();
+//        TitleViewLayout->setContentsMargins(10, 0, 0, 0);
+//        TitleView->setLayout(TitleViewLayout);
+//        DLabel *pDate = new DLabel();
+
+//        DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T6, QFont::Medium);
+//        pDate->setForegroundRole(DPalette::TextTips);
+////        pDate->setFixedHeight(24);
+//        QStringList dateTimeList = m_timelines.at(i).split(" ");
+//        QStringList datelist = dateTimeList.at(0).split(".");
+//        if (datelist.count() > 2) {
+//            if (dateTimeList.count() == 2) {
+//                listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
+//            } else {
+//                listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+//            }
+//        }
+//        pDate->setText(listItem->m_sdate);
+
+////        DPalette color = DApplicationHelper::instance()->palette(pDate);
+////        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+
+////        QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+////        ft3.setFamily("SourceHanSansSC");
+////        ft3.setWeight(QFont::DemiBold);
+
+////        pDate->setFont(ft3);
+////        pDate->setForegroundRole(DPalette::Text);
+////        pDate->setPalette(color);
+
+//        listItem->m_date = pDate;
+
+//        pNum_dn = new DLabel();
+//        listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
+//        pNum_dn->setText(listItem->m_snum);
+
+//        DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
+//        pNum_dn->setForegroundRole(DPalette::TextTips);
+
+////        QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+////        ft6.setFamily("SourceHanSansSC");
+////        ft6.setWeight(QFont::Medium);
+////        DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
+////        QColor color_BT = pal.color(DPalette::BrightText);
+////        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+////        if (themeType == DGuiApplicationHelper::LightType)
+////        {
+////            color_BT.setAlphaF(0.5);
+////            pal.setBrush(DPalette::Text, color_BT);
+////            pNum_dn->setForegroundRole(DPalette::Text);
+////            pNum_dn->setPalette(pal);
+////        }
+////        else if (themeType == DGuiApplicationHelper::DarkType)
+////        {
+////            color_BT.setAlphaF(0.75);
+////            pal.setBrush(DPalette::Text, color_BT);
+////            pNum_dn->setForegroundRole(DPalette::Text);
+////            pNum_dn->setPalette(pal);
+////        }
+
+////        pNum_dn->setFixedHeight(24);
+////        pNum_dn->setFont(ft6);
+
+//        QHBoxLayout *Layout = new QHBoxLayout();
+//        DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
+//        m_allChoseButton << pChose;
+//        DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
+//        pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
+//        pChose->setFixedHeight(24);
+//        pChose->resize(36, 27);
+
+//        pNum_dn->setLayout(Layout);
+//        Layout->addStretch(1);
+//        Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+//        Layout->setContentsMargins(0, 0, 1, 0);
+//        Layout->addWidget(pChose);
+
+//        listItem->m_Chose = pChose;
+//        listItem->m_num = pNum_dn;
+//        TitleViewLayout->addWidget(pDate);
+//        TitleViewLayout->addWidget(pNum_dn);
+//        TitleView->setFixedHeight(SUBTITLE_HEIGHT);
+//        listItem->m_title = TitleView;
+
+//        //添加照片
+//        ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::NullType, COMMON_STR_RECENT_IMPORTED);
+////        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
+//        connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
+//            if (isVisible()) {
+//                int mh = h;
+//                if (0 == i) {
+//                    mh += 50;
+//                }
+//                if (i == m_timelines.size() - 1) {
+//                    mh += 27;
+//                }
+//                pThumbnailListView->setFixedHeight(mh);
+//                listItem->setFixedHeight(TitleView->height() + mh);
+//                item->setSizeHint(listItem->rect().size());
+////                emit albumviewResize();
+////                setFixedSize(QSize(size().width() + 1, size().height()));
+////                setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
+////                setMinimumSize(0, 0);
+////                setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
+//            }
+
+//        });
+
+//#if 1
+//        m_allThumbnailListView.append(pThumbnailListView);
+//#endif
+//        pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+//        pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
+//        pThumbnailListView->setContentsMargins(0, 0, 0, 0);
+//        pThumbnailListView->setFrameShape(DTableView::NoFrame);
+
+////        using namespace utils::image;
+////        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
+////        for (int j = 0; j < ImgInfoList.size(); j++) {
+////            ThumbnailListView::ItemInfo vi;
+////            vi.name = ImgInfoList.at(j).fileName;
+////            vi.path = ImgInfoList.at(j).filePath;
+//////            vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
+////            if (dApp->m_imagemap.value(ImgInfoList.at(j).filePath).isNull()) {
+////                QSize imageSize = getImageQSize(vi.path);
+
+////                vi.width = imageSize.width();
+////                vi.height = imageSize.height();
+////            } else {
+////                vi.width = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).width();
+////                vi.height = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).height();
+////            }
+
+////            thumbnaiItemList.append(vi);
+////        }
+//        //保存当前时间照片
+////        pThumbnailListView->insertThumbnails(thumbnaiItemList);
+//        pThumbnailListView->loadFilesFromLocal(ImgInfoList);
+//        pThumbnailListView->m_imageType = COMMON_STR_RECENT_IMPORTED;
+
+//        if (0 == i) {
+//            DWidget *topwidget = new DWidget;
+//            topwidget->setFixedHeight(50);
+//            listItemlayout->addWidget(topwidget);
+//        }
+//        listItemlayout->addWidget(TitleView);
+//        listItemlayout->addSpacing(-8);
+//        listItemlayout->addWidget(pThumbnailListView);
+//        if (i == m_timelines.size() - 1) {
+//            DWidget *bottomwidget = new DWidget;
+//            bottomwidget->setFixedHeight(27);
+//            listItemlayout->addWidget(bottomwidget);
+//        }
+//        item->setFlags(Qt::NoItemFlags);
+//        m_mainListWidget->addItemForWidget(item);
+//        m_mainListWidget->setItemWidget(item, listItem);
+//        connect(pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
+//            SignalManager::ViewInfo info;
+//            info.album = "";
+//            info.lastPanel = nullptr;
+//            if (ImgInfoList.size() <= 1) {
+//                info.paths.clear();
+//            } else {
+//                for (auto image : ImgInfoList) {
+//                    info.paths << image.filePath;
+//                }
+//            }
+//            info.path = ImgInfoList[index].filePath;
+//            info.viewType = COMMON_STR_RECENT_IMPORTED;
+//            info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
+//            emit dApp->signalM->viewImage(info);
+//            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
+//        });
+//        connect(pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
+//            SignalManager::ViewInfo info;
+//            info.album = "";
+//            info.lastPanel = nullptr;
+
+//            auto photolist = DBManager::instance()->getAllInfos();
+
+//            if (paths.size() > 1) {
+//                info.paths = paths;
+//            } else {
+//                if (photolist.size() > 1) {
+//                    for (auto image : photolist) {
+//                        info.paths << image.filePath;
+//                    }
+//                } else {
+//                    info.paths.clear();
+//                }
+//            }
+//            info.path = path;
+//            info.fullScreen = isFullScreen;
+//            info.slideShow = isSlideShow;
+//            info.viewType = COMMON_STR_RECENT_IMPORTED;
+//            info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
+//            if (info.slideShow) {
+//                if (ImgInfoList.count() == 1) {
+//                    info.paths = paths;
+//                }
+
+//                QStringList pathlist;
+//                pathlist.clear();
+//                for (auto path : info.paths) {
+//                    if (QFileInfo(path).exists()) {
+//                        pathlist << path;
+//                    }
+//                }
+
+//                info.paths = pathlist;
+//                emit dApp->signalM->startSlideShow(info);
+//                emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
+//            } else {
+//                emit dApp->signalM->viewImage(info);
+//                emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
+//            }
+//        });
+//        connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
+//            if (QObject::tr("Select") == pChose->text())
+//            {
+//                pChose->setText(QObject::tr("Unselect"));
+//                pThumbnailListView->selectAll();
+//                for (int j = 0; j < m_allChoseButton.length(); j++) {
+//                    if (pChose == m_allChoseButton[j])
+//                        lastClickedIndex = j;
+//                }
+//                lastRow = 0;
+//                lastChanged = true;
+//            } else
+//            {
+//                pChose->setText(QObject::tr("Select"));
+//                pThumbnailListView->clearSelection();
+//            }
+//            emit sigUpdatePicNum();
+//        });
+//#if 1
+
+//        connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
+//            lastRow = -1;
+//            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+//                if (pThumbnailListView == m_allThumbnailListView[j]) {
+//                    lastClickedIndex = j;
+//                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+//                    if (-1 != lastRow)
+//                        lastChanged = true;
+//                }
+//            }
+//        });
+
+//        connect(pThumbnailListView, &ThumbnailListView::sigShiftMousePress, this, [ = ](QMouseEvent * event) {
+//            int curClickedIndex = -1;
+//            int curRow = -1;
+//            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+//                if (pThumbnailListView == m_allThumbnailListView[j]) {
+//                    curClickedIndex = j;
+//                    curRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+//                }
+//            }
+
+//            if (!lastChanged && -1 != curRow && -1 != m_lastShiftRow) {
+//                for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+//                    m_allThumbnailListView[j]->clearSelection();
+//                }
+////                qDebug() << "lastClickedIndex" << lastClickedIndex << endl
+////                         <<  "m_lastShiftClickedIndex"  << m_lastShiftClickedIndex << endl
+////                         << lastRow << endl
+////                         <<m_lastShiftRow;
+////                if(m_lastShiftClickedIndex < lastClickedIndex){
+////                    m_allThumbnailListView[m_lastShiftClickedIndex]->clearSelectionRear(m_lastShiftRow);
+////                    m_allThumbnailListView[lastClickedIndex]->clearSelectionFront(lastRow);
+////                    for(int i = m_lastShiftClickedIndex+1;i < lastClickedIndex;i++){
+////                        m_allThumbnailListView[i]->clearSelection();
+////                    }
+////                }else if(m_lastShiftClickedIndex > lastClickedIndex){
+////                    m_allThumbnailListView[m_lastShiftClickedIndex]->clearSelectionFront(m_lastShiftRow);
+////                    m_allThumbnailListView[lastClickedIndex]->clearSelectionRear(lastRow);
+////                    for(int i = lastClickedIndex+1;i < m_lastShiftClickedIndex;i++){
+////                        m_allThumbnailListView[i]->clearSelection();
+////                    }
+////                }else if(m_lastShiftClickedIndex == lastClickedIndex){
+////                    if(m_lastShiftRow <= lastRow)
+////                        pThumbnailListView->clearSelectionExtent(m_lastShiftRow,lastRow);
+////                    else
+////                        pThumbnailListView->clearSelectionExtent(lastRow,m_lastShiftRow);
+////                }
+//            }
+
+//            if (curRow == -1 || lastRow == -1) {
+//                for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+//                    m_allThumbnailListView[j]->clearSelection();
+//                }
+//            } else {
+//                if (lastClickedIndex < curClickedIndex) {
+//                    m_allThumbnailListView[lastClickedIndex]->selectRear(lastRow);
+//                    m_allThumbnailListView[curClickedIndex]->selectFront(curRow);
+//                    for (int j = lastClickedIndex + 1; j < curClickedIndex; j++) {
+//                        m_allThumbnailListView[j]->selectAll();
+//                    }
+//                } else if (lastClickedIndex > curClickedIndex) {
+//                    m_allThumbnailListView[lastClickedIndex]->selectFront(lastRow);
+//                    m_allThumbnailListView[curClickedIndex]->selectRear(curRow);
+//                    for (int j = curClickedIndex + 1; j < lastClickedIndex; j++) {
+//                        m_allThumbnailListView[j]->selectAll();
+//                    }
+//                } else if (lastClickedIndex == curClickedIndex) {
+//                    if (lastRow <= curRow)
+//                        pThumbnailListView->selectExtent(lastRow, curRow);
+//                    else
+//                        pThumbnailListView->selectExtent(curRow, lastRow);
+//                }
+//                emit sigUpdatePicNum();
+//                updateChoseText();
+//                m_lastShiftRow = curRow;
+//                m_lastShiftClickedIndex = curClickedIndex;
+//                curRow = -1;
+//                lastChanged = false;
+//            }
+//        });
+
+//        connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ](QMouseEvent * event) {
+//            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+//                if (pThumbnailListView == m_allThumbnailListView[j]) {
+//                    lastClickedIndex = j;
+//                    lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+//                    if (-1 != lastRow)
+//                        lastChanged = true;
+//                }
+//            }
+//            emit sigUpdatePicNum();
+//            updateChoseText();
+//        });
+
+//        connect(pThumbnailListView, &ThumbnailListView::sigGetSelectedPaths, this, [ = ](QStringList * pPaths) {
+//            pPaths->clear();
+//            for (int j = 0; j < m_allThumbnailListView.size(); j++) {
+//                pPaths->append(m_allThumbnailListView[j]->selectedPaths());
+//            }
+//        });
+
+//        connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
+//            for (int j = 0; j < m_allThumbnailListView.length(); j++)
+//            {
+//                m_allThumbnailListView[j]->selectAll();
+//            }
+//            emit sigUpdatePicNum();
+//            updateChoseText();
+//            QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+//            pSuspensionChose->setText(b[0]->text());
+//        });
+
+////        connect(pThumbnailListView, &ThumbnailListView::sigDrop, this, [ = ] {
+////            for (int i = 0; i < m_allThumbnailListView.length(); i++)
+////            {
+////                if (pThumbnailListView != m_allThumbnailListView[i]) {
+////                    m_allThumbnailListView[i]->clearSelection();
+////                }
+////            }
+////            emit sigUpdatePicNum();
+////            updateChoseText();
+////        });
+
+//        connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ] {
+//            emit sigUpdatePicNum();
+//            updateChoseText();
+//        });
+
+//        connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
+//            if (!m_ctrlPress)
+//            {
+//                for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+//                    if (pThumbnailListView != m_allThumbnailListView[j]) {
+//                        m_allThumbnailListView[j]->clearSelection();
+//                    }
+//                }
+//            }
+//            emit sigUpdatePicNum();
+//            updateChoseText();
+//            QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+//            pSuspensionChose->setText(b[0]->text());
+//        });
+
+//        connect(pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, [ = ] {
+//            QStringList paths = pThumbnailListView->selectedPaths();
+//            if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
+//            {
+//                pChose->setText(QObject::tr("Unselect"));
+//            }
+
+//            if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
+//            {
+//                pChose->setText(QObject::tr("Select"));
+//            }
+//            emit sigUpdatePicNum();
+//        });
+//        connect(pThumbnailListView, &ThumbnailListView::sigMenuItemDeal, this, [ = ](QAction * action) {
+//            QStringList paths;
+//            paths.clear();
+//            for (int j = 0; j < m_allThumbnailListView.size(); j++) {
+//                paths << m_allThumbnailListView[i]->selectedPaths();
+//            }
+//            pThumbnailListView->menuItemDeal(paths, action);
+//        });
+
+//        connect(listItem, &TimelineItem::sigMousePress, this, [ = ] {
+//            for (int j = 0; j < m_allThumbnailListView.length(); j++)
+//            {
+//                m_allThumbnailListView[j]->clearSelection();
+//            }
+//            lastRow = -1;
+//            emit sigUpdatePicNum();
+//            updateChoseText();
+//        });
+//#endif
+//    }
+
+//    for (int j = 0; j < m_allThumbnailListView.size(); j++) {
+//        connect(m_allThumbnailListView[j], &ThumbnailListView::sigKeyEvent, this, &ImportTimeLineView::on_KeyEvent);
+//    }
+
+//    emit sigUpdatePicNum();
+//}
 
 void ImportTimeLineView::on_AddLabel(QString date, QString num)
 {
@@ -837,113 +1322,114 @@ void ImportTimeLineView::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
+    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, nullptr, this);
 
-    using namespace utils::image;
-    QStringList paths;
-    for (QUrl url : urls) {
-        const QString path = url.toLocalFile();
-        if (QFileInfo(path).isDir()) {
-            auto finfos =  getImagesInfo(path, false);
-            for (auto finfo : finfos) {
-                if (imageSupportRead(finfo.absoluteFilePath())) {
-                    paths << finfo.absoluteFilePath();
-                }
-            }
-        } else if (imageSupportRead(path)) {
-            paths << path;
-        }
-    }
+//    using namespace utils::image;
+//    QStringList paths;
+//    for (QUrl url : urls) {
+//        const QString path = url.toLocalFile();
+//        if (QFileInfo(path).isDir()) {
+//            auto finfos =  getImagesInfo(path, false);
+//            for (auto finfo : finfos) {
+//                if (imageSupportRead(finfo.absoluteFilePath())) {
+//                    paths << finfo.absoluteFilePath();
+//                }
+//            }
+//        } else if (imageSupportRead(path)) {
+//            paths << path;
+//        }
+//    }
 
-    if (paths.isEmpty()) {
-        return;
-    }
+//    if (paths.isEmpty()) {
+//        return;
+//    }
 
-    // 判断当前导入路径是否为外接设备
-    int isMountFlag = 0;
-    DGioVolumeManager *pvfsManager = new DGioVolumeManager;
-    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-    for (auto mount : mounts) {
-        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-        QString strPath = LocationFile->path();
-        if (0 == paths.first().compare(strPath)) {
-            isMountFlag = 1;
-            break;
-        }
-    }
+//    // 判断当前导入路径是否为外接设备
+//    int isMountFlag = 0;
+//    DGioVolumeManager *pvfsManager = new DGioVolumeManager;
+//    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
+//    for (auto mount : mounts) {
+//        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+//        QString strPath = LocationFile->path();
+//        if (0 == paths.first().compare(strPath)) {
+//            isMountFlag = 1;
+//            break;
+//        }
+//    }
 
-    // 当前导入路径
-    if (isMountFlag) {
-        QString strHomePath = QDir::homePath();
-        //获取系统现在的时间
-        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-        QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
-        QDir dir;
-        if (!dir.exists(basePath)) {
-            dir.mkpath(basePath);
-        }
+//    // 当前导入路径
+//    if (isMountFlag) {
+//        QString strHomePath = QDir::homePath();
+//        //获取系统现在的时间
+//        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+//        QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
+//        QDir dir;
+//        if (!dir.exists(basePath)) {
+//            dir.mkpath(basePath);
+//        }
 
-        QStringList newImagePaths;
-        foreach (QString strPath, paths) {
-            //取出文件名称
-            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
-            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
+//        QStringList newImagePaths;
+//        foreach (QString strPath, paths) {
+//            //取出文件名称
+//            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
+//            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+//            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
 
-            newImagePaths << strNewPath;
-            //判断新路径下是否存在目标文件，若存在，下一次张
-            if (dir.exists(strNewPath)) {
-                continue;
-            }
+//            newImagePaths << strNewPath;
+//            //判断新路径下是否存在目标文件，若存在，下一次张
+//            if (dir.exists(strNewPath)) {
+//                continue;
+//            }
 
-            // 外接设备图片拷贝到系统
-            if (QFile::copy(strPath, strNewPath)) {
+//            // 外接设备图片拷贝到系统
+//            if (QFile::copy(strPath, strNewPath)) {
 
-            }
-        }
+//            }
+//        }
 
-        paths.clear();
-        paths = newImagePaths;
-    }
+//        paths.clear();
+//        paths = newImagePaths;
+//    }
 
-    DBImgInfoList dbInfos;
+//    DBImgInfoList dbInfos;
 
-    using namespace utils::image;
+//    using namespace utils::image;
 
-    for (auto path : paths) {
-        if (! imageSupportRead(path)) {
-            continue;
-        }
+//    for (auto path : paths) {
+//        if (! imageSupportRead(path)) {
+//            continue;
+//        }
 
-        QFileInfo fi(path);
-        using namespace utils::image;
-        using namespace utils::base;
-        auto mds = getAllMetaData(path);
-        QString value = mds.value("DateTimeOriginal");
-//        qDebug() << value;
-        DBImgInfo dbi;
-        dbi.fileName = fi.fileName();
-        dbi.filePath = path;
-        dbi.dirHash = utils::base::hash(QString());
-        if ("" != value) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-        } else if (fi.birthTime().isValid()) {
-            dbi.time = fi.birthTime();
-        } else if (fi.metadataChangeTime().isValid()) {
-            dbi.time = fi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
+//        QFileInfo fi(path);
+//        using namespace utils::image;
+//        using namespace utils::base;
+//        auto mds = getAllMetaData(path);
+//        QString value = mds.value("DateTimeOriginal");
+////        qDebug() << value;
+//        DBImgInfo dbi;
+//        dbi.fileName = fi.fileName();
+//        dbi.filePath = path;
+//        dbi.dirHash = utils::base::hash(QString());
+//        if ("" != value) {
+//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+//        } else if (fi.birthTime().isValid()) {
+//            dbi.time = fi.birthTime();
+//        } else if (fi.metadataChangeTime().isValid()) {
+//            dbi.time = fi.metadataChangeTime();
+//        } else {
+//            dbi.time = QDateTime::currentDateTime();
+//        }
+//        dbi.changeTime = QDateTime::currentDateTime();
 
-        dbInfos << dbi;
-    }
+//        dbInfos << dbi;
+//    }
 
-    if (! dbInfos.isEmpty()) {
-        dApp->m_imageloader->ImportImageLoader(dbInfos);
+//    if (! dbInfos.isEmpty()) {
+//        dApp->m_imageloader->ImportImageLoader(dbInfos);
 
-    } else {
-        emit dApp->signalM->ImportFailed();
-    }
+//    } else {
+//        emit dApp->signalM->ImportFailed();
+//    }
 
     event->accept();
 }

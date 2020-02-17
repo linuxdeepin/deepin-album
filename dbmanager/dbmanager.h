@@ -33,6 +33,7 @@
 #include <QDateTime>
 #include <QMutex>
 #include <QDebug>
+//#include "connectionpool.h"
 
 const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
 
@@ -51,7 +52,7 @@ struct DBImgInfo {
     QDateTime changeTime;   // 导入时间 Or 删除时间
     QString albumname;      // 图片所属相册名，以","分隔
 
-    bool operator==(const DBImgInfo& other)
+    bool operator==(const DBImgInfo &other)
     {
         return (filePath == other.filePath &&
                 fileName == other.fileName &&
@@ -61,7 +62,8 @@ struct DBImgInfo {
                 albumname == other.albumname);
     }
 
-    friend QDebug operator<<(QDebug &dbg, const DBImgInfo& info) {
+    friend QDebug operator<<(QDebug &dbg, const DBImgInfo &info)
+    {
         dbg << "(DBImgInfo)["
             << "Path:" << info.filePath
             << "Name:" << info.fileName
@@ -80,8 +82,12 @@ class DBManager : public QObject
 {
     Q_OBJECT
 public:
-    static DBManager* instance();
+    static DBManager  *instance();
     explicit DBManager(QObject *parent = 0);
+    ~DBManager()
+    {
+//        ConnectionPool::release(); //释放数据库连接
+    }
 
     // TableImage
     const QStringList       getAllPaths() const;
@@ -138,7 +144,7 @@ private:
     void importVersion1Data();
     void importVersion2Data();
 
-    static DBManager* m_dbManager;
+    static DBManager *m_dbManager;
 private:
     QString m_connectionName;
     mutable QMutex m_mutex;

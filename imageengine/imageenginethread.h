@@ -1,0 +1,126 @@
+#ifndef IMAGEENGINETHREAD_H
+#define IMAGEENGINETHREAD_H
+
+#include <QObject>
+#include <QMutex>
+#include <QUrl>
+#include "imageengineobject.h"
+
+
+class ImportImagesThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImportImagesThread();
+    void setData(QStringList paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
+    void setData(QList<QUrl> paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
+
+protected:
+    virtual void run();
+
+signals:
+
+private:
+    enum DataType {
+        DataType_NULL,
+        DataType_StringList,
+        DataType_UrlList
+    };
+    void ImportImageLoader(DBImgInfoList dbInfos/*, QString albumname = nullptr*/);
+    QStringList m_paths;
+    QList<QUrl> m_urls;
+    QString m_albumname;
+    ImageEngineImportObject *m_obj = nullptr;
+    bool m_bdialogselect = false;
+    DataType m_type = DataType_NULL;
+};
+
+class ImageGetFilesFromMountThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImageGetFilesFromMountThread();
+    void setData(QString mountname, QString path, ImageMountGetPathsObject *imgobject);
+
+protected:
+    virtual void run();
+
+signals:
+    void sigImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
+private:
+    bool findPicturePathByPhone(QString &path);
+    QString m_path;
+    QString m_mountname;
+    ImageMountGetPathsObject *m_imgobject = nullptr;
+};
+
+class ImageLoadFromDBThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImageLoadFromDBThread();
+    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, QString nametype = "");
+
+protected:
+    virtual void run();
+
+signals:
+    void sigImageLoaded(void *imgobject, QStringList &filelist);
+    void sigInsert(QString imagepath, QString remainDay = "");
+private:
+    QString m_nametype;
+    ThumbnailDelegate::DelegateType m_type;
+    ImageEngineObject *m_imgobject = nullptr;
+};
+
+class ImageLoadFromLocalThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    enum DataType {
+        DataType_NULL,
+        DataType_StrList,
+        DataType_InfoList,
+        DataType_TrashList
+    };
+    ImageLoadFromLocalThread();
+    void setData(QStringList filelist, ImageEngineObject *imgobject, DataType type = DataType_NULL);
+    void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, DataType type = DataType_NULL);
+
+protected:
+    virtual void run();
+
+signals:
+    void sigImageLoaded(void *imgobject, QStringList &filelist);
+    void sigInsert(QString imagepath, QString remainDay = "");
+private:
+    QStringList checkImage(const QString  path);
+    QStringList m_filelist;
+    DBImgInfoList m_fileinfolist;
+    ImageEngineObject *m_imgobject = nullptr;
+    DataType m_type = DataType_NULL;
+};
+
+class ImageEngineThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImageEngineThread();
+    void setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data);
+    void addObject(ImageEngineObject *imgobject);
+
+protected:
+    virtual void run();
+
+signals:
+    void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
+private:
+    QString m_path = "";
+//    ImageEngineObject *m_imgobject = nullptr;
+    QList<ImageEngineObject *>m_imgobject;
+    ImageDataSt m_data;
+//    QMutex m_mutex;
+    bool bwaitstop = false;
+};
+
+#endif // IMAGEENGINETHREAD_H

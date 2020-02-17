@@ -7,7 +7,7 @@
 #include "controller/configsetter.h"
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
-#include "widgets/thumbnaillistview.h"
+#include "thumbnail/thumbnaillistview.h"
 
 
 #include <QWidget>
