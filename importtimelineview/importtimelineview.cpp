@@ -409,8 +409,8 @@ void ImportTimeLineView::addTimelineLayout()
     m_allChoseButton << pChose;
     DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
     pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
-    pChose->setFixedHeight(24);
-    pChose->resize(36, 27);
+//    pChose->setFixedHeight(24);
+    pChose->resize(36, 30);
 
     pNum_dn->setLayout(Layout);
     Layout->addStretch(1);

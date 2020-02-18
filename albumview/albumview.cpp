@@ -408,14 +408,14 @@ void AlbumView::initConnections()
             }
 //            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
             udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
-            udispname = QCoreApplication::translate("PathManager", "System Disk");
+//            udispname = QCoreApplication::translate("PathManager", "System Disk");
             goto runend;
 //            blk->mount({});
 //            return;
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2047,7 +2047,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

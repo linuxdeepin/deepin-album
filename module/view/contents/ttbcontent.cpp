@@ -234,6 +234,8 @@ void ImageItem::paintEvent(QPaintEvent *event)
         painter.setClipPath(backgroundBp);
 
 //        painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
+        backgroundRect.setX(backgroundRect.x() + 1);
+        backgroundRect.setWidth(backgroundRect.width() - 1);
         painter.fillRect(backgroundRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
 
         if (_pixmap.width() > _pixmap.height()) {
@@ -242,10 +244,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
             _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(), _pixmap.width());
         }
 
-        pixmapRect.setX(backgroundRect.x() + 4);
-        pixmapRect.setY(backgroundRect.y() + 4);
-        pixmapRect.setWidth(backgroundRect.width() - 8);
-        pixmapRect.setHeight(backgroundRect.height() - 8);
+//        pixmapRect.setX(backgroundRect.x() + 4);
+//        pixmapRect.setY(backgroundRect.y() + 4);
+//        pixmapRect.setWidth(backgroundRect.width());
+//        pixmapRect.setHeight(backgroundRect.height() - 10);
 
         m_pixmapstring = "";
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -255,10 +257,17 @@ void ImageItem::paintEvent(QPaintEvent *event)
             m_pixmapstring = LOCMAP_SELECTED_LIGHT;
         }
 
-        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
+//        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
+//        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(100, 100));
         QPainterPath bg;
+//        bg.addRoundedRect(pixmapRect, 4, 4);
         bg.addRoundedRect(pixmapRect, 4, 4);
-        if (_pixmap.isNull()) {
+        if (_pixmap.isNull() == 0) {
+            pixmapRect.setX(backgroundRect.x() + 4);
+            pixmapRect.setY(backgroundRect.y() + 4);
+            pixmapRect.setWidth(backgroundRect.width() - 8);
+            pixmapRect.setHeight(backgroundRect.height() - 8);
+            bg.addRoundedRect(pixmapRect, 4, 4);
             painter.setClipPath(bg);
             painter.drawPixmap(pixmapRect, m_pixmapstring);
         }
@@ -284,9 +293,17 @@ void ImageItem::paintEvent(QPaintEvent *event)
     }
 
     QPainterPath bp1;
+//    bp1.addRoundedRect(pixmapRect, 4, 4);
+//    bp1.addRoundedRect(pixmapRect, 4, 4);
     bp1.addRoundedRect(pixmapRect, 4, 4);
-    painter.setClipPath(bp1);
+//    int width = pixmapRect.width();
+//    int height = pixmapRect.height();
 
+//    pixmapRect.setX(pixmapRect.x() - 1);
+//    pixmapRect.setY(pixmapRect.y() - 1);
+//    pixmapRect.setWidth(pixmapRect.width() - 2);
+//    pixmapRect.setHeight(pixmapRect.height() - 2);
+    painter.setClipPath(bp1);
     painter.drawPixmap(pixmapRect, _pixmap);
 
 }
@@ -1015,7 +1032,7 @@ QString TTBContent::getIndexPath(int index)
     }
     QMap<int, QString>::iterator it;
     it = m_indextopath.find(index);
-    if ( it == m_indextopath.end()) {
+    if (it == m_indextopath.end()) {
         return "";
     }
     return it.value();
@@ -1060,7 +1077,7 @@ void TTBContent::updateScreen()
             if (m_lastIndex > -1) {
                 labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
                 labelList.at(m_lastIndex)->resize(QSize(num, 40));
-                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex );
+                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex);
             }
             if (labelList.size() > 0) {
                 labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
@@ -1417,7 +1434,7 @@ void TTBContent::setImage(const QString &path)
     m_currentpath = path;
     QMap<QString, TTBContentData>::iterator it;
     it = m_ItemLoaded.find(path);
-    if ( it == m_ItemLoaded.end()) {
+    if (it == m_ItemLoaded.end()) {
         bfilefind = false;
         m_nowIndex = -1;
         m_adaptImageBtn->setDisabled(true);

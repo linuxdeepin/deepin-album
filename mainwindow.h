@@ -34,6 +34,11 @@
 #define DEFAULT_WINDOWS_HEIGHT  640
 #define MIX_WINDOWS_WIDTH       1300
 #define MIX_WINDOWS_HEIGHT      848
+//#define TITLEBAR_BLANK_WIDTH    235
+#define TITLEBAR_BLANK_WIDTH 365
+#define TITLEBAR_BTNWIDGET_WIDTH 240
+//#define TITLEBAR_BTNWIDGET_WIDTH 280
+#define TITLEBAR_ICON_WIDTH 50
 
 DWIDGET_USE_NAMESPACE
 
@@ -61,6 +66,7 @@ public:
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent *event) override;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 //    void themeTypeChanged();
 
 private:
