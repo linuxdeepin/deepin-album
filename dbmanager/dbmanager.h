@@ -138,7 +138,7 @@ public:
 
 private:
     const DBImgInfoList getInfosByNameTimeline(const QString &value) const;
-    const DBImgInfoList getImgInfos(const QString &key, const QString &value) const;
+    const DBImgInfoList getImgInfos(const QString &key, const QString &value, const bool &needlock = true) const;
     const QSqlDatabase getDatabase() const;
     void checkDatabase();
     void importVersion1Data();

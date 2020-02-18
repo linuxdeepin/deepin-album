@@ -401,7 +401,8 @@ void DBManager::removeImgInfos(const QStringList &paths)
     QStringList pathHashs;
     for (QString path : paths) {
         pathHashs << utils::base::hash(path);
-        infos << getInfoByPath(path);
+        infos = getImgInfos("FilePath", path, false);
+//        infos << getInfoByPath(path);
     }
 
     QSqlQuery query(db);
@@ -448,11 +449,11 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     }
 
     // Collect info before removing data
-    DBImgInfoList infos;
+//    DBImgInfoList infos;
     QStringList pathHashs;
     for (QString path : paths) {
         pathHashs << utils::base::hash(path);
-        infos << getInfoByPath(path);
+//        infos << getInfoByPath(path);
     }
 
     QSqlQuery query(db);
@@ -1106,9 +1107,10 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
     return infos;
 }
 
-const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value) const
+const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value, const bool &needlock) const
 {
-    QMutexLocker mutex(&m_mutex);
+    if (needlock)
+        QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;
     QSqlDatabase db = getDatabase();
     if (! db.isValid()) {
@@ -1582,11 +1584,11 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     }
 
     // Collect info before removing data
-    DBImgInfoList infos;
+//    DBImgInfoList infos;
     QStringList pathHashs;
     for (QString path : paths) {
         pathHashs << utils::base::hash(path);
-        infos << getInfoByPath(path);
+//        infos << getInfoByPath(path);
     }
 
     QSqlQuery query(db);
