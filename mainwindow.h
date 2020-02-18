@@ -143,6 +143,9 @@ private:
 //    DSuggestButton *m_pTimeBtn;
 //    DSuggestButton *m_pAlbumBtn;
     int timer;
+    DDialog m_waitdailog;
+    DSpinner *m_spinner = nullptr;
+    DLabel *m_waitlabel = nullptr;
 };
 
 #endif // MAINWINDOW_H

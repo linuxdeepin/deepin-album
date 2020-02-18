@@ -97,6 +97,11 @@ MainWindow::MainWindow()
 
     timer = startTimer(500);
     loadZoomRatio();
+    m_waitdailog.setCloseButtonVisible(false);
+    m_spinner = new DSpinner(&m_waitdailog);
+    m_waitlabel = new DLabel(&m_waitdailog);
+    m_spinner->setFixedSize(40, 40);
+    m_spinner->move(40, (m_waitdailog.height() - 40) / 2);
 }
 
 MainWindow::~MainWindow()
@@ -165,6 +170,15 @@ void MainWindow::initConnections()
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [ = ] {
         m_pSearchEdit->setEnabled(true);
+    });
+    connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
+        m_waitlabel->setText(waittext);
+        m_spinner->start();
+        m_waitdailog.exec();
+    });
+    connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
+        m_spinner->stop();
+        m_waitdailog.close();
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ] {
         if (0 < DBManager::instance()->getImgsCount())
@@ -1422,7 +1436,7 @@ void MainWindow::loadWindowState()
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
         if (isMaximized) {
-            resize(1300,848);
+            resize(1300, 848);
             Dtk::Widget::moveToCenter(this);
 //            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
 //            move((desktop->width() - window()->width()) / 2, (desktop->height() - window()->height()) / 2);

@@ -145,6 +145,8 @@ signals:
     void updateThumbnailViewSize();
     void updateLeftListview();
     void sliderValueChange(int step);
+    void popupWaitDialog(QString waittext);
+    void closeWaitDialog();
 
 private:
     explicit SignalManager(QObject *parent = 0);
