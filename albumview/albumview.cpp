@@ -1223,7 +1223,7 @@ void AlbumView::updateRightMountView()
 //        m_pRightPhoneThumbnailList->importFilesFromLocal(m_phoneNameAndPathlist.value(strPath));
 //        m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
         m_pRightPhoneThumbnailList->stopLoadAndClear();
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist);
+        m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false);
 
         //设置更新之前的选择状态
         QList<Listolditem>::iterator j;
@@ -1262,9 +1262,9 @@ void AlbumView::updateRightMountView()
 
         m_pRightPhoneThumbnailList->stopLoadAndClear();
         if (m_curThumbnaiItemList_info.size() > 0) {
-            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_info);
+            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_info, false);
         } else {
-            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_str);
+            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_str, false);
         }
 //        m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
 
@@ -1927,7 +1927,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         m_pRightPhoneThumbnailList->stopLoadAndClear();
         QStringList pathlist;
         pathlist << strPath;
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist);
+        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
 
 //        m_mountLoaderList.insert(strPath, pMountloader);
 //        m_loadThreadList.insert(strPath, pLoadThread);
@@ -2286,7 +2286,7 @@ void AlbumView::initExternalDevice()
         m_pRightPhoneThumbnailList->stopLoadAndClear();
         QStringList pathlist;
         pathlist << strPath;
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist);
+        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
 //        m_mountLoaderList.insert(mount->name(), pMountloader);
 //        m_loadThreadList.insert(mount->name(), pLoadThread);
 //        m_mountLoaderList.insert(strPath, pMountloader);

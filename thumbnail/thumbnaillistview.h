@@ -95,8 +95,8 @@ public:
     ~ThumbnailListView();
 
     //------------------
-    void loadFilesFromLocal(QStringList files);
-    void loadFilesFromLocal(DBImgInfoList files);
+    void loadFilesFromLocal(QStringList files, bool needcache = true);
+    void loadFilesFromLocal(DBImgInfoList files, bool needcache = true);
     void loadFilesFromTrash(DBImgInfoList files);
     void loadFilesFromDB(QString name = "");
     bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
@@ -224,6 +224,7 @@ private:
     int m_allNeedRequestFilesCount = 0;
     bool blastload = false;
     bool bfirstload = true;
+    bool bneedcache = true;
     //------------------
 };
 

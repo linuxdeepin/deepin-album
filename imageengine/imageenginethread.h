@@ -106,7 +106,7 @@ class ImageEngineThread : public ImageEngineThreadObject, public QRunnable
     Q_OBJECT
 public:
     ImageEngineThread();
-    void setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data);
+    void setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
     void addObject(ImageEngineObject *imgobject);
 
 protected:
@@ -121,6 +121,7 @@ private:
     ImageDataSt m_data;
 //    QMutex m_mutex;
     bool bwaitstop = false;
+    bool bneedcache = true;
 };
 
 #endif // IMAGEENGINETHREAD_H

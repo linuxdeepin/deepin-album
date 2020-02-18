@@ -657,12 +657,13 @@ ImageEngineThread::ImageEngineThread()
     setAutoDelete(true);
 }
 
-void ImageEngineThread::setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data)
+void ImageEngineThread::setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
 {
     m_path = path;
 //    m_imgobject = imgobject;
     m_imgobject << imgobject;
     m_data = data;
+    bneedcache = needcache;
 }
 
 void ImageEngineThread::addObject(ImageEngineObject *imgobject)
@@ -757,7 +758,7 @@ void ImageEngineThread::run()
     if (pixmap.isNull()) {
         pixmap = QPixmap::fromImage(tImg);
     } else {
-        if (!cache_exist) {
+        if (!cache_exist && bneedcache) {
 //            QBuffer buffer(&m_baThumb);
 //            buffer.open(QIODevice::WriteOnly);
             QString spath = CACHE_PATH + m_path;

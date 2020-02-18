@@ -73,7 +73,7 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
     return true;
 }
 
-bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj)
+bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache)
 {
 
     if (nullptr == obj) {
@@ -94,7 +94,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj)
     } else {
         ImageEngineThread *imagethread = new ImageEngineThread;
         connect(imagethread, &ImageEngineThread::sigImageLoaded, this, &ImageEngineApi::sltImageLoaded);
-        imagethread->setData(imagepath, obj, data);
+        imagethread->setData(imagepath, obj, data, needcache);
         data.thread = imagethread;
         data.loaded = ImageLoadStatu_BeLoading;
         m_AllImageData[imagepath] = data;

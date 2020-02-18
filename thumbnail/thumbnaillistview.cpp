@@ -760,14 +760,16 @@ bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
     return true;
 }
 
-void ThumbnailListView::loadFilesFromLocal(QStringList files)
+void ThumbnailListView::loadFilesFromLocal(QStringList files, bool needcache)
 {
     ImageEngineApi::instance()->loadImagesFromLocal(files, this);
+    bneedcache = needcache;
 }
 
-void ThumbnailListView::loadFilesFromLocal(DBImgInfoList files)
+void ThumbnailListView::loadFilesFromLocal(DBImgInfoList files, bool needcache)
 {
     ImageEngineApi::instance()->loadImagesFromLocal(files, this);
+    bneedcache = needcache;
 }
 
 void ThumbnailListView::loadFilesFromTrash(DBImgInfoList files)
@@ -811,7 +813,7 @@ void ThumbnailListView::requestSomeImages()
 //        m_requestCount++;
         QString firstfilesbeleft = m_filesbeleft.first();
         m_filesbeleft.removeFirst();
-        ImageEngineApi::instance()->reQuestImageData(firstfilesbeleft, this);
+        ImageEngineApi::instance()->reQuestImageData(firstfilesbeleft, this, bneedcache);
     }
 //    m_requestCount = Number_Of_Displays_Per_Time;
 }
