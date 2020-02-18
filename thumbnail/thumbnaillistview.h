@@ -105,6 +105,7 @@ public:
     void insertThumbnail(const ItemInfo &iteminfo);
     void stopLoadAndClear();
     QStringList getAllFileList();
+    void setVScrollbarDistance(int topdistance, int bottomdistance);
     //------------------
 
 //    void insertThumbnails(const QList<ItemInfo> &itemList);
@@ -225,6 +226,8 @@ private:
     bool blastload = false;
     bool bfirstload = true;
     bool bneedcache = true;
+    int m_scrollbartopdistance = 0;
+    int m_scrollbarbottomdistance = 0;
     //------------------
 };
 

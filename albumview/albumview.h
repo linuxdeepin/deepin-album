@@ -106,6 +106,21 @@ private:
     bool bneedunmountpath = false;
 };
 
+class AlbumViewList : public DListWidget
+{
+    Q_OBJECT
+public:
+    explicit AlbumViewList(QWidget *parent = nullptr);
+protected:
+    void paintEvent(QPaintEvent *e) override;
+
+signals:
+public slots:
+private:
+    int m_scrollbartopdistance = 130;
+    int m_scrollbarbottomdistance = 27;
+};
+
 class AlbumView : public QWidget, public ImageEngineImportObject, public ImageMountGetPathsObject
 //class AlbumView : public DSplitter
 {

@@ -168,6 +168,27 @@ using namespace utils::common;
 ////    emit signal_RenderFinish(/*pixmap,*/ /*m_fileinfo.filePath()*/);
 //}
 
+AlbumViewList::AlbumViewList(QWidget *parent) : DListWidget(parent)
+{
+//    setContentsMargins(0, 0, 0, 0);
+//    setResizeMode(QListView::Adjust);
+//    setViewMode(QListView::ListMode);
+//    setFlow(QListView::TopToBottom);
+//    setSpacing(0);
+//    setDragEnabled(false);
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
+        QScrollBar *bar = this->verticalScrollBar();
+        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+    });
+}
+
+void AlbumViewList::paintEvent(QPaintEvent *e)
+{
+    QListWidget::paintEvent(e);
+    QScrollBar *bar = this->verticalScrollBar();
+    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+}
+
 AlbumView::AlbumView()
 {
     m_pNoTrashTitle = nullptr; //add 3975
@@ -638,7 +659,8 @@ void AlbumView::initRightView()
 //    pNoTrashWidget->setLayout(p_all);
 //del end 3975
     //add start 3975
-    DListWidget *lsitWidget = new DListWidget();
+//    DListWidget *lsitWidget = new DListWidget();
+    AlbumViewList *lsitWidget = new AlbumViewList();
     lsitWidget->setContentsMargins(0, 0, 0, 0);
     lsitWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -755,7 +777,8 @@ void AlbumView::initRightView()
 //    pTrashWidget->setLayout(pMainVBoxLayout);
 //del end 3975
     //add start 3975
-    DListWidget *lsitWidget3 = new DListWidget();
+//    DListWidget *lsitWidget3 = new DListWidget();
+    AlbumViewList *lsitWidget3 = new AlbumViewList();
     lsitWidget3->setContentsMargins(0, 0, 0, 0);
     lsitWidget3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -845,7 +868,8 @@ void AlbumView::initRightView()
 //    pFavoriteWidget->setLayout(p_all1);
     //del end 3975
     //add start 3975
-    DListWidget *lsitWidget2 = new DListWidget();
+//    DListWidget *lsitWidget2 = new DListWidget();
+    AlbumViewList *lsitWidget2 = new AlbumViewList();
     lsitWidget2->setContentsMargins(0, 0, 0, 0);
     lsitWidget2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 

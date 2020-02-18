@@ -1,5 +1,6 @@
 #include "timelinelist.h"
 #include "controller/signalmanager.h"
+#include <QScrollBar>
 
 //TimelineListDelegate::TimelineListDelegate(QObject *parent)
 //    : QStyledItemDelegate(parent)
@@ -39,6 +40,10 @@ TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
     setFlow(QListView::TopToBottom);
     setSpacing(0);
     setDragEnabled(false);
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
+        QScrollBar *bar = this->verticalScrollBar();
+        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+    });
 //    TimelineListDelegate *m_delegate = new TimelineListDelegate;
 //    setItemDelegate(m_delegate);
 
@@ -69,6 +74,9 @@ void TimelineList::mouseMoveEvent(QMouseEvent *event)
 void TimelineList::paintEvent(QPaintEvent *e)
 {
     QListWidget::paintEvent(e);
+    QScrollBar *bar = this->verticalScrollBar();
+    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+
     int blankHeight = 0; //add 3975
     if (this->count() > 0) {
         int ccount = count();

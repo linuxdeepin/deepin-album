@@ -40,6 +40,16 @@ QString ss(const QString &text)
 ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QString imgtype, QWidget *parent)
     :  DListView(parent), m_delegatetype(type), m_allfileslist()
 {
+
+    if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+        m_scrollbartopdistance = 50;
+        m_scrollbarbottomdistance = 27;
+    } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+        m_scrollbarbottomdistance = 27;
+    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
+        m_scrollbartopdistance = 130;
+        m_scrollbarbottomdistance = 27;
+    }
     m_model = new QStandardItemModel(this);
 //    setStyleSheet("Background:green");
     m_imageType = imgtype;
@@ -243,7 +253,6 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 
 void ThumbnailListView::initConnections()
 {
-
     connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, [ = ](int value) {
         if (value >= (this->verticalScrollBar()->maximum())) {
             if (m_requestCount > 0) {
@@ -252,6 +261,10 @@ void ThumbnailListView::initConnections()
                 requestSomeImages();
             }
         }
+    });
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
+        QScrollBar *bar = this->verticalScrollBar();
+        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
     });
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
@@ -887,6 +900,12 @@ QStringList ThumbnailListView::getAllFileList()
     return m_allfileslist;
 }
 
+void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
+{
+    m_scrollbartopdistance = topdistance;
+    m_scrollbarbottomdistance = bottomdistance;
+}
+
 //void ThumbnailListView::insertThumbnails(const QList<ItemInfo> &itemList)
 //{
 //    m_delegate->m_imageTypeStr = m_imageType;
@@ -1440,6 +1459,9 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 //        calWidgetItemWandH();
 //        addThumbnailView();
 //    } else {
+    QScrollBar *bar = this->verticalScrollBar();
+    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+
     calWidgetItemWandH();
     addThumbnailView();
 //        updateThumbnailView();
