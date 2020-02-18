@@ -141,8 +141,8 @@ int main(int argc, char *argv[])
 //    DtkTest w;
 //    w.resize(1300, 848);
     w.show();
-
     Dtk::Widget::moveToCenter(&w);
+
     if (bneedexit)
         bfirstopen = false;
     return a.exec();

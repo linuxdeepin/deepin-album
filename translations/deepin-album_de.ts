@@ -1,126 +1,126 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>Ohne Namen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Novo</translation>
+        <translation>Erstellen</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Quer realmente excluir este álbum?</translation>
+        <translation>Sind Sie sicher, dass Sie dieses Album löschen möchten?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Lixeira</translation>
+        <translation>Papierkorb</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoritos</translation>
+        <translation>Favoriten</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Importieren</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Lixeira</translation>
+        <translation>Papierkorb</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoritos</translation>
+        <translation>Favoriten</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Excluir Tudo</translation>
+        <translation>Alle löschen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste fotos para cá</translation>
+        <translation>Oder ziehen Sie die Fotos hierher</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Importar Tudo</translation>
+        <translation>Alle importieren</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>As fotos serão excluídas permanentemente após os dias mostrados aqui</translation>
+        <translation>Die Fotos werden nach der angegebenen Anzahl von Tagen gelöscht</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>%1 Foto(s) ausgewählt</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Importar para:</translation>
+        <translation>Importieren nach:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disco</translation>
+        <translation type="vanished">Speichermedium</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Importieren</translation>
     </message>
     <message>
         <source>days</source>
-        <translation>dias</translation>
+        <translation>Tage</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sem Nome</translation>
+        <translation>Ohne Namen</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>Disco do Sistema</translation>
+        <translation>Systemlaufwerk</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galerie</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>O disco está em uso, não pode ejetar agora</translation>
+        <translation>Laufwerk arbeitet, kann jetzt nicht ausgeworfen werden</translation>
     </message>
     <message>
         <source>OK</source>
@@ -128,48 +128,48 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>%1 Foto(s) ausgewählt</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Substituir</translation>
+        <translation>Ersetzen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Imagens</translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Documentos</translation>
+        <translation>Dokumente</translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -177,35 +177,35 @@
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Área de Trabalho</translation>
+        <translation>Schreibtisch</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Vídeos</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Música</translation>
+        <translation>Musik</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Nome:</translation>
+        <translation>Name:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Salvar para:</translation>
+        <translation>Speichern unter:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>Formato:</translation>
+        <translation>Format:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Qualidade:</translation>
+        <translation>Qualität:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Salvar</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <source>gif</source>
@@ -213,7 +213,7 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Selecionar outros diretórios</translation>
+        <translation>Andere Ordner auswählen</translation>
     </message>
     <message>
         <source>OK</source>
@@ -221,187 +221,187 @@
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>Nome de arquivo não pode ser vazio</translation>
+        <translation>Dateiname kann nicht leer sein</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>já existe. Substituir?</translation>
+        <translation>existiert schon. Möchten Sie es ersetzen?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>Unidade %1</translation>
+        <translation>%1 Laufwerk</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Disco em Branco %1</translation>
+        <translation>Leeres %1 Laufwerk</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>Criptografado %1</translation>
+        <translation>%1 verschlüsselt</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="vanished">%1 </translation>
+        <translation type="vanished">%1</translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation>Volume %1</translation>
+        <translation>%1 Laufwerk</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Salvar</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Exportar Fotos</translation>
+        <translation>Fotos exportieren</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Abbrechen</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Foto Info</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informações básicas</translation>
+        <translation>Allgemeine Informationen</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detalhes</translation>
+        <translation>Details</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Excluir esta foto do álbum?</translation>
+        <translation>Sind Sie sicher, dass Sie dieses Foto aus dem Album löschen möchten?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Excluir %1 fotos dos álbuns?</translation>
+        <translation>Sind Sie sicher, dass Sie %1 Fotos aus Alben löschen möchten?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Informações básicas</translation>
+        <translation>Allgemeine Informationen</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detailhes</translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Foto Info</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Importieren</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Todas as Fotos</translation>
+        <translation>Alle Fotos</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Importar Fotos</translation>
+        <translation>Fotos importieren</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste as fotos para cá</translation>
+        <translation>Oder ziehen Sie die Fotos hierher</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galerie</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomear</translation>
+        <translation>Umbenennen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>Ohne Namen</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Dispositivo</translation>
+        <translation>Gerät</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galerie</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Álbuns</translation>
+        <translation>Alben</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Você não tem permissão para ver a imagem</translation>
+        <translation>Sie haben keine Berechtigung das Bild anzeigen zu lassen</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Álbum é um gerenciador de fotos moderno para visualizar e organizar fotos.</translation>
+        <translation>Album ist ein moderner Fotomanager zum Betrachten und Organisieren von Bildern.</translation>
     </message>
 </context>
 <context>
@@ -412,210 +412,210 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela Cheia</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ajuda</translation>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Als Hintergrundbild einrichten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Próximo</translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Renomear álbum</translation>
+        <translation>Album umbenennen</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Álbum “%1” excluído</translation>
+        <translation>Album &quot;%1&quot; gelöscht</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Adicionado com sucesso em &quot;%1&quot;</translation>
+        <translation>Erfolgreich zu &quot;%1&quot; hinzugefügt</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Importação finalizou</translation>
+        <translation>Import erfolgreich</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Importação falhou</translation>
+        <translation>Import gescheitert</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Exportação falhou</translation>
+        <translation>Export gescheitert</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Exportação finalizou</translation>
+        <translation>Export erfolgreich</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>Todas as Fotos</translation>
+        <translation>Alle Fotos</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Linhas do tempo</translation>
+        <translation>Zeitleisten</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Álbuns</translation>
+        <translation>Alben</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Foto Info</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Sair da tela cheia/mostra de slides</translation>
+        <translation>Vollbildmodus/Diashow verlassen</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Mostrar atalhos</translation>
+        <translation>Tastenkombinationen anzeigen</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Visualizar</translation>
+        <translation>Anzeigen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Importieren</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Selecionar tudo</translation>
+        <translation>Alle auswählen</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Excluir foto/álbum</translation>
+        <translation>Foto/Album löschen</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Aumentar zoom</translation>
+        <translation>Einzoomen</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Diminuir zoom</translation>
+        <translation>Rauszoomen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>Neues Album</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Página acima</translation>
+        <translation>Seite hoch</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Página abaixo</translation>
+        <translation>Seite runter</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Configurações</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>Algumas fotos não foram importadas</translation>
+        <translation>Einige Fotos wurden nicht importiert</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Importar fotos</translation>
+        <translation>Fotos importieren</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Importar Fotos</translation>
+        <translation>Fotos importieren</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Blitz</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Tamanho do arquivo</translation>
+        <translation>Dateigröße</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimensões</translation>
+        <translation>Abmessungen</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data de captura</translation>
+        <translation>Aufnahmedatum</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data de modificação</translation>
+        <translation>Zeitpunkt der Änderung</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Modo de exposição</translation>
+        <translation>Belichtungsmodus</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Programa de exposição</translation>
+        <translation>Belichtunsprogramm</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Tempo de exposição</translation>
+        <translation>Belichtungszeit</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Abertura</translation>
+        <translation>Blende</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Distância focal</translation>
+        <translation>Brennweite</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -623,107 +623,107 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Abertura máxima</translation>
+        <translation>Maximale Blende</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Unidade de medida</translation>
+        <translation>Messmodus</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Balanço de branco</translation>
+        <translation>Weißabgleich</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensação do flash</translation>
+        <translation>Blitzbelichtungskorrektur</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo de câmera</translation>
+        <translation>Kameramodell</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Modelo de lente</translation>
+        <translation>Objektivmodell</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Espaço de cores</translation>
+        <translation>Farbraum</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Rótulo</translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Nome da foto</translation>
+        <translation>Name des Fotos</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>Disco do Sistema</translation>
+        <translation>Systemlaufwerk</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Sem escalonamento</translation>
+        <translation>Keine Skalierung</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Ajustar página à imagem</translation>
+        <translation>Seite an Bild anpassen</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Ajustar imagem à página</translation>
+        <translation>Bild an Seite anpassen</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escalonar para:</translation>
+        <translation>Skalieren auf:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milímetros</translation>
+        <translation>Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centímetros</translation>
+        <translation>Zentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Polegadas</translation>
+        <translation>Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posição da imagem</translation>
+        <translation>Bildposition</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Escalonamento</translation>
+        <translation>Skalierung</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Configurações da Imagem</translation>
+        <translation>Bildeinstellungen</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Configurações da Imagem</translation>
+        <translation>Bildeinstellungen</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Selecionar</translation>
+        <translation>Auswählen</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Deselecionar</translation>
+        <translation>Abwählen</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -731,11 +731,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 Foto(s)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>%1 Foto(s) ausgewählt</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -743,252 +743,252 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importar em</translation>
+        <translation>Importiert am</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Nenhum resultado encontrado</translation>
+        <translation>Keine Suchergebnisse</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Mostrar Slides</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 foto(s) encontrada(s)</translation>
+        <translation>%1 Foto(s) gefunden</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Resultados da pesquisa</translation>
+        <translation>Suchergebnisse</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pausar</translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Tocar</translation>
+        <translation>Abspielen</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Sair</translation>
+        <translation>Beenden</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importando fotos: &apos;%1&apos;</translation>
+        <translation>Importiere Fotos: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exportando fotos: &apos;%1&apos;</translation>
+        <translation>Exportiere Fotos: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Voltar</translation>
+        <translation>Zurück</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Próximo</translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Tamanho 1:1</translation>
+        <translation>1:1 Größe</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajustar à janela</translation>
+        <translation>An Fenster anpassen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>Visualizar</translation>
+        <translation>Anzeigen</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela Cheia</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Als Hintergrundbild einrichten</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Foto Info</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao álbum</translation>
+        <translation>Zum Album hinzufügen</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Excluir do álbum</translation>
+        <translation>Aus Album entfernen</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nenhuma imagem encontrada</translation>
+        <translation>Keine Bilddateien gefunden</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Foto não encontrada</translation>
+        <translation>Foto nicht gefunden</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao álbum</translation>
+        <translation>Zum Album hinzufügen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diashow</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Sair da tela cheia</translation>
+        <translation>Vollbildmodus beenden</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela Cheia</translation>
+        <translation>Vollbild</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Mostrar janela de navegação</translation>
+        <translation>Zeige Navigations-Fenster</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ocultar janela de navegação</translation>
+        <translation>Navigations-Fenster ausblenden</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Als Hintergrundbild einrichten</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Foto Info</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Excluir do álbum</translation>
+        <translation>Aus Album entfernen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Neues Album</translation>
     </message>
 </context>
 </TS>

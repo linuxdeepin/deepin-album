@@ -19,6 +19,7 @@
 #include <QDesktopWidget>
 #include <DMessageManager>
 #include <DFloatingMessage>
+#include <DWidgetUtil>
 
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
@@ -1410,14 +1411,22 @@ void MainWindow::saveWindowState()
 {
     QSettings settings(objectName());
     settings.setValue("album-geometry", saveGeometry());
+    settings.setValue("album-isMaximized", isMaximized());
 }
 
 void MainWindow::loadWindowState()
 {
     QSettings settings(objectName());
     const QByteArray geometry = settings.value("album-geometry").toByteArray();
+    const bool isMaximized = settings.value("album-isMaximized").toBool();
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
+        if (isMaximized) {
+            resize(1300,848);
+            Dtk::Widget::moveToCenter(this);
+//            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
+//            move((desktop->width() - window()->width()) / 2, (desktop->height() - window()->height()) / 2);
+        }
     }
 }
 
