@@ -1111,6 +1111,7 @@ void ThumbnailListView::initMenuAction()
 
     appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
+    appendAction(Idprint, tr("Print"), ss(PRINT_CONTEXT_MENU));
     appendAction(IdStartSlideShow, tr("Slide show"), ss(SLIDESHOW_CONTEXT_MENU));
 
     m_pMenu->addSeparator();
@@ -1212,6 +1213,9 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdFullScreen:
         emit menuOpenImage(path, paths, true, false);
         break;
+    case Idprint:
+        PrintHelper::showPrintDialog(QStringList(path), this);
+        break;
     case IdStartSlideShow:
         emit menuOpenImage(path, paths, true, true);
         break;
@@ -1284,7 +1288,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdRemoveFromAlbum: {
         if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
-                COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType ) {
+                COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType) {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
         }
     }

@@ -23,6 +23,7 @@
 #include "controller/signalmanager.h"
 //#include "controller/wallpapersetter.h"
 #include "dbmanager/dbmanager.h"
+#include "widgets/printhelper.h"
 //#include "dlmenuarrow.h"
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -55,6 +56,7 @@ public:
     enum MenuItemId {
         IdView,
         IdFullScreen,
+        Idprint,
         IdStartSlideShow,
         IdPrint,
         IdAddToAlbum,
@@ -145,7 +147,7 @@ signals:
     void sigMousePress(QMouseEvent *event);
     void sigShiftMousePress(QMouseEvent *event);
     void sigCtrlMousePress(QMouseEvent *event);
-    void sigMenuItemDeal( QAction *action);
+    void sigMenuItemDeal(QAction *action);
     void sigSelectAll();
     void sigMouseMove();
 //    void sigDrop();
