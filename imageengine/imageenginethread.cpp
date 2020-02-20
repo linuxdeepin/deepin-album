@@ -341,7 +341,7 @@ bool ImageGetFilesFromMountThread::findPicturePathByPhone(QString &path)
 void ImageGetFilesFromMountThread::run()
 {
     if (bneedstop) {
-        m_imgobject->removeThread(this);
+//        m_imgobject->removeThread(this);
         return;
     }
     QString strPath = m_path;
@@ -382,7 +382,7 @@ void ImageGetFilesFromMountThread::run()
 //    int i = 0;
     while (dir_iterator.hasNext()) {
         if (bneedstop) {
-            m_imgobject->removeThread(this);
+//            m_imgobject->removeThread(this);
             return;
         }
 //        i++;
@@ -445,6 +445,10 @@ void ImageGetFilesFromMountThread::run()
 //        }
 //        //        }
     }
+    if (bneedstop) {
+//            m_imgobject->removeThread(this);
+        return;
+    }
     emit sigImageFilesGeted(m_imgobject, allfiles, m_path);
     m_imgobject->removeThread(this);
     dApp->signalM->sigLoadMountImagesEnd(m_mountname);
@@ -480,7 +484,7 @@ void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageE
 void ImageLoadFromDBThread::run()
 {
     if (bneedstop) {
-        m_imgobject->removeThread(this);
+//        m_imgobject->removeThread(this);
         return;
     }
     QStringList image_list;
@@ -489,14 +493,14 @@ void ImageLoadFromDBThread::run()
         for (auto info : infos) {
             image_list << info.filePath;
             if (bneedstop) {
-                m_imgobject->removeThread(this);
+//                m_imgobject->removeThread(this);
                 return;
             }
             emit sigInsert(info.filePath);
         }
     }
     if (bneedstop) {
-        m_imgobject->removeThread(this);
+//        m_imgobject->removeThread(this);
         return;
     }
     emit sigImageLoaded(m_imgobject, image_list);
@@ -575,7 +579,7 @@ QStringList ImageLoadFromLocalThread::checkImage(const QString  path)
 void ImageLoadFromLocalThread::run()
 {
     if (bneedstop) {
-        m_imgobject->removeThread(this);
+//        m_imgobject->removeThread(this);
         return;
     }
     QStringList image_list;
@@ -584,7 +588,7 @@ void ImageLoadFromLocalThread::run()
         if (!m_filelist.isEmpty()) {
             foreach (QString path, m_filelist) {
                 if (bneedstop) {
-                    m_imgobject->removeThread(this);
+//                    m_imgobject->removeThread(this);
                     return;
                 }
                 QFileInfo file(path);
@@ -604,7 +608,7 @@ void ImageLoadFromLocalThread::run()
         if (!m_fileinfolist.isEmpty()) {
             for (auto info : m_fileinfolist) {
                 if (bneedstop) {
-                    m_imgobject->removeThread(this);
+//                    m_imgobject->removeThread(this);
                     return;
                 }
                 image_list << info.filePath;
@@ -618,7 +622,7 @@ void ImageLoadFromLocalThread::run()
             int idaysec = 24 * 60 * 60;
             for (auto info : m_fileinfolist) {
                 if (bneedstop) {
-                    m_imgobject->removeThread(this);
+//                    m_imgobject->removeThread(this);
                     return;
                 }
                 QDateTime start = QDateTime::currentDateTime();
@@ -650,11 +654,11 @@ void ImageLoadFromLocalThread::run()
     }
 
     if (bneedstop) {
-        m_imgobject->removeThread(this);
+//        m_imgobject->removeThread(this);
         return;
     }
-    emit sigImageLoaded(m_imgobject, image_list);
     m_imgobject->removeThread(this);
+    emit sigImageLoaded(m_imgobject, image_list);
 }
 
 ImageEngineThread::ImageEngineThread()
