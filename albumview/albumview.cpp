@@ -1457,7 +1457,7 @@ void AlbumView::leftTabClicked()
 bool AlbumView::imageGeted(QStringList &filelist, QString path)
 {
     m_phoneNameAndPathlist[path] = filelist;
-//    updateRightMountView();
+    updateRightMountView();
     return true;
 }
 
@@ -1959,16 +1959,17 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
                 return;
             }
         }
-        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
-        m_pRightPhoneThumbnailList->stopLoadAndClear();
-        QStringList pathlist;
-        pathlist << strPath;
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
+//        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
+//        m_pRightPhoneThumbnailList->stopLoadAndClear();
+//        QStringList pathlist;
+//        pathlist << strPath;
+//        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
 
-//        m_mountLoaderList.insert(strPath, pMountloader);
-//        m_loadThreadList.insert(strPath, pLoadThread);
+////        m_mountLoaderList.insert(strPath, pMountloader);
+////        m_loadThreadList.insert(strPath, pLoadThread);
 
         updateExternalDevice(mount);
+        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
     }
 }
 
@@ -2289,6 +2290,7 @@ void AlbumView::initExternalDevice()
         pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
         m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+        m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
 
 //        MountLoader *pMountloader = new MountLoader(this);
 //        QThread *pLoadThread = new QThread();
@@ -2319,11 +2321,12 @@ void AlbumView::initExternalDevice()
                 return;
             }
         }
+//        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
+//        m_pRightPhoneThumbnailList->stopLoadAndClear();
+//        QStringList pathlist;
+//        pathlist << strPath;
+//        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
         ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
-        m_pRightPhoneThumbnailList->stopLoadAndClear();
-        QStringList pathlist;
-        pathlist << strPath;
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
 
 //        m_mountLoaderList.insert(mount->name(), pMountloader);
 //        m_loadThreadList.insert(mount->name(), pLoadThread);
@@ -2357,6 +2360,7 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     pAlbumLeftTabItem->oriAlbumStatus();
     connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
     m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+    m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
     m_mounts.append(mount);
 }
 
