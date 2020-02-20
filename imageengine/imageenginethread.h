@@ -112,6 +112,7 @@ public:
 protected:
     bool ifCanStopThread(void *imgobject) override
     {
+        ((ImageEngineObject *)imgobject)->removeThread(this);
         m_imgobject.removeOne((ImageEngineObject *)imgobject);
         if (m_imgobject.size() < 1) {
             return true;

@@ -10,6 +10,8 @@
 #include <QThreadPool>
 #include <QRunnable>
 
+class ImageEngineThreadObject;
+
 enum ImageLoadStatu {
     ImageLoadStatu_False,
     ImageLoadStatu_BeLoading,
@@ -20,7 +22,7 @@ struct ImageDataSt {
     QPixmap imgpixmap;
     DBImgInfo dbi;
     ImageLoadStatu loaded;
-    QRunnable *thread;
+    ImageEngineThreadObject *thread;
     QString remainDays = "30天";
     ImageDataSt()
     {
@@ -122,10 +124,12 @@ public:
     virtual bool imageFromDBLoaded(QStringList &filelist) = 0;
     void addThread(ImageEngineThreadObject *thread)
     {
+//        QMutexLocker mutex(&m_mutexthread);
         m_threads.append(thread);
     }
     void removeThread(ImageEngineThreadObject *thread)
     {
+//        QMutexLocker mutex(&m_mutexthread);
         m_threads.removeOne(thread);
     }
     void addCheckPath(QString path)
@@ -165,6 +169,7 @@ public:
 protected:
     void clearAndStopThread()
     {
+//        QMutexLocker mutex(&m_mutexthread);
         for (auto thread : m_threads) {
             thread->needStop(this);
         }
@@ -175,6 +180,7 @@ protected:
     QList<ImageEngineThreadObject *> m_threads;
     QStringList m_checkpath;
     QStringList m_pathlast;
+//    QMutex m_mutexthread;
 };
 
 #endif // IMAGEENGINEOBJECT_H

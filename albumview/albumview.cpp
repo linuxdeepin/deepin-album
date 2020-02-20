@@ -2324,6 +2324,7 @@ void AlbumView::initExternalDevice()
         QStringList pathlist;
         pathlist << strPath;
         m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
+
 //        m_mountLoaderList.insert(mount->name(), pMountloader);
 //        m_loadThreadList.insert(mount->name(), pLoadThread);
 //        m_mountLoaderList.insert(strPath, pMountloader);
@@ -2749,7 +2750,10 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 //            return;
 //        }
 //    }
-//    needUnMount(unMountPath);
+    m_pRightPhoneThumbnailList->stopLoadAndClear();
+    QThread::sleep(1);
+    needUnMount(unMountPath);
+    qDebug() << "111";
 }
 
 void AlbumView::onLoadMountImagesEnd(QString mountname)

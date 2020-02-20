@@ -91,8 +91,8 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     if (ImageLoadStatu_Loaded == data.loaded) {
         ((ImageEngineObject *)obj)->checkAndReturnPath(imagepath);
     } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread) {
-        ((ImageEngineThread *)data.thread)->addObject(obj);
         obj->addThread((ImageEngineThreadObject *)data.thread);
+        ((ImageEngineThread *)data.thread)->addObject(obj);
     } else {
         ImageEngineThread *imagethread = new ImageEngineThread;
         connect(imagethread, &ImageEngineThread::sigImageLoaded, this, &ImageEngineApi::sltImageLoaded);

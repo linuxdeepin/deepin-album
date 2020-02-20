@@ -706,8 +706,8 @@ bool ImageEngineThread::addObject(ImageEngineObject *imgobject)
         QMutexLocker mutex(&m_mutex);
         m_imgobject << imgobject;
     } else {
-        emit sigImageLoaded(imgobject, m_path, m_data);
         imgobject->removeThread(this);
+        emit sigImageLoaded(imgobject, m_path, m_data);
     }
     return true;
 }
@@ -832,8 +832,8 @@ void ImageEngineThread::run()
     QMutexLocker mutex(&m_mutex);
     for (ImageEngineObject *imgobject : m_imgobject) {
 //        QMutexLocker mutex(&m_mutex);
-        emit sigImageLoaded(imgobject, m_path, m_data);
         imgobject->removeThread(this);
+        emit sigImageLoaded(imgobject, m_path, m_data);
     }
     while (!bneedstop) {
         QThread::msleep(50);
