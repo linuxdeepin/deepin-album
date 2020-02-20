@@ -332,6 +332,7 @@ void TimeLineView::clearAndStartLayout()
     currentTimeLineLoad = 0;
 //    updataLayout();
     addTimelineLayout();
+    qDebug() << "11";
 }
 
 //void TimeLineView::updataLayout()

@@ -124,6 +124,7 @@ void ImportImagesThread::ImportImageLoader(DBImgInfoList dbInfos/*, QString albu
 void ImportImagesThread::run()
 {
     if (bneedstop) {
+        m_obj->imageImported(false);
         m_obj->removeThread(this);
         return;
     }
@@ -145,6 +146,7 @@ void ImportImagesThread::run()
     } else if (m_type == DataType_StringList) {
         foreach (QString path, m_paths) {
             if (bneedstop) {
+                m_obj->imageImported(false);
                 m_obj->removeThread(this);
                 return;
             }
@@ -174,6 +176,7 @@ void ImportImagesThread::run()
     QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
     for (auto mount : mounts) {
         if (bneedstop) {
+            m_obj->imageImported(false);
             m_obj->removeThread(this);
             return;
         }
@@ -199,6 +202,7 @@ void ImportImagesThread::run()
         QStringList newImagePaths;
         foreach (QString strPath, image_list) {
             if (bneedstop) {
+                m_obj->imageImported(false);
                 m_obj->removeThread(this);
                 return;
             }
@@ -229,6 +233,7 @@ void ImportImagesThread::run()
 
     for (auto imagePath : image_list) {
         if (bneedstop) {
+            m_obj->imageImported(false);
             m_obj->removeThread(this);
             return;
         }
@@ -269,6 +274,7 @@ void ImportImagesThread::run()
     }
 
     if (bneedstop) {
+        m_obj->imageImported(false);
         m_obj->removeThread(this);
         return;
     }
@@ -666,18 +672,47 @@ void ImageEngineThread::setData(QString path, ImageEngineObject *imgobject, Imag
     bneedcache = needcache;
 }
 
-void ImageEngineThread::addObject(ImageEngineObject *imgobject)
+bool ImageEngineThread::getNeedStop()
 {
+//    QMutexLocker mutex(&m_mutex);
+    if (!bneedstop) {
+        return false;
+    }
+    baborted = true;
+    bneedstop = false;
+    emit sigAborted(m_path);
+    while (!bneedstop) {
+        QThread::msleep(50);
+    }
+    if (!baborted) {
+        bneedstop = false;
+        return false;
+    }
+    return true;
+}
+
+bool ImageEngineThread::addObject(ImageEngineObject *imgobject)
+{
+    if (baborted) {
+        baborted = false;
+        QMutexLocker mutex(&m_mutex);
+        m_imgobject << imgobject;
+        return false;
+    }
+    if (bneedstop) {
+        bneedstop = false;
+    }
     if (!bwaitstop) {
-//        QMutexLocker mutex(&m_mutex);
+        QMutexLocker mutex(&m_mutex);
         m_imgobject << imgobject;
     } else {
         emit sigImageLoaded(imgobject, m_path, m_data);
         imgobject->removeThread(this);
     }
+    return true;
 }
 
-QString mkMutiDir(const QString path) //创建多级目录
+QString mkMutiDir(const QString path)   //创建多级目录
 {
     QDir dir(path);
     if ( dir.exists(path)) {
@@ -693,7 +728,7 @@ QString mkMutiDir(const QString path) //创建多级目录
 
 void ImageEngineThread::run()
 {
-    if (bneedstop)
+    if (getNeedStop())
         return;
     QImage tImg;
     bool cache_exist = false;
@@ -740,7 +775,7 @@ void ImageEngineThread::run()
         }
     }
 
-    if (bneedstop)
+    if (getNeedStop())
         return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
 //    QPixmap pixmap = QPixmap::fromImage(tImg);
@@ -790,9 +825,11 @@ void ImageEngineThread::run()
     dbi.changeTime = QDateTime::currentDateTime();
     m_data.dbi = dbi;
     m_data.loaded = ImageLoadStatu_Loaded;
-    if (bneedstop)
+    if (getNeedStop()) {
         return;
+    }
     bwaitstop = true;
+    QMutexLocker mutex(&m_mutex);
     for (ImageEngineObject *imgobject : m_imgobject) {
 //        QMutexLocker mutex(&m_mutex);
         emit sigImageLoaded(imgobject, m_path, m_data);

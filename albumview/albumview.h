@@ -140,6 +140,7 @@ public:
 
     bool imageImported(bool success) override
     {
+        emit dApp->signalM->closeWaitDialog();
         return true;
     }
     bool imageGeted(QStringList &filelist, QString path) override;
@@ -255,6 +256,7 @@ private:
 //    QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
+//    bool bcurThumbnaiItemList_str = true;
     QListWidgetItem *m_curListWidgetItem;
     QMap<QString, QPixmap> m_phonePicMap;
 

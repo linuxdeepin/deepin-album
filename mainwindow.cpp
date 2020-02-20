@@ -33,8 +33,8 @@ const int VIEW_SLIDE = 5;
 
 //const QString TITLEBAR_NEWALBUM = "新建相册";
 //const QString TITLEBAR_IMPORT = "导入照片";
-const QString TITLEBAR_NEWALBUM = "New album";
-const QString TITLEBAR_IMPORT = "Import photos";
+//const QString TITLEBAR_NEWALBUM = "New album";
+//const QString TITLEBAR_IMPORT = "Import photos";
 
 }//namespace
 
@@ -97,11 +97,6 @@ MainWindow::MainWindow()
 
     timer = startTimer(500);
     loadZoomRatio();
-    m_waitdailog.setCloseButtonVisible(false);
-    m_spinner = new DSpinner(&m_waitdailog);
-    m_waitlabel = new DLabel(&m_waitdailog);
-    m_spinner->setFixedSize(40, 40);
-    m_spinner->move(40, (m_waitdailog.height() - 40) / 2);
 }
 
 MainWindow::~MainWindow()
@@ -174,7 +169,8 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
         m_waitlabel->setText(waittext);
         m_spinner->start();
-        m_waitdailog.exec();
+//        m_waitdailog.exec();
+        m_waitdailog.show();
     });
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
         m_spinner->stop();
@@ -709,6 +705,15 @@ void MainWindow::initUI()
 //      setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
 //    QRect rect = DApplication::desktop()->geometry();
 //    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
+    m_waitdailog.setCloseButtonVisible(false);
+    m_waitdailog.setWindowModality(Qt::WindowModal);
+    m_spinner = new DSpinner(&m_waitdailog);
+    m_waitlabel = new DLabel(&m_waitdailog);
+    m_waitlabel->setFixedSize(m_waitdailog.height() - 120, 40);
+    m_waitlabel->move(90, (m_waitdailog.height() - 40) / 2);
+    m_spinner->setFixedSize(40, 40);
+    m_spinner->move(40, (m_waitdailog.height() - 40) / 2);
+
     setMinimumSize(880, 500);
     resize(1300, 848);
 
@@ -1269,6 +1274,7 @@ bool MainWindow::imageImported(bool success)
 //            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
 //        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
 //    }
+    emit dApp->signalM->closeWaitDialog();
     emit sigImageImported(success);
     return true;
 }

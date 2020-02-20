@@ -34,6 +34,7 @@ private slots:
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
     void sltImageDBLoaded(void *imgobject, QStringList &filelist);
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
+    void sltAborted(QString path);
 private:
     ImageEngineApi(QObject *parent = nullptr);
     QMap<QString, ImageDataSt>m_AllImageData;

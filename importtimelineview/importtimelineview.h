@@ -27,6 +27,7 @@ public:
 
     bool imageImported(bool success) override
     {
+        emit dApp->signalM->closeWaitDialog();
         return true;
     }
     void updateStackedWidget();

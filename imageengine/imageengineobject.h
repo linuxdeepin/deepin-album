@@ -39,12 +39,17 @@ class ImageEngineThreadObject : public QObject
     Q_OBJECT
 public:
     ImageEngineThreadObject();
-    void needStop()
+    virtual void needStop(void *imageobject)
     {
-        bneedstop = true;
+        if (nullptr == imageobject || ifCanStopThread(imageobject))
+            bneedstop = true;
     }
 
 protected:
+    virtual bool ifCanStopThread(void *imgobject)
+    {
+        return true;
+    }
     bool bneedstop = false;
 };
 
@@ -69,7 +74,7 @@ protected:
     void clearAndStopThread()
     {
         for (auto thread : m_threads) {
-            thread->needStop();
+            thread->needStop(this);
         }
         m_threads.clear();
     }
@@ -97,7 +102,7 @@ protected:
     void clearAndStopThread()
     {
         for (auto thread : m_threads) {
-            thread->needStop();
+            thread->needStop(this);
         }
         m_threads.clear();
     }
@@ -161,7 +166,7 @@ protected:
     void clearAndStopThread()
     {
         for (auto thread : m_threads) {
-            thread->needStop();
+            thread->needStop(this);
         }
         m_threads.clear();
         m_checkpath.clear();

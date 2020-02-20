@@ -762,6 +762,7 @@ void ThumbnailListView::loadFilesFromDB(QString name)
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
+    qDebug() << "threadID : " << QThread::currentThreadId();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
@@ -792,6 +793,7 @@ void ThumbnailListView::loadFilesFromTrash(DBImgInfoList files)
 
 bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
 {
+    qDebug() << "threadID : " << QThread::currentThreadId();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
@@ -800,7 +802,6 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
     if (bneedloadimage) {
         requestSomeImages();
     }
-
     return true;
 }
 
@@ -833,6 +834,7 @@ void ThumbnailListView::requestSomeImages()
 
 bool ThumbnailListView::imageLoaded(QString filepath)
 {
+    qDebug() << "threadID : " << QThread::currentThreadId();
     m_requestCount--;
     m_allNeedRequestFilesCount--;
     if (m_requestCount < 1) {
@@ -880,6 +882,8 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 
 void ThumbnailListView::stopLoadAndClear()
 {
+
+    qDebug() << "threadID : " << QThread::currentThreadId();
     clearAndStopThread();
 
     m_allfileslist.clear();

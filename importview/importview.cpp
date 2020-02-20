@@ -498,9 +498,11 @@ void ImportView::onImprotBtnClicked()
 
 bool ImportView::imageImported(bool success)
 {
+    emit dApp->signalM->closeWaitDialog();
     if (!success) {
         emit dApp->signalM->sigImportFailedToView();
     }
+
     return true;
 }
 

@@ -222,8 +222,8 @@ AlbumView::AlbumView()
     fatherwidget = new DWidget(this);
     fatherwidget->setFixedSize(this->size());
     setAcceptDrops(true);
-    initLeftView();
     initRightView();
+    initLeftView();
 
     DWidget *leftwidget = new DWidget;
     leftwidget->setFixedWidth(180);
@@ -1156,6 +1156,9 @@ void AlbumView::updateRightMyFavoriteView()
     using namespace utils::image;
     DBImgInfoList infos;
     infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+
+//    bcurThumbnaiItemList_str = false;
+//    m_curThumbnaiItemList_info.clear();
     m_curThumbnaiItemList_info << infos;
 //    m_curThumbnaiItemList << infos;
 //    for (auto info : infos) {
@@ -1203,6 +1206,8 @@ void AlbumView::updateRightMountView()
         m_importByPhoneComboBox->setEnabled(true);
         m_importAllByPhoneBtn->setEnabled(true);
         updateImportComboBox();
+//        bcurThumbnaiItemList_str = true;
+//        m_curThumbnaiItemList_str.clear();
         m_curThumbnaiItemList_str << filelist;
 //        for (auto path : m_phoneNameAndPathlist.value(strPath)) {
 //            ThumbnailListView::ItemInfo vi;
@@ -1306,6 +1311,9 @@ void AlbumView::updateRightNoTrashView()
 
     DBImgInfoList infos;
     infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+
+//    bcurThumbnaiItemList_str = false;
+//    m_curThumbnaiItemList_info.clear();
     m_curThumbnaiItemList_info << infos;
 //    m_curThumbnaiItemList << infos;
 //    for (auto info : infos) {
@@ -1371,6 +1379,9 @@ void AlbumView::updateRightTrashView()
 
     infos = DBManager::instance()->getAllTrashInfos();
 //    m_curThumbnaiItemList << infos;
+
+//    bcurThumbnaiItemList_str = false;
+//    m_curThumbnaiItemList_info.clear();
     m_curThumbnaiItemList_info << infos;
 //    for (auto info : infos) {
 //        QDateTime start = QDateTime::currentDateTime();
@@ -1446,7 +1457,7 @@ void AlbumView::leftTabClicked()
 bool AlbumView::imageGeted(QStringList &filelist, QString path)
 {
     m_phoneNameAndPathlist[path] = filelist;
-    updateRightMountView();
+//    updateRightMountView();
     return true;
 }
 
@@ -1914,13 +1925,13 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
             return;
         }
 
-        MountLoader *pMountloader = new MountLoader(this);
-        QThread *pLoadThread = new QThread();
+//        MountLoader *pMountloader = new MountLoader(this);
+//        QThread *pLoadThread = new QThread();
 
 
-        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
-        pMountloader->moveToThread(pLoadThread);
-        pLoadThread->start();
+//        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
+//        pMountloader->moveToThread(pLoadThread);
+//        pLoadThread->start();
 
 //        connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
 
@@ -1948,6 +1959,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
                 return;
             }
         }
+        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
         m_pRightPhoneThumbnailList->stopLoadAndClear();
         QStringList pathlist;
         pathlist << strPath;
@@ -2278,12 +2290,12 @@ void AlbumView::initExternalDevice()
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
         m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
 
-        MountLoader *pMountloader = new MountLoader(this);
-        QThread *pLoadThread = new QThread();
+//        MountLoader *pMountloader = new MountLoader(this);
+//        QThread *pLoadThread = new QThread();
 
-        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
-        pMountloader->moveToThread(pLoadThread);
-        pLoadThread->start();
+//        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
+//        pMountloader->moveToThread(pLoadThread);
+//        pLoadThread->start();
 
 //        connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
 ////        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
@@ -2307,6 +2319,7 @@ void AlbumView::initExternalDevice()
                 return;
             }
         }
+        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
         m_pRightPhoneThumbnailList->stopLoadAndClear();
         QStringList pathlist;
         pathlist << strPath;

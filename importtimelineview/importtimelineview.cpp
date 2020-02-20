@@ -294,13 +294,13 @@ void ImportTimeLineView::initTimeLineViewWidget()
 void ImportTimeLineView::clearAndStartLayout()
 {
     //获取所有时间线
-    m_mainListWidget->clear();
     m_allChoseButton.clear();
+    m_allThumbnailListView.clear();
+    m_mainListWidget->clear();
     m_timelines.clear();
     m_timelines = DBManager::instance()->getImportTimelines();
     qDebug() << __func__ << m_timelines.size();
 
-    m_allThumbnailListView.clear();
     if (0 < m_timelines.size()) {
 
     } else {

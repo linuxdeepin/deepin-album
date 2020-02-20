@@ -1,4 +1,6 @@
 #include "imageengineapi.h"
+#include "controller/signalmanager.h"
+#include "application.h"
 #include <QMetaType>
 
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
@@ -94,6 +96,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     } else {
         ImageEngineThread *imagethread = new ImageEngineThread;
         connect(imagethread, &ImageEngineThread::sigImageLoaded, this, &ImageEngineApi::sltImageLoaded);
+        connect(imagethread, &ImageEngineThread::sigAborted, this, &ImageEngineApi::sltAborted);
         imagethread->setData(imagepath, obj, data, needcache);
         data.thread = imagethread;
         data.loaded = ImageLoadStatu_BeLoading;
@@ -117,12 +120,20 @@ bool ImageEngineApi::imageNeedReload(QString imagepath)
     return true;
 }
 
+void ImageEngineApi::sltAborted(QString path)
+{
+    removeImage(path);
+    ImageEngineThread *thread = (ImageEngineThread *)sender();
+    if (nullptr != thread)
+        thread->needStop(nullptr);
+}
+
 void ImageEngineApi::sltImageLoaded(void *imgobject, QString path, ImageDataSt &data)
 {
     m_AllImageData[path] = data;
     ImageEngineThread *thread = (ImageEngineThread *)sender();
     if (nullptr != thread)
-        thread->needStop();
+        thread->needStop(imgobject);
     if (nullptr != imgobject) {
         ((ImageEngineObject *)imgobject)->checkAndReturnPath(path);
     }
@@ -173,6 +184,7 @@ bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject 
 }
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
+    emit dApp->signalM->popupWaitDialog(tr("Importing... "));
     ImportImagesThread *imagethread = new ImportImagesThread;
 //    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
 //    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
@@ -184,6 +196,7 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
 
 bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
+    emit dApp->signalM->popupWaitDialog("Importing... ");
     ImportImagesThread *imagethread = new ImportImagesThread;
 //    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
 //    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);

@@ -14,5 +14,5 @@ ImageEngineImportObject::ImageEngineImportObject()
 }
 ImageEngineObject::ImageEngineObject()
 {
-
+    m_threads.clear();
 }

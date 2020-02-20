@@ -80,8 +80,8 @@ public:
     };
 
     struct ItemInfo {
-        QString name = QString();
-        QString path = QString();
+        QString name = "";
+        QString path = "";
         int baseWidth = 0;
         int baseHeight = 0;
         int width = 0;

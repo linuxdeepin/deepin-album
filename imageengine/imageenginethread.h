@@ -107,21 +107,32 @@ class ImageEngineThread : public ImageEngineThreadObject, public QRunnable
 public:
     ImageEngineThread();
     void setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
-    void addObject(ImageEngineObject *imgobject);
+    bool addObject(ImageEngineObject *imgobject);
 
 protected:
+    bool ifCanStopThread(void *imgobject) override
+    {
+        m_imgobject.removeOne((ImageEngineObject *)imgobject);
+        if (m_imgobject.size() < 1) {
+            return true;
+        }
+        return false;
+    }
     virtual void run();
 
 signals:
     void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
+    void sigAborted(QString path);
 private:
+    bool getNeedStop();
     QString m_path = "";
 //    ImageEngineObject *m_imgobject = nullptr;
     QList<ImageEngineObject *>m_imgobject;
     ImageDataSt m_data;
-//    QMutex m_mutex;
+    QMutex m_mutex;
     bool bwaitstop = false;
     bool bneedcache = true;
+    bool baborted = false;
 };
 
 #endif // IMAGEENGINETHREAD_H
