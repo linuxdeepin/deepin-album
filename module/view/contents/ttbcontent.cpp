@@ -1291,6 +1291,11 @@ void TTBContent::insertImageItem(const ImageDataSt file)
     onResize();
 }
 
+void TTBContent::reLoad()
+{
+
+}
+
 void TTBContent::stopLoadAndClear()
 {
     clearAndStopThread();
@@ -1303,7 +1308,6 @@ void TTBContent::stopLoadAndClear()
         delete child;
 
     }
-    m_allfileslist.clear();
     m_filesbeleft.clear();
     m_allNeedRequestFilesCount = 0;
 }
@@ -1337,6 +1341,12 @@ void TTBContent::checkAdaptScreenBtn()
 
 void TTBContent::deleteImage()
 {
+    m_allfileslist.removeAt(m_nowIndex);
+    if (m_allfileslist.size() <= m_nowIndex) {
+        m_lastIndex = m_nowIndex;
+        m_nowIndex = 0;
+    }
+    m_currentpath = m_allfileslist[m_nowIndex];
     emit removed();
 
     if (m_filelist_size < 2) {

@@ -128,6 +128,7 @@ public:
     bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
     void insertImageItem(const ImageDataSt file);
     void stopLoadAndClear();
+    void reLoad();
     QStringList getAllFileList();
     bool setCurrentItem();
     void updateScreen();

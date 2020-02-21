@@ -818,24 +818,29 @@ void ViewPanel::removeCurrentImage()
         return;
     }
 
+    m_filepathlist.removeAt(m_current);
+    if (m_current == m_filepathlist.size()) {
+        m_current = 0;
+    }
 //    m_infos.removeAt(m_current);
 //    if (m_infos.isEmpty()) {
-//        qDebug() << "No images to show!";
-//        m_current = 0;
-//        if (window()->isFullScreen())
-//            showNormal();
-//        emit imageChanged("", m_infos);
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-//        m_emptyWidget->setThumbnailImage(QPixmap());
-//        m_stack->setCurrentIndex(1);
-//        emit dApp->signalM->hideImageView();
-//    } else {
-//        if (m_current == m_infos.size()) {
-//            m_current = 0;
-//        }
-//        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-//        emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
-//    }
+    if (m_filepathlist.isEmpty()) {
+        qDebug() << "No images to show!";
+        m_current = 0;
+        if (window()->isFullScreen())
+            showNormal();
+        emit imageChanged("");
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_filepathlist.size() > 1));
+        m_emptyWidget->setThumbnailImage(QPixmap());
+        m_stack->setCurrentIndex(1);
+        emit dApp->signalM->hideImageView();
+    } else {
+        m_vinfo.paths = m_filepathlist;
+        m_vinfo.path = m_filepathlist[m_current];
+        dApp->signalM->viewImage(m_vinfo);
+//    openImage(m_filepathlist[m_current]/*, m_vinfo.inDatabase*/);
+        emit dApp->signalM->updateBottomToolbar(m_filepathlist.size() > 1);
+    }
 }
 
 void ViewPanel::viewOnNewProcess(const QStringList &paths)
@@ -915,6 +920,8 @@ void ViewPanel::rotateImage(bool clockWise)
 
 //    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     emit imageChanged(m_currentpath);
+
+//    dApp->signalM->viewImage(m_vinfo);
 }
 
 void ViewPanel::initViewContent()
