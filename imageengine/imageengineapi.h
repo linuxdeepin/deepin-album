@@ -23,8 +23,8 @@ public:
     bool imageNeedReload(QString imagepath);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
-    bool loadImagesFromLocal(QStringList files, ImageEngineObject *obj);
-    bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj);
+    bool loadImagesFromLocal(QStringList files, ImageEngineObject *obj, bool needcheck = true);
+    bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
     bool getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj);

@@ -345,22 +345,22 @@ void ImageGetFilesFromMountThread::run()
         return;
     }
     QString strPath = m_path;
-    //判断路径是否存在
-    QDir dir(m_path);
-    if (!dir.exists()) {
-        dApp->signalM->sigLoadMountImagesEnd(m_mountname);
-        return;
-    }
+//    //判断路径是否存在
+//    QDir dir(m_path);
+//    if (!dir.exists()) {
+//        dApp->signalM->sigLoadMountImagesEnd(m_mountname);
+//        return;
+//    }
 
-    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-    if (!m_path.contains("/media/")) {
-        bool bFind = findPicturePathByPhone(m_path);
-        if (!bFind) {
-            qDebug() << "onLoadMountImagesStart() !bFind";
-            dApp->signalM->sigLoadMountImagesEnd(m_mountname);
-            return;
-        }
-    }
+//    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+//    if (!m_path.contains("/media/")) {
+//        bool bFind = findPicturePathByPhone(m_path);
+//        if (!bFind) {
+//            qDebug() << "onLoadMountImagesStart() !bFind";
+//            dApp->signalM->sigLoadMountImagesEnd(m_mountname);
+//            return;
+//        }
+//    }
 
     //获取所选文件类型过滤器
     QStringList filters;
@@ -512,20 +512,22 @@ ImageLoadFromLocalThread::ImageLoadFromLocalThread()
     setAutoDelete(true);
 }
 
-void ImageLoadFromLocalThread::setData(QStringList filelist, ImageEngineObject *imgobject, DataType type)
+void ImageLoadFromLocalThread::setData(QStringList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
 {
     m_filelist = filelist;
     m_imgobject = imgobject;
+    bneedcheck = needcheck;
     if (type == DataType_NULL)
         m_type = DataType_StrList;
     else
         m_type = type;
 }
 
-void ImageLoadFromLocalThread::setData(DBImgInfoList filelist, ImageEngineObject *imgobject, DataType type)
+void ImageLoadFromLocalThread::setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
 {
     m_fileinfolist = filelist;
     m_imgobject = imgobject;
+    bneedcheck = needcheck;
     if (type == DataType_NULL)
         m_type = DataType_InfoList;
     else
@@ -566,7 +568,14 @@ QStringList ImageLoadFromLocalThread::checkImage(const QString  path)
         if (bneedstop)
             return imagelist;
         QString ImageName  = dir[i];
-        if (utils::image::checkFileType(path + QDir::separator() + ImageName)) {
+        bool checkok = false;
+        if (bneedcheck) {
+            if (utils::image::checkFileType(path + QDir::separator() + ImageName))
+                checkok = true;
+        } else {
+            checkok = true;
+        }
+        if (checkok) {
             imagelist << path + QDir::separator() + ImageName;
             sigInsert(path + QDir::separator() + ImageName);
             qDebug() << path + QDir::separator() + ImageName;//输出照片名
@@ -596,7 +605,14 @@ void ImageLoadFromLocalThread::run()
                     qDebug() << "file.isDir()";
                     image_list << checkImage(path);
                 } else {
-                    if (utils::image::checkFileType(path)) {
+                    bool checkok = false;
+                    if (bneedcheck) {
+                        if (utils::image::checkFileType(path))
+                            checkok = true;
+                    } else {
+                        checkok = true;
+                    }
+                    if (checkok) {
                         image_list << path;
                         emit sigInsert(path);
                     }

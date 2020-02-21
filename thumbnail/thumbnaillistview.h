@@ -97,8 +97,8 @@ public:
     ~ThumbnailListView();
 
     //------------------
-    void loadFilesFromLocal(QStringList files, bool needcache = true);
-    void loadFilesFromLocal(DBImgInfoList files, bool needcache = true);
+    void loadFilesFromLocal(QStringList files, bool needcache = true, bool needcheck = true);
+    void loadFilesFromLocal(DBImgInfoList files, bool needcache = true, bool needcheck = true);
     void loadFilesFromTrash(DBImgInfoList files);
     void loadFilesFromDB(QString name = "");
     bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;

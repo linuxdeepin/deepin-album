@@ -1201,6 +1201,16 @@ void AlbumView::updateRightMountView()
     qDebug() << m_phoneNameAndPathlist.contains(strPath);
     qDebug() << m_phoneNameAndPathlist.value(strPath).length();
 
+    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+    if (!strPath.contains("/media/")) {
+        bool bFind = findPicturePathByPhone(strPath);
+        if (!bFind) {
+//            qDebug() << "onLoadMountImagesStart() !bFind";
+//            dApp->signalM->sigLoadMountImagesEnd(m_mountname);
+            return;
+        }
+    }
+
     QStringList filelist = m_phoneNameAndPathlist.value(strPath);
     if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length()) {
         m_importByPhoneComboBox->setEnabled(true);
@@ -1233,36 +1243,36 @@ void AlbumView::updateRightMountView()
         QString str = tr("%1 photo(s)");
         m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
 
-        //保存更新之前的选择状态
-        QModelIndexList mlist = m_pRightPhoneThumbnailList->getSelectedIndexes();
-        QModelIndexList::iterator i;
-        struct Listolditem {
-            int row;
-            int column;
-        };
-        QList<Listolditem> items;
-        for (i = mlist.begin(); i != mlist.end(); ++i) {
-            Listolditem item;
-            item.row = (*i).row();
-            item.column = (*i).column();
-            items.append(item);
-        }
+//        //保存更新之前的选择状态
+//        QModelIndexList mlist = m_pRightPhoneThumbnailList->getSelectedIndexes();
+//        QModelIndexList::iterator i;
+//        struct Listolditem {
+//            int row;
+//            int column;
+//        };
+//        QList<Listolditem> items;
+//        for (i = mlist.begin(); i != mlist.end(); ++i) {
+//            Listolditem item;
+//            item.row = (*i).row();
+//            item.column = (*i).column();
+//            items.append(item);
+//        }
 
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
 //        m_pRightPhoneThumbnailList->importFilesFromLocal(m_phoneNameAndPathlist.value(strPath));
 //        m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
         m_pRightPhoneThumbnailList->stopLoadAndClear();
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false);
+        m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
 
-        //设置更新之前的选择状态
-        QList<Listolditem>::iterator j;
-        for (j = items.begin(); j != items.end(); ++j) {
-            if ((*j).row < m_pRightPhoneThumbnailList->m_model->rowCount()
-                    && (*j).column < m_pRightPhoneThumbnailList->m_model->columnCount()) {
-                QModelIndex qindex = m_pRightPhoneThumbnailList->m_model->index((*j).row, (*j).column);
-                m_pRightPhoneThumbnailList->selectionModel()->select(qindex, QItemSelectionModel::Select);
-            }
-        }
+//        //设置更新之前的选择状态
+//        QList<Listolditem>::iterator j;
+//        for (j = items.begin(); j != items.end(); ++j) {
+//            if ((*j).row < m_pRightPhoneThumbnailList->m_model->rowCount()
+//                    && (*j).column < m_pRightPhoneThumbnailList->m_model->columnCount()) {
+//                QModelIndex qindex = m_pRightPhoneThumbnailList->m_model->index((*j).row, (*j).column);
+//                m_pRightPhoneThumbnailList->selectionModel()->select(qindex, QItemSelectionModel::Select);
+//            }
+//        }
 
         QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
         if (0 < paths.length()) {
@@ -1291,9 +1301,9 @@ void AlbumView::updateRightMountView()
 
         m_pRightPhoneThumbnailList->stopLoadAndClear();
         if (m_curThumbnaiItemList_info.size() > 0) {
-            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_info, false);
+            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_info, false, false);
         } else {
-            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_str, false);
+            m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_str, false, false);
         }
 //        m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
 

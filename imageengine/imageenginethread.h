@@ -108,8 +108,8 @@ public:
         DataType_TrashList
     };
     ImageLoadFromLocalThread();
-    void setData(QStringList filelist, ImageEngineObject *imgobject, DataType type = DataType_NULL);
-    void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, DataType type = DataType_NULL);
+    void setData(QStringList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
+    void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
 
 protected:
     bool ifCanStopThread(void *imgobject) override
@@ -131,6 +131,7 @@ private:
     DBImgInfoList m_fileinfolist;
     ImageEngineObject *m_imgobject = nullptr;
     DataType m_type = DataType_NULL;
+    bool bneedcheck = true;
 };
 
 class ImageEngineThread : public ImageEngineThreadObject, public QRunnable

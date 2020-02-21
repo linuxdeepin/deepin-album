@@ -795,13 +795,13 @@ bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
     return true;
 }
 
-void ThumbnailListView::loadFilesFromLocal(QStringList files, bool needcache)
+void ThumbnailListView::loadFilesFromLocal(QStringList files, bool needcache, bool needcheck)
 {
     ImageEngineApi::instance()->loadImagesFromLocal(files, this);
     bneedcache = needcache;
 }
 
-void ThumbnailListView::loadFilesFromLocal(DBImgInfoList files, bool needcache)
+void ThumbnailListView::loadFilesFromLocal(DBImgInfoList files, bool needcache, bool needcheck)
 {
     ImageEngineApi::instance()->loadImagesFromLocal(files, this);
     bneedcache = needcache;
