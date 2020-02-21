@@ -837,8 +837,8 @@ void ViewPanel::removeCurrentImage()
     } else {
         m_vinfo.paths = m_filepathlist;
         m_vinfo.path = m_filepathlist[m_current];
-        dApp->signalM->viewImage(m_vinfo);
-//    openImage(m_filepathlist[m_current]/*, m_vinfo.inDatabase*/);
+//        dApp->signalM->viewImage(m_vinfo);
+        openImage(m_filepathlist[m_current]/*, m_vinfo.inDatabase*/);
         emit dApp->signalM->updateBottomToolbar(m_filepathlist.size() > 1);
     }
 }
@@ -920,8 +920,8 @@ void ViewPanel::rotateImage(bool clockWise)
 
 //    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     emit imageChanged(m_currentpath);
+//    m_ttbc->reLoad();
 
-//    dApp->signalM->viewImage(m_vinfo);
 }
 
 void ViewPanel::initViewContent()
