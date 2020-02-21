@@ -308,6 +308,21 @@ void ImageItem::paintEvent(QPaintEvent *event)
 
 }
 
+int ImageItem::indexNow() const
+{
+    return _indexNow;
+}
+
+int ImageItem::index() const
+{
+    return _index;
+}
+
+void ImageItem::setIndex(int index)
+{
+    _index = index;
+}
+
 TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabel(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -1074,6 +1089,7 @@ void TTBContent::updateScreen()
 //                labelList.at(j)->resize(QSize(num, 40));
 //                labelList.at(j)->setIndexNow(m_nowIndex );
 //            }
+            labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
             if (m_lastIndex > -1) {
                 labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
                 labelList.at(m_lastIndex)->resize(QSize(num, 40));

@@ -82,6 +82,11 @@ public:
 //    void setPic(QPixmap pixmap);
 
     QString _path = NULL;
+    int index() const;
+    void setIndex(int index);
+
+    int indexNow() const;
+
 signals:
     void imageItemclicked(int index, int indexNow);
 protected:
