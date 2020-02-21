@@ -642,6 +642,18 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
 
 void ThumbnailListView::addThumbnailView()
 {
+    QModelIndexList mlist = getSelectedIndexes();
+    struct Listolditem {
+        int row;
+        int column;
+    };
+    QList<Listolditem> items;
+    for (QModelIndex i : mlist) {
+        Listolditem item;
+        item.row = i.row();
+        item.column = i.column();
+        items.append(item);
+    }
     m_model->clear();
     for (int i = 0; i < m_gridItem.length(); i++) {
         for (int j = 0; j < m_gridItem[i].length(); j++) {
@@ -687,6 +699,15 @@ void ThumbnailListView::addThumbnailView()
             item->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
                           Qt::SizeHintRole);
             m_model->appendRow(item);
+        }
+    }
+
+    //设置更新之前的选择状态
+    for (Listolditem i : items) {
+        if (i.row < m_model->rowCount()
+                && i.column < m_model->columnCount()) {
+            QModelIndex qindex = m_model->index(i.row, i.column);
+            selectionModel()->select(qindex, QItemSelectionModel::Select);
         }
     }
 }
