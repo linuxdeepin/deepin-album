@@ -2,6 +2,13 @@
 #include "controller/signalmanager.h"
 #include "application.h"
 #include <QMetaType>
+#include <QDirIterator>
+#include <QStandardPaths>
+
+
+namespace {
+const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
+}
 
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 
@@ -59,6 +66,11 @@ bool ImageEngineApi::updateImageDataPixmap(QString imagepath, QPixmap &pix)
     if (getImageData(imagepath, data)) {
         data.imgpixmap = pix;
         m_AllImageData[imagepath] = data;
+
+        QFileInfo file(CACHE_PATH + imagepath);
+        if (file.exists()) {
+            QFile::remove(CACHE_PATH + imagepath);
+        }
         return true;
     }
     return false;
