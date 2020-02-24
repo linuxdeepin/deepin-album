@@ -1,16 +1,20 @@
 #include "thumbnaillistview.h"
+#include "application.h"
 #include <QDebug>
 #include <QDrag>
 #include <QFileInfo>
 #include <QImageReader>
 #include <QMimeData>
 #include <QScrollBar>
+#include <QMutex>
 #include "controller/signalmanager.h"
-#include "dialogs/imgdeletedialog.h"
-#include "timelinelist.h"
+#include "controller/wallpapersetter.h"
+#include "widgets/dialogs/imgdeletedialog.h"
+//#include "timelinelist.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
+#include "widgets/printhelper.h"
 
 namespace {
 const int ITEM_SPACING = 4;
@@ -693,6 +697,7 @@ void ThumbnailListView::initMenuAction()
 
     appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
+    appendAction(IdPrint, tr("Print"), ss(PRINT_CONTEXT_MENU));
     appendAction(IdStartSlideShow, tr("Slide show"), ss(SLIDESHOW_CONTEXT_MENU));
 
     m_pMenu->addSeparator();
@@ -794,6 +799,9 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdFullScreen:
         emit menuOpenImage(path, paths, true, false);
         break;
+    case IdPrint:
+        PrintHelper::showPrintDialog(QStringList(path), this);
+        break;
     case IdStartSlideShow:
         emit menuOpenImage(path, paths, true, true);
         break;
@@ -866,7 +874,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdRemoveFromAlbum: {
         if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
-                COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType ) {
+                COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType) {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
         }
     }

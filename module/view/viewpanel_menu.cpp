@@ -311,6 +311,7 @@ void ViewPanel::updateMenuContent()
     }
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
+    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
 #ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
