@@ -1568,12 +1568,12 @@ void AlbumView::openImage(int index)
     info.album = "";
     info.lastPanel = nullptr;
 
-    if (m_curThumbnaiItemList_info.size() > 1) {
+    if (m_curThumbnaiItemList_info.size() > 0) {
         for (auto image : m_curThumbnaiItemList_info) {
             info.paths << image.filePath;
         }
         info.path = m_curThumbnaiItemList_info[index].filePath;
-    } else if (m_curThumbnaiItemList_str.size() > 1) {
+    } else if (m_curThumbnaiItemList_str.size() > 0) {
         info.paths << m_curThumbnaiItemList_str;
         info.path = m_curThumbnaiItemList_str[index];
     } else {

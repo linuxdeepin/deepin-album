@@ -1089,7 +1089,8 @@ void TTBContent::updateScreen()
 //                labelList.at(j)->resize(QSize(num, 40));
 //                labelList.at(j)->setIndexNow(m_nowIndex );
 //            }
-            labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+            if (m_nowIndex < labelList.size())
+                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
             if (m_lastIndex > -1) {
                 labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
                 labelList.at(m_lastIndex)->resize(QSize(num, 40));
@@ -1211,6 +1212,8 @@ void TTBContent::updateScreen()
 //                labelList.at(j)->resize(QSize(num, 40));
 //                labelList.at(j)->setIndexNow(t);
 //            }
+            if (m_nowIndex < labelList.size())
+                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
             if (m_lastIndex > -1) {
                 labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
                 labelList.at(m_lastIndex)->resize(QSize(num, 40));
@@ -1250,9 +1253,21 @@ void TTBContent::updateScreen()
         m_preButton_spc->hide();
         m_nextButton->hide();
         m_nextButton_spc->hide();
-        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-        setFixedWidth(m_contentWidth);
+//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+//        setFixedWidth(m_contentWidth);
     }
+
+    m_windowWidth =  this->window()->geometry().width();
+    if (m_ItemLoaded.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_ItemLoaded.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+    } else {
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+    }
+    setFixedWidth(m_contentWidth);
 }
 
 void TTBContent::insertImageItem(const ImageDataSt file)
