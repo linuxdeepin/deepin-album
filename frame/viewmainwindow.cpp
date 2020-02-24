@@ -99,7 +99,7 @@ void ViewMainWindow::moveFirstWindow() {
                 pidInfo << dApp->applicationPid();
                 processFile.close();
             }
-            this->moveCenter();
+//            this->moveCenter();
         }
     } else {
         if (processFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
@@ -107,7 +107,7 @@ void ViewMainWindow::moveFirstWindow() {
             QTextStream pidInfo(&processFile);
             pidInfo << dApp->applicationPid();
             processFile.close();
-            this->moveCenter();
+//            this->moveCenter();
         } else {
             qDebug() << "process File open failed!";
         }

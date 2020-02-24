@@ -286,7 +286,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setContentsMargins(0, 0, 0, 0);
     m_dateItem->move(0, 50 + m_pImportTitle->height()); //edit 3975
     m_dateItem->show();
-    m_dateItem->setVisible(false);
+    m_dateItem->setVisible(true);
 }
 
 void ImportTimeLineView::updataLayout()
