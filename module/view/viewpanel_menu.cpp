@@ -307,6 +307,7 @@ void ViewPanel::updateMenuContent()
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
     }
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
+    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
 #ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
