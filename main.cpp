@@ -52,8 +52,6 @@ int main(int argc, char *argv[])
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
 
-    ImageEngineApi::instance(&a);
-    MainWindow w;
 
     QCommandLineParser parser;
     parser.process(a);
@@ -139,6 +137,8 @@ int main(int argc, char *argv[])
 //        }
 //    }
 
+    //    ImageEngineApi::instance(&a);
+    MainWindow w;
 //    DtkTest w;
 //    w.resize(1300, 848);
     w.show();

@@ -42,7 +42,7 @@ using namespace utils::common;
 
 MainWindow::MainWindow()
 {
-//    ImageEngineApi::instance(this);
+    ImageEngineApi::instance(this);
     m_allPicNum = DBManager::instance()->getImgsCount();
     m_iCurrentView = VIEW_ALLPIC;
     m_bTitleMenuImportClicked = false;

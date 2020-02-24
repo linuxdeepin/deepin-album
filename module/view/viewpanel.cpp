@@ -915,11 +915,11 @@ void ViewPanel::rotateImage(bool clockWise)
 //    if (COMMON_STR_TRASH == m_vinfo.viewType) {
 //        dApp->m_imageloader->updateTrashImageLoader(QStringList(m_currentpath));
 //    } else {
-    dApp->m_imageloader->updateImageLoader(QStringList(m_currentpath));
+//    dApp->m_imageloader->updateImageLoader(QStringList(m_currentpath));
 //    }
 
 //    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    emit imageChanged(m_currentpath);
+//    emit imageChanged(m_currentpath);
 //    m_ttbc->reLoad();
 
 }

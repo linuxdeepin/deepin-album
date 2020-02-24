@@ -379,12 +379,14 @@ void ImageView::fitImage()
 void ImageView::rotateClockWise()
 {
     utils::image::rotate(m_path, 90);
+    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
     setImage(m_path);
 }
 
 void ImageView::rotateCounterclockwise()
 {
     utils::image::rotate(m_path, - 90);
+    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
     setImage(m_path);
 }
 
