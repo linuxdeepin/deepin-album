@@ -168,6 +168,7 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
         m_waitlabel->setText(waittext);
+        m_waitlabel->show();
         m_spinner->start();
 //        m_waitdailog.exec();
         m_waitdailog.show();
@@ -709,8 +710,9 @@ void MainWindow::initUI()
     m_waitdailog.setWindowModality(Qt::WindowModal);
     m_spinner = new DSpinner(&m_waitdailog);
     m_waitlabel = new DLabel(&m_waitdailog);
-    m_waitlabel->setFixedSize(m_waitdailog.height() - 120, 40);
+    m_waitlabel->setFixedSize(m_waitdailog.width() - 120, 40);
     m_waitlabel->move(90, (m_waitdailog.height() - 40) / 2);
+//    QSize size = m_waitlabel->size();
     m_spinner->setFixedSize(40, 40);
     m_spinner->move(40, (m_waitdailog.height() - 40) / 2);
 
