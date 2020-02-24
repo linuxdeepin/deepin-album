@@ -4,6 +4,10 @@ ImageEngineThreadObject::ImageEngineThreadObject()
 {
 
 }
+ImageMountImportPathsObject::ImageMountImportPathsObject()
+{
+
+}
 ImageMountGetPathsObject::ImageMountGetPathsObject()
 {
 

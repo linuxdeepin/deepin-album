@@ -2460,7 +2460,9 @@ void AlbumView::updateImportComboBox()
 void AlbumView::importAllBtnClicked()
 {
 //    QList<ThumbnailListView::ItemInfo> allPaths = m_pRightPhoneThumbnailList->getAllPaths();
-//    QString albumNameStr = m_importByPhoneComboBox->currentText();
+    QStringList allPaths = m_pRightPhoneThumbnailList->getAllPaths();
+    QString albumNameStr = m_importByPhoneComboBox->currentText();
+    ImageEngineApi::instance()->importImageFilesFromMount(albumNameStr, allPaths, this);
 //    QStringList picPathList;
 //    QStringList newPathList;
 //    DBImgInfoList dbInfos;
@@ -2558,22 +2560,23 @@ void AlbumView::importAllBtnClicked()
 //        emit dApp->signalM->ImportFailed();
 //    }
 
-//    for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
-//        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
-//        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
-//        if (!pAlbumLeftTabItem) continue;
-//        if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
-//            m_pLeftListView->m_pMountListView->setCurrentRow(i);
-//            break;
-//        }
-//    }
+    for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
+        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
+        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
+        if (!pAlbumLeftTabItem) continue;
+        if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
+            m_pLeftListView->m_pMountListView->setCurrentRow(i);
+            break;
+        }
+    }
 }
 
 //手机照片导入选中
 void AlbumView::importSelectBtnClicked()
 {
-//    QStringList selectPaths = m_pRightPhoneThumbnailList->selectedPaths();
-//    QString albumNameStr = m_importByPhoneComboBox->currentText();
+    QStringList selectPaths = m_pRightPhoneThumbnailList->selectedPaths();
+    QString albumNameStr = m_importByPhoneComboBox->currentText();
+    ImageEngineApi::instance()->importImageFilesFromMount(albumNameStr, selectPaths, this);
 //    QStringList picPathList;
 //    QStringList newPathList;
 //    DBImgInfoList dbInfos;
@@ -2673,17 +2676,21 @@ void AlbumView::importSelectBtnClicked()
 //        emit dApp->signalM->ImportFailed();
 //    }
 
-//    for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
-//        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
-//        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
-//        if (!pAlbumLeftTabItem) continue;
-//        if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
-//            m_pLeftListView->m_pMountListView->setCurrentRow(i);
-//            break;
-//        }
-//    }
+    for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
+        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
+        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
+        if (!pAlbumLeftTabItem) continue;
+        if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
+            m_pLeftListView->m_pMountListView->setCurrentRow(i);
+            break;
+        }
+    }
 }
 
+bool AlbumView::imageMountImported(QStringList &filelist)
+{
+    return true;
+}
 
 void AlbumView::needUnMount(QString path)
 {

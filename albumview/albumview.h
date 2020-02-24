@@ -121,7 +121,7 @@ private:
     int m_scrollbarbottomdistance = 27;
 };
 
-class AlbumView : public QWidget, public ImageEngineImportObject, public ImageMountGetPathsObject
+class AlbumView : public QWidget, public ImageEngineImportObject, public ImageMountGetPathsObject, public ImageMountImportPathsObject
 //class AlbumView : public DSplitter
 {
     Q_OBJECT
@@ -144,6 +144,7 @@ public:
         return true;
     }
     bool imageGeted(QStringList &filelist, QString path) override;
+    bool imageMountImported(QStringList &filelist) override;
 
     void createNewAlbum(QStringList imagepaths);
     void SearchReturnUpdate();

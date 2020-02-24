@@ -55,6 +55,34 @@ protected:
     bool bneedstop = false;
 };
 
+class ImageMountImportPathsObject
+{
+public:
+    ImageMountImportPathsObject();
+    ~ImageMountImportPathsObject()
+    {
+        clearAndStopThread();
+    }
+    virtual bool imageMountImported(QStringList &filelist) = 0;
+    void addThread(ImageEngineThreadObject *thread)
+    {
+        m_threads.append(thread);
+    }
+    void removeThread(ImageEngineThreadObject *thread)
+    {
+        m_threads.removeOne(thread);
+    }
+protected:
+    void clearAndStopThread()
+    {
+        for (auto thread : m_threads) {
+            thread->needStop(this);
+        }
+        m_threads.clear();
+    }
+    QList<ImageEngineThreadObject *> m_threads;
+};
+
 class ImageMountGetPathsObject
 {
 public:

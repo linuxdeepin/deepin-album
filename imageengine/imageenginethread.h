@@ -43,6 +43,33 @@ private:
     DataType m_type = DataType_NULL;
 };
 
+class ImageImportFilesFromMountThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImageImportFilesFromMountThread();
+    void setData(QString albumname, QStringList paths, ImageMountImportPathsObject *imgobject);
+
+protected:
+    bool ifCanStopThread(void *imgobject) override
+    {
+        ((ImageMountImportPathsObject *)imgobject)->removeThread(this);
+        if (imgobject == m_imgobject) {
+            return true;
+        }
+        return false;
+    }
+    virtual void run();
+
+signals:
+    void sigImageFilesImported(void *imgobject, QStringList &filelist);
+private:
+//    bool findPicturePathByPhone(QString &path);
+    QStringList m_paths;
+    QString m_albumname;
+    ImageMountImportPathsObject *m_imgobject = nullptr;
+};
+
 class ImageGetFilesFromMountThread : public ImageEngineThreadObject, public QRunnable
 {
     Q_OBJECT

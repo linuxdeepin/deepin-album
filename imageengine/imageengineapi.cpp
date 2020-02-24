@@ -172,6 +172,13 @@ void ImageEngineApi::sltImageFilesGeted(void *imgobject, QStringList &filelist, 
     }
 }
 
+void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelist)
+{
+    if (nullptr != imgobject) {
+        ((ImageMountImportPathsObject *)imgobject)->imageMountImported(filelist);
+    }
+}
+
 
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
 {
@@ -250,3 +257,12 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
     return true;
 }
 
+bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
+{
+    ImageImportFilesFromMountThread *imagethread = new ImageImportFilesFromMountThread;
+    connect(imagethread, &ImageImportFilesFromMountThread::sigImageFilesImported, this, &ImageEngineApi::sltImageFilesImported);
+    imagethread->setData(albumname, paths, obj);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}

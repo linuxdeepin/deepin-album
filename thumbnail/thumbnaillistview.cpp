@@ -783,7 +783,7 @@ void ThumbnailListView::loadFilesFromDB(QString name)
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
-    qDebug() << "threadID : " << QThread::currentThreadId();
+//    qDebug() << "threadID : " << QThread::currentThreadId();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
@@ -814,7 +814,7 @@ void ThumbnailListView::loadFilesFromTrash(DBImgInfoList files)
 
 bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
 {
-    qDebug() << "threadID : " << QThread::currentThreadId();
+//    qDebug() << "threadID : " << QThread::currentThreadId();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
@@ -855,7 +855,7 @@ void ThumbnailListView::requestSomeImages()
 
 bool ThumbnailListView::imageLoaded(QString filepath)
 {
-    qDebug() << "threadID : " << QThread::currentThreadId();
+//    qDebug() << "threadID : " << QThread::currentThreadId();
     m_requestCount--;
     m_allNeedRequestFilesCount--;
     if (m_requestCount < 1) {
@@ -904,7 +904,7 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 void ThumbnailListView::stopLoadAndClear()
 {
 
-    qDebug() << "threadID : " << QThread::currentThreadId();
+//    qDebug() << "threadID : " << QThread::currentThreadId();
     clearAndStopThread();
 
     m_allfileslist.clear();
@@ -1213,9 +1213,11 @@ QStringList ThumbnailListView::getDagItemPath()
     return m_dragItemPath;
 }
 
-QList<ThumbnailListView::ItemInfo> ThumbnailListView::getAllPaths()
+//QList<ThumbnailListView::ItemInfo> ThumbnailListView::getAllPaths()
+QStringList ThumbnailListView::getAllPaths()
 {
-    return m_ItemList;
+//    return m_ItemList;
+    return m_allfileslist;
 }
 
 void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)

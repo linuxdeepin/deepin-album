@@ -28,6 +28,7 @@ public:
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
     bool getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj);
+    bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);
@@ -35,6 +36,7 @@ private slots:
     void sltImageDBLoaded(void *imgobject, QStringList &filelist);
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
     void sltAborted(QString path);
+    void sltImageFilesImported(void *imgobject, QStringList &filelist);
 private:
     ImageEngineApi(QObject *parent = nullptr);
     QMap<QString, ImageDataSt>m_AllImageData;

@@ -112,7 +112,8 @@ public:
 
 //    void insertThumbnails(const QList<ItemInfo> &itemList);
     QStringList selectedPaths();
-    QList<ItemInfo> getAllPaths();
+//    QList<ItemInfo> getAllPaths();
+    QStringList getAllPaths();
     QStringList getDagItemPath();
 
     void menuItemDeal(QStringList paths, QAction *action);
