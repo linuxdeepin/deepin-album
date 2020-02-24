@@ -683,6 +683,7 @@ void AlbumView::initRightView()
 
     m_noTrashItem = new QListWidgetItem();
     m_noTrashItem->setFlags(Qt::NoItemFlags);
+    m_pRightThumbnailList->setListWidgetItem(m_noTrashItem);
     lsitWidget->insertItem(1, m_noTrashItem);
     lsitWidget->setItemWidget(m_noTrashItem, m_pRightThumbnailList);
 
@@ -802,6 +803,7 @@ void AlbumView::initRightView()
 
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
+    m_pRightTrashThumbnailList->setListWidgetItem(m_TrashitemItem);
     lsitWidget3->insertItem(1, m_TrashitemItem);
     lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
 
@@ -892,6 +894,7 @@ void AlbumView::initRightView()
 
     m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
+    m_pRightFavoriteThumbnailList->setListWidgetItem(m_FavoriteItem);
     lsitWidget2->insertItem(1, m_FavoriteItem);
     lsitWidget2->setItemWidget(m_FavoriteItem, m_pRightFavoriteThumbnailList);
 //    m_pRightFavoriteThumbnailList->resize(480, 5000);
@@ -1373,8 +1376,8 @@ void AlbumView::updateRightNoTrashView()
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(true);
     //add start 3975
-    m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8));
-    m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+//    m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8));
+//    m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
     //add end 3975
 }
 
@@ -1444,7 +1447,7 @@ void AlbumView::updateRightTrashView()
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
-    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
+//    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
 }
 
 void AlbumView::leftTabClicked()
@@ -2385,12 +2388,11 @@ void AlbumView::onUpdataAlbumRightTitle(QString titlename)
 void AlbumView::onUpdateThumbnailViewSize()
 {
     if (nullptr != m_FavoriteItem) {
-        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
     }
-    if (nullptr != m_FavoriteItem) {
-        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8));
+    if (nullptr != m_TrashitemItem) {
+        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
     }
-
 }
 
 void AlbumView::SearchReturnUpdate()
@@ -3065,15 +3067,15 @@ bool MountLoader::findPicturePathByPhone(QString &path)
 void AlbumView::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
-    if (nullptr != m_FavoriteItem) {
-        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
-    }
-    if (nullptr != m_FavoriteItem) {
-        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
-    }
-    if (nullptr != m_noTrashItem) {
-        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
-    }
+//    if (nullptr != m_FavoriteItem) {
+//        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
+//    }
+//    if (nullptr != m_TrashitemItem) {
+//        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
+//    }
+//    if (nullptr != m_noTrashItem) {
+//        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
+//    }
     if (nullptr != pPhoneWidget) {
         m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
         phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
@@ -3093,15 +3095,15 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pwidget->move(this->width() / 4, this->height() - 81);
 
     //add start 3975
-    if (nullptr != m_noTrashItem) {
-        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
-    }
-    if (nullptr != m_FavoriteItem) {
-        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
-    }
-    if (nullptr != m_FavoriteItem) {
-        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
-    }
+//    if (nullptr != m_noTrashItem) {
+//        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
+//    }
+//    if (nullptr != m_FavoriteItem) {
+//        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
+//    }
+//    if (nullptr != m_TrashitemItem) {
+//        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
+//    }
     if (nullptr != m_pNoTrashTitle) {
         m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
     }

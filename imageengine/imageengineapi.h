@@ -17,6 +17,9 @@ public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
+    bool insertObject(void *obj);
+    bool removeObject(void *obj);
+    bool ifObjectExist(void *obj);
     bool getImageData(QString imagepath, ImageDataSt &data);
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
     bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true);
@@ -40,6 +43,7 @@ private slots:
 private:
     ImageEngineApi(QObject *parent = nullptr);
     QMap<QString, ImageDataSt>m_AllImageData;
+    QMap<void *, void *>m_AllObject;
     QThreadPool m_qtpool;
     static ImageEngineApi *s_ImageEngine;
 };

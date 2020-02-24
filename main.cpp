@@ -1,6 +1,7 @@
 #include "application.h"
 #include "mainwindow.h"
 #include "dtktest.h"
+#include "imageengine/imageengineapi.h"
 #include <DMainWindow>
 #include <DWidgetUtil>
 #include <DApplicationSettings>
@@ -51,7 +52,8 @@ int main(int argc, char *argv[])
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
 
-
+    ImageEngineApi::instance(&a);
+    MainWindow w;
 
     QCommandLineParser parser;
     parser.process(a);
@@ -137,7 +139,6 @@ int main(int argc, char *argv[])
 //        }
 //    }
 
-    MainWindow w;
 //    DtkTest w;
 //    w.resize(1300, 848);
     w.show();

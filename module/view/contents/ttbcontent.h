@@ -112,6 +112,10 @@ public:
     };
 //    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
     explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = 0);
+    ~TTBContent()
+    {
+        stopLoadAndClear();
+    };
 
     //------------------
 //    void importFilesFromLocal(QStringList files);

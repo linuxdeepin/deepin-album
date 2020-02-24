@@ -454,13 +454,13 @@ void ThumbnailListView::calWidgetItem()
         }
     }
 
-    if (0 < gridItem.size()) {
-        m_height = 0;
-        for (int i = 0; i < rowWidthList.length(); i++) {
-            m_height = m_height + gridItem[i][0].height + ITEM_SPACING;
-        }
-        m_height -= ITEM_SPACING;
-    }
+//    if (0 < gridItem.size()) {
+//        m_height = 0;
+//        for (int i = 0; i < rowWidthList.length(); i++) {
+//            m_height = m_height + gridItem[i][0].height + ITEM_SPACING;
+//        }
+//        m_height -= ITEM_SPACING;
+//    }
     addThumbnailViewNew(gridItem);
     if (gridItem.size() > 0) {
         bfirstload = false;
@@ -638,6 +638,14 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
         }
     }
     m_gridItem << gridItem;
+
+    if (0 < m_gridItem.size()) {
+        m_height = 0;
+        for (int i = 0; i < m_gridItem.size(); i++) {
+            m_height = m_height + m_gridItem[i][0].height + ITEM_SPACING;
+        }
+        m_height -= ITEM_SPACING;
+    }
 }
 
 void ThumbnailListView::addThumbnailView()
@@ -898,6 +906,10 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 //    if (0 != m_iDefaultWidth) {
     calWidgetItem();
     emit needResize(m_height + 15);
+
+    if (nullptr != m_item) {
+        m_item->setSizeHint(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+    }
 //}
 }
 
@@ -923,6 +935,12 @@ void ThumbnailListView::stopLoadAndClear()
 QStringList ThumbnailListView::getAllFileList()
 {
     return m_allfileslist;
+}
+
+
+void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
+{
+    m_item = item;
 }
 
 void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
@@ -1505,6 +1523,9 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
     m_iDefaultWidth = width();
 
     QListView::resizeEvent(e);
+    if (nullptr != m_item) {
+        m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
+    }
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)

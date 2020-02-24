@@ -108,6 +108,7 @@ public:
     void stopLoadAndClear();
     QStringList getAllFileList();
     void setVScrollbarDistance(int topdistance, int bottomdistance);
+    void setListWidgetItem(QListWidgetItem *item);
     //------------------
 
 //    void insertThumbnails(const QList<ItemInfo> &itemList);
@@ -231,6 +232,7 @@ private:
     bool bneedcache = true;
     int m_scrollbartopdistance = 0;
     int m_scrollbarbottomdistance = 0;
+    QListWidgetItem *m_item = nullptr;
     //------------------
 };
 
