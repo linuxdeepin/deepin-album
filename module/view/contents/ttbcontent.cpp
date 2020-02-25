@@ -257,7 +257,11 @@ void ImageItem::paintEvent(QPaintEvent *event)
             m_pixmapstring = LOCMAP_SELECTED_LIGHT;
         }
 
+//<<<<<<< HEAD
 //        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
+//=======
+//        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
+//>>>>>>> fix :Trigger a build
 //        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(100, 100));
         QPainterPath bg;
 //        bg.addRoundedRect(pixmapRect, 4, 4);
@@ -299,11 +303,15 @@ void ImageItem::paintEvent(QPaintEvent *event)
 //    int width = pixmapRect.width();
 //    int height = pixmapRect.height();
 
+//<<<<<<< HEAD
 //    pixmapRect.setX(pixmapRect.x() - 1);
 //    pixmapRect.setY(pixmapRect.y() - 1);
 //    pixmapRect.setWidth(pixmapRect.width() - 2);
 //    pixmapRect.setHeight(pixmapRect.height() - 2);
     painter.setClipPath(bp1);
+//=======
+
+//>>>>>>> fix :Trigger a build
     painter.drawPixmap(pixmapRect, _pixmap);
 
 }
