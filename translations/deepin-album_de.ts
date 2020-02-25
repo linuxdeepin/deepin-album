@@ -249,10 +249,14 @@
     <message>
         <source>%1 Volume</source>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <translation>%1 Laufwerk</translation>
 =======
         <translation type="unfinished"/>
 >>>>>>> Add "1% volume" translation in MainWindow,
+=======
+        <translation>%1 Laufwerk</translation>
+>>>>>>> Type:docs
     </message>
 </context>
 <context>

@@ -248,7 +248,7 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"/>
+        <translation>%1-schijf</translation>
     </message>
 </context>
 <context>
