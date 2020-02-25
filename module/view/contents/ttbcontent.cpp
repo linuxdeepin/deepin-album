@@ -262,6 +262,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
 //=======
 //        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
 //>>>>>>> fix :Trigger a build
+
 //        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(100, 100));
         QPainterPath bg;
 //        bg.addRoundedRect(pixmapRect, 4, 4);
