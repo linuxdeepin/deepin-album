@@ -437,7 +437,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -607,6 +607,11 @@ void AlbumView::onCreateNewAlbumFrom(QString albumname)
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
 
     m_pLeftListView->moveMountListWidget();
+}
+
+void AlbumView::onLoadMountImagesEnd(QString mountname)
+{
+
 }
 #endif
 
@@ -2016,7 +2021,6 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         }
 
         if (rename == pAlbumLeftTabItem->m_albumNameStr &&  mount->getDefaultLocationFile()->path().contains(pAlbumLeftTabItem->m_mountPath)) {
-
             if (1 < m_pLeftListView->m_pMountListView->count()) {
                 delete pListWidgetItem;
             } else {
@@ -2102,7 +2106,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2291,6 +2295,7 @@ void AlbumView::initExternalDevice()
         //pListWidgetItem缓存文件挂载路径
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
+        qDebug() << "strPath :" << strPath << endl;
         pListWidgetItem->setData(Qt::UserRole, strPath);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
         AlbumLeftTabItem *pAlbumLeftTabItem;
@@ -2735,6 +2740,12 @@ void AlbumView::needUnMount(QString path)
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
             if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
                 mount->unmount(true);
+                <<< <<< < HEAD
+                == == == =
+//                m_mounts.removeOne(mount);
+                    break;
+>>> >>> > Fix :
+                fix bug 12129
             }
         }
         return;
@@ -2776,6 +2787,7 @@ void AlbumView::needUnMount(QString path)
         }
     }
 }
+<<< <<< < HEAD
 //卸载外部设备
 void AlbumView::onUnMountSignal(QString unMountPath)
 {
@@ -2792,18 +2804,13 @@ void AlbumView::onUnMountSignal(QString unMountPath)
     needUnMount(unMountPath);
     qDebug() << "111";
 }
+== == == =
+    >>> >>> > Fix :
+    fix bug 12129
 
-void AlbumView::onLoadMountImagesEnd(QString mountname)
-{
-    qDebug() << "onLoadMountImagesEnd() mountname: " << mountname;
-    qDebug() << "onLoadMountImagesEnd() m_currentAlbum: " << m_currentAlbum;
 
-    if (mountname == m_currentAlbum) {
-        updateRightView();
-    }
-}
 
-void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
+    void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 {
     qDebug() << "AlbumView::onLeftListDropEvent()";
     ThumbnailListView *currentViewList;

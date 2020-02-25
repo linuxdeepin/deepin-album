@@ -12,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = deepin-album
 TEMPLATE = app
 QT += dtkwidget
-PKGCONFIG += dtkwidget gio-qt udisks2-qt5
+PKGCONFIG += dtkwidget gio-unix-2.0 gio-qt udisks2-qt5
 LIBS += -lfreeimage
 
 # The following define makes your compiler emit warnings if you use
