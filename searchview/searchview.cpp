@@ -491,7 +491,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
         m_stackWidget->setCurrentIndex(1);
     } else {
 
-//        QString str = "No results for '%1', please try another word";
+//        QString str = tr("No results for '%1',please try another word");
 //        m_pNoSearchResultLabel->setText(str.arg(s));
 //        m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
 //        DPalette palette = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
