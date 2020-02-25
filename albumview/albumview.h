@@ -193,7 +193,7 @@ private:
     void updateImportComboBox();
     void importAllBtnClicked();
     void importSelectBtnClicked();
-    void onUnMountSignal(QString unMountPath);
+//    void onUnMountSignal(QString unMountPath);
     void loadMountPicture(QString path);
     void initLeftMenu();
     void importComboBoxChange(QString strText);
@@ -208,6 +208,7 @@ private slots:
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
     void onUpdateThumbnailViewSize();
+    void onUnMountSignal(QString unMountPath);
 
     void onCreateNewAlbumFromDialog(QString albumname);
 #if 1
