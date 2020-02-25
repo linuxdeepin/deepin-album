@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
 //        }
 //    }
 
-    //    ImageEngineApi::instance(&a);
+    ImageEngineApi::instance(&a);
     MainWindow w;
 //    DtkTest w;
 //    w.resize(1300, 848);

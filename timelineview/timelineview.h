@@ -43,6 +43,9 @@ class TimeLineView : public DWidget, public ImageEngineImportObject
 {
 public:
     TimeLineView();
+    ~TimeLineView()
+    {
+    }
 
     bool imageImported(bool success) override
     {
@@ -67,6 +70,7 @@ private:
     void sigImprotPicsIntoThumbnailView();
     void getImageInfos();
 //    void updataLayout();
+    void clearAndStop();
     void clearAndStartLayout();
     void addTimelineLayout();
     void initMainStackWidget();

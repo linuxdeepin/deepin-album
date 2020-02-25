@@ -177,35 +177,35 @@ void ImageEngineApi::sltImageLoaded(void *imgobject, QString path, ImageDataSt &
     ImageEngineThread *thread = (ImageEngineThread *)sender();
     if (nullptr != thread)
         thread->needStop(imgobject);
-    if (nullptr != imgobject) {
+    if (nullptr != imgobject && ifObjectExist(imgobject)) {
         ((ImageEngineObject *)imgobject)->checkAndReturnPath(path);
     }
 }
 
 void ImageEngineApi::sltImageLocalLoaded(void *imgobject, QStringList &filelist)
 {
-    if (nullptr != imgobject /*&& ifObjectExist(imgobject)*/) {
+    if (nullptr != imgobject && ifObjectExist(imgobject)) {
         ((ImageEngineObject *)imgobject)->imageLocalLoaded(filelist);
     }
 }
 
 void ImageEngineApi::sltImageDBLoaded(void *imgobject, QStringList &filelist)
 {
-    if (nullptr != imgobject /*&& ifObjectExist(imgobject)*/) {
+    if (nullptr != imgobject && ifObjectExist(imgobject)) {
         ((ImageEngineObject *)imgobject)->imageFromDBLoaded(filelist);
     }
 }
 
 void ImageEngineApi::sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path)
 {
-    if (nullptr != imgobject /*&& ifObjectExist(imgobject)*/) {
+    if (nullptr != imgobject && ifObjectExist(imgobject)) {
         ((ImageMountGetPathsObject *)imgobject)->imageGeted(filelist, path);
     }
 }
 
 void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelist)
 {
-    if (nullptr != imgobject /*&& ifObjectExist(imgobject)*/) {
+    if (nullptr != imgobject && ifObjectExist(imgobject)) {
         ((ImageMountImportPathsObject *)imgobject)->imageMountImported(filelist);
     }
 }

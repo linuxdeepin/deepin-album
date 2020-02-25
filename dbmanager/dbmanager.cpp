@@ -911,11 +911,11 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     if (! query.execBatch()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     } else {
-        mutex.unlock();
         emit dApp->signalM->removedFromAlbum(album, paths);
     }
     query.exec("COMMIT");
     db.close();
+    mutex.unlock();
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
 }

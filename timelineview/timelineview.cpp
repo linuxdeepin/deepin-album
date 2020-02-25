@@ -319,6 +319,11 @@ void TimeLineView::updateStackedWidget()
     }
 }
 
+void TimeLineView::clearAndStop()
+{
+
+}
+
 void TimeLineView::clearAndStartLayout()
 {
     m_spinner->hide();
@@ -327,6 +332,10 @@ void TimeLineView::clearAndStartLayout()
     m_mainListWidget->clear();
     m_timelines = DBManager::instance()->getAllTimelines();
     qDebug() << m_timelines.size();
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->stopLoadAndClear();
+        delete list;
+    }
     m_allThumbnailListView.clear();
     m_allChoseButton.clear();
     currentTimeLineLoad = 0;
