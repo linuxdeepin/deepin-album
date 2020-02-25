@@ -1438,6 +1438,7 @@ void MainWindow::saveWindowState()
     QSettings settings(objectName());
     settings.setValue("album-geometry", saveGeometry());
     settings.setValue("album-isMaximized", isMaximized());
+    settings.setValue("album-pos", pos());
 }
 
 void MainWindow::loadWindowState()
@@ -1445,13 +1446,12 @@ void MainWindow::loadWindowState()
     QSettings settings(objectName());
     const QByteArray geometry = settings.value("album-geometry").toByteArray();
     const bool isMaximized = settings.value("album-isMaximized").toBool();
+    const QByteArray pos = settings.value("album-pos").toByteArray();
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
         if (isMaximized) {
-            resize(1300, 848);
-            Dtk::Widget::moveToCenter(this);
-//            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
-//            move((desktop->width() - window()->width()) / 2, (desktop->height() - window()->height()) / 2);
+            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
+            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
         }
     }
 }
