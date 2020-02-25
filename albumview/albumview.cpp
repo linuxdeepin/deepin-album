@@ -436,7 +436,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1988,7 +1988,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    qDebug() << "onVfsMountChangedRemove() mountname" << mount->name();
     Q_UNUSED(mount);
 
     QString uri = mount->getRootFile()->uri();
@@ -2002,6 +2001,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
         AlbumLeftTabItem *pAlbumLeftTabItem = (AlbumLeftTabItem *)m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem);
+
 //        if (mount->name() == pAlbumLeftTabItem->m_albumNameStr) {
         QString rename = "";
         QString dpath = mount->getRootFile()->uri();
@@ -2010,19 +2010,20 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         if ("" == rename) {
             rename = mount->name();
         }
-        if (rename == pAlbumLeftTabItem->m_albumNameStr &&
-                mount->getRootFile()->uri().contains(pAlbumLeftTabItem->m_mountPath)) {
+
+        if (rename == pAlbumLeftTabItem->m_albumNameStr &&  mount->getDefaultLocationFile()->path().contains(pAlbumLeftTabItem->m_mountPath)) {
+
             if (1 < m_pLeftListView->m_pMountListView->count()) {
                 delete pListWidgetItem;
             } else {
                 m_pLeftListView->m_pMountListView->clear();
                 m_pLeftListView->updatePhotoListView();
             }
-
             durlAndNameMap.erase(durlAndNameMap.find(qurl));
             break;
         }
     }
+//    }
 }
 
 void AlbumView::getAllDeviceName()
@@ -2097,7 +2098,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2723,6 +2724,12 @@ void AlbumView::needUnMount(QString path)
         }
     }
     if ("" == mountPoint) {
+        for (auto mount : m_mounts) {
+            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+            if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+                mount->unmount(true);
+            }
+        }
         return;
     }
     for (auto mount : m_mounts) {
