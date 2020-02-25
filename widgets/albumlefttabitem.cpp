@@ -216,6 +216,7 @@ void AlbumLeftTabItem::onCheckNameValid()
 //        m_nameLabel->setText(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+
         QFont ft;
         ft.setPixelSize(14);
 
