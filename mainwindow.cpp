@@ -733,7 +733,8 @@ void MainWindow::initTitleBar()
     pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
 
     QHBoxLayout *pAllTitleLayout = new QHBoxLayout();
-    QWidget *m_ImgWidget = new QWidget();
+    m_ImgWidget = new QWidget();
+
     pAllTitleLayout->addSpacing(2);
     pAllTitleLayout->addWidget(pLabel);
     m_ImgWidget->setLayout(pAllTitleLayout);
@@ -788,7 +789,8 @@ void MainWindow::initTitleBar()
     //QWidget *m_titleSearchWidget = new QWidget();
 //    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
-    m_pSearchEdit->setFixedSize(350, 36);
+//    m_pSearchEdit->setFixedSize(350, 36);
+    m_pSearchEdit->setMaximumSize(350, 36);
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
     } else {

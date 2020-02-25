@@ -65,7 +65,8 @@ public:
 //    void initStatusBar();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
-    void closeEvent(QCloseEvent *event) override;
+
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 //    void themeTypeChanged();
 
@@ -81,9 +82,9 @@ private:
     void viewImageClose();
 
 protected:
-    void wheelEvent(QWheelEvent *event) override;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *e)Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *e) override;
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
 signals:
     void sigTitleMenuImportClicked();
@@ -113,6 +114,7 @@ private:
     bool m_bTitleMenuImportClicked;
 
     QWidget *m_titleBtnWidget;
+    QWidget *m_ImgWidget;
     DMenu *m_pTitleBarMenu;
 //    DPushButton* m_pAllPicBtn;
 //    DPushButton* m_pTimeLineBtn;
