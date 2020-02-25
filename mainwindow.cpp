@@ -749,6 +749,7 @@ void MainWindow::initTitleBar()
     m_pAllPicBtn->setFlat(true);
 //    m_pAllPicBtn->setFixedSize(80, 36);
     m_pAllPicBtn->setMaximumSize(110, 36);
+
     m_pAllPicBtn->setCheckable(true);
     m_pAllPicBtn->setChecked(true);
     m_pAllPicBtn->setText(tr("All Photos"));
@@ -773,6 +774,7 @@ void MainWindow::initTitleBar()
     m_pAlbumBtn->setFlat(true);
 //    m_pAlbumBtn->setFixedSize(60, 36);
     m_pAlbumBtn->setMaximumSize(90, 36);
+
     m_pAlbumBtn->setCheckable(true);
     m_pAlbumBtn->setText(tr("Albums"));
     btnGroup->addButton(m_pAlbumBtn, 2);
