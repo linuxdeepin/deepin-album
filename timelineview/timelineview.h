@@ -45,6 +45,7 @@ public:
     TimeLineView();
     ~TimeLineView()
     {
+        void clearAndStop();
     }
 
     bool imageImported(bool success) override

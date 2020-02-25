@@ -321,6 +321,14 @@ void TimeLineView::updateStackedWidget()
 
 void TimeLineView::clearAndStop()
 {
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->stopLoadAndClear();
+        delete list;
+    }
+    m_mainListWidget->clear();
+    m_allThumbnailListView.clear();
+    m_allChoseButton.clear();
+    currentTimeLineLoad = 0;
 
 }
 
@@ -328,17 +336,17 @@ void TimeLineView::clearAndStartLayout()
 {
     m_spinner->hide();
     m_spinner->stop();
-    //获取所有时间线
-    m_mainListWidget->clear();
-    m_timelines = DBManager::instance()->getAllTimelines();
-    qDebug() << m_timelines.size();
     for (ThumbnailListView *list : m_allThumbnailListView) {
         list->stopLoadAndClear();
         delete list;
     }
+    m_mainListWidget->clear();
     m_allThumbnailListView.clear();
     m_allChoseButton.clear();
     currentTimeLineLoad = 0;
+    //获取所有时间线
+    m_timelines = DBManager::instance()->getAllTimelines();
+    qDebug() << m_timelines.size();
 //    updataLayout();
     addTimelineLayout();
 //    qDebug() << "11";

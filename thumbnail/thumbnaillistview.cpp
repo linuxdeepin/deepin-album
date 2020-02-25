@@ -823,6 +823,7 @@ void ThumbnailListView::loadFilesFromTrash(DBImgInfoList files)
 bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
 {
 //    qDebug() << "threadID : " << QThread::currentThreadId();
+    stopLoadAndClear();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();

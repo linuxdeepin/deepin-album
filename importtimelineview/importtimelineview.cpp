@@ -291,13 +291,30 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setVisible(false);
 }
 
+void ImportTimeLineView::clearAndStop()
+{
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->stopLoadAndClear();
+        delete list;
+    }
+    m_mainListWidget->clear();
+    m_allThumbnailListView.clear();
+    m_allChoseButton.clear();
+    currentTimeLineLoad = 0;
+
+}
+
 void ImportTimeLineView::clearAndStartLayout()
 {
-    //获取所有时间线
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->stopLoadAndClear();
+        delete list;
+    }
     m_allChoseButton.clear();
     m_allThumbnailListView.clear();
     m_mainListWidget->clear();
     m_timelines.clear();
+    //获取所有时间线
     m_timelines = DBManager::instance()->getImportTimelines();
     qDebug() << __func__ << m_timelines.size();
 

@@ -24,6 +24,10 @@ class ImportTimeLineView : public DWidget, public ImageEngineImportObject
     Q_OBJECT
 public:
     ImportTimeLineView(DWidget *parent);
+    ~ImportTimeLineView()
+    {
+        void clearAndStop();
+    }
 
     bool imageImported(bool success) override
     {
@@ -72,6 +76,7 @@ signals:
     void sigUpdatePicNum();
 
 private:
+    void clearAndStop();
     QLayout *m_mainLayout = nullptr;
     QList<QString> m_timelines;
     DWidget *m_dateItem = nullptr;
