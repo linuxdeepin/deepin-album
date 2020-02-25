@@ -28,8 +28,8 @@
 #include <DApplicationHelper>
 #include <DSuggestButton>
 
-AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
-    :DDialog(parent)
+AlbumCreateDialog::AlbumCreateDialog(DWidget *parent)
+    : DDialog(parent)
 {
     m_OKClicked = false;
     initUI();
@@ -38,7 +38,7 @@ AlbumCreateDialog::AlbumCreateDialog(DWidget* parent)
 
 void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 {
-    qDebug()<<"AlbumCreateDialog::keyPressEvent()";
+    qDebug() << "AlbumCreateDialog::keyPressEvent()";
     if (e->key() == Qt::Key_Escape) {
         emit sigClose();
         this->close();
@@ -47,7 +47,7 @@ void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 
 void AlbumCreateDialog::initUI()
 {
-    setFixedSize(380,180);
+    setFixedSize(380, 190);
     setModal(true);
     setContentsMargins(0, 0, 0, 0);
 
@@ -65,16 +65,16 @@ void AlbumCreateDialog::initUI()
     logoLable->setAlignment(Qt::AlignLeft);
 //title
     const QString subStyle =
-            utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
+        utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T5, QFont::DemiBold);
     title->setForegroundRole(DPalette::TextTitle);
     title->setText(tr("New Album"));
 //    title->setFixedSize(68,25);
-    title->setFixedSize(130,25);
+    title->setFixedSize(130, 35);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
-    title->move(130,12);
+    title->move(130, 12);
 //编辑框
     edit = new DLineEdit(contentWidget);
     edit->setEnabled(true);
@@ -83,7 +83,7 @@ void AlbumCreateDialog::initUI()
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
-    edit->move(0,23);
+    edit->move(0, 23);
     edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
 //    contentLayout->addWidget(edit);
@@ -127,14 +127,15 @@ void AlbumCreateDialog::initUI()
 
 void AlbumCreateDialog::initConnection()
 {
-    connect(this, &AlbumCreateDialog::visibleChanged, this, [=] (bool v) {
+    connect(this, &AlbumCreateDialog::visibleChanged, this, [ = ](bool v) {
         if (! v) return;
         edit->lineEdit()->selectAll();
         edit->lineEdit()->setFocus();
     });
-    connect(edit, &DLineEdit::returnPressed, this, [=] {
+    connect(edit, &DLineEdit::returnPressed, this, [ = ] {
         const QString album = edit->text().trimmed();
-        if (! album.isEmpty()) {
+        if (! album.isEmpty())
+        {
             createAlbum(album);
             this->close();
         }
@@ -159,20 +160,15 @@ void AlbumCreateDialog::initConnection()
 //        this->close();
 //    });
 
-    connect(this, &AlbumCreateDialog::buttonClicked, this, [=](int index){
-        if(0 == index)
-        {
+    connect(this, &AlbumCreateDialog::buttonClicked, this, [ = ](int index) {
+        if (0 == index) {
             deleteLater();
             emit sigClose();
         }
-        if(1 == index)
-        {
-            if (edit->text().simplified().length()!= 0)
-            {
+        if (1 == index) {
+            if (edit->text().simplified().length() != 0) {
                 createAlbum(edit->text().trimmed());
-            }
-            else
-            {
+            } else {
                 QString str = tr("Unnamed") + QString::number(1);
                 createAlbum(str);
             }
@@ -182,13 +178,12 @@ void AlbumCreateDialog::initConnection()
         }
     });
 
-    connect(this, &AlbumCreateDialog::closed,this, [=]{
+    connect(this, &AlbumCreateDialog::closed, this, [ = ] {
         deleteLater();
         if (true == m_OKClicked)
         {
             m_OKClicked = false;
-        }
-        else
+        } else
         {
             emit sigClose();
         }
@@ -213,13 +208,13 @@ void AlbumCreateDialog::initConnection()
 const QString AlbumCreateDialog::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
-       int num = 1;
-       QString albumName = nan + QString::number(num);
-       while(DBManager::instance()->isAlbumExistInDB(albumName)) {
-           num++;
-           albumName = nan + QString::number(num);
-       }
-       return (const QString)(albumName);
+    int num = 1;
+    QString albumName = nan + QString::number(num);
+    while (DBManager::instance()->isAlbumExistInDB(albumName)) {
+        num++;
+        albumName = nan + QString::number(num);
+    }
+    return (const QString)(albumName);
 }
 
 const QString AlbumCreateDialog::getCreateAlbumName() const
@@ -232,8 +227,7 @@ void AlbumCreateDialog::createAlbum(const QString &newName)
     if (! DBManager::instance()->getAllAlbumNames().contains(newName)) {
         m_createAlbumName = newName;
         DBManager::instance()->insertIntoAlbum(newName, QStringList(" "));
-    }
-    else {
+    } else {
         m_createAlbumName = getNewAlbumName();
         DBManager::instance()->insertIntoAlbum(getNewAlbumName(), QStringList(" "));
     }
