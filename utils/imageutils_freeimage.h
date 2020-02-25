@@ -271,6 +271,7 @@ bool canSave(FIBITMAP *dib, const QString &path)
         // Check that the dib can be saved in this format
         BOOL bCanSave;
         FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
+        qDebug() << "image_type:" << image_type << endl;
         if (image_type == FIT_BITMAP) {
             // standard bitmap type
             // check that the plugin has sufficient writing

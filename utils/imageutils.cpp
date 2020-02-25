@@ -146,6 +146,7 @@ bool rotate(const QString &path, int degree)
     int loadFlags = 0;
     int saveFlags = 0;
     FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
+    qDebug() << "fif" << fif << endl;
     switch (int(fif)) {
     case FIF_JPEG:
         loadFlags = JPEG_ACCURATE;          // Load the file with the best quality, sacrificing some speed
@@ -167,7 +168,9 @@ bool rotate(const QString &path, int degree)
     }
 
     FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
+
     FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
+
     if (rotated) {
         // Regenerate thumbnail if it's exits
         // Image formats that currently support thumbnail saving are
@@ -181,6 +184,7 @@ bool rotate(const QString &path, int degree)
     }
 
     bool v = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
+
     FreeImage_Unload(dib);
     FreeImage_Unload(rotated);
 

@@ -214,6 +214,7 @@ public:
     QString m_currentAlbum;
     QString m_currentType;
     int m_selPicNum;
+    bool m_itemClicked;
 
     DStackedWidget *m_pRightStackWidget;
     LeftListView *m_pLeftListView;

@@ -600,6 +600,12 @@ void ImportTimeLineView::addTimelineLayout()
 
     connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
         lastRow = -1;
+//       If required only select one image at a time add this code
+//        for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+//            if (pThumbnailListView != m_allThumbnailListView[j]) {
+//                m_allThumbnailListView[j]->clearSelection();
+//            }
+//        }
         for (int j = 0; j < m_allThumbnailListView.length(); j++) {
             if (pThumbnailListView == m_allThumbnailListView[j]) {
                 lastClickedIndex = j;

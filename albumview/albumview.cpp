@@ -322,6 +322,7 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
 void AlbumView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
+    m_itemClicked = false;
     connect(m_pLeftListView, &LeftListView::itemClicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
 #if 1
@@ -1122,6 +1123,7 @@ void AlbumView::updateRightView()
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         updateRightNoTrashView();
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_currentType) {
+        m_itemClicked = true;
         updateRightMountView();
         setAcceptDrops(false);
         emit sigSearchEditIsDisplay(false);
@@ -1470,7 +1472,9 @@ void AlbumView::leftTabClicked()
 bool AlbumView::imageGeted(QStringList &filelist, QString path)
 {
     m_phoneNameAndPathlist[path] = filelist;
-    updateRightMountView();
+    if (m_itemClicked == true) {
+        updateRightMountView();
+    }
     return true;
 }
 
@@ -2304,7 +2308,10 @@ void AlbumView::initExternalDevice()
         pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
         m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-        m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+        if (m_itemClicked == true) {
+            m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+        }
+
 
 //        MountLoader *pMountloader = new MountLoader(this);
 //        QThread *pLoadThread = new QThread();
