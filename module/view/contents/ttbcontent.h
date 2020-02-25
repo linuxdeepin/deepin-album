@@ -40,6 +40,7 @@
 #include <DBlurEffectWidget>
 #include <DGuiApplicationHelper>
 #include <DLabel>
+#include "imageengine/imageengineobject.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -63,20 +64,29 @@ protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
     void mouseLeftReleased();
+    void needContinueRequest();
+    void silmoved();
 private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
     QPoint m_prepoint;
 };
+
 class ImageItem : public DLabel
 {
     Q_OBJECT
 public:
-    ImageItem(int index = 0, QString path = NULL, QString imageType = NULL, QWidget *parent = 0);
+//    ImageItem(int index = 0, QString path = "", QString imageType = "", QWidget *parent = 0);
+    ImageItem(int index = 0, ImageDataSt data = ImageDataSt(), QWidget *parent = 0);
     void setIndexNow(int i);
     void setPic(QPixmap pixmap);
 
     QString _path = NULL;
+    int index() const;
+    void setIndex(int index);
+
+    int indexNow() const;
+
 signals:
     void imageItemclicked(int index, int indexNow);
 protected:
@@ -92,11 +102,44 @@ private:
     QString m_pixmapstring;
     bool bmouserelease = false;
 };
-class TTBContent : public QLabel
+class TTBContent : public QLabel, public ImageEngineObject
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
+    struct TTBContentData {
+        int index;
+        ImageDataSt data;
+    };
+//    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
+    explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = 0);
+    ~TTBContent()
+    {
+        stopLoadAndClear();
+    };
+
+    //------------------
+//    void importFilesFromLocal(QStringList files);
+//    void importFilesFromLocal(DBImgInfoList files);
+//    void importFilesFromDB(QString name = "");
+    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+        Q_UNUSED(filelist)
+        return false;
+    }
+    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+        Q_UNUSED(filelist)
+        return false;
+    }
+    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
+    void insertImageItem(const ImageDataSt file);
+    void stopLoadAndClear();
+    void reLoad();
+    QStringList getAllFileList();
+    bool setCurrentItem();
+    void updateScreen();
+    int itemLoadedSize();
+    QString getIndexPath(int index);
+    void requestSomeImages();
+    //------------------
 
 signals:
     void ttbcontentClicked();
@@ -110,10 +153,12 @@ signals:
     void contentWidthChanged(int width);
     void showPrevious();
     void showNext();
+    void feedBackCurrentIndex(int index, QString path);
 
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path, DBImgInfoList infos);
+//    void setImage(ImageDataSt info, QStringList files);
+    void setImage(const QString &path);
     void updateCollectButton();
 
     void onResize();
@@ -158,17 +203,33 @@ private:
     MyImageListWidget *m_imgListView;
     DWidget *m_preButton_spc;
     DWidget *m_nextButton_spc;
-    DBImgInfoList m_imgInfos ;
-    QString m_imagePath;
+//    DBImgInfoList m_imgInfos ;
+//    QStringList m_filelist;
+//    QString m_imagePath;
     int m_windowWidth;
     int m_contentWidth;
-    int m_lastIndex = 0;
-    int m_nowIndex = 0;
-    int m_imgInfos_size = 0;
+    int m_nowIndex = -1;
+    int m_filelist_size = 0;
     int m_startAnimation = 0;
+    bool bfilefind = false;
     bool bresized = true;
     bool badaptImageBtnChecked = false;
     bool badaptScreenBtnChecked = false;
+    //------------------
+    QStringList m_allfileslist;
+    QStringList m_filesbeleft;
+    bool bneedloadimage = true;
+    bool brequestallfiles = false;
+//    QList<ImageDataSt> m_ItemListLeft;
+    QMap<QString, TTBContentData> m_ItemLoaded;
+    QMap<int, QString> m_indextopath;
+    int m_requestCount = 0;
+    int m_allNeedRequestFilesCount = 0;
+//    bool firstSetImage = true;
+    QString m_currentpath = "";
+    int m_lastIndex = -1;
+    bool binsertneedupdate = true;
+    //------------------
 };
 
 #endif // TTLCONTENT_H

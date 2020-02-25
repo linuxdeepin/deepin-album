@@ -42,7 +42,7 @@ class QLabel;
 class QStackedWidget;
 class SlideEffectPlayer;
 
-class ViewPanel : public ModulePanel
+class ViewPanel : public ModulePanel, public ImageEngineObject
 {
     Q_OBJECT
 public:
@@ -57,12 +57,18 @@ public:
     const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
     {
-        return m_infos.count();
+        if (!m_ttbc) {
+            return -1;
+        }
+        return m_ttbc->itemLoadedSize();
     }
 
 signals:
     void updateCollectButton();
-    void imageChanged(const QString &path, DBImgInfoList infos);
+//    void imageChanged(const QString &path, DBImgInfoList infos);
+    //------------------
+    void imageChanged(const QString &path);
+    //------------------
     void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
@@ -82,6 +88,19 @@ protected:
 //    void keyPressEvent(QKeyEvent *e)Q_DECL_OVERRIDE;
 
 private:
+    //------------------
+    void loadFilesFromLocal(QStringList files);
+    void loadFilesFromLocal(DBImgInfoList files);
+    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
+    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+        Q_UNUSED(filelist)
+        return false;
+    }
+    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE {
+        Q_UNUSED(filepath)
+        return false;
+    }
+    //------------------
     void initConnect();
     void initFileSystemWatcher();
     void initPopupMenu();
@@ -108,7 +127,8 @@ private:
     void updateMenuContent();
 
     // View control
-    void onViewImage(const SignalManager::ViewInfo &vinfo);
+    void onViewImage(const  QStringList &vinfo);
+//    void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString &path, bool inDB = true);
     void removeCurrentImage();
     void rotateImage(bool clockWise);
@@ -124,15 +144,19 @@ private:
     void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
-    int imageIndex(const QString &path);
+//    int imageIndex(const QString &path);
     QFileInfoList getFileInfos(const QString &path);
-    DBImgInfoList getImageInfos(const QFileInfoList &infos);
-    const QStringList paths() const;
+//    DBImgInfoList getImageInfos(const QFileInfoList &infos);
+//    const QStringList paths() const;
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
-    void updateLocalImages();
+    //------------------
+    void feedBackCurrentIndex(int index, QString path);
+    //------------------
+
+//    void updateLocalImages();
 
 private:
     int m_hideCursorTid;
@@ -153,17 +177,22 @@ private:
     DAnchors<NavigationWidget> m_nav;
 
     SignalManager::ViewInfo m_vinfo;
-    DBImgInfoList m_infos;
+//    DBImgInfoList m_infos;
 //    DBImgInfoList::ConstIterator m_current =NULL;
 
     TTBContent *m_ttbc;
-    int m_current = 0;
+    int m_current = -1;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
     void eatImageDirIterator();
 #endif
     QString m_currentImageLastDir = "";
-    QString m_viewType;
+//    QString m_viewType;
+
+    //------------------
+    QStringList m_filepathlist;
+    QString m_currentpath = "";
+    //------------------
 };
 #endif // VIEWPANEL_H

@@ -58,6 +58,7 @@ void StatusBar::initUI()
 
 void StatusBar::initConnections()
 {
+    qRegisterMetaType<QStringList>("QStringList &");
     connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [ = ](QStringList paths, int count) {
         if (isVisible()) {
             imgpaths = paths;

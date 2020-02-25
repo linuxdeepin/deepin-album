@@ -7,7 +7,7 @@
 #include "controller/configsetter.h"
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
-#include "widgets/thumbnaillistview.h"
+#include "thumbnail/thumbnaillistview.h"
 #include "importview/importview.h"
 #include "searchview/searchview.h"
 #include "widgets/statusbar.h"
@@ -29,13 +29,18 @@
 
 DWIDGET_USE_NAMESPACE
 
-class AllPicView : public DWidget
+class AllPicView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT
 
 public:
     AllPicView();
 
+    bool imageImported(bool success) override
+    {
+        emit dApp->signalM->closeWaitDialog();
+        return true;
+    }
     void updateStackedWidget();
     void restorePicNum();
     void updatePicNum();

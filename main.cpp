@@ -1,5 +1,7 @@
 #include "application.h"
 #include "mainwindow.h"
+#include "dtktest.h"
+#include "imageengine/imageengineapi.h"
 #include <DMainWindow>
 #include <DWidgetUtil>
 #include <DApplicationSettings>
@@ -49,7 +51,6 @@ int main(int argc, char *argv[])
     a.setApplicationName("deepin-album");
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
-
 
 
     QCommandLineParser parser;
@@ -136,10 +137,11 @@ int main(int argc, char *argv[])
 //        }
 //    }
 
+    ImageEngineApi::instance(&a);
     MainWindow w;
+//    DtkTest w;
 //    w.resize(1300, 848);
     w.show();
-
     Dtk::Widget::moveToCenter(&w);
     if (w.isMaximized()) {
         w.setWindowFlags(Qt::Window);

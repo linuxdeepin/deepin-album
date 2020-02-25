@@ -20,7 +20,7 @@
 #include "dbmanager/dbmanager.h"
 #include <QObject>
 #include <dgiomount.h>
-#include <widgets/thumbnaillistview.h>
+#include <thumbnail/thumbnaillistview.h>
 
 class ModulePanel;
 class SignalManager : public QObject
@@ -76,10 +76,10 @@ signals:
     void backToMainPanel();
     void activeWindow();
 
-    void imagesInserted(const DBImgInfoList infos);
+    void imagesInserted(/*const DBImgInfoList infos*/);
     void imagesRemoved(const DBImgInfoList &infos);
-    void imagesTrashInserted(const DBImgInfoList infos);
-    void imagesTrashRemoved(const DBImgInfoList &infos);
+    void imagesTrashInserted(/*const DBImgInfoList infos*/);
+    void imagesTrashRemoved(/*const DBImgInfoList &infos*/);
     void editImage(const QString &path);
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
@@ -145,6 +145,8 @@ signals:
     void updateThumbnailViewSize();
     void updateLeftListview();
     void sliderValueChange(int step);
+    void popupWaitDialog(QString waittext);
+    void closeWaitDialog();
 
 private:
     explicit SignalManager(QObject *parent = 0);

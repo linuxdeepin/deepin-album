@@ -59,6 +59,7 @@
 
 #define VIEW_CONTEXT_MENU "View"
 #define FULLSCREEN_CONTEXT_MENU "Fullscreen"
+#define PRINT_CONTEXT_MENU "Print"
 #define SLIDESHOW_CONTEXT_MENU "Slide show"
 #define PRINT_CONTEXT_MENU "Print"
 #define EXPORT_CONTEXT_MENU "Export"

@@ -250,7 +250,19 @@
     </message>
     <message>
         <source>%1 Volume</source>
+<<<<<<< HEAD
         <translation>Volume %1</translation>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <translation>Volume %1</translation>
+=======
+        <translation type="unfinished"/>
+>>>>>>> Add "1% volume" translation in MainWindow,
+=======
+        <translation>Volume %1</translation>
+>>>>>>> Type:docs
+>>>>>>> devnewframe
     </message>
 </context>
 <context>
@@ -454,11 +466,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Favorito</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Desfavoritar</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
     <message>
         <source>Rename album</source>
@@ -829,11 +841,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Favorito</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Desfavoritar</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
 </context>
 <context>
@@ -852,11 +864,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Favorito</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Desfavoritar</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -974,7 +986,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Desfavoritar</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
     <message>
         <source>Photo info</source>

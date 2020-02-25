@@ -68,6 +68,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    });
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
+    qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesRemoved, [ = ](
     const DBImgInfoList & infos) {
         foreach (DBImgInfo info, infos) {
@@ -100,8 +101,6 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [ = ] {
         backToLastPanel();
     });
-
-
 }
 
 QString SlideShowPanel::moduleName()

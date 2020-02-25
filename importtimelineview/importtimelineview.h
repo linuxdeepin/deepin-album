@@ -4,7 +4,7 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
-#include "widgets/thumbnaillistview.h"
+#include "thumbnail/thumbnaillistview.h"
 #include "widgets/timelinelist.h"
 #include "widgets/timelineitem.h"
 #include "importview/importview.h"
@@ -19,18 +19,29 @@
 #include <DApplicationHelper>
 #include <QGraphicsOpacityEffect>
 
-class ImportTimeLineView : public DWidget
+class ImportTimeLineView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT
 public:
-    ImportTimeLineView(DWidget* parent);
+    ImportTimeLineView(DWidget *parent);
+    ~ImportTimeLineView()
+    {
+        void clearAndStop();
+    }
 
+    bool imageImported(bool success) override
+    {
+        emit dApp->signalM->closeWaitDialog();
+        return true;
+    }
     void updateStackedWidget();
+//signals:
+//    void albumviewResize();
 public slots:
-    void on_AddLabel(QString date,QString num);
+    void on_AddLabel(QString date, QString num);
     void on_DelLabel();
 #if 1
-    void on_MoveLabel(int y,QString date,QString num,QString choseText);
+    void on_MoveLabel(int y, QString date, QString num, QString choseText);
 #endif
     void on_KeyEvent(int key);
 
@@ -53,7 +64,9 @@ private:
     void keyReleaseEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
 public:
-    void updataLayout();
+//    void updataLayout();
+    void clearAndStartLayout();
+    void addTimelineLayout();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 #if 1
     QStringList selectPaths();
@@ -63,23 +76,24 @@ signals:
     void sigUpdatePicNum();
 
 private:
-    QLayout *m_mainLayout=nullptr;
+    void clearAndStop();
+    QLayout *m_mainLayout = nullptr;
     QList<QString> m_timelines;
-    DWidget *m_dateItem=nullptr;
+    DWidget *m_dateItem = nullptr;
     DCommandLinkButton *pSuspensionChose;
-    DWidget* pTimeLineViewWidget;
-    ImportView* pImportView;
-    QMap<ThumbnailListView*, QStringList> selpicQmap;
+    DWidget *pTimeLineViewWidget;
+    ImportView *pImportView;
+    QMap<ThumbnailListView *, QStringList> selpicQmap;
     int allnum;
-    DLabel* m_pDate;
-    DLabel* pNum_up;
-    DLabel* pNum_dn;
+    DLabel *m_pDate;
+    DLabel *pNum_up;
+    DLabel *pNum_dn;
     DLabel *m_pImportTitle; //add 3975
-    QList<ThumbnailListView*> m_allThumbnailListView;
-    QList<DCommandLinkButton*> m_allChoseButton;
+    QList<ThumbnailListView *> m_allThumbnailListView;
+    QList<DCommandLinkButton *> m_allChoseButton;
 
-    QGraphicsOpacityEffect * m_oe;
-    QGraphicsOpacityEffect * m_oet;
+    QGraphicsOpacityEffect *m_oe;
+    QGraphicsOpacityEffect *m_oet;
 
     bool m_ctrlPress;
 
@@ -91,7 +105,8 @@ private:
 public:
     int m_index;
     int m_selPicNum;
-    TimelineList *m_mainListWidget=nullptr;
+    TimelineList *m_mainListWidget = nullptr;
+    int currentTimeLineLoad = 0;
 };
 
 #endif // IMPORTTIMELINEVIEW_H

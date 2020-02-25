@@ -43,27 +43,27 @@ class ImageLoader : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageLoader(Application* parent, QStringList pathlist, QStringList pathlisttrash);
+    explicit ImageLoader(Application *parent, QStringList pathlist, QStringList pathlisttrash);
 
-    void addImageLoader(QStringList pathlist);
+//    void addImageLoader(QStringList pathlist);
     void ImportImageLoader(DBImgInfoList dbInfos, QString albumname = nullptr);
     void updateImageLoader(QStringList pathlist);
 
-    void addTrashImageLoader(QStringList trashpathlist);
-    void updateTrashImageLoader(QStringList trashpathlist);
+//    void addTrashImageLoader(QStringList trashpathlist);
+//    void updateTrashImageLoader(QStringList trashpathlist);
 
 //private:
 //    bool findPicturePathByPhone(QString &path);
 
 public slots:
-    void startLoading();
+//    void startLoading();
 //    void onLoadMountImagesStart(QString mountName, QString path);
 
 signals:
     void sigFinishiLoad();
 
 private:
-    Application* m_parent;
+    Application *m_parent;
 
 
     QStringList m_pathlist;
@@ -74,11 +74,12 @@ private:
     int count = 0;
 };
 
-class Application : public DApplication {
+class Application : public DApplication
+{
     Q_OBJECT
 
 public:
-    Application(int& argc, char** argv);
+    Application(int &argc, char **argv);
     ~Application();
 
     ConfigSetter *setter = nullptr;
@@ -86,10 +87,10 @@ public:
     ViewerThemeManager *viewerTheme = nullptr;
     WallpaperSetter *wpSetter = nullptr;
 
-    QMap<QString, QPixmap> m_imagemap;
-    QMap<QString, QPixmap> m_imagetrashmap;
-    ImageLoader* m_imageloader;
-    void LoadDbImage();
+//    QMap<QString, QPixmap> m_imagemap;
+//    QMap<QString, QPixmap> m_imagetrashmap;
+    ImageLoader *m_imageloader;
+//    void LoadDbImage();
 
 //    QMap<QString, QStringList> m_phoneNameAndPathlist;
 //    QMap<QString, QPixmap> m_phonePathAndImage;
@@ -106,7 +107,7 @@ private:
     void initI18n();
     void initDB();
 
-    QThread * m_LoadThread;
+    QThread *m_LoadThread;
 
 };
 

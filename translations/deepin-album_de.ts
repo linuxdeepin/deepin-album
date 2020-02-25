@@ -250,7 +250,19 @@
     </message>
     <message>
         <source>%1 Volume</source>
+<<<<<<< HEAD
         <translation>%1 Laufwerk</translation>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <translation>%1 Laufwerk</translation>
+=======
+        <translation type="unfinished"/>
+>>>>>>> Add "1% volume" translation in MainWindow,
+=======
+        <translation>%1 Laufwerk</translation>
+>>>>>>> Type:docs
+>>>>>>> devnewframe
     </message>
 </context>
 <context>
