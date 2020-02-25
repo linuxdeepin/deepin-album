@@ -248,7 +248,11 @@
     </message>
     <message>
         <source>%1 Volume</source>
+<<<<<<< HEAD
         <translation>Volume %1</translation>
+=======
+        <translation type="unfinished"/>
+>>>>>>> Add "1% volume" translation in MainWindow,
     </message>
 </context>
 <context>

@@ -96,7 +96,7 @@
     </message>
     <message>
         <source>Disk</source>
-        <translation>磁盘</translation>
+        <translation type="vanished">磁盘</translation>
     </message>
     <message>
         <source>Import</source>
@@ -232,7 +232,7 @@
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 驱动器</translation>
+        <translation>%1驱动器</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
@@ -240,11 +240,15 @@
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 已加密</translation>
+        <translation>%1已加密</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation>%1 </translation>
+        <translation type="vanished">%1 </translation>
+    </message>
+    <message>
+        <source>%1 Volume</source>
+        <translation>%1卷</translation>
     </message>
 </context>
 <context>

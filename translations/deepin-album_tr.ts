@@ -96,7 +96,7 @@
     </message>
     <message>
         <source>Disk</source>
-        <translation>Disk</translation>
+        <translation type="vanished">Disk</translation>
     </message>
     <message>
         <source>Import</source>
@@ -244,7 +244,11 @@
     </message>
     <message>
         <source>%1 </source>
-        <translation>%1 </translation>
+        <translation type="vanished">%1 </translation>
+    </message>
+    <message>
+        <source>%1 Volume</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -344,7 +348,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galeri</translation>
     </message>
 </context>
 <context>
@@ -375,15 +379,15 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galeri</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"/>
+        <translation>Albümler</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>Yeni albüm</translation>
     </message>
 </context>
 <context>
@@ -564,7 +568,7 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation type="unfinished"/>
+        <translation>Fotoğrafları İçe Aktar</translation>
     </message>
 </context>
 <context>
@@ -780,11 +784,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Fotoğraf içe aktarılıyor: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Fotoğraf dışa aktarılıyor: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -894,11 +898,11 @@
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished"/>
+        <translation>Kurtar</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>Yeni albüm</translation>
     </message>
 </context>
 <context>
@@ -980,11 +984,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>Yeni albüm</translation>
     </message>
 </context>
 </TS>

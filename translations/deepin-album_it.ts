@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>New Album</source>
-        <translation type="unfinished"/>
+        <translation>Nuovo Album</translation>
     </message>
 </context>
 <context>
@@ -96,15 +96,15 @@
     </message>
     <message>
         <source>Disk</source>
-        <translation>Disco</translation>
+        <translation type="vanished">Disco</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation type="unfinished"/>
+        <translation>Importa</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="unfinished"/>
+        <translation>giorni</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -116,7 +116,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galleria</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
@@ -124,11 +124,11 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>Nuovo album</translation>
     </message>
 </context>
 <context>
@@ -209,15 +209,15 @@
     </message>
     <message>
         <source>gif</source>
-        <translation type="unfinished"/>
+        <translation>gif</translation>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation type="unfinished"/>
+        <translation>Seleziona un altro percorso</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OK</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
@@ -225,7 +225,7 @@
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation type="unfinished"/>
+        <translation>esiste già, desideri sostituirla?</translation>
     </message>
 </context>
 <context>
@@ -244,7 +244,11 @@
     </message>
     <message>
         <source>%1 </source>
-        <translation>%1 </translation>
+        <translation type="vanished">%1 </translation>
+    </message>
+    <message>
+        <source>%1 Volume</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -255,11 +259,11 @@
     </message>
     <message>
         <source>Export Photos</source>
-        <translation type="unfinished"/>
+        <translation>Esporta Immagini</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Annulla</translation>
     </message>
 </context>
 <context>
@@ -284,7 +288,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galleria</translation>
     </message>
 </context>
 <context>
@@ -299,11 +303,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="unfinished"/>
+        <translation>Sei sicuro di eliminare questa foto dall&apos;album?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="unfinished"/>
+        <translation>Sicuro di voler eliminare %1 immagini dall&apos;album?</translation>
     </message>
 </context>
 <context>
@@ -344,7 +348,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galleria</translation>
     </message>
 </context>
 <context>
@@ -375,15 +379,15 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galleria</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation type="unfinished"/>
+        <translation>Album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>Nuovo album</translation>
     </message>
 </context>
 <context>
@@ -565,7 +569,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation type="unfinished"/>
+        <translation>Importa Immagini</translation>
     </message>
 </context>
 <context>
@@ -781,11 +785,11 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Importazione immagini: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Esportazione immagini: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -895,11 +899,11 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished"/>
+        <translation>Ripristina</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>Nuovo album</translation>
     </message>
 </context>
 <context>
@@ -981,11 +985,11 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Agg. ai preferiti</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>Nuovo album</translation>
     </message>
 </context>
 </TS>
