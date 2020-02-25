@@ -909,6 +909,7 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 
     if (nullptr != m_item) {
         m_item->setSizeHint(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+        this->setFixedSize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
     }
 //}
 }

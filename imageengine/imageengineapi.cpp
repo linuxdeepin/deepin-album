@@ -72,11 +72,16 @@ bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
 {
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
-    if ( it != m_AllImageData.end()) {
-        return false;
-    }
     ImageDataSt data;
-    data.remainDays = remainDay;
+    if ( it != m_AllImageData.end()) {
+        if ("" == remainDay) {
+            return false;
+        }
+        data = it.value();
+//        return false;
+    }
+    if ("" != remainDay)
+        data.remainDays = remainDay;
     m_AllImageData.insert(imagepath, data);
     return true;
 }
@@ -135,10 +140,10 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
         ImageEngineThread *imagethread = new ImageEngineThread;
         connect(imagethread, &ImageEngineThread::sigImageLoaded, this, &ImageEngineApi::sltImageLoaded);
         connect(imagethread, &ImageEngineThread::sigAborted, this, &ImageEngineApi::sltAborted);
-        imagethread->setData(imagepath, obj, data, needcache);
         data.thread = imagethread;
         data.loaded = ImageLoadStatu_BeLoading;
         m_AllImageData[imagepath] = data;
+        imagethread->setData(imagepath, obj, data, needcache);
         obj->addThread(imagethread);
         m_qtpool.start(imagethread);
     }
@@ -211,7 +216,7 @@ bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject 
     ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
     connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
     connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
-    imagethread->setData(files, obj, ImageLoadFromLocalThread::DataType_TrashList);
+    imagethread->setData(files, obj, true, ImageLoadFromLocalThread::DataType_TrashList);
     obj->addThread(imagethread);
     m_qtpool.start(imagethread);
     return true;

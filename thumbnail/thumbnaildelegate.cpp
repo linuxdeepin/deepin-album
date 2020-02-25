@@ -156,12 +156,12 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
 //    QPixmap pixmapItem = QPixmap::fromImage(tImg);
 
-    if (COMMON_STR_TRASH == m_imageTypeStr) {
-        painter->drawPixmap(pixmapRect, /*dApp->m_imagetrashmap.value(data.path)*/data.image);
-    } else if (ALBUM_PATHTYPE_BY_PHONE == m_imageTypeStr) {
-        painter->drawPixmap(pixmapRect, data.image);
-    } else {
-        painter->drawPixmap(pixmapRect, /*dApp->m_imagemap.value(data.path)*/data.image);
+//    if (COMMON_STR_TRASH == m_imageTypeStr) {
+//        painter->drawPixmap(pixmapRect, /*dApp->m_imagetrashmap.value(data.path)*/data.image);
+//    } else if (ALBUM_PATHTYPE_BY_PHONE == m_imageTypeStr) {
+//        painter->drawPixmap(pixmapRect, data.image);
+//    } else {
+    painter->drawPixmap(pixmapRect, /*dApp->m_imagemap.value(data.path)*/data.image);
 //        if (!dApp->m_imagemap.value(data.path).isNull()) {
 //            if (data.baseWidth != dApp->m_imagemap.value(data.path).width() ||
 //                    data.baseHeight != dApp->m_imagemap.value(data.path).height()) {
@@ -170,7 +170,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
 //                emit sigPageNeedResize(row);
 //            }
 //        }
-    }
+//    }
 
     if (COMMON_STR_TRASH == m_imageTypeStr) {
 
@@ -186,7 +186,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 50, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 4, 20, 8, 8);
         painter->setPen(QColor(255, 255, 255));
 
-        qDebug() << "m_Width      " << m_Width << endl;
+//        qDebug() << "m_Width      " << m_Width << endl;
         painter->drawText(pixmapRect.x() + pixmapRect.width() - 48, pixmapRect.y() + pixmapRect.height() - 13, data.remainDays);
     }
 
