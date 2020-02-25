@@ -900,6 +900,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     QStringList pathHashs;
     for (QString path : paths) {
         pathHashs << utils::base::hash(path);
+        qDebug() << "";
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
@@ -908,14 +909,17 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     QString qs("DELETE FROM AlbumTable3 WHERE AlbumName=\"%1\" AND PathHash=?");
     query.prepare(qs.arg(album));
     query.addBindValue(pathHashs);
+    bool suc = false;
     if (! query.execBatch()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     } else {
-        emit dApp->signalM->removedFromAlbum(album, paths);
+        suc = true;
     }
     query.exec("COMMIT");
     db.close();
     mutex.unlock();
+    if (suc)
+        emit dApp->signalM->removedFromAlbum(album, paths);
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
 }
