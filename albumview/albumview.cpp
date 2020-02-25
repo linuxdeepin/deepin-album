@@ -3108,7 +3108,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width() / 2 + 60, (height() - 50) / 2 - 20);
     m_pImpTimeLineWidget->setFixedWidth(width() - 181);
-//    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
+    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
     m_pImpTimeLineWidget->setFixedHeight(height());
     m_pwidget->setFixedWidth(this->width() / 2);
     m_pwidget->setFixedHeight(140);
