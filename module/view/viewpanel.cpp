@@ -145,7 +145,10 @@ void ViewPanel::initConnect()
     this, [ = ](const SignalManager::ViewInfo & vinfo) {
         m_vinfo = vinfo;
         m_currentpath = m_vinfo.path;
-        loadFilesFromLocal(vinfo.paths);
+        if (m_vinfo.paths.size() < 1) {
+            m_vinfo.paths << m_vinfo.path;
+        }
+        loadFilesFromLocal(m_vinfo.paths);
         if (NULL == m_vinfo.lastPanel) {
             return false;
         } else if (m_vinfo.lastPanel->moduleName() == "AlbumPanel" ||
