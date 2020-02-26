@@ -8,7 +8,7 @@
 
 namespace {
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-        + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
+                           + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
 }
 
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
@@ -291,6 +291,7 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
 
 bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
 {
+    emit dApp->signalM->popupWaitDialog(tr("Importing... "));
     ImageImportFilesFromMountThread *imagethread = new ImageImportFilesFromMountThread;
     connect(imagethread, &ImageImportFilesFromMountThread::sigImageFilesImported, this, &ImageEngineApi::sltImageFilesImported);
     imagethread->setData(albumname, paths, obj);

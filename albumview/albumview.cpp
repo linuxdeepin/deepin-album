@@ -2711,6 +2711,7 @@ void AlbumView::importSelectBtnClicked()
 
 bool AlbumView::imageMountImported(QStringList &filelist)
 {
+    emit dApp->signalM->closeWaitDialog();
     return true;
 }
 
