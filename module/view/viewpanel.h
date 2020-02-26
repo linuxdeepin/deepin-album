@@ -29,6 +29,7 @@
 #include <QJsonObject>
 #include <QDirIterator>
 #include <DMenu>
+#include <DDesktopServices>
 
 DWIDGET_USE_NAMESPACE
 

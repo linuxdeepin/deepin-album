@@ -420,6 +420,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
 //                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
                 DBManager::instance()->removeTrashImgInfos(QStringList(m_currentpath));
                 removeCurrentImage();
+                DDesktopServices::trash(m_currentpath);
             });
         } else
         {
@@ -438,6 +439,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_currentpath));
             removeCurrentImage();
+            DDesktopServices::trash(m_currentpath);
         }
     });
 

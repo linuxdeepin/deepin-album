@@ -1325,8 +1325,8 @@ void ImportTimeLineView::on_KeyEvent(int key)
 
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
-    m_dateItem->setFixedSize(width() - 10, SUBTITLE_HEIGHT);
-    m_pImportTitle->setFixedSize(width() - 10, 47); //add 3975
+    m_dateItem->setFixedSize(width() - 15, SUBTITLE_HEIGHT);
+    m_pImportTitle->setFixedSize(width() - 15, 47); //add 3975
 }
 
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)
