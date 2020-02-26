@@ -946,9 +946,18 @@ void ImageEngineThread::run()
     if (pixmap.height() < 100) {
         cache_exist = true;
         pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+    } else if (pixmap.width() < 100) {
+        cache_exist = true;
+        pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
     }
+
     if (!cache_exist)
-        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+
+        if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
+            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+        } else {
+            pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        }
     if (pixmap.isNull()) {
         pixmap = QPixmap::fromImage(tImg);
     } else {

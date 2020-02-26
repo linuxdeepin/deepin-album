@@ -111,15 +111,17 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->drawPixmap(backgroundRect, selectedPixmap);
     }
 
+    float fwidth = ((float)backgroundRect.height()) / ((float)data.baseHeight) * ((float)data.baseWidth) / ((float)backgroundRect.width());
+    float fheight = ((float)backgroundRect.width()) / ((float)data.baseWidth) * ((float)data.baseHeight) / ((float)backgroundRect.height());
     QRect pixmapRect;
-    if (data.width > data.imgWidth + 12) {
+    if ((data.width > data.imgWidth + 12) && fheight <= 3) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
         pixmapRect.setWidth(data.imgWidth);
     } else {
         pixmapRect.setX(backgroundRect.x() + 6);
         pixmapRect.setWidth(backgroundRect.width() - 12);
     }
-    if (data.height > data.imgHeight + 12) {
+    if ((data.height > data.imgHeight + 12) && fwidth <= 1.5) {
         pixmapRect.setY(backgroundRect.y() + (data.height - data.imgHeight) / 2);
         pixmapRect.setHeight(data.imgHeight);
     } else {
@@ -131,47 +133,13 @@ void ThumbnailDelegate::paint(QPainter *painter,
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-
-//    QImage tImg;
-
-//    QString format = DetectImageFormat(data.path);
-//    if (format.isEmpty()) {
-//        QImageReader reader(data.path);
-//        reader.setAutoTransform(true);
-//        if (reader.canRead()) {
-//            tImg = reader.read();
-//        }
-//    } else {
-//        QImageReader readerF(data.path, format.toLatin1());
-//        readerF.setAutoTransform(true);
-//        if (readerF.canRead()) {
-//            tImg = readerF.read();
-//        } else {
-//            qWarning() << "can't read image:" << readerF.errorString()
-//                       << format;
-
-//            tImg = QImage(data.path);
-//        }
-//    }
-
-//    QPixmap pixmapItem = QPixmap::fromImage(tImg);
-
-//    if (COMMON_STR_TRASH == m_imageTypeStr) {
-//        painter->drawPixmap(pixmapRect, /*dApp->m_imagetrashmap.value(data.path)*/data.image);
-//    } else if (ALBUM_PATHTYPE_BY_PHONE == m_imageTypeStr) {
-//        painter->drawPixmap(pixmapRect, data.image);
-//    } else {
-    painter->drawPixmap(pixmapRect, /*dApp->m_imagemap.value(data.path)*/data.image);
-//        if (!dApp->m_imagemap.value(data.path).isNull()) {
-//            if (data.baseWidth != dApp->m_imagemap.value(data.path).width() ||
-//                    data.baseHeight != dApp->m_imagemap.value(data.path).height()) {
-////            qDebug() << "1111111";
-//                const int row = index.row();
-//                emit sigPageNeedResize(row);
-//            }
-//        }
-//    }
-
+    if (fwidth > 1.5) {
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), /*dApp->m_imagemap.value(data.path)*/data.image.scaled(((float)pixmapRect.height()) / ((float)data.baseHeight) * data.baseWidth, pixmapRect.height()));
+    } else if (fheight > 3) {
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), /*dApp->m_imagemap.value(data.path)*/data.image.scaled(pixmapRect.width(), ((float)pixmapRect.width()) / ((float)data.baseWidth) * data.baseHeight));
+    } else {
+        painter->drawPixmap(pixmapRect, /*dApp->m_imagemap.value(data.path)*/data.image);
+    }
     if (COMMON_STR_TRASH == m_imageTypeStr) {
 
         painter->setPen(QColor(85, 85, 85, 170));

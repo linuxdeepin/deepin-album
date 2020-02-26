@@ -291,7 +291,7 @@ void ThumbnailListView::calBasePixMap(ItemInfo &info)
 {
     //    int i_totalwidth = width() - 36;  // same as i_totalwidth in calWidgetItemWandH()
     int i_totalwidth = window()->width() - 30;  // same as i_totalwidth in calWidgetItemWandH()
-    if (0 == info.height || 0 == info.width) {
+    if (0 == info.height || 0 == info.width || ((float)info.height) / ((float)info.width) > 3) {
         info.width = m_iBaseHeight;
         info.height = m_iBaseHeight;
     } else {
