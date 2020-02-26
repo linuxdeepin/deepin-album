@@ -447,7 +447,7 @@ void CommandLine::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
 //    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-    m_pwidget->setFixedWidth(this->width() / 2);
-    m_pwidget->setFixedHeight(140);
-    m_pwidget->move(this->width() / 4, this->height() - 140 - 23);
+    m_pwidget->setFixedWidth(this->width() / 2 + 150);
+    m_pwidget->setFixedHeight(443);
+    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
 }

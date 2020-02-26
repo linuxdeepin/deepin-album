@@ -1276,9 +1276,9 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
         QList<DLabel *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(i))->findChildren<DLabel *>();
         b[1]->setFixedWidth(width() - 14);
     }
-    m_pwidget->setFixedWidth(this->width() / 2);
-    m_pwidget->setFixedHeight(140);
-    m_pwidget->move(this->width() / 4, this->height() - 140 - 23);
+    m_pwidget->setFixedWidth(this->width() / 2 + 150);
+    m_pwidget->setFixedHeight(240);
+    m_pwidget->move(this->width() / 4, this->height() - 240 - 23);
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
