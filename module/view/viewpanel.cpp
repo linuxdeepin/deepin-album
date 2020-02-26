@@ -255,7 +255,7 @@ void ViewPanel::showNormal()
     } else {
         window()->showNormal();
     }
-
+    m_viewB->clear();
     emit dApp->signalM->showTopToolbar();
 }
 
