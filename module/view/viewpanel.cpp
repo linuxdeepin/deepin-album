@@ -149,7 +149,7 @@ void ViewPanel::initConnect()
             m_vinfo.paths << m_vinfo.path;
         }
         loadFilesFromLocal(m_vinfo.paths);
-        if (NULL == m_vinfo.lastPanel) {
+        if (nullptr == m_vinfo.lastPanel) {
             return false;
         } else if (m_vinfo.lastPanel->moduleName() == "AlbumPanel" ||
                    m_vinfo.lastPanel->moduleName() == "ViewPanel") {

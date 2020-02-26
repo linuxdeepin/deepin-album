@@ -145,7 +145,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdStartSlideShow: {
         auto vinfo = m_vinfo;
         vinfo.fullScreen = window()->isFullScreen();
-        vinfo.lastPanel = this;
+//        vinfo.lastPanel = this;
+        vinfo.lastPanel = nullptr;
         vinfo.path = path;
 //        vinfo.paths = paths();
         vinfo.paths = m_filepathlist;
