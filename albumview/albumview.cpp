@@ -628,6 +628,7 @@ void AlbumView::initRightView()
     // Import View
     m_pImportView = new ImportView();
     QList<QLabel *> labelList = m_pImportView->findChildren<QLabel *>();
+    labelList[1]->setFixedHeight(22);
     labelList[1]->setText(tr("Or drag photos here"));
 
     // Thumbnail View

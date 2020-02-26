@@ -1459,8 +1459,10 @@ void MainWindow::loadWindowState()
     if (!geometry.isEmpty()) {
         restoreGeometry(geometry);
         if (isMaximized) {
-            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
-            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
+            resize(1300, 848);
+            Dtk::Widget::moveToCenter(this);
+//            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
+//            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
         }
     }
 }

@@ -7,7 +7,8 @@
 
 
 namespace {
-const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
+const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+        + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
 }
 
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;

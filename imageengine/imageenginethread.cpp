@@ -173,7 +173,7 @@ void ImportImagesThread::run()
     // 判断当前导入路径是否为外接设备
     int isMountFlag = 0;
     DGioVolumeManager *pvfsManager = new DGioVolumeManager;
-    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
+    QList<QExplicitlySharedDataPointer<DGioMount> > mounts = pvfsManager->getMounts();
     for (auto mount : mounts) {
         if (bneedstop) {
             m_obj->imageImported(false);

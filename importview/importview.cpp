@@ -110,7 +110,7 @@ void ImportView::initUI()
     DLabel *pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
     pLabel2->setForegroundRole(DPalette::TextTips);
-    pLabel2->setFixedHeight(18);
+    pLabel2->setFixedHeight(22);
     pLabel2->setText(tr("Or drag photos here"));
 
 //    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
