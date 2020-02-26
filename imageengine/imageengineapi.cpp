@@ -247,7 +247,7 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
 
 bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
-    emit dApp->signalM->popupWaitDialog("Importing... ");
+    emit dApp->signalM->popupWaitDialog(tr("Importing... "));
     ImportImagesThread *imagethread = new ImportImagesThread;
 //    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
 //    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);

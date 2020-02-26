@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>days</source>
-        <translation>giorni</translation>
+        <translation type="vanished">giorni</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -276,6 +276,20 @@
     </message>
 </context>
 <context>
+    <name>ImageEngineApi</name>
+    <message>
+        <source>Importing... </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageImportFilesFromMountThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galleria</translation>
+    </message>
+</context>
+<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
@@ -284,6 +298,13 @@
     <message>
         <source>Details</source>
         <translation>Dettagli</translation>
+    </message>
+</context>
+<context>
+    <name>ImageLoadFromLocalThread</name>
+    <message>
+        <source>days</source>
+        <translation type="unfinished">giorni</translation>
     </message>
 </context>
 <context>
@@ -328,6 +349,13 @@
     </message>
 </context>
 <context>
+    <name>ImportImagesThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galleria</translation>
+    </message>
+</context>
+<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -350,7 +378,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -907,6 +935,10 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <source>New album</source>
         <translation>Nuovo album</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -992,6 +1024,10 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>New album</source>
         <translation>Nuovo album</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

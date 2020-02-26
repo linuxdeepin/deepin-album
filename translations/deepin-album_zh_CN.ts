@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>days</source>
-        <translation>天</translation>
+        <translation type="vanished">天</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -276,6 +276,20 @@
     </message>
 </context>
 <context>
+    <name>ImageEngineApi</name>
+    <message>
+        <source>Importing... </source>
+        <translation>导入图片中......</translation>
+    </message>
+</context>
+<context>
+    <name>ImageImportFilesFromMountThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation>照片库</translation>
+    </message>
+</context>
+<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
@@ -284,6 +298,13 @@
     <message>
         <source>Details</source>
         <translation>详细信息</translation>
+    </message>
+</context>
+<context>
+    <name>ImageLoadFromLocalThread</name>
+    <message>
+        <source>days</source>
+        <translation>天</translation>
     </message>
 </context>
 <context>
@@ -328,6 +349,13 @@
     </message>
 </context>
 <context>
+    <name>ImportImagesThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation>照片库</translation>
+    </message>
+</context>
+<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -350,7 +378,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
@@ -906,16 +934,20 @@
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation>打印</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>没有找到图片文件</translation>
+        <translation>未找到图片文件</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>没有发现照片文件</translation>
+        <translation>未发现照片文件</translation>
     </message>
 </context>
 <context>
@@ -991,6 +1023,10 @@
     <message>
         <source>New album</source>
         <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation>打印</translation>
     </message>
 </context>
 </TS>

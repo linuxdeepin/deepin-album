@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>days</source>
-        <translation>dias</translation>
+        <translation type="vanished">dias</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -276,6 +276,20 @@
     </message>
 </context>
 <context>
+    <name>ImageEngineApi</name>
+    <message>
+        <source>Importing... </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageImportFilesFromMountThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeria</translation>
+    </message>
+</context>
+<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
@@ -284,6 +298,13 @@
     <message>
         <source>Details</source>
         <translation>Detalhes</translation>
+    </message>
+</context>
+<context>
+    <name>ImageLoadFromLocalThread</name>
+    <message>
+        <source>days</source>
+        <translation type="unfinished">dias</translation>
     </message>
 </context>
 <context>
@@ -328,6 +349,13 @@
     </message>
 </context>
 <context>
+    <name>ImportImagesThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeria</translation>
+    </message>
+</context>
+<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -350,14 +378,14 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation type="vanished">Galeria</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar diapositivos</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -426,7 +454,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de diapositivos</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -510,7 +538,7 @@
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Sair de ecrã inteiro/apresentação de diapositivos</translation>
+        <translation>Sair de ecrã inteiro/apresentação</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
@@ -756,7 +784,7 @@
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Apresentação de diapositivos</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
@@ -880,7 +908,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de diapositivos</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -906,6 +934,10 @@
         <source>New album</source>
         <translation>Novo álbum</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -926,7 +958,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de diapositivos</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -991,6 +1023,10 @@
     <message>
         <source>New album</source>
         <translation>Novo álbum</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

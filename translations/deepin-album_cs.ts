@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="cs">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -104,7 +106,7 @@
     </message>
     <message>
         <source>days</source>
-        <translation>dní</translation>
+        <translation type="vanished">dní</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -274,6 +276,20 @@
     </message>
 </context>
 <context>
+    <name>ImageEngineApi</name>
+    <message>
+        <source>Importing... </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageImportFilesFromMountThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galerie</translation>
+    </message>
+</context>
+<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
@@ -282,6 +298,13 @@
     <message>
         <source>Details</source>
         <translation>Podrobnosti</translation>
+    </message>
+</context>
+<context>
+    <name>ImageLoadFromLocalThread</name>
+    <message>
+        <source>days</source>
+        <translation type="unfinished">dní</translation>
     </message>
 </context>
 <context>
@@ -326,6 +349,13 @@
     </message>
 </context>
 <context>
+    <name>ImportImagesThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galerie</translation>
+    </message>
+</context>
+<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -348,7 +378,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
@@ -904,6 +934,10 @@
         <source>New album</source>
         <translation>Nové album</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -989,6 +1023,10 @@
     <message>
         <source>New album</source>
         <translation>Nové album</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

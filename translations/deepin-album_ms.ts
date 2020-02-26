@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>days</source>
-        <translation>hari</translation>
+        <translation type="vanished">hari</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -276,6 +276,20 @@
     </message>
 </context>
 <context>
+    <name>ImageEngineApi</name>
+    <message>
+        <source>Importing... </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageImportFilesFromMountThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeri</translation>
+    </message>
+</context>
+<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
@@ -284,6 +298,13 @@
     <message>
         <source>Details</source>
         <translation>Perincian</translation>
+    </message>
+</context>
+<context>
+    <name>ImageLoadFromLocalThread</name>
+    <message>
+        <source>days</source>
+        <translation type="unfinished">hari</translation>
     </message>
 </context>
 <context>
@@ -328,6 +349,13 @@
     </message>
 </context>
 <context>
+    <name>ImportImagesThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeri</translation>
+    </message>
+</context>
+<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -350,7 +378,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -906,6 +934,10 @@
         <source>New album</source>
         <translation>Album baharu</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -991,6 +1023,10 @@
     <message>
         <source>New album</source>
         <translation>Album baharu</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

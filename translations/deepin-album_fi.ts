@@ -74,7 +74,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kuvia(s)</translation>
+        <translation>%1 kuvaa</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>days</source>
-        <translation>Päivät</translation>
+        <translation type="vanished">Päivät</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -137,11 +137,11 @@
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 kuvaa(s) valittuna</translation>
+        <translation>%1 kuvaa valittuna</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kuvia(s)</translation>
+        <translation>%1 kuvaa</translation>
     </message>
 </context>
 <context>
@@ -276,6 +276,20 @@
     </message>
 </context>
 <context>
+    <name>ImageEngineApi</name>
+    <message>
+        <source>Importing... </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImageImportFilesFromMountThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galleria</translation>
+    </message>
+</context>
+<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
@@ -284,6 +298,13 @@
     <message>
         <source>Details</source>
         <translation>Yksityiskohdat</translation>
+    </message>
+</context>
+<context>
+    <name>ImageLoadFromLocalThread</name>
+    <message>
+        <source>days</source>
+        <translation type="unfinished">Päivät</translation>
     </message>
 </context>
 <context>
@@ -328,6 +349,13 @@
     </message>
 </context>
 <context>
+    <name>ImportImagesThread</name>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galleria</translation>
+    </message>
+</context>
+<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -350,7 +378,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -403,7 +431,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Albumi on mudikas valokuvien hallinta -ohjelma kuvien katselemiseen ja järjestämiseen.</translation>
+        <translation>Albumi on muodikas valokuvien hallinta kuvien katseluun ja järjestämiseen.</translation>
     </message>
 </context>
 <context>
@@ -494,7 +522,7 @@
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Aikataulut</translation>
+        <translation>Aikajana</translation>
     </message>
     <message>
         <source>Albums</source>
@@ -502,7 +530,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kuvia(s)</translation>
+        <translation>%1 kuvaa</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -585,7 +613,7 @@
     </message>
     <message>
         <source>File size</source>
-        <translation>Tiedoston koko</translation>
+        <translation>Koko</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -597,7 +625,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Muokkauspäivä</translation>
+        <translation>Muokattu</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -657,7 +685,7 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Kuvan nimi</translation>
+        <translation>Nimi</translation>
     </message>
 </context>
 <context>
@@ -725,7 +753,7 @@
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Valintapois</translation>
+        <translation>Irti</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -733,7 +761,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kuvia(s)</translation>
+        <translation>%1 kuvaa</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -906,6 +934,10 @@
         <source>New album</source>
         <translation>Uusi albumi</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -991,6 +1023,10 @@
     <message>
         <source>New album</source>
         <translation>Uusi albumi</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
