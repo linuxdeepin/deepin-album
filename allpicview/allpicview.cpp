@@ -376,7 +376,7 @@ void AllPicView::resizeEvent(QResizeEvent *e)
 //    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
     m_pwidget->setFixedHeight(this->height() - 23);
     m_pwidget->setFixedWidth(this->width());
-    m_pwidget->move(0,0);
+    m_pwidget->move(0, 0);
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
@@ -430,22 +430,23 @@ void AllPicView::onKeyDelete()
         return;
     }
 
-    DBImgInfoList infos;
-    for (auto path : paths) {
-        DBImgInfo info;
-        info = DBManager::instance()->getInfoByPath(path);
-        info.changeTime = QDateTime::currentDateTime();
+    ImageEngineApi::instance()->moveImagesToTrash(paths);
+//    DBImgInfoList infos;
+//    for (auto path : paths) {
+//        DBImgInfo info;
+//        info = DBManager::instance()->getInfoByPath(path);
+//        info.changeTime = QDateTime::currentDateTime();
 
-        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-        for (auto eachname : allalbumnames) {
-            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-                info.albumname += (eachname + ",");
-            }
-        }
-        infos << info;
-    }
+//        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+//        for (auto eachname : allalbumnames) {
+//            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+//                info.albumname += (eachname + ",");
+//            }
+//        }
+//        infos << info;
+//    }
 
-//    dApp->m_imageloader->addTrashImageLoader(paths);
-    DBManager::instance()->insertTrashImgInfos(infos);
-    DBManager::instance()->removeImgInfos(paths);
+////    dApp->m_imageloader->addTrashImageLoader(paths);
+//    DBManager::instance()->insertTrashImgInfos(infos);
+//    DBManager::instance()->removeImgInfos(paths);
 }

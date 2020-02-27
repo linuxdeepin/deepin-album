@@ -1144,6 +1144,7 @@ void AlbumView::updateRightView()
     }
 
     updatePicNum();
+    qDebug() << "";
 }
 
 // 更新已导入列表
@@ -1567,12 +1568,8 @@ void AlbumView::onTrashDeleteBtnClicked()
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count());
     dialog->show();
     connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-//        for (auto path : paths)
-//        {
-//            dApp->m_imagetrashmap.remove(path);
-//        }
-//        emit dApp->signalM->sigDeletePhotos(paths.length());
-        DBManager::instance()->removeTrashImgInfos(paths);
+//        DBManager::instance()->removeTrashImgInfos(paths);
+        ImageEngineApi::instance()->moveImagesToTrash(paths, true);
     });
 
     onTrashListClicked();
@@ -1855,7 +1852,8 @@ void AlbumView::onKeyDelete()
             dialog->show();
             connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
 //                emit dApp->signalM->sigDeletePhotos(paths.length());
-                DBManager::instance()->removeTrashImgInfos(paths);
+                ImageEngineApi::instance()->moveImagesToTrash(paths, true);
+//                DBManager::instance()->removeTrashImgInfos(paths);
                 onTrashListClicked();
             });
         }
@@ -1895,24 +1893,25 @@ void AlbumView::onKeyDelete()
 
     // 删除选中照片
     if (bMoveToTrash) {
-        DBImgInfoList infos;
-        for (auto path : paths) {
-            DBImgInfo info;
-            info = DBManager::instance()->getInfoByPath(path);
-            info.changeTime = QDateTime::currentDateTime();
+        ImageEngineApi::instance()->moveImagesToTrash(paths);
+//        DBImgInfoList infos;
+//        for (auto path : paths) {
+//            DBImgInfo info;
+//            info = DBManager::instance()->getInfoByPath(path);
+//            info.changeTime = QDateTime::currentDateTime();
 
-            QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-            for (auto eachname : allalbumnames) {
-                if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-                    info.albumname += (eachname + ",");
-                }
-            }
-            infos << info;
-        }
+//            QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+//            for (auto eachname : allalbumnames) {
+//                if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+//                    info.albumname += (eachname + ",");
+//                }
+//            }
+//            infos << info;
+//        }
 
-//        dApp->m_imageloader->addTrashImageLoader(paths);
-        DBManager::instance()->insertTrashImgInfos(infos);
-        DBManager::instance()->removeImgInfos(paths);
+////        dApp->m_imageloader->addTrashImageLoader(paths);
+//        DBManager::instance()->insertTrashImgInfos(infos);
+//        DBManager::instance()->removeImgInfos(paths);
     }
 }
 

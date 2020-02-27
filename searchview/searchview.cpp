@@ -1,6 +1,7 @@
 #include "searchview.h"
 #include <DApplicationHelper>
 #include "utils/snifferimageformat.h"
+#include "imageengine/imageengineapi.h"
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>
 #include <QDebug>
@@ -600,23 +601,23 @@ void SearchView::onKeyDelete()
     if (0 >= paths.length()) {
         return;
     }
+    ImageEngineApi::instance()->moveImagesToTrash(paths);
+//    DBImgInfoList infos;
+//    for (auto path : paths) {
+//        DBImgInfo info;
+//        info = DBManager::instance()->getInfoByPath(path);
+//        info.changeTime = QDateTime::currentDateTime();
 
-    DBImgInfoList infos;
-    for (auto path : paths) {
-        DBImgInfo info;
-        info = DBManager::instance()->getInfoByPath(path);
-        info.changeTime = QDateTime::currentDateTime();
+//        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+//        for (auto eachname : allalbumnames) {
+//            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+//                info.albumname += (eachname + ",");
+//            }
+//        }
+//        infos << info;
+//    }
 
-        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-        for (auto eachname : allalbumnames) {
-            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-                info.albumname += (eachname + ",");
-            }
-        }
-        infos << info;
-    }
-
-//    dApp->m_imageloader->addTrashImageLoader(paths);
-    DBManager::instance()->insertTrashImgInfos(infos);
-    DBManager::instance()->removeImgInfos(paths);
+////    dApp->m_imageloader->addTrashImageLoader(paths);
+//    DBManager::instance()->insertTrashImgInfos(infos);
+//    DBManager::instance()->removeImgInfos(paths);
 }
