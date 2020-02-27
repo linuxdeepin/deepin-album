@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
  *
@@ -137,6 +138,7 @@ void ViewPanel::initConnect()
         m_isInfoShowed = false;
     });
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
+        m_viewB->clear();
         showNormal();
     });
 
@@ -258,7 +260,7 @@ void ViewPanel::showNormal()
     } else {
         window()->showNormal();
     }
-    m_viewB->clear();
+
     emit dApp->signalM->showTopToolbar();
 }
 

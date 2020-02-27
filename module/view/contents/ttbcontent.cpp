@@ -1516,7 +1516,7 @@ void TTBContent::setImage(const QString &path)
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
 //        m_trashBtn->setDisabled(true);
-        m_imgList->setDisabled(false);
+//        m_imgList->setDisabled(false);
     } else {
         TTBContentData data = it.value();
         m_nowIndex = data.index;

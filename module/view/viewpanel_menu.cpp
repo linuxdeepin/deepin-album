@@ -84,7 +84,9 @@ void ViewPanel::initPopupMenu()
         {
             updateMenuContent();
             this->setCursor(Qt::ArrowCursor);
-            m_menu->popup(QCursor::pos());
+            m_menu->show();
+            m_menu->move(QCursor::pos());
+            //m_menu->popup(QCursor::pos());
         }
     });
     connect(m_menu, &DMenu::aboutToHide, this, [ = ] {
