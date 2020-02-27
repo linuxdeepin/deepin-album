@@ -156,8 +156,8 @@ void AllPicView::initConnections()
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
 
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
-        m_spinner->show();
-        m_spinner->start();
+//        m_spinner->show();
+//        m_spinner->start();
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
         m_pImportView->onImprotBtnClicked();
     });

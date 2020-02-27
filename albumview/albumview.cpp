@@ -535,8 +535,8 @@ runend:
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashDelete, this, &AlbumView::onTrashListClicked);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
-        m_spinner->show();
-        m_spinner->start();
+//        m_spinner->show();
+//        m_spinner->start();
         m_pRightTitle->setVisible(false);
         m_pRightPicTotal->setVisible(false);
 //        m_pImportTitle->setVisible(false); //del 3975

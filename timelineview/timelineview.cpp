@@ -106,8 +106,8 @@ void TimeLineView::initConnections()
 
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &TimeLineView::themeChangeSlot);
     connect(pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
-        m_spinner->show();
-        m_spinner->start();
+//        m_spinner->show();
+//        m_spinner->start();
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
         pImportView->onImprotBtnClicked();
     });
