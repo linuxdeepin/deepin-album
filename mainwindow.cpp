@@ -133,13 +133,15 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
         m_waitlabel->setText(waittext);
+        m_countLabel->setText(waittext);
         m_waitlabel->show();
-        m_spinner->start();
+        m_countLabel->show();
+//        m_spinner->start();
 //        m_waitdailog.exec();
         m_waitdailog.show();
     });
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
-        m_spinner->stop();
+//        m_spinner->stop();
         m_waitdailog.close();
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ] {
@@ -681,20 +683,35 @@ void MainWindow::initUI()
 //      setMinimumSize(MIX_WINDOWS_WIDTH, MIX_WINDOWS_HEIGHT);
 //    QRect rect = DApplication::desktop()->geometry();
 //    setMinimumSize(rect.width() * 0.5, rect.height() * 0.5);
-    m_waitdailog.setCloseButtonVisible(false);
-    m_waitdailog.setWindowModality(Qt::WindowModal);
-    m_spinner = new DSpinner(&m_waitdailog);
-    m_waitlabel = new DLabel(&m_waitdailog);
-    m_waitlabel->setFixedSize(m_waitdailog.width() - 120, 40);
-    m_waitlabel->move(90, (m_waitdailog.height() - 40) / 2);
-//    QSize size = m_waitlabel->size();
-    m_spinner->setFixedSize(40, 40);
-    m_spinner->move(40, (m_waitdailog.height() - 40) / 2);
 
+    initWaitDialog();
     setMinimumSize(880, 500);
     resize(1300, 848);
-
     loadWindowState();
+}
+
+void MainWindow::initWaitDialog()
+{
+    m_waitdailog.setCloseButtonVisible(false);
+    m_waitdailog.setWindowModality(Qt::WindowModal);
+    m_waitdailog.setFixedSize(QSize(480, 93));
+
+    m_waitlabel = new DLabel(&m_waitdailog);
+    m_waitlabel->setFixedSize(160, 24);
+    m_waitlabel->move(40, 11);
+
+    m_countLabel = new DLabel(&m_waitdailog);
+    m_countLabel->setFixedSize(127, 20);
+    m_countLabel->move(40, 41);
+
+    m_importBar = new DProgressBar(&m_waitdailog);
+    m_importBar->setFixedSize(400, 6);
+    m_importBar->move(40, 67);
+
+
+
+    //    QSize size = m_waitlabel->size();
+
 }
 
 void MainWindow::initTitleBar()

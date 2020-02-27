@@ -29,6 +29,8 @@
 #include <DTabBar>
 #include <QButtonGroup>
 #include <DSuggestButton>
+#include <DProgressBar>
+
 
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
@@ -59,6 +61,7 @@ public:
     bool imageImported(bool success) override;
     void initConnections();
     void initUI();
+    void initWaitDialog();
     void initShortcut();
     void initTitleBar();
     void initCentralWidget();
@@ -144,9 +147,10 @@ private:
 //    DSuggestButton *m_pTimeBtn;
 //    DSuggestButton *m_pAlbumBtn;
     int timer;
-    DDialog m_waitdailog;
-    DSpinner *m_spinner = nullptr;
+    DDialog  m_waitdailog;
+    DProgressBar *m_importBar = nullptr;
     DLabel *m_waitlabel = nullptr;
+    DLabel *m_countLabel = nullptr;
 };
 
 #endif // MAINWINDOW_H
