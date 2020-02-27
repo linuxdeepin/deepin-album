@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -278,15 +276,15 @@
 <context>
     <name>ImageEngineApi</name>
     <message>
-        <source>Importing... </source>
-        <translation type="unfinished"></translation>
+        <source>Importing...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galeria</translation>
+        <translation>Galeria</translation>
     </message>
 </context>
 <context>
@@ -304,7 +302,7 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished">dias</translation>
+        <translation>dias</translation>
     </message>
 </context>
 <context>
@@ -352,7 +350,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galeria</translation>
+        <translation>Galeria</translation>
     </message>
 </context>
 <context>
@@ -601,8 +599,12 @@
         <translation>Importar Fotos</translation>
     </message>
     <message>
-        <source>%1 photo(s) imported successed,%2 photo(s) imported failed</source>
-        <translation type="unfinished"></translation>
+        <source>%1/%2 photos imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 photos imported, %2 photos failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -940,7 +942,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir</translation>
     </message>
 </context>
 <context>
@@ -1030,7 +1032,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir</translation>
     </message>
 </context>
 </TS>

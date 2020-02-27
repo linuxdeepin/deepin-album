@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="it">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -278,15 +276,15 @@
 <context>
     <name>ImageEngineApi</name>
     <message>
-        <source>Importing... </source>
-        <translation type="unfinished"></translation>
+        <source>Importing...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galleria</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -304,7 +302,7 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished">giorni</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -352,7 +350,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galleria</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -602,8 +600,12 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Importa Immagini</translation>
     </message>
     <message>
-        <source>%1 photo(s) imported successed,%2 photo(s) imported failed</source>
-        <translation type="unfinished"></translation>
+        <source>%1/%2 photos imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 photos imported, %2 photos failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -941,7 +943,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1031,7 +1033,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

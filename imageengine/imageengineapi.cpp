@@ -235,7 +235,7 @@ bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject 
 }
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Importing... "));
+    emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
 //    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
 //    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
@@ -247,7 +247,7 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
 
 bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Importing... "));
+    emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
 //    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
 //    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
@@ -291,7 +291,7 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
 
 bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Importing... "));
+    emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImageImportFilesFromMountThread *imagethread = new ImageImportFilesFromMountThread;
     connect(imagethread, &ImageImportFilesFromMountThread::sigImageFilesImported, this, &ImageEngineApi::sltImageFilesImported);
     imagethread->setData(albumname, paths, obj);

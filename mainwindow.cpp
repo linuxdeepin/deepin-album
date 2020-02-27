@@ -140,7 +140,7 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::progressOfWaitDialog, this, [ = ](int allfiles, int completefiles) {
 
-        QString countText = QString("%1/%2pictures have been imported").arg(completefiles).arg(allfiles);
+        QString countText = QString(tr("%1/%2 photos imported")).arg(completefiles).arg(allfiles);
         m_countLabel->setText(countText);
         m_countLabel->show();
         m_importBar->setRange(0, allfiles);
@@ -351,7 +351,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ](int successful,int failed) {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
-        QString str = tr("%1 photo(s) imported successed,%2 photo(s) imported failed");
+        QString str = tr("%1 photos imported, %2 photos failed");
         QString str1 = QString::number(successful,10);
         QString str2 = QString::number(failed,10);
 

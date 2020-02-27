@@ -1,211 +1,211 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>Névtelen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Novo</translation>
+        <translation>Új hozzáadása</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Új album</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Töröl</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Quer realmente excluir este álbum?</translation>
+        <translation>Biztosan törölni szeretnéd az albumot?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Lixeira</translation>
+        <translation>Kuka</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoritos</translation>
+        <translation>Kedvencek</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Import</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Lixeira</translation>
+        <translation>Kuka</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoritos</translation>
+        <translation>Kedvencek</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Excluir Tudo</translation>
+        <translation>Mindent töröl</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste fotos para cá</translation>
+        <translation>Vagy húzd a képeket ide</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 kép(ek)</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Importar Tudo</translation>
+        <translation>Mind importálása</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>As fotos serão excluídas permanentemente após os dias mostrados aqui</translation>
+        <translation>A képek a feltüntetett nap után véglegesen törlődnek</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation>Helyreállítás</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>%1 kép() kiválasztva</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Importar para:</translation>
+        <translation>Importálás ide:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disco</translation>
+        <translation type="vanished">Lemez</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Importálás</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">dias</translation>
+        <translation type="vanished">nap</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sem Nome</translation>
+        <translation>Névtelen</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>Disco do Sistema</translation>
+        <translation>Rendszerlemez</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galéria</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>O disco está em uso, não pode ejetar agora</translation>
+        <translation>A lemez használatban, nem lehet most kiadni</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Új album</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>%1 kép() kiválasztva</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 kép(ek)</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Substituir</translation>
+        <translation>Áthelyezés</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Imagens</translation>
+        <translation>Képek</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Documentos</translation>
+        <translation>Dokumentumok</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation>Letöltések</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Área de Trabalho</translation>
+        <translation>Asztal</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Vídeos</translation>
+        <translation>Videók</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Música</translation>
+        <translation>Zene</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Nome:</translation>
+        <translation>Név:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Salvar para:</translation>
+        <translation>Mentés ide:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>Formato:</translation>
+        <translation>Formátum:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Qualidade:</translation>
+        <translation>MInőség:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Salvar</translation>
+        <translation>Mentés</translation>
     </message>
     <message>
         <source>gif</source>
@@ -213,64 +213,64 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Selecionar outros diretórios</translation>
+        <translation>Más könyvtárak kiválasztása</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>Nome de arquivo não pode ser vazio</translation>
+        <translation>A fájlnév nem lehet üres</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>já existe. Substituir?</translation>
+        <translation>már létezik. Szeretnéd felülírni?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>Unidade %1</translation>
+        <translation>%1 lemez</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Disco em Branco %1</translation>
+        <translation>Üres %1 lemez</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>Criptografado %1</translation>
+        <translation>%1 titkosított</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="vanished">%1 </translation>
+        <translation type="vanished">%1</translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation>Volume %1</translation>
+        <translation>%1 méret</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Salvar</translation>
+        <translation>Mentés</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Exportar Fotos</translation>
+        <translation>Képek exportálása</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Törlés</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Kép tulajdonságai</translation>
     </message>
 </context>
 <context>
@@ -284,319 +284,319 @@
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galéria</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informações básicas</translation>
+        <translation>Alap információk</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detalhes</translation>
+        <translation>Részletek</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>dias</translation>
+        <translation>nap</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galéria</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Töröl</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Excluir esta foto do álbum?</translation>
+        <translation>Biztosan törölni szeretnéd ezt a képet az albumból?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Excluir %1 fotos dos álbuns?</translation>
+        <translation>Biztosan törölni szeretnéd a %1 képet az albumból?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Informações básicas</translation>
+        <translation>Alap információk</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detailhes</translation>
+        <translation>Részletek</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Kép tulajdonságai</translation>
     </message>
 </context>
 <context>
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galéria</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Importálás</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Todas as Fotos</translation>
+        <translation>Minden kép</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Importar Fotos</translation>
+        <translation>Képek importálása</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste as fotos para cá</translation>
+        <translation>Vagy húzd a képeket ide</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galeria</translation>
+        <translation type="vanished">Galéria</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomear</translation>
+        <translation>Átnevezés</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Töröl</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>Névtelen</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Dispositivo</translation>
+        <translation>Eszköz</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>Galéria</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Álbuns</translation>
+        <translation>Albumok</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Új album</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Você não tem permissão para ver a imagem</translation>
+        <translation>Nincs jogosultságod megnézni ezt a képet</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Álbum é um gerenciador de fotos moderno para visualizar e organizar fotos.</translation>
+        <translation>Az album egy divatos képkezelő képek nézegetésére és rendszerezésére</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Fotos</translation>
+        <translation>Képek</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela Cheia</translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ajuda</translation>
+        <translation>Segítség</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Megjelenítés fájlkezelőben</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Másol</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Forgatás óramutató járása szerint</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Előző</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Próximo</translation>
+        <translation>Következő</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Kedvenc</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Renomear álbum</translation>
+        <translation>Album átnevezése</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Álbum “%1” excluído</translation>
+        <translation>Az “%1” album áthelyezve</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Adicionado com sucesso em &quot;%1&quot;</translation>
+        <translation>Sikeresen hozzáadva ehhez: “%1”</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Importação finalizou</translation>
+        <translation>Sikeres importálás</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Importação falhou</translation>
+        <translation>Sikertelen importálás</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Exportação falhou</translation>
+        <translation>Sikertelen exportálás</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Exportação finalizou</translation>
+        <translation>Sikeres exportálás</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>Todas as Fotos</translation>
+        <translation>Minden kép</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Linhas do tempo</translation>
+        <translation>Idővonalak</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Álbuns</translation>
+        <translation>Albumok</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 kép(ek)</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Kép tulajdonságai</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Sair da tela cheia/mostra de slides</translation>
+        <translation>Kilépés a teljes képernyős módból vagy a diavetítésből</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Mostrar atalhos</translation>
+        <translation>Parancsikonok megjelenítése</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Visualizar</translation>
+        <translation>Nézet</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>Importálás</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Selecionar tudo</translation>
+        <translation>Minden kijelölése</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Excluir foto/álbum</translation>
+        <translation>Kép vagy album törlése</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Aumentar zoom</translation>
+        <translation>Nagyítás</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Diminuir zoom</translation>
+        <translation>Kicsinyítés</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>Új album</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Página acima</translation>
+        <translation>Lapozás felfelé</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Página abaixo</translation>
+        <translation>Lapozás lefelé</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Configurações</translation>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">Algumas fotos não foram importadas</translation>
+        <translation type="vanished">Néhány kép nem lett importálva</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Importar fotos</translation>
+        <translation>Képek importálása</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Importar Fotos</translation>
+        <translation>Képek importálása</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
@@ -611,47 +611,47 @@
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Vaku</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Tipus</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Tamanho do arquivo</translation>
+        <translation>Fájlméret</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimensões</translation>
+        <translation>Méretarányok</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data de captura</translation>
+        <translation>Rögzítés dátuma</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data de modificação</translation>
+        <translation>Módosítás ideje</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Modo de exposição</translation>
+        <translation>Expozíció mód</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Programa de exposição</translation>
+        <translation>Expozíciós program</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Tempo de exposição</translation>
+        <translation>Expozíciós idő</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Abertura</translation>
+        <translation>Apertúra</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Distância focal</translation>
+        <translation>Gyújtótávolság</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -659,107 +659,107 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Abertura máxima</translation>
+        <translation>Maximális rekesz</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Unidade de medida</translation>
+        <translation>Mérési mód</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Balanço de branco</translation>
+        <translation>Fehéregyensúly</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensação do flash</translation>
+        <translation>Villanó fény csökkentés</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo de câmera</translation>
+        <translation>Kamera tipusa</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Modelo de lente</translation>
+        <translation>Lencse tipusa</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Espaço de cores</translation>
+        <translation>Színtér</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Rótulo</translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Nome da foto</translation>
+        <translation>Kép neve</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>Disco do Sistema</translation>
+        <translation>Rendszerlemez</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Sem escalonamento</translation>
+        <translation>Nincs méretezés</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Ajustar página à imagem</translation>
+        <translation>Oldal illesztése a képhez</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Ajustar imagem à página</translation>
+        <translation>Kép illesztése az oldalra</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escalonar para:</translation>
+        <translation>Méretezés:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milímetros</translation>
+        <translation>Miliméter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centímetros</translation>
+        <translation>Centiméter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Polegadas</translation>
+        <translation>Incs</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posição da imagem</translation>
+        <translation>Kép elhelyezése</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Escalonamento</translation>
+        <translation>Méretezés</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Configurações da Imagem</translation>
+        <translation>Kép beállításai</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Configurações da Imagem</translation>
+        <translation>Kép beállításai</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Selecionar</translation>
+        <translation>Kijelölés</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Deselecionar</translation>
+        <translation>Kijelölés megszüntetése</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -767,11 +767,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>%1 kép ()</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>%1 kép () kiválasztva</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -779,260 +779,260 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importar em</translation>
+        <translation>Importálás</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Nenhum resultado encontrado</translation>
+        <translation>Nincs találat</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Mostrar Slides</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 foto(s) encontrada(s)</translation>
+        <translation>%1 képet () sikerült találni</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Resultados da pesquisa</translation>
+        <translation>Keresés eredménye</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pausar</translation>
+        <translation>Megszakít</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Tocar</translation>
+        <translation>Lejátszás</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Sair</translation>
+        <translation>Kilépés</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importando fotos: &apos;%1&apos;</translation>
+        <translation>Importálandó képek: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exportando fotos: &apos;%1&apos;</translation>
+        <translation>Exportálandó képek: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Voltar</translation>
+        <translation>Vissza</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Előző</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Próximo</translation>
+        <translation>Következő</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Tamanho 1:1</translation>
+        <translation>1:1 méretarány</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajustar à janela</translation>
+        <translation>Képernyőhöz igazítás</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Forgatás óramutató járása szerint</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Töröl</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Kedvenc</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>Visualizar</translation>
+        <translation>Nézet</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela Cheia</translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Kedvenc</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Forgatás óramutató járása szerint</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Megjelenítés fájlkezelőben</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Töröl</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Másol</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Kép tulajdonságai</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao álbum</translation>
+        <translation>Hozzáadás az albumhoz</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Excluir do álbum</translation>
+        <translation>Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation>Helyreállítás</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Új album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Nyomtatás</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nenhuma imagem encontrada</translation>
+        <translation>Nem találtam képfájlokat</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Foto não encontrada</translation>
+        <translation>Kép nem található</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao álbum</translation>
+        <translation>Hozzáadás az albumhoz</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Sair da tela cheia</translation>
+        <translation>Kilépés a teljes képernyős módból</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela Cheia</translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Másol</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Excluir</translation>
+        <translation>Töröl</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Mostrar janela de navegação</translation>
+        <translation>Navigációs ablak megjelenítése</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ocultar janela de navegação</translation>
+        <translation>Navigációs ablak elrejtése</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Forgatás óramutató járása szerint</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Megjelenítés fájlkezelőben</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Kép tulajdonságai</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Excluir do álbum</translation>
+        <translation>Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Kedvenc</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Új album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Nyomtatás</translation>
     </message>
 </context>
 </TS>

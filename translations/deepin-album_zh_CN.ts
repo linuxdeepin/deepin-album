@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -278,8 +276,8 @@
 <context>
     <name>ImageEngineApi</name>
     <message>
-        <source>Importing... </source>
-        <translation>导入图片中......</translation>
+        <source>Importing...</source>
+        <translation>正在导入...</translation>
     </message>
 </context>
 <context>
@@ -601,8 +599,12 @@
         <translation>导入照片</translation>
     </message>
     <message>
-        <source>%1 photo(s) imported successed,%2 photo(s) imported failed</source>
-        <translation type="unfinished"></translation>
+        <source>%1/%2 photos imported</source>
+        <translation>已导入%1/%2张</translation>
+    </message>
+    <message>
+        <source>%1 photos imported, %2 photos failed</source>
+        <translation>%1张导入成功，%2张导入失败</translation>
     </message>
 </context>
 <context>

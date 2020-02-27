@@ -285,7 +285,7 @@ void ImportImagesThread::run()
 //        ImportImageLoader(dbInfos);
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         m_obj->imageImported(true);
-    } else if (image_list.length() != dbInfos.length()) {
+    } else if((image_list.length() - dbInfos.length()) > 0) {
         int successful = dbInfos.length();
         int failed = image_list.length() - dbInfos.length();
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
