@@ -147,6 +147,7 @@ signals:
     void sliderValueChange(int step);
     void popupWaitDialog(QString waittext);
     void closeWaitDialog();
+    void progressOfWaitDialog(int allfiles, int completefiles);
 
 private:
     explicit SignalManager(QObject *parent = 0);

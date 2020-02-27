@@ -271,6 +271,7 @@ void ImportImagesThread::run()
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
+        emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
     }
 
     if (bneedstop) {
@@ -313,7 +314,7 @@ void ImageImportFilesFromMountThread::run()
     }
 //    QStringList selectPaths = m_pRightPhoneThumbnailList->selectedPaths();
 //    QString albumNameStr = m_importByPhoneComboBox->currentText();
-    QStringList picPathList;
+//    QStringList picPathList;
     QStringList newPathList;
     DBImgInfoList dbInfos;
     QString strHomePath = QDir::homePath();
@@ -340,7 +341,7 @@ void ImageImportFilesFromMountThread::run()
         }
 
 //        if (QFile::copy(strPath, strNewPath)) {
-        picPathList << strPath;
+//        picPathList << strPath;
         newPathList << strNewPath;
 
         QFileInfo fi(strPath);
@@ -366,6 +367,10 @@ void ImageImportFilesFromMountThread::run()
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
+        if (QFile::copy(strPath, strNewPath)) {
+            qDebug() << "onCopyPhotoFromPhone()";
+        }
+        emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
 //        }
     }
 
@@ -379,14 +384,14 @@ void ImageImportFilesFromMountThread::run()
 //    connect(pMountloader, SIGNAL(sigCopyPhotoFromPhone(QStringList, QStringList)), pMountloader, SLOT(onCopyPhotoFromPhone(QStringList, QStringList)));
 //    emit pMountloader->sigCopyPhotoFromPhone(picPathList, newPathList);
 
-    for (int i = 0; i < picPathList.length(); i++) {
-        if (bneedstop) {
-            return;
-        }
-        if (QFile::copy(picPathList[i], newPathList[i])) {
-            qDebug() << "onCopyPhotoFromPhone()";
-        }
-    }
+//    for (int i = 0; i < picPathList.length(); i++) {
+//        if (bneedstop) {
+//            return;
+//        }
+//        if (QFile::copy(picPathList[i], newPathList[i])) {
+//            qDebug() << "onCopyPhotoFromPhone()";
+//        }
+//    }
 
     if (!dbInfos.isEmpty()) {
         DBImgInfoList dbInfoList;
@@ -429,7 +434,7 @@ void ImageImportFilesFromMountThread::run()
     } else {
         emit dApp->signalM->ImportFailed();
     }
-    emit sigImageFilesImported(m_imgobject, picPathList);
+    emit sigImageFilesImported(m_imgobject, newPathList);
     m_imgobject->removeThread(this);
 }
 

@@ -60,41 +60,6 @@ MainWindow::MainWindow()
     m_pCenterWidget->lower();
 //    setCentralWidget(m_pCenterWidget);
 
-
-
-//    QStringList pas;
-////    m_pAlbumview = new AlbumView();
-////    m_pTimeLineView = new TimeLineView();
-////    m_pSearchView = new SearchView();
-//    m_commandLine = CommandLine::instance();
-//    m_slidePanel = new SlideShowPanel();
-
-////    m_pCenterWidget->addWidget(m_pTimeLineView);
-////    m_pCenterWidget->addWidget(m_pAlbumview);
-////    m_pCenterWidget->addWidget(m_pSearchView);
-//    m_pCenterWidget->addWidget(m_commandLine);
-//    m_pCenterWidget->addWidget(m_slidePanel);
-
-//    m_commandLine->processOption(pas);
-//    if (pas.length() > 0) {
-//        titlebar()->setFixedHeight(0);
-//        setTitlebarShadowEnabled(false);
-//        m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
-//        m_pCenterWidget->setCurrentIndex(4);
-//    } else {
-//        m_commandLine->viewImage("", {});
-//        m_pCenterWidget->setCurrentIndex(0);
-//    }
-
-//    connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
-//        m_backIndex = index;
-//        titlebar()->setFixedHeight(0);
-//        setTitlebarShadowEnabled(false);
-////        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
-//        m_pCenterWidget->setCurrentIndex(2);
-////        m_pCenterWidget->setFocus();
-//    });
-
     timer = startTimer(500);
     loadZoomRatio();
 }
