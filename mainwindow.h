@@ -66,6 +66,7 @@ public:
     void initTitleBar();
     void initCentralWidget();
 //    void initStatusBar();
+    void setWaitDialogColor();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;

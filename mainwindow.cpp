@@ -89,6 +89,9 @@ void MainWindow::timerEvent(QTimerEvent *e)
 void MainWindow::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
+        setWaitDialogColor();
+    });
     connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [ = ](int id) {
         if (0 == id) {
             allPicBtnClicked();
@@ -131,11 +134,21 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [ = ] {
         m_pSearchEdit->setEnabled(true);
     });
+    connect(dApp->signalM, &SignalManager::progressOfWaitDialog, this, [ = ](int allfiles, int completefiles) {
+
+        QString countText = QString("%1/%2pictures have been imported").arg(completefiles).arg(allfiles);
+        m_countLabel->setText(countText);
+        m_countLabel->show();
+        m_importBar->setRange(0, allfiles);
+        m_importBar->setAlignment(Qt::AlignCenter);
+        m_importBar->setTextVisible(false);
+        m_importBar->setValue(completefiles);
+    });
+
     connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
         m_waitlabel->setText(waittext);
-        m_countLabel->setText(waittext);
         m_waitlabel->show();
-        m_countLabel->show();
+//        m_countLabel->hide();
 //        m_spinner->start();
 //        m_waitdailog.exec();
         m_waitdailog.show();
@@ -697,17 +710,20 @@ void MainWindow::initWaitDialog()
     m_waitdailog.setFixedSize(QSize(480, 93));
 
     m_waitlabel = new DLabel(&m_waitdailog);
-    m_waitlabel->setFixedSize(160, 24);
-    m_waitlabel->move(40, 11);
+    m_waitlabel->setFixedSize(160, 30);
+    m_waitlabel->move(40, 7);
+    DFontSizeManager::instance()->bind(m_waitlabel, DFontSizeManager::T5, QFont::Medium);
 
     m_countLabel = new DLabel(&m_waitdailog);
-    m_countLabel->setFixedSize(127, 20);
-    m_countLabel->move(40, 41);
+    m_countLabel->setFixedSize(350, 26);
+    m_countLabel->move(40, 37);
+    DFontSizeManager::instance()->bind(m_countLabel, DFontSizeManager::T6, QFont::DemiBold);
 
     m_importBar = new DProgressBar(&m_waitdailog);
     m_importBar->setFixedSize(400, 6);
     m_importBar->move(40, 67);
 
+    setWaitDialogColor();
 
 
     //    QSize size = m_waitlabel->size();
@@ -851,7 +867,34 @@ void MainWindow::initCentralWidget()
         m_pCenterWidget->setCurrentIndex(0);
     }
 
-//    setCentralWidget(m_pCenterWidget);
+    //    setCentralWidget(m_pCenterWidget);
+}
+
+void MainWindow::setWaitDialogColor()
+{
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType) {
+        DPalette pa1;
+        pa1 = m_waitlabel->palette();
+        pa1.setColor(DPalette::WindowText, QColor("#001A2E"));
+        m_waitlabel->setPalette(pa1);
+
+        DPalette pa2;
+        pa2 = m_countLabel->palette();
+        pa2.setColor(DPalette::WindowText, QColor("#6A829F"));
+        m_countLabel->setPalette(pa2);
+    }
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        DPalette pa1;
+        pa1 = m_waitlabel->palette();
+        pa1.setColor(DPalette::WindowText, QColor("#A8B7D1"));
+        m_waitlabel->setPalette(pa1);
+
+        DPalette pa2;
+        pa2 = m_countLabel->palette();
+        pa2.setColor(DPalette::WindowText, QColor("#6D7C88"));
+        m_countLabel->setPalette(pa2);
+    }
 }
 
 void MainWindow::onUpdateCentralWidget()
