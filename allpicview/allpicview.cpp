@@ -159,6 +159,7 @@ void AllPicView::initConnections()
 //        m_spinner->show();
 //        m_spinner->start();
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+        emit dApp->signalM->startImprot();
         m_pImportView->onImprotBtnClicked();
     });
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {

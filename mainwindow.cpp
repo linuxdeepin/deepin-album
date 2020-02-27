@@ -134,6 +134,10 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [ = ] {
         m_pSearchEdit->setEnabled(true);
     });
+    connect(dApp->signalM, &SignalManager::startImprot, this, [ = ] {
+        m_countLabel->setText("");
+        m_importBar->setValue(0);
+    });
     connect(dApp->signalM, &SignalManager::progressOfWaitDialog, this, [ = ](int allfiles, int completefiles) {
 
         QString countText = QString("%1/%2pictures have been imported").arg(completefiles).arg(allfiles);
@@ -949,6 +953,7 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
     }
 
     else if (tr("Import photos") == action->text()) {
+        emit dApp->signalM->startImprot();
         emit sigTitleMenuImportClicked();
     } else {
 

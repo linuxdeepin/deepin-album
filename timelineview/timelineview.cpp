@@ -109,6 +109,7 @@ void TimeLineView::initConnections()
 //        m_spinner->show();
 //        m_spinner->start();
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
+        emit dApp->signalM->startImprot();
         pImportView->onImprotBtnClicked();
     });
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
