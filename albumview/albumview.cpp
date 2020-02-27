@@ -3112,9 +3112,12 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pImpTimeLineWidget->setFixedWidth(width() - 181);
     m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
     m_pImpTimeLineWidget->setFixedHeight(height());
-    m_pwidget->setFixedWidth(this->width() / 2 + 150);
-    m_pwidget->setFixedHeight(443);
-    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
+//    m_pwidget->setFixedWidth(this->width() / 2 + 150);
+//    m_pwidget->setFixedHeight(443);
+//    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
+    m_pwidget->setFixedHeight(this->height() - 23);
+    m_pwidget->setFixedWidth(this->width());
+    m_pwidget->move(0,0);
 
     //add start 3975
 //    if (nullptr != m_noTrashItem) {

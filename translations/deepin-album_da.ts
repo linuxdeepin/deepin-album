@@ -590,7 +590,7 @@
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>Nogle billeder blev ikke importeret</translation>
+        <translation type="vanished">Nogle billeder blev ikke importeret</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -599,6 +599,10 @@
     <message>
         <source>Import Photos</source>
         <translation>Importér billeder</translation>
+    </message>
+    <message>
+        <source>%1 photo(s) imported successed,%2 photo(s) imported failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

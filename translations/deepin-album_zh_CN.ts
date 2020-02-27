@@ -590,7 +590,7 @@
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>部分照片导入失败</translation>
+        <translation type="vanished">部分照片导入失败</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -599,6 +599,10 @@
     <message>
         <source>Import Photos</source>
         <translation>导入照片</translation>
+    </message>
+    <message>
+        <source>%1 photo(s) imported successed,%2 photo(s) imported failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

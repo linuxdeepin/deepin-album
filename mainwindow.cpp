@@ -344,11 +344,12 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
 
-    connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ] {
+    connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ](int successful,int failed) {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
-
-        QString str = tr("Some photos have not been imported");
+        QString str = tr("%1 photo(s) imported successed,%2 photo(s) imported failed");
+        QString str1 = QString::number(successful,10);
+        QString str2 = QString::number(failed,10);
 
         QWidget *pwidget = new QWidget();
         switch (m_pCenterWidget->currentIndex())
@@ -371,7 +372,7 @@ void MainWindow::initConnections()
         }
         DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
         pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str);
+        pDFloatingMessage->setMessage(str.arg(str1).arg(str2));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);

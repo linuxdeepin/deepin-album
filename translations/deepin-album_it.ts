@@ -591,7 +591,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation>Alcune immagini non sono state importate</translation>
+        <translation type="vanished">Alcune immagini non sono state importate</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -600,6 +600,10 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Import Photos</source>
         <translation>Importa Immagini</translation>
+    </message>
+    <message>
+        <source>%1 photo(s) imported successed,%2 photo(s) imported failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
