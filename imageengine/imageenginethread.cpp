@@ -285,7 +285,7 @@ void ImportImagesThread::run()
 //        ImportImageLoader(dbInfos);
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         m_obj->imageImported(true);
-    } else if((image_list.length() - dbInfos.length()) > 0) {
+    } else if ((image_list.length() - dbInfos.length()) > 0) {
         int successful = dbInfos.length();
         int failed = image_list.length() - dbInfos.length();
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
@@ -318,8 +318,8 @@ void ImageMoveImagesToTrashThread::run()
     QStringList paths = m_paths;
     if (btypetrash) {
         DBManager::instance()->removeTrashImgInfos(paths);
-        emit dApp->signalM->trashDelete();
         emit dApp->signalM->sigDeletePhotos(paths.length());
+//        emit dApp->signalM->trashDelete();
     } else {
         DBImgInfoList infos;
         for (auto path : paths) {

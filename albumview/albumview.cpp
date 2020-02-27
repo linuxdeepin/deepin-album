@@ -533,7 +533,8 @@ runend:
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
 #endif
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
-    connect(dApp->signalM, &SignalManager::trashDelete, this, &AlbumView::onTrashListClicked);
+//    connect(dApp->signalM, &SignalManager::trashDelete, this, &AlbumView::onTrashDeleteUpdateClick);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onTrashListClicked);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
 //        m_spinner->show();
 //        m_spinner->start();
@@ -1676,6 +1677,7 @@ void AlbumView::onTrashListClicked()
         m_pRecoveryBtn->setPalette(ReBtn);
 
         m_pDeleteBtn->setText(tr("Delete"));
+        qDebug() << "--------Delete";
     } else {
         m_pRecoveryBtn->setEnabled(false);
         DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
@@ -1683,6 +1685,7 @@ void AlbumView::onTrashListClicked()
         m_pRecoveryBtn->setPalette(ReBtn);
 
         m_pDeleteBtn->setText(tr("Delete All"));
+        qDebug() << "--------Delete All";
     }
 }
 
