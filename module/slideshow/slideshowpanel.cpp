@@ -69,7 +69,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-    connect(dApp->signalM, &SignalManager::imagesRemoved, [ = ](
+    connect(dApp->signalM, &SignalManager::imagesRemovedPar, [ = ](
     const DBImgInfoList & infos) {
         foreach (DBImgInfo info, infos) {
             if (m_vinfo.paths.contains(info.filePath)) {

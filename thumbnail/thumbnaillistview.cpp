@@ -1304,6 +1304,27 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 
         else {
             ImageEngineApi::instance()->moveImagesToTrash(paths);
+
+//            DBImgInfoList infos;
+//            for (auto path : paths) {
+//                DBImgInfo info;
+//                info = DBManager::instance()->getInfoByPath(path);
+//                //                    info.time = QDateTime::currentDateTime();
+//                info.changeTime = QDateTime::currentDateTime();
+//                QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+//                for (auto eachname : allalbumnames) {
+//                    if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+//                        info.albumname += (eachname + ",");
+//                    }
+//                }
+//                infos << info;
+//                //                dApp->m_imagemap.remove(path);
+
+//            }
+
+//            //            dApp->m_imageloader->addTrashImageLoader(paths);
+//            DBManager::instance()->insertTrashImgInfos(infos);
+//            DBManager::instance()->removeImgInfos(paths);
         }
     }
     break;

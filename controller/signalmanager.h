@@ -77,7 +77,8 @@ signals:
     void activeWindow();
 
     void imagesInserted(/*const DBImgInfoList infos*/);
-    void imagesRemoved(const DBImgInfoList &infos);
+    void imagesRemoved();
+    void imagesRemovedPar(const DBImgInfoList &infos);
     void imagesTrashInserted(/*const DBImgInfoList infos*/);
     void imagesTrashRemoved(/*const DBImgInfoList &infos*/);
     void editImage(const QString &path);

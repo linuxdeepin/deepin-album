@@ -434,7 +434,8 @@ void DBManager::removeImgInfos(const QStringList &paths)
         query.exec("COMMIT");
         db.close();
         mutex.unlock();
-        emit dApp->signalM->imagesRemoved(infos);
+        emit dApp->signalM->imagesRemoved();
+        emit dApp->signalM->imagesRemovedPar(infos);
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
@@ -532,7 +533,8 @@ void DBManager::removeDir(const QString &dir)
         query.exec("COMMIT");
         db.close();
         mutex.unlock();
-        emit dApp->signalM->imagesRemoved(infos);
+        emit dApp->signalM->imagesRemoved();
+        emit dApp->signalM->imagesRemovedPar(infos);
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
