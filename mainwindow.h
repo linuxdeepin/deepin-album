@@ -115,6 +115,7 @@ private:
     int m_allPicNum;
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
+    bool m_bImport = false;
 
     QWidget *m_titleBtnWidget;
     QWidget *m_ImgWidget;

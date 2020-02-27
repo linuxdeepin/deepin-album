@@ -139,8 +139,13 @@ void MainWindow::initConnections()
         m_importBar->setValue(0);
     });
     connect(dApp->signalM, &SignalManager::progressOfWaitDialog, this, [ = ](int allfiles, int completefiles) {
+        QString countText = "";
+        if (m_bImport == true) {
+            countText  = QString(tr("%1/%2 photos imported")).arg(completefiles).arg(allfiles);
+        } else {
+            countText = QString(tr("%1/%2 photos deleted")).arg(completefiles).arg(allfiles);
+        }
 
-        QString countText = QString(tr("%1/%2 photos imported")).arg(completefiles).arg(allfiles);
         m_countLabel->setText(countText);
         m_countLabel->show();
         m_importBar->setRange(0, allfiles);
@@ -150,6 +155,12 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
+        if (!waittext.compare("Importing...")) {
+            m_bImport = true;
+        } else {
+            m_bImport = false;
+        }
+
         m_waitlabel->setText(waittext);
         m_waitlabel->show();
 //        m_countLabel->hide();
@@ -159,6 +170,7 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
 //        m_spinner->stop();
+        m_bImport = false;
         m_waitdailog.close();
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ] {
@@ -348,16 +360,15 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str);
     });
 
-    connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ](int successful,int failed) {
+    connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ](int successful, int failed) {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
         QString str = tr("%1 photos imported, %2 photos failed");
-        QString str1 = QString::number(successful,10);
-        QString str2 = QString::number(failed,10);
+        QString str1 = QString::number(successful, 10);
+        QString str2 = QString::number(failed, 10);
 
         QWidget *pwidget = new QWidget();
-        switch (m_pCenterWidget->currentIndex())
-        {
+        switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
             break;
