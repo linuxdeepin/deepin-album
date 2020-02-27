@@ -144,7 +144,7 @@ void ImportImagesThread::run()
             }
         }
     } else if (m_type == DataType_StringList) {
-       foreach (QString path, m_paths) {
+        foreach (QString path, m_paths) {
             if (bneedstop) {
                 m_obj->imageImported(false);
                 m_obj->removeThread(this);
@@ -285,12 +285,12 @@ void ImportImagesThread::run()
 //        ImportImageLoader(dbInfos);
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         m_obj->imageImported(true);
-    } else if(image_list.length() != dbInfos.length()) {
+    } else if (image_list.length() != dbInfos.length()) {
         int successful = dbInfos.length();
-        int failed = image_list.length()-dbInfos.length();
+        int failed = image_list.length() - dbInfos.length();
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-        emit dApp->signalM->ImportSomeFailed(successful,failed);
-    }else{
+        emit dApp->signalM->ImportSomeFailed(successful, failed);
+    } else {
         emit dApp->signalM->ImportFailed();
         m_obj->imageImported(false);
     }
@@ -300,6 +300,43 @@ void ImportImagesThread::run()
 //        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
 //    }
     m_obj->removeThread(this);
+}
+
+ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
+{
+    setAutoDelete(true);
+}
+
+void ImageMoveImagesToTrashThread::setData(QStringList paths)
+{
+    m_paths = paths;
+}
+
+void ImageMoveImagesToTrashThread::run()
+{
+    DBImgInfoList infos;
+    QStringList paths = m_paths;
+    for (auto path : paths) {
+        DBImgInfo info;
+        info = DBManager::instance()->getInfoByPath(path);
+//                    info.time = QDateTime::currentDateTime();
+        info.changeTime = QDateTime::currentDateTime();
+        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+        for (auto eachname : allalbumnames) {
+            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+                info.albumname += (eachname + ",");
+            }
+        }
+        infos << info;
+        //                dApp->m_imagemap.remove(path);
+        emit dApp->signalM->progressOfWaitDialog(paths.size(), infos.size());
+
+    }
+
+//            dApp->m_imageloader->addTrashImageLoader(paths);
+    DBManager::instance()->insertTrashImgInfos(infos);
+    DBManager::instance()->removeImgInfos(paths);
+    emit dApp->signalM->closeWaitDialog();
 }
 
 ImageImportFilesFromMountThread::ImageImportFilesFromMountThread()
@@ -436,8 +473,8 @@ void ImageImportFilesFromMountThread::run()
         if (dbInfoList.length() != m_paths.length()) {
             int successful = dbInfoList.length();
             int failed = m_paths.length() - dbInfoList.length();
-            emit dApp->signalM->ImportSomeFailed(successful,failed);
-        }else {
+            emit dApp->signalM->ImportSomeFailed(successful, failed);
+        } else {
             emit dApp->signalM->ImportSuccess();
         }
     } else {
@@ -805,7 +842,7 @@ void ImageLoadFromLocalThread::run()
                 if (30 <= Day) {
                     removepaths << info.filePath;
                 } else {
-                    QString remainDay = QString::number(30 - Day) +tr("days");
+                    QString remainDay = QString::number(30 - Day) + tr("days");
                     image_list << info.filePath;
                     emit sigInsert(info.filePath, remainDay);
                 }
