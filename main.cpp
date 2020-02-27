@@ -72,24 +72,25 @@ int main(int argc, char *argv[])
         qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
         QString str = info.suffix().toLower();
-        if (str.isEmpty()) {
-            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    bneedexit = false;
-                    break;
-                } else if (str.isEmpty()) {
-                    bneedexit = false;
-                    break;
-                }
-            }
-        } else {
-            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    bneedexit = false;
-                    break;
-                }
+//        if (str.isEmpty()) {
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
+                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                bneedexit = false;
+                break;
+            } else if (str.isEmpty()) {
+                bneedexit = false;
+                break;
             }
         }
+//        } else {
+//            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+//                    bneedexit = false;
+//                    break;
+//                }
+//            }
+//        }
 //        if (!filepath.endsWith("jpg") &&
 //                !filepath.endsWith("jpeg") &&
 //                !filepath.endsWith("bmp") &&

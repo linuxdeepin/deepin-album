@@ -650,12 +650,12 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     m_current = -1;
     m_filepathlist = vinfo;
     // The control buttons is difference
-    if (! m_vinfo.inDatabase) {
-//        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (vinfo.size() > 1));
-//        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-//        return;
-    }
+//    if (! m_vinfo.inDatabase) {
+////        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (vinfo.size() > 1));
+////        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+////        return;
+//    }
 
 //    // Get view range
 //    if (! vinfo.paths.isEmpty()) {

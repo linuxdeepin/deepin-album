@@ -1038,7 +1038,8 @@ bool TTBContent::imageLoaded(QString filepath)
 
 int TTBContent::itemLoadedSize()
 {
-    return m_ItemLoaded.size();
+//    return m_ItemLoaded.size();
+    return m_allfileslist.size();
 }
 
 
