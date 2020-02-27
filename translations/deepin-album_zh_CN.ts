@@ -279,6 +279,10 @@
         <source>Importing...</source>
         <translation>正在导入...</translation>
     </message>
+    <message>
+        <source>Deleting...</source>
+        <translation>正在删除...</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
@@ -605,6 +609,10 @@
     <message>
         <source>%1 photos imported, %2 photos failed</source>
         <translation>%1张导入成功，%2张导入失败</translation>
+    </message>
+    <message>
+        <source>%1/%2 photos deleted</source>
+        <translation>已删除%1/%2张</translation>
     </message>
 </context>
 <context>

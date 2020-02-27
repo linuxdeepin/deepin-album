@@ -47,3 +47,6 @@ AlbumDeleteDialog::AlbumDeleteDialog()
         this->close();
     });
 }
+
+//autor: jia.dong
+

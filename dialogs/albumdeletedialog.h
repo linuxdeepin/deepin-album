@@ -9,6 +9,8 @@ class AlbumDeleteDialog : public Dialog
     Q_OBJECT
 public:
     explicit AlbumDeleteDialog();
+protected:
+    void Key_Enter();
 
 signals:
     void deleteAlbum();

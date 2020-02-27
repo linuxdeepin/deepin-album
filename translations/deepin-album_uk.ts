@@ -279,6 +279,10 @@
         <source>Importing...</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Deleting...</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
@@ -604,6 +608,10 @@
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 photos deleted</source>
         <translation type="unfinished"/>
     </message>
 </context>

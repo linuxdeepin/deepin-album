@@ -277,6 +277,10 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Importing...</source>
+        <translation>Увоз...</translation>
+    </message>
+    <message>
+        <source>Deleting...</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -600,10 +604,14 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 слика(е) увезено</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
+        <translation>%1 слика(е) увезено, %2 слика(е) није</translation>
+    </message>
+    <message>
+        <source>%1/%2 photos deleted</source>
         <translation type="unfinished"/>
     </message>
 </context>

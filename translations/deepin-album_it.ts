@@ -277,14 +277,18 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
+        <translation>Importazione...</translation>
+    </message>
+    <message>
+        <source>Deleting...</source>
+        <translation>Eliminazione...</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galleria</translation>
     </message>
 </context>
 <context>
@@ -302,7 +306,7 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished"/>
+        <translation>giorni</translation>
     </message>
 </context>
 <context>
@@ -350,7 +354,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galleria</translation>
     </message>
 </context>
 <context>
@@ -601,11 +605,15 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 immagini importate</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation>%1 immagini importate, %2 immagini non importate</translation>
+    </message>
+    <message>
+        <source>%1/%2 photos deleted</source>
+        <translation>%1/%2 immagini eliminate</translation>
     </message>
 </context>
 <context>
@@ -943,7 +951,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"/>
+        <translation>Stampa</translation>
     </message>
 </context>
 <context>
@@ -1033,7 +1041,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"/>
+        <translation>Stampa</translation>
     </message>
 </context>
 </TS>

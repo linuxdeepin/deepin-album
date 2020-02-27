@@ -139,7 +139,7 @@ void MainWindow::initConnections()
         m_importBar->setValue(0);
     });
     connect(dApp->signalM, &SignalManager::progressOfWaitDialog, this, [ = ](int allfiles, int completefiles) {
-        QString countText = "";
+        QString countText = "";//autor: jia.dong
         if (m_bImport == true) {
             countText  = QString(tr("%1/%2 photos imported")).arg(completefiles).arg(allfiles);
         } else {
