@@ -49,7 +49,7 @@ class ImageMoveImagesToTrashThread : public ImageEngineThreadObject, public QRun
     Q_OBJECT
 public:
     ImageMoveImagesToTrashThread();
-    void setData(QStringList paths);
+    void setData(QStringList paths, bool typetrash);
 
 protected:
     virtual void run();
@@ -57,6 +57,7 @@ protected:
 signals:
 private:
     QStringList m_paths;
+    bool btypetrash = false;
 };
 
 class ImageImportFilesFromMountThread : public ImageEngineThreadObject, public QRunnable

@@ -1292,39 +1292,15 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
             dialog->show();
             connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-                //                for (auto path : paths)
-                //                {
-                //                    dApp->m_imagetrashmap.remove(path);
-                //                }
-                emit dApp->signalM->sigDeletePhotos(paths.length());
-                DBManager::instance()->removeTrashImgInfos(paths);
-                emit trashDelete();
+//                DBManager::instance()->removeTrashImgInfos(paths);
+//                emit dApp->signalM->trashDelete();
+//                emit dApp->signalM->sigDeletePhotos(paths.length());
+                ImageEngineApi::instance()->moveImagesToTrash(paths, true);
             });
         }
 
         else {
             ImageEngineApi::instance()->moveImagesToTrash(paths);
-
-//            DBImgInfoList infos;
-//            for (auto path : paths) {
-//                DBImgInfo info;
-//                info = DBManager::instance()->getInfoByPath(path);
-//                //                    info.time = QDateTime::currentDateTime();
-//                info.changeTime = QDateTime::currentDateTime();
-//                QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-//                for (auto eachname : allalbumnames) {
-//                    if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-//                        info.albumname += (eachname + ",");
-//                    }
-//                }
-//                infos << info;
-//                //                dApp->m_imagemap.remove(path);
-
-//            }
-
-//            //            dApp->m_imageloader->addTrashImageLoader(paths);
-//            DBManager::instance()->insertTrashImgInfos(infos);
-//            DBManager::instance()->removeImgInfos(paths);
         }
     }
     break;

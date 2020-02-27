@@ -136,6 +136,7 @@ signals:
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();
     void sigDeletePhotos(int num);
+    void trashDelete();
     void sigLoadOnePhoto();
     void sigImportFailedToView();
     void sigShortcutKeyDelete();

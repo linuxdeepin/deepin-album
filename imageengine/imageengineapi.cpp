@@ -300,11 +300,11 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
     return true;
 }
 
-bool ImageEngineApi::moveImagesToTrash(QStringList files)
+bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash)
 {
     emit dApp->signalM->popupWaitDialog(tr("Deleting... "));
     ImageMoveImagesToTrashThread *imagethread = new ImageMoveImagesToTrashThread;
-    imagethread->setData(files);
+    imagethread->setData(files, typetrash);
     m_qtpool.start(imagethread);
     return true;
 }

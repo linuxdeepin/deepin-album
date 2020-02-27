@@ -307,35 +307,42 @@ ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
     setAutoDelete(true);
 }
 
-void ImageMoveImagesToTrashThread::setData(QStringList paths)
+void ImageMoveImagesToTrashThread::setData(QStringList paths, bool typetrash)
 {
     m_paths = paths;
+    btypetrash = typetrash;
 }
 
 void ImageMoveImagesToTrashThread::run()
 {
-    DBImgInfoList infos;
     QStringList paths = m_paths;
-    for (auto path : paths) {
-        DBImgInfo info;
-        info = DBManager::instance()->getInfoByPath(path);
+    if (btypetrash) {
+        DBManager::instance()->removeTrashImgInfos(paths);
+        emit dApp->signalM->trashDelete();
+        emit dApp->signalM->sigDeletePhotos(paths.length());
+    } else {
+        DBImgInfoList infos;
+        for (auto path : paths) {
+            DBImgInfo info;
+            info = DBManager::instance()->getInfoByPath(path);
 //                    info.time = QDateTime::currentDateTime();
-        info.changeTime = QDateTime::currentDateTime();
-        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-        for (auto eachname : allalbumnames) {
-            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-                info.albumname += (eachname + ",");
+            info.changeTime = QDateTime::currentDateTime();
+            QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+            for (auto eachname : allalbumnames) {
+                if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+                    info.albumname += (eachname + ",");
+                }
             }
-        }
-        infos << info;
-        //                dApp->m_imagemap.remove(path);
-        emit dApp->signalM->progressOfWaitDialog(paths.size(), infos.size());
+            infos << info;
+            //                dApp->m_imagemap.remove(path);
+            emit dApp->signalM->progressOfWaitDialog(paths.size(), infos.size());
 
-    }
+        }
 
 //            dApp->m_imageloader->addTrashImageLoader(paths);
-    DBManager::instance()->insertTrashImgInfos(infos);
-    DBManager::instance()->removeImgInfos(paths);
+        DBManager::instance()->insertTrashImgInfos(infos);
+        DBManager::instance()->removeImgInfos(paths);
+    }
     emit dApp->signalM->closeWaitDialog();
 }
 

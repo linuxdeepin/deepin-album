@@ -442,7 +442,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -533,7 +533,7 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
 #endif
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashDelete, this, &AlbumView::onTrashListClicked);
+    connect(dApp->signalM, &SignalManager::trashDelete, this, &AlbumView::onTrashListClicked);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
 //        m_spinner->show();
 //        m_spinner->start();
@@ -2114,7 +2114,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -3118,7 +3118,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 //    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
     m_pwidget->setFixedHeight(this->height() - 23);
     m_pwidget->setFixedWidth(this->width());
-    m_pwidget->move(0,0);
+    m_pwidget->move(0, 0);
 
     //add start 3975
 //    if (nullptr != m_noTrashItem) {
