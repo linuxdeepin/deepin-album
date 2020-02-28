@@ -241,12 +241,46 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
 
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-    QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 24, 24);
+    qDebug() << "option:" << option << endl;
+    QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 30, 30);
 
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
+//    qDebug() << "rect+++++++++++++++++" << rect << endl;
+//    qDebug() << "pMouseEvent->pos()+++++++++++++" << pMouseEvent->pos() << endl;
+//    qDebug() << "rect.contains(pMouseEvent->pos()" << rect.contains(pMouseEvent->pos()) << endl;
+//    qDebug() << " rect.contains(QPoint(pMouseEvent->pos().x(), pMouseEvent->pos().y() - 20)" << rect.contains(pMouseEvent->x(), pMouseEvent->y() + 20) << endl;
+    if (COMMON_STR_FAVORITES == m_imageTypeStr) {
+//        if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->pos())) {
+//            emit sigCancelFavorite(index);
+//        }
+//        if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {
+//            emit sigCancelFavorite(index);
+//        }
 
-    if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->pos()) && COMMON_STR_FAVORITES == m_imageTypeStr) {
-        emit sigCancelFavorite(index);
+        if (event->type() == QEvent::MouseButtonPress) {
+            const ItemData data = itemData(index);
+
+            bool blast = false;
+            if (AllPicViewType == m_delegatetype) {
+                if ("Last" == data.firstorlast) {
+                    blast = true;
+                }
+            } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+                if ("Last" == data.firstorlast) {
+                    blast = true;
+                }
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
+                if ("Last" == data.firstorlast) {
+                    blast = true;
+                }
+            }
+            if (!blast && rect.contains(pMouseEvent->pos())) {
+                emit sigCancelFavorite(index);
+            } else if (blast && event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {
+                emit sigCancelFavorite(index);
+            }
+
+        }
     }
 
     return QStyledItemDelegate::editorEvent(event, model, option, index);
