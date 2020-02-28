@@ -140,6 +140,7 @@ private:
     const DBImgInfoList getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList getImgInfos(const QString &key, const QString &value, const bool &needlock = true) const;
     const QSqlDatabase getDatabase() const;
+//    const QSqlDatabase getDatabase1() const;
     void checkDatabase();
     void importVersion1Data();
     void importVersion2Data();
@@ -148,6 +149,7 @@ private:
 private:
     QString m_connectionName;
     mutable QMutex m_mutex;
+//    mutable QMutex m_mutex1;
 };
 
 #endif // DBMANAGER_H

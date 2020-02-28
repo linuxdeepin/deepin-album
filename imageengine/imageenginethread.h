@@ -187,15 +187,7 @@ public:
     bool addObject(ImageEngineObject *imgobject);
 
 protected:
-    bool ifCanStopThread(void *imgobject) override
-    {
-        ((ImageEngineObject *)imgobject)->removeThread(this, false);
-        m_imgobject.removeOne((ImageEngineObject *)imgobject);
-        if (m_imgobject.size() < 1) {
-            return true;
-        }
-        return false;
-    }
+    bool ifCanStopThread(void *imgobject) override;
     virtual void run();
 
 signals:

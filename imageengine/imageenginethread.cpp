@@ -17,6 +17,7 @@
 #include "dbmanager/dbmanager.h"
 #include "application.h"
 #include "controller/signalmanager.h"
+#include "imageengineapi.h"
 
 namespace {
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
@@ -887,6 +888,18 @@ void ImageEngineThread::setData(QString path, ImageEngineObject *imgobject, Imag
     m_imgobject << imgobject;
     m_data = data;
     bneedcache = needcache;
+}
+
+
+bool ImageEngineThread::ifCanStopThread(void *imgobject)
+{
+    if (nullptr != imgobject && ImageEngineApi::instance()->ifObjectExist(imgobject))
+        ((ImageEngineObject *)imgobject)->removeThread(this, false);
+    m_imgobject.removeOne((ImageEngineObject *)imgobject);
+    if (m_imgobject.size() < 1) {
+        return true;
+    }
+    return false;
 }
 
 bool ImageEngineThread::getNeedStop()

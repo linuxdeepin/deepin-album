@@ -300,7 +300,6 @@ const QStringList DBManager::getPathsByDir(const QString &dir) const
     query.bindValue(":dir", utils::base::hash(dir));
     if (! query.exec() ) {
         qWarning() << "Get Paths from ImageTable3 failed: " << query.lastError();
-        mutex.unlock();
     } else {
         while (query.next()) {
             list << query.value(0).toString();
@@ -330,7 +329,6 @@ bool DBManager::isImgExist(const QString &path) const
         if (query.value(0).toInt() > 0) {
             query.exec("COMMIT");
             db.close();
-            mutex.unlock();
             return true;
         }
     }
@@ -377,7 +375,6 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
                    << query.lastError();
         query.exec("COMMIT");
         db.close();
-        mutex.unlock();
     } else {
         query.exec("COMMIT");
         db.close();
@@ -390,12 +387,9 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
 
 void DBManager::removeImgInfos(const QStringList &paths)
 {
-    QMutexLocker mutex(&m_mutex);
-    QSqlDatabase db = getDatabase();
-    if (paths.isEmpty() || ! db.isValid()) {
+    if (paths.isEmpty()) {
         return;
     }
-
     // Collect info before removing data
     DBImgInfoList infos;
     QStringList pathHashs;
@@ -404,6 +398,12 @@ void DBManager::removeImgInfos(const QStringList &paths)
         infos = getImgInfos("FilePath", path, false);
 //        infos << getInfoByPath(path);
     }
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return;
+    }
+
 
     QSqlQuery query(db);
     // Remove from albums table
@@ -491,19 +491,19 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
 
 void DBManager::removeDir(const QString &dir)
 {
+    const QString dirHash = utils::base::hash(dir);
+    // Collect info before removing data
+    DBImgInfoList infos = getImgInfos("Dir", dirHash, false);
+    QStringList pathHashs;
+    for (auto info : infos) {
+        pathHashs << utils::base::hash(info.filePath);
+    }
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
     if (dir.isEmpty() || ! db.isValid()) {
         return;
     }
 
-    const QString dirHash = utils::base::hash(dir);
-    // Collect info before removing data
-    DBImgInfoList infos = getImgInfos("Dir", dirHash);
-    QStringList pathHashs;
-    for (auto info : infos) {
-        pathHashs << utils::base::hash(info.filePath);
-    }
 
     QSqlQuery query(db);
     // Remove from albums table
@@ -528,7 +528,6 @@ void DBManager::removeDir(const QString &dir)
                    << query.lastError();
         query.exec("COMMIT");
         db.close();
-        mutex.unlock();
     } else {
         query.exec("COMMIT");
         db.close();
@@ -566,6 +565,7 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
             pathHashs << query.value(0).toString();
         }
     }
+    db.close();
     mutex.unlock();
     info.count = pathHashs.length();
     if (pathHashs.length() == 1) {
@@ -587,7 +587,6 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
-    db.close();
     return info;
 }
 
@@ -1115,8 +1114,8 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
 
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value, const bool &needlock) const
 {
-    if (needlock)
-        QMutexLocker mutex(&m_mutex);
+//    if (needlock)
+    QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;
     QSqlDatabase db = getDatabase();
     if (! db.isValid()) {
@@ -1147,7 +1146,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     }
     // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
-//    db.close();
+    db.close();
     return infos;
 }
 
@@ -1174,6 +1173,30 @@ const QSqlDatabase DBManager::getDatabase() const
     }
 //}
 }
+
+//const QSqlDatabase DBManager::getDatabase1() const
+//{
+////    QMutexLocker mutex(&m_mutex);
+////    QSqlDatabase db = ConnectionPool::openConnection();
+////    return db;
+////    if ( QSqlDatabase::contains(m_connectionName) ) {
+////        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+//////        mutex.unlock();
+////        return db;
+////    } else {
+////        //if database not open, open it.
+//    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");//not dbConnection
+//    db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
+//    if (! db.open()) {
+//        qWarning() << "Open database error:" << db.lastError();
+////            mutex.unlock();
+//        return QSqlDatabase();
+//    } else {
+////            mutex.unlock();
+//        return db;
+//    }
+////}
+//}
 
 void DBManager::checkDatabase()
 {
@@ -1300,12 +1323,10 @@ void DBManager::importVersion1Data()
     if (query.exec() && query.first()) {
         tableExist = ! query.value(0).toString().isEmpty();
     }
-    mutex.unlock();
     if (tableExist) {
         // Import ImageTable into ImageTable3
         query.clear();
         query.setForwardOnly(true);
-        QMutexLocker mutex(&m_mutex);
         query.prepare( "SELECT filename, filepath, time, changeTime "
                        "FROM ImageTable ORDER BY time DESC");
         if (! query.exec()) {
@@ -1327,9 +1348,9 @@ void DBManager::importVersion1Data()
             }
             mutex.unlock();
             insertImgInfos(infos);
+            mutex.relock();
         }
 
-        mutex.relock();
         // Import AlbumTable into AlbumTable3
         query.clear();
         query.prepare("SELECT DISTINCT a.albumname, i.filepath "
@@ -1746,11 +1767,11 @@ int DBManager::getTrashImgsCount() const
         query.exec("COMMIT");
         // 连接使用完后需要释放回数据库连接池
         ////ConnectionPool::closeConnection(db);
-//        db.close();
+        db.close();
         return count;
     }
     // 连接使用完后需要释放回数据库连接池
     ////ConnectionPool::closeConnection(db);
-//    db.close();
+    db.close();
     return 0;
 }
