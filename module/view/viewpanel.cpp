@@ -71,11 +71,11 @@ ViewPanel::ViewPanel(QWidget *parent)
 //    , m_viewType(utils::common::VIEW_ALLPIC_SRN)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    initShortcut();
     initStack();
     initFloatingComponent();
 
     initConnect();
-    initShortcut();
 
     initPopupMenu();
 
@@ -769,6 +769,10 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
+    if ( m_dt->isActive()) {
+        return false;
+    }
+    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
@@ -789,6 +793,10 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
+    if ( m_dt->isActive()) {
+        return false;
+    }
+    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif

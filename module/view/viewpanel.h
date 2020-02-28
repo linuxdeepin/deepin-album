@@ -194,6 +194,7 @@ private:
     //------------------
     QStringList m_filepathlist;
     QString m_currentpath = "";
+    QTimer *m_dt = nullptr;
     //------------------
 };
 #endif // VIEWPANEL_H
