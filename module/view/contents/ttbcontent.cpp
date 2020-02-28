@@ -537,6 +537,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 //    m_imgListView = new DWidget();
     m_imgListView = new MyImageListWidget();
     m_imgList = new DWidget(m_imgListView);
+
+    connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
+        m_imgList->hide();
+    });
     connect(m_imgListView, &MyImageListWidget::silmoved, this, [ = ] {
         binsertneedupdate = false;
     });
