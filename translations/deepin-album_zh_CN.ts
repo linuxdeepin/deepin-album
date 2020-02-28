@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -277,7 +279,7 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Importing...</source>
-        <translation>正在导入...</translation>
+        <translation>正在导入照片，请稍候...</translation>
     </message>
     <message>
         <source>Deleting...</source>
@@ -613,6 +615,10 @@
     <message>
         <source>%1/%2 photos deleted</source>
         <translation>已删除%1/%2张</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>正在导入照片，请稍候...</translation>
     </message>
 </context>
 <context>

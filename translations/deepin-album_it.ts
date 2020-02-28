@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="it">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -614,6 +616,10 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>%1/%2 photos deleted</source>
         <translation>%1/%2 immagini eliminate</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Importazione...</translation>
     </message>
 </context>
 <context>

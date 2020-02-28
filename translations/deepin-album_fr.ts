@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fr">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -276,12 +278,12 @@
 <context>
     <name>ImageEngineApi</name>
     <message>
-        <source>Importing...</source>
-        <translation type="unfinished"/>
+        <source>Deleting...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deleting...</source>
-        <translation type="unfinished"/>
+        <source>Importing...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -604,15 +606,19 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

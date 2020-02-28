@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="de">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -281,7 +283,7 @@
     </message>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -612,7 +614,11 @@
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation type="unfinished">Importiere...</translation>
     </message>
 </context>
 <context>

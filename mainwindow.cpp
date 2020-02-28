@@ -139,8 +139,8 @@ void MainWindow::initConnections()
         m_importBar->setValue(0);
     });
     connect(dApp->signalM, &SignalManager::progressOfWaitDialog, this, [ = ](int allfiles, int completefiles) {
-        QString countText = "";//autor: jia.dong
-        if (m_bImport == true) {
+        QString countText = "";
+        if (m_bImport) {
             countText  = QString(tr("%1/%2 photos imported")).arg(completefiles).arg(allfiles);
         } else {
             countText = QString(tr("%1/%2 photos deleted")).arg(completefiles).arg(allfiles);
@@ -155,13 +155,16 @@ void MainWindow::initConnections()
     });
 
     connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
-        if (!waittext.compare("Importing...")) {
+        if (!waittext.compare(tr("Importing..."))) {
+//            m_waitlabel->setText(waittext);
             m_bImport = true;
         } else {
+//            m_waitlabel->setText(waittext);
             m_bImport = false;
         }
 
         m_waitlabel->setText(waittext);
+
         m_waitlabel->show();
 //        m_countLabel->hide();
 //        m_spinner->start();
@@ -726,7 +729,7 @@ void MainWindow::initWaitDialog()
     m_waitdailog.setFixedSize(QSize(480, 93));
 
     m_waitlabel = new DLabel(&m_waitdailog);
-    m_waitlabel->setFixedSize(160, 30);
+    m_waitlabel->setFixedSize(400, 30);//160,30
     m_waitlabel->move(40, 7);
     DFontSizeManager::instance()->bind(m_waitlabel, DFontSizeManager::T5, QFont::Medium);
 

@@ -282,11 +282,11 @@ void ImportImagesThread::run()
         m_obj->removeThread(this);
         return;
     }
-    if (image_list.length() == dbInfos.length()) {
+    if (image_list.length() == dbInfos.length() && !dbInfos.isEmpty()) {
 //        ImportImageLoader(dbInfos);
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         m_obj->imageImported(true);
-    } else if ((image_list.length() - dbInfos.length()) > 0) {
+    } else if (((image_list.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
         int successful = dbInfos.length();
         int failed = image_list.length() - dbInfos.length();
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
