@@ -444,7 +444,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_currentpath));
             removeCurrentImage();
-            DDesktopServices::trash(m_currentpath);
+//            DDesktopServices::trash(m_currentpath);
         }
     });
 
@@ -953,6 +953,7 @@ void ViewPanel::initViewContent()
 
 void ViewPanel::openImage(const QString &path, bool inDB)
 {
+    m_currentpath = path;
 //    if (! QFileInfo(path).exists()) {
     // removeCurrentImage() will cause timerEvent be trigered again by
     // showNext() or showPrevious(), so delay to remove current image

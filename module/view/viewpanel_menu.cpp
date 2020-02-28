@@ -84,9 +84,7 @@ void ViewPanel::initPopupMenu()
         {
             updateMenuContent();
             this->setCursor(Qt::ArrowCursor);
-            m_menu->show();
-            m_menu->move(QCursor::pos());
-            //m_menu->popup(QCursor::pos());
+            m_menu->popup(QCursor::pos());
         }
     });
     connect(m_menu, &DMenu::aboutToHide, this, [ = ] {
@@ -205,7 +203,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash: {
-        SignalManager::instance()->deleteByMenu();
+        emit SignalManager::instance()->deleteByMenu();
 //        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
 //                && utils::common::VIEW_TIMELINE_SRN != m_viewType
 //                && utils::common::VIEW_SEARCH_SRN != m_viewType
