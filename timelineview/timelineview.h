@@ -54,6 +54,7 @@ public:
         return true;
     }
     void updateStackedWidget();
+    int getIBaseHeight();
 public slots:
     void on_AddLabel(QString date, QString num);
     void on_DelLabel();

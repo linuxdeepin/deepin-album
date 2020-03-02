@@ -320,6 +320,27 @@ void TimeLineView::updateStackedWidget()
     }
 }
 
+int TimeLineView::getIBaseHeight()
+{
+    if (m_pStatusBar->m_pSlider == nullptr) {
+        return 0;
+    }
+
+    int value = m_pStatusBar->m_pSlider->value();
+    switch (value) {
+    case 0:
+        return  80;
+    case 1:
+        return  90;
+    case 2:
+        return 100;
+    case 3:
+        return 110;
+    case 4:
+        return 120;
+    }
+}
+
 void TimeLineView::clearAndStop()
 {
     for (ThumbnailListView *list : m_allThumbnailListView) {
@@ -451,6 +472,12 @@ void TimeLineView::addTimelineLayout()
 
     //添加照片
     ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, COMMON_STR_VIEW_TIMELINE);
+    int m_Baseheight =  getIBaseHeight();
+    if (m_Baseheight == 0) {
+        return;
+    } else {
+        pThumbnailListView->setIBaseHeight(m_Baseheight);
+    }
     pThumbnailListView->setFixedWidth(width() + 2);
     connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, [ = ]() {
         addTimelineLayout();
