@@ -1549,7 +1549,8 @@ void MainWindow::initShortcutKey()
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, FAVORITE_CONTEXT_MENU, CTRLK_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ROTATECLOCKWISE_CONTEXT_MENU, CTRLR_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ROTATECOUNTERCLOCKWISE_CONTEXT_MENU, CTRLSHIFTR_SHORTCUT);
-    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SETASWALLPAPER_CONTEXT_MENU, CTRLF8_SHORTCUT);
+//    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SETASWALLPAPER_CONTEXT_MENU, CTRLF8_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SETASWALLPAPER_CONTEXT_MENU, CTRLF9_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, DISPLAYINFILEMANAGER_CONTEXT_MENU, CTRLD_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ImageInfo_CONTEXT_MENU, ALTRETURN_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_CREATEALBUM, CTRLSHIFTN_SHORTCUT);
@@ -1649,7 +1650,7 @@ QJsonObject MainWindow::createShorcutJson()
 //    shortcut15.insert("value", "Alt+Enter");
 //    QJsonObject shortcut16;
 //    shortcut16.insert("name", tr("设为壁纸"));
-//    shortcut16.insert("value", "Ctrl+F8");
+//    shortcut16.insert("value", "Ctrl+F9");
 //    QJsonObject shortcut17;
 //    shortcut17.insert("name", tr("顺时针旋转"));
 //    shortcut17.insert("value", "Ctrl+R");
@@ -1732,7 +1733,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut15.insert("value", "Alt+Enter");
     QJsonObject shortcut16;
     shortcut16.insert("name", tr("Set as wallpaper"));
-    shortcut16.insert("value", "Ctrl+F8");
+    shortcut16.insert("value", "Ctrl+F9");
     QJsonObject shortcut17;
     shortcut17.insert("name", tr("Rotate clockwise"));
     shortcut17.insert("value", "Ctrl+R");

@@ -383,8 +383,10 @@ void ViewPanel::updateMenuContent()
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_currentpath)) {
+//        appendAction(IdSetAsWallpaper,
+//                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
         appendAction(IdSetAsWallpaper,
-                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
+                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
     }
 
 
