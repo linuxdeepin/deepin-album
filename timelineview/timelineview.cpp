@@ -457,22 +457,22 @@ void TimeLineView::addTimelineLayout()
     });
 //    connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (isVisible()) {
-            int mh = h;
-            if (0 == nowTimeLineLoad) {
-                mh += 50;
-            }
-            if (nowTimeLineLoad == m_timelines.size() - 1) {
-                mh += 27;
-            }
-            pThumbnailListView->setFixedHeight(mh);
-            listItem->setFixedHeight(TitleView->height() + mh);
-            item->setSizeHint(listItem->rect().size());
+//        if (isVisible()) {
+        int mh = h;
+        if (0 == nowTimeLineLoad) {
+            mh += 50;
+        }
+        if (nowTimeLineLoad == m_timelines.size() - 1) {
+            mh += 27;
+        }
+        pThumbnailListView->setFixedHeight(mh);
+        listItem->setFixedHeight(TitleView->height() + mh);
+        item->setSizeHint(listItem->rect().size());
 //                setFixedSize(QSize(size().width() + 1, size().height()));
 //                setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
 //                setMinimumSize(0, 0);
 //                setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
-        }
+//        }
 
     });
 
