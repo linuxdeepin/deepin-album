@@ -256,6 +256,7 @@ AlbumView::AlbumView()
 
 AlbumView::~AlbumView()
 {
+    m_pImpTimeLineWidget->getFatherStatusBar(nullptr);
     if (m_vfsManager) {
         delete  m_vfsManager;
         m_vfsManager = nullptr;
@@ -1067,6 +1068,12 @@ void AlbumView::initRightView()
 //    pImportTimeLineWidget->setLayout(pImportAllV);
 //del end 3975
 //add start 3975
+    m_pStatusBar = new StatusBar(this);
+//    m_pStatusBar->setParent(this);
+    m_pStatusBar->raise();
+    m_pStatusBar->setFixedWidth(this->width());
+    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+
     pImportTimeLineWidget = new DWidget();
     pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
     m_pImpTimeLineWidget = new ImportTimeLineView(pImportTimeLineWidget);
@@ -1076,6 +1083,8 @@ void AlbumView::initRightView()
 //        this->setMinimumSize(0, 0);
 //        this->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
 //    });
+    m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
+    m_pImpTimeLineWidget->clearAndStartLayout();
     m_pImpTimeLineWidget->move(-6, 0);
 //add end 3975
     // Add View
@@ -1088,11 +1097,7 @@ void AlbumView::initRightView()
     m_pRightStackWidget->addWidget(pImportTimeLineWidget);
 
     // Statusbar
-    m_pStatusBar = new StatusBar(this);
-//    m_pStatusBar->setParent(this);
-    m_pStatusBar->raise();
-    m_pStatusBar->setFixedWidth(this->width());
-    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+
 
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
     pVBoxLayout->setContentsMargins(0, 0, 0, 0);
@@ -1155,10 +1160,12 @@ void AlbumView::updateRightImportView()
 
     if (0 < m_iAlubmPicsNum) {
 //        m_pImpTimeLineWidget->updataLayout();
+//        m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
         m_pImpTimeLineWidget->clearAndStartLayout();
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
     } else {
 //        m_pImpTimeLineWidget->updataLayout();
+//        m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
         m_pImpTimeLineWidget->clearAndStartLayout();
         m_pImportView->setAlbumname(QString());
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);

@@ -39,8 +39,6 @@ extern "C" {
 }
 #define signals public
 
-
-
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 

@@ -44,6 +44,27 @@ ImportTimeLineView::ImportTimeLineView(DWidget *parent): DWidget(parent)
     initConnections();
 }
 
+int ImportTimeLineView::getIBaseHeight()
+{
+    if (m_DSlider == nullptr) {
+        return 0;
+    }
+
+    int value = m_DSlider->value();
+    switch (value) {
+    case 0:
+        return  80;
+    case 1:
+        return  90;
+    case 2:
+        return 100;
+    case 3:
+        return 110;
+    case 4:
+        return 120;
+    }
+}
+
 void ImportTimeLineView::initConnections()
 {
     connect(m_mainListWidget, &TimelineList::sigNewTime, this, [ = ](QString date, QString num, int index) {
@@ -444,6 +465,13 @@ void ImportTimeLineView::addTimelineLayout()
 
     //添加照片
     ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::NullType, COMMON_STR_RECENT_IMPORTED);
+    int m_Baseheight =  getIBaseHeight();
+    if (m_Baseheight == 0) {
+        return;
+    } else {
+        pThumbnailListView->setIBaseHeight(m_Baseheight);
+    }
+
     connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, [ = ]() {
         addTimelineLayout();
     });
@@ -788,6 +816,11 @@ void ImportTimeLineView::addTimelineLayout()
 
     emit sigUpdatePicNum();
     currentTimeLineLoad++;
+}
+
+void ImportTimeLineView::getFatherStatusBar(DSlider *s)
+{
+    this->m_DSlider = s;
 }
 
 //void ImportTimeLineView::updataLayout()

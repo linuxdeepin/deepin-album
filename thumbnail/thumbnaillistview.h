@@ -109,6 +109,7 @@ public:
     QStringList getAllFileList();
     void setVScrollbarDistance(int topdistance, int bottomdistance);
     void setListWidgetItem(QListWidgetItem *item);
+    void setIBaseHeight(int iBaseHeight);
     //------------------
 
 //    void insertThumbnails(const QList<ItemInfo> &itemList);

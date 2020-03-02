@@ -945,6 +945,11 @@ void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
     m_item = item;
 }
 
+void ThumbnailListView::setIBaseHeight(int iBaseHeight)
+{
+    m_iBaseHeight = iBaseHeight;
+}
+
 void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
 {
     m_scrollbartopdistance = topdistance;

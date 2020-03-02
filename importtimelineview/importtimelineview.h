@@ -35,6 +35,7 @@ public:
         return true;
     }
     void updateStackedWidget();
+    int getIBaseHeight();
 //signals:
 //    void albumviewResize();
 public slots:
@@ -67,6 +68,7 @@ public:
 //    void updataLayout();
     void clearAndStartLayout();
     void addTimelineLayout();
+    void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 #if 1
     QStringList selectPaths();
@@ -89,6 +91,7 @@ private:
     DLabel *pNum_up;
     DLabel *pNum_dn;
     DLabel *m_pImportTitle; //add 3975
+    DSlider *m_DSlider = nullptr;
     QList<ThumbnailListView *> m_allThumbnailListView;
     QList<DCommandLinkButton *> m_allChoseButton;
 
@@ -102,6 +105,7 @@ private:
     int m_lastShiftRow = -1;
     int m_lastShiftClickedIndex = -1;
     bool lastChanged = false;
+    int m_iBaseHeight = 0;
 public:
     int m_index;
     int m_selPicNum;
