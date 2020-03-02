@@ -174,6 +174,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
 //        m_spinner->stop();
         m_bImport = false;
+        m_countLabel->setText("");
         m_waitdailog.close();
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ] {

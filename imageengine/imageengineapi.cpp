@@ -41,7 +41,7 @@ bool ImageEngineApi::removeObject(void *obj)
 {
     QMap<void *, void *>::iterator it;
     it = m_AllObject.find(obj);
-    if ( it != m_AllObject.end()) {
+    if (it != m_AllObject.end()) {
         m_AllObject.erase(it);
         return true;
     }
@@ -52,7 +52,7 @@ bool ImageEngineApi::ifObjectExist(void *obj)
 {
     QMap<void *, void *>::iterator it;
     it = m_AllObject.find(obj);
-    if ( it != m_AllObject.end()) {
+    if (it != m_AllObject.end()) {
         return true;
     }
     return false;
@@ -62,7 +62,7 @@ bool ImageEngineApi::removeImage(QString imagepath)
 {
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
-    if ( it != m_AllImageData.end()) {
+    if (it != m_AllImageData.end()) {
         m_AllImageData.erase(it);
         return true;
     }
@@ -74,7 +74,7 @@ bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
     ImageDataSt data;
-    if ( it != m_AllImageData.end()) {
+    if (it != m_AllImageData.end()) {
         if ("" == remainDay) {
             return false;
         }
@@ -112,7 +112,7 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
 {
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
-    if ( it == m_AllImageData.end()) {
+    if (it == m_AllImageData.end()) {
         return false;
     }
     data = it.value();
@@ -127,7 +127,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     }
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
-    if ( it == m_AllImageData.end()) {
+    if (it == m_AllImageData.end()) {
         return false;
     }
     ImageDataSt data = it.value();
@@ -155,7 +155,7 @@ bool ImageEngineApi::imageNeedReload(QString imagepath)
 {
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
-    if ( it == m_AllImageData.end()) {
+    if (it == m_AllImageData.end()) {
         return false;
     }
     ImageDataSt data = it.value();

@@ -242,7 +242,7 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     qDebug() << "option:" << option << endl;
-    QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 30, 30);
+    QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 20, 20);
 
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
 //    qDebug() << "rect+++++++++++++++++" << rect << endl;
