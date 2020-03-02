@@ -36,7 +36,7 @@
 
 namespace {
 
-const int SWITCH_IMAGE_DELAY = 300;
+const int SWITCH_IMAGE_DELAY = 500;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const int VIEW_MAINWINDOW_POPVIEW = 4;
 

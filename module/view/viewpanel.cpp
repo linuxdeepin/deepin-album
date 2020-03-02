@@ -92,7 +92,8 @@ QString ViewPanel::moduleName()
 
 void ViewPanel::loadFilesFromLocal(QStringList files)
 {
-    ImageEngineApi::instance()->loadImagesFromLocal(files, this);
+//    ImageEngineApi::instance()->loadImagesFromLocal(files, this);
+    imageLocalLoaded(files);
 }
 
 void ViewPanel::loadFilesFromLocal(DBImgInfoList files)
@@ -189,7 +190,11 @@ void ViewPanel::initConnect()
         {
             return;
         }
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_ttbc->itemLoadedSize() > 1));
+        int size = m_ttbc->itemLoadedSize();
+        QWidget *pttbc = bottomTopLeftContent();
+        emit dApp->signalM->updateBottomToolbarContent(pttbc, (size  > 1));
+        emit ((TTBContent *)pttbc)->sigRequestSomeImages();
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_ttbc->itemLoadedSize() > 1));
     });
 
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
@@ -479,7 +484,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
 
 //    m_ttbc->requestSomeImages();
-    emit m_ttbc->sigRequestSomeImages();
+//    emit m_ttbc->sigRequestSomeImages();
     return m_ttbc;
 }
 QWidget *ViewPanel::toolbarTopMiddleContent()
@@ -682,6 +687,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
 
     QWidget *pttbc = bottomTopLeftContent();
     emit dApp->signalM->updateBottomToolbarContent(pttbc, (vinfo.size() > 1));
+    emit ((TTBContent *)pttbc)->sigRequestSomeImages();
 }
 
 //void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -848,10 +854,14 @@ void ViewPanel::removeCurrentImage()
         if (window()->isFullScreen())
             showNormal();
         emit imageChanged("");
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_filepathlist.size() > 1));
+
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
         emit dApp->signalM->hideImageView();
+
+        QWidget *pttbc = bottomTopLeftContent();
+        emit dApp->signalM->updateBottomToolbarContent(pttbc, (m_filepathlist.size() > 1));
+        emit ((TTBContent *)pttbc)->sigRequestSomeImages();
     } else {
         m_vinfo.paths = m_filepathlist;
         m_vinfo.path = m_filepathlist[m_current];
