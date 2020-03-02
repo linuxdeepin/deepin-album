@@ -1323,15 +1323,15 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateClockwise: {
-        QModelIndexList mlist = selectedIndexes();
-        QModelIndexList::iterator i;
-        QList<Listolditem> items;
-        for (i = mlist.begin(); i != mlist.end(); ++i) {
-            Listolditem item;
-            item.row = (*i).row();
-            item.column = (*i).column();
-            items.append(item);
-        }
+//        QModelIndexList mlist = selectedIndexes();
+//        QModelIndexList::iterator i;
+//        QList<Listolditem> items;
+//        for (i = mlist.begin(); i != mlist.end(); ++i) {
+//            Listolditem item;
+//            item.row = (*i).row();
+//            item.column = (*i).column();
+//            items.append(item);
+//        }
         for (QString path : paths) {
             utils::image::rotate(path, 90);
         }
@@ -1341,29 +1341,31 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //        } else {
         dApp->m_imageloader->updateImageLoader(paths);
 //    }
-        QList<Listolditem>::iterator j;
-        for (j = items.begin(); j != items.end(); ++j) {
-            if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
-                QModelIndex qindex = m_model->index((*j).row, (*j).column);
-                selectionModel()->select(qindex, QItemSelectionModel::Select);
-            }
-        }
+
+//        QList<Listolditem>::iterator j;
+//        for (j = items.begin(); j != items.end(); ++j) {
+//            if ((*j).row < m_model->rowCount() &&
+//                    (*j).column < m_model->columnCount()) {
+//                QModelIndex qindex = m_model->index((*j).row, (*j).column);
+//                selectionModel()->select(qindex, QItemSelectionModel::Select);
+//            }
+//        }
     }
     break;
     case IdRotateCounterclockwise: {
-        QModelIndexList mlist = selectedIndexes();
-        QModelIndexList::iterator i;
-        struct Listolditem {
-            int row;
-            int column;
-        };
-        QList<Listolditem> items;
-        for (i = mlist.begin(); i != mlist.end(); ++i) {
-            Listolditem item;
-            item.row = (*i).row();
-            item.column = (*i).column();
-            items.append(item);
-        }
+//        QModelIndexList mlist = selectedIndexes();
+//        QModelIndexList::iterator i;
+//        struct Listolditem {
+//            int row;
+//            int column;
+//        };
+//        QList<Listolditem> items;
+//        for (i = mlist.begin(); i != mlist.end(); ++i) {
+//            Listolditem item;
+//            item.row = (*i).row();
+//            item.column = (*i).column();
+//            items.append(item);
+//        }
         for (QString path : paths) {
             utils::image::rotate(path, -90);
         }
@@ -1373,13 +1375,13 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //        } else {
         dApp->m_imageloader->updateImageLoader(paths);
 //        }
-        QList<Listolditem>::iterator j;
-        for (j = items.begin(); j != items.end(); ++j) {
-            if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
-                QModelIndex qindex = m_model->index((*j).row, (*j).column);
-                selectionModel()->select(qindex, QItemSelectionModel::Select);
-            }
-        }
+//        QList<Listolditem>::iterator j;
+//        for (j = items.begin(); j != items.end(); ++j) {
+//            if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
+//                QModelIndex qindex = m_model->index((*j).row, (*j).column);
+//                selectionModel()->select(qindex, QItemSelectionModel::Select);
+//            }
+//        }
     }
     break;
     case IdSetAsWallpaper:
