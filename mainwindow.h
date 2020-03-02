@@ -149,7 +149,7 @@ private:
 //    DSuggestButton *m_pTimeBtn;
 //    DSuggestButton *m_pAlbumBtn;
     int timer;
-    DDialog  m_waitdailog;
+    DDialog  *m_waitdailog;
     DProgressBar *m_importBar = nullptr;
     DLabel *m_waitlabel = nullptr;
     DLabel *m_countLabel = nullptr;

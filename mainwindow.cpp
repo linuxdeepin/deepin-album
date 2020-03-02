@@ -46,7 +46,7 @@ MainWindow::MainWindow()
     m_allPicNum = DBManager::instance()->getImgsCount();
     m_iCurrentView = VIEW_ALLPIC;
     m_bTitleMenuImportClicked = false;
-
+    m_waitdailog = new DDialog(this);
     initShortcutKey();
     initUI();
     initTitleBar();
@@ -169,13 +169,13 @@ void MainWindow::initConnections()
 //        m_countLabel->hide();
 //        m_spinner->start();
 //        m_waitdailog.exec();
-        m_waitdailog.show();
+        m_waitdailog->show();
     });
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
 //        m_spinner->stop();
         m_bImport = false;
         m_countLabel->setText("");
-        m_waitdailog.close();
+        m_waitdailog->close();
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ] {
         if (0 < DBManager::instance()->getImgsCount())
@@ -725,21 +725,21 @@ void MainWindow::initUI()
 
 void MainWindow::initWaitDialog()
 {
-    m_waitdailog.setCloseButtonVisible(false);
-    m_waitdailog.setWindowModality(Qt::WindowModal);
-    m_waitdailog.setFixedSize(QSize(480, 93));
+    m_waitdailog->setCloseButtonVisible(false);
+    m_waitdailog->setWindowModality(Qt::WindowModal);
+    m_waitdailog->setFixedSize(QSize(480, 93));
 
-    m_waitlabel = new DLabel(&m_waitdailog);
+    m_waitlabel = new DLabel(m_waitdailog);
     m_waitlabel->setFixedSize(400, 30);//160,30
     m_waitlabel->move(40, 7);
     DFontSizeManager::instance()->bind(m_waitlabel, DFontSizeManager::T5, QFont::Medium);
 
-    m_countLabel = new DLabel(&m_waitdailog);
+    m_countLabel = new DLabel(m_waitdailog);
     m_countLabel->setFixedSize(350, 26);
     m_countLabel->move(40, 37);
     DFontSizeManager::instance()->bind(m_countLabel, DFontSizeManager::T6, QFont::DemiBold);
 
-    m_importBar = new DProgressBar(&m_waitdailog);
+    m_importBar = new DProgressBar(m_waitdailog);
     m_importBar->setFixedSize(400, 6);
     m_importBar->move(40, 67);
 
