@@ -1506,10 +1506,10 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
     m_iDefaultWidth = width();
 
-    QListView::resizeEvent(e);
     if (nullptr != m_item) {
         m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
     }
+    QListView::resizeEvent(e);
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)

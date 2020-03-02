@@ -443,7 +443,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2123,7 +2123,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -3130,15 +3130,24 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pwidget->move(0, 0);
 
     //add start 3975
-//    if (nullptr != m_noTrashItem) {
-//        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
-//    }
-//    if (nullptr != m_FavoriteItem) {
-//        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
-//    }
-//    if (nullptr != m_TrashitemItem) {
-//        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
-//    }
+    if (nullptr != m_pRightThumbnailList) {
+        m_pRightThumbnailList->setFixedSize(QSize(m_pRightTrashThumbnailList->size().width() + 1, m_pRightTrashThumbnailList->size().height()));
+        m_pRightThumbnailList->setFixedSize(QSize(m_pRightTrashThumbnailList->size().width() - 1, m_pRightTrashThumbnailList->size().height())); //触发resizeevent
+        m_pRightThumbnailList->setMinimumSize(0, 0);
+        m_pRightThumbnailList->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
+    }
+    if (nullptr != m_pRightFavoriteThumbnailList) {
+        m_pRightFavoriteThumbnailList->setFixedSize(QSize(m_pRightTrashThumbnailList->size().width() + 1, m_pRightTrashThumbnailList->size().height()));
+        m_pRightFavoriteThumbnailList->setFixedSize(QSize(m_pRightTrashThumbnailList->size().width() - 1, m_pRightTrashThumbnailList->size().height())); //触发resizeevent
+        m_pRightFavoriteThumbnailList->setMinimumSize(0, 0);
+        m_pRightFavoriteThumbnailList->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
+    }
+    if (nullptr != m_pRightTrashThumbnailList) {
+        m_pRightTrashThumbnailList->setFixedSize(QSize(m_pRightTrashThumbnailList->size().width() + 1, m_pRightTrashThumbnailList->size().height()));
+        m_pRightTrashThumbnailList->setFixedSize(QSize(m_pRightTrashThumbnailList->size().width() - 1, m_pRightTrashThumbnailList->size().height())); //触发resizeevent
+        m_pRightTrashThumbnailList->setMinimumSize(0, 0);
+        m_pRightTrashThumbnailList->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
+    }
     if (nullptr != m_pNoTrashTitle) {
         m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
     }
@@ -3158,4 +3167,5 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
+    QWidget::resizeEvent(e);
 }

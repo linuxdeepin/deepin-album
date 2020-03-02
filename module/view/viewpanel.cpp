@@ -381,6 +381,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
 {
     if (m_ttbc != nullptr)
         delete m_ttbc;
+//        m_ttbc->deleteLater();
     m_ttbc = new TTBContent(m_vinfo.inDatabase, m_filepathlist, this);
     connect(m_ttbc, &TTBContent::feedBackCurrentIndex,
             this, &ViewPanel::feedBackCurrentIndex);
@@ -477,7 +478,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
         this->showImage(index, addIndex);
     });
 
-    m_ttbc->requestSomeImages();
+//    m_ttbc->requestSomeImages();
+    emit m_ttbc->sigRequestSomeImages();
     return m_ttbc;
 }
 QWidget *ViewPanel::toolbarTopMiddleContent()
@@ -678,7 +680,8 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
         m_imageDirIterator.reset();
     }
 
-    emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (vinfo.size() > 1));
+    QWidget *pttbc = bottomTopLeftContent();
+    emit dApp->signalM->updateBottomToolbarContent(pttbc, (vinfo.size() > 1));
 }
 
 //void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -1007,5 +1010,5 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 //        emit updateCollectButton();
     }
 
-    QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
+    QTimer::singleShot(100, m_viewB, &ImageView::autoFit);
 }

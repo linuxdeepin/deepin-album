@@ -170,7 +170,7 @@ ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
 {
     _index = index;
     _path = data.dbi.filePath;
-    qDebug() << index << _path;
+//    qDebug() << index << _path;
     _pixmap = data.imgpixmap;
     _image = new DLabel(this);
 }
@@ -540,6 +540,13 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
         m_imgList->hide();
+//        QLayoutItem *child;
+//        while ((child = m_imglayout->takeAt(0)) != 0)
+//        {
+//            m_imglayout->removeWidget(child->widget());
+//            child->widget()->setParent(0);
+//            delete child;
+//        }
     });
     connect(m_imgListView, &MyImageListWidget::silmoved, this, [ = ] {
         binsertneedupdate = false;
@@ -630,6 +637,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 //    m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
+
+    connect(this, &TTBContent::sigRequestSomeImages, this, [ = ] {
+        requestSomeImages();
+    });
 //    if (bneedloadimage) {
 //        requestSomeImages();
 //    }
@@ -1031,6 +1042,7 @@ bool TTBContent::imageLoaded(QString filepath)
     if (ImageEngineApi::instance()->getImageData(filepath, data)) {
         insertImageItem(data);
         reb = true;
+//        QApplication::processEvents();
     }
     if (m_requestCount < 1
 //            && (!bfilefind || bneedloadimage || (m_imgList->width() + m_imgList->x() - m_imgListView->width() - 30) < 0) //注释以后，一次性全部加载
@@ -1059,6 +1071,169 @@ QString TTBContent::getIndexPath(int index)
     }
     return it.value();
 }
+
+//void TTBContent::updateScreenNoAnimation()
+//{
+//    if (m_ItemLoaded.size() > 3) {
+//        m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+//        m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT);
+
+////            qDebug()<<"setImage:m_imgList.width=============="<<m_imgList->width();
+////            qDebug()<<"setImage:m_imgListView.width=============="<<m_imgListView->width();
+
+//        m_imgList->setContentsMargins(0, 0, 0, 0);
+
+//        m_imgListView->show();
+//        auto num = 32;
+//        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+//        if (m_nowIndex > -1) {
+//            int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
+//            int b = m_ItemLoaded.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
+////            qDebug() << "a=" << a;
+////            qDebug() << "b=" << b;
+////            qDebug() << "m_nowIndex=" << m_nowIndex;
+////            qDebug() << "m_ItemLoaded.size()=" << m_ItemLoaded.size();
+//            if (m_nowIndex > a && m_nowIndex < b) {
+//                m_startAnimation = 1;
+//            } else if (m_nowIndex < m_ItemLoaded.size() - 2 * a && m_nowIndex > -1) {
+//                m_startAnimation = 2;
+//            } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_ItemLoaded.size()) {
+//                m_startAnimation = 3;
+//            } else {
+//                m_startAnimation = 0;
+//            }
+////            qDebug() << "m_startAnimation=" << m_startAnimation;
+////            for (int j = 0; j < labelList.size(); j++) {
+////                labelList.at(j)->setFixedSize(QSize(num, 40));
+////                labelList.at(j)->resize(QSize(num, 40));
+////                labelList.at(j)->setIndexNow(m_nowIndex );
+////            }
+//            if (m_nowIndex < labelList.size())
+//                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+//            if (m_lastIndex > -1) {
+//                labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
+//                labelList.at(m_lastIndex)->resize(QSize(num, 40));
+//                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex);
+//            }
+//            if (labelList.size() > 0) {
+//                labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
+//                labelList.at(m_nowIndex)->resize(QSize(58, 58));
+//            }
+
+
+//            if (binsertneedupdate) {
+//                if (1 == m_startAnimation) {
+//                    m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_ItemLoaded.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - ((num) *m_nowIndex), 0));
+//                } else if (2 == m_startAnimation) {
+//                    m_imgList->move(QPoint(0, 0));
+//                } else if (3 == m_startAnimation) {
+//                    m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+//                } else if (0 == m_startAnimation) {
+//                    m_imgList->show();
+//                }
+//            }
+//            m_imgListView->update();
+//            m_imgList->update();
+//            m_preButton->show();
+//            m_preButton_spc->show();
+//            m_nextButton->show();
+//            m_nextButton_spc->show();
+
+
+//            if (m_nowIndex == 0) {
+//                m_preButton->setDisabled(true);
+//            } else {
+//                m_preButton->setDisabled(false);
+//            }
+//            if (m_nowIndex == labelList.size() - 1) {
+//                m_nextButton->setDisabled(true);
+//            } else {
+//                m_nextButton->setDisabled(false);
+//            }
+//            m_lastIndex = m_nowIndex;
+//        }
+//    } else if (m_ItemLoaded.size() > 1) {
+//        m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+//        m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+
+//        m_imgList->setContentsMargins(0, 0, 0, 0);
+
+//        auto num = 32;
+
+////        int i = 0;
+//        m_imgListView->show();
+//        if (!binsertneedupdate)
+//            return;
+//        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+//        if (m_nowIndex > -1) {
+
+////            if (COMMON_STR_TRASH == m_imageType) {
+////                labelList.at(t)->setPic(dApp->m_imagetrashmap.value(path));
+////            } else {
+////                labelList.at(t)->setPic(dApp->m_imagemap.value(path));
+////            }
+////            for (int j = 0; j < labelList.size(); j++) {
+////                labelList.at(j)->setFixedSize(QSize(num, 40));
+////                labelList.at(j)->resize(QSize(num, 40));
+////                labelList.at(j)->setIndexNow(t);
+////            }
+//            if (m_nowIndex < labelList.size())
+//                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+//            if (m_lastIndex > -1) {
+//                labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
+//                labelList.at(m_lastIndex)->resize(QSize(num, 40));
+//                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex);
+//            }
+//            if (labelList.size() > 0) {
+//                labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
+//                labelList.at(m_nowIndex)->resize(QSize(58, 58));
+//            }
+
+////            m_imgListView->show();
+//            m_imgList->show();
+//            m_imgListView->update();
+//            m_imgList->update();
+//            m_preButton->show();
+//            m_preButton_spc->show();
+//            m_nextButton->show();
+//            m_nextButton_spc->show();
+
+
+//            if (m_nowIndex == 0) {
+//                m_preButton->setDisabled(true);
+//            } else {
+//                m_preButton->setDisabled(false);
+//            }
+//            if (m_nowIndex == labelList.size() - 1) {
+//                m_nextButton->setDisabled(true);
+//            } else {
+//                m_nextButton->setDisabled(false);
+//            }
+//            m_lastIndex = m_nowIndex;
+//        }
+//    } else {
+//        m_imgList->hide();
+//        m_imgListView->hide();
+//        m_preButton->hide();
+//        m_preButton_spc->hide();
+//        m_nextButton->hide();
+//        m_nextButton_spc->hide();
+////        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+////        setFixedWidth(m_contentWidth);
+//    }
+
+////    m_windowWidth =  this->window()->geometry().width();
+////    if (m_ItemLoaded.size() <= 1) {
+////        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+////    } else if (m_ItemLoaded.size() <= 3) {
+////        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+////        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+////    } else {
+////        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+////        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+////    }
+////    setFixedWidth(m_contentWidth);
+//}
 
 void TTBContent::updateScreen()
 {
@@ -1309,6 +1484,7 @@ void TTBContent::insertImageItem(const ImageDataSt file)
     } else {
 //        if (binsertneedupdate)
         updateScreen();
+//        updateScreenNoAnimation();
     }
     onResize();
 }

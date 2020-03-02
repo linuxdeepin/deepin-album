@@ -114,7 +114,8 @@ public:
     explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = 0);
     ~TTBContent()
     {
-        stopLoadAndClear();
+//        stopLoadAndClear();
+        clearAndStopThread();
     };
 
     //------------------
@@ -136,6 +137,7 @@ public:
     QStringList getAllFileList();
     bool setCurrentItem();
     void updateScreen();
+//    void updateScreenNoAnimation();
     int itemLoadedSize();
     QString getIndexPath(int index);
     void requestSomeImages();
@@ -154,6 +156,7 @@ signals:
     void showPrevious();
     void showNext();
     void feedBackCurrentIndex(int index, QString path);
+    void sigRequestSomeImages();
 
 public slots:
     void setCurrentDir(QString text);
