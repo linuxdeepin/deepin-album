@@ -49,6 +49,7 @@
 #include <QFileDialog>
 #include <QPainter>
 #include <DRecentManager>
+#include <DWidgetUtil>
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
@@ -272,7 +273,13 @@ void ViewPanel::showNormal()
 void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
-    window()->showFullScreen();
+    if (!m_isMaximized) {
+        window()->hide();
+        window()->showFullScreen();
+        window()->show();
+    }else {
+        window()->showFullScreen();
+    }
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }
