@@ -488,7 +488,6 @@ void ImportTimeLineView::addTimelineLayout()
             pThumbnailListView->setFixedHeight(mh);
             listItem->setFixedHeight(TitleView->height() + mh);
             item->setSizeHint(listItem->rect().size());
-            emit dApp->signalM->changeSize(mh);
 //                emit albumviewResize();
 //                setFixedSize(QSize(size().width() + 1, size().height()));
 //                setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
