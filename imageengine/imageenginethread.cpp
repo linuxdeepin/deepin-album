@@ -303,6 +303,49 @@ void ImportImagesThread::run()
     m_obj->removeThread(this);
 }
 
+ImageRecoveryImagesFromTrashThread::ImageRecoveryImagesFromTrashThread()
+{
+    setAutoDelete(true);
+}
+
+void ImageRecoveryImagesFromTrashThread::setData(QStringList paths)
+{
+    m_paths = paths;
+}
+
+void ImageRecoveryImagesFromTrashThread::run()
+{
+    QStringList paths = m_paths;
+
+    DBImgInfoList infos;
+    for (auto path : paths) {
+        DBImgInfo info;
+        info = DBManager::instance()->getTrashInfoByPath(path);
+        QFileInfo fi(info.filePath);
+        info.changeTime = QDateTime::currentDateTime();
+        infos << info;
+
+//        dApp->m_imagetrashmap.remove(path);
+    }
+
+//    dApp->m_imageloader->addImageLoader(paths);
+    DBManager::instance()->insertImgInfos(infos);
+
+    for (auto path : paths) {
+        DBImgInfo info;
+        info = DBManager::instance()->getTrashInfoByPath(path);
+        QStringList namelist = info.albumname.split(",");
+        for (auto eachname : namelist) {
+            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
+                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
+            }
+        }
+    }
+
+    DBManager::instance()->removeTrashImgInfos(paths);
+    emit dApp->signalM->closeWaitDialog();
+}
+
 ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
 {
     setAutoDelete(true);

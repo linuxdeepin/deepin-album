@@ -1533,34 +1533,35 @@ void AlbumView::onTrashRecoveryBtnClicked()
     QStringList paths;
     paths = m_pRightTrashThumbnailList->selectedPaths();
 
-    DBImgInfoList infos;
-    for (auto path : paths) {
-        DBImgInfo info;
-        info = DBManager::instance()->getTrashInfoByPath(path);
-        QFileInfo fi(info.filePath);
-        info.changeTime = QDateTime::currentDateTime();
-        infos << info;
+//    DBImgInfoList infos;
+//    for (auto path : paths) {
+//        DBImgInfo info;
+//        info = DBManager::instance()->getTrashInfoByPath(path);
+//        QFileInfo fi(info.filePath);
+//        info.changeTime = QDateTime::currentDateTime();
+//        infos << info;
 
-//        dApp->m_imagetrashmap.remove(path);
-    }
+////        dApp->m_imagetrashmap.remove(path);
+//    }
 
-//    dApp->m_imageloader->addImageLoader(paths);
-    DBManager::instance()->insertImgInfos(infos);
+////    dApp->m_imageloader->addImageLoader(paths);
+//    DBManager::instance()->insertImgInfos(infos);
 
-    for (auto path : paths) {
-        DBImgInfo info;
-        info = DBManager::instance()->getTrashInfoByPath(path);
-        QStringList namelist = info.albumname.split(",");
-        for (auto eachname : namelist) {
-            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
-                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
-            }
-        }
-    }
+//    for (auto path : paths) {
+//        DBImgInfo info;
+//        info = DBManager::instance()->getTrashInfoByPath(path);
+//        QStringList namelist = info.albumname.split(",");
+//        for (auto eachname : namelist) {
+//            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
+//                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
+//            }
+//        }
+//    }
 
-    DBManager::instance()->removeTrashImgInfos(paths);
+//    DBManager::instance()->removeTrashImgInfos(paths);
 
-    onTrashListClicked();
+//    onTrashListClicked();
+    ImageEngineApi::instance()->recoveryImagesFromTrash(paths);
 }
 
 void AlbumView::onTrashDeleteBtnClicked()
@@ -1684,7 +1685,7 @@ void AlbumView::onTrashListClicked()
         m_pRecoveryBtn->setPalette(ReBtn);
 
         m_pDeleteBtn->setText(tr("Delete"));
-        qDebug() << "--------Delete";
+//        qDebug() << "--------Delete";
     } else {
         m_pRecoveryBtn->setEnabled(false);
         DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
@@ -1692,7 +1693,7 @@ void AlbumView::onTrashListClicked()
         m_pRecoveryBtn->setPalette(ReBtn);
 
         m_pDeleteBtn->setText(tr("Delete All"));
-        qDebug() << "--------Delete All";
+//        qDebug() << "--------Delete All";
     }
 }
 

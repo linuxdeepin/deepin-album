@@ -43,6 +43,20 @@ private:
     DataType m_type = DataType_NULL;
 };
 
+class ImageRecoveryImagesFromTrashThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImageRecoveryImagesFromTrashThread();
+    void setData(QStringList paths);
+
+protected:
+    virtual void run();
+
+signals:
+private:
+    QStringList m_paths;
+};
 
 class ImageMoveImagesToTrashThread : public ImageEngineThreadObject, public QRunnable
 {

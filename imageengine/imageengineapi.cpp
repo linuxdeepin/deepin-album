@@ -308,3 +308,12 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash)
     m_qtpool.start(imagethread);
     return true;
 }
+
+bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
+{
+    emit dApp->signalM->popupWaitDialog(tr("Recovering..."));
+    ImageRecoveryImagesFromTrashThread *imagethread = new ImageRecoveryImagesFromTrashThread;
+    imagethread->setData(files);
+    m_qtpool.start(imagethread);
+    return true;
+}
