@@ -263,8 +263,10 @@ void ThumbnailListView::initConnections()
         }
     });
     connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
-        QScrollBar *bar = this->verticalScrollBar();
-        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+        if (nullptr == m_item) {
+            QScrollBar *bar = this->verticalScrollBar();
+            bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+        }
     });
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
@@ -910,7 +912,8 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 
     if (nullptr != m_item) {
         m_item->setSizeHint(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-        this->setFixedSize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+//        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+        this->setMinimumHeight(m_height + 27 + 8);
     }
 //}
 }
@@ -943,6 +946,10 @@ QStringList ThumbnailListView::getAllFileList()
 void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
 {
     m_item = item;
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setMinimumSize(0, 0);
+    setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
 }
 
 void ThumbnailListView::setIBaseHeight(int iBaseHeight)
@@ -1494,9 +1501,10 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 //        calWidgetItemWandH();
 //        addThumbnailView();
 //    } else {
-    QScrollBar *bar = this->verticalScrollBar();
-    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
-
+    if (nullptr == m_item) {
+        QScrollBar *bar = this->verticalScrollBar();
+        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+    }
     calWidgetItemWandH();
     addThumbnailView();
 //        updateThumbnailView();
@@ -1510,8 +1518,10 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
     if (nullptr != m_item) {
         m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
+//        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+        this->setMinimumHeight(m_height + 27 + 8);
     }
-    QListView::resizeEvent(e);
+//    QListView::resizeEvent(e);
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
