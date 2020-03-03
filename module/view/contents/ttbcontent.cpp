@@ -2513,7 +2513,7 @@ void TTBContent::onResize()
 //            qDebug()<<"setImage:m_imgListView.width=============="<<m_imgListView->width();
 
 //        m_imgList->setContentsMargins(0, 0, 0, 0);
-
+//        m_imgList->show();
 //        m_imgListView->show();
     } else if (m_ItemLoaded.size() > 1) {
         m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
@@ -2527,6 +2527,8 @@ void TTBContent::onResize()
 
 
 
+    m_imgList->show();
+    m_imgListView->show();
 
 //    qDebug() << "onResize";
     m_contentWidth = window()->width() - 20;
