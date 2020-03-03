@@ -1494,7 +1494,7 @@ void MainWindow::saveWindowState()
     settings.setValue("album-geometry", saveGeometry());
     settings.setValue("album-isMaximized", isMaximized());
 //    settings.setValue("album-pos", pos());
-    settings.endGroup();
+//    settings.endGroup();
 }
 
 void MainWindow::loadWindowState()
@@ -1512,7 +1512,7 @@ void MainWindow::loadWindowState()
 //            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
         }
     }
-    settings.endGroup();
+//    settings.endGroup();
 }
 
 

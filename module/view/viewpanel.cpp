@@ -274,12 +274,13 @@ void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
     if (!m_isMaximized) {
-        window()->hide();
+//        window()->setVisible(false);
         window()->showFullScreen();
-        window()->show();
+//        window()->setVisible(true);
     }else {
         window()->showFullScreen();
     }
+//    window()->showFullScreen();
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }
@@ -649,6 +650,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     using namespace utils::base;
     this->setCursor(Qt::ArrowCursor);
     if (m_vinfo.fullScreen) {
+//        window()->showFullScreen();
         showFullScreen();
     }
 

@@ -418,6 +418,7 @@ void SlideShowPanel::showFullScreen()
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     window()->showFullScreen();
+//    showFullScreen();
 
     setImage(getFitImage(m_player->currentImagePath()));
     emit dApp->signalM->hideBottomToolbar(true);
