@@ -162,7 +162,7 @@ void MainWindow::initConnections()
 //            m_waitlabel->setText(waittext);
             m_bImport = false;
         }
-        if (!waittext.compare(tr("Recovering..."))) {
+        if (!waittext.compare(tr("Restoring..."))) {
             m_importBar->hide();
         }
 

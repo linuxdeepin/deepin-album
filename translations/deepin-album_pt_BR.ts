@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>Sem Nome</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -13,7 +11,7 @@
     </message>
     <message>
         <source>Create</source>
-        <translation>Novo</translation>
+        <translation>Criar</translation>
     </message>
     <message>
         <source>New Album</source>
@@ -32,7 +30,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Quer realmente excluir este álbum?</translation>
+        <translation>Excluir este álbum?</translation>
     </message>
 </context>
 <context>
@@ -70,7 +68,7 @@
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste fotos para cá</translation>
+        <translation>Ou arraste as fotos até aqui</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -82,7 +80,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>As fotos serão excluídas permanentemente após os dias mostrados aqui</translation>
+        <translation>As fotos serão excluídas permanentemente após os dias exibidos aqui</translation>
     </message>
     <message>
         <source>Restore</source>
@@ -122,7 +120,7 @@
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>O disco está em uso, não pode ejetar agora</translation>
+        <translation>O disco está em uso, e não pode ser ejetado no momento</translation>
     </message>
     <message>
         <source>OK</source>
@@ -195,7 +193,7 @@
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Salvar para:</translation>
+        <translation>Salvar em:</translation>
     </message>
     <message>
         <source>Format:</source>
@@ -223,7 +221,7 @@
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>Nome de arquivo não pode ser vazio</translation>
+        <translation>O nome de arquivo não pode ficar em branco</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
@@ -272,18 +270,22 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Informação da foto</translation>
     </message>
 </context>
 <context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Excluindo...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importando...</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -297,7 +299,7 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informações básicas</translation>
+        <translation>Informação básica</translation>
     </message>
     <message>
         <source>Details</source>
@@ -341,15 +343,15 @@
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Informações básicas</translation>
+        <translation>Informação básica</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detailhes</translation>
+        <translation>Detalhes</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Informação da foto</translation>
     </message>
 </context>
 <context>
@@ -378,7 +380,7 @@
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste as fotos para cá</translation>
+        <translation>Ou arraste as fotos até aqui</translation>
     </message>
     <message>
         <source>Gallery</source>
@@ -389,7 +391,7 @@
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -405,7 +407,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>Sem Nome</translation>
     </message>
     <message>
         <source>Device</source>
@@ -421,21 +423,21 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Novo álbum</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Você não tem permissão para ver a imagem</translation>
+        <translation>O usuário não tem permissão para visualizar a imagem</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Álbum é um gerenciador de fotos moderno para visualizar e organizar fotos.</translation>
+        <translation>O Álbum é um gerenciador de fotos moderno para visualizar e organizar fotos.</translation>
     </message>
 </context>
 <context>
@@ -454,11 +456,11 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Exibir no Gerenciador de Arquivos</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -470,11 +472,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Girar no Sentido Horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Girar no Sentido Anti-horário</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -502,23 +504,23 @@
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Adicionado com sucesso em &quot;%1&quot;</translation>
+        <translation>Adicionado em &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Importação finalizou</translation>
+        <translation>Importação Bem-sucedida</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Importação falhou</translation>
+        <translation>Falha na importação</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Exportação falhou</translation>
+        <translation>Falha na exportação</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Exportação finalizou</translation>
+        <translation>Exportação Bem-sucedida</translation>
     </message>
     <message>
         <source>All Photos</source>
@@ -526,7 +528,7 @@
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Linhas do tempo</translation>
+        <translation>Linhas do Tempo</translation>
     </message>
     <message>
         <source>Albums</source>
@@ -538,15 +540,15 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Informação da foto</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Sair da tela cheia/mostra de slides</translation>
+        <translation>Sair da Tela Cheia / Apresentação de Slides</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Mostrar atalhos</translation>
+        <translation>Exibir atalhos</translation>
     </message>
     <message>
         <source>View</source>
@@ -574,7 +576,7 @@
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Diminuir zoom</translation>
+        <translation>Reduzir zoom</translation>
     </message>
     <message>
         <source>New album</source>
@@ -606,19 +608,23 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 fotos importadas</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 fotos importadas, %2 fotos falharam</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 fotos excluídas</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importando...</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -645,7 +651,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data de modificação</translation>
+        <translation>Última modificação</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -677,7 +683,7 @@
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Unidade de medida</translation>
+        <translation>Modo de medida</translation>
     </message>
     <message>
         <source>White balance</source>
@@ -697,7 +703,7 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Espaço de cores</translation>
+        <translation>Espaço de Cores</translation>
     </message>
     <message>
         <source>Tag</source>
@@ -731,7 +737,7 @@
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escalonar para:</translation>
+        <translation>Escala de:</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -747,7 +753,7 @@
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posição da imagem</translation>
+        <translation>Posição da Imagem</translation>
     </message>
     <message>
         <source>Scaling</source>
@@ -762,7 +768,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Configurações da Imagem</translation>
+        <translation>Configurações de Imagem</translation>
     </message>
 </context>
 <context>
@@ -773,7 +779,7 @@
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Deselecionar</translation>
+        <translation>Não Selecionado</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -804,7 +810,7 @@
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Mostrar Slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
@@ -823,7 +829,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Tocar</translation>
+        <translation>Reproduzir</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -865,11 +871,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Girar no Sentido Anti-horário</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Girar no Sentido Horário</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -908,15 +914,15 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Girar no Sentido Horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Girar no Sentido Anti-horário</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Exibir no Gerenciador de Arquivos</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -928,7 +934,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -936,7 +942,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Informação da foto</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -944,7 +950,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Excluir do álbum</translation>
+        <translation>Remover do álbum</translation>
     </message>
     <message>
         <source>Restore</source>
@@ -952,7 +958,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <source>Print</source>
@@ -978,11 +984,11 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Sair da tela cheia</translation>
+        <translation>Sair da Tela Cheia</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -998,7 +1004,7 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Mostrar janela de navegação</translation>
+        <translation>Exibir janela de navegação</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
@@ -1006,11 +1012,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar à direita</translation>
+        <translation>Girar no Sentido Horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar à esquerda</translation>
+        <translation>Girar no Sentido Anti-horário</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -1018,7 +1024,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gerenciador de arquivos</translation>
+        <translation>Exibir no Gerenciador de Arquivos</translation>
     </message>
     <message>
         <source>Export</source>
@@ -1030,11 +1036,11 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>Informação da foto</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Excluir do álbum</translation>
+        <translation>Remover do álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -1042,7 +1048,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <source>Print</source>

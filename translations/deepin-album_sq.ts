@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -250,7 +248,7 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Volume</translation>
     </message>
 </context>
 <context>
@@ -279,18 +277,22 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Duke fshire...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Duke importuar...</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galeria</translation>
+        <translation>Galeria</translation>
     </message>
 </context>
 <context>
@@ -308,7 +310,7 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished">ditet</translation>
+        <translation>ditet</translation>
     </message>
 </context>
 <context>
@@ -356,7 +358,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galeria</translation>
+        <translation>Galeria</translation>
     </message>
 </context>
 <context>
@@ -606,19 +608,23 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 fotot e importuara</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 foto te importuara, %2 fotote deshtuara</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 foto te fshira</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Duke importuar...</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -956,7 +962,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Printo</translation>
     </message>
 </context>
 <context>
@@ -1046,7 +1052,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Printo</translation>
     </message>
 </context>
 </TS>

@@ -285,6 +285,10 @@
         <source>Importing...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
@@ -618,6 +622,10 @@
     </message>
     <message>
         <source>Importing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

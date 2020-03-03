@@ -311,7 +311,7 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash)
 
 bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Recovering..."));
+    emit dApp->signalM->popupWaitDialog(tr("Restoring..."));
     ImageRecoveryImagesFromTrashThread *imagethread = new ImageRecoveryImagesFromTrashThread;
     imagethread->setData(files);
     m_qtpool.start(imagethread);

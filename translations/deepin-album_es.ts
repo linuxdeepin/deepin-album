@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -32,7 +30,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>¿Está seguro de borrar este álbum?</translation>
+        <translation>¿Está seguro que desea borrar este álbum?</translation>
     </message>
 </context>
 <context>
@@ -114,7 +112,7 @@
     </message>
     <message>
         <source>System Disk</source>
-        <translation>Disco del Sistema</translation>
+        <translation>Disco del sistema</translation>
     </message>
     <message>
         <source>Gallery</source>
@@ -219,7 +217,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
@@ -279,11 +277,15 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminando…</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importando…</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -606,26 +608,30 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 fotos importadas</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 fotos importadas, %2 fotos fallaron</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 fotos borradas</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importando…</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Linterna</translation>
     </message>
     <message>
         <source>Type</source>
@@ -685,7 +691,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensación de flash</translation>
+        <translation>Compensación de luz</translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -712,7 +718,7 @@
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>Disco del Sistema</translation>
+        <translation>Disco del sistema</translation>
     </message>
 </context>
 <context>
@@ -952,7 +958,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Nuevo álbu</translation>
+        <translation>Nuevo álbum</translation>
     </message>
     <message>
         <source>Print</source>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -279,11 +277,15 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Вилучення...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Імпортування…</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -510,7 +512,7 @@
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Імпортування зазнало&#xa0;невдачі</translation>
+        <translation>Імпортування зазнало невдачі</translation>
     </message>
     <message>
         <source>Export failed</source>
@@ -606,19 +608,23 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>Імпортовано %1 з %2 фотографій</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Імпортовано %1 фотографій, %2 фотографій не вдалося імпортувати</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Вилучено %1 з %2 фотографій</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Імпортування…</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

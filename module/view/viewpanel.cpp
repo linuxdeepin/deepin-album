@@ -273,14 +273,14 @@ void ViewPanel::showNormal()
 void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
-    if (!m_isMaximized) {
+//    if (!m_isMaximized) {
 //        window()->setVisible(false);
-        window()->showFullScreen();
+//        window()->showFullScreen();
 //        window()->setVisible(true);
-    } else {
-        window()->showFullScreen();
-    }
-//    window()->showFullScreen();
+//    }else {
+//        window()->showFullScreen();
+//    }
+    window()->showFullScreen();
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }

@@ -1,211 +1,211 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>이름 미지정</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Criar</translation>
+        <translation>생성</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>Novo Álbum</translation>
+        <translation>새 앨범</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Tem a certeza que deseja eliminar este álbum?</translation>
+        <translation>이 앨범을 삭제하시겠습니까?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Lixo</translation>
+        <translation>휴지통</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoritos</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>가져오기</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Lixo</translation>
+        <translation>휴지통</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoritos</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Eliminar Tudo</translation>
+        <translation>모두 삭제</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste fotos para aqui</translation>
+        <translation>또는 사진을 여기로 끌어다 놓기</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>사진 %1장</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Importar Tudo</translation>
+        <translation>모두 가져오기</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>As fotos serão eliminadas permanentemente após os dias nelas exibidas</translation>
+        <translation>사진들은 표시된 날 이후에 영구적으로 삭제됩니다.</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation>복원</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>사진 %1장 선택됨</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Importar para:</translation>
+        <translation>가져오기 대상:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disco</translation>
+        <translation type="vanished">디스크</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>가져오기</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">dias</translation>
+        <translation type="vanished">일간</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>이름 미지정</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>Disco do sistema</translation>
+        <translation>시스템 디스크</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>갤러리</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>O disco está ocupado, não pode ejetar agora</translation>
+        <translation>디스크가 사용 중이므로, 지금 꺼낼 수 없습니다</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>새 앨범</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>사진 %1장 선택됨</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>사진 %1장</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>앨범</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Substituir</translation>
+        <translation>바꾸기</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>내보내기</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Imagens</translation>
+        <translation>사진</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Documentos</translation>
+        <translation>문서</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Transferências</translation>
+        <translation>다운로드</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Ambiente de trabalho</translation>
+        <translation>바탕화면</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Vídeos</translation>
+        <translation>동영상</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Música</translation>
+        <translation>음악</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Nome:</translation>
+        <translation>이름:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Guardar para:</translation>
+        <translation>저장 대상:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>Formato:</translation>
+        <translation>형식:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Qualidade:</translation>
+        <translation>화질:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation>저장</translation>
     </message>
     <message>
         <source>gif</source>
@@ -213,34 +213,34 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Selecionar outros diretórios</translation>
+        <translation>다른 디렉터리 선택</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>O nome do ficheiro não pode estar vazio</translation>
+        <translation>파일 이름은 비워 둘 수 없습니다</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>já existe, deseja substituir?</translation>
+        <translation>이미 존재합니다. 교체하시겠습니까?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 Unidade</translation>
+        <translation>%1 드라이브</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Disco %1 vazio</translation>
+        <translation>빈 %1 디스크</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 Encriptado</translation>
+        <translation>%1 암호화됨</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -248,40 +248,40 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation>Volume %1</translation>
+        <translation>%1 볼륨</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation>저장</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Exportar Fotos</translation>
+        <translation>사진 내보내기</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>취소</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>사진 정보</translation>
     </message>
 </context>
 <context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation>A eliminar...</translation>
+        <translation>삭제중...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>A importar... </translation>
+        <translation>가져오는 중...</translation>
     </message>
     <message>
         <source>Restoring...</source>
@@ -292,335 +292,335 @@
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>갤러리</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informação básica</translation>
+        <translation>기본 정보</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detalhes</translation>
+        <translation>세부 정보</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>dias</translation>
+        <translation>일간</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>갤러리</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Tem a certeza que deseja eliminar esta foto do álbum?</translation>
+        <translation>앨범에서 이 사진을 삭제하시겠습니까?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Tem a certeza que deseja eliminar %1 fotos dos álbuns?</translation>
+        <translation>앨범에서 %1 사진을 삭제하시겠습니까?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Informações básicas</translation>
+        <translation>기본 정보</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detalhes</translation>
+        <translation>세부 정보</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>사진 정보</translation>
     </message>
 </context>
 <context>
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>갤러리</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>가져오기</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Todas as fotos</translation>
+        <translation>모든 사진</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Importar Fotos</translation>
+        <translation>사진 가져오기</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ou arraste as fotos para aqui</translation>
+        <translation>또는 사진을 여기로 끌어다 놓기</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galeria</translation>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação</translation>
+        <translation>슬라이드 쇼</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomear</translation>
+        <translation>이름변경</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>내보내기</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sem nome</translation>
+        <translation>이름 미지정</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Dispositivo</translation>
+        <translation>장치</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation>갤러리</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Álbuns</translation>
+        <translation>앨범</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>새 앨범</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Não tem permissão para ver a imagem</translation>
+        <translation>이미지를 볼 수 있는 권한이 없습니다</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>O Álbum é um gestor de fotos moderno para visualizar e organizar fotos.</translation>
+        <translation>앨범은 사진을보고 구성하기 위한 유행 사진 관리자입니다.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Fotos</translation>
+        <translation>사진</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Ecrã inteiro</translation>
+        <translation>전체 화면</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ajuda</translation>
+        <translation>도움말</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gestor de ficheiros</translation>
+        <translation>파일 관리자에 표시</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação</translation>
+        <translation>슬라이드 쇼</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>복사</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>배경화면으로 설정</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar para a direita</translation>
+        <translation>시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar para a esquerda</translation>
+        <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>이전</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Próximo</translation>
+        <translation>다음</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Adicionar aos favoritos</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos favoritos</translation>
+        <translation>즐겨찾기 해제</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Renomear álbum</translation>
+        <translation>앨범 이름변경</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Álbum “%1” removido</translation>
+        <translation>앨범 &quot;%1&quot; 제거됨</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Adicionado com sucesso a &quot;%1&quot;</translation>
+        <translation>&quot;%1&quot;에 성공적으로 추가되었습니다</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Importação bem sucedida</translation>
+        <translation>가져오기 성공</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>A importação falhou</translation>
+        <translation>가져오기 실패</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>A exportação falhou</translation>
+        <translation>내보내기 실패</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Exportação bem sucedida</translation>
+        <translation>내보내기 성공</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>Todas as fotos</translation>
+        <translation>모든 사진</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>Cronogramas</translation>
+        <translation>타임라인</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Álbuns</translation>
+        <translation>앨범</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>사진 %1장</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>사진 정보</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Sair de ecrã inteiro/apresentação</translation>
+        <translation>전체 화면/슬라이드쇼 종료</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Mostrar atalhos</translation>
+        <translation>단축키 표시</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>보기</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>내보내기</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation>가져오기</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Selecionar tudo</translation>
+        <translation>모두 선택</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Eliminar foto/álbum</translation>
+        <translation>사진/앨범 삭제</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Aumentar</translation>
+        <translation>확대</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Diminuir</translation>
+        <translation>축소</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>새 앨범</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Página para acima</translation>
+        <translation>페이지 위로</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Página para baixo</translation>
+        <translation>페이지 아래로</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Definições</translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">Algumas fotos não foram importadas</translation>
+        <translation type="vanished">일부 사진은 가져오지 못했습니다</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Importar fotos</translation>
+        <translation>사진 가져오기</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Importar Fotos</translation>
+        <translation>사진 가져오기</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation>%1/%2 fotos importadas</translation>
+        <translation>사진 %1/%2장 가져옴</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 fotos importadas, %2 fotos falhadas</translation>
+        <translation>사진 %1장을 가져왔고, 사진 %2장은 실패했습니다</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fotos eliminadas</translation>
+        <translation>사진 %1/%2장 삭제됨</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>A importar... </translation>
+        <translation>가져오는 중...</translation>
     </message>
     <message>
         <source>Restoring...</source>
@@ -631,47 +631,47 @@
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>플래시</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>유형</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Tamanho do ficheiro</translation>
+        <translation>File size</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimensões</translation>
+        <translation>치수</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data de captura</translation>
+        <translation>캡처된 날짜</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data de modificação</translation>
+        <translation>수정된 날짜</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Modo de exposição</translation>
+        <translation>노출 모드</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Programa de exposição</translation>
+        <translation>노출 프로그램</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Tempo de exposição</translation>
+        <translation>노출 시간</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Abertura</translation>
+        <translation>조리개</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Distância focal</translation>
+        <translation>초점</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -679,107 +679,107 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Abertura máxima</translation>
+        <translation>최대 조리개</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Modo de medição</translation>
+        <translation>측광 모드</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Equilíbrio de branco</translation>
+        <translation>화이트 밸런스</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensação do flash</translation>
+        <translation>플래시 보정</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo de câmara</translation>
+        <translation>카메라 모델</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Modelo de lente</translation>
+        <translation>렌즈 모델</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Espaço de cor</translation>
+        <translation>컬러스페이스</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Rótulo</translation>
+        <translation>태그</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Nome da foto</translation>
+        <translation>사진 이름</translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>Disco do sistema</translation>
+        <translation>시스템 디스크</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Sem escala</translation>
+        <translation>크기조정 없음</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Ajustar página à imagem</translation>
+        <translation>이미지에 페이지 맞추기</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Ajustar imagem à página</translation>
+        <translation>페이지에 이미지 맞추기</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escalar para:</translation>
+        <translation>배율 조정:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milímetros</translation>
+        <translation>밀리미터</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centímetros</translation>
+        <translation>센티미터</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Polegadas</translation>
+        <translation>인치</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posição da imagem</translation>
+        <translation>이미지 위치</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Escala</translation>
+        <translation>크기조정</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Definições da imagem</translation>
+        <translation>이미지 설정</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Definições da imagem</translation>
+        <translation>이미지 설정</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Selecionar</translation>
+        <translation>선택</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Desselecionar</translation>
+        <translation>선택 해제</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -787,11 +787,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation>사진 %1장</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 foto(s) selecionada(s)</translation>
+        <translation>사진 %1장 선택됨</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -799,260 +799,260 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importar em</translation>
+        <translation>가져오기 위치</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Nenhum resultado correspondente à pesquisa</translation>
+        <translation>검색 결과 없음</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Apresentação</translation>
+        <translation>슬라이드 쇼</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 foto(s) encontrada(s)</translation>
+        <translation>사진 %1장 발견</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Resultados da pesquisa</translation>
+        <translation>검색 결과</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pausa</translation>
+        <translation>일시 중지</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Reproduzir</translation>
+        <translation>재생</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Sair</translation>
+        <translation>종료</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>A importar fotos: &apos;%1&apos;</translation>
+        <translation>사진 가져오는 중: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>A exportar fotos: &apos;%1&apos;</translation>
+        <translation>사진 내보내는 중: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Voltar</translation>
+        <translation>뒤로</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>이전</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Próximo</translation>
+        <translation>다음</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Tamanho 1:1</translation>
+        <translation>1:1 크기</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajustar à janela</translation>
+        <translation>창에 맞추기</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar para a esquerda</translation>
+        <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar para a direita</translation>
+        <translation>시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Adicionar aos favoritos</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos favoritos</translation>
+        <translation>즐겨찾기 해제</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>보기</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Ecrã inteiro</translation>
+        <translation>전체 화면</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>내보내기</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Adicionar aos favoritos</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos favoritos</translation>
+        <translation>즐겨찾기 해제</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar para a direita</translation>
+        <translation>시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar para a esquerda</translation>
+        <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gestor de ficheiros</translation>
+        <translation>파일 관리자에 표시</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>배경화면으로 설정</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação</translation>
+        <translation>슬라이드 쇼</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>복사</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>사진 정보</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao álbum</translation>
+        <translation>앨범에 추가</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover do álbum</translation>
+        <translation>앨범에서 제거</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation>복원</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>새 앨범</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>인쇄</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nenhuma imagem encontrada</translation>
+        <translation>이미지 파일을 찾을 수 없음</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Foto não encontrada</translation>
+        <translation>사진을 찾을 수 없음</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao álbum</translation>
+        <translation>앨범에 추가</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação</translation>
+        <translation>슬라이드 쇼</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Sair de ecrã inteiro</translation>
+        <translation>전체화면 종료</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Ecrã inteiro</translation>
+        <translation>전체 화면</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>복사</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Mostrar janela de navegação</translation>
+        <translation>탐색 창 표시</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ocultar janela de navegação</translation>
+        <translation>탐색 창 숨기기</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar para a direita</translation>
+        <translation>시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar para a esquerda</translation>
+        <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>배경화면으로 설정</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gestor de ficheiros</translation>
+        <translation>파일 관리자에 표시</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation>내보내기</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover dos favoritos</translation>
+        <translation>즐겨찾기 해제</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation>사진 정보</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover do álbum</translation>
+        <translation>앨범에서 제거</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Adicionar aos favoritos</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>새 앨범</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>인쇄</translation>
     </message>
 </context>
 </TS>

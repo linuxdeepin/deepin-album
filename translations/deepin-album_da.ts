@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="da">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -279,18 +277,22 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sletter ...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importerer ...</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galleri</translation>
+        <translation>Galleri</translation>
     </message>
 </context>
 <context>
@@ -308,7 +310,7 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished">dage</translation>
+        <translation>dage</translation>
     </message>
 </context>
 <context>
@@ -356,7 +358,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Galleri</translation>
+        <translation>Galleri</translation>
     </message>
 </context>
 <context>
@@ -606,19 +608,23 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 billeder importeret</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 billeder importeret, %2 billeder mislykkedes</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 billeder slettet</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importerer ...</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -956,7 +962,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Udskriv</translation>
     </message>
 </context>
 <context>
@@ -1046,7 +1052,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Udskriv</translation>
     </message>
 </context>
 </TS>

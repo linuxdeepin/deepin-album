@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -278,12 +276,16 @@
 <context>
     <name>ImageEngineApi</name>
     <message>
+        <source>Deleting...</source>
+        <translation>Poistaminen...</translation>
+    </message>
+    <message>
         <source>Importing...</source>
         <translation>Tuodaan...</translation>
     </message>
     <message>
-        <source>Deleting...</source>
-        <translation>Poistaminen...</translation>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -619,6 +621,10 @@
     <message>
         <source>Importing...</source>
         <translation>Tuodaan...</translation>
+    </message>
+    <message>
+        <source>Restoring...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
