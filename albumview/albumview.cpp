@@ -324,6 +324,30 @@ void AlbumView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     m_itemClicked = false;
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+        if (isVisible()) {
+            int mh = h;
+            m_pRightFavoriteThumbnailList->setFixedHeight(mh);
+            m_FavoriteItem->setSizeHint(m_pRightFavoriteThumbnailList->size());
+        }
+
+    });
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+        if (isVisible()) {
+            int mh = h;
+            m_pRightTrashThumbnailList->setFixedHeight(mh);
+            m_TrashitemItem->setSizeHint(m_pRightTrashThumbnailList->size());
+        }
+
+    });
+    connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+        if (isVisible()) {
+            int mh = h;
+            m_pRightThumbnailList->setFixedHeight(mh);
+            m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
+        }
+
+    });
     connect(m_pLeftListView, &LeftListView::itemClicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
 #if 1
@@ -443,7 +467,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -699,14 +723,7 @@ void AlbumView::initRightView()
     m_noTrashItem = new QListWidgetItem();
     m_noTrashItem->setFlags(Qt::NoItemFlags);
 //    m_pRightThumbnailList->setListWidgetItem(m_noTrashItem);
-    connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (isVisible()) {
-            int mh = h;
-            m_pRightThumbnailList->setFixedHeight(mh);
-            m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
-        }
 
-    });
     lsitWidget->insertItem(1, m_noTrashItem);
     lsitWidget->setItemWidget(m_noTrashItem, m_pRightThumbnailList);
 
@@ -827,14 +844,7 @@ void AlbumView::initRightView()
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
 //    m_pRightTrashThumbnailList->setListWidgetItem(m_TrashitemItem);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (isVisible()) {
-            int mh = h;
-            m_pRightTrashThumbnailList->setFixedHeight(mh);
-            m_TrashitemItem->setSizeHint(m_pRightTrashThumbnailList->size());
-        }
 
-    });
     lsitWidget3->insertItem(1, m_TrashitemItem);
     lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
 
@@ -926,14 +936,6 @@ void AlbumView::initRightView()
     m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
 //    m_pRightFavoriteThumbnailList->setListWidgetItem(m_FavoriteItem);
-    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (isVisible()) {
-            int mh = h;
-            m_pRightFavoriteThumbnailList->setFixedHeight(mh);
-            m_FavoriteItem->setSizeHint(m_pRightFavoriteThumbnailList->size());
-        }
-
-    });
     lsitWidget2->insertItem(1, m_FavoriteItem);
     lsitWidget2->setItemWidget(m_FavoriteItem, m_pRightFavoriteThumbnailList);
 //    m_pRightFavoriteThumbnailList->resize(480, 5000);
@@ -2148,7 +2150,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
