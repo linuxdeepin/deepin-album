@@ -1706,8 +1706,8 @@ void TTBContent::setImage(const QString &path)
         bfilefind = true;
         QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
         ImageDataSt gdata;
-        ImageEngineApi::instance()->getImageData(m_currentpath, gdata);
-        labelList.at(m_nowIndex)->setPic(gdata.imgpixmap);
+        if (ImageEngineApi::instance()->getImageData(m_currentpath, gdata))
+            labelList.at(m_nowIndex)->setPic(gdata.imgpixmap);
         setCurrentItem();
     }
 }

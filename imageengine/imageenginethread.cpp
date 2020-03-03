@@ -985,24 +985,26 @@ bool ImageEngineThread::addObject(ImageEngineObject *imgobject)
     return true;
 }
 
-QString mkMutiDir(const QString path)   //创建多级目录
-{
-    QDir dir(path);
-    if ( dir.exists(path)) {
-        return path;
-    }
-    QString parentDir = mkMutiDir(path.mid(0, path.lastIndexOf('/')));
-    QString dirname = path.mid(path.lastIndexOf('/') + 1);
-    QDir parentPath(parentDir);
-    if ( !dirname.isEmpty() )
-        parentPath.mkpath(dirname);
-    return parentDir + "/" + dirname;
-}
+//QString mkMutiDir(const QString path)   //创建多级目录
+//{
+//    QDir dir(path);
+//    if ( dir.exists(path)) {
+//        return path;
+//    }
+//    QString parentDir = mkMutiDir(path.mid(0, path.lastIndexOf('/')));
+//    QString dirname = path.mid(path.lastIndexOf('/') + 1);
+//    QDir parentPath(parentDir);
+//    if ( !dirname.isEmpty() )
+//        parentPath.mkpath(dirname);
+//    return parentDir + "/" + dirname;
+//}
 
 void ImageEngineThread::run()
 {
     if (getNeedStop())
         return;
+    using namespace utils::image;
+    using namespace utils::base;
     QImage tImg;
     bool cache_exist = false;
     QString path = m_path;
@@ -1086,8 +1088,6 @@ void ImageEngineThread::run()
     m_data.imgpixmap = pixmap;
 
     QFileInfo fi(m_path);
-    using namespace utils::image;
-    using namespace utils::base;
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTimeOriginal");
 

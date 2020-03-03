@@ -566,6 +566,21 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
     return pixmap;
 }
 
+
+QString mkMutiDir(const QString path)   //创建多级目录
+{
+    QDir dir(path);
+    if ( dir.exists(path)) {
+        return path;
+    }
+    QString parentDir = mkMutiDir(path.mid(0, path.lastIndexOf('/')));
+    QString dirname = path.mid(path.lastIndexOf('/') + 1);
+    QDir parentPath(parentDir);
+    if ( !dirname.isEmpty() )
+        parentPath.mkpath(dirname);
+    return parentDir + "/" + dirname;
+}
+
 }  // namespace base
 
 }  // namespace utils

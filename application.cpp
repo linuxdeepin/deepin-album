@@ -39,10 +39,10 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <DAboutDialog>
-
 namespace {
-
-}  // namespace
+const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
+}
+// namespace
 
 #define IMAGE_HEIGHT_DEFAULT    100
 #define IMAGE_LOAD_DEFAULT    100
@@ -257,13 +257,85 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 void ImageLoader::updateImageLoader(QStringList pathlist)
 {
     for (QString path : pathlist) {
-        QPixmap pixmap(path);
+//        QPixmap pixmap(path);
 
-        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+//        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
 
+//        if (pixmap.isNull()) {
+//            QPixmap pixmapitem(path);
+//            pixmap = pixmapitem;
+//        }
+
+        using namespace utils::base;
+        QImage tImg;
+        bool cache_exist = false;
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            } else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                if (cache_exist) {
+                    QImageReader readerF1(path, format.toLatin1());
+                    readerF1.setAutoTransform(true);
+                    if (readerF1.canRead()) {
+                        tImg = readerF1.read();
+                        cache_exist = false;
+                    } else {
+                        qWarning() << "can't read image:" << readerF.errorString()
+                                   << format;
+                        tImg = QImage(path);
+                    }
+
+                } else {
+                    qWarning() << "can't read image:" << readerF.errorString()
+                               << format;
+                    tImg = QImage(path);
+                }
+            }
+        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        //    QPixmap pixmap = QPixmap::fromImage(tImg);
+        //    if (pixmap.isNull()) {
+        //        qDebug() << "pixmap.isNull()";
+        //        return;
+        //    }
+
+        if (pixmap.height() < 100) {
+            cache_exist = true;
+            pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        } else if (pixmap.width() < 100) {
+            cache_exist = true;
+            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+        }
+
+        if (!cache_exist)
+
+            if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+            } else {
+                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+            }
         if (pixmap.isNull()) {
-            QPixmap pixmapitem(path);
-            pixmap = pixmapitem;
+            pixmap = QPixmap::fromImage(tImg);
+        } else {
+            if (!cache_exist) {
+                //            QBuffer buffer(&m_baThumb);
+                //            buffer.open(QIODevice::WriteOnly);
+                QString spath = CACHE_PATH + path;
+                mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+                pixmap.save(spath, "PNG");
+            }
         }
 
         if (!ImageEngineApi::instance()->updateImageDataPixmap(path, pixmap)) {

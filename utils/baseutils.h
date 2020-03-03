@@ -230,6 +230,7 @@ bool        mountDeviceExist(const QString &path);
 bool        isCommandExist(const QString &command);
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
 bool checkMimeData(const QMimeData *mimeData);
+QString mkMutiDir(const QString path);
 }  // namespace base
 
 }  // namespace utils
