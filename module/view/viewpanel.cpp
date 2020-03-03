@@ -194,7 +194,7 @@ void ViewPanel::initConnect()
         int size = m_ttbc->itemLoadedSize();
         QWidget *pttbc = bottomTopLeftContent();
         emit dApp->signalM->updateBottomToolbarContent(pttbc, (size  > 1));
-        emit ((TTBContent *)pttbc)->sigRequestSomeImages();
+        emit((TTBContent *)pttbc)->sigRequestSomeImages();
 //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_ttbc->itemLoadedSize() > 1));
     });
 
@@ -277,7 +277,7 @@ void ViewPanel::showFullScreen()
 //        window()->setVisible(false);
         window()->showFullScreen();
 //        window()->setVisible(true);
-    }else {
+    } else {
         window()->showFullScreen();
     }
 //    window()->showFullScreen();
@@ -696,7 +696,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
 
     QWidget *pttbc = bottomTopLeftContent();
     emit dApp->signalM->updateBottomToolbarContent(pttbc, (vinfo.size() > 1));
-    emit ((TTBContent *)pttbc)->sigRequestSomeImages();
+    emit((TTBContent *)pttbc)->sigRequestSomeImages();
 }
 
 //void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -787,7 +787,7 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
-    if ( m_dt->isActive()) {
+    if (m_dt->isActive()) {
         return false;
     }
     m_dt->start();
@@ -811,7 +811,7 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
-    if ( m_dt->isActive()) {
+    if (m_dt->isActive()) {
         return false;
     }
     m_dt->start();
@@ -870,7 +870,7 @@ void ViewPanel::removeCurrentImage()
 
         QWidget *pttbc = bottomTopLeftContent();
         emit dApp->signalM->updateBottomToolbarContent(pttbc, (m_filepathlist.size() > 1));
-        emit ((TTBContent *)pttbc)->sigRequestSomeImages();
+        emit((TTBContent *)pttbc)->sigRequestSomeImages();
     } else {
         m_vinfo.paths = m_filepathlist;
         m_vinfo.path = m_filepathlist[m_current];
