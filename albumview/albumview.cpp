@@ -698,7 +698,15 @@ void AlbumView::initRightView()
 
     m_noTrashItem = new QListWidgetItem();
     m_noTrashItem->setFlags(Qt::NoItemFlags);
-    m_pRightThumbnailList->setListWidgetItem(m_noTrashItem);
+//    m_pRightThumbnailList->setListWidgetItem(m_noTrashItem);
+    connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+        if (isVisible()) {
+            int mh = h;
+            m_pRightThumbnailList->setFixedHeight(mh);
+            m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
+        }
+
+    });
     lsitWidget->insertItem(1, m_noTrashItem);
     lsitWidget->setItemWidget(m_noTrashItem, m_pRightThumbnailList);
 
@@ -719,16 +727,16 @@ void AlbumView::initRightView()
     m_pNoTrashTitle->setAutoFillBackground(true);
     m_pNoTrashTitle->move(0, 50);
     m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
-    //add end 3975
+//add end 3975
 
-    // Trash View
+// Trash View
 //    DWidget *pTrashWidget = new DWidget(); //del 3975
     m_pTrashWidget = new DWidget(); //add 3975
-    //add start 3975
+//add start 3975
     DPalette palcolor3 = DApplicationHelper::instance()->palette(m_pTrashWidget);
     palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
     m_pTrashWidget->setPalette(palcolor3);
-    //add end 3975
+//add end 3975
 //    QVBoxLayout *pMainVBoxLayout = new QVBoxLayout();
     QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
@@ -792,7 +800,7 @@ void AlbumView::initRightView()
 
 //    pTrashWidget->setLayout(pMainVBoxLayout);
 //del end 3975
-    //add start 3975
+//add start 3975
 //    DListWidget *lsitWidget3 = new DListWidget();
     AlbumViewList *lsitWidget3 = new AlbumViewList();
     lsitWidget3->setContentsMargins(0, 0, 0, 0);
@@ -818,7 +826,15 @@ void AlbumView::initRightView()
 
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
-    m_pRightTrashThumbnailList->setListWidgetItem(m_TrashitemItem);
+//    m_pRightTrashThumbnailList->setListWidgetItem(m_TrashitemItem);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+        if (isVisible()) {
+            int mh = h;
+            m_pRightTrashThumbnailList->setFixedHeight(mh);
+            m_TrashitemItem->setSizeHint(m_pRightTrashThumbnailList->size());
+        }
+
+    });
     lsitWidget3->insertItem(1, m_TrashitemItem);
     lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
 
@@ -839,16 +855,16 @@ void AlbumView::initRightView()
     m_TrashTitle->setAutoFillBackground(true);
     m_TrashTitle->move(0, 50);
     m_TrashTitle->setFixedSize(this->width() - 200, 83);
-    //add end 3975
+//add end 3975
 
-    // Favorite View
-    // DWidget *pFavoriteWidget = new DWidget(); //del 3975
+// Favorite View
+// DWidget *pFavoriteWidget = new DWidget(); //del 3975
     m_pFavoriteWidget = new DWidget(); //add 3975
-    //add start 3975
+//add start 3975
     DPalette palcolor2 = DApplicationHelper::instance()->palette(m_pFavoriteWidget);
     palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
     m_pFavoriteWidget->setPalette(palcolor2);
-    //add end 3975
+//add end 3975
     QVBoxLayout *pFavoriteVBoxLayout = new QVBoxLayout();
 
     m_pFavoriteTitle = new DLabel();
@@ -874,7 +890,7 @@ void AlbumView::initRightView()
     pFavoriteVBoxLayout->addSpacing(-1);
 
     pFavoriteVBoxLayout->setContentsMargins(12, 0, 0, 0); //edit 3975
-    //del start 3975
+//del start 3975
 //    QVBoxLayout *p_all1 = new QVBoxLayout();
 
 //    p_all1->setMargin(2);
@@ -883,8 +899,8 @@ void AlbumView::initRightView()
 //    p_all1->addWidget(m_pRightFavoriteThumbnailList);
 
 //    pFavoriteWidget->setLayout(p_all1);
-    //del end 3975
-    //add start 3975
+//del end 3975
+//add start 3975
 //    DListWidget *lsitWidget2 = new DListWidget();
     AlbumViewList *lsitWidget2 = new AlbumViewList();
     lsitWidget2->setContentsMargins(0, 0, 0, 0);
@@ -909,13 +925,21 @@ void AlbumView::initRightView()
 
     m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
-    m_pRightFavoriteThumbnailList->setListWidgetItem(m_FavoriteItem);
+//    m_pRightFavoriteThumbnailList->setListWidgetItem(m_FavoriteItem);
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+        if (isVisible()) {
+            int mh = h;
+            m_pRightFavoriteThumbnailList->setFixedHeight(mh);
+            m_FavoriteItem->setSizeHint(m_pRightFavoriteThumbnailList->size());
+        }
+
+    });
     lsitWidget2->insertItem(1, m_FavoriteItem);
     lsitWidget2->setItemWidget(m_FavoriteItem, m_pRightFavoriteThumbnailList);
 //    m_pRightFavoriteThumbnailList->resize(480, 5000);
     qDebug() << "m_pRightThumbnailList height" << m_pRightFavoriteThumbnailList->height() << endl;
     qDebug() << "listWidget2 height" << lsitWidget2->height() << endl;
-    //    m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
+//    m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8));
 
     m_pRightFavoriteThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightFavoriteThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -935,12 +959,12 @@ void AlbumView::initRightView()
     m_FavoriteTitle->setAutoFillBackground(true);
     m_FavoriteTitle->move(0, 50);
     m_FavoriteTitle->setFixedSize(this->width() - 200, 83);
-    //add end 3975
+//add end 3975
 
-    //Search View
+//Search View
     m_pSearchView = new SearchView;
 
-    // Phone View
+// Phone View
     pPhoneWidget = new DWidget();
     pPhoneWidget->setBackgroundRole(DPalette::Window);
 
@@ -965,7 +989,7 @@ void AlbumView::initRightView()
     pPhoneVBoxLayout->addSpacing(-1);
     pPhoneVBoxLayout->setContentsMargins(10, 0, 0, 0);
 
-    //手机相片导入窗体
+//手机相片导入窗体
     m_importByPhoneWidget = new DWidget;
 //    DWidget *topwidget = new DWidget;
 //    topwidget->setFixedHeight(50);
@@ -1026,7 +1050,7 @@ void AlbumView::initRightView()
 
 //    pPhoneWidget->setLayout(p_all2);
 
-    // 导入图片列表,按导入时间排列
+// 导入图片列表,按导入时间排列
 //del start 3975
 //    pImportTimeLineWidget = new DWidget();
 ////    pImportTimeLineWidget->setStyleSheet("background:red");
@@ -1087,7 +1111,7 @@ void AlbumView::initRightView()
     m_pImpTimeLineWidget->clearAndStartLayout();
     m_pImpTimeLineWidget->move(-6, 0);
 //add end 3975
-    // Add View
+// Add View
     m_pRightStackWidget->addWidget(m_pImportView);
     m_pRightStackWidget->addWidget(m_pNoTrashWidget);  //edit 3975
     m_pRightStackWidget->addWidget(m_pTrashWidget);    //edit 3975
@@ -1096,7 +1120,7 @@ void AlbumView::initRightView()
     m_pRightStackWidget->addWidget(pPhoneWidget);
     m_pRightStackWidget->addWidget(pImportTimeLineWidget);
 
-    // Statusbar
+// Statusbar
 
 
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();

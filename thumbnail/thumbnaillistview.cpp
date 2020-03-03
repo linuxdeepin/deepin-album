@@ -911,9 +911,13 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
     emit needResize(m_height + 15);
 
     if (nullptr != m_item) {
+//        if (this->maximumHeight() < (m_height + 27 + 8)) {
+//            this->setMaximumHeight(m_height + 27 + 8);
+//        } else if (this->minimumHeight() > (m_height + 27 + 8)) {
+//            this->setMinimumHeight(m_height + 27 + 8);
+//        }
         m_item->setSizeHint(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-//        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-        this->setMinimumHeight(m_height + 27 + 8);
+        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
     }
 //}
 }
@@ -948,8 +952,8 @@ void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
     m_item = item;
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setMinimumSize(0, 0);
-    setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
+//    setMinimumSize(0, 0);
+//    setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
 }
 
 void ThumbnailListView::setIBaseHeight(int iBaseHeight)
@@ -1517,9 +1521,15 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
     m_iDefaultWidth = width();
 
     if (nullptr != m_item) {
+//        if (this->maximumHeight() < (m_height + 27 + 8)) {
+//            this->setMaximumHeight(m_height + 27 + 8);
+//        } else if (this->minimumHeight() > (m_height + 27 + 8)) {
+//            this->setMinimumHeight(m_height + 27 + 8);
+//        }
+//        this->setMaximumHeight(m_height + 27 + 8);
         m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
-//        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-        this->setMinimumHeight(m_height + 27 + 8);
+        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+//        this->setMinimumHeight(m_height + 27 + 8);
     }
 //    QListView::resizeEvent(e);
 }
