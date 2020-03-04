@@ -86,7 +86,7 @@ private:
 
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
-    void timerEvent(QTimerEvent *e)Q_DECL_OVERRIDE;
+//    void timerEvent(QTimerEvent *e)Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
 signals:
@@ -148,7 +148,7 @@ private:
 //    DSuggestButton *m_pAllPicBtn;
 //    DSuggestButton *m_pTimeBtn;
 //    DSuggestButton *m_pAlbumBtn;
-    int timer;
+//    int timer;
     DDialog  *m_waitdailog;
     DProgressBar *m_importBar = nullptr;
     DLabel *m_waitlabel = nullptr;

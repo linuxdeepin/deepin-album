@@ -58,9 +58,12 @@ MainWindow::MainWindow()
     m_pCenterWidget->addWidget(m_pAllPicView);
     m_pCenterWidget->setFixedSize(size());
     m_pCenterWidget->lower();
+    initCentralWidget();
+    initShortcut();
+    initConnections();
 //    setCentralWidget(m_pCenterWidget);
 
-    timer = startTimer(500);
+//    timer = startTimer(500);
     loadZoomRatio();
 }
 
@@ -75,16 +78,17 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 }
 
 
-void MainWindow::timerEvent(QTimerEvent *e)
-{
-    if (e->timerId() == timer) {
-        killTimer(timer);
-        timer = 0;
-        initCentralWidget();
-        initShortcut();
-        initConnections();
-    }
-}
+//void MainWindow::timerEvent(QTimerEvent *e)
+//{
+//    /*
+//       if (e->timerId() == timer) {
+//           killTimer(timer);
+//           timer = 0;
+//           initCentralWidget();
+//           initShortcut();
+//           initConnections();
+//       }*/
+//}
 
 void MainWindow::initConnections()
 {
