@@ -1003,7 +1003,7 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
 #if 1
 void MainWindow::onViewCreateAlbum(QString imgpath)
 {
-    AlbumCreateDialog *d = new AlbumCreateDialog;
+    AlbumCreateDialog *d = new AlbumCreateDialog(this);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {

@@ -2301,7 +2301,7 @@ void AlbumView::loadMountPicture(QString path)
 void AlbumView::importComboBoxChange(QString strText)
 {
     if (1 == m_importByPhoneComboBox->currentIndex()) {
-        AlbumCreateDialog *dialog = new AlbumCreateDialog;
+        AlbumCreateDialog *dialog = new AlbumCreateDialog(this);
         dialog->show();
         qDebug() << "xxxxxxxxxx" << window()->x();
         qDebug() << "xxxxxxxxxx" << window()->y();
