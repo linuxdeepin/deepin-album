@@ -755,57 +755,101 @@ void AlbumView::initRightView()
     m_pTrashWidget->setPalette(palcolor3);
 //add end 3975
 //    QVBoxLayout *pMainVBoxLayout = new QVBoxLayout();
-    QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
+//    QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
-    QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
+//    QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
+
+//    pLabel1 = new DLabel();
+//    DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
+//    pLabel1->setFixedHeight(32);
+//    pLabel1->setForegroundRole(DPalette::TextTitle);
+//    pLabel1->setText(tr("Trash"));
+
+//    pLabel2 = new DLabel();
+//    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
+//    pLabel2->setForegroundRole(DPalette::TextTips);
+//    pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
+
+//    pTopLeftVBoxLayout->addSpacing(3);
+//    pTopLeftVBoxLayout->addWidget(pLabel1);
+//    pTopLeftVBoxLayout->addSpacing(10);
+//    pTopLeftVBoxLayout->addWidget(pLabel2);
+//    pTopLeftVBoxLayout->addSpacing(-1);
+//    pTopLeftVBoxLayout->setContentsMargins(3, 0, 0, 0); //edit 3975
+
+//    QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
+//    m_pRecoveryBtn = new DPushButton();
+
+//    m_pRecoveryBtn->setText(tr("Restore"));
+//    m_pRecoveryBtn->setEnabled(false);
+//    m_pRecoveryBtn->setFixedSize(120, 36);
+
+//    DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+//    m_pRecoveryBtn->setPalette(ReBtn);
+
+//    m_pDeleteBtn = new DWarningButton();
+
+//    m_pDeleteBtn->setText(tr("Delete All"));
+//    m_pDeleteBtn->setFixedSize(120, 36);
+
+//    DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+//    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+//    m_pDeleteBtn->setPalette(ReBtn);
+
+//    pTopRightVBoxLayout->addWidget(m_pRecoveryBtn);
+//    pTopRightVBoxLayout->addSpacing(10);
+//    pTopRightVBoxLayout->addWidget(m_pDeleteBtn);
+
+//    pTopHBoxLayout->addItem(pTopLeftVBoxLayout);
+//    pTopHBoxLayout->addStretch();
+//    pTopHBoxLayout->addItem(pTopRightVBoxLayout);
+//    pTopHBoxLayout->addSpacing(20);
+
+    QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
     pLabel1 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
     pLabel1->setFixedHeight(32);
     pLabel1->setForegroundRole(DPalette::TextTitle);
     pLabel1->setText(tr("Trash"));
+    pTopHBoxLayout->addWidget(pLabel1);
+
+    QHBoxLayout *pTopButtonLayout  = new QHBoxLayout();
+
+    m_pRecoveryBtn = new DPushButton();
+    m_pRecoveryBtn->setText(tr("Restore"));
+    m_pRecoveryBtn->setEnabled(false);
+    m_pRecoveryBtn->setFixedSize(120, 36);
+
+    DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+    m_pRecoveryBtn->setPalette(ReBtn);
+
+    pTopButtonLayout->addWidget(m_pRecoveryBtn);
+    pTopButtonLayout->addSpacing(10);
+
+    m_pDeleteBtn = new DWarningButton();
+    m_pDeleteBtn->setText(tr("Delete All"));
+    m_pDeleteBtn->setFixedSize(120, 36);
+
+    DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+    m_pDeleteBtn->setPalette(ReBtn);
+    pTopButtonLayout->addWidget(m_pDeleteBtn);
+
+    pTopHBoxLayout->addLayout(pTopButtonLayout);
+    pTopHBoxLayout->addSpacing(10);
+
+    QVBoxLayout *pTopVBoxLayout = new QVBoxLayout();
+    pTopVBoxLayout->addLayout(pTopHBoxLayout);
 
     pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
 
-    pTopLeftVBoxLayout->addSpacing(3);
-    pTopLeftVBoxLayout->addWidget(pLabel1);
-    pTopLeftVBoxLayout->addSpacing(10);
-    pTopLeftVBoxLayout->addWidget(pLabel2);
-    pTopLeftVBoxLayout->addSpacing(-1);
-    pTopLeftVBoxLayout->setContentsMargins(3, 0, 0, 0); //edit 3975
-
-    QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
-    m_pRecoveryBtn = new DPushButton();
-
-    m_pRecoveryBtn->setText(tr("Restore"));
-    m_pRecoveryBtn->setEnabled(false);
-    m_pRecoveryBtn->setFixedSize(100, 36);
-
-    DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-    m_pRecoveryBtn->setPalette(ReBtn);
-
-    m_pDeleteBtn = new DWarningButton();
-
-    m_pDeleteBtn->setText(tr("Delete All"));
-    m_pDeleteBtn->setFixedSize(100, 36);
-
-    DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-    m_pDeleteBtn->setPalette(ReBtn);
-
-    pTopRightVBoxLayout->addWidget(m_pRecoveryBtn);
-    pTopRightVBoxLayout->addSpacing(10);
-    pTopRightVBoxLayout->addWidget(m_pDeleteBtn);
-
-    pTopHBoxLayout->addItem(pTopLeftVBoxLayout);
-    pTopHBoxLayout->addStretch();
-    pTopHBoxLayout->addItem(pTopRightVBoxLayout);
-    pTopHBoxLayout->addSpacing(20);
-
+    pTopVBoxLayout->addWidget(pLabel2);
 
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
@@ -854,7 +898,7 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_TrashTitle = new DWidget(m_pTrashWidget);
-    m_TrashTitle->setLayout(pTopHBoxLayout);
+    m_TrashTitle->setLayout(pTopVBoxLayout);
 
     DPalette ppal_light3 = DApplicationHelper::instance()->palette(m_TrashTitle);
     ppal_light3.setBrush(DPalette::Background, ppal_light3.color(DPalette::Base));
@@ -1003,12 +1047,12 @@ void AlbumView::initRightView()
     importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     m_importByPhoneComboBox = new DComboBox;
-    m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
+    m_importByPhoneComboBox->setMinimumSize(QSize(190, 36));
     m_importByPhoneComboBox->setEnabled(false);
 
     m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
     DFontSizeManager::instance()->bind(m_importAllByPhoneBtn, DFontSizeManager::T6);
-    m_importAllByPhoneBtn ->setMinimumSize(100, 36);
+    m_importAllByPhoneBtn ->setMinimumSize(110, 36);
     DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
     importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
@@ -1019,7 +1063,7 @@ void AlbumView::initRightView()
 //    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
     DFontSizeManager::instance()->bind(m_importSelectByPhoneBtn, DFontSizeManager::T6);
 
-    m_importSelectByPhoneBtn->setMinimumSize(100, 36);
+    m_importSelectByPhoneBtn->setMinimumSize(110, 36);
 //    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
 //    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
 //    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
