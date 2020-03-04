@@ -1049,7 +1049,8 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
 #endif
 void MainWindow::showCreateDialog(QStringList imgpaths)
 {
-    AlbumCreateDialog *d = new AlbumCreateDialog;
+    AlbumCreateDialog *d = new AlbumCreateDialog(this);
+//    d->setWindowModality(Qt::WindowModal);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
 
@@ -1477,7 +1478,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     saveWindowState();
     if (4 == m_pCenterWidget->currentIndex()) {
-        if(bfirstandviewimage){
+        if (bfirstandviewimage) {
             event->accept();
             return;
         }
