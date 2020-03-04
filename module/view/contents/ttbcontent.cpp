@@ -535,7 +535,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     // imgListView
 //    m_imgListView = new DWidget();
-    m_imgListView = new MyImageListWidget();
+    m_imgListView = new MyImageListWidget(this);
     m_imgList = new DWidget(m_imgListView);
 
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {

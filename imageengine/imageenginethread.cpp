@@ -430,6 +430,10 @@ void ImageImportFilesFromMountThread::run()
         QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
         QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
 
+        //判断新路径下是否存在目标文件，若不存在，继续循环
+        if (!dir.exists(strPath)) {
+            continue;
+        }
         //判断新路径下是否存在目标文件，若存在，先删除掉
         if (dir.exists(strNewPath)) {
             dir.remove(strNewPath);
