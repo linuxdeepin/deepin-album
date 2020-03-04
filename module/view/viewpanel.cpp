@@ -261,9 +261,11 @@ void ViewPanel::feedBackCurrentIndex(int index, QString path)
 void ViewPanel::showNormal()
 {
     if (m_isMaximized) {
+//        window()->setWindowFlags (Qt::SubWindow);
         window()->showNormal();
         window()->showMaximized();
     } else {
+//        window()->setWindowFlags (Qt::SubWindow);
         window()->showNormal();
     }
 
@@ -274,10 +276,12 @@ void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
 //    if (!m_isMaximized) {
+////        window()->setWindowFlags (Qt::Window);
 //        window()->setVisible(false);
 //        window()->showFullScreen();
 //        window()->setVisible(true);
 //    }else {
+////        window()->setWindowFlags (Qt::Window);
 //        window()->showFullScreen();
 //    }
     window()->showFullScreen();
@@ -650,7 +654,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     using namespace utils::base;
     this->setCursor(Qt::ArrowCursor);
     if (m_vinfo.fullScreen) {
-//        window()->showFullScreen();
+//        m_isMaximized = m_vinfo.fullScreen;
         showFullScreen();
     }
 
@@ -777,6 +781,7 @@ void ViewPanel::toggleFullScreen()
         m_hideCursorTid = 0;
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
     } else {
+//        window()->setWindowFlags (Qt::Window);
         showFullScreen();
         if (!m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);

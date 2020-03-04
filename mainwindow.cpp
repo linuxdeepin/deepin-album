@@ -1477,6 +1477,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     saveWindowState();
     if (4 == m_pCenterWidget->currentIndex()) {
+        if(bfirstandviewimage){
+            event->accept();
+            return;
+        }
         emit dApp->signalM->hideImageView();
         event->ignore();
     } else {

@@ -406,7 +406,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 void SlideShowPanel::showNormal()
 {
     if (m_isMaximized) {
-        window()->showNormal();
+//        window()->showNormal();
         window()->showMaximized();
     } else {
         window()->showNormal();
