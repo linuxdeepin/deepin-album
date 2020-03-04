@@ -19,6 +19,7 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
     m_pic->setAlignment(Qt::AlignLeft);
 
     DLabel *m_label = new DLabel(this);
+    DFontSizeManager::instance()->bind(m_label, DFontSizeManager::T6);
 
     DWidget *contentWidget = new DWidget(this);
     contentWidget->setContentsMargins(0, 0, 0, 0);
@@ -41,13 +42,18 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
 
     }
     m_label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    m_label->adjustSize();
-    m_label->move((this->width() - m_label->width()) / 2, 70);
+//    m_label->setFixedSize(this->width(), 60);
+//    m_label->adjustSize();
+    m_label->setFixedSize(this->width(), 120);
+    m_label->setWordWrap(true);
+    m_label->setAlignment(Qt::AlignHCenter);
+    m_label->move((this->width() - m_label->width()) / 2, 60);
 
     DPushButton *m_Cancel = new DPushButton(this);
+    DFontSizeManager::instance()->bind(m_Cancel, DFontSizeManager::T6);
     m_Cancel->setText(tr("Cancel"));
     m_Cancel->setFixedSize(170, 36);
-    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPushButton *m_line = new DPushButton(this);
     m_line->setFixedSize(3, 28);
@@ -57,7 +63,7 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
     DFontSizeManager::instance()->bind(m_Delete, DFontSizeManager::T6);
     m_Delete->setText(tr("Delete"));
     m_Delete->setFixedSize(170, 36);
-    m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+//    m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     m_Cancel->move(10, 134);
     m_line->move(189, 138);
