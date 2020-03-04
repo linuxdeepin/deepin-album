@@ -467,7 +467,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1604,7 +1604,7 @@ void AlbumView::onTrashDeleteBtnClicked()
     dialog->show();
     connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
 //        DBManager::instance()->removeTrashImgInfos(paths);
-        ImageEngineApi::instance()->moveImagesToTrash(paths, true);
+        ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
     });
 
     onTrashListClicked();
@@ -2150,7 +2150,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

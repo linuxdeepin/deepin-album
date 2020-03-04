@@ -32,7 +32,7 @@ public:
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
     bool getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj);
     bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
-    bool moveImagesToTrash(QStringList files, bool typetrash = false);
+    bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);

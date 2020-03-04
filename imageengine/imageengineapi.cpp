@@ -300,9 +300,9 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
     return true;
 }
 
-bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash)
+bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool bneedprogress)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Deleting..."));//autor : jia.dong
+    emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //autor : jia.dong
     ImageMoveImagesToTrashThread *imagethread = new ImageMoveImagesToTrashThread;
     imagethread->setData(files, typetrash);
     m_qtpool.start(imagethread);
@@ -311,7 +311,7 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash)
 
 bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Restoring..."));
+    emit dApp->signalM->popupWaitDialog(tr("Restoring..."), false);
     ImageRecoveryImagesFromTrashThread *imagethread = new ImageRecoveryImagesFromTrashThread;
     imagethread->setData(files);
     m_qtpool.start(imagethread);

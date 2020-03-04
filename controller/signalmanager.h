@@ -148,7 +148,7 @@ signals:
     void updateLeftListview();
     void sliderValueChange(int step);
     void startImprot();
-    void popupWaitDialog(QString waittext);
+    void popupWaitDialog(QString waittext, bool bneedprogress = true);
     void closeWaitDialog();
     void progressOfWaitDialog(int allfiles, int completefiles);
 

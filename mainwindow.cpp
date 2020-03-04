@@ -154,25 +154,36 @@ void MainWindow::initConnections()
         m_importBar->setValue(completefiles);
     });
 
-    connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext) {
-        if (!waittext.compare(tr("Importing..."))) {
-//            m_waitlabel->setText(waittext);
-            m_bImport = true;
-        } else {
-//            m_waitlabel->setText(waittext);
-            m_bImport = false;
-        }
-        if (!waittext.compare(tr("Restoring..."))) {
+    connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext, bool bneedprogress) {
+        if (bneedprogress == false) {
             m_importBar->hide();
+            m_countLabel->hide();
+            m_waitlabel->setText(waittext);
+            m_waitlabel->move(40, 30);
+            m_waitlabel->show();
+            m_waitdailog->show();
+        } else {
+
+            if (!waittext.compare(tr("Importing..."))) {
+                //            m_waitlabel->setText(waittext);
+                m_bImport = true;
+            } else {
+                //            m_waitlabel->setText(waittext);
+                m_bImport = false;
+            }
+            m_waitlabel->setText(waittext);
+
+            m_waitlabel->show();
+            //        m_countLabel->hide();
+            //        m_spinner->start();
+            //        m_waitdailog.exec();
+            m_waitdailog->show();
+
+
         }
 
-        m_waitlabel->setText(waittext);
 
-        m_waitlabel->show();
-//        m_countLabel->hide();
-//        m_spinner->start();
-//        m_waitdailog.exec();
-        m_waitdailog->show();
+
     });
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
 //        m_spinner->stop();
