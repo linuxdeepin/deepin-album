@@ -154,6 +154,10 @@ ImageView::ImageView(QWidget *parent)
 
 void ImageView::clear()
 {
+    if (m_pixmapItem != nullptr) {
+        delete m_pixmapItem;
+        m_pixmapItem = nullptr;
+    }
     scene()->clear();
 }
 
@@ -185,7 +189,11 @@ void ImageView::setImage(const QString &path)
     // The suffix of svf file should be svg
     if (QFileInfo(path).suffix().toLower() == "svg" && DSvgRenderer().load(path)) {
         m_movieItem = nullptr;
-        m_pixmapItem = nullptr;
+//        m_pixmapItem = nullptr;
+        if (m_pixmapItem != nullptr) {
+            delete m_pixmapItem;
+            m_pixmapItem = nullptr;
+        }
         s->clear();
         resetTransform();
 
@@ -209,7 +217,11 @@ void ImageView::setImage(const QString &path)
         m_imgSvgItem = nullptr;
         // Support gif and mng
         if (QMovie(path).frameCount() > 1) {
-            m_pixmapItem = nullptr;
+//            m_pixmapItem = nullptr;
+            if (m_pixmapItem != nullptr) {
+                delete m_pixmapItem;
+                m_pixmapItem = nullptr;
+            }
             s->clear();
             resetTransform();
             m_movieItem = new GraphicsMovieItem(path);
@@ -326,10 +338,10 @@ const QImage ImageView::image()
         return m_movieItem->pixmap().toImage();
     } else if (m_pixmapItem) {
         //FIXME: access to m_pixmapItem will crash
-        bool vis = false;
-        vis = m_pixmapItem->isVisible();
-        QPixmap mmap = m_pixmapItem->pixmap();
-        return mmap.toImage();
+        if (nullptr == m_pixmapItem) {  //add to slove crash by shui
+            return QImage();
+        }
+        return m_pixmapItem->pixmap().toImage();
 //    } else if (m_svgItem) {    // svg
     } else if (m_imgSvgItem) {    // svg
         QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
@@ -581,6 +593,10 @@ void ImageView::onCacheFinish()
         QPixmap pixmap = vl.last().value<QPixmap>();
         pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
+            if (m_pixmapItem != nullptr) {
+                delete m_pixmapItem;
+                m_pixmapItem = nullptr;
+            }
             scene()->clear();
             resetTransform();
             m_pixmapItem = new GraphicsPixmapItem(pixmap);

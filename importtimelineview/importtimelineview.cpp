@@ -488,11 +488,8 @@ void ImportTimeLineView::addTimelineLayout()
             pThumbnailListView->setFixedHeight(mh);
             listItem->setFixedHeight(TitleView->height() + mh);
             item->setSizeHint(listItem->rect().size());
-//                emit albumviewResize();
-//                setFixedSize(QSize(size().width() + 1, size().height()));
-//                setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
-//                setMinimumSize(0, 0);
-//                setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
+//            listItem->setFixedHeight(TitleView->height() + mh);
+//            item->setSizeHint(pThumbnailListView->size());
         }
 
     });
