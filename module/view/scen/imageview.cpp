@@ -326,6 +326,8 @@ const QImage ImageView::image()
         return m_movieItem->pixmap().toImage();
     } else if (m_pixmapItem) {
         //FIXME: access to m_pixmapItem will crash
+        bool vis = false;
+        vis = m_pixmapItem->isVisible();
         QPixmap mmap = m_pixmapItem->pixmap();
         return mmap.toImage();
 //    } else if (m_svgItem) {    // svg

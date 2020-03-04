@@ -1398,7 +1398,9 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     if (arguments.length() > 1) {
         //arguments第1个参数是进程名，图片paths参数需要从下标1开始
         for (int i = 1; i < arguments.size(); ++i) {
-            paths.append(arguments.at(i));
+            QString qpath = arguments.at(i);
+            paths.append(qpath);
+            ImageEngineApi::instance()->insertImage(qpath, "");
         }
         if (paths.count() > 0) {
             SignalManager::ViewInfo info;
@@ -1439,7 +1441,6 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 dbi.changeTime = QDateTime::currentDateTime();
                 dbInfos << dbi;
             }
-
             if (! dbInfos.isEmpty()) {
                 dApp->m_imageloader->ImportImageLoader(dbInfos);
             }

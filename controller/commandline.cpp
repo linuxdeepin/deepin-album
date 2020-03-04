@@ -26,6 +26,7 @@
 #include "utils/baseutils.h"
 
 #include "dthememanager.h"
+#include "imageengine/imageengineapi.h"
 
 #include <QCommandLineOption>
 #include <QDBusConnection>
@@ -284,9 +285,11 @@ bool CommandLine::processOption(QStringList &paslist)
                 bneedexit = false;
 //                break;
                 paslist << info.filePath();
+                ImageEngineApi::instance()->insertImage(info.filePath(), "");
             } else if (str.isEmpty()) {
                 bneedexit = false;
                 paslist << info.filePath();
+                ImageEngineApi::instance()->insertImage(info.filePath(), "");
 //                break;
             }
         }
@@ -452,5 +455,5 @@ void CommandLine::resizeEvent(QResizeEvent *e)
 //    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
     m_pwidget->setFixedHeight(this->height() - 23);
     m_pwidget->setFixedWidth(this->width());
-    m_pwidget->move(0,0);
+    m_pwidget->move(0, 0);
 }
