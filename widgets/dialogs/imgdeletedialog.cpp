@@ -44,7 +44,7 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
     m_label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 //    m_label->setFixedSize(this->width(), 60);
 //    m_label->adjustSize();
-    m_label->setFixedSize(this->width(), 120);
+    m_label->setFixedSize(this->width() - 10, 120);
     m_label->setWordWrap(true);
     m_label->setAlignment(Qt::AlignHCenter);
     m_label->move((this->width() - m_label->width()) / 2, 60);

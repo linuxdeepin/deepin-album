@@ -171,8 +171,9 @@ void MainWindow::initConnections()
                 //            m_waitlabel->setText(waittext);
                 m_bImport = false;
             }
+            m_waitlabel->move(40, 7);
             m_waitlabel->setText(waittext);
-
+            m_importBar->show();
             m_waitlabel->show();
             //        m_countLabel->hide();
             //        m_spinner->start();
