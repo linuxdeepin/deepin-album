@@ -110,7 +110,7 @@ void AllPicView::initConnections()
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-//        auto imagelist = DBManager::instance()->getAllInfos();
+//        auto imagelist1 = DBManager::instance()->getAllInfos();
         auto imagelist = DBManager::instance()->getAllPaths();
         if (paths.size() > 1) {
             info.paths = paths;

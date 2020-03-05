@@ -60,11 +60,11 @@ const QStringList DBManager::getAllPaths() const
     if (! db.isValid())
         return paths;
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT "
-                   "FilePath "
-                   "FROM ImageTable3 ORDER BY Time DESC");
+    query.prepare("SELECT "
+                  "FilePath "
+                  "FROM ImageTable3"/* ORDER BY Time DESC"*/);
     if (! query.exec()) {
         qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
@@ -91,10 +91,10 @@ const DBImgInfoList DBManager::getAllInfos() const
     if (! db.isValid()) {
         return infos;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT FilePath, FileName, Dir, Time, ChangeTime "
-                   "FROM ImageTable3");
+    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
+                  "FROM ImageTable3");
     if (! query.exec()) {
         qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
@@ -130,10 +130,10 @@ const QStringList DBManager::getAllTimelines() const
     if (! db.isValid())
         return times;
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT DISTINCT Time "
-                   "FROM ImageTable3 ORDER BY Time DESC");
+    query.prepare("SELECT DISTINCT Time "
+                  "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
@@ -170,10 +170,10 @@ const QStringList DBManager::getImportTimelines() const
     if (! db.isValid())
         return times;
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT DISTINCT ChangeTime "
-                   "FROM ImageTable3 ORDER BY ChangeTime DESC");
+    query.prepare("SELECT DISTINCT ChangeTime "
+                  "FROM ImageTable3 ORDER BY ChangeTime DESC");
     if (! query.exec()) {
         qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
@@ -238,10 +238,10 @@ int DBManager::getImgsCount() const
     if (! db.isValid()) {
         return 0;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "SELECT COUNT(*) FROM ImageTable3" );
+    query.prepare("SELECT COUNT(*) FROM ImageTable3");
     if (query.exec()) {
         query.first();
         int count = query.value(0).toInt();
@@ -265,7 +265,7 @@ int DBManager::getImgsCountByDir(const QString &dir) const
         return 0;
     }
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare("SELECT COUNT(*) FROM ImageTable3 "
                   "WHERE Dir=:Dir AND FilePath !=\" \"");
@@ -293,12 +293,12 @@ const QStringList DBManager::getPathsByDir(const QString &dir) const
     if (! db.isValid()) {
         return list;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT DISTINCT FilePath FROM ImageTable3 "
-                   "WHERE Dir=:dir " );
+    query.prepare("SELECT DISTINCT FilePath FROM ImageTable3 "
+                  "WHERE Dir=:dir ");
     query.bindValue(":dir", utils::base::hash(dir));
-    if (! query.exec() ) {
+    if (! query.exec()) {
         qWarning() << "Get Paths from ImageTable3 failed: " << query.lastError();
     } else {
         while (query.next()) {
@@ -319,11 +319,11 @@ bool DBManager::isImgExist(const QString &path) const
     if (db.isValid()) {
         return false;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "SELECT COUNT(*) FROM ImageTable3 WHERE FilePath = :path" );
-    query.bindValue( ":path", path );
+    query.prepare("SELECT COUNT(*) FROM ImageTable3 WHERE FilePath = :path");
+    query.bindValue(":path", path);
     if (query.exec()) {
         query.first();
         if (query.value(0).toInt() > 0) {
@@ -359,11 +359,11 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     }
 
     // Insert into ImageTable3
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "REPLACE INTO ImageTable3 "
-                   "(PathHash, FilePath, FileName, Dir, Time, ChangeTime) VALUES (?, ?, ?, ?, ?, ?)" );
+    query.prepare("REPLACE INTO ImageTable3 "
+                  "(PathHash, FilePath, FileName, Dir, Time, ChangeTime) VALUES (?, ?, ?, ?, ?, ?)");
     query.addBindValue(pathhashs);
     query.addBindValue(filepaths);
     query.addBindValue(filenames);
@@ -551,13 +551,13 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
     info.name = album;
     QStringList pathHashs;
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     QString ps = "SELECT DISTINCT PathHash FROM AlbumTable3 "
                  "WHERE AlbumName =:name AND PathHash != \"%1\" ";
-    query.prepare( ps.arg(EMPTY_HASH_STR) );
+    query.prepare(ps.arg(EMPTY_HASH_STR));
     query.bindValue(":name", album);
-    if ( ! query.exec() ) {
+    if (! query.exec()) {
         qWarning() << "Get data from AlbumTable3 failed: "
                    << query.lastError();
     } else {
@@ -598,10 +598,10 @@ const QStringList DBManager::getAllAlbumNames() const
     if (! db.isValid()) {
         return list;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT DISTINCT AlbumName FROM AlbumTable3" );
-    if ( !query.exec() ) {
+    query.prepare("SELECT DISTINCT AlbumName FROM AlbumTable3");
+    if (!query.exec()) {
         qWarning() << "Get AlbumNames failed: " << query.lastError();
     } else {
         while (query.next()) {
@@ -623,7 +623,7 @@ const QStringList DBManager::getPathsByAlbum(const QString &album) const
     if (! db.isValid()) {
         return list;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT i.FilePath "
                   "FROM ImageTable3 AS i, AlbumTable3 AS a "
@@ -631,7 +631,7 @@ const QStringList DBManager::getPathsByAlbum(const QString &album) const
                   "AND a.AlbumName=:album "
                   "AND FilePath != \" \" ");
     query.bindValue(":album", album);
-    if (! query.exec() ) {
+    if (! query.exec()) {
         qWarning() << "Get Paths from AlbumTable3 failed: " << query.lastError();
     } else {
         while (query.next()) {
@@ -653,7 +653,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
     if (! db.isValid()) {
         return infos;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime "
                   "FROM ImageTable3 AS i, AlbumTable3 AS a "
@@ -688,11 +688,11 @@ int DBManager::getImgsCountByAlbum(const QString &album) const
     if (! db.isValid()) {
         return 0;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     QString ps = "SELECT COUNT(*) FROM AlbumTable3 "
                  "WHERE AlbumName =:album AND PathHash != \"%1\" ";
-    query.prepare( ps.arg(EMPTY_HASH_STR) );
+    query.prepare(ps.arg(EMPTY_HASH_STR));
     query.bindValue(":album", album);
     if (query.exec()) {
         query.first();
@@ -716,7 +716,7 @@ int DBManager::getAlbumsCount() const
     if (! db.isValid()) {
         return 0;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare("SELECT COUNT(DISTINCT AlbumName) FROM AlbumTable3");
     if (query.exec()) {
@@ -740,12 +740,12 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path) con
     if (! db.isValid()) {
         return false;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
-                   "AND AlbumName = :album");
-    query.bindValue( ":hash", utils::base::hash(path) );
-    query.bindValue( ":album", album );
+    query.prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
+                  "AND AlbumName = :album");
+    query.bindValue(":hash", utils::base::hash(path));
+    query.bindValue(":album", album);
     if (query.exec()) {
         query.first();
 //        // 连接使用完后需要释放回数据库连接池
@@ -767,10 +767,10 @@ bool DBManager::isAlbumExistInDB(const QString &album) const
     if (! db.isValid()) {
         return false;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT COUNT(*) FROM AlbumTable3 WHERE AlbumName = :album");
-    query.bindValue( ":album", album );
+    query.prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE AlbumName = :album");
+    query.bindValue(":album", album);
     if (query.exec()) {
         query.first();
 //        // 连接使用完后需要释放回数据库连接池
@@ -798,7 +798,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
         pathHashRows << utils::base::hash(path);
     }
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash) "
@@ -842,7 +842,7 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
         pathHashRows << utils::base::hash(path);
     }
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash) "
@@ -878,7 +878,7 @@ void DBManager::removeAlbum(const QString &album)
     if (! db.isValid()) {
         return;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare("DELETE FROM AlbumTable3 WHERE AlbumName=:album");
     query.bindValue(":album", album);
@@ -962,13 +962,13 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
     if (! db.isValid()) {
         return;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare("UPDATE AlbumTable3 SET "
                   "AlbumName = :newName "
                   "WHERE AlbumName = :oldName ");
-    query.bindValue( ":newName", newAlbum );
-    query.bindValue( ":oldName", oldAlbum );
+    query.bindValue(":newName", newAlbum);
+    query.bindValue(":oldName", oldAlbum);
     if (! query.exec()) {
         qWarning() << "Update album name failed: " << query.lastError();
     }
@@ -985,7 +985,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
     if (! db.isValid()) {
         return infos;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
 
     QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime FROM ImageTable3 "
@@ -1033,7 +1033,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
     if (! db.isValid()) {
         return infos;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
 
     QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, AlbumName FROM TrashTable "
@@ -1084,7 +1084,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
                        "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.AlbumName=:album "
                        "WHERE i.FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare(queryStr.arg(keywords));
     query.bindValue(":album", album);
@@ -1121,7 +1121,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     if (! db.isValid()) {
         return infos;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime FROM ImageTable3 "
                           "WHERE %1= :value ORDER BY Time DESC").arg(key));
@@ -1217,52 +1217,52 @@ void DBManager::checkDatabase()
         return;
     }
     bool tableExist = false;
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT name FROM sqlite_master "
-                   "WHERE type=\"table\" AND name = \"ImageTable3\"");
+    query.prepare("SELECT name FROM sqlite_master "
+                  "WHERE type=\"table\" AND name = \"ImageTable3\"");
     if (query.exec() && query.first()) {
         tableExist = ! query.value(0).toString().isEmpty();
     }
     //if tables not exist, create it.
-    if ( ! tableExist ) {
+    if (! tableExist) {
         QSqlQuery query(db);
         // ImageTable3
         //////////////////////////////////////////////////////////////
         //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime //
         //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT //
         //////////////////////////////////////////////////////////////
-        query.exec( QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
-                            "PathHash TEXT primary key, "
-                            "FilePath TEXT, "
-                            "FileName TEXT, "
-                            "Dir TEXT, "
-                            "Time TEXT, "
-                            "ChangeTime TEXT)"));
+        query.exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
+                           "PathHash TEXT primary key, "
+                           "FilePath TEXT, "
+                           "FileName TEXT, "
+                           "Dir TEXT, "
+                           "Time TEXT, "
+                           "ChangeTime TEXT)"));
 
         // AlbumTable3
         //////////////////////////////////////////////////////////
         //AlbumId               | AlbumName         | PathHash  //
         //INTEGER primari key   | TEXT              | TEXT      //
         //////////////////////////////////////////////////////////
-        query.exec( QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
-                            "AlbumId INTEGER primary key, "
-                            "AlbumName TEXT, "
-                            "PathHash TEXT)") );
+        query.exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
+                           "AlbumId INTEGER primary key, "
+                           "AlbumName TEXT, "
+                           "PathHash TEXT)"));
 
         // TrashTable
         //////////////////////////////////////////////////////////////
         //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | AlbumName //
         //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT //
         //////////////////////////////////////////////////////////////
-        query.exec( QString("CREATE TABLE IF NOT EXISTS TrashTable ( "
-                            "PathHash TEXT primary key, "
-                            "FilePath TEXT, "
-                            "FileName TEXT, "
-                            "Dir TEXT, "
-                            "Time TEXT, "
-                            "ChangeTime TEXT, "
-                            "AlbumName TEXT)"));
+        query.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable ( "
+                           "PathHash TEXT primary key, "
+                           "FilePath TEXT, "
+                           "FileName TEXT, "
+                           "Dir TEXT, "
+                           "Time TEXT, "
+                           "ChangeTime TEXT, "
+                           "AlbumName TEXT)"));
 //        // Check if there is an old version table exist or not
 
 //        //TODO: AlbumTable's primary key is changed, need to importVersion again
@@ -1276,8 +1276,8 @@ void DBManager::checkDatabase()
         if (!queryImage.next()) {
             // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
             QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-            queryImage.exec( QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
-                             .arg(strDate));
+            queryImage.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
+                            .arg(strDate));
         }
 
         // 判断TrashTable中是否有ChangeTime字段
@@ -1287,8 +1287,8 @@ void DBManager::checkDatabase()
         if (!queryTrash.next()) {
             // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
             QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-            queryTrash.exec( QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
-                             .arg(strDate));
+            queryTrash.exec(QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
+                            .arg(strDate));
         }
 
         // 判断TrashTable中是否有AlbumName字段
@@ -1298,8 +1298,8 @@ void DBManager::checkDatabase()
         if (!queryTrashs.next()) {
             // 无AlbumName字段,则增加AlbumName字段,赋值空
             QString strAlbumName = "";
-            queryTrashs.exec( QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"AlbumName\" TEXT default \"%1\"")
-                              .arg(strAlbumName));
+            queryTrashs.exec(QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"AlbumName\" TEXT default \"%1\"")
+                             .arg(strAlbumName));
         }
     }
 //    // 连接使用完后需要释放回数据库连接池
@@ -1316,10 +1316,10 @@ void DBManager::importVersion1Data()
         return;
     }
     bool tableExist = false;
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT name FROM sqlite_master "
-                   "WHERE type=\"table\" AND name = \"ImageTable\"");
+    query.prepare("SELECT name FROM sqlite_master "
+                  "WHERE type=\"table\" AND name = \"ImageTable\"");
     if (query.exec() && query.first()) {
         tableExist = ! query.value(0).toString().isEmpty();
     }
@@ -1327,8 +1327,8 @@ void DBManager::importVersion1Data()
         // Import ImageTable into ImageTable3
         query.clear();
         query.setForwardOnly(true);
-        query.prepare( "SELECT filename, filepath, time, changeTime "
-                       "FROM ImageTable ORDER BY time DESC");
+        query.prepare("SELECT filename, filepath, time, changeTime "
+                      "FROM ImageTable ORDER BY time DESC");
         if (! query.exec()) {
             qWarning() << "Import ImageTable into ImageTable3 failed: "
                        << query.lastError();
@@ -1405,10 +1405,10 @@ void DBManager::importVersion2Data()
         return;
     }
     bool tableExist = false;
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT name FROM sqlite_master "
-                   "WHERE type=\"table\" AND name = \"ImageTable2\"");
+    query.prepare("SELECT name FROM sqlite_master "
+                  "WHERE type=\"table\" AND name = \"ImageTable2\"");
     if (query.exec() && query.first()) {
         tableExist = ! query.value(0).toString().isEmpty();
     }
@@ -1416,8 +1416,8 @@ void DBManager::importVersion2Data()
     if (tableExist) {
         // Import ImageTable2 into ImageTable3
         query.clear();
-        query.prepare( "SELECT FileName, FilePath, Time, ChangeTime "
-                       "FROM ImageTable2 ORDER BY Time DESC");
+        query.prepare("SELECT FileName, FilePath, Time, ChangeTime "
+                      "FROM ImageTable2 ORDER BY Time DESC");
         if (! query.exec()) {
             qWarning() << "Import ImageTable2 into ImageTable3 failed: "
                        << query.lastError();
@@ -1492,11 +1492,11 @@ const QStringList DBManager::getAllTrashPaths() const
     if (! db.isValid())
         return paths;
 
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT "
-                   "FilePath "
-                   "FROM TrashTable ORDER BY Time DESC");
+    query.prepare("SELECT "
+                  "FilePath "
+                  "FROM TrashTable ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get Data from TrashTable failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
@@ -1522,10 +1522,10 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
     if (! db.isValid()) {
         return infos;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare( "SELECT FilePath, FileName, Dir, Time, ChangeTime, AlbumName "
-                   "FROM TrashTable ORDER BY ChangeTime DESC");
+    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, AlbumName "
+                  "FROM TrashTable ORDER BY ChangeTime DESC");
     if (! query.exec()) {
         qWarning() << "Get data from TrashTable failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
@@ -1575,11 +1575,11 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     }
 
     // Insert into TrashTable
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "REPLACE INTO TrashTable "
-                   "(PathHash, FilePath, FileName, Dir, Time, ChangeTime, AlbumName) VALUES (?, ?, ?, ?, ?, ?, ?)" );
+    query.prepare("REPLACE INTO TrashTable "
+                  "(PathHash, FilePath, FileName, Dir, Time, ChangeTime, AlbumName) VALUES (?, ?, ?, ?, ?, ?, ?)");
     query.addBindValue(pathhashs);
     query.addBindValue(filepaths);
     query.addBindValue(filenames);
@@ -1720,7 +1720,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
     if (! db.isValid()) {
         return infos;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, AlbumName FROM TrashTable "
                           "WHERE %1= :value ORDER BY Time DESC").arg(key));
@@ -1757,10 +1757,10 @@ int DBManager::getTrashImgsCount() const
     if (! db.isValid()) {
         return 0;
     }
-    QSqlQuery query( db );
+    QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare( "SELECT COUNT(*) FROM TrashTable" );
+    query.prepare("SELECT COUNT(*) FROM TrashTable");
     if (query.exec()) {
         query.first();
         int count = query.value(0).toInt();
