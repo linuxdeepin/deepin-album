@@ -2577,13 +2577,13 @@ void TTBContent::onResize()
 //        m_imgList->setContentsMargins(0, 0, 0, 0);
 
 //        int i = 0;
-//        m_imgListView->show();
+        m_imgListView->show();
     }
 
 
 
     m_imgList->show();
-    m_imgListView->show();
+//    m_imgListView->show();
 
 //    qDebug() << "onResize";
     m_contentWidth = window()->width() - 20;
