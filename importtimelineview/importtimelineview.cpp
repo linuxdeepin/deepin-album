@@ -353,7 +353,7 @@ void ImportTimeLineView::clearAndStartLayout()
     blankItem->setFlags(Qt::NoItemFlags);
     m_mainListWidget->addItemForWidget(blankItem);
     m_mainListWidget->setItemWidget(blankItem, blankWidget);
-    blankItem->setSizeHint(QSize(width(), m_pImportTitle->height()));
+//    blankItem->setSizeHint(QSize(width(), m_pImportTitle->height()));
     //add end 3975
 //    updataLayout();
     addTimelineLayout();
