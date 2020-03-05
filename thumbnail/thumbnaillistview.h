@@ -172,6 +172,8 @@ private slots:
     void onShowMenu(const QPoint &pos);
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
+    void onTimerOut();
+//    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
 
 private:
@@ -187,6 +189,8 @@ private:
     void calWidgetItemWandH();
     void addThumbnailViewNew(QList<QList<ItemInfo>> gridItem);
     void addThumbnailView();
+    void sendNeedResize(/*int height*/);
+    void resizeEventF();
     //------------------
     void updateThumbnailView();
     void updateMenuContents();
@@ -234,6 +238,10 @@ private:
     int m_scrollbartopdistance = 0;
     int m_scrollbarbottomdistance = 0;
     QListWidgetItem *m_item = nullptr;
+    QTimer *m_dt = nullptr;
+    bool bneedsendresize = false;
+//    QTimer *m_dtresizeevent = nullptr;
+//    bool bneedresize = false;
     //------------------
 };
 

@@ -325,25 +325,28 @@ void AlbumView::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     m_itemClicked = false;
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+//        return ;
         if (isVisible()) {
             int mh = h;
-            m_pRightFavoriteThumbnailList->setFixedHeight(mh);
+            m_pRightFavoriteThumbnailList->setFixedHeight(mh + 27);
             m_FavoriteItem->setSizeHint(m_pRightFavoriteThumbnailList->size());
         }
 
     });
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+//        return ;
         if (isVisible()) {
             int mh = h;
-            m_pRightTrashThumbnailList->setFixedHeight(mh);
+            m_pRightTrashThumbnailList->setFixedHeight(mh + 27);
             m_TrashitemItem->setSizeHint(m_pRightTrashThumbnailList->size());
         }
 
     });
     connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
+//        return ;
         if (isVisible()) {
             int mh = h;
-            m_pRightThumbnailList->setFixedHeight(mh);
+            m_pRightThumbnailList->setFixedHeight(mh + 27);
             m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
         }
 
@@ -467,7 +470,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -703,6 +706,7 @@ void AlbumView::initRightView()
     lsitWidget->setContentsMargins(0, 0, 0, 0);
     lsitWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    lsitWidget->setResizeMode(QListWidget::Adjust);
     lsitWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     lsitWidget->verticalScrollBar()->setSingleStep(5);
 
@@ -867,6 +871,7 @@ void AlbumView::initRightView()
     lsitWidget3->setContentsMargins(0, 0, 0, 0);
     lsitWidget3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    lsitWidget3->setResizeMode(QListWidget::Adjust);
     lsitWidget3->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     lsitWidget3->verticalScrollBar()->setSingleStep(5);
 
@@ -960,6 +965,7 @@ void AlbumView::initRightView()
     lsitWidget2->setContentsMargins(0, 0, 0, 0);
     lsitWidget2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    lsitWidget2->setResizeMode(QListWidget::Adjust);
     lsitWidget2->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     lsitWidget2->verticalScrollBar()->setSingleStep(5);
 
@@ -2194,7 +2200,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

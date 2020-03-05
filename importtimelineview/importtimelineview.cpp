@@ -183,6 +183,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     pTimeLineViewWidget->setPalette(palcolor);
 
     m_mainListWidget = new TimelineList;
+//    m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
     m_mainLayout->addWidget(m_mainListWidget);
@@ -371,6 +372,7 @@ void ImportTimeLineView::addTimelineLayout()
 
     QListWidgetItem *item = new QListWidgetItem;
     TimelineItem *listItem = new TimelineItem;
+    listItem->adjustSize();
     QVBoxLayout *listItemlayout = new QVBoxLayout();
     listItem->setLayout(listItemlayout);
 //        listItemlayout->setMargin(2);
@@ -477,6 +479,7 @@ void ImportTimeLineView::addTimelineLayout()
     });
 //        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
+//        return ;
         if (isVisible()) {
             int mh = h;
             if (0 == nowTimeLineLoad) {

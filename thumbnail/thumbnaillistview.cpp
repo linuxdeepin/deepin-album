@@ -83,6 +83,15 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     initMenuAction();
     initConnections();
     installEventFilter(this);
+
+    m_dt = new QTimer(this);
+    m_dt->setSingleShot(true);
+    m_dt->setInterval(100);
+    connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
+//    m_dtresizeevent = new QTimer(this);
+//    m_dtresizeevent->setSingleShot(true);
+//    m_dtresizeevent->setInterval(50);
+//    connect(m_dtresizeevent, SIGNAL(timeout()), this, SLOT(onResizeEventTimerOut()));
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -641,12 +650,17 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
     }
     m_gridItem << gridItem;
 
+    int hightlast = m_height;
     if (0 < m_gridItem.size()) {
         m_height = 0;
         for (int i = 0; i < m_gridItem.size(); i++) {
             m_height = m_height + m_gridItem[i][0].height + ITEM_SPACING;
         }
         m_height -= ITEM_SPACING;
+    }
+    if (hightlast != m_height) {
+//        emit needResize(m_height + 15);
+        sendNeedResize();
     }
 }
 
@@ -908,7 +922,7 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 //    m_ItemList << info;
 //    if (0 != m_iDefaultWidth) {
     calWidgetItem();
-    emit needResize(m_height + 15);
+//    emit needResize(m_height + 15);
 
     if (nullptr != m_item) {
 //        if (this->maximumHeight() < (m_height + 27 + 8)) {
@@ -1444,7 +1458,8 @@ void ThumbnailListView::onPixMapScale(int value)
 
     emit SignalManager::instance()->updateThumbnailViewSize();
 //    emit loadend(m_height + 15);
-    emit needResize(m_height + 15);
+//    emit needResize(m_height + 15);
+    sendNeedResize();
 }
 
 //void ThumbnailListView::slotPageNeedResize(int index)
@@ -1496,42 +1511,54 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-//    QMutexLocker mutex(&m_mutex);
-//    if (COMMON_STR_RECENT_IMPORTED == m_imageType) {
-//        int a = 0;
+////    QMutexLocker mutex(&m_mutex);
+////    if (COMMON_STR_RECENT_IMPORTED == m_imageType) {
+////        int a = 0;
+////    }
+////    if (0 == m_iDefaultWidth) {
+////        calBasePixMapWandH();
+////        calWidgetItemWandH();
+////        addThumbnailView();
+////    } else {
+//    if (nullptr == m_item) {
+//        QScrollBar *bar = this->verticalScrollBar();
+//        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
 //    }
-//    if (0 == m_iDefaultWidth) {
-//        calBasePixMapWandH();
-//        calWidgetItemWandH();
-//        addThumbnailView();
-//    } else {
-    if (nullptr == m_item) {
-        QScrollBar *bar = this->verticalScrollBar();
-        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
-    }
-    calWidgetItemWandH();
-    addThumbnailView();
-//        updateThumbnailView();
-//}
-//    emit loadend((m_height)*m_gridItem.size()+15);
-//    emit loadend(m_height + 15);
-    emit needResize(m_height + 15);
+//    calWidgetItemWandH();
+//    addThumbnailView();
+////        updateThumbnailView();
+////}
+////    emit loadend((m_height)*m_gridItem.size()+15);
+////    emit loadend(m_height + 15);
+////    emit needResize(m_height + 15);
+//    sendNeedResize();
 
 
-    m_iDefaultWidth = width();
+//    m_iDefaultWidth = width();
 
-    if (nullptr != m_item) {
-//        if (this->maximumHeight() < (m_height + 27 + 8)) {
-//            this->setMaximumHeight(m_height + 27 + 8);
-//        } else if (this->minimumHeight() > (m_height + 27 + 8)) {
-//            this->setMinimumHeight(m_height + 27 + 8);
-//        }
-//        this->setMaximumHeight(m_height + 27 + 8);
-        m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
-        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-//        this->setMinimumHeight(m_height + 27 + 8);
-    }
-//    QListView::resizeEvent(e);
+//    if (nullptr != m_item) {
+////        if (this->maximumHeight() < (m_height + 27 + 8)) {
+////            this->setMaximumHeight(m_height + 27 + 8);
+////        } else if (this->minimumHeight() > (m_height + 27 + 8)) {
+////            this->setMinimumHeight(m_height + 27 + 8);
+////        }
+////        this->setMaximumHeight(m_height + 27 + 8);
+//        m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
+//        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+////        this->setMinimumHeight(m_height + 27 + 8);
+//    }
+////    QListView::resizeEvent(e);
+
+
+
+
+//    if (m_dtresizeevent->isActive()) {
+//        bneedresize = true;
+//        return;
+//    }
+//    m_dtresizeevent->start();
+    resizeEventF();
+//    bneedresize = false;
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
@@ -1645,3 +1672,65 @@ int ThumbnailListView::getListViewHeight()
     return m_height;
 }
 //add end 3975
+
+
+void ThumbnailListView::onTimerOut()
+{
+    if (bneedsendresize)
+        emit needResize(m_height + 15);
+    bneedsendresize = false;
+}
+
+void ThumbnailListView::sendNeedResize(/*int hight*/)
+{
+    if (!isVisible()) {
+        return;
+    }
+    if (m_dt->isActive()) {
+        bneedsendresize = true;
+        return;
+    }
+    m_dt->start();
+    emit needResize(m_height + 15);
+    bneedsendresize = false;
+}
+
+
+//void ThumbnailListView::onResizeEventTimerOut()
+//{
+//    if (bneedresize)
+//        resizeEventF();
+//    bneedresize = false;
+//}
+
+
+void ThumbnailListView::resizeEventF()
+{
+    if (nullptr == m_item) {
+        QScrollBar *bar = this->verticalScrollBar();
+        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+    }
+    calWidgetItemWandH();
+    addThumbnailView();
+//        updateThumbnailView();
+//}
+//    emit loadend((m_height)*m_gridItem.size()+15);
+//    emit loadend(m_height + 15);
+//    emit needResize(m_height + 15);
+    sendNeedResize();
+
+
+    m_iDefaultWidth = width();
+
+    if (nullptr != m_item) {
+//        if (this->maximumHeight() < (m_height + 27 + 8)) {
+//            this->setMaximumHeight(m_height + 27 + 8);
+//        } else if (this->minimumHeight() > (m_height + 27 + 8)) {
+//            this->setMinimumHeight(m_height + 27 + 8);
+//        }
+//        this->setMaximumHeight(m_height + 27 + 8);
+        m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
+        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
+//        this->setMinimumHeight(m_height + 27 + 8);
+    }
+}

@@ -190,6 +190,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
     m_mainLayout->addWidget(m_mainListWidget);
+    m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setFrameShape(DTableView::NoFrame);
 
     //添加悬浮title
@@ -387,6 +388,7 @@ void TimeLineView::addTimelineLayout()
 
     QListWidgetItem *item = new QListWidgetItem;
     TimelineItem *listItem = new TimelineItem;
+    listItem->adjustSize();
     QVBoxLayout *listItemlayout = new QVBoxLayout();
     listItem->setLayout(listItemlayout);
     listItemlayout->setMargin(0);
@@ -484,22 +486,24 @@ void TimeLineView::addTimelineLayout()
     });
 //    connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
-//        if (isVisible()) {
-        int mh = h;
-        if (0 == nowTimeLineLoad) {
-            mh += 50;
-        }
-        if (nowTimeLineLoad == m_timelines.size() - 1) {
-            mh += 27;
-        }
-        pThumbnailListView->setFixedHeight(mh);
-        listItem->setFixedHeight(TitleView->height() + mh);
-        item->setSizeHint(listItem->rect().size());
+//        return;
+        if (isVisible()) {
+            int mh = h;
+            if (0 == nowTimeLineLoad) {
+                mh += 50;
+            }
+            if (nowTimeLineLoad == m_timelines.size() - 1) {
+                mh += 27;
+            }
+            pThumbnailListView->setFixedHeight(mh);
+            listItem->setFixedHeight(TitleView->height() + mh);
+//        listItem->resize(pThumbnailListView->size());
+            item->setSizeHint(listItem->rect().size());
 //                setFixedSize(QSize(size().width() + 1, size().height()));
 //                setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
 //                setMinimumSize(0, 0);
 //                setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
-//        }
+        }
 
     });
 
