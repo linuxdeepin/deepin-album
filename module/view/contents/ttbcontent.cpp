@@ -1270,6 +1270,7 @@ void TTBContent::updateScreen()
 //            qDebug() << "b=" << b;
 //            qDebug() << "m_nowIndex=" << m_nowIndex;
 //            qDebug() << "m_ItemLoaded.size()=" << m_ItemLoaded.size();
+
             if (m_nowIndex > a && m_nowIndex < b) {
                 m_startAnimation = 1;
             } else if (m_nowIndex < m_ItemLoaded.size() - 2 * a && m_nowIndex > -1) {
@@ -1361,6 +1362,9 @@ void TTBContent::updateScreen()
                     }
                 } else if (0 == m_startAnimation) {
                     m_imgList->show();
+                    if (m_nowIndex == 0) {
+                        m_imgList->move(QPoint(0, 0));
+                    }
                 }
             }
             m_imgListView->update();
