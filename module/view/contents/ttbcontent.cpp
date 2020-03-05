@@ -1362,11 +1362,13 @@ void TTBContent::updateScreen()
                     }
                 } else if (0 == m_startAnimation) {
                     m_imgList->show();
-                    if (m_nowIndex == 0) {
-                        m_imgList->move(QPoint(0, 0));
-                    }
                 }
             }
+
+            if (m_nowIndex == 0) {
+                m_imgList->move(QPoint(0, 0));
+            }
+
             m_imgListView->update();
             m_imgList->update();
             m_preButton->show();
