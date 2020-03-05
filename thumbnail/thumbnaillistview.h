@@ -242,6 +242,8 @@ private:
     bool bneedsendresize = false;
 //    QTimer *m_dtresizeevent = nullptr;
 //    bool bneedresize = false;
+//    int lastwidth = 0;
+//    int newwidth = 0;
     //------------------
 };
 

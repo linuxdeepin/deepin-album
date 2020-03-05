@@ -53,6 +53,7 @@ public:
 
     explicit ThumbnailDelegate(DelegateType type, QObject *parent = nullptr);
     void setIsDataLocked(bool value);
+    void setNeedPaint(bool value);
 
     void paint(QPainter *painter,
                const QStyleOptionViewItem &option,
@@ -79,6 +80,7 @@ private:
     QString  m_defaultThumbnail;
     bool m_itemdata = false;
     DelegateType m_delegatetype = NullType;
+    bool bneedpaint = true;
 };
 
 #endif // ALBUMDELEGATE_H

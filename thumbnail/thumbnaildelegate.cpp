@@ -44,10 +44,19 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     m_imageTypeStr = IMAGE_DEFAULTTYPE;
 }
 
+
+void ThumbnailDelegate::setNeedPaint(bool value)
+{
+    bneedpaint = value;
+}
+
 void ThumbnailDelegate::paint(QPainter *painter,
                               const QStyleOptionViewItem &option,
                               const QModelIndex &index) const
 {
+    if (!bneedpaint) {
+        return;
+    }
     painter->save();
     const ItemData data = itemData(index);
 //    if (data.path.isEmpty()) return;
@@ -196,7 +205,12 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
 {
     Q_UNUSED(option)
-    return index.model()->data(index, Qt::SizeHintRole).toSize();
+    bool bl = false;
+    bl = index.isValid();
+    if (bl)
+        return index.model()->data(index, Qt::SizeHintRole).toSize();
+    else
+        return QSize(0, 0);
 }
 
 ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index) const

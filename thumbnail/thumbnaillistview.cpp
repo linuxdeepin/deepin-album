@@ -65,7 +65,8 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     //    setFlow(QListView::LeftToRight);
     setSpacing(ITEM_SPACING);
     setDragEnabled(false);
-    if (COMMON_STR_VIEW_TIMELINE == m_imageType) {
+    if (COMMON_STR_VIEW_TIMELINE == m_imageType ||
+            COMMON_STR_RECENT_IMPORTED == m_imageType) {
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
@@ -86,11 +87,11 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
 
     m_dt = new QTimer(this);
     m_dt->setSingleShot(true);
-    m_dt->setInterval(100);
+    m_dt->setInterval(50);
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
 //    m_dtresizeevent = new QTimer(this);
 //    m_dtresizeevent->setSingleShot(true);
-//    m_dtresizeevent->setInterval(50);
+//    m_dtresizeevent->setInterval(100);
 //    connect(m_dtresizeevent, SIGNAL(timeout()), this, SLOT(onResizeEventTimerOut()));
 }
 
@@ -1551,8 +1552,11 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
 
 
-
+////    newwidth = e->size().width();
 //    if (m_dtresizeevent->isActive()) {
+////        m_delegate->setNeedPaint(false);
+////        if (lastwidth > 0)
+////            this->setFixedWidth(lastwidth);
 //        bneedresize = true;
 //        return;
 //    }
@@ -1695,7 +1699,6 @@ void ThumbnailListView::sendNeedResize(/*int hight*/)
     bneedsendresize = false;
 }
 
-
 //void ThumbnailListView::onResizeEventTimerOut()
 //{
 //    if (bneedresize)
@@ -1703,9 +1706,14 @@ void ThumbnailListView::sendNeedResize(/*int hight*/)
 //    bneedresize = false;
 //}
 
-
 void ThumbnailListView::resizeEventF()
 {
+
+//    m_delegate->setNeedPaint(true);
+//    if (newwidth > 0) {
+//        this->setFixedWidth(newwidth);
+//        lastwidth = newwidth;
+//    }
     if (nullptr == m_item) {
         QScrollBar *bar = this->verticalScrollBar();
         bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
@@ -1733,4 +1741,5 @@ void ThumbnailListView::resizeEventF()
         this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
 //        this->setMinimumHeight(m_height + 27 + 8);
     }
+//    lastwidth = this->width();
 }

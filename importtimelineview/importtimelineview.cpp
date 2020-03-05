@@ -183,7 +183,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     pTimeLineViewWidget->setPalette(palcolor);
 
     m_mainListWidget = new TimelineList;
-//    m_mainListWidget->setResizeMode(QListWidget::Adjust);
+    m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
     m_mainLayout->addWidget(m_mainListWidget);
