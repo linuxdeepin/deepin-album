@@ -325,6 +325,16 @@ void ImageItem::setIndex(int index)
     _index = index;
 }
 
+
+bool ImageItem::index_1(int index)
+{
+    if (_index > index) {
+        _index--;
+        return true;
+    }
+    return false;
+}
+
 TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabel(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -630,10 +640,11 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 //    hb->addWidget(m_fileNameLabel);
 
 
-    connect(SignalManager::instance(), &SignalManager::deleteByMenu, this, &TTBContent::deleteImage);
+//    connect(SignalManager::instance(), &SignalManager::deleteByMenu, this, &TTBContent::deleteImage);
 
 
-    connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::deleteImage);
+//    connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::deleteImage);
+    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
 //    m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
@@ -1063,15 +1074,16 @@ int TTBContent::itemLoadedSize()
 
 QString TTBContent::getIndexPath(int index)
 {
-    if (index < 0 || index >= m_ItemLoaded.size()) {
-        return m_currentpath;
-    }
-    QMap<int, QString>::iterator it;
-    it = m_indextopath.find(index);
-    if (it == m_indextopath.end()) {
-        return "";
-    }
-    return it.value();
+//    if (index < 0 || index >= m_ItemLoaded.size()) {
+//        return m_currentpath;
+//    }
+//    QMap<int, QString>::iterator it;
+//    it = m_indextopath.find(index);
+//    if (it == m_indextopath.end()) {
+//        return "";
+//    }
+//    return it.value();
+    return m_allfileslist.at(index);
 }
 
 //void TTBContent::updateScreenNoAnimation()
@@ -1394,7 +1406,7 @@ void TTBContent::updateScreen()
 //            for (int j = 0; j < labelList.size(); j++) {
 //                labelList.at(j)->setFixedSize(QSize(num, 40));
 //                labelList.at(j)->resize(QSize(num, 40));
-//                labelList.at(j)->setIndexNow(t);
+//                labelList.at(j)->setIndexNow(m_nowIndex);
 //            }
             if (m_nowIndex < labelList.size())
                 labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
@@ -1462,7 +1474,7 @@ void TTBContent::insertImageItem(const ImageDataSt file)
     data.index = index;
     data.data = file;
     m_ItemLoaded.insert(file.dbi.filePath, data);
-    m_indextopath.insert(index, file.dbi.filePath);
+//    m_indextopath.insert(index, file.dbi.filePath);
     ImageItem *imageItem = new ImageItem(index, file);
     imageItem->setFixedSize(QSize(32, 40));
     imageItem->resize(QSize(32, 40));
@@ -1497,7 +1509,7 @@ void TTBContent::reLoad()
     clearAndStopThread();
 
     m_ItemLoaded.clear();
-    m_indextopath.clear();
+//    m_indextopath.clear();
     m_filesbeleft.clear();
     m_filesbeleft << m_allfileslist;
     m_requestCount = 0;
@@ -1567,37 +1579,74 @@ void TTBContent::checkAdaptScreenBtn()
 
 void TTBContent::deleteImage()
 {
+    m_ItemLoaded.remove(m_currentpath);
     m_allfileslist.removeAt(m_nowIndex);
-//    if (m_allfileslist.size() <= m_nowIndex) {
-//        m_lastIndex = m_nowIndex;
-//        m_nowIndex = 0;
-//    }
-    if (m_allfileslist.size() > 0) {
-        m_nowIndex = - 1;
-        m_lastIndex = -1;
-        m_currentpath = ""/*m_allfileslist[m_nowIndex]*/;
-        reLoad();
-    }
-    emit removed();
+    m_allNeedRequestFilesCount = m_allfileslist.size();
 
-    if (m_filelist_size < 2) {
-        return;
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+
+    ImageItem *getim = nullptr;
+    for (ImageItem *im : labelList) {
+        if (im->index() == m_nowIndex) {
+            getim = im;
+        } else {
+            im->setIndexNow(m_nowIndex);
+            if (im->index_1(m_nowIndex)) {
+                QMap<QString, TTBContentData>::iterator it;
+                it = m_ItemLoaded.find(im->_path);
+                if (it != m_ItemLoaded.end()) {
+                    TTBContentData data = it.value();
+                    data.index--;
+                    m_ItemLoaded[im->_path] = data;
+                }
+            }
+        }
     }
-    emit ttbcontentClicked();
+
+    QList<ImageItem *> labelList1 = m_imgList->findChildren<ImageItem *>();
+    if (m_allfileslist.size() > 0) {
+        if (m_allfileslist.size() > m_nowIndex) {
+            m_lastIndex = -1;
+            m_currentpath = m_allfileslist[m_nowIndex];
+        } else {
+            m_nowIndex = 0;
+            m_lastIndex = -1;
+            m_currentpath = m_allfileslist[0];
+        }
+//        m_nowIndex = - 1;
+//        m_lastIndex = -1;
+//        m_currentpath = ""/*m_allfileslist[m_nowIndex]*/;
+//        reLoad();
+//        updateScreen();
+    }
+//    if (m_filelist_size < 2) {
+//        return;
+//    }
 
     m_filelist_size = m_filelist_size - 1;
-    int windowWidth =  this->window()->geometry().width();
-//    int windowWidth = 1000;
-    if (m_filelist_size <= 1) {
-        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-    } else if (m_filelist_size <= 3) {
-        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-    } else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+    if (nullptr != getim) {
+        updateScreen();
+        m_imglayout->removeWidget(getim);
+//        getim->hide();
+        delete getim;
+        updateScreen();
     }
-    setFixedWidth(m_contentWidth);
+//    int windowWidth =  this->window()->geometry().width();
+////    int windowWidth = 1000;
+//    if (m_filelist_size <= 1) {
+//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+//    } else if (m_filelist_size <= 3) {
+//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//        m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//    } else {
+//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//        m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//    }
+//    setFixedWidth(m_contentWidth);
+    emit removed();
+    emit ttbcontentClicked();
     //        qDebug() << "m_trashBtn:m_contentWidth==============" << m_contentWidth;
     //        qDebug() << "m_trashBtn:m_imgListView.width==============" << m_imgListView->width();
 }

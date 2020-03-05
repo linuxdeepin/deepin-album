@@ -84,6 +84,7 @@ public:
     QString _path = NULL;
     int index() const;
     void setIndex(int index);
+    bool index_1(int index);
 
     int indexNow() const;
 
@@ -169,7 +170,7 @@ public slots:
     void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
-protected slots:
+//protected slots:
     void deleteImage();
 
 private slots:
@@ -225,7 +226,7 @@ private:
     bool brequestallfiles = false;
 //    QList<ImageDataSt> m_ItemListLeft;
     QMap<QString, TTBContentData> m_ItemLoaded;
-    QMap<int, QString> m_indextopath;
+//    QMap<int, QString> m_indextopath;
     int m_requestCount = 0;
     int m_allNeedRequestFilesCount = 0;
 //    bool firstSetImage = true;

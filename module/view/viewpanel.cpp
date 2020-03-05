@@ -123,6 +123,15 @@ bool ViewPanel::imageLocalLoaded(QStringList &filelist)
 
 void ViewPanel::initConnect()
 {
+    connect(dApp->signalM, &SignalManager::deleteByMenu, this, [ = ] {
+        if (m_dt->isActive())
+        {
+            return;
+        }
+        m_dt->start();
+        emit ttbcDeleteImage();
+    });
+
     connect(dApp->signalM, &SignalManager::gotoPanel,
     this, [ = ](ModulePanel * p) {
         if (p != this) {
@@ -417,6 +426,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             m_iSlideShowTimerId = 0;
         }
     });
+    connect(this, &ViewPanel::ttbcDeleteImage, m_ttbc, &TTBContent::deleteImage);
     connect(this, &ViewPanel::viewImageFrom, m_ttbc, [ = ](const QString & dir) {
         m_ttbc->setCurrentDir(dir);
     });
@@ -857,7 +867,7 @@ void ViewPanel::removeCurrentImage()
     }
 
     m_filepathlist.removeAt(m_current);
-    if (m_current == m_filepathlist.size()) {
+    if (m_current >= m_filepathlist.size()) {
         m_current = 0;
     }
 //    m_infos.removeAt(m_current);

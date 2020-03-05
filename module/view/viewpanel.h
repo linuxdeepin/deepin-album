@@ -69,6 +69,7 @@ signals:
 //    void imageChanged(const QString &path, DBImgInfoList infos);
     //------------------
     void imageChanged(const QString &path);
+    void ttbcDeleteImage();
     //------------------
     void viewImageFrom(QString dir);
     void mouseMoved();
