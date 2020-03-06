@@ -1049,6 +1049,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Copy"))->setEnabled(false);
         m_MenuActionMap.value(tr("Delete"))->setEnabled(false);
         m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
+        m_MenuActionMap.value(tr("Print"))->setVisible(false);
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0])) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
             m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
