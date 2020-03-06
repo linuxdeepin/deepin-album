@@ -187,22 +187,23 @@ void SearchView::initConnections()
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-        DBImgInfoList imagelist;
-        if (COMMON_STR_ALLPHOTOS == m_albumName
-                || COMMON_STR_TIMELINE == m_albumName
-                || COMMON_STR_RECENT_IMPORTED == m_albumName) {
-            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
-        } else if (COMMON_STR_TRASH == m_albumName) {
-            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
-        } else {
-            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
-        }
+//        DBImgInfoList imagelist;
+//        if (COMMON_STR_ALLPHOTOS == m_albumName
+//                || COMMON_STR_TIMELINE == m_albumName
+//                || COMMON_STR_RECENT_IMPORTED == m_albumName) {
+//            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+//        } else if (COMMON_STR_TRASH == m_albumName) {
+//            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+//        } else {
+//            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
+//        }
 
+        auto imagelist = m_pThumbnailListView->getAllFileList();
         if (paths.size() > 1) {
             info.paths = paths;
         } else if (imagelist.size() > 1) {
             for (auto image : imagelist) {
-                info.paths << image.filePath;
+                info.paths << image;
             }
         }
         info.path = path;

@@ -568,14 +568,15 @@ void ImportTimeLineView::addTimelineLayout()
         info.album = "";
         info.lastPanel = nullptr;
 
-        auto photolist = DBManager::instance()->getAllInfos();
 
         if (paths.size() > 1) {
             info.paths = paths;
         } else {
+//            auto photolist = DBManager::instance()->getAllInfos();
+            auto photolist = pThumbnailListView->getAllFileList();
             if (photolist.size() > 1) {
                 for (auto image : photolist) {
-                    info.paths << image.filePath;
+                    info.paths << image;
                 }
             } else {
                 info.paths.clear();

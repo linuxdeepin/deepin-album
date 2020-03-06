@@ -1692,11 +1692,21 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+
+//    auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+//    if (COMMON_STR_TRASH == m_currentAlbum) {
+//        imagelist = DBManager::instance()->getAllTrashInfos();
+//    } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
+//        imagelist = DBManager::instance()->getAllInfos();
+//    } else {
+
+//    }
+
+    auto imagelist = m_pRightThumbnailList->getAllFileList();
     if (COMMON_STR_TRASH == m_currentAlbum) {
-        imagelist = DBManager::instance()->getAllTrashInfos();
+        imagelist = m_pRightTrashThumbnailList->getAllFileList();
     } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
-        imagelist = DBManager::instance()->getAllInfos();
+        imagelist = m_pRightFavoriteThumbnailList->getAllFileList();
     } else {
 
     }
@@ -1706,7 +1716,7 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
     } else {
         if (imagelist.size() > 1) {
             for (auto image : imagelist) {
-                info.paths << image.filePath;
+                info.paths << image;
             }
         } else {
             info.paths.clear();

@@ -111,7 +111,8 @@ void AllPicView::initConnections()
         info.album = "";
         info.lastPanel = nullptr;
 //        auto imagelist1 = DBManager::instance()->getAllInfos();
-        auto imagelist = DBManager::instance()->getAllPaths();
+//        auto imagelist = DBManager::instance()->getAllPaths();
+        auto imagelist = m_pThumbnailListView->getAllFileList();
         if (paths.size() > 1) {
             info.paths = paths;
         } else {
