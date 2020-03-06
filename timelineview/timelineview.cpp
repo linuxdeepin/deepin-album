@@ -1313,8 +1313,9 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
 //    m_pwidget->setFixedWidth(this->width() / 2 + 150);
 //    m_pwidget->setFixedHeight(240);
 //    m_pwidget->move(this->width() / 4, this->height() - 240 - 23);
-    m_pwidget->setFixedHeight(this->height() - 23);
-    m_pwidget->setFixedWidth(this->width());
+//    m_pwidget->setFixedHeight(this->height() - 23);
+//    m_pwidget->setFixedWidth(this->width());
+    m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());

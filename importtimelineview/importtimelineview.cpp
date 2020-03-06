@@ -1360,6 +1360,10 @@ void ImportTimeLineView::on_KeyEvent(int key)
 
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
+
+    for (int i = 0; i < m_allThumbnailListView.length(); i++) {
+        m_allThumbnailListView[i]->setFixedWidth(width() + 2);
+    }
     m_dateItem->setFixedSize(width() - 15, SUBTITLE_HEIGHT);
     m_pImportTitle->setFixedSize(width() - 15, 47); //add 3975
 }

@@ -3209,14 +3209,16 @@ void AlbumView::paintEvent(QPaintEvent *event)
 void AlbumView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width() / 2 + 60, (height() - 50) / 2 - 20);
-    m_pImpTimeLineWidget->setFixedWidth(width() - 181);
-    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
-    m_pImpTimeLineWidget->setFixedHeight(height());
-//    m_pwidget->setFixedWidth(this->width() / 2 + 150);
-//    m_pwidget->setFixedHeight(443);
-//    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
-    m_pwidget->setFixedHeight(this->height() - 23);
-    m_pwidget->setFixedWidth(this->width());
+    m_pImpTimeLineWidget->setFixedSize(width() - 181, height());
+//    m_pImpTimeLineWidget->setFixedWidth(width() - 181);
+////    m_pImpTimeLineWidget->setFixedHeight(height() - 35); //edit 3975
+//    m_pImpTimeLineWidget->setFixedHeight(height());
+////    m_pwidget->setFixedWidth(this->width() / 2 + 150);
+////    m_pwidget->setFixedHeight(443);
+////    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
+//    m_pwidget->setFixedHeight(this->height() - 23);
+//    m_pwidget->setFixedWidth(this->width());
+    m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
 
     //add start 3975
@@ -3238,15 +3240,15 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 //        m_pRightTrashThumbnailList->setMinimumSize(0, 0);
 //        m_pRightTrashThumbnailList->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
 //    }
-//    if (nullptr != m_noTrashItem) {
-//        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
-//    }
-//    if (nullptr != m_FavoriteItem) {
-//        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
-//    }
-//    if (nullptr != m_FavoriteItem) {
-//        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
-//    }
+    if (nullptr != m_noTrashItem) {
+        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
+    }
+    if (nullptr != m_FavoriteItem) {
+        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
+    }
+    if (nullptr != m_FavoriteItem) {
+        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
+    }
     if (nullptr != m_pNoTrashTitle) {
         m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
     }
