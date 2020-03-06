@@ -154,11 +154,20 @@ void SlideShowPanel::backToLastPanel()
     showNormal();
 
     if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID) {
-        m_vinfo.path = m_player->currentImagePath();
-        m_vinfo.fullScreen = false;
-        m_vinfo.slideShow = false;
-        emit dApp->signalM->viewImage(m_vinfo);
+//        m_vinfo.path = m_player->currentImagePath();
+//        m_vinfo.fullScreen = false;
+//        m_vinfo.slideShow = false;
+//        emit dApp->signalM->hideSlidePanel();
+//        emit dApp->signalM->viewImage(m_vinfo);
         emit dApp->signalM->hideSlidePanel();
+        emit dApp->signalM->showBottomToolbar();
+        QEventLoop loop;
+        QTimer::singleShot(100, &loop, SLOT(quit()));
+        loop.exec();
+//        QString path = m_player->currentImagePath();
+//        emit dApp->signalM->viewImageNoNeedReload(path);
+        int pathindex = m_player->currentImageIndex();
+        emit dApp->signalM->viewImageNoNeedReload(pathindex);
     } else {
         emit dApp->signalM->hideSlidePanel();
     }

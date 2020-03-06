@@ -1458,7 +1458,6 @@ void TTBContent::updateScreen()
 //        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
 //        setFixedWidth(m_contentWidth);
     }
-
     m_windowWidth =  this->window()->geometry().width();
     if (m_ItemLoaded.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
@@ -1470,6 +1469,7 @@ void TTBContent::updateScreen()
         m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
     setFixedWidth(m_contentWidth);
+
 }
 
 void TTBContent::insertImageItem(const ImageDataSt file)
@@ -1489,12 +1489,12 @@ void TTBContent::insertImageItem(const ImageDataSt file)
     m_imglayout->addWidget(imageItem);
     connect(imageItem, &ImageItem::imageItemclicked, this, [ = ](int index, int indexNow) {
         binsertneedupdate = true;
-        emit imageClicked(index, (index - indexNow));
-        emit ttbcontentClicked();
         m_nowIndex = index;
         bfilefind = true;
         m_currentpath = imageItem->_path;
-        setCurrentItem();
+//        setCurrentItem();
+        emit imageClicked(index, (index - indexNow));
+        emit ttbcontentClicked();
     });
     if (-1 == m_nowIndex && file.dbi.filePath == m_currentpath) {
         m_nowIndex = index;
@@ -1736,6 +1736,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
 void TTBContent::setImage(const QString &path)
 {
+    binsertneedupdate = true;
     if (!m_allfileslist.isEmpty() && !QFileInfo(path).exists()) {
         emit dApp->signalM->picNotExists(true);
         if (m_allfileslist.size() == 1)

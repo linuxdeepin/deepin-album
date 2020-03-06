@@ -173,7 +173,7 @@ private slots:
     void onShowMenu(const QPoint &pos);
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
-//    void onTimerOut();
+    void onTimerOut();
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
 
@@ -239,8 +239,8 @@ private:
     int m_scrollbartopdistance = 0;
     int m_scrollbarbottomdistance = 0;
     QListWidgetItem *m_item = nullptr;
-//    QTimer *m_dt = nullptr;
-//    bool bneedsendresize = false;
+    QTimer *m_dt = nullptr;
+    bool bneedsendresize = false;
     int lastresizeheight = 0;
     int resizenum = 0;
 //    QTimer *m_dtresizeevent = nullptr;

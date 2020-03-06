@@ -154,6 +154,13 @@ void ViewPanel::initConnect()
     });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
+    connect(dApp->signalM, &SignalManager::viewImageNoNeedReload,
+    this, [ = ](int &fileindex) {
+//        emit imageChanged(filename);
+//        openImage(filename);
+        showImage(fileindex, 0);
+    });
+
     connect(dApp->signalM, &SignalManager::viewImage,
     this, [ = ](const SignalManager::ViewInfo & vinfo) {
         m_vinfo = vinfo;
