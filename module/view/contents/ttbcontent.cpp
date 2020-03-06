@@ -2586,8 +2586,20 @@ void TTBContent::onResize()
 //    m_imgListView->show();
 
 //    qDebug() << "onResize";
-    m_contentWidth = window()->width() - 20;
+
+    m_windowWidth =  this->window()->geometry().width();
+    if (m_ItemLoaded.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_ItemLoaded.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+    } else {
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+    }
     setFixedWidth(m_contentWidth);
+//    m_contentWidth = window()->width() - 20;
+//    setFixedWidth(m_contentWidth);
 //    emit dApp->signalM->sigViewPanelSizeChanged();
     int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
     int b = m_ItemLoaded.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
@@ -2615,15 +2627,15 @@ void TTBContent::onResize()
         m_imgList->move(QPoint(0, 0));
     }
 
-    m_windowWidth =  this->window()->geometry().width();
-    if (m_ItemLoaded.size() <= 1) {
-        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-    } else if (m_ItemLoaded.size() <= 3) {
-        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-    } else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-    }
-    setFixedWidth(m_contentWidth);
+//    m_windowWidth =  this->window()->geometry().width();
+//    if (m_ItemLoaded.size() <= 1) {
+//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+//    } else if (m_ItemLoaded.size() <= 3) {
+//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//    } else {
+//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//    }
+//    setFixedWidth(m_contentWidth);
 }

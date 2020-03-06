@@ -325,7 +325,8 @@ void AlbumView::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     m_itemClicked = false;
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-//        return ;
+        if (!m_pRightFavoriteThumbnailList->checkResizeNum())
+            return ;
         if (isVisible()) {
             int mh = h;
             m_pRightFavoriteThumbnailList->setFixedHeight(mh + 27);
@@ -334,7 +335,8 @@ void AlbumView::initConnections()
 
     });
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-//        return ;
+        if (!m_pRightTrashThumbnailList->checkResizeNum())
+            return ;
         if (isVisible()) {
             int mh = h;
             m_pRightTrashThumbnailList->setFixedHeight(mh + 27);
@@ -343,7 +345,8 @@ void AlbumView::initConnections()
 
     });
     connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-//        return ;
+        if (!m_pRightThumbnailList->checkResizeNum())
+            return ;
         if (isVisible()) {
             int mh = h;
             m_pRightThumbnailList->setFixedHeight(mh + 27);

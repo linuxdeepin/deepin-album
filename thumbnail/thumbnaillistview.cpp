@@ -85,10 +85,10 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     initConnections();
     installEventFilter(this);
 
-    m_dt = new QTimer(this);
-    m_dt->setSingleShot(true);
-    m_dt->setInterval(50);
-    connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
+//    m_dt = new QTimer(this);
+//    m_dt->setSingleShot(true);
+//    m_dt->setInterval(10);
+//    connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
 //    m_dtresizeevent = new QTimer(this);
 //    m_dtresizeevent->setSingleShot(true);
 //    m_dtresizeevent->setInterval(100);
@@ -1678,25 +1678,32 @@ int ThumbnailListView::getListViewHeight()
 //add end 3975
 
 
-void ThumbnailListView::onTimerOut()
-{
-    if (bneedsendresize)
-        emit needResize(m_height + 15);
-    bneedsendresize = false;
-}
+//void ThumbnailListView::onTimerOut()
+//{
+//    if (bneedsendresize && lastresizeheight != m_height) {
+//        resizenum++;
+//        emit needResize(m_height + 15);
+//        lastresizeheight = m_height;
+//    }
+//    bneedsendresize = false;
+//}
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)
 {
     if (!isVisible()) {
         return;
     }
-    if (m_dt->isActive()) {
-        bneedsendresize = true;
-        return;
+//    if (m_dt->isActive()) {
+//        bneedsendresize = true;
+//        return;
+//    }
+//    m_dt->start();
+    if (lastresizeheight != m_height) {
+        resizenum++;
+        emit needResize(m_height + 15);
     }
-    m_dt->start();
-    emit needResize(m_height + 15);
-    bneedsendresize = false;
+    lastresizeheight = m_height;
+//    bneedsendresize = false;
 }
 
 //void ThumbnailListView::onResizeEventTimerOut()
@@ -1742,4 +1749,14 @@ void ThumbnailListView::resizeEventF()
 //        this->setMinimumHeight(m_height + 27 + 8);
     }
 //    lastwidth = this->width();
+}
+
+
+bool ThumbnailListView::checkResizeNum()
+{
+    resizenum--;
+    if (resizenum > 0) {
+        return false;
+    }
+    return true;
 }

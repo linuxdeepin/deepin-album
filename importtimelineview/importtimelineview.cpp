@@ -479,7 +479,8 @@ void ImportTimeLineView::addTimelineLayout()
     });
 //        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
-//        return ;
+        if (!pThumbnailListView->checkResizeNum())
+            return ;
         if (isVisible()) {
             int mh = h;
             if (0 == nowTimeLineLoad) {

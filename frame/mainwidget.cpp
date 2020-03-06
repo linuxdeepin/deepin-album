@@ -105,7 +105,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         } else {
             m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3)) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
         }
-        qDebug() << "resizeEvent=============" << m_bottomToolbar->width();
+//        qDebug() << "resizeEvent=============" << m_bottomToolbar->width();
         m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - m_bottomToolbar->height() - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 
         if (window()->isFullScreen()) {
@@ -389,15 +389,15 @@ void MainWidget::initExtensionPanel()
         if (c != nullptr)
             m_extensionPanel->setContent(c);
     });
-    connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
-    // Is visible
+    connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [ = ] {
+        // Is visible
 //        if (m_extensionPanel->x() == (width() - EXTENSION_PANEL_WIDTH - 24)) {
 //            return;
 //        }
 #ifdef LITE_DIV
 //        m_extensionPanel->resize(m_extensionPanel->width(), height());
 #endif
-        m_extensionPanel->move(window()->x() + (window()->width()-m_extensionPanel->width())/2,window()->y() + (window()->height() - m_extensionPanel->height())/2);
+        m_extensionPanel->move(window()->x() + (window()->width() - m_extensionPanel->width()) / 2, window()->y() + (window()->height() - m_extensionPanel->height()) / 2);
         m_extensionPanel->show();
         // m_extensionPanel's height is dependent on the visible of topToolbar
         //        if (this->window()->isFullScreen()) {
