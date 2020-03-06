@@ -1460,6 +1460,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             }
             if (! dbInfos.isEmpty()) {
                 dApp->m_imageloader->ImportImageLoader(dbInfos);
+                m_pAllPicBtn->setChecked(true);
             }
         }
 
