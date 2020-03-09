@@ -41,17 +41,10 @@ class ImageEngineThreadObject : public QObject
     Q_OBJECT
 public:
     ImageEngineThreadObject();
-    virtual void needStop(void *imageobject)
-    {
-        if (nullptr == imageobject || ifCanStopThread(imageobject))
-            bneedstop = true;
-    }
+    virtual void needStop(void *imageobject);
 
 protected:
-    virtual bool ifCanStopThread(void *imgobject)
-    {
-        return true;
-    }
+    virtual bool ifCanStopThread(void *imgobject);
     bool bneedstop = false;
 };
 
@@ -61,22 +54,10 @@ public:
     ImageMountImportPathsObject();
     ~ImageMountImportPathsObject();
     virtual bool imageMountImported(QStringList &filelist) = 0;
-    void addThread(ImageEngineThreadObject *thread)
-    {
-        m_threads.append(thread);
-    }
-    void removeThread(ImageEngineThreadObject *thread)
-    {
-        m_threads.removeOne(thread);
-    }
+    void addThread(ImageEngineThreadObject *thread);
+    void removeThread(ImageEngineThreadObject *thread);
 protected:
-    void clearAndStopThread()
-    {
-        for (auto thread : m_threads) {
-            thread->needStop(this);
-        }
-        m_threads.clear();
-    }
+    void clearAndStopThread();
     QList<ImageEngineThreadObject *> m_threads;
 };
 
@@ -86,22 +67,10 @@ public:
     ImageMountGetPathsObject();
     ~ImageMountGetPathsObject();
     virtual bool imageGeted(QStringList &filelist, QString path) = 0;
-    void addThread(ImageEngineThreadObject *thread)
-    {
-        m_threads.append(thread);
-    }
-    void removeThread(ImageEngineThreadObject *thread)
-    {
-        m_threads.removeOne(thread);
-    }
+    void addThread(ImageEngineThreadObject *thread);
+    void removeThread(ImageEngineThreadObject *thread);
 protected:
-    void clearAndStopThread()
-    {
-        for (auto thread : m_threads) {
-            thread->needStop(this);
-        }
-        m_threads.clear();
-    }
+    void clearAndStopThread();
     QList<ImageEngineThreadObject *> m_threads;
 };
 
@@ -111,22 +80,10 @@ public:
     ImageEngineImportObject();
     ~ImageEngineImportObject();
     virtual bool imageImported(bool success) = 0;
-    void addThread(ImageEngineThreadObject *thread)
-    {
-        m_threads.append(thread);
-    }
-    void removeThread(ImageEngineThreadObject *thread)
-    {
-        m_threads.removeOne(thread);
-    }
+    void addThread(ImageEngineThreadObject *thread);
+    void removeThread(ImageEngineThreadObject *thread);
 protected:
-    void clearAndStopThread()
-    {
-        for (auto thread : m_threads) {
-            thread->needStop(this);
-        }
-        m_threads.clear();
-    }
+    void clearAndStopThread();
     QList<ImageEngineThreadObject *> m_threads;
 };
 
@@ -138,62 +95,15 @@ public:
     virtual bool imageLoaded(QString filepath) = 0;
     virtual bool imageLocalLoaded(QStringList &filelist) = 0;
     virtual bool imageFromDBLoaded(QStringList &filelist) = 0;
-    void addThread(ImageEngineThreadObject *thread)
-    {
-        QMutexLocker mutex(&m_mutexthread);
-        m_threads.append(thread);
-    }
-    void removeThread(ImageEngineThreadObject *thread, bool needmutex = true)
-    {
-        if (needmutex)
-            QMutexLocker mutex(&m_mutexthread);
-        m_threads.removeOne(thread);
-    }
-    void addCheckPath(QString path)
-    {
-        m_checkpath << path;
-    }
+    void addThread(ImageEngineThreadObject *thread);
+    void removeThread(ImageEngineThreadObject *thread, bool needmutex = true);
+    void addCheckPath(QString path);
 
-    void checkSelf()
-    {
-        if (m_checkpath.size() < 1) {
-            return;
-        }
-        for (auto file : m_pathlast) {
-            if (file == m_checkpath.first()) {
-                m_checkpath.removeFirst();
-                imageLoaded(file);
-                m_pathlast.removeOne(file);
-                checkSelf();
-                break;
-            }
-        }
-    }
+    void checkSelf();
 
-    void checkAndReturnPath(QString path)//保证顺序排列
-    {
-        if (m_checkpath.size() < 1) {
-            return;
-        }
-        if (path == m_checkpath.first()) {
-            m_checkpath.removeFirst();
-            imageLoaded(path);
-            checkSelf();
-        } else {
-            m_pathlast << path;
-        }
-    }
+    void checkAndReturnPath(QString path);//保证顺序排列
 protected:
-    void clearAndStopThread()
-    {
-        QMutexLocker mutex(&m_mutexthread);
-        for (auto thread : m_threads) {
-            thread->needStop(this);
-        }
-        m_threads.clear();
-        m_checkpath.clear();
-        m_pathlast.clear();
-    }
+    void clearAndStopThread();
     QList<ImageEngineThreadObject *> m_threads;
     QStringList m_checkpath;
     QStringList m_pathlast;

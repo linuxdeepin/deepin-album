@@ -16,14 +16,7 @@ public:
     void setData(QList<QUrl> paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
 
 protected:
-    bool ifCanStopThread(void *imgobject) override
-    {
-        ((ImageEngineImportObject *)imgobject)->removeThread(this);
-        if (imgobject == m_obj) {
-            return true;
-        }
-        return false;
-    }
+    bool ifCanStopThread(void *imgobject) override;
     virtual void run();
 
 signals:
@@ -82,14 +75,7 @@ public:
     void setData(QString albumname, QStringList paths, ImageMountImportPathsObject *imgobject);
 
 protected:
-    bool ifCanStopThread(void *imgobject) override
-    {
-        ((ImageMountImportPathsObject *)imgobject)->removeThread(this);
-        if (imgobject == m_imgobject) {
-            return true;
-        }
-        return false;
-    }
+    bool ifCanStopThread(void *imgobject) override;
     virtual void run();
 
 signals:
@@ -109,14 +95,7 @@ public:
     void setData(QString mountname, QString path, ImageMountGetPathsObject *imgobject);
 
 protected:
-    bool ifCanStopThread(void *imgobject) override
-    {
-        ((ImageMountGetPathsObject *)imgobject)->removeThread(this);
-        if (imgobject == m_imgobject) {
-            return true;
-        }
-        return false;
-    }
+    bool ifCanStopThread(void *imgobject) override;
     virtual void run();
 
 signals:
@@ -136,14 +115,7 @@ public:
     void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, QString nametype = "");
 
 protected:
-    bool ifCanStopThread(void *imgobject) override
-    {
-        ((ImageEngineObject *)imgobject)->removeThread(this, false);
-        if (imgobject == m_imgobject) {
-            return true;
-        }
-        return false;
-    }
+    bool ifCanStopThread(void *imgobject) override;
     virtual void run();
 
 signals:
@@ -170,14 +142,7 @@ public:
     void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
 
 protected:
-    bool ifCanStopThread(void *imgobject) override
-    {
-        ((ImageEngineObject *)imgobject)->removeThread(this, false);
-        if (imgobject == m_imgobject) {
-            return true;
-        }
-        return false;
-    }
+    bool ifCanStopThread(void *imgobject) override;
     virtual void run();
 
 signals:

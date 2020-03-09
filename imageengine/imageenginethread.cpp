@@ -47,6 +47,16 @@ void ImportImagesThread::setData(QStringList paths, QString albumname, ImageEngi
     m_type = DataType_StringList;
 }
 
+
+bool ImportImagesThread::ifCanStopThread(void *imgobject)
+{
+    ((ImageEngineImportObject *)imgobject)->removeThread(this);
+    if (imgobject == m_obj) {
+        return true;
+    }
+    return false;
+}
+
 void ImportImagesThread::ImportImageLoader(DBImgInfoList dbInfos/*, QString albumname*/)
 {
 //    for (auto info : dbInfos) {
@@ -402,6 +412,15 @@ void ImageImportFilesFromMountThread::setData(QString albumname, QStringList pat
     m_albumname = albumname;
 }
 
+bool ImageImportFilesFromMountThread::ifCanStopThread(void *imgobject)
+{
+    ((ImageMountImportPathsObject *)imgobject)->removeThread(this);
+    if (imgobject == m_imgobject) {
+        return true;
+    }
+    return false;
+}
+
 void ImageImportFilesFromMountThread::run()
 {
     if (bneedstop) {
@@ -549,6 +568,15 @@ void ImageGetFilesFromMountThread::setData(QString mountname, QString path, Imag
     m_mountname = mountname;
     m_path = path;
     m_imgobject = imgobject;
+}
+
+bool ImageGetFilesFromMountThread::ifCanStopThread(void *imgobject)
+{
+    ((ImageMountGetPathsObject *)imgobject)->removeThread(this);
+    if (imgobject == m_imgobject) {
+        return true;
+    }
+    return false;
 }
 
 //搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
@@ -726,6 +754,15 @@ void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageE
     m_nametype = nametype;
 }
 
+bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
+{
+    ((ImageEngineObject *)imgobject)->removeThread(this, false);
+    if (imgobject == m_imgobject) {
+        return true;
+    }
+    return false;
+}
+
 void ImageLoadFromDBThread::run()
 {
     if (bneedstop) {
@@ -766,6 +803,15 @@ void ImageLoadFromLocalThread::setData(QStringList filelist, ImageEngineObject *
         m_type = DataType_StrList;
     else
         m_type = type;
+}
+
+bool ImageLoadFromLocalThread::ifCanStopThread(void *imgobject)
+{
+    ((ImageEngineObject *)imgobject)->removeThread(this, false);
+    if (imgobject == m_imgobject) {
+        return true;
+    }
+    return false;
 }
 
 void ImageLoadFromLocalThread::setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
