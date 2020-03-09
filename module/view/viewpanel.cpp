@@ -124,12 +124,19 @@ bool ViewPanel::imageLocalLoaded(QStringList &filelist)
 void ViewPanel::initConnect()
 {
     connect(dApp->signalM, &SignalManager::deleteByMenu, this, [ = ] {
+
         if (m_dt->isActive())
         {
             return;
         }
         m_dt->start();
+
+
         emit ttbcDeleteImage();
+        if (m_vinfo.fullScreen)
+        {
+            emit dApp->signalM->hideBottomToolbar();
+        }
     });
 
     connect(dApp->signalM, &SignalManager::gotoPanel,
@@ -224,6 +231,8 @@ void ViewPanel::initConnect()
             }
             toggleFullScreen();
         }
+        emit dApp->signalM->showBottomToolbar();
+
 #endif
     });
 }
@@ -796,10 +805,12 @@ void ViewPanel::toggleFullScreen()
         showNormal();
         killTimer(m_hideCursorTid);
         m_hideCursorTid = 0;
+        emit dApp->signalM->showBottomToolbar();
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
     } else {
 //        window()->setWindowFlags (Qt::Window);
         showFullScreen();
+        m_vinfo.fullScreen = true;
         if (!m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }

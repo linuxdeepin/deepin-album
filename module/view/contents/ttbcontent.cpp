@@ -1589,6 +1589,8 @@ void TTBContent::deleteImage()
     m_allfileslist.removeAt(m_nowIndex);
     m_allNeedRequestFilesCount = m_allfileslist.size();
 
+
+
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
 
     ImageItem *getim = nullptr;
@@ -1766,6 +1768,7 @@ void TTBContent::setImage(const QString &path)
             labelList.at(m_nowIndex)->setPic(gdata.imgpixmap);
         setCurrentItem();
     }
+//    emit dApp->signalM->hideBottomToolbar();
 }
 
 bool TTBContent::setCurrentItem()

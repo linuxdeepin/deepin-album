@@ -204,6 +204,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash: {
         emit SignalManager::instance()->deleteByMenu();
+//        SignalManager::ViewInfo info;
+        if (m_vinfo.fullScreen == true) {
+            emit SignalManager::instance()->hideBottomToolbar();
+        }
 //        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
 //                && utils::common::VIEW_TIMELINE_SRN != m_viewType
 //                && utils::common::VIEW_SEARCH_SRN != m_viewType
