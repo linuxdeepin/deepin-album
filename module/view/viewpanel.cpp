@@ -231,6 +231,7 @@ void ViewPanel::initConnect()
             }
             toggleFullScreen();
         }
+        m_vinfo.fullScreen = false;
         emit dApp->signalM->showBottomToolbar();
 
 #endif
@@ -805,6 +806,7 @@ void ViewPanel::toggleFullScreen()
         showNormal();
         killTimer(m_hideCursorTid);
         m_hideCursorTid = 0;
+        m_vinfo.fullScreen = false;
         emit dApp->signalM->showBottomToolbar();
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
     } else {
