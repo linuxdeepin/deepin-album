@@ -301,6 +301,7 @@ void ImportImagesThread::run()
         int failed = image_list.length() - dbInfos.length();
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         emit dApp->signalM->ImportSomeFailed(successful, failed);
+        m_obj->imageImported(false);
     } else {
         emit dApp->signalM->ImportFailed();
         m_obj->imageImported(false);
