@@ -35,7 +35,7 @@ public:
     void setContent(QWidget *content);
 
 protected:
-    void mouseMoveEvent(QMouseEvent *) override;
+    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

@@ -380,6 +380,7 @@ void MainWindow::initConnections()
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        m_waitdailog->close();
         //this->sendMessage(icon, str);
     });
 
