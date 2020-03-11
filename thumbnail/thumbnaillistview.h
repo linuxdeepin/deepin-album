@@ -45,6 +45,7 @@
 #include <DListView>
 #include <DApplicationHelper>
 #include "imageengine/imageengineobject.h"
+#include "widgets/timelineitem.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -91,7 +92,6 @@ public:
         QString remainDays = "30天";
         QPixmap image = QPixmap();
     };
-
 
     explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, QString imgtype = "All Photos", QWidget *parent = nullptr);
     ~ThumbnailListView();
@@ -154,6 +154,7 @@ signals:
     void sigMenuItemDeal(QAction *action);
     void sigSelectAll();
     void sigMouseMove();
+    void needResizeLabel();
 //    void sigDrop();
 #endif
 
@@ -213,6 +214,7 @@ private:
     int m_iDefaultWidth = 0;
     int m_iBaseHeight = 0;
     int m_height = 0;
+
     QList<ItemInfo> m_ItemList;
     QList<QList<ItemInfo>> m_gridItem;
     ThumbnailDelegate *m_delegate = nullptr;

@@ -262,6 +262,8 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
+
+
     DFontSizeManager::instance()->bind(pSuspensionChose, DFontSizeManager::T5);
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pSuspensionChose->setFixedHeight(32);
@@ -457,6 +459,7 @@ void ImportTimeLineView::addTimelineLayout()
     Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     Layout->setContentsMargins(0, 0, 1, 0);
     Layout->addWidget(pChose);
+    Layout->addSpacing(18);
 
     listItem->m_Chose = pChose;
     listItem->m_num = pNum_dn;
@@ -490,6 +493,7 @@ void ImportTimeLineView::addTimelineLayout()
                 mh += 27;
             }
             pThumbnailListView->setFixedHeight(mh);
+//            listItem->setFixedWidth(TitleView->width() - 20);
             listItem->setFixedHeight(TitleView->height() + mh);
             item->setSizeHint(listItem->rect().size());
 //            listItem->setFixedHeight(TitleView->height() + mh);
@@ -799,7 +803,9 @@ void ImportTimeLineView::addTimelineLayout()
         }
         pThumbnailListView->menuItemDeal(paths, action);
     });
-
+    connect(pThumbnailListView, &ThumbnailListView::needResizeLabel, this, [ = ] {
+        listItem->m_title->setFixedWidth(width() - 14);
+    });
     connect(listItem, &TimelineItem::sigMousePress, this, [ = ] {
         for (int j = 0; j < m_allThumbnailListView.length(); j++)
         {
@@ -809,6 +815,7 @@ void ImportTimeLineView::addTimelineLayout()
         emit sigUpdatePicNum();
         updateChoseText();
     });
+
 #endif
 //    }
 
@@ -1363,9 +1370,11 @@ void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
         m_allThumbnailListView[i]->setFixedWidth(width() + 2);
+        emit m_allThumbnailListView[i]->needResizeLabel();
+
     }
     m_dateItem->setFixedSize(width() - 15, SUBTITLE_HEIGHT);
-    m_pImportTitle->setFixedSize(width() - 15, 47); //add 3975
+    m_pImportTitle->setFixedSize(width() - 15, 47); //add 3
 }
 
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)

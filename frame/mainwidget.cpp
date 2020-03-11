@@ -98,9 +98,9 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     }
 
     if (m_bottomToolbar) {
-        if ( m_viewPanel->getPicCount() <= 1 ) {
+        if (m_viewPanel->getPicCount() <= 1) {
             m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
-        } else if (m_viewPanel->getPicCount() <= 3 ) {
+        } else if (m_viewPanel->getPicCount() <= 3) {
             m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
         } else {
             m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3)) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
@@ -255,7 +255,7 @@ void MainWidget::initConnection()
     connect(dApp->signalM, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);
     connect(dApp->signalM, &SignalManager::showInFileManager,
-    this, [ = ] (const QString & path) {
+    this, [ = ](const QString & path) {
         utils::base::showInFileManager(path);
     });
     connect(dApp->signalM, &SignalManager::showImageInfo,
@@ -419,7 +419,7 @@ void MainWidget::initExtensionPanel()
     });
 #if 0
     connect(dApp->signalM, &SignalManager::hideExtensionPanel,
-    this, [ = ] (bool immediately) {
+    this, [ = ](bool immediately) {
         if (immediately) {
             m_extensionPanel->requestStopAnimation();
             if (this->window()->isFullScreen()) {
