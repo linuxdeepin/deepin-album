@@ -43,28 +43,30 @@ using namespace utils::common;
 MainWindow::MainWindow()
 {
 //    ImageEngineApi::instance(this);
-    m_allPicNum = DBManager::instance()->getImgsCount();
-    m_iCurrentView = VIEW_ALLPIC;
+    m_allPicNum = DBManager::instance()->getImgsCount();        //获取图片总数
+    m_iCurrentView = VIEW_ALLPIC;       //默认显示当前所有图片视图
     m_bTitleMenuImportClicked = false;
     m_waitdailog = new DDialog(this);
-    initShortcutKey();
+    initShortcutKey();          //初始化各种快捷键
     initUI();
-    initTitleBar();
+    initTitleBar();             //初始化顶部状态栏
 //    initCentralWidget();
 //    initShortcut();
 //    initConnections();
+
     m_pCenterWidget = new QStackedWidget(this);
-    m_pAllPicView = new AllPicView();
+    m_pAllPicView = new AllPicView();           //所有照片界面
     m_pCenterWidget->addWidget(m_pAllPicView);
     m_pCenterWidget->setFixedSize(size());
     m_pCenterWidget->lower();
+
     initCentralWidget();
     initShortcut();
     initConnections();
 //    setCentralWidget(m_pCenterWidget);
 
 //    timer = startTimer(500);
-    loadZoomRatio();
+    loadZoomRatio();                //加载缩放比例
 }
 
 MainWindow::~MainWindow()
@@ -90,12 +92,14 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 //       }*/
 //}
 
+//初始化所有连接
 void MainWindow::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
         setWaitDialogColor();
     });
+    //主界面切换（所有照片、时间线、相册）
     connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [ = ](int id) {
         if (0 == id) {
             allPicBtnClicked();
@@ -117,6 +121,7 @@ void MainWindow::initConnections()
         }
     });
 
+    //图片导入槽函数
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {
             if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
@@ -128,6 +133,7 @@ void MainWindow::initConnections()
             m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
         }
     });
+
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
 #if 1
     connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
@@ -135,13 +141,16 @@ void MainWindow::initConnections()
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
+    //当有图片添加时，搜索栏可用
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [ = ] {
         m_pSearchEdit->setEnabled(true);
     });
+    //开始导入时，清空状态
     connect(dApp->signalM, &SignalManager::startImprot, this, [ = ] {
         m_countLabel->setText("");
         m_importBar->setValue(0);
     });
+    //更新等待进度条
     connect(dApp->signalM, &SignalManager::progressOfWaitDialog, this, [ = ](int allfiles, int completefiles) {
         QString countText = "";
         if (m_bImport) {
@@ -157,7 +166,7 @@ void MainWindow::initConnections()
         m_importBar->setTextVisible(false);
         m_importBar->setValue(completefiles);
     });
-
+    //更新等待窗口文本信息
     connect(dApp->signalM, &SignalManager::popupWaitDialog, this, [ = ](QString waittext, bool bneedprogress) {
         if (bneedprogress == false) {
             m_importBar->hide();
@@ -190,12 +199,14 @@ void MainWindow::initConnections()
 
 
     });
+    //关闭等待窗口
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {
 //        m_spinner->stop();
         m_bImport = false;
         m_countLabel->setText("");
         m_waitdailog->close();
     });
+    //图片移除，判断是否更新搜索框
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ] {
         if (0 < DBManager::instance()->getImgsCount())
         {
@@ -205,6 +216,7 @@ void MainWindow::initConnections()
             m_pSearchEdit->setEnabled(false);
         }
     });
+    //显示图片视图
     connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
         m_backIndex = index;
         titlebar()->setFixedHeight(0);
@@ -212,6 +224,7 @@ void MainWindow::initConnections()
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
 //        m_pCenterWidget->setFocus();
     });
+    //隐藏图片视图
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
         viewImageClose();
         emit dApp->signalM->hideExtensionPanel();
@@ -220,6 +233,7 @@ void MainWindow::initConnections()
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
+    //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
 //        if (VIEW_IMAGE != index)
 //        {
@@ -230,6 +244,7 @@ void MainWindow::initConnections()
         setTitlebarShadowEnabled(false);
         m_pCenterWidget->setCurrentIndex(VIEW_SLIDE);
     });
+    //隐藏幻灯片显示
     connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
         emit dApp->signalM->hideExtensionPanel();
         if (VIEW_IMAGE != m_backIndex_fromSlide) {
@@ -239,6 +254,7 @@ void MainWindow::initConnections()
 
         m_pCenterWidget->setCurrentIndex(m_backIndex_fromSlide);
     });
+    //导出图片
     connect(dApp->signalM, &SignalManager::exportImage, this, [ = ](QStringList paths) {
         Exporter::instance()->exportImage(paths);
     });
@@ -247,7 +263,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &MainWindow::onNewAPPOpen);
     connect(dApp, &Application::sigFinishLoad, this, &MainWindow::onLoadingFinished);
-
+    //更新幻灯片 ？
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, [ = ](int step) {
         m_pSliderPos = step;
         emit SignalManager::instance()->sliderValueChange(step);
@@ -283,6 +299,7 @@ void MainWindow::initConnections()
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str2.arg(str1));
     });
+
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
@@ -314,6 +331,7 @@ void MainWindow::initConnections()
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str2.arg(album));
     });
+    //底部，弹出导入成功提示框
     connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
@@ -349,7 +367,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [ = ] {
         m_pSearchEdit->clear();
     });
-
+    //导入失败提示框
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
@@ -383,7 +401,7 @@ void MainWindow::initConnections()
         m_waitdailog->close();
         //this->sendMessage(icon, str);
     });
-
+    //部分导入失败提示框
     connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ](int successful, int failed) {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
@@ -416,7 +434,7 @@ void MainWindow::initConnections()
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
-
+    //导出失败提示框
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
@@ -449,6 +467,7 @@ void MainWindow::initConnections()
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
+    //导出成功提示框
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
@@ -481,6 +500,7 @@ void MainWindow::initConnections()
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
+    //相册导出失败提示框
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
@@ -513,6 +533,7 @@ void MainWindow::initConnections()
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         //this->sendMessage(icon, str);
     });
+    //相册导出成功提示框
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
@@ -586,6 +607,7 @@ void MainWindow::initConnections()
 
 }
 
+//初始化快捷键
 void MainWindow::initShortcut()
 {
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
@@ -730,6 +752,7 @@ void MainWindow::initShortcut()
     });
 }
 
+//初始化UI
 void MainWindow::initUI()
 {
 //    resize(DEFAULT_WINDOWS_WIDTH, DEFAULT_WINDOWS_HEIGHT);
@@ -743,6 +766,7 @@ void MainWindow::initUI()
     loadWindowState();
 }
 
+//初始化等待窗口
 void MainWindow::initWaitDialog()
 {
     m_waitdailog->setCloseButtonVisible(false);
@@ -770,6 +794,7 @@ void MainWindow::initWaitDialog()
 
 }
 
+//初始化顶部状态栏
 void MainWindow::initTitleBar()
 {
     // TitleBar Img
@@ -876,6 +901,7 @@ void MainWindow::initTitleBar()
     }
 }
 
+//初始化中心界面
 void MainWindow::initCentralWidget()
 {
     QStringList pas;
@@ -910,6 +936,7 @@ void MainWindow::initCentralWidget()
     //    setCentralWidget(m_pCenterWidget);
 }
 
+//设置等待窗口颜色
 void MainWindow::setWaitDialogColor()
 {
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -944,6 +971,7 @@ void MainWindow::onUpdateCentralWidget()
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
+//显示所有照片
 void MainWindow::allPicBtnClicked()
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -958,6 +986,7 @@ void MainWindow::allPicBtnClicked()
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
+//显示时间线照片
 void MainWindow::timeLineBtnClicked()
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -969,6 +998,7 @@ void MainWindow::timeLineBtnClicked()
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
+//显示相册
 void MainWindow::albumBtnClicked()
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -981,6 +1011,7 @@ void MainWindow::albumBtnClicked()
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
+//标题菜单栏槽函数
 void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
     if (tr("New album") == action->text()) {
@@ -995,6 +1026,7 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
     }
 }
 
+//创建相册槽函数
 void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
 //    if (m_pCenterWidget->currentWidget() == m_pAlbumview)
@@ -1053,6 +1085,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath)
     });
 }
 #endif
+//创建相册弹出窗
 void MainWindow::showCreateDialog(QStringList imgpaths)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
@@ -1121,6 +1154,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     });
 }
 
+//搜索框
 void MainWindow::onSearchEditFinished()
 {
     QString keywords = m_pSearchEdit->text();
@@ -1160,6 +1194,7 @@ void MainWindow::onSearchEditFinished()
     }
 }
 
+//导入、删除图片时，更新图片总计数
 void MainWindow::onUpdateAllpicsNumLabel()
 {
 
@@ -1169,6 +1204,7 @@ void MainWindow::onUpdateAllpicsNumLabel()
 //    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
 }
 
+//标题菜单导入照片槽函数
 void MainWindow::onImprotBtnClicked()
 {
     static QStringList sList;
@@ -1361,6 +1397,7 @@ bool MainWindow::imageImported(bool success)
     return true;
 }
 
+//显示图片详细信息
 void MainWindow::onShowImageInfo(const QString &path)
 {
     ImgInfoDialog *dialog;
@@ -1408,6 +1445,7 @@ void MainWindow::viewImageClose()
     }
 }
 
+//多开（多进程）？
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
     qDebug() << "onNewAPPOpen";
@@ -1470,6 +1508,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     this->activateWindow();
 }
 
+//主程序加载完毕，更新搜索框是否可用
 void MainWindow::onLoadingFinished()
 {
 //    m_pTimeLineBtn->setEnabled(true);
@@ -1524,6 +1563,7 @@ void MainWindow::saveWindowState()
 //    settings.endGroup();
 }
 
+//加载主界面状态（上次退出时）
 void MainWindow::loadWindowState()
 {
     QSettings settings(objectName());
@@ -1542,13 +1582,14 @@ void MainWindow::loadWindowState()
 //    settings.endGroup();
 }
 
-
+//保存缩放比例
 void MainWindow::saveZoomRatio()
 {
     QSettings settings(objectName());
     settings.setValue("album-zoomratio", m_pSliderPos);
 }
 
+//加载缩放比例（上次退出时）
 void MainWindow::loadZoomRatio()
 {
     QSettings settings(objectName());
@@ -1566,6 +1607,7 @@ void MainWindow::loadZoomRatio()
     dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
 }
 
+//初始化各种快捷键
 void MainWindow::initShortcutKey()
 {
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, VIEW_CONTEXT_MENU, ENTER_SHORTCUT);

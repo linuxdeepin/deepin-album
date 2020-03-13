@@ -1438,7 +1438,6 @@ void ThumbnailListView::onPixMapScale(int value)
     switch (value) {
     case 0:
         m_iBaseHeight = 80;
-
         break;
     case 1:
         m_iBaseHeight = 90;

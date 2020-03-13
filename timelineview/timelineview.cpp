@@ -198,6 +198,7 @@ void TimeLineView::initTimeLineViewWidget()
     QVBoxLayout *TitleViewLayout = new QVBoxLayout();
     m_dateItem->setLayout(TitleViewLayout);
 
+    //时间线
     m_pDate = new DLabel();
     DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T3, QFont::DemiBold);
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
@@ -211,6 +212,7 @@ void TimeLineView::initTimeLineViewWidget()
     m_pDate->setForegroundRole(DPalette::Text);
     m_pDate->setPalette(color);
 
+    //时间线下的计数
     pNum_up = new DLabel();
     DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -239,6 +241,7 @@ void TimeLineView::initTimeLineViewWidget()
     TitleViewLayout->addWidget(m_pDate);
     TitleViewLayout->addWidget(pNum_up);
 
+    //右侧选择文字
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
     DFontSizeManager::instance()->bind(pSuspensionChose, DFontSizeManager::T5);

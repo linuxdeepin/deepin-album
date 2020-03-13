@@ -60,6 +60,7 @@ public:
 
     bool imageImported(bool success) override;
     void initConnections();
+    //初始化UI
     void initUI();
     void initWaitDialog();
     void initShortcut();
@@ -94,14 +95,21 @@ signals:
     bool sigImageImported(bool success);
 
 private slots:
+
     void allPicBtnClicked();
+
     void timeLineBtnClicked();
     void albumBtnClicked();
+
     void onCreateAlbum(QStringList imagepaths);
 #if 1
     void onViewCreateAlbum(QString imgpath);
 #endif
     void onSearchEditFinished();
+    /**
+     * @brief onTitleBarMenuClicked
+     * @param action
+     */
     void onTitleBarMenuClicked(QAction *action);
     void onUpdateAllpicsNumLabel();
     void onImprotBtnClicked();
@@ -126,10 +134,11 @@ private:
     DSearchEdit *m_pSearchEdit;
     QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
-    AlbumView *m_pAlbumview;
-    AllPicView *m_pAllPicView;
-    TimeLineView *m_pTimeLineView;
-    SearchView *m_pSearchView;
+
+    AlbumView *m_pAlbumview;                    //相册照片界面视图
+    AllPicView *m_pAllPicView;                  //所有照片界面视图
+    TimeLineView *m_pTimeLineView;              //时间线界面视图
+    SearchView *m_pSearchView;                  //搜索界面视图
     SlideShowPanel *m_slidePanel;
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
