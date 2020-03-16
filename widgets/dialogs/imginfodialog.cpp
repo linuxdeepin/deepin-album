@@ -28,6 +28,7 @@
 #include <QLabel>
 #include <QString>
 #include <QPushButton>
+#include <QLocale>
 #include <QScrollBar>
 #include <QtDebug>
 #include <DFontSizeManager>
@@ -37,7 +38,6 @@
 
 namespace {
 
-const int TITLE_MAXWIDTH = 72 + 36;
 struct MetaData {
     QString key;
     const char *name;
@@ -115,6 +115,12 @@ protected:
 ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
     : DDialog(parent)
 {
+    QLocale locale;
+    if(locale.language() == QLocale::Chinese)   //语言为中文
+        m_title_maxwidth = 60;
+     else
+        m_title_maxwidth = 108;
+
     initUI();
     setImagePath(path);
 }
@@ -268,7 +274,7 @@ void ImgInfoDialog::updateInfo()
     using namespace utils::image;
     using namespace utils::base;
     auto mds = getAllMetaData(m_path);
-    m_maxFieldWidth = width() - TITLE_MAXWIDTH - 20*2 - 10*2;
+    m_maxFieldWidth = width() - m_title_maxwidth - 20*2 - 10*2;
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
 }
@@ -296,13 +302,15 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(TITLE_MAXWIDTH);
+        title->setFixedWidth(m_title_maxwidth);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        //2020/03/13-xiaolong
+
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
+        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
 
         m_exifLayout_base->addRow(title, field);
         }
@@ -331,13 +339,13 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(TITLE_MAXWIDTH);
+        title->setFixedWidth(m_title_maxwidth);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
+        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
 
         m_exifLayout_details->addRow(title, field);
     }

@@ -1116,20 +1116,18 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
     }
 
-    int flag_imageSupportSave = 0;
-    for (auto path : paths) {
-        if (!utils::image::imageSupportSave(path)) {
-            flag_imageSupportSave = 1;
-            break;
-        }
+    bool bflag_imageSupportSave = false;      //图片是否可以保存标志
+    if(1==paths.length()){   //单张照片
+        if (!utils::image::imageSupportSave(paths[0]))
+            bflag_imageSupportSave = true;
     }
 
-    if (0 == flag_imageSupportSave) {
+    if (bflag_imageSupportSave) {
         int flag_isRW = 0;
-        for (auto path : paths) {
-            if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+        if(1==paths.length())
+        {
+            if (QFileInfo(paths[0]).isReadable() && !QFileInfo(paths[0]).isWritable()) {
                 flag_isRW = 1;
-                break;
             }
         }
 

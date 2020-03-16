@@ -66,7 +66,7 @@ MainWindow::MainWindow()
 //    setCentralWidget(m_pCenterWidget);
 
 //    timer = startTimer(500);
-    loadZoomRatio();                //加载缩放比例
+    loadZoomRatio();
 }
 
 MainWindow::~MainWindow()
@@ -192,12 +192,7 @@ void MainWindow::initConnections()
             //        m_spinner->start();
             //        m_waitdailog.exec();
             m_waitdailog->show();
-
-
         }
-
-
-
     });
     //关闭等待窗口
     connect(dApp->signalM, &SignalManager::closeWaitDialog, this, [ = ]() {

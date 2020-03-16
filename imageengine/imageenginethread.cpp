@@ -164,7 +164,7 @@ void ImportImagesThread::run()
             QFileInfo file(path);
             if (file.isDir()) {
                 image_list << utils::image::checkImage(path);
-            } else {
+            } else if(file.exists()){   //文件存在
                 image_list << path;
             }
         }
@@ -263,6 +263,8 @@ void ImportImagesThread::run()
 //        }
 
         QFileInfo fi(imagePath);
+        if(!fi.exists())     //当前文件不存在
+            continue;
         using namespace utils::image;
         using namespace utils::base;
         auto mds = getAllMetaData(imagePath);
@@ -292,13 +294,13 @@ void ImportImagesThread::run()
         m_obj->removeThread(this);
         return;
     }
-    if (image_list.length() == dbInfos.length() && !dbInfos.isEmpty()) {
+    if (m_paths.length() == dbInfos.length() && !dbInfos.isEmpty()) {
 //        ImportImageLoader(dbInfos);
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         m_obj->imageImported(true);
-    } else if (((image_list.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
+    } else if (((m_paths.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
         int successful = dbInfos.length();
-        int failed = image_list.length() - dbInfos.length();
+        int failed = m_paths.length() - dbInfos.length();
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         emit dApp->signalM->ImportSomeFailed(successful, failed);
         m_obj->imageImported(false);
@@ -306,6 +308,20 @@ void ImportImagesThread::run()
         emit dApp->signalM->ImportFailed();
         m_obj->imageImported(false);
     }
+//    if (image_list.length() == dbInfos.length() && !dbInfos.isEmpty()) {
+////        ImportImageLoader(dbInfos);
+//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+//        m_obj->imageImported(true);
+//    } else if (((image_list.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
+//        int successful = dbInfos.length();
+//        int failed = image_list.length() - dbInfos.length();
+//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+//        emit dApp->signalM->ImportSomeFailed(successful, failed);
+//        m_obj->imageImported(false);
+//    } else {
+//        emit dApp->signalM->ImportFailed();
+//        m_obj->imageImported(false);
+//    }
 
 //    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
 //            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
