@@ -279,6 +279,17 @@ bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, Imag
     return true;
 }
 
+//从外部启动，启用线程加载图片
+bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj)
+{
+    ImageFromNewAppThread *imagethread = new ImageFromNewAppThread;
+    //imagethread->setData(type, obj, name);
+    imagethread->setDate(files, obj);
+    obj->addThread(imagethread);
+    m_qtpool.start(imagethread);
+    return true;
+}
+
 bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj)
 {
     ImageGetFilesFromMountThread *imagethread = new ImageGetFilesFromMountThread;

@@ -164,7 +164,7 @@ void ImportImagesThread::run()
             QFileInfo file(path);
             if (file.isDir()) {
                 image_list << utils::image::checkImage(path);
-            } else if(file.exists()){   //文件存在
+            } else if (file.exists()) { //文件存在
                 image_list << path;
             }
         }
@@ -263,7 +263,7 @@ void ImportImagesThread::run()
 //        }
 
         QFileInfo fi(imagePath);
-        if(!fi.exists())     //当前文件不存在
+        if (!fi.exists())    //当前文件不存在
             continue;
         using namespace utils::image;
         using namespace utils::base;
@@ -1188,4 +1188,76 @@ void ImageEngineThread::run()
     while (!bneedstop) {
         QThread::msleep(50);
     }
+}
+
+ImageFromNewAppThread::ImageFromNewAppThread()
+{
+    setAutoDelete(true);
+}
+
+void ImageFromNewAppThread::setDate(QStringList files, ImageEngineImportObject *obj)
+{
+    paths = files;
+    m_imgobj = obj;
+}
+
+bool ImageFromNewAppThread::ifCanStopThread(void *imgobject)
+{
+    ((ImageEngineImportObject *)imgobject)->removeThread(this);
+    if (imgobject == m_imgobj) {
+        return true;
+    }
+    return  false;
+}
+
+void ImageFromNewAppThread::run()
+{
+    if (bneedstop) {
+        m_imgobj->imageImported(false);
+        m_imgobj->removeThread(this);
+        return;
+    }
+    DBImgInfoList dbInfos;
+    using namespace utils::image;
+    //clock_t start = clock();
+    for (auto path : paths) {
+        if (bneedstop) {
+            m_imgobj->imageImported(false);
+            m_imgobj->removeThread(this);
+            return;
+        }
+        if (!imageSupportRead(path)) continue;
+        QFileInfo fi(path);
+        using namespace utils::image;
+        using namespace utils::base;
+        auto mds = getAllMetaData(path);
+        QString value = mds.value("DateTimeOriginal");
+//                qDebug() << value;
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = path;
+        dbi.dirHash = utils::base::hash(QString());
+        if ("" != value) {
+            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+        } else if (fi.birthTime().isValid()) {
+            dbi.time = fi.birthTime();
+        } else if (fi.metadataChangeTime().isValid()) {
+            dbi.time = fi.metadataChangeTime();
+        } else {
+            dbi.time = QDateTime::currentDateTime();
+        }
+        dbi.changeTime = QDateTime::currentDateTime();
+        dbInfos << dbi;
+    }
+    //qDebug() << "耗时："<<(double)(clock() - start);
+    if (! dbInfos.isEmpty()) {
+        if (bneedstop) {
+            m_imgobj->imageImported(false);
+            m_imgobj->removeThread(this);
+            return;
+        }
+        dApp->m_imageloader->ImportImageLoader(dbInfos);
+        //m_pAllPicBtn->setChecked(true);
+    }
+//        dApp->LoadDbImage();
 }

@@ -910,6 +910,7 @@ void MainWindow::initCentralWidget()
     m_pTimeLineView = new TimeLineView();
     m_pSearchView = new SearchView();
     m_commandLine = CommandLine::instance();
+    m_commandLine->setThreads(this);
     m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pTimeLineView);
