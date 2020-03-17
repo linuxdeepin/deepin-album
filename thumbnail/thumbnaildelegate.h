@@ -63,7 +63,7 @@ public:
     bool editorEvent(QEvent *event,
                      QAbstractItemModel *model,
                      const QStyleOptionViewItem &option,
-                     const QModelIndex &index);
+                     const QModelIndex &index) Q_DECL_OVERRIDE;
 
 signals:
     void sigCancelFavorite(const QModelIndex &index);

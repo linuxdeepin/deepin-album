@@ -59,6 +59,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
     painter->save();
     const ItemData data = itemData(index);
+
 //    if (data.path.isEmpty()) return;
 
     bool selected = false;

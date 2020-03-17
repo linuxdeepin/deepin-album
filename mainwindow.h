@@ -106,10 +106,6 @@ private slots:
     void onViewCreateAlbum(QString imgpath);
 #endif
     void onSearchEditFinished();
-    /**
-     * @brief onTitleBarMenuClicked
-     * @param action
-     */
     void onTitleBarMenuClicked(QAction *action);
     void onUpdateAllpicsNumLabel();
     void onImprotBtnClicked();

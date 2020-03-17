@@ -2024,6 +2024,7 @@ void AlbumView::onKeyF2()
     item->editAlbumEdit();
 }
 
+//挂载设备改变
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
     qDebug() << "onVfsMountChangedAdd() name:" << mount->name();
@@ -2101,6 +2102,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     }
 }
 
+//卸载外接设备
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
     Q_UNUSED(mount);
@@ -2226,6 +2228,7 @@ void AlbumView::getAllDeviceName()
     }
 }
 
+//获取外部设备列表
 const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList()
 {
     getAllDeviceName();

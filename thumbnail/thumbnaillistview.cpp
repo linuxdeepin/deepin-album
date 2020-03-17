@@ -7,6 +7,7 @@
 #include <QMimeData>
 #include <QScrollBar>
 #include <QMutex>
+
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "widgets/dialogs/imgdeletedialog.h"

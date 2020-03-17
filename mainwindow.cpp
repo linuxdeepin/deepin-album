@@ -214,7 +214,8 @@ void MainWindow::initConnections()
     //显示图片视图
     connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
         m_backIndex = index;
-        titlebar()->setFixedHeight(0);
+        //titlebar()->setFixedHeight(0);
+        titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
 //        m_pCenterWidget->setFocus();
@@ -223,8 +224,8 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
         viewImageClose();
         emit dApp->signalM->hideExtensionPanel();
-
-        titlebar()->setFixedHeight(50);
+        //titlebar()->setFixedHeight(50);
+        titlebar()->setVisible(true);
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
@@ -1089,7 +1090,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
-        emit dApp->signalM->hideExtensionPanel();
+        //emit dApp->signalM->hideExtensionPanel();
 
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty() ? QStringList(" ") : imgpaths);
         emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
@@ -1140,12 +1141,13 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 //        m_pAllPicBtn->setGraphicsEffect(Noeffect);
 //        m_pTimeLineBtn->setGraphicsEffect(Noeffect);
 
-        emit dApp->signalM->hideExtensionPanel();
+        //emit dApp->signalM->hideExtensionPanel();
         m_pSearchEdit->clear();
         m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
 
         m_iCurrentView = VIEW_ALBUM;
-        m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);
+        m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);       //显示相册界面
+        titlebar()->setVisible(true);   //总是设置标题栏可见
     });
 }
 
