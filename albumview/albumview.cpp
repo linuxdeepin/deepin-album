@@ -473,7 +473,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1300,6 +1300,9 @@ void AlbumView::updateRightMyFavoriteView()
 // 更新外接设备列表
 void AlbumView::updateRightMountView()
 {
+    if (!m_pLeftListView) {
+        return;
+    }
 //    qDebug() << m_phoneNameAndPathlist;
     QString strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
     qDebug() << "data(Qt::UserRole).toString()" << strPath;
@@ -1315,7 +1318,9 @@ void AlbumView::updateRightMountView()
             return;
         }
     }
-
+    if (m_phoneNameAndPathlist.empty()) {
+        return;
+    }
     QStringList filelist = m_phoneNameAndPathlist.value(strPath);
     if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length()) {
         m_importByPhoneComboBox->setEnabled(true);
@@ -2215,7 +2220,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
