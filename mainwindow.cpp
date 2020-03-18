@@ -214,18 +214,14 @@ void MainWindow::initConnections()
     //显示图片视图
     connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
         m_backIndex = index;
-        //titlebar()->setFixedHeight(0);
-        titlebar()->setVisible(false);
+        titlebar()->setVisible(false);  //隐藏顶部状态栏
         setTitlebarShadowEnabled(false);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
-//        m_pCenterWidget->setFocus();
     });
     //隐藏图片视图
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
         viewImageClose();
-        emit dApp->signalM->hideExtensionPanel();
-        //titlebar()->setFixedHeight(50);
-        titlebar()->setVisible(true);
+        titlebar()->setVisible(true);   //显示状态栏
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
     });
@@ -1146,9 +1142,8 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         m_pSearchEdit->clear();
         m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
 
-        m_iCurrentView = VIEW_ALBUM;
-        m_pCenterWidget->setCurrentIndex(VIEW_ALBUM);       //显示相册界面
-        titlebar()->setVisible(true);   //总是设置标题栏可见
+        m_backIndex = VIEW_ALBUM;
+        emit dApp->signalM->hideImageView();
     });
 }
 

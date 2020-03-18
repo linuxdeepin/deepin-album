@@ -788,9 +788,18 @@ void ImageLoadFromDBThread::run()
         return;
     }
     QStringList image_list;
+    QStringList fail_image_list;    //保存失效的图片路径
     if (ThumbnailDelegate::AllPicViewType == m_type) {
         auto infos = DBManager::instance()->getAllInfos();
         for (auto info : infos) {
+            //记录源文件不存在的数据
+            QFileInfo tempinfo(info.filePath);
+            if(!tempinfo.exists())
+            {
+                fail_image_list <<info.filePath;
+                continue;
+            }
+
             image_list << info.filePath;
             if (bneedstop) {
 //                m_imgobject->removeThread(this);
@@ -803,6 +812,10 @@ void ImageLoadFromDBThread::run()
 //        m_imgobject->removeThread(this);
         return;
     }
+
+    //删除数据库失效的图片
+    DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+
     emit sigImageLoaded(m_imgobject, image_list);
     m_imgobject->removeThread(this);
 }

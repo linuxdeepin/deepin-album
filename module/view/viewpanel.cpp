@@ -86,6 +86,11 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_ttbc = nullptr;
 }
 
+ViewPanel::~ViewPanel()
+{
+
+}
+
 QString ViewPanel::moduleName()
 {
     return "ViewPanel";
@@ -998,7 +1003,7 @@ void ViewPanel::rotateImage(bool clockWise)
 
 void ViewPanel::initViewContent()
 {
-    m_viewB = new ImageView;
+    m_viewB = new ImageView(this);
 
     connect(m_viewB, &ImageView::doubleClicked, [this]() {
         toggleFullScreen();
