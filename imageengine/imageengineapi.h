@@ -24,6 +24,7 @@ public:
     bool getImageData(QString imagepath, ImageDataSt &data);
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
     bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true);
+    bool reQuestAllImagesData(ImageEngineObject *obj, bool needcache = true);
     bool imageNeedReload(QString imagepath);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);

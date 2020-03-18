@@ -1185,6 +1185,7 @@ void ImageEngineThread::run()
         imgobject->removeThread(this);
         emit sigImageLoaded(imgobject, m_path, m_data);
     }
+    mutex.unlock();
     while (!bneedstop) {
         QThread::msleep(50);
     }

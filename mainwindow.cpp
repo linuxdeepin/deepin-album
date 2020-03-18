@@ -1468,6 +1468,12 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(0);
+
+            //更改为调用线程api
+
+            ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
+
+            /*
             DBImgInfoList dbInfos;
             using namespace utils::image;
             for (auto path : paths) {
@@ -1478,7 +1484,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 using namespace utils::base;
                 auto mds = getAllMetaData(path);
                 QString value = mds.value("DateTimeOriginal");
-//                qDebug() << value;
+            //                qDebug() << value;
                 DBImgInfo dbi;
                 dbi.fileName = fi.fileName();
                 dbi.filePath = path;
@@ -1499,8 +1505,9 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 dApp->m_imageloader->ImportImageLoader(dbInfos);
                 m_pAllPicBtn->setChecked(true);
             }
+            */
         }
-
+        m_pAllPicBtn->setChecked(true);
 //        dApp->LoadDbImage();
     }
     this->activateWindow();
