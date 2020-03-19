@@ -629,6 +629,10 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
 
     m_pLeftListView->moveMountListWidget();
+
+    //清除其他已选中的项
+    m_pLeftListView->m_pPhotoLibListView->clearFocus();
+
 }
 
 #if 1

@@ -138,6 +138,8 @@ void MainWindow::initConnections()
 #if 1
     connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
+
+    //connect(m_pSearchEdit, &DSearchEdit::returnPressed, this, &MainWindow::onSearchEditFinished);
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
@@ -232,7 +234,7 @@ void MainWindow::initConnections()
 //            m_backIndex = index;
 //        }
         m_backIndex_fromSlide = index;
-        titlebar()->setFixedHeight(0);
+        titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
         m_pCenterWidget->setCurrentIndex(VIEW_SLIDE);
     });
@@ -240,7 +242,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
         emit dApp->signalM->hideExtensionPanel();
         if (VIEW_IMAGE != m_backIndex_fromSlide) {
-            titlebar()->setFixedHeight(50);
+            titlebar()->setVisible(true);
             setTitlebarShadowEnabled(true);
         }
 
@@ -917,7 +919,7 @@ void MainWindow::initCentralWidget()
 
     m_commandLine->processOption(pas);
     if (pas.length() > 0) {
-        titlebar()->setFixedHeight(0);
+        titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
         m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
         m_pCenterWidget->setCurrentIndex(4);
@@ -1143,14 +1145,18 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
 
         m_backIndex = VIEW_ALBUM;
-        emit dApp->signalM->hideImageView();
+        emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册，正常退出
     });
 }
 
 //搜索框
 void MainWindow::onSearchEditFinished()
 {
+    static QString lastkey;
     QString keywords = m_pSearchEdit->text();
+    if(lastkey==keywords)   //两次搜索条件相同，跳过
+        return;
+    lastkey = keywords;
     emit dApp->signalM->hideExtensionPanel();
     if (0 == m_iCurrentView) {
         if (keywords.isEmpty()) {

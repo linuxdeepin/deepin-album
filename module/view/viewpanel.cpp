@@ -191,20 +191,7 @@ void ViewPanel::initConnect()
             m_currentImageLastDir = "Timeline";
             emit viewImageFrom("Timeline");
         }
-//        onViewImage(vinfo);
-////        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_ttbc->itemLoadedSize() > 1));
-////        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-//        if (NULL == vinfo.lastPanel) {
-//            return;
-//        } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
-//                   vinfo.lastPanel->moduleName() == "ViewPanel") {
-//            m_currentImageLastDir = vinfo.album;
-//            emit viewImageFrom(vinfo.album);
-//        } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
-//            m_currentImageLastDir = "Timeline";
-//            emit viewImageFrom("Timeline");
-//        }
+
         //TODO: there will be some others panel
     });
 
@@ -303,18 +290,11 @@ void ViewPanel::showNormal()
     emit dApp->signalM->showTopToolbar();
 }
 
+
 void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
-//    if (!m_isMaximized) {
-////        window()->setWindowFlags (Qt::Window);
-//        window()->setVisible(false);
-//        window()->showFullScreen();
-//        window()->setVisible(true);
-//    }else {
-////        window()->setWindowFlags (Qt::Window);
-//        window()->showFullScreen();
-//    }
+
     window()->showFullScreen();
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
