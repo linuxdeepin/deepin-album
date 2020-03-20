@@ -15,21 +15,26 @@ ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 
 ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 {
-    if (nullptr == parent && nullptr == s_ImageEngine) {
-        return nullptr;
-    }
-    if (nullptr != parent && nullptr == s_ImageEngine) {
-        s_ImageEngine = new ImageEngineApi(parent);
+//    if (nullptr == parent && nullptr == s_ImageEngine) {
+//        return nullptr;
+//    }
+//    if (nullptr != parent && nullptr == s_ImageEngine) {
+//        s_ImageEngine = new ImageEngineApi(parent);
+//    }
+    if (!s_ImageEngine) {
+        s_ImageEngine = new ImageEngineApi();
     }
     return  s_ImageEngine;
 }
 
 ImageEngineApi::ImageEngineApi(QObject *parent)
-    : QObject(parent)
+//    : QObject(nullptr) 和MainApplication绑定是没必要的，api继承object的作用是使用信号槽
 {
-    m_qtpool.setMaxThreadCount(1);
+    //文件加载线程池上限
+    m_qtpool.setMaxThreadCount(20);
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
+    //m_qtpool.setExpiryTimeout(100);
 }
 
 bool ImageEngineApi::insertObject(void *obj)

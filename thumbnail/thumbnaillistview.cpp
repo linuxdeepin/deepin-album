@@ -1118,15 +1118,14 @@ void ThumbnailListView::updateMenuContents()
     }
 
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
-    if(1==paths.length()){   //单张照片
+    if (1 == paths.length()) { //单张照片
         if (!utils::image::imageSupportSave(paths[0]))
             bflag_imageSupportSave = true;
     }
 
     if (bflag_imageSupportSave) {
         int flag_isRW = 0;
-        if(1==paths.length())
-        {
+        if (1 == paths.length()) {
             if (QFileInfo(paths[0]).isReadable() && !QFileInfo(paths[0]).isWritable()) {
                 flag_isRW = 1;
             }
@@ -1436,19 +1435,19 @@ void ThumbnailListView::onPixMapScale(int value)
 {
     switch (value) {
     case 0:
-        m_iBaseHeight = 80;
+        m_iBaseHeight = 40;
         break;
     case 1:
-        m_iBaseHeight = 90;
+        m_iBaseHeight = 80;
         break;
     case 2:
         m_iBaseHeight = 100;
         break;
     case 3:
-        m_iBaseHeight = 110;
+        m_iBaseHeight = 160;
         break;
     case 4:
-        m_iBaseHeight = 120;
+        m_iBaseHeight = 240;
         break;
     }
 

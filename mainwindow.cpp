@@ -76,7 +76,6 @@ MainWindow::~MainWindow()
     //delete m_pTimeLineView;              //时间线界面视图
     //delete m_pSearchView;                  //搜索界面视图
     //exit(0);
-
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -1159,7 +1158,7 @@ void MainWindow::onSearchEditFinished()
 {
     static QString lastkey;
     QString keywords = m_pSearchEdit->text();
-    if(lastkey==keywords)   //两次搜索条件相同，跳过
+    if (lastkey == keywords) //两次搜索条件相同，跳过
         return;
     lastkey = keywords;
     emit dApp->signalM->hideExtensionPanel();

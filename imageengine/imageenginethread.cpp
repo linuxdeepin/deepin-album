@@ -1199,9 +1199,9 @@ void ImageEngineThread::run()
         imgobject->removeThread(this);
         emit sigImageLoaded(imgobject, m_path, m_data);
     }
-    mutex.unlock();
+    //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
     while (!bneedstop) {
-        QThread::msleep(50);
+        QThread::msleep(10);
     }
 }
 
