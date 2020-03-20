@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -93,10 +95,6 @@
     <message>
         <source>Import to:</source>
         <translation>Importálás ide:</translation>
-    </message>
-    <message>
-        <source>Disk</source>
-        <translation type="vanished">Lemez</translation>
     </message>
     <message>
         <source>Import</source>
@@ -277,15 +275,15 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -595,10 +593,6 @@
         <translation>Beállítások</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Néhány kép nem lett importálva</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Képek importálása</translation>
     </message>
@@ -608,23 +602,19 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +824,14 @@
     <message>
         <source>Exit</source>
         <translation>Kilépés</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Előző</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Következő</translation>
     </message>
 </context>
 <context>

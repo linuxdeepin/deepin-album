@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ca">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -93,10 +95,6 @@
     <message>
         <source>Import to:</source>
         <translation>Importa-ho a:</translation>
-    </message>
-    <message>
-        <source>Disk</source>
-        <translation type="vanished">Disc</translation>
     </message>
     <message>
         <source>Import</source>
@@ -595,10 +593,6 @@
         <translation>Paràmetres</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">No s&apos;han importat algunes fotografies.</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importa fotografies</translation>
     </message>
@@ -621,10 +615,6 @@
     <message>
         <source>Importing...</source>
         <translation>S&apos;importa...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>Es restaura...</translation>
     </message>
 </context>
 <context>
@@ -834,6 +824,14 @@
     <message>
         <source>Exit</source>
         <translation>Surt</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Següent</translation>
     </message>
 </context>
 <context>

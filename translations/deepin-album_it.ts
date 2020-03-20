@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="it">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -93,10 +95,6 @@
     <message>
         <source>Import to:</source>
         <translation>Importa in:</translation>
-    </message>
-    <message>
-        <source>Disk</source>
-        <translation type="vanished">Disco</translation>
     </message>
     <message>
         <source>Import</source>
@@ -596,10 +594,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Alcune immagini non sono state importate</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importa immagini</translation>
     </message>
@@ -622,10 +616,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Importing...</source>
         <translation>Importazione...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>Ripristino in corso...</translation>
     </message>
 </context>
 <context>
@@ -835,6 +825,14 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Exit</source>
         <translation>Esci</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Precedente</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Successiva</translation>
     </message>
 </context>
 <context>

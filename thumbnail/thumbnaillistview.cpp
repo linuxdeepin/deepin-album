@@ -328,7 +328,6 @@ void ThumbnailListView::calBasePixMap(ItemInfo &info)
 
 void ThumbnailListView::calBasePixMapWandH()
 {
-//    int i_totalwidth = width() - 36;  // same as i_totalwidth in calWidgetItemWandH()
     int i_totalwidth = window()->width() - 30;  // same as i_totalwidth in calWidgetItemWandH()
 
     for (int i = 0; i < m_ItemList.length(); i++) {
@@ -336,10 +335,8 @@ void ThumbnailListView::calBasePixMapWandH()
             m_ItemList[i].width = m_iBaseHeight;
             m_ItemList[i].height = m_iBaseHeight;
         } else {
-//            m_ItemList[i].width = m_ItemList[i].baseWidth * m_iBaseHeight / m_ItemList[i].height;
             m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
             if (m_ItemList[i].width > i_totalwidth) {
-//                m_ItemList[i].height = m_ItemList[i].height * i_totalwidth / 4 / m_ItemList[i].width;
                 m_ItemList[i].height = m_iBaseHeight / 4;
                 m_ItemList[i].width = i_totalwidth / 4;
             } else {
@@ -1070,6 +1067,7 @@ void ThumbnailListView::updateMenuContents()
     if (1 != paths.length()) {
         m_MenuActionMap.value(tr("View"))->setVisible(false);
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
+        m_MenuActionMap.value(tr("Print"))->setEnabled(false);
         m_MenuActionMap.value(tr("Export"))->setEnabled(true);
     } else {
         bool ret = true;
@@ -1291,6 +1289,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         emit menuOpenImage(path, paths, true, false);
         break;
     case Idprint:
+        //PrintHelper::showPrintDialog(paths, this);
         PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     case IdStartSlideShow:
@@ -1435,19 +1434,19 @@ void ThumbnailListView::onPixMapScale(int value)
 {
     switch (value) {
     case 0:
-        m_iBaseHeight = 40;
+        m_iBaseHeight = 80;
         break;
     case 1:
-        m_iBaseHeight = 80;
+        m_iBaseHeight = 90;
         break;
     case 2:
         m_iBaseHeight = 100;
         break;
     case 3:
-        m_iBaseHeight = 160;
+        m_iBaseHeight = 110;
         break;
     case 4:
-        m_iBaseHeight = 240;
+        m_iBaseHeight = 120;
         break;
     }
 

@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="nl">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -93,10 +95,6 @@
     <message>
         <source>Import to:</source>
         <translation>Importeren naar:</translation>
-    </message>
-    <message>
-        <source>Disk</source>
-        <translation type="vanished">Schijf</translation>
     </message>
     <message>
         <source>Import</source>
@@ -285,7 +283,7 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -595,10 +593,6 @@
         <translation>Instellingen</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Enkele foto&apos;s zijn niet geïmporteerd</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Foto&apos;s importeren</translation>
     </message>
@@ -621,10 +615,6 @@
     <message>
         <source>Importing...</source>
         <translation>Bezig met importeren...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -834,6 +824,14 @@
     <message>
         <source>Exit</source>
         <translation>Afsluiten</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Vorige</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Volgende</translation>
     </message>
 </context>
 <context>
