@@ -56,7 +56,7 @@ class MainWindow : public DMainWindow, public ImageEngineImportObject
 
 public:
     explicit MainWindow();
-    ~MainWindow();
+    ~MainWindow() override;
 
     bool imageImported(bool success) override;
     void initConnections();

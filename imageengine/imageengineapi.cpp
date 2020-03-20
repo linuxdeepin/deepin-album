@@ -27,7 +27,7 @@ ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 ImageEngineApi::ImageEngineApi(QObject *parent)
     : QObject(parent)
 {
-    m_qtpool.setMaxThreadCount(20);
+    m_qtpool.setMaxThreadCount(1);
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
 }

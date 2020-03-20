@@ -256,6 +256,24 @@ AlbumView::AlbumView()
 
 AlbumView::~AlbumView()
 {
+//    for (auto mount : m_vfsManager->getMounts()) {
+//        QString uri = mount->getRootFile()->uri();
+//        for (auto mountLoop : m_mounts) {
+//            QString uriLoop = mountLoop->getRootFile()->uri();
+//            if (uri == uriLoop) {
+//                m_mounts.removeOne(mountLoop);
+//            }
+//        }
+//        //QThread::msleep(100);
+//    }
+//    QMap<QString, QStringList>::iterator iter;
+//    QString key;
+//    for (iter = m_phoneNameAndPathlist.begin(); iter !=  m_phoneNameAndPathlist.end();) {
+//        key = iter.key();
+//        iter++;
+//        m_phoneNameAndPathlist.remove(key);
+//        needUnMount(key);
+//    }
     m_pImpTimeLineWidget->getFatherStatusBar(nullptr);
     if (m_vfsManager) {
         delete  m_vfsManager;
@@ -1322,9 +1340,6 @@ void AlbumView::updateRightMountView()
             return;
         }
     }
-    if (m_phoneNameAndPathlist.empty()) {
-        return;
-    }
     QStringList filelist = m_phoneNameAndPathlist.value(strPath);
     if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length()) {
         m_importByPhoneComboBox->setEnabled(true);
@@ -2088,7 +2103,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
             return;
         }
 
-        //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+        //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
         if (!strPath.contains("/media/")) {
             bool bFind = findPicturePathByPhone(strPath);
             if (!bFind) {
@@ -2431,6 +2446,9 @@ void AlbumView::initExternalDevice()
 
         pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
         connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
+        if (!m_pLeftListView) {
+            return;
+        }
         m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
         if (m_itemClicked == true) {
             m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
@@ -2504,6 +2522,9 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
     pAlbumLeftTabItem->oriAlbumStatus();
     connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
+    if (!m_pLeftListView) {
+        return;
+    }
     m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
     m_mounts.append(mount);
