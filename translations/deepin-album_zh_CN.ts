@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -622,10 +624,6 @@
         <source>Importing...</source>
         <translation>正在导入照片，请稍候...</translation>
     </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>正在恢复照片...</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -639,7 +637,7 @@
     </message>
     <message>
         <source>File size</source>
-        <translation>⽂件⼤⼩</translation>
+        <translation>文件大小</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -647,11 +645,11 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>拍摄⽇期</translation>
+        <translation>拍摄日期</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改⽇期</translation>
+        <translation>修改日期</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -667,7 +665,7 @@
     </message>
     <message>
         <source>Aperture</source>
-        <translation>光圈⼤⼩</translation>
+        <translation>光圈大小</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -703,7 +701,7 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>颜⾊空间</translation>
+        <translation>颜色空间</translation>
     </message>
     <message>
         <source>Tag</source>
@@ -834,6 +832,14 @@
     <message>
         <source>Exit</source>
         <translation>退出</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一张</translation>
     </message>
 </context>
 <context>

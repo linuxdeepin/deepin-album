@@ -144,7 +144,7 @@ public:
     };
 
     AlbumView();
-    ~AlbumView();
+    ~AlbumView() override;
 
     bool imageImported(bool success) override
     {

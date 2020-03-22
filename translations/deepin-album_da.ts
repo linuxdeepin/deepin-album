@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="da">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -93,10 +95,6 @@
     <message>
         <source>Import to:</source>
         <translation>Importér til:</translation>
-    </message>
-    <message>
-        <source>Disk</source>
-        <translation type="vanished">Disk</translation>
     </message>
     <message>
         <source>Import</source>
@@ -285,7 +283,7 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -595,10 +593,6 @@
         <translation>Indstillinger</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Nogle billeder blev ikke importeret</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importér billeder</translation>
     </message>
@@ -621,10 +615,6 @@
     <message>
         <source>Importing...</source>
         <translation>Importerer ...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -834,6 +824,14 @@
     <message>
         <source>Exit</source>
         <translation>Afslut</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Forrige</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Næste</translation>
     </message>
 </context>
 <context>

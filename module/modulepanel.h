@@ -33,6 +33,7 @@ public:
         connect(dApp->signalM, &SignalManager::gotoPanel,
                 this, &ModulePanel::showPanelEvent);
     }
+    virtual ~ModulePanel(){}
     virtual bool isMainPanel()
     {
         return false;

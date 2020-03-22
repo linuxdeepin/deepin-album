@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ko">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -93,10 +95,6 @@
     <message>
         <source>Import to:</source>
         <translation>가져오기 대상:</translation>
-    </message>
-    <message>
-        <source>Disk</source>
-        <translation type="vanished">디스크</translation>
     </message>
     <message>
         <source>Import</source>
@@ -285,7 +283,7 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -595,10 +593,6 @@
         <translation>설정</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">일부 사진은 가져오지 못했습니다</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>사진 가져오기</translation>
     </message>
@@ -621,10 +615,6 @@
     <message>
         <source>Importing...</source>
         <translation>가져오는 중...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -834,6 +824,14 @@
     <message>
         <source>Exit</source>
         <translation>종료</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>이전</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>다음</translation>
     </message>
 </context>
 <context>

@@ -7,6 +7,7 @@
 #include <QMimeData>
 #include <QScrollBar>
 #include <QMutex>
+
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "widgets/dialogs/imgdeletedialog.h"
@@ -327,7 +328,6 @@ void ThumbnailListView::calBasePixMap(ItemInfo &info)
 
 void ThumbnailListView::calBasePixMapWandH()
 {
-//    int i_totalwidth = width() - 36;  // same as i_totalwidth in calWidgetItemWandH()
     int i_totalwidth = window()->width() - 30;  // same as i_totalwidth in calWidgetItemWandH()
 
     for (int i = 0; i < m_ItemList.length(); i++) {
@@ -335,10 +335,8 @@ void ThumbnailListView::calBasePixMapWandH()
             m_ItemList[i].width = m_iBaseHeight;
             m_ItemList[i].height = m_iBaseHeight;
         } else {
-//            m_ItemList[i].width = m_ItemList[i].baseWidth * m_iBaseHeight / m_ItemList[i].height;
             m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
             if (m_ItemList[i].width > i_totalwidth) {
-//                m_ItemList[i].height = m_ItemList[i].height * i_totalwidth / 4 / m_ItemList[i].width;
                 m_ItemList[i].height = m_iBaseHeight / 4;
                 m_ItemList[i].width = i_totalwidth / 4;
             } else {
@@ -1069,6 +1067,7 @@ void ThumbnailListView::updateMenuContents()
     if (1 != paths.length()) {
         m_MenuActionMap.value(tr("View"))->setVisible(false);
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
+        m_MenuActionMap.value(tr("Print"))->setEnabled(false);
         m_MenuActionMap.value(tr("Export"))->setEnabled(true);
     } else {
         bool ret = true;
@@ -1116,20 +1115,17 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
     }
 
-    int flag_imageSupportSave = 0;
-    for (auto path : paths) {
-        if (!utils::image::imageSupportSave(path)) {
-            flag_imageSupportSave = 1;
-            break;
-        }
+    bool bflag_imageSupportSave = false;      //图片是否可以保存标志
+    if (1 == paths.length()) { //单张照片
+        if (!utils::image::imageSupportSave(paths[0]))
+            bflag_imageSupportSave = true;
     }
 
-    if (0 == flag_imageSupportSave) {
+    if (bflag_imageSupportSave) {
         int flag_isRW = 0;
-        for (auto path : paths) {
-            if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+        if (1 == paths.length()) {
+            if (QFileInfo(paths[0]).isReadable() && !QFileInfo(paths[0]).isWritable()) {
                 flag_isRW = 1;
-                break;
             }
         }
 
@@ -1293,6 +1289,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         emit menuOpenImage(path, paths, true, false);
         break;
     case Idprint:
+        //PrintHelper::showPrintDialog(paths, this);
         PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     case IdStartSlideShow:
@@ -1438,7 +1435,6 @@ void ThumbnailListView::onPixMapScale(int value)
     switch (value) {
     case 0:
         m_iBaseHeight = 80;
-
         break;
     case 1:
         m_iBaseHeight = 90;

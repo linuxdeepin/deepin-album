@@ -96,7 +96,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run();
+    virtual void run() override;
 
 signals:
     void sigImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
@@ -116,7 +116,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run();
+    virtual void run() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
@@ -143,7 +143,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run();
+    virtual void run() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
@@ -167,7 +167,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run();
+    virtual void run() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
@@ -182,6 +182,24 @@ private:
     bool bwaitstop = false;
     bool bneedcache = true;
     bool baborted = false;
+};
+
+//通过参数启动载入图像的线程
+class ImageFromNewAppThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImageFromNewAppThread();
+    //配置参数
+    void setDate(QStringList files, ImageEngineImportObject *obj);
+protected:
+    bool ifCanStopThread(void *imgobject) override;
+    virtual void run() override;
+
+private:
+    ImageEngineImportObject *m_imgobj = nullptr;
+    QStringList paths;
+
 };
 
 #endif // IMAGEENGINETHREAD_H

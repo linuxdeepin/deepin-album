@@ -98,7 +98,6 @@ public:
     void addThread(ImageEngineThreadObject *thread);
     void removeThread(ImageEngineThreadObject *thread, bool needmutex = true);
     void addCheckPath(QString path);
-
     void checkSelf();
 
     void checkAndReturnPath(QString path);//保证顺序排列

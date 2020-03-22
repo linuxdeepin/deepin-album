@@ -59,6 +59,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
     painter->save();
     const ItemData data = itemData(index);
+
 //    if (data.path.isEmpty()) return;
 
     bool selected = false;
@@ -149,22 +150,41 @@ void ThumbnailDelegate::paint(QPainter *painter,
     } else {
         painter->drawPixmap(pixmapRect, /*dApp->m_imagemap.value(data.path)*/data.image);
     }
+    //绘制剩余天数
     if (COMMON_STR_TRASH == m_imageTypeStr) {
 
         painter->setPen(QColor(85, 85, 85, 170));
 //        QBrush brush;
 
         painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-        int m_Width = painter->fontMetrics().width(data.remainDays);
+        //字符串的像素宽度
+        const int m_Width = painter->fontMetrics().width(data.remainDays);
 //        int m_Height = painter->fontMetrics().height();
 
         painter->setBrush(QBrush(QColor(85, 85, 85, 170)));
 //        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 40, pixmapRect.y() + pixmapRect.height() - 18, 48, 16, 8, 8);
-        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 4, 20, 8, 8);
+
+        //2020/3/13-xiaolong
+        int rectwidth =pixmapRect.width();  //缩略图宽度
+        int tempcha = (rectwidth-m_Width>4)?(rectwidth-m_Width-4):4;
+        int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
+        int textwidth =m_Width;
+        if(m_Width>rectwidth)   //文字像素宽度大于缩略图宽度
+            textwidth = rectwidth-4;
+
+        painter->drawRoundedRect(posx,pixmapRect.y() + pixmapRect.height() - 28,textwidth,20,8,8);
+
+        //painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 4, 20, 8, 8);
         painter->setPen(QColor(255, 255, 255));
 
 //        qDebug() << "m_Width      " << m_Width << endl;
-        painter->drawText(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 13, data.remainDays);
+//        painter->drawText(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 13, data.remainDays);
+
+        QString str(data.remainDays);
+        QFontMetrics fontwidth(str);
+        if(m_Width>textwidth)
+            str = fontwidth.elidedText(str,Qt::ElideRight,textwidth);   //超出部分隐藏...
+        painter->drawText(posx,pixmapRect.y() + pixmapRect.height() - 13,str);
     }
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {

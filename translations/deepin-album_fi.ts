@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fi">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,16 +97,12 @@
         <translation>Tuo kohteeseen:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Levy</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Tuo</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">Päivät</translation>
+        <translation type="vanished">päivää</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -285,7 +283,7 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -595,10 +593,6 @@
         <translation>Asetukset</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Joitakin valokuvia ei ole tuotu</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Tuo kuvat</translation>
     </message>
@@ -621,10 +615,6 @@
     <message>
         <source>Importing...</source>
         <translation>Tuodaan...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -834,6 +824,14 @@
     <message>
         <source>Exit</source>
         <translation>Poistu</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Edellinen</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Seuraava</translation>
     </message>
 </context>
 <context>
