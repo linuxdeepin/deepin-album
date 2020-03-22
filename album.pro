@@ -100,6 +100,7 @@ desktop.files = deepin-album.desktop
 icon_files.path = /usr/share/icons/hicolor/scalable/apps
 icon_files.files = $$PWD/resources/images/other/deepin-album.svg
 
+
 INSTALLS += target desktop icon_files
 
 RESOURCES += \

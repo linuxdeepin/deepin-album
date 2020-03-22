@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pt_BR">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -128,7 +130,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Novo álbum</translation>
     </message>
 </context>
 <context>
@@ -285,7 +287,7 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation>Restaurando...</translation>
     </message>
 </context>
 <context>
@@ -472,11 +474,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -621,10 +623,6 @@
     <message>
         <source>Importing...</source>
         <translation>Importando...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -779,7 +777,7 @@
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Não Selecionado</translation>
+        <translation>Desmarcar</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -835,6 +833,14 @@
         <source>Exit</source>
         <translation>Sair</translation>
     </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Próximo</translation>
+    </message>
 </context>
 <context>
     <name>StatusBar</name>
@@ -871,11 +877,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -914,11 +920,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -1012,11 +1018,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>

@@ -26,7 +26,6 @@
 #include "utils/baseutils.h"
 
 #include "dthememanager.h"
-#include "imageengine/imageengineapi.h"
 
 #include <QCommandLineOption>
 #include <QDBusConnection>
@@ -112,6 +111,12 @@ void CommandLine::showHelp()
     fputs(qPrintable(m_cmdParser.helpText()), stdout);
 }
 
+//设置管理线程的对象
+void CommandLine::setThreads(ImageEngineImportObject *obj)
+{
+    m_obj = obj;
+}
+
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
 //    ViewMainWindow *w = new ViewMainWindow(false);
@@ -145,6 +150,8 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(0);
 
+            ImageEngineApi::instance()->loadImagesFromNewAPP(paths, m_obj);
+            /*
             DBImgInfoList dbInfos;
             using namespace utils::image;
             for (auto path : paths) {
@@ -158,7 +165,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
                 using namespace utils::base;
                 auto mds = getAllMetaData(path);
                 QString value = mds.value("DateTimeOriginal");
-//                qDebug() << value;
+            //                qDebug() << value;
                 DBImgInfo dbi;
                 dbi.fileName = fi.fileName();
                 dbi.filePath = path;
@@ -182,6 +189,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
                 qDebug() << "DBManager::instance()->insertImgInfos(dbInfos)";
                 DBManager::instance()->insertImgInfos(dbInfos);
             }
+            */
         }
 
 //        dApp->LoadDbImage();

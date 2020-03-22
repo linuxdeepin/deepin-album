@@ -61,7 +61,7 @@ ViewMainWindow::ViewMainWindow(bool manager, QWidget *parent):
          setCentralWidget(m_mainWidget);
     });
 
-    if (titlebar()) titlebar()->setFixedHeight(0);
+    if (titlebar()) titlebar()->setVisible(false);
     moveFirstWindow();
 
 #ifndef LITE_DIV

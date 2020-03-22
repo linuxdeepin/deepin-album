@@ -28,6 +28,8 @@
 #include <QMimeType>
 #include <QMutex>
 
+#include <QThread>
+
 static QMutex freeimage_mutex;
 
 namespace utils {
@@ -154,6 +156,7 @@ QString DateToString(QDateTime ot)
 QMap<QString, QString> getAllMetaData(const QString &path)
 {
     QMutexLocker mutex(&freeimage_mutex);
+    //qDebug() << "threadid:" << QThread::currentThread() << "getAllMetaData locking ....";
     FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
     QMap<QString, QString> admMap;
     admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
@@ -205,8 +208,9 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
 
     FreeImage_Unload(dib);
-
+    //qDebug() <<  QThread::currentThread() << "getAllMetaData lock end";
     return admMap;
+
 }
 
 FIBITMAP *makeThumbnail(const QString &path, int size)

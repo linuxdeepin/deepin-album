@@ -48,6 +48,7 @@ class ViewPanel : public ModulePanel, public ImageEngineObject
     Q_OBJECT
 public:
     explicit ViewPanel(QWidget *parent = 0);
+    ~ViewPanel() Q_DECL_OVERRIDE;
 
     QString moduleName() Q_DECL_OVERRIDE;
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;

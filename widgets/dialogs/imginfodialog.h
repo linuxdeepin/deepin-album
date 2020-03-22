@@ -51,6 +51,7 @@ private:
     int contentHeight() const;
 
 private:
+    int m_title_maxwidth;
     int m_maxFieldWidth;
     bool m_isBaseInfo = false;
     bool m_isDetailsInfo = false;
