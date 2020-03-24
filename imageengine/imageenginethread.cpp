@@ -663,7 +663,7 @@ void ImageGetFilesFromMountThread::run()
             << QString("*.GIF")
             ;
 
-    //定义迭代器并设置过滤器
+    //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
     QDirIterator dir_iterator(m_path,
                               filters,
                               QDir::Files | QDir::NoSymLinks,
@@ -918,13 +918,10 @@ void ImageLoadFromLocalThread::run()
     switch (m_type) {
     case DataType_StrList:
         if (!m_filelist.isEmpty()) {
-            for (const QString &path: m_filelist) {
-//                if (bneedstop) {
-//                    m_imgobject->removeThread(this);
-//                    return;
-//                }
+            for (const QString &path : m_filelist) {
+                //2020年03月24日17:58:55
                 QFileInfo file(path);
-                if (file.isDir()) {
+                if (false) {
                     qDebug() << "file.isDir()";
                     image_list << checkImage(path);
                 } else {
@@ -940,7 +937,9 @@ void ImageLoadFromLocalThread::run()
                         emit sigInsert(path);
                     }
                 }
+
             }
+
         }
         break;
     case DataType_InfoList:

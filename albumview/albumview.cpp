@@ -1221,9 +1221,15 @@ void AlbumView::initRightView()
 
 void AlbumView::updateRightView()
 {
+    if (!m_pRightTitle) {
+        return;
+    }
     m_pRightTitle->setVisible(true);
     m_pRightPicTotal->setVisible(true);
 //    m_pImportTitle->setVisible(true);  //del 3975
+    if (!m_spinner) {
+        return;
+    }
     m_spinner->hide();
     m_spinner->stop();
 //    m_curThumbnaiItemList.clear();
@@ -2260,7 +2266,7 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList
 
         if ((scheme == "file" && mount->canEject()) ||  //usb device
                 (scheme == "gphoto2") ||                //phone photo
-                            //(scheme == "afc") ||                    //iPhone document
+                //(scheme == "afc") ||                    //iPhone document
                 (scheme == "mtp")) {                    //android file
             qDebug() << "getVfsMountList() mount.name" << mount->name() << " scheme type:" << scheme;
             result.append(mount);
