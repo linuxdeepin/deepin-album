@@ -918,11 +918,11 @@ void ImageLoadFromLocalThread::run()
     switch (m_type) {
     case DataType_StrList:
         if (!m_filelist.isEmpty()) {
-            foreach (QString path, m_filelist) {
-                if (bneedstop) {
+            for (const QString &path: m_filelist) {
+//                if (bneedstop) {
 //                    m_imgobject->removeThread(this);
-                    return;
-                }
+//                    return;
+//                }
                 QFileInfo file(path);
                 if (file.isDir()) {
                     qDebug() << "file.isDir()";

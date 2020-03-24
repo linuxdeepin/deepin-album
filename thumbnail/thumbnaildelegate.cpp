@@ -169,7 +169,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         int tempcha = (rectwidth-m_Width>4)?(rectwidth-m_Width-4):4;
         int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
         int textwidth =m_Width;
-        if(m_Width>rectwidth)   //文字像素宽度大于缩略图宽度
+        if(m_Width+tempcha>rectwidth)   //文字像素宽度大于缩略图宽度
             textwidth = rectwidth-4;
 
         painter->drawRoundedRect(posx,pixmapRect.y() + pixmapRect.height() - 28,textwidth,20,8,8);
@@ -182,7 +182,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
         QString str(data.remainDays);
         QFontMetrics fontwidth(str);
-        if(m_Width>textwidth)
+        if(m_Width-textwidth>0)
             str = fontwidth.elidedText(str,Qt::ElideRight,textwidth);   //超出部分隐藏...
         painter->drawText(posx,pixmapRect.y() + pixmapRect.height() - 13,str);
     }
