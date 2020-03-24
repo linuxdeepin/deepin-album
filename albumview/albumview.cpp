@@ -1319,7 +1319,7 @@ void AlbumView::updateRightMyFavoriteView()
     setAcceptDrops(false);
 }
 
-// 更新外接设备列表
+// 更新外接设备右侧视图
 void AlbumView::updateRightMountView()
 {
     if (!m_pLeftListView) {
@@ -1346,7 +1346,7 @@ void AlbumView::updateRightMountView()
         m_importAllByPhoneBtn->setEnabled(true);
         updateImportComboBox();
 //        bcurThumbnaiItemList_str = true;
-//        m_curThumbnaiItemList_str.clear();
+        m_curThumbnaiItemList_str.clear();      //确保每次使用，统计的数量都清除上次的，（防止遗漏）
         m_curThumbnaiItemList_str << filelist;
 //        for (auto path : m_phoneNameAndPathlist.value(strPath)) {
 //            ThumbnailListView::ItemInfo vi;
@@ -2059,7 +2059,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     QString scheme = QUrl(uri).scheme();
     if ((scheme == "file" && mount->canEject()) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
-//            (scheme == "afc") ||                    //iPhone document
+            //(scheme == "afc") ||                    //iPhone document
             (scheme == "mtp")) {                    //android file
         qDebug() << "mount.name" << mount->name() << " scheme type:" << scheme;
 
@@ -2104,6 +2104,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         }
 
         //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
+        //没有考虑iPhone模式下，只加载文档模式（afc）?
         if (!strPath.contains("/media/")) {
             bool bFind = findPicturePathByPhone(strPath);
             if (!bFind) {
@@ -2267,7 +2268,7 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList
 
         if ((scheme == "file" && mount->canEject()) ||  //usb device
                 (scheme == "gphoto2") ||                //phone photo
-                //            (scheme == "afc") ||                    //iPhone document
+                            //(scheme == "afc") ||                    //iPhone document
                 (scheme == "mtp")) {                    //android file
             qDebug() << "getVfsMountList() mount.name" << mount->name() << " scheme type:" << scheme;
             result.append(mount);
@@ -2573,10 +2574,11 @@ bool AlbumView::findPicturePathByPhone(QString &path)
     QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     QFileInfo tempFileInfo;
     foreach (tempFileInfo, fileInfoList) {
+        //针对p2p模式
         if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
             path = tempFileInfo.absoluteFilePath();
             return true;
-        } else {
+        } else {        //针对MTP模式
             QDir subDir;
             subDir.setPath(tempFileInfo.absoluteFilePath());
 
