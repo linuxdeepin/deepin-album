@@ -2104,7 +2104,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         }
 
         //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
-        //没有考虑iPhone模式下，只加载文档模式（afc）?
         if (!strPath.contains("/media/")) {
             bool bFind = findPicturePathByPhone(strPath);
             if (!bFind) {
@@ -2113,14 +2112,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
                 return;
             }
         }
-//        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
-//        m_pRightPhoneThumbnailList->stopLoadAndClear();
-//        QStringList pathlist;
-//        pathlist << strPath;
-//        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
 
-////        m_mountLoaderList.insert(strPath, pMountloader);
-////        m_loadThreadList.insert(strPath, pLoadThread);
 
         updateExternalDevice(mount);
         ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);

@@ -43,7 +43,7 @@ void StatusBar::initUI()
     m_pSlider->setFixedWidth(180);
     m_pSlider->setFixedHeight(27);
     m_pSlider->setMinimum(0);
-    m_pSlider->setMaximum(4);
+    m_pSlider->setMaximum(9);
     m_pSlider->slider()->setSingleStep(1);
     m_pSlider->slider()->setTickInterval(1);
     m_pSlider->setValue(2);

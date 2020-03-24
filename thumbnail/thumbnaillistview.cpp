@@ -1448,6 +1448,21 @@ void ThumbnailListView::onPixMapScale(int value)
     case 4:
         m_iBaseHeight = 120;
         break;
+    case 5:
+        m_iBaseHeight = 130;
+        break;
+    case 6:
+        m_iBaseHeight = 140;
+        break;
+    case 7:
+        m_iBaseHeight = 150;
+        break;
+    case 8:
+        m_iBaseHeight = 160;
+        break;
+    case 9:
+        m_iBaseHeight = 170;
+        break;
     }
 
     calBasePixMapWandH();
