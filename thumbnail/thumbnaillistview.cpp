@@ -1067,7 +1067,7 @@ void ThumbnailListView::updateMenuContents()
     if (1 != paths.length()) {
         m_MenuActionMap.value(tr("View"))->setVisible(false);
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
-        m_MenuActionMap.value(tr("Print"))->setEnabled(false);
+        //m_MenuActionMap.value(tr("Print"))->setEnabled(false);
         m_MenuActionMap.value(tr("Export"))->setEnabled(true);
     } else {
         bool ret = true;
@@ -1289,8 +1289,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         emit menuOpenImage(path, paths, true, false);
         break;
     case Idprint:
-        //PrintHelper::showPrintDialog(paths, this);
-        PrintHelper::showPrintDialog(QStringList(path), this);
+        PrintHelper::showPrintDialog(paths, this);
+        //PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     case IdStartSlideShow:
         emit menuOpenImage(path, paths, true, true);

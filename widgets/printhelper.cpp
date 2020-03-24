@@ -149,8 +149,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         }
     }
     // HACK - end
-
-    auto repaint = [&imgs, &optionsPage, &printer] {
+    int index = 0;
+    auto repaint = [&imgs, &optionsPage, &index, &printer] {
         QPainter painter(&printer);
 
         for (const QImage img : imgs)
@@ -167,8 +167,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 painter.setWindow(img.rect());
                 painter.drawImage(0, 0, img);
             }
-
-            if (img != imgs.last()) {
+            if (++index != imgs.size()) {
                 printer.newPage();
             }
         }
