@@ -244,23 +244,10 @@ void ImportImagesThread::run()
     using namespace utils::image;
     int noReadCount = 0;
     for (auto imagePath : image_list) {
-        if (bneedstop) {
-            m_obj->imageImported(false);
-            m_obj->removeThread(this);
-            return;
-        }
         if (! imageSupportRead(imagePath)) {
             noReadCount++;
             continue;
         }
-
-//        // Generate thumbnail and storage into cache dir
-//        if (! utils::image::thumbnailExist(imagePath)) {
-//            // Generate thumbnail failed, do not insert into DB
-//            if (! utils::image::generateThumbnail(imagePath)) {
-//                continue;
-//            }
-//        }
 
         QFileInfo fi(imagePath);
         if (!fi.exists())    //当前文件不存在
@@ -286,7 +273,7 @@ void ImportImagesThread::run()
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
-        emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
+        emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());    //主界面连接部分使用柱塞式，目的在导入过程中，检测删除源文件
     }
 
     if (bneedstop) {
@@ -294,13 +281,23 @@ void ImportImagesThread::run()
         m_obj->removeThread(this);
         return;
     }
-    if (m_paths.length() == dbInfos.length() && !dbInfos.isEmpty()) {
-//        ImportImageLoader(dbInfos);
-        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+
+    DBImgInfoList tempDBInfos;
+    for(auto dbi:dbInfos)
+    {
+        QFileInfo fi(dbi.filePath);
+        if (!fi.exists())    //当前文件不存在
+            continue;
+        tempDBInfos << dbi;
+    }
+
+
+    if (image_list.length() == tempDBInfos.length() && !tempDBInfos.isEmpty()) {
+        dApp->m_imageloader->ImportImageLoader(tempDBInfos, m_albumname);
         m_obj->imageImported(true);
-    } else if (((m_paths.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
-        int successful = dbInfos.length();
-        int failed = m_paths.length() - dbInfos.length();
+    } else if ((tempDBInfos.length() < image_list.size()) && !tempDBInfos.isEmpty()) {
+        int successful = tempDBInfos.length();
+        int failed = image_list.length() - tempDBInfos.length();
         dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
         emit dApp->signalM->ImportSomeFailed(successful, failed);
         m_obj->imageImported(false);
@@ -308,6 +305,20 @@ void ImportImagesThread::run()
         emit dApp->signalM->ImportFailed();
         m_obj->imageImported(false);
     }
+
+//    if (m_paths.length() == dbInfos.length() && !dbInfos.isEmpty()) {
+//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+//        m_obj->imageImported(true);
+//    } else if (((m_paths.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
+//        int successful = dbInfos.length();
+//        int failed = m_paths.length() - dbInfos.length();
+//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+//        emit dApp->signalM->ImportSomeFailed(successful, failed);
+//        m_obj->imageImported(false);
+//    } else {
+//        emit dApp->signalM->ImportFailed();
+//        m_obj->imageImported(false);
+//    }
 //    if (image_list.length() == dbInfos.length() && !dbInfos.isEmpty()) {
 ////        ImportImageLoader(dbInfos);
 //        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
@@ -790,7 +801,7 @@ void ImageLoadFromDBThread::run()
         return;
     }
     QStringList image_list;
-    QStringList fail_image_list;    //保存失效的图片路径
+    QStringList fail_image_list;
     if (ThumbnailDelegate::AllPicViewType == m_type) {
         auto infos = DBManager::instance()->getAllInfos();
         for (auto info : infos) {

@@ -238,11 +238,6 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
         count = 0;
         emit dApp->signalM->ImportFailed();
     }
-//    } else {
-//        count = 0;
-//        emit dApp->signalM->ImportFailed();
-//    }
-
 
 }
 
