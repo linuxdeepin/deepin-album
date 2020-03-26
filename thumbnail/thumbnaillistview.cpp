@@ -1117,7 +1117,7 @@ void ThumbnailListView::updateMenuContents()
 
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
     if (1 == paths.length()) { //单张照片
-        if (!utils::image::imageSupportSave(paths[0]))
+        if (utils::image::imageSupportSave(paths[0]))
             bflag_imageSupportSave = true;
     }
 

@@ -39,7 +39,6 @@
 #include "utils/snifferimageformat.h"
 #include "application.h"
 #include "widgets/toast.h"
-#include <DSvgRenderer>
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
 
@@ -168,8 +167,8 @@ void ImageView::setImage(const QString &path)
         return;
     }
     m_path = path;
+    QString strfixL = QFileInfo(path).suffix().toLower();
     QGraphicsScene *s = scene();
-
     QFileInfo fi(path);
 
 //    QString oldHintPath = m_toast->property("hint_path").toString();
@@ -187,7 +186,7 @@ void ImageView::setImage(const QString &path)
 //    }
 
     // The suffix of svf file should be svg
-    if (QFileInfo(path).suffix().toLower() == "svg" && DSvgRenderer().load(path)) {
+    if ( strfixL == "svg" && DSvgRenderer().load(path)) {
         m_movieItem = nullptr;
 //        m_pixmapItem = nullptr;
         if (m_pixmapItem != nullptr) {
@@ -213,11 +212,11 @@ void ImageView::setImage(const QString &path)
         s->addItem(m_imgSvgItem);
         emit imageChanged(path);
     } else {
-//        m_svgItem = nullptr;
         m_imgSvgItem = nullptr;
-        // Support gif and mng
-        if (QMovie(path).frameCount() > 1) {
-//            m_pixmapItem = nullptr;
+        QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
+        //QMovie can't read frameCount of "mng" correctly,so change
+        //the judge way to solve the problem
+        if (fList.contains(strfixL.toUtf8().data())) {
             if (m_pixmapItem != nullptr) {
                 delete m_pixmapItem;
                 m_pixmapItem = nullptr;

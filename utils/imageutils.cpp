@@ -26,6 +26,7 @@
 #include <QFileInfo>
 #include <QImage>
 #include <QImageReader>
+#include <QtSvg>
 #include <QMimeDatabase>
 #include <QMutexLocker>
 #include <QPixmapCache>
@@ -33,6 +34,7 @@
 #include <QReadWriteLock>
 #include <QUrl>
 #include <QApplication>
+#include <QMovie>
 #include "utils/snifferimageformat.h"
 #include <fstream>
 
@@ -122,12 +124,19 @@ bool imageSupportSave(const QString &path)
                              << "XPM"
                              << "PPM"
                              << "PGM"
-                             << "X3F";           // Sigma cameras
+                             << "X3F"           // Sigma cameras
+                             << "SVG";          // need support SVG
 
+    //dynamic image can not be supported
+    if (QMovie::supportedFormats().contains(suffix.toLower().toUtf8().data())) {
+        QMovie  movie(path);
+        return movie.frameCount() == 1 ? true : false;
+    }
 
+    //some images that decode slow also should be written.
     if (raws.indexOf(suffix.toUpper()) != -1
-            || QImageReader(path).imageCount() > 1) {
-        return false;
+            || (QImageReader(path).imageCount() > 1 )) {
+        return true;
     } else {
         return freeimage::canSave(path);
     }
@@ -145,6 +154,7 @@ bool rotate(const QString &path, int degree)
 
     int loadFlags = 0;
     int saveFlags = 0;
+    bool bsaved = false;
     FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
     qDebug() << "fif" << fif << endl;
     switch (int(fif)) {
@@ -166,32 +176,44 @@ bool rotate(const QString &path, int degree)
         saveFlags = PNG_DEFAULT;   // Save without ZLib compression
         break;
     }
+    //need Qt SVG to deal with svg image
+    const QString suffix = QFileInfo(path).suffix();
+    if (suffix.toUpper().compare("SVG") == 0) {
+//        QMatrix matrix;
+//        matrix.rotate(-degree);
+//        QImage image(path);
+//        image.transformed(matrix, Qt::SmoothTransformation);
+//        QPainter *painter = new QPainter;
+//        painter->drawImage(image.rect(), image);
+//        QSvgGenerator svgrender;
+//        svgrender.setFileName("/tmp/test.svg");
 
-    FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
+    } else {
+        FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
 
-    FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
+        FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
 
-    if (rotated) {
-        // Regenerate thumbnail if it's exits
-        // Image formats that currently support thumbnail saving are
-        // JPEG (JFIF formats), EXR, TGA and TIFF.
-        if (FreeImage_GetThumbnail(dib)) {
-            FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
-            FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
-            FreeImage_SetThumbnail(rotated, rotateThumb);
-            FreeImage_Unload(rotateThumb);
+        if (rotated) {
+            // Regenerate thumbnail if it's exits
+            // Image formats that currently support thumbnail saving are
+            // JPEG (JFIF formats), EXR, TGA and TIFF.
+            if (FreeImage_GetThumbnail(dib)) {
+                FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
+                FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
+                FreeImage_SetThumbnail(rotated, rotateThumb);
+                FreeImage_Unload(rotateThumb);
+            }
         }
+        //write image to cover oringal one after rotating
+        bsaved = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
+
+        FreeImage_Unload(dib);
+        FreeImage_Unload(rotated);
+
+        // The thumbnail should regenerate by caller
+        removeThumbnail(path);
     }
-
-    bool v = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
-
-    FreeImage_Unload(dib);
-    FreeImage_Unload(rotated);
-
-    // The thumbnail should regenerate by caller
-    removeThumbnail(path);
-
-    return v;
+    return bsaved;
 }
 
 /*!

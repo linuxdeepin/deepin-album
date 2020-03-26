@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
+#include <QImage>
 #include <QDebug>
 #include <QDBusInterface>
 
@@ -26,9 +27,17 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 void WallpaperSetter::setWallpaper(const QString &path)
 {
     // gsettings unsupported unicode character
-    const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
+    QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
     QFile(path).copy(tmpImg);
-
+    QImage img(tmpImg);
+    if (img.format() != QImage::Format_Invalid) {
+        if (img.save(QString("/tmp/DIVIMG.%1").arg("JPG"))) {
+            //if convert image succeed,remove copy image.
+            QFile(tmpImg).remove();
+            //change value of tmpImg
+            tmpImg = QString("/tmp/DIVIMG.%1").arg("JPG");
+        }
+    }
 
     if (!qEnvironmentVariableIsEmpty("FLATPAK_APPID")) {
         // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
@@ -65,7 +74,6 @@ void WallpaperSetter::setWallpaper(const QString &path)
             setGNOMEShellWallpaper(tmpImg);
         }
     }
-
 
     // Remove the tmp file
     QTimer *t = new QTimer(this);
