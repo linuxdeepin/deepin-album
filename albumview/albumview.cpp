@@ -698,7 +698,7 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 
 void AlbumView::iniWaitDiolag()
 {
-    m_waitDeviceScandailog = new DDialog(this);
+    m_waitDeviceScandailog = new DDialog();
     m_waitDailog_timer = new QTimer(this);
     m_closeDeviceScan = new DPushButton(tr("Cancel"));
     m_ignoreDeviceScan = new DPushButton(tr("Ignore"));
@@ -1442,12 +1442,13 @@ void AlbumView::updateRightMountView()
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
 //        m_pRightPhoneThumbnailList->importFilesFromLocal(m_phoneNameAndPathlist.value(strPath));
 //        m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
-        m_pRightPhoneThumbnailList->stopLoadAndClear();
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
         QThread::msleep(50);
         if (!m_pRightPhoneThumbnailList->isLoading()) {
             emit dApp->signalM->waitDevicescan();
         }
+        m_pRightPhoneThumbnailList->stopLoadAndClear();
+        m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
+
 
 //        //设置更新之前的选择状态
 //        QList<Listolditem>::iterator j;
@@ -3296,7 +3297,7 @@ void AlbumView::importDialog()
     m_ignoreDeviceScan->setDisabled(true);
     m_waitDeviceScandailog->show();
     m_waitDailog_timer->start(2000);
-
+    this->setDisabled(true);
 
 //    if (!m_waitDeviceScanMessage) {
 //        m_waitDeviceScanMessage = new DMessageBox(this);
@@ -3312,7 +3313,7 @@ void AlbumView::importDialog()
 
 void AlbumView::onWaitDialogClose()
 {
-    sleep(1);
+    QThread::msleep(100);
 //    ImageEngineImportObject::clearAndStopThread();
 //    ImageMountGetPathsObject::clearAndStopThread();
 //    ImageMountImportPathsObject::clearAndStopThread();
@@ -3330,12 +3331,13 @@ void AlbumView::onWaitDialogClose()
 //        emit m_vfsManager->mountRemoved(mount);
 //    }
     m_waitDeviceScandailog->close();
-
+    this->setEnabled(true);
 }
 
 void AlbumView::onWaitDialogIgnore()
 {
     m_waitDeviceScandailog->hide();
+    this->setEnabled(true);
 }
 
 
