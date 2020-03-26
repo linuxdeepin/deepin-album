@@ -24,13 +24,13 @@
 #include <DApplicationHelper>
 #include <DSpinner>
 #include <DSuggestButton>
+#include <DDialog>
 #include <ddiskmanager.h>
 #include <dblockdevice.h>
 #include <ddiskdevice.h>
 #include "leftlistwidget.h"
 #include <QRunnable>
 #include <QThreadPool>
-
 
 //#define GIO_COMPILATION
 #undef signals
@@ -155,6 +155,7 @@ public:
     bool imageMountImported(QStringList &filelist) override;
 
     void createNewAlbum(QStringList imagepaths);
+    void iniWaitDiolag();
     void SearchReturnUpdate();
     void restorePicNum();
     void updatePicNum();
@@ -217,7 +218,9 @@ private slots:
     void onKeyDelete();
     void onKeyF2();
     void needUnMount(QString path);
-
+    void importDialog();
+    void onWaitDialogClose();
+    void onWaitDialogIgnore();
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
@@ -303,6 +306,12 @@ private:
     DWidget *fatherwidget = nullptr;
     DWidget *pPhoneWidget = nullptr;
     DBlurEffectWidget *phonetopwidget = nullptr;
+
+    DDialog *m_waitDeviceScandailog;
+
+    QTimer *m_waitDailog_timer;
+    DPushButton *m_closeDeviceScan;
+    DPushButton *m_ignoreDeviceScan;
 };
 
 #endif // ALBUMVIEW_H

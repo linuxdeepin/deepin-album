@@ -1091,6 +1091,7 @@ bool ImageEngineThread::addObject(ImageEngineObject *imgobject)
 //    return parentDir + "/" + dirname;
 //}
 
+//载入QPixmap
 void ImageEngineThread::run()
 {
     if (getNeedStop())
@@ -1182,6 +1183,7 @@ void ImageEngineThread::run()
     QFileInfo fi(m_path);
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTimeOriginal");
+
 
     DBImgInfo dbi;
     dbi.fileName = fi.fileName();

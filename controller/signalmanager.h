@@ -152,7 +152,7 @@ signals:
     void popupWaitDialog(QString waittext, bool bneedprogress = true);
     void closeWaitDialog();
     void progressOfWaitDialog(int allfiles, int completefiles);
-
+    void waitDevicescan();
 private:
     explicit SignalManager(QObject *parent = 0);
 

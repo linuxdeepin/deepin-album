@@ -132,6 +132,18 @@
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>忽略</translation>
+    </message>
+    <message>
+        <source>loading images，please wait...</source>
+        <translation>正在加载图片中，请稍后...</translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>

@@ -52,7 +52,7 @@ class ImageMountImportPathsObject
 {
 public:
     ImageMountImportPathsObject();
-    ~ImageMountImportPathsObject();
+    virtual ~ImageMountImportPathsObject();
     virtual bool imageMountImported(QStringList &filelist) = 0;
     void addThread(ImageEngineThreadObject *thread);
     void removeThread(ImageEngineThreadObject *thread);
@@ -65,7 +65,7 @@ class ImageMountGetPathsObject
 {
 public:
     ImageMountGetPathsObject();
-    ~ImageMountGetPathsObject();
+    virtual ~ImageMountGetPathsObject();
     virtual bool imageGeted(QStringList &filelist, QString path) = 0;
     void addThread(ImageEngineThreadObject *thread);
     void removeThread(ImageEngineThreadObject *thread);
@@ -78,7 +78,7 @@ class ImageEngineImportObject
 {
 public:
     ImageEngineImportObject();
-    ~ImageEngineImportObject();
+    virtual ~ImageEngineImportObject();
     virtual bool imageImported(bool success) = 0;
     void addThread(ImageEngineThreadObject *thread);
     void removeThread(ImageEngineThreadObject *thread);
@@ -91,7 +91,7 @@ class ImageEngineObject
 {
 public:
     ImageEngineObject();
-    ~ImageEngineObject();
+    virtual ~ImageEngineObject();
     virtual bool imageLoaded(QString filepath) = 0;
     virtual bool imageLocalLoaded(QStringList &filelist) = 0;
     virtual bool imageFromDBLoaded(QStringList &filelist) = 0;

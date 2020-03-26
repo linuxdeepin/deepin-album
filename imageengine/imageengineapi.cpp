@@ -124,6 +124,7 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
     return true;
 }
 
+//载入图片实际位置
 bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache)
 {
 
@@ -301,7 +302,9 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
     connect(imagethread, &ImageGetFilesFromMountThread::sigImageFilesGeted, this, &ImageEngineApi::sltImageFilesGeted);
     imagethread->setData(mountname, path, obj);
     obj->addThread(imagethread);
+    //emit dApp->signalM->waitDevicescan();
     m_qtpool.start(imagethread);
+
     return true;
 }
 

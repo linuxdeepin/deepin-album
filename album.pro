@@ -120,3 +120,5 @@ CONFIG(release, debug|release) {
     INSTALLS += dtk_translations
 }
 
+DISTFILES +=
+

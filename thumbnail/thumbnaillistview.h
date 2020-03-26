@@ -94,7 +94,7 @@ public:
     };
 
     explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, QString imgtype = "All Photos", QWidget *parent = nullptr);
-    ~ThumbnailListView();
+    ~ThumbnailListView() override;
 
     //------------------
     void loadFilesFromLocal(QStringList files, bool needcache = true, bool needcheck = true);
@@ -111,6 +111,7 @@ public:
     void setListWidgetItem(QListWidgetItem *item);
     void setIBaseHeight(int iBaseHeight);
     bool checkResizeNum();
+    bool isLoading();
     //------------------
 
 //    void insertThumbnails(const QList<ItemInfo> &itemList);

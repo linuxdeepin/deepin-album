@@ -1772,3 +1772,11 @@ bool ThumbnailListView::checkResizeNum()
     }
     return true;
 }
+
+bool ThumbnailListView::isLoading()
+{
+    if (m_threads.empty()) {
+        return false;
+    }
+    return true;
+}
