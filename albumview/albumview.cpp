@@ -3320,11 +3320,11 @@ void AlbumView::onWaitDialogClose()
 //    m_phonePathAndImage.clear();
 //    m_phonePicMap.clear();
 //    m_mountPicNum = 0;
-//    m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
+    m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
 //    //m_currentType = ALBUM_PATHTYPE_BY_PHONE;
 
-//    m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-//    m_currentType = COMMON_STR_RECENT_IMPORTED;
+    m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
+    m_currentType = COMMON_STR_RECENT_IMPORTED;
 //    updateRightView();
     m_pRightPhoneThumbnailList->stopLoadAndClear();
 //    for (auto mount : m_mounts) {
