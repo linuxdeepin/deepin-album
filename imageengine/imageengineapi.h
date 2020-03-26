@@ -32,6 +32,7 @@ public:
     bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
+
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
     bool getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj);

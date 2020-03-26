@@ -298,6 +298,7 @@ void ThumbnailListView::initConnections()
             &ThumbnailListView::onCancelFavorite);
 //    connect(m_delegate, &ThumbnailDelegate::sigPageNeedResize, this,
 //            &ThumbnailListView::slotPageNeedResize);
+
 }
 
 void ThumbnailListView::calBasePixMap(ItemInfo &info)
@@ -1699,6 +1700,7 @@ void ThumbnailListView::onTimerOut()
     }
     bneedsendresize = false;
 }
+
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)
 {

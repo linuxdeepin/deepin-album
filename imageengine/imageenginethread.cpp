@@ -240,7 +240,6 @@ void ImportImagesThread::run()
     }
 
     DBImgInfoList dbInfos;
-
     using namespace utils::image;
     int noReadCount = 0;
     for (auto imagePath : image_list) {
@@ -251,7 +250,10 @@ void ImportImagesThread::run()
 
         QFileInfo fi(imagePath);
         if (!fi.exists())    //当前文件不存在
+        {
             continue;
+        }
+
         using namespace utils::image;
         using namespace utils::base;
         auto mds = getAllMetaData(imagePath);
@@ -273,7 +275,7 @@ void ImportImagesThread::run()
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
-        emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());    //主界面连接部分使用柱塞式，目的在导入过程中，检测删除源文件
+        emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
     }
 
     if (bneedstop) {
@@ -281,27 +283,25 @@ void ImportImagesThread::run()
         m_obj->removeThread(this);
         return;
     }
-
-    DBImgInfoList tempDBInfos;
-    for(auto dbi:dbInfos)
+    DBImgInfoList tempdbInfos;
+    for(auto Info:dbInfos)
     {
-        QFileInfo fi(dbi.filePath);
-        if (!fi.exists())    //当前文件不存在
+        QFileInfo   fi(Info.filePath);
+        if(!fi.exists())
             continue;
-        tempDBInfos << dbi;
+        tempdbInfos<<Info;
     }
 
-
-    if (image_list.length() == tempDBInfos.length() && !tempDBInfos.isEmpty()) {
-        dApp->m_imageloader->ImportImageLoader(tempDBInfos, m_albumname);
+    if (image_list.length() == tempdbInfos.length() && !tempdbInfos.isEmpty()) {
+        dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);
         m_obj->imageImported(true);
-    } else if ((tempDBInfos.length() < image_list.size()) && !tempDBInfos.isEmpty()) {
-        int successful = tempDBInfos.length();
-        int failed = image_list.length() - tempDBInfos.length();
-        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
+    } /*else if ((dbInfos.length() < image_list.size()) && !tempdbInfos.isEmpty()) {
+        int successful = tempdbInfos.length();
+        int failed = image_list.length() - tempdbInfos.length();
+        dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);
         emit dApp->signalM->ImportSomeFailed(successful, failed);
         m_obj->imageImported(false);
-    } else {
+    } */else {
         emit dApp->signalM->ImportFailed();
         m_obj->imageImported(false);
     }
@@ -339,6 +339,75 @@ void ImportImagesThread::run()
 //        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
 //    }
     m_obj->removeThread(this);
+}
+
+void ImportImagesThread::proDucePic(QString path)
+{
+    using namespace utils::image;
+    using namespace utils::base;
+    QImage tImg;
+    bool cache_exist = false;
+    QString cache_path = path;
+    QFileInfo file(CACHE_PATH + path);
+    if (file.exists()) {
+        cache_exist = true;
+        cache_path = CACHE_PATH + path;
+        return;
+    }
+
+    QString format = DetectImageFormat(cache_path);
+    if (format.isEmpty()) {
+        QImageReader reader(cache_path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        } else if (cache_path.contains(".tga")) {
+            bool ret = false;
+            tImg = utils::image::loadTga(cache_path, ret);
+        }
+    } else {
+        QImageReader readerF(cache_path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                       << format;
+            tImg = QImage(path);
+        }
+    }
+
+    QPixmap pixmap = QPixmap::fromImage(tImg);
+    if (pixmap.isNull()) {
+        qDebug() << "pixmap.isNull(),   生成缩略图失败！";
+        return;
+    }
+
+    if (pixmap.height() < 100) {
+        cache_exist = true;
+        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+    } else if (pixmap.width() < 100) {
+        cache_exist = true;
+        pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+    }
+
+    if (!cache_exist)
+    {
+        if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
+            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+        } else {
+            pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        }
+    }
+    if (pixmap.isNull()) {
+        pixmap = QPixmap::fromImage(tImg);
+    } else {
+        if (!cache_exist) {
+            QString spath = CACHE_PATH + path;
+            mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+            pixmap.save(spath, "PNG");
+        }
+    }
 }
 
 ImageRecoveryImagesFromTrashThread::ImageRecoveryImagesFromTrashThread()
@@ -1161,12 +1230,14 @@ void ImageEngineThread::run()
     }
 
     if (!cache_exist)
+    {
 
         if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
             pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
         } else {
             pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
         }
+    }
     if (pixmap.isNull()) {
         pixmap = QPixmap::fromImage(tImg);
     } else {

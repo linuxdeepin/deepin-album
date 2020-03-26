@@ -19,6 +19,10 @@ protected:
     bool ifCanStopThread(void *imgobject) override;
     virtual void run() Q_DECL_OVERRIDE;
 
+private:
+    //提前生成缩略图，避免导入过程删除源文件，后续显示空白   暂时没用
+    void proDucePic(QString path);
+
 signals:
 
 private:
