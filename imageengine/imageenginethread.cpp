@@ -12,7 +12,6 @@
 #include <DApplicationHelper>
 #include <QStandardPaths>
 #include <QDirIterator>
-#include <QSvgGenerator>
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "dbmanager/dbmanager.h"
@@ -285,7 +284,7 @@ void ImportImagesThread::run()
     }
     DBImgInfoList tempdbInfos;
     for (auto Info : dbInfos) {
-        QFileInfo   fi(Info.filePath);
+        QFileInfo fi(Info.filePath);
         if (!fi.exists())
             continue;
         tempdbInfos << Info;
@@ -294,49 +293,10 @@ void ImportImagesThread::run()
     if (image_list.length() == tempdbInfos.length() && !tempdbInfos.isEmpty()) {
         dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);
         m_obj->imageImported(true);
-    } /*else if ((dbInfos.length() < image_list.size()) && !tempdbInfos.isEmpty()) {
-        int successful = tempdbInfos.length();
-        int failed = image_list.length() - tempdbInfos.length();
-        dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);
-        emit dApp->signalM->ImportSomeFailed(successful, failed);
-        m_obj->imageImported(false);
-    } */else {
+    } else {
         emit dApp->signalM->ImportFailed();
         m_obj->imageImported(false);
     }
-
-//    if (m_paths.length() == dbInfos.length() && !dbInfos.isEmpty()) {
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        m_obj->imageImported(true);
-//    } else if (((m_paths.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
-//        int successful = dbInfos.length();
-//        int failed = m_paths.length() - dbInfos.length();
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        emit dApp->signalM->ImportSomeFailed(successful, failed);
-//        m_obj->imageImported(false);
-//    } else {
-//        emit dApp->signalM->ImportFailed();
-//        m_obj->imageImported(false);
-//    }
-//    if (image_list.length() == dbInfos.length() && !dbInfos.isEmpty()) {
-////        ImportImageLoader(dbInfos);
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        m_obj->imageImported(true);
-//    } else if (((image_list.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
-//        int successful = dbInfos.length();
-//        int failed = image_list.length() - dbInfos.length();
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        emit dApp->signalM->ImportSomeFailed(successful, failed);
-//        m_obj->imageImported(false);
-//    } else {
-//        emit dApp->signalM->ImportFailed();
-//        m_obj->imageImported(false);
-//    }
-
-//    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
-//            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-//    }
     m_obj->removeThread(this);
 }
 
@@ -1281,7 +1241,7 @@ void ImageEngineThread::run()
     }
     //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
     while (!bneedstop) {
-        QThread::msleep(10);
+        QThread::msleep(20);
     }
 }
 
@@ -1355,49 +1315,4 @@ void ImageFromNewAppThread::run()
         //m_pAllPicBtn->setChecked(true);
     }
 //        dApp->LoadDbImage();
-}
-
-
-ImageSVGConvertThread::ImageSVGConvertThread()
-{
-
-}
-
-void ImageSVGConvertThread::setData(QStringList paths, int degree)
-{
-    m_paths = paths;
-    m_degree = degree;
-}
-
-void ImageSVGConvertThread::run()
-{
-    for (QString path : m_paths) {
-        QImage pix(path);
-        QString dpath = path.right(path.length() - path.lastIndexOf("/") - 1);
-        QString strTmpPath = tr("/tmp/%1").arg(dpath);
-        QSvgGenerator generator;
-        generator.setFileName(strTmpPath);
-        //generator.setSize(pix.size());
-        generator.setViewBox(pix.rect());
-        QPainter painter;
-        painter.begin(&generator);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-        if (m_degree < 0) {
-            painter.translate(0, pix.rect().height());
-        } else {
-            painter.translate(pix.rect().width(), 0);
-        }
-        painter.rotate(m_degree);
-        painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
-        generator.setSize(pix.size()); //do not remove this
-        painter.end();
-        //remove oringnal file
-        QFile::remove(path);
-        //copy converted image to oringnal path
-        QFile::copy(strTmpPath, path);
-        //remove tmp file
-        QFile::remove(strTmpPath);
-    }
-    emit updateImages(m_paths);
-    emit finished();
 }
