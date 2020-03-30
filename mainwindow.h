@@ -134,8 +134,8 @@ private:
     AlbumView *m_pAlbumview;                    //相册照片界面视图
     AllPicView *m_pAllPicView;                  //所有照片界面视图
     TimeLineView *m_pTimeLineView;              //时间线界面视图
-    SearchView *m_pSearchView;                  //搜索界面视图
-    SlideShowPanel *m_slidePanel;
+    //SearchView *m_pSearchView;                  //搜索界面视图
+    SlideShowPanel *m_slidePanel;               //幻灯片播放视图
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
 //    DSlider* m_pSlider;
@@ -158,6 +158,8 @@ private:
     DProgressBar *m_importBar = nullptr;
     DLabel *m_waitlabel = nullptr;
     DLabel *m_countLabel = nullptr;
+
+    QString       m_SearchKey;      //搜索框查询信息
 };
 
 #endif // MAINWINDOW_H
