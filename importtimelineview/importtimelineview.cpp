@@ -62,6 +62,18 @@ int ImportTimeLineView::getIBaseHeight()
         return 110;
     case 4:
         return 120;
+    case 5:
+        return 130;
+    case 6:
+        return 140;
+    case 7:
+        return 150;
+    case 8:
+        return 160;
+    case 9:
+        return 170;
+    default:
+        return 80;
     }
 }
 
