@@ -27,9 +27,9 @@ namespace  {
 const int VIEW_ALLPIC = 0;
 const int VIEW_TIMELINE = 1;
 const int VIEW_ALBUM = 2;
-const int VIEW_SEARCH = 3;
-const int VIEW_IMAGE = 4;
-const int VIEW_SLIDE = 5;
+//const int VIEW_SEARCH = 3;
+const int VIEW_IMAGE = 3;
+const int VIEW_SLIDE = 4;
 
 //const QString TITLEBAR_NEWALBUM = "新建相册";
 //const QString TITLEBAR_IMPORT = "导入照片";
@@ -364,6 +364,7 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [ = ] {
         m_pSearchEdit->clear();
+        m_SearchKey.clear();
     });
     //导入失败提示框
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [ = ] {
@@ -904,20 +905,16 @@ void MainWindow::initCentralWidget()
 {
     QStringList pas;
 
-//    m_pCenterWidget = new QStackedWidget;
-//    m_pAllPicView = new AllPicView();
-//    m_pCenterWidget->addWidget(m_pAllPicView);
-
     m_pAlbumview = new AlbumView();
     m_pTimeLineView = new TimeLineView();
-    m_pSearchView = new SearchView();
+    //m_pSearchView = new SearchView();
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
     m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumview);
-    m_pCenterWidget->addWidget(m_pSearchView);
+    //m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->addWidget(m_slidePanel);
 
@@ -926,10 +923,10 @@ void MainWindow::initCentralWidget()
         titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
         m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
-        m_pCenterWidget->setCurrentIndex(4);
+        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
     } else {
         m_commandLine->viewImage("", {});
-        m_pCenterWidget->setCurrentIndex(0);
+        m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
     }
 
     //    setCentralWidget(m_pCenterWidget);
@@ -975,14 +972,14 @@ void MainWindow::allPicBtnClicked()
 {
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
+    m_SearchKey.clear();
 
     m_iCurrentView = VIEW_ALLPIC;
-
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-
     m_pAllPicView->updateStackedWidget();
     m_pAllPicView->updatePicNum();
-    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+
 }
 
 //显示时间线照片
@@ -990,11 +987,13 @@ void MainWindow::timeLineBtnClicked()
 {
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
+    m_SearchKey.clear();
     m_iCurrentView = VIEW_TIMELINE;
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
     m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pTimeLineView->updateStackedWidget();
     m_pTimeLineView->updatePicNum();
-    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+
 }
 
 //显示相册
@@ -1002,12 +1001,13 @@ void MainWindow::albumBtnClicked()
 {
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clear();
+    m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
-
+    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->updatePicNum();
-    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+
 }
 
 //标题菜单栏槽函数
@@ -1146,6 +1146,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 
         //emit dApp->signalM->hideExtensionPanel();
         m_pSearchEdit->clear();
+        m_SearchKey.clear();
         m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
 
         m_backIndex = VIEW_ALBUM;
@@ -1156,11 +1157,10 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 //搜索框
 void MainWindow::onSearchEditFinished()
 {
-    static QString lastkey;
     QString keywords = m_pSearchEdit->text();
-    if (lastkey == keywords) //两次搜索条件相同，跳过
+    if (m_SearchKey == keywords) //两次搜索条件相同，跳过
         return;
-    lastkey = keywords;
+    m_SearchKey = keywords;
     emit dApp->signalM->hideExtensionPanel();
     if (0 == m_iCurrentView) {
         if (keywords.isEmpty()) {
