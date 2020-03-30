@@ -153,23 +153,27 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     auto repaint = [&imgs, &optionsPage, &index, &printer] {
         QPainter painter(&printer);
 
-        for (const QImage img : imgs)
+        QRect rect = painter.viewport();//it belongs previous rect of image
+        for (QImage img : imgs)
         {
-            QRect rect = painter.viewport();
             QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
             QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
-
-            if (size.width() < img.width() || size.height() < img.height()) {
-                painter.drawImage(pos.x(), pos.y(), img.scaledToWidth(size.width(), Qt::SmoothTransformation));
+            painter.save();
+            painter.setWindow(img.rect());
+            if (size.width() <= img.width() || size.height() <= img.height()) {
+                img = img.scaledToWidth(size.width(), Qt::SmoothTransformation);
+                img = img.scaledToHeight(size.height(), Qt::SmoothTransformation);
+                painter.drawImage(0, 0, img);
             } else {
                 painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
-                painter.setWindow(img.rect());
+                if (optionsPage->scaleMode() != PrintOptionsPage::ScaleToExpanding)
+                    painter.setViewport(pos.x(), pos.y(), img.width(), img.height());
                 painter.drawImage(0, 0, img);
             }
             if (++index != imgs.size()) {
                 printer.newPage();
             }
+            painter.restore();
         }
 
         painter.end();
@@ -231,7 +235,7 @@ QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &i
     if (alignment & Qt::AlignLeft) {
         posX = 0;
     } else if (alignment & Qt::AlignHCenter) {
-        posX = (viewportSize.width() - imageSize.width()) / 2;
+        posX = (viewportSize.width() - imageSize.width() ) / 2;
     } else {
         posX = viewportSize.width() - imageSize.width();
     }
@@ -239,7 +243,7 @@ QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &i
     if (alignment & Qt::AlignTop) {
         posY = 0;
     } else if (alignment & Qt::AlignVCenter) {
-        posY = (viewportSize.height() - imageSize.height()) / 2;
+        posY = (viewportSize.height() - imageSize.height() ) / 2;
     } else {
         posY = viewportSize.height() - imageSize.height();
     }
