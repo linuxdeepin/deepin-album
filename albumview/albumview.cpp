@@ -1351,7 +1351,10 @@ void AlbumView::updateRightMountView()
         return;
     }
 //    qDebug() << m_phoneNameAndPathlist;
-    QString strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+    QString strPath;
+    if (m_pLeftListView->m_pMountListView->currentItem()) {
+        strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+    }
     qDebug() << "data(Qt::UserRole).toString()" << strPath;
     qDebug() << m_phoneNameAndPathlist.contains(strPath);
     qDebug() << m_phoneNameAndPathlist.value(strPath).length();
@@ -2190,6 +2193,8 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         }
     }
 //    }
+    QThread::sleep(1);
+    emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
 }
 
 void AlbumView::getAllDeviceName()

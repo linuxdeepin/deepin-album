@@ -1633,10 +1633,11 @@ void TTBContent::deleteImage()
 
     m_filelist_size = m_filelist_size - 1;
     if (nullptr != getim) {
-        updateScreen();
+        //updateScreen();
         m_imglayout->removeWidget(getim);
 //        getim->hide();
         delete getim;
+        getim = nullptr;
         updateScreen();
     }
 //    int windowWidth =  this->window()->geometry().width();
@@ -1653,8 +1654,10 @@ void TTBContent::deleteImage()
 //        m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
 //    }
 //    setFixedWidth(m_contentWidth);
-    emit removed();
+    //2020/3/30 20:34   尚未解决 难复现
     emit ttbcontentClicked();
+    emit removed();
+
     //        qDebug() << "m_trashBtn:m_contentWidth==============" << m_contentWidth;
     //        qDebug() << "m_trashBtn:m_imgListView.width==============" << m_imgListView->width();
 }
