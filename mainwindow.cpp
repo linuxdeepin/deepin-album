@@ -27,9 +27,9 @@ namespace  {
 const int VIEW_ALLPIC = 0;
 const int VIEW_TIMELINE = 1;
 const int VIEW_ALBUM = 2;
-//const int VIEW_SEARCH = 3;
-const int VIEW_IMAGE = 3;
-const int VIEW_SLIDE = 4;
+const int VIEW_SEARCH = 3;
+const int VIEW_IMAGE = 4;
+const int VIEW_SLIDE = 5;
 
 //const QString TITLEBAR_NEWALBUM = "新建相册";
 //const QString TITLEBAR_IMPORT = "导入照片";
@@ -911,14 +911,14 @@ void MainWindow::initCentralWidget()
 
     m_pAlbumview = new AlbumView();
     m_pTimeLineView = new TimeLineView();
-    //m_pSearchView = new SearchView();
+    m_pSearchView = new SearchView();
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
     m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumview);
-    //m_pCenterWidget->addWidget(m_pSearchView);
+    m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->addWidget(m_slidePanel);
 
