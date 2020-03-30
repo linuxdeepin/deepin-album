@@ -134,7 +134,7 @@ private:
     AlbumView *m_pAlbumview;                    //相册照片界面视图
     AllPicView *m_pAllPicView;                  //所有照片界面视图
     TimeLineView *m_pTimeLineView;              //时间线界面视图
-    //SearchView *m_pSearchView;                  //搜索界面视图
+    SearchView *m_pSearchView;                  //搜索界面视图
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
