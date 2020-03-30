@@ -608,18 +608,19 @@ runend:
     //2020年03月26日15:12:23
     connect(dApp->signalM, &SignalManager::waitDevicescan, this, &AlbumView::importDialog);
     connect(m_waitDailog_timer, &QTimer::timeout, this, [ = ] {
-        m_ignoreDeviceScan->setEnabled(true);
-        m_closeDeviceScan->setEnabled(true);
+        m_waitDeviceScandialog->m_ignoreDeviceScan->setEnabled(true);
+        m_waitDeviceScandialog->m_closeDeviceScan->setEnabled(true);
         m_waitDailog_timer->stop();
     });
-
+    //在外部绑定内部按钮事件
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
-    connect(m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
-    connect(m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
+    connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
+    connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
     connect(m_pLeftListView->m_pMountListView, &DListWidget::pressed, this, [ = ] {
         qDebug() << "isWaitDialog = true";
         isWaitDialog = true;
     });
+    connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
 }
 
 void AlbumView::initLeftView()
@@ -677,27 +678,18 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 
 void AlbumView::iniWaitDiolag()
 {
-    m_waitDeviceScandialog = new DDialog();
+    m_waitDeviceScandialog = new Waitdevicedialog();
     m_waitDailog_timer = new QTimer(this);
-    m_closeDeviceScan = new DPushButton(tr("Cancel"));
-    m_ignoreDeviceScan = new DPushButton(tr("Ignore"));
-    QPixmap iconImage = QPixmap(":/icons/deepin/builtin/icons/Bullet_window_warning.svg");
-    QPixmap iconI = iconImage.scaled(30, 30);
-    QIcon icon(iconImage);
-    m_waitDeviceScandialog->setIcon(icon);
-
+    m_waitDeviceScandialog->m_closeDeviceScan = new DPushButton(tr("Cancel"));
+    m_waitDeviceScandialog->m_ignoreDeviceScan = new DPushButton(tr("Ignore"));
+    m_waitDeviceScandialog->waitTips = new DLabel(tr("loading images，please wait..."));
+    m_waitDeviceScandialog->iniwaitdialog();
     if (!m_waitDeviceScandialog) {
         return;
     }
     //m_waitDeviceScandialog->setWindowFlag(Qt::WindowTitleHint);
     m_waitDeviceScandialog->setFixedSize(QSize(422, 183));
     m_waitDeviceScandialog->move(749, 414);
-    DLabel *waitTips = new DLabel(tr("loading images，please wait..."));
-    waitTips->setAlignment(Qt::AlignCenter);
-    m_waitDeviceScandialog->insertContent(0, waitTips);
-    m_waitDeviceScandialog->insertButton(1, m_closeDeviceScan);
-    m_waitDeviceScandialog->insertButton(2, m_ignoreDeviceScan);
-    m_waitDeviceScandialog->setWindowFlag(Qt::WindowStaysOnTopHint);
 }
 void AlbumView::initRightView()
 {
