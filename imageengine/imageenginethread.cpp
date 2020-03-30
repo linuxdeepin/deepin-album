@@ -12,6 +12,7 @@
 #include <DApplicationHelper>
 #include <QStandardPaths>
 #include <QDirIterator>
+#include <QSvgGenerator>
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "dbmanager/dbmanager.h"
@@ -249,8 +250,7 @@ void ImportImagesThread::run()
         }
 
         QFileInfo fi(imagePath);
-        if (!fi.exists())    //当前文件不存在
-        {
+        if (!fi.exists()) {  //当前文件不存在
             continue;
         }
 
@@ -284,12 +284,11 @@ void ImportImagesThread::run()
         return;
     }
     DBImgInfoList tempdbInfos;
-    for(auto Info:dbInfos)
-    {
+    for (auto Info : dbInfos) {
         QFileInfo   fi(Info.filePath);
-        if(!fi.exists())
+        if (!fi.exists())
             continue;
-        tempdbInfos<<Info;
+        tempdbInfos << Info;
     }
 
     if (image_list.length() == tempdbInfos.length() && !tempdbInfos.isEmpty()) {
@@ -391,8 +390,7 @@ void ImportImagesThread::proDucePic(QString path)
         pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
     }
 
-    if (!cache_exist)
-    {
+    if (!cache_exist) {
         if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
             pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
         } else {
@@ -1229,8 +1227,7 @@ void ImageEngineThread::run()
         pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
     }
 
-    if (!cache_exist)
-    {
+    if (!cache_exist) {
 
         if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
             pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
@@ -1358,4 +1355,49 @@ void ImageFromNewAppThread::run()
         //m_pAllPicBtn->setChecked(true);
     }
 //        dApp->LoadDbImage();
+}
+
+
+ImageSVGConvertThread::ImageSVGConvertThread()
+{
+
+}
+
+void ImageSVGConvertThread::setData(QStringList paths, int degree)
+{
+    m_paths = paths;
+    m_degree = degree;
+}
+
+void ImageSVGConvertThread::run()
+{
+    for (QString path : m_paths) {
+        QImage pix(path);
+        QString dpath = path.right(path.length() - path.lastIndexOf("/") - 1);
+        QString strTmpPath = tr("/tmp/%1").arg(dpath);
+        QSvgGenerator generator;
+        generator.setFileName(strTmpPath);
+        //generator.setSize(pix.size());
+        generator.setViewBox(pix.rect());
+        QPainter painter;
+        painter.begin(&generator);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+        if (m_degree < 0) {
+            painter.translate(0, pix.rect().height());
+        } else {
+            painter.translate(pix.rect().width(), 0);
+        }
+        painter.rotate(m_degree);
+        painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
+        generator.setSize(pix.size()); //do not remove this
+        painter.end();
+        //remove oringnal file
+        QFile::remove(path);
+        //copy converted image to oringnal path
+        QFile::copy(strTmpPath, path);
+        //remove tmp file
+        QFile::remove(strTmpPath);
+    }
+    emit updateImages(m_paths);
+    emit finished();
 }

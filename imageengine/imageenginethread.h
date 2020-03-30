@@ -206,4 +206,25 @@ private:
 
 };
 
+/**
+ * @brief The ImageSVGConvertThread class  process svg format image thread,it converts svg image
+ *  to another svg image by  QSvgGenerator and QPainter
+ */
+class ImageSVGConvertThread : public QThread
+{
+    Q_OBJECT
+public:
+    ImageSVGConvertThread();
+    void setData(QStringList paths, int degree);
+
+protected:
+    void run() override;
+signals:
+    void updateImages(QStringList paths);
+    void finished();
+private:
+    QStringList m_paths;
+    int m_degree;
+};
+
 #endif // IMAGEENGINETHREAD_H

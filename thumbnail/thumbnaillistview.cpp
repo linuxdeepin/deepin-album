@@ -1358,7 +1358,16 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //            items.append(item);
 //        }
         for (QString path : paths) {
-            utils::image::rotate(path, 90);
+            const QString suffix = QFileInfo(path).suffix();
+            if (suffix.toUpper().compare("SVG") == 0) {
+                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+                imgSVGThread->setData(QStringList() << path, 90);
+                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
+                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+                imgSVGThread->start();
+            } else {
+                utils::image::rotate(path, 90);
+            }
         }
 
 //        if (COMMON_STR_TRASH == m_imageType) {
@@ -1392,7 +1401,16 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //            items.append(item);
 //        }
         for (QString path : paths) {
-            utils::image::rotate(path, -90);
+            const QString suffix = QFileInfo(path).suffix();
+            if (suffix.toUpper().compare("SVG") == 0) {
+                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+                imgSVGThread->setData(QStringList() << path, -90);
+                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
+                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+                imgSVGThread->start();
+            } else {
+                utils::image::rotate(path, -90);
+            }
         }
 
 //        if (COMMON_STR_TRASH == m_imageType) {
@@ -1701,6 +1719,10 @@ void ThumbnailListView::onTimerOut()
     bneedsendresize = false;
 }
 
+void ThumbnailListView::updateImages(const QStringList list)
+{
+    dApp->m_imageloader->updateImageLoader(list);
+}
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)
 {

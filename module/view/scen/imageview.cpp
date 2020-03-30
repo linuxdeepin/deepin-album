@@ -41,6 +41,7 @@
 #include "widgets/toast.h"
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
+#include "imageengine/imageenginethread.h"
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -392,18 +393,33 @@ void ImageView::fitImage()
 
 void ImageView::rotateClockWise()
 {
-    bool v =  utils::image::rotate(m_path, 90);
-//    QEventLoop loop;
-//    QTimer::singleShot(1000, &loop, SLOT(quit()));
-//    loop.exec();
-    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    const QString suffix = QFileInfo(m_path).suffix();
+    if (suffix.toUpper().compare("SVG") == 0) {
+        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+        imgSVGThread->setData(QStringList() << m_path, 90);
+        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
+        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+        imgSVGThread->start();
+    } else {
+        utils::image::rotate(m_path, 90);
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    }
     setImage(m_path);
 }
 
 void ImageView::rotateCounterclockwise()
 {
-    utils::image::rotate(m_path, - 90);
-    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    const QString suffix = QFileInfo(m_path).suffix();
+    if (suffix.toUpper().compare("SVG") == 0) {
+        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+        imgSVGThread->setData(QStringList() << m_path, -90);
+        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
+        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+        imgSVGThread->start();
+    } else {
+        utils::image::rotate(m_path, - 90);
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    }
     setImage(m_path);
 }
 
@@ -682,6 +698,11 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
         }
     }
 
+}
+
+void ImageView::updateImages()
+{
+    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)
