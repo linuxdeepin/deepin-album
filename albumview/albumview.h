@@ -307,8 +307,8 @@ private:
     DWidget *pPhoneWidget = nullptr;
     DBlurEffectWidget *phonetopwidget = nullptr;
 
-    DDialog *m_waitDeviceScandailog;
-
+    DDialog *m_waitDeviceScandialog;
+    bool isWaitDialog = true;
     QTimer *m_waitDailog_timer;
     DPushButton *m_closeDeviceScan;
     DPushButton *m_ignoreDeviceScan;

@@ -14,6 +14,7 @@ void ImageEngineThreadObject::needStop(void *imageobject)
 
 bool ImageEngineThreadObject::ifCanStopThread(void *imgobject)
 {
+    Q_UNUSED(imgobject);
     return true;
 }
 

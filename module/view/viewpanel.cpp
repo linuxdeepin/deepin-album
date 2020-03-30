@@ -191,7 +191,7 @@ void ViewPanel::initConnect()
             m_currentImageLastDir = "Timeline";
             emit viewImageFrom("Timeline");
         }
-
+        return false;
         //TODO: there will be some others panel
     });
 
@@ -209,7 +209,7 @@ void ViewPanel::initConnect()
         int size = m_ttbc->itemLoadedSize();
         QWidget *pttbc = bottomTopLeftContent();
         emit dApp->signalM->updateBottomToolbarContent(pttbc, (size  > 1));
-        emit((TTBContent *)pttbc)->sigRequestSomeImages();
+        emit dynamic_cast<TTBContent *>(pttbc)->sigRequestSomeImages();
 //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_ttbc->itemLoadedSize() > 1));
     });
 
