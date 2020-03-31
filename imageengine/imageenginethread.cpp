@@ -12,6 +12,7 @@
 #include <DApplicationHelper>
 #include <QStandardPaths>
 #include <QDirIterator>
+#include <QSvgGenerator>
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "dbmanager/dbmanager.h"
@@ -1239,4 +1240,48 @@ void ImageFromNewAppThread::run()
         //m_pAllPicBtn->setChecked(true);
     }
 //        dApp->LoadDbImage();
+}
+
+ImageSVGConvertThread::ImageSVGConvertThread()
+{
+
+}
+
+void ImageSVGConvertThread::setData(QStringList paths, int degree)
+{
+    m_paths = paths;
+    m_degree = degree;
+}
+
+void ImageSVGConvertThread::run()
+{
+    for (QString path : m_paths) {
+        QImage pix(path);
+        QString dpath = path.right(path.length() - path.lastIndexOf("/") - 1);
+        QString strTmpPath = tr("/tmp/%1").arg(dpath);
+        QSvgGenerator generator;
+        generator.setFileName(strTmpPath);
+        //generator.setSize(pix.size());
+        generator.setViewBox(pix.rect());
+        QPainter painter;
+        painter.begin(&generator);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+        if (m_degree < 0) {
+            painter.translate(0, pix.rect().height());
+        } else {
+            painter.translate(pix.rect().width(), 0);
+        }
+        painter.rotate(m_degree);
+        painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
+        generator.setSize(pix.size()); //do not remove this
+        painter.end();
+        //remove oringnal file
+        QFile::remove(path);
+        //copy converted image to oringnal path
+        QFile::copy(strTmpPath, path);
+        //remove tmp file
+        QFile::remove(strTmpPath);
+        qDebug() << "kkk size:" << generator.size();
+    }
+    emit updateImages(m_paths);
 }
