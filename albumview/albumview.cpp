@@ -1604,9 +1604,10 @@ void AlbumView::updateRightTrashView()
     }
 
 //    m_pRightTrashThumbnailList->insertThumbnails(m_curThumbnaiItemList);
+    m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
-    m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
+
 //    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
 }
 
