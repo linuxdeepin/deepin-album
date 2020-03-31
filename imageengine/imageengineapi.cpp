@@ -338,3 +338,17 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
     m_qtpool.start(imagethread);
     return true;
 }
+
+int ImageEngineApi::Getm_AllImageDataNum()
+{
+    return m_AllImageData.size();
+}
+
+bool ImageEngineApi::clearAllImageDate()
+{
+    if (!m_AllImageData.empty()) {
+        m_AllImageData.clear();
+        return true;
+    }
+    return false;
+}

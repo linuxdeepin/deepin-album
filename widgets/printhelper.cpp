@@ -149,10 +149,10 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         }
     }
     // HACK - end
-    int index = 0;
-    auto repaint = [&imgs, &optionsPage, &index, &printer] {
-        QPainter painter(&printer);
 
+    auto repaint = [&imgs, &optionsPage, &printer] {
+        QPainter painter(&printer);
+        int index = 0;
         QRect rect = painter.viewport();//it belongs previous rect of image
         for (QImage img : imgs)
         {
@@ -166,8 +166,9 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 painter.drawImage(0, 0, img);
             } else {
                 painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                if (optionsPage->scaleMode() != PrintOptionsPage::ScaleToExpanding)
-                    painter.setViewport(pos.x(), pos.y(), img.width(), img.height());
+                if (optionsPage->scaleMode() != PrintOptionsPage::ScaleToExpanding) {
+                    painter.setViewport(qAbs(pos.x()), qAbs(pos.y()), img.width(), img.height());
+                }
                 painter.drawImage(0, 0, img);
             }
             if (++index != imgs.size()) {
@@ -214,13 +215,16 @@ QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int res
         size.setHeight(int(imageHeight * resolution));
     } else {
         const double inchesPerMeter = 100.0 / 2.54;
-        int dpmX = img.dotsPerMeterX();
-        int dpmY = img.dotsPerMeterY();
+        int dpmX = img.dotsPerMeterX() / size.width();
+        int dpmY = img.dotsPerMeterY() / size.height();
         if (dpmX > 0 && dpmY > 0) {
-            double wImg = double(size.width()) / double(dpmX) * inchesPerMeter;
-            double hImg = double(size.height()) / double(dpmY) * inchesPerMeter;
+            double wImg = double(size.width()) / double(img.dotsPerMeterX()) * inchesPerMeter;
+            double hImg = double(size.height()) / double(img.dotsPerMeterY()) * inchesPerMeter;
             size.setWidth(int(wImg * resolution));
             size.setHeight(int(hImg * resolution));
+        } else {
+            //some image dotspermaters is less than normal
+            size.scale(viewportSize, Qt::KeepAspectRatio);
         }
     }
 
@@ -235,7 +239,7 @@ QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &i
     if (alignment & Qt::AlignLeft) {
         posX = 0;
     } else if (alignment & Qt::AlignHCenter) {
-        posX = (viewportSize.width() - imageSize.width() ) / 2;
+        posX = (viewportSize.width() - imageSize.width() ) / 2 < 0 ? 0 : (viewportSize.width() - imageSize.width() ) / 2;
     } else {
         posX = viewportSize.width() - imageSize.width();
     }
@@ -243,7 +247,7 @@ QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &i
     if (alignment & Qt::AlignTop) {
         posY = 0;
     } else if (alignment & Qt::AlignVCenter) {
-        posY = (viewportSize.height() - imageSize.height() ) / 2;
+        posY = (viewportSize.height() - imageSize.height() ) / 2 < 0 ? 0 : (viewportSize.height() - imageSize.height() );
     } else {
         posY = viewportSize.height() - imageSize.height();
     }
