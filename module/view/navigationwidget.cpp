@@ -206,8 +206,8 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
 //    if (! imageRect.contains(p))
 //        return;
 
-    if (!m_mainRect.contains(p))
-        return;
+//    if (!m_mainRect.contains(p))
+//        return;
 
 //    const qreal x = 1.0 * (p.x() / devicePixelRatioF() - x0) / m_img.width() * m_originRect.width();
 //    const qreal y = 1.0 * (p.y() / devicePixelRatioF() - y0) / m_img.height() * m_originRect.height();
