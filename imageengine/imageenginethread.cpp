@@ -708,96 +708,20 @@ void ImageGetFilesFromMountThread::run()
                               QDirIterator::Subdirectories);
 
     QStringList allfiles;
-//    int i = 0;
     while (dir_iterator.hasNext()) {
         if (bneedstop) {
-            //m_imgobject->removeThread(this);
             return;
         }
         dir_iterator.next();
         QFileInfo fileInfo = dir_iterator.fileInfo();
         allfiles << fileInfo.filePath();
-
-
-        /*
-        //        ThreadRenderImage *randerimage = new ThreadRenderImage;
-        //        randerimage->setData(fileInfo, path, &m_phonePathImage, &m_phoneImgPathList);
-        //        qtpool.start(randerimage);
-        //        //        QThreadPool::globalInstance()->start(randerimage);
-        //        //        QImage tImg;
-
-        //        //        QString format = DetectImageFormat(fileInfo.filePath());
-        //        //        if (format.isEmpty()) {
-        //        //            QImageReader reader(fileInfo.filePath());
-        //        //            reader.setAutoTransform(true);
-        //        //            if (reader.canRead()) {
-        //        //                tImg = reader.read();
-        //        //            } else if (path.contains(".tga")) {
-        //        //                bool ret = false;
-        //        //                tImg = utils::image::loadTga(path, ret);
-        //        //            }
-        //        //        } else {
-        //        //            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
-        //        //            readerF.setAutoTransform(true);
-        //        //            if (readerF.canRead()) {
-        //        //                tImg = readerF.read();
-        //        //            } else {
-        //        //                qWarning() << "can't read image:" << readerF.errorString()
-        //        //                           << format;
-
-        //        //                tImg = QImage(fileInfo.filePath());
-        //        //            }
-        //        //        }
-
-        //        //        QPixmap pixmap = QPixmap::fromImage(tImg);
-        //        //        if (pixmap.isNull()) {
-        //        //            qDebug() << "pixmap.isNull()";
-        //        //            continue;
-        //        //        }
-
-        //        //        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-        //        //        if (pixmap.isNull()) {
-        //        //            pixmap = QPixmap::fromImage(tImg);
-        //        //        }
-
-        //        //        m_phonePathImage.insert(fileInfo.filePath(), pixmap);
-
-        //        //        m_phoneImgPathList << fileInfo.filePath();
-
-        //        //        if (0 == m_phoneImgPathList.length() % 50) {
-        //        if (i >= 50) {
-        //            qtpool.waitForDone();
-        //            //            QThreadPool::globalInstance()->waitForDone();
-        //            i = 0;
-        //            m_parent->m_phonePathAndImage = m_phonePathImage;
-        //            m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
-        //            dApp->signalM->sigLoadMountImagesEnd(mountName);
-        //        }
-        //        //        }
-           */
     }
     if (bneedstop) {
-//      m_imgobject->removeThread(this);
         return;
     }
     emit sigImageFilesGeted(m_imgobject, allfiles, m_path);
     m_imgobject->removeThread(this);
-    dApp->signalM->sigLoadMountImagesEnd(m_mountname);
-
-////    qtpool.waitForDone();
-////    //    QThreadPool::globalInstance()->waitForDone();
-////    qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
-//    if (0 < m_phoneImgPathList.length()) {
-//        m_parent->m_phonePathAndImage = m_phonePathImage;
-//        m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
-//        qDebug() << "onLoadMountImagesStart() strPath:" << strPath;
-//    }
-
-//    dApp->signalM->sigLoadMountImagesEnd(mountName);
-//    if (bneedunmountpath) {
-//        emit needUnMount(m_unmountpath);
-//    }
-
+    emit dApp->signalM->sigLoadMountImagesEnd(m_mountname);
 }
 
 ImageLoadFromDBThread::ImageLoadFromDBThread()

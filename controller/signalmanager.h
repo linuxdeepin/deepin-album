@@ -103,6 +103,7 @@ signals:
     void ImgExportFailed();
     void AlbExportSuccess();
     void AlbExportFailed();
+    void DeviceImageLoadEnd();
     void sigExporting(const QString &path);
     void sigRestoreStatus();
 
