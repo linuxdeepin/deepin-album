@@ -239,7 +239,7 @@ QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &i
     if (alignment & Qt::AlignLeft) {
         posX = 0;
     } else if (alignment & Qt::AlignHCenter) {
-        posX = (viewportSize.width() - imageSize.width() ) / 2;
+        posX = (viewportSize.width() - imageSize.width() ) / 2 < 0 ? 0 : (viewportSize.width() - imageSize.width() ) / 2;
     } else {
         posX = viewportSize.width() - imageSize.width();
     }
@@ -247,7 +247,7 @@ QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &i
     if (alignment & Qt::AlignTop) {
         posY = 0;
     } else if (alignment & Qt::AlignVCenter) {
-        posY = (viewportSize.height() - imageSize.height() ) / 2;
+        posY = (viewportSize.height() - imageSize.height() ) / 2 < 0 ? 0 : (viewportSize.height() - imageSize.height() );
     } else {
         posY = viewportSize.height() - imageSize.height();
     }
