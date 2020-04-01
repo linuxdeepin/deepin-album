@@ -247,10 +247,8 @@ void ImportImagesThread::run()
             noReadCount++;
             continue;
         }
-
         QFileInfo fi(imagePath);
-        if (!fi.exists())    //当前文件不存在
-        {
+        if (!fi.exists()) {  //当前文件不存在
             continue;
         }
 
@@ -284,60 +282,20 @@ void ImportImagesThread::run()
         return;
     }
     DBImgInfoList tempdbInfos;
-    for(auto Info:dbInfos)
-    {
-        QFileInfo   fi(Info.filePath);
-        if(!fi.exists())
+    for (auto Info : dbInfos) {
+        QFileInfo fi(Info.filePath);
+        if (!fi.exists())
             continue;
-        tempdbInfos<<Info;
+        tempdbInfos << Info;
     }
 
     if (image_list.length() == tempdbInfos.length() && !tempdbInfos.isEmpty()) {
         dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);
         m_obj->imageImported(true);
-    } /*else if ((dbInfos.length() < image_list.size()) && !tempdbInfos.isEmpty()) {
-        int successful = tempdbInfos.length();
-        int failed = image_list.length() - tempdbInfos.length();
-        dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);
-        emit dApp->signalM->ImportSomeFailed(successful, failed);
-        m_obj->imageImported(false);
-    } */else {
+    } else {
         emit dApp->signalM->ImportFailed();
         m_obj->imageImported(false);
     }
-
-//    if (m_paths.length() == dbInfos.length() && !dbInfos.isEmpty()) {
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        m_obj->imageImported(true);
-//    } else if (((m_paths.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
-//        int successful = dbInfos.length();
-//        int failed = m_paths.length() - dbInfos.length();
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        emit dApp->signalM->ImportSomeFailed(successful, failed);
-//        m_obj->imageImported(false);
-//    } else {
-//        emit dApp->signalM->ImportFailed();
-//        m_obj->imageImported(false);
-//    }
-//    if (image_list.length() == dbInfos.length() && !dbInfos.isEmpty()) {
-////        ImportImageLoader(dbInfos);
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        m_obj->imageImported(true);
-//    } else if (((image_list.length() - dbInfos.length()) > 0) && !dbInfos.isEmpty()) {
-//        int successful = dbInfos.length();
-//        int failed = image_list.length() - dbInfos.length();
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_albumname);
-//        emit dApp->signalM->ImportSomeFailed(successful, failed);
-//        m_obj->imageImported(false);
-//    } else {
-//        emit dApp->signalM->ImportFailed();
-//        m_obj->imageImported(false);
-//    }
-
-//    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
-//            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-//    }
     m_obj->removeThread(this);
 }
 
@@ -391,8 +349,7 @@ void ImportImagesThread::proDucePic(QString path)
         pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
     }
 
-    if (!cache_exist)
-    {
+    if (!cache_exist) {
         if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
             pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
         } else {
@@ -750,96 +707,20 @@ void ImageGetFilesFromMountThread::run()
                               QDirIterator::Subdirectories);
 
     QStringList allfiles;
-//    int i = 0;
     while (dir_iterator.hasNext()) {
         if (bneedstop) {
-            //m_imgobject->removeThread(this);
             return;
         }
         dir_iterator.next();
         QFileInfo fileInfo = dir_iterator.fileInfo();
         allfiles << fileInfo.filePath();
-
-
-        /*
-        //        ThreadRenderImage *randerimage = new ThreadRenderImage;
-        //        randerimage->setData(fileInfo, path, &m_phonePathImage, &m_phoneImgPathList);
-        //        qtpool.start(randerimage);
-        //        //        QThreadPool::globalInstance()->start(randerimage);
-        //        //        QImage tImg;
-
-        //        //        QString format = DetectImageFormat(fileInfo.filePath());
-        //        //        if (format.isEmpty()) {
-        //        //            QImageReader reader(fileInfo.filePath());
-        //        //            reader.setAutoTransform(true);
-        //        //            if (reader.canRead()) {
-        //        //                tImg = reader.read();
-        //        //            } else if (path.contains(".tga")) {
-        //        //                bool ret = false;
-        //        //                tImg = utils::image::loadTga(path, ret);
-        //        //            }
-        //        //        } else {
-        //        //            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
-        //        //            readerF.setAutoTransform(true);
-        //        //            if (readerF.canRead()) {
-        //        //                tImg = readerF.read();
-        //        //            } else {
-        //        //                qWarning() << "can't read image:" << readerF.errorString()
-        //        //                           << format;
-
-        //        //                tImg = QImage(fileInfo.filePath());
-        //        //            }
-        //        //        }
-
-        //        //        QPixmap pixmap = QPixmap::fromImage(tImg);
-        //        //        if (pixmap.isNull()) {
-        //        //            qDebug() << "pixmap.isNull()";
-        //        //            continue;
-        //        //        }
-
-        //        //        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-        //        //        if (pixmap.isNull()) {
-        //        //            pixmap = QPixmap::fromImage(tImg);
-        //        //        }
-
-        //        //        m_phonePathImage.insert(fileInfo.filePath(), pixmap);
-
-        //        //        m_phoneImgPathList << fileInfo.filePath();
-
-        //        //        if (0 == m_phoneImgPathList.length() % 50) {
-        //        if (i >= 50) {
-        //            qtpool.waitForDone();
-        //            //            QThreadPool::globalInstance()->waitForDone();
-        //            i = 0;
-        //            m_parent->m_phonePathAndImage = m_phonePathImage;
-        //            m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
-        //            dApp->signalM->sigLoadMountImagesEnd(mountName);
-        //        }
-        //        //        }
-           */
     }
     if (bneedstop) {
-//      m_imgobject->removeThread(this);
         return;
     }
     emit sigImageFilesGeted(m_imgobject, allfiles, m_path);
     m_imgobject->removeThread(this);
-    dApp->signalM->sigLoadMountImagesEnd(m_mountname);
-
-////    qtpool.waitForDone();
-////    //    QThreadPool::globalInstance()->waitForDone();
-////    qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
-//    if (0 < m_phoneImgPathList.length()) {
-//        m_parent->m_phonePathAndImage = m_phonePathImage;
-//        m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
-//        qDebug() << "onLoadMountImagesStart() strPath:" << strPath;
-//    }
-
-//    dApp->signalM->sigLoadMountImagesEnd(mountName);
-//    if (bneedunmountpath) {
-//        emit needUnMount(m_unmountpath);
-//    }
-
+    emit dApp->signalM->sigLoadMountImagesEnd(m_mountname);
 }
 
 ImageLoadFromDBThread::ImageLoadFromDBThread()
@@ -1229,8 +1110,7 @@ void ImageEngineThread::run()
         pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
     }
 
-    if (!cache_exist)
-    {
+    if (!cache_exist) {
 
         if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
             pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
@@ -1284,7 +1164,7 @@ void ImageEngineThread::run()
     }
     //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
     while (!bneedstop) {
-        QThread::msleep(10);
+        QThread::msleep(20);
     }
 }
 

@@ -816,6 +816,7 @@ bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
     if (bneedloadimage) {
         requestSomeImages();
     }
+    sendNeedResize();
     return true;
 }
 
@@ -848,6 +849,7 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
     if (bneedloadimage) {
         requestSomeImages();
     }
+    sendNeedResize();
     return true;
 }
 
@@ -905,9 +907,7 @@ bool ThumbnailListView::imageLoaded(QString filepath)
 //        return false;
         reb = false;
     }
-    if (m_requestCount < 1
-//            && (bneedloadimage || !verticalScrollBar()->isVisible())  //注释以后，一次性全部加载
-       ) {
+    if (m_requestCount < 1/*&& (bneedloadimage || !verticalScrollBar()->isVisible())  //注释以后，一次性全部加载*/) {
         requestSomeImages();
     }
 //    return true;
@@ -1071,16 +1071,25 @@ void ThumbnailListView::updateMenuContents()
         //m_MenuActionMap.value(tr("Print"))->setEnabled(false);
         m_MenuActionMap.value(tr("Export"))->setEnabled(true);
     } else {
-        bool ret = true;
-        QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
-        if (strSuffix.compare("jpeg") && strSuffix.compare("jpg") && strSuffix.compare("bmp") &&
-                strSuffix.compare("png") && strSuffix.compare("ppm") && strSuffix.compare("xbm") &&
-                strSuffix.compare("xpm") && strSuffix.compare("gif") && strSuffix.compare("JPEG") &&
-                strSuffix.compare("JPG") && strSuffix.compare("BMP") && strSuffix.compare("PNG") &&
-                strSuffix.compare("PPM") && strSuffix.compare("XBM") && strSuffix.compare("XPM") &&
-                strSuffix.compare("GIF")) {
-            ret = false;
+        bool ret = false;
+        if (utils::image::imageSupportSave(paths.at(0))) {
+            ret = true;
+        } else {
+            QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
+            if (!strSuffix.compare("mng") || !strSuffix.compare("MNG")) {
+                ret = true;
+            }
         }
+//        QString strSuffix = QFileInfo(paths.at(0)).completeSuffix();
+//        if (strSuffix.compare("jpeg") && strSuffix.compare("jpg") && strSuffix.compare("bmp") &&
+//                strSuffix.compare("png") && strSuffix.compare("ppm") && strSuffix.compare("xbm") &&
+//                strSuffix.compare("xpm") && strSuffix.compare("gif") && strSuffix.compare("JPEG") &&
+//                strSuffix.compare("JPG") && strSuffix.compare("BMP") && strSuffix.compare("PNG") &&
+//                strSuffix.compare("PPM") && strSuffix.compare("XBM") && strSuffix.compare("XPM") &&
+//                strSuffix.compare("GIF") && strSuffix.compare("mng") && strSuffix.compare("MNG") &&
+//                strSuffix.compare("svg") && strSuffix.compare("SVG")) {
+//            ret = false;
+//        }
 
         m_MenuActionMap.value(tr("Export"))->setEnabled(ret);
     }
@@ -1511,14 +1520,14 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     if (datas.length() >= 2) {
         str << datas[1].toString();
     }
-
-    DBManager::instance()->removeFromAlbumNoSignal(COMMON_STR_FAVORITES, str);
-
+    //通知其它界面更新取消收藏
+    DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str);
     emit dApp->signalM->updateFavoriteNum();
     m_model->removeRow(index.row());
     m_ItemList.removeAt(index.row());
     calWidgetItemWandH();
     updateThumbnailView();
+    sendNeedResize();
 //    emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
 
 }

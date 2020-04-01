@@ -50,6 +50,7 @@
 #include <QPainter>
 #include <DRecentManager>
 #include <DWidgetUtil>
+#include <QDesktopWidget>
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
@@ -191,7 +192,7 @@ void ViewPanel::initConnect()
             m_currentImageLastDir = "Timeline";
             emit viewImageFrom("Timeline");
         }
-
+        return false;
         //TODO: there will be some others panel
     });
 
@@ -199,7 +200,7 @@ void ViewPanel::initConnect()
         emit mouseMoved();
     });
 
-    connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
+    //connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [ = ] {
         if (!m_ttbc)
@@ -209,7 +210,7 @@ void ViewPanel::initConnect()
         int size = m_ttbc->itemLoadedSize();
         QWidget *pttbc = bottomTopLeftContent();
         emit dApp->signalM->updateBottomToolbarContent(pttbc, (size  > 1));
-        emit((TTBContent *)pttbc)->sigRequestSomeImages();
+        emit dynamic_cast<TTBContent *>(pttbc)->sigRequestSomeImages();
 //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_ttbc->itemLoadedSize() > 1));
     });
 
@@ -295,7 +296,16 @@ void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
 
+    //加入显示动画效果，以透明度0-1显示，动态加载，视觉效果掩盖左上角展开
+    QPropertyAnimation *animation = new QPropertyAnimation(window(), "windowOpacity");
+    animation->setDuration(50);
+    animation->setEasingCurve(QEasingCurve::Linear);
+    animation->setStartValue(0);
+    animation->setEndValue(1);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+
     window()->showFullScreen();
+
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }
@@ -668,6 +678,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     if (m_vinfo.fullScreen) {
 //        m_isMaximized = m_vinfo.fullScreen;
         showFullScreen();
+
     }
 
     if (m_vinfo.slideShow) {

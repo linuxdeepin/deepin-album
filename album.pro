@@ -65,7 +65,8 @@ SOURCES += \
     widgets/cexportimagedialog.cpp \
     albumview/leftlistview.cpp \
     albumview/albumimagebutton.cpp \
-    dtktest.cpp
+    dtktest.cpp \
+    albumview/waitdevicedialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -86,7 +87,8 @@ HEADERS += \
     widgets/cexportimagedialog.h \
     albumview/leftlistview.h \
     albumview/albumimagebutton.h \
-    dtktest.h
+    dtktest.h \
+    albumview/waitdevicedialog.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

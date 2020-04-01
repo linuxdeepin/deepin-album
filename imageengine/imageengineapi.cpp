@@ -15,6 +15,7 @@ ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 
 ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 {
+    Q_UNUSED(parent);
 //    if (nullptr == parent && nullptr == s_ImageEngine) {
 //        return nullptr;
 //    }
@@ -30,6 +31,7 @@ ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 ImageEngineApi::ImageEngineApi(QObject *parent)
 //    : QObject(nullptr) 和MainApplication绑定是没必要的，api继承object的作用是使用信号槽
 {
+    Q_UNUSED(parent);
     //文件加载线程池上限
     m_qtpool.setMaxThreadCount(20);
     qRegisterMetaType<QStringList>("QStringList &");
@@ -335,4 +337,18 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
     imagethread->setData(files);
     m_qtpool.start(imagethread);
     return true;
+}
+
+int ImageEngineApi::Getm_AllImageDataNum()
+{
+    return m_AllImageData.size();
+}
+
+bool ImageEngineApi::clearAllImageDate()
+{
+    if (!m_AllImageData.empty()) {
+        m_AllImageData.clear();
+        return true;
+    }
+    return false;
 }

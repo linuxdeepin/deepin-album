@@ -10,6 +10,7 @@
 #include "widgets/statusbar.h"
 #include "importtimelineview/importtimelineview.h"
 #include "leftlistview.h"
+#include "waitdevicedialog.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -37,6 +38,8 @@
 extern "C" {
 #include <gio/gio.h>
 }
+
+
 #define signals public
 
 DWIDGET_USE_NAMESPACE
@@ -160,11 +163,12 @@ public:
     void restorePicNum();
     void updatePicNum();
 
+    void updateRightView();
 private:
     void initConnections();
     void initLeftView();
     void initRightView();
-    void updateRightView();
+    //void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
     void updateRightImportView();
@@ -307,11 +311,9 @@ private:
     DWidget *pPhoneWidget = nullptr;
     DBlurEffectWidget *phonetopwidget = nullptr;
 
-    DDialog *m_waitDeviceScandailog;
-
+    Waitdevicedialog *m_waitDeviceScandialog;
+    bool isWaitDialog = true;
     QTimer *m_waitDailog_timer;
-    DPushButton *m_closeDeviceScan;
-    DPushButton *m_ignoreDeviceScan;
 };
 
 #endif // ALBUMVIEW_H
