@@ -161,11 +161,12 @@ public:
     void restorePicNum();
     void updatePicNum();
 
+    void updateRightView();
 private:
     void initConnections();
     void initLeftView();
     void initRightView();
-    void updateRightView();
+    //void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
     void updateRightImportView();

@@ -816,6 +816,7 @@ bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
     if (bneedloadimage) {
         requestSomeImages();
     }
+    sendNeedResize();
     return true;
 }
 
@@ -848,6 +849,7 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
     if (bneedloadimage) {
         requestSomeImages();
     }
+    sendNeedResize();
     return true;
 }
 
@@ -1509,14 +1511,14 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     if (datas.length() >= 2) {
         str << datas[1].toString();
     }
-
-    DBManager::instance()->removeFromAlbumNoSignal(COMMON_STR_FAVORITES, str);
-
+    //通知其它界面更新取消收藏
+    DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str);
     emit dApp->signalM->updateFavoriteNum();
     m_model->removeRow(index.row());
     m_ItemList.removeAt(index.row());
     calWidgetItemWandH();
     updateThumbnailView();
+    sendNeedResize();
 //    emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
 
 }

@@ -1008,6 +1008,8 @@ void MainWindow::albumBtnClicked()
     m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+    m_pAlbumview->updateRightView();    //切换时手动更新界面相册显示界面
+
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->updatePicNum();
