@@ -20,7 +20,7 @@
 */
 #include "waitdevicedialog.h"
 
-Waitdevicedialog::Waitdevicedialog()
+Waitdevicedialog::Waitdevicedialog(QWidget *parent): DDialog(parent)
 {
 
 }
@@ -36,11 +36,16 @@ void Waitdevicedialog::iniwaitdialog()
     this->insertContent(0, waitTips);
     this->insertButton(1, m_closeDeviceScan);
     this->insertButton(2, m_ignoreDeviceScan);
-    this->setWindowFlag(Qt::WindowStaysOnTopHint);
+    //this->setWindowFlag(Qt::WindowStaysOnTopHint);
 }
 
 void Waitdevicedialog::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
     emit closed();
+}
+
+void Waitdevicedialog::moveEvent(QMoveEvent *event)
+{
+
 }
