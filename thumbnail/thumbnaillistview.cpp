@@ -1069,7 +1069,8 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("View"))->setVisible(false);
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
         //m_MenuActionMap.value(tr("Print"))->setEnabled(false);
-    } /*else {
+        m_MenuActionMap.value(tr("Export"))->setEnabled(true);
+    } else {
         bool ret = false;
         if (utils::image::imageSupportSave(paths.at(0))) {
             ret = true;
@@ -1091,7 +1092,7 @@ void ThumbnailListView::updateMenuContents()
 //        }
 
         m_MenuActionMap.value(tr("Export"))->setEnabled(ret);
-    }*/
+    }
     if (COMMON_STR_TRASH == m_imageType) {
         m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
@@ -1213,8 +1214,6 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdDisplayInFileManager, tr("Display in file manager"),
                  ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
     appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
-
-  //  appendAction(IdDrawingBoard, tr("Draw"), ss(DRAWING_BOARD));//lmh0407
 }
 
 DMenu *ThumbnailListView::createAlbumMenu()
@@ -1433,10 +1432,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdTrashRecovery:
         emit trashRecovery();
-        break;
-        //lmh0407发送打开画板信号
-    case IdDrawingBoard:
-        emit dApp->signalM->sigDrawingBoard(paths);
         break;
     default:
         break;
