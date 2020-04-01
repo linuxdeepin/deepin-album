@@ -248,7 +248,6 @@ void ImportImagesThread::run()
             noReadCount++;
             continue;
         }
-
         QFileInfo fi(imagePath);
         if (!fi.exists()) {  //当前文件不存在
             continue;

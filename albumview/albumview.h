@@ -38,6 +38,8 @@
 extern "C" {
 #include <gio/gio.h>
 }
+
+
 #define signals public
 
 DWIDGET_USE_NAMESPACE
