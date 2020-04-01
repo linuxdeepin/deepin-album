@@ -6,6 +6,7 @@
 #include <DWidgetUtil>
 #include <DApplicationSettings>
 #include <DLog>
+#include <QMessageBox>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -43,6 +44,8 @@ int main(int argc, char *argv[])
 {
     Application::loadDXcbPlugin();
     Application a(argc, argv);
+//    QMessageBox::information(nullptr, "Title", "Content",
+//                             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     //  a.setAttribute(Qt::AA_EnableHighDpiScaling);

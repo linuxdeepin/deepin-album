@@ -26,6 +26,7 @@
 #include <QObject>
 #include <DDialog>
 #include <QCloseEvent>
+#include <QMoveEvent>
 #include <DLabel>
 #include <DPushButton>
 
@@ -34,10 +35,12 @@ DCORE_USE_NAMESPACE
 
 class Waitdevicedialog : public DDialog
 {
+
 public:
-    Waitdevicedialog();
+    explicit Waitdevicedialog(QWidget *parent = nullptr);
     void iniwaitdialog();
     void closeEvent(QCloseEvent *event) override;
+    void moveEvent(QMoveEvent *event) override;
 signals:
     void sigclose();
 public:

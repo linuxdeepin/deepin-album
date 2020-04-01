@@ -226,7 +226,7 @@ void MainWindow::initConnections()
     });
     //隐藏图片视图
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
-        viewImageClose();
+        //viewImageClose(); 2020/4/1 15:39 注释后不关闭相册主界面
         titlebar()->setVisible(true);   //显示状态栏
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
@@ -928,6 +928,7 @@ void MainWindow::initCentralWidget()
         setTitlebarShadowEnabled(false);
         m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
+        m_backIndex = VIEW_ALLPIC;
     } else {
         m_commandLine->viewImage("", {});
         m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
@@ -1008,6 +1009,8 @@ void MainWindow::albumBtnClicked()
     m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+    m_pAlbumview->updateRightView();    //切换时手动更新界面相册显示界面
+
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->updatePicNum();
@@ -1537,11 +1540,11 @@ void MainWindow::onLoadingFinished()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     saveWindowState();
-    if (4 == m_pCenterWidget->currentIndex()) {
-        if (bfirstandviewimage) {
-            event->accept();
-            return;
-        }
+    if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
+//        if (bfirstandviewimage) {
+//            event->accept();
+//            return;
+//        }
         emit dApp->signalM->hideImageView();
         event->ignore();
     } else {

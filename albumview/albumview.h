@@ -38,6 +38,8 @@
 extern "C" {
 #include <gio/gio.h>
 }
+
+
 #define signals public
 
 DWIDGET_USE_NAMESPACE
@@ -161,11 +163,12 @@ public:
     void restorePicNum();
     void updatePicNum();
 
+    void updateRightView();
 private:
     void initConnections();
     void initLeftView();
     void initRightView();
-    void updateRightView();
+    //void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
     void updateRightImportView();

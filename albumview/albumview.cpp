@@ -30,7 +30,6 @@
 
 static QMutex m_mutex;
 
-
 namespace {
 const int ITEM_SPACING = 0;
 const int LEFT_VIEW_WIDTH = 180;
@@ -684,11 +683,11 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 
 void AlbumView::iniWaitDiolag()
 {
-    m_waitDeviceScandialog = new Waitdevicedialog();
+    m_waitDeviceScandialog = new Waitdevicedialog(this);
     m_waitDailog_timer = new QTimer(this);
     m_waitDeviceScandialog->m_closeDeviceScan = new DPushButton(tr("Cancel"));
     m_waitDeviceScandialog->m_ignoreDeviceScan = new DPushButton(tr("Ignore"));
-    m_waitDeviceScandialog->waitTips = new DLabel(tr("loading photos，please wait..."));
+    m_waitDeviceScandialog->waitTips = new DLabel(tr("Loading photos, please wait..."));
     m_waitDeviceScandialog->iniwaitdialog();
     if (!m_waitDeviceScandialog) {
         return;
@@ -3283,17 +3282,7 @@ void AlbumView::importDialog()
     m_waitDeviceScandialog->show();
     m_waitDailog_timer->start(2000);
     this->setDisabled(true);
-
-//    if (!m_waitDeviceScanMessage) {
-//        m_waitDeviceScanMessage = new DMessageBox(this);
-//    }
-//    m_waitDeviceScanMessage->setWindowFlag(Qt::WindowTitleHint);
-//    m_waitDeviceScanMessage->setFixedSize(QSize(422, 183));
-//    m_waitDeviceScanMessage->move(769, 414);
-//    m_waitDeviceScanMessage->setText(tr("loading images，please wait..."));
-//    m_ignoreDeviceScan->setDisabled(true);
-//    m_waitDeviceScanMessage->show();
-//    m_waitDailog_timer->start(2000);
+    m_waitDeviceScandialog->setEnabled(true);
 }
 
 void AlbumView::onWaitDialogClose()
