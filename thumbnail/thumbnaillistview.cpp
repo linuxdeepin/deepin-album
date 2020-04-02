@@ -1069,8 +1069,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("View"))->setVisible(false);
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
         //m_MenuActionMap.value(tr("Print"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Export"))->setEnabled(true);
-    } else {
+    } /*else {
         bool ret = false;
         if (utils::image::imageSupportSave(paths.at(0))) {
             ret = true;
@@ -1092,7 +1091,7 @@ void ThumbnailListView::updateMenuContents()
 //        }
 
         m_MenuActionMap.value(tr("Export"))->setEnabled(ret);
-    }
+    }*/
     if (COMMON_STR_TRASH == m_imageType) {
         m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
