@@ -146,10 +146,14 @@
     </message>
     <message>
         <source>loading end</source>
-        <translation>加载完成</translation>
+        <translation type="vanished">加载完成</translation>
     </message>
     <message>
         <source>loading photos，please wait...</source>
+        <translation type="vanished">正在加载图片，请稍候...</translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
         <translation>正在加载图片，请稍候...</translation>
     </message>
 </context>

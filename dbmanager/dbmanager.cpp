@@ -1537,6 +1537,8 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
+            if (info.filePath.isEmpty()) //如果路径为空
+                continue;
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
