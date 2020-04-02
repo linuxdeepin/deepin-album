@@ -133,10 +133,6 @@
         <translation>New album</translation>
     </message>
     <message>
-        <source>loading end</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
@@ -145,7 +141,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>loading photos，please wait...</source>
+        <source>Loading photos, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
