@@ -1381,6 +1381,10 @@ void AlbumView::updateRightMountView()
         updateImportComboBox();
 //        bcurThumbnaiItemList_str = true;
         m_pRightPhoneThumbnailList->stopLoadAndClear();
+        //删除手机已经加载的数据       2020/04/03
+        for (const auto &path : m_curThumbnaiItemList_str) {
+            ImageEngineApi::instance()->removeImage(path);
+        }
         m_curThumbnaiItemList_str.clear();      //确保每次使用，统计的数量都清除上次的，（防止遗漏）
         m_curThumbnaiItemList_str << filelist;
 //        for (auto path : m_phoneNameAndPathlist.value(strPath)) {
@@ -1396,8 +1400,10 @@ void AlbumView::updateRightMountView()
 //        m_mountPicNum = m_curThumbnaiItemList.size();
 //        m_iAlubmPicsNum = m_pRightPhoneThumbnailList->getAllFileList().size();
 //        m_mountPicNum = m_pRightPhoneThumbnailList->getAllFileList().size();
-        qDebug() << ImageEngineApi::instance()->Getm_AllImageDataNum();
-        ImageEngineApi::instance()->clearAllImageDate();
+
+        //此处清除了所有数据，导致其它界面查看不了图片，龙强-2020/04/03
+        //ImageEngineApi::instance()->clearAllImageDate();
+
         m_iAlubmPicsNum = m_curThumbnaiItemList_str.size();
         m_mountPicNum = m_curThumbnaiItemList_str.size();
         qDebug() << "m_mountPicNum = " << m_mountPicNum;
