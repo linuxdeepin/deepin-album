@@ -94,7 +94,7 @@ void ImageEngineImportObject::removeThread(ImageEngineThreadObject *thread)
 }
 void ImageEngineImportObject::clearAndStopThread()
 {
-    for (auto thread : m_threads) {
+    for (const auto &thread : m_threads) {
         thread->needStop(this);
     }
     m_threads.clear();

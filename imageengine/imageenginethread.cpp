@@ -1236,9 +1236,8 @@ void ImageFromNewAppThread::run()
             return;
         }
         dApp->m_imageloader->ImportImageLoader(dbInfos);
-        //m_pAllPicBtn->setChecked(true);
     }
-//        dApp->LoadDbImage();
+    m_imgobj->removeThread(this);
 }
 
 ImageSVGConvertThread::ImageSVGConvertThread()
