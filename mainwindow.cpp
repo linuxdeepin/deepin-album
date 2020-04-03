@@ -143,7 +143,6 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
 
-    //connect(m_pSearchEdit, &DSearchEdit::returnPressed, this, &MainWindow::onSearchEditFinished);
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
