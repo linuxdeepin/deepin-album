@@ -1455,7 +1455,7 @@ void MainWindow::viewImageClose()
     }
 }
 
-//多开（多进程）？
+//外部使用相册打开图片
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
     qDebug() << "onNewAPPOpen";
@@ -1482,42 +1482,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             emit dApp->signalM->showImageView(0);
 
             //更改为调用线程api
-
             ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
-
-            /*
-            DBImgInfoList dbInfos;
-            using namespace utils::image;
-            for (auto path : paths) {
-                if (!imageSupportRead(path)) continue;
-
-                QFileInfo fi(path);
-                using namespace utils::image;
-                using namespace utils::base;
-                auto mds = getAllMetaData(path);
-                QString value = mds.value("DateTimeOriginal");
-            //                qDebug() << value;
-                DBImgInfo dbi;
-                dbi.fileName = fi.fileName();
-                dbi.filePath = path;
-                dbi.dirHash = utils::base::hash(QString());
-                if ("" != value) {
-                    dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-                } else if (fi.birthTime().isValid()) {
-                    dbi.time = fi.birthTime();
-                } else if (fi.metadataChangeTime().isValid()) {
-                    dbi.time = fi.metadataChangeTime();
-                } else {
-                    dbi.time = QDateTime::currentDateTime();
-                }
-                dbi.changeTime = QDateTime::currentDateTime();
-                dbInfos << dbi;
-            }
-            if (! dbInfos.isEmpty()) {
-                dApp->m_imageloader->ImportImageLoader(dbInfos);
-                m_pAllPicBtn->setChecked(true);
-            }
-            */
         }
         m_pAllPicBtn->setChecked(true);
 //        dApp->LoadDbImage();
