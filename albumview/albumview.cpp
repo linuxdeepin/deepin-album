@@ -1253,7 +1253,7 @@ void AlbumView::updateRightView()
     }
     m_spinner->hide();
     m_spinner->stop();
-//    m_curThumbnaiItemList.clear();
+
     m_curThumbnaiItemList_info.clear();
     m_curThumbnaiItemList_str.clear();
 
@@ -1276,12 +1276,10 @@ void AlbumView::updateRightView()
         }
         setAcceptDrops(false);
         emit sigSearchEditIsDisplay(false);
-    } else {
-
     }
 
     updatePicNum();
-    qDebug() << "";
+    qDebug() << "更新右侧视图完毕";
 }
 
 // 更新已导入列表
@@ -1381,8 +1379,9 @@ void AlbumView::updateRightMountView()
         updateImportComboBox();
 //        bcurThumbnaiItemList_str = true;
         m_pRightPhoneThumbnailList->stopLoadAndClear();
-        m_curThumbnaiItemList_str.clear();      //确保每次使用，统计的数量都清除上次的，（防止遗漏）
         m_curThumbnaiItemList_str << filelist;
+        m_curPhoneItemList_str.clear();
+        m_curPhoneItemList_str << filelist;     //保存外部设备图片的路径
 //        for (auto path : m_phoneNameAndPathlist.value(strPath)) {
 //            ThumbnailListView::ItemInfo vi;
 //            vi.path = path;
@@ -1396,8 +1395,8 @@ void AlbumView::updateRightMountView()
 //        m_mountPicNum = m_curThumbnaiItemList.size();
 //        m_iAlubmPicsNum = m_pRightPhoneThumbnailList->getAllFileList().size();
 //        m_mountPicNum = m_pRightPhoneThumbnailList->getAllFileList().size();
-        qDebug() << ImageEngineApi::instance()->Getm_AllImageDataNum();
-        ImageEngineApi::instance()->clearAllImageDate();
+
+
         m_iAlubmPicsNum = m_curThumbnaiItemList_str.size();
         m_mountPicNum = m_curThumbnaiItemList_str.size();
         qDebug() << "m_mountPicNum = " << m_mountPicNum;
@@ -1640,6 +1639,7 @@ bool AlbumView::imageGeted(QStringList &filelist, QString path)
 {
     m_phoneNameAndPathlist[path] = filelist;
     if (m_itemClicked == true) {
+        m_curThumbnaiItemList_str.clear();
         updateRightMountView();
     }
     return true;
@@ -2154,6 +2154,13 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
             }
         }
 
+
+        //设备改变时移除内存中存在的数据
+        qDebug() << "外界设备改变了！上次大小：" << m_curPhoneItemList_str.size();
+        for (const auto &path : m_curPhoneItemList_str) {
+            ImageEngineApi::instance()->removeImage(path);
+        }
+        m_curPhoneItemList_str.clear();
 
         updateExternalDevice(mount);
         ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
