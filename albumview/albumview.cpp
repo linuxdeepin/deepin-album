@@ -1427,7 +1427,7 @@ void AlbumView::updateRightMountView()
 //        m_pRightPhoneThumbnailList->importFilesFromLocal(m_phoneNameAndPathlist.value(strPath));
 //        m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
         QThread::msleep(50);
-        if (!m_pRightPhoneThumbnailList->isLoading()) {
+        if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore && isWaitDialog) {
             emit dApp->signalM->waitDevicescan();
         }
 
@@ -3296,13 +3296,17 @@ void AlbumView::onWaitDialogClose()
 {
     QThread::msleep(100);
     m_pRightPhoneThumbnailList->stopLoadAndClear();
-    isWaitDialog = false;
+    if (m_curPhoneItemList_str.size() > 0) {
+        isWaitDialog = false;
+    }
+
     m_waitDeviceScandialog->close();
     this->setEnabled(true);
 }
 
 void AlbumView::onWaitDialogIgnore()
 {
+    isIgnore = false;
     m_waitDeviceScandialog->hide();
     this->setEnabled(true);
 }
