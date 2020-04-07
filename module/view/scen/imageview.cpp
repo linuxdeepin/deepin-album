@@ -318,6 +318,9 @@ void ImageView::setScaleValue(qreal v)
 
 void ImageView::autoFit()
 {
+    //确认场景加载出来后，才能调用场景内的item
+    if(!scene()->isActive())
+        return;
     if (image().isNull())
         return;
 
