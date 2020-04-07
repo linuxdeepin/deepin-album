@@ -117,6 +117,8 @@ signals:
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());
+
+    void sigDrawingBoard(QStringList Paths);//lmh0407
 #if 1
     void viewModeCreateAlbum(QString path);
     void sigCreateNewAlbumFrom(QString albumname);

@@ -8,6 +8,7 @@
 #include "searchview/searchview.h"
 #include "controller/commandline.h"
 #include "controller/exporter.h"
+#include "controller/dbusclient.h"
 #include "widgets/dialogs/imginfodialog.h"
 #include "module/slideshow/slideshowpanel.h"
 //#include "plugin.h"
@@ -60,6 +61,7 @@ public:
 
     bool imageImported(bool success) override;
     void initConnections();
+    void initDBus() ;//lmh0407
     //初始化UI
     void initUI();
     void initWaitDialog();
@@ -160,6 +162,8 @@ private:
     DLabel *m_countLabel = nullptr;
 
     QString       m_SearchKey;      //搜索框查询信息
+
+    dbusclient *m_pDBus;//LMH0407DBus
 };
 
 #endif // MAINWINDOW_H

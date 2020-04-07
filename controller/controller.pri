@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/globaleventfilter.h \
     $$PWD/viewerthememanager.h \
     $$PWD/divdbuscontroller.h \
-    $$PWD/exporter.h
+    $$PWD/exporter.h \
+    $$PWD/dbusclient.h
 
 SOURCES += \
     $$PWD/signalmanager.cpp \
@@ -16,7 +17,8 @@ SOURCES += \
     $$PWD/globaleventfilter.cpp \
     $$PWD/viewerthememanager.cpp \
     $$PWD/divdbuscontroller.cpp \
-    $$PWD/exporter.cpp
+    $$PWD/exporter.cpp \
+    $$PWD/dbusclient.cpp
 
 #!isEmpty(FULL_FUNCTIONALITY) {
 #    HEADERS += $$PWD/importer.h \

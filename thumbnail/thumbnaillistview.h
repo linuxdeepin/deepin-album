@@ -77,7 +77,8 @@ public:
         IdImageInfo,
         IdSubMenu,
         IdSeparator,
-        IdTrashRecovery
+        IdTrashRecovery,
+        IdDrawingBoard//lmh0407画板
     };
 
     struct ItemInfo {
@@ -176,7 +177,6 @@ private slots:
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
     void onTimerOut();
-    void updateImages(const QStringList list);
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
 

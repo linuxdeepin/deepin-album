@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "mainwindow.h"
+#include "mainwindow.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/snifferimageformat.h"
@@ -63,6 +65,7 @@ MainWindow::MainWindow()
     initCentralWidget();
     initShortcut();
     initConnections();
+    initDBus();
 //    setCentralWidget(m_pCenterWidget);
 
 //    timer = startTimer(500);
@@ -143,7 +146,6 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
 
-    //connect(m_pSearchEdit, &DSearchEdit::returnPressed, this, &MainWindow::onSearchEditFinished);
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
@@ -608,6 +610,11 @@ void MainWindow::initConnections()
     });
     */
 
+}
+//初始化DBus
+void MainWindow::initDBus()
+{
+    m_pDBus =new dbusclient();
 }
 
 //初始化快捷键
@@ -1222,6 +1229,8 @@ void MainWindow::onImprotBtnClicked()
     for (const QByteArray &i : QImageReader::supportedImageFormats())
         sList << "*." + QString::fromLatin1(i);
 
+    sList <<"*." +QString("dds");
+    sList <<"*." +QString("jp2");
 
     QString filter = tr("All Photos");
 
@@ -1455,7 +1464,7 @@ void MainWindow::viewImageClose()
     }
 }
 
-//多开（多进程）？
+//外部使用相册打开图片
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
     qDebug() << "onNewAPPOpen";
@@ -1482,42 +1491,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             emit dApp->signalM->showImageView(0);
 
             //更改为调用线程api
-
             ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
-
-            /*
-            DBImgInfoList dbInfos;
-            using namespace utils::image;
-            for (auto path : paths) {
-                if (!imageSupportRead(path)) continue;
-
-                QFileInfo fi(path);
-                using namespace utils::image;
-                using namespace utils::base;
-                auto mds = getAllMetaData(path);
-                QString value = mds.value("DateTimeOriginal");
-            //                qDebug() << value;
-                DBImgInfo dbi;
-                dbi.fileName = fi.fileName();
-                dbi.filePath = path;
-                dbi.dirHash = utils::base::hash(QString());
-                if ("" != value) {
-                    dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-                } else if (fi.birthTime().isValid()) {
-                    dbi.time = fi.birthTime();
-                } else if (fi.metadataChangeTime().isValid()) {
-                    dbi.time = fi.metadataChangeTime();
-                } else {
-                    dbi.time = QDateTime::currentDateTime();
-                }
-                dbi.changeTime = QDateTime::currentDateTime();
-                dbInfos << dbi;
-            }
-            if (! dbInfos.isEmpty()) {
-                dApp->m_imageloader->ImportImageLoader(dbInfos);
-                m_pAllPicBtn->setChecked(true);
-            }
-            */
         }
         m_pAllPicBtn->setChecked(true);
 //        dApp->LoadDbImage();
