@@ -51,10 +51,10 @@ signals:
     void sigKeyDelete();
     void sigKeyF2();
 
-private slots:
+public slots:
     void onMenuClicked(QAction *action);
     void onUpdateLeftListview();
-
+    void onMountListView(QModelIndex index);
 public:
     // 照片库
     DLabel *m_pPhotoLibLabel;
