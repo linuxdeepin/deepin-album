@@ -616,9 +616,15 @@ runend:
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
-    connect(m_pLeftListView->m_pMountListView, &DListWidget::pressed, this, [ = ] {
-        qDebug() << "isWaitDialog = true";
-        isWaitDialog = true;
+    connect(m_pLeftListView->m_pMountListView, &DListWidget::clicked, this, [ = ] (const QModelIndex & index) {
+        if (!isWaitDialog) {
+            isWaitDialog = true;
+            m_pLeftListView->setFocus();
+            updateRightView();
+        } else {
+            isWaitDialog = true;
+        }
+        //updateRightView();
     });
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
 }
@@ -1429,20 +1435,10 @@ void AlbumView::updateRightMountView()
         QThread::msleep(50);
         if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore && isWaitDialog) {
             emit dApp->signalM->waitDevicescan();
+            m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
+        } else if (!isIgnore) {
+            m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
         }
-
-        m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
-
-
-//        //设置更新之前的选择状态
-//        QList<Listolditem>::iterator j;
-//        for (j = items.begin(); j != items.end(); ++j) {
-//            if ((*j).row < m_pRightPhoneThumbnailList->m_model->rowCount()
-//                    && (*j).column < m_pRightPhoneThumbnailList->m_model->columnCount()) {
-//                QModelIndex qindex = m_pRightPhoneThumbnailList->m_model->index((*j).row, (*j).column);
-//                m_pRightPhoneThumbnailList->selectionModel()->select(qindex, QItemSelectionModel::Select);
-//            }
-//        }
 
         QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
         if (0 < paths.length()) {
@@ -2161,7 +2157,8 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
             ImageEngineApi::instance()->removeImage(path);
         }
         m_curPhoneItemList_str.clear();
-
+        isWaitDialog = true;
+        isIgnore = true;
         updateExternalDevice(mount);
         ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
         //emit dApp->signalM->waitDevicescan();
