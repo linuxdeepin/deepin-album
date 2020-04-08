@@ -314,6 +314,7 @@ private:
 
     Waitdevicedialog *m_waitDeviceScandialog;
     bool isWaitDialog = true;
+    bool isIgnore = true;
     QTimer *m_waitDailog_timer;
 };
 
