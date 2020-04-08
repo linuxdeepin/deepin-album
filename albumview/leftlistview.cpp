@@ -704,7 +704,8 @@ void LeftListView::updateAlbumItemsColor()
     if (0 < m_pMountListView->count()) {
         for (int i = 0; i < m_pMountListView->count(); i++) {
             AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->item(i));
-            item->oriAlbumStatus();
+            if(item)
+                item->oriAlbumStatus();
         }
     }
 }

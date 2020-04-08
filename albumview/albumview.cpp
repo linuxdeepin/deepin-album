@@ -2168,8 +2168,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 //卸载外接设备
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    Q_UNUSED(mount);
-
     QString uri = mount->getRootFile()->uri();
     for (auto mountLoop : m_mounts) {
         QString uriLoop = mountLoop->getRootFile()->uri();
@@ -2922,12 +2920,24 @@ void AlbumView::needUnMount(QString path)
         for (auto mount : m_mounts) {
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
             if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
-                mount->unmount(true);
-//                m_mounts.removeOne(mount);
+                //mount->unmount(true);
+                m_mounts.removeOne(mount);
                 break;
             }
         }
-        return;
+        //设备已卸载，未能在list上移除
+        QWidget* wdg  = m_pLeftListView->m_pMountListView->itemWidget(m_pLeftListView->m_pMountListView->currentItem());
+        m_pLeftListView->m_pMountListView->removeItemWidget(m_pLeftListView->m_pMountListView->currentItem());
+        wdg->deleteLater();
+        QListWidgetItem* pitem = m_pLeftListView->m_pMountListView->takeItem(m_pLeftListView->m_pMountListView->currentRow());
+        delete pitem;
+        pitem = nullptr;
+        //转到已导入界面
+        m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
+        m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
+        m_currentType = COMMON_STR_RECENT_IMPORTED;
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+        return ;
     }
     for (auto mount : m_mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();

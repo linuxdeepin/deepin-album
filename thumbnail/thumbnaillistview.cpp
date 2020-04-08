@@ -910,6 +910,7 @@ bool ThumbnailListView::imageLoaded(QString filepath)
     if (m_requestCount < 1/*&& (bneedloadimage || !verticalScrollBar()->isVisible())  //注释以后，一次性全部加载*/) {
         requestSomeImages();
     }
+
 //    return true;
     return reb;
 }
