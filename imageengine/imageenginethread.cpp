@@ -1,5 +1,4 @@
 #include "imageenginethread.h"
-
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -1049,6 +1048,7 @@ void ImageEngineThread::run()
         return;
     using namespace utils::image;
     using namespace utils::base;
+
     QImage tImg;
     bool cache_exist = false;
     QString path = m_path;
