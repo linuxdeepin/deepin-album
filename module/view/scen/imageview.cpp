@@ -171,20 +171,6 @@ void ImageView::setImage(const QString &path)
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
 
-//    QString oldHintPath = m_toast->property("hint_path").toString();
-//    if (oldHintPath != fi.canonicalFilePath()) {
-//        m_toast->setProperty("hide_by_user", false);
-//    }
-//    m_toast->setProperty("hint_path", fi.canonicalFilePath());
-
-//    if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
-////        m_toast->show();
-//        m_toast->move(width() / 2 - m_toast->width() / 2,
-//                      height() - 80 - m_toast->height() / 2 - 11);
-//    } else {
-//        m_toast->hide();
-//    }
-
     // The suffix of svf file should be svg
     if ( strfixL == "svg" && DSvgRenderer().load(path)) {
         m_movieItem = nullptr;
@@ -211,6 +197,7 @@ void ImageView::setImage(const QString &path)
         setSceneRect(m_imgSvgItem->boundingRect());
         s->addItem(m_imgSvgItem);
         emit imageChanged(path);
+
     } else {
         m_imgSvgItem = nullptr;
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
@@ -221,6 +208,7 @@ void ImageView::setImage(const QString &path)
                 delete m_pixmapItem;
                 m_pixmapItem = nullptr;
             }
+
             s->clear();
             resetTransform();
             m_movieItem = new GraphicsMovieItem(path);
@@ -229,32 +217,12 @@ void ImageView::setImage(const QString &path)
             setSceneRect(m_movieItem->boundingRect());
             s->addItem(m_movieItem);
             emit imageChanged(path);
+
         } else {
             m_movieItem = nullptr;
             qDebug() << "Start cache pixmap: " << path;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (! m_watcher.isRunning()) {
-
-                //show loading gif.
-//                m_pixmapItem = nullptr;
-//                s->clear();
-//                resetTransform();
-
-//                auto spinner = new DSpinner;
-//                spinner->setFixedSize(SPINNER_SIZE);
-//                spinner->setBackgroundColor(Qt::transparent);
-//                spinner->start();
-//                QWidget *w = new QWidget();
-//                w->setFixedSize(SPINNER_SIZE);
-//                QHBoxLayout *hLayout = new QHBoxLayout;
-//                hLayout->setMargin(0);
-//                hLayout->setSpacing(0);
-//                hLayout->addWidget(spinner, 0, Qt::AlignCenter);
-//                w->setLayout(hLayout);
-                // Make sure item show in center of view after reload
-//                setSceneRect(w->rect());
-//                s->addWidget(w);
-
                 f.waitForFinished();
                 qDebug() << "Finish cache pixmap: " << path;
                 m_watcher.setFuture(f);
@@ -318,7 +286,7 @@ void ImageView::setScaleValue(qreal v)
 void ImageView::autoFit()
 {
     //确认场景加载出来后，才能调用场景内的item
-    if(!scene()->isActive())
+    if (!scene()->isActive())
         return;
     if (image().isNull())
         return;
