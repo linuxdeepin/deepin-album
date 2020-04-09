@@ -1434,7 +1434,9 @@ void AlbumView::updateRightMountView()
 //        m_pRightPhoneThumbnailList->insertThumbnails(m_curThumbnaiItemList);
         QThread::msleep(50);
         if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore && isWaitDialog) {
-            emit dApp->signalM->waitDevicescan();
+            if (isVisible()) {
+                emit dApp->signalM->waitDevicescan();
+            }
             m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
         } else if (!isIgnore) {
             m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
@@ -2926,10 +2928,10 @@ void AlbumView::needUnMount(QString path)
             }
         }
         //设备已卸载，未能在list上移除
-        QWidget* wdg  = m_pLeftListView->m_pMountListView->itemWidget(m_pLeftListView->m_pMountListView->currentItem());
+        QWidget *wdg  = m_pLeftListView->m_pMountListView->itemWidget(m_pLeftListView->m_pMountListView->currentItem());
         m_pLeftListView->m_pMountListView->removeItemWidget(m_pLeftListView->m_pMountListView->currentItem());
         wdg->deleteLater();
-        QListWidgetItem* pitem = m_pLeftListView->m_pMountListView->takeItem(m_pLeftListView->m_pMountListView->currentRow());
+        QListWidgetItem *pitem = m_pLeftListView->m_pMountListView->takeItem(m_pLeftListView->m_pMountListView->currentRow());
         delete pitem;
         pitem = nullptr;
         //转到已导入界面
