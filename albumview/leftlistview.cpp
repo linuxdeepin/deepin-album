@@ -40,34 +40,7 @@ LeftListView::LeftListView(DWidget *parent): DWidget(parent)
 
 void LeftListView::initConnections()
 {
-    connect(m_pPhotoLibListView, &DListWidget::pressed, this, [ = ](QModelIndex index) {
-        qDebug() << "m_pPhotoLibListView, &DListWidget::pressed";
-        m_pCustomizeListView->clearSelection();
-        m_pMountListView->clearSelection();
-        updateAlbumItemsColor();
-
-        if (m_pPhotoLibListView->currentItem()) {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
-            item->newAlbumStatus();
-
-            if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
-                m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
-                m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
-            } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
-                m_ItemCurrentName = COMMON_STR_TRASH;
-                m_ItemCurrentType = COMMON_STR_TRASH;
-            } else {
-                m_ItemCurrentName = COMMON_STR_FAVORITES;
-                m_ItemCurrentType = COMMON_STR_FAVORITES;
-            }
-        }
-
-        m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
-        m_pMountListView->setFocusPolicy(Qt::NoFocus);
-        m_pPhotoLibListView->setFocus();
-        emit itemClicked();
-    });
-
+    connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onMountListView);
     connect(m_pCustomizeListView, &DListWidget::pressed, this, [ = ] {
         qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
         m_pPhotoLibListView->clearSelection();
@@ -662,6 +635,36 @@ void LeftListView::onUpdateLeftListview()
     }
 }
 
+void LeftListView::onMountListView(QModelIndex index)
+{
+    Q_UNUSED(index);
+    qDebug() << "m_pPhotoLibListView, &DListWidget::pressed";
+    m_pCustomizeListView->clearSelection();
+    m_pMountListView->clearSelection();
+    updateAlbumItemsColor();
+
+    if (m_pPhotoLibListView->currentItem()) {
+        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+        item->newAlbumStatus();
+
+        if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
+            m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
+        } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_TRASH;
+            m_ItemCurrentType = COMMON_STR_TRASH;
+        } else {
+            m_ItemCurrentName = COMMON_STR_FAVORITES;
+            m_ItemCurrentType = COMMON_STR_FAVORITES;
+        }
+    }
+
+    m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
+    m_pMountListView->setFocusPolicy(Qt::NoFocus);
+    m_pPhotoLibListView->setFocus();
+    emit itemClicked();
+}
+
 QString LeftListView::getNewAlbumName()
 {
     const QString nan = tr("Unnamed");
@@ -701,7 +704,8 @@ void LeftListView::updateAlbumItemsColor()
     if (0 < m_pMountListView->count()) {
         for (int i = 0; i < m_pMountListView->count(); i++) {
             AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->item(i));
-            item->oriAlbumStatus();
+            if(item)
+                item->oriAlbumStatus();
         }
     }
 }
