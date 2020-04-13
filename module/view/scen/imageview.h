@@ -122,7 +122,7 @@ private slots:
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
     void swipeTriggered(QSwipeGesture *gesture);
-    void updateImages();
+    void updateImages(const QStringList& path);
 private:
     bool m_isFitImage = false;
     bool m_isFitWindow = false;

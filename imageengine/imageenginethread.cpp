@@ -1279,7 +1279,6 @@ void ImageSVGConvertThread::run()
         QFile::copy(strTmpPath, path);
         //remove tmp file
         QFile::remove(strTmpPath);
-        qDebug() << "kkk size:" << generator.size();
     }
     emit updateImages(m_paths);
 }

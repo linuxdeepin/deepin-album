@@ -245,7 +245,6 @@ AlbumView::AlbumView()
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
-
 }
 
 AlbumView::~AlbumView()
@@ -366,11 +365,14 @@ void AlbumView::initConnections()
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseMove, this, [ = ] {
         updatePicNum();
     });
+    //解决最近删除页面ctrl+all选择所有图片，恢复按钮为灰色的问题
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, [ = ]{
+        m_pRecoveryBtn->setEnabled(true);
+        updatePicNum();
+    });
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
     connect(m_pRightThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
-
 #endif
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
@@ -548,6 +550,7 @@ runend:
     connect(m_pRightThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
+    connect(m_pRightTrashThumbnailList ,&ThumbnailListView::sigSelectAll ,this ,&AlbumView::updatePicNum);
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigMouseRelease, this, [ = ] {
         QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
         if (0 < paths.length())

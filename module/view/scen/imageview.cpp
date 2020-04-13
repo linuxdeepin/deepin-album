@@ -374,8 +374,8 @@ void ImageView::rotateClockWise()
     } else {
         utils::image::rotate(m_path, 90);
         dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+        setImage(m_path);
     }
-    setImage(m_path);
 }
 
 void ImageView::rotateCounterclockwise()
@@ -671,9 +671,11 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 
 }
 
-void ImageView::updateImages()
+void ImageView::updateImages(const QStringList& path)
 {
-    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    dApp->m_imageloader->updateImageLoader(path);
+    //等待svg图片转换完成后在加载
+    setImage(m_path);
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

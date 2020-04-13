@@ -177,6 +177,7 @@ private slots:
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
     void onTimerOut();
+    void updateImages(const QStringList& path);
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
 

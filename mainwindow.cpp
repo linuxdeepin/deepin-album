@@ -1229,9 +1229,6 @@ void MainWindow::onImprotBtnClicked()
     for (const QByteArray &i : QImageReader::supportedImageFormats())
         sList << "*." + QString::fromLatin1(i);
 
-    sList <<"*." +QString("dds");
-    sList <<"*." +QString("jp2");
-
     QString filter = tr("All Photos");
 
     filter.append('(');

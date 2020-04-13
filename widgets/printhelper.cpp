@@ -158,7 +158,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         {
             QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
             QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
-            painter.save();
+            //painter.save();
             painter.setWindow(img.rect());
             if (size.width() <= img.width() || size.height() <= img.height()) {
                 img = img.scaledToWidth(size.width(), Qt::SmoothTransformation);
@@ -166,15 +166,15 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 painter.drawImage(0, 0, img);
             } else {
                 painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                if (optionsPage->scaleMode() != PrintOptionsPage::ScaleToExpanding) {
-                    painter.setViewport(qAbs(pos.x()), qAbs(pos.y()), img.width(), img.height());
-                }
+//                if (optionsPage->scaleMode() != PrintOptionsPage::ScaleToExpanding) {
+//                    painter.setViewport(qAbs(pos.x()), qAbs(pos.y()), img.width(), img.height());
+//                }
                 painter.drawImage(0, 0, img);
             }
             if (++index != imgs.size()) {
                 printer.newPage();
             }
-            painter.restore();
+            //painter.restore();
         }
 
         painter.end();

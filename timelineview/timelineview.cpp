@@ -272,12 +272,16 @@ void TimeLineView::initTimeLineViewWidget()
         {
             pSuspensionChose->setText(QObject::tr("Select"));
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-            p[0]->clearSelection();
-            updatePicNum();
+            if(p.size() > 0)
+            {
+                p[0]->clearSelection();
+                updatePicNum();
+            }
         }
 #if 1
         QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-        b[0]->setText(pSuspensionChose->text());
+        if(b.size() > 0)
+            b[0]->setText(pSuspensionChose->text());
 #endif
     });
 

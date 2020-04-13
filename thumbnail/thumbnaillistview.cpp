@@ -16,6 +16,7 @@
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
+#include "imageengine/imageenginethread.h"
 
 namespace {
 const int ITEM_SPACING = 4;
@@ -198,7 +199,7 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
 //    }
 
     m_dragItemPath = selectedPaths();
-    qDebug() << m_dragItemPath;
+    //qDebug() << m_dragItemPath;
 }
 
 void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
@@ -1367,7 +1368,16 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //            items.append(item);
 //        }
         for (QString path : paths) {
-            utils::image::rotate(path, 90);
+            const QString suffix = QFileInfo(path).suffix();
+            if (suffix.toUpper().compare("SVG") == 0) {
+                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+                imgSVGThread->setData(QStringList() << path, -90);
+                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
+                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+                imgSVGThread->start();
+            }else {
+                utils::image::rotate(path, 90);
+            }
         }
 
 //        if (COMMON_STR_TRASH == m_imageType) {
@@ -1400,8 +1410,18 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //            item.column = (*i).column();
 //            items.append(item);
 //        }
+
         for (QString path : paths) {
-            utils::image::rotate(path, -90);
+            const QString suffix = QFileInfo(path).suffix();
+            if (suffix.toUpper().compare("SVG") == 0) {
+                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+                imgSVGThread->setData(QStringList() << path, -90);
+                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
+                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+                imgSVGThread->start();
+            } else {
+                utils::image::rotate(path, -90);
+            }
         }
 
 //        if (COMMON_STR_TRASH == m_imageType) {
@@ -1710,6 +1730,10 @@ void ThumbnailListView::onTimerOut()
     bneedsendresize = false;
 }
 
+void ThumbnailListView::updateImages(const QStringList& path)
+{
+    dApp->m_imageloader->updateImageLoader(path);
+}
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)
 {
