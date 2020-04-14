@@ -649,11 +649,11 @@ void MainWindow::initShortcut()
     });
 
     //Ctrl+Q退出
-    QShortcut *CtrlQ = new QShortcut(QKeySequence(CTRLQ_SHORTCUT), this);
-    CtrlQ->setContext(Qt::ApplicationShortcut);
-    connect(CtrlQ, &QShortcut::activated, this, [ = ] {
-        dApp->quit();
-    });
+//    QShortcut *CtrlQ = new QShortcut(QKeySequence(CTRLQ_SHORTCUT), this);
+//    CtrlQ->setContext(Qt::ApplicationShortcut);
+//    connect(CtrlQ, &QShortcut::activated, this, [ = ] {
+//        dApp->quit();
+//    });
 
     //Ctrl+Up 缩略图放大
     QShortcut *CtrlUp = new QShortcut(QKeySequence(CTRLUP_SHORTCUT), this);
