@@ -1371,7 +1371,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             const QString suffix = QFileInfo(path).suffix();
             if (suffix.toUpper().compare("SVG") == 0) {
                 ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-                imgSVGThread->setData(QStringList() << path, -90);
+                imgSVGThread->setData(QStringList() << path, 90);
                 connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
                 connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
                 imgSVGThread->start();
