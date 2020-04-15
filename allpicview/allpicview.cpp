@@ -92,34 +92,28 @@ void AllPicView::initConnections()
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-        auto imagelist = DBManager::instance()->getAllInfos();
-        if (imagelist.size() > 1) {
-            for (auto image : imagelist) {
-                info.paths << image.filePath;
-            }
+        auto imagelist = m_pThumbnailListView->getAllFileList();
+        if (imagelist.size() > 0) {
+            info.paths << imagelist;
         } else {
             info.paths.clear();
         }
-        info.path = imagelist[index].filePath;
+        info.path = imagelist[index];
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
         info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
         emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
+       // emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
     connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-//        auto imagelist1 = DBManager::instance()->getAllInfos();
-//        auto imagelist = DBManager::instance()->getAllPaths();
+
         auto imagelist = m_pThumbnailListView->getAllFileList();
         if (paths.size() > 1) {
             info.paths = paths;
         } else {
-            if (imagelist.size() > 1) {
-//                for (auto image : imagelist) {
-//                    info.paths << image.filePath;
-//                }
+            if (imagelist.size() > 0) {
                 info.paths << imagelist;
             } else {
                 info.paths.clear();

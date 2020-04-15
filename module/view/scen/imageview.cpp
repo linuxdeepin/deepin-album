@@ -147,6 +147,11 @@ ImageView::ImageView(QWidget *parent)
         }
         update();
     });
+    //0415 open Pictrue
+    connect(dApp->signalM,&SignalManager::sigOpenPicture,this,[=](QString path){
+        setImageFirst(path);
+        emit imageChanged(path);
+    });
 }
 
 void ImageView::clear()
@@ -155,6 +160,8 @@ void ImageView::clear()
         delete m_pixmapItem;
         m_pixmapItem = nullptr;
     }
+    m_movieItem=nullptr;
+    m_imgSvgItem=nullptr;
     scene()->clear();
 }
 
@@ -225,6 +232,124 @@ void ImageView::setImage(const QString &path)
                 m_watcher.setFuture(f);
                 emit hideNavigation();
             }
+        }
+    }
+}
+
+void ImageView::setImageFirst(const QString &path)
+{
+    // Empty path will cause crash in release-build mode
+    if (path.isEmpty()) {
+        return;
+    }
+    m_path = path;
+    QString strfixL = QFileInfo(path).suffix().toLower();
+    QGraphicsScene *s = scene();
+    QFileInfo fi(path);
+
+    // The suffix of svf file should be svg
+    if ( strfixL == "svg" && DSvgRenderer().load(path)) {
+        m_movieItem = nullptr;
+//        m_pixmapItem = nullptr;
+        if (m_pixmapItem != nullptr) {
+            delete m_pixmapItem;
+            m_pixmapItem = nullptr;
+        }
+        s->clear();
+        resetTransform();
+
+        DSvgRenderer *svgRenderer = new DSvgRenderer;
+        svgRenderer->load(path);
+        m_imgSvgItem = new ImageSvgItem();
+        m_imgSvgItem->setSharedRenderer(svgRenderer);
+
+        setSceneRect(m_imgSvgItem->boundingRect());
+        s->addItem(m_imgSvgItem);
+        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+
+        QSize image_size = image.size();
+
+        if ((image_size.width() >= width() ||
+                image_size.height() >= height()) &&
+                width() > 0 && height() > 0) {
+            fitWindow();
+        } else {
+            fitImage();
+        }
+
+
+    } else {
+        m_imgSvgItem = nullptr;
+        QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
+        //QMovie can't read frameCount of "mng" correctly,so change
+        //the judge way to solve the problem
+        if (fList.contains(strfixL.toUtf8().data())) {
+            if (m_pixmapItem != nullptr) {
+                delete m_pixmapItem;
+                m_pixmapItem = nullptr;
+            }
+
+            s->clear();
+            resetTransform();
+            m_movieItem = new GraphicsMovieItem(path);
+            m_movieItem->start();
+            // Make sure item show in center of view after reload
+            setSceneRect(m_movieItem->boundingRect());
+            s->addItem(m_movieItem);
+            QSize image_size = m_movieItem->pixmap().size();
+
+            if ((image_size.width() >= width() ||
+                    image_size.height() >= height()) &&
+                    width() > 0 && height() > 0) {
+                fitWindow();
+            } else {
+                fitImage();
+            }
+
+        } else {
+            m_movieItem = nullptr;
+            qDebug() << "Start cache pixmap: " << path;
+
+            QVariantList vl = cachePixmap(path);
+            if (vl.length() == 2) {
+                //const QString path = vl.first().toString();
+                QPixmap pixmap(path);// = vl.last().value<QPixmap>();
+                pixmap.setDevicePixelRatio(devicePixelRatioF());
+                if (path == m_path) {
+                    if (m_pixmapItem != nullptr) {
+                        delete m_pixmapItem;
+                        m_pixmapItem = nullptr;
+                    }
+                    scene()->clear();
+                    resetTransform();
+                    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+                    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+
+                    setSceneRect(m_pixmapItem->boundingRect());
+                    scene()->addItem(m_pixmapItem);
+
+                    QSize image_size = m_pixmapItem->pixmap().size();
+
+                    if ((image_size.width() >= width() ||
+                            image_size.height() >= height()) &&
+                            width() > 0 && height() > 0) {
+                        fitWindow();
+                    } else {
+                        fitImage();
+                    }
+                    //autoFit();
+                    //emit imageChanged(path);
+                }
+            }
+
+//            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
+//            if (! m_watcher.isRunning()) {
+//                f.waitForFinished();
+//                qDebug() << "Finish cache pixmap: " << path;
+//                m_watcher.setFuture(f);
+
+//                emit hideNavigation();
+//            }
         }
     }
 }

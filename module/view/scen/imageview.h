@@ -62,6 +62,7 @@ public:
     void rotateCounterclockwise();
     void centerOn(int x, int y);
     void setImage(const QString &path);
+    void setImageFirst(const QString &path);
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
@@ -96,6 +97,7 @@ signals:
     void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
+
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);

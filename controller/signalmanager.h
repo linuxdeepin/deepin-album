@@ -160,6 +160,8 @@ signals:
 
     //尝试手动更新查看界面工具栏
     void sigUpdateTTB();
+    //lmh仅仅查看一张图片
+    void sigOpenPicture(QString path);
 private:
     explicit SignalManager(QObject *parent = 0);
 

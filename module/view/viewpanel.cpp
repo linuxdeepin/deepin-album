@@ -48,6 +48,7 @@
 #include <QtConcurrent>
 #include <QFileDialog>
 #include <QPainter>
+#include <QMovie>
 #include <DRecentManager>
 #include <DWidgetUtil>
 #include <QDesktopWidget>
@@ -177,22 +178,87 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::viewImage,
     this, [ = ](const SignalManager::ViewInfo & vinfo) {
         m_vinfo = vinfo;
-        m_currentpath = m_vinfo.path;
-        if (m_vinfo.paths.size() < 1) {
-            m_vinfo.paths << m_vinfo.path;
-        }
-        loadFilesFromLocal(m_vinfo.paths);
-        if (nullptr == m_vinfo.lastPanel) {
+        QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
+        QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
+        if (fList.contains(strfixL.toUtf8().data())||vinfo.fullScreen) {
+
+            m_currentpath = m_vinfo.path;
+            if (m_vinfo.paths.size() < 1) {
+                m_vinfo.paths << m_vinfo.path;
+            }
+            loadFilesFromLocal(m_vinfo.paths);
+            emit dApp->signalM->showImageView(m_vinfo.viewMainWindowID);
+            if (nullptr == m_vinfo.lastPanel) {
+                return false;
+            } else if (m_vinfo.lastPanel->moduleName() == "AlbumPanel" ||
+                       m_vinfo.lastPanel->moduleName() == "ViewPanel") {
+                m_currentImageLastDir = m_vinfo.album;
+                emit viewImageFrom(m_vinfo.album);
+            } else if (m_vinfo.lastPanel->moduleName() == "TimelinePanel") {
+                m_currentImageLastDir = "Timeline";
+                emit viewImageFrom("Timeline");
+            }
             return false;
-        } else if (m_vinfo.lastPanel->moduleName() == "AlbumPanel" ||
-                   m_vinfo.lastPanel->moduleName() == "ViewPanel") {
-            m_currentImageLastDir = m_vinfo.album;
-            emit viewImageFrom(m_vinfo.album);
-        } else if (m_vinfo.lastPanel->moduleName() == "TimelinePanel") {
-            m_currentImageLastDir = "Timeline";
-            emit viewImageFrom("Timeline");
+            //TODO: there will be some others panel
         }
-        return false;
+        else {
+            //LMH0415
+            SignalManager::ViewInfo newinfo=vinfo;
+            newinfo.paths.clear();
+
+            int index=m_vinfo.paths.indexOf(newinfo.path);
+            if(index<0)
+            {
+                return false;
+            }
+            if(index>50){
+                for(int i=index-50;i<index;i++){
+                    newinfo.paths << vinfo.paths[i];
+                }
+            }
+            else{
+                for(int i=0;i<index;i++){
+                    newinfo.paths << vinfo.paths[i];
+                }
+            }
+            if(index+50<vinfo.paths.count()){
+                for(int i=index;i<index+50;i++){
+                    newinfo.paths << vinfo.paths[i];
+                }
+            }
+            else{
+                for(int i=index;i<vinfo.paths.count();i++){
+                    newinfo.paths << vinfo.paths[i];
+                }
+            }
+            m_currentpath = m_vinfo.path;
+            if (newinfo.paths.size() < 1) {
+                newinfo.paths << newinfo.path;
+            }
+            loadFilesFromLocal(newinfo.paths);
+            emit dApp->signalM->showImageView(newinfo.viewMainWindowID);
+            emit dApp->signalM->sigOpenPicture(newinfo.path);
+            QCoreApplication::processEvents();
+
+            m_currentpath = m_vinfo.path;
+            if (m_vinfo.paths.size() < 1) {
+                m_vinfo.paths << m_vinfo.path;
+            }
+            loadFilesFromLocal(m_vinfo.paths);
+            m_currentpath = m_vinfo.path;
+            if (nullptr == m_vinfo.lastPanel) {
+                return false;
+            } else if (m_vinfo.lastPanel->moduleName() == "AlbumPanel" ||
+                       m_vinfo.lastPanel->moduleName() == "ViewPanel") {
+                m_currentImageLastDir = m_vinfo.album;
+                emit viewImageFrom(m_vinfo.album);
+            } else if (m_vinfo.lastPanel->moduleName() == "TimelinePanel") {
+                m_currentImageLastDir = "Timeline";
+                emit viewImageFrom("Timeline");
+            }
+            return false;
+        }
+
         //TODO: there will be some others panel
     });
 
@@ -274,7 +340,7 @@ void ViewPanel::feedBackCurrentIndex(int index, QString path)
     if (m_current >= m_filepathlist.size()) {
         return;
     }
-    openImage(path);
+    openImageFirst(path);
 }
 
 void ViewPanel::showNormal()
@@ -798,10 +864,10 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
-    if (m_dt->isActive()) {
-        return false;
-    }
-    m_dt->start();
+//    if (m_dt->isActive()) {
+//        return false;
+//    }
+//    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
@@ -822,10 +888,10 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
-    if (m_dt->isActive()) {
-        return false;
-    }
-    m_dt->start();
+//    if (m_dt->isActive()) {
+//        return false;
+//    }
+//    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
@@ -991,7 +1057,48 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
 }
+void ViewPanel::openImageFirst(const QString &path, bool inDB)
+{
 
+    m_currentpath = path;
+
+    if (inDB) {
+
+    }
+    m_viewB->setImageFirst(path);
+
+    updateMenuContent();
+
+    if (m_info) {
+        m_info->setImagePath(path);
+    }
+
+    if (!QFileInfo(path).exists()) {
+//        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+        ImageDataSt data;
+        if (ImageEngineApi::instance()->getImageData(path, data))
+            m_emptyWidget->setThumbnailImage(/*dApp->m_imagemap.value(path)*/data.imgpixmap);
+        m_stack->setCurrentIndex(1);
+    } else if (!QFileInfo(path).isReadable()) {
+        m_stack->setCurrentIndex(2);
+    } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+        m_stack->setCurrentIndex(0);
+    } else {
+        m_stack->setCurrentIndex(0);
+
+        // open success.
+        DRecentData data;
+        data.appName = "Deepin Image Viewer";
+        data.appExec = "deepin-image-viewer";
+        DRecentManager::addItem(path, data);
+    }
+    if (inDB) {
+        emit updateTopLeftContentImage(path);
+//        emit updateCollectButton();
+    }
+
+    QTimer::singleShot(100, m_viewB, &ImageView::autoFit);
+}
 void ViewPanel::openImage(const QString &path, bool inDB)
 {
     m_currentpath = path;

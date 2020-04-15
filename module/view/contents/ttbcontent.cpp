@@ -1374,7 +1374,7 @@ void TTBContent::updateScreen()
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_allfileslist.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
@@ -1440,7 +1440,56 @@ void TTBContent::updateScreen()
             }
             m_lastIndex = m_nowIndex;
         }
-    } else {
+    } else if(m_ItemLoaded.size()==1 && m_allfileslist.size()>1)
+    {
+        m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+        m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+
+        m_imgList->setContentsMargins(0, 0, 0, 0);
+
+        auto num = 32;
+
+        m_imgListView->show();
+        if (!binsertneedupdate)
+            return;
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+        if (m_nowIndex > -1) {
+            if (m_nowIndex < labelList.size())
+                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+            if (m_lastIndex > -1) {
+                labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
+                labelList.at(m_lastIndex)->resize(QSize(num, 40));
+                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex);
+            }
+            if (labelList.size() > 0) {
+                labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
+                labelList.at(m_nowIndex)->resize(QSize(58, 58));
+            }
+
+//            m_imgListView->show();
+            m_imgList->show();
+            m_imgListView->update();
+            m_imgList->update();
+            m_preButton->show();
+            m_preButton_spc->show();
+            m_nextButton->show();
+            m_nextButton_spc->show();
+
+
+            if (m_nowIndex == 0) {
+                m_preButton->setDisabled(true);
+            } else {
+                m_preButton->setDisabled(false);
+            }
+            if (m_nowIndex == m_allfileslist.size() - 1) {
+                m_nextButton->setDisabled(true);
+            } else {
+                m_nextButton->setDisabled(false);
+            }
+            m_lastIndex = m_nowIndex;
+        }
+    }
+    else {
         m_imgList->hide();
         m_imgListView->hide();
         m_preButton->hide();
@@ -1839,6 +1888,13 @@ void TTBContent::onResize()
         m_imgListView->show();
     }
     m_imgList->show();
+
+//    if(m_nowIndex==0)
+//        m_preButton->setDisabled(true);
+//    if(m_nowIndex==m_allfileslist.size())
+//        m_nextButton->setDisabled(true);
+
+
     m_windowWidth =  this->window()->geometry().width();
     if (m_ItemLoaded.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;

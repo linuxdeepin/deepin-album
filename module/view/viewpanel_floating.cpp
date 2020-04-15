@@ -152,4 +152,5 @@ void ViewPanel::initNavigation()
     connect(m_viewB, &ImageView::hideNavigation, this, [ = ]() {
         m_nav->setVisible(false);
     });
+
 }
