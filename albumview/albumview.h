@@ -151,6 +151,7 @@ public:
 
     bool imageImported(bool success) override
     {
+        Q_UNUSED(success);
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
@@ -316,6 +317,8 @@ private:
     bool isWaitDialog = true;
     bool isIgnore = true;
     QTimer *m_waitDailog_timer;
+    QThread *m_updateMountViewThread = nullptr;
+    bool isMountThreadRunning = false;
 };
 
 #endif // ALBUMVIEW_H

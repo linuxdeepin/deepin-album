@@ -38,6 +38,7 @@ public:
 
     bool imageImported(bool success) override
     {
+        Q_UNUSED(success);
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
@@ -65,7 +66,7 @@ public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
 
-    QWidget *m_pwidget;
+    DWidget *m_pwidget;
 
     int step;
 

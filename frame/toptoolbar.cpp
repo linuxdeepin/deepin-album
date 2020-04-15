@@ -64,14 +64,11 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     : DBlurEffectWidget(parent)
 {
     m_manager = manager;
-
-    QPalette palette;
-    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
+    DPalette palette;
+    palette.setColor(DPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
     setPalette(palette);
-
     initMenu();
     initWidgets();
-
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -82,17 +79,16 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
         else if (! window()->isFullScreen())  // It would be normal state
             window()->showMaximized();
     }
-
     DBlurEffectWidget::mouseDoubleClickEvent(e);
 }
 
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     QPainter p(this);
-
 //    QPixmap pixmap(":/resources/common/ttb60.svg");
     QPixmap pixmap(":/resources/common/titlebar.svg");
-    const QPalette pal = QGuiApplication::palette();//this->palette();
+    const DPalette pal = QGuiApplication::palette();//this->palette();
 //    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
     QBrush bgColor = QBrush(pixmap.scaled(size().width(), 74));
     QRectF bgRect;
@@ -111,12 +107,12 @@ void TopToolbar::initWidgets()
     m_titlebar = new DTitlebar(this);
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
-    QPalette pa;
-    pa.setColor(QPalette::WindowText, QColor(255, 255, 255, 255));
+    DPalette pa;
+    pa.setColor(DPalette::WindowText, QColor(255, 255, 255, 255));
 //    m_titlebar->setIcon(QIcon::fromTheme("deepin-album").pixmap(QSize(30, 30)));
 
     // TitleBar Img
-    QLabel *pLabel = new QLabel();
+    DLabel *pLabel = new DLabel();
     pLabel->setFixedSize(33, 32);
     QIcon icon = QIcon::fromTheme("deepin-album");
     pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
@@ -124,9 +120,9 @@ void TopToolbar::initWidgets()
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-
-        QPalette pa1;
-        pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+        Q_UNUSED(themeType);
+        DPalette pa1;
+        pa1.setColor(DPalette::ButtonText, QColor(255, 255, 255, 204));
         m_titlebar->setPalette(pa1);
     });
 
@@ -145,9 +141,9 @@ void TopToolbar::initWidgets()
 //    shadowEffect->setBlurRadius(1);
 //    m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt, Qt::AlignCenter);
-    QPalette titleBarPA;
-    titleBarPA.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
-    titleBarPA.setColor(QPalette::WindowText, QColor(255, 255, 255, 255));
+    DPalette titleBarPA;
+    titleBarPA.setColor(DPalette::ButtonText, QColor(255, 255, 255, 204));
+    titleBarPA.setColor(DPalette::WindowText, QColor(255, 255, 255, 255));
     m_titlebar->setPalette(titleBarPA);
     m_titlebar->setBackgroundTransparent(true);
     m_layout->addWidget(m_titlebar);

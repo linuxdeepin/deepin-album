@@ -36,13 +36,13 @@ class ImgInfoDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit ImgInfoDialog(const QString &path, QWidget *parent = 0);
+    explicit ImgInfoDialog(const QString &path, QWidget *parent = nullptr);
     int height();
 private:
     void initUI();
     void setImagePath(const QString &path);
     void updateInfo();
-    void clearLayout(QLayout* layout);
+    void clearLayout(QLayout *layout);
     const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
@@ -56,13 +56,13 @@ private:
     bool m_isBaseInfo = false;
     bool m_isDetailsInfo = false;
     QString m_path;
-    QFrame* m_exif_base = nullptr;
-    QFrame* m_exif_details = nullptr;
-    QFormLayout* m_exifLayout_base = nullptr;
-    QFormLayout* m_exifLayout_details = nullptr;
+    QFrame *m_exif_base = nullptr;
+    QFrame *m_exif_details = nullptr;
+    QFormLayout *m_exifLayout_base = nullptr;
+    QFormLayout *m_exifLayout_details = nullptr;
     QList<DBaseExpand *> m_expandGroup;
     QVBoxLayout *m_mainLayout = nullptr;
-    QScrollArea *m_scrollArea = nullptr;
+    DScrollArea *m_scrollArea = nullptr;
     void keyPressEvent(QKeyEvent *e) override;
 
 signals:

@@ -177,7 +177,7 @@ private slots:
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
     void onTimerOut();
-    void updateImages(const QStringList& path);
+    void updateImages(const QStringList &path);
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
 
@@ -203,12 +203,8 @@ private:
     void onShowImageInfo(const QString &path);
     void initMenuAction();
     DMenu *createAlbumMenu();
-
     void resizeEvent(QResizeEvent *e) override;
-
-
     bool eventFilter(QObject *obj, QEvent *e) override;
-
 public:
     QString m_imageType;
     QStandardItemModel *m_model = nullptr;

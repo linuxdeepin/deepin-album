@@ -83,6 +83,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
     m_pCenterWidget->setFixedSize(size());
 }
 
@@ -118,7 +119,6 @@ void MainWindow::initConnections()
         }
         if (2 == id) {
             albumBtnClicked();
-
             // 如果是最近删除或者移动设备,则搜索框不显示
             if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex()) {
                 m_pSearchEdit->setVisible(false);
@@ -145,7 +145,6 @@ void MainWindow::initConnections()
 #if 1
     connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
-
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
@@ -184,21 +183,15 @@ void MainWindow::initConnections()
             m_waitlabel->show();
             m_waitdailog->show();
         } else {
-
             if (!waittext.compare(tr("Importing..."))) {
-                //            m_waitlabel->setText(waittext);
                 m_bImport = true;
             } else {
-                //            m_waitlabel->setText(waittext);
                 m_bImport = false;
             }
             m_waitlabel->move(40, 7);
             m_waitlabel->setText(waittext);
             m_importBar->show();
             m_waitlabel->show();
-            //        m_countLabel->hide();
-            //        m_spinner->start();
-            //        m_waitdailog.exec();
             m_waitdailog->show();
         }
     });
@@ -274,7 +267,7 @@ void MainWindow::initConnections()
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
         QString str2 = tr("Album “%1” removed");
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -306,7 +299,7 @@ void MainWindow::initConnections()
 
         QString str2 = tr("Successfully added to “%1”");
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -375,7 +368,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Import failed");
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -410,7 +403,7 @@ void MainWindow::initConnections()
         QString str1 = QString::number(successful, 10);
         QString str2 = QString::number(failed, 10);
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -442,7 +435,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export failed");
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -475,7 +468,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -508,7 +501,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export failed");
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -541,7 +534,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
 
-        QWidget *pwidget = new QWidget();
+        DWidget *pwidget = new DWidget();
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -614,7 +607,7 @@ void MainWindow::initConnections()
 //初始化DBus
 void MainWindow::initDBus()
 {
-    m_pDBus =new dbusclient();
+    m_pDBus = new dbusclient();
 }
 
 //初始化快捷键
@@ -808,7 +801,7 @@ void MainWindow::initWaitDialog()
 void MainWindow::initTitleBar()
 {
     // TitleBar Img
-    QLabel *pLabel = new QLabel();
+    DLabel *pLabel = new DLabel();
     pLabel->setFixedSize(33, 32);
 
     QIcon icon = QIcon::fromTheme("deepin-album");
@@ -816,14 +809,14 @@ void MainWindow::initTitleBar()
     pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
 
     QHBoxLayout *pAllTitleLayout = new QHBoxLayout();
-    m_ImgWidget = new QWidget();
+    m_ImgWidget = new DWidget();
 
     pAllTitleLayout->addSpacing(2);
     pAllTitleLayout->addWidget(pLabel);
     m_ImgWidget->setLayout(pAllTitleLayout);
 
     // TitleBar Button
-    m_titleBtnWidget = new QWidget();
+    m_titleBtnWidget = new DWidget();
     btnGroup = new QButtonGroup();
     btnGroup->setExclusive(true);
     QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
@@ -1225,176 +1218,36 @@ void MainWindow::onUpdateAllpicsNumLabel()
 void MainWindow::onImprotBtnClicked()
 {
     static QStringList sList;
-
     for (const QByteArray &i : QImageReader::supportedImageFormats())
         sList << "*." + QString::fromLatin1(i);
-
     QString filter = tr("All Photos");
-
     filter.append('(');
     filter.append(sList.join(" "));
     filter.append(')');
-
     static QString cfgGroupName = QStringLiteral("General"), cfgLastOpenPath = QStringLiteral("LastOpenPath");
     QString pictureFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     QDir existChecker(pictureFolder);
     if (!existChecker.exists()) {
         pictureFolder = QDir::currentPath();
     }
-
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
-
     DFileDialog dialog;
     dialog.setFileMode(DFileDialog::ExistingFiles);
 //    dialog.setAllowMixedSelection(true);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
-
     dialog.setWindowTitle(tr("Import Photos"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {
         return;
     }
-
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
         return;
-
-
+    ImageEngineApi::instance()->SaveImagesCache(file_list);
     ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
-//    QStringList image_list;
-//    foreach (QString path, file_list) {
-//        QFileInfo file(path);
-//        if (file.isDir()) {
-//            image_list << utils::image::checkImage(path);
-//        } else {
-//            image_list << path;
-//        }
-//    }
-
-//    if (image_list.size() < 1) {
-//        emit dApp->signalM->ImportFailed();
-//        return;
-//    }
-//    QFileInfo firstFileInfo(image_list.first());
-//    dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
-
-//    // 判断当前导入路径是否为外接设备
-//    int isMountFlag = 0;
-//    DGioVolumeManager *pvfsManager = new DGioVolumeManager;
-//    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-//    for (auto mount : mounts) {
-//        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-//        QString strPath = LocationFile->path();
-//        if (0 == image_list.first().compare(strPath)) {
-//            isMountFlag = 1;
-//            break;
-//        }
-//    }
-
-//    // 当前导入路径
-//    if (isMountFlag) {
-//        QString strHomePath = QDir::homePath();
-//        //获取系统现在的时间
-//        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-//        QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
-//        QDir dir;
-//        if (!dir.exists(basePath)) {
-//            dir.mkpath(basePath);
-//        }
-
-//        QStringList newImagePaths;
-//        foreach (QString strPath, image_list) {
-//            //取出文件名称
-//            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-//            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
-//            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
-
-//            newImagePaths << strNewPath;
-//            //判断新路径下是否存在目标文件，若存在，下一次张
-//            if (dir.exists(strNewPath)) {
-//                continue;
-//            }
-
-//            // 外接设备图片拷贝到系统
-//            if (QFile::copy(strPath, strNewPath)) {
-
-//            }
-//        }
-
-//        image_list.clear();
-//        image_list = newImagePaths;
-//    }
-
-//    DBImgInfoList dbInfos;
-
-//    using namespace utils::image;
-
-//    for (auto imagePath : image_list) {
-//        if (! imageSupportRead(imagePath)) {
-//            continue;
-//        }
-
-////        // Generate thumbnail and storage into cache dir
-////        if (! utils::image::thumbnailExist(imagePath)) {
-////            // Generate thumbnail failed, do not insert into DB
-////            if (! utils::image::generateThumbnail(imagePath)) {
-////                continue;
-////            }
-////        }
-
-//        QFileInfo fi(imagePath);
-//        using namespace utils::image;
-//        using namespace utils::base;
-//        auto mds = getAllMetaData(imagePath);
-//        QString value = mds.value("DateTimeOriginal");
-////        qDebug() << value;
-//        DBImgInfo dbi;
-//        dbi.fileName = fi.fileName();
-//        dbi.filePath = imagePath;
-//        dbi.dirHash = utils::base::hash(QString());
-//        if ("" != value) {
-//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-//        } else if (fi.birthTime().isValid()) {
-//            dbi.time = fi.birthTime();
-//        } else if (fi.metadataChangeTime().isValid()) {
-//            dbi.time = fi.metadataChangeTime();
-//        } else {
-//            dbi.time = QDateTime::currentDateTime();
-//        }
-//        dbi.changeTime = QDateTime::currentDateTime();
-
-//        dbInfos << dbi;
-//    }
-
-//    if (! dbInfos.isEmpty()) {
-////        if(VIEW_ALBUM == m_iCurrentView)
-////        {
-////            if (COMMON_STR_RECENT_IMPORTED != m_pAlbumview->m_currentAlbum
-////                && COMMON_STR_TRASH != m_pAlbumview->m_currentAlbum
-////                && COMMON_STR_FAVORITES != m_pAlbumview->m_currentAlbum
-////                && ALBUM_PATHTYPE_BY_PHONE !=m_pAlbumview->m_pRightThumbnailList->m_imageType)
-////            {
-////                DBManager::instance()->insertIntoAlbumNoSignal(m_pAlbumview->m_currentAlbum, paths);
-////            }
-////        }
-
-
-//        if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//            m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
-//        }
-
-//        dApp->m_imageloader->ImportImageLoader(dbInfos, m_pAlbumview->m_currentAlbum);
-//    } else {
-//        emit dApp->signalM->ImportFailed();
-//    }
-
-//    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
-//            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-//    }
 }
 
 bool MainWindow::imageImported(bool success)
@@ -1895,7 +1748,7 @@ QJsonObject MainWindow::createShorcutJson()
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    if (QApplication::keyboardModifiers() == Qt::ControlModifier) {
+    if (DApplication::keyboardModifiers() == Qt::ControlModifier) {
         if (event->delta() > 0) {
             thumbnailZoomIn();
         } else {

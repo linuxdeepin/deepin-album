@@ -16,7 +16,7 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
 {
     QModelIndex index = this->indexAt(event->pos());
     if (index.isValid()) {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)this->itemWidget(this->item(index.row()));
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(this->itemWidget(this->item(index.row())));
         QString leftTabListName = item->m_albumNameStr;
         QString leftTabListType = item->m_albumTypeStr;
         // qDebug()<<"leftTabListName: "<<leftTabListName<<" ;leftTabListType: "<<leftTabListType;

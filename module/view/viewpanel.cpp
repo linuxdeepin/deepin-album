@@ -264,7 +264,7 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
 
 void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-
+    Q_UNUSED(theme);
 }
 
 void ViewPanel::feedBackCurrentIndex(int index, QString path)
@@ -295,7 +295,6 @@ void ViewPanel::showNormal()
 void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
-
     //加入显示动画效果，以透明度0-1显示，动态加载，视觉效果掩盖左上角展开
     QPropertyAnimation *animation = new QPropertyAnimation(window(), "windowOpacity");
     animation->setDuration(50);
@@ -303,9 +302,7 @@ void ViewPanel::showFullScreen()
     animation->setStartValue(0);
     animation->setEndValue(1);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
-
     window()->showFullScreen();
-
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }
@@ -430,7 +427,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
     } else {
         m_ttbc->setImage("");
     }
-
     connect(m_ttbc, &TTBContent::ttbcontentClicked, this, [ = ] {
         if (0 != m_iSlideShowTimerId)
         {
@@ -454,8 +450,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
         rotateImage(false);
     });
     connect(m_ttbc, &TTBContent::removed, this, [ = ] {
-
-
 //        SignalManager::instance()->deleteByMenu();
         if (COMMON_STR_TRASH == m_vinfo.viewType)
         {
@@ -471,14 +465,12 @@ QWidget *ViewPanel::bottomTopLeftContent()
         {
             DBImgInfoList infos;
             DBImgInfo info;
-
             info = DBManager::instance()->getInfoByPath(m_currentpath);
 #if 1
 //            info.time = QDateTime::currentDateTime();
             info.changeTime = QDateTime::currentDateTime();
 #endif
             infos << info;
-
 //            dApp->m_imageloader->addTrashImageLoader(QStringList(m_currentpath));
 //            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->insertTrashImgInfos(infos);
@@ -531,17 +523,13 @@ QWidget *ViewPanel::extensionPanelContent()
 {
     QWidget *w = new QWidget;
     w->setAttribute(Qt::WA_TranslucentBackground);
-
     QVBoxLayout *l = new QVBoxLayout(w);
     l->setContentsMargins(0, 0, 0, 0);
-
     if (! m_info) {
         m_info = new ImageInfoWidget("", "");
     }
-
     l->addSpacing(0);
     l->addWidget(m_info);
-
     return w;
 }
 
@@ -556,7 +544,6 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
     if (e->type() == QEvent::HideToParent) {
         m_viewB->clear();
     }
-
     if (e->type() == QEvent::Resize && this->isVisible()) {
 //        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
 //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
@@ -578,18 +565,15 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
     ModulePanel::resizeEvent(e);
-
     // There will be several times the size change during switch to full process
     // So correct it every times
     if (window()->isFullScreen()) {
         Q_EMIT dApp->signalM->hideExtensionPanel(true);
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
-
     if (!window()->isFullScreen()) {
         m_isMaximized = window()->isMaximized();
     }
-
 //    if (window()->isMaximized()) {
 //        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
 //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
@@ -678,9 +662,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     if (m_vinfo.fullScreen) {
 //        m_isMaximized = m_vinfo.fullScreen;
         showFullScreen();
-
     }
-
     if (m_vinfo.slideShow) {
         m_iSlideShowTimerId = startTimer(3000);
     } else {
@@ -689,9 +671,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
             m_iSlideShowTimerId = 0;
         }
     }
-
     emit dApp->signalM->gotoPanel(this);
-
     m_current = -1;
     m_filepathlist = vinfo;
     // The control buttons is difference
@@ -723,7 +703,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
 
     QWidget *pttbc = bottomTopLeftContent();
     emit dApp->signalM->updateBottomToolbarContent(pttbc, (vinfo.size() > 1));
-    emit((TTBContent *)pttbc)->sigRequestSomeImages();
+    emit dynamic_cast<TTBContent *>(pttbc)->sigRequestSomeImages();
 }
 
 //void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -866,10 +846,10 @@ bool ViewPanel::showNext()
 }
 bool ViewPanel::showImage(int index, int addindex)
 {
+    Q_UNUSED(addindex);
     if (m_filepathlist.isEmpty()) {
         return false;
     }
-
     m_current = index;
 
     openImage(m_ttbc->getIndexPath(m_current), m_vinfo.inDatabase);
@@ -901,7 +881,7 @@ void ViewPanel::removeCurrentImage()
 
         QWidget *pttbc = bottomTopLeftContent();
         emit dApp->signalM->updateBottomToolbarContent(pttbc, (m_filepathlist.size() > 1));
-        emit((TTBContent *)pttbc)->sigRequestSomeImages();
+        emit dynamic_cast<TTBContent *>(pttbc)->sigRequestSomeImages();
     } else {
         m_vinfo.paths = m_filepathlist;
         m_vinfo.path = m_filepathlist[m_current];
@@ -926,7 +906,7 @@ void ViewPanel::viewOnNewProcess(const QStringList &paths)
 
 void ViewPanel::initStack()
 {
-    m_stack = new QStackedWidget;
+    m_stack = new DStackedWidget;
     m_stack->setMouseTracking(true);
     m_stack->setContentsMargins(0, 0, 0, 0);
 

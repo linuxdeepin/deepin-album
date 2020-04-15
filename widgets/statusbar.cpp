@@ -91,6 +91,7 @@ void StatusBar::initConnections()
         }
     });
     connect(dApp->signalM, &SignalManager::sigExporting, this, [ = ](QString path) {
+        Q_UNUSED(path);
         if (isVisible()) {
             m_pStackedWidget->setCurrentIndex(0);
         }
@@ -99,6 +100,7 @@ void StatusBar::initConnections()
 
 void StatusBar::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
     m_pSlider->move(width() - 214, -1);
 }
 

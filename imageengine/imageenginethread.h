@@ -227,4 +227,18 @@ private:
     int m_degree;
 };
 
+class ImageCacheQueuePopThread : public QRunnable
+{
+public:
+    ImageCacheQueuePopThread();
+    void setObject(ImageCacheSaveObject *obj)
+    {
+        m_obj = obj;
+    }
+    void saveCache(QString m_path);
+protected:
+    void run() override;
+    ImageCacheSaveObject *m_obj;
+};
+
 #endif // IMAGEENGINETHREAD_H

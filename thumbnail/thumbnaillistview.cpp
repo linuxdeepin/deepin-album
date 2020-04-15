@@ -151,6 +151,7 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 
 void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 {
+    Q_UNUSED(supportedActions);
     qDebug() << "ThumbnailListView::startDrag()";
 //        m_dragItemPath = selectedPaths();
     //    qDebug() << m_dragItemPath;
@@ -318,7 +319,6 @@ void ThumbnailListView::calBasePixMap(ItemInfo &info)
             info.height = m_iBaseHeight;
         }
     }
-
     info.imgHeight = info.height;
     info.imgWidth = info.width;
     info.imgHeight = (1 > info.imgHeight) ? 1 : info.imgHeight;
@@ -1375,7 +1375,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
                 connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
                 connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
                 imgSVGThread->start();
-            }else {
+            } else {
                 utils::image::rotate(path, 90);
             }
         }
@@ -1554,57 +1554,8 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-////    QMutexLocker mutex(&m_mutex);
-////    if (COMMON_STR_RECENT_IMPORTED == m_imageType) {
-////        int a = 0;
-////    }
-////    if (0 == m_iDefaultWidth) {
-////        calBasePixMapWandH();
-////        calWidgetItemWandH();
-////        addThumbnailView();
-////    } else {
-//    if (nullptr == m_item) {
-//        QScrollBar *bar = this->verticalScrollBar();
-//        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
-//    }
-//    calWidgetItemWandH();
-//    addThumbnailView();
-////        updateThumbnailView();
-////}
-////    emit loadend((m_height)*m_gridItem.size()+15);
-////    emit loadend(m_height + 15);
-////    emit needResize(m_height + 15);
-//    sendNeedResize();
-
-
-//    m_iDefaultWidth = width();
-
-//    if (nullptr != m_item) {
-////        if (this->maximumHeight() < (m_height + 27 + 8)) {
-////            this->setMaximumHeight(m_height + 27 + 8);
-////        } else if (this->minimumHeight() > (m_height + 27 + 8)) {
-////            this->setMinimumHeight(m_height + 27 + 8);
-////        }
-////        this->setMaximumHeight(m_height + 27 + 8);
-//        m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
-//        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-////        this->setMinimumHeight(m_height + 27 + 8);
-//    }
-////    QListView::resizeEvent(e);
-
-
-
-////    newwidth = e->size().width();
-//    if (m_dtresizeevent->isActive()) {
-////        m_delegate->setNeedPaint(false);
-////        if (lastwidth > 0)
-////            this->setFixedWidth(lastwidth);
-//        bneedresize = true;
-//        return;
-//    }
-//    m_dtresizeevent->start();
+    Q_UNUSED(e);
     resizeEventF();
-//    bneedresize = false;
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
@@ -1626,14 +1577,14 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
             }
         } else {
             if (keyEvent->key() == Qt::Key_PageDown) {
-                QScrollBar *vb = this->verticalScrollBar();
+                DScrollBar *vb = this->verticalScrollBar();
                 int posValue = vb->value();
                 posValue += this->height();
                 vb->setValue(posValue);
 
                 return true;
             } else if (keyEvent->key() == Qt::Key_PageUp) {
-                QScrollBar *vb = this->verticalScrollBar();
+                DScrollBar *vb = this->verticalScrollBar();
                 int posValue = vb->value();
                 posValue -= this->height();
                 vb->setValue(posValue);
@@ -1730,7 +1681,7 @@ void ThumbnailListView::onTimerOut()
     bneedsendresize = false;
 }
 
-void ThumbnailListView::updateImages(const QStringList& path)
+void ThumbnailListView::updateImages(const QStringList &path)
 {
     dApp->m_imageloader->updateImageLoader(path);
 }
@@ -1769,33 +1720,17 @@ void ThumbnailListView::resizeEventF()
 //        lastwidth = newwidth;
 //    }
     if (nullptr == m_item) {
-        QScrollBar *bar = this->verticalScrollBar();
+        DScrollBar *bar = this->verticalScrollBar();
         bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
     }
     calWidgetItemWandH();
     addThumbnailView();
-//        updateThumbnailView();
-//}
-//    emit loadend((m_height)*m_gridItem.size()+15);
-//    emit loadend(m_height + 15);
-//    emit needResize(m_height + 15);
     sendNeedResize();
-
-
     m_iDefaultWidth = width();
-
     if (nullptr != m_item) {
-//        if (this->maximumHeight() < (m_height + 27 + 8)) {
-//            this->setMaximumHeight(m_height + 27 + 8);
-//        } else if (this->minimumHeight() > (m_height + 27 + 8)) {
-//            this->setMinimumHeight(m_height + 27 + 8);
-//        }
-//        this->setMaximumHeight(m_height + 27 + 8);
         m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
         this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-//        this->setMinimumHeight(m_height + 27 + 8);
     }
-//    lastwidth = this->width();
 }
 
 

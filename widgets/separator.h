@@ -24,7 +24,7 @@ class Separator : public QLabel
 {
     Q_OBJECT
 public:
-    explicit Separator(QWidget *parent = 0);
+    explicit Separator(QWidget *parent = nullptr);
 };
 
 #endif // SEPARATOR_H

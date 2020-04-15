@@ -24,7 +24,7 @@ class Tooltip : public QLabel
 {
     Q_OBJECT
 public:
-    explicit Tooltip(QWidget *parent = 0);
+    explicit Tooltip(QWidget *parent = nullptr);
 
 private:
     void initStyleSheet();

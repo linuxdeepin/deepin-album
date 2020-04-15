@@ -138,7 +138,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 
     if (e->type() == QEvent::MouseButtonPress) {
         bmouseleftpressed = true;
-        QMouseEvent *mouseEvent = (QMouseEvent *)e;
+        QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         m_prepoint = mouseEvent->globalPos();
         qDebug() << "m_prepoint:" << m_prepoint;
     }
@@ -152,11 +152,11 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         emit mouseLeftReleased();
     }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
-        QMouseEvent *mouseEvent = (QMouseEvent *)e;
+        QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         QPoint p = mouseEvent->globalPos();
-        ((DWidget *)m_obj)->move(((DWidget *)m_obj)->x() + p.x() - m_prepoint.x(), ((DWidget *)m_obj)->y());
+        dynamic_cast<DWidget *>(m_obj)->move((dynamic_cast<DWidget *>(m_obj))->x() + p.x() - m_prepoint.x(), ((dynamic_cast<DWidget *>(m_obj))->y()));
         m_prepoint = p;
-        if ((((DWidget *)m_obj)->width() + ((DWidget *)m_obj)->x() - this->width() - 30) < 0) {
+        if ((dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x() - this->width() - 30) < 0) {
             emit needContinueRequest();
         } else {
             emit silmoved();
@@ -204,11 +204,13 @@ void ImageItem::setPic(QPixmap pixmap)
 
 void ImageItem::mouseReleaseEvent(QMouseEvent *ev)
 {
+    Q_UNUSED(ev);
     bmouserelease = true;
 }
 
 void ImageItem::mousePressEvent(QMouseEvent *ev)
 {
+    Q_UNUSED(ev);
     bmouserelease = false;
     QEventLoop loop;
     QTimer::singleShot(200, &loop, SLOT(quit()));
@@ -219,6 +221,7 @@ void ImageItem::mousePressEvent(QMouseEvent *ev)
 
 void ImageItem::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     QPainter painter(this);
 //        painter.drawPixmap(rect(),QPixmap(_path).scaled(60,50));
 
@@ -620,8 +623,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     }
 //    qDebug()<<"init:m_imgListView.width=============="<<m_imgListView->width();
 //    m_imgListView->hide();
-    QPalette palette ;
-    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
+    DPalette palette ;
+    palette.setColor(DPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
     m_imgList->setPalette(palette);
     m_imgListView->setPalette(palette);
     hb->addWidget(m_imgListView);
@@ -1518,9 +1521,9 @@ void TTBContent::reLoad()
     }
     m_allNeedRequestFilesCount = m_allfileslist.size();
     QLayoutItem *child;
-    while ((child = m_imglayout->takeAt(0)) != 0) {
+    while ((child = m_imglayout->takeAt(0)) != nullptr) {
         m_imglayout->removeWidget(child->widget());
-        child->widget()->setParent(0);
+        child->widget()->setParent(nullptr);
         delete child;
 
     }
@@ -1535,9 +1538,9 @@ void TTBContent::stopLoadAndClear()
     m_allfileslist.clear();
 
     QLayoutItem *child;
-    while ((child = m_imglayout->takeAt(0)) != 0) {
+    while ((child = m_imglayout->takeAt(0)) != nullptr) {
         m_imglayout->removeWidget(child->widget());
-        child->widget()->setParent(0);
+        child->widget()->setParent(nullptr);
         delete child;
 
     }
@@ -1698,7 +1701,7 @@ void TTBContent::updateFilenameLayout()
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-
+    Q_UNUSED(theme);
 }
 
 void TTBContent::setCurrentDir(QString text)
@@ -1810,32 +1813,16 @@ void TTBContent::updateCollectButton()
     if (m_currentpath.isEmpty()) {
         return;
     }
-
     if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
-
         m_clBT->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_clBT->setIconSize(QSize(36, 36));
         m_bClBTChecked = true;
     } else {
         m_clBT->setToolTip(tr("Favorite"));
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//        if (themeType == DGuiApplicationHelper::LightType) {
-//            m_clBT->setIcon(QIcon::fromTheme("dcc_ncollection"));
-//        } else if (themeType == DGuiApplicationHelper::DarkType) {
+        Q_UNUSED(themeType);
         m_clBT->setIcon(QIcon::fromTheme("dcc_collection_normal"));
-//        }
-//        connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_clBT, [ = ] {
-//            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//            if (themeType == DGuiApplicationHelper::LightType)
-//            {
-//                m_clBT->setIcon(QIcon::fromTheme("dcc_ncollection"));
-//            } else if (themeType == DGuiApplicationHelper::DarkType)
-//            {
-//                m_clBT->setIcon(QIcon::fromTheme("dcc_collection_normal"));
-//            }
-//        });
-
         m_clBT->setIconSize(QSize(36, 36));
         m_bClBTChecked = false;
     }
@@ -1843,34 +1830,15 @@ void TTBContent::updateCollectButton()
 
 void TTBContent::onResize()
 {
-
     if (m_ItemLoaded.size() > 3) {
         m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT);
         m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT);
-
-//            qDebug()<<"setImage:m_imgList.width=============="<<m_imgList->width();
-//            qDebug()<<"setImage:m_imgListView.width=============="<<m_imgListView->width();
-
-//        m_imgList->setContentsMargins(0, 0, 0, 0);
-//        m_imgList->show();
-//        m_imgListView->show();
     } else if (m_ItemLoaded.size() > 1) {
         m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
         m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
-
-//        m_imgList->setContentsMargins(0, 0, 0, 0);
-
-//        int i = 0;
         m_imgListView->show();
     }
-
-
-
     m_imgList->show();
-//    m_imgListView->show();
-
-//    qDebug() << "onResize";
-
     m_windowWidth =  this->window()->geometry().width();
     if (m_ItemLoaded.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;

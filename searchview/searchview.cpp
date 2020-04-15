@@ -20,6 +20,7 @@ SlideShowButton::SlideShowButton(DWidget *parent) :
 
 void SlideShowButton::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     QColor disablecolor, raisedcolor, disraisedcolor, textcolor, pressedcolor;
     textcolor = QColor(255, 255, 255);
@@ -69,14 +70,15 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
 }
 
 void SlideShowButton::enterEvent(QEvent *e)
-
 {
+    Q_UNUSED(e);
     israised = false;
     repaint();     //重新绘制按钮
 }
 
 void SlideShowButton::leaveEvent(QEvent *e)
 {
+    Q_UNUSED(e);
     israised = true;
     repaint();
 }

@@ -37,6 +37,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
     //m_qtpool.setExpiryTimeout(100);
+    cacheThreadPool.setMaxThreadCount(10);
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -139,12 +140,12 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
         return false;
     }
     ImageDataSt data = it.value();
-    ((ImageEngineObject *)obj)->addCheckPath(imagepath);
+    dynamic_cast<ImageEngineObject *>(obj)->addCheckPath(imagepath);
     if (ImageLoadStatu_Loaded == data.loaded) {
-        ((ImageEngineObject *)obj)->checkAndReturnPath(imagepath);
+        dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
     } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread) {
-        obj->addThread((ImageEngineThreadObject *)data.thread);
-        ((ImageEngineThread *)data.thread)->addObject(obj);
+        obj->addThread(dynamic_cast<ImageEngineThreadObject *>(data.thread));
+        dynamic_cast<ImageEngineThread *>(data.thread)->addObject(obj);
     } else {
         ImageEngineThread *imagethread = new ImageEngineThread;
         connect(imagethread, &ImageEngineThread::sigImageLoaded, this, &ImageEngineApi::sltImageLoaded);
@@ -175,7 +176,7 @@ bool ImageEngineApi::imageNeedReload(QString imagepath)
 void ImageEngineApi::sltAborted(QString path)
 {
     removeImage(path);
-    ImageEngineThread *thread = (ImageEngineThread *)sender();
+    ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
     if (nullptr != thread)
         thread->needStop(nullptr);
 }
@@ -183,39 +184,39 @@ void ImageEngineApi::sltAborted(QString path)
 void ImageEngineApi::sltImageLoaded(void *imgobject, QString path, ImageDataSt &data)
 {
     m_AllImageData[path] = data;
-    ImageEngineThread *thread = (ImageEngineThread *)sender();
+    ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
     if (nullptr != thread)
         thread->needStop(imgobject);
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        ((ImageEngineObject *)imgobject)->checkAndReturnPath(path);
+        static_cast<ImageEngineObject *>(imgobject)->checkAndReturnPath(path);
     }
 }
 
 void ImageEngineApi::sltImageLocalLoaded(void *imgobject, QStringList &filelist)
 {
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        ((ImageEngineObject *)imgobject)->imageLocalLoaded(filelist);
+        static_cast<ImageEngineObject *>(imgobject)->imageLocalLoaded(filelist);
     }
 }
 
 void ImageEngineApi::sltImageDBLoaded(void *imgobject, QStringList &filelist)
 {
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        ((ImageEngineObject *)imgobject)->imageFromDBLoaded(filelist);
+        static_cast<ImageEngineObject *>(imgobject)->imageFromDBLoaded(filelist);
     }
 }
 
 void ImageEngineApi::sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path)
 {
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        ((ImageMountGetPathsObject *)imgobject)->imageGeted(filelist, path);
+        static_cast<ImageMountGetPathsObject *>(imgobject)->imageGeted(filelist, path);
     }
 }
 
 void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelist)
 {
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        ((ImageMountImportPathsObject *)imgobject)->imageMountImported(filelist);
+        static_cast<ImageMountImportPathsObject *>(imgobject)->imageMountImported(filelist);
     }
 }
 
@@ -284,6 +285,29 @@ bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, Imag
     imagethread->setData(type, obj, name);
     obj->addThread(imagethread);
     m_qtpool.start(imagethread);
+    return true;
+}
+
+bool ImageEngineApi::SaveImagesCache(QStringList files)
+{
+    if (!m_imageCacheSaveobj) {
+        m_imageCacheSaveobj = new ImageCacheSaveObject;
+    }
+    m_imageCacheSaveobj->add(files);
+    int coreCounts = static_cast<int>(std::thread::hardware_concurrency());
+    if (coreCounts * 200 > files.size()) {
+        if (files.empty()) {
+            coreCounts = 0;
+        } else {
+            coreCounts = (files.size() / 200) + 1 - cacheThreadPool.activeThreadCount();
+        }
+    }
+    for (int i = 0; i < coreCounts; i++) {
+        ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
+        thread->setObject(m_imageCacheSaveobj);
+        cacheThreadPool.start(thread);
+        qDebug() << "current Threads:" << cacheThreadPool.activeThreadCount();
+    }
     return true;
 }
 

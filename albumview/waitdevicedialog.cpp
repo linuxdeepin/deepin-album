@@ -47,5 +47,5 @@ void Waitdevicedialog::closeEvent(QCloseEvent *event)
 
 void Waitdevicedialog::moveEvent(QMoveEvent *event)
 {
-
+    Q_UNUSED(event);
 }

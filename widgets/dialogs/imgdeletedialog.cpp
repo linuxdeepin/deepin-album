@@ -11,7 +11,6 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
     setModal(true);
     this->setFixedSize(380, 180);
     setContentsMargins(0, 0, 0, 0);
-
     DLabel *m_pic = new DLabel(this);
     QIcon icon = QIcon::fromTheme("deepin-album");     //照片路径
     m_pic->setPixmap(icon.pixmap(QSize(32, 32)));  //图标大小

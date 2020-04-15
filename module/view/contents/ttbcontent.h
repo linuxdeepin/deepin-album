@@ -57,7 +57,7 @@ class MyImageListWidget : public DWidget
 {
     Q_OBJECT
 public:
-    MyImageListWidget(QWidget *parent = 0);
+    MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
     void setObj(QObject *obj);
 protected:

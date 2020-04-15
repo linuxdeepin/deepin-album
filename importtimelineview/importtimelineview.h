@@ -24,13 +24,14 @@ class ImportTimeLineView : public DWidget, public ImageEngineImportObject
     Q_OBJECT
 public:
     ImportTimeLineView(DWidget *parent);
-    ~ImportTimeLineView()
+    ~ImportTimeLineView() override
     {
         void clearAndStop();
     }
 
     bool imageImported(bool success) override
     {
+        Q_UNUSED(success);
         emit dApp->signalM->closeWaitDialog();
         return true;
     }

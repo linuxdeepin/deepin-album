@@ -47,8 +47,8 @@ class ImageView : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL };
 
-    ImageView(QWidget *parent = 0);
-    ~ImageView()
+    ImageView(QWidget *parent = nullptr);
+    ~ImageView() override
     {
         if (m_pixmapItem != nullptr) {
             delete m_pixmapItem;
@@ -122,7 +122,7 @@ private slots:
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
     void swipeTriggered(QSwipeGesture *gesture);
-    void updateImages(const QStringList& path);
+    void updateImages(const QStringList &path);
 private:
     bool m_isFitImage = false;
     bool m_isFitWindow = false;

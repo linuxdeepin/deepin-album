@@ -109,4 +109,20 @@ protected:
     QMutex m_mutexthread;
 };
 
+//这是一个用于生成缓存的队列
+class ImageCacheSaveObject : public QObject
+{
+public:
+    ImageCacheSaveObject();
+//void setData(QStringList paths);
+    bool add(const QStringList pahts);
+    bool add(const QString path);
+    QString pop();
+    bool isEmpty();
+private:
+    QList<QString> requestQueue;
+    QMutex m_queuqMutex;
+};
+
+
 #endif // IMAGEENGINEOBJECT_H

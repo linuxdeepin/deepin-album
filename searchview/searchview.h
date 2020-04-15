@@ -34,7 +34,7 @@ class SlideShowButton : public DPushButton
 {
     Q_OBJECT
 public:
-    explicit SlideShowButton(DWidget *parent = 0);
+    explicit SlideShowButton(DWidget *parent = nullptr);
     void mSetText(QString text);
 protected:
     void paintEvent(QPaintEvent *event) override;

@@ -149,7 +149,7 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
     }
 
     for (int i = 1; i < m_mainListWidget->count(); i++) {
-        TimelineItem *item = (TimelineItem *)m_mainListWidget->itemWidget(m_mainListWidget->item(i));
+        TimelineItem *item = dynamic_cast<TimelineItem *>(m_mainListWidget->itemWidget(m_mainListWidget->item(i)));
         QList<DLabel *> pLabelList = item->findChildren<DLabel *>();
         DPalette color = DApplicationHelper::instance()->palette(pLabelList[0]);
         color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
@@ -272,15 +272,14 @@ void TimeLineView::initTimeLineViewWidget()
         {
             pSuspensionChose->setText(QObject::tr("Select"));
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-            if(p.size() > 0)
-            {
+            if (p.size() > 0) {
                 p[0]->clearSelection();
                 updatePicNum();
             }
         }
 #if 1
         QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-        if(b.size() > 0)
+        if (b.size() > 0)
             b[0]->setText(pSuspensionChose->text());
 #endif
     });
@@ -1321,6 +1320,7 @@ void TimeLineView::on_KeyEvent(int key)
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
+    Q_UNUSED(ev);
     m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
     m_dateItem->setFixedSize(width() - 15, 87);
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
@@ -1485,7 +1485,7 @@ void TimeLineView::dragMoveEvent(QDragMoveEvent *event)
 
 void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
-
+    Q_UNUSED(e);
 }
 
 void TimeLineView::keyPressEvent(QKeyEvent *e)

@@ -77,11 +77,9 @@ QVariantList cachePixmap(const QString &path)
         } else {
             qWarning() << "can't read image:" << readerF.errorString()
                        << format;
-
             tImg = QImage(path);
         }
     }
-
     QPixmap p = QPixmap::fromImage(tImg);
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
@@ -148,7 +146,6 @@ ImageView::ImageView(QWidget *parent)
             m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
         }
         update();
-
     });
 }
 
@@ -218,7 +215,6 @@ void ImageView::setImage(const QString &path)
             setSceneRect(m_movieItem->boundingRect());
             s->addItem(m_movieItem);
             emit imageChanged(path);
-
         } else {
             m_movieItem = nullptr;
             qDebug() << "Start cache pixmap: " << path;
@@ -227,7 +223,6 @@ void ImageView::setImage(const QString &path)
                 f.waitForFinished();
                 qDebug() << "Finish cache pixmap: " << path;
                 m_watcher.setFuture(f);
-
                 emit hideNavigation();
             }
         }
@@ -291,9 +286,7 @@ void ImageView::autoFit()
         return;
     if (image().isNull())
         return;
-
     QSize image_size = image().size();
-
     if ((image_size.width() >= width() ||
             image_size.height() >= height()) &&
             width() > 0 && height() > 0) {
@@ -671,7 +664,7 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 
 }
 
-void ImageView::updateImages(const QStringList& path)
+void ImageView::updateImages(const QStringList &path)
 {
     dApp->m_imageloader->updateImageLoader(path);
     //等待svg图片转换完成后在加载

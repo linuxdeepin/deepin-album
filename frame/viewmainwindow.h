@@ -31,13 +31,15 @@
 DWIDGET_USE_NAMESPACE
 
 #ifndef LITE_DIV
-class Worker : public QObject {
+class Worker : public QObject
+{
     Q_OBJECT
 public:
     Worker() {}
-    ~Worker(){}
+    ~Worker() {}
 public slots:
-    void initRec() {
+    void initRec()
+    {
         DBManager::instance();
 //        Exporter::instance();
         Importer::instance();
@@ -51,7 +53,7 @@ class ViewMainWindow : public  DMainWindow
 public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
-    ViewMainWindow(bool manager, QWidget *parent=0);
+    ViewMainWindow(bool manager, QWidget *parent = nullptr);
 
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 protected:

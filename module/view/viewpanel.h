@@ -47,7 +47,7 @@ class ViewPanel : public ModulePanel, public ImageEngineObject
 {
     Q_OBJECT
 public:
-    explicit ViewPanel(QWidget *parent = 0);
+    explicit ViewPanel(QWidget *parent = nullptr);
     ~ViewPanel() Q_DECL_OVERRIDE;
 
     QString moduleName() Q_DECL_OVERRIDE;
@@ -122,7 +122,7 @@ private:
     // Menu control
     void appendAction(int id, const QString &text, const QString &shortcut = "");
     void appendAction_darkmenu(int id, const QString &text, const QString &shortcut = "");
-    QMenu *createAblumMenu();
+    DMenu *createAblumMenu();
 #ifndef LITE_DIV
     DMenu *createAlbumMenu();
 #endif
@@ -173,7 +173,7 @@ private:
     ImageInfoWidget *m_info;
     ThumbnailWidget *m_emptyWidget = nullptr;
     DMenu *m_menu;
-    QStackedWidget *m_stack;
+    DStackedWidget *m_stack;
     LockWidget *m_lockWidget;
 
     // Floating component

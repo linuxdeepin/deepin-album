@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QUrl>
 #include "imageenginethread.h"
+#include "imageengineobject.h"
 #include "thumbnail/thumbnaildelegate.h"
 
 //加载图片的频率
@@ -32,6 +33,7 @@ public:
     bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
+    bool SaveImagesCache(QStringList files);
 
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
@@ -55,6 +57,8 @@ private:
     QMap<void *, void *>m_AllObject;
     QThreadPool m_qtpool;
     static ImageEngineApi *s_ImageEngine;
+    ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
+    QThreadPool cacheThreadPool;
 };
 
 #endif // IMAGEENGINEAPI_H

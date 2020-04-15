@@ -49,7 +49,7 @@ void LeftListView::initConnections()
 
         if (m_pCustomizeListView->currentItem())
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
             item->newAlbumStatus();
 
             m_ItemCurrentName = item->m_albumNameStr;
@@ -71,7 +71,7 @@ void LeftListView::initConnections()
 
         if (m_pMountListView->currentItem())
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
             item->newAlbumStatus();
 
             m_ItemCurrentName = item->m_albumNameStr;
@@ -94,7 +94,7 @@ void LeftListView::initConnections()
 
         if (m_pPhotoLibListView->currentItem())
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
 
             if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
@@ -121,7 +121,7 @@ void LeftListView::initConnections()
             updateAlbumItemsColor();
 
             if (m_pCustomizeListView->currentItem()) {
-                AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+                AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
                 item->newAlbumStatus();
 
                 m_ItemCurrentName = item->m_albumNameStr;
@@ -142,7 +142,7 @@ void LeftListView::initConnections()
             updateAlbumItemsColor();
 
             if (m_pMountListView->currentItem()) {
-                AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
+                AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
                 item->newAlbumStatus();
 
                 m_ItemCurrentName = item->m_albumNameStr;
@@ -161,27 +161,27 @@ void LeftListView::initConnections()
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
         if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
         }
         if (COMMON_STR_TRASH == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
         }
         if (COMMON_STR_FAVORITES == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
         }
         if (COMMON_STR_CUSTOM == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
             item->newAlbumStatus();
         }
         if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
             item->newAlbumStatus();
         }
     });
@@ -586,7 +586,7 @@ void LeftListView::onMenuClicked(QAction *action)
         m_pCustomizeListView->setCurrentRow(m_pCustomizeListView->currentRow() + 1);
 
 
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
 
@@ -594,7 +594,7 @@ void LeftListView::onMenuClicked(QAction *action)
     }
     break;
     case IdRenameAlbum: {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
 
         item->m_opeMode = OPE_MODE_RENAMEALBUM;
         item->editAlbumEdit();
@@ -607,7 +607,7 @@ void LeftListView::onMenuClicked(QAction *action)
     case IdDeleteAlbum: {
         QString str;
         QListWidgetItem *item = m_pCustomizeListView->currentItem();
-        AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(item);
+        AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(item));
 
         str = pTabItem->m_albumNameStr;
         DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
@@ -644,7 +644,7 @@ void LeftListView::onMountListView(QModelIndex index)
     updateAlbumItemsColor();
 
     if (m_pPhotoLibListView->currentItem()) {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
         item->newAlbumStatus();
 
         if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
@@ -674,7 +674,7 @@ QString LeftListView::getNewAlbumName()
         num++;
         albumName = nan + QString::number(num);
     }
-    return (const QString)(albumName);
+    return albumName;
 }
 
 QString LeftListView::getItemCurrentName()
@@ -690,21 +690,21 @@ QString LeftListView::getItemCurrentType()
 void LeftListView::updateAlbumItemsColor()
 {
     for (int i = 0; i < m_pPhotoLibListView->count(); i++) {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->item(i));
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->item(i)));
         item->oriAlbumStatus();
     }
 
     if (0 < m_pCustomizeListView->count()) {
         for (int i = 0; i < m_pCustomizeListView->count(); i++) {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->item(i));
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->item(i)));
             item->oriAlbumStatus();
         }
     }
 
     if (0 < m_pMountListView->count()) {
         for (int i = 0; i < m_pMountListView->count(); i++) {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->item(i));
-            if(item)
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->item(i)));
+            if (item)
                 item->oriAlbumStatus();
         }
     }

@@ -32,7 +32,6 @@
 #include <DSuggestButton>
 #include <DProgressBar>
 
-
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
 #define MIX_WINDOWS_WIDTH       1300
@@ -123,8 +122,8 @@ private:
     bool m_bTitleMenuImportClicked;
     bool m_bImport = false;
 
-    QWidget *m_titleBtnWidget;
-    QWidget *m_ImgWidget;
+    DWidget *m_titleBtnWidget;
+    DWidget *m_ImgWidget;
     DMenu *m_pTitleBarMenu;
 //    DPushButton* m_pAllPicBtn;
 //    DPushButton* m_pTimeLineBtn;

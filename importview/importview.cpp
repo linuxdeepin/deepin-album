@@ -273,7 +273,7 @@ void ImportView::dragMoveEvent(QDragMoveEvent *event)
 
 void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
 {
-
+    Q_UNUSED(e);
 }
 
 void ImportView::onImprotBtnClicked()
@@ -322,7 +322,7 @@ void ImportView::onImprotBtnClicked()
     }
 
     ////预留
-
+    ImageEngineApi::instance()->SaveImagesCache(file_list);
     ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_albumname, this, true);
 
     /*    QStringList image_list;

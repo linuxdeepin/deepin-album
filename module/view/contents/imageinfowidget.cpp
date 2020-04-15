@@ -33,6 +33,8 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QtDebug>
+#include <DPushButton>
+#include <DScrollBar>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
 #include <DDialogCloseButton>
@@ -100,12 +102,12 @@ static int maxTitleWidth()
 
 }  // namespace
 
-class ViewSeparator : public QLabel
+class ViewSeparator : public DLabel
 {
     Q_OBJECT
 public:
-    explicit ViewSeparator(QWidget *parent = 0)
-        : QLabel(parent)
+    explicit ViewSeparator(QWidget *parent = nullptr)
+        : DLabel(parent)
     {
         setFixedHeight(1);
     }
@@ -118,18 +120,16 @@ public:
     {
         if (headerLine()) {
             DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6, QFont::Medium);
-
             DPalette pa = DApplicationHelper::instance()->palette(headerLine());
             pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
             headerLine()->setPalette(pa);
-
             headerLine()->setLeftMargin(10);
         }
     }
 protected:
-
     void mouseMoveEvent(QMouseEvent *e) override
     {
+        Q_UNUSED(e);
         qDebug() << "mouseMoveEvent";
     }
     void paintEvent(QPaintEvent *event) override
@@ -140,7 +140,6 @@ protected:
         bgRect.setSize(size());
         const QPalette pal = QGuiApplication::palette();//this->palette();
         QColor bgColor = pal.color(QPalette::Background);
-
         QPainterPath path;
         path.addRoundedRect(bgRect, 8, 8);
         // drawbackground color
@@ -164,6 +163,8 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     : QFrame(parent)
     , m_maxTitleWidth(maxTitleWidth())
 {
+    Q_UNUSED(darkStyle);
+    Q_UNUSED(lightStyle);
 //    setObjectName("ImageInfoScrollArea");
     setFixedWidth(320);
     setMaximumHeight(540);
@@ -190,9 +191,9 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     //    title->setPalette(pa);
 
     // Info field
-    m_exif_base = new QFrame(/*this*/);
+    m_exif_base = new DFrame(/*this*/);
     m_exif_base->setFixedWidth(280);
-    m_exif_details = new QFrame(/*this*/);
+    m_exif_details = new DFrame(/*this*/);
     m_exif_details->setFixedWidth(280);
     m_exifLayout_base = new QFormLayout();
     m_exifLayout_base->setVerticalSpacing(7);
@@ -207,24 +208,19 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_exifLayout_details->setHorizontalSpacing(16);
     m_exifLayout_details->setContentsMargins(10, 1, 7, 10);
     m_exifLayout_details->setLabelAlignment(Qt::AlignLeft);
-
     m_exif_base->setLayout(m_exifLayout_base);
     m_exif_details->setLayout(m_exifLayout_details);
-
     m_mainLayout = new QVBoxLayout;
-
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setMargin(0);
     m_mainLayout->setSpacing(0);
-
-    m_scrollArea = new QScrollArea();
-    QPalette palette = m_scrollArea->viewport()->palette();
-    palette.setBrush(QPalette::Background, Qt::NoBrush);
+    m_scrollArea = new DScrollArea();
+    DPalette palette = m_scrollArea->viewport()->palette();
+    palette.setBrush(DPalette::Background, Qt::NoBrush);
 //    palette.setBrush(QPalette::Background, Qt::red);
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
-
-    QWidget *scrollContentWidget = new QWidget;
+    DWidget *scrollContentWidget = new DWidget;
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
     scrollWidgetLayout->setContentsMargins(10, 0, 10, 0);
     scrollWidgetLayout->setSpacing(ArrowLineExpand_SPACING);
@@ -232,7 +228,6 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_scrollArea->setWidget(scrollContentWidget);
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
-
     m_mainLayout->addWidget(m_scrollArea, 1);
     this->setLayout(m_mainLayout);
     //    QVBoxLayout *scrolllayout = new QVBoxLayout;
@@ -322,7 +317,6 @@ void ImageInfoWidget::resizeEvent(QResizeEvent *e)
     //    QScrollArea::resizeEvent(e);
     //    killTimer(m_updateTid);
     //    m_updateTid = startTimer(500);
-
     DWidget::resizeEvent(e);
 }
 
@@ -334,9 +328,7 @@ void ImageInfoWidget::timerEvent(QTimerEvent *e)
     //    updateInfo();
     //    killTimer(m_updateTid);
     //    m_updateTid = 0;
-
     QWidget::timerEvent(e);
-
     //    QScrollArea::timerEvent(e);
 }
 

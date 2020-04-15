@@ -75,16 +75,18 @@ static MetaData MetaDataDetails[] = {
 
 }  // namespace
 
-class DFMDArrowLineExpand : public DArrowLineExpand{
+class DFMDArrowLineExpand : public DArrowLineExpand
+{
 public:
-    DFMDArrowLineExpand(){
+    DFMDArrowLineExpand()
+    {
         if (headerLine()) {
             DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
 
             DPalette pa = DApplicationHelper::instance()->palette(headerLine());
             pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
             headerLine()->setPalette(pa);
-            connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+            connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
                 DPalette pa = DApplicationHelper::instance()->palette(headerLine());
                 pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
                 headerLine()->setPalette(pa);
@@ -116,9 +118,9 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
     : DDialog(parent)
 {
     QLocale locale;
-    if(locale.language() == QLocale::Chinese)   //语言为中文
+    if (locale.language() == QLocale::Chinese)  //语言为中文
         m_title_maxwidth = 60;
-     else
+    else
         m_title_maxwidth = 108;
 
     initUI();
@@ -136,12 +138,12 @@ void ImgInfoDialog::initUI()
     setAttribute(Qt::WA_TranslucentBackground, true);
     setFixedWidth(320);
     setMaximumHeight(540);
-    setContentLayoutContentsMargins(QMargins(0,0,0,0));
+    setContentLayoutContentsMargins(QMargins(0, 0, 0, 0));
 
     //title
     DLabel *title = new DLabel(this);
     title->setText(tr("Photo info"));
-    title->setGeometry(this->x() + (this->width() - title->width())/2,this->y(),112,50);
+    title->setGeometry(this->x() + (this->width() - title->width()) / 2, this->y(), 112, 50);
     title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);
     DPalette pa = DApplicationHelper::instance()->palette(title);
@@ -179,12 +181,12 @@ void ImgInfoDialog::initUI()
     m_mainLayout->setMargin(0);
     m_mainLayout->setSpacing(0);
 
-    m_scrollArea = new QScrollArea();
-    QPalette palette = m_scrollArea->viewport()->palette();
-    palette.setBrush(QPalette::Background, Qt::NoBrush);
+    m_scrollArea = new DScrollArea();
+    DPalette palette = m_scrollArea->viewport()->palette();
+    palette.setBrush(DPalette::Background, Qt::NoBrush);
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
-    QFrame *infoframe= new QFrame;
+    QFrame *infoframe = new QFrame;
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
     scrollWidgetLayout->setContentsMargins(10, 0, 10, 0);
     scrollWidgetLayout->setSpacing(10);
@@ -209,11 +211,9 @@ void ImgInfoDialog::setImagePath(const QString &path)
 
     QStringList titleList;
     QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
-    if(nullptr != layout)
-    {
+    if (nullptr != layout) {
         QLayoutItem *child;
-        while ((child = layout->takeAt(0)) != nullptr)
-        {
+        while ((child = layout->takeAt(0)) != nullptr) {
             layout->removeWidget(child->widget());
             child->widget()->setParent(nullptr);
             delete child;
@@ -221,7 +221,7 @@ void ImgInfoDialog::setImagePath(const QString &path)
     }
     m_expandGroup.clear();
 
-    if(m_isBaseInfo == true && m_isDetailsInfo == true ){
+    if (m_isBaseInfo == true && m_isDetailsInfo == true ) {
         titleList << tr("Basic info");
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
@@ -230,14 +230,12 @@ void ImgInfoDialog::setImagePath(const QString &path)
         m_expandGroup.at(1)->setContent(m_exif_details);
         m_expandGroup.at(1)->setExpand(true);
 
-    }
-    else if(m_isBaseInfo == false && m_isDetailsInfo == true ){
+    } else if (m_isBaseInfo == false && m_isDetailsInfo == true ) {
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_details);
         m_expandGroup.at(0)->setExpand(true);
-    }
-    else if(m_isBaseInfo == true && m_isDetailsInfo == false ){
+    } else if (m_isBaseInfo == true && m_isDetailsInfo == false ) {
         titleList << tr("Basic info");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
@@ -245,7 +243,8 @@ void ImgInfoDialog::setImagePath(const QString &path)
     }
 }
 
-void ImgInfoDialog::clearLayout(QLayout *layout) {
+void ImgInfoDialog::clearLayout(QLayout *layout)
+{
     QFormLayout *fl = static_cast<QFormLayout *>(layout);
     if (fl) {
         // FIXME fl->rowCount() will always increase
@@ -274,7 +273,7 @@ void ImgInfoDialog::updateInfo()
     using namespace utils::image;
     using namespace utils::base;
     auto mds = getAllMetaData(m_path);
-    m_maxFieldWidth = width() - m_title_maxwidth - 20*2 - 10*2;
+    m_maxFieldWidth = width() - m_title_maxwidth - 20 * 2 - 10 * 2;
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
 }
@@ -290,29 +289,25 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
         if (value.isEmpty()) continue;
 
         m_isBaseInfo = true;
-        if(!((i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") && '0' == value.left(1)))
-        {
-        SimpleFormField *field = new SimpleFormField;
-        field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
-        DPalette pa1 = DApplicationHelper::instance()->palette(field);
-        pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
-        field->setPalette(pa1);
-        field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
-
-        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-        title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(m_title_maxwidth);
-        title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        //2020/03/13-xiaolong
-
-        DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-        DPalette pa2= DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
-        title->setPalette(pa2);
-        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
-
-        m_exifLayout_base->addRow(title, field);
+        if (!((i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") && '0' == value.left(1))) {
+            SimpleFormField *field = new SimpleFormField;
+            field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
+            DPalette pa1 = DApplicationHelper::instance()->palette(field);
+            pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
+            field->setPalette(pa1);
+            field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
+            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+            title->setMinimumHeight(field->minimumHeight());
+            title->setFixedWidth(m_title_maxwidth);
+            title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            //2020/03/13-xiaolong
+            DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
+            DPalette pa2 = DApplicationHelper::instance()->palette(title);
+            pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
+            title->setPalette(pa2);
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
+            m_exifLayout_base->addRow(title, field);
         }
     }
 }
@@ -322,13 +317,10 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
     using namespace utils::image;
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
-
     for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
-
         m_isDetailsInfo = true;
-
         SimpleFormField *field = new SimpleFormField;
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
@@ -342,7 +334,7 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setFixedWidth(m_title_maxwidth);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-        DPalette pa2= DApplicationHelper::instance()->palette(title);
+        DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
@@ -370,20 +362,20 @@ void ImgInfoDialog::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
     expand->setFixedHeight(30);
     QMargins cm = layout->contentsMargins();
     QRect rc = contentsRect();
-    expand->setFixedWidth(rc.width()-cm.left()-cm.right());
+    expand->setFixedWidth(rc.width() - cm.left() - cm.right());
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);
-    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=](){
+    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [ = ]() {
         QRect rc = geometry();
-        if(m_expandGroup.count() == 2){
-            rc.setHeight(contentHeight()+40);
+        if (m_expandGroup.count() == 2) {
+            rc.setHeight(contentHeight() + 40);
             setGeometry(rc);
-            this->setFixedHeight(qMin(615,contentHeight()+ 15));
-        }else {
-            rc.setHeight(contentHeight()+40);
+            this->setFixedHeight(qMin(615, contentHeight() + 15));
+        } else {
+            rc.setHeight(contentHeight() + 40);
             setGeometry(rc);
-            this->setFixedHeight(qMin(615,contentHeight()+ 25));
+            this->setFixedHeight(qMin(615, contentHeight() + 25));
         }
 //        if(expand->expand()){
 //            emit dApp->signalM->extensionPanelHeight(qMin(615,contentHeight()+5));
@@ -406,13 +398,13 @@ int ImgInfoDialog::contentHeight() const
         expandsHeight += expand->height();
     }
     return (50 + expandsHeight + contentsMargins().top() +
-             contentsMargins().bottom());
+            contentsMargins().bottom());
 }
 
 void ImgInfoDialog::keyPressEvent(QKeyEvent *e)
 {
-    qDebug()<<"ImgInfoDialog::keyPressEvent()";
-    if(e->key() == Qt::Key_Escape){
+    qDebug() << "ImgInfoDialog::keyPressEvent()";
+    if (e->key() == Qt::Key_Escape) {
         emit closed();
     }
     DDialog::keyPressEvent(e);

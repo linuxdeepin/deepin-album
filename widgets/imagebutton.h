@@ -32,10 +32,10 @@ class ImageButton : public DImageButton
     Q_PROPERTY(QString disablePic READ getDisablePic WRITE setDisablePic
                DESIGNABLE true)
 public:
-    explicit ImageButton(QWidget *parent = 0);
-    explicit ImageButton(const QString & normalPic, const QString & hoverPic,
-                         const QString & pressPic, const QString &disablePic,
-                         QWidget *parent = 0);
+    explicit ImageButton(QWidget *parent = nullptr);
+    explicit ImageButton(const QString &normalPic, const QString &hoverPic,
+                         const QString &pressPic, const QString &disablePic,
+                         QWidget *parent = nullptr);
 
     void setDisablePic(const QString &path);
     void setDisabled(bool d);
@@ -43,7 +43,10 @@ public:
     void setTooltipVisible(bool visible);
     bool tooltipVisible();
 
-    inline const QString getDisablePic() const { return m_disablePic_; }
+    inline const QString getDisablePic() const
+    {
+        return m_disablePic_;
+    }
 signals:
     void mouseLeave();
 

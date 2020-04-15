@@ -97,6 +97,7 @@ void ImportTimeLineView::initConnections()
 
 void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
+    Q_UNUSED(themeType);
     DPalette palcolor = DApplicationHelper::instance()->palette(pTimeLineViewWidget);
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     pTimeLineViewWidget->setPalette(palcolor);
@@ -1345,6 +1346,7 @@ void ImportTimeLineView::on_DelLabel()
 void ImportTimeLineView::on_MoveLabel(int y, QString date, QString num, QString choseText)
 #endif
 {
+    Q_UNUSED(y);
     if ((nullptr != m_dateItem) && (nullptr != m_mainListWidget)) {
         QList<QLabel *> labelList = m_dateItem->findChildren<QLabel *>();
         labelList[0]->setText(date);
@@ -1379,7 +1381,7 @@ void ImportTimeLineView::on_KeyEvent(int key)
 
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
-
+    Q_UNUSED(ev);
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
         m_allThumbnailListView[i]->setFixedWidth(width() + 2);
         emit m_allThumbnailListView[i]->needResizeLabel();
@@ -1524,7 +1526,7 @@ void ImportTimeLineView::dragMoveEvent(QDragMoveEvent *event)
 
 void ImportTimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
-
+    Q_UNUSED(e);
 }
 
 void ImportTimeLineView::keyPressEvent(QKeyEvent *e)

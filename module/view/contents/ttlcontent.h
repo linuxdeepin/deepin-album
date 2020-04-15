@@ -28,30 +28,24 @@ class TTLContent : public QLabel
 {
     Q_OBJECT
 public:
-    explicit TTLContent(bool inDB, QWidget *parent = 0);
-
+    explicit TTLContent(bool inDB, QWidget *parent = nullptr);
 signals:
     void clicked();
     void resetTransform(bool fitWindow);
     void rotateClockwise();
     void rotateCounterClockwise();
-
     void removed();
     void imageEmpty(bool v);
     void contentWidthChanged(int width);
-
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path,DBImgInfoList infos);
+    void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
-
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();
-
 protected:
     void resizeEvent(QResizeEvent *event);
-
 private:
 #ifndef LITE_DIV
     PushButton *m_folderBtn;
@@ -65,8 +59,7 @@ private:
 //    PushButton* m_rotateLBtn;
 //    PushButton* m_rotateRBtn;
 //    PushButton* m_trashBtn;
-    ElidedLabel* m_fileNameLabel;
-
+    ElidedLabel *m_fileNameLabel;
     QString m_imagePath;
     int m_windowWidth;
     int m_contentWidth;

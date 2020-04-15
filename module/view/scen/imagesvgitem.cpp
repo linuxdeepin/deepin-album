@@ -16,7 +16,6 @@ class ImageSvgItemPrivate : public QGraphicsItemPrivate
 {
 public:
     Q_DECLARE_PUBLIC(ImageSvgItem)
-
     ImageSvgItemPrivate()
         : renderer(nullptr), shared(false)
     {
@@ -59,14 +58,14 @@ public:
 };
 
 ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
-    : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
+    : QGraphicsObject(*new ImageSvgItemPrivate(), nullptr)
 {
     Q_D(ImageSvgItem);
     d->init(parent);
 }
 
 ImageSvgItem::ImageSvgItem(const QString &fileName, QGraphicsItem *parent)
-    : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
+    : QGraphicsObject(*new ImageSvgItemPrivate(), nullptr)
 {
     Q_D(ImageSvgItem);
     d->init(parent);
