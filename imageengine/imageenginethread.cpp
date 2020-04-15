@@ -1102,6 +1102,8 @@ void ImageEngineThread::run()
             tImg = readerG.read();
         //qDebug() << "ttttttt" << tImg;
     }
+    if (getNeedStop())
+        return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
 //    QPixmap pixmap = QPixmap::fromImage(tImg);
 //    if (pixmap.isNull()) {
@@ -1298,16 +1300,22 @@ ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 
 void ImageCacheQueuePopThread::saveCache(QString m_path)
 {
+    if (needStop)
+        return;
     using namespace utils::image;
     using namespace utils::base;
     QImage tImg;
     bool cache_exist = false;
     QString path = m_path;
     QFileInfo file(CACHE_PATH + m_path);
+    if (needStop)
+        return;
     if (file.exists()) {
         cache_exist = true;
         path = CACHE_PATH + m_path;
     }
+    if (needStop)
+        return;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
         QImageReader reader(path);
@@ -1318,9 +1326,13 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
             bool ret = false;
             tImg = utils::image::loadTga(path, ret);
         }
+        if (needStop)
+            return;
     } else {
         QImageReader readerF(path, format.toLatin1());
         readerF.setAutoTransform(true);
+        if (needStop)
+            return;
         if (readerF.canRead()) {
             tImg = readerF.read();
         } else {
@@ -1343,7 +1355,8 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
             }
         }
     }
-
+    if (needStop)
+        return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
     if (pixmap.height() < 100) {
         cache_exist = true;
@@ -1360,6 +1373,8 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
         }
     }
     QString spath = CACHE_PATH + m_path;
+    if (needStop)
+        return;
     mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
     pixmap.save(spath, "PNG");
 }
@@ -1368,7 +1383,7 @@ void ImageCacheQueuePopThread::run()
 {
     //QTime time_star;
     //time_star.start();
-    while (!m_obj->isEmpty()) {
+    while (!m_obj->isEmpty() && !needStop) {
         saveCache(m_obj->pop());
     }
     //qDebug() << "thread running time:" << time_star.elapsed();

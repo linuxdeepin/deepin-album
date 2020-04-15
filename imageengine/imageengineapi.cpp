@@ -220,6 +220,13 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
     }
 }
 
+void ImageEngineApi::sltstopCacheSave()
+{
+    for (auto i : cacheThreads) {
+        i->stopThread();
+    }
+    cacheThreadPool.waitForDone();
+}
 
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
 {
@@ -292,6 +299,7 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
 {
     if (!m_imageCacheSaveobj) {
         m_imageCacheSaveobj = new ImageCacheSaveObject;
+        connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave, Qt::DirectConnection);
     }
     m_imageCacheSaveobj->add(files);
     int coreCounts = static_cast<int>(std::thread::hardware_concurrency());
@@ -306,6 +314,7 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
         thread->setObject(m_imageCacheSaveobj);
         cacheThreadPool.start(thread);
+        cacheThreads.append(thread);
         qDebug() << "current Threads:" << cacheThreadPool.activeThreadCount();
     }
     return true;

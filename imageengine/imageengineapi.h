@@ -17,6 +17,11 @@ class ImageEngineApi: public QObject
     Q_OBJECT
 public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
+    ~ImageEngineApi()
+    {
+        m_qtpool.waitForDone();
+        cacheThreadPool.waitForDone();
+    }
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
     bool insertObject(void *obj);
@@ -51,6 +56,7 @@ private slots:
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
     void sltAborted(QString path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
+    void sltstopCacheSave();
 private:
     ImageEngineApi(QObject *parent = nullptr);
     QMap<QString, ImageDataSt>m_AllImageData;
@@ -59,6 +65,7 @@ private:
     static ImageEngineApi *s_ImageEngine;
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
     QThreadPool cacheThreadPool;
+    QList<ImageCacheQueuePopThread *> cacheThreads;
 };
 
 #endif // IMAGEENGINEAPI_H

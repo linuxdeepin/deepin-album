@@ -156,6 +156,7 @@ signals:
     void closeWaitDialog();
     void progressOfWaitDialog(int allfiles, int completefiles);
     void waitDevicescan();
+    void cacheThreadStop();
 
     //尝试手动更新查看界面工具栏
     void sigUpdateTTB();

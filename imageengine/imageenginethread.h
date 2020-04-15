@@ -236,9 +236,15 @@ public:
         m_obj = obj;
     }
     void saveCache(QString m_path);
+    void stopThread()
+    {
+        needStop = true;
+    }
 protected:
     void run() override;
+private:
     ImageCacheSaveObject *m_obj;
+    bool needStop = false;
 };
 
 #endif // IMAGEENGINETHREAD_H
