@@ -200,7 +200,7 @@ void TimeLineView::initTimeLineViewWidget()
 
     //时间线
     m_pDate = new DLabel();
-    DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T3, QFont::DemiBold);
+    DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T3, QFont::Medium);
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft3.setFamily("SourceHanSansSC");
     ft3.setWeight(QFont::DemiBold);
@@ -424,8 +424,8 @@ void TimeLineView::addTimelineLayout()
     pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     QStringList datelist = m_timelines.at(nowTimeLineLoad).split(".");
     if (datelist.count() > 2) {
-//            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-        listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+          listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+ //       listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
     }
     pDate->setText(listItem->m_sdate);
 

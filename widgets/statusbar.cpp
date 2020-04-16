@@ -22,8 +22,9 @@ void StatusBar::initUI()
     m_allPicNum = DBManager::instance()->getImgsCount();
 
     m_pAllPicNumLabel = new DLabel();
+    m_pAllPicNumLabel->setEnabled(false);
 //    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
-    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8,QFont::Normal));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
 
     m_pimporting = new DWidget(this);
@@ -31,6 +32,7 @@ void StatusBar::initUI()
     TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     TextLabel->setText("");
     TextLabel->adjustSize();
+    TextLabel->setEnabled(false);
     loadingicon = new DSpinner(m_pimporting);
     loadingicon->hide();
     loadingicon->setFixedSize(20, 20);
@@ -127,12 +129,11 @@ void StatusBar::timerEvent(QTimerEvent *e)
             } else {
                 emit dApp->signalM->ImportFailed();
             }
-
         } else {
             TextLabel->setText(string.arg(imgpaths[i + 1]));
 //            TextLabel->setMinimumSize(TextLabel->sizeHint());
-//            TextLabel->adjustSize();
-            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+//            TextLabel->adjustSize();       
+            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8,QFont::Normal));
             i ++;
             if (i == imgpaths.count() - 1) {
                 i = 0;

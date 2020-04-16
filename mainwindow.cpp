@@ -923,6 +923,12 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->addWidget(m_slidePanel);
 
+    //pTitleBtnLayout 设置风格
+    DPalette color = DApplicationHelper::instance()->palette(m_pAlbumview);
+    color.setBrush(DPalette::Background, color.color(DPalette::Base));
+    color.setBrush(DPalette::Background, QColor(255,255,255,95));
+    titlebar()->setPalette(color);
+
     m_commandLine->processOption(pas);
     if (pas.length() > 0) {
         titlebar()->setVisible(false);
@@ -934,6 +940,7 @@ void MainWindow::initCentralWidget()
         m_commandLine->viewImage("", {});
         m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
     }
+
 
     //    setCentralWidget(m_pCenterWidget);
 }

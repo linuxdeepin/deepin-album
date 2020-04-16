@@ -147,6 +147,13 @@ protected:
         painter.fillPath(path, bgColor);
         painter.setRenderHint(QPainter::Antialiasing, false);
     }
+
+    void resizeEvent(QResizeEvent *e) override
+    {
+        //修复调大系统字体，信息会遮挡的问题 2020/4/16 hj
+        Q_UNUSED(e);
+        update();
+    }
 };
 
 #include "imageinfowidget.moc"
