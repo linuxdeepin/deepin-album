@@ -398,7 +398,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_backButton->setToolTip(tr("Back"));
 
     hb->addWidget(m_backButton);
-    hb->addSpacing(ICON_SPACING * 5);
+    hb->addStretch();
+    //hb->addSpacing(ICON_SPACING * 5);
     connect(m_backButton, &DIconButton::clicked, this, [ = ] {
         emit dApp->signalM->hideImageView();
         emit ttbcontentClicked();
@@ -451,7 +452,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addWidget(m_preButton_spc);
     hb->addWidget(m_nextButton);
     hb->addWidget(m_nextButton_spc);
-    hb->addSpacing(ICON_SPACING);
+    //hb->addSpacing(ICON_SPACING);
 
     // adaptImageBtn
     m_adaptImageBtn = new DIconButton(this);
@@ -1440,8 +1441,7 @@ void TTBContent::updateScreen()
             }
             m_lastIndex = m_nowIndex;
         }
-    } else if(m_ItemLoaded.size()==1 && m_allfileslist.size()>1)
-    {
+    } else if (m_ItemLoaded.size() == 1 && m_allfileslist.size() > 1) {
         m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
         m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
 
@@ -1488,8 +1488,7 @@ void TTBContent::updateScreen()
             }
             m_lastIndex = m_nowIndex;
         }
-    }
-    else {
+    } else {
         m_imgList->hide();
         m_imgListView->hide();
         m_preButton->hide();

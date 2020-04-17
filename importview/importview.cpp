@@ -95,7 +95,7 @@ void ImportView::initUI()
 
     m_pImportBtn = new DSuggestButton();
     m_pImportBtn->setFocusPolicy(Qt::NoFocus);
-    DFontSizeManager::instance()->bind(m_pImportBtn, DFontSizeManager::T6);
+    DFontSizeManager::instance()->bind(m_pImportBtn, DFontSizeManager::T6, QFont::ExtraLight);
     m_pImportBtn->setText(tr("Import Photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
@@ -108,9 +108,9 @@ void ImportView::initUI()
 //    m_pImportBtn->setPalette(pa);
 
     DLabel *pLabel2 = new DLabel();
-    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
+    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T9, QFont::ExtraLight);
     pLabel2->setForegroundRole(DPalette::TextTips);
-    pLabel2->setFixedHeight(22);
+    pLabel2->setFixedHeight(18);
     pLabel2->setText(tr("Or drag photos here"));
 
 //    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
@@ -119,14 +119,14 @@ void ImportView::initUI()
 //    effect->setBlurRadius(4);
 //    m_pImportBtn->setGraphicsEffect(effect);
 
+    pImportFrameLayout->setMargin(0);
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);
-    pImportFrameLayout->addSpacing(10);
+    pImportFrameLayout->addSpacing(5);
     pImportFrameLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
-    pImportFrameLayout->addSpacing(20);
+    pImportFrameLayout->addSpacing(10);
     pImportFrameLayout->addWidget(pLabel2, 0, Qt::AlignCenter);
     pImportFrameLayout->addStretch();
-
     setLayout(pImportFrameLayout);
 }
 
