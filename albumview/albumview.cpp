@@ -585,9 +585,11 @@ runend:
         if (COMMON_STR_RECENT_IMPORTED == m_currentType)
         {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+            m_pStatusBar->setVisible(true);
         } else if (COMMON_STR_CUSTOM == m_currentType)
         {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+            m_pStatusBar->setVisible(true);
         }
         emit dApp->signalM->startImprot();
         m_pImportView->onImprotBtnClicked();
@@ -598,6 +600,7 @@ runend:
             m_spinner->hide();
             m_spinner->stop();
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+            m_pStatusBar->setVisible(false);
         }
     });
     connect(m_importByPhoneComboBox, &DComboBox::currentTextChanged, this, &AlbumView::importComboBoxChange);
@@ -1155,7 +1158,8 @@ void AlbumView::initRightView()
         m_pStatusBar->show();
     } else {
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->show();
+       // m_pStatusBar->show();
+        m_pStatusBar->setVisible(false);
 
     }
 //    updateRightView();
@@ -1213,12 +1217,14 @@ void AlbumView::updateRightImportView()
 //        m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
         m_pImpTimeLineWidget->clearAndStartLayout();
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+        m_pStatusBar->setVisible(true);
     } else {
 //        m_pImpTimeLineWidget->updataLayout();
 //        m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
         m_pImpTimeLineWidget->clearAndStartLayout();
         m_pImportView->setAlbumname(QString());
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+        m_pStatusBar->setVisible(false);
     }
 
     emit sigSearchEditIsDisplay(true);
@@ -1264,6 +1270,7 @@ void AlbumView::updateRightMyFavoriteView()
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+    m_pStatusBar->setVisible(true);
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(false);
 }
@@ -1330,6 +1337,7 @@ void AlbumView::updateRightMountView()
                 m_importSelectByPhoneBtn->setEnabled(false);
             }
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+            m_pStatusBar->setVisible(true);
         } else
         {
             qDebug() << "phone zero";
@@ -1350,6 +1358,7 @@ void AlbumView::updateRightMountView()
                 m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_str, false, false);
             }
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+            m_pStatusBar->setVisible(true);
         }
         emit sigSearchEditIsDisplay(false);
         setAcceptDrops(false);
@@ -1411,7 +1420,8 @@ void AlbumView::updateRightNoTrashView()
         m_pRightThumbnailList->loadFilesFromLocal(infos);
         m_pImportView->setAlbumname(m_currentAlbum);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->show();
+      //  m_pStatusBar->show();
+        m_pStatusBar->setVisible(false);
     }
 
     emit sigSearchEditIsDisplay(true);
@@ -1486,6 +1496,7 @@ void AlbumView::updateRightTrashView()
 
 //    m_pRightTrashThumbnailList->insertThumbnails(m_curThumbnaiItemList);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
+    m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
 
@@ -2486,6 +2497,7 @@ void AlbumView::SearchReturnUpdate()
         } else {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
         }
+        m_pStatusBar->setVisible(true);
     }
 }
 
@@ -2825,6 +2837,7 @@ void AlbumView::needUnMount(QString path)
         m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
         m_currentType = COMMON_STR_RECENT_IMPORTED;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+        m_pStatusBar->setVisible(true);
         return ;
         emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
     }
@@ -2978,6 +2991,12 @@ void AlbumView::restorePicNum()
                 selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
             }
         }
+    }
+    if(selPicNum<=0){
+        m_pStatusBar->setVisible(false);
+    }
+    else {
+        m_pStatusBar->setVisible(true);
     }
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
 }

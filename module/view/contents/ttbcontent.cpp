@@ -639,7 +639,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_trashBtn->setToolTip(tr("Delete"));
 
     hb->addWidget(m_trashBtn);
-
+    hb->addSpacing(10);
     m_fileNameLabel = new ElidedLabel();
 //    hb->addWidget(m_fileNameLabel);
 

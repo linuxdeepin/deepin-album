@@ -1,6 +1,7 @@
 #include "imageengineapi.h"
 #include "controller/signalmanager.h"
 #include "application.h"
+#include "imageengineapi.h"
 #include <QMetaType>
 #include <QDirIterator>
 #include <QStandardPaths>
@@ -283,7 +284,11 @@ bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *o
     m_qtpool.start(imagethread);
     return true;
 }
-
+bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
+{
+    sltImageDBLoaded(obj, QStringList() << path );
+    insertImage(path, "30");
+}
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name)
 {
     ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread;
@@ -299,7 +304,7 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
 {
     if (!m_imageCacheSaveobj) {
         m_imageCacheSaveobj = new ImageCacheSaveObject;
-        connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave, Qt::DirectConnection);
+        connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave);
     }
     m_imageCacheSaveobj->add(files);
     int coreCounts = static_cast<int>(std::thread::hardware_concurrency());

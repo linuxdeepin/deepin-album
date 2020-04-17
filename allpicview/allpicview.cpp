@@ -102,7 +102,7 @@ void AllPicView::initConnections()
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
         info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
         emit dApp->signalM->viewImage(info);
-       // emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
+        // emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
     connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
         SignalManager::ViewInfo info;
@@ -145,6 +145,8 @@ void AllPicView::initConnections()
             emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
         }
     });
+
+
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
@@ -176,8 +178,10 @@ void AllPicView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+        m_pStatusBar->setVisible(true);
     } else {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
+        m_pStatusBar->setVisible(false);
     }
 }
 
@@ -377,8 +381,12 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pwidget->move(0, 0);
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+
     fatherwidget->setFixedSize(this->size());
 }
+
+
+
 
 void AllPicView::updatePicNum()
 {

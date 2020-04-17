@@ -162,6 +162,7 @@ signals:
     void sigUpdateTTB();
     //lmh仅仅查看一张图片
     void sigOpenPicture(QString path);
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

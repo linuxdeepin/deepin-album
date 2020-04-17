@@ -491,8 +491,8 @@ void ImageView::rotateClockWise()
         imgSVGThread->start();
     } else {
         utils::image::rotate(m_path, 90);
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
         setImage(m_path);
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
     }
 }
 
@@ -507,9 +507,9 @@ void ImageView::rotateCounterclockwise()
         imgSVGThread->start();
     } else {
         utils::image::rotate(m_path, - 90);
+        setImage(m_path);
         dApp->m_imageloader->updateImageLoader(QStringList(m_path));
     }
-    setImage(m_path);
 }
 
 void ImageView::centerOn(int x, int y)

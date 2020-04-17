@@ -251,6 +251,7 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 
 void ImageLoader::updateImageLoader(QStringList pathlist)
 {
+
     for (QString path : pathlist) {
         using namespace utils::base;
         QImage tImg;
@@ -324,7 +325,10 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
     }
 
     emit dApp->signalM->sigUpdateImageLoader(pathlist);
+    // m_parent->m_imagemap[path] = pixmap;
+
 }
+
 
 //void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
 //{

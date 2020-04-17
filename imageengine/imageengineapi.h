@@ -48,6 +48,7 @@ public:
     bool recoveryImagesFromTrash(QStringList files);
     int  Getm_AllImageDataNum();
     bool clearAllImageDate();
+    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);

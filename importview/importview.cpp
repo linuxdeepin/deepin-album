@@ -67,10 +67,20 @@ void ImportView::initConnections()
         if (themeType == DGuiApplicationHelper::LightType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
+            if (nullptr != m_pImportBtn) {
+                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+                pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
+                m_pImportBtn->setPalette(pa);
+            }
         }
         if (themeType == DGuiApplicationHelper::DarkType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
+            if (nullptr != m_pImportBtn) {
+                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+                pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+                m_pImportBtn->setPalette(pa);
+            }
         }
         pLabel->setPixmap(pixmap);
     });
@@ -101,12 +111,12 @@ void ImportView::initUI()
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-//    pa.setColor(QPalette::Light,QColor(37,183,255));
-//    pa.setColor(QPalette::Dark,QColor(0,152,255));
-    pa.setColor(QPalette::Highlight, QColor(0, 0, 0, 0));
-//    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
-//    m_pImportBtn->setPalette(pa);
-
+    if (themeType == DGuiApplicationHelper::LightType) {
+        pa.setColor(QPalette::Button, QColor(37, 183, 255));
+    } else {
+        pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+    }
+    m_pImportBtn->setPalette(pa);
     DLabel *pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T9, QFont::ExtraLight);
     pLabel2->setForegroundRole(DPalette::TextTips);
@@ -119,7 +129,11 @@ void ImportView::initUI()
 //    effect->setBlurRadius(4);
 //    m_pImportBtn->setGraphicsEffect(effect);
 
+
     pImportFrameLayout->setMargin(0);
+
+    // pImportFrameLayout->setContentsMargins(0,0,0,0);
+
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);
     pImportFrameLayout->addSpacing(5);
@@ -512,3 +526,6 @@ void ImportView::setAlbumname(const QString &name)
 {
     m_albumname = name;
 }
+
+
+

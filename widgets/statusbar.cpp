@@ -10,6 +10,8 @@ StatusBar::StatusBar(QWidget *parent)
 //    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
 //    setPalette(palette);
     initUI();
+   // setMaskColor(MaskColorType::CustomColor);
+   // setMaskAlpha(0.7);
 
 }
 
@@ -30,6 +32,7 @@ void StatusBar::initUI()
     m_pimporting = new DWidget(this);
     TextLabel = new DLabel();
     TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+
     TextLabel->setText("");
     TextLabel->adjustSize();
     TextLabel->setEnabled(false);
@@ -105,6 +108,27 @@ void StatusBar::resizeEvent(QResizeEvent *e)
     Q_UNUSED(e);
     m_pSlider->move(width() - 214, -1);
 }
+
+void StatusBar::paintEvent(QPaintEvent *event)
+{
+    setMaskColor(MaskColorType::AutoColor);
+
+    QPalette palette=m_pAllPicNumLabel->palette();
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        palette.setColor(QPalette::WindowText, QColor(192,198,212)); // 最后一项为透明度
+    }
+    else{
+        palette.setColor(QPalette::WindowText, QColor(98,110,136)); // 最后一项为透明度
+    }
+
+    m_pAllPicNumLabel->setPalette(palette);
+    return DBlurEffectWidget::paintEvent(event);
+}
+
+
+
+
 
 void StatusBar::timerEvent(QTimerEvent *e)
 {

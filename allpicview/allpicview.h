@@ -60,6 +60,7 @@ private:
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
+
 private slots:
 
 public:

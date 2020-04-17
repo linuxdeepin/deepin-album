@@ -946,7 +946,7 @@ void MainWindow::initCentralWidget()
     //pTitleBtnLayout 设置风格
     DPalette color = DApplicationHelper::instance()->palette(m_pAlbumview);
     color.setBrush(DPalette::Background, color.color(DPalette::Base));
-    color.setBrush(DPalette::Background, QColor(255,255,255,95));
+    color.setBrush(DPalette::Background, QColor(255, 255, 255, 95));
     titlebar()->setPalette(color);
 
     m_commandLine->processOption(pas);

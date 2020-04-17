@@ -334,8 +334,10 @@ void TimeLineView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
+        m_pStatusBar->setVisible(true);
     } else {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
+        m_pStatusBar->setVisible(false);
     }
 }
 

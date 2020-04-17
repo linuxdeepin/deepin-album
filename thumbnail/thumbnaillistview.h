@@ -142,6 +142,7 @@ public:
     void clearSelectionFront(int row);
     void clearSelectionExtent(int start, int end);
 
+    QStringList m_allfileslist;
 signals:
 //    void loadend(int);
     void needResize(int);
@@ -206,7 +207,8 @@ private:
     void sendNeedResize(/*int height*/);
     void resizeEventF();
     //------------------
-//    void updateThumbnailView();
+    //void updateThumbnailView();
+
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onShowImageInfo(const QString &path);
@@ -236,7 +238,7 @@ private:
     ThumbnailDelegate::DelegateType m_delegatetype = ThumbnailDelegate::NullType;
 
     //------------------
-    QStringList m_allfileslist;
+
     QStringList m_filesbeleft;
     bool bneedloadimage = true;
     bool brequestallfiles = false;

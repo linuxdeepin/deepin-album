@@ -1032,6 +1032,7 @@ void ViewPanel::rotateImage(bool clockWise)
     }
     m_viewB->autoFit();
     m_info->updateInfo();
+
 //    if (COMMON_STR_TRASH == m_vinfo.viewType) {
 //        dApp->m_imageloader->updateTrashImageLoader(QStringList(m_currentpath));
 //    } else {
