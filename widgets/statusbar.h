@@ -32,7 +32,7 @@ public:
     void initConnections();
     void onUpdateAllpicsNumLabel();
     void resizeEvent(QResizeEvent *e) override;
-
+    void paintEvent(QPaintEvent *event) override;
 public:
     DLabel *m_pAllPicNumLabel;
     DSlider *m_pSlider;

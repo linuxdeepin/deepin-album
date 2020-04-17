@@ -57,7 +57,7 @@ class MyImageListWidget : public DWidget
 {
     Q_OBJECT
 public:
-    MyImageListWidget(QWidget *parent = 0);
+    MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
     void setObj(QObject *obj);
 protected:
@@ -113,11 +113,11 @@ public:
     };
 //    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
     explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = 0);
-    ~TTBContent()
+    ~TTBContent() override
     {
 //        stopLoadAndClear();
         clearAndStopThread();
-    };
+    }
 
     //------------------
 //    void importFilesFromLocal(QStringList files);
@@ -178,7 +178,7 @@ private slots:
     void updateFilenameLayout();
 
 protected:
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent *event) override;
 
 public:
     QString m_imageType;

@@ -19,7 +19,7 @@
 #include "dbmanager/dbmanager.h"
 #include "utils/baseutils.h"
 #include <QHBoxLayout>
-#include <DLabel>
+#include <QLabel>
 #include <DLineEdit>
 #include <QKeyEvent>
 #include <QDebug>
@@ -55,7 +55,7 @@ void AlbumCreateDialog::initUI()
     DWidget *contentWidget = new DWidget(this);
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QVBoxLayout *contentLayout = new QVBoxLayout();
-
+    Q_UNUSED(contentLayout);
 
 //图标
     DLabel *logoLable = new DLabel(this);
@@ -214,7 +214,7 @@ const QString AlbumCreateDialog::getNewAlbumName() const
         num++;
         albumName = nan + QString::number(num);
     }
-    return (const QString)(albumName);
+    return static_cast<const QString>(albumName);
 }
 
 const QString AlbumCreateDialog::getCreateAlbumName() const

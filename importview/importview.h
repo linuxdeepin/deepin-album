@@ -44,6 +44,7 @@ DWIDGET_USE_NAMESPACE
 //    QString m_albumname;
 //};
 
+
 class ImportView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT

@@ -112,7 +112,5 @@ QString DetectImageFormat(const QString &filepath)
     if (data.startsWith("/* XPM */")) {
         return "xpm";
     }
-
-
     return "";
 }

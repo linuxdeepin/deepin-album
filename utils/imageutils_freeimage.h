@@ -85,15 +85,15 @@ FIBITMAP *readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
         return dib;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
 QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
 {
     QMap<QString, QString> mdMap;  // key-data
-    FITAG *tag = NULL;
-    FIMETADATA *mdhandle = NULL;
+    FITAG *tag = nullptr;
+    FIMETADATA *mdhandle = nullptr;
     mdhandle = FreeImage_FindFirstMetadata(model, dib, &tag);
     if (mdhandle) {
         do {
@@ -217,12 +217,12 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
 {
     const QByteArray pb = path.toUtf8();
     const char *pc = pb.data();
-    FIBITMAP *dib = NULL;
+    FIBITMAP *dib = nullptr;
     int flags = 0;              // default load flag
 
     FREE_IMAGE_FORMAT fif = fFormat(path);
     if (fif == FIF_UNKNOWN) {
-        return NULL;
+        return nullptr;
     }
 
     // for JPEG images, we can speedup the loading part
@@ -232,7 +232,7 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
         flags |= size << 16;
         // Load the dib
         dib = FreeImage_Load(fif, pc, flags);
-        if (! dib) return NULL;
+        if (! dib) return nullptr;
     } else {
         // Any cases other than the JPEG case: load the dib ...
         if (fif == FIF_RAW || fif == FIF_TIFF) {
@@ -240,9 +240,9 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
             // or default to RGB 24-bit ...
             flags = RAW_PREVIEW;
             dib = FreeImage_Load(fif, pc, flags);
-            if (!dib) return NULL;
+            if (!dib) return nullptr;
         } else {
-            return NULL;
+            return nullptr;
         }
     }
 

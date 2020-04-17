@@ -251,16 +251,8 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 
 void ImageLoader::updateImageLoader(QStringList pathlist)
 {
+
     for (QString path : pathlist) {
-//        QPixmap pixmap(path);
-
-//        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-
-//        if (pixmap.isNull()) {
-//            QPixmap pixmapitem(path);
-//            pixmap = pixmapitem;
-//        }
-
         using namespace utils::base;
         QImage tImg;
         bool cache_exist = false;
@@ -300,12 +292,6 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        //    QPixmap pixmap = QPixmap::fromImage(tImg);
-        //    if (pixmap.isNull()) {
-        //        qDebug() << "pixmap.isNull()";
-        //        return;
-        //    }
-
         if (pixmap.height() < 100) {
             cache_exist = true;
             pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
@@ -314,13 +300,13 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
             pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
         }
 
-        if (!cache_exist)
-
+        if (!cache_exist) {
             if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
                 pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
             } else {
                 pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
             }
+        }
         if (pixmap.isNull()) {
             pixmap = QPixmap::fromImage(tImg);
         } else {
@@ -336,11 +322,13 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
         if (!ImageEngineApi::instance()->updateImageDataPixmap(path, pixmap)) {
             return;
         }
-//        m_parent->m_imagemap[path] = pixmap;
     }
 
-    emit dApp->signalM->sigUpdateImageLoader();
+    emit dApp->signalM->sigUpdateImageLoader(pathlist);
+    // m_parent->m_imagemap[path] = pixmap;
+
 }
+
 
 //void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
 //{

@@ -17,7 +17,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run() Q_DECL_OVERRIDE;
+    void run() Q_DECL_OVERRIDE;
 
 private:
     //提前生成缩略图，避免导入过程删除源文件，后续显示空白   暂时没用
@@ -48,7 +48,7 @@ public:
     void setData(QStringList paths);
 
 protected:
-    virtual void run();
+    void run() override;
 
 signals:
 private:
@@ -63,7 +63,7 @@ public:
     void setData(QStringList paths, bool typetrash);
 
 protected:
-    virtual void run();
+    void run() override;
 
 signals:
 private:
@@ -80,7 +80,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run() Q_DECL_OVERRIDE;
+    void run() Q_DECL_OVERRIDE;
 
 signals:
     void sigImageFilesImported(void *imgobject, QStringList &filelist);
@@ -100,7 +100,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run() override;
+    void run() override;
 
 signals:
     void sigImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
@@ -120,7 +120,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run() override;
+    void run() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
@@ -147,7 +147,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run() override;
+    void run() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
@@ -171,7 +171,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run() override;
+    void run() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
@@ -198,12 +198,53 @@ public:
     void setDate(QStringList files, ImageEngineImportObject *obj);
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    virtual void run() override;
+    void run() override;
 
 private:
     ImageEngineImportObject *m_imgobj = nullptr;
     QStringList paths;
 
+};
+
+/**
+ * @brief The ImageSVGConvertThread class  process svg format image thread,it converts svg image
+ *  to another svg image by  QSvgGenerator and QPainter
+ */
+class ImageSVGConvertThread : public QThread
+{
+    Q_OBJECT
+public:
+    ImageSVGConvertThread();
+    void setData(QStringList paths, int degree);
+
+protected:
+    void run() override;
+signals:
+    void updateImages(QStringList paths);
+    void finished();
+private:
+    QStringList m_paths;
+    int m_degree;
+};
+
+class ImageCacheQueuePopThread : public QRunnable
+{
+public:
+    ImageCacheQueuePopThread();
+    void setObject(ImageCacheSaveObject *obj)
+    {
+        m_obj = obj;
+    }
+    void saveCache(QString m_path);
+    void stopThread()
+    {
+        needStop = true;
+    }
+protected:
+    void run() override;
+private:
+    ImageCacheSaveObject *m_obj;
+    bool needStop = false;
 };
 
 #endif // IMAGEENGINETHREAD_H

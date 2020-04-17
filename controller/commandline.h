@@ -34,9 +34,7 @@ public:
     //设置管理线程的对象
     void setThreads(ImageEngineImportObject *obj);
     void viewImage(const QString &path, const QStringList &paths);
-
     QWidget *m_pwidget;
-
 private:
     void addOption(const CMOption *option);
     void showHelp();

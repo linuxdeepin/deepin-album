@@ -10,6 +10,7 @@
 #include "widgets/statusbar.h"
 #include "importtimelineview/importtimelineview.h"
 #include "leftlistview.h"
+#include "waitdevicedialog.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -37,6 +38,8 @@
 extern "C" {
 #include <gio/gio.h>
 }
+
+
 #define signals public
 
 DWIDGET_USE_NAMESPACE
@@ -148,6 +151,7 @@ public:
 
     bool imageImported(bool success) override
     {
+        Q_UNUSED(success);
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
@@ -160,13 +164,15 @@ public:
     void restorePicNum();
     void updatePicNum();
 
+    void updateRightView();
 private:
     void initConnections();
     void initLeftView();
     void initRightView();
-    void updateRightView();
+    //void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
+    //void updateRightImportViewColock(QStringList updatePahtlist);         //更新旋转图片视图
     void updateRightImportView();
     void updateRightMyFavoriteView();
     void updateRightMountView();
@@ -221,6 +227,8 @@ private slots:
     void importDialog();
     void onWaitDialogClose();
     void onWaitDialogIgnore();
+
+    void updateRightImportViewColock(QStringList updatePahtlist);         //更新旋转图片视图
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
@@ -270,6 +278,7 @@ private:
 //    QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
+    QStringList m_curPhoneItemList_str;         //外部设备图片的路径
 //    bool bcurThumbnaiItemList_str = true;
     QListWidgetItem *m_curListWidgetItem;
     QMap<QString, QPixmap> m_phonePicMap;
@@ -307,11 +316,12 @@ private:
     DWidget *pPhoneWidget = nullptr;
     DBlurEffectWidget *phonetopwidget = nullptr;
 
-    DDialog *m_waitDeviceScandailog;
-
+    Waitdevicedialog *m_waitDeviceScandialog;
+    bool isWaitDialog = true;
+    bool isIgnore = true;
     QTimer *m_waitDailog_timer;
-    DPushButton *m_closeDeviceScan;
-    DPushButton *m_ignoreDeviceScan;
+    QThread *m_updateMountViewThread = nullptr;
+    bool isMountThreadRunning = false;
 };
 
 #endif // ALBUMVIEW_H

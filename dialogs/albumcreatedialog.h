@@ -25,7 +25,7 @@ class AlbumCreateDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit AlbumCreateDialog(DWidget *parent = 0);
+    explicit AlbumCreateDialog(DWidget *parent = nullptr);
 
     const QString getCreateAlbumName() const;
 
@@ -44,7 +44,7 @@ private:
 
 private:
     QString m_createAlbumName = "";
-    DLineEdit * edit;
+    DLineEdit *edit;
     QAbstractButton *m_Cancel;
     QAbstractButton *m_OK;
     bool m_OKClicked;

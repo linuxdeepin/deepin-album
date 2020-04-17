@@ -4,7 +4,6 @@
 #include "dbmanager/dbmanager.h"
 #include "thumbnail/thumbnaildelegate.h"
 
-
 #include <QObject>
 #include <QPixmap>
 #include <QThreadPool>
@@ -108,5 +107,24 @@ protected:
     QStringList m_pathlast;
     QMutex m_mutexthread;
 };
+
+//这是一个用于生成缓存的队列
+class ImageCacheSaveObject : public QObject
+{
+    Q_OBJECT
+public:
+    ImageCacheSaveObject();
+
+//void setData(QStringList paths);
+public:
+    bool add(const QStringList pahts);
+    bool add(const QString path);
+    QString pop();
+    bool isEmpty();
+private:
+    QList<QString> requestQueue;
+    QMutex m_queuqMutex;
+};
+
 
 #endif // IMAGEENGINEOBJECT_H

@@ -20,6 +20,7 @@ SlideShowButton::SlideShowButton(DWidget *parent) :
 
 void SlideShowButton::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     QColor disablecolor, raisedcolor, disraisedcolor, textcolor, pressedcolor;
     textcolor = QColor(255, 255, 255);
@@ -69,14 +70,15 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
 }
 
 void SlideShowButton::enterEvent(QEvent *e)
-
 {
+    Q_UNUSED(e);
     israised = false;
     repaint();     //重新绘制按钮
 }
 
 void SlideShowButton::leaveEvent(QEvent *e)
 {
+    Q_UNUSED(e);
     israised = true;
     repaint();
 }
@@ -313,7 +315,8 @@ void SearchView::initSearchResultView()
 
     QHBoxLayout *pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setSpacing(5);
-    pHBoxLayout->setContentsMargins(8, 0, 0, 0);
+    //LMH0417 bug号20706
+    pHBoxLayout->setContentsMargins(8, 5, 0, 15);
 
 //    m_pSlideShowBtn = new DPushButton();
     m_pSlideShowBtn = new SlideShowButton();
@@ -366,7 +369,6 @@ void SearchView::initSearchResultView()
 //    m_pSlideShowBtn->setFont(ft1);
 
     m_pSearchResultLabel = new DLabel();
-
     pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSlideShowBtn);
     pHBoxLayout->addSpacing(5);
@@ -376,6 +378,8 @@ void SearchView::initSearchResultView()
     m_searchResultViewTop = new DBlurEffectWidget(m_pSearchResultView);
     m_searchResultViewbody = new DWidget(m_pSearchResultView);
     QVBoxLayout *pSearchResultbodyLayout = new QVBoxLayout();
+    pSearchResultbodyLayout->setContentsMargins(0, 0, 0, 0);
+    //LMH0417 bug号20706
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType);
 
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);

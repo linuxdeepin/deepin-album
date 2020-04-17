@@ -92,34 +92,28 @@ void AllPicView::initConnections()
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-        auto imagelist = DBManager::instance()->getAllInfos();
-        if (imagelist.size() > 1) {
-            for (auto image : imagelist) {
-                info.paths << image.filePath;
-            }
+        auto imagelist = m_pThumbnailListView->getAllFileList();
+        if (imagelist.size() > 0) {
+            info.paths << imagelist;
+            info.path = imagelist[index];
         } else {
             info.paths.clear();
         }
-        info.path = imagelist[index].filePath;
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
         info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
         emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
+        // emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
     connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
-//        auto imagelist1 = DBManager::instance()->getAllInfos();
-//        auto imagelist = DBManager::instance()->getAllPaths();
+
         auto imagelist = m_pThumbnailListView->getAllFileList();
         if (paths.size() > 1) {
             info.paths = paths;
         } else {
-            if (imagelist.size() > 1) {
-//                for (auto image : imagelist) {
-//                    info.paths << image.filePath;
-//                }
+            if (imagelist.size() > 0) {
                 info.paths << imagelist;
             } else {
                 info.paths.clear();
@@ -151,6 +145,8 @@ void AllPicView::initConnections()
             emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
         }
     });
+
+
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
@@ -182,8 +178,10 @@ void AllPicView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+        m_pStatusBar->setVisible(true);
     } else {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
+        m_pStatusBar->setVisible(false);
     }
 }
 
@@ -368,11 +366,12 @@ void AllPicView::dragMoveEvent(QDragMoveEvent *event)
 
 void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 {
-
+    Q_UNUSED(e);
 }
 
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
     m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
 //    m_pwidget->setFixedWidth(this->width() / 2 + 150);
 //    m_pwidget->setFixedHeight(443);
@@ -382,8 +381,12 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pwidget->move(0, 0);
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+
     fatherwidget->setFixedSize(this->size());
 }
+
+
+
 
 void AllPicView::updatePicNum()
 {

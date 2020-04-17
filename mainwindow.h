@@ -8,6 +8,7 @@
 #include "searchview/searchview.h"
 #include "controller/commandline.h"
 #include "controller/exporter.h"
+#include "controller/dbusclient.h"
 #include "widgets/dialogs/imginfodialog.h"
 #include "module/slideshow/slideshowpanel.h"
 //#include "plugin.h"
@@ -30,7 +31,6 @@
 #include <QButtonGroup>
 #include <DSuggestButton>
 #include <DProgressBar>
-
 
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
@@ -60,6 +60,7 @@ public:
 
     bool imageImported(bool success) override;
     void initConnections();
+    void initDBus() ;//lmh0407
     //初始化UI
     void initUI();
     void initWaitDialog();
@@ -135,7 +136,7 @@ private:
     AllPicView *m_pAllPicView;                  //所有照片界面视图
     TimeLineView *m_pTimeLineView;              //时间线界面视图
     SearchView *m_pSearchView;                  //搜索界面视图
-    SlideShowPanel *m_slidePanel;
+    SlideShowPanel *m_slidePanel;               //幻灯片播放视图
 //    DStatusBar* m_pStatusBar;
 //    DLabel* m_pAllPicNumLabel;
 //    DSlider* m_pSlider;
@@ -158,6 +159,10 @@ private:
     DProgressBar *m_importBar = nullptr;
     DLabel *m_waitlabel = nullptr;
     DLabel *m_countLabel = nullptr;
+
+    QString       m_SearchKey;      //搜索框查询信息
+
+    dbusclient *m_pDBus;//LMH0407DBus
 };
 
 #endif // MAINWINDOW_H

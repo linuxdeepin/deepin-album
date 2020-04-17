@@ -47,13 +47,13 @@ class ImageView : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL };
 
-    ImageView(QWidget *parent = 0);
-    ~ImageView()
+    ImageView(QWidget *parent = nullptr);
+    ~ImageView() override
     {
-        if (m_pixmapItem != nullptr) {
-            delete m_pixmapItem;
-            m_pixmapItem = nullptr;
-        }
+//        if (m_pixmapItem != nullptr) {
+//            delete m_pixmapItem;
+//            m_pixmapItem = nullptr;
+//        }
     }
     void clear();
     void fitWindow();
@@ -62,6 +62,7 @@ public:
     void rotateCounterclockwise();
     void centerOn(int x, int y);
     void setImage(const QString &path);
+    void setImageFirst(const QString &path);
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
@@ -97,6 +98,7 @@ signals:
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
 
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
@@ -122,7 +124,7 @@ private slots:
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
     void swipeTriggered(QSwipeGesture *gesture);
-
+    void updateImages(const QStringList &path);
 private:
     bool m_isFitImage = false;
     bool m_isFitWindow = false;

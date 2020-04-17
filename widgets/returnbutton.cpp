@@ -217,8 +217,7 @@ void ReturnButton::paintEvent(QPaintEvent *e)
             const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap
                                /*pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding)*/);
-        }
-        else {
+        } else {
             ph = pixHeight;
             const QRect pr(m.left(), (height() - ph) / 2, pixWidth, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap);
@@ -229,8 +228,7 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     int maxWidth = m_maxWidth - pixWidth - 6;
     int textWidth = fm.boundingRect(m_text).width();
     QString mt;
-    if (textWidth > maxWidth)
-    {
+    if (textWidth > maxWidth) {
         mt = fm.elidedText(m_text, Qt::ElideMiddle, maxWidth - 6);
     } else {
         mt = m_text;
@@ -240,12 +238,11 @@ void ReturnButton::paintEvent(QPaintEvent *e)
 
     int oldWidth = m_buttonWidth;
     m_buttonWidth = std::max(24, int(textWidth + pixWidth + 6));
-    if (oldWidth != m_buttonWidth)
-    {
+    if (oldWidth != m_buttonWidth) {
         emit returnBtnWidthChanged(m_buttonWidth);
     }
     const int th = fm.height();
-    QRect textRect = QRect(pixWidth, (height() - th)/2 - 1, textWidth, pixHeight);
+    QRect textRect = QRect(pixWidth, (height() - th) / 2 - 1, textWidth, pixHeight);
     painter.setPen(QPen(getTextColor()));
     painter.drawText(textRect, Qt::AlignCenter, mt);
     QWidget::paintEvent(e);
@@ -335,11 +332,9 @@ QString ReturnButton::getPixmap() const
 {
     if (m_checked) {
         return checkedPic();
-    }
-    else if (isEnabled()) {
+    } else if (isEnabled()) {
         return m_currentPic;
-    }
-    else {
+    } else {
         return disablePic();
     }
 }
@@ -348,8 +343,7 @@ QColor ReturnButton::getTextColor() const
 {
     if (isEnabled()) {
         return m_currentColor;
-    }
-    else {
+    } else {
         return disableColor();
     }
 }
@@ -373,7 +367,7 @@ void ReturnButton::showTooltip(const QPoint &pos)
     if (y > dr.y() + dr.height()) {
         y = pos.y() - tf->height() - 10;
     }
-    tf->move(pos.x() - tf->width()/3, y - tf->height()/3);
+    tf->move(pos.x() - tf->width() / 3, y - tf->height() / 3);
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
@@ -383,6 +377,7 @@ void ReturnButton::showTooltip(const QPoint &pos)
 
 void ReturnButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
+    Q_UNUSED(theme);
 }
 
 bool ReturnButton::getChecked() const

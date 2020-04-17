@@ -68,13 +68,14 @@ enum MenuItemId {
     IdDisplayInFileManager,
     IdImageInfo,
     IdSubMenu,
+    IdDrawingBoard//lmh0407
 };
 
 }  // namespace
 
 void ViewPanel::initPopupMenu()
 {
-    m_menu = new DMenu;
+    m_menu = new QMenu;
     connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
         if (! m_filepathlist.isEmpty()
 #ifdef LITE_DIV
@@ -167,6 +168,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     }
     case IdPrint: {
         PrintHelper::showPrintDialog(QStringList(path), this);
+        break;
+    }
+    case IdDrawingBoard: {
+        emit dApp->signalM->sigDrawingBoard(QStringList(path));
         break;
     }
 
@@ -396,11 +401,12 @@ void ViewPanel::updateMenuContent()
 
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
     appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Alt+Return"));
+    // appendAction(IdDrawingBoard, tr("Draw"), ss("Draw", ""));
 }
 #if 1
-QMenu *ViewPanel::createAblumMenu()
+DMenu *ViewPanel::createAblumMenu()
 {
-    QMenu *am = new QMenu(tr("Add to album"));
+    DMenu *am = new DMenu(tr("Add to album"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
@@ -448,11 +454,7 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-//        if (! dt->isActive())
-//        {
-//            dt->start();
         showNext();
-//        }
     });
 
 // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)

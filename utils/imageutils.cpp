@@ -94,7 +94,7 @@ bool imageSupportRead(const QString &path)
         return false;
     }
 
-    if (freeimage::isSupportsReading(path))
+    if (freeimage::isSupportsReading(path) || QImageReader::supportedImageFormats().contains(suffix.toUtf8()))
         return true;
     else {
         return (suffix == "svg");

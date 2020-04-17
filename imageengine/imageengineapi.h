@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QUrl>
 #include "imageenginethread.h"
+#include "imageengineobject.h"
 #include "thumbnail/thumbnaildelegate.h"
 
 //加载图片的频率
@@ -16,6 +17,11 @@ class ImageEngineApi: public QObject
     Q_OBJECT
 public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
+    ~ImageEngineApi()
+    {
+        m_qtpool.waitForDone();
+        cacheThreadPool.waitForDone();
+    }
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
     bool insertObject(void *obj);
@@ -32,6 +38,7 @@ public:
     bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
+    bool SaveImagesCache(QStringList files);
 
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
@@ -39,6 +46,9 @@ public:
     bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
+    int  Getm_AllImageDataNum();
+    bool clearAllImageDate();
+    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);
@@ -47,12 +57,16 @@ private slots:
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
     void sltAborted(QString path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
+    void sltstopCacheSave();
 private:
     ImageEngineApi(QObject *parent = nullptr);
     QMap<QString, ImageDataSt>m_AllImageData;
     QMap<void *, void *>m_AllObject;
     QThreadPool m_qtpool;
     static ImageEngineApi *s_ImageEngine;
+    ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
+    QThreadPool cacheThreadPool;
+    QList<ImageCacheQueuePopThread *> cacheThreads;
 };
 
 #endif // IMAGEENGINEAPI_H

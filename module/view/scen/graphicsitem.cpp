@@ -23,7 +23,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *par
     : QGraphicsPixmapItem(fileName, parent)
 {
     m_movie = new QMovie(fileName);
-    QObject::connect(m_movie, &QMovie::frameChanged, this, [=] {
+    QObject::connect(m_movie, &QMovie::frameChanged, this, [ = ] {
         if (m_movie.isNull()) return;
         setPixmap(m_movie->currentPixmap());
     });
@@ -65,7 +65,7 @@ void GraphicsMovieItem::stop()
 
 
 GraphicsPixmapItem::GraphicsPixmapItem(const QPixmap &pixmap)
-    : QGraphicsPixmapItem(pixmap, NULL)
+    : QGraphicsPixmapItem(pixmap, nullptr)
 {
 
 }

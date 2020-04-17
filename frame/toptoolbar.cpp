@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "toptoolbar.h"
 #include "application.h"
 #include "controller/configsetter.h"
@@ -60,17 +61,14 @@ const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
 }  // namespace
 
 TopToolbar::TopToolbar(bool manager, QWidget *parent)
-    :DBlurEffectWidget(parent)
+    : DBlurEffectWidget(parent)
 {
     m_manager = manager;
-
     QPalette palette;
-    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
+    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
     setPalette(palette);
-
     initMenu();
     initWidgets();
-
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -81,23 +79,22 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
         else if (! window()->isFullScreen())  // It would be normal state
             window()->showMaximized();
     }
-
     DBlurEffectWidget::mouseDoubleClickEvent(e);
 }
 
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     QPainter p(this);
-
 //    QPixmap pixmap(":/resources/common/ttb60.svg");
     QPixmap pixmap(":/resources/common/titlebar.svg");
     const QPalette pal = QGuiApplication::palette();//this->palette();
 //    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
-    QBrush bgColor = QBrush(pixmap.scaled(size().width(),74));
+    QBrush bgColor = QBrush(pixmap.scaled(size().width(), 74));
     QRectF bgRect;
     bgRect.setSize(size());
     QPainterPath pp;
-    pp.addRoundedRect(QRectF(bgRect.x(),bgRect.y(),bgRect.width(),60), 0, 0);
+    pp.addRoundedRect(QRectF(bgRect.x(), bgRect.y(), bgRect.width(), 60), 0, 0);
     p.fillPath(pp, bgColor);
 }
 
@@ -108,10 +105,10 @@ void TopToolbar::initWidgets()
     m_layout->setSpacing(0);
 
     m_titlebar = new DTitlebar(this);
-    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
-    QPalette pa;
-    pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
+    DPalette pa;
+    pa.setColor(DPalette::WindowText, QColor(255, 255, 255, 255));
 //    m_titlebar->setIcon(QIcon::fromTheme("deepin-album").pixmap(QSize(30, 30)));
 
     // TitleBar Img
@@ -121,17 +118,17 @@ void TopToolbar::initWidgets()
     pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
     m_titlebar->addWidget(pLabel, Qt::AlignLeft);
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](){
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-
+        Q_UNUSED(themeType);
         QPalette pa1;
-        pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+        pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
         m_titlebar->setPalette(pa1);
     });
 
     m_titlebar->setTitle("");
 
-    m_titletxt=new DLabel;
+    m_titletxt = new DLabel;
     m_titletxt->setText("");
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7/*,QFont::DemiBold*/);
 //    m_titletxt->setForegroundRole(DPalette::TextTitle);//songsha
@@ -143,20 +140,20 @@ void TopToolbar::initWidgets()
 //    shadowEffect->setOffset(0, 1);
 //    shadowEffect->setBlurRadius(1);
 //    m_titletxt->setGraphicsEffect(shadowEffect);
-    m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
+    m_titlebar->addWidget(m_titletxt, Qt::AlignCenter);
     QPalette titleBarPA;
-    titleBarPA.setColor(QPalette::ButtonText,QColor(255,255,255,204));
-    titleBarPA.setColor(QPalette::WindowText,QColor(255,255,255,255));
+    titleBarPA.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+    titleBarPA.setColor(QPalette::WindowText, QColor(255, 255, 255, 255));
     m_titlebar->setPalette(titleBarPA);
     m_titlebar->setBackgroundTransparent(true);
     m_layout->addWidget(m_titlebar);
     connect(dApp->signalM, &SignalManager::updateFileName,
-            this, [ = ](const QString & filename){
-        QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+    this, [ = ](const QString & filename) {
+        QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
         m_titletxt->setText(a);
         connect(dApp->signalM, &SignalManager::resizeFileName,
-                this, [ = ](){
-            QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+        this, [ = ]() {
+            QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
             m_titletxt->setText(b);
         });
     });
@@ -166,8 +163,8 @@ QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
 {
     QFontMetrics fontWidth(font);
     int width = fontWidth.width(str);
-    if(width>=MaxWidth){
-        str = fontWidth.elidedText(str,Qt::ElideRight,MaxWidth);
+    if (width >= MaxWidth) {
+        str = fontWidth.elidedText(str, Qt::ElideRight, MaxWidth);
     }
     return str;
 }
@@ -186,7 +183,8 @@ void TopToolbar::initMenu()
 
 }
 
-void TopToolbar::onViewShortcut() {
+void TopToolbar::onViewShortcut()
+{
 //    QRect rect = window()->geometry();
 //    QPoint pos(rect.x() + rect.width()/2 , rect.y() + rect.height()/2);
 //    Shortcut sc;
@@ -210,12 +208,13 @@ void TopToolbar::onHelp()
     }
 }
 
-void TopToolbar::onDeepColorMode() {
+void TopToolbar::onDeepColorMode()
+{
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
         dApp->viewerTheme->setCurrentTheme(
-                    ViewerThemeManager::Light);
+            ViewerThemeManager::Light);
     } else {
         dApp->viewerTheme->setCurrentTheme(
-                    ViewerThemeManager::Dark);
+            ViewerThemeManager::Dark);
     }
 }

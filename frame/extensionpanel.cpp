@@ -37,10 +37,10 @@ const int ANIMATION_DURATION = 500;
 const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 }  // namespace
 
-ExtensionPanel* ExtensionPanel::instance = nullptr;
+ExtensionPanel *ExtensionPanel::instance = nullptr;
 
 ExtensionPanel::ExtensionPanel(QWidget *parent)
-    //    : DFloatingWidget(parent)
+//    : DFloatingWidget(parent)
     : DDialog(parent)
 {
     //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -52,13 +52,13 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     m_contentLayout->setSpacing(0);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
     setFixedHeight(540);
-    setContentLayoutContentsMargins(QMargins(0,0,0,0));
+    setContentLayoutContentsMargins(QMargins(0, 0, 0, 0));
     setModal(true);
 }
 
 ExtensionPanel *ExtensionPanel::getInstance(QWidget *parent)
 {
-    if(instance == nullptr){
+    if (instance == nullptr) {
         instance = new ExtensionPanel(parent);
     }
     return instance;
@@ -68,7 +68,7 @@ void ExtensionPanel::setContent(QWidget *content)
 {
     if (content) {
         QLayoutItem *child;
-        if ((child = m_contentLayout->takeAt(0)) != 0) {
+        if ((child = m_contentLayout->takeAt(0)) != nullptr) {
             if (child->widget())
                 child->widget()->deleteLater();
             delete child;
@@ -84,9 +84,9 @@ void ExtensionPanel::setContent(QWidget *content)
 void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
-            [=](int height) {
-                    setFixedHeight(qMin(615, height+5));//tmp for imageinfo
-            });
+    [ = ](int height) {
+        setFixedHeight(qMin(615, height + 5)); //tmp for imageinfo
+    });
 
     if (m_content) {
 //                resize(qMax(m_content->sizeHint().width(), EXTENSION_PANEL_WIDTH), height());
@@ -164,16 +164,16 @@ void ExtensionPanel::paintEvent(QPaintEvent *pe)
 //}
 //void ExtensionPanel::moveWithAnimation(int x, int y)
 //{
-    //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    //    animation->setDuration(ANIMATION_DURATION);
-    //    animation->setEasingCurve(ANIMATION_EASING_CURVE);
-    //    animation->setStartValue(pos());
-    //    animation->setEndValue(QPoint(x, y));
-    //    animation->start();
-    //    connect(this, &ExtensionPanel::requestStopAnimation, animation,
-    //    &QPropertyAnimation::stop); connect(this, &ExtensionPanel::requestStopAnimation,
-    //    animation,
-    //            &QPropertyAnimation::deleteLater);
-    //    connect(animation, &QPropertyAnimation::finished, animation,
-    //    &QPropertyAnimation::deleteLater);
+//    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+//    animation->setDuration(ANIMATION_DURATION);
+//    animation->setEasingCurve(ANIMATION_EASING_CURVE);
+//    animation->setStartValue(pos());
+//    animation->setEndValue(QPoint(x, y));
+//    animation->start();
+//    connect(this, &ExtensionPanel::requestStopAnimation, animation,
+//    &QPropertyAnimation::stop); connect(this, &ExtensionPanel::requestStopAnimation,
+//    animation,
+//            &QPropertyAnimation::deleteLater);
+//    connect(animation, &QPropertyAnimation::finished, animation,
+//    &QPropertyAnimation::deleteLater);
 //}

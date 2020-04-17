@@ -10,6 +10,8 @@ StatusBar::StatusBar(QWidget *parent)
 //    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
 //    setPalette(palette);
     initUI();
+   // setMaskColor(MaskColorType::CustomColor);
+   // setMaskAlpha(0.7);
 
 }
 
@@ -22,15 +24,18 @@ void StatusBar::initUI()
     m_allPicNum = DBManager::instance()->getImgsCount();
 
     m_pAllPicNumLabel = new DLabel();
+    m_pAllPicNumLabel->setEnabled(false);
 //    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
-    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8,QFont::Normal));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
 
     m_pimporting = new DWidget(this);
     TextLabel = new DLabel();
     TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+
     TextLabel->setText("");
     TextLabel->adjustSize();
+    TextLabel->setEnabled(false);
     loadingicon = new DSpinner(m_pimporting);
     loadingicon->hide();
     loadingicon->setFixedSize(20, 20);
@@ -91,6 +96,7 @@ void StatusBar::initConnections()
         }
     });
     connect(dApp->signalM, &SignalManager::sigExporting, this, [ = ](QString path) {
+        Q_UNUSED(path);
         if (isVisible()) {
             m_pStackedWidget->setCurrentIndex(0);
         }
@@ -99,8 +105,30 @@ void StatusBar::initConnections()
 
 void StatusBar::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
     m_pSlider->move(width() - 214, -1);
 }
+
+void StatusBar::paintEvent(QPaintEvent *event)
+{
+    setMaskColor(MaskColorType::AutoColor);
+
+    QPalette palette=m_pAllPicNumLabel->palette();
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        palette.setColor(QPalette::WindowText, QColor(192,198,212)); // 最后一项为透明度
+    }
+    else{
+        palette.setColor(QPalette::WindowText, QColor(98,110,136)); // 最后一项为透明度
+    }
+
+    m_pAllPicNumLabel->setPalette(palette);
+    return DBlurEffectWidget::paintEvent(event);
+}
+
+
+
+
 
 void StatusBar::timerEvent(QTimerEvent *e)
 {
@@ -125,12 +153,11 @@ void StatusBar::timerEvent(QTimerEvent *e)
             } else {
                 emit dApp->signalM->ImportFailed();
             }
-
         } else {
             TextLabel->setText(string.arg(imgpaths[i + 1]));
 //            TextLabel->setMinimumSize(TextLabel->sizeHint());
-//            TextLabel->adjustSize();
-            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+//            TextLabel->adjustSize();       
+            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8,QFont::Normal));
             i ++;
             if (i == imgpaths.count() - 1) {
                 i = 0;

@@ -27,7 +27,7 @@ class CacheThread : public QThread
     Q_OBJECT
 public:
     CacheThread(const QString &path)
-        : QThread(NULL)
+        : QThread(nullptr)
         , m_path(path) {}
 
 signals:
@@ -49,7 +49,7 @@ class SlideEffectPlayer : public QObject
 {
     Q_OBJECT
 public:
-    SlideEffectPlayer(QObject *parent = 0);
+    SlideEffectPlayer(QObject *parent = nullptr);
     ~SlideEffectPlayer();
     void setFrameSize(int width, int height);
     QSize frameSize() const
@@ -99,7 +99,7 @@ private:
     int m_current;
 
     QThread m_thread;
-    SlideEffect *m_effect = NULL;
+    SlideEffect *m_effect = nullptr;
     bool b_4k = false;
     bool bfirstrun = true;
     bool bneedupdatepausebutton = false;

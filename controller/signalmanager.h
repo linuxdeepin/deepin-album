@@ -103,6 +103,7 @@ signals:
     void ImgExportFailed();
     void AlbExportSuccess();
     void AlbExportFailed();
+    void DeviceImageLoadEnd();
     void sigExporting(const QString &path);
     void sigRestoreStatus();
 
@@ -116,6 +117,8 @@ signals:
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());
+
+    void sigDrawingBoard(QStringList Paths);//lmh0407
 #if 1
     void viewModeCreateAlbum(QString path);
     void sigCreateNewAlbumFrom(QString albumname);
@@ -132,7 +135,7 @@ signals:
     void sigESCKeyStopSlide();
     void sigUpdataAlbumRightTitle(QString titlename);
     void sigUpdateTrashImageLoader();
-    void sigUpdateImageLoader();
+    void sigUpdateImageLoader(QStringList pathlist = QStringList());
     void sigLoadMountImagesEnd(QString mountname);
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();
@@ -153,6 +156,13 @@ signals:
     void closeWaitDialog();
     void progressOfWaitDialog(int allfiles, int completefiles);
     void waitDevicescan();
+    void cacheThreadStop();
+
+    //尝试手动更新查看界面工具栏
+    void sigUpdateTTB();
+    //lmh仅仅查看一张图片
+    void sigOpenPicture(QString path);
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

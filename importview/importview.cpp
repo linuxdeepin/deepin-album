@@ -67,10 +67,20 @@ void ImportView::initConnections()
         if (themeType == DGuiApplicationHelper::LightType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
+            if (nullptr != m_pImportBtn) {
+                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+                pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
+                m_pImportBtn->setPalette(pa);
+            }
         }
         if (themeType == DGuiApplicationHelper::DarkType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
+            if (nullptr != m_pImportBtn) {
+                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+                pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+                m_pImportBtn->setPalette(pa);
+            }
         }
         pLabel->setPixmap(pixmap);
     });
@@ -95,22 +105,22 @@ void ImportView::initUI()
 
     m_pImportBtn = new DSuggestButton();
     m_pImportBtn->setFocusPolicy(Qt::NoFocus);
-    DFontSizeManager::instance()->bind(m_pImportBtn, DFontSizeManager::T6);
+    DFontSizeManager::instance()->bind(m_pImportBtn, DFontSizeManager::T6, QFont::ExtraLight);
     m_pImportBtn->setText(tr("Import Photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-//    pa.setColor(QPalette::Light,QColor(37,183,255));
-//    pa.setColor(QPalette::Dark,QColor(0,152,255));
-    pa.setColor(QPalette::Highlight, QColor(0, 0, 0, 0));
-//    pa.setBrush(DPalette::ButtonText, pa.color(DPalette::Base));
-//    m_pImportBtn->setPalette(pa);
-
+    if (themeType == DGuiApplicationHelper::LightType) {
+        pa.setColor(QPalette::Button, QColor(37, 183, 255));
+    } else {
+        pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+    }
+    m_pImportBtn->setPalette(pa);
     DLabel *pLabel2 = new DLabel();
-    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T8, QFont::Normal);
+    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T9, QFont::ExtraLight);
     pLabel2->setForegroundRole(DPalette::TextTips);
-    pLabel2->setFixedHeight(22);
+    pLabel2->setFixedHeight(18);
     pLabel2->setText(tr("Or drag photos here"));
 
 //    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
@@ -119,14 +129,18 @@ void ImportView::initUI()
 //    effect->setBlurRadius(4);
 //    m_pImportBtn->setGraphicsEffect(effect);
 
+
+    pImportFrameLayout->setMargin(0);
+
+    // pImportFrameLayout->setContentsMargins(0,0,0,0);
+
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);
-    pImportFrameLayout->addSpacing(10);
+    pImportFrameLayout->addSpacing(5);
     pImportFrameLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
-    pImportFrameLayout->addSpacing(20);
+    pImportFrameLayout->addSpacing(10);
     pImportFrameLayout->addWidget(pLabel2, 0, Qt::AlignCenter);
     pImportFrameLayout->addStretch();
-
     setLayout(pImportFrameLayout);
 }
 
@@ -273,7 +287,7 @@ void ImportView::dragMoveEvent(QDragMoveEvent *event)
 
 void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
 {
-
+    Q_UNUSED(e);
 }
 
 void ImportView::onImprotBtnClicked()
@@ -321,7 +335,8 @@ void ImportView::onImprotBtnClicked()
         return;
     }
 
-
+    ////预留
+    ImageEngineApi::instance()->SaveImagesCache(file_list);
     ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_albumname, this, true);
 
     /*    QStringList image_list;
@@ -511,3 +526,6 @@ void ImportView::setAlbumname(const QString &name)
 {
     m_albumname = name;
 }
+
+
+

@@ -77,7 +77,8 @@ public:
         IdImageInfo,
         IdSubMenu,
         IdSeparator,
-        IdTrashRecovery
+        IdTrashRecovery,
+        IdDrawingBoard//lmh0407画板
     };
 
     struct ItemInfo {
@@ -91,6 +92,15 @@ public:
         int imgHeight = 0;
         QString remainDays = "30天";
         QPixmap image = QPixmap();
+
+
+        friend bool operator== (const ItemInfo &left, const ItemInfo &right)
+        {
+
+            if (left.image == right.image)
+                return true;
+            return false;
+        }
     };
 
     explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, QString imgtype = "All Photos", QWidget *parent = nullptr);
@@ -132,6 +142,7 @@ public:
     void clearSelectionFront(int row);
     void clearSelectionExtent(int start, int end);
 
+    QStringList m_allfileslist;
 signals:
 //    void loadend(int);
     void needResize(int);
@@ -178,7 +189,8 @@ private slots:
     void onTimerOut();
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
-
+public:
+    void updateThumbnailView(QString updatePath = "");
 private:
     //------------------
     void requestSomeImages();
@@ -195,18 +207,15 @@ private:
     void sendNeedResize(/*int height*/);
     void resizeEventF();
     //------------------
-    void updateThumbnailView();
+    //void updateThumbnailView();
+
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onShowImageInfo(const QString &path);
     void initMenuAction();
     DMenu *createAlbumMenu();
-
     void resizeEvent(QResizeEvent *e) override;
-
-
     bool eventFilter(QObject *obj, QEvent *e) override;
-
 public:
     QString m_imageType;
     QStandardItemModel *m_model = nullptr;
@@ -229,7 +238,7 @@ private:
     ThumbnailDelegate::DelegateType m_delegatetype = ThumbnailDelegate::NullType;
 
     //------------------
-    QStringList m_allfileslist;
+
     QStringList m_filesbeleft;
     bool bneedloadimage = true;
     bool brequestallfiles = false;

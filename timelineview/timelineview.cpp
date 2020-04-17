@@ -98,8 +98,8 @@ void TimeLineView::initConnections()
         on_MoveLabel(y, date, num, choseText);
     });
 
-//    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
-    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::clearAndStartLayout);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
+    //connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::clearAndStartLayout);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
@@ -149,7 +149,7 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
     }
 
     for (int i = 1; i < m_mainListWidget->count(); i++) {
-        TimelineItem *item = (TimelineItem *)m_mainListWidget->itemWidget(m_mainListWidget->item(i));
+        TimelineItem *item = dynamic_cast<TimelineItem *>(m_mainListWidget->itemWidget(m_mainListWidget->item(i)));
         QList<DLabel *> pLabelList = item->findChildren<DLabel *>();
         DPalette color = DApplicationHelper::instance()->palette(pLabelList[0]);
         color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
@@ -171,6 +171,18 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
             pLabelList[1]->setPalette(pal);
         }
     }
+}
+
+void TimeLineView::updataLayout(QStringList updatePathList)
+{
+    m_spinner->hide();
+    m_spinner->stop();
+    if (updatePathList.isEmpty())
+        return;
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->updateThumbnailView(updatePathList.first());
+    }
+
 }
 
 void TimeLineView::initTimeLineViewWidget()
@@ -200,7 +212,7 @@ void TimeLineView::initTimeLineViewWidget()
 
     //时间线
     m_pDate = new DLabel();
-    DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T3, QFont::DemiBold);
+    DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T3, QFont::Medium);
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft3.setFamily("SourceHanSansSC");
     ft3.setWeight(QFont::DemiBold);
@@ -272,12 +284,15 @@ void TimeLineView::initTimeLineViewWidget()
         {
             pSuspensionChose->setText(QObject::tr("Select"));
             QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-            p[0]->clearSelection();
-            updatePicNum();
+            if (p.size() > 0) {
+                p[0]->clearSelection();
+                updatePicNum();
+            }
         }
 #if 1
         QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-        b[0]->setText(pSuspensionChose->text());
+        if (b.size() > 0)
+            b[0]->setText(pSuspensionChose->text());
 #endif
     });
 
@@ -319,8 +334,10 @@ void TimeLineView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
+        m_pStatusBar->setVisible(true);
     } else {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
+        m_pStatusBar->setVisible(false);
     }
 }
 
@@ -421,8 +438,8 @@ void TimeLineView::addTimelineLayout()
     pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     QStringList datelist = m_timelines.at(nowTimeLineLoad).split(".");
     if (datelist.count() > 2) {
-//            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-        listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+          listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+ //       listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
     }
     pDate->setText(listItem->m_sdate);
 
@@ -1317,6 +1334,7 @@ void TimeLineView::on_KeyEvent(int key)
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
+    Q_UNUSED(ev);
     m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
     m_dateItem->setFixedSize(width() - 15, 87);
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
@@ -1481,7 +1499,7 @@ void TimeLineView::dragMoveEvent(QDragMoveEvent *event)
 
 void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
-
+    Q_UNUSED(e);
 }
 
 void TimeLineView::keyPressEvent(QKeyEvent *e)

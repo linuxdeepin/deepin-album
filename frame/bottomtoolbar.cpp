@@ -29,7 +29,6 @@ BottomToolbar::BottomToolbar(QWidget *parent)
     : DFloatingWidget(parent)
 {
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-
     DWidget *dwidget = new DWidget(this);
     m_mainLayout = new QHBoxLayout(dwidget);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
@@ -59,7 +58,7 @@ void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme)
 void BottomToolbar::setContent(QWidget *content)
 {
     QLayoutItem *child;
-    while ((child = m_mainLayout->takeAt(0)) != 0) {
+    while ((child = m_mainLayout->takeAt(0)) != nullptr) {
         if (child->widget())
             child->widget()->deleteLater();
         delete child;

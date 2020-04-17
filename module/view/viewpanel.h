@@ -47,7 +47,7 @@ class ViewPanel : public ModulePanel, public ImageEngineObject
 {
     Q_OBJECT
 public:
-    explicit ViewPanel(QWidget *parent = 0);
+    explicit ViewPanel(QWidget *parent = nullptr);
     ~ViewPanel() Q_DECL_OVERRIDE;
 
     QString moduleName() Q_DECL_OVERRIDE;
@@ -65,6 +65,7 @@ public:
         return m_ttbc->itemLoadedSize();
     }
 
+    void openImageFirst(const QString &path, bool inDB=true);
 signals:
     void updateCollectButton();
 //    void imageChanged(const QString &path, DBImgInfoList infos);
@@ -122,7 +123,7 @@ private:
     // Menu control
     void appendAction(int id, const QString &text, const QString &shortcut = "");
     void appendAction_darkmenu(int id, const QString &text, const QString &shortcut = "");
-    QMenu *createAblumMenu();
+    DMenu *createAblumMenu();
 #ifndef LITE_DIV
     DMenu *createAlbumMenu();
 #endif
@@ -172,7 +173,7 @@ private:
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
     ThumbnailWidget *m_emptyWidget = nullptr;
-    DMenu *m_menu;
+    QMenu *m_menu;
     QStackedWidget *m_stack;
     LockWidget *m_lockWidget;
 

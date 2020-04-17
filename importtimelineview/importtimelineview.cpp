@@ -62,6 +62,18 @@ int ImportTimeLineView::getIBaseHeight()
         return 110;
     case 4:
         return 120;
+    case 5:
+        return 130;
+    case 6:
+        return 140;
+    case 7:
+        return 150;
+    case 8:
+        return 160;
+    case 9:
+        return 170;
+    default:
+        return 80;
     }
 }
 
@@ -85,6 +97,7 @@ void ImportTimeLineView::initConnections()
 
 void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
+    Q_UNUSED(themeType);
     DPalette palcolor = DApplicationHelper::instance()->palette(pTimeLineViewWidget);
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     pTimeLineViewWidget->setPalette(palcolor);
@@ -395,9 +408,10 @@ void ImportTimeLineView::addTimelineLayout()
     QStringList datelist = dateTimeList.at(0).split(".");
     if (datelist.count() > 2) {
         if (dateTimeList.count() == 2) {
-            listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
+            listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1年%2月%3日 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
         } else {
-            listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            //listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
     }
     pDate->setText(listItem->m_sdate);
@@ -1333,6 +1347,7 @@ void ImportTimeLineView::on_DelLabel()
 void ImportTimeLineView::on_MoveLabel(int y, QString date, QString num, QString choseText)
 #endif
 {
+    Q_UNUSED(y);
     if ((nullptr != m_dateItem) && (nullptr != m_mainListWidget)) {
         QList<QLabel *> labelList = m_dateItem->findChildren<QLabel *>();
         labelList[0]->setText(date);
@@ -1367,7 +1382,7 @@ void ImportTimeLineView::on_KeyEvent(int key)
 
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
-
+    Q_UNUSED(ev);
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
         m_allThumbnailListView[i]->setFixedWidth(width() + 2);
         emit m_allThumbnailListView[i]->needResizeLabel();
@@ -1512,7 +1527,7 @@ void ImportTimeLineView::dragMoveEvent(QDragMoveEvent *event)
 
 void ImportTimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
-
+    Q_UNUSED(e);
 }
 
 void ImportTimeLineView::keyPressEvent(QKeyEvent *e)
@@ -1540,4 +1555,13 @@ void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
         updateChoseText();
     }
     DWidget::mousePressEvent(e);
+}
+
+void ImportTimeLineView::updateLayout(QStringList updatePathList)
+{
+    if (updatePathList.isEmpty())
+        return;
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->updateThumbnailView(updatePathList.first());
+    }
 }

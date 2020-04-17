@@ -27,13 +27,13 @@ class ModulePanel : public /*QFrame*/QWidget
 {
     Q_OBJECT
 public:
-    ModulePanel(QWidget *parent = 0)
+    ModulePanel(QWidget *parent = nullptr)
         : /*QFrame*/QWidget(parent)
     {
         connect(dApp->signalM, &SignalManager::gotoPanel,
                 this, &ModulePanel::showPanelEvent);
     }
-    virtual ~ModulePanel(){}
+    virtual ~ModulePanel() {}
     virtual bool isMainPanel()
     {
         return false;

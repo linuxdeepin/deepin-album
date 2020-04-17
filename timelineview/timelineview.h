@@ -28,12 +28,13 @@ public:
 protected:
     void paintEvent(QPaintEvent *event)
     {
-
+        Q_UNUSED(event);
         qDebug() << "x is " << x();
         qDebug() << "pos.x is " << pos().x();
     }
     void moveEvent(QMoveEvent *event)
     {
+        Q_UNUSED(event);
         qDebug() << "moveEvent x is " << x();
         qDebug() << "moveEvent pos.x is " << pos().x();
     }
@@ -43,13 +44,14 @@ class TimeLineView : public DWidget, public ImageEngineImportObject
 {
 public:
     TimeLineView();
-    ~TimeLineView()
+    ~TimeLineView() override
     {
         void clearAndStop();
     }
 
     bool imageImported(bool success) override
     {
+        Q_UNUSED(success);
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
@@ -93,6 +95,9 @@ public:
     void restorePicNum();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 
+private slots:
+    //更新布局（旋转图片时）
+    void updataLayout(QStringList updatePathList);
 private:
     TimelineList *m_mainListWidget = nullptr;
     QLayout *m_mainLayout = nullptr;

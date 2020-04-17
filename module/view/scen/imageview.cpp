@@ -41,6 +41,7 @@
 #include "widgets/toast.h"
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
+#include "imageengine/imageenginethread.h"
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -76,11 +77,9 @@ QVariantList cachePixmap(const QString &path)
         } else {
             qWarning() << "can't read image:" << readerF.errorString()
                        << format;
-
             tImg = QImage(path);
         }
     }
-
     QPixmap p = QPixmap::fromImage(tImg);
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
@@ -147,7 +146,11 @@ ImageView::ImageView(QWidget *parent)
             m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
         }
         update();
-
+    });
+    //0415 open Pictrue
+    connect(dApp->signalM,&SignalManager::sigOpenPicture,this,[=](QString path){
+        setImageFirst(path);
+        emit imageChanged(path);
     });
 }
 
@@ -157,6 +160,8 @@ void ImageView::clear()
         delete m_pixmapItem;
         m_pixmapItem = nullptr;
     }
+    m_movieItem=nullptr;
+    m_imgSvgItem=nullptr;
     scene()->clear();
 }
 
@@ -170,20 +175,6 @@ void ImageView::setImage(const QString &path)
     QString strfixL = QFileInfo(path).suffix().toLower();
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
-
-//    QString oldHintPath = m_toast->property("hint_path").toString();
-//    if (oldHintPath != fi.canonicalFilePath()) {
-//        m_toast->setProperty("hide_by_user", false);
-//    }
-//    m_toast->setProperty("hint_path", fi.canonicalFilePath());
-
-//    if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
-////        m_toast->show();
-//        m_toast->move(width() / 2 - m_toast->width() / 2,
-//                      height() - 80 - m_toast->height() / 2 - 11);
-//    } else {
-//        m_toast->hide();
-//    }
 
     // The suffix of svf file should be svg
     if ( strfixL == "svg" && DSvgRenderer().load(path)) {
@@ -211,6 +202,7 @@ void ImageView::setImage(const QString &path)
         setSceneRect(m_imgSvgItem->boundingRect());
         s->addItem(m_imgSvgItem);
         emit imageChanged(path);
+
     } else {
         m_imgSvgItem = nullptr;
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
@@ -221,6 +213,7 @@ void ImageView::setImage(const QString &path)
                 delete m_pixmapItem;
                 m_pixmapItem = nullptr;
             }
+
             s->clear();
             resetTransform();
             m_movieItem = new GraphicsMovieItem(path);
@@ -234,33 +227,129 @@ void ImageView::setImage(const QString &path)
             qDebug() << "Start cache pixmap: " << path;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (! m_watcher.isRunning()) {
-
-                //show loading gif.
-//                m_pixmapItem = nullptr;
-//                s->clear();
-//                resetTransform();
-
-//                auto spinner = new DSpinner;
-//                spinner->setFixedSize(SPINNER_SIZE);
-//                spinner->setBackgroundColor(Qt::transparent);
-//                spinner->start();
-//                QWidget *w = new QWidget();
-//                w->setFixedSize(SPINNER_SIZE);
-//                QHBoxLayout *hLayout = new QHBoxLayout;
-//                hLayout->setMargin(0);
-//                hLayout->setSpacing(0);
-//                hLayout->addWidget(spinner, 0, Qt::AlignCenter);
-//                w->setLayout(hLayout);
-                // Make sure item show in center of view after reload
-//                setSceneRect(w->rect());
-//                s->addWidget(w);
-
                 f.waitForFinished();
                 qDebug() << "Finish cache pixmap: " << path;
                 m_watcher.setFuture(f);
-
                 emit hideNavigation();
             }
+        }
+    }
+}
+
+void ImageView::setImageFirst(const QString &path)
+{
+    // Empty path will cause crash in release-build mode
+    if (path.isEmpty()) {
+        return;
+    }
+    m_path = path;
+    QString strfixL = QFileInfo(path).suffix().toLower();
+    QGraphicsScene *s = scene();
+    QFileInfo fi(path);
+
+    // The suffix of svf file should be svg
+    if ( strfixL == "svg" && DSvgRenderer().load(path)) {
+        m_movieItem = nullptr;
+//        m_pixmapItem = nullptr;
+        if (m_pixmapItem != nullptr) {
+            delete m_pixmapItem;
+            m_pixmapItem = nullptr;
+        }
+        s->clear();
+        resetTransform();
+
+        DSvgRenderer *svgRenderer = new DSvgRenderer;
+        svgRenderer->load(path);
+        m_imgSvgItem = new ImageSvgItem();
+        m_imgSvgItem->setSharedRenderer(svgRenderer);
+
+        setSceneRect(m_imgSvgItem->boundingRect());
+        s->addItem(m_imgSvgItem);
+        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+
+        QSize image_size = image.size();
+
+        if ((image_size.width() >= width() ||
+                image_size.height() >= height()) &&
+                width() > 0 && height() > 0) {
+            fitWindow();
+        } else {
+            fitImage();
+        }
+
+
+    } else {
+        m_imgSvgItem = nullptr;
+        QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
+        //QMovie can't read frameCount of "mng" correctly,so change
+        //the judge way to solve the problem
+        if (fList.contains(strfixL.toUtf8().data())) {
+            if (m_pixmapItem != nullptr) {
+                delete m_pixmapItem;
+                m_pixmapItem = nullptr;
+            }
+
+            s->clear();
+            resetTransform();
+            m_movieItem = new GraphicsMovieItem(path);
+            m_movieItem->start();
+            // Make sure item show in center of view after reload
+            setSceneRect(m_movieItem->boundingRect());
+            s->addItem(m_movieItem);
+            QSize image_size = m_movieItem->pixmap().size();
+
+            if ((image_size.width() >= width() ||
+                    image_size.height() >= height()) &&
+                    width() > 0 && height() > 0) {
+                fitWindow();
+            } else {
+                fitImage();
+            }
+
+        } else {
+            m_movieItem = nullptr;
+            qDebug() << "Start cache pixmap: " << path;
+
+            QVariantList vl = cachePixmap(path);
+            if (vl.length() == 2) {
+                //const QString path = vl.first().toString();
+                QPixmap pixmap(path);// = vl.last().value<QPixmap>();
+                pixmap.setDevicePixelRatio(devicePixelRatioF());
+                if (path == m_path) {
+                    if (m_pixmapItem != nullptr) {
+                        delete m_pixmapItem;
+                        m_pixmapItem = nullptr;
+                    }
+                    scene()->clear();
+                    resetTransform();
+                    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+                    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+
+                    setSceneRect(m_pixmapItem->boundingRect());
+                    scene()->addItem(m_pixmapItem);
+
+                    QSize image_size = m_pixmapItem->pixmap().size();
+
+                    if ((image_size.width() >= width() ||
+                            image_size.height() >= height()) &&
+                            width() > 0 && height() > 0) {
+                        fitWindow();
+                    } else {
+                        fitImage();
+                    }
+                    //autoFit();
+                    //emit imageChanged(path);
+                }
+            }
+
+//            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
+//            if (! m_watcher.isRunning()) {
+//                f.waitForFinished();
+//                qDebug() << "Finish cache pixmap: " << path;
+//                m_watcher.setFuture(f);
+
+//                emit hideNavigation();
+//            }
         }
     }
 }
@@ -317,11 +406,12 @@ void ImageView::setScaleValue(qreal v)
 
 void ImageView::autoFit()
 {
+    //确认场景加载出来后，才能调用场景内的item
+    if (!scene()->isActive())
+        return;
     if (image().isNull())
         return;
-
     QSize image_size = image().size();
-
     if ((image_size.width() >= width() ||
             image_size.height() >= height()) &&
             width() > 0 && height() > 0) {
@@ -392,19 +482,34 @@ void ImageView::fitImage()
 
 void ImageView::rotateClockWise()
 {
-    bool v =  utils::image::rotate(m_path, 90);
-//    QEventLoop loop;
-//    QTimer::singleShot(1000, &loop, SLOT(quit()));
-//    loop.exec();
-    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
-    setImage(m_path);
+    const QString suffix = QFileInfo(m_path).suffix();
+    if (suffix.toUpper().compare("SVG") == 0) {
+        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+        imgSVGThread->setData(QStringList() << m_path, 90);
+        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
+        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+        imgSVGThread->start();
+    } else {
+        utils::image::rotate(m_path, 90);
+        setImage(m_path);
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    }
 }
 
 void ImageView::rotateCounterclockwise()
 {
-    utils::image::rotate(m_path, - 90);
-    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
-    setImage(m_path);
+    const QString suffix = QFileInfo(m_path).suffix();
+    if (suffix.toUpper().compare("SVG") == 0) {
+        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+        imgSVGThread->setData(QStringList() << m_path, -90);
+        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
+        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+        imgSVGThread->start();
+    } else {
+        utils::image::rotate(m_path, - 90);
+        setImage(m_path);
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    }
 }
 
 void ImageView::centerOn(int x, int y)
@@ -682,6 +787,13 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
         }
     }
 
+}
+
+void ImageView::updateImages(const QStringList &path)
+{
+    dApp->m_imageloader->updateImageLoader(path);
+    //等待svg图片转换完成后在加载
+    setImage(m_path);
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)
