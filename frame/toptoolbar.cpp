@@ -64,8 +64,8 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     : DBlurEffectWidget(parent)
 {
     m_manager = manager;
-    DPalette palette;
-    palette.setColor(DPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
+    QPalette palette;
+    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
     setPalette(palette);
     initMenu();
     initWidgets();
@@ -88,7 +88,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     QPainter p(this);
 //    QPixmap pixmap(":/resources/common/ttb60.svg");
     QPixmap pixmap(":/resources/common/titlebar.svg");
-    const DPalette pal = QGuiApplication::palette();//this->palette();
+    const QPalette pal = QGuiApplication::palette();//this->palette();
 //    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
     QBrush bgColor = QBrush(pixmap.scaled(size().width(), 74));
     QRectF bgRect;
@@ -112,7 +112,7 @@ void TopToolbar::initWidgets()
 //    m_titlebar->setIcon(QIcon::fromTheme("deepin-album").pixmap(QSize(30, 30)));
 
     // TitleBar Img
-    DLabel *pLabel = new DLabel();
+    QLabel *pLabel = new QLabel();
     pLabel->setFixedSize(33, 32);
     QIcon icon = QIcon::fromTheme("deepin-album");
     pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
@@ -121,8 +121,8 @@ void TopToolbar::initWidgets()
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         Q_UNUSED(themeType);
-        DPalette pa1;
-        pa1.setColor(DPalette::ButtonText, QColor(255, 255, 255, 204));
+        QPalette pa1;
+        pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
         m_titlebar->setPalette(pa1);
     });
 
@@ -141,9 +141,9 @@ void TopToolbar::initWidgets()
 //    shadowEffect->setBlurRadius(1);
 //    m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt, Qt::AlignCenter);
-    DPalette titleBarPA;
-    titleBarPA.setColor(DPalette::ButtonText, QColor(255, 255, 255, 204));
-    titleBarPA.setColor(DPalette::WindowText, QColor(255, 255, 255, 255));
+    QPalette titleBarPA;
+    titleBarPA.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+    titleBarPA.setColor(QPalette::WindowText, QColor(255, 255, 255, 255));
     m_titlebar->setPalette(titleBarPA);
     m_titlebar->setBackgroundTransparent(true);
     m_layout->addWidget(m_titlebar);

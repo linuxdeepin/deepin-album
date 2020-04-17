@@ -75,7 +75,7 @@ enum MenuItemId {
 
 void ViewPanel::initPopupMenu()
 {
-    m_menu = new DMenu;
+    m_menu = new QMenu;
     connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
         if (! m_filepathlist.isEmpty()
 #ifdef LITE_DIV

@@ -205,8 +205,14 @@ void ViewPanel::initConnect()
             //LMH0415
             SignalManager::ViewInfo newinfo=vinfo;
             newinfo.paths.clear();
+            int index = -1;
+            if(m_vinfo.paths.size() == 0) //only a piece of image
+            {
+                index = m_vinfo.path.compare(newinfo.path) == 0? 0 : index;
+            }else {
+                index = m_vinfo.paths.indexOf(newinfo.path);
+            }
 
-            int index=m_vinfo.paths.indexOf(newinfo.path);
             if(index<0)
             {
                 return false;
@@ -972,7 +978,7 @@ void ViewPanel::viewOnNewProcess(const QStringList &paths)
 
 void ViewPanel::initStack()
 {
-    m_stack = new DStackedWidget;
+    m_stack = new QStackedWidget;
     m_stack->setMouseTracking(true);
     m_stack->setContentsMargins(0, 0, 0, 0);
 

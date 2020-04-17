@@ -50,10 +50,10 @@ public:
     ImageView(QWidget *parent = nullptr);
     ~ImageView() override
     {
-        if (m_pixmapItem != nullptr) {
-            delete m_pixmapItem;
-            m_pixmapItem = nullptr;
-        }
+//        if (m_pixmapItem != nullptr) {
+//            delete m_pixmapItem;
+//            m_pixmapItem = nullptr;
+//        }
     }
     void clear();
     void fitWindow();

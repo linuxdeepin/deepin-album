@@ -66,7 +66,7 @@ public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
 
-    DWidget *m_pwidget;
+    QWidget *m_pwidget;
 
     int step;
 

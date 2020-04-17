@@ -22,7 +22,7 @@
 #include <DFloatingWidget>
 #include <QHBoxLayout>
 #include <QPropertyAnimation>
-#include <DScrollArea>
+#include <QScrollArea>
 #include "controller/viewerthememanager.h"
 #include "widgets/blureframe.h"
 
@@ -49,7 +49,7 @@ private:
     QWidget *m_content;
     QVBoxLayout *m_contentLayout;
     QVBoxLayout *m_mainLayout {nullptr};
-    DScrollArea *m_scrollArea {nullptr};
+    QScrollArea *m_scrollArea {nullptr};
 };
 
 #endif // EXTENSIONPANEL_H

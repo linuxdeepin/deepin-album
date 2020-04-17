@@ -122,8 +122,8 @@ private:
     bool m_bTitleMenuImportClicked;
     bool m_bImport = false;
 
-    DWidget *m_titleBtnWidget;
-    DWidget *m_ImgWidget;
+    QWidget *m_titleBtnWidget;
+    QWidget *m_ImgWidget;
     DMenu *m_pTitleBarMenu;
 //    DPushButton* m_pAllPicBtn;
 //    DPushButton* m_pTimeLineBtn;

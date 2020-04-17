@@ -24,7 +24,7 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QVector>
-#include <DScrollArea>
+#include <QScrollArea>
 #include <DArrowLineExpand>
 #include <DDrawer>
 #include <denhancedwidget.h>
@@ -66,14 +66,14 @@ private:
     bool m_isBaseInfo = false;
     bool m_isDetailsInfo = false;
     QString m_path;
-    DFrame *m_exif_base = nullptr;
-    DFrame *m_exif_details = nullptr;
+    QFrame *m_exif_base = nullptr;
+    QFrame *m_exif_details = nullptr;
     QFormLayout *m_exifLayout_base = nullptr;
     QFormLayout *m_exifLayout_details = nullptr;
     ViewSeparator *m_separator = nullptr;
     QList<DBaseExpand *> m_expandGroup;
     QVBoxLayout *m_mainLayout = nullptr;
-    DScrollArea *m_scrollArea = nullptr;
+    QScrollArea *m_scrollArea = nullptr;
     QString m_closedString;
 };
 

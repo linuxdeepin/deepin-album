@@ -19,7 +19,7 @@
 #include "dbmanager/dbmanager.h"
 #include "utils/baseutils.h"
 #include <QHBoxLayout>
-#include <DLabel>
+#include <QLabel>
 #include <DLineEdit>
 #include <QKeyEvent>
 #include <QDebug>

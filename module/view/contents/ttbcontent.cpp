@@ -623,8 +623,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     }
 //    qDebug()<<"init:m_imgListView.width=============="<<m_imgListView->width();
 //    m_imgListView->hide();
-    DPalette palette ;
-    palette.setColor(DPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
+    QPalette palette ;
+    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
     m_imgList->setPalette(palette);
     m_imgListView->setPalette(palette);
     hb->addWidget(m_imgListView);

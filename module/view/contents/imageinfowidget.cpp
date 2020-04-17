@@ -102,12 +102,12 @@ static int maxTitleWidth()
 
 }  // namespace
 
-class ViewSeparator : public DLabel
+class ViewSeparator : public QLabel
 {
     Q_OBJECT
 public:
     explicit ViewSeparator(QWidget *parent = nullptr)
-        : DLabel(parent)
+        : QLabel(parent)
     {
         setFixedHeight(1);
     }
@@ -198,9 +198,9 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     //    title->setPalette(pa);
 
     // Info field
-    m_exif_base = new DFrame(/*this*/);
+    m_exif_base = new QFrame(/*this*/);
     m_exif_base->setFixedWidth(280);
-    m_exif_details = new DFrame(/*this*/);
+    m_exif_details = new QFrame(/*this*/);
     m_exif_details->setFixedWidth(280);
     m_exifLayout_base = new QFormLayout();
     m_exifLayout_base->setVerticalSpacing(7);
@@ -221,9 +221,9 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setMargin(0);
     m_mainLayout->setSpacing(0);
-    m_scrollArea = new DScrollArea();
-    DPalette palette = m_scrollArea->viewport()->palette();
-    palette.setBrush(DPalette::Background, Qt::NoBrush);
+    m_scrollArea = new QScrollArea();
+    QPalette palette = m_scrollArea->viewport()->palette();
+    palette.setBrush(QPalette::Background, Qt::NoBrush);
 //    palette.setBrush(QPalette::Background, Qt::red);
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);

@@ -173,8 +173,8 @@ private:
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
     ThumbnailWidget *m_emptyWidget = nullptr;
-    DMenu *m_menu;
-    DStackedWidget *m_stack;
+    QMenu *m_menu;
+    QStackedWidget *m_stack;
     LockWidget *m_lockWidget;
 
     // Floating component

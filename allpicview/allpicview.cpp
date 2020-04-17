@@ -75,7 +75,7 @@ AllPicView::AllPicView()
 //    }
     updatePicsIntoThumbnailView();
 
-    m_pwidget = new DWidget(this);
+    m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
@@ -95,10 +95,10 @@ void AllPicView::initConnections()
         auto imagelist = m_pThumbnailListView->getAllFileList();
         if (imagelist.size() > 0) {
             info.paths << imagelist;
+            info.path = imagelist[index];
         } else {
             info.paths.clear();
         }
-        info.path = imagelist[index];
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
         info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
         emit dApp->signalM->viewImage(info);
