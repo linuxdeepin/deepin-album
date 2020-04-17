@@ -823,21 +823,25 @@ void AlbumView::initRightView()
     m_pTrashWidget->setPalette(palcolor3);
 //add end 3975
 
-    QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
+    //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
+    QVBoxLayout *pTopVBoxlayout = new QVBoxLayout();
+    pTopVBoxlayout->setContentsMargins(17, 5, 0, 17);
 
     pLabel1 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
     pLabel1->setFixedHeight(32);
     pLabel1->setForegroundRole(DPalette::TextTitle);
     pLabel1->setText(tr("Trash"));
-    pTopHBoxLayout->addWidget(pLabel1);
+    //pTopHBoxLayout->addWidget(pLabel1);
+    pTopVBoxlayout->addWidget(pLabel1);
 
     QHBoxLayout *pTopButtonLayout  = new QHBoxLayout();
+    pTopButtonLayout->setContentsMargins(0, 0, 20, 0);
 
     m_pRecoveryBtn = new DPushButton();
     m_pRecoveryBtn->setText(tr("Restore"));
     m_pRecoveryBtn->setEnabled(false);
-    m_pRecoveryBtn->setFixedSize(120, 36);
+    m_pRecoveryBtn->setFixedSize(100, 36);
 
     DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
     ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
@@ -848,38 +852,45 @@ void AlbumView::initRightView()
 
     m_pDeleteBtn = new DWarningButton();
     m_pDeleteBtn->setText(tr("Delete All"));
-    m_pDeleteBtn->setFixedSize(120, 36);
+    m_pDeleteBtn->setFixedSize(100, 36);
 
     DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
     ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_pDeleteBtn->setPalette(ReBtn);
     pTopButtonLayout->addWidget(m_pDeleteBtn);
 
-    pTopHBoxLayout->addLayout(pTopButtonLayout);
-    pTopHBoxLayout->addSpacing(10);
+    //pTopHBoxLayout->addLayout(pTopButtonLayout);
+    //pTopHBoxLayout->addSpacing(10);
 
-    QVBoxLayout *pTopVBoxLayout = new QVBoxLayout();
-    pTopVBoxLayout->addLayout(pTopHBoxLayout);
+    //QVBoxLayout *pTopVBoxLayout = new QVBoxLayout();
+    //pTopVBoxLayout->addLayout(pTopHBoxLayout);
 
     pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
 
-    pTopVBoxLayout->addWidget(pLabel2);
+    //pTopVBoxLayout->addWidget(pLabel2);
+    pTopVBoxlayout->addSpacing(9);
+    pTopVBoxlayout->addWidget(pLabel2);
+
+    //重新布局
+    QVBoxLayout *pVboxlayout = new QVBoxLayout();
+    pVboxlayout->setContentsMargins(0, 0, 0, 0);
+    pVboxlayout->addStretch(1);
+    pVboxlayout->addLayout(pTopButtonLayout);
+    pVboxlayout->addStretch(1);
+
+
+    QHBoxLayout    *pTopHboxlayout = new QHBoxLayout();
+    pTopHboxlayout->setContentsMargins(0, 0, 0, 0);
+    pTopHboxlayout->addLayout(pTopVBoxlayout);
+    pTopHboxlayout->addLayout(pVboxlayout);
+
 
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
-//del start 3975
-//    pMainVBoxLayout->setMargin(2);
-//    pMainVBoxLayout->addItem(pTopHBoxLayout);
-//    pMainVBoxLayout->addSpacing(2);
-//    pMainVBoxLayout->addWidget(m_pRightTrashThumbnailList);
 
-//    pTrashWidget->setLayout(pMainVBoxLayout);
-//del end 3975
-//add start 3975
-//    DListWidget *lsitWidget3 = new DListWidget();
     AlbumViewList *lsitWidget3 = new AlbumViewList();
     lsitWidget3->setContentsMargins(0, 0, 0, 0);
     lsitWidget3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -916,7 +927,8 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_TrashTitle = new DWidget(m_pTrashWidget);
-    m_TrashTitle->setLayout(pTopVBoxLayout);
+    //m_TrashTitle->setLayout(pTopVBoxLayout);
+    m_TrashTitle->setLayout(pTopHboxlayout);
 
     DPalette ppal_light3 = DApplicationHelper::instance()->palette(m_TrashTitle);
     ppal_light3.setBrush(DPalette::Background, ppal_light3.color(DPalette::Base));
@@ -926,7 +938,7 @@ void AlbumView::initRightView()
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
     m_TrashTitle->move(0, 50);
-    m_TrashTitle->setFixedSize(this->width() - 200, 83);
+    m_TrashTitle->setFixedSize(this->width() - 180, 87);
 //add end 3975
 
 // Favorite View
