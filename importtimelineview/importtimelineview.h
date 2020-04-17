@@ -67,6 +67,7 @@ private:
     void mousePressEvent(QMouseEvent *e) override;
 public:
 //    void updataLayout();
+    void updateLayout(QStringList updatePathList = QStringList());          //旋转图片更新视图
     void clearAndStartLayout();
     void addTimelineLayout();
     void getFatherStatusBar(DSlider *s);

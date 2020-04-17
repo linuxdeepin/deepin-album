@@ -98,8 +98,8 @@ void TimeLineView::initConnections()
         on_MoveLabel(y, date, num, choseText);
     });
 
-//    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
-    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::clearAndStartLayout);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
+    //connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::clearAndStartLayout);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
 
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
@@ -171,6 +171,18 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
             pLabelList[1]->setPalette(pal);
         }
     }
+}
+
+void TimeLineView::updataLayout(QStringList updatePathList)
+{
+    m_spinner->hide();
+    m_spinner->stop();
+    if (updatePathList.isEmpty())
+        return;
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->updateThumbnailView(updatePathList.first());
+    }
+
 }
 
 void TimeLineView::initTimeLineViewWidget()

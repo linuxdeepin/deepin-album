@@ -95,6 +95,9 @@ public:
     void restorePicNum();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 
+private slots:
+    //更新布局（旋转图片时）
+    void updataLayout(QStringList updatePathList);
 private:
     TimelineList *m_mainListWidget = nullptr;
     QLayout *m_mainLayout = nullptr;

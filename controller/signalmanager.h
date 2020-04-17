@@ -135,7 +135,7 @@ signals:
     void sigESCKeyStopSlide();
     void sigUpdataAlbumRightTitle(QString titlename);
     void sigUpdateTrashImageLoader();
-    void sigUpdateImageLoader();
+    void sigUpdateImageLoader(QStringList pathlist = QStringList());
     void sigLoadMountImagesEnd(QString mountname);
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();

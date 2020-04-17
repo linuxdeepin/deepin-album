@@ -1556,3 +1556,12 @@ void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
     }
     DWidget::mousePressEvent(e);
 }
+
+void ImportTimeLineView::updateLayout(QStringList updatePathList)
+{
+    if (updatePathList.isEmpty())
+        return;
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->updateThumbnailView(updatePathList.first());
+    }
+}

@@ -70,6 +70,7 @@ MainWindow::MainWindow()
 
 //    timer = startTimer(500);
     loadZoomRatio();
+
 }
 
 MainWindow::~MainWindow()
@@ -107,6 +108,21 @@ void MainWindow::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
         setWaitDialogColor();
+
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType)
+        {
+            DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
+            pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
+            titlebar()->setPalette(pa1);
+        }
+        if (themeType == DGuiApplicationHelper::DarkType)
+        {
+            DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
+            pa1.setBrush(DPalette::Window, QColor("#252525"));
+            //pa1.setBrush(DPalette::Window, pa1.color(DPalette::Window));
+            titlebar()->setPalette(pa1);
+        }
     });
     //主界面切换（所有照片、时间线、相册）
     connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [ = ](int id) {
@@ -898,6 +914,10 @@ void MainWindow::initTitleBar()
     titlebar()->setMenu(m_pTitleBarMenu);
     titlebar()->setBlurBackground(true);
 
+    DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
+    pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
+    titlebar()->setPalette(pa1);
+
     if (0 < DBManager::instance()->getImgsCount()) {
         // dothing
     } else {
@@ -1017,7 +1037,7 @@ void MainWindow::albumBtnClicked()
     m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-    m_pAlbumview->updateRightView();    //切换时手动更新界面相册显示界面
+//    m_pAlbumview->updateRightView();    //切换时手动更新界面相册显示界面
 
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->SearchReturnUpdate();

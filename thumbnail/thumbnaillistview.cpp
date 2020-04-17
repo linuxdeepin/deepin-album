@@ -566,7 +566,7 @@ void ThumbnailListView::calWidgetItemWandH()
         totlelength -= 1;
     // scaling for each row adapting list width except last one
     for (int i = 0; i < totlelength; i++) {
-        if (rowWidthList[i] < i_totalwidth && i< m_gridItem.size()) {
+        if (rowWidthList[i] < i_totalwidth && i < m_gridItem.size()) {
             int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].size();
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].size();
             int rowWidth = 0;
@@ -599,7 +599,6 @@ void ThumbnailListView::calWidgetItemWandH()
         m_height -= ITEM_SPACING;
     }
 }
-
 
 void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
 {
@@ -737,12 +736,30 @@ void ThumbnailListView::addThumbnailView()
     }
 }
 
-void ThumbnailListView::updateThumbnailView()
+void ThumbnailListView::updateThumbnailView(QString updatePath)
 {
     int index = 0;
     for (int i = 0; i < m_gridItem.length(); i++) {
         for (int j = 0; j < m_gridItem[i].length(); j++) {
-
+            if (m_gridItem[i][j].path == updatePath) {  //需要旋转的图片
+                ImageDataSt data;
+                ImageEngineApi::instance()->getImageData(updatePath, data);
+                ItemInfo info;
+                info.name = data.dbi.fileName;
+                info.path = data.dbi.filePath;
+                info.width = data.imgpixmap.width();
+                info.height = data.imgpixmap.height();
+                info.image = data.imgpixmap;
+                info.remainDays = data.remainDays;
+                info.baseWidth = data.imgpixmap.width();
+                info.baseHeight = data.imgpixmap.height();
+                calBasePixMap(info);
+                for (auto &item : m_ItemList) {     //替换
+                    if (item == m_gridItem[i][j])
+                        item = info;
+                }
+                m_gridItem[i][j] = info;
+            }
             int height = m_gridItem[i][j].height;
 
             QVariantList newdatas;
@@ -789,6 +806,13 @@ void ThumbnailListView::updateThumbnailView()
             index++;
         }
     }
+
+    //更新布局
+    calBasePixMapWandH();
+    calWidgetItemWandH();
+    addThumbnailView();
+
+    emit needResize(m_height + 15);     //调整整体大小
 }
 
 void ThumbnailListView::loadFilesFromDB(QString name)
@@ -1337,9 +1361,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 //                emit dApp->signalM->sigDeletePhotos(paths.length());
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
             });
-        }
-
-        else {
+        } else {
             ImageEngineApi::instance()->moveImagesToTrash(paths);
         }
     }
@@ -1358,21 +1380,14 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateClockwise: {
-//        QModelIndexList mlist = selectedIndexes();
-//        QModelIndexList::iterator i;
-//        QList<Listolditem> items;
-//        for (i = mlist.begin(); i != mlist.end(); ++i) {
-//            Listolditem item;
-//            item.row = (*i).row();
-//            item.column = (*i).column();
-//            items.append(item);
-//        }
         for (QString path : paths) {
             const QString suffix = QFileInfo(path).suffix();
             if (suffix.toUpper().compare("SVG") == 0) {
                 ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
                 imgSVGThread->setData(QStringList() << path, 90);
-                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
+                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
+                    dApp->m_imageloader->updateImageLoader(path);
+                });
                 connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
                 imgSVGThread->start();
             } else {
@@ -1380,62 +1395,25 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             }
         }
 
-//        if (COMMON_STR_TRASH == m_imageType) {
-//            dApp->m_imageloader->updateTrashImageLoader(paths);
-//        } else {
         dApp->m_imageloader->updateImageLoader(paths);
-//    }
-
-//        QList<Listolditem>::iterator j;
-//        for (j = items.begin(); j != items.end(); ++j) {
-//            if ((*j).row < m_model->rowCount() &&
-//                    (*j).column < m_model->columnCount()) {
-//                QModelIndex qindex = m_model->index((*j).row, (*j).column);
-//                selectionModel()->select(qindex, QItemSelectionModel::Select);
-//            }
-//        }
     }
     break;
     case IdRotateCounterclockwise: {
-//        QModelIndexList mlist = selectedIndexes();
-//        QModelIndexList::iterator i;
-//        struct Listolditem {
-//            int row;
-//            int column;
-//        };
-//        QList<Listolditem> items;
-//        for (i = mlist.begin(); i != mlist.end(); ++i) {
-//            Listolditem item;
-//            item.row = (*i).row();
-//            item.column = (*i).column();
-//            items.append(item);
-//        }
-
         for (QString path : paths) {
             const QString suffix = QFileInfo(path).suffix();
             if (suffix.toUpper().compare("SVG") == 0) {
                 ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
                 imgSVGThread->setData(QStringList() << path, -90);
-                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ThumbnailListView::updateImages);
+                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
+                    dApp->m_imageloader->updateImageLoader(path);
+                });
                 connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
                 imgSVGThread->start();
             } else {
                 utils::image::rotate(path, -90);
             }
         }
-
-//        if (COMMON_STR_TRASH == m_imageType) {
-//            dApp->m_imageloader->updateTrashImageLoader(paths);
-//        } else {
         dApp->m_imageloader->updateImageLoader(paths);
-//        }
-//        QList<Listolditem>::iterator j;
-//        for (j = items.begin(); j != items.end(); ++j) {
-//            if ((*j).row < m_model->rowCount() && (*j).column < m_model->columnCount()) {
-//                QModelIndex qindex = m_model->index((*j).row, (*j).column);
-//                selectionModel()->select(qindex, QItemSelectionModel::Select);
-//            }
-//        }
     }
     break;
     case IdSetAsWallpaper:
@@ -1679,11 +1657,6 @@ void ThumbnailListView::onTimerOut()
         lastresizeheight = m_height;
     }
     bneedsendresize = false;
-}
-
-void ThumbnailListView::updateImages(const QStringList &path)
-{
-    dApp->m_imageloader->updateImageLoader(path);
 }
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)

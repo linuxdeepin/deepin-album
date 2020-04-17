@@ -217,22 +217,23 @@ AlbumView::AlbumView()
     fatherwidget = new DWidget(this);
     fatherwidget->setFixedSize(this->size());
     setAcceptDrops(true);
-    initRightView();
+
     initLeftView();
+    initRightView();
 
     DWidget *leftwidget = new DWidget;
     leftwidget->setFixedWidth(180);
 
     DWidget *lefttopwidget = new DWidget;
     lefttopwidget->setFixedHeight(45);
-    DWidget *leftbottomwidget = new DWidget;
-    leftbottomwidget->setFixedHeight(22);
+//    DWidget *leftbottomwidget = new DWidget;
+//    leftbottomwidget->setFixedHeight(22);
 
     QVBoxLayout *pvLayout = new QVBoxLayout();
+    pvLayout->setContentsMargins(0, 0, 0, 0);
     leftwidget->setLayout(pvLayout);
     pvLayout->addWidget(lefttopwidget);
     pvLayout->addWidget(m_pLeftListView);
-    pvLayout->addWidget(leftbottomwidget);
 
     QHBoxLayout *pLayout = new QHBoxLayout();
     pLayout->setContentsMargins(0, 0, 0, 0);
@@ -399,7 +400,9 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::menuOpenImage, this, &AlbumView::menuOpenImage);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::menuOpenImage, this, &AlbumView::menuOpenImage);
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
-    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
+    //connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightImportViewColock);
+
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
@@ -1158,55 +1161,12 @@ void AlbumView::initRightView()
     phonetopwidget->move(0, 50);
     phonetopwidget->raise();
 
-//    pPhoneWidget->setLayout(p_all2);
-
-// 导入图片列表,按导入时间排列
-//del start 3975
-//    pImportTimeLineWidget = new DWidget();
-////    pImportTimeLineWidget->setStyleSheet("background:red");
-//    pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
-
-//    QVBoxLayout *pImpTimeLineVBoxLayout = new QVBoxLayout();
-//    pImpTimeLineVBoxLayout->setContentsMargins(0, 0, 0, 0);
-
-//    m_pImportTitle = new DLabel();
-//    m_pImportTitle->setText(tr("Import"));
-//    DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
-//    m_pImportTitle->setForegroundRole(DPalette::TextTitle);
-
-////    m_pImportPicTotal = new DLabel();
-////    QString strTitle = tr("%1 photo(s)");
-////    m_pImportPicTotal->setText(strTitle.arg(QString::number(m_iAlubmPicsNum)));
-////    DFontSizeManager::instance()->bind(m_pImportPicTotal, DFontSizeManager::T6, QFont::Medium);
-////    m_pImportPicTotal->setForegroundRole(DPalette::TextTips);
-
-//    m_pImpTimeLineWidget = new ImportTimeLineView(pImportTimeLineWidget);
-//    m_pImpTimeLineWidget->move(-6, 40);
-
-//    pImpTimeLineVBoxLayout->addSpacing(5);
-//    pImpTimeLineVBoxLayout->addWidget(m_pImportTitle);
-////    pImpTimeLineVBoxLayout->addSpacing(4);
-////    pImpTimeLineVBoxLayout->addWidget(m_pImportPicTotal);
-//    pImpTimeLineVBoxLayout->addSpacing(-6);
-
-//    QHBoxLayout *pImpTimeLineHLayout = new QHBoxLayout;
-//    pImpTimeLineHLayout->addSpacing(10);
-//    pImpTimeLineHLayout->addLayout(pImpTimeLineVBoxLayout);
-////    pImpTimeLineHLayout->addStretch();
-
-//    QVBoxLayout *pImportAllV = new QVBoxLayout();
-//    pImportAllV->setContentsMargins(0, 0, 2, 0);
-//    pImportAllV->addLayout(pImpTimeLineHLayout);
-//    pImportAllV->addStretch();
-////    pImportAllV->addWidget(m_pImpTimeLineWidget);
-//    pImportTimeLineWidget->setLayout(pImportAllV);
-//del end 3975
 //add start 3975
     m_pStatusBar = new StatusBar(this);
 //    m_pStatusBar->setParent(this);
     m_pStatusBar->raise();
-    m_pStatusBar->setFixedWidth(this->width());
-    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+    m_pStatusBar->setFixedWidth(this->width() - m_pLeftListView->width());
+    m_pStatusBar->move(m_pLeftListView->width(), this->height() - m_pStatusBar->height());
 
     pImportTimeLineWidget = new DWidget();
     pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
@@ -1580,7 +1540,26 @@ void AlbumView::updateRightTrashView()
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
 
-//    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
+    //    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
+}
+
+void AlbumView::updateRightImportViewColock(QStringList updatePahtlist)
+{
+    m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
+
+    if (0 < m_iAlubmPicsNum) {
+        m_pImpTimeLineWidget->updateLayout(updatePahtlist);
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+    } else {
+        m_pImpTimeLineWidget->updateLayout(updatePahtlist);
+        m_pImpTimeLineWidget->clearAndStartLayout();
+        m_pImportView->setAlbumname(QString());
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+    }
+
+    emit sigSearchEditIsDisplay(true);
+
+    setAcceptDrops(true);
 }
 
 void AlbumView::leftTabClicked()
@@ -3320,8 +3299,8 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 //    m_pStatusBar->move(this->width() / 4, this->height() - 27 - 81);
 
     //add end 3975
-    m_pStatusBar->setFixedWidth(this->width());
-    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
+    m_pStatusBar->setFixedWidth(this->width() - m_pLeftListView->width());
+    m_pStatusBar->move(m_pLeftListView->width(), this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
     QWidget::resizeEvent(e);
 }

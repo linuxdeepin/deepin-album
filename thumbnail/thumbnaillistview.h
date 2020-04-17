@@ -92,6 +92,15 @@ public:
         int imgHeight = 0;
         QString remainDays = "30天";
         QPixmap image = QPixmap();
+
+
+        friend bool operator== (const ItemInfo &left, const ItemInfo &right)
+        {
+
+            if (left.image == right.image)
+                return true;
+            return false;
+        }
     };
 
     explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, QString imgtype = "All Photos", QWidget *parent = nullptr);
@@ -177,10 +186,10 @@ private slots:
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
     void onTimerOut();
-    void updateImages(const QStringList &path);
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
-
+public:
+    void updateThumbnailView(QString updatePath = "");
 private:
     //------------------
     void requestSomeImages();
@@ -197,7 +206,7 @@ private:
     void sendNeedResize(/*int height*/);
     void resizeEventF();
     //------------------
-    void updateThumbnailView();
+//    void updateThumbnailView();
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onShowImageInfo(const QString &path);
