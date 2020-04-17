@@ -236,25 +236,11 @@ void LeftListView::initUI()
     pPhotoLibLayout->addSpacing(14);
     pPhotoLibLayout->addWidget(m_pPhotoLibLabel);
 
-    // 线
-//    QHBoxLayout *pLineLayout = new QHBoxLayout();
-//    pLineLayout->setContentsMargins(0, 0, 0, 0);
-
-//    DLabel *pLineLabel = new DLabel();
-//    pLineLabel->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
-
-//    pLineLayout->addSpacing(14);
-//    pLineLayout->addWidget(pLineLabel);
-
     // 照片库列表
     m_pPhotoLibListView = new LeftListWidget();
     DStyledItemDelegate *itemDelegate0 = new DStyledItemDelegate(m_pPhotoLibListView);
     itemDelegate0->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pPhotoLibListView->setItemDelegate(itemDelegate0);
-//    m_pPhotoLibListView->setViewportMargins(8, 0, 8, 0);
-//    DStyledItemDelegate *itemDelegate = new DStyledItemDelegate(m_pPhotoLibListView);
-//    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
-//    m_pPhotoLibListView->setItemDelegate(itemDelegate);
 
     m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_172);
     m_pPhotoLibListView->setFixedHeight(120);
@@ -298,7 +284,7 @@ void LeftListView::initUI()
     lableCustomixeWidget->setFixedHeight(40);
 
     QHBoxLayout *pCustomizeLayout = new QHBoxLayout();
-    pCustomizeLayout->setContentsMargins(0, 0, 0, 0);
+    pCustomizeLayout->setContentsMargins(0, 0, 14, 0);
 
     m_pCustomizeLabel = new DLabel();
     m_pCustomizeLabel->setFixedHeight(40);
@@ -320,23 +306,13 @@ void LeftListView::initUI()
                                       ":/resources/images/sidebar/active/add_focus_dark.svg");
     }
 
-    m_pAddListBtn->setFixedSize(37, 37);
+    m_pAddListBtn->setFixedSize(34, 34);
     m_pAddListBtn->setFocusPolicy(Qt::NoFocus);
 
     pCustomizeLayout->addSpacing(14);
     pCustomizeLayout->addWidget(m_pCustomizeLabel, 100, Qt::AlignLeft);
 //    pCustomizeLayout->addStretch();
     pCustomizeLayout->addWidget(m_pAddListBtn, 0, Qt::AlignRight | Qt::AlignVCenter);
-
-    // 线
-//    QHBoxLayout *pLineLayout1 = new QHBoxLayout();
-//    pLineLayout1->setContentsMargins(0, 0, 0, 0);
-
-//    DLabel *pLineLabel1 = new DLabel();
-//    pLineLabel1->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
-
-//    pLineLayout1->addSpacing(14);
-//    pLineLayout1->addWidget(pLineLabel1);
 
     // 相册列表
     m_pCustomizeListView = new LeftListWidget();

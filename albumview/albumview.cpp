@@ -819,57 +819,6 @@ void AlbumView::initRightView()
     palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
     m_pTrashWidget->setPalette(palcolor3);
 //add end 3975
-//    QVBoxLayout *pMainVBoxLayout = new QVBoxLayout();
-//    QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
-
-//    QVBoxLayout *pTopLeftVBoxLayout = new QVBoxLayout();
-
-//    pLabel1 = new DLabel();
-//    DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
-//    pLabel1->setFixedHeight(32);
-//    pLabel1->setForegroundRole(DPalette::TextTitle);
-//    pLabel1->setText(tr("Trash"));
-
-//    pLabel2 = new DLabel();
-//    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
-//    pLabel2->setForegroundRole(DPalette::TextTips);
-//    pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
-
-//    pTopLeftVBoxLayout->addSpacing(3);
-//    pTopLeftVBoxLayout->addWidget(pLabel1);
-//    pTopLeftVBoxLayout->addSpacing(10);
-//    pTopLeftVBoxLayout->addWidget(pLabel2);
-//    pTopLeftVBoxLayout->addSpacing(-1);
-//    pTopLeftVBoxLayout->setContentsMargins(3, 0, 0, 0); //edit 3975
-
-//    QHBoxLayout *pTopRightVBoxLayout = new QHBoxLayout();
-//    m_pRecoveryBtn = new DPushButton();
-
-//    m_pRecoveryBtn->setText(tr("Restore"));
-//    m_pRecoveryBtn->setEnabled(false);
-//    m_pRecoveryBtn->setFixedSize(120, 36);
-
-//    DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_pRecoveryBtn->setPalette(ReBtn);
-
-//    m_pDeleteBtn = new DWarningButton();
-
-//    m_pDeleteBtn->setText(tr("Delete All"));
-//    m_pDeleteBtn->setFixedSize(120, 36);
-
-//    DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-//    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_pDeleteBtn->setPalette(ReBtn);
-
-//    pTopRightVBoxLayout->addWidget(m_pRecoveryBtn);
-//    pTopRightVBoxLayout->addSpacing(10);
-//    pTopRightVBoxLayout->addWidget(m_pDeleteBtn);
-
-//    pTopHBoxLayout->addItem(pTopLeftVBoxLayout);
-//    pTopHBoxLayout->addStretch();
-//    pTopHBoxLayout->addItem(pTopRightVBoxLayout);
-//    pTopHBoxLayout->addSpacing(20);
 
     QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
