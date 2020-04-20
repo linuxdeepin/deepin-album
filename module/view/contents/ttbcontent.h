@@ -53,7 +53,7 @@ class QAbstractItemModel;
 class ImageButton;
 class MyImageListWidget;
 
-class MyImageListWidget : public DWidget
+class MyImageListWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -72,7 +72,7 @@ private:
     QPoint m_prepoint;
 };
 
-class ImageItem : public DLabel
+class ImageItem : public QLabel
 {
     Q_OBJECT
 public:

@@ -190,7 +190,7 @@ bool ImageCacheSaveObject::add(const QStringList paths)
 QString ImageCacheSaveObject::pop()
 {
     QMutexLocker locker(&m_queuqMutex);
-    if(requestQueue.empty())
+    if (requestQueue.empty())
         return QString();
     QString res = requestQueue.first();
     requestQueue.pop_front();
@@ -199,5 +199,6 @@ QString ImageCacheSaveObject::pop()
 
 bool ImageCacheSaveObject::isEmpty()
 {
+    QMutexLocker locker(&m_queuqMutex);
     return requestQueue.isEmpty();
 }

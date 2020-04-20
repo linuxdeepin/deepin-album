@@ -97,6 +97,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
 //    connect(m_dtresizeevent, SIGNAL(timeout()), this, SLOT(onResizeEventTimerOut()));
 }
 
+
 ThumbnailListView::~ThumbnailListView()
 {
 }

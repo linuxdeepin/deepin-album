@@ -1384,7 +1384,10 @@ void ImageCacheQueuePopThread::run()
     //QTime time_star;
     //time_star.start();
     while (!m_obj->isEmpty() && !needStop) {
-        saveCache(m_obj->pop());
+        QString res = m_obj->pop();
+        if (!res.isEmpty()) {
+            saveCache(res);
+        }
     }
     //qDebug() << "thread running time:" << time_star.elapsed();
     //deleteLater();

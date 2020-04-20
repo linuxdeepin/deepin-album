@@ -117,7 +117,7 @@ char *getImageType(QString filepath)
 };
 
 MyImageListWidget::MyImageListWidget(QWidget *parent)
-    : DWidget(parent)
+    : QWidget(parent)
 {
     setMouseTracking(true);
 }
@@ -166,7 +166,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 }
 
 ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
-    DLabel(parent)
+    QLabel(parent)
 {
     _index = index;
     _path = data.dbi.filePath;

@@ -32,6 +32,7 @@
 #include <DPushButton>
 #include <DImageButton>
 #include <DIconButton>
+#include <DListView>
 #include <QWidgetAction>
 #include <QPixmap>
 #include <QIcon>
@@ -42,7 +43,6 @@
 #include <QBuffer>
 #include <DMenu>
 #include <QMouseEvent>
-#include <DListView>
 #include <DApplicationHelper>
 #include "imageengine/imageengineobject.h"
 #include "widgets/timelineitem.h"

@@ -26,7 +26,10 @@ class TimelineList : public DListWidget
     Q_OBJECT
 public:
     explicit TimelineList(QWidget *parent = nullptr);
+    ~TimelineList()
+    {
 
+    }
     void addItemForWidget(QListWidgetItem *aitem);
 protected:
 //    void wheelEvent(QWheelEvent *event);
