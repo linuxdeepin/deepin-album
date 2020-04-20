@@ -22,7 +22,6 @@
 #include <DMessageManager>
 #include <DFloatingMessage>
 #include <DWidgetUtil>
-
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
 namespace  {
@@ -80,7 +79,7 @@ MainWindow::~MainWindow()
     //delete m_pTimeLineView;              //时间线界面视图
     //delete m_pSearchView;                  //搜索界面视图
     //exit(0);
-    //emit dApp->signalM->cacheThreadStop();
+    emit dApp->signalM->cacheThreadStop();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
