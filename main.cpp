@@ -112,7 +112,6 @@ int main(int argc, char *argv[])
 
 
 
-
     if (!bneedexit) {
         if (bfirstopen) {
             bfirstandviewimage = true;
@@ -155,9 +154,6 @@ int main(int argc, char *argv[])
 
     if (bneedexit)
         bfirstopen = false;
-
-
-
 
     return a.exec();
 }

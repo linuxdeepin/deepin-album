@@ -69,6 +69,7 @@ public:
     void initCentralWidget();
 //    void initStatusBar();
     void setWaitDialogColor();
+    void setTitleBarThem(DGuiApplicationHelper::ColorType theme);             //更新状态栏主题
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;

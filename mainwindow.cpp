@@ -104,23 +104,9 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 void MainWindow::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
         setWaitDialogColor();
-
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
-            DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
-            pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
-            titlebar()->setPalette(pa1);
-        }
-        if (themeType == DGuiApplicationHelper::DarkType)
-        {
-            DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
-            pa1.setBrush(DPalette::Window, QColor("#252525"));
-            //pa1.setBrush(DPalette::Window, pa1.color(DPalette::Window));
-            titlebar()->setPalette(pa1);
-        }
+        setTitleBarThem(themeType);
     });
     //主界面切换（所有照片、时间线、相册）
     connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [ = ](int id) {
@@ -916,6 +902,15 @@ void MainWindow::initTitleBar()
     pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
     titlebar()->setPalette(pa1);
 
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, [ = ](ViewerThemeManager::AppTheme themeType) {
+        DGuiApplicationHelper::ColorType curenttheme = DGuiApplicationHelper::UnknownType;
+        if (themeType == ViewerThemeManager::Dark)
+            curenttheme = DGuiApplicationHelper::DarkType;
+        else if (themeType == ViewerThemeManager::Light)
+            curenttheme = DGuiApplicationHelper::LightType;
+        setTitleBarThem(curenttheme);
+    });
+
     if (0 < DBManager::instance()->getImgsCount()) {
         // dothing
     } else {
@@ -988,6 +983,21 @@ void MainWindow::setWaitDialogColor()
         pa2 = m_countLabel->palette();
         pa2.setColor(DPalette::WindowText, QColor("#6D7C88"));
         m_countLabel->setPalette(pa2);
+    }
+}
+
+void MainWindow::setTitleBarThem(DGuiApplicationHelper::ColorType themeType)
+{
+    if (themeType == DGuiApplicationHelper::LightType) {
+        DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
+        pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
+        titlebar()->setPalette(pa1);
+    }
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
+        pa1.setBrush(DPalette::Window, QColor("#252525"));
+        //pa1.setBrush(DPalette::Window, pa1.color(DPalette::Window));
+        titlebar()->setPalette(pa1);
     }
 }
 
