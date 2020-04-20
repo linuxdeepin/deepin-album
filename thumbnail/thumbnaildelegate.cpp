@@ -164,27 +164,21 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->setBrush(QBrush(QColor(85, 85, 85, 170)));
 //        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 40, pixmapRect.y() + pixmapRect.height() - 18, 48, 16, 8, 8);
 
+        QString str(data.remainDays);
+        QFontMetrics fontwidth(str);
         //2020/3/13-xiaolong
         int rectwidth =pixmapRect.width();  //缩略图宽度
-        int tempcha = (rectwidth-m_Width>4)?(rectwidth-m_Width-4):4;
+        int tempcha = (rectwidth-m_Width>4)?(rectwidth-m_Width-8):8;
         int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
-        int textwidth =m_Width;
+        int textwidth =m_Width+8;
         if(m_Width+tempcha>rectwidth)   //文字像素宽度大于缩略图宽度
             textwidth = rectwidth-4;
 
-        painter->drawRoundedRect(posx,pixmapRect.y() + pixmapRect.height() - 28,textwidth,20,8,8);
-
-        //painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 4, 20, 8, 8);
+        painter->drawRoundedRect(posx-4,pixmapRect.y() + pixmapRect.height() - fontwidth.height() + 2,textwidth+4,20,10,10);
         painter->setPen(QColor(255, 255, 255));
-
-//        qDebug() << "m_Width      " << m_Width << endl;
-//        painter->drawText(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 13, data.remainDays);
-
-        QString str(data.remainDays);
-        QFontMetrics fontwidth(str);
         if(m_Width-textwidth>0)
-            str = fontwidth.elidedText(str,Qt::ElideRight,textwidth);   //超出部分隐藏...
-        painter->drawText(posx,pixmapRect.y() + pixmapRect.height() - 13,str);
+            str = fontwidth.elidedText(str,Qt::ElideRight,textwidth);
+        painter->drawText(posx+2,pixmapRect.y() + pixmapRect.height() - 7,str);
     }
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
