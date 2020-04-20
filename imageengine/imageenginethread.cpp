@@ -1300,7 +1300,7 @@ ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 
 void ImageCacheQueuePopThread::saveCache(QString m_path)
 {
-    if (needStop)
+    if (needStop || m_path.isEmpty())
         return;
     using namespace utils::image;
     using namespace utils::base;

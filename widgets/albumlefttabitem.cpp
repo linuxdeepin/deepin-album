@@ -143,13 +143,6 @@ void AlbumLeftTabItem::initUI()
 //    m_pLineEdit->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
     m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
-//    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
-//    m_pLineEdit->setStyleSheet("border-radius:8px;"
-//                               "background: rgba(255,255,255,0.00);"
-//                               "border: 2px solid #0081FF;"
-//                               "box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);"
-//                               );
-
     m_pLineEdit->setVisible(false);
 //    m_pLineEdit->setMaxLength(64);
     m_pLineEdit->lineEdit()->setMaxLength(64);
@@ -166,7 +159,8 @@ void AlbumLeftTabItem::initUI()
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
         m_unMountBtn->setPixmap(pixmap);
-        m_unMountBtn->move(92, 9);
+        pHBoxLayout->addWidget(m_unMountBtn);
+        //m_unMountBtn->move(92, 9);
     }
 
     this->setLayout(pHBoxLayout);

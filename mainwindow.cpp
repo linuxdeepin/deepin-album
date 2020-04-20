@@ -69,7 +69,6 @@ MainWindow::MainWindow()
 
 //    timer = startTimer(500);
     loadZoomRatio();
-
 }
 
 MainWindow::~MainWindow()
