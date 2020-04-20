@@ -167,18 +167,18 @@ void ThumbnailDelegate::paint(QPainter *painter,
         QString str(data.remainDays);
         QFontMetrics fontwidth(str);
         //2020/3/13-xiaolong
-        int rectwidth =pixmapRect.width();  //缩略图宽度
-        int tempcha = (rectwidth-m_Width>4)?(rectwidth-m_Width-8):8;
+        int rectwidth = pixmapRect.width(); //缩略图宽度
+        int tempcha = (rectwidth - m_Width > 4) ? (rectwidth - m_Width - 8) : 8;
         int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
-        int textwidth =m_Width+8;
-        if(m_Width+tempcha>rectwidth)   //文字像素宽度大于缩略图宽度
-            textwidth = rectwidth-4;
+        int textwidth = m_Width + 8;
+        if (m_Width + tempcha > rectwidth) //文字像素宽度大于缩略图宽度
+            textwidth = rectwidth - 4;
 
-        painter->drawRoundedRect(posx-4,pixmapRect.y() + pixmapRect.height() - fontwidth.height() + 2,textwidth+4,20,10,10);
+        painter->drawRoundedRect(posx - 4, pixmapRect.y() + pixmapRect.height() - fontwidth.height() + 2, textwidth + 4, 20, 10, 10);
         painter->setPen(QColor(255, 255, 255));
-        if(m_Width-textwidth>0)
-            str = fontwidth.elidedText(str,Qt::ElideRight,textwidth);
-        painter->drawText(posx+2,pixmapRect.y() + pixmapRect.height() - 7,str);
+        if (m_Width - textwidth > 0)
+            str = fontwidth.elidedText(str, Qt::ElideRight, textwidth);
+        painter->drawText(posx + 2, pixmapRect.y() + pixmapRect.height() - 7, str);
     }
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
@@ -269,22 +269,13 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
 
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-    qDebug() << "option:" << option << endl;
+    if (!index.isValid())
+        return false;
+//    qDebug() << "option:" << option << endl;
     QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 20, 20);
 
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
-//    qDebug() << "rect+++++++++++++++++" << rect << endl;
-//    qDebug() << "pMouseEvent->pos()+++++++++++++" << pMouseEvent->pos() << endl;
-//    qDebug() << "rect.contains(pMouseEvent->pos()" << rect.contains(pMouseEvent->pos()) << endl;
-//    qDebug() << " rect.contains(QPoint(pMouseEvent->pos().x(), pMouseEvent->pos().y() - 20)" << rect.contains(pMouseEvent->x(), pMouseEvent->y() + 20) << endl;
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
-//        if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->pos())) {
-//            emit sigCancelFavorite(index);
-//        }
-//        if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {
-//            emit sigCancelFavorite(index);
-//        }
-
         if (event->type() == QEvent::MouseButtonPress) {
             const ItemData data = itemData(index);
 
@@ -311,5 +302,6 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
         }
     }
 
-    return QStyledItemDelegate::editorEvent(event, model, option, index);
+    return false;
+//    return QStyledItemDelegate::editorEvent(event, model, option, index);
 }
