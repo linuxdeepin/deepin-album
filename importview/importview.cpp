@@ -67,20 +67,20 @@ void ImportView::initConnections()
         if (themeType == DGuiApplicationHelper::LightType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
-            if (nullptr != m_pImportBtn) {
-                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-                pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
-                m_pImportBtn->setPalette(pa);
-            }
+//            if (nullptr != m_pImportBtn) {
+//                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+//                pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
+//                m_pImportBtn->setPalette(pa);
+//            }
         }
         if (themeType == DGuiApplicationHelper::DarkType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
-            if (nullptr != m_pImportBtn) {
-                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-                pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
-                m_pImportBtn->setPalette(pa);
-            }
+//            if (nullptr != m_pImportBtn) {
+//                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+//                pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+//                m_pImportBtn->setPalette(pa);
+//            }
         }
         pLabel->setPixmap(pixmap);
     });
@@ -110,13 +110,13 @@ void ImportView::initUI()
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-    if (themeType == DGuiApplicationHelper::LightType) {
-        pa.setColor(QPalette::Button, QColor(37, 183, 255));
-    } else {
-        pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
-    }
-    m_pImportBtn->setPalette(pa);
+//    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+//    if (themeType == DGuiApplicationHelper::LightType) {
+//        pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
+//    } else {
+//        pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+//    }
+//    m_pImportBtn->setPalette(pa);
     DLabel *pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T9, QFont::ExtraLight);
     pLabel2->setForegroundRole(DPalette::TextTips);
