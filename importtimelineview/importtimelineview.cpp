@@ -411,7 +411,7 @@ void ImportTimeLineView::addTimelineLayout()
             listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1年%2月%3日 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
         } else {
             //listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
     }
     pDate->setText(listItem->m_sdate);

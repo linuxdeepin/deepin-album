@@ -33,7 +33,7 @@ static QMutex m_mutex;
 namespace {
 const int ITEM_SPACING = 0;
 const int LEFT_VIEW_WIDTH = 180;
-const int LEFT_VIEW_LISTITEM_WIDTH = 140;
+const int LEFT_VIEW_LISTITEM_WIDTH = 160;
 const int LEFT_VIEW_LISTITEM_HEIGHT = 40;
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
@@ -938,7 +938,7 @@ void AlbumView::initRightView()
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
     m_TrashTitle->move(0, 50);
-    m_TrashTitle->setFixedSize(this->width() - 180, 87);
+    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 87);
 //add end 3975
 
 // Favorite View
@@ -974,18 +974,7 @@ void AlbumView::initRightView()
     pFavoriteVBoxLayout->addSpacing(-1);
 
     pFavoriteVBoxLayout->setContentsMargins(12, 0, 0, 0); //edit 3975
-//del start 3975
-//    QVBoxLayout *p_all1 = new QVBoxLayout();
 
-//    p_all1->setMargin(2);
-//    p_all1->addLayout(pFavoriteVBoxLayout);
-//    p_all1->addSpacing(2);
-//    p_all1->addWidget(m_pRightFavoriteThumbnailList);
-
-//    pFavoriteWidget->setLayout(p_all1);
-//del end 3975
-//add start 3975
-//    DListWidget *lsitWidget2 = new DListWidget();
     AlbumViewList *lsitWidget2 = new AlbumViewList();
     lsitWidget2->setContentsMargins(0, 0, 0, 0);
     lsitWidget2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -1074,16 +1063,19 @@ void AlbumView::initRightView()
     DLabel *importLabel = new DLabel();
     importLabel->setText(tr("Import to:"));
     DFontSizeManager::instance()->bind(importLabel, DFontSizeManager::T6, QFont::Medium);
-    importLabel->setForegroundRole(DPalette::TextTips);
+    importLabel->setForegroundRole(DPalette::TextTitle);
     importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     m_importByPhoneComboBox = new DComboBox;
-    m_importByPhoneComboBox->setMinimumSize(QSize(190, 36));
+//    m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
+    m_importByPhoneComboBox->setFixedSize(QSize(213, 36));
     m_importByPhoneComboBox->setEnabled(false);
+
 
     m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
     DFontSizeManager::instance()->bind(m_importAllByPhoneBtn, DFontSizeManager::T6);
-    m_importAllByPhoneBtn ->setMinimumSize(110, 36);
+//    m_importAllByPhoneBtn ->setMinimumSize(100, 36);
+    m_importAllByPhoneBtn->setFixedSize(100, 36);
     DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
     importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
@@ -1094,7 +1086,8 @@ void AlbumView::initRightView()
 //    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
     DFontSizeManager::instance()->bind(m_importSelectByPhoneBtn, DFontSizeManager::T6);
 
-    m_importSelectByPhoneBtn->setMinimumSize(110, 36);
+//    m_importSelectByPhoneBtn->setMinimumSize(100, 36);
+    m_importSelectByPhoneBtn->setFixedSize(QSize(100, 36));
 //    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
 //    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
 //    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
@@ -1119,8 +1112,10 @@ void AlbumView::initRightView()
 //    p_all2->addWidget(m_pRightPhoneThumbnailList);
 
     m_pRightPhoneThumbnailList->setParent(pPhoneWidget);
-    phonetopwidget = new DBlurEffectWidget(pPhoneWidget);
-    phonetopwidget->setFixedHeight(80);
+//    phonetopwidget = new DBlurEffectWidget(pPhoneWidget);
+    phonetopwidget = new DWidget(pPhoneWidget);
+    phonetopwidget->setAutoFillBackground(true);
+    phonetopwidget->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 87);
     phonetopwidget->setLayout(p_all2);
     phonetopwidget->move(0, 50);
     phonetopwidget->raise();
@@ -1170,7 +1165,7 @@ void AlbumView::initRightView()
         m_pStatusBar->show();
     } else {
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-       // m_pStatusBar->show();
+        // m_pStatusBar->show();
         m_pStatusBar->setVisible(false);
 
     }
@@ -1432,7 +1427,7 @@ void AlbumView::updateRightNoTrashView()
         m_pRightThumbnailList->loadFilesFromLocal(infos);
         m_pImportView->setAlbumname(m_currentAlbum);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-      //  m_pStatusBar->show();
+        //  m_pStatusBar->show();
         m_pStatusBar->setVisible(false);
     }
 
@@ -2560,6 +2555,7 @@ void AlbumView::updateImportComboBox()
 
         m_importByPhoneComboBox->addItem(albumName);
     }
+    m_importByPhoneComboBox->setCurrentText(tr("Gallery"));     //默认选中
 }
 
 //手机照片全部导入
@@ -3004,10 +3000,9 @@ void AlbumView::restorePicNum()
             }
         }
     }
-    if(selPicNum<=0){
+    if (selPicNum <= 0) {
         m_pStatusBar->setVisible(false);
-    }
-    else {
+    } else {
         m_pStatusBar->setVisible(true);
     }
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
