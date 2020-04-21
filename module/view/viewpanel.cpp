@@ -180,7 +180,7 @@ void ViewPanel::initConnect()
         m_vinfo = vinfo;
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
         QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
-        if (fList.contains(strfixL.toUtf8().data())||vinfo.fullScreen) {
+        if (fList.contains(strfixL.toUtf8().data()) || vinfo.fullScreen) {
 
             m_currentpath = m_vinfo.path;
             if (m_vinfo.paths.size() < 1) {
@@ -200,40 +200,35 @@ void ViewPanel::initConnect()
             }
             return false;
             //TODO: there will be some others panel
-        }
-        else {
+        } else {
             //LMH0415
-            SignalManager::ViewInfo newinfo=vinfo;
+            SignalManager::ViewInfo newinfo = vinfo;
             newinfo.paths.clear();
             int index = -1;
-            if(m_vinfo.paths.size() == 0) //only a piece of image
-            {
-                index = m_vinfo.path.compare(newinfo.path) == 0? 0 : index;
-            }else {
+            if (m_vinfo.paths.size() == 0) { //only a piece of image
+                index = m_vinfo.path.compare(newinfo.path) == 0 ? 0 : index;
+            } else {
                 index = m_vinfo.paths.indexOf(newinfo.path);
             }
 
-            if(index<0)
-            {
+            if (index < 0) {
                 return false;
             }
-            if(index>50){
-                for(int i=index-50;i<index;i++){
+            if (index > 50) {
+                for (int i = index - 50; i < index; i++) {
+                    newinfo.paths << vinfo.paths[i];
+                }
+            } else {
+                for (int i = 0; i < index; i++) {
                     newinfo.paths << vinfo.paths[i];
                 }
             }
-            else{
-                for(int i=0;i<index;i++){
+            if (index + 50 < vinfo.paths.count()) {
+                for (int i = index; i < index + 50; i++) {
                     newinfo.paths << vinfo.paths[i];
                 }
-            }
-            if(index+50<vinfo.paths.count()){
-                for(int i=index;i<index+50;i++){
-                    newinfo.paths << vinfo.paths[i];
-                }
-            }
-            else{
-                for(int i=index;i<vinfo.paths.count();i++){
+            } else {
+                for (int i = index; i < vinfo.paths.count(); i++) {
                     newinfo.paths << vinfo.paths[i];
                 }
             }
@@ -870,10 +865,10 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
-//    if (m_dt->isActive()) {
-//        return false;
-//    }
-//    m_dt->start();
+    if (m_dt->isActive()) {
+        return false;
+    }
+    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
@@ -894,10 +889,10 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
-//    if (m_dt->isActive()) {
-//        return false;
-//    }
-//    m_dt->start();
+    if (m_dt->isActive()) {
+        return false;
+    }
+    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
