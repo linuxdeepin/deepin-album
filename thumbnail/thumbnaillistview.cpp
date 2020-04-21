@@ -833,15 +833,10 @@ void ThumbnailListView::loadFilesFromDB(QString name)
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
-
-    for (auto path : filelist) {
-        if (!m_allfileslist.contains(path)) {
-            m_allfileslist << path;
-            m_filesbeleft  << path;
-            m_allNeedRequestFilesCount += 1;
-        }
-    }
-
+//    qDebug() << "threadID : " << QThread::currentThreadId();
+    m_allfileslist << filelist;
+    m_filesbeleft << filelist;
+    m_allNeedRequestFilesCount += filelist.size();
     calWidgetItemWandH();
     addThumbnailView();
     if (bneedloadimage) {
@@ -873,9 +868,7 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
 //    qDebug() << "threadID : " << QThread::currentThreadId();
     stopLoadAndClear();
     m_allfileslist << filelist;
-
     m_filesbeleft << filelist;
-
     m_allNeedRequestFilesCount += filelist.size();
     calWidgetItemWandH();
     addThumbnailView();
@@ -891,7 +884,7 @@ void ThumbnailListView::requestSomeImages()
 //    QMutexLocker mutex(&m_mutex);
     bneedloadimage = false;
 
-    if (m_filesbeleft.size()   < Number_Of_Displays_Per_Time) {
+    if (m_filesbeleft.size() < Number_Of_Displays_Per_Time) {
         m_requestCount += m_filesbeleft.size();
     } else {
         m_requestCount += Number_Of_Displays_Per_Time;
@@ -1667,6 +1660,11 @@ void ThumbnailListView::onTimerOut()
     bneedsendresize = false;
 }
 
+void ThumbnailListView::slotReCalcTimelineSize()
+{
+    emit needResize (m_height + 15);
+}
+
 void ThumbnailListView::sendNeedResize(/*int hight*/)
 {
     if (!isVisible()) {
@@ -1730,4 +1728,9 @@ bool ThumbnailListView::isLoading()
         return false;
     }
     return true;
+}
+
+bool ThumbnailListView::isAllPicSeleted()
+{
+    return getAllPaths ().count () == selectedPaths ().count ();
 }

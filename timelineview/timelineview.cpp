@@ -108,9 +108,9 @@ void TimeLineView::initConnections()
     connect(pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
 //        m_spinner->show();
 //        m_spinner->start();
-        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
         emit dApp->signalM->startImprot();
         pImportView->onImprotBtnClicked();
+        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
     });
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
         if (isVisible())
@@ -334,10 +334,8 @@ void TimeLineView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
-        m_pStatusBar->setVisible(true);
     } else {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-        m_pStatusBar->setVisible(false);
     }
 }
 
@@ -1589,12 +1587,18 @@ void TimeLineView::onKeyDelete()
     QStringList paths;
     paths.clear();
 
+    bool bDeleteAll = true;
     for (int i = 0; i < m_allThumbnailListView.size(); i++) {
         paths << m_allThumbnailListView[i]->selectedPaths();
+        bDeleteAll &= m_allThumbnailListView[i]->isAllPicSeleted ();
     }
 
     if (0 >= paths.length()) {
         return;
+    }
+
+    if (bDeleteAll) {
+        m_pStackedWidget->setCurrentIndex (VIEW_IMPORT);
     }
 
     ImageEngineApi::instance()->moveImagesToTrash(paths);

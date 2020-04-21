@@ -585,11 +585,9 @@ runend:
         if (COMMON_STR_RECENT_IMPORTED == m_currentType)
         {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-            m_pStatusBar->setVisible(true);
         } else if (COMMON_STR_CUSTOM == m_currentType)
         {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
-            m_pStatusBar->setVisible(true);
         }
         emit dApp->signalM->startImprot();
         m_pImportView->onImprotBtnClicked();
@@ -600,7 +598,6 @@ runend:
             m_spinner->hide();
             m_spinner->stop();
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-            m_pStatusBar->setVisible(false);
         }
     });
     connect(m_importByPhoneComboBox, &DComboBox::currentTextChanged, this, &AlbumView::importComboBoxChange);
@@ -639,6 +636,7 @@ runend:
         //updateRightView();
     });
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
+    connect (this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
 }
 
 void AlbumView::initLeftView()
@@ -823,25 +821,21 @@ void AlbumView::initRightView()
     m_pTrashWidget->setPalette(palcolor3);
 //add end 3975
 
-    //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
-    QVBoxLayout *pTopVBoxlayout = new QVBoxLayout();
-    pTopVBoxlayout->setContentsMargins(17, 5, 0, 17);
+    QHBoxLayout *pTopHBoxLayout = new QHBoxLayout();
 
     pLabel1 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
     pLabel1->setFixedHeight(32);
     pLabel1->setForegroundRole(DPalette::TextTitle);
     pLabel1->setText(tr("Trash"));
-    //pTopHBoxLayout->addWidget(pLabel1);
-    pTopVBoxlayout->addWidget(pLabel1);
+    pTopHBoxLayout->addWidget(pLabel1);
 
     QHBoxLayout *pTopButtonLayout  = new QHBoxLayout();
-    pTopButtonLayout->setContentsMargins(0, 0, 20, 0);
 
     m_pRecoveryBtn = new DPushButton();
     m_pRecoveryBtn->setText(tr("Restore"));
     m_pRecoveryBtn->setEnabled(false);
-    m_pRecoveryBtn->setFixedSize(100, 36);
+    m_pRecoveryBtn->setFixedSize(120, 36);
 
     DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
     ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
@@ -852,45 +846,38 @@ void AlbumView::initRightView()
 
     m_pDeleteBtn = new DWarningButton();
     m_pDeleteBtn->setText(tr("Delete All"));
-    m_pDeleteBtn->setFixedSize(100, 36);
+    m_pDeleteBtn->setFixedSize(120, 36);
 
     DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
     ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_pDeleteBtn->setPalette(ReBtn);
     pTopButtonLayout->addWidget(m_pDeleteBtn);
 
-    //pTopHBoxLayout->addLayout(pTopButtonLayout);
-    //pTopHBoxLayout->addSpacing(10);
+    pTopHBoxLayout->addLayout(pTopButtonLayout);
+    pTopHBoxLayout->addSpacing(10);
 
-    //QVBoxLayout *pTopVBoxLayout = new QVBoxLayout();
-    //pTopVBoxLayout->addLayout(pTopHBoxLayout);
+    QVBoxLayout *pTopVBoxLayout = new QVBoxLayout();
+    pTopVBoxLayout->addLayout(pTopHBoxLayout);
 
     pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
 
-    //pTopVBoxLayout->addWidget(pLabel2);
-    pTopVBoxlayout->addSpacing(9);
-    pTopVBoxlayout->addWidget(pLabel2);
-
-    //重新布局
-    QVBoxLayout *pVboxlayout = new QVBoxLayout();
-    pVboxlayout->setContentsMargins(0, 0, 0, 0);
-    pVboxlayout->addStretch(1);
-    pVboxlayout->addLayout(pTopButtonLayout);
-    pVboxlayout->addStretch(1);
-
-
-    QHBoxLayout    *pTopHboxlayout = new QHBoxLayout();
-    pTopHboxlayout->setContentsMargins(0, 0, 0, 0);
-    pTopHboxlayout->addLayout(pTopVBoxlayout);
-    pTopHboxlayout->addLayout(pVboxlayout);
-
+    pTopVBoxLayout->addWidget(pLabel2);
 
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
+//del start 3975
+//    pMainVBoxLayout->setMargin(2);
+//    pMainVBoxLayout->addItem(pTopHBoxLayout);
+//    pMainVBoxLayout->addSpacing(2);
+//    pMainVBoxLayout->addWidget(m_pRightTrashThumbnailList);
 
+//    pTrashWidget->setLayout(pMainVBoxLayout);
+//del end 3975
+//add start 3975
+//    DListWidget *lsitWidget3 = new DListWidget();
     AlbumViewList *lsitWidget3 = new AlbumViewList();
     lsitWidget3->setContentsMargins(0, 0, 0, 0);
     lsitWidget3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -927,8 +914,7 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_TrashTitle = new DWidget(m_pTrashWidget);
-    //m_TrashTitle->setLayout(pTopVBoxLayout);
-    m_TrashTitle->setLayout(pTopHboxlayout);
+    m_TrashTitle->setLayout(pTopVBoxLayout);
 
     DPalette ppal_light3 = DApplicationHelper::instance()->palette(m_TrashTitle);
     ppal_light3.setBrush(DPalette::Background, ppal_light3.color(DPalette::Base));
@@ -1033,7 +1019,6 @@ void AlbumView::initRightView()
 // Phone View
     pPhoneWidget = new DWidget();
     pPhoneWidget->setBackgroundRole(DPalette::Window);
-
     QVBoxLayout *pPhoneVBoxLayout = new QVBoxLayout();
     pPhoneVBoxLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -1057,8 +1042,6 @@ void AlbumView::initRightView()
 
 //手机相片导入窗体
     m_importByPhoneWidget = new DWidget;
-//    DWidget *topwidget = new DWidget;
-//    topwidget->setFixedHeight(50);
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
     importLabel->setText(tr("Import to:"));
@@ -1093,11 +1076,11 @@ void AlbumView::initRightView()
 //    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
     m_importSelectByPhoneBtn->setEnabled(false);
     mainImportLayout->addWidget(importLabel);
-    mainImportLayout->addSpacing(11);
+    mainImportLayout->addSpacing(4);
     mainImportLayout->addWidget(m_importByPhoneComboBox);
-    mainImportLayout->addSpacing(30);
+    mainImportLayout->addSpacing(20);
     mainImportLayout->addWidget(m_importAllByPhoneBtn);
-    mainImportLayout->addSpacing(10);
+    mainImportLayout->addSpacing(4);
     mainImportLayout->addWidget(m_importSelectByPhoneBtn);
     m_importByPhoneWidget->setLayout(mainImportLayout);
 
@@ -1119,6 +1102,11 @@ void AlbumView::initRightView()
     phonetopwidget->setLayout(p_all2);
     phonetopwidget->move(0, 50);
     phonetopwidget->raise();
+
+    //phone widget palette
+    DPalette color = DApplicationHelper::instance()->palette(m_importByPhoneWidget);
+    color.setBrush(DPalette::Background, QColor(248,248,248,10));
+    phonetopwidget->setPalette(color);
 
 //add start 3975
     m_pStatusBar = new StatusBar(this);
@@ -1167,7 +1155,6 @@ void AlbumView::initRightView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         // m_pStatusBar->show();
         m_pStatusBar->setVisible(false);
-
     }
 //    updateRightView();
 }
@@ -1224,14 +1211,12 @@ void AlbumView::updateRightImportView()
 //        m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
         m_pImpTimeLineWidget->clearAndStartLayout();
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-        m_pStatusBar->setVisible(true);
     } else {
 //        m_pImpTimeLineWidget->updataLayout();
 //        m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
         m_pImpTimeLineWidget->clearAndStartLayout();
         m_pImportView->setAlbumname(QString());
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->setVisible(false);
     }
 
     emit sigSearchEditIsDisplay(true);
@@ -1277,7 +1262,6 @@ void AlbumView::updateRightMyFavoriteView()
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
-    m_pStatusBar->setVisible(true);
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(false);
 }
@@ -1344,7 +1328,6 @@ void AlbumView::updateRightMountView()
                 m_importSelectByPhoneBtn->setEnabled(false);
             }
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
-            m_pStatusBar->setVisible(true);
         } else
         {
             qDebug() << "phone zero";
@@ -1365,7 +1348,6 @@ void AlbumView::updateRightMountView()
                 m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_str, false, false);
             }
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
-            m_pStatusBar->setVisible(true);
         }
         emit sigSearchEditIsDisplay(false);
         setAcceptDrops(false);
@@ -1427,6 +1409,7 @@ void AlbumView::updateRightNoTrashView()
         m_pRightThumbnailList->loadFilesFromLocal(infos);
         m_pImportView->setAlbumname(m_currentAlbum);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+
         //  m_pStatusBar->show();
         m_pStatusBar->setVisible(false);
     }
@@ -1503,7 +1486,6 @@ void AlbumView::updateRightTrashView()
 
 //    m_pRightTrashThumbnailList->insertThumbnails(m_curThumbnaiItemList);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
-    m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
 
@@ -1672,7 +1654,7 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
     auto imagelist = m_pRightThumbnailList->getAllFileList();
     if (COMMON_STR_TRASH == m_currentAlbum) {
         imagelist = m_pRightTrashThumbnailList->getAllFileList();
-    } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
+    } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
         imagelist = m_pRightFavoriteThumbnailList->getAllFileList();
     } else {
 
@@ -2504,7 +2486,6 @@ void AlbumView::SearchReturnUpdate()
         } else {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
         }
-        m_pStatusBar->setVisible(true);
     }
 }
 
@@ -2845,7 +2826,6 @@ void AlbumView::needUnMount(QString path)
         m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
         m_currentType = COMMON_STR_RECENT_IMPORTED;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-        m_pStatusBar->setVisible(true);
         return ;
         emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
     }
@@ -3000,11 +2980,13 @@ void AlbumView::restorePicNum()
             }
         }
     }
+
     if (selPicNum <= 0) {
         m_pStatusBar->setVisible(false);
     } else {
         m_pStatusBar->setVisible(true);
     }
+
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
 }
 

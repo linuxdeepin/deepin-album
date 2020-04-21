@@ -39,6 +39,8 @@ public:
     int getIBaseHeight();
 //signals:
 //    void albumviewResize();
+signals:
+    void sigResizeTimelineBlock();
 public slots:
     void on_AddLabel(QString date, QString num);
     void on_DelLabel();

@@ -494,6 +494,7 @@ void ImportTimeLineView::addTimelineLayout()
     connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, [ = ]() {
         addTimelineLayout();
     });
+    connect (this, &ImportTimeLineView::sigResizeTimelineBlock, pThumbnailListView, &ThumbnailListView::slotReCalcTimelineSize);
 //        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
         if (!pThumbnailListView->checkResizeNum())

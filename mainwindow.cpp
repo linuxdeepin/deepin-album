@@ -939,7 +939,7 @@ void MainWindow::initCentralWidget()
     //pTitleBtnLayout 设置风格
     DPalette color = DApplicationHelper::instance()->palette(m_pAlbumview);
     color.setBrush(DPalette::Background, color.color(DPalette::Base));
-    color.setBrush(DPalette::Background, QColor(255, 255, 255, 95));
+    color.setBrush(DPalette::Background, QColor(255,255,255,95));
     titlebar()->setPalette(color);
 
     m_commandLine->processOption(pas);
@@ -1034,7 +1034,6 @@ void MainWindow::timeLineBtnClicked()
     m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pTimeLineView->updateStackedWidget();
     m_pTimeLineView->updatePicNum();
-
 }
 
 //显示相册
@@ -1046,11 +1045,10 @@ void MainWindow::albumBtnClicked()
     m_iCurrentView = VIEW_ALBUM;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 //    m_pAlbumview->updateRightView();    //切换时手动更新界面相册显示界面
-
-    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->SearchReturnUpdate();
+    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->updatePicNum();
-
+    emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed ();
 }
 
 //标题菜单栏槽函数

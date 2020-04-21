@@ -165,6 +165,7 @@ public:
     void updatePicNum();
 
     void updateRightView();
+
 private:
     void initConnections();
     void initLeftView();
@@ -206,6 +207,8 @@ private:
 signals:
     void sigSearchEditIsDisplay(bool);
     void sigLoadMountImagesStart(QString mountName, QString path);
+    void sigReCalcTimeLineSizeIfNeed();
+
 
 private slots:
     void onTrashRecoveryBtnClicked();
