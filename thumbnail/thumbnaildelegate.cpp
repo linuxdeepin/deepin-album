@@ -156,7 +156,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->setPen(QColor(85, 85, 85, 170));
 //        QBrush brush;
 
-        painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        //painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         //字符串的像素宽度
         const int m_Width = painter->fontMetrics().width(data.remainDays);
 //        int m_Height = painter->fontMetrics().height();
@@ -165,20 +165,33 @@ void ThumbnailDelegate::paint(QPainter *painter,
 //        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 40, pixmapRect.y() + pixmapRect.height() - 18, 48, 16, 8, 8);
 
         QString str(data.remainDays);
-        QFontMetrics fontwidth(str);
-        //2020/3/13-xiaolong
-        int rectwidth = pixmapRect.width(); //缩略图宽度
-        int tempcha = (rectwidth - m_Width > 4) ? (rectwidth - m_Width - 8) : 8;
-        int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
-        int textwidth = m_Width + 8;
-        if (m_Width + tempcha > rectwidth) //文字像素宽度大于缩略图宽度
-            textwidth = rectwidth - 4;
+        QFontMetrics Text(str);
 
-        painter->drawRoundedRect(posx - 4, pixmapRect.y() + pixmapRect.height() - fontwidth.height() + 2, textwidth + 4, 20, 10, 10);
+        //2020/3/13-xiaolong
+        int textwidth = m_Width + 6;        //阴影图框
+        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
+        int rectwidth = pixmapRect.width(); //缩略图宽度
+        if (textwidth > rectwidth) //容纳文字像素的宽度大于缩略图宽度
+            textwidth = rectwidth - 4;
+        int tempcha = (rectwidth - textwidth > 4) ? (rectwidth - textwidth - 4) : 4;
+        int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
+//        if (m_Width + tempcha > rectwidth) //文字像素宽度大于缩略图宽度
+//            textwidth = rectwidth - 4;
+//        int tempcha = (rectwidth - m_Width > 6) ? (rectwidth - m_Width - 6) : 8;
+//        int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
+//        int textwidth = m_Width + 8;
+//        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
+//        if (m_Width + tempcha > rectwidth) //文字像素宽度大于缩略图宽度
+//            textwidth = rectwidth - 4;
+
+        painter->drawRoundedRect(posx, pixmapRect.y() + pixmapRect.height() - textheight - 4 - 2, textwidth, textheight + 2, 10, 10);
+//        painter->drawRoundedRect(posx - 3, pixmapRect.y() + pixmapRect.height() - m_Height - 2, textwidth + 6, m_Height + 2, 10, 10);
+
         painter->setPen(QColor(255, 255, 255));
         if (m_Width - textwidth > 0)
-            str = fontwidth.elidedText(str, Qt::ElideRight, textwidth);
-        painter->drawText(posx + 2, pixmapRect.y() + pixmapRect.height() - 7, str);
+            str = Text.elidedText(str, Qt::ElideRight, textwidth);
+        painter->drawText(posx + 3, pixmapRect.y() + pixmapRect.height() - 4 - 2, str);
+//        painter->drawText(posx + 3, pixmapRect.y() + pixmapRect.height() - fontwidth.height() / 2 + 4, str);
     }
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
