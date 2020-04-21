@@ -357,7 +357,6 @@ void AlbumView::initConnections()
             m_pRightThumbnailList->setFixedHeight(mh + 27);
             m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
         }
-
     });
     connect(m_pLeftListView, &LeftListView::itemClicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
@@ -1132,9 +1131,9 @@ void AlbumView::initRightView()
 //add end 3975
 // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
-    m_pRightStackWidget->addWidget(m_pNoTrashWidget);  //edit 3975
-    m_pRightStackWidget->addWidget(m_pTrashWidget);    //edit 3975
-    m_pRightStackWidget->addWidget(m_pFavoriteWidget);  //edit 3975
+    m_pRightStackWidget->addWidget(m_pNoTrashWidget);  //已导入
+    m_pRightStackWidget->addWidget(m_pTrashWidget);    //最近删除
+    m_pRightStackWidget->addWidget(m_pFavoriteWidget);  //我的收藏
     m_pRightStackWidget->addWidget(m_pSearchView);
     m_pRightStackWidget->addWidget(pPhoneWidget);
     m_pRightStackWidget->addWidget(pImportTimeLineWidget);
@@ -1223,6 +1222,7 @@ void AlbumView::updateRightImportView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
     }
+    m_pRightThumbnailList->resizeHand();    //重新计算已导入大小
 
     emit sigSearchEditIsDisplay(true);
 
@@ -1268,6 +1268,9 @@ void AlbumView::updateRightMyFavoriteView()
 
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
     m_pStatusBar->setVisible(true);
+
+    m_pRightFavoriteThumbnailList->resizeHand();
+
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(false);
 }
@@ -1497,6 +1500,7 @@ void AlbumView::updateRightTrashView()
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
 
+    m_pRightTrashThumbnailList->resizeHand();
     //    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
 }
 

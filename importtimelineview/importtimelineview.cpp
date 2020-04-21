@@ -160,7 +160,14 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 //            pLabelList[1]->setForegroundRole(DPalette::Text);
 //            pLabelList[1]->setPalette(pal);
 //        }
-//    }
+    //    }
+}
+
+void ImportTimeLineView::resizeHand()
+{
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->resizeHand();
+    }
 }
 
 QStringList ImportTimeLineView::selectPaths()

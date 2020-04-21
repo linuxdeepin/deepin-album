@@ -939,7 +939,7 @@ void MainWindow::initCentralWidget()
     //pTitleBtnLayout 设置风格
     DPalette color = DApplicationHelper::instance()->palette(m_pAlbumview);
     color.setBrush(DPalette::Background, color.color(DPalette::Base));
-    color.setBrush(DPalette::Background, QColor(255,255,255,95));
+    color.setBrush(DPalette::Background, QColor(255, 255, 255, 95));
     titlebar()->setPalette(color);
 
     m_commandLine->processOption(pas);
@@ -1044,7 +1044,18 @@ void MainWindow::albumBtnClicked()
     m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-//    m_pAlbumview->updateRightView();    //切换时手动更新界面相册显示界面
+
+    //手动更新界面，重新计算大小
+    DWidget *pwidget = nullptr;
+    pwidget = m_pAlbumview->m_pRightStackWidget->currentWidget();
+    if (pwidget == m_pAlbumview->pImportTimeLineWidget) { //当前为导入界面
+        m_pAlbumview->m_pRightThumbnailList->resizeHand();
+    } else if (pwidget == m_pAlbumview->m_pTrashWidget) {
+        m_pAlbumview->m_pRightTrashThumbnailList->resizeHand();
+    } else if (pwidget == m_pAlbumview->m_pFavoriteWidget) {
+        m_pAlbumview->m_pRightFavoriteThumbnailList->resizeHand();
+    }
+
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->updatePicNum();

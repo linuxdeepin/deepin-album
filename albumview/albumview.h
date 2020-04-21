@@ -243,17 +243,23 @@ public:
     LeftListView *m_pLeftListView;
     StatusBar *m_pStatusBar;
     DWidget *m_pRightWidget;
-    ThumbnailListView *m_pRightThumbnailList;
+
     ThumbnailListView *m_pRightPhoneThumbnailList;
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     QMap<QString, QPixmap> m_phonePathAndImage;
     DWidget *m_pwidget;
 
+    ThumbnailListView *m_pRightThumbnailList;               //已导入
+    ThumbnailListView *m_pRightTrashThumbnailList;          //最近删除
+    ThumbnailListView *m_pRightFavoriteThumbnailList;       //我的收藏
+
+    DWidget *pImportTimeLineWidget;
+    DWidget *m_pTrashWidget;
+    DWidget *m_pFavoriteWidget;
+
 private:
     ImportView *m_pImportView;
-    ThumbnailListView *m_pRightTrashThumbnailList;
-    ThumbnailListView *m_pRightFavoriteThumbnailList;
 
     DPushButton *m_pRecoveryBtn;
     DPushButton *m_pDeleteBtn;
@@ -269,9 +275,9 @@ private:
     DDiskManager *m_diskManager;
     DLabel *pLabel1;
     DLabel *pLabel2;
+
     // 已导入窗体
     ImportTimeLineView *m_pImpTimeLineWidget;
-
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
@@ -294,7 +300,7 @@ private:
 //    QMap<QString, MountLoader *> m_mountLoaderList;
 //    QMap<QString, QThread *> m_loadThreadList;
 
-    DWidget *pImportTimeLineWidget;
+
     QMap<QUrl, QString> durlAndNameMap;
     void getAllDeviceName();
     DSpinner *m_spinner;
@@ -307,11 +313,10 @@ private:
 
     QListWidgetItem *m_FavoriteItem;
     DWidget *m_FavoriteTitle;
-    DWidget *m_pFavoriteWidget;
 
     QListWidgetItem *m_TrashitemItem;
     DWidget *m_TrashTitle;
-    DWidget *m_pTrashWidget;
+
     //add end 3975
 
 //    QGridLayout *pVBoxLayout = nullptr;

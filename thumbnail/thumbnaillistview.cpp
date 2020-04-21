@@ -1641,6 +1641,11 @@ void ThumbnailListView::clearSelectionExtent(int start, int end)
         selectionModel()->select(qindex, QItemSelectionModel::Deselect);
     }
 }
+
+void ThumbnailListView::resizeHand()
+{
+    emit needResize(m_height + 15);
+}
 #endif
 //add start 3975
 int ThumbnailListView::getListViewHeight()

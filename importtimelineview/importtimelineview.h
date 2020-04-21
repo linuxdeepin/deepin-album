@@ -74,6 +74,7 @@ public:
     void addTimelineLayout();
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
+    void resizeHand();  //手动计算大小
 #if 1
     QStringList selectPaths();
     void updateChoseText();
