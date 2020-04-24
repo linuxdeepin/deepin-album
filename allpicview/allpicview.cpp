@@ -190,8 +190,7 @@ void AllPicView::updatePicsIntoThumbnailView()
     m_spinner->hide();
     m_spinner->stop();
     m_pThumbnailListView->stopLoadAndClear();
-    m_pThumbnailListView->loadFilesFromDB("All pictures");
-    qDebug() << "updatePicsIntoThumbnailView-AllPic";
+    m_pThumbnailListView->loadFilesFromDB();
 //    using namespace utils::image;
 //    QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
 
@@ -215,10 +214,6 @@ void AllPicView::updatePicsIntoThumbnailView()
 //    }
 
 //    m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
-
-    QThread::sleep(1);
-    m_pThumbnailListView->stopLoadAndClear();
-    m_pThumbnailListView->loadFilesFromDB("All pictures");
 
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing

@@ -711,7 +711,6 @@ void ImageGetFilesFromMountThread::run()
         if (bneedstop) {
             return;
         }
-        dir_iterator.next();
         QFileInfo fileInfo = dir_iterator.fileInfo();
         allfiles << fileInfo.filePath();
     }

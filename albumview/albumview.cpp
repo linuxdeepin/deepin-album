@@ -2511,7 +2511,7 @@ bool AlbumView::findPicturePathByPhone(QString &path)
     QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     QFileInfo tempFileInfo;
     foreach (tempFileInfo, fileInfoList) {
-        //针对p2p模式
+        //针对ptp模式
         if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
             path = tempFileInfo.absoluteFilePath();
             return true;
@@ -2527,7 +2527,7 @@ bool AlbumView::findPicturePathByPhone(QString &path)
                     return true;
                 }
             }
-            return false;
+//            return false;
         }
     }
     return false;
