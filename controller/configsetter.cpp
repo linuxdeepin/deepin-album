@@ -27,6 +27,7 @@ const QString DB_PATH = QDir::homePath() +
                         "/.local/share/deepin/deepin-image-viewer/deepinimageviewer.db";
 
 ConfigSetter::ConfigSetter(QObject *parent) : QObject(parent)
+    , m_settings(nullptr)
 {
     if (!QFileInfo(CONFIG_PATH).exists())
         QProcess::startDetached(QString("rm %1").arg(DB_PATH));

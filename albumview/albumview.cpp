@@ -1382,6 +1382,8 @@ void AlbumView::updateRightMountView()
             m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
             QString str = tr("%1 photo(s)");
             m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+            //LMH0424，下方显示和标题显示数字相同
+            m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_iAlubmPicsNum)));
             m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
             if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore && isWaitDialog) {
                 if (isVisible()) {
@@ -1411,6 +1413,8 @@ void AlbumView::updateRightMountView()
             m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
             QString str = tr("%1 photo(s)");
             m_pPhonePicTotal->setText(str.arg(QString::number(0)));
+            //LMH0424，下方显示和标题显示数字相同
+            m_pStatusBar->m_pAllPicNumLabel->setText(QString::number(0));
             m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
             m_pRightPhoneThumbnailList->stopLoadAndClear();
             if (m_curThumbnaiItemList_info.size() > 0) {

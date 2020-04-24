@@ -71,6 +71,7 @@ CommandLine *CommandLine::instance()
 }
 
 CommandLine::CommandLine()
+    : m_pwidget(nullptr)
 {
     m_cmdParser.addHelpOption();
 //    m_cmdParser.addVersionOption();

@@ -38,6 +38,7 @@ Exporter *Exporter::instance()
 
 Exporter::Exporter(QObject *parent)
     : QObject(parent)
+    , m_exportImageDialog(nullptr)
 {
     m_exportImageDialog = new CExportImageDialog();
 }
