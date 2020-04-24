@@ -53,6 +53,7 @@ private:
 private:
     int m_title_maxwidth;
     int m_maxFieldWidth;
+    int m_currentFontSize;
     bool m_isBaseInfo = false;
     bool m_isDetailsInfo = false;
     QString m_path;
@@ -64,7 +65,7 @@ private:
     QVBoxLayout *m_mainLayout = nullptr;
     DScrollArea *m_scrollArea = nullptr;
     void keyPressEvent(QKeyEvent *e) override;
-
+    void paintEvent(QPaintEvent *event) override;
 signals:
     void closed();
 

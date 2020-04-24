@@ -117,6 +117,9 @@ protected:
 ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
     : DDialog(parent)
 {
+    //LMH0424默认字体大小
+    QFont font;
+    m_currentFontSize = DFontSizeManager::instance()->fontPixelSize(font );
     QLocale locale;
     if (locale.language() == QLocale::Chinese)  //语言为中文
         m_title_maxwidth = 60;
@@ -409,3 +412,17 @@ void ImgInfoDialog::keyPressEvent(QKeyEvent *e)
     }
     DDialog::keyPressEvent(e);
 }
+//LMH0424检查字体大小随系统改变，从而刷新字体。
+void ImgInfoDialog::paintEvent(QPaintEvent *event)
+{
+    QFont font;
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    if (currentSize != m_currentFontSize) {
+        m_currentFontSize = currentSize;
+        updateInfo();
+    }
+    DDialog::paintEvent(event);
+}
+
+
+
