@@ -173,7 +173,6 @@ private:
     //void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
-    //void updateRightImportViewColock(QStringList updatePahtlist);         //更新旋转图片视图
     void updateRightImportView();
     void updateRightMyFavoriteView();
     void updateRightMountView();

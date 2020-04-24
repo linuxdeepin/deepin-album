@@ -713,6 +713,7 @@ void ImageGetFilesFromMountThread::run()
 
             return;
         }
+        dir_iterator.next();
         QFileInfo fileInfo = dir_iterator.fileInfo();
         allfiles << fileInfo.filePath();
         emit dApp->signalM->sigPhonePath(m_path, fileInfo.filePath());
