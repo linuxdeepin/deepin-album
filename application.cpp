@@ -446,7 +446,15 @@ void Application::initDB()
 
 void Application::setupsinglecase()
 {
+    QSharedMemory mem("deepin-album");
+    // 尝试将进程附加到共享内存段
+    if (mem.attach()) {
+        // 将共享内存与主进程分离, 如果此进程是附加到共享存储器段的最后一个进程，则系统释放共享存储器段，即销毁内容
+        mem.detach();
+    }
     sharedMemory.setKey("deepin-album");
+
+
     if (sharedMemory.attach())
         _isRunning = true;
     else {

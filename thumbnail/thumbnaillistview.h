@@ -263,6 +263,7 @@ private:
 //    int lastwidth = 0;
 //    int newwidth = 0;
     //------------------
+
 };
 
 #endif // THUMBNAILLISTVIEW_H

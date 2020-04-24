@@ -331,6 +331,10 @@ private:
     QTimer *m_waitDailog_timer;
     QThread *m_updateMountViewThread = nullptr;
     bool isMountThreadRunning = false;
+
+    int m_currentViewPictureCount = 0;
+
+    QMutex m_mutex;
 };
 
 #endif // ALBUMVIEW_H

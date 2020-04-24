@@ -66,7 +66,7 @@ const QStringList DBManager::getAllPaths() const
                   "FilePath "
                   "FROM ImageTable3"/* ORDER BY Time DESC"*/);
     if (! query.exec()) {
-        qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
+        //qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
 //        ////ConnectionPool::closeConnection(db);
         db.close();
@@ -96,7 +96,7 @@ const DBImgInfoList DBManager::getAllInfos() const
     query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
                   "FROM ImageTable3");
     if (! query.exec()) {
-        qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
+        //  qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         ////ConnectionPool::closeConnection(db);
         db.close();
@@ -135,7 +135,7 @@ const QStringList DBManager::getAllTimelines() const
     query.prepare("SELECT DISTINCT Time "
                   "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
-        qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
+        //   qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         //ConnectionPool::closeConnection(db);
         db.close();
@@ -175,7 +175,7 @@ const QStringList DBManager::getImportTimelines() const
     query.prepare("SELECT DISTINCT ChangeTime "
                   "FROM ImageTable3 ORDER BY ChangeTime DESC");
     if (! query.exec()) {
-        qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
+        //    qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         //ConnectionPool::closeConnection(db);
         db.close();
@@ -277,7 +277,7 @@ int DBManager::getImgsCountByDir(const QString &dir) const
         db.close();
         return query.value(0).toInt();
     } else {
-        qDebug() << "Get images count by Dir failed :" << query.lastError();
+        //  qDebug() << "Get images count by Dir failed :" << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         //ConnectionPool::closeConnection(db);
         db.close();
@@ -299,7 +299,7 @@ const QStringList DBManager::getPathsByDir(const QString &dir) const
                   "WHERE Dir=:dir ");
     query.bindValue(":dir", utils::base::hash(dir));
     if (! query.exec()) {
-        qWarning() << "Get Paths from ImageTable3 failed: " << query.lastError();
+        //  qWarning() << "Get Paths from ImageTable3 failed: " << query.lastError();
     } else {
         while (query.next()) {
             list << query.value(0).toString();
@@ -371,8 +371,8 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     query.addBindValue(times);
     query.addBindValue(changetimes);
     if (! query.execBatch()) {
-        qWarning() << "Insert data into ImageTable3 failed: "
-                   << query.lastError();
+        // qWarning() << "Insert data into ImageTable3 failed: "
+        //            << query.lastError();
         query.exec("COMMIT");
         db.close();
     } else {
@@ -413,8 +413,8 @@ void DBManager::removeImgInfos(const QStringList &paths)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from AlbumTable3 failed: "
-                   << query.lastError();
+        //   qWarning() << "Remove data from AlbumTable3 failed: "
+        //               << query.lastError();
         query.exec("COMMIT");
     } else {
         query.exec("COMMIT");
@@ -426,8 +426,8 @@ void DBManager::removeImgInfos(const QStringList &paths)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from ImageTable3 failed: "
-                   << query.lastError();
+        //  qWarning() << "Remove data from ImageTable3 failed: "
+        //              << query.lastError();
         query.exec("COMMIT");
         db.close();
     } else {
@@ -465,8 +465,8 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from AlbumTable3 failed: "
-                   << query.lastError();
+        //  qWarning() << "Remove data from AlbumTable3 failed: "
+        //              << query.lastError();
         query.exec("COMMIT");
     } else {
         query.exec("COMMIT");
@@ -478,8 +478,8 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from ImageTable3 failed: "
-                   << query.lastError();
+        //  qWarning() << "Remove data from ImageTable3 failed: "
+        //              << query.lastError();
         query.exec("COMMIT");
     } else {
         query.exec("COMMIT");
@@ -513,8 +513,8 @@ void DBManager::removeDir(const QString &dir)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from AlbumTable3 failed: "
-                   << query.lastError();
+        //   qWarning() << "Remove data from AlbumTable3 failed: "
+        //              << query.lastError();
     }
     query.exec("COMMIT");
 
@@ -524,8 +524,8 @@ void DBManager::removeDir(const QString &dir)
     query.prepare(qs);
     query.bindValue(":Dir", dirHash);
     if (! query.exec()) {
-        qWarning() << "Remove dir's images from ImageTable3 failed: "
-                   << query.lastError();
+        //    qWarning() << "Remove dir's images from ImageTable3 failed: "
+        //               << query.lastError();
         query.exec("COMMIT");
         db.close();
     } else {
@@ -558,8 +558,8 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
     query.prepare(ps.arg(EMPTY_HASH_STR));
     query.bindValue(":name", album);
     if (! query.exec()) {
-        qWarning() << "Get data from AlbumTable3 failed: "
-                   << query.lastError();
+        //    qWarning() << "Get data from AlbumTable3 failed: "
+        //               << query.lastError();
     } else {
         while (query.next()) {
             pathHashs << query.value(0).toString();
@@ -602,7 +602,7 @@ const QStringList DBManager::getAllAlbumNames() const
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT AlbumName FROM AlbumTable3");
     if (!query.exec()) {
-        qWarning() << "Get AlbumNames failed: " << query.lastError();
+        //    qWarning() << "Get AlbumNames failed: " << query.lastError();
     } else {
         while (query.next()) {
             list << query.value(0).toString();
@@ -632,7 +632,7 @@ const QStringList DBManager::getPathsByAlbum(const QString &album) const
                   "AND FilePath != \" \" ");
     query.bindValue(":album", album);
     if (! query.exec()) {
-        qWarning() << "Get Paths from AlbumTable3 failed: " << query.lastError();
+        //    qWarning() << "Get Paths from AlbumTable3 failed: " << query.lastError();
     } else {
         while (query.next()) {
             list << query.value(0).toString();
@@ -660,7 +660,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
                   "WHERE i.PathHash=a.PathHash AND a.AlbumName=:album");
     query.bindValue(":album", album);
     if (! query.exec()) {
-        qWarning() << "Get ImgInfo by album failed: " << query.lastError();
+        //    qWarning() << "Get ImgInfo by album failed: " << query.lastError();
     } else {
         using namespace utils::base;
         while (query.next()) {
@@ -701,7 +701,7 @@ int DBManager::getImgsCountByAlbum(const QString &album) const
         db.close();
         return query.value(0).toInt();
     } else {
-        qDebug() << "Get images count error :" << query.lastError();
+        //   qDebug() << "Get images count error :" << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         //ConnectionPool::closeConnection(db);
         db.close();
@@ -806,8 +806,8 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     query.addBindValue(nameRows);
     query.addBindValue(pathHashRows);
     if (! query.execBatch()) {
-        qWarning() << "Insert data into AlbumTable3 failed: "
-                   << query.lastError();
+        //   qWarning() << "Insert data into AlbumTable3 failed: "
+        //              << query.lastError();
     }
     query.exec("COMMIT");
 
@@ -818,7 +818,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
                  " AlbumName, PathHash) AND PathHash != \"%1\" ";
     query.prepare(ps.arg(EMPTY_HASH_STR));
     if (!query.exec()) {
-        qDebug() << "delete same date failed!";
+        //   qDebug() << "delete same date failed!";
     }
     query.exec("COMMIT");
     db.close();
@@ -850,8 +850,8 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
     query.addBindValue(nameRows);
     query.addBindValue(pathHashRows);
     if (! query.execBatch()) {
-        qWarning() << "Insert data into AlbumTable3 failed: "
-                   << query.lastError();
+        //   qWarning() << "Insert data into AlbumTable3 failed: "
+        //             << query.lastError();
     }
     query.exec("COMMIT");
 
@@ -862,7 +862,7 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
                  " AlbumName, PathHash) AND PathHash != \"%1\" ";
     query.prepare(ps.arg(EMPTY_HASH_STR));
     if (!query.exec()) {
-        qDebug() << "delete same date failed!";
+        //    qDebug() << "delete same date failed!";
     }
     query.exec("COMMIT");
     db.close();
@@ -883,7 +883,7 @@ void DBManager::removeAlbum(const QString &album)
     query.prepare("DELETE FROM AlbumTable3 WHERE AlbumName=:album");
     query.bindValue(":album", album);
     if (!query.exec()) {
-        qWarning() << "Remove album from database failed: " << query.lastError();
+        //    qWarning() << "Remove album from database failed: " << query.lastError();
     }
     db.close();
 //    // 连接使用完后需要释放回数据库连接池
@@ -901,7 +901,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     QStringList pathHashs;
     for (QString path : paths) {
         pathHashs << utils::base::hash(path);
-        qDebug() << "";
+//        qDebug() << "";
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
@@ -912,7 +912,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     query.addBindValue(pathHashs);
     bool suc = false;
     if (! query.execBatch()) {
-        qWarning() << "Remove images from DB failed: " << query.lastError();
+        //    qWarning() << "Remove images from DB failed: " << query.lastError();
     } else {
         suc = true;
     }
@@ -945,7 +945,7 @@ void DBManager::removeFromAlbumNoSignal(const QString &album, const QStringList 
     query.prepare(qs.arg(album));
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove images from DB failed: " << query.lastError();
+        //  qWarning() << "Remove images from DB failed: " << query.lastError();
     } else {
 //        mutex.unlock();
     }
@@ -970,7 +970,7 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
     query.bindValue(":newName", newAlbum);
     query.bindValue(":oldName", oldAlbum);
     if (! query.exec()) {
-        qWarning() << "Update album name failed: " << query.lastError();
+        //   qWarning() << "Update album name failed: " << query.lastError();
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
@@ -994,7 +994,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
     query.prepare(queryStr.arg(value));
 
     if (!query.exec()) {
-        qWarning() << "Get Image from database failed: " << query.lastError();
+        //   qWarning() << "Get Image from database failed: " << query.lastError();
     } else {
         using namespace utils::base;
         while (query.next()) {
@@ -1042,7 +1042,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
     query.prepare(queryStr.arg(keywords));
 
     if (!query.exec()) {
-        qWarning() << "Get Image from database failed: " << query.lastError();
+        //  qWarning() << "Get Image from database failed: " << query.lastError();
     } else {
         using namespace utils::base;
         while (query.next()) {
@@ -1091,7 +1091,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
 
 
     if (! query.exec()) {
-        qWarning() << "Get ImgInfo by album failed: " << query.lastError();
+        //   qWarning() << "Get ImgInfo by album failed: " << query.lastError();
     } else {
         using namespace utils::base;
         while (query.next()) {
@@ -1129,7 +1129,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     query.bindValue(":value", value);
 
     if (!query.exec()) {
-        qWarning() << "Get Image from database failed: " << query.lastError();
+        //   qWarning() << "Get Image from database failed: " << query.lastError();
     } else {
         using namespace utils::base;
         while (query.next()) {
@@ -1164,7 +1164,7 @@ const QSqlDatabase DBManager::getDatabase() const
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");//not dbConnection
     db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     if (! db.open()) {
-        qWarning() << "Open database error:" << db.lastError();
+        //  qWarning() << "Open database error:" << db.lastError();
 //            mutex.unlock();
         return QSqlDatabase();
     } else {
@@ -1202,14 +1202,14 @@ void DBManager::checkDatabase()
 {
     QDir dd(DATABASE_PATH);
     if (! dd.exists()) {
-        qDebug() << "create database paths";
+        //  qDebug() << "create database paths";
         dd.mkpath(DATABASE_PATH);
-        if (dd.exists())
-            qDebug() << "create database succeed!";
-        else
-            qDebug() << "create database failed!";
+//        if (dd.exists())
+//            qDebug() << "create database succeed!";
+//        else
+//            qDebug() << "create database failed!";
     } else {
-        qDebug() << "database is exist!";
+//        qDebug() << "database is exist!";
     }
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -1330,8 +1330,8 @@ void DBManager::importVersion1Data()
         query.prepare("SELECT filename, filepath, time, changeTime "
                       "FROM ImageTable ORDER BY time DESC");
         if (! query.exec()) {
-            qWarning() << "Import ImageTable into ImageTable3 failed: "
-                       << query.lastError();
+            //  qWarning() << "Import ImageTable into ImageTable3 failed: "
+            //              << query.lastError();
             mutex.unlock();
         } else {
             DBImgInfoList infos;
@@ -1357,8 +1357,8 @@ void DBManager::importVersion1Data()
                       "FROM ImageTable AS i, AlbumTable AS a "
                       "WHERE i.filename=a.filename ");
         if (! query.exec()) {
-            qWarning() << "Import AlbumTable into AlbumTable3 failed: "
-                       << query.lastError();
+            //   qWarning() << "Import AlbumTable into AlbumTable3 failed: "
+            //             << query.lastError();
             mutex.unlock();
         } else {
             // <Album-Paths>
@@ -1384,11 +1384,11 @@ void DBManager::importVersion1Data()
         query.clear();
         query.prepare("DROP TABLE AlbumTable");
         if (! query.exec()) {
-            qWarning() << "Drop old tables failed: " << query.lastError();
+            //   qWarning() << "Drop old tables failed: " << query.lastError();
         }
         query.prepare("DROP TABLE ImageTable");
         if (! query.exec()) {
-            qWarning() << "Drop old tables failed: " << query.lastError();
+            //   qWarning() << "Drop old tables failed: " << query.lastError();
         }
         mutex.unlock();
     }
@@ -1419,8 +1419,8 @@ void DBManager::importVersion2Data()
         query.prepare("SELECT FileName, FilePath, Time, ChangeTime "
                       "FROM ImageTable2 ORDER BY Time DESC");
         if (! query.exec()) {
-            qWarning() << "Import ImageTable2 into ImageTable3 failed: "
-                       << query.lastError();
+            //  qWarning() << "Import ImageTable2 into ImageTable3 failed: "
+            //             << query.lastError();
             mutex.unlock();
         } else {
             DBImgInfoList infos;
@@ -1444,8 +1444,8 @@ void DBManager::importVersion2Data()
         QMutexLocker mutex(&m_mutex);
         query.prepare(" SELECT AlbumName, FilePath FROM AlbumTable2 ");
         if (! query.exec()) {
-            qWarning() << "Import AlbumTable2 into AlbumTable3 failed: "
-                       << query.lastError();
+            //    qWarning() << "Import AlbumTable2 into AlbumTable3 failed: "
+            //              << query.lastError();
             mutex.unlock();
         } else {
             // <Album-Paths>
@@ -1471,11 +1471,11 @@ void DBManager::importVersion2Data()
         query.clear();
         query.prepare("DROP TABLE AlbumTable2");
         if (! query.exec()) {
-            qWarning() << "Drop old tables failed: " << query.lastError();
+            //   qWarning() << "Drop old tables failed: " << query.lastError();
         }
         query.prepare("DROP TABLE ImageTable2");
         if (! query.exec()) {
-            qWarning() << "Drop old tables failed: " << query.lastError();
+            //   qWarning() << "Drop old tables failed: " << query.lastError();
         }
         mutex.unlock();
     }
@@ -1498,7 +1498,7 @@ const QStringList DBManager::getAllTrashPaths() const
                   "FilePath "
                   "FROM TrashTable ORDER BY Time DESC");
     if (! query.exec()) {
-        qWarning() << "Get Data from TrashTable failed: " << query.lastError();
+        //   qWarning() << "Get Data from TrashTable failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         //ConnectionPool::closeConnection(db);
         db.close();
@@ -1527,7 +1527,7 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
     query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, AlbumName "
                   "FROM TrashTable ORDER BY ChangeTime DESC");
     if (! query.exec()) {
-        qWarning() << "Get data from TrashTable failed: " << query.lastError();
+        //  qWarning() << "Get data from TrashTable failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         //ConnectionPool::closeConnection(db);
         db.close();
@@ -1590,8 +1590,8 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     query.addBindValue(changetimes);
     query.addBindValue(albumnames);
     if (! query.execBatch()) {
-        qWarning() << "Insert data into TrashTable failed: "
-                   << query.lastError();
+        //   qWarning() << "Insert data into TrashTable failed: "
+        //             << query.lastError();
         query.exec("COMMIT");
         db.close();
     } else {
@@ -1642,8 +1642,8 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from TrashTable failed: "
-                   << query.lastError();
+        //  qWarning() << "Remove data from TrashTable failed: "
+        //            << query.lastError();
         query.exec("COMMIT");
         db.close();
     } else {
@@ -1680,8 +1680,8 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from AlbumTable3 failed: "
-                   << query.lastError();
+        //  qWarning() << "Remove data from AlbumTable3 failed: "
+        //            << query.lastError();
         query.exec("COMMIT");
     } else {
         query.exec("COMMIT");
@@ -1693,8 +1693,8 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
     query.prepare(qs);
     query.addBindValue(pathHashs);
     if (! query.execBatch()) {
-        qWarning() << "Remove data from TrashTable failed: "
-                   << query.lastError();
+        //  qWarning() << "Remove data from TrashTable failed: "
+        //             << query.lastError();
         query.exec("COMMIT");
     } else {
         query.exec("COMMIT");
@@ -1730,7 +1730,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
     query.bindValue(":value", value);
 
     if (!query.exec()) {
-        qWarning() << "Get Image from database failed: " << query.lastError();
+        //  qWarning() << "Get Image from database failed: " << query.lastError();
     } else {
         using namespace utils::base;
         while (query.next()) {

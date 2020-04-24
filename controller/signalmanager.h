@@ -163,6 +163,9 @@ signals:
     //lmh仅仅查看一张图片
     void sigOpenPicture(QString path);
 
+    //lmh手机加载图片边加载，边传输信息
+    void sigPhonePath(QString PhoneName, QString pathName);
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

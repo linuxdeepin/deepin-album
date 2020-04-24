@@ -32,7 +32,7 @@ ConfigSetter::ConfigSetter(QObject *parent) : QObject(parent)
         QProcess::startDetached(QString("rm %1").arg(DB_PATH));
 
     m_settings = new QSettings(CONFIG_PATH, QSettings::IniFormat, this);
-    qDebug() << "Setting file:" << m_settings->fileName();
+
 }
 
 ConfigSetter *ConfigSetter::m_setter = nullptr;

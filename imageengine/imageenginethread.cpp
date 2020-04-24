@@ -707,12 +707,16 @@ void ImageGetFilesFromMountThread::run()
                               QDirIterator::Subdirectories);
 
     QStringList allfiles;
+
     while (dir_iterator.hasNext()) {
         if (bneedstop) {
+
             return;
         }
         QFileInfo fileInfo = dir_iterator.fileInfo();
         allfiles << fileInfo.filePath();
+        emit dApp->signalM->sigPhonePath(m_path, fileInfo.filePath());
+        // qDebug() << fileInfo.filePath() << allfiles.size();
     }
     if (bneedstop) {
         return;

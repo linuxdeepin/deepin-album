@@ -880,7 +880,7 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
 
 void ThumbnailListView::requestSomeImages()
 {
-//    QMutexLocker mutex(&m_mutex);
+    //QMutexLocker mutex(&m_mutex);
     bneedloadimage = false;
 
     if (m_filesbeleft.size() < Number_Of_Displays_Per_Time) {
