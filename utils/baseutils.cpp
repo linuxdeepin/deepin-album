@@ -344,46 +344,46 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
 
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 {
-//    QFontMetrics fm(font);
-//    int nTextSize = fm.width(text);
-//    if (nTextSize > nLabelSize) {
-////        int nPos = 0;
-////        long nOffset = 0;
-////        for (int i = 0; i < text.size(); i++) {
-////            nOffset += fm.width(text.at(i));
-////            if (nOffset >= nLabelSize) {
-////                nPos = i;
-////                break;
-////            }
-////        }
+    //    QFontMetrics fm(font);
+    //    int nTextSize = fm.width(text);
+    //    if (nTextSize > nLabelSize) {
+    ////        int nPos = 0;
+    ////        long nOffset = 0;
+    ////        for (int i = 0; i < text.size(); i++) {
+    ////            nOffset += fm.width(text.at(i));
+    ////            if (nOffset >= nLabelSize) {
+    ////                nPos = i;
+    ////                break;
+    ////            }
+    ////        }
 
-////        nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
+    ////        nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
 
-////        QString qstrLeftData = text.left(nPos);
-////        QString qstrMidData = text.mid(nPos);
-////        return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
-////      递归有风险
-//        int pos = 0;
-//        int beforepos = 0;
-//        QStringList reslist;
-//        for (int i = 0; i < ((nTextSize / nLabelSize) + 1); i++) {
-//            int nOffset = 0;
-//            beforepos = pos;
-//            while (nOffset < nLabelSize && pos < text.size()) {
-//                nOffset += fm.width(text.at(pos));
-//                pos++;
-//            }
-////            if (pos >= text.size())
-////                reslist << QString(text.mid(beforepos, pos - beforepos));
-////            else
-//            reslist << QString(text.mid(beforepos, pos - beforepos)).append('\n');
-//        }
-//        QString res;
-//        for (QString i : reslist) {
-//            res.append(i);
-//        }
-//        return res;
-//    }
+    ////        QString qstrLeftData = text.left(nPos);
+    ////        QString qstrMidData = text.mid(nPos);
+    ////        return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+    ////      递归有风险
+    //        int pos = 0;
+    //        int beforepos = 0;
+    //        QStringList reslist;
+    //        for (int i = 0; i < ((nTextSize / nLabelSize) + 1); i++) {
+    //            int nOffset = 0;
+    //            beforepos = pos;
+    //            while (nOffset < nLabelSize && pos < text.size()) {
+    //                nOffset += fm.width(text.at(pos));
+    //                pos++;
+    //            }
+    ////            if (pos >= text.size())
+    ////                reslist << QString(text.mid(beforepos, pos - beforepos));
+    ////            else
+    //            reslist << QString(text.mid(beforepos, pos - beforepos)).append('\n');
+    //        }
+    //        QString res;
+    //        for (QString i : reslist) {
+    //            res.append(i);
+    //        }
+    //        return res;
+    //    }
     return text;
 }
 

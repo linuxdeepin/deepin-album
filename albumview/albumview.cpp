@@ -2508,7 +2508,6 @@ bool AlbumView::findPicturePathByPhone(QString &path)
 {
     QDir dir(path);
     if (!dir.exists()) return false;
-
     QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     QFileInfo tempFileInfo;
     foreach (tempFileInfo, fileInfoList) {
@@ -2516,10 +2515,10 @@ bool AlbumView::findPicturePathByPhone(QString &path)
         if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
             path = tempFileInfo.absoluteFilePath();
             return true;
-        } else {        //针对MTP模式
+        } else {
+            //针对MTP模式
             QDir subDir;
             subDir.setPath(tempFileInfo.absoluteFilePath());
-
             QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
             QFileInfo subTempFileInfo;
             foreach (subTempFileInfo, subFileInfoList) {
@@ -2531,7 +2530,6 @@ bool AlbumView::findPicturePathByPhone(QString &path)
             return false;
         }
     }
-
     return false;
 }
 

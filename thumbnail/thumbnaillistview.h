@@ -142,7 +142,6 @@ public:
     void clearSelectionRear(int row);
     void clearSelectionFront(int row);
     void clearSelectionExtent(int start, int end);
-
     void resizeHand();  //手动发送信号，计算大小
 signals:
 //    void loadend(int);

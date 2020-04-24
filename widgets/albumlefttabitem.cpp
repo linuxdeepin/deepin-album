@@ -162,7 +162,6 @@ void AlbumLeftTabItem::initUI()
         pHBoxLayout->addWidget(m_unMountBtn);
         //m_unMountBtn->move(92, 9);
     }
-
     this->setLayout(pHBoxLayout);
 }
 

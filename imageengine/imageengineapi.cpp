@@ -308,11 +308,11 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
     }
     m_imageCacheSaveobj->add(files);
     int coreCounts = static_cast<int>(std::thread::hardware_concurrency());
-    if (coreCounts * 200 > files.size()) {
+    if (coreCounts * 50 > files.size()) {
         if (files.empty()) {
             coreCounts = 0;
         } else {
-            coreCounts = (files.size() / 200) + 1 - cacheThreadPool.activeThreadCount();
+            coreCounts = (files.size() / 50) + 1 - cacheThreadPool.activeThreadCount();
         }
     }
     for (int i = 0; i < coreCounts; i++) {
@@ -323,6 +323,11 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         qDebug() << "current Threads:" << cacheThreadPool.activeThreadCount();
     }
     return true;
+}
+
+int ImageEngineApi::CacheThreadNum()
+{
+    return cacheThreadPool.activeThreadCount();
 }
 
 //从外部启动，启用线程加载图片

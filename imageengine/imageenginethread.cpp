@@ -775,6 +775,7 @@ void ImageLoadFromDBThread::run()
         return;
     }
     ImageEngineApi::instance()->SaveImagesCache(image_list);
+    qDebug() << "数据库获取所有路径，type： " << m_type;
     //删除数据库失效的图片
     DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
 
@@ -1300,8 +1301,10 @@ ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 
 void ImageCacheQueuePopThread::saveCache(QString m_path)
 {
-    if (needStop || m_path.isEmpty())
+    if (needStop || m_path.isEmpty()) {
+        qDebug() << "m_path empty";
         return;
+    }
     using namespace utils::image;
     using namespace utils::base;
     QImage tImg;
@@ -1313,6 +1316,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     if (file.exists()) {
         cache_exist = true;
         path = CACHE_PATH + m_path;
+        qDebug() << "Cache exists";
     }
     if (needStop)
         return;
@@ -1389,6 +1393,6 @@ void ImageCacheQueuePopThread::run()
             saveCache(res);
         }
     }
-    //qDebug() << "thread running time:" << time_star.elapsed();
+    qDebug() << "Cachethread end,there threads:" << ImageEngineApi::instance()->CacheThreadNum() - 1;
     //deleteLater();
 }

@@ -104,7 +104,7 @@ private:
     QList<QString> m_timelines;
     QWidget *m_dateItem = nullptr;
     DCommandLinkButton *pSuspensionChose;
-    DWidget *pTimeLineViewWidget;
+    QWidget *pTimeLineViewWidget;
     ImportView *pImportView;
     QMap<ThumbnailListView *, QStringList> selpicQmap;
     int allnum;
@@ -123,10 +123,10 @@ private:
     int lastClickedIndex;
     int lastRow = -1;
     bool lastChanged = false;
-    DWidget *fatherwidget = nullptr;
+    QWidget *fatherwidget = nullptr;
 
 public:
-    DStackedWidget *m_pStackedWidget;
+    QStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
     SearchView *pSearchView;
 

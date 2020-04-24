@@ -818,6 +818,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
 
 void ThumbnailListView::loadFilesFromDB(QString name)
 {
+    qDebug() << "name: " << name;
     ImageEngineApi::instance()->loadImagesFromDB(m_delegatetype, this, name);
 //    switch (m_delegatetype) {
 //    case ThumbnailDelegate::AllPicViewType:
@@ -833,12 +834,12 @@ void ThumbnailListView::loadFilesFromDB(QString name)
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
-//    qDebug() << "threadID : " << QThread::currentThreadId();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
     calWidgetItemWandH();
     addThumbnailView();
+    bneedloadimage = true; //2020/4/22 dengjinhui longqiang
     if (bneedloadimage) {
         requestSomeImages();
     }
@@ -911,6 +912,7 @@ bool ThumbnailListView::imageLoaded(QString filepath)
 //    qDebug() << "threadID : " << QThread::currentThreadId();
     m_requestCount--;
     m_allNeedRequestFilesCount--;
+    qDebug() << m_requestCount << "ddddddd" << m_allNeedRequestFilesCount << m_imageType;
     if (m_requestCount < 1) {
         if (brequestallfiles) {
             blastload = true;
@@ -967,7 +969,6 @@ void ThumbnailListView::stopLoadAndClear()
 {
 
 //    qDebug() << "threadID : " << QThread::currentThreadId();
-    clearAndStopThread();
 
     m_allfileslist.clear();
     m_filesbeleft.clear();
@@ -980,6 +981,8 @@ void ThumbnailListView::stopLoadAndClear()
     m_gridItem.clear();
     blastload = false;
     bfirstload = true;
+
+    clearAndStopThread();
 }
 
 QStringList ThumbnailListView::getAllFileList()

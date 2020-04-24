@@ -27,7 +27,7 @@ const int TIMELINE_TITLEHEIGHT = 32;
 TimeLineView::TimeLineView()
 {
     setAcceptDrops(true);
-    fatherwidget = new DWidget(this);
+    fatherwidget = new QWidget(this);
     fatherwidget->setFixedSize(this->size());
     m_index = 0;
 
@@ -36,9 +36,9 @@ TimeLineView::TimeLineView()
     m_oe->setOpacity(0.5);
     m_oet->setOpacity(0.75);
 
-    m_pStackedWidget = new DStackedWidget();
+    m_pStackedWidget = new QStackedWidget();
 
-    pTimeLineViewWidget = new DWidget();
+    pTimeLineViewWidget = new QWidget();
     pImportView = new ImportView();
     pSearchView = new SearchView();
 
@@ -436,8 +436,8 @@ void TimeLineView::addTimelineLayout()
     pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     QStringList datelist = m_timelines.at(nowTimeLineLoad).split(".");
     if (datelist.count() > 2) {
-          listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
- //       listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+//       listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
     }
     pDate->setText(listItem->m_sdate);
 
