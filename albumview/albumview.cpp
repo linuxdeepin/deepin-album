@@ -28,6 +28,9 @@
 #include <QMutex>
 #include <DMessageBox>
 
+#include "imageengine/imageengineapi.h"
+#include "imageengine/imageenginethread.h"
+
 static QMutex m_mutex;
 
 namespace {
@@ -657,8 +660,21 @@ runend:
 //        }
 
 //    });
+    if (nullptr == m_pAllPicture ) {
+        m_pAllPicture = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
+    } else {
+    }
     //lmh手机加载图片边加载，边传输信息
     connect(dApp->signalM, &SignalManager::sigPhonePath, this, [ = ](QString PhoneName, QString pathName) {
+        if (!m_pictrueallPathlist.contains(pathName)) {
+            m_pictrueallPathlist << pathName;
+
+            if (m_currentLoadingPictrue == m_pAllPicture->model()->rowCount()) {
+                m_pAllPicture->loadFilesFromLocal(m_pictrueallPathlist, false, false);
+                m_currentLoadingPictrue = m_pictrueallPathlist.count();
+            }
+
+        }
         if (!m_phoneNameAndPathlist[PhoneName].contains(pathName)) {
             m_phoneNameAndPathlist[PhoneName] << pathName;
         }
@@ -694,7 +710,7 @@ runend:
             }
             // updateRightMountView();
         }
-    } );
+    }, Qt::QueuedConnection);
 }
 
 void AlbumView::initLeftView()
@@ -1604,6 +1620,12 @@ void AlbumView::leftTabClicked()
 bool AlbumView::imageGeted(QStringList &filelist, QString path)
 {
     m_phoneNameAndPathlist[path] = filelist;
+    //LMH0425
+    if (nullptr != m_pAllPicture) {
+        m_pAllPicture->loadFilesFromLocal(m_pictrueallPathlist, false, false);
+        m_currentLoadingPictrue = m_pictrueallPathlist.count();
+    }
+
     if (m_itemClicked == true) {
         m_curThumbnaiItemList_str.clear();
         updateRightMountView();

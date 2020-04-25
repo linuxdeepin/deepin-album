@@ -961,8 +961,10 @@ void ImageLoadFromLocalThread::run()
 //        m_imgobject->removeThread(this);
         return;
     }
-    m_imgobject->removeThread(this);
-    emit sigImageLoaded(m_imgobject, image_list);
+    if (nullptr != m_imgobject) {
+        m_imgobject->removeThread(this);
+        emit sigImageLoaded(m_imgobject, image_list);
+    }
 }
 
 ImageEngineThread::ImageEngineThread()

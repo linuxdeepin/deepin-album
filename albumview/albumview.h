@@ -246,6 +246,12 @@ public:
     ThumbnailListView *m_pRightPhoneThumbnailList;
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
+    //LMH0424
+    QMap<QString, ThumbnailListView *> m_phoneViewlist;
+    QStringList m_pictrueallPathlist;
+    ThumbnailListView *m_pAllPicture = nullptr;
+    int m_currentLoadingPictrue = 0;
+
     QMap<QString, QPixmap> m_phonePathAndImage;
     DWidget *m_pwidget;
 
