@@ -81,6 +81,10 @@ QVariantList cachePixmap(const QString &path)
         }
     }
     QPixmap p = QPixmap::fromImage(tImg);
+    if (QFileInfo(path).exists() && p.isNull()) {
+        //判定为损坏图片
+        p = utils::image::getDamagePixmap (DApplicationHelper::instance ()->themeType () == DApplicationHelper::LightType);
+    }
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
     return vl;
@@ -313,7 +317,7 @@ void ImageView::setImageFirst(const QString &path)
             QVariantList vl = cachePixmap(path);
             if (vl.length() == 2) {
                 //const QString path = vl.first().toString();
-                QPixmap pixmap(path);// = vl.last().value<QPixmap>();
+                QPixmap pixmap =  vl.last().value<QPixmap>();
                 pixmap.setDevicePixelRatio(devicePixelRatioF());
                 if (path == m_path) {
                     if (m_pixmapItem != nullptr) {
