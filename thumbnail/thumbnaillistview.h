@@ -92,6 +92,7 @@ public:
         int imgHeight = 0;
         QString remainDays = "30天";
         QPixmap image = QPixmap();
+        bool bNotSupportedOrDamaged = false;
 
 
         friend bool operator== (const ItemInfo &left, const ItemInfo &right)
@@ -190,6 +191,8 @@ private slots:
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
 
+    void sltChangeDamagedPixOnThemeChanged();
+
 public slots:
     void slotReCalcTimelineSize();
 
@@ -219,6 +222,8 @@ private:
     DMenu *createAlbumMenu();
     void resizeEvent(QResizeEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *e) override;
+
+    QPixmap getDamagedPixmap();
 public:
     QString m_imageType;
     QStandardItemModel *m_model = nullptr;

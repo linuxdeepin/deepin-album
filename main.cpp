@@ -11,6 +11,7 @@
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
+
 QUrl UrlInfo(QString path)
 {
     QUrl url;

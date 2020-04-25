@@ -90,6 +90,9 @@ public:
 
 signals:
     void imageItemclicked(int index, int indexNow);
+
+protected slots:
+    void updateDmgIconByTheme();
 protected:
     void mousePressEvent(QMouseEvent *ev) override;
     void mouseReleaseEvent(QMouseEvent *ev) override;
@@ -102,6 +105,7 @@ private:
     DSpinner *m_spinner;
     QString m_pixmapstring;
     bool bmouserelease = false;
+    bool m_bPicNotSuppOrDamaged = false;
 };
 class TTBContent : public QLabel, public ImageEngineObject
 {

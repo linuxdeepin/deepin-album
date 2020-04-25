@@ -91,6 +91,9 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     m_dt->setSingleShot(true);
     m_dt->setInterval(20);
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
+
 //    m_dtresizeevent = new QTimer(this);
 //    m_dtresizeevent->setSingleShot(true);
 //    m_dtresizeevent->setInterval(100);
@@ -642,6 +645,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             datas.append(QVariant(gridItem[i][j].baseWidth));
             datas.append(QVariant(gridItem[i][j].baseHeight));
             datas.append(QVariant(qsfirstorlast));
+            datas.append(QVariant(gridItem[i][j].bNotSupportedOrDamaged));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
@@ -719,6 +723,7 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem[i][j].baseWidth));
             datas.append(QVariant(m_gridItem[i][j].baseHeight));
             datas.append(QVariant(qsfirstorlast));
+            datas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
@@ -751,6 +756,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 info.width = data.imgpixmap.width();
                 info.height = data.imgpixmap.height();
                 info.image = data.imgpixmap;
+                info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
                 info.remainDays = data.remainDays;
                 info.baseWidth = data.imgpixmap.width();
                 info.baseHeight = data.imgpixmap.height();
@@ -798,6 +804,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
             newdatas.append(QVariant(m_gridItem[i][j].baseWidth));
             newdatas.append(QVariant(m_gridItem[i][j].baseHeight));
             newdatas.append(QVariant(qsfirstorlast));
+            newdatas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
 
             m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
             m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
@@ -924,7 +931,8 @@ bool ThumbnailListView::imageLoaded(QString filepath)
         info.path = data.dbi.filePath;
         info.width = data.imgpixmap.width();
         info.height = data.imgpixmap.height();
-        info.image = data.imgpixmap;
+        info.image = data.imgpixmap.isNull () ? getDamagedPixmap () : data.imgpixmap;
+        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
         info.remainDays = data.remainDays;
         info.baseWidth = data.imgpixmap.width();
         info.baseHeight = data.imgpixmap.height();
@@ -1573,6 +1581,11 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
 
     return false;
 }
+
+QPixmap ThumbnailListView::getDamagedPixmap()
+{
+    return utils::image::getDamagePixmap (DApplicationHelper::instance ()->themeType () == DApplicationHelper::LightType);
+}
 #if 1
 QModelIndexList ThumbnailListView::getSelectedIndexes()
 {
@@ -1661,6 +1674,21 @@ void ThumbnailListView::onTimerOut()
         lastresizeheight = m_height;
     }
     bneedsendresize = false;
+}
+
+void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
+{
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        QModelIndex idx = m_model->index(i, 0);
+        QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
+        if (lst.count() >= 12) {
+            const bool &bNotSuppOrDmg = lst[11].toBool();
+            if (bNotSuppOrDmg) {
+                lst.replace(5, getDamagedPixmap());
+                m_model->item(i, 0)->setData(lst, Qt::DisplayRole);
+            }
+        }
+    }
 }
 
 void ThumbnailListView::slotReCalcTimelineSize()

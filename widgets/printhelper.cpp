@@ -158,7 +158,6 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         {
             QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
             QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
-            //painter.save();
             painter.setWindow(img.rect());
             if (size.width() <= img.width() || size.height() <= img.height()) {
                 img = img.scaledToWidth(size.width(), Qt::SmoothTransformation);

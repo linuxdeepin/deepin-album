@@ -94,11 +94,7 @@ bool imageSupportRead(const QString &path)
         return false;
     }
 
-    if (freeimage::isSupportsReading(path) || QImageReader::supportedImageFormats().contains(suffix.toUtf8()))
-        return true;
-    else {
-        return (suffix == "svg");
-    }
+    return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
 }
 
 bool imageSupportSave(const QString &path)
@@ -752,6 +748,20 @@ const QSize getImageQSize(const QString &path)
     }
 
     return tSize;
+}
+
+QPixmap getDamagePixmap(bool bLight)
+{
+    static QPixmap pix_light, pix_dark;
+    if (bLight) {
+        if (pix_light.isNull ())
+            pix_light = utils::base::renderSVG (view::LIGHT_DAMAGEICON, QSize(100, 100));
+        return pix_light;
+    } else {
+        if (pix_dark.isNull ())
+            pix_dark = utils::base::renderSVG (view::DARK_DAMAGEICON, QSize(100, 100));
+        return pix_dark;
+    }
 }
 
 }  // namespace image

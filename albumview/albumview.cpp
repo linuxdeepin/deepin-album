@@ -1364,8 +1364,7 @@ void AlbumView::updateRightMountView()
             }
         }
         QStringList filelist = m_phoneNameAndPathlist.value(strPath);
-        m_currentViewPictureCount = filelist.count();
-        if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length())
+        if (!filelist.isEmpty())
         {
             m_importByPhoneComboBox->setEnabled(true);
             m_importAllByPhoneBtn->setEnabled(true);
@@ -1427,9 +1426,10 @@ void AlbumView::updateRightMountView()
         }
         emit sigSearchEditIsDisplay(false);
         setAcceptDrops(false);
-        isMountThreadRunning = true;
+        isMountThreadRunning = false;
     });
-    m_updateMountViewThread->start();
+    if (!isMountThreadRunning)
+        m_updateMountViewThread->start();
 }
 
 // 更新新建相册列表
