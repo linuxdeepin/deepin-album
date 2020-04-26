@@ -8,8 +8,11 @@ ImageEngineThreadObject::ImageEngineThreadObject()
 
 void ImageEngineThreadObject::needStop(void *imageobject)
 {
-    if (nullptr == imageobject || ifCanStopThread(imageobject))
+    if (nullptr == imageobject || ifCanStopThread(imageobject)) {
         bneedstop = true;
+        bbackstop = true;
+    }
+
 }
 
 bool ImageEngineThreadObject::ifCanStopThread(void *imgobject)
@@ -110,6 +113,7 @@ ImageEngineObject::~ImageEngineObject()
 {
     ImageEngineApi::instance()->removeObject(this);
     clearAndStopThread();
+
 }
 
 void ImageEngineObject::addThread(ImageEngineThreadObject *thread)

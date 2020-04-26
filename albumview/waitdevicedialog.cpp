@@ -20,7 +20,9 @@
 */
 #include "waitdevicedialog.h"
 
-Waitdevicedialog::Waitdevicedialog(QWidget *parent): DDialog(parent)
+Waitdevicedialog::Waitdevicedialog(QWidget *parent)
+    : DDialog(parent), m_closeDeviceScan(nullptr), m_ignoreDeviceScan(nullptr)
+    , waitTips(nullptr)
 {
 
 }

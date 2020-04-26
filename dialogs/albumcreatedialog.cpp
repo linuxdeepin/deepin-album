@@ -29,9 +29,9 @@
 #include <DSuggestButton>
 
 AlbumCreateDialog::AlbumCreateDialog(DWidget *parent)
-    : DDialog(parent)
+    : DDialog(parent), edit(nullptr), m_Cancel(nullptr)
+    , m_OK(nullptr), m_OKClicked(false)
 {
-    m_OKClicked = false;
     initUI();
     initConnection();
 }

@@ -3,16 +3,12 @@
 #include <QItemSelectionModel>
 
 StatusBar::StatusBar(QWidget *parent)
-    : DBlurEffectWidget(parent)
+    : DBlurEffectWidget(parent), m_pAllPicNumLabel(nullptr), m_pSlider(nullptr)
+    , m_pstacklabel(nullptr), m_pimporting(nullptr), TextLabel(nullptr)
+    , m_pStackedWidget(nullptr), loadingicon(nullptr), m_allPicNum(0)
+    , interval(0), pic_count(0), m_index(0)
 {
-
-//    QPalette palette;
-//    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
-//    setPalette(palette);
     initUI();
-    // setMaskColor(MaskColorType::CustomColor);
-    // setMaskAlpha(0.7);
-
 }
 
 void StatusBar::initUI()
@@ -150,7 +146,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
 //        TextLabel->adjustSize();
 
         if (imgpaths.count() == 1) {
-            i = 0;
+            m_index = 0;
             killTimer(interval);
             interval = 0;
             m_pStackedWidget->setCurrentIndex(0);
@@ -160,13 +156,13 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 emit dApp->signalM->ImportFailed();
             }
         } else {
-            TextLabel->setText(string.arg(imgpaths[i + 1]));
+            TextLabel->setText(string.arg(imgpaths[m_index + 1]));
 //            TextLabel->setMinimumSize(TextLabel->sizeHint());
 //            TextLabel->adjustSize();
             TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
-            i ++;
-            if (i == imgpaths.count() - 1) {
-                i = 0;
+            m_index ++;
+            if (m_index == imgpaths.count() - 1) {
+                m_index = 0;
                 killTimer(interval);
                 interval = 0;
 

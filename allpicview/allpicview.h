@@ -76,7 +76,7 @@ private:
     ImportView *m_pImportView;
     SearchView *m_pSearchView;
     DSpinner *m_spinner;
-    DWidget *fatherwidget = nullptr;
+    DWidget *fatherwidget;
 };
 
 #endif // ALLPICVIEW_H

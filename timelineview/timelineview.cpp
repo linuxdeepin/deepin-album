@@ -25,11 +25,19 @@ const int TIMELINE_TITLEHEIGHT = 32;
 } //namespace
 
 TimeLineView::TimeLineView()
+    : m_mainListWidget(nullptr), m_mainLayout(nullptr), m_dateItem(nullptr)
+    , pSuspensionChose(nullptr), pTimeLineViewWidget(nullptr), pImportView(nullptr)
+    , allnum(0), m_pDate(nullptr), pNum_up(nullptr)
+    , pNum_dn(nullptr), m_oe(nullptr), m_oet(nullptr)
+    , m_ctrlPress(false), lastClickedIndex(0), lastRow(-1)
+    , lastChanged(false), fatherwidget(nullptr), m_pStackedWidget(nullptr)
+    , m_pStatusBar(nullptr), pSearchView(nullptr), m_pwidget(nullptr)
+    , m_index(0), m_selPicNum(0), m_spinner(nullptr)
+    , currentTimeLineLoad(0)
 {
     setAcceptDrops(true);
     fatherwidget = new QWidget(this);
     fatherwidget->setFixedSize(this->size());
-    m_index = 0;
 
     m_oe = new QGraphicsOpacityEffect(this);
     m_oet = new QGraphicsOpacityEffect(this);

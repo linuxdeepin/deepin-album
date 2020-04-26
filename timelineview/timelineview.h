@@ -99,10 +99,10 @@ private slots:
     //更新布局（旋转图片时）
     void updataLayout(QStringList updatePathList);
 private:
-    TimelineList *m_mainListWidget = nullptr;
-    QLayout *m_mainLayout = nullptr;
+    TimelineList *m_mainListWidget;
+    QLayout *m_mainLayout;
     QList<QString> m_timelines;
-    QWidget *m_dateItem = nullptr;
+    QWidget *m_dateItem;
     DCommandLinkButton *pSuspensionChose;
     QWidget *pTimeLineViewWidget;
     ImportView *pImportView;
@@ -118,12 +118,12 @@ private:
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
 
-    bool m_ctrlPress = false;
+    bool m_ctrlPress;
 
     int lastClickedIndex;
-    int lastRow = -1;
-    bool lastChanged = false;
-    QWidget *fatherwidget = nullptr;
+    int lastRow;
+    bool lastChanged;
+    QWidget *fatherwidget;
 
 public:
     QStackedWidget *m_pStackedWidget;
@@ -135,7 +135,7 @@ public:
     int m_index;
     int m_selPicNum;
     DSpinner *m_spinner;
-    int currentTimeLineLoad = 0;
+    int currentTimeLineLoad;
 };
 
 #endif // TIMELINEVIEW_H

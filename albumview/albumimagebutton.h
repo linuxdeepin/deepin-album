@@ -34,9 +34,9 @@ protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 private:
-    char                                               status                  = 0;
-    bool                                               autoChecked             = false;
+    char                                               status;
+    bool                                               autoChecked;
     MusicPicPathInfo                                   defaultPicPath;
-    bool                                               transparent             = true;
+    bool                                               transparent;
     QPair<QString, QMap<QVariant, MusicPicPathInfo> >  propertyPicPaths;
 };

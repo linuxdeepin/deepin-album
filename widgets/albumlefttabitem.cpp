@@ -16,12 +16,11 @@ const int OPE_MODE_ADDRENAMEALBUM = 2;
 using namespace utils::common;
 
 AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
+    : m_albumNameStr(str), m_albumTypeStr(strAlbumType), m_opeMode(0)
+    , m_pLineEdit(nullptr), m_pNewLineEdit(nullptr), m_nameLabel(nullptr)
+    , pImageLabel(nullptr), m_unMountBtn(nullptr), m_pListWidget(nullptr)
+    , m_pListWidgetItem(nullptr)
 {
-    m_albumNameStr = str;
-    m_opeMode = 0;
-    m_albumTypeStr = strAlbumType;
-    m_mountPath = "";
-
     initUI();
     initConnections();
 }

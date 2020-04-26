@@ -47,8 +47,8 @@ public slots:
 private:
     bool has;
     QList<int> yList;
-    int m_scrollbartopdistance = 50;
-    int m_scrollbarbottomdistance = 27;
+    int m_scrollbartopdistance;
+    int m_scrollbarbottomdistance;
 };
 
 #endif // TIMELINELIST_H

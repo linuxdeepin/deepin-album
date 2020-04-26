@@ -38,7 +38,7 @@ public slots:
 private:
     QString m_darkStyle;
     QString m_lightStyle;
-    bool m_deepMode = false;
+    bool m_deepMode;
 };
 
 //TODO: if a widget Multiple Inheritance from ThemeWidget and
@@ -57,6 +57,6 @@ public slots:
 private:
     QString m_darkStyle;
     QString m_lightStyle;
-    bool m_deepMode = false;
+    bool m_deepMode;
 };
 #endif // THEMEWIDGET_H

@@ -28,7 +28,11 @@ QString ss(const QString &text)
 }
 };
 
-LeftListView::LeftListView(DWidget *parent): DWidget(parent)
+LeftListView::LeftListView(DWidget *parent)
+    : DWidget(parent), m_pPhotoLibLabel(nullptr), m_pPhotoLibListView(nullptr)
+    , m_pCustomizeLabel(nullptr), m_pAddListBtn(nullptr), m_pCustomizeListView(nullptr)
+    , m_pMountLabel(nullptr), m_pMountListView(nullptr), m_pMenu(nullptr)
+    , m_pMountWidget(nullptr)
 {
     m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
     m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
@@ -72,9 +76,10 @@ void LeftListView::initConnections()
         if (m_pMountListView->currentItem())
         {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
-            item->newAlbumStatus();
-
-            m_ItemCurrentName = item->m_albumNameStr;
+            if (nullptr != item) {
+                item->newAlbumStatus();
+                m_ItemCurrentName = item->m_albumNameStr;
+            }
         }
 
         m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
@@ -143,9 +148,10 @@ void LeftListView::initConnections()
 
             if (m_pMountListView->currentItem()) {
                 AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
-                item->newAlbumStatus();
-
-                m_ItemCurrentName = item->m_albumNameStr;
+                if (nullptr != item) {
+                    item->newAlbumStatus();
+                    m_ItemCurrentName = item->m_albumNameStr;
+                }
             }
 
             m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;

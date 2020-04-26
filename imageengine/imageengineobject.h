@@ -45,6 +45,7 @@ public:
 protected:
     virtual bool ifCanStopThread(void *imgobject);
     bool bneedstop = false;
+    bool bbackstop = false;
 };
 
 class ImageMountImportPathsObject

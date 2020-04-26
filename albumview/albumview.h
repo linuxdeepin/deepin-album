@@ -48,31 +48,6 @@ DCORE_USE_NAMESPACE
 class DGioVolumeManager;
 class AlbumView;
 
-//class ThreadRenderImage : public QObject, public QRunnable
-//{
-//    Q_OBJECT
-//public:
-//    ThreadRenderImage();
-//    void setData(QFileInfo fileinfo, QString path, QMap<QString, QPixmap> *map, QStringList *list);
-////    void setRestart();
-////    bool isRunning();
-////    void setRunningTrue();
-
-//protected:
-//    virtual void run();
-
-////signals:
-////    void signal_RenderFinish(QPixmap, QString);
-//private:
-//    QString m_path = "";
-//    QFileInfo m_fileinfo;
-//    QMap<QString, QPixmap> *m_map = nullptr;
-//    QStringList *m_pathlist = nullptr;
-////    bool restart;
-////    double m_width;
-////    double m_height;
-////    bool b_running;
-//};
 
 class MountLoader : public QObject
 {
@@ -113,7 +88,7 @@ private:
     QMap<QString, QPixmap> m_phonePathImage;
     QThreadPool qtpool;
     bool bIsRunning = false;
-    QString m_unmountpath = "";
+    QString m_unmountpath;
     bool bneedunmountpath = false;
 };
 
@@ -128,12 +103,11 @@ protected:
 signals:
 public slots:
 private:
-    int m_scrollbartopdistance = 130;
-    int m_scrollbarbottomdistance = 27;
+    int m_scrollbartopdistance;
+    int m_scrollbarbottomdistance;
 };
 
 class AlbumView : public QWidget, public ImageEngineImportObject, public ImageMountGetPathsObject, public ImageMountImportPathsObject
-//class AlbumView : public DSplitter
 {
     Q_OBJECT
 
@@ -189,11 +163,11 @@ private:
 
 
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
-    void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
+    void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);        //拔掉外设移除
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
     bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
     void initExternalDevice();
-    void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount);
+    void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath = QString());
     bool findPicturePathByPhone(QString &path);
     void updateImportComboBox();
     void importAllBtnClicked();
@@ -208,15 +182,13 @@ signals:
     void sigLoadMountImagesStart(QString mountName, QString path);
     void sigReCalcTimeLineSizeIfNeed();
 
-
 private slots:
     void onTrashRecoveryBtnClicked();
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
     void onUpdateThumbnailViewSize();
-    void onUnMountSignal(QString unMountPath);
-
+    void onUnMountSignal(QString unMountPath);          //手动卸载设备
     void onCreateNewAlbumFromDialog(QString albumname);
 #if 1
     void onCreateNewAlbumFrom(QString albumname);
@@ -236,7 +208,7 @@ public:
     QString m_currentAlbum;
     QString m_currentType;
     int m_selPicNum;
-    bool m_itemClicked = false;
+    bool m_itemClicked;
 
     DStackedWidget *m_pRightStackWidget;
     LeftListView *m_pLeftListView;
@@ -293,8 +265,9 @@ private:
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
     QStringList m_curPhoneItemList_str;         //外部设备图片的路径
-//    bool bcurThumbnaiItemList_str = true;
-    QListWidgetItem *m_curListWidgetItem;
+    QMap<QString, QStringList>   m_phonePath;   //多个设备对应路径
+
+
     QMap<QString, QPixmap> m_phonePicMap;
 
     int m_mountPicNum;
@@ -325,21 +298,22 @@ private:
     //add end 3975
 
 //    QGridLayout *pVBoxLayout = nullptr;
-    DWidget *fatherwidget = nullptr;
-    DWidget *pPhoneWidget = nullptr;
+    DWidget *fatherwidget;
+    DWidget *pPhoneWidget;
 //    DBlurEffectWidget *phonetopwidget = nullptr;
-    DWidget *phonetopwidget = nullptr;
+    DWidget *phonetopwidget;
 
     Waitdevicedialog *m_waitDeviceScandialog;
-    bool isWaitDialog = true;
-    bool isIgnore = true;
+    bool isWaitDialog;
+    bool isIgnore;
     QTimer *m_waitDailog_timer;
-    QThread *m_updateMountViewThread = nullptr;
-    bool isMountThreadRunning = false;
+    QThread *m_updateMountViewThread;
+    bool isMountThreadRunning;
 
-    int m_currentViewPictureCount = 0;
+    int m_currentViewPictureCount;
 
     QMutex m_mutex;
+
 };
 
 #endif // ALBUMVIEW_H

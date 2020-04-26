@@ -33,7 +33,7 @@ const QColor LIGHT_COVER_COLOR = QColor(255, 255, 255, 230);
 }  // namespace
 
 ProcessTooltip::ProcessTooltip(QWidget *parent)
-    : BlurFrame(parent)
+    : BlurFrame(parent), m_icon(nullptr), m_message(nullptr)
 {
     setBorderRadius(4);
     setBorderWidth(1);

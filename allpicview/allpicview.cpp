@@ -33,6 +33,9 @@ const int VIEW_MAINWINDOW_ALLPIC = 0;
 }  //namespace
 
 AllPicView::AllPicView()
+    : m_pStackedWidget(nullptr), m_pStatusBar(nullptr), m_pwidget(nullptr)
+    , step(0), m_pThumbnailListView(nullptr), m_pImportView(nullptr)
+    , m_pSearchView(nullptr), m_spinner(nullptr), fatherwidget(nullptr)
 {
     setAcceptDrops(true);
 

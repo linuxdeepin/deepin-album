@@ -32,7 +32,9 @@
 //    return QStyledItemDelegate::paint (painter, loption, index);
 //}
 
-TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
+TimelineList::TimelineList(QWidget *parent)
+    : DListWidget(parent), has(false), m_scrollbartopdistance(50)
+    , m_scrollbarbottomdistance(27)
 {
     setContentsMargins(0, 0, 0, 0);
     setResizeMode(QListView::Adjust);
@@ -49,7 +51,6 @@ TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
 
 //    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    has = false;
     installEventFilter(this);
 }
 

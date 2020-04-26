@@ -42,6 +42,16 @@ const int VIEW_SLIDE = 5;
 using namespace utils::common;
 
 MainWindow::MainWindow()
+    : m_allPicNum(0), m_iCurrentView(0), m_bTitleMenuImportClicked(false)
+    , m_bImport(false), m_titleBtnWidget(nullptr), m_ImgWidget(nullptr)
+    , m_pTitleBarMenu(nullptr), m_pSearchEdit(nullptr), m_pCenterWidget(nullptr)
+    , m_commandLine(nullptr), m_pAlbumview(nullptr), m_pAllPicView(nullptr)
+    , m_pTimeLineView(nullptr), m_pSearchView(nullptr), m_slidePanel(nullptr)
+    , m_pDBManager(nullptr), m_backIndex(0), m_backIndex_fromSlide(0)
+    , m_pSliderPos(2), m_pItemButton(nullptr), btnGroup(nullptr)
+    , m_pAllPicBtn(nullptr), m_pTimeBtn(nullptr), m_pAlbumBtn(nullptr)
+    , m_waitdailog(nullptr), m_importBar(nullptr), m_waitlabel(nullptr)
+    , m_countLabel(nullptr), m_pDBus(nullptr)
 {
 //    ImageEngineApi::instance(this);
     m_allPicNum = DBManager::instance()->getImgsCount();        //获取图片总数

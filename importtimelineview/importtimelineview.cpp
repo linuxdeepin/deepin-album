@@ -19,10 +19,17 @@ const int SUBTITLE_HEIGHT = 37;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 } //namespace
 
-ImportTimeLineView::ImportTimeLineView(DWidget *parent): DWidget(parent)
+ImportTimeLineView::ImportTimeLineView(DWidget *parent)
+    : DWidget(parent), m_mainLayout(nullptr), m_dateItem(nullptr)
+    , pSuspensionChose(nullptr), pTimeLineViewWidget(nullptr), pImportView(nullptr)
+    , allnum(0), m_pDate(nullptr), pNum_up(nullptr)
+    , pNum_dn(nullptr), m_pImportTitle(nullptr), m_DSlider(nullptr)
+    , m_oe(nullptr), m_oet(nullptr), m_ctrlPress(false)
+    , lastClickedIndex(-1), lastRow(-1), m_lastShiftRow(-1)
+    , m_lastShiftClickedIndex(-1), lastChanged(false), m_iBaseHeight(0)
+    , m_index(0), m_mainListWidget(nullptr), currentTimeLineLoad(0)
 {
     setAcceptDrops(true);
-    m_index = 0;
 
     m_oe = new QGraphicsOpacityEffect;
     m_oet = new QGraphicsOpacityEffect;

@@ -247,4 +247,26 @@ private:
     bool needStop = false;
 };
 
+class ImageEngineBackThread : public ImageEngineThreadObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ImageEngineBackThread();
+
+    void setData(ImageEngineObject *obj, QStringList pathlist = QStringList(), QString devName = QString());
+
+
+protected:
+    void run() override;
+
+signals:
+    void sigImageBackLoaded(QString path, ImageDataSt &data);
+
+private:
+    QStringList m_pathlist;
+    ImageDataSt m_data;
+    ImageEngineObject *m_imgobject = nullptr;
+    QString m_devName;
+};
+
 #endif // IMAGEENGINETHREAD_H

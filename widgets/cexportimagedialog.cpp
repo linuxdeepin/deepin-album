@@ -36,7 +36,9 @@ const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
 
 CExportImageDialog::CExportImageDialog(DWidget *parent)
-    : DDialog(parent)
+    : DDialog(parent), m_fileNameEdit(nullptr), m_savePathCombox(nullptr)
+    , m_formatCombox(nullptr), m_qualitySlider(nullptr), m_qualityLabel(nullptr)
+    , m_quality(0), m_questionDialog(nullptr), m_emptyWarningDialog(nullptr)
 {
     initUI();
     initConnection();

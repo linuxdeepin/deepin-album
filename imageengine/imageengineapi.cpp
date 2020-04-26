@@ -229,6 +229,11 @@ void ImageEngineApi::sltstopCacheSave()
     cacheThreadPool.waitForDone();
 }
 
+void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
+{
+    m_AllImageData[path] = data;
+}
+
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
 {
     ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
@@ -288,6 +293,31 @@ bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
 {
     sltImageDBLoaded(obj, QStringList() << path );
     insertImage(path, "30");
+}
+
+bool ImageEngineApi::loadImageDateToMemory(ImageEngineObject *obj, QStringList pathlist, QString devName)
+{
+    bool iRet = false;
+    //判断是否已经在线程中加载LMH0426
+    QStringList tmpPathlist = pathlist;
+    if (m_AllImageData.count() > 0) {
+        for (auto imagepath : pathlist) {
+            if (m_AllImageData.contains(imagepath)) {
+                tmpPathlist.removeOne(imagepath);
+            }
+        }
+    }
+    if (tmpPathlist.count() > 0) {
+        ImageEngineBackThread *imagethread = new ImageEngineBackThread;
+        imagethread->setData(obj, tmpPathlist, devName);
+        connect(imagethread, &ImageEngineBackThread::sigImageBackLoaded, this, &ImageEngineApi::sigImageBackLoaded);
+        obj->addThread(imagethread);
+        m_qtpool.start(imagethread);
+        iRet = true;
+    } else {
+        iRet = false;
+    }
+    return iRet;
 }
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name)
 {

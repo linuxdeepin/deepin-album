@@ -46,33 +46,16 @@ class ImageLoader : public QObject
 public:
     explicit ImageLoader(Application *parent, QStringList pathlist, QStringList pathlisttrash);
 
-//    void addImageLoader(QStringList pathlist);
     void ImportImageLoader(DBImgInfoList dbInfos, QString albumname = nullptr);
     void updateImageLoader(QStringList pathlist);
-
-//    void addTrashImageLoader(QStringList trashpathlist);
-//    void updateTrashImageLoader(QStringList trashpathlist);
-
-//private:
-//    bool findPicturePathByPhone(QString &path);
-
-public slots:
-//    void startLoading();
-//    void onLoadMountImagesStart(QString mountName, QString path);
 
 signals:
     void sigFinishiLoad();
 
 private:
     Application *m_parent;
-
-
     QStringList m_pathlist;
     QStringList m_pathlisttrash;
-
-    QStringList m_phoneImgPathList;
-
-    int count = 0;
 };
 
 class Application : public DApplication

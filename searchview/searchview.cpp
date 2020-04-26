@@ -11,9 +11,9 @@ const int VIEW_MAINWINDOW_SEARCH = 3;
 }  //namespace
 
 
-SlideShowButton::SlideShowButton(DWidget *parent) :
-    DPushButton(parent),
-    israised(true)
+SlideShowButton::SlideShowButton(DWidget *parent)
+    : DPushButton(parent), m_filletradii(8), israised(true)
+    , ispressed(false)
 {
     m_filletradii = 8;
 }
@@ -116,10 +116,11 @@ void SlideShowButton::mouseEvent(QMouseEvent *e)
 }
 
 SearchView::SearchView()
+    : m_stackWidget(nullptr), m_pNoSearchResultView(nullptr), m_pNoSearchResultLabel(nullptr)
+    , m_pSearchResultView(nullptr), m_searchResultViewbody(nullptr), m_searchResultViewTop(nullptr)
+    , m_pSlideShowBtn(nullptr), m_pSearchResultLabel(nullptr), pNoResult(nullptr)
+    , pLabel1(nullptr), m_searchPicNum(0), m_pThumbnailListView(nullptr)
 {
-    m_albumName = nullptr;
-    m_searchPicNum = 0;
-    m_keywords = "";
     initNoSearchResultView();
     initSearchResultView();
     initMainStackWidget();

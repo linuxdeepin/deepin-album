@@ -48,166 +48,14 @@ const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppD
 #define IMAGE_LOAD_DEFAULT    100
 
 ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QStringList pathlisttrash)
+    : m_parent(parent), m_pathlist(pathlist), m_pathlisttrash(pathlisttrash)
 {
-    m_parent = parent;
-    m_pathlist = pathlist;
-    m_pathlisttrash = pathlisttrash;
+
 }
 
 
-//void ImageLoader::startLoading()
-//{
-//    struct timeval tv;
-//    long long ms;
-//    gettimeofday(&tv, NULL);
-//    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
-//    qDebug() << "startLoading start time: " << ms;
-
-//    int num = 0;
-//    for (QString path : m_pathlist) {
-//        QImage tImg;
-
-//        QString format = DetectImageFormat(path);
-//        if (format.isEmpty()) {
-//            QImageReader reader(path);
-//            reader.setAutoTransform(true);
-//            if (reader.canRead()) {
-//                tImg = reader.read();
-//            } else if (path.contains(".tga")) {
-//                bool ret = false;
-//                tImg = utils::image::loadTga(path, ret);
-//            }
-//        } else {
-//            QImageReader readerF(path, format.toLatin1());
-//            readerF.setAutoTransform(true);
-//            if (readerF.canRead()) {
-//                tImg = readerF.read();
-//            } else {
-//                qWarning() << "can't read image:" << readerF.errorString()
-//                           << format;
-
-//                tImg = QImage(path);
-//            }
-//        }
-
-//        QPixmap pixmap = QPixmap::fromImage(tImg);
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
-//        }
-
-//        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap::fromImage(tImg);
-//        }
-
-//        m_parent->m_imagemap.insert(path, pixmap);
-//        num += 1;
-//        if (1 == num) {
-//            dApp->signalM->sigLoadOnePhoto();
-//            emit sigFinishiLoad();
-//        } else if (10 > num) {
-//            emit sigFinishiLoad();
-//        } else if (100 > num) {
-//            if (0 == num % 3) {
-//                emit sigFinishiLoad();
-//            }
-//        } else {
-//            if (0 == num % IMAGE_LOAD_DEFAULT) {
-//                emit sigFinishiLoad();
-//            }
-//        }
-//    }
-
-//    emit sigFinishiLoad();
-
-//    for (QString path : m_pathlisttrash) {
-//        QImage tImg;
-
-//        QString format = DetectImageFormat(path);
-//        if (format.isEmpty()) {
-//            QImageReader reader(path);
-//            reader.setAutoTransform(true);
-//            if (reader.canRead()) {
-//                tImg = reader.read();
-//            } else if (path.contains(".tga")) {
-//                bool ret = false;
-//                tImg = utils::image::loadTga(path, ret);
-//            }
-//        } else {
-//            QImageReader readerF(path, format.toLatin1());
-//            readerF.setAutoTransform(true);
-//            if (readerF.canRead()) {
-//                tImg = readerF.read();
-//            } else {
-//                qWarning() << "can't read image:" << readerF.errorString()
-//                           << format;
-
-//                tImg = QImage(path);
-//            }
-//        }
-//        QPixmap pixmaptrash = QPixmap::fromImage(tImg);
-//        if (pixmaptrash.isNull()) {
-//            pixmaptrash = QPixmap(":/resources/images/other/deepin-album.svg");
-//        }
-
-//        pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-//        if (pixmaptrash.isNull()) {
-//            pixmaptrash = QPixmap::fromImage(tImg);
-//        }
-
-//        m_parent->m_imagetrashmap.insert(path, pixmaptrash);
-//    }
-
-//    qDebug() << m_parent->m_imagemap.keys();
-//    emit sigFinishiLoad();
-
-//    gettimeofday(&tv, NULL);
-//    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
-//    qDebug() << "startLoading end time: " << ms;
-//}
-
 void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 {
-//    for (auto info : dbInfos) {
-//        QImage tImg;
-
-//        QString format = DetectImageFormat(info.filePath);
-//        if (format.isEmpty()) {
-//            QImageReader reader(info.filePath);
-//            reader.setAutoTransform(true);
-//            if (reader.canRead()) {
-//                tImg = reader.read();
-//            } else if (info.filePath.contains(".tga")) {
-//                bool ret = false;
-//                tImg = utils::image::loadTga(info.filePath, ret);
-//            }
-//        } else {
-//            QImageReader readerF(info.filePath, format.toLatin1());
-//            readerF.setAutoTransform(true);
-//            if (readerF.canRead()) {
-//                tImg = readerF.read();
-//            } else {
-//                qWarning() << "can't read image:" << readerF.errorString()
-//                           << format;
-
-//                tImg = QImage(info.filePath);
-//            }
-//        }
-//        QPixmap pixmap = QPixmap::fromImage(tImg);
-
-////        if (pixmap.isNull())
-////        {
-////            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
-////        }
-
-//        pixmap = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap::fromImage(tImg);
-//        }
-//        m_parent->m_imagemap.insert(info.filePath, pixmap);
-//    }
-
     DBImgInfoList dbInfoList;
     QStringList pathlist;
 
@@ -241,13 +89,6 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 
 }
 
-
-//void ImageLoader::addImageLoader(QStringList pathlist)
-//{
-//    for (QString path : pathlist) {
-//        m_parent->m_imagemap.insert(path, m_parent->m_imagetrashmap.value(path));
-//    }
-//}
 
 void ImageLoader::updateImageLoader(QStringList pathlist)
 {
@@ -329,25 +170,6 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
 
 }
 
-
-//void ImageLoader::addTrashImageLoader(QStringList trashpathlist)
-//{
-//    for (QString path : trashpathlist) {
-//        m_parent->m_imagetrashmap.insert(path, m_parent->m_imagemap.value(path));
-//    }
-//}
-
-//void ImageLoader::updateTrashImageLoader(QStringList trashpathlist)
-//{
-//    for (QString path : trashpathlist) {
-//        QPixmap pixmaptrash(path);
-
-//        pixmaptrash = pixmaptrash.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-
-//        m_parent->m_imagetrashmap[path] = pixmaptrash;
-//    }
-//    emit dApp->signalM->sigUpdateTrashImageLoader();
-//}
 
 Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)

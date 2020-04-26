@@ -115,7 +115,10 @@ protected:
 
 
 ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
-    : DDialog(parent)
+    : DDialog(parent), m_title_maxwidth(0), m_maxFieldWidth(0),
+      m_isBaseInfo(false), m_isDetailsInfo(false), m_exif_base(nullptr),
+      m_exif_details(nullptr), m_exifLayout_base(nullptr), m_exifLayout_details(nullptr),
+      m_mainLayout(nullptr), m_scrollArea(nullptr)
 {
     //LMH0424默认字体大小
     QFont font;

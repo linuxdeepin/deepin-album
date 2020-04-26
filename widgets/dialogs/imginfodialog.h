@@ -54,16 +54,16 @@ private:
     int m_title_maxwidth;
     int m_maxFieldWidth;
     int m_currentFontSize;
-    bool m_isBaseInfo = false;
-    bool m_isDetailsInfo = false;
+    bool m_isBaseInfo;
+    bool m_isDetailsInfo;
     QString m_path;
-    QFrame *m_exif_base = nullptr;
-    QFrame *m_exif_details = nullptr;
-    QFormLayout *m_exifLayout_base = nullptr;
-    QFormLayout *m_exifLayout_details = nullptr;
+    QFrame *m_exif_base;
+    QFrame *m_exif_details;
+    QFormLayout *m_exifLayout_base;
+    QFormLayout *m_exifLayout_details;
     QList<DBaseExpand *> m_expandGroup;
-    QVBoxLayout *m_mainLayout = nullptr;
-    DScrollArea *m_scrollArea = nullptr;
+    QVBoxLayout *m_mainLayout;
+    DScrollArea *m_scrollArea;
     void keyPressEvent(QKeyEvent *e) override;
     void paintEvent(QPaintEvent *event) override;
 signals:
