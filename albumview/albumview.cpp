@@ -174,7 +174,7 @@ AlbumView::AlbumView()
 
 AlbumView::~AlbumView()
 {
-    m_pAllPicture->stopLoadAndClear();
+    emit dApp->signalM->sigDevStop("");
     m_pRightThumbnailList->stopLoadAndClear();
     m_pRightPhoneThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->stopLoadAndClear();
@@ -183,6 +183,7 @@ AlbumView::~AlbumView()
     ImageEngineImportObject::clearAndStopThread();
     ImageMountGetPathsObject::clearAndStopThread();
     ImageMountImportPathsObject::clearAndStopThread();
+//    m_pAllPicture->stopLoadAndClear();
     //ImageEngineObject::clearAndStopThread();
     m_pImpTimeLineWidget->getFatherStatusBar(nullptr);
     if (m_vfsManager) {
@@ -1622,7 +1623,7 @@ bool AlbumView::imageGeted(QStringList &filelist, QString path)
 
     //LMH0425
     if (nullptr != m_pAllPicture) {
-        emit dApp->signalM->sigDevStop(path);
+//        emit dApp->signalM->sigDevStop(path);
         ImageEngineApi::instance()->loadImageDateToMemory(m_pAllPicture, m_phoneNameAndPathlist[path], path);
 //        ImageEngineApi::instance()->loadImagesFromLocal(m_pictrueallPathlist, m_pAllPicture, false);
 //        m_pAllPicture->loadFilesFromLocal(m_pictrueallPathlist, false, false);
@@ -2159,11 +2160,13 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
             auto it = m_phoneNameAndPathlist.begin();
             while (it != m_phoneNameAndPathlist.end()) {
                 if (it.key().contains(strPath)) {
+                    emit dApp->signalM->sigDevStop(it.key());
+
                     for (const auto &path : it.value()) {           //从内存中删除
                         ImageEngineApi::instance()->removeImage(path);
                     }
                     m_phoneNameAndPathlist.erase(it);
-                    emit dApp->signalM->sigDevStop(it.key());
+
                     break;
                 }
                 it++;
@@ -2545,8 +2548,10 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
         return;
     }
 
+    m_itemClicked = true;
     m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+
     m_mounts.append(mount);
 }
 
@@ -2912,11 +2917,12 @@ void AlbumView::needUnMount(QString path)
                 auto it = m_phoneNameAndPathlist.begin();
                 while (it != m_phoneNameAndPathlist.end()) {
                     if (it.key().contains(strPath)) {
+                        emit dApp->signalM->sigDevStop(it.key());
                         for (const auto &path : it.value()) {           //从内存中删除
                             ImageEngineApi::instance()->removeImage(path);
                         }
                         m_phoneNameAndPathlist.erase(it);
-                        emit dApp->signalM->sigDevStop(it.key());
+//                        emit dApp->signalM->sigDevStop(it.key());
                         break;
                     }
                     it++;
@@ -2997,12 +3003,6 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 //        }
 //    }
     m_pRightPhoneThumbnailList->stopLoadAndClear();
-    //设备移除时删除内存中存在的数据
-    qDebug() << "本次删除数据大小：" << m_curPhoneItemList_str.size();
-    for (const auto &path : m_curPhoneItemList_str) {
-        ImageEngineApi::instance()->removeImage(path);
-    }
-    m_curPhoneItemList_str.clear();
 
     QThread::sleep(1);
     needUnMount(unMountPath);

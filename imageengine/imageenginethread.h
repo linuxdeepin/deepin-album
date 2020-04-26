@@ -255,7 +255,6 @@ public:
 
     void setData(ImageEngineObject *obj, QStringList pathlist = QStringList(), QString devName = QString());
 
-
 protected:
     void run() override;
 

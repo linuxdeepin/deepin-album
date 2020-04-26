@@ -1389,8 +1389,9 @@ void ImageCacheQueuePopThread::run()
 
 ImageEngineBackThread::ImageEngineBackThread()
 {
+    setAutoDelete(true);
     connect(dApp->signalM, &SignalManager::sigDevStop, this, [ = ](QString devName) {
-        if (devName == m_devName) {
+        if (devName == m_devName || devName.isEmpty()) {
             bbackstop = true;
         }
     });
@@ -1405,7 +1406,6 @@ void ImageEngineBackThread::setData(ImageEngineObject *obj, QStringList pathlist
 
 void ImageEngineBackThread::run()
 {
-
     using namespace utils::image;
     using namespace utils::base;
     int count = 1;
@@ -1521,4 +1521,6 @@ void ImageEngineBackThread::run()
         qDebug() << "第几幅图：" << count++;
         emit sigImageBackLoaded(temppath, m_data);
     }
+
+    m_imgobject->removeThread(this);
 }

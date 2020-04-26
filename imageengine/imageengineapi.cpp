@@ -311,7 +311,7 @@ bool ImageEngineApi::loadImageDateToMemory(ImageEngineObject *obj, QStringList p
         ImageEngineBackThread *imagethread = new ImageEngineBackThread;
         imagethread->setData(obj, tmpPathlist, devName);
         connect(imagethread, &ImageEngineBackThread::sigImageBackLoaded, this, &ImageEngineApi::sigImageBackLoaded);
-        obj->addThread(imagethread);
+//        obj->addThread(imagethread);
         m_qtpool.start(imagethread);
         iRet = true;
     } else {
