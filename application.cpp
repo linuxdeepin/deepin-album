@@ -133,19 +133,21 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (pixmap.height() < 100) {
-            cache_exist = true;
-            pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-        } else if (pixmap.width() < 100) {
-            cache_exist = true;
-            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-        }
-
-        if (!cache_exist) {
-            if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-            } else {
+        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+            if (pixmap.height() < 100) {
+                cache_exist = true;
                 pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+            } else if (pixmap.width() < 100) {
+                cache_exist = true;
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+            }
+
+            if (!cache_exist) {
+                if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
+                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                } else {
+                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                }
             }
         }
         if (pixmap.isNull()) {
