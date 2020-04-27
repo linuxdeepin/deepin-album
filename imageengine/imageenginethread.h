@@ -247,25 +247,30 @@ private:
     bool needStop = false;
 };
 
+#include <QWaitCondition>
 class ImageEngineBackThread : public ImageEngineThreadObject, public QRunnable
 {
     Q_OBJECT
 public:
     ImageEngineBackThread();
 
-    void setData(ImageEngineObject *obj, QStringList pathlist = QStringList(), QString devName = QString());
+    void setData(QStringList pathlist = QStringList(), QString devName = QString());
 
 protected:
     void run() override;
 
 signals:
     void sigImageBackLoaded(QString path, ImageDataSt &data);
-
+private slots:
+    void onStartOrPause(bool pause);
 private:
     QStringList m_pathlist;
     ImageDataSt m_data;
-    ImageEngineObject *m_imgobject = nullptr;
     QString m_devName;
+
+    QWaitCondition  m_WatiCondition;
+    QMutex  m_mutex;
+    bool m_bpause;
 };
 
 #endif // IMAGEENGINETHREAD_H

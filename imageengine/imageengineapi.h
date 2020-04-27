@@ -24,6 +24,7 @@ public:
     }
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
+    bool removeImage(QStringList imagepathList);
     bool insertObject(void *obj);
     bool removeObject(void *obj);
     bool ifObjectExist(void *obj);
@@ -54,7 +55,7 @@ public:
     //将数据加载到内存中
     // void loadImageDateToMemory(QStringList pathlist);
 
-    bool loadImageDateToMemory(ImageEngineObject *obj, QStringList pathlist, QString devName);
+    bool loadImageDateToMemory(QStringList pathlist, QString devName);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);

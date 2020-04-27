@@ -78,6 +78,14 @@ bool ImageEngineApi::removeImage(QString imagepath)
     return false;
 }
 
+bool ImageEngineApi::removeImage(QStringList imagepathList)
+{
+    for (const auto &imagepath : imagepathList) {
+        m_AllImageData.remove(imagepath);
+    }
+    return true;
+}
+
 bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
 {
     QMap<QString, ImageDataSt>::iterator it;
@@ -295,7 +303,7 @@ bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
     insertImage(path, "30");
 }
 
-bool ImageEngineApi::loadImageDateToMemory(ImageEngineObject *obj, QStringList pathlist, QString devName)
+bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName)
 {
     bool iRet = false;
     //判断是否已经在线程中加载LMH0426
@@ -309,9 +317,8 @@ bool ImageEngineApi::loadImageDateToMemory(ImageEngineObject *obj, QStringList p
     }
     if (tmpPathlist.count() > 0) {
         ImageEngineBackThread *imagethread = new ImageEngineBackThread;
-        imagethread->setData(obj, tmpPathlist, devName);
-        connect(imagethread, &ImageEngineBackThread::sigImageBackLoaded, this, &ImageEngineApi::sigImageBackLoaded);
-//        obj->addThread(imagethread);
+        imagethread->setData(tmpPathlist, devName);
+        connect(imagethread, &ImageEngineBackThread::sigImageBackLoaded, this, &ImageEngineApi::sigImageBackLoaded, Qt::QueuedConnection);
         m_qtpool.start(imagethread);
         iRet = true;
     } else {
@@ -397,6 +404,8 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
 bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool bneedprogress)
 {
     emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //autor : jia.dong
+    if (typetrash)  //如果为回收站删除，则删除内存数据
+        removeImage(files);
     ImageMoveImagesToTrashThread *imagethread = new ImageMoveImagesToTrashThread;
     imagethread->setData(files, typetrash);
     m_qtpool.start(imagethread);

@@ -970,10 +970,12 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 //}
 }
 
-void ThumbnailListView::stopLoadAndClear()
+void ThumbnailListView::stopLoadAndClear(bool bClearModel)
 {
 //    qDebug() << "threadID : " << QThread::currentThreadId();
     clearAndStopThread();
+    if (bClearModel)
+        m_model->clear();   //清除模型中的数据
 
     m_allfileslist.clear();
     m_filesbeleft.clear();

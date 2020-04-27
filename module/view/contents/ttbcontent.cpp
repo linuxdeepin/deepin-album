@@ -205,8 +205,8 @@ void ImageItem::setPic(QPixmap pixmap)
     bool bLight = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType;
     m_bPicNotSuppOrDamaged = pixmap.isNull();
     _pixmap = m_bPicNotSuppOrDamaged
-            ? utils::image::getDamagePixmap(bLight)
-            : pixmap;
+              ? utils::image::getDamagePixmap(bLight)
+              : pixmap;
     update();
 }
 
@@ -417,6 +417,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     //hb->addSpacing(ICON_SPACING * 5);
     connect(m_backButton, &DIconButton::clicked, this, [ = ] {
         emit dApp->signalM->hideImageView();
+        emit dApp->signalM->sigPauseOrStart(false); //唤醒后台外设线程
         emit ttbcontentClicked();
     });
 

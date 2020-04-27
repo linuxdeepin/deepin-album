@@ -169,6 +169,9 @@ signals:
     //lmh0426设备退出，信号通知线程退出
     void sigDevStop(QString devName);
 
+    //对于外设后台加载是否暂停，在查看界面使用  -xiaolong
+    void sigPauseOrStart(bool bpause);
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

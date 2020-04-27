@@ -1425,6 +1425,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //            return;
 //        }
         emit dApp->signalM->hideImageView();
+        emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
         event->ignore();
     } else {
         event->accept();

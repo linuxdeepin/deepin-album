@@ -221,7 +221,7 @@ public:
     //LMH0424
     QMap<QString, ThumbnailListView *> m_phoneViewlist;
     QStringList m_pictrueallPathlist;
-    ThumbnailListView *m_pAllPicture = nullptr;
+//    ThumbnailListView *m_pAllPicture = nullptr;
     int m_currentLoadingPictrue = 0;
 
     QMap<QString, QPixmap> m_phonePathAndImage;

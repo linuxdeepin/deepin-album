@@ -481,6 +481,9 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
 QWidget *ViewPanel::bottomTopLeftContent()
 {
+    //如果外设加载，则暂停线程
+    emit dApp->signalM->sigPauseOrStart(true);
+
     if (m_ttbc != nullptr)
         delete m_ttbc;
 //        m_ttbc->deleteLater();

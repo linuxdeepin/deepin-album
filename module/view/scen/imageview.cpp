@@ -152,7 +152,7 @@ ImageView::ImageView(QWidget *parent)
         update();
     });
     //0415 open Pictrue
-    connect(dApp->signalM,&SignalManager::sigOpenPicture,this,[=](QString path){
+    connect(dApp->signalM, &SignalManager::sigOpenPicture, this, [ = ](QString path) {
         setImageFirst(path);
         emit imageChanged(path);
     });
@@ -164,8 +164,8 @@ void ImageView::clear()
         delete m_pixmapItem;
         m_pixmapItem = nullptr;
     }
-    m_movieItem=nullptr;
-    m_imgSvgItem=nullptr;
+    m_movieItem = nullptr;
+    m_imgSvgItem = nullptr;
     scene()->clear();
 }
 
@@ -652,7 +652,7 @@ void ImageView::resizeEvent(QResizeEvent *event)
 void ImageView::paintEvent(QPaintEvent *event)
 {
     QGraphicsView::paintEvent(event);
-    update();
+//    update();
 }
 
 void ImageView::dragEnterEvent(QDragEnterEvent *e)

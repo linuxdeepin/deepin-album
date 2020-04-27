@@ -1392,7 +1392,7 @@ void ImageCacheQueuePopThread::run()
     //deleteLater();
 }
 
-ImageEngineBackThread::ImageEngineBackThread()
+ImageEngineBackThread::ImageEngineBackThread(): m_bpause(false)
 {
     setAutoDelete(true);
     connect(dApp->signalM, &SignalManager::sigDevStop, this, [ = ](QString devName) {
@@ -1400,12 +1400,13 @@ ImageEngineBackThread::ImageEngineBackThread()
             bbackstop = true;
         }
     });
+
+    connect(dApp->signalM, &SignalManager::sigPauseOrStart, this, &ImageEngineBackThread::onStartOrPause);
 }
 
-void ImageEngineBackThread::setData(ImageEngineObject *obj, QStringList pathlist, QString devName)
+void ImageEngineBackThread::setData(QStringList pathlist, QString devName)
 {
     m_pathlist = pathlist;
-    m_imgobject = obj;
     m_devName = devName;
 }
 
@@ -1523,9 +1524,20 @@ void ImageEngineBackThread::run()
         if (bbackstop) {
             return;
         }
-
-        qDebug() << "第几幅图：" << count++;
+//        qDebug() << "第几幅图：" << count++;
+        if (m_bpause) {
+            m_WatiCondition.wait(&m_mutex);     //挂起
+        }
         emit sigImageBackLoaded(temppath, m_data);
     }
-    m_imgobject->removeThread(this);
+}
+
+void ImageEngineBackThread::onStartOrPause(bool pause)
+{
+    if (pause)
+        m_bpause = true;
+    else {
+        m_WatiCondition.wakeOne();      //恢复线程
+        m_bpause = false;
+    }
 }

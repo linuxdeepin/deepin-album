@@ -116,7 +116,7 @@ public:
     bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
     bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
     void insertThumbnail(const ItemInfo &iteminfo);
-    void stopLoadAndClear();
+    void stopLoadAndClear(bool bClearModel = true);    //为true则清除模型中的数据
     QStringList getAllFileList();
     void setVScrollbarDistance(int topdistance, int bottomdistance);
     void setListWidgetItem(QListWidgetItem *item);
