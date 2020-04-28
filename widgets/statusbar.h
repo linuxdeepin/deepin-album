@@ -47,7 +47,7 @@ public:
     int interval;
     int pic_count;
 private:
-    int i = 0;
+    int m_index;
 
 
 protected:

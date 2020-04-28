@@ -35,8 +35,8 @@
 #include "widgets/dialogs/imgdeletedialog.h"
 
 namespace {
-
-const int SWITCH_IMAGE_DELAY = 500;
+//LMH 500改200
+const int SWITCH_IMAGE_DELAY = 200;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const int VIEW_MAINWINDOW_POPVIEW = 4;
 

@@ -48,31 +48,6 @@ DCORE_USE_NAMESPACE
 class DGioVolumeManager;
 class AlbumView;
 
-//class ThreadRenderImage : public QObject, public QRunnable
-//{
-//    Q_OBJECT
-//public:
-//    ThreadRenderImage();
-//    void setData(QFileInfo fileinfo, QString path, QMap<QString, QPixmap> *map, QStringList *list);
-////    void setRestart();
-////    bool isRunning();
-////    void setRunningTrue();
-
-//protected:
-//    virtual void run();
-
-////signals:
-////    void signal_RenderFinish(QPixmap, QString);
-//private:
-//    QString m_path = "";
-//    QFileInfo m_fileinfo;
-//    QMap<QString, QPixmap> *m_map = nullptr;
-//    QStringList *m_pathlist = nullptr;
-////    bool restart;
-////    double m_width;
-////    double m_height;
-////    bool b_running;
-//};
 
 class MountLoader : public QObject
 {
@@ -113,7 +88,7 @@ private:
     QMap<QString, QPixmap> m_phonePathImage;
     QThreadPool qtpool;
     bool bIsRunning = false;
-    QString m_unmountpath = "";
+    QString m_unmountpath;
     bool bneedunmountpath = false;
 };
 
@@ -128,12 +103,11 @@ protected:
 signals:
 public slots:
 private:
-    int m_scrollbartopdistance = 130;
-    int m_scrollbarbottomdistance = 27;
+    int m_scrollbartopdistance;
+    int m_scrollbarbottomdistance;
 };
 
 class AlbumView : public QWidget, public ImageEngineImportObject, public ImageMountGetPathsObject, public ImageMountImportPathsObject
-//class AlbumView : public DSplitter
 {
     Q_OBJECT
 
@@ -165,6 +139,7 @@ public:
     void updatePicNum();
 
     void updateRightView();
+
 private:
     void initConnections();
     void initLeftView();
@@ -172,7 +147,6 @@ private:
     //void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
-    //void updateRightImportViewColock(QStringList updatePahtlist);         //更新旋转图片视图
     void updateRightImportView();
     void updateRightMyFavoriteView();
     void updateRightMountView();
@@ -189,11 +163,11 @@ private:
 
 
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
-    void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
+    void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);        //拔掉外设移除
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
     bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
     void initExternalDevice();
-    void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount);
+    void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath = QString());
     bool findPicturePathByPhone(QString &path);
     void updateImportComboBox();
     void importAllBtnClicked();
@@ -206,6 +180,7 @@ private:
 signals:
     void sigSearchEditIsDisplay(bool);
     void sigLoadMountImagesStart(QString mountName, QString path);
+    void sigReCalcTimeLineSizeIfNeed();
 
 private slots:
     void onTrashRecoveryBtnClicked();
@@ -213,8 +188,7 @@ private slots:
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
     void onUpdateThumbnailViewSize();
-    void onUnMountSignal(QString unMountPath);
-
+    void onUnMountSignal(QString unMountPath);          //手动卸载设备
     void onCreateNewAlbumFromDialog(QString albumname);
 #if 1
     void onCreateNewAlbumFrom(QString albumname);
@@ -234,23 +208,35 @@ public:
     QString m_currentAlbum;
     QString m_currentType;
     int m_selPicNum;
-    bool m_itemClicked = false;
+    bool m_itemClicked;
 
     DStackedWidget *m_pRightStackWidget;
     LeftListView *m_pLeftListView;
     StatusBar *m_pStatusBar;
     DWidget *m_pRightWidget;
-    ThumbnailListView *m_pRightThumbnailList;
+
     ThumbnailListView *m_pRightPhoneThumbnailList;
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
+    //LMH0424
+    QMap<QString, ThumbnailListView *> m_phoneViewlist;
+    QStringList m_pictrueallPathlist;
+//    ThumbnailListView *m_pAllPicture = nullptr;
+    int m_currentLoadingPictrue = 0;
+
     QMap<QString, QPixmap> m_phonePathAndImage;
     DWidget *m_pwidget;
 
+    ThumbnailListView *m_pRightThumbnailList;               //已导入
+    ThumbnailListView *m_pRightTrashThumbnailList;          //最近删除
+    ThumbnailListView *m_pRightFavoriteThumbnailList;       //我的收藏
+
+    DWidget *pImportTimeLineWidget;
+    DWidget *m_pTrashWidget;
+    DWidget *m_pFavoriteWidget;
+
 private:
     ImportView *m_pImportView;
-    ThumbnailListView *m_pRightTrashThumbnailList;
-    ThumbnailListView *m_pRightFavoriteThumbnailList;
 
     DPushButton *m_pRecoveryBtn;
     DPushButton *m_pDeleteBtn;
@@ -266,9 +252,9 @@ private:
     DDiskManager *m_diskManager;
     DLabel *pLabel1;
     DLabel *pLabel2;
+
     // 已导入窗体
     ImportTimeLineView *m_pImpTimeLineWidget;
-
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
@@ -279,8 +265,9 @@ private:
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
     QStringList m_curPhoneItemList_str;         //外部设备图片的路径
-//    bool bcurThumbnaiItemList_str = true;
-    QListWidgetItem *m_curListWidgetItem;
+    QMap<QString, QStringList>   m_phonePath;   //多个设备对应路径
+
+
     QMap<QString, QPixmap> m_phonePicMap;
 
     int m_mountPicNum;
@@ -291,7 +278,7 @@ private:
 //    QMap<QString, MountLoader *> m_mountLoaderList;
 //    QMap<QString, QThread *> m_loadThreadList;
 
-    DWidget *pImportTimeLineWidget;
+
     QMap<QUrl, QString> durlAndNameMap;
     void getAllDeviceName();
     DSpinner *m_spinner;
@@ -304,24 +291,29 @@ private:
 
     QListWidgetItem *m_FavoriteItem;
     DWidget *m_FavoriteTitle;
-    DWidget *m_pFavoriteWidget;
 
     QListWidgetItem *m_TrashitemItem;
     DWidget *m_TrashTitle;
-    DWidget *m_pTrashWidget;
+
     //add end 3975
 
 //    QGridLayout *pVBoxLayout = nullptr;
-    DWidget *fatherwidget = nullptr;
-    DWidget *pPhoneWidget = nullptr;
-    DBlurEffectWidget *phonetopwidget = nullptr;
+    DWidget *fatherwidget;
+    DWidget *pPhoneWidget;
+//    DBlurEffectWidget *phonetopwidget = nullptr;
+    DWidget *phonetopwidget;
 
     Waitdevicedialog *m_waitDeviceScandialog;
-    bool isWaitDialog = true;
-    bool isIgnore = true;
+    bool isWaitDialog;
+    bool isIgnore;
     QTimer *m_waitDailog_timer;
-    QThread *m_updateMountViewThread = nullptr;
-    bool isMountThreadRunning = false;
+    QThread *m_updateMountViewThread;
+    bool isMountThreadRunning;
+
+    int m_currentViewPictureCount;
+
+    QMutex m_mutex;
+
 };
 
 #endif // ALBUMVIEW_H

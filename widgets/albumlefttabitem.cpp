@@ -16,12 +16,11 @@ const int OPE_MODE_ADDRENAMEALBUM = 2;
 using namespace utils::common;
 
 AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
+    : m_albumNameStr(str), m_albumTypeStr(strAlbumType), m_opeMode(0)
+    , m_pLineEdit(nullptr), m_pNewLineEdit(nullptr), m_nameLabel(nullptr)
+    , pImageLabel(nullptr), m_unMountBtn(nullptr), m_pListWidget(nullptr)
+    , m_pListWidgetItem(nullptr)
 {
-    m_albumNameStr = str;
-    m_opeMode = 0;
-    m_albumTypeStr = strAlbumType;
-    m_mountPath = "";
-
     initUI();
     initConnections();
 }
@@ -143,13 +142,6 @@ void AlbumLeftTabItem::initUI()
 //    m_pLineEdit->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
     m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
-//    m_pLineEdit->setStyleSheet(QString::fromUtf8("selection-background-color: rgb(0,129,255);"));
-//    m_pLineEdit->setStyleSheet("border-radius:8px;"
-//                               "background: rgba(255,255,255,0.00);"
-//                               "border: 2px solid #0081FF;"
-//                               "box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);"
-//                               );
-
     m_pLineEdit->setVisible(false);
 //    m_pLineEdit->setMaxLength(64);
     m_pLineEdit->lineEdit()->setMaxLength(64);
@@ -166,9 +158,9 @@ void AlbumLeftTabItem::initUI()
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
         m_unMountBtn->setPixmap(pixmap);
-        m_unMountBtn->move(92, 9);
+        pHBoxLayout->addWidget(m_unMountBtn);
+        //m_unMountBtn->move(92, 9);
     }
-
     this->setLayout(pHBoxLayout);
 }
 
@@ -332,35 +324,35 @@ void AlbumLeftTabItem::newAlbumStatus()
 {
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_import_active.svg", QSize(20, 20));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_import_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
     } else if (COMMON_STR_TRASH == m_albumNameStr) {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_trash_active.svg", QSize(20, 20));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_trash_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
     } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_collection_active.svg", QSize(20, 20));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_collection_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(20, 20));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
 
         QPixmap mountpixmap;
-        mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_exit_active.svg", QSize(20, 20));
+        mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_exit_active.svg", QSize(24, 24));
         m_unMountBtn->setPixmap(mountpixmap);
     } else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_usb_active.svg", QSize(20, 20));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_usb_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
 
         QPixmap mountpixmap;
-        mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_exit_active.svg", QSize(20, 20));
+        mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_exit_active.svg", QSize(24, 24));
         m_unMountBtn->setPixmap(mountpixmap);
     } else {
         QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_album_active.svg", QSize(20, 20));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_album_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
     }
 

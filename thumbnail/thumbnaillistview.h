@@ -32,6 +32,7 @@
 #include <DPushButton>
 #include <DImageButton>
 #include <DIconButton>
+#include <DListView>
 #include <QWidgetAction>
 #include <QPixmap>
 #include <QIcon>
@@ -42,7 +43,6 @@
 #include <QBuffer>
 #include <DMenu>
 #include <QMouseEvent>
-#include <DListView>
 #include <DApplicationHelper>
 #include "imageengine/imageengineobject.h"
 #include "widgets/timelineitem.h"
@@ -92,6 +92,7 @@ public:
         int imgHeight = 0;
         QString remainDays = "30天";
         QPixmap image = QPixmap();
+        bool bNotSupportedOrDamaged = false;
 
 
         friend bool operator== (const ItemInfo &left, const ItemInfo &right)
@@ -115,13 +116,14 @@ public:
     bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
     bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
     void insertThumbnail(const ItemInfo &iteminfo);
-    void stopLoadAndClear();
+    void stopLoadAndClear(bool bClearModel = true);    //为true则清除模型中的数据
     QStringList getAllFileList();
     void setVScrollbarDistance(int topdistance, int bottomdistance);
     void setListWidgetItem(QListWidgetItem *item);
     void setIBaseHeight(int iBaseHeight);
     bool checkResizeNum();
     bool isLoading();
+    bool isAllPicSeleted();
     //------------------
 
 //    void insertThumbnails(const QList<ItemInfo> &itemList);
@@ -141,8 +143,7 @@ public:
     void clearSelectionRear(int row);
     void clearSelectionFront(int row);
     void clearSelectionExtent(int start, int end);
-
-    QStringList m_allfileslist;
+    void resizeHand();  //手动发送信号，计算大小
 signals:
 //    void loadend(int);
     void needResize(int);
@@ -189,6 +190,12 @@ private slots:
     void onTimerOut();
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
+
+    void sltChangeDamagedPixOnThemeChanged();
+
+public slots:
+    void slotReCalcTimelineSize();
+
 public:
     void updateThumbnailView(QString updatePath = "");
 private:
@@ -207,8 +214,7 @@ private:
     void sendNeedResize(/*int height*/);
     void resizeEventF();
     //------------------
-    //void updateThumbnailView();
-
+//    void updateThumbnailView();
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onShowImageInfo(const QString &path);
@@ -216,6 +222,8 @@ private:
     DMenu *createAlbumMenu();
     void resizeEvent(QResizeEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *e) override;
+
+    QPixmap getDamagedPixmap();
 public:
     QString m_imageType;
     QStandardItemModel *m_model = nullptr;
@@ -238,7 +246,7 @@ private:
     ThumbnailDelegate::DelegateType m_delegatetype = ThumbnailDelegate::NullType;
 
     //------------------
-
+    QStringList m_allfileslist;
     QStringList m_filesbeleft;
     bool bneedloadimage = true;
     bool brequestallfiles = false;
@@ -260,6 +268,7 @@ private:
 //    int lastwidth = 0;
 //    int newwidth = 0;
     //------------------
+
 };
 
 #endif // THUMBNAILLISTVIEW_H

@@ -25,20 +25,28 @@ const int TIMELINE_TITLEHEIGHT = 32;
 } //namespace
 
 TimeLineView::TimeLineView()
+    : m_mainListWidget(nullptr), m_mainLayout(nullptr), m_dateItem(nullptr)
+    , pSuspensionChose(nullptr), pTimeLineViewWidget(nullptr), pImportView(nullptr)
+    , allnum(0), m_pDate(nullptr), pNum_up(nullptr)
+    , pNum_dn(nullptr), m_oe(nullptr), m_oet(nullptr)
+    , m_ctrlPress(false), lastClickedIndex(0), lastRow(-1)
+    , lastChanged(false), fatherwidget(nullptr), m_pStackedWidget(nullptr)
+    , m_pStatusBar(nullptr), pSearchView(nullptr), m_pwidget(nullptr)
+    , m_index(0), m_selPicNum(0), m_spinner(nullptr)
+    , currentTimeLineLoad(0)
 {
     setAcceptDrops(true);
-    fatherwidget = new DWidget(this);
+    fatherwidget = new QWidget(this);
     fatherwidget->setFixedSize(this->size());
-    m_index = 0;
 
     m_oe = new QGraphicsOpacityEffect(this);
     m_oet = new QGraphicsOpacityEffect(this);
     m_oe->setOpacity(0.5);
     m_oet->setOpacity(0.75);
 
-    m_pStackedWidget = new DStackedWidget();
+    m_pStackedWidget = new QStackedWidget();
 
-    pTimeLineViewWidget = new DWidget();
+    pTimeLineViewWidget = new QWidget();
     pImportView = new ImportView();
     pSearchView = new SearchView();
 
@@ -108,9 +116,9 @@ void TimeLineView::initConnections()
     connect(pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
 //        m_spinner->show();
 //        m_spinner->start();
-        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
         emit dApp->signalM->startImprot();
         pImportView->onImprotBtnClicked();
+        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
     });
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
         if (isVisible())
@@ -334,10 +342,8 @@ void TimeLineView::updateStackedWidget()
 {
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
-        m_pStatusBar->setVisible(true);
     } else {
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-        m_pStatusBar->setVisible(false);
     }
 }
 
@@ -438,8 +444,8 @@ void TimeLineView::addTimelineLayout()
     pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     QStringList datelist = m_timelines.at(nowTimeLineLoad).split(".");
     if (datelist.count() > 2) {
-          listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
- //       listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+//       listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
     }
     pDate->setText(listItem->m_sdate);
 
@@ -1589,12 +1595,18 @@ void TimeLineView::onKeyDelete()
     QStringList paths;
     paths.clear();
 
+    bool bDeleteAll = true;
     for (int i = 0; i < m_allThumbnailListView.size(); i++) {
         paths << m_allThumbnailListView[i]->selectedPaths();
+        bDeleteAll &= m_allThumbnailListView[i]->isAllPicSeleted ();
     }
 
     if (0 >= paths.length()) {
         return;
+    }
+
+    if (bDeleteAll) {
+        m_pStackedWidget->setCurrentIndex (VIEW_IMPORT);
     }
 
     ImageEngineApi::instance()->moveImagesToTrash(paths);

@@ -19,9 +19,9 @@
 
 #include "application.h"
 
-ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile,
-                         QWidget *parent)
-    : QWidget(parent) {
+ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile, QWidget *parent)
+    : QWidget(parent), m_deepMode(false)
+{
 
     m_darkStyle = utils::base::getFileContent(darkFile);
     m_lightStyle = utils::base::getFileContent(lightFile);
@@ -31,13 +31,15 @@ ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile,
             &ThemeWidget::onThemeChanged);
 }
 
-bool ThemeWidget::isDeepMode() {
+bool ThemeWidget::isDeepMode()
+{
     return m_deepMode;
 }
 
 ThemeWidget::~ThemeWidget() {}
 
-void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_deepMode = true;
     } else {
@@ -45,9 +47,9 @@ void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     }
 }
 
-ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFile,
-                         QWidget *parent)
-    : QScrollArea(parent) {
+ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFile, QWidget *parent)
+    : QScrollArea(parent), m_deepMode(false)
+{
 
     m_darkStyle = utils::base::getFileContent(darkFile);
     m_lightStyle = utils::base::getFileContent(lightFile);
@@ -59,7 +61,8 @@ ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFi
 
 ThemeScrollArea::~ThemeScrollArea() {}
 
-void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_deepMode = true;
     } else {
@@ -67,6 +70,7 @@ void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     }
 }
 
-bool ThemeScrollArea::isDeepMode() {
+bool ThemeScrollArea::isDeepMode()
+{
     return m_deepMode;
 }

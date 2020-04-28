@@ -188,6 +188,11 @@ const QString DARK_LOADINGICON =
     ":/resources/dark/images/dark_loading.gif";
 const QString LIGHT_LOADINGICON =
     ":/resources/light/images/light_loading.gif";
+const QString DARK_DAMAGEICON =
+        ":/resources/images/other/picture_damaged_dark.svg";
+const QString LIGHT_DAMAGEICON =
+        ":/resources/images/other/picture_damaged_light.svg";
+
 namespace naviwindow {
 const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.svg";
 const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);

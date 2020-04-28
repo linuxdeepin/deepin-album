@@ -51,6 +51,12 @@ private:
     void initStackedWidget();
 //    void initThumbnailListView();
     void updatePicsIntoThumbnailView();
+    void updatePicsIntoThumbnailViewWithCache();
+    /**
+     * @brief updatePicsIntoThumbnailView 针对单个或多个图片刷新
+     * @param strpath 图片路径队列
+     */
+    void updatePicsThumbnailView(QStringList strpath=QStringList());
     void onUpdateAllpicsNumLabel();
     void onKeyDelete();
 
@@ -76,7 +82,7 @@ private:
     ImportView *m_pImportView;
     SearchView *m_pSearchView;
     DSpinner *m_spinner;
-    DWidget *fatherwidget = nullptr;
+    DWidget *fatherwidget;
 };
 
 #endif // ALLPICVIEW_H

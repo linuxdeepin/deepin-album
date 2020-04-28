@@ -24,6 +24,7 @@ public:
     }
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
+    bool removeImage(QStringList imagepathList);
     bool insertObject(void *obj);
     bool removeObject(void *obj);
     bool ifObjectExist(void *obj);
@@ -39,6 +40,7 @@ public:
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
     bool SaveImagesCache(QStringList files);
+    int CacheThreadNum();
 
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
@@ -49,6 +51,11 @@ public:
     int  Getm_AllImageDataNum();
     bool clearAllImageDate();
     bool loadImagesFromPath(ImageEngineObject *obj, QString path);
+
+    //将数据加载到内存中
+    // void loadImageDateToMemory(QStringList pathlist);
+
+    bool loadImageDateToMemory(QStringList pathlist, QString devName);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);
@@ -58,6 +65,8 @@ private slots:
     void sltAborted(QString path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
     void sltstopCacheSave();
+
+    void sigImageBackLoaded(QString path, ImageDataSt data);
 private:
     ImageEngineApi(QObject *parent = nullptr);
     QMap<QString, ImageDataSt>m_AllImageData;

@@ -3,16 +3,12 @@
 #include <QItemSelectionModel>
 
 StatusBar::StatusBar(QWidget *parent)
-    : DBlurEffectWidget(parent)
+    : DBlurEffectWidget(parent), m_pAllPicNumLabel(nullptr), m_pSlider(nullptr)
+    , m_pstacklabel(nullptr), m_pimporting(nullptr), TextLabel(nullptr)
+    , m_pStackedWidget(nullptr), loadingicon(nullptr), m_allPicNum(0)
+    , interval(0), pic_count(0), m_index(0)
 {
-
-//    QPalette palette;
-//    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
-//    setPalette(palette);
     initUI();
-   // setMaskColor(MaskColorType::CustomColor);
-   // setMaskAlpha(0.7);
-
 }
 
 void StatusBar::initUI()
@@ -26,7 +22,7 @@ void StatusBar::initUI()
     m_pAllPicNumLabel = new DLabel();
     m_pAllPicNumLabel->setEnabled(false);
 //    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
-    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8,QFont::Normal));
+    m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
 
     m_pimporting = new DWidget(this);
@@ -113,13 +109,19 @@ void StatusBar::paintEvent(QPaintEvent *event)
 {
     setMaskColor(MaskColorType::AutoColor);
 
-    QPalette palette=m_pAllPicNumLabel->palette();
+    QPalette palette = m_pAllPicNumLabel->palette();
+    QPalette palettebackground = this->palette();
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
-        palette.setColor(QPalette::WindowText, QColor(192,198,212)); // 最后一项为透明度
-    }
-    else{
-        palette.setColor(QPalette::WindowText, QColor(98,110,136)); // 最后一项为透明度
+        QColor backcolor(192, 198, 212);
+        backcolor.setAlphaF(0.7);
+        palette.setColor(QPalette::WindowText, backcolor);
+
+    } else {
+        QColor backcolor(98, 110, 136);
+        backcolor.setAlphaF(0.7);
+        palette.setColor(QPalette::WindowText, backcolor);
+
     }
 
     m_pAllPicNumLabel->setPalette(palette);
@@ -144,7 +146,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
 //        TextLabel->adjustSize();
 
         if (imgpaths.count() == 1) {
-            i = 0;
+            m_index = 0;
             killTimer(interval);
             interval = 0;
             m_pStackedWidget->setCurrentIndex(0);
@@ -154,13 +156,13 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 emit dApp->signalM->ImportFailed();
             }
         } else {
-            TextLabel->setText(string.arg(imgpaths[i + 1]));
+            TextLabel->setText(string.arg(imgpaths[m_index + 1]));
 //            TextLabel->setMinimumSize(TextLabel->sizeHint());
-//            TextLabel->adjustSize();       
-            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8,QFont::Normal));
-            i ++;
-            if (i == imgpaths.count() - 1) {
-                i = 0;
+//            TextLabel->adjustSize();
+            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
+            m_index ++;
+            if (m_index == imgpaths.count() - 1) {
+                m_index = 0;
                 killTimer(interval);
                 interval = 0;
 

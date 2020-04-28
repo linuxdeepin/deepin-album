@@ -39,6 +39,8 @@ public:
     int getIBaseHeight();
 //signals:
 //    void albumviewResize();
+signals:
+    void sigResizeTimelineBlock();
 public slots:
     void on_AddLabel(QString date, QString num);
     void on_DelLabel();
@@ -72,6 +74,7 @@ public:
     void addTimelineLayout();
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
+    void resizeHand();  //手动计算大小
 #if 1
     QStringList selectPaths();
     void updateChoseText();
@@ -81,9 +84,9 @@ signals:
 
 private:
     void clearAndStop();
-    QLayout *m_mainLayout = nullptr;
+    QLayout *m_mainLayout;
     QList<QString> m_timelines;
-    DWidget *m_dateItem = nullptr;
+    DWidget *m_dateItem;
     DCommandLinkButton *pSuspensionChose;
     DWidget *pTimeLineViewWidget;
     ImportView *pImportView;
@@ -93,7 +96,7 @@ private:
     DLabel *pNum_up;
     DLabel *pNum_dn;
     DLabel *m_pImportTitle; //add 3975
-    DSlider *m_DSlider = nullptr;
+    DSlider *m_DSlider;
     QList<ThumbnailListView *> m_allThumbnailListView;
     QList<DCommandLinkButton *> m_allChoseButton;
 
@@ -103,16 +106,15 @@ private:
     bool m_ctrlPress;
 
     int lastClickedIndex;
-    int lastRow = -1;
-    int m_lastShiftRow = -1;
-    int m_lastShiftClickedIndex = -1;
-    bool lastChanged = false;
-    int m_iBaseHeight = 0;
+    int lastRow;
+    int m_lastShiftRow;
+    int m_lastShiftClickedIndex;
+    bool lastChanged;
+    int m_iBaseHeight;
 public:
     int m_index;
-    int m_selPicNum;
-    TimelineList *m_mainListWidget = nullptr;
-    int currentTimeLineLoad = 0;
+    TimelineList *m_mainListWidget;
+    int currentTimeLineLoad;
 };
 
 #endif // IMPORTTIMELINEVIEW_H

@@ -28,12 +28,15 @@
 #include <QMutex>
 #include <DMessageBox>
 
+#include "imageengine/imageengineapi.h"
+#include "imageengine/imageenginethread.h"
+
 static QMutex m_mutex;
 
 namespace {
 const int ITEM_SPACING = 0;
 const int LEFT_VIEW_WIDTH = 180;
-const int LEFT_VIEW_LISTITEM_WIDTH = 140;
+const int LEFT_VIEW_LISTITEM_WIDTH = 160;
 const int LEFT_VIEW_LISTITEM_HEIGHT = 40;
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
@@ -41,6 +44,7 @@ const int OPE_MODE_ADDRENAMEALBUM = 2;
 const QString BUTTON_STR_RECOVERY = "恢复";
 const QString BUTTON_STR_DETELE = "删除";
 const QString BUTTON_STR_DETELEALL = "全部删除";
+const int RIGHT_VIEW_WIDTH = 1119;
 const int RIGHT_VIEW_IMPORT = 0;
 const int RIGHT_VIEW_THUMBNAIL_LIST = 1;
 const int RIGHT_VIEW_TRASH_LIST = 2;
@@ -84,97 +88,9 @@ static QMap<QString, QString> opticalmediamap(opticalmediakeys);
 using namespace utils::common;
 
 
-
-//ThreadRenderImage::ThreadRenderImage()
-//{
-//    //    connect(this, SIGNAL(finished()), this, SLOT(deleteLater()));
-////    m_page = nullptr;
-////    restart = false;
-////    m_width = 0;
-////    m_height = 0;
-////    b_running = false;
-//    setAutoDelete(true);
-//}
-
-////void ThreadRenderImage::setRestart()
-////{
-////    restart = true;
-////}
-
-//void ThreadRenderImage::setData(QFileInfo fileinfo, QString path, QMap<QString, QPixmap> *map, QStringList *list)
-//{
-////    qDebug() << "ThreadRenderImage::setPage" << width << height;
-//    m_fileinfo = fileinfo;
-//    m_path = path;
-//    m_map = map;
-//    m_pathlist = list;
-//}
-
-////bool ThreadRenderImage::isRunning()
-////{
-////    return b_running;
-////}
-
-////void ThreadRenderImage::setRunningTrue()
-////{
-////    b_running = true;
-////}
-
-//void ThreadRenderImage::run()
-//{
-//    QImage tImg;
-
-//    QString format = DetectImageFormat(m_fileinfo.filePath());
-//    if (format.isEmpty()) {
-//        QImageReader reader(m_fileinfo.filePath());
-//        reader.setAutoTransform(true);
-//        if (reader.canRead()) {
-//            tImg = reader.read();
-//        } else if (m_path.contains(".tga")) {
-//            bool ret = false;
-//            tImg = utils::image::loadTga(m_path, ret);
-//        }
-//    } else {
-//        QImageReader readerF(m_fileinfo.filePath(), format.toLatin1());
-//        readerF.setAutoTransform(true);
-//        if (readerF.canRead()) {
-//            tImg = readerF.read();
-//        } else {
-//            qWarning() << "can't read image:" << readerF.errorString()
-//                       << format;
-
-//            tImg = QImage(m_fileinfo.filePath());
-//        }
-//    }
-
-//    QPixmap pixmap = QPixmap::fromImage(tImg);
-//    if (pixmap.isNull()) {
-//        qDebug() << "pixmap.isNull()";
-//        return;
-//    }
-
-//    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-//    if (pixmap.isNull()) {
-//        pixmap = QPixmap::fromImage(tImg);
-//    }
-
-//    QMutexLocker mutex(&m_mutex);
-//    if (m_map)
-//        m_map->insert(m_fileinfo.filePath(), pixmap);
-
-//    if (m_pathlist)
-//        *m_pathlist << m_fileinfo.filePath();
-////    emit signal_RenderFinish(/*pixmap,*/ /*m_fileinfo.filePath()*/);
-//}
-
-AlbumViewList::AlbumViewList(QWidget *parent) : DListWidget(parent)
+AlbumViewList::AlbumViewList(QWidget *parent)
+    : DListWidget(parent), m_scrollbartopdistance(130), m_scrollbarbottomdistance(27)
 {
-//    setContentsMargins(0, 0, 0, 0);
-//    setResizeMode(QListView::Adjust);
-//    setViewMode(QListView::ListMode);
-//    setFlow(QListView::TopToBottom);
-//    setSpacing(0);
-//    setDragEnabled(false);
     connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
         Q_UNUSED(min);
         Q_UNUSED(max);
@@ -191,26 +107,34 @@ void AlbumViewList::paintEvent(QPaintEvent *e)
 }
 
 AlbumView::AlbumView()
+    : m_iAlubmPicsNum(0), m_currentAlbum(COMMON_STR_RECENT_IMPORTED)
+    , m_currentType(COMMON_STR_RECENT_IMPORTED), m_selPicNum(0), m_itemClicked(false)
+    , m_pRightStackWidget(nullptr), m_pLeftListView(nullptr), m_pStatusBar(nullptr)
+    , m_pRightWidget(nullptr), m_pRightPhoneThumbnailList(nullptr), m_pwidget(nullptr)
+    , m_pRightThumbnailList(nullptr), m_pRightTrashThumbnailList(nullptr), m_pRightFavoriteThumbnailList(nullptr)
+    , pImportTimeLineWidget(nullptr), m_pTrashWidget(nullptr), m_pFavoriteWidget(nullptr)
+    , m_pImportView(nullptr), m_pRecoveryBtn(nullptr), m_pDeleteBtn(nullptr)
+    , m_pRightTitle(nullptr), m_pRightPicTotal(nullptr), m_pImportPicTotal(nullptr)
+    , m_pFavoriteTitle(nullptr), m_pFavoritePicTotal(nullptr), m_pPhoneTitle(nullptr)
+    , m_pPhonePicTotal(nullptr), m_pSearchView(nullptr), m_vfsManager(nullptr)
+    , m_diskManager(nullptr), pLabel1(nullptr), pLabel2(nullptr)
+    , m_pImpTimeLineWidget(nullptr), m_importByPhoneWidget(nullptr), m_importByPhoneComboBox(nullptr)
+    , m_importAllByPhoneBtn(nullptr), m_importSelectByPhoneBtn(nullptr), m_mountPicNum(0)
+    , m_mountloader(nullptr), m_LoadThread(nullptr), m_spinner(nullptr)
+    , m_pImportTitle(nullptr), m_noTrashItem(nullptr), m_pNoTrashTitle(nullptr)
+    , m_pNoTrashWidget(nullptr), m_FavoriteItem(nullptr), m_FavoriteTitle(nullptr)
+    , m_TrashitemItem(nullptr), m_TrashTitle(nullptr), fatherwidget(nullptr)
+    , pPhoneWidget(nullptr), phonetopwidget(nullptr), m_waitDeviceScandialog(nullptr)
+    , isWaitDialog(true), isIgnore(true), m_waitDailog_timer(nullptr)
+    , m_updateMountViewThread(nullptr), isMountThreadRunning(false), m_currentViewPictureCount(0)
 {
-    m_pNoTrashTitle = nullptr; //add 3975
-    m_FavoriteTitle = nullptr; //add 3975
-    m_TrashTitle = nullptr; //add 3975
-
-    m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
-    m_currentType = COMMON_STR_RECENT_IMPORTED;
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
     m_diskManager = new DDiskManager(this);
     m_diskManager->setWatchChanges(true);
-    m_curListWidgetItem = nullptr;
-    m_mountPicNum = 0;
     durlAndNameMap.clear();
 
     iniWaitDiolag();
-
-//    m_waitDeviceScanMessage = new DMessageBox(DMessageBox::Warning, "", "");
-//    m_waitDeviceScanMessage->addButton(m_closeDeviceScan, DMessageBox::AcceptRole);
-//    m_waitDeviceScanMessage->addButton(m_ignoreDeviceScan, DMessageBox::RejectRole);
 
     connect(dApp->signalM, &SignalManager::sigLoadMountImagesEnd, this, &AlbumView::onLoadMountImagesEnd);
 
@@ -226,8 +150,6 @@ AlbumView::AlbumView()
 
     DWidget *lefttopwidget = new DWidget;
     lefttopwidget->setFixedHeight(45);
-//    DWidget *leftbottomwidget = new DWidget;
-//    leftbottomwidget->setFixedHeight(22);
 
     QVBoxLayout *pvLayout = new QVBoxLayout();
     pvLayout->setContentsMargins(0, 0, 0, 0);
@@ -252,14 +174,17 @@ AlbumView::AlbumView()
 
 AlbumView::~AlbumView()
 {
+    emit dApp->signalM->sigDevStop("");
     m_pRightThumbnailList->stopLoadAndClear();
     m_pRightPhoneThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightFavoriteThumbnailList->stopLoadAndClear();
+
     ImageEngineImportObject::clearAndStopThread();
     ImageMountGetPathsObject::clearAndStopThread();
     ImageMountImportPathsObject::clearAndStopThread();
-
+//    m_pAllPicture->stopLoadAndClear();
+    //ImageEngineObject::clearAndStopThread();
     m_pImpTimeLineWidget->getFatherStatusBar(nullptr);
     if (m_vfsManager) {
         delete  m_vfsManager;
@@ -327,7 +252,6 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
 void AlbumView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-    m_itemClicked = false;
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
         if (!m_pRightFavoriteThumbnailList->checkResizeNum())
             return ;
@@ -356,7 +280,6 @@ void AlbumView::initConnections()
             m_pRightThumbnailList->setFixedHeight(mh + 27);
             m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
         }
-
     });
     connect(m_pLeftListView, &LeftListView::itemClicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
@@ -639,6 +562,66 @@ runend:
         //updateRightView();
     });
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
+
+    connect (this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
+
+    //void sigPhonePath(QString PhoneName, QString pathName);
+
+//    QTimer::singleShot(2000, this, [ = ] {
+//        if (RIGHT_VIEW_PHONE == m_pRightStackWidget->currentIndex())
+//        {
+//            QString strPath;
+//            if (m_pLeftListView->m_pMountListView->currentItem()) {
+//                strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+//            }
+//            if (0 != m_currentViewPictureCount && m_currentViewPictureCount == m_pRightPhoneThumbnailList->model()->rowCount()) {
+//                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[strPath], false, false);
+//            }
+//        }
+
+//    });
+//    if (nullptr == m_pAllPicture ) {
+//        m_pAllPicture = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
+//    }
+    //lmh手机加载图片边加载，边传输信息
+    connect(dApp->signalM, &SignalManager::sigPhonePath, this, [ = ](QString PhoneName, QString pathName) {
+        if (!m_phoneNameAndPathlist[PhoneName].contains(pathName)) {
+            m_phoneNameAndPathlist[PhoneName] << pathName;
+            emit dApp->signalM->sigDevStop(PhoneName);
+            ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[PhoneName], PhoneName);
+        }
+        QString strPath;
+        if (m_pLeftListView->m_pMountListView->currentItem()) {
+            strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+        }
+        //m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+        if (strPath == PhoneName) {
+            //判断状态栏
+            if (!m_pStatusBar->isVisible()) {
+                m_pStatusBar->setVisible(true);
+
+            }
+            if (RIGHT_VIEW_PHONE != m_pRightStackWidget->currentIndex()) {
+                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+            }
+            QString str1 = tr("%1 photo(s)");
+            m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
+            QString str = tr("%1 photo(s)");
+            m_pPhonePicTotal->setText(str.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
+            if (m_currentViewPictureCount == m_pRightPhoneThumbnailList->model()->rowCount()) {
+                m_currentViewPictureCount = m_phoneNameAndPathlist[PhoneName].count();
+                if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore && isWaitDialog) {
+                    if (isVisible()) {
+                        emit dApp->signalM->waitDevicescan();
+                    }
+                    m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
+                } else if (!isIgnore) {
+                    m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
+                }
+            }
+            // updateRightMountView();
+        }
+    }, Qt::QueuedConnection);
 }
 
 void AlbumView::initLeftView()
@@ -811,12 +794,13 @@ void AlbumView::initRightView()
     m_pNoTrashTitle->setGraphicsEffect(opacityEffect_light);
     m_pNoTrashTitle->setAutoFillBackground(true);
     m_pNoTrashTitle->move(0, 50);
-    m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
+    m_pNoTrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
 //add end 3975
 
 // Trash View
 //    DWidget *pTrashWidget = new DWidget(); //del 3975
     m_pTrashWidget = new DWidget(); //add 3975
+    m_pTrashWidget->setFixedWidth(RIGHT_VIEW_WIDTH);
 //add start 3975
     DPalette palcolor3 = DApplicationHelper::instance()->palette(m_pTrashWidget);
     palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
@@ -825,14 +809,13 @@ void AlbumView::initRightView()
 
     //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
     QVBoxLayout *pTopVBoxlayout = new QVBoxLayout();
-    pTopVBoxlayout->setContentsMargins(17, 5, 0, 17);
+    pTopVBoxlayout->setContentsMargins(17, 5, 0, 11);
 
     pLabel1 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
-    pLabel1->setFixedHeight(32);
+    pLabel1->setFixedHeight(36);
     pLabel1->setForegroundRole(DPalette::TextTitle);
     pLabel1->setText(tr("Trash"));
-    //pTopHBoxLayout->addWidget(pLabel1);
     pTopVBoxlayout->addWidget(pLabel1);
 
     QHBoxLayout *pTopButtonLayout  = new QHBoxLayout();
@@ -859,34 +842,24 @@ void AlbumView::initRightView()
     m_pDeleteBtn->setPalette(ReBtn);
     pTopButtonLayout->addWidget(m_pDeleteBtn);
 
-    //pTopHBoxLayout->addLayout(pTopButtonLayout);
-    //pTopHBoxLayout->addSpacing(10);
-
-    //QVBoxLayout *pTopVBoxLayout = new QVBoxLayout();
-    //pTopVBoxLayout->addLayout(pTopHBoxLayout);
-
     pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
     pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
-
-    //pTopVBoxLayout->addWidget(pLabel2);
     pTopVBoxlayout->addSpacing(9);
     pTopVBoxlayout->addWidget(pLabel2);
 
-    //重新布局
+    //重新对button布局
     QVBoxLayout *pVboxlayout = new QVBoxLayout();
     pVboxlayout->setContentsMargins(0, 0, 0, 0);
     pVboxlayout->addStretch(1);
     pVboxlayout->addLayout(pTopButtonLayout);
     pVboxlayout->addStretch(1);
 
-
     QHBoxLayout    *pTopHboxlayout = new QHBoxLayout();
     pTopHboxlayout->setContentsMargins(0, 0, 0, 0);
     pTopHboxlayout->addLayout(pTopVBoxlayout);
     pTopHboxlayout->addLayout(pVboxlayout);
-
 
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
@@ -916,7 +889,6 @@ void AlbumView::initRightView()
 
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
-//    m_pRightTrashThumbnailList->setListWidgetItem(m_TrashitemItem);
 
     lsitWidget3->insertItem(1, m_TrashitemItem);
     lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
@@ -926,8 +898,8 @@ void AlbumView::initRightView()
 
     m_pRightTrashThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
+    m_pRightTrashThumbnailList->setFixedSize(m_pTrashWidget->size());
     m_TrashTitle = new DWidget(m_pTrashWidget);
-    //m_TrashTitle->setLayout(pTopVBoxLayout);
     m_TrashTitle->setLayout(pTopHboxlayout);
 
     DPalette ppal_light3 = DApplicationHelper::instance()->palette(m_TrashTitle);
@@ -938,7 +910,7 @@ void AlbumView::initRightView()
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
     m_TrashTitle->move(0, 50);
-    m_TrashTitle->setFixedSize(this->width() - 180, 87);
+    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
 //add end 3975
 
 // Favorite View
@@ -974,18 +946,7 @@ void AlbumView::initRightView()
     pFavoriteVBoxLayout->addSpacing(-1);
 
     pFavoriteVBoxLayout->setContentsMargins(12, 0, 0, 0); //edit 3975
-//del start 3975
-//    QVBoxLayout *p_all1 = new QVBoxLayout();
 
-//    p_all1->setMargin(2);
-//    p_all1->addLayout(pFavoriteVBoxLayout);
-//    p_all1->addSpacing(2);
-//    p_all1->addWidget(m_pRightFavoriteThumbnailList);
-
-//    pFavoriteWidget->setLayout(p_all1);
-//del end 3975
-//add start 3975
-//    DListWidget *lsitWidget2 = new DListWidget();
     AlbumViewList *lsitWidget2 = new AlbumViewList();
     lsitWidget2->setContentsMargins(0, 0, 0, 0);
     lsitWidget2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -1074,16 +1035,19 @@ void AlbumView::initRightView()
     DLabel *importLabel = new DLabel();
     importLabel->setText(tr("Import to:"));
     DFontSizeManager::instance()->bind(importLabel, DFontSizeManager::T6, QFont::Medium);
-    importLabel->setForegroundRole(DPalette::TextTips);
+    importLabel->setForegroundRole(DPalette::TextTitle);
     importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     m_importByPhoneComboBox = new DComboBox;
-    m_importByPhoneComboBox->setMinimumSize(QSize(190, 36));
+//    m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
+    m_importByPhoneComboBox->setFixedSize(QSize(213, 36));
     m_importByPhoneComboBox->setEnabled(false);
+
 
     m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
     DFontSizeManager::instance()->bind(m_importAllByPhoneBtn, DFontSizeManager::T6);
-    m_importAllByPhoneBtn ->setMinimumSize(110, 36);
+//    m_importAllByPhoneBtn ->setMinimumSize(100, 36);
+    m_importAllByPhoneBtn->setFixedSize(100, 36);
     DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
     importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_importAllByPhoneBtn->setPalette(importAllByPhoneBtnPa);
@@ -1094,7 +1058,8 @@ void AlbumView::initRightView()
 //    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
     DFontSizeManager::instance()->bind(m_importSelectByPhoneBtn, DFontSizeManager::T6);
 
-    m_importSelectByPhoneBtn->setMinimumSize(110, 36);
+//    m_importSelectByPhoneBtn->setMinimumSize(100, 36);
+    m_importSelectByPhoneBtn->setFixedSize(QSize(100, 36));
 //    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
 //    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
 //    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
@@ -1119,8 +1084,10 @@ void AlbumView::initRightView()
 //    p_all2->addWidget(m_pRightPhoneThumbnailList);
 
     m_pRightPhoneThumbnailList->setParent(pPhoneWidget);
-    phonetopwidget = new DBlurEffectWidget(pPhoneWidget);
-    phonetopwidget->setFixedHeight(80);
+//    phonetopwidget = new DBlurEffectWidget(pPhoneWidget);
+    phonetopwidget = new DWidget(pPhoneWidget);
+    phonetopwidget->setAutoFillBackground(true);
+    phonetopwidget->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 87);
     phonetopwidget->setLayout(p_all2);
     phonetopwidget->move(0, 50);
     phonetopwidget->raise();
@@ -1147,9 +1114,9 @@ void AlbumView::initRightView()
 //add end 3975
 // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
-    m_pRightStackWidget->addWidget(m_pNoTrashWidget);  //edit 3975
-    m_pRightStackWidget->addWidget(m_pTrashWidget);    //edit 3975
-    m_pRightStackWidget->addWidget(m_pFavoriteWidget);  //edit 3975
+    m_pRightStackWidget->addWidget(m_pNoTrashWidget);  //已导入
+    m_pRightStackWidget->addWidget(m_pTrashWidget);    //最近删除
+    m_pRightStackWidget->addWidget(m_pFavoriteWidget);  //我的收藏
     m_pRightStackWidget->addWidget(m_pSearchView);
     m_pRightStackWidget->addWidget(pPhoneWidget);
     m_pRightStackWidget->addWidget(pImportTimeLineWidget);
@@ -1170,7 +1137,7 @@ void AlbumView::initRightView()
         m_pStatusBar->show();
     } else {
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-       // m_pStatusBar->show();
+        // m_pStatusBar->show();
         m_pStatusBar->setVisible(false);
 
     }
@@ -1210,6 +1177,9 @@ void AlbumView::updateRightView()
         QThread::msleep(100);
         if (isWaitDialog) {
             updateRightMountView();
+//            for (auto pathlist : m_phoneNameAndPathlist)
+//                m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false, false);
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
         }
         setAcceptDrops(false);
         emit sigSearchEditIsDisplay(false);
@@ -1238,6 +1208,7 @@ void AlbumView::updateRightImportView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
     }
+    m_pRightThumbnailList->resizeHand();    //重新计算已导入大小
 
     emit sigSearchEditIsDisplay(true);
 
@@ -1283,6 +1254,9 @@ void AlbumView::updateRightMyFavoriteView()
 
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
     m_pStatusBar->setVisible(true);
+
+    m_pRightFavoriteThumbnailList->resizeHand();
+
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(false);
 }
@@ -1290,34 +1264,29 @@ void AlbumView::updateRightMyFavoriteView()
 // 更新外接设备右侧视图
 void AlbumView::updateRightMountView()
 {
-    m_updateMountViewThread = QThread::create([ = ] {
-        isMountThreadRunning = true;
-        if (!m_pLeftListView)
-        {
-            isMountThreadRunning = false;
-            return;
-        }
-        //    qDebug() << m_phoneNameAndPathlist;
-        QString strPath;
-        if (m_pLeftListView->m_pMountListView->currentItem())
-        {
-            strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
-        }
-        qDebug() << "data(Qt::UserRole).toString()" << strPath;
-        qDebug() << m_phoneNameAndPathlist.contains(strPath);
-        qDebug() << m_phoneNameAndPathlist.value(strPath).length();
-        //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-        if (!strPath.contains("/media/"))
-        {
-            bool bFind = findPicturePathByPhone(strPath);
-            if (!bFind) {
-                isMountThreadRunning = true;
-                return;
-            }
-        }
+    if (!isVisible()) {
+        return;
+    }
+    m_currentViewPictureCount = 0;
+    isMountThreadRunning = true;
+    if (!m_pLeftListView) {
+        isMountThreadRunning = false;
+        return;
+    }
+    //    qDebug() << m_phoneNameAndPathlist;
+    QString strPath;
+    if (m_pLeftListView->m_pMountListView->currentItem()) {
+        strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+    }
+    qDebug() << "data(Qt::UserRole).toString()" << strPath;
+    qDebug() << m_phoneNameAndPathlist.contains(strPath);
+    qDebug() << m_phoneNameAndPathlist.value(strPath).length();
+
+    QStringList filelist = m_phoneNameAndPathlist.value(strPath);
+    m_currentViewPictureCount = filelist.count();
+    if (m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length()) {
         QStringList filelist = m_phoneNameAndPathlist.value(strPath);
-        if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length())
-        {
+        if (!filelist.isEmpty()) {
             m_importByPhoneComboBox->setEnabled(true);
             m_importAllByPhoneBtn->setEnabled(true);
             updateImportComboBox();
@@ -1333,6 +1302,8 @@ void AlbumView::updateRightMountView()
             m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
             QString str = tr("%1 photo(s)");
             m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+            //LMH0424，下方显示和标题显示数字相同
+            m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_iAlubmPicsNum)));
             m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
             if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore && isWaitDialog) {
                 if (isVisible()) {
@@ -1350,8 +1321,7 @@ void AlbumView::updateRightMountView()
             }
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
             m_pStatusBar->setVisible(true);
-        } else
-        {
+        } else {
             qDebug() << "phone zero";
             m_importByPhoneComboBox->setEnabled(false);
             m_importAllByPhoneBtn->setEnabled(false);
@@ -1362,6 +1332,8 @@ void AlbumView::updateRightMountView()
             m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
             QString str = tr("%1 photo(s)");
             m_pPhonePicTotal->setText(str.arg(QString::number(0)));
+            //LMH0424，下方显示和标题显示数字相同
+            m_pStatusBar->m_pAllPicNumLabel->setText(QString::number(0));
             m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
             m_pRightPhoneThumbnailList->stopLoadAndClear();
             if (m_curThumbnaiItemList_info.size() > 0) {
@@ -1374,9 +1346,98 @@ void AlbumView::updateRightMountView()
         }
         emit sigSearchEditIsDisplay(false);
         setAcceptDrops(false);
-        isMountThreadRunning = true;
-    });
-    m_updateMountViewThread->start();
+        isMountThreadRunning = false;
+    }
+
+//    m_updateMountViewThread = QThread::create([ = ] {
+//        qDebug() << "更新右侧视图 朗姆打：" << QThread::currentThreadId();
+//        isMountThreadRunning = true;
+//        if (!m_pLeftListView)
+//        {
+//            isMountThreadRunning = false;
+//            return;
+//        }
+//        //    qDebug() << m_phoneNameAndPathlist;
+//        QString strPath;
+//        if (m_pLeftListView->m_pMountListView->currentItem())
+//        {
+//            strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+//        }
+//        qDebug() << "data(Qt::UserRole).toString()" << strPath;
+//        qDebug() << m_phoneNameAndPathlist.contains(strPath);
+//        qDebug() << m_phoneNameAndPathlist.value(strPath).length();
+//        //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+//        if (!strPath.contains("/media/"))
+//        {
+//            bool bFind = findPicturePathByPhone(strPath);
+//            if (!bFind) {
+//                isMountThreadRunning = true;
+//                return;
+//            }
+//        }
+//        QStringList filelist = m_phoneNameAndPathlist.value(strPath);
+//        m_currentViewPictureCount = filelist.count();
+//        if (true == m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length())
+//        {
+//            m_importByPhoneComboBox->setEnabled(true);
+//            m_importAllByPhoneBtn->setEnabled(true);
+//            updateImportComboBox();
+//            m_pRightPhoneThumbnailList->stopLoadAndClear();
+//            m_curThumbnaiItemList_str << filelist;
+//            m_curPhoneItemList_str.clear();
+//            m_curPhoneItemList_str << filelist;     //保存外部设备图片的路径
+//            m_iAlubmPicsNum = m_curThumbnaiItemList_str.size();
+//            m_mountPicNum = m_curThumbnaiItemList_str.size();
+//            qDebug() << "m_mountPicNum = " << m_mountPicNum;
+//            m_pPhoneTitle->setText(m_currentAlbum);
+//            QFontMetrics elideFont(m_pPhoneTitle->font());
+//            m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
+//            QString str = tr("%1 photo(s)");
+//            m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+//            m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+//            if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore && isWaitDialog) {
+//                if (isVisible()) {
+//                    emit dApp->signalM->waitDevicescan();
+//                }
+//                m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
+//            } else if (!isIgnore) {
+//                m_pRightPhoneThumbnailList->loadFilesFromLocal(filelist, false, false);
+//            }
+//            QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+//            if (0 < paths.length()) {
+//                m_importSelectByPhoneBtn->setEnabled(true);
+//            } else {
+//                m_importSelectByPhoneBtn->setEnabled(false);
+//            }
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+//            m_pStatusBar->setVisible(true);
+//        } else
+//        {
+//            qDebug() << "phone zero";
+//            m_importByPhoneComboBox->setEnabled(false);
+//            m_importAllByPhoneBtn->setEnabled(false);
+//            m_importSelectByPhoneBtn->setEnabled(false);
+//            m_mountPicNum = 0;
+//            m_pPhoneTitle->setText(m_currentAlbum);
+//            QFontMetrics elideFont(m_pPhoneTitle->font());
+//            m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
+//            QString str = tr("%1 photo(s)");
+//            m_pPhonePicTotal->setText(str.arg(QString::number(0)));
+//            m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+//            m_pRightPhoneThumbnailList->stopLoadAndClear();
+//            if (m_curThumbnaiItemList_info.size() > 0) {
+//                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_info, false, false);
+//            } else {
+//                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_curThumbnaiItemList_str, false, false);
+//            }
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+//            m_pStatusBar->setVisible(true);
+//        }
+//        emit sigSearchEditIsDisplay(false);
+//        setAcceptDrops(false);
+//        isMountThreadRunning = true;
+//    });
+//    m_updateMountViewThread->start();
 }
 
 // 更新新建相册列表
@@ -1432,7 +1493,7 @@ void AlbumView::updateRightNoTrashView()
         m_pRightThumbnailList->loadFilesFromLocal(infos);
         m_pImportView->setAlbumname(m_currentAlbum);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-      //  m_pStatusBar->show();
+        //  m_pStatusBar->show();
         m_pStatusBar->setVisible(false);
     }
 
@@ -1512,6 +1573,7 @@ void AlbumView::updateRightTrashView()
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
 
+    m_pRightTrashThumbnailList->resizeHand();
     //    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
 }
 
@@ -1550,9 +1612,27 @@ void AlbumView::leftTabClicked()
 bool AlbumView::imageGeted(QStringList &filelist, QString path)
 {
     m_phoneNameAndPathlist[path] = filelist;
+    m_pictrueallPathlist.clear();
+    for (auto list : m_phoneNameAndPathlist) {
+        m_pictrueallPathlist << list;
+    }
+
+    //LMH0425
+    ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[path], path);
+    m_currentLoadingPictrue = m_pictrueallPathlist.count();
+
+//    if (nullptr != m_pAllPicture) {
+//        emit dApp->signalM->sigDevStop(path);
+//        ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[path], path);
+//        m_currentLoadingPictrue = m_pictrueallPathlist.count();
+//    }
+
     if (m_itemClicked == true) {
         m_curThumbnaiItemList_str.clear();
         updateRightMountView();
+//        for (auto pathlist : m_phoneNameAndPathlist)
+//            m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false, false);
+//        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
     }
     return true;
 }
@@ -2005,8 +2085,9 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     QString scheme = QUrl(uri).scheme();
     if ((scheme == "file" && mount->canEject()) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
-            //(scheme == "afc") ||                    //iPhone document
+            //(scheme == "afc") ||                  //iPhone document
             (scheme == "mtp")) {                    //android file
+
         qDebug() << "mount.name" << mount->name() << " scheme type:" << scheme;
 
         for (auto mountLoop : m_mounts) {
@@ -2024,16 +2105,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
             return;
         }
 
-//        MountLoader *pMountloader = new MountLoader(this);
-//        QThread *pLoadThread = new QThread();
-
-
-//        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
-//        pMountloader->moveToThread(pLoadThread);
-//        pLoadThread->start();
-
-//        connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
-
         QString rename = "";
         rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
         if ("" == rename) {
@@ -2044,6 +2115,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         //判断路径是否存在
         QDir dir(strPath);
         if (!dir.exists()) {
+            qDebug() << strPath;
             qDebug() << "onLoadMountImagesStart() !dir.exists()";
             dApp->signalM->sigLoadMountImagesEnd(rename);
             return;
@@ -2059,16 +2131,9 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
             }
         }
 
-
-        //设备改变时移除内存中存在的数据
-        qDebug() << "外界设备改变了！上次大小：" << m_curPhoneItemList_str.size();
-        for (const auto &path : m_curPhoneItemList_str) {
-            ImageEngineApi::instance()->removeImage(path);
-        }
-        m_curPhoneItemList_str.clear();
         isWaitDialog = true;
         isIgnore = true;
-        updateExternalDevice(mount);
+        updateExternalDevice(mount, strPath);
         ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
         //emit dApp->signalM->waitDevicescan();
     }
@@ -2078,9 +2143,21 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
     QString uri = mount->getRootFile()->uri();
+    QString strPath = mount->getDefaultLocationFile()->path();
     for (auto mountLoop : m_mounts) {
         QString uriLoop = mountLoop->getRootFile()->uri();
         if (uri == uriLoop) {
+            auto it = m_phoneNameAndPathlist.begin();
+            while (it != m_phoneNameAndPathlist.end()) {
+                if (it.key().contains(strPath)) {
+                    emit dApp->signalM->sigDevStop(it.key());
+                    ImageEngineApi::instance()->removeImage(it.value());//从内存中删除
+                    m_phoneNameAndPathlist.erase(it);
+                    break;
+                }
+                it++;
+            }
+
             m_mounts.removeOne(mountLoop);
         }
     }
@@ -2089,6 +2166,8 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
         AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
 
+        if (!pAlbumLeftTabItem || !pListWidgetItem)
+            break;
 //        if (mount->name() == pAlbumLeftTabItem->m_albumNameStr) {
         QString rename = "";
         QString dpath = mount->getRootFile()->uri();
@@ -2098,7 +2177,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
             rename = mount->name();
         }
 
-        if (rename == pAlbumLeftTabItem->m_albumNameStr &&  mount->getDefaultLocationFile()->path().contains(pAlbumLeftTabItem->m_mountPath)) {
+        if (rename == pAlbumLeftTabItem->m_albumNameStr &&  pAlbumLeftTabItem->m_mountPath.contains(strPath)) {
 
             if (1 < m_pLeftListView->m_pMountListView->count()) {
                 delete pListWidgetItem;
@@ -2111,6 +2190,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         }
     }
 //    }
+
     QThread::sleep(1);
     emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
 }
@@ -2374,48 +2454,16 @@ bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo
 void AlbumView::initExternalDevice()
 {
     for (auto mount : m_mounts) {
+#if 1
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListView);
         //pListWidgetItem缓存文件挂载路径
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
-        qDebug() << "strPath :" << strPath << endl;
-        pListWidgetItem->setData(Qt::UserRole, strPath);
-        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-        AlbumLeftTabItem *pAlbumLeftTabItem;
         QString rename = "";
         rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
         if ("" == rename) {
             rename = mount->name();
         }
-        if (strPath.contains("/media/")) {
-            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
-        } else {
-            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_PHONE);
-        }
-
-        pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
-        connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
-        if (!m_pLeftListView) {
-            return;
-        }
-        m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-        if (m_itemClicked == true) {
-            m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
-        }
-
-
-//        MountLoader *pMountloader = new MountLoader(this);
-//        QThread *pLoadThread = new QThread();
-
-//        connect(pMountloader, SIGNAL(needUnMount(QString)), this, SLOT(needUnMount(QString)));
-//        pMountloader->moveToThread(pLoadThread);
-//        pLoadThread->start();
-
-//        connect(pMountloader, SIGNAL(sigLoadMountImagesStart(QString, QString)), pMountloader, SLOT(onLoadMountImagesStart(QString, QString)));
-////        emit pMountloader->sigLoadMountImagesStart(mount->name(), strPath);
-//        emit pMountloader->sigLoadMountImagesStart(rename, strPath);
-
-
         //判断路径是否存在
         QDir dir(strPath);
         if (!dir.exists()) {
@@ -2433,26 +2481,37 @@ void AlbumView::initExternalDevice()
                 return;
             }
         }
-//        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
-//        m_pRightPhoneThumbnailList->stopLoadAndClear();
-//        QStringList pathlist;
-//        pathlist << strPath;
-//        m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false);
-        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
+        qDebug() << "strPath :" << strPath << endl;
+        pListWidgetItem->setData(Qt::UserRole, strPath);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+        AlbumLeftTabItem *pAlbumLeftTabItem;
 
-//        m_mountLoaderList.insert(mount->name(), pMountloader);
-//        m_loadThreadList.insert(mount->name(), pLoadThread);
-//        m_mountLoaderList.insert(strPath, pMountloader);
-//        m_loadThreadList.insert(strPath, pLoadThread);
+        if (strPath.contains("/media/")) {
+            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
+        } else {
+            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_PHONE);
+        }
+
+        pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
+        connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
+        if (!m_pLeftListView) {
+            return;
+        }
+        m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+        if (m_itemClicked == true) {
+            m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+        }
+        ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
+#endif
     }
 }
 
-void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount)
+void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath)
 {
     QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListView);
     //pListWidgetItem缓存文件挂载路径
-    QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-    QString strPath = LocationFile->path();
+//    QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+//    QString strPath = LocationFile->path();
     pListWidgetItem->setData(Qt::UserRole, strPath);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
 
@@ -2474,8 +2533,16 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     if (!m_pLeftListView) {
         return;
     }
+
+    m_itemClicked = true;
     m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+
+    //右侧视图同时切换
+    m_pRightPhoneThumbnailList->stopLoadAndClear(true);     //清除已有数据
+    m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+    m_pStatusBar->setVisible(true);
+
     m_mounts.append(mount);
 }
 
@@ -2519,18 +2586,17 @@ bool AlbumView::findPicturePathByPhone(QString &path)
 {
     QDir dir(path);
     if (!dir.exists()) return false;
-
     QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     QFileInfo tempFileInfo;
     foreach (tempFileInfo, fileInfoList) {
-        //针对p2p模式
+        //针对ptp模式
         if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
             path = tempFileInfo.absoluteFilePath();
             return true;
         } else {        //针对MTP模式
+            //  return true;
             QDir subDir;
             subDir.setPath(tempFileInfo.absoluteFilePath());
-
             QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
             QFileInfo subTempFileInfo;
             foreach (subTempFileInfo, subFileInfoList) {
@@ -2539,15 +2605,15 @@ bool AlbumView::findPicturePathByPhone(QString &path)
                     return true;
                 }
             }
-            return false;
+//            return false;
         }
     }
-
     return false;
 }
 
 void AlbumView::updateImportComboBox()
 {
+    QMutexLocker locker(&m_mutex);
     m_importByPhoneComboBox->clear();
     m_importByPhoneComboBox->addItem(tr("Gallery"));
     m_importByPhoneComboBox->addItem(tr("New album"));
@@ -2560,6 +2626,7 @@ void AlbumView::updateImportComboBox()
 
         m_importByPhoneComboBox->addItem(albumName);
     }
+    m_importByPhoneComboBox->setCurrentText(tr("Gallery"));     //默认选中
 }
 
 //手机照片全部导入
@@ -2828,14 +2895,35 @@ void AlbumView::needUnMount(QString path)
             mountPoint = "";
         }
     }
+
     if ("" == mountPoint) {
         for (auto mount : m_mounts) {
-            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-            if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
-                //mount->unmount(true);
+//            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+            //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+            QString strPath = mount->getDefaultLocationFile()->path();
+            if (!strPath.contains("/media/")) {
+                findPicturePathByPhone(strPath);
+            }
+            if (strPath.compare(path) == 0 && mount->canUnmount()) {
+                auto it = m_phoneNameAndPathlist.begin();
+                while (it != m_phoneNameAndPathlist.end()) {
+                    if (it.key().contains(strPath)) {
+                        emit dApp->signalM->sigDevStop(it.key());
+                        ImageEngineApi::instance()->removeImage(it.value());//从内存中删除
+                        m_phoneNameAndPathlist.erase(it);
+                        break;
+                    }
+                    it++;
+                }
+
                 m_mounts.removeOne(mount);
                 break;
             }
+//            if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+//                //mount->unmount(true);
+//                m_mounts.removeOne(mount);
+//                break;
+//            }
         }
         //设备已卸载，未能在list上移除
         QWidget *wdg  = m_pLeftListView->m_pMountListView->itemWidget(m_pLeftListView->m_pMountListView->currentItem());
@@ -2845,13 +2933,14 @@ void AlbumView::needUnMount(QString path)
         delete pitem;
         pitem = nullptr;
         //转到已导入界面
-        m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-        m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
-        m_currentType = COMMON_STR_RECENT_IMPORTED;
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-        m_pStatusBar->setVisible(true);
+        if (m_pLeftListView->m_pMountListView->count() == 0) {
+            m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
+            m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
+            m_currentType = COMMON_STR_RECENT_IMPORTED;
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+            m_pStatusBar->setVisible(true);
+        }
         return ;
-        emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
     }
     for (auto mount : m_mounts) {
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
@@ -2904,9 +2993,9 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 //        }
 //    }
     m_pRightPhoneThumbnailList->stopLoadAndClear();
+
     QThread::sleep(1);
     needUnMount(unMountPath);
-    qDebug() << "111";
 }
 
 
@@ -3004,145 +3093,19 @@ void AlbumView::restorePicNum()
             }
         }
     }
-    if(selPicNum<=0){
+    if (selPicNum <= 0) {
         m_pStatusBar->setVisible(false);
-    }
-    else {
+    } else {
         m_pStatusBar->setVisible(true);
     }
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
 }
 
 MountLoader::MountLoader(AlbumView *parent)
+    : m_parent(parent), bIsRunning(false), bneedunmountpath(false)
 {
-    m_parent = parent;
+
 }
-
-//void MountLoader::onLoadMountImagesStart(QString mountName, QString path)
-//{
-//    qDebug() << "onLoadMountImagesStart() mountName: " << mountName;
-//    qDebug() << "onLoadMountImagesStart() path: " << path;
-//    QString strPath = path;
-//    bIsRunning = true;
-//    //判断路径是否存在
-//    QDir dir(path);
-//    if (!dir.exists()) {
-//        qDebug() << "onLoadMountImagesStart() !dir.exists()";
-//        dApp->signalM->sigLoadMountImagesEnd(mountName);
-//        return;
-//    }
-
-//    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-//    if (!path.contains("/media/")) {
-//        bool bFind = findPicturePathByPhone(path);
-//        if (!bFind) {
-//            qDebug() << "onLoadMountImagesStart() !bFind";
-//            dApp->signalM->sigLoadMountImagesEnd(mountName);
-//            return;
-//        }
-//    }
-
-//    //获取所选文件类型过滤器
-//    QStringList filters;
-//    filters << QString("*.jpeg") << QString("*.jpg")
-//            << QString("*.bmp") << QString("*.png")
-//            << QString("*.gif")
-//            << QString("*.JPEG") << QString("*.JPG")
-//            << QString("*.BMP") << QString("*.PNG")
-//            << QString("*.GIF")
-//            ;
-
-//    //定义迭代器并设置过滤器
-//    QDirIterator dir_iterator(path,
-//                              filters,
-//                              QDir::Files | QDir::NoSymLinks,
-//                              QDirIterator::Subdirectories);
-
-//    m_phoneImgPathList.clear();
-//    qtpool.setMaxThreadCount(10);
-//    qDebug() << "onLoadMountImagesStart() while (dir_iterator.hasNext())";
-//    int i = 0;
-//    while (dir_iterator.hasNext()) {
-//        if (!bIsRunning) {
-//            qtpool.waitForDone();
-//            break;
-//        }
-//        i++;
-//        dir_iterator.next();
-//        QFileInfo fileInfo = dir_iterator.fileInfo();
-
-//        ThreadRenderImage *randerimage = new ThreadRenderImage;
-//        randerimage->setData(fileInfo, path, &m_phonePathImage, &m_phoneImgPathList);
-//        qtpool.start(randerimage);
-////        QThreadPool::globalInstance()->start(randerimage);
-////        QImage tImg;
-
-////        QString format = DetectImageFormat(fileInfo.filePath());
-////        if (format.isEmpty()) {
-////            QImageReader reader(fileInfo.filePath());
-////            reader.setAutoTransform(true);
-////            if (reader.canRead()) {
-////                tImg = reader.read();
-////            } else if (path.contains(".tga")) {
-////                bool ret = false;
-////                tImg = utils::image::loadTga(path, ret);
-////            }
-////        } else {
-////            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
-////            readerF.setAutoTransform(true);
-////            if (readerF.canRead()) {
-////                tImg = readerF.read();
-////            } else {
-////                qWarning() << "can't read image:" << readerF.errorString()
-////                           << format;
-
-////                tImg = QImage(fileInfo.filePath());
-////            }
-////        }
-
-////        QPixmap pixmap = QPixmap::fromImage(tImg);
-////        if (pixmap.isNull()) {
-////            qDebug() << "pixmap.isNull()";
-////            continue;
-////        }
-
-////        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-////        if (pixmap.isNull()) {
-////            pixmap = QPixmap::fromImage(tImg);
-////        }
-
-////        m_phonePathImage.insert(fileInfo.filePath(), pixmap);
-
-////        m_phoneImgPathList << fileInfo.filePath();
-
-////        if (0 == m_phoneImgPathList.length() % 50) {
-//        if (i >= 50) {
-//            qtpool.waitForDone();
-////            QThreadPool::globalInstance()->waitForDone();
-//            i = 0;
-//            m_parent->m_phonePathAndImage = m_phonePathImage;
-//            m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
-//            dApp->signalM->sigLoadMountImagesEnd(mountName);
-//        }
-////        }
-//    }
-
-//    qtpool.waitForDone();
-////    QThreadPool::globalInstance()->waitForDone();
-//    qDebug() << "onLoadMountImagesStart() m_phoneImgPathList.length()" << m_phoneImgPathList.length();
-//    if (0 < m_phoneImgPathList.length()) {
-//        m_parent->m_phonePathAndImage = m_phonePathImage;
-//        m_parent->m_phoneNameAndPathlist.insert(strPath, m_phoneImgPathList);
-//        qDebug() << "onLoadMountImagesStart() strPath:" << strPath;
-//    }
-
-//    dApp->signalM->sigLoadMountImagesEnd(mountName);
-//    if (bneedunmountpath) {
-//        emit needUnMount(m_unmountpath);
-//    }
-
-//    bIsRunning = false;
-//}
 
 void MountLoader::onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths)
 {
@@ -3190,6 +3153,7 @@ void AlbumView::paintEvent(QPaintEvent *event)
         m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
         phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
     }
+
 }
 
 void AlbumView::importDialog()
@@ -3203,8 +3167,7 @@ void AlbumView::importDialog()
 
 void AlbumView::onWaitDialogClose()
 {
-    //QThread::msleep(100);
-    m_pRightPhoneThumbnailList->stopLoadAndClear();
+    m_pRightPhoneThumbnailList->stopLoadAndClear(false);
     if (m_curPhoneItemList_str.size() > 0) {
         isWaitDialog = false;
     }
@@ -3255,22 +3218,24 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 //        m_pRightTrashThumbnailList->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));  //触发后还原状态
 //    }
     if (nullptr != m_noTrashItem) {
-        m_noTrashItem->setSizeHint(QSize(this->width() - 200, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
+        m_noTrashItem->setSizeHint(QSize(this->width() - LEFT_VIEW_WIDTH, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_FavoriteItem) {
-        m_FavoriteItem->setSizeHint(QSize(this->width() - 200, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
+        m_FavoriteItem->setSizeHint(QSize(this->width() - LEFT_VIEW_WIDTH, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_FavoriteItem) {
-        m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
+        m_TrashitemItem->setSizeHint(QSize(this->width() - LEFT_VIEW_WIDTH, m_pRightTrashThumbnailList->getListViewHeight() + 8 + 27));
     }
     if (nullptr != m_pNoTrashTitle) {
-        m_pNoTrashTitle->setFixedSize(this->width() - 200, 83);
+        m_pNoTrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
     }
     if (nullptr != m_FavoriteTitle) {
-        m_FavoriteTitle->setFixedSize(this->width() - 200, 83);
+        m_FavoriteTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
     }
     if (nullptr != m_TrashTitle) {
-        m_TrashTitle->setFixedSize(this->width() - 200, 83);
+        m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
+        m_pRightTrashThumbnailList->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
+        m_pTrashWidget->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
     }
     if (nullptr != pPhoneWidget) {
         m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());

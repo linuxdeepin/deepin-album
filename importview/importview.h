@@ -27,24 +27,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-//class ImportQThread : public QThread
-//{
-//    Q_OBJECT
-//public:
-//    ImportQThread(DBImgInfoList dbInfos, QString albumname)
-//        : QThread(NULL)
-//        , m_dbInfos(dbInfos)
-//        , m_albumname(albumname) {}
-
-//protected:
-//    void run() Q_DECL_OVERRIDE;
-
-//private:
-//    DBImgInfoList m_dbInfos;
-//    QString m_albumname;
-//};
-
-
 class ImportView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT

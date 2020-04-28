@@ -91,11 +91,15 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     m_dt->setSingleShot(true);
     m_dt->setInterval(20);
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
+
 //    m_dtresizeevent = new QTimer(this);
 //    m_dtresizeevent->setSingleShot(true);
 //    m_dtresizeevent->setInterval(100);
 //    connect(m_dtresizeevent, SIGNAL(timeout()), this, SLOT(onResizeEventTimerOut()));
 }
+
 
 ThumbnailListView::~ThumbnailListView()
 {
@@ -267,7 +271,7 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 void ThumbnailListView::initConnections()
 {
     connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, [ = ](int value) {
-        if (value >= (this->verticalScrollBar()->maximum())) {
+        if (value && value >= (this->verticalScrollBar()->maximum())) {
             if (m_requestCount > 0) {
                 bneedloadimage = true;
             } else {
@@ -641,6 +645,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             datas.append(QVariant(gridItem[i][j].baseWidth));
             datas.append(QVariant(gridItem[i][j].baseHeight));
             datas.append(QVariant(qsfirstorlast));
+            datas.append(QVariant(gridItem[i][j].bNotSupportedOrDamaged));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
@@ -718,6 +723,7 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem[i][j].baseWidth));
             datas.append(QVariant(m_gridItem[i][j].baseHeight));
             datas.append(QVariant(qsfirstorlast));
+            datas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
 
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
@@ -750,6 +756,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 info.width = data.imgpixmap.width();
                 info.height = data.imgpixmap.height();
                 info.image = data.imgpixmap;
+                info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
                 info.remainDays = data.remainDays;
                 info.baseWidth = data.imgpixmap.width();
                 info.baseHeight = data.imgpixmap.height();
@@ -797,6 +804,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
             newdatas.append(QVariant(m_gridItem[i][j].baseWidth));
             newdatas.append(QVariant(m_gridItem[i][j].baseHeight));
             newdatas.append(QVariant(qsfirstorlast));
+            newdatas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
 
             m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
             m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
@@ -818,29 +826,13 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
 void ThumbnailListView::loadFilesFromDB(QString name)
 {
     ImageEngineApi::instance()->loadImagesFromDB(m_delegatetype, this, name);
-//    switch (m_delegatetype) {
-//    case ThumbnailDelegate::AllPicViewType:
-//        ImageEngineApi::instance()->importImagesFromDB(DelegateType, this);
-//        break;
-//    case ThumbnailDelegate::SearchViewType:
-//        ImageEngineApi::instance()->importImagesFromDB(DBAllPaths, this);
-//        break;
-//    default:
-//        return;
-//    }
 }
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
-
-    for (auto path : filelist) {
-        if (!m_allfileslist.contains(path)) {
-            m_allfileslist << path;
-            m_filesbeleft  << path;
-            m_allNeedRequestFilesCount += 1;
-        }
-    }
-
+    m_allfileslist << filelist;
+    m_filesbeleft << filelist;
+    m_allNeedRequestFilesCount += filelist.size();
     calWidgetItemWandH();
     addThumbnailView();
     if (bneedloadimage) {
@@ -872,9 +864,7 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
 //    qDebug() << "threadID : " << QThread::currentThreadId();
     stopLoadAndClear();
     m_allfileslist << filelist;
-
     m_filesbeleft << filelist;
-
     m_allNeedRequestFilesCount += filelist.size();
     calWidgetItemWandH();
     addThumbnailView();
@@ -887,10 +877,10 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
 
 void ThumbnailListView::requestSomeImages()
 {
-//    QMutexLocker mutex(&m_mutex);
+    //QMutexLocker mutex(&m_mutex);
     bneedloadimage = false;
 
-    if (m_filesbeleft.size()   < Number_Of_Displays_Per_Time) {
+    if (m_filesbeleft.size() < Number_Of_Displays_Per_Time) {
         m_requestCount += m_filesbeleft.size();
     } else {
         m_requestCount += Number_Of_Displays_Per_Time;
@@ -931,7 +921,8 @@ bool ThumbnailListView::imageLoaded(QString filepath)
         info.path = data.dbi.filePath;
         info.width = data.imgpixmap.width();
         info.height = data.imgpixmap.height();
-        info.image = data.imgpixmap;
+        info.image = data.imgpixmap.isNull () ? getDamagedPixmap () : data.imgpixmap;
+        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
         info.remainDays = data.remainDays;
         info.baseWidth = data.imgpixmap.width();
         info.baseHeight = data.imgpixmap.height();
@@ -969,11 +960,12 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 //}
 }
 
-void ThumbnailListView::stopLoadAndClear()
+void ThumbnailListView::stopLoadAndClear(bool bClearModel)
 {
-
 //    qDebug() << "threadID : " << QThread::currentThreadId();
     clearAndStopThread();
+    if (bClearModel)
+        m_model->clear();   //清除模型中的数据
 
     m_allfileslist.clear();
     m_filesbeleft.clear();
@@ -1581,6 +1573,11 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
 
     return false;
 }
+
+QPixmap ThumbnailListView::getDamagedPixmap()
+{
+    return utils::image::getDamagePixmap (DApplicationHelper::instance ()->themeType () == DApplicationHelper::LightType);
+}
 #if 1
 QModelIndexList ThumbnailListView::getSelectedIndexes()
 {
@@ -1647,6 +1644,11 @@ void ThumbnailListView::clearSelectionExtent(int start, int end)
         selectionModel()->select(qindex, QItemSelectionModel::Deselect);
     }
 }
+
+void ThumbnailListView::resizeHand()
+{
+    emit needResize(m_height + 15);
+}
 #endif
 //add start 3975
 int ThumbnailListView::getListViewHeight()
@@ -1664,6 +1666,26 @@ void ThumbnailListView::onTimerOut()
         lastresizeheight = m_height;
     }
     bneedsendresize = false;
+}
+
+void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
+{
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        QModelIndex idx = m_model->index(i, 0);
+        QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
+        if (lst.count() >= 12) {
+            const bool &bNotSuppOrDmg = lst[11].toBool();
+            if (bNotSuppOrDmg) {
+                lst.replace(5, getDamagedPixmap());
+                m_model->item(i, 0)->setData(lst, Qt::DisplayRole);
+            }
+        }
+    }
+}
+
+void ThumbnailListView::slotReCalcTimelineSize()
+{
+    emit needResize (m_height + 15);
 }
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)
@@ -1729,4 +1751,9 @@ bool ThumbnailListView::isLoading()
         return false;
     }
     return true;
+}
+
+bool ThumbnailListView::isAllPicSeleted()
+{
+    return getAllPaths ().count () == selectedPaths ().count ();
 }

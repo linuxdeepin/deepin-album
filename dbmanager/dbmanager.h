@@ -83,7 +83,7 @@ class DBManager : public QObject
     Q_OBJECT
 public:
     static DBManager  *instance();
-    explicit DBManager(QObject *parent = 0);
+    explicit DBManager(QObject *parent = nullptr);
     ~DBManager()
     {
 //        ConnectionPool::release(); //释放数据库连接

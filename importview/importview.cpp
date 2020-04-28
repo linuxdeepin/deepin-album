@@ -12,45 +12,8 @@
 #include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
 
-//void ImportQThread::run()
-//{
-//    for (auto info : m_dbInfos) {
-//        QImage tImg;
-
-//        QString format = DetectImageFormat(info.filePath);
-//        if (format.isEmpty()) {
-//            QImageReader reader(info.filePath);
-//            reader.setAutoTransform(true);
-//            if (reader.canRead()) {
-//                tImg = reader.read();
-//            } else if (info.filePath.contains(".tga")) {
-//                bool ret = false;
-//                tImg = utils::image::loadTga(info.filePath, ret);
-//            }
-//        } else {
-//            QImageReader readerF(info.filePath, format.toLatin1());
-//            readerF.setAutoTransform(true);
-//            if (readerF.canRead()) {
-//                tImg = readerF.read();
-//            } else {
-//                qWarning() << "can't read image:" << readerF.errorString()
-//                           << format;
-
-//                tImg = QImage(info.filePath);
-//            }
-//        }
-//        QPixmap pixmap = QPixmap::fromImage(tImg);
-
-//        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap::fromImage(tImg);
-//        }
-//        dApp->m_imagemap.insert(info.filePath, pixmap);
-//    }
-//}
-
 ImportView::ImportView()
+    : m_pImportBtn(nullptr), pLabel(nullptr)
 {
     setAcceptDrops(true);
 
@@ -67,20 +30,20 @@ void ImportView::initConnections()
         if (themeType == DGuiApplicationHelper::LightType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
-            if (nullptr != m_pImportBtn) {
-                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-                pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
-                m_pImportBtn->setPalette(pa);
-            }
+//            if (nullptr != m_pImportBtn) {
+//                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+//                pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
+//                m_pImportBtn->setPalette(pa);
+//            }
         }
         if (themeType == DGuiApplicationHelper::DarkType)
         {
             pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
-            if (nullptr != m_pImportBtn) {
-                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-                pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
-                m_pImportBtn->setPalette(pa);
-            }
+//            if (nullptr != m_pImportBtn) {
+//                DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+//                pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+//                m_pImportBtn->setPalette(pa);
+//            }
         }
         pLabel->setPixmap(pixmap);
     });
@@ -110,13 +73,13 @@ void ImportView::initUI()
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
-    if (themeType == DGuiApplicationHelper::LightType) {
-        pa.setColor(QPalette::Button, QColor(37, 183, 255));
-    } else {
-        pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
-    }
-    m_pImportBtn->setPalette(pa);
+//    DPalette pa = DApplicationHelper::instance()->palette(m_pImportBtn);
+//    if (themeType == DGuiApplicationHelper::LightType) {
+//        pa.setColor(QPalette::Highlight, QColor(37, 183, 255));
+//    } else {
+//        pa.setColor(QPalette::Highlight, QColor(0, 152, 255));
+//    }
+//    m_pImportBtn->setPalette(pa);
     DLabel *pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T9, QFont::ExtraLight);
     pLabel2->setForegroundRole(DPalette::TextTips);

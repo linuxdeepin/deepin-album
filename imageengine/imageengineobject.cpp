@@ -8,8 +8,11 @@ ImageEngineThreadObject::ImageEngineThreadObject()
 
 void ImageEngineThreadObject::needStop(void *imageobject)
 {
-    if (nullptr == imageobject || ifCanStopThread(imageobject))
+    if (nullptr == imageobject || ifCanStopThread(imageobject)) {
         bneedstop = true;
+        bbackstop = true;
+    }
+
 }
 
 bool ImageEngineThreadObject::ifCanStopThread(void *imgobject)
@@ -110,6 +113,7 @@ ImageEngineObject::~ImageEngineObject()
 {
     ImageEngineApi::instance()->removeObject(this);
     clearAndStopThread();
+
 }
 
 void ImageEngineObject::addThread(ImageEngineThreadObject *thread)
@@ -190,6 +194,8 @@ bool ImageCacheSaveObject::add(const QStringList paths)
 QString ImageCacheSaveObject::pop()
 {
     QMutexLocker locker(&m_queuqMutex);
+    if (requestQueue.empty())
+        return QString();
     QString res = requestQueue.first();
     requestQueue.pop_front();
     return res;
@@ -197,5 +203,6 @@ QString ImageCacheSaveObject::pop()
 
 bool ImageCacheSaveObject::isEmpty()
 {
+    QMutexLocker locker(&m_queuqMutex);
     return requestQueue.isEmpty();
 }

@@ -71,6 +71,7 @@ CommandLine *CommandLine::instance()
 }
 
 CommandLine::CommandLine()
+    : m_pwidget(nullptr)
 {
     m_cmdParser.addHelpOption();
 //    m_cmdParser.addVersionOption();
@@ -185,34 +186,6 @@ QUrl UrlInfo1(QString path)
     return url;
 }
 
-//QUrl UrlInfo1(QString path)
-//{
-//    QUrl url;
-//    // Just check if the path is an existing file.
-//    if (QFile::exists(path)) {
-//        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-//        return url;
-//    }
-
-//    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
-
-//    if (match.isValid()) {
-//        // cut away line/column specification from the path.
-//        path.chop(match.capturedLength());
-//    }
-
-//    // make relative paths absolute using the current working directory
-//    // prefer local file, if in doubt!
-//    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
-
-//    // in some cases, this will fail, e.g.
-//    // assume a local file and just convert it to an url.
-//    if (!url.isValid()) {
-//        // create absolute file path, we will e.g. pass this over dbus to other processes
-//        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-//    }
-//    return url;
-//}
 
 bool CommandLine::processOption(QStringList &paslist)
 {
@@ -243,7 +216,6 @@ bool CommandLine::processOption(QStringList &paslist)
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
         QString str = info.suffix().toLower();
 //        if (str.isEmpty()) {

@@ -340,20 +340,21 @@ void ImportImagesThread::proDucePic(QString path)
         qDebug() << "pixmap.isNull(),   生成缩略图失败！";
         return;
     }
-
-    if (pixmap.height() < 100) {
-        cache_exist = true;
-        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-    } else if (pixmap.width() < 100) {
-        cache_exist = true;
-        pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-    }
-
-    if (!cache_exist) {
-        if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
-            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-        } else {
+    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+        if (pixmap.height() < 100) {
+            cache_exist = true;
             pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        } else if (pixmap.width() < 100) {
+            cache_exist = true;
+            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+        }
+
+        if (!cache_exist) {
+            if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+            } else {
+                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+            }
         }
     }
     if (pixmap.isNull()) {
@@ -673,22 +674,6 @@ void ImageGetFilesFromMountThread::run()
         return;
     }
     QString strPath = m_path;
-//    //判断路径是否存在
-//    QDir dir(m_path);
-//    if (!dir.exists()) {
-//        dApp->signalM->sigLoadMountImagesEnd(m_mountname);
-//        return;
-//    }
-
-//    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-//    if (!m_path.contains("/media/")) {
-//        bool bFind = findPicturePathByPhone(m_path);
-//        if (!bFind) {
-//            qDebug() << "onLoadMountImagesStart() !bFind";
-//            dApp->signalM->sigLoadMountImagesEnd(m_mountname);
-//            return;
-//        }
-//    }
 
     //获取所选文件类型过滤器
     QStringList filters;
@@ -707,13 +692,17 @@ void ImageGetFilesFromMountThread::run()
                               QDirIterator::Subdirectories);
 
     QStringList allfiles;
+
     while (dir_iterator.hasNext()) {
         if (bneedstop) {
+
             return;
         }
         dir_iterator.next();
         QFileInfo fileInfo = dir_iterator.fileInfo();
         allfiles << fileInfo.filePath();
+//        emit dApp->signalM->sigPhonePath(m_path, fileInfo.filePath());
+        // qDebug() << fileInfo.filePath() << allfiles.size();
     }
     if (bneedstop) {
         return;
@@ -747,7 +736,6 @@ bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
 void ImageLoadFromDBThread::run()
 {
     if (bneedstop) {
-//        m_imgobject->removeThread(this);
         return;
     }
     QStringList image_list;
@@ -764,21 +752,22 @@ void ImageLoadFromDBThread::run()
 
             image_list << info.filePath;
             if (bneedstop) {
-//                m_imgobject->removeThread(this);
                 return;
             }
             emit sigInsert(info.filePath);
         }
+        if(m_nametype.isEmpty())
+            ImageEngineApi::instance()->SaveImagesCache(image_list);
     }
     if (bneedstop) {
-//        m_imgobject->removeThread(this);
         return;
     }
-    ImageEngineApi::instance()->SaveImagesCache(image_list);
+
+    //先处理图片再存数据库
+    emit sigImageLoaded(m_imgobject, image_list);
     //删除数据库失效的图片
     DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
 
-    emit sigImageLoaded(m_imgobject, image_list);
     m_imgobject->removeThread(this);
 }
 
@@ -956,8 +945,10 @@ void ImageLoadFromLocalThread::run()
 //        m_imgobject->removeThread(this);
         return;
     }
-    m_imgobject->removeThread(this);
-    emit sigImageLoaded(m_imgobject, image_list);
+    if (nullptr != m_imgobject) {
+        m_imgobject->removeThread(this);
+        emit sigImageLoaded(m_imgobject, image_list);
+    }
 }
 
 ImageEngineThread::ImageEngineThread()
@@ -1110,21 +1101,23 @@ void ImageEngineThread::run()
 //        qDebug() << "pixmap.isNull()";
 //        return;
 //    }
+    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
 
-    if (pixmap.height() < 100) {
-        cache_exist = true;
-        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-    } else if (pixmap.width() < 100) {
-        cache_exist = true;
-        pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-    }
-
-    if (!cache_exist) {
-
-        if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-        } else {
+        if (pixmap.height() < 100) {
+            cache_exist = true;
             pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        } else if (pixmap.width() < 100) {
+            cache_exist = true;
+            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+        }
+
+        if (!cache_exist) {
+
+            if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+            } else {
+                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+            }
         }
     }
     if (pixmap.isNull()) {
@@ -1300,8 +1293,10 @@ ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 
 void ImageCacheQueuePopThread::saveCache(QString m_path)
 {
-    if (needStop)
+    if (needStop || m_path.isEmpty()) {
+        qDebug() << "m_path empty";
         return;
+    }
     using namespace utils::image;
     using namespace utils::base;
     QImage tImg;
@@ -1313,6 +1308,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     if (file.exists()) {
         cache_exist = true;
         path = CACHE_PATH + m_path;
+        qDebug() << "Cache exists";
     }
     if (needStop)
         return;
@@ -1358,18 +1354,20 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     if (needStop)
         return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
-    if (pixmap.height() < 100) {
-        cache_exist = true;
-        pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-    } else if (pixmap.width() < 100) {
-        cache_exist = true;
-        pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-    }
-    if (!cache_exist) {
-        if (static_cast<float>(pixmap.height()) / static_cast<float>(pixmap.width()) > 3) {
-            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-        } else {
+    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+        if (pixmap.height() < 100) {
+            cache_exist = true;
             pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+        } else if (pixmap.width() < 100) {
+            cache_exist = true;
+            pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+        }
+        if (!cache_exist) {
+            if (static_cast<float>(pixmap.height()) / static_cast<float>(pixmap.width()) > 3) {
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+            } else {
+                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+            }
         }
     }
     QString spath = CACHE_PATH + m_path;
@@ -1384,8 +1382,161 @@ void ImageCacheQueuePopThread::run()
     //QTime time_star;
     //time_star.start();
     while (!m_obj->isEmpty() && !needStop) {
-        saveCache(m_obj->pop());
+        QString res = m_obj->pop();
+        if (!res.isEmpty()) {
+            saveCache(res);
+        }
     }
-    //qDebug() << "thread running time:" << time_star.elapsed();
+    qDebug() << "Cachethread end,there threads:" << ImageEngineApi::instance()->CacheThreadNum() - 1;
     //deleteLater();
+}
+
+ImageEngineBackThread::ImageEngineBackThread(): m_bpause(false)
+{
+    setAutoDelete(true);
+    connect(dApp->signalM, &SignalManager::sigDevStop, this, [ = ](QString devName) {
+        if (devName == m_devName || devName.isEmpty()) {
+            bbackstop = true;
+        }
+    });
+
+    connect(dApp->signalM, &SignalManager::sigPauseOrStart, this, &ImageEngineBackThread::onStartOrPause);
+}
+
+void ImageEngineBackThread::setData(QStringList pathlist, QString devName)
+{
+    m_pathlist = pathlist;
+    m_devName = devName;
+}
+
+void ImageEngineBackThread::run()
+{
+    using namespace utils::image;
+    using namespace utils::base;
+    int count = 1;
+    for (auto temppath : m_pathlist) {
+        QImage tImg;
+        bool cache_exist = false;
+        QString path = temppath;
+        QFileInfo file(CACHE_PATH + temppath);
+        if (file.exists()) {
+            cache_exist = true;
+            path = CACHE_PATH + temppath;
+        }
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            } else if (path.contains(".tga")) {
+                bool ret = false;
+                tImg = utils::image::loadTga(path, ret);
+            }
+        } else  {
+            if (bbackstop)
+                return;
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                if (cache_exist) {
+                    QImageReader readerF1(temppath, format.toLatin1());
+                    readerF1.setAutoTransform(true);
+                    if (readerF1.canRead()) {
+                        tImg = readerF1.read();
+                        cache_exist = false;
+                    } else {
+                        qWarning() << "can't read image:" << readerF.errorString()
+                                   << format;
+                        tImg = QImage(temppath);
+                    }
+
+                } else {
+                    qWarning() << "can't read image:" << readerF.errorString()
+                               << format;
+                    tImg = QImage(path);
+                }
+            }
+        }
+
+        if (tImg.isNull()) {
+            QImageReader readerG(temppath, QFileInfo(temppath).suffix().toLatin1());
+            if (readerG.canRead())
+                tImg = readerG.read();
+        }
+
+        if (bbackstop)
+            return;
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+            if (pixmap.height() < 100) {
+                cache_exist = true;
+                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+            } else if (pixmap.width() < 100) {
+                cache_exist = true;
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+            }
+
+            if (!cache_exist) {
+
+                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
+                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                } else {
+                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                }
+            }
+        }
+        if (pixmap.isNull()) {
+            qDebug() << "null pixmap" << tImg;
+            pixmap = QPixmap::fromImage(tImg);
+        }
+
+        m_data.imgpixmap = pixmap;
+
+        QFileInfo fi(temppath);
+        if (bbackstop)
+            return;
+        auto mds = getAllMetaData(temppath);
+        QString value = mds.value("DateTimeOriginal");
+
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = temppath;
+        dbi.dirHash = utils::base::hash(QString());
+        if ("" != value) {
+            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+        } else if (fi.birthTime().isValid()) {
+            dbi.time = fi.birthTime();
+        } else if (fi.metadataChangeTime().isValid()) {
+            dbi.time = fi.metadataChangeTime();
+        } else {
+            dbi.time = QDateTime::currentDateTime();
+        }
+        dbi.changeTime = QDateTime::currentDateTime();
+        m_data.dbi = dbi;
+        m_data.loaded = ImageLoadStatu_Loaded;
+
+        if (bbackstop) {
+            return;
+        }
+//        qDebug() << "第几幅图：" << count++;
+        if (m_bpause) {
+            m_WatiCondition.wait(&m_mutex);     //挂起
+        }
+        emit sigImageBackLoaded(temppath, m_data);
+    }
+}
+
+void ImageEngineBackThread::onStartOrPause(bool pause)
+{
+    if (pause)
+        m_bpause = true;
+    else {
+        m_WatiCondition.wakeOne();      //恢复线程
+        m_bpause = false;
+    }
 }

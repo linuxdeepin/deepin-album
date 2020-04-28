@@ -19,10 +19,17 @@ const int SUBTITLE_HEIGHT = 37;
 const int VIEW_MAINWINDOW_ALBUM = 2;
 } //namespace
 
-ImportTimeLineView::ImportTimeLineView(DWidget *parent): DWidget(parent)
+ImportTimeLineView::ImportTimeLineView(DWidget *parent)
+    : DWidget(parent), m_mainLayout(nullptr), m_dateItem(nullptr)
+    , pSuspensionChose(nullptr), pTimeLineViewWidget(nullptr), pImportView(nullptr)
+    , allnum(0), m_pDate(nullptr), pNum_up(nullptr)
+    , pNum_dn(nullptr), m_pImportTitle(nullptr), m_DSlider(nullptr)
+    , m_oe(nullptr), m_oet(nullptr), m_ctrlPress(false)
+    , lastClickedIndex(-1), lastRow(-1), m_lastShiftRow(-1)
+    , m_lastShiftClickedIndex(-1), lastChanged(false), m_iBaseHeight(0)
+    , m_index(0), m_mainListWidget(nullptr), currentTimeLineLoad(0)
 {
     setAcceptDrops(true);
-    m_index = 0;
 
     m_oe = new QGraphicsOpacityEffect;
     m_oet = new QGraphicsOpacityEffect;
@@ -160,7 +167,14 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 //            pLabelList[1]->setForegroundRole(DPalette::Text);
 //            pLabelList[1]->setPalette(pal);
 //        }
-//    }
+    //    }
+}
+
+void ImportTimeLineView::resizeHand()
+{
+    for (ThumbnailListView *list : m_allThumbnailListView) {
+        list->resizeHand();
+    }
 }
 
 QStringList ImportTimeLineView::selectPaths()
@@ -411,7 +425,7 @@ void ImportTimeLineView::addTimelineLayout()
             listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1年%2月%3日 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
         } else {
             //listItem->m_sdate = QString(QObject::tr("Import on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-            listItem->m_sdate=QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
     }
     pDate->setText(listItem->m_sdate);
@@ -494,6 +508,7 @@ void ImportTimeLineView::addTimelineLayout()
     connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, [ = ]() {
         addTimelineLayout();
     });
+    connect (this, &ImportTimeLineView::sigResizeTimelineBlock, pThumbnailListView, &ThumbnailListView::slotReCalcTimelineSize);
 //        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
         if (!pThumbnailListView->checkResizeNum())

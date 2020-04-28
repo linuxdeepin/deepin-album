@@ -42,8 +42,8 @@ protected:
     void keyPressEvent(QKeyEvent *e) override;
 
 private:
-    int m_leftMax = 0;
-    int m_rightMax = 0;
+    int m_leftMax;
+    int m_rightMax;
     QFrame *m_infoFrame;
     QVBoxLayout *m_topLayout;
     QVBoxLayout *m_bottomLayout;

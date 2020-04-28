@@ -41,19 +41,19 @@ void WallpaperSetter::setWallpaper(const QString &path)
 
     if (!qEnvironmentVariableIsEmpty("FLATPAK_APPID")) {
         // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
-        qDebug() << "SettingWallpaper: " << "flatpak" << path;
+        //   qDebug() << "SettingWallpaper: " << "flatpak" << path;
         QDBusInterface interface("com.deepin.daemon.Appearance",
                                      "/com/deepin/daemon/Appearance",
                                      "com.deepin.daemon.Appearance");
         if (interface.isValid()) {
             QDBusMessage reply = interface.call("Set", "background", path);
-            qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+            //   qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
         } else {
-            qWarning() << "SettingWallpaper failed" << interface.lastError();
+            //    qWarning() << "SettingWallpaper failed" << interface.lastError();
         }
     } else {
         DE de = getDE();
-        qDebug() << "SettingWallpaper: " << de << path;
+        //   qDebug() << "SettingWallpaper: " << de << path;
         switch (de) {
         case Deepin:
             setDeepinWallpaper(tmpImg);

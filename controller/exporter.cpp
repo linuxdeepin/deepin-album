@@ -38,6 +38,7 @@ Exporter *Exporter::instance()
 
 Exporter::Exporter(QObject *parent)
     : QObject(parent)
+    , m_exportImageDialog(nullptr)
 {
     m_exportImageDialog = new CExportImageDialog();
 }
@@ -60,7 +61,6 @@ void Exporter::exportImage(const QStringList imagePaths)
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
 //        QString str = info.suffix().toLower();
 //        if (str.isEmpty()) {
@@ -107,7 +107,7 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                 emit dApp->signalM->sigExporting(albumPaths[j]);
 
                 if (!isSucceed) {
-                    qDebug() << "Export failed";
+                    // qDebug() << "Export failed";
                 }
             } else {
                 failcount++;
@@ -146,7 +146,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 bool isSucceed = QFile::copy(imagePaths[j], savePath);
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
-                    qDebug() << "Export failed";
+                    //   qDebug() << "Export failed";
                 }
 
             } else {
@@ -188,7 +188,6 @@ QString Exporter::getOrderFormat(QString defaultFormat)
         else
             allFormat = QString("%1%2;;").arg(allFormat).arg(i.value());
 
-        qDebug() << i.key() << ": " << i.value();
         ++i;
     }
 

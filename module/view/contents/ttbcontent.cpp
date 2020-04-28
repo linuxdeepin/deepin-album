@@ -117,7 +117,7 @@ char *getImageType(QString filepath)
 };
 
 MyImageListWidget::MyImageListWidget(QWidget *parent)
-    : DWidget(parent)
+    : QWidget(parent)
 {
     setMouseTracking(true);
 }
@@ -166,13 +166,17 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 }
 
 ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
-    DLabel(parent)
+    QLabel(parent)
 {
     _index = index;
     _path = data.dbi.filePath;
 //    qDebug() << index << _path;
-    _pixmap = data.imgpixmap;
+    m_bPicNotSuppOrDamaged = data.imgpixmap.isNull();
+    bool bLight = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType;
+    _pixmap = m_bPicNotSuppOrDamaged ? utils::image::getDamagePixmap(bLight) : data.imgpixmap;
     _image = new DLabel(this);
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageItem::updateDmgIconByTheme);
 }
 
 //ImageItem::ImageItem(int index, QString path, QString imageType, QWidget *parent):
@@ -198,7 +202,11 @@ void ImageItem::setIndexNow(int i)
 
 void ImageItem::setPic(QPixmap pixmap)
 {
-    _pixmap = pixmap;
+    bool bLight = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType;
+    m_bPicNotSuppOrDamaged = pixmap.isNull();
+    _pixmap = m_bPicNotSuppOrDamaged
+              ? utils::image::getDamagePixmap(bLight)
+              : pixmap;
     update();
 }
 
@@ -275,7 +283,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
             pixmapRect.setHeight(backgroundRect.height() - 8);
             bg.addRoundedRect(pixmapRect, 4, 4);
             painter.setClipPath(bg);
-            painter.drawPixmap(pixmapRect, m_pixmapstring);
+//            painter.drawPixmap(pixmapRect, m_pixmapstring);
         }
     } else {
         pixmapRect.setX(backgroundRect.x() + 1);
@@ -295,7 +303,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg);
-        painter.drawPixmap(pixmapRect, m_pixmapstring);
+//        painter.drawPixmap(pixmapRect, m_pixmapstring);
     }
 
     QPainterPath bp1;
@@ -316,6 +324,13 @@ void ImageItem::paintEvent(QPaintEvent *event)
 int ImageItem::indexNow() const
 {
     return _indexNow;
+}
+
+void ImageItem::updateDmgIconByTheme()
+{
+    if (!m_bPicNotSuppOrDamaged)
+        return;
+    setPic(QPixmap());
 }
 
 int ImageItem::index() const
@@ -402,6 +417,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     //hb->addSpacing(ICON_SPACING * 5);
     connect(m_backButton, &DIconButton::clicked, this, [ = ] {
         emit dApp->signalM->hideImageView();
+        emit dApp->signalM->sigPauseOrStart(false); //唤醒后台外设线程
         emit ttbcontentClicked();
     });
 

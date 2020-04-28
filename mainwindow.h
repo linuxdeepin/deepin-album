@@ -11,9 +11,8 @@
 #include "controller/dbusclient.h"
 #include "widgets/dialogs/imginfodialog.h"
 #include "module/slideshow/slideshowpanel.h"
-//#include "plugin.h"
-//#include "plugintest.h"
-#include <QPluginLoader>
+
+//#include <QPluginLoader>
 
 #include <DMainWindow>
 #include <QListWidget>
@@ -69,6 +68,7 @@ public:
     void initCentralWidget();
 //    void initStatusBar();
     void setWaitDialogColor();
+    void setTitleBarThem(DGuiApplicationHelper::ColorType theme);             //更新状态栏主题
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
@@ -114,8 +114,6 @@ private slots:
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
     void onLoadingFinished();
 private:
-//    Ui::MainWindow *ui;
-//    QListWidget *m_listWidget;
 
     int m_allPicNum;
     int m_iCurrentView;
@@ -125,9 +123,7 @@ private:
     QWidget *m_titleBtnWidget;
     QWidget *m_ImgWidget;
     DMenu *m_pTitleBarMenu;
-//    DPushButton* m_pAllPicBtn;
-//    DPushButton* m_pTimeLineBtn;
-//    DPushButton* m_pAlbumBtn;
+
     DSearchEdit *m_pSearchEdit;
     QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
@@ -137,28 +133,23 @@ private:
     TimeLineView *m_pTimeLineView;              //时间线界面视图
     SearchView *m_pSearchView;                  //搜索界面视图
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
-//    DStatusBar* m_pStatusBar;
-//    DLabel* m_pAllPicNumLabel;
-//    DSlider* m_pSlider;
+
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
     int m_backIndex;
     int m_backIndex_fromSlide;
-    int m_pSliderPos = 2;
+    int m_pSliderPos;       //滑动条步进
     DPushButton *m_pItemButton;
 
     QButtonGroup *btnGroup;
     DPushButton *m_pAllPicBtn;
     DPushButton *m_pTimeBtn;
     DPushButton *m_pAlbumBtn;
-//    DSuggestButton *m_pAllPicBtn;
-//    DSuggestButton *m_pTimeBtn;
-//    DSuggestButton *m_pAlbumBtn;
-//    int timer;
+
     DDialog  *m_waitdailog;
-    DProgressBar *m_importBar = nullptr;
-    DLabel *m_waitlabel = nullptr;
-    DLabel *m_countLabel = nullptr;
+    DProgressBar *m_importBar;
+    DLabel *m_waitlabel;
+    DLabel *m_countLabel;
 
     QString       m_SearchKey;      //搜索框查询信息
 

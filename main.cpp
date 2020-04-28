@@ -11,6 +11,7 @@
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
+
 QUrl UrlInfo(QString path)
 {
     QUrl url;
@@ -42,10 +43,10 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
+
     Application::loadDXcbPlugin();
     Application a(argc, argv);
-//    QMessageBox::information(nullptr, "Title", "Content",
-//                             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+
 
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     //  a.setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -110,9 +111,6 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
-        exit(0);
-    }
 
 
     if (!bneedexit) {
@@ -141,6 +139,13 @@ int main(int argc, char *argv[])
 //        }
 //    }
 
+    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
+        exit(0);
+    }
+    // LMH0420判断是否相同进程启动
+    if (a.isRunning()) {
+        return 0;
+    }
     ImageEngineApi::instance(&a);
     MainWindow w;
 //    DtkTest w;
@@ -150,5 +155,6 @@ int main(int argc, char *argv[])
 
     if (bneedexit)
         bfirstopen = false;
+
     return a.exec();
 }

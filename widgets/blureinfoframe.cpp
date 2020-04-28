@@ -28,23 +28,27 @@ const int MAX_FIELD_WIDTH = 140;
 const int TITLE_MAXWIDTH = 80;
 }
 
-class SimpleFormLabel : public QLabel {
+class SimpleFormLabel : public QLabel
+{
     Q_OBJECT
 public:
     explicit SimpleFormLabel(const QString &t, QWidget *parent = 0)
         : QLabel(t, parent) {}
 };
 
-class SimpleFormField : public QLabel {
+class SimpleFormField : public QLabel
+{
     Q_OBJECT
 public:
     explicit SimpleFormField(QWidget *parent = 0)
-        : QLabel(parent) {
+        : QLabel(parent)
+    {
         setWordWrap(true);
     }
 protected:
-    void resizeEvent(QResizeEvent* event) {
-        if (wordWrap()&&sizePolicy().verticalPolicy() == QSizePolicy::Minimum ) {
+    void resizeEvent(QResizeEvent *event)
+    {
+        if (wordWrap() && sizePolicy().verticalPolicy() == QSizePolicy::Minimum ) {
             // heightForWidth rely on minimumSize to evaulate, so reset it before
             setMinimumHeight(0);
             // define minimum height
@@ -55,7 +59,9 @@ protected:
 };
 
 BlureInfoFrame::BlureInfoFrame(QWidget *parent)
-    : BlurFrame(parent)
+    : BlurFrame(parent), m_leftMax(0), m_rightMax(0),
+      m_infoFrame(nullptr), m_topLayout(nullptr), m_bottomLayout(nullptr),
+      m_infoLayout(nullptr)
 {
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::Sheet | Qt::FramelessWindowHint);
@@ -102,7 +108,7 @@ void BlureInfoFrame::setTopContent(QWidget *w)
     }
     m_topLayout->addWidget(w);
 
-    ImageButton* cb = new ImageButton(this);
+    ImageButton *cb = new ImageButton(this);
     cb->setTooltipVisible(true);
     cb->setNormalPic(":/resources/common/images/closewindow_normal.png");
     cb->setHoverPic(":/resources/common/images/closewindow_hover.png");
@@ -113,19 +119,19 @@ void BlureInfoFrame::setTopContent(QWidget *w)
 
 //    connect(cb, &Dtk::Widget::DWindowCloseButton::clicked,
 //            this, &BlureInfoFrame::close);
-    this->setFixedWidth(w->width() + 6*2);
+    this->setFixedWidth(w->width() + 6 * 2);
 }
 
 void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)
 {
     SimpleFormField *vl = new SimpleFormField;
-    vl->setAlignment(Qt::AlignLeft|Qt::AlignTop);
+    vl->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     vl->setText(utils::base::wrapStr(value, vl->font(), MAX_FIELD_WIDTH));
 
     SimpleFormLabel *tl = new SimpleFormLabel(title);
     tl->setMinimumHeight(vl->minimumHeight());
     tl->setFixedWidth(qMin(tl->width(), TITLE_MAXWIDTH));
-    tl->setAlignment(Qt::AlignRight|Qt::AlignTop);
+    tl->setAlignment(Qt::AlignRight | Qt::AlignTop);
 
     m_infoLayout->addRow(tl, vl);
     m_infoFrame->setFixedWidth(qMin(vl->width() + tl->width(), width() - 16));

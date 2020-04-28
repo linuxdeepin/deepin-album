@@ -91,7 +91,7 @@ private:
     DDialog *m_questionDialog;
     DDialog *m_emptyWarningDialog;
     QPixmap m_saveImage;
-    QString gifpath = "";
+    QString gifpath;
 
 private:
     void initUI();

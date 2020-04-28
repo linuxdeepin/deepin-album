@@ -11,9 +11,9 @@ const int VIEW_MAINWINDOW_SEARCH = 3;
 }  //namespace
 
 
-SlideShowButton::SlideShowButton(DWidget *parent) :
-    DPushButton(parent),
-    israised(true)
+SlideShowButton::SlideShowButton(DWidget *parent)
+    : DPushButton(parent), m_filletradii(8), israised(true)
+    , ispressed(false)
 {
     m_filletradii = 8;
 }
@@ -116,10 +116,11 @@ void SlideShowButton::mouseEvent(QMouseEvent *e)
 }
 
 SearchView::SearchView()
+    : m_stackWidget(nullptr), m_pNoSearchResultView(nullptr), m_pNoSearchResultLabel(nullptr)
+    , m_pSearchResultView(nullptr), m_searchResultViewbody(nullptr), m_searchResultViewTop(nullptr)
+    , m_pSlideShowBtn(nullptr), m_pSearchResultLabel(nullptr), pNoResult(nullptr)
+    , pLabel1(nullptr), m_searchPicNum(0), m_pThumbnailListView(nullptr)
 {
-    m_albumName = nullptr;
-    m_searchPicNum = 0;
-    m_keywords = "";
     initNoSearchResultView();
     initSearchResultView();
     initMainStackWidget();
@@ -302,21 +303,22 @@ void SearchView::initSearchResultView()
     m_pSearchResultView = new DWidget();
 //    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
-
+    //pLabel1->setFixedSize(QSize(96, 36));
     pLabel1->setText(tr("Search results"));
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     font.setWeight(QFont::DemiBold);
+    //font.setPointSize(16);
     pLabel1->setFont(font);
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
     pLabel1->setForegroundRole(DPalette::Text);
     pLabel1->setPalette(pa);
-    pLabel1->setContentsMargins(13, 0, 0, 0);
+    pLabel1->setContentsMargins(0, 0, 0, 0);
 
     QHBoxLayout *pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setSpacing(5);
     //LMH0417 bug号20706
-    pHBoxLayout->setContentsMargins(8, 5, 0, 15);
+    pHBoxLayout->setContentsMargins(0, 0, 0, 15);
 
 //    m_pSlideShowBtn = new DPushButton();
     m_pSlideShowBtn = new SlideShowButton();
@@ -353,7 +355,7 @@ void SearchView::initSearchResultView()
     icon = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 18));
     m_pSlideShowBtn->setIcon(icon);
     m_pSlideShowBtn->setText(tr("Slide Show"));
-
+    m_pSlideShowBtn->setFixedSize(QSize(105, 30));
 //    DLabel* Label1 = new DLabel(m_pSlideShowBtn);
 //    Label1->move(6,7);
 //    DLabel* Label2 = new DLabel(m_pSlideShowBtn);
@@ -369,7 +371,8 @@ void SearchView::initSearchResultView()
 //    m_pSlideShowBtn->setFont(ft1);
 
     m_pSearchResultLabel = new DLabel();
-    pHBoxLayout->addSpacing(5);
+    m_pSearchResultLabel->setContentsMargins(0, 0, 0, 0);
+    //pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSlideShowBtn);
     pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSearchResultLabel);
@@ -378,7 +381,7 @@ void SearchView::initSearchResultView()
     m_searchResultViewTop = new DBlurEffectWidget(m_pSearchResultView);
     m_searchResultViewbody = new DWidget(m_pSearchResultView);
     QVBoxLayout *pSearchResultbodyLayout = new QVBoxLayout();
-    pSearchResultbodyLayout->setContentsMargins(0, 0, 0, 0);
+    pSearchResultbodyLayout->setContentsMargins(0, 11, 0, 0);
     //LMH0417 bug号20706
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType);
 
@@ -388,14 +391,19 @@ void SearchView::initSearchResultView()
     QVBoxLayout *pSearchResultLayout = new QVBoxLayout();
 //    pSearchResultLayout->addSpacing(5);
 //    pSearchResultLayout->setMargin(2);
-    pSearchResultLayout->setMargin(0);
+
+    pSearchResultLayout->setContentsMargins(13, 0, 0, 0);
+    // pSearchResultLayout->setMargin(0);
     pSearchResultLayout->setSpacing(0);
+    pSearchResultLayout->addSpacing(5);
     pSearchResultLayout->addWidget(pLabel1);
+    pSearchResultLayout->addSpacing(5);
     pSearchResultLayout->addItem(pHBoxLayout);
+
 //    pSearchResultLayout->addWidget(m_pThumbnailListView);
     pSearchResultLayout->addStretch();
 
-    m_searchResultViewTop->setFixedHeight(80);
+    m_searchResultViewTop->setFixedHeight(91);
     m_searchResultViewTop->move(0, 50);
     m_searchResultViewbody->setLayout(pSearchResultbodyLayout);
     m_searchResultViewTop->setLayout(pSearchResultLayout);

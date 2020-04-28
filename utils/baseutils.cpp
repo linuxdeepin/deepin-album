@@ -344,26 +344,61 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
 
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 {
+//    QFontMetrics fm(font);
+//    int nTextSize = fm.width(text);
+//    if (nTextSize > nLabelSize) {
+//        int nPos = 0;
+//        long nOffset = 0;
+//        for (int i = 0; i < text.size(); i++) {
+//            nOffset += fm.width(text.at(i));
+//            if (nOffset >= nLabelSize) {
+//                nPos = i;
+//                break;
+//            }
+//        }
+
+//        nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
+
+//        QString qstrLeftData = text.left(nPos);
+//        QString qstrMidData = text.mid(nPos);
+//        return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+//    }
+//    return text;
+    //      递归有风险
+//LMH0424，之前是递归，现在改了算法，判断换行
     QFontMetrics fm(font);
-    int nTextSize = fm.width(text);
-    if (nTextSize > nLabelSize) {
-        int nPos = 0;
-        long nOffset = 0;
-        for (int i = 0; i < text.size(); i++) {
-            nOffset += fm.width(text.at(i));
-            if (nOffset >= nLabelSize) {
-                nPos = i;
-                break;
+    double dobuleTextSize = fm.width(text);
+    double dobuleLabelSize = nLabelSize;
+    if (dobuleTextSize > dobuleLabelSize && dobuleLabelSize > 0 && dobuleTextSize < 10000) {
+        double splitCount = dobuleTextSize / dobuleLabelSize;
+        int nCount = int(splitCount + 1);
+        QString textSplite;
+        QString textTotal = text;
+        for (int index = 0; index < nCount; ++index) {
+            int nPos = 0;
+            long nOffset = 0;
+            for (int i = 0; i < text.size(); i++) {
+                nOffset += fm.width(text.at(i));
+                if (nOffset >= nLabelSize) {
+                    nPos = i;
+                    break;
+                }
             }
+            nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
+            QString qstrLeftData;
+            if (nCount - 1 == index) {
+                qstrLeftData = textTotal;
+                textSplite += qstrLeftData;
+            } else {
+                qstrLeftData = textTotal.left(nPos);
+                textSplite += qstrLeftData + "\n";
+            }
+            textTotal = textTotal.mid(nPos);
         }
-
-        nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
-
-        QString qstrLeftData = text.left(nPos);
-        QString qstrMidData = text.mid(nPos);
-        return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        return textSplite;
+    } else {
+        return text;
     }
-    return text;
 }
 
 

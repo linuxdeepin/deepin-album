@@ -33,6 +33,9 @@ const int VIEW_MAINWINDOW_ALLPIC = 0;
 }  //namespace
 
 AllPicView::AllPicView()
+    : m_pStackedWidget(nullptr), m_pStatusBar(nullptr), m_pwidget(nullptr)
+    , step(0), m_pThumbnailListView(nullptr), m_pImportView(nullptr)
+    , m_pSearchView(nullptr), m_spinner(nullptr), fatherwidget(nullptr)
 {
     setAcceptDrops(true);
 
@@ -41,7 +44,6 @@ AllPicView::AllPicView()
     m_pStackedWidget = new DStackedWidget(this);
     m_pImportView = new ImportView();
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType);
-//    m_pThumbnailListView->setStyleSheet("background:red");
     DWidget *pThumbnailListView = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(8, 0, 0, 0);
@@ -55,25 +57,17 @@ AllPicView::AllPicView()
     m_pStatusBar->raise();
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
-//    m_pStatusBar->setParent(this);
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
     pVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
-//    pVBoxLayout->addWidget(m_pStatusBar);
     fatherwidget->setLayout(pVBoxLayout);
-//    updateStackedWidget();
     initConnections();
 
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
 
-//    if (0 < DBManager::instance()->getImgsCount())
-//    {
-//        m_spinner->show();
-//        m_spinner->start();
-//    }
-    updatePicsIntoThumbnailView();
+    updatePicsIntoThumbnailViewWithCache();
 
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -147,7 +141,7 @@ void AllPicView::initConnections()
     });
 
 
-    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsIntoThumbnailView);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
@@ -190,31 +184,7 @@ void AllPicView::updatePicsIntoThumbnailView()
     m_spinner->hide();
     m_spinner->stop();
     m_pThumbnailListView->stopLoadAndClear();
-    m_pThumbnailListView->loadFilesFromDB();
-
-//    using namespace utils::image;
-//    QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
-
-//    auto infos = DBManager::instance()->getAllInfos();
-//    for (auto info : infos) {
-//        ThumbnailListView::ItemInfo vi;
-//        vi.name = info.fileName;
-//        vi.path = info.filePath;
-////        vi.image = dApp->m_imagemap.value(info.filePath);
-//        if (dApp->m_imagemap.value(info.filePath).isNull()) {
-//            QSize imageSize = getImageQSize(vi.path);
-
-//            vi.width = imageSize.width();
-//            vi.height = imageSize.height();
-//        } else {
-//            vi.width = dApp->m_imagemap.value(info.filePath).width();
-//            vi.height = dApp->m_imagemap.value(info.filePath).height();
-//        }
-
-//        thumbnaiItemList << vi;
-//    }
-
-//    m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
+    m_pThumbnailListView->loadFilesFromDB("NOCache");
 
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
@@ -223,6 +193,33 @@ void AllPicView::updatePicsIntoThumbnailView()
     }
 
     restorePicNum();
+}
+
+void AllPicView::updatePicsIntoThumbnailViewWithCache()
+{
+    m_spinner->hide();
+    m_spinner->stop();
+    m_pThumbnailListView->stopLoadAndClear();
+    m_pThumbnailListView->loadFilesFromDB();
+
+    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
+        //donothing
+    } else {
+        updateStackedWidget();
+    }
+
+    restorePicNum();
+}
+
+void AllPicView::updatePicsThumbnailView(QStringList strpath)
+{
+    if(strpath.empty())
+    {
+        updatePicsIntoThumbnailViewWithCache();
+    }
+    else {
+        updatePicsIntoThumbnailView();
+    }
 }
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)

@@ -81,6 +81,10 @@ QVariantList cachePixmap(const QString &path)
         }
     }
     QPixmap p = QPixmap::fromImage(tImg);
+    if (QFileInfo(path).exists() && p.isNull()) {
+        //判定为损坏图片
+        p = utils::image::getDamagePixmap (DApplicationHelper::instance ()->themeType () == DApplicationHelper::LightType);
+    }
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
     return vl;
@@ -148,7 +152,7 @@ ImageView::ImageView(QWidget *parent)
         update();
     });
     //0415 open Pictrue
-    connect(dApp->signalM,&SignalManager::sigOpenPicture,this,[=](QString path){
+    connect(dApp->signalM, &SignalManager::sigOpenPicture, this, [ = ](QString path) {
         setImageFirst(path);
         emit imageChanged(path);
     });
@@ -160,8 +164,8 @@ void ImageView::clear()
         delete m_pixmapItem;
         m_pixmapItem = nullptr;
     }
-    m_movieItem=nullptr;
-    m_imgSvgItem=nullptr;
+    m_movieItem = nullptr;
+    m_imgSvgItem = nullptr;
     scene()->clear();
 }
 
@@ -313,7 +317,7 @@ void ImageView::setImageFirst(const QString &path)
             QVariantList vl = cachePixmap(path);
             if (vl.length() == 2) {
                 //const QString path = vl.first().toString();
-                QPixmap pixmap(path);// = vl.last().value<QPixmap>();
+                QPixmap pixmap =  vl.last().value<QPixmap>();
                 pixmap.setDevicePixelRatio(devicePixelRatioF());
                 if (path == m_path) {
                     if (m_pixmapItem != nullptr) {
@@ -648,7 +652,7 @@ void ImageView::resizeEvent(QResizeEvent *event)
 void ImageView::paintEvent(QPaintEvent *event)
 {
     QGraphicsView::paintEvent(event);
-    update();
+//    update();
 }
 
 void ImageView::dragEnterEvent(QDragEnterEvent *e)

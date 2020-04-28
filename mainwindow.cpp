@@ -22,7 +22,6 @@
 #include <DMessageManager>
 #include <DFloatingMessage>
 #include <DWidgetUtil>
-
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
 namespace  {
@@ -43,6 +42,16 @@ const int VIEW_SLIDE = 5;
 using namespace utils::common;
 
 MainWindow::MainWindow()
+    : m_allPicNum(0), m_iCurrentView(0), m_bTitleMenuImportClicked(false)
+    , m_bImport(false), m_titleBtnWidget(nullptr), m_ImgWidget(nullptr)
+    , m_pTitleBarMenu(nullptr), m_pSearchEdit(nullptr), m_pCenterWidget(nullptr)
+    , m_commandLine(nullptr), m_pAlbumview(nullptr), m_pAllPicView(nullptr)
+    , m_pTimeLineView(nullptr), m_pSearchView(nullptr), m_slidePanel(nullptr)
+    , m_pDBManager(nullptr), m_backIndex(0), m_backIndex_fromSlide(0)
+    , m_pSliderPos(2), m_pItemButton(nullptr), btnGroup(nullptr)
+    , m_pAllPicBtn(nullptr), m_pTimeBtn(nullptr), m_pAlbumBtn(nullptr)
+    , m_waitdailog(nullptr), m_importBar(nullptr), m_waitlabel(nullptr)
+    , m_countLabel(nullptr), m_pDBus(nullptr)
 {
 //    ImageEngineApi::instance(this);
     m_allPicNum = DBManager::instance()->getImgsCount();        //获取图片总数
@@ -70,7 +79,6 @@ MainWindow::MainWindow()
 
 //    timer = startTimer(500);
     loadZoomRatio();
-
 }
 
 MainWindow::~MainWindow()
@@ -80,7 +88,7 @@ MainWindow::~MainWindow()
     //delete m_pTimeLineView;              //时间线界面视图
     //delete m_pSearchView;                  //搜索界面视图
     //exit(0);
-    //emit dApp->signalM->cacheThreadStop();
+    emit dApp->signalM->cacheThreadStop();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -106,23 +114,9 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 void MainWindow::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
         setWaitDialogColor();
-
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
-            DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
-            pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
-            titlebar()->setPalette(pa1);
-        }
-        if (themeType == DGuiApplicationHelper::DarkType)
-        {
-            DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
-            pa1.setBrush(DPalette::Window, QColor("#252525"));
-            //pa1.setBrush(DPalette::Window, pa1.color(DPalette::Window));
-            titlebar()->setPalette(pa1);
-        }
+        setTitleBarThem(themeType);
     });
     //主界面切换（所有照片、时间线、相册）
     connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [ = ](int id) {
@@ -918,6 +912,15 @@ void MainWindow::initTitleBar()
     pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
     titlebar()->setPalette(pa1);
 
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, [ = ](ViewerThemeManager::AppTheme themeType) {
+        DGuiApplicationHelper::ColorType curenttheme = DGuiApplicationHelper::UnknownType;
+        if (themeType == ViewerThemeManager::Dark)
+            curenttheme = DGuiApplicationHelper::DarkType;
+        else if (themeType == ViewerThemeManager::Light)
+            curenttheme = DGuiApplicationHelper::LightType;
+        setTitleBarThem(curenttheme);
+    });
+
     if (0 < DBManager::instance()->getImgsCount()) {
         // dothing
     } else {
@@ -993,6 +996,21 @@ void MainWindow::setWaitDialogColor()
     }
 }
 
+void MainWindow::setTitleBarThem(DGuiApplicationHelper::ColorType themeType)
+{
+    if (themeType == DGuiApplicationHelper::LightType) {
+        DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
+        pa1.setBrush(DPalette::Window, pa1.color(DPalette::ToolTipBase));
+        titlebar()->setPalette(pa1);
+    }
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        DPalette pa1 = DApplicationHelper::instance()->palette(titlebar());
+        pa1.setBrush(DPalette::Window, QColor("#252525"));
+        //pa1.setBrush(DPalette::Window, pa1.color(DPalette::Window));
+        titlebar()->setPalette(pa1);
+    }
+}
+
 void MainWindow::onUpdateCentralWidget()
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -1026,7 +1044,6 @@ void MainWindow::timeLineBtnClicked()
     m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pTimeLineView->updateStackedWidget();
     m_pTimeLineView->updatePicNum();
-
 }
 
 //显示相册
@@ -1037,12 +1054,22 @@ void MainWindow::albumBtnClicked()
     m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-//    m_pAlbumview->updateRightView();    //切换时手动更新界面相册显示界面
 
-    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+    //手动更新界面，重新计算大小
+    DWidget *pwidget = nullptr;
+    pwidget = m_pAlbumview->m_pRightStackWidget->currentWidget();
+    if (pwidget == m_pAlbumview->pImportTimeLineWidget) { //当前为导入界面
+        m_pAlbumview->m_pRightThumbnailList->resizeHand();
+    } else if (pwidget == m_pAlbumview->m_pTrashWidget) {
+        m_pAlbumview->m_pRightTrashThumbnailList->resizeHand();
+    } else if (pwidget == m_pAlbumview->m_pFavoriteWidget) {
+        m_pAlbumview->m_pRightFavoriteThumbnailList->resizeHand();
+    }
+
     m_pAlbumview->SearchReturnUpdate();
+    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->updatePicNum();
-
+    emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed ();
 }
 
 //标题菜单栏槽函数
@@ -1398,6 +1425,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //            return;
 //        }
         emit dApp->signalM->hideImageView();
+        emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
         event->ignore();
     } else {
         event->accept();

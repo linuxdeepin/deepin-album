@@ -65,6 +65,8 @@ QStringList checkImage(const QString  path);
 const QSize getImageQSize(const QString &path);
 bool  checkFileType(const QString &path);
 
+QPixmap getDamagePixmap(bool bLight = true);
+
 }  // namespace image
 
 }  // namespace utils

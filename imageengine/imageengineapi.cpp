@@ -78,6 +78,14 @@ bool ImageEngineApi::removeImage(QString imagepath)
     return false;
 }
 
+bool ImageEngineApi::removeImage(QStringList imagepathList)
+{
+    for (const auto &imagepath : imagepathList) {
+        m_AllImageData.remove(imagepath);
+    }
+    return true;
+}
+
 bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
 {
     QMap<QString, ImageDataSt>::iterator it;
@@ -88,7 +96,6 @@ bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
             return false;
         }
         data = it.value();
-//        return false;
     }
     if ("" != remainDay)
         data.remainDays = remainDay;
@@ -229,6 +236,11 @@ void ImageEngineApi::sltstopCacheSave()
     cacheThreadPool.waitForDone();
 }
 
+void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
+{
+    m_AllImageData[path] = data;
+}
+
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
 {
     ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
@@ -289,6 +301,30 @@ bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
     sltImageDBLoaded(obj, QStringList() << path );
     insertImage(path, "30");
 }
+
+bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName)
+{
+    bool iRet = false;
+    //判断是否已经在线程中加载LMH0426
+    QStringList tmpPathlist = pathlist;
+    if (m_AllImageData.count() > 0) {
+        for (auto imagepath : pathlist) {
+            if (m_AllImageData.contains(imagepath)) {
+                tmpPathlist.removeOne(imagepath);
+            }
+        }
+    }
+    if (tmpPathlist.count() > 0) {
+        ImageEngineBackThread *imagethread = new ImageEngineBackThread;
+        imagethread->setData(tmpPathlist, devName);
+        connect(imagethread, &ImageEngineBackThread::sigImageBackLoaded, this, &ImageEngineApi::sigImageBackLoaded, Qt::QueuedConnection);
+        m_qtpool.start(imagethread);
+        iRet = true;
+    } else {
+        iRet = false;
+    }
+    return iRet;
+}
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name)
 {
     ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread;
@@ -308,11 +344,11 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
     }
     m_imageCacheSaveobj->add(files);
     int coreCounts = static_cast<int>(std::thread::hardware_concurrency());
-    if (coreCounts * 200 > files.size()) {
+    if (coreCounts * 50 > files.size()) {
         if (files.empty()) {
             coreCounts = 0;
         } else {
-            coreCounts = (files.size() / 200) + 1 - cacheThreadPool.activeThreadCount();
+            coreCounts = (files.size() / 50) + 1 - cacheThreadPool.activeThreadCount();
         }
     }
     for (int i = 0; i < coreCounts; i++) {
@@ -323,6 +359,11 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         qDebug() << "current Threads:" << cacheThreadPool.activeThreadCount();
     }
     return true;
+}
+
+int ImageEngineApi::CacheThreadNum()
+{
+    return cacheThreadPool.activeThreadCount();
 }
 
 //从外部启动，启用线程加载图片
@@ -362,6 +403,8 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
 bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool bneedprogress)
 {
     emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //autor : jia.dong
+    if (typetrash)  //如果为回收站删除，则删除内存数据
+        removeImage(files);
     ImageMoveImagesToTrashThread *imagethread = new ImageMoveImagesToTrashThread;
     imagethread->setData(files, typetrash);
     m_qtpool.start(imagethread);

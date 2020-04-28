@@ -43,7 +43,7 @@ private:
     const QString getNewAlbumName() const;
 
 private:
-    QString m_createAlbumName = "";
+    QString m_createAlbumName;
     DLineEdit *edit;
     QAbstractButton *m_Cancel;
     QAbstractButton *m_OK;
