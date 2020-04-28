@@ -826,16 +826,6 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
 void ThumbnailListView::loadFilesFromDB(QString name)
 {
     ImageEngineApi::instance()->loadImagesFromDB(m_delegatetype, this, name);
-//    switch (m_delegatetype) {
-//    case ThumbnailDelegate::AllPicViewType:
-//        ImageEngineApi::instance()->importImagesFromDB(DelegateType, this);
-//        break;
-//    case ThumbnailDelegate::SearchViewType:
-//        ImageEngineApi::instance()->importImagesFromDB(DBAllPaths, this);
-//        break;
-//    default:
-//        return;
-//    }
 }
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)

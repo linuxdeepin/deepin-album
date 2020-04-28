@@ -736,7 +736,6 @@ bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
 void ImageLoadFromDBThread::run()
 {
     if (bneedstop) {
-//        m_imgobject->removeThread(this);
         return;
     }
     QStringList image_list;
@@ -753,22 +752,22 @@ void ImageLoadFromDBThread::run()
 
             image_list << info.filePath;
             if (bneedstop) {
-//                m_imgobject->removeThread(this);
                 return;
             }
             emit sigInsert(info.filePath);
         }
+        if(m_nametype.isEmpty())
+            ImageEngineApi::instance()->SaveImagesCache(image_list);
     }
     if (bneedstop) {
-//        m_imgobject->removeThread(this);
         return;
     }
-    ImageEngineApi::instance()->SaveImagesCache(image_list);
-    qDebug() << "数据库获取所有路径，type： " << m_type;
+
+    //先处理图片再存数据库
+    emit sigImageLoaded(m_imgobject, image_list);
     //删除数据库失效的图片
     DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
 
-    emit sigImageLoaded(m_imgobject, image_list);
     m_imgobject->removeThread(this);
 }
 

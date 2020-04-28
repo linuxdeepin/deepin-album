@@ -96,7 +96,6 @@ bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
             return false;
         }
         data = it.value();
-//        return false;
     }
     if ("" != remainDay)
         data.remainDays = remainDay;
