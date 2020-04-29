@@ -763,10 +763,11 @@ void ImageLoadFromDBThread::run()
         return;
     }
 
-    //先处理图片再存数据库
-    emit sigImageLoaded(m_imgobject, image_list);
     //删除数据库失效的图片
     DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+
+    //先处理图片再存数据库
+    emit sigImageLoaded(m_imgobject, image_list);
 
     m_imgobject->removeThread(this);
 }
@@ -1138,7 +1139,6 @@ void ImageEngineThread::run()
     QFileInfo fi(m_path);
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTimeOriginal");
-
 
     DBImgInfo dbi;
     dbi.fileName = fi.fileName();

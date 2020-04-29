@@ -311,13 +311,6 @@ const QString getOrientation(const QString &path)
  */
 const QImage getRotatedImage(const QString &path)
 {
-//    QImage tImg;
-//    QImageReader reader(path);
-//    reader.setAutoTransform(true);
-//    if (reader.canRead()) {
-//        tImg = reader.read();
-//    }
-
     QImage tImg;
 
     QString format = DetectImageFormat(path);

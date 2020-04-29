@@ -966,7 +966,6 @@ void ThumbnailListView::stopLoadAndClear(bool bClearModel)
     clearAndStopThread();
     if (bClearModel)
         m_model->clear();   //清除模型中的数据
-
     m_allfileslist.clear();
     m_filesbeleft.clear();
     m_allNeedRequestFilesCount = 0;

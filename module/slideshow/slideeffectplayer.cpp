@@ -49,7 +49,6 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
     qreal m_ratio = 1;
     m_screenrect = screen->availableGeometry() ;
     m_ratio = screen->devicePixelRatio();
-//    qDebug() << "-----------m_screenrect:" << m_screenrect << " devicePixelRatio:" << screen->devicePixelRatio();
     if ((((qreal)m_screenrect.width())*m_ratio) > 3000 || (((qreal)m_screenrect.height())*m_ratio) > 3000) {
         b_4k = true;
     }
@@ -333,14 +332,12 @@ bool SlideEffectPlayer::startPrevious()
 
 void SlideEffectPlayer::cacheNext()
 {
-    qDebug() << "SlideEffectPlayer::cacheNext()";
     int current = m_current;
     current ++;
     if (current == m_paths.length()) {
         if (bfirstrun) {
             current = m_paths.length() - 1;
             bneedupdatepausebutton = true;
-//            emit dApp->signalM->updatePauseButton();
         } else {
             current = 0;
         }
@@ -352,7 +349,6 @@ void SlideEffectPlayer::cacheNext()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages.insert(path, img)";
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
@@ -362,7 +358,6 @@ void SlideEffectPlayer::cacheNext()
 
 void SlideEffectPlayer::cachePrevious()
 {
-    qDebug() << "SlideEffectPlayer::cachePrevious()";
     int current = m_current;
     current--;
     if (-1 == current) {
