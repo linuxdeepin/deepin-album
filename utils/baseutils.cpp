@@ -113,57 +113,15 @@ void showInFileManager(const QString &path)
     if (path.isEmpty() || !QFile::exists(path)) {
         return;
     }
-
     QString m_Path = static_cast<QString>(path);
 
     QStringList spc {"#", "&", "@", "!", "?"};
     for (QString c : spc) {
         m_Path.replace(c,  QUrl::toPercentEncoding(c));
     }
-    qDebug() << "m_Path             " << m_Path << endl;
-
-//    m_Path.replace('%', "%25");
-
-//    qDebug() << "m_Path             " << m_Path << endl;
-
-//    QUrl url = QUrl::fromLocalFile(/*"\"" + */QFileInfo(m_Path).absoluteFilePath()/* + "\""*/);
     QUrl url = QUrl::fromUserInput(/*"\"" + */m_Path/* + "\""*/);
     url.setPath(m_Path, QUrl::TolerantMode);
-    qDebug() << "url                  " << url << endl;
     Dtk::Widget::DDesktopServices::showFileItem(url);
-
-
-//    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
-//    QUrlQuery query;
-//    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
-//    url.setQuery(query);
-//    qDebug() << "showInFileManager:" << url.toString();
-//    // Try dde-file-manager
-//    QProcess *fp = new QProcess();
-//    QObject::connect(fp, SIGNAL(finished(int)), fp, SLOT(deleteLater()));
-//    fp->start("dde-file-manager", QStringList(url.toString()));
-//    fp->waitForStarted(3000);
-//    if (fp->error() == QProcess::FailedToStart) {
-//        // Start dde-file-manager failed, try nautilus
-//        QDBusInterface iface("org.freedesktop.FileManager1",
-//                             "/org/freedesktop/FileManager1",
-//                             "org.freedesktop.FileManager1",
-//                             QDBusConnection::sessionBus());
-//        if (iface.isValid()) {
-//            // Convert filepath to URI first.
-//            const QStringList uris = { QUrl::fromLocalFile(path).toString() };
-//            qDebug() << "freedesktop.FileManager";
-//            // StartupId is empty here.
-//            QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
-//            Q_UNUSED(call);
-//        }
-//        // Try to launch other file manager if nautilus is invalid
-//        else {
-//            qDebug() << "desktopService::openUrl";
-//            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath()));
-//        }
-//        fp->deleteLater();
-//    }
 }
 
 void copyOneImageToClipboard(const QString &path)
@@ -293,7 +251,6 @@ bool trashFile(const QString &file)
             return false;
         }
     } else {
-        qDebug() << "Move to trash failed! Could not write *.trashinfo!";
         return false;
     }
     // Remove thumbnail
@@ -430,13 +387,11 @@ bool mountDeviceExist(const QString &path)
         const int sp = path.indexOf("/", 7) + 1;
         const int ep = path.indexOf("/", sp) + 1;
         mountPoint = path.mid(0, ep);
-
     } else if (path.startsWith("/run/media/")) {
         const int sp = path.indexOf("/", 11) + 1;
         const int ep = path.indexOf("/", sp) + 1;
         mountPoint = path.mid(0, ep);
     }
-
     return QFileInfo(mountPoint).exists();
 }
 bool        isCommandExist(const QString &command)
@@ -451,7 +406,6 @@ bool        isCommandExist(const QString &command)
     } else {
         return false;
     }
-
 }
 
 bool checkMimeData(const QMimeData *mimeData)
@@ -459,27 +413,21 @@ bool checkMimeData(const QMimeData *mimeData)
     if (!mimeData->hasUrls()) {
         return false;
     }
-
     QList<QUrl> urlList = mimeData->urls();
     if (1 > urlList.size()) {
         return false;
     }
-
     using namespace utils::image;
-//    QStringList paths;
     for (QUrl url : urlList) {
         const QString path = url.toLocalFile();
         if (QFileInfo(path).isDir()) {
             auto finfos =  getImagesInfo(path, false);
             for (auto finfo : finfos) {
                 if (imageSupportRead(finfo.absoluteFilePath())) {
-//                    paths << finfo.absoluteFilePath();
                     QFileInfo info(finfo.absoluteFilePath());
                     QMimeDatabase db;
                     QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
                     QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-                    qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
-
                     QString str = info.suffix().toLower();
                     if (str.isEmpty()) {
                         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
@@ -496,30 +444,6 @@ bool checkMimeData(const QMimeData *mimeData)
                             }
                         }
                     }
-
-//                    QString mqs = info.suffix().toLower();
-//                    if ("jpeg" == mqs ||
-//                            "jpg" == mqs ||
-//                            "bmp" == mqs ||
-//                            "png" == mqs ||
-//                            "ppm" == mqs ||
-//                            "xbm" == mqs ||
-//                            "xpm" == mqs ||
-//                            "gif" == mqs ||
-//                            "svg" == mqs
-////                            ||
-////                            "JPEG" == mqs ||
-////                            "JPG" == mqs ||
-////                            "BMP" == mqs ||
-////                            "PNG" == mqs ||
-////                            "PPM" == mqs ||
-////                            "XBM" == mqs ||
-////                            "XPM" == mqs ||
-////                            "GIF" == mqs ||
-////                            "SVG" == mqs
-//                       ) {
-//                        return true;
-//                    }
                 }
             }
         } else if (imageSupportRead(path)) {
@@ -528,8 +452,6 @@ bool checkMimeData(const QMimeData *mimeData)
             QMimeDatabase db;
             QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
             QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-            qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
-
             QString str = info.suffix().toLower();
             if (str.isEmpty()) {
                 if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
@@ -546,41 +468,11 @@ bool checkMimeData(const QMimeData *mimeData)
                     }
                 }
             }
-
-
-//            QString mqs = info.suffix().toLower();
-//            if ("jpeg" == mqs ||
-//                    "jpg" == mqs ||
-//                    "bmp" == mqs ||
-//                    "png" == mqs ||
-//                    "ppm" == mqs ||
-//                    "xbm" == mqs ||
-//                    "xpm" == mqs ||
-//                    "gif" == mqs ||
-//                    "svg" == mqs
-////                    ||
-////                    "JPEG" == mqs ||
-////                    "JPG" == mqs ||
-////                    "BMP" == mqs ||
-////                    "PNG" == mqs ||
-////                    "PPM" == mqs ||
-////                    "XBM" == mqs ||
-////                    "XPM" == mqs ||
-////                    "GIF" == mqs ||
-////                    "SVG" == mqs
-//               ) {
-//                return true;
-//            }
+            return false;
         }
     }
-
-//    if (paths.isEmpty()) {
-//        return;
-//    }
-
-
-    return false;
 }
+
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
@@ -600,7 +492,6 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 
     return pixmap;
 }
-
 
 QString mkMutiDir(const QString path)   //创建多级目录
 {

@@ -46,6 +46,7 @@ public:
         int imgHeight;
         int baseWidth;
         int baseHeight;
+        bool isSelected;
         QString remainDays = "30天";
         QPixmap image;
         QString firstorlast = "NotFirstOrLast";
@@ -76,6 +77,8 @@ public:
     QString m_imageTypeStr;
 
 private:
+    QPixmap selectedPixmapLight;
+    QPixmap selectedPixmapDark;
     QColor m_borderColor;
     QString  m_defaultThumbnail;
     bool m_itemdata = false;

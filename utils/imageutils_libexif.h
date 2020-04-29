@@ -22,6 +22,7 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QString>
+#include <QSize>
 
 #endif // IMAGEUTILS_LIBEXIF_H
 
@@ -35,7 +36,7 @@ QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag)
 {
     ExifEntry *entry = exif_content_get_entry(ed->ifd[eid], tag);
 
-    if (entry){
+    if (entry) {
         char buf[1024];
         exif_entry_get_value(entry, buf, sizeof(buf));
 
@@ -43,27 +44,25 @@ QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag)
             return QString(buf).trimmed();
         }
     }
-
     return QString();
 }
-
 
 QDateTime getCreateDateTime(const QString &path)
 {
     ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
     if (ed) {
         QDateTime dt = utils::base::stringToDateTime(
-                    readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL));
+                           readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL));
         //Free the EXIF data
         exif_data_unref(ed);
         if (dt.isValid())
             return dt;
     }
-
     return QDateTime();
 }
 
-QSize size(const QString &path) {
+QSize size(const QString &path)
+{
     ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
     if (ed) {
         int w = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_IMAGE_WIDTH).toInt();

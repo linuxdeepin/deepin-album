@@ -43,7 +43,6 @@ void ThreadRenderFrame::stop()
 
 void ThreadRenderFrame::setData(SlideEffectThreadData &data)
 {
-//    qDebug() << "ThreadRenderImage::setPage" << width << height;
     m_data = data;
 }
 
@@ -52,7 +51,6 @@ void ThreadRenderFrame::run()
     if (bstop)
         return;
     SlideEffectThreadData mdata = m_data;
-//    qDebug() << "-------renderFrame start num:" << mdata.num;
     QImage image = mdata.mimage;
     QPainter p(&image);
     image.fill(Qt::transparent);

@@ -47,7 +47,6 @@ FREE_IMAGE_FORMAT fFormat(const QString &path)
     if (fif == FIF_UNKNOWN) {
         fif = FreeImage_GetFIFFromFilename(pc);
     }
-
     return fif;
 }
 
@@ -76,7 +75,6 @@ const QString getFileFormat(const QString &path)
 
 FIBITMAP *readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
-
     const FREE_IMAGE_FORMAT fif = fFormat(path);
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
         const QByteArray ba = path.toUtf8();
@@ -84,10 +82,8 @@ FIBITMAP *readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
         FIBITMAP *dib = FreeImage_Load(fif, pc, flags);
         return dib;
     }
-
     return nullptr;
 }
-
 
 QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
 {
@@ -100,10 +96,8 @@ QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
             mdMap.insert(FreeImage_GetTagKey(tag),
                          FreeImage_TagToString(model, tag));
         } while (FreeImage_FindNextMetadata(mdhandle, &tag));
-
         FreeImage_FindCloseMetadata(mdhandle);
     }
-
     return mdMap;
 }
 
@@ -119,7 +113,6 @@ const QDateTime getDateTime(const QString &path, bool createTime = true)
             return info.lastModified();
         }
     }
-
     if (createTime) {
         return utils::base::stringToDateTime(datas["DateTimeOriginal"]);
     } else {
@@ -134,7 +127,6 @@ const QString getOrientation(const QString &path)
     if (datas.isEmpty()) {
         return QString();
     }
-
     return datas["Orientation"];
 }
 
@@ -156,6 +148,7 @@ QString DateToString(QDateTime ot)
 QMap<QString, QString> getAllMetaData(const QString &path)
 {
     QMutexLocker mutex(&freeimage_mutex);
+
     //qDebug() << "threadid:" << QThread::currentThread() << "getAllMetaData locking ....";
 
     FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
@@ -168,7 +161,6 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.unite(getMetaData(FIMD_IPTC, dib));
     // Basic extended data
     QFileInfo info(path);
-//    QImageReader reader(path);
     if (admMap.isEmpty()) {
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
         admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm:dd"));
@@ -195,7 +187,6 @@ QMap<QString, QString> getAllMetaData(const QString &path)
         }
         admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm:dd"));
         admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
-
     }
 
 //    // The value of width and height might incorrect
@@ -207,12 +198,9 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.insert("FileName", info.fileName());
     admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
-
     FreeImage_Unload(dib);
-
     //qDebug() <<  QThread::currentThread() << "getAllMetaData lock end";
     return admMap;
-
 }
 
 FIBITMAP *makeThumbnail(const QString &path, int size)
@@ -221,12 +209,10 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
     const char *pc = pb.data();
     FIBITMAP *dib = nullptr;
     int flags = 0;              // default load flag
-
     FREE_IMAGE_FORMAT fif = fFormat(path);
     if (fif == FIF_UNKNOWN) {
         return nullptr;
     }
-
     // for JPEG images, we can speedup the loading part
     // Using LibJPEG downsampling feature while loading the image...
     if (fif == FIF_JPEG) {
@@ -247,7 +233,6 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
             return nullptr;
         }
     }
-
     // create the requested thumbnail
     FIBITMAP *thumbnail = FreeImage_MakeThumbnail(dib, size, TRUE);
     FreeImage_Unload(dib);
@@ -257,14 +242,12 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
 bool isSupportsReading(const QString &path)
 {
     const FREE_IMAGE_FORMAT fif = fFormat(path);
-
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
 }
 
 bool isSupportsWriting(const QString &path)
 {
     FREE_IMAGE_FORMAT fif = fFormat(path);
-
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
 }
 
@@ -282,7 +265,7 @@ bool canSave(FIBITMAP *dib, const QString &path)
             // standard bitmap type
             // check that the plugin has sufficient writing
             // and export capabilities ...
-            WORD bpp = FreeImage_GetBPP(dib);
+            WORD bpp = static_cast<WORD>(FreeImage_GetBPP(dib));
             bCanSave = (FreeImage_FIFSupportsWriting(fif) &&
                         FreeImage_FIFSupportsExportBPP(fif, bpp));
         } else {
@@ -314,7 +297,6 @@ bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &path, int flag = 0)
     if (fif != FIF_UNKNOWN && canSave(dib, path)) {
         bSuccess = FreeImage_Save(fif, dib, pc, flag);
     }
-
     return (bSuccess == TRUE) ? true : false;
 }
 
@@ -335,7 +317,6 @@ QImage FIBitmapToQImage(FIBITMAP *dib)
         return noneQImage();
     int width  = FreeImage_GetWidth(dib);
     int height = FreeImage_GetHeight(dib);
-
     switch (FreeImage_GetBPP(dib)) {
     case 1: {
         QImage result(width, height, QImage::Format_Mono);

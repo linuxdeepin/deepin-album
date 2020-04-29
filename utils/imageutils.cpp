@@ -47,7 +47,6 @@ const QImage scaleImage(const QString &path, const QSize &size)
     QImageReader reader(path);
     reader.setAutoTransform(true);
     if (! reader.canRead()) {
-        qDebug() << "Can't read image: " << path;
         return QImage();
     }
 
@@ -152,7 +151,6 @@ bool rotate(const QString &path, int degree)
     int saveFlags = 0;
     bool bsaved = false;
     FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
-    qDebug() << "fif" << fif << endl;
     switch (int(fif)) {
     case FIF_JPEG:
         loadFlags = JPEG_ACCURATE;          // Load the file with the best quality, sacrificing some speed
@@ -426,7 +424,6 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     if (QFileInfo(encodePath).exists()) {
         return QPixmap(encodePath);
     } else if (QFileInfo(failEncodePath).exists()) {
-        qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
         return QPixmap();
     } else {
         // Try to generate thumbnail and load it later
@@ -687,6 +684,13 @@ bool  checkFileType(const QString &path)
                 return true;
             }
         }
+        /**
+         * 2020/4/29
+         * QMimeType能识别的图片类型有限，相册能支持的格式已经不止这些，使用ImageSupporter后替换该函数
+         */
+        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+            return true;
+        }
     }
     return false;
 }
@@ -723,7 +727,7 @@ QStringList checkImage(const QString  path)
         QString ImageName  = dir[i];
         if (checkFileType(path + QDir::separator() + ImageName)) {
             imagelist << path + QDir::separator() + ImageName;
-            qDebug() << path + QDir::separator() + ImageName;//输出照片名
+
         }
     }
 

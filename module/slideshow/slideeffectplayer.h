@@ -38,7 +38,6 @@ protected:
         QImage img = utils::image::getRotatedImage(m_path);
         emit cached(m_path, img);
     }
-
 private:
     QString m_path;
 };
