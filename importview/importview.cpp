@@ -321,6 +321,7 @@ void ImportView::onImprotBtnClicked()
         return;
     }
 
+    ////预留
 
     ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_albumname, this, true);
 
