@@ -274,6 +274,7 @@ private:
 //    QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
+    QStringList m_curPhoneItemList_str;         //外部设备图片的路径
 //    bool bcurThumbnaiItemList_str = true;
     QListWidgetItem *m_curListWidgetItem;
     QMap<QString, QPixmap> m_phonePicMap;
@@ -313,6 +314,7 @@ private:
 
     Waitdevicedialog *m_waitDeviceScandialog;
     bool isWaitDialog = true;
+    bool isIgnore = true;
     QTimer *m_waitDailog_timer;
 };
 
