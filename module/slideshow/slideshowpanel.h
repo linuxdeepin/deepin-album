@@ -33,6 +33,8 @@ public:
     enum MenuItemId {
         IdStopslideshow,
         IdPlayOrPause,
+        IdPlay,
+        IdPause
     };
     QString moduleName() Q_DECL_OVERRIDE;
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
@@ -68,7 +70,7 @@ private:
     QShortcut           *m_sEsc;
     SignalManager::ViewInfo m_vinfo;
     QImage               m_img;
-    QMenu               *m_menu;
+    DMenu               *m_menu;
     SlideEffectPlayer   *m_player;
     bool                 m_isMaximized;
     QFileSystemWatcher  *m_fileSystemMonitor;

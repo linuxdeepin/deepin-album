@@ -119,19 +119,22 @@ void AllPicView::initConnections()
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
         info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
         if (info.slideShow) {
-            if (imagelist.count() == 1) {
+            //lmh0427幻灯片播放选中地址
+            if (paths.count() == 1) {
+                info.paths = imagelist;
+            } else {
                 info.paths = paths;
             }
+            //lmh0427,选中的缩略图都是能打开的路径。没有必要再判断地址
+//            QStringList pathlist;
+//            pathlist.clear();
+//            for (auto path : info.paths) {
+//                if (QFileInfo(path).exists()) {
+//                    pathlist << path;
+//                }
+//            }
 
-            QStringList pathlist;
-            pathlist.clear();
-            for (auto path : info.paths) {
-                if (QFileInfo(path).exists()) {
-                    pathlist << path;
-                }
-            }
-
-            info.paths = pathlist;
+//            info.paths = pathlist;
             emit dApp->signalM->startSlideShow(info);
             emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
         } else {

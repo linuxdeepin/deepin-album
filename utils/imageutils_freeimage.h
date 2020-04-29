@@ -76,8 +76,8 @@ const QString getFileFormat(const QString &path)
 
 FIBITMAP *readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
-    const FREE_IMAGE_FORMAT fif = fFormat(path);
 
+    const FREE_IMAGE_FORMAT fif = fFormat(path);
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
         const QByteArray ba = path.toUtf8();
         const char *pc = ba.data();
@@ -157,6 +157,7 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 {
     QMutexLocker mutex(&freeimage_mutex);
     //qDebug() << "threadid:" << QThread::currentThread() << "getAllMetaData locking ....";
+
     FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
     QMap<QString, QString> admMap;
     admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
@@ -165,7 +166,6 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
     admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
     admMap.unite(getMetaData(FIMD_IPTC, dib));
-
     // Basic extended data
     QFileInfo info(path);
 //    QImageReader reader(path);
@@ -197,6 +197,7 @@ QMap<QString, QString> getAllMetaData(const QString &path)
         admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
 
     }
+
 //    // The value of width and height might incorrect
 //    int w = reader.size().width();
 //    w = w > 0 ? w : FreeImage_GetWidth(dib);
@@ -208,6 +209,7 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
 
     FreeImage_Unload(dib);
+
     //qDebug() <<  QThread::currentThread() << "getAllMetaData lock end";
     return admMap;
 

@@ -68,6 +68,7 @@ public Q_SLOTS:
 protected:
     virtual void run();
 
+
 signals:
     void signal_RenderFinish(int, QImage);
 private:
@@ -135,12 +136,12 @@ Q_SIGNALS:
     void stopped();
     void frameReady(const QImage &image);
 
-
 public Q_SLOTS:
     void start();
     void stop();
     void pause();
     void slotrenderFrameFinish(int num, QImage image);
+
 protected:
     virtual void timerEvent(QTimerEvent *e);
     virtual bool prepare(); //after all parameters set and before effect start
@@ -186,6 +187,7 @@ protected:
     QFuture<void> m_qf;
     QList<QFuture<void>> m_qflist;
     bool bfirsttimeout = true;
+    QMutex m_mutex;
 //    QThreadPool m;
 
 private:

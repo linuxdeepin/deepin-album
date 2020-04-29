@@ -243,10 +243,12 @@ void ImportImagesThread::run()
     using namespace utils::image;
     int noReadCount = 0;
     for (auto imagePath : image_list) {
+
         if (!imageSupportRead(imagePath)) {
             noReadCount++;
             continue;
         }
+
         QFileInfo fi(imagePath);
         if (!fi.exists()) {  //当前文件不存在
             continue;
@@ -254,9 +256,11 @@ void ImportImagesThread::run()
 
         using namespace utils::image;
         using namespace utils::base;
+
         auto mds = getAllMetaData(imagePath);
+
         QString value = mds.value("DateTimeOriginal");
-//        qDebug() << value;
+
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
         dbi.filePath = imagePath;
@@ -273,6 +277,7 @@ void ImportImagesThread::run()
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
+
         emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
     }
 

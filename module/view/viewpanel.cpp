@@ -176,7 +176,10 @@ void ViewPanel::initConnect()
     });
 
     connect(dApp->signalM, &SignalManager::viewImage,
-    this, [ = ](const SignalManager::ViewInfo & vinfo) {
+    this, [ = ](const SignalManager::ViewInfo & info) {
+        SignalManager::ViewInfo vinfo = info;
+        //lmh0428去除重复项
+        vinfo.paths = vinfo.paths.toSet().toList();
         m_vinfo = vinfo;
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
         QString strfixL = QFileInfo(vinfo.path).suffix().toLower();

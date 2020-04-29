@@ -101,4 +101,5 @@ private:
     bool b_4k = false;
     bool bfirstrun = true;
     bool bneedupdatepausebutton = false;
+    QMutex m_mutex;
 };

@@ -49,14 +49,16 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
     , m_startTid(0)
+    , slideshowbottombar(new SlideShowBottomBar(this))
 {
     setFocusPolicy(Qt::StrongFocus);
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_bgColor = DARK_BG_COLOR;
     initeffectPlay();
-    initMenu();
     initShortcut();
     initFileSystemMonitor();
+
+    initMenu();
     setMouseTracking(true);
 //    m_cancelslideshow = new DIconButton(this);
 //    m_cancelslideshow->setIcon(QIcon(":/resources/exit_slider.svg"));
@@ -88,11 +90,11 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &SlideShowPanel::onThemeChanged);
 
-    slideshowbottombar = new SlideShowBottomBar(this);
+
     connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
         m_player->startPrevious();
     });
-//    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [=]{
+//    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [ = ] {
 
 //    });
     connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
@@ -217,26 +219,34 @@ void SlideShowPanel::appendAction(int id, const QString &text, const QString &sh
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
     m_menu->addAction(ac);
+    if (id == IdPlayOrPause) {
+        connect(slideshowbottombar, &SlideShowBottomBar::showPause, ac, [ = ] {
+            ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
+        });
+    }
+
 }
 
 void SlideShowPanel::initMenu()
 {
-//    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
 
-//    m_menu = new QMenu;
-//    m_menu->setStyle(QStyleFactory::create("dlight"));
+    m_menu = new DMenu;
+    m_menu->setStyle(QStyleFactory::create("dlight"));
 
-//    QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP,
-//                                         "Slide show").toString();
-//    stopSc.replace(" ", "");
-//    appendAction(IdStopslideshow, tr("End show"),
-//                  stopSc);
-//    appendAction(IdPlayOrPause, tr("Pause/Play"),
+    QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP,
+                                         "Slide show").toString();
+    stopSc.replace(" ", "");
+//    appendAction(IdPlayOrPause, tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()),
 //                 QKeySequence(Qt::Key_Space).toString());
-//    connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
-//    connect(this, &SlideShowPanel::customContextMenuRequested, this, [=] {
-//        m_menu->popup(QCursor::pos());
-//    });
+    appendAction(IdPlayOrPause, tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()),
+                 stopSc);
+    appendAction(IdStopslideshow, tr(slideshowbottombar->m_cancelButton->toolTip().toStdString().c_str()),
+                 stopSc);
+    connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
+    connect(this, &SlideShowPanel::customContextMenuRequested, this, [ = ] {
+        m_menu->popup(QCursor::pos());
+    });
 }
 
 void SlideShowPanel::onMenuItemClicked(QAction *action)
@@ -247,7 +257,8 @@ void SlideShowPanel::onMenuItemClicked(QAction *action)
         backToLastPanel();
         break;
     case IdPlayOrPause:
-        m_player->pause();
+        slideshowbottombar->m_playpauseButton->clicked();
+        action->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
         break;
     default:
         break;
@@ -310,7 +321,7 @@ void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
 
 void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 {
-    backToLastPanel();
+    // backToLastPanel();
 }
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
@@ -365,6 +376,8 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     }
 
     m_vinfo = vinfo;
+    //m_current;
+    //m_current = vinfo.paths.indexOf(vinfo.path);
     m_player->setImagePaths(vinfo.paths);
     m_player->setCurrentImage(vinfo.path);
 
@@ -409,7 +422,16 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 
     m_player->start();
 //    emit dApp->signalM->gotoPanel(this);
+
+    //加入显示动画效果，以透明度0-1显示，动态加载，视觉效果掩盖左上角展开
+    QPropertyAnimation *animation = new QPropertyAnimation(window(), "windowOpacity");
+    animation->setDuration(50);
+    animation->setEasingCurve(QEasingCurve::Linear);
+    animation->setStartValue(0);
+    animation->setEndValue(1);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
     showFullScreen();
+
 }
 
 void SlideShowPanel::showNormal()
