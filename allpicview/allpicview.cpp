@@ -200,6 +200,7 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
         updateStackedWidget();
     }
     restorePicNum();
+
 }
 
 void AllPicView::updatePicsThumbnailView(QStringList strpath)
@@ -209,6 +210,7 @@ void AllPicView::updatePicsThumbnailView(QStringList strpath)
     } else {
         updatePicsIntoThumbnailView();
     }
+
 }
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)

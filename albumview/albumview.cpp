@@ -1186,7 +1186,6 @@ void AlbumView::updateRightView()
     }
 
     updatePicNum();
-    qDebug() << "更新右侧视图完毕";
 }
 
 // 更新已导入列表

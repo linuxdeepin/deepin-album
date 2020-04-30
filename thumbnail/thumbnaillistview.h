@@ -44,12 +44,10 @@
 #include <DMenu>
 #include <QMouseEvent>
 #include <DApplicationHelper>
-#include <QtConcurrent/QtConcurrentRun>
 #include "imageengine/imageengineobject.h"
 #include "widgets/timelineitem.h"
 
 DWIDGET_USE_NAMESPACE
-
 
 class ThumbnailListView : public DListView, public ImageEngineObject
 {
@@ -96,8 +94,10 @@ public:
         QPixmap image = QPixmap();
         bool bNotSupportedOrDamaged = false;
 
+
         friend bool operator== (const ItemInfo &left, const ItemInfo &right)
         {
+
             if (left.image == right.image)
                 return true;
             return false;
@@ -128,6 +128,7 @@ public:
 
 //    void insertThumbnails(const QList<ItemInfo> &itemList);
     QStringList selectedPaths();
+//    QList<ItemInfo> getAllPaths();
     QStringList getAllPaths();
     QStringList getDagItemPath();
 
@@ -144,6 +145,7 @@ public:
     void clearSelectionExtent(int start, int end);
     void resizeHand();  //手动发送信号，计算大小
 signals:
+//    void loadend(int);
     void needResize(int);
     void loadEnd();
     void openImage(int);
@@ -153,6 +155,7 @@ signals:
     void hideExtensionPanel(bool immediately = false);
     void showImageInfo(const QString &path);
     void trashRecovery();
+//    void trashDelete();
     void sigGetSelectedPaths(QStringList *pPaths);
     void sigKeyEvent(int key);
 #if 1
@@ -192,6 +195,7 @@ private slots:
 
 public slots:
     void slotReCalcTimelineSize();
+
 public:
     void updateThumbnailView(QString updatePath = "");
 private:
@@ -259,8 +263,12 @@ private:
     bool bneedsendresize = false;
     int lastresizeheight = 0;
     int resizenum = 0;
+//    QTimer *m_dtresizeevent = nullptr;
+//    bool bneedresize = false;
+//    int lastwidth = 0;
+//    int newwidth = 0;
     //------------------
-    //QThread *selecThread = nullptr;
+
 };
 
 #endif // THUMBNAILLISTVIEW_H
