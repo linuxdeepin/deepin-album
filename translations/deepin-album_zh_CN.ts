@@ -347,6 +347,13 @@
     </message>
 </context>
 <context>
+    <name>ImageSVGConvertThread</name>
+    <message>
+        <source>/tmp/%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -733,7 +740,7 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>照片名称</translation>
+        <translation>名称</translation>
     </message>
 </context>
 <context>
@@ -817,11 +824,15 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
         <translation>导入于</translation>
+    </message>
+    <message>
+        <source>%1年%2月%3日 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

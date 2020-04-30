@@ -43,17 +43,29 @@ struct MetaData {
     const char *name;
 };
 
+//static MetaData MetaDataBasics[] = {
+//    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo name")},
+//    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+//    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+//    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+//    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
+//    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
+//    {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
+//    {"", ""}
+//};
 static MetaData MetaDataBasics[] = {
     {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo name")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
-    {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"Dimensions",          QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+
+    // {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
+    // {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
     {"", ""}
 };
-
 
 static MetaData MetaDataDetails[] = {
     {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
@@ -291,7 +303,18 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
     clearLayout(m_exifLayout_base);
 
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
+        QString key = i->key;
         QString value = infos.value(i->key);
+
+        if (i->key.contains("Dimensions")) {
+            value = infos.value("PixelXDimension") + "x" + infos.value("PixelYDimension");
+        }
+        if (i->key.contains("FileFormat")) {
+            QStringList list = value.split("/");
+            if (list.count() > 0) {
+                value = list.value(list.count() - 1);
+            }
+        }
         if (value.isEmpty()) continue;
 
         m_isBaseInfo = true;
@@ -312,7 +335,9 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
             DPalette pa2 = DApplicationHelper::instance()->palette(title);
             pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
             title->setPalette(pa2);
+            QString text1 = i->name;
             title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
+            QString text = title->text();
             m_exifLayout_base->addRow(title, field);
         }
     }
@@ -344,7 +369,7 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
-
+        QString text = title->text();
         m_exifLayout_details->addRow(title, field);
     }
 }
