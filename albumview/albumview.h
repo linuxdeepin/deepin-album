@@ -298,7 +298,7 @@ private:
 //    QGridLayout *pVBoxLayout = nullptr;
     DWidget *fatherwidget;
     DWidget *pPhoneWidget;
-//    DBlurEffectWidget *phonetopwidget = nullptr;
+    // DBlurEffectWidget *phonetopwidget = nullptr;
     DWidget *phonetopwidget;
 
     Waitdevicedialog *m_waitDeviceScandialog;

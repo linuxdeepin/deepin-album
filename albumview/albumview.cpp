@@ -1084,8 +1084,11 @@ void AlbumView::initRightView()
 //    p_all2->addWidget(m_pRightPhoneThumbnailList);
 
     m_pRightPhoneThumbnailList->setParent(pPhoneWidget);
-//    phonetopwidget = new DBlurEffectWidget(pPhoneWidget);
     phonetopwidget = new DWidget(pPhoneWidget);
+    QGraphicsOpacityEffect *opacityEffect_lightphone = new QGraphicsOpacityEffect;
+    opacityEffect_lightphone->setOpacity(0.95);
+    phonetopwidget->setGraphicsEffect(opacityEffect_lightphone);
+
     phonetopwidget->setAutoFillBackground(true);
     phonetopwidget->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 87);
     phonetopwidget->setLayout(p_all2);
