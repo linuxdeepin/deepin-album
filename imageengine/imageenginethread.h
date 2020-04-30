@@ -19,10 +19,6 @@ protected:
     bool ifCanStopThread(void *imgobject) override;
     void run() Q_DECL_OVERRIDE;
 
-private:
-    //提前生成缩略图，避免导入过程删除源文件，后续显示空白   暂时没用
-    void proDucePic(QString path);
-
 signals:
 
 private:
@@ -85,7 +81,6 @@ protected:
 signals:
     void sigImageFilesImported(void *imgobject, QStringList &filelist);
 private:
-//    bool findPicturePathByPhone(QString &path);
     QStringList m_paths;
     QString m_albumname;
     ImageMountImportPathsObject *m_imgobject = nullptr;

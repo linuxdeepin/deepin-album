@@ -83,7 +83,7 @@ private:
     DLabel *pNoResult;
     DLabel *pLabel1;
     QString m_albumName;
-
+    int m_currentFontSize;
 public:
     int m_searchPicNum;
     ThumbnailListView *m_pThumbnailListView;

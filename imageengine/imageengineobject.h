@@ -30,11 +30,6 @@ struct ImageDataSt {
     }
 };
 
-//enum DBType {
-//    DBNULL,
-//    DBAllPaths,
-//};
-
 class ImageEngineThreadObject : public QObject
 {
     Q_OBJECT

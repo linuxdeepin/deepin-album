@@ -58,6 +58,7 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
     QSize iconsize = iconSize();
     QPixmap qpx = qic.pixmap(QSize(iconsize));
     int widthOfTitle = painter.fontMetrics().width( text());
+    this->setFixedWidth(widthOfTitle + iconsize.width() + 20);
     int offsetleft = (this->width() - widthOfTitle - iconsize.width() - 5) / 2;
     painter.drawPixmap(offsetleft, (this->height() - iconsize.height()) / 2, iconsize.width(), iconsize.height(), qpx);
     painter.drawText(offsetleft + iconsize.width() + 5, 0, this->width() - iconsize.width() - 5 - offsetleft, this->height(), Qt::AlignLeft | Qt::AlignVCenter, text());
@@ -591,6 +592,11 @@ void SearchView::changeTheme()
 
 void SearchView::paintEvent(QPaintEvent *event)
 {
+    QFont font;
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    if (currentSize != m_currentFontSize) {
+        m_currentFontSize = currentSize;
+    }
     QWidget::paintEvent(event);
     m_searchResultViewTop->setFixedWidth(m_pSearchResultView->width());
     m_searchResultViewbody->setFixedSize(m_pSearchResultView->size());
