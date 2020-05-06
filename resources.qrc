@@ -59,8 +59,6 @@
         <file>resources/images/sidebar/active/add_press_dark.svg</file>
         <file>resources/images/other/picture damaged_light.svg</file>
         <file>resources/images/other/picture damaged_dark.svg</file>
-        <file>resources/images/other/Rectangle_dark.svg</file>
-        <file>resources/images/other/Rectangle_light.svg</file>
     </qresource>
     <qresource prefix="/qt-project.org/dialogs">
         <file>resources/images/qprintpreviewdialog/images/go-first-24.svg</file>

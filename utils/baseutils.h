@@ -83,11 +83,14 @@ const int TOP_TOOLBAR_THEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
 
 const int BORDER_RADIUS = 8;
+const int SHADOW_BORDER_RADIUS = 14;
 const int BORDER_WIDTH = 0;
 const int BORDER_WIDTH_SELECTED = 7;
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
+
 const QColor DARK_BACKGROUND_COLOR = QColor("#252525");
+const QColor DARK_BACKGROUND_COLOR2 = QColor(0, 0, 0, 76);
 const QColor LIGHT_BACKGROUND_COLOR = QColor("#F8F8F8");
 
 const QColor LIGHT_CHECKER_COLOR = QColor(0, 0, 0, 0);
@@ -189,11 +192,6 @@ const QString DARK_DAMAGEICON =
     ":/resources/images/other/picture damaged_dark.svg";
 const QString LIGHT_DAMAGEICON =
     ":/resources/images/other/picture damaged_light.svg";
-
-//const QString DARK_DAMAGEICON =
-//    ":/resources/images/other/picture damaged_dark.svg";
-//const QString LIGHT_DAMAGEICON =
-//    ":/resources/images/other/picture damaged_light.svg";
 
 namespace naviwindow {
 const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.svg";

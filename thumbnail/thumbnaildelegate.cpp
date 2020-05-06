@@ -106,44 +106,36 @@ void ThumbnailDelegate::paint(QPainter *painter,
     //选中阴影框
     if (selected) {
         QPainterPath backgroundBp;
-        backgroundBp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-
+        backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
         painter->setClipPath(backgroundBp);
-        painter->fillRect(backgroundRect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
+//        painter->fillRect(backgroundRect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
+
+        QBrush  backbrush;
         QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+            backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
             selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
+            backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR2);
         }
         painter->drawPixmap(backgroundRect, selectedPixmap);
-    }
 
-    //绘制透明图片背景
-    if (selected && data.bNotSupportedOrDamaged) {
-        QPixmap backPixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType) {
-            backPixmap = utils::base::renderSVG(":/resources/images/other/Rectangle_light.svg", QSize(data.width, data.height));
-        }
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            backPixmap = utils::base::renderSVG(":/resources/images/other/Rectangle_dark.svg", QSize(data.width, data.height));
-        }
-
-        QRect backRect(backgroundRect.x() + 4, backgroundRect.y() + 4, backgroundRect.width() - 8, backgroundRect.height() - 8);
+        //绘制选中默认背景
+        QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
         QPainterPath backBp;
         backBp.addRoundedRect(backRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(backBp);
-
-        painter->drawPixmap(backRect, backPixmap);
+        painter->fillRect(backRect, backbrush);
     }
+
 
     float fwidth = ((float)backgroundRect.height()) / ((float)data.baseHeight) * ((float)data.baseWidth) / ((float)backgroundRect.width());
     float fheight = ((float)backgroundRect.width()) / ((float)data.baseWidth) * ((float)data.baseHeight) / ((float)backgroundRect.height());
     QRect pixmapRect;
-    if ((data.width > data.imgWidth + 12) && fheight <= 3) {
+    if ((data.width > data.imgWidth + 16) && fheight <= 3) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
         pixmapRect.setWidth(data.imgWidth);
     } else {
@@ -151,11 +143,11 @@ void ThumbnailDelegate::paint(QPainter *painter,
             pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
             pixmapRect.setWidth(NotSupportedOrDamagedWidth);
         } else {
-            pixmapRect.setX(backgroundRect.x() + 6);
-            pixmapRect.setWidth(backgroundRect.width() - 12);
+            pixmapRect.setX(backgroundRect.x() + 8);
+            pixmapRect.setWidth(backgroundRect.width() - 16);
         }
     }
-    if ((data.height > data.imgHeight + 12) && fwidth <= 1.5) {
+    if ((data.height > data.imgHeight + 16) && fwidth <= 1.5) {
         pixmapRect.setY(backgroundRect.y() + (data.height - data.imgHeight) / 2);
         pixmapRect.setHeight(data.imgHeight);
     } else {
@@ -163,15 +155,15 @@ void ThumbnailDelegate::paint(QPainter *painter,
             pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
             pixmapRect.setHeight(NotSupportedOrDamagedHeigh);
         } else {
-            pixmapRect.setY(backgroundRect.y() + 6);;
-            pixmapRect.setHeight(backgroundRect.height() - 12);
+            pixmapRect.setY(backgroundRect.y() + 8);;
+            pixmapRect.setHeight(backgroundRect.height() - 16);
         }
     }
+
     QPainterPath bp1;
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-//    bp1.addRoundedRect(pixmapRect, 16, 8);
-
     painter->setClipPath(bp1);
+
     if (fwidth > 1.5) {
         painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), /*dApp->m_imagemap.value(data.path)*/data.image.scaled(((float)pixmapRect.height()) / ((float)data.baseHeight) * data.baseWidth, pixmapRect.height()));
     } else if (fheight > 3) {
@@ -221,7 +213,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
             selectedPixmap = selectedPixmapDark;
         }
 //        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 28, backgroundRect.y(), 28, 28);
-        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 29, backgroundRect.y() + 4, 28, 28);
+        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 30, backgroundRect.y() + 4, 28, 28);
         QPainterPath selectedBp;
         selectedBp.addRoundedRect(selectedRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(selectedBp);
