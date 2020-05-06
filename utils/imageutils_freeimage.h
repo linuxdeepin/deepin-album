@@ -163,8 +163,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     QFileInfo info(path);
     if (admMap.isEmpty()) {
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy年MM月dd日 HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy年MM月dd日 HH:mm:dd"));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm:dd"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
     } else {
         // ReFormat the date-time
         using namespace utils::base;
@@ -181,12 +181,12 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
             // NO valid date information
             if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", info.created().toString("yyyy年MM月dd日 HH:mm:dd"));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy年MM月dd日 HH:mm:dd"));
+                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy年MM月dd日 HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy年MM月dd日 HH:mm:dd"));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm:dd"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
 
     }
 

@@ -214,11 +214,7 @@ void ImportImagesThread::run()
         }
         using namespace utils::image;
         using namespace utils::base;
-        qDebug() << "A" << QDateTime::currentMSecsSinceEpoch();
         auto mds = getAllMetaData(imagePath);
-        qDebug() << "B" << QDateTime::currentMSecsSinceEpoch();
-        auto mds1 = getAllMetaData(imagePath);
-        qDebug() << "C" << QDateTime::currentMSecsSinceEpoch();
         QString value = mds.value("DateTimeOriginal");
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
