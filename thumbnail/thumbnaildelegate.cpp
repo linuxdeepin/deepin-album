@@ -108,20 +108,24 @@ void ThumbnailDelegate::paint(QPainter *painter,
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
         painter->setClipPath(backgroundBp);
-//        painter->fillRect(backgroundRect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
 
+        QBrush  shadowbrush;
         QBrush  backbrush;
         QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
-            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
             backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
+            shadowbrush = QBrush(QColor("#E0E0E0"));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
-            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
+//            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
             backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR2);
+            shadowbrush = QBrush(QColor("#1E1E1E"));
         }
-        painter->drawPixmap(backgroundRect, selectedPixmap);
+        painter->fillRect(backgroundRect, shadowbrush);
+//        painter->drawPixmap(backgroundRect, selectedPixmap);
+//        painter->drawPath(backgroundBp);
 
         //绘制选中默认背景
         QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
@@ -165,11 +169,11 @@ void ThumbnailDelegate::paint(QPainter *painter,
     painter->setClipPath(bp1);
 
     if (fwidth > 1.5) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), /*dApp->m_imagemap.value(data.path)*/data.image.scaled(((float)pixmapRect.height()) / ((float)data.baseHeight) * data.baseWidth, pixmapRect.height()));
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(((float)pixmapRect.height()) / ((float)data.baseHeight) * data.baseWidth, pixmapRect.height()));
     } else if (fheight > 3) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), /*dApp->m_imagemap.value(data.path)*/data.image.scaled(pixmapRect.width(), ((float)pixmapRect.width()) / ((float)data.baseWidth) * data.baseHeight));
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(pixmapRect.width(), ((float)pixmapRect.width()) / ((float)data.baseWidth) * data.baseHeight));
     } else {
-        painter->drawPixmap(pixmapRect, /*dApp->m_imagemap.value(data.path)*/data.image);
+        painter->drawPixmap(pixmapRect, data.image);
     }
     //绘制剩余天数
     if (COMMON_STR_TRASH == m_imageTypeStr) {
