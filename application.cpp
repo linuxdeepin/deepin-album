@@ -137,10 +137,10 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
             if (pixmap.height() != 100 && pixmap.width() != 100) {
                 if (pixmap.height() >= pixmap.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
                 } else if (pixmap.height() <= pixmap.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
                 }
             }
 

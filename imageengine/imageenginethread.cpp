@@ -895,10 +895,10 @@ void ImageEngineThread::run()
         if (pixmap.height() != 100 && pixmap.width() != 100) {
             if (pixmap.height() >= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
             } else if (pixmap.height() <= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
@@ -1129,10 +1129,10 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
         if (pixmap.height() != 100 && pixmap.width() != 100) {
             if (pixmap.height() >= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
             } else if (pixmap.height() <= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
@@ -1226,10 +1226,10 @@ void ImageEngineBackThread::run()
             if (pixmap.height() != 100 && pixmap.width() != 100) {
                 if (pixmap.height() >= pixmap.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
                 } else if (pixmap.height() <= pixmap.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
                 }
             }
             if (!cache_exist) {
