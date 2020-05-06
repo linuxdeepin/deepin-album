@@ -1185,19 +1185,13 @@ void ImageEngineBackThread::setData(QStringList pathlist, QString devName)
 
 void ImageEngineBackThread::run()
 {
+    int count = 1;
     using namespace utils::image;
     using namespace utils::base;
-    int count = 1;
     for (auto temppath : m_pathlist) {
         QImage tImg;
         bool cache_exist = false;
         QString path = temppath;
-        QFileInfo file(CACHE_PATH + temppath);
-        if (file.exists()) {
-            cache_exist = true;
-            path = CACHE_PATH + temppath;
-        }
-
         QString format = DetectImageFormat(path);
         if (format.isEmpty()) {
             QImageReader reader(path);
@@ -1216,23 +1210,9 @@ void ImageEngineBackThread::run()
             if (readerF.canRead()) {
                 tImg = readerF.read();
             } else {
-                if (cache_exist) {
-                    QImageReader readerF1(temppath, format.toLatin1());
-                    readerF1.setAutoTransform(true);
-                    if (readerF1.canRead()) {
-                        tImg = readerF1.read();
-                        cache_exist = false;
-                    } else {
-                        qWarning() << "can't read image:" << readerF.errorString()
-                                   << format;
-                        tImg = QImage(temppath);
-                    }
-
-                } else {
-                    qWarning() << "can't read image:" << readerF.errorString()
-                               << format;
-                    tImg = QImage(path);
-                }
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+                tImg = QImage(path);
             }
         }
 
@@ -1257,7 +1237,6 @@ void ImageEngineBackThread::run()
                 }
             }
             if (!cache_exist) {
-
                 if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
                     pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
                 } else {
@@ -1295,6 +1274,8 @@ void ImageEngineBackThread::run()
         if (bbackstop) {
             return;
         }
+
+        qDebug() << "第几幅图：" << count++;
         if (m_bpause) {
             m_WatiCondition.wait(&m_mutex);     //挂起
         }

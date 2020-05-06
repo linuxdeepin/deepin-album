@@ -186,9 +186,14 @@ const QString DARK_LOADINGICON =
 const QString LIGHT_LOADINGICON =
     ":/resources/light/images/light_loading.gif";
 const QString DARK_DAMAGEICON =
-        ":/resources/images/other/picture_damaged_dark.svg";
+    ":/resources/images/other/picture damaged_dark.svg";
 const QString LIGHT_DAMAGEICON =
-        ":/resources/images/other/picture_damaged_light.svg";
+    ":/resources/images/other/picture damaged_light.svg";
+
+//const QString DARK_DAMAGEICON =
+//    ":/resources/images/other/picture damaged_dark.svg";
+//const QString LIGHT_DAMAGEICON =
+//    ":/resources/images/other/picture damaged_light.svg";
 
 namespace naviwindow {
 const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.svg";

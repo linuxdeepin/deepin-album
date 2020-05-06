@@ -752,11 +752,11 @@ QPixmap getDamagePixmap(bool bLight)
     static QPixmap pix_light, pix_dark;
     if (bLight) {
         if (pix_light.isNull ())
-            pix_light = utils::base::renderSVG (view::LIGHT_DAMAGEICON, QSize(100, 100));
+            pix_light = utils::base::renderSVG (view::LIGHT_DAMAGEICON, QSize(40, 40));
         return pix_light;
     } else {
         if (pix_dark.isNull ())
-            pix_dark = utils::base::renderSVG (view::DARK_DAMAGEICON, QSize(100, 100));
+            pix_dark = utils::base::renderSVG (view::DARK_DAMAGEICON, QSize(40, 40));
         return pix_dark;
     }
 }

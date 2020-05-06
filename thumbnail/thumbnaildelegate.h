@@ -50,6 +50,7 @@ public:
         QString remainDays = "30天";
         QPixmap image;
         QString firstorlast = "NotFirstOrLast";
+        bool bNotSupportedOrDamaged = false;
     };
 
     explicit ThumbnailDelegate(DelegateType type, QObject *parent = nullptr);

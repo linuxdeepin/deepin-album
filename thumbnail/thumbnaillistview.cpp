@@ -693,12 +693,16 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 ImageDataSt data;
                 ImageEngineApi::instance()->getImageData(updatePath, data);
                 ItemInfo info;
+                if (data.imgpixmap.isNull()) {
+                    info.bNotSupportedOrDamaged = true;
+                    data.imgpixmap = getDamagedPixmap();
+                }
                 info.name = data.dbi.fileName;
                 info.path = data.dbi.filePath;
                 info.width = data.imgpixmap.width();
                 info.height = data.imgpixmap.height();
                 info.image = data.imgpixmap;
-                info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
+//                info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
                 info.remainDays = data.remainDays;
                 info.baseWidth = data.imgpixmap.width();
                 info.baseHeight = data.imgpixmap.height();
@@ -768,6 +772,7 @@ void ThumbnailListView::loadFilesFromDB(QString name)
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
+    stopLoadAndClear();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
@@ -849,12 +854,18 @@ bool ThumbnailListView::imageLoaded(QString filepath)
     bool reb = true;
     if (ImageEngineApi::instance()->getImageData(filepath, data)) {
         ItemInfo info;
+
+        if (data.imgpixmap.isNull()) {
+            info.bNotSupportedOrDamaged = true;
+            data.imgpixmap = getDamagedPixmap();
+        }
+
         info.name = data.dbi.fileName;
         info.path = data.dbi.filePath;
         info.width = data.imgpixmap.width();
         info.height = data.imgpixmap.height();
-        info.image = data.imgpixmap.isNull () ? getDamagedPixmap () : data.imgpixmap;
-        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
+        info.image = data.imgpixmap;
+//        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
         info.remainDays = data.remainDays;
         info.baseWidth = data.imgpixmap.width();
         info.baseHeight = data.imgpixmap.height();
@@ -1208,6 +1219,21 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         } else {
             ImageEngineApi::instance()->moveImagesToTrash(paths);
         }
+
+//        QModelIndexList modelList = selectionModel()->selectedIndexes();
+//        int all1 = m_model->rowCount();
+//        QVector<int>    tempSort;
+//        for (auto index : modelList) {
+//            tempSort.push_back(index.row());
+//        }
+//        //倒序，删除
+//        qSort(tempSort.begin(), tempSort.end(), [ = ](int left, int right) {
+//            return left > right;
+//        });
+//        for (auto index : tempSort) {
+//            m_model->removeRow(index);
+//        }
+        //从内存中删除该数据
     }
     break;
     case IdAddToFavorites:

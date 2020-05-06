@@ -675,10 +675,10 @@ void AlbumView::onCreateNewAlbumFrom(QString albumname)
 void AlbumView::onLoadMountImagesEnd(QString mountname)
 {
     Q_UNUSED(mountname);
-    if (!m_waitDailog_timer->isActive()) {
-        emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
-        //emit dApp->signalM->DeviceImageLoadEnd();
-    }
+//    if (!m_waitDailog_timer->isActive()) {
+//        emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
+//        //emit dApp->signalM->DeviceImageLoadEnd();
+//    }
 }
 #endif
 
@@ -831,7 +831,7 @@ void AlbumView::initRightView()
     m_pRecoveryBtn->setPalette(ReBtn);
 
     pTopButtonLayout->addWidget(m_pRecoveryBtn);
-    pTopButtonLayout->addSpacing(10);
+    pTopButtonLayout->addSpacing(5);
 
     m_pDeleteBtn = new DWarningButton();
     m_pDeleteBtn->setText(tr("Delete All"));
@@ -1065,7 +1065,7 @@ void AlbumView::initRightView()
 //    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
     m_importSelectByPhoneBtn->setEnabled(false);
     mainImportLayout->addWidget(importLabel);
-    mainImportLayout->addSpacing(11);
+    mainImportLayout->addSpacing(15);
     mainImportLayout->addWidget(m_importByPhoneComboBox);
     mainImportLayout->addSpacing(30);
     mainImportLayout->addWidget(m_importAllByPhoneBtn);
@@ -1267,6 +1267,7 @@ void AlbumView::updateRightMyFavoriteView()
 void AlbumView::updateRightMountView()
 {
     if (!isVisible()) {
+        qDebug() << "提前退出更新右侧视图";
         return;
     }
     m_currentViewPictureCount = 0;
@@ -2539,6 +2540,8 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     m_itemClicked = true;
     m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+    QModelIndex index;
+    emit m_pLeftListView->m_pMountListView->pressed(index);
 
     //右侧视图同时切换
     m_pRightPhoneThumbnailList->stopLoadAndClear(true);     //清除已有数据
@@ -2740,6 +2743,8 @@ void AlbumView::needUnMount(QString path)
         //转到已导入界面
         if (m_pLeftListView->m_pMountListView->count() == 0) {
             m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
+            QModelIndex index;
+            emit m_pLeftListView->m_pPhotoLibListView->pressed(index);
             m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
             m_currentType = COMMON_STR_RECENT_IMPORTED;
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
@@ -2965,6 +2970,11 @@ void AlbumView::onWaitDialogClose()
     m_pRightPhoneThumbnailList->stopLoadAndClear(false);
     if (m_curPhoneItemList_str.size() > 0) {
         isWaitDialog = false;
+    }
+    QListWidgetItem *item = m_pLeftListView->m_pMountListView->currentItem();
+    if (item) {
+        QString deviceName = item->data(Qt::UserRole).toString();
+        emit dApp->signalM->sigDevStop(deviceName);
     }
 
     m_waitDeviceScandialog->close();
