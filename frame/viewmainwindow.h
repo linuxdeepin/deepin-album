@@ -54,17 +54,13 @@ public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
     ViewMainWindow(bool manager, QWidget *parent = nullptr);
-
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 protected:
     void resizeEvent(QResizeEvent *e) override;
-//    void showEvent(QShowEvent *event);
-
 private:
     void moveFirstWindow();
     void moveCenter();
     bool windowAtEdge();
-
     MainWidget *m_mainWidget;
 };
 

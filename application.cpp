@@ -134,12 +134,14 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
         if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-            if (pixmap.height() < 100) {
-                cache_exist = true;
-                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-            } else if (pixmap.width() < 100) {
-                cache_exist = true;
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+            if (pixmap.height() != 100 && pixmap.width() != 100) {
+                if (pixmap.height() >= pixmap.width()) {
+                    cache_exist = true;
+                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                } else if (pixmap.height() <= pixmap.width()) {
+                    cache_exist = true;
+                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                }
             }
 
             if (!cache_exist) {

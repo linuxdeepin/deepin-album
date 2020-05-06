@@ -36,11 +36,8 @@ signals:
 protected:
     void run() Q_DECL_OVERRIDE {
         QImage img = utils::image::getRotatedImage(m_path);
-//        QImage img = dApp->m_imagemap.value(m_path).toImage();
-        qDebug() << "QImage img = utils::image::getRotatedImage(m_path)" << m_path;
         emit cached(m_path, img);
     }
-
 private:
     QString m_path;
 };
@@ -103,4 +100,5 @@ private:
     bool b_4k = false;
     bool bfirstrun = true;
     bool bneedupdatepausebutton = false;
+    QMutex m_mutex;
 };

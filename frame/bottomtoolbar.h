@@ -33,10 +33,8 @@ class BottomToolbar : public DFloatingWidget
 public:
     explicit BottomToolbar(QWidget *parent);
     void setContent(QWidget *content);
-
 protected:
     void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:

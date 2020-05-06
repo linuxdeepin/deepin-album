@@ -460,6 +460,8 @@ void LeftListView::updatePhotoListView()
     m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
 
     m_pPhotoLibListView->setCurrentRow(0);
+    QModelIndex index;
+    emit m_pPhotoLibListView->pressed(index);
 }
 
 void LeftListView::updateCustomizeListView()

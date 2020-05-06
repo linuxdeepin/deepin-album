@@ -239,12 +239,12 @@ void ImageItem::paintEvent(QPaintEvent *event)
 
     QRect backgroundRect = rect();
     QRect pixmapRect;
+    QBrush  backbrush;
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, 8, 8);
         painter.setClipPath(backgroundBp);
 
-//        painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
         backgroundRect.setX(backgroundRect.x() + 1);
         backgroundRect.setWidth(backgroundRect.width() - 1);
         painter.fillRect(backgroundRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
@@ -255,35 +255,32 @@ void ImageItem::paintEvent(QPaintEvent *event)
             _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(), _pixmap.width());
         }
 
-//        pixmapRect.setX(backgroundRect.x() + 4);
-//        pixmapRect.setY(backgroundRect.y() + 4);
-//        pixmapRect.setWidth(backgroundRect.width());
-//        pixmapRect.setHeight(backgroundRect.height() - 10);
-
         m_pixmapstring = "";
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::DarkType) {
             m_pixmapstring = LOCMAP_SELECTED_DARK;
+            backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR);
         } else {
             m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+            backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
         }
 
-//<<<<<<< HEAD
-//        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
-//=======
-//        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
-//        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(100, 100));
+        //绘制默认选中背景
+        QRect backRect(backgroundRect.x() + 4, backgroundRect.y() + 4, backgroundRect.width() - 8, backgroundRect.height() - 8);
+        QPainterPath backBp;
+        backBp.addRoundedRect(backRect, 4, 4);
+        painter.setClipPath(backBp);
+        painter.fillRect(backRect, backbrush);
+
         QPainterPath bg;
-//        bg.addRoundedRect(pixmapRect, 4, 4);
         bg.addRoundedRect(pixmapRect, 4, 4);
-        if (_pixmap.isNull() == 0) {
+        if (!_pixmap.isNull()) {
             pixmapRect.setX(backgroundRect.x() + 4);
             pixmapRect.setY(backgroundRect.y() + 4);
             pixmapRect.setWidth(backgroundRect.width() - 8);
             pixmapRect.setHeight(backgroundRect.height() - 8);
             bg.addRoundedRect(pixmapRect, 4, 4);
             painter.setClipPath(bg);
-//            painter.drawPixmap(pixmapRect, m_pixmapstring);
         }
     } else {
         pixmapRect.setX(backgroundRect.x() + 1);
@@ -303,8 +300,9 @@ void ImageItem::paintEvent(QPaintEvent *event)
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg);
-//        painter.drawPixmap(pixmapRect, m_pixmapstring);
     }
+
+
 
     QPainterPath bp1;
 //    bp1.addRoundedRect(pixmapRect, 4, 4);

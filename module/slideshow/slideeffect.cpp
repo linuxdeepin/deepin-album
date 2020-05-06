@@ -16,6 +16,7 @@
  */
 #include "slideeffect.h"
 #include "application.h"
+#include "slideeffect.h"
 #include "controller/configsetter.h"
 #include "utils/imageutils.h"
 #include <QPainter>
@@ -42,7 +43,6 @@ void ThreadRenderFrame::stop()
 
 void ThreadRenderFrame::setData(SlideEffectThreadData &data)
 {
-//    qDebug() << "ThreadRenderImage::setPage" << width << height;
     m_data = data;
 }
 
@@ -51,7 +51,6 @@ void ThreadRenderFrame::run()
     if (bstop)
         return;
     SlideEffectThreadData mdata = m_data;
-//    qDebug() << "-------renderFrame start num:" << mdata.num;
     QImage image = mdata.mimage;
     QPainter p(&image);
     image.fill(Qt::transparent);
@@ -206,18 +205,27 @@ int SlideEffect::duration() const
 
 void SlideEffect::start()
 {
+    QMutexLocker locker(&m_mutex);
     allImage.clear();
     allImage[frames_total] = *next_image;
     prepare();
     current_frame = 0;
-    m_qf = QtConcurrent::run([this]() {
-        for (int i = 0; i < frames_total; i++) {
-            if (!prepareNextFrame()) {
-                stop();
-                return;
-            }
+    //从线程中剔除，大量的线程导致崩溃
+    for (int i = 0; i < frames_total; i++) {
+        if (!prepareNextFrame()) {
+            stop();
+            return;
         }
-    });
+    }
+
+//    m_qf = QtConcurrent::run([this]() {
+//        for (int i = 0; i < frames_total; i++) {
+//            if (!prepareNextFrame()) {
+//                stop();
+//                return;
+//            }
+//        }
+//    });
 //    QEventLoop loop;
 //    QTimer::singleShot(all_ms - duration_ms, &loop, SLOT(quit()));
 //    loop.exec();
@@ -286,8 +294,10 @@ bool SlideEffect::prepare()
 
 bool SlideEffect::prepareNextFrame()
 {
+
     //current_frame++? do not paint frame 0?
     if (prepareFrameAt(++current_frame)) {
+
 //        renderFrame(current_frame, current_clip_region, next_clip_region);
 
 //        virtual void renderFrame(QImage mimage, int num, QRegion current_region, QRegion next_region, int width, int height
@@ -308,7 +318,7 @@ bool SlideEffect::prepareNextFrame()
         connect(this, &SlideEffect::deleteLater, threadf, &ThreadRenderFrame::stop);
         threadf->setData(data);
         QThreadPool::globalInstance()->start(threadf);
-//        m.start(threadf);
+
 //        QFuture<void> res = QtConcurrent::run(this, &SlideEffect::renderFrame, data);
         //        QFuture<void> res = QtConcurrent::run(this, &SlideEffect::renderFrame, *frame_image, current_frame, current_clip_region, next_clip_region,
 //                                              width, height, *current_image, *next_image, current_rect, next_rect);

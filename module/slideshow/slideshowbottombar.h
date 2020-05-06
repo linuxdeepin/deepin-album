@@ -22,9 +22,6 @@ public:
     DIconButton *m_playpauseButton;
     DIconButton *m_cancelButton;
     int a = 0;
-//    bool playorpause = true;
-//    bool a = true;
-//    void playpauseButton(bool a);
 private slots:
 //    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 signals:

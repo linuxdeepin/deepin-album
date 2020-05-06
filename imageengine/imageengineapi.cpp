@@ -17,12 +17,6 @@ ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 {
     Q_UNUSED(parent);
-//    if (nullptr == parent && nullptr == s_ImageEngine) {
-//        return nullptr;
-//    }
-//    if (nullptr != parent && nullptr == s_ImageEngine) {
-//        s_ImageEngine = new ImageEngineApi(parent);
-//    }
     if (!s_ImageEngine) {
         s_ImageEngine = new ImageEngineApi();
     }
@@ -30,14 +24,12 @@ ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 }
 
 ImageEngineApi::ImageEngineApi(QObject *parent)
-//    : QObject(nullptr) 和MainApplication绑定是没必要的，api继承object的作用是使用信号槽
 {
     Q_UNUSED(parent);
     //文件加载线程池上限
     m_qtpool.setMaxThreadCount(20);
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
-    //m_qtpool.setExpiryTimeout(100);
     cacheThreadPool.setMaxThreadCount(10);
 }
 
@@ -266,8 +258,6 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
 {
     emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
-//    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
-//    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(files, albumname, obj, bdialogselect);
     obj->addThread(imagethread);
     m_qtpool.start(imagethread);
@@ -278,8 +268,6 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumna
 {
     emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
-//    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
-//    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(files, albumname, obj, bdialogselect);
     obj->addThread(imagethread);
     m_qtpool.start(imagethread);
@@ -300,6 +288,7 @@ bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
 {
     sltImageDBLoaded(obj, QStringList() << path );
     insertImage(path, "30");
+    return true;
 }
 
 bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName)
@@ -370,7 +359,6 @@ int ImageEngineApi::CacheThreadNum()
 bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj)
 {
     ImageFromNewAppThread *imagethread = new ImageFromNewAppThread;
-    //imagethread->setData(type, obj, name);
     imagethread->setDate(files, obj);
     obj->addThread(imagethread);
     m_qtpool.start(imagethread);
@@ -383,9 +371,7 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
     connect(imagethread, &ImageGetFilesFromMountThread::sigImageFilesGeted, this, &ImageEngineApi::sltImageFilesGeted);
     imagethread->setData(mountname, path, obj);
     obj->addThread(imagethread);
-    //emit dApp->signalM->waitDevicescan();
     m_qtpool.start(imagethread);
-
     return true;
 }
 

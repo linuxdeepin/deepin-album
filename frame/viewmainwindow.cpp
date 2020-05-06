@@ -50,17 +50,14 @@ ViewMainWindow::ViewMainWindow(bool manager, QWidget *parent):
                                        QVariant(defaultW)).toInt();
     const int wh = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
                                        QVariant(defaultH)).toInt();
-
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     resize(ww, wh);
-
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
     m_mainWidget = new MainWidget(manager, this);
     QTimer::singleShot(200, [ = ] {
         setCentralWidget(m_mainWidget);
     });
-
     if (titlebar()) titlebar()->setVisible(false);
     moveFirstWindow();
 
@@ -74,10 +71,6 @@ ViewMainWindow::ViewMainWindow(bool manager, QWidget *parent):
         workerThread->start();
     });
 #endif
-
-//    QHBoxLayout *l = new QHBoxLayout(this);
-//    l->setContentsMargins(0, 0, 0, 0);
-//    l->addWidget(m_mainWidget);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ViewMainWindow::onThemeChanged);
 }
@@ -94,33 +87,27 @@ void ViewMainWindow::moveFirstWindow()
             processFile.close();
             if (hisProcessDir.exists())
                 return;
-
             if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
                 QTextStream pidInfo(&processFile);
                 pidInfo << dApp->applicationPid();
                 processFile.close();
             }
-//            this->moveCenter();
         }
     } else {
         if (processFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-
             QTextStream pidInfo(&processFile);
             pidInfo << dApp->applicationPid();
             processFile.close();
-//            this->moveCenter();
         } else {
             qDebug() << "process File open failed!";
         }
     }
-
 }
 
 void ViewMainWindow::moveCenter()
 {
     QPoint pos = QCursor::pos();
     QRect primaryGeometry;
-
     for (QScreen *screen : dApp->screens()) {
         if (screen->geometry().contains(pos)) {
             primaryGeometry = screen->geometry();
@@ -157,18 +144,12 @@ void ViewMainWindow::resizeEvent(QResizeEvent *e)
     DMainWindow::resizeEvent(e);
 }
 
-//void MainWindow::showEvent(QShowEvent *event) {
-//    Q_UNUSED(event);
-//    qDebug() << "showEvent time";
-//}
-
 bool ViewMainWindow::windowAtEdge()
 {
     //TODO: process the multi-screen
     QRect currentRect = window()->geometry();
     bool atSeperScreenPos = false;
-    if (currentRect.x() == 0 || qAbs(currentRect.right() -
-                                     dApp->primaryScreen()->geometry().width()) <= 5) {
+    if (currentRect.x() == 0 || qAbs(currentRect.right() - dApp->primaryScreen()->geometry().width()) <= 5) {
         atSeperScreenPos = true;
     }
     return atSeperScreenPos;

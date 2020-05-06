@@ -49,7 +49,6 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
     qreal m_ratio = 1;
     m_screenrect = screen->availableGeometry() ;
     m_ratio = screen->devicePixelRatio();
-//    qDebug() << "-----------m_screenrect:" << m_screenrect << " devicePixelRatio:" << screen->devicePixelRatio();
     if ((((qreal)m_screenrect.width())*m_ratio) > 3000 || (((qreal)m_screenrect.height())*m_ratio) > 3000) {
         b_4k = true;
     }
@@ -126,11 +125,8 @@ void SlideEffectPlayer::setImagePaths(const QStringList &paths)
 
 void SlideEffectPlayer::setCurrentImage(const QString &path)
 {
-    for (int i = 0; i < m_paths.length(); i++) {
-        if (path == m_paths[i]) {
-            m_current = i;
-        }
-    }
+    //lmh0427优化判断位置
+    m_current = m_paths.indexOf(path);
 }
 
 
@@ -193,30 +189,27 @@ bool SlideEffectPlayer::startNext()
     }
 
     if (m_cacheImages.value(m_paths[current]).isNull()) {
-        return false;
+        //return false;
+        //lmh0427，如果还未加载，采用主线程去调用
+        QImage img = utils::image::getRotatedImage(m_paths[current]);
+        m_cacheImages[m_paths[current]] = img;
     }
 
-    if (m_effect)
+    if (nullptr != m_effect) {
         m_effect->deleteLater();
+    }
 
     const QString oldPath = m_paths[m_current];
 
-    if (m_paths.length() > 1) {
-        m_current++;
-        if (m_current == m_paths.length()) {
-            m_current = 0;
-        }
+    //LMH0428处理逻辑与上一张变更，防止切换上一张的时候，从下一张图片切回本张图片
+    QString newPath;
+    if (m_current >= m_paths.length() - 1) {
+        newPath = m_paths[0];
+    } else {
+        newPath = m_paths[m_current + 1];
     }
 
-//    static bool bfirst = true;
-//    if (bfirst) {
-    cacheNext();
-//        bfirst = false;
-//        QEventLoop loop;
-//        QTimer::singleShot(3000, &loop, SLOT(quit()));
-//        loop.exec();
-//    }
-    QString newPath = m_paths[m_current];
+
     m_effect = SlideEffect::create("");
 //    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
@@ -239,8 +232,9 @@ bool SlideEffectPlayer::startNext()
 
     qDebug() << m_cacheImages;
     m_effect->setImages(oldImg, newImg);
-    if (!m_thread.isRunning())
+    if (!m_thread.isRunning()) {
         m_thread.start();
+    }
 
     m_effect->moveToThread(&m_thread);
     connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
@@ -248,13 +242,20 @@ bool SlideEffectPlayer::startNext()
             Q_EMIT frameReady(img);
         }
     }, Qt::DirectConnection);
-    QMetaObject::invokeMethod(m_effect, "start");
+    //LMH0428下一张数量的增加，幻灯片处理完了才新增
+    connect(m_effect, &SlideEffect::stopped, this, [ = ]  {
 
-    if (m_current == m_paths.length() - 1) {
-//        emit dApp->signalM->updateButton();
-//        emit dApp->signalM->updatePauseButton();
-        bneedupdatepausebutton = true;
-    }
+        if (m_paths.length() > 1)
+        {
+            m_current++;
+            if (m_current == m_paths.length()) {
+                m_current = 0;
+            }
+        }
+        cacheNext();
+    }, Qt::DirectConnection);
+
+    QMetaObject::invokeMethod(m_effect, "start");
 
     return true;
 }
@@ -280,24 +281,26 @@ bool SlideEffectPlayer::startPrevious()
     }
 
     if (m_cacheImages.value(m_paths[current]).isNull()) {
-        return false;
+        //return false;
+        //lmh0427，如果还未加载，采用主线程去调用
+        QImage img = utils::image::getRotatedImage(m_paths[current]);
+        m_cacheImages[m_paths[current]] = img;
     }
 
-    if (m_effect)
+    if (nullptr != m_effect)
         m_effect->deleteLater();
 
     const QString oldPath = m_paths[m_current];
 
-    if (m_paths.length() > 1) {
-        m_current --;
-        if (m_current == -1) {
-            m_current = m_paths.length() - 1;
-        }
+
+    QString newPath;
+    if (m_current <= 0) {
+        newPath = m_paths[m_paths.length() - 1];
+    } else {
+        newPath = m_paths[m_current - 1];
     }
 
-    cachePrevious();
 
-    QString newPath = m_paths[m_current];
     m_effect = SlideEffect::create("enter_from_left");
     if (!b_4k) {
         m_effect->setDuration(ANIMATION_DURATION);
@@ -318,29 +321,40 @@ bool SlideEffectPlayer::startPrevious()
 //    m_cacheImages.remove(oldPath);
 
     m_effect->setImages(oldImg, newImg);
-    if (!m_thread.isRunning())
+    if (!m_thread.isRunning()) {
         m_thread.start();
-
+    }
     m_effect->moveToThread(&m_thread);
     connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
     }, Qt::DirectConnection);
+
+    connect(m_effect, &SlideEffect::stopped, this, [ = ]  {
+        if (m_paths.length() > 1)
+        {
+            m_current --;
+            if (m_current == -1) {
+                m_current = m_paths.length() - 1;
+            }
+        }
+        cachePrevious();
+    }, Qt::DirectConnection);
+
     QMetaObject::invokeMethod(m_effect, "start");
     return true;
 }
 
 void SlideEffectPlayer::cacheNext()
 {
-    qDebug() << "SlideEffectPlayer::cacheNext()";
     int current = m_current;
     current ++;
     if (current == m_paths.length()) {
         if (bfirstrun) {
-            current = m_paths.length() - 1;
-            bneedupdatepausebutton = true;
-//            emit dApp->signalM->updatePauseButton();
+            //current = m_paths.length() - 1;
+            //bneedupdatepausebutton = true;
+            current = 0;
         } else {
             current = 0;
         }
@@ -352,7 +366,6 @@ void SlideEffectPlayer::cacheNext()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages.insert(path, img)";
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
@@ -362,7 +375,6 @@ void SlideEffectPlayer::cacheNext()
 
 void SlideEffectPlayer::cachePrevious()
 {
-    qDebug() << "SlideEffectPlayer::cachePrevious()";
     int current = m_current;
     current--;
     if (-1 == current) {

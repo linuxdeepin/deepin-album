@@ -3,7 +3,6 @@
 
 ImageEngineThreadObject::ImageEngineThreadObject()
 {
-
 }
 
 void ImageEngineThreadObject::needStop(void *imageobject)

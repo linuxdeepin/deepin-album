@@ -30,11 +30,6 @@ struct ImageDataSt {
     }
 };
 
-//enum DBType {
-//    DBNULL,
-//    DBAllPaths,
-//};
-
 class ImageEngineThreadObject : public QObject
 {
     Q_OBJECT
@@ -115,8 +110,6 @@ class ImageCacheSaveObject : public QObject
     Q_OBJECT
 public:
     ImageCacheSaveObject();
-
-//void setData(QStringList paths);
 public:
     bool add(const QStringList pahts);
     bool add(const QString path);
