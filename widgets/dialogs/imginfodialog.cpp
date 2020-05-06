@@ -308,12 +308,23 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
 
         if (i->key.contains("Dimensions")) {
             value = infos.value("PixelXDimension") + "x" + infos.value("PixelYDimension");
-        }
-        if (i->key.contains("FileFormat")) {
+            if (1 == value.count()) {
+                value = "";
+            }
+        } else if (i->key.contains("FileFormat")) {
             QStringList list = value.split("/");
             if (list.count() > 0) {
                 value = list.value(list.count() - 1);
             }
+        } else if (i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") {
+            QStringList list = value.split(" ");
+            if (2 == list.count() ) {
+                QStringList listDate = list[0].split("/");
+                if (3 == listDate.count()) {
+                    value = listDate[0] + "年" + listDate[1] + "月" + listDate[2] + "日 " + list[1];
+                }
+            }
+
         }
         if (value.isEmpty()) continue;
 

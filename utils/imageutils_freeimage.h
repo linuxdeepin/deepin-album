@@ -63,6 +63,7 @@ const QString getFileFormat(const QString &path)
     //use mimedatabase get image mimetype
     QFileInfo fi(path);
     QString suffix = fi.suffix();
+    return suffix;
     QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
     QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
