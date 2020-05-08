@@ -30,7 +30,10 @@ public:
     void start();
     void stop();
 private:
-    QPointer<QMovie> m_movie;
+    void *m_pGif;
+    QTimer *m_pTImer;
+    int m_index;
+
 };
 
 class GraphicsPixmapItem : public QGraphicsPixmapItem

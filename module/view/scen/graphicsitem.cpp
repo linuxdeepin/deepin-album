@@ -18,15 +18,28 @@
 #include <QMovie>
 #include <QDebug>
 #include <QPainter>
+#include <FreeImage.h>
+#include "utils/imageutils.h"
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
+    , m_index(0)
 {
-    m_movie = new QMovie(fileName);
-    QObject::connect(m_movie, &QMovie::frameChanged, this, [ = ] {
-        if (m_movie.isNull()) return;
-        setPixmap(m_movie->currentPixmap());
+    //用freeimage解析gif
+    m_pGif = utils::image::openGiffromPath(fileName);
+    m_pTImer = new QTimer(this);
+    QObject::connect(m_pTImer, &QTimer::timeout, this, [ = ] {
+        //用freeimage解析的图片显示
+        setPixmap(QPixmap::fromImage(utils::image::getGifImage(m_index, m_pGif)));
+        m_index++;
+        if (m_index >= utils::image::getGifImageCount(m_pGif))
+        {
+            m_index = 0;
+        }
     });
+    m_pTImer->start(100);
+
+
 }
 
 GraphicsMovieItem::~GraphicsMovieItem()
@@ -36,10 +49,9 @@ GraphicsMovieItem::~GraphicsMovieItem()
     // QGraphicsScene's index up to date.
     // If not doing this, it may crash
     prepareGeometryChange();
-
-    m_movie->stop();
-    m_movie->deleteLater();
-    m_movie = nullptr;
+    m_pTImer->stop();
+    m_pTImer->deleteLater();
+    m_pTImer = nullptr;
 }
 
 /*!
@@ -50,17 +62,17 @@ GraphicsMovieItem::~GraphicsMovieItem()
  */
 bool GraphicsMovieItem::isValid() const
 {
-    return m_movie->frameCount() > 1;
+    return utils::image::getGifImageCount(m_pGif) > 1;
 }
 
 void GraphicsMovieItem::start()
 {
-    m_movie->start();
+    m_pTImer->start(100);
 }
 
 void GraphicsMovieItem::stop()
 {
-    m_movie->stop();
+    m_pTImer->stop();
 }
 
 
