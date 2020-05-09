@@ -774,6 +774,7 @@ QImage getGifImage(int index, void *pGIF)
 {
     return freeimage::getGifImage(index, pGIF);
 }
+
 }  // namespace image
 
 }  //namespace utils
