@@ -303,7 +303,8 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
+    //LMH0509为了修复24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
+    // connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
@@ -2802,6 +2803,7 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 
 void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 {
+
     qDebug() << "AlbumView::onLeftListDropEvent()";
     ThumbnailListView *currentViewList;
     QStringList dropItemPaths;
@@ -2835,6 +2837,9 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
     } else {
         //向其他相册拖拽，动作添加
         DBManager::instance()->insertIntoAlbum(item->m_albumNameStr, dropItemPaths);
+        //LMH0509,为了解决24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
+        QModelIndex index;
+        emit m_pLeftListView->m_pCustomizeListView->pressed(index);
         m_pLeftListView->m_pCustomizeListView->setCurrentRow(dropIndex.row());
     }
 
