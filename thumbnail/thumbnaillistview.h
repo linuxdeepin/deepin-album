@@ -224,6 +224,14 @@ private:
     bool eventFilter(QObject *obj, QEvent *e) override;
 
     QPixmap getDamagedPixmap();
+
+    /**
+     * @brief updateThumbnaillistview
+     *
+     *  重新调整界面大小（当滑动条改变时即缩放）
+     */
+    void updateThumbnaillistview();
+
 public:
     QString m_imageType;
     QStandardItemModel *m_model = nullptr;
