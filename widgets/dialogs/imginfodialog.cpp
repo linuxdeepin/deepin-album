@@ -306,11 +306,12 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
         QString key = i->key;
         QString value = infos.value(i->key);
 
-        if (i->key.contains("Dimensions")) {
-            value = infos.value("PixelXDimension") + "x" + infos.value("PixelYDimension");
-            if (1 == value.count()) {
-                value = "";
-            }
+        if (i->key.contains("Dimension")) {
+            value = infos.value("Dimension");
+//            value = infos.value("PixelXDimension") + "x" + infos.value("PixelYDimension");
+//            if (1 == value.count()) {
+//                value = "";
+//            }
         } else if (i->key.contains("FileFormat")) {
             QStringList list = value.split("/");
             if (list.count() > 0) {

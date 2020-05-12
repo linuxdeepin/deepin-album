@@ -506,15 +506,15 @@ runend:
         m_pRightTitle->setVisible(false);
         m_pRightPicTotal->setVisible(false);
 //        m_pImportTitle->setVisible(false); //del 3975
-        if (COMMON_STR_RECENT_IMPORTED == m_currentType)
-        {
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-            m_pStatusBar->setVisible(true);
-        } else if (COMMON_STR_CUSTOM == m_currentType)
-        {
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
-            m_pStatusBar->setVisible(true);
-        }
+//        if (COMMON_STR_RECENT_IMPORTED == m_currentType)
+//        {
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+//            m_pStatusBar->setVisible(true);
+//        } else if (COMMON_STR_CUSTOM == m_currentType)
+//        {
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+//            m_pStatusBar->setVisible(true);
+//        }
         emit dApp->signalM->startImprot();
         m_pImportView->onImprotBtnClicked();
     });

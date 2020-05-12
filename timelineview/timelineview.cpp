@@ -118,7 +118,7 @@ void TimeLineView::initConnections()
 //        m_spinner->start();
         emit dApp->signalM->startImprot();
         pImportView->onImprotBtnClicked();
-        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
+//        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
     });
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
         if (isVisible())
@@ -417,6 +417,7 @@ void TimeLineView::clearAndStartLayout()
 void TimeLineView::addTimelineLayout()
 {
     if (currentTimeLineLoad >= m_timelines.size()) {
+        updateStackedWidget();
         return;
     }
     int nowTimeLineLoad = currentTimeLineLoad;
