@@ -232,7 +232,7 @@ void MainWindow::initConnections()
     });
     //隐藏图片视图
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
-        //viewImageClose(); 2020/4/1 15:39 注释后不关闭相册主界面
+//        viewImageClose(); //2020/4/1 15:39 注释后不关闭相册主界面
         titlebar()->setVisible(true);   //显示状态栏
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(m_backIndex);
@@ -1162,57 +1162,12 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 
         m_pAlbumBtn->setChecked(true);
 
-//        m_pAllPicBtn->setFlat(true);
-//        m_pTimeLineBtn->setFlat(true);
-//        m_pAlbumBtn->setFlat(false);
-
-//        DPalette pal = DApplicationHelper::instance()->palette(m_pItemButton);
-//        pal.setBrush(DPalette::Light, pal.color(DPalette::DarkLively));
-//        pal.setBrush(DPalette::Dark, pal.color(DPalette::DarkLively));
-//        pal.setBrush(DPalette::ButtonText, pal.color(DPalette::HighlightedText));
-//        pal.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//        m_pAlbumBtn->setPalette(pal);
-
-//        DPalette pale = DApplicationHelper::instance()->palette(m_pAllPicBtn);
-//        pale.setBrush(DPalette::Light, pale.color(DPalette::Base));
-//        pale.setBrush(DPalette::Dark, pale.color(DPalette::Base));
-//        pale.setBrush(DPalette::ButtonText, pale.color(DPalette::TextTitle));
-//        pale.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//        m_pAllPicBtn->setPalette(pale);
-//        m_pTimeLineBtn->setPalette(pale);
-
-//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//        if (themeType == DGuiApplicationHelper::LightType)
-//        {
-//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//            effect->setOffset(0, 4);
-//            effect->setColor(QColor(44, 167, 248, 102));
-//            effect->setBlurRadius(6);
-//            m_pAlbumBtn->setGraphicsEffect(effect);
-//        }
-//        else if (themeType == DGuiApplicationHelper::DarkType)
-//        {
-//            QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//            effect->setOffset(0, 4);
-//            effect->setColor(QColor(0, 42, 175, 102));
-//            effect->setBlurRadius(6);
-//            m_pAlbumBtn->setGraphicsEffect(effect);
-//        }
-
-//        QGraphicsDropShadowEffect *Noeffect = new QGraphicsDropShadowEffect();
-//        Noeffect->setOffset(0, 0);
-//        Noeffect->setColor(QColor(0, 0, 0, 0));
-//        Noeffect->setBlurRadius(0);
-//        m_pAllPicBtn->setGraphicsEffect(Noeffect);
-//        m_pTimeLineBtn->setGraphicsEffect(Noeffect);
-
-        //emit dApp->signalM->hideExtensionPanel();
         m_pSearchEdit->clear();
         m_SearchKey.clear();
         m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
 
         m_backIndex = VIEW_ALBUM;
-        emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册，正常退出
+        emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
     });
 }
 

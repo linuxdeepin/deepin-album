@@ -652,8 +652,8 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     m_pLeftListView->moveMountListWidget();
 
     //清除其他已选中的项
-    m_pLeftListView->m_pPhotoLibListView->clearFocus();
-
+    QModelIndex index2;
+    emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
 }
 
 #if 1

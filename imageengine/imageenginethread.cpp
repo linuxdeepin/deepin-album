@@ -770,6 +770,12 @@ ImageEngineThread::ImageEngineThread()
     setAutoDelete(true);
 }
 
+
+ImageEngineThread::~ImageEngineThread()
+{
+
+}
+
 void ImageEngineThread::setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
 {
     m_path = path;
@@ -836,7 +842,6 @@ void ImageEngineThread::run()
         return;
     using namespace utils::image;
     using namespace utils::base;
-
     QImage tImg;
     bool cache_exist = false;
     QString path = m_path;
@@ -914,6 +919,7 @@ void ImageEngineThread::run()
         pixmap = QPixmap::fromImage(tImg);
     }
     m_data.imgpixmap = pixmap;
+
     QFileInfo fi(m_path);
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTimeOriginal");

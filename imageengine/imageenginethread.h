@@ -161,6 +161,7 @@ class ImageEngineThread : public ImageEngineThreadObject, public QRunnable
     Q_OBJECT
 public:
     ImageEngineThread();
+    ~ImageEngineThread() override;
     void setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
     bool addObject(ImageEngineObject *imgobject);
 

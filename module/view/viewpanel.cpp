@@ -164,7 +164,7 @@ void ViewPanel::initConnect()
     });
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
         m_viewB->clear();
-        showNormal();
+//        showNormal();
     });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
