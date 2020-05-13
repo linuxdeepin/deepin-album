@@ -231,6 +231,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
+
 //        painter.drawPixmap(rect(),QPixmap(_path).scaled(60,50));
 
     painter.setRenderHints(QPainter::HighQualityAntialiasing |
@@ -248,12 +249,12 @@ void ImageItem::paintEvent(QPaintEvent *event)
         backgroundRect.setX(backgroundRect.x() + 1);
         backgroundRect.setWidth(backgroundRect.width() - 1);
         painter.fillRect(backgroundRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
-
-        if (_pixmap.width() > _pixmap.height()) {
-            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(), _pixmap.height());
-        } else if (_pixmap.width() < _pixmap.height()) {
-            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(), _pixmap.width());
-        }
+//LMH解决选中竖图，大小改变0509,屏蔽掉修改图片形状
+//        if (_pixmap.width() > _pixmap.height()) {
+//            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(), _pixmap.height());
+//        } else if (_pixmap.width() < _pixmap.height()) {
+//            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(), _pixmap.width());
+//        }
 
         m_pixmapstring = "";
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -1293,8 +1294,10 @@ void TTBContent::updateScreen()
 //                labelList.at(j)->resize(QSize(num, 40));
 //                labelList.at(j)->setIndexNow(m_nowIndex );
 //            }
+
             if (m_nowIndex < labelList.size())
                 labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+
             if (m_lastIndex > -1) {
                 labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
                 labelList.at(m_lastIndex)->resize(QSize(num, 40));

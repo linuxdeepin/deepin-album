@@ -761,6 +761,20 @@ QPixmap getDamagePixmap(bool bLight)
     }
 }
 
+
+void *openGiffromPath(const QString &path)
+{
+    return freeimage::openGiffromPath(path);
+}
+int getGifImageCount(void *pGIF)
+{
+    return freeimage::getGifImageCount(pGIF);
+}
+QImage getGifImage(int index, void *pGIF)
+{
+    return freeimage::getGifImage(index, pGIF);
+}
+
 }  // namespace image
 
 }  //namespace utils

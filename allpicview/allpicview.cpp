@@ -91,8 +91,9 @@ void AllPicView::initConnections()
         }
         info.viewType = utils::common::VIEW_ALLPIC_SRN;
         info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
+
         emit dApp->signalM->viewImage(info);
-        // emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
+        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
     });
     connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
         SignalManager::ViewInfo info;

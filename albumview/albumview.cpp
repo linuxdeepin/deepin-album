@@ -303,7 +303,8 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
+    //LMH0509为了修复24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
+    // connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
@@ -505,15 +506,15 @@ runend:
         m_pRightTitle->setVisible(false);
         m_pRightPicTotal->setVisible(false);
 //        m_pImportTitle->setVisible(false); //del 3975
-        if (COMMON_STR_RECENT_IMPORTED == m_currentType)
-        {
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-            m_pStatusBar->setVisible(true);
-        } else if (COMMON_STR_CUSTOM == m_currentType)
-        {
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
-            m_pStatusBar->setVisible(true);
-        }
+//        if (COMMON_STR_RECENT_IMPORTED == m_currentType)
+//        {
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+//            m_pStatusBar->setVisible(true);
+//        } else if (COMMON_STR_CUSTOM == m_currentType)
+//        {
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+//            m_pStatusBar->setVisible(true);
+//        }
         emit dApp->signalM->startImprot();
         m_pImportView->onImprotBtnClicked();
     });
@@ -651,8 +652,8 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     m_pLeftListView->moveMountListWidget();
 
     //清除其他已选中的项
-    m_pLeftListView->m_pPhotoLibListView->clearFocus();
-
+    QModelIndex index2;
+    emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
 }
 
 #if 1
@@ -2802,6 +2803,7 @@ void AlbumView::onUnMountSignal(QString unMountPath)
 
 void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 {
+
     qDebug() << "AlbumView::onLeftListDropEvent()";
     ThumbnailListView *currentViewList;
     QStringList dropItemPaths;
@@ -2835,6 +2837,9 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
     } else {
         //向其他相册拖拽，动作添加
         DBManager::instance()->insertIntoAlbum(item->m_albumNameStr, dropItemPaths);
+        //LMH0509,为了解决24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
+        QModelIndex index;
+        emit m_pLeftListView->m_pCustomizeListView->pressed(index);
         m_pLeftListView->m_pCustomizeListView->setCurrentRow(dropIndex.row());
     }
 

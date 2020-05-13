@@ -36,12 +36,22 @@ class CExportImageDialog : public DDialog
 {
     Q_OBJECT
 public:
+//    enum ESaveFormat {
+//        JPG,
+//        PNG,
+//        BMP,
+//        TIF,
+//        PDF
+//    };
+
     enum ESaveFormat {
         JPG,
+        JPEG,
         PNG,
         BMP,
-        TIF,
-        PDF
+        PGM,
+        XBM,
+        XPM
     };
 
     enum ESavePath {

@@ -761,7 +761,8 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
     //更新布局
     calBasePixMapWandH();
     calWidgetItemWandH();
-    addThumbnailView();
+    updateThumbnaillistview();
+//    addThumbnailView();
     emit needResize(m_height + 15);     //调整整体大小
 }
 
@@ -1341,7 +1342,8 @@ void ThumbnailListView::onPixMapScale(int value)
     }
     calBasePixMapWandH();
     calWidgetItemWandH();
-    addThumbnailView();//耗时最长
+    updateThumbnaillistview();      //改用新的调整位置--xioalong
+//    addThumbnailView();//耗时最长
     //2020/4/24 内部为空函数
     emit SignalManager::instance()->updateThumbnailViewSize();
     sendNeedResize();
@@ -1408,6 +1410,63 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
 QPixmap ThumbnailListView::getDamagedPixmap()
 {
     return utils::image::getDamagePixmap (DApplicationHelper::instance ()->themeType () == DApplicationHelper::LightType);
+}
+
+void ThumbnailListView::updateThumbnaillistview()
+{
+    int index = 0;
+    for (int i = 0; i < m_gridItem.length(); i++) {
+        for (int j = 0; j < m_gridItem[i].length(); j++) {
+            QString qsfirstorlast = "NotFirstOrLast";
+            int height = m_gridItem[i][j].height;
+            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                if (i == 0) {
+                    height += 50;
+                    qsfirstorlast = "First";
+                } else if (i == m_gridItem.length() - 1) {
+                    height += 27;
+                    qsfirstorlast = "Last";
+                }
+            } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+                if (i == m_gridItem.length() - 1) {
+                    height += 27;
+                    qsfirstorlast = "Last";
+                }
+            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
+                if (i == 0) {
+                    height += 130;
+                    qsfirstorlast = "First";
+                } else if (i == m_gridItem.length() - 1) {
+                    height += 27;
+                    qsfirstorlast = "Last";
+                }
+            }
+
+            QVariantList datas;
+            datas.append(QVariant(m_gridItem[i][j].name));
+            datas.append(QVariant(m_gridItem[i][j].path));
+            datas.append(QVariant(m_gridItem[i][j].width));
+            datas.append(QVariant(m_gridItem[i][j].height));
+            datas.append(QVariant(m_gridItem[i][j].remainDays));
+            datas.append(QVariant(m_gridItem[i][j].image));
+            datas.append(QVariant(m_gridItem[i][j].imgWidth));
+            datas.append(QVariant(m_gridItem[i][j].imgHeight));
+            datas.append(QVariant(m_gridItem[i][j].baseWidth));
+            datas.append(QVariant(m_gridItem[i][j].baseHeight));
+            datas.append(QVariant(qsfirstorlast));
+            datas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
+
+            //更新值
+            QStandardItem *newItem = m_model->item(index);
+            if (newItem) {
+                newItem->setData(QVariant(datas), Qt::DisplayRole);
+                newItem->setData(QVariant(QSize(m_gridItem[i][j].width, height)),
+                                 Qt::SizeHintRole);
+                m_model->setItem(index++, newItem);
+            }
+        }
+    }
+    this->setSpacing(ITEM_SPACING);     //重新布局
 }
 
 #if 1
@@ -1542,7 +1601,8 @@ void ThumbnailListView::resizeEventF()
         bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
     }
     calWidgetItemWandH();
-    addThumbnailView();
+//    addThumbnailView();
+    updateThumbnaillistview();
     sendNeedResize();
     m_iDefaultWidth = width();
     if (nullptr != m_item) {

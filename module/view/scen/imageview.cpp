@@ -220,7 +220,7 @@ void ImageView::setImage(const QString &path)
 
             s->clear();
             resetTransform();
-            m_movieItem = new GraphicsMovieItem(path);
+            m_movieItem = new GraphicsMovieItem(path, strfixL);
             m_movieItem->start();
             // Make sure item show in center of view after reload
             setSceneRect(m_movieItem->boundingRect());
@@ -295,9 +295,10 @@ void ImageView::setImageFirst(const QString &path)
 
             s->clear();
             resetTransform();
-            m_movieItem = new GraphicsMovieItem(path);
+            m_movieItem = new GraphicsMovieItem(path, strfixL);
             m_movieItem->start();
             // Make sure item show in center of view after reload
+            QRectF aa = m_movieItem->boundingRect();
             setSceneRect(m_movieItem->boundingRect());
             s->addItem(m_movieItem);
             QSize image_size = m_movieItem->pixmap().size();

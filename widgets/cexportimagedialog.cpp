@@ -131,24 +131,10 @@ void CExportImageDialog::initUI()
 
     setWindowTitle(tr("Export"));
 
-//    DLabel *titleLabel = new DLabel(tr("Export"), this);
-//    titleLabel->setFixedSize(DIALOG_SIZE.width(), 40);
-
-//    QHBoxLayout *titleLayout = new QHBoxLayout(this);
-//    titleLayout->setSpacing(0);
-//    titleLayout->setMargin(0);
-//    titleLayout->addWidget(logoLable, 0, Qt::AlignLeft);
-//    titleLayout->addWidget(titleLabel, 0, Qt::AlignHCenter);
-
-
-//    titleLabel->move(0, 0);
-//    titleLabel->setAlignment(Qt::AlignCenter);
-
-
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
-
+    m_fileNameEdit->lineEdit()->setMaxLength(255);  //限制文本输入长度
 
     m_savePathCombox = new DComboBox(this);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
@@ -159,25 +145,24 @@ void CExportImageDialog::initUI()
     m_savePathCombox->insertItem(Music, tr("Music"));
     m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
 
-    //暂时使用中文字符串，后续需要做翻译
-//    m_savePathCombox->insertItem(Pictures, tr("图片"));
-//    m_savePathCombox->insertItem(Documents, tr("文档"));
-//    m_savePathCombox->insertItem(Downloads, tr("下载"));
-//    m_savePathCombox->insertItem(Desktop, tr("桌面"));
-//    m_savePathCombox->insertItem(Videos, tr("视频"));
-//    m_savePathCombox->insertItem(Music, tr("音乐"));
-//    m_savePathCombox->insertItem(UsrSelect, tr("选择其他文件夹"));
     m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
     m_formatCombox = new DComboBox(this);
+//    m_formatCombox->insertItem(JPG, "jpg");
+//    m_formatCombox->insertItem(JPG, "jpeg");
+//    m_formatCombox->insertItem(PNG, "png");
+//    m_formatCombox->insertItem(BMP, "bmp");
+//    m_formatCombox->insertItem(BMP, "pgm");
+//    m_formatCombox->insertItem(TIF, "xbm");
+//    m_formatCombox->insertItem(PDF, "xpm");
     m_formatCombox->insertItem(JPG, "jpg");
-    m_formatCombox->insertItem(JPG, "jpeg");
+    m_formatCombox->insertItem(JPEG, "jpeg");
     m_formatCombox->insertItem(PNG, "png");
     m_formatCombox->insertItem(BMP, "bmp");
-    m_formatCombox->insertItem(BMP, "pgm");
-    m_formatCombox->insertItem(TIF, "xbm");
-    m_formatCombox->insertItem(PDF, "xpm");
+    m_formatCombox->insertItem(PGM, "pgm");
+    m_formatCombox->insertItem(XBM, "xbm");
+    m_formatCombox->insertItem(XPM, "xpm");
     m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
@@ -207,14 +192,9 @@ void CExportImageDialog::initUI()
     fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);
     fLayout->addRow(tr("Quality:"), qualityHLayout);
-//    fLayout->addRow(tr("文件名:"), m_fileNameEdit);
-//    fLayout->addRow(tr("保存到:"), m_savePathCombox);
-//    fLayout->addRow(tr("文件格式:"), m_formatCombox);
-//    fLayout->addRow(tr("图片质量:"), qualityHLayout);
+
     addContent(contentWidget);
 
-//    addButton(tr("取消"), false, DDialog::ButtonNormal);
-//    addButton(tr("保存"), true, DDialog::ButtonRecommend);
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
@@ -228,9 +208,6 @@ void CExportImageDialog::initUI()
     m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
     m_emptyWarningDialog->setFixedSize(400, 170);
 
-
-
-//    setLayout(titleLayout);
 }
 
 void CExportImageDialog::initConnection()
@@ -279,33 +256,23 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 
 void CExportImageDialog::slotOnFormatChange(int index)
 {
-    switch (index) {
-    case PDF:
-    case BMP:
-    case TIF:
-        m_qualitySlider->setValue(100);
-        m_qualitySlider->setEnabled(false);
-        break;
-    case JPG:
-    case PNG:
-        m_qualitySlider->setEnabled(true);
-        break;
-    default:
-        break;
-    }
+//    switch (index) {
+//    case PDF:
+//    case BMP:
+//    case TIF:
+//        m_qualitySlider->setValue(100);
+//        m_qualitySlider->setEnabled(false);
+//        break;
+//    case JPG:
+//    case PNG:
+//        m_qualitySlider->setEnabled(true);
+//        break;
+//    default:
+//        break;
+//    }
 
     m_saveFormat = m_formatCombox->itemText(index);
 
-//    QString name = m_fileNameEdit->text().trimmed();
-
-//    if ("" != name) {
-
-//        name = name.mid(0, name.lastIndexOf("."));
-
-//        name += m_saveFormat;
-
-//        m_fileNameEdit->setText(name);
-//    }
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
