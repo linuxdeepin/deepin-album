@@ -825,7 +825,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
     //LMH0509,为了解决24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
-    //emit dApp->signalM->insertedIntoAlbum(album, paths);
+    emit dApp->signalM->insertedIntoAlbum(album, paths);
 }
 
 void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList &paths)
