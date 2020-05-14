@@ -702,7 +702,6 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 info.width = data.imgpixmap.width();
                 info.height = data.imgpixmap.height();
                 info.image = data.imgpixmap;
-//                info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
                 info.remainDays = data.remainDays;
                 info.baseWidth = data.imgpixmap.width();
                 info.baseHeight = data.imgpixmap.height();
@@ -712,49 +711,50 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                         item = info;
                 }
                 m_gridItem[i][j] = info;
+
+                int height = m_gridItem[i][j].height;
+                QVariantList newdatas;
+                QString qsfirstorlast = "NotFirstOrLast";
+                if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                    if (i == 0) {
+                        height += 50;
+                        qsfirstorlast = "First";
+                    } else if (i == m_gridItem.length() - 1) {
+                        height += 27;
+                        qsfirstorlast = "Last";
+                    }
+                } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+                    if (i == m_gridItem.length() - 1) {
+                        height += 27;
+                        qsfirstorlast = "Last";
+                    }
+                } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
+                    if (i == 0) {
+                        height += 130;
+                        qsfirstorlast = "First";
+                    } else if (i == m_gridItem.length() - 1) {
+                        height += 27;
+                        qsfirstorlast = "Last";
+                    }
+                }
+                newdatas.append(QVariant(m_gridItem[i][j].name));
+                newdatas.append(QVariant(m_gridItem[i][j].path));
+                newdatas.append(QVariant(m_gridItem[i][j].width));
+                newdatas.append(QVariant(m_gridItem[i][j].height));
+                newdatas.append(QVariant(m_gridItem[i][j].remainDays));
+                newdatas.append(QVariant(m_gridItem[i][j].image));
+                newdatas.append(QVariant(m_gridItem[i][j].imgWidth));
+                newdatas.append(QVariant(m_gridItem[i][j].imgHeight));
+                newdatas.append(QVariant(m_gridItem[i][j].baseWidth));
+                newdatas.append(QVariant(m_gridItem[i][j].baseHeight));
+                newdatas.append(QVariant(qsfirstorlast));
+                newdatas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
+                m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
+                m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
+                                                 Qt::SizeHintRole);
+                QSize picSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height);
+                m_model->item(index, 0)->setSizeHint(picSize);
             }
-            int height = m_gridItem[i][j].height;
-            QVariantList newdatas;
-            QString qsfirstorlast = "NotFirstOrLast";
-            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
-                if (i == 0) {
-                    height += 50;
-                    qsfirstorlast = "First";
-                } else if (i == m_gridItem.length() - 1) {
-                    height += 27;
-                    qsfirstorlast = "Last";
-                }
-            } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
-                if (i == m_gridItem.length() - 1) {
-                    height += 27;
-                    qsfirstorlast = "Last";
-                }
-            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
-                if (i == 0) {
-                    height += 130;
-                    qsfirstorlast = "First";
-                } else if (i == m_gridItem.length() - 1) {
-                    height += 27;
-                    qsfirstorlast = "Last";
-                }
-            }
-            newdatas.append(QVariant(m_gridItem[i][j].name));
-            newdatas.append(QVariant(m_gridItem[i][j].path));
-            newdatas.append(QVariant(m_gridItem[i][j].width));
-            newdatas.append(QVariant(m_gridItem[i][j].height));
-            newdatas.append(QVariant(m_gridItem[i][j].remainDays));
-            newdatas.append(QVariant(m_gridItem[i][j].image));
-            newdatas.append(QVariant(m_gridItem[i][j].imgWidth));
-            newdatas.append(QVariant(m_gridItem[i][j].imgHeight));
-            newdatas.append(QVariant(m_gridItem[i][j].baseWidth));
-            newdatas.append(QVariant(m_gridItem[i][j].baseHeight));
-            newdatas.append(QVariant(qsfirstorlast));
-            newdatas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
-            m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
-            m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
-                                             Qt::SizeHintRole);
-            QSize picSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height);
-            m_model->item(index, 0)->setSizeHint(picSize);
             index++;
         }
     }

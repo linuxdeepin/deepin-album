@@ -36,13 +36,14 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
 
 void LeftListWidget::dropEvent(QDropEvent *event)
 {
-
     QModelIndex index = this->indexAt(event->pos());
     if (index.isValid()) {
         qDebug() << "emit signalDropEvent:" << index;
         emit signalDropEvent(index);
+    } else {
+        DListWidget::dropEvent(event);
     }
-    DListWidget::dropEvent(event);
+
 }
 
 void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)

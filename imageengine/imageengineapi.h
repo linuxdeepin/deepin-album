@@ -11,6 +11,7 @@
 //加载图片的频率
 const int Number_Of_Displays_Per_Time = 2;
 
+//#define   NOGLOBAL;     //是否启用全局线程
 
 class ImageEngineApi: public QObject
 {
@@ -19,8 +20,12 @@ public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
     ~ImageEngineApi()
     {
+#ifdef NOGLOBAL
         m_qtpool.waitForDone();
         cacheThreadPool.waitForDone();
+#else
+        QThreadPool::globalInstance()->waitForDone();
+#endif
     }
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
@@ -71,11 +76,13 @@ private:
     ImageEngineApi(QObject *parent = nullptr);
     QMap<QString, ImageDataSt>m_AllImageData;
     QMap<void *, void *>m_AllObject;
-    QThreadPool m_qtpool;
+
     static ImageEngineApi *s_ImageEngine;
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
+#ifdef NOGLOBAL
+    QThreadPool m_qtpool;
     QThreadPool cacheThreadPool;
-    QList<ImageCacheQueuePopThread *> cacheThreads;
+#endif
 };
 
 #endif // IMAGEENGINEAPI_H

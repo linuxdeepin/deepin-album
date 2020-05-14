@@ -129,12 +129,12 @@ SlideEffect::SlideEffect()
     speed = 1.0;
     current_frame = 0;
     frames_total = 17;
-    current_image = next_image = frame_image = 0;
+    current_image = next_image = frame_image = nullptr;
     width = height = 0;
     color = Qt::transparent;
 
     easing_ = QEasingCurve(QEasingCurve::OutBack);
-    QThreadPool::globalInstance()->setMaxThreadCount(50);
+//    QThreadPool::globalInstance()->setMaxThreadCount(4);
 //    m.setMaxThreadCount(20);
 //    connect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 }

@@ -426,7 +426,7 @@ void TimeLineView::addTimelineLayout()
     DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(m_timelines.at(nowTimeLineLoad));
 
     QListWidgetItem *item = new QListWidgetItem;
-    TimelineItem *listItem = new TimelineItem;
+    TimelineItem *listItem = new TimelineItem(this);
     listItem->adjustSize();
     QVBoxLayout *listItemlayout = new QVBoxLayout();
     listItem->setLayout(listItemlayout);

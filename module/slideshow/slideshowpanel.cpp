@@ -431,7 +431,6 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     animation->setEndValue(1);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
     showFullScreen();
-
 }
 
 void SlideShowPanel::showNormal()

@@ -170,7 +170,6 @@ void SlideEffectPlayer::pause()
 
 bool SlideEffectPlayer::startNext()
 {
-    qDebug() << "SlideEffectPlayer::startNext()";
     if (m_paths.isEmpty())
         return false;
     QSize fSize(m_w, m_h);
@@ -197,6 +196,7 @@ bool SlideEffectPlayer::startNext()
 
     if (nullptr != m_effect) {
         m_effect->deleteLater();
+        m_effect = nullptr;
     }
 
     const QString oldPath = m_paths[m_current];
@@ -209,8 +209,8 @@ bool SlideEffectPlayer::startNext()
         newPath = m_paths[m_current + 1];
     }
 
-
     m_effect = SlideEffect::create("");
+    m_effect->moveToThread(&m_thread);
 //    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
     if (!b_4k) {
@@ -224,27 +224,27 @@ bool SlideEffectPlayer::startNext()
     m_effect->setSize(fSize);
 
     using namespace utils::image;
-    qDebug() << "m_cacheImages.value";
+
     QImage oldImg = m_cacheImages.value(oldPath);
     QImage newImg = m_cacheImages.value(newPath);
-// The "newPath" would be the next "oldPath", so there is no need to remove it now
-//    m_cacheImages.remove(oldPath);
 
-    qDebug() << m_cacheImages;
+// The "newPath" would be the next "oldPath", so there is no need to remove it now
+    m_cacheImages.remove(oldPath);
+
+//    qDebug() << m_cacheImages;
     m_effect->setImages(oldImg, newImg);
+
     if (!m_thread.isRunning()) {
         m_thread.start();
     }
 
-    m_effect->moveToThread(&m_thread);
     connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
-    }, Qt::DirectConnection);
+    }/*, Qt::DirectConnection*/);
     //LMH0428下一张数量的增加，幻灯片处理完了才新增
     connect(m_effect, &SlideEffect::stopped, this, [ = ]  {
-
         if (m_paths.length() > 1)
         {
             m_current++;
@@ -253,7 +253,7 @@ bool SlideEffectPlayer::startNext()
             }
         }
         cacheNext();
-    }, Qt::DirectConnection);
+    }/*, Qt::DirectConnection*/);
 
     QMetaObject::invokeMethod(m_effect, "start");
 
@@ -287,11 +287,12 @@ bool SlideEffectPlayer::startPrevious()
         m_cacheImages[m_paths[current]] = img;
     }
 
-    if (nullptr != m_effect)
+    if (nullptr != m_effect) {
         m_effect->deleteLater();
+        m_effect = nullptr;
+    }
 
     const QString oldPath = m_paths[m_current];
-
 
     QString newPath;
     if (m_current <= 0) {
@@ -300,8 +301,9 @@ bool SlideEffectPlayer::startPrevious()
         newPath = m_paths[m_current - 1];
     }
 
-
     m_effect = SlideEffect::create("enter_from_left");
+    m_effect->moveToThread(&m_thread);
+
     if (!b_4k) {
         m_effect->setDuration(ANIMATION_DURATION);
         m_effect->setAllMs(SLIDER_DURATION);
@@ -317,19 +319,18 @@ bool SlideEffectPlayer::startPrevious()
     QImage oldImg = m_cacheImages.value(oldPath);
     QImage newImg = m_cacheImages.value(newPath);
     // The "newPath" would be the next "oldPath", so there is no need to remove it now
-
-//    m_cacheImages.remove(oldPath);
+    m_cacheImages.remove(oldPath);
 
     m_effect->setImages(oldImg, newImg);
     if (!m_thread.isRunning()) {
         m_thread.start();
     }
-    m_effect->moveToThread(&m_thread);
+
     connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
-    }, Qt::DirectConnection);
+    }/*, Qt::DirectConnection*/);
 
     connect(m_effect, &SlideEffect::stopped, this, [ = ]  {
         if (m_paths.length() > 1)
@@ -340,7 +341,7 @@ bool SlideEffectPlayer::startPrevious()
             }
         }
         cachePrevious();
-    }, Qt::DirectConnection);
+    }/*, Qt::DirectConnection*/);
 
     QMetaObject::invokeMethod(m_effect, "start");
     return true;
@@ -366,6 +367,7 @@ void SlideEffectPlayer::cacheNext()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
+            qDebug() << "m_cacheImages  next: " << path;
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
@@ -387,7 +389,7 @@ void SlideEffectPlayer::cachePrevious()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages.insert(path, img)";
+            qDebug() << "m_cacheImages previous: " << path;
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
