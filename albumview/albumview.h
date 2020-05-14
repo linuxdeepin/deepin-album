@@ -56,7 +56,7 @@ public:
     explicit MountLoader(AlbumView *parent);
     ~MountLoader()
     {
-        qtpool.waitForDone();
+//        qtpool.waitForDone();
         QThreadPool::globalInstance()->waitForDone();
     }
     bool isRunning()
@@ -86,7 +86,7 @@ private:
     AlbumView *m_parent;
     QStringList m_phoneImgPathList;
     QMap<QString, QPixmap> m_phonePathImage;
-    QThreadPool qtpool;
+//    QThreadPool qtpool;
     bool bIsRunning = false;
     QString m_unmountpath;
     bool bneedunmountpath = false;

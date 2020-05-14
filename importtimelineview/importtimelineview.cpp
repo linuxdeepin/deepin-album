@@ -376,7 +376,7 @@ void ImportTimeLineView::clearAndStartLayout()
     }
     currentTimeLineLoad = 0;
     //add start 3975
-    TimelineItem *blankWidget = new TimelineItem;
+    TimelineItem *blankWidget = new TimelineItem(this);
     blankWidget->m_type = "blank";
     QListWidgetItem *blankItem = new QListWidgetItem();
     blankItem->setFlags(Qt::NoItemFlags);
@@ -400,7 +400,7 @@ void ImportTimeLineView::addTimelineLayout()
     DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(m_timelines.at(nowTimeLineLoad));
 
     QListWidgetItem *item = new QListWidgetItem;
-    TimelineItem *listItem = new TimelineItem;
+    TimelineItem *listItem = new TimelineItem(this);
     listItem->adjustSize();
     QVBoxLayout *listItemlayout = new QVBoxLayout();
     listItem->setLayout(listItemlayout);
