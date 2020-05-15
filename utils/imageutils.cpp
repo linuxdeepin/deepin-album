@@ -88,11 +88,9 @@ bool imageSupportRead(const QString &path)
     // take them here for good.
     QStringList errorList;
     errorList << "X3F";
-
     if (errorList.indexOf(suffix.toUpper()) != -1) {
         return false;
     }
-
     return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
 }
 

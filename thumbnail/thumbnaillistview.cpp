@@ -938,9 +938,10 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
     if (!this->indexAt(pos).isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType) {
         return;
     }
+    emit sigMouseRelease();
     updateMenuContents();
     m_pMenu->popup(QCursor::pos());
-    emit sigMouseRelease();
+
 }
 
 void ThumbnailListView::updateMenuContents()

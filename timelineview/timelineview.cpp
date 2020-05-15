@@ -709,11 +709,15 @@ void TimeLineView::addTimelineLayout()
 
     connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
         lastRow = -1;
-        for (int j = 0; j < m_allThumbnailListView.length(); j++) {
-            if (pThumbnailListView != m_allThumbnailListView[j]) {
-                m_allThumbnailListView[j]->clearSelection();
+        if (event->button() == Qt::LeftButton) {
+            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                if (pThumbnailListView != m_allThumbnailListView[j]) {
+                    m_allThumbnailListView[j]->clearSelection();
+                }
             }
+            m_ctrlPress = false;
         }
+
         for (int j = 0; j < m_allThumbnailListView.length(); j++) {
             if (pThumbnailListView == m_allThumbnailListView[j]) {
                 lastClickedIndex = j;
@@ -725,6 +729,7 @@ void TimeLineView::addTimelineLayout()
     });
 
     connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ](QMouseEvent * event) {
+        m_ctrlPress = true;
         for (int j = 0; j < m_allThumbnailListView.length(); j++) {
             if (pThumbnailListView == m_allThumbnailListView[j]) {
                 lastClickedIndex = j;
@@ -780,6 +785,7 @@ void TimeLineView::addTimelineLayout()
     });
 
     connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
+        m_ctrlPress = true;
         for (int j = 0; j < m_allThumbnailListView.length(); j++)
         {
             m_allThumbnailListView[j]->selectAll();
@@ -791,6 +797,15 @@ void TimeLineView::addTimelineLayout()
     });
 
     connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
+        if (!m_ctrlPress)
+        {
+            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                if (pThumbnailListView != m_allThumbnailListView[j]) {
+                    m_allThumbnailListView[j]->clearSelection();
+                }
+            }
+        }
+
         updatePicNum();
         updateChoseText();
         QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
@@ -1513,14 +1528,14 @@ void TimeLineView::keyPressEvent(QKeyEvent *e)
 {
     qDebug() << "TimeLineView::keyPressEvent()";
     if (e->key() == Qt::Key_Control) {
-        m_ctrlPress = true;
+//        m_ctrlPress = true;
     }
 }
 
 void TimeLineView::keyReleaseEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Control) {
-        m_ctrlPress = false;
+//        m_ctrlPress = false;
     }
 }
 

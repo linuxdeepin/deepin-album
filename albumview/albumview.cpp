@@ -1210,7 +1210,7 @@ void AlbumView::updateRightImportView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
     }
-    m_pRightThumbnailList->resizeHand();    //重新计算已导入大小
+//    m_pImpTimeLineWidget->resizeHand();    //重新计算已导入大小
 
     emit sigSearchEditIsDisplay(true);
 

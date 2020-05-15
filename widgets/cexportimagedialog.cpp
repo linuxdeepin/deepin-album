@@ -115,6 +115,12 @@ void CExportImageDialog::removeGifType()
     }
 }
 
+void CExportImageDialog::showEvent(QShowEvent *evet)
+{
+    m_fileNameEdit->lineEdit()->setFocus();     //设置焦点
+    return QWidget::showEvent(evet);
+}
+
 void CExportImageDialog::initUI()
 {
     setFixedSize(DIALOG_SIZE);
@@ -134,7 +140,30 @@ void CExportImageDialog::initUI()
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
-    m_fileNameEdit->lineEdit()->setMaxLength(255);  //限制文本输入长度
+
+    connect(m_fileNameEdit, &DLineEdit::editingFinished, this, [ = ] {
+        QString arg = m_fileNameEdit->text();
+        int len = arg.toLocal8Bit().size();
+        QString Interceptstr;
+        if ( len > 251)
+        {
+            unsigned num = 0;
+            int pos = 0;
+            for (; pos < arg.size(); pos++) {
+                if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
+                    if (num >= 251) break;
+                    num += 3;
+                } else if (num < 251) {
+                    num += 1;
+                } else {
+                    break;
+                }
+            }
+            Interceptstr = arg.left(pos);
+            m_fileNameEdit->setText(Interceptstr);
+        }
+    });
+
 
     m_savePathCombox = new DComboBox(this);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
@@ -396,7 +425,11 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
 
 bool CExportImageDialog::doSave()
 {
-    QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + "." + m_saveFormat;
+    QString filename = m_fileNameEdit->text();
+    if (filename.toLocal8Bit().size() == 251 && m_saveFormat == "jpeg") {
+        filename = filename.left(filename.length() - 1);
+    }
+    QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
     if (tr("gif") == m_saveFormat) {
         if ("" != gifpath) {
             QFile::copy(gifpath, completePath);

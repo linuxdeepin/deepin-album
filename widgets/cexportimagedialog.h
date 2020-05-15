@@ -78,6 +78,8 @@ public:
     void setGifType(QString strFilePath);
     void removeGifType();
 
+    void showEvent(QShowEvent *evet) override;
+
 private slots:
     void slotOnSavePathChange(int index);
     void slotOnFormatChange(int index);

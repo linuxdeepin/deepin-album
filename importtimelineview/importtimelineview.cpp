@@ -664,11 +664,15 @@ void ImportTimeLineView::addTimelineLayout()
     connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
         lastRow = -1;
 //       If required only select one image at a time add this code
-//        for (int j = 0; j < m_allThumbnailListView.length(); j++) {
-//            if (pThumbnailListView != m_allThumbnailListView[j]) {
-//                m_allThumbnailListView[j]->clearSelection();
-//            }
-//        }
+        if (event->button() == Qt::LeftButton) {
+            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                if (pThumbnailListView != m_allThumbnailListView[j]) {
+                    m_allThumbnailListView[j]->clearSelection();
+                }
+            }
+            m_ctrlPress = false;
+        }
+
         for (int j = 0; j < m_allThumbnailListView.length(); j++) {
             if (pThumbnailListView == m_allThumbnailListView[j]) {
                 lastClickedIndex = j;
@@ -750,6 +754,9 @@ void ImportTimeLineView::addTimelineLayout()
     });
 
     connect(pThumbnailListView, &ThumbnailListView::sigCtrlMousePress, this, [ = ](QMouseEvent * event) {
+
+        m_ctrlPress = true;
+
         for (int j = 0; j < m_allThumbnailListView.length(); j++) {
             if (pThumbnailListView == m_allThumbnailListView[j]) {
                 lastClickedIndex = j;
@@ -770,6 +777,7 @@ void ImportTimeLineView::addTimelineLayout()
     });
 
     connect(pThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
+        m_ctrlPress = true;
         for (int j = 0; j < m_allThumbnailListView.length(); j++)
         {
             m_allThumbnailListView[j]->selectAll();
@@ -779,17 +787,6 @@ void ImportTimeLineView::addTimelineLayout()
         QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
         pSuspensionChose->setText(b[0]->text());
     });
-
-//        connect(pThumbnailListView, &ThumbnailListView::sigDrop, this, [ = ] {
-//            for (int i = 0; i < m_allThumbnailListView.length(); i++)
-//            {
-//                if (pThumbnailListView != m_allThumbnailListView[i]) {
-//                    m_allThumbnailListView[i]->clearSelection();
-//                }
-//            }
-//            emit sigUpdatePicNum();
-//            updateChoseText();
-//        });
 
     connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ] {
         emit sigUpdatePicNum();
@@ -1549,19 +1546,20 @@ void ImportTimeLineView::keyPressEvent(QKeyEvent *e)
 {
     qDebug() << "ImportTimeLineView::keyPressEvent()";
     if (e->key() == Qt::Key_Control) {
-        m_ctrlPress = true;
+//        m_ctrlPress = true;
     }
 }
 
 void ImportTimeLineView::keyReleaseEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Control) {
-        m_ctrlPress = false;
+//        m_ctrlPress = false;
     }
 }
 
 void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
 {
+    qDebug() << "鼠标按下：";
     if (!m_ctrlPress && e->button() == Qt::LeftButton) {
         for (int i = 0; i < m_allThumbnailListView.length(); i++) {
             m_allThumbnailListView[i]->clearSelection();
