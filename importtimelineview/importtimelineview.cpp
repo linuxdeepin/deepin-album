@@ -677,6 +677,7 @@ void ImportTimeLineView::addTimelineLayout()
             if (pThumbnailListView == m_allThumbnailListView[j]) {
                 lastClickedIndex = j;
                 lastRow = pThumbnailListView->getRow(QPoint(event->x(), event->y()));
+
                 if (-1 != lastRow)
                     lastChanged = true;
             }
