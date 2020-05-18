@@ -399,7 +399,6 @@ QImage FIBitmapToQImage(FIBITMAP *dib)
 void *openGiffromPath(const QString &path)
 {
     FREE_IMAGE_FORMAT fif = FIF_GIF;
-    FIBITMAP *fiBmp = FreeImage_Load(fif, path.toStdString().c_str(), GIF_DEFAULT);
     FIMULTIBITMAP *pGIF = FreeImage_OpenMultiBitmap(fif, path.toStdString().c_str(), 0, 1, 0, GIF_PLAYBACK);
     return pGIF;
 }

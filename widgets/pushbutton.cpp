@@ -340,7 +340,7 @@ void PushButton::showTooltip(const QPoint &pos)
 
 void PushButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-
+    Q_UNUSED(theme)
 }
 
 bool PushButton::getChecked() const

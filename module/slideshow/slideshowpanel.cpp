@@ -316,23 +316,20 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
 void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e)
     backToLastPanel();
 }
 
 void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 {
+    Q_UNUSED(e)
     // backToLastPanel();
 }
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
-//    if (!(e->buttons() | Qt::NoButton)) {
+    Q_UNUSED(e)
     this->setCursor(Qt::ArrowCursor);
-//        emit mouseHoverMoved();
-//    } else {
-//        this->setCursor(Qt::ClosedHandCursor);
-//        emit transformChanged();
-//    }
 
     if (window()->isFullScreen()) {
         QPoint pos = mapFromGlobal(QCursor::pos());
@@ -500,6 +497,7 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
 
 void SlideShowPanel::keyPressEvent(QKeyEvent *e)
 {
+    Q_UNUSED(e)
 //    if (Qt::Key_Space == e->key()) {
 //        m_player->pause();
 //    }

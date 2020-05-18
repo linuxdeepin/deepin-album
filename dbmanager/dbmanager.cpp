@@ -1112,6 +1112,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
 
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value, const bool &needlock) const
 {
+    Q_UNUSED(needlock)
 //    if (needlock)
     QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;

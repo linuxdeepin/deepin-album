@@ -172,8 +172,6 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             img = img.scaledToWidth(size.width(), Qt::FastTransformation);
             img = img.scaledToHeight(size.height(), Qt::FastTransformation);
 
-            int x1 = painter.window().left();
-            int y1 = painter.window().top();
             int x2 = painter.window().right();
             int y2 = painter.window().bottom();
             painter.drawImage(pos.x(), pos.y(), img, 0, 0, x2, y2);

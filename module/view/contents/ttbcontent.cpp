@@ -75,46 +75,6 @@ const unsigned int IMAGE_TYPE_TIFF = 0x49492a00;
 const unsigned int IMAGE_TYPE_BMP = 0x424d;
 }  // namespace
 
-char *getImageType(QString filepath)
-{
-    char *ret = nullptr;
-    QFile file(filepath);
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-
-    // Read and check the header
-    quint32 magic;
-    in >> magic;
-    switch (magic) {
-    case IMAGE_TYPE_JEPG:
-    case IMAGE_TYPE_JPG1:
-    case IMAGE_TYPE_JPG2:
-    case IMAGE_TYPE_JPG3:
-        //文件类型为 JEPG
-        ret = "JEPG";
-        break;
-    case IMAGE_TYPE_PNG:
-        //文件类型为 png
-        ret = "PNG";
-        break;
-    case IMAGE_TYPE_GIF:
-        //文件类型为 GIF
-        ret = "GIF";
-        break;
-    case IMAGE_TYPE_TIFF:
-        //文件类型为 TIFF
-        ret = "TIFF";
-        break;
-    case IMAGE_TYPE_BMP:
-        //文件类型为 BMP
-        ret = "BMP";
-        break;
-    default:
-        ret = nullptr;
-        break;
-    }
-    return ret;
-};
 
 MyImageListWidget::MyImageListWidget(QWidget *parent)
     : QWidget(parent)
