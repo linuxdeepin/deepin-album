@@ -303,7 +303,15 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
+//    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
+
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, [ = ](QString albumname, QStringList pathlist) {
+        qDebug() << "添加到目的相册：" << albumname;
+        Q_UNUSED(pathlist);
+        if (albumname == m_currentType) //如果需要更新的为当前界面
+            updateRightView();
+    });
+
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
@@ -1065,11 +1073,11 @@ void AlbumView::initRightView()
 //    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
     m_importSelectByPhoneBtn->setEnabled(false);
     mainImportLayout->addWidget(importLabel);
-    mainImportLayout->addSpacing(15);
+    mainImportLayout->addSpacing(8);
     mainImportLayout->addWidget(m_importByPhoneComboBox);
-    mainImportLayout->addSpacing(30);
+    mainImportLayout->addSpacing(15);
     mainImportLayout->addWidget(m_importAllByPhoneBtn);
-    mainImportLayout->addSpacing(10);
+    mainImportLayout->addSpacing(5);
     mainImportLayout->addWidget(m_importSelectByPhoneBtn);
     m_importByPhoneWidget->setLayout(mainImportLayout);
 

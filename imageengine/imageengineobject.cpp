@@ -112,7 +112,6 @@ ImageEngineObject::~ImageEngineObject()
 {
     ImageEngineApi::instance()->removeObject(this);
     clearAndStopThread();
-
 }
 
 void ImageEngineObject::addThread(ImageEngineThreadObject *thread)

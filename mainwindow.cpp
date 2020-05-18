@@ -83,12 +83,13 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
-    //delete m_pAlbumview;                    //相册照片界面视图
-    //delete m_pAllPicView;                  //所有照片界面视图
-    //delete m_pTimeLineView;              //时间线界面视图
-    //delete m_pSearchView;                  //搜索界面视图
+//    delete m_pAlbumview;                    //相册照片界面视图
+//    delete m_pAllPicView;                   //所有照片界面视图
+//    delete m_pTimeLineView;                 //时间线界面视图
+//    delete m_pSearchView;                   //搜索界面视图
     //exit(0);
     emit dApp->signalM->cacheThreadStop();
+
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)

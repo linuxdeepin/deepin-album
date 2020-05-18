@@ -48,7 +48,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
         m_scrollbarbottomdistance = 27;
     } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
-        m_scrollbartopdistance = 130;
+        m_scrollbartopdistance = 134;
         m_scrollbarbottomdistance = 27;
     }
     m_model = new QStandardItemModel(this);

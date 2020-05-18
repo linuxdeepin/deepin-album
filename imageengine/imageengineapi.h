@@ -21,12 +21,17 @@ public:
     ~ImageEngineApi()
     {
 #ifdef NOGLOBAL
+        m_qtpool.clear();
         m_qtpool.waitForDone();
+        cacheThreadPool.clear();
         cacheThreadPool.waitForDone();
 #else
+        QThreadPool::globalInstance()->clear();     //清除队列
         QThreadPool::globalInstance()->waitForDone();
+        qDebug() << "xigou   current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
 #endif
     }
+
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
     bool removeImage(QStringList imagepathList);

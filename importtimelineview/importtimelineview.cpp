@@ -209,7 +209,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     pTimeLineViewWidget->setPalette(palcolor);
 
-    m_mainListWidget = new TimelineList;
+    m_mainListWidget = new TimelineList(this);
     m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(5);
@@ -404,8 +404,6 @@ void ImportTimeLineView::addTimelineLayout()
     listItem->adjustSize();
     QVBoxLayout *listItemlayout = new QVBoxLayout();
     listItem->setLayout(listItemlayout);
-//        listItemlayout->setMargin(2);
-//        listItemlayout->setSpacing(0);
     listItemlayout->setContentsMargins(0, 0, 0, 0);
 
     //添加title
@@ -430,17 +428,6 @@ void ImportTimeLineView::addTimelineLayout()
     }
     pDate->setText(listItem->m_sdate);
 
-//        DPalette color = DApplicationHelper::instance()->palette(pDate);
-//        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
-
-//        QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-//        ft3.setFamily("SourceHanSansSC");
-//        ft3.setWeight(QFont::DemiBold);
-
-//        pDate->setFont(ft3);
-//        pDate->setForegroundRole(DPalette::Text);
-//        pDate->setPalette(color);
-
     listItem->m_date = pDate;
 
     pNum_dn = new DLabel();
@@ -450,29 +437,6 @@ void ImportTimeLineView::addTimelineLayout()
     DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
     pNum_dn->setForegroundRole(DPalette::TextTips);
 
-//        QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-//        ft6.setFamily("SourceHanSansSC");
-//        ft6.setWeight(QFont::Medium);
-//        DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
-//        QColor color_BT = pal.color(DPalette::BrightText);
-//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//        if (themeType == DGuiApplicationHelper::LightType)
-//        {
-//            color_BT.setAlphaF(0.5);
-//            pal.setBrush(DPalette::Text, color_BT);
-//            pNum_dn->setForegroundRole(DPalette::Text);
-//            pNum_dn->setPalette(pal);
-//        }
-//        else if (themeType == DGuiApplicationHelper::DarkType)
-//        {
-//            color_BT.setAlphaF(0.75);
-//            pal.setBrush(DPalette::Text, color_BT);
-//            pNum_dn->setForegroundRole(DPalette::Text);
-//            pNum_dn->setPalette(pal);
-//        }
-
-//        pNum_dn->setFixedHeight(24);
-//        pNum_dn->setFont(ft6);
 
     QHBoxLayout *Layout = new QHBoxLayout();
     DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
@@ -531,33 +495,12 @@ void ImportTimeLineView::addTimelineLayout()
 
     });
 
-#if 1
     m_allThumbnailListView.append(pThumbnailListView);
-#endif
     pThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     pThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
     pThumbnailListView->setContentsMargins(0, 0, 0, 0);
     pThumbnailListView->setFrameShape(DTableView::NoFrame);
 
-//        using namespace utils::image;
-//        QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
-//        for (int j = 0; j < ImgInfoList.size(); j++) {
-//            ThumbnailListView::ItemInfo vi;
-//            vi.name = ImgInfoList.at(j).fileName;
-//            vi.path = ImgInfoList.at(j).filePath;
-////            vi.image = dApp->m_imagemap.value(ImgInfoList.at(j).filePath);
-//            if (dApp->m_imagemap.value(ImgInfoList.at(j).filePath).isNull()) {
-//                QSize imageSize = getImageQSize(vi.path);
-
-//                vi.width = imageSize.width();
-//                vi.height = imageSize.height();
-//            } else {
-//                vi.width = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).width();
-//                vi.height = dApp->m_imagemap.value(ImgInfoList.at(j).filePath).height();
-//            }
-
-//            thumbnaiItemList.append(vi);
-//        }
     //保存当前时间照片
 //        pThumbnailListView->insertThumbnails(thumbnaiItemList);
     pThumbnailListView->loadFilesFromLocal(ImgInfoList);
@@ -579,6 +522,7 @@ void ImportTimeLineView::addTimelineLayout()
     item->setFlags(Qt::NoItemFlags);
     m_mainListWidget->addItemForWidget(item);
     m_mainListWidget->setItemWidget(item, listItem);
+
     connect(pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
         SignalManager::ViewInfo info;
         info.album = "";

@@ -231,8 +231,13 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
 
 void ImageEngineApi::sltstopCacheSave()
 {
-#ifdef NOGLOAB
+#ifdef NOGLOBAL
     cacheThreadPool.waitForDone();
+#else
+    qDebug() << "析构缓存对象线程";
+    QThreadPool::globalInstance()->clear();
+    QThreadPool::globalInstance()->waitForDone();
+
 #endif
 }
 
@@ -388,7 +393,7 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
 #else
         QThreadPool::globalInstance()->start(thread);
 #endif
-//        qDebug() << "current Threads:" << cacheThreadPool.activeThreadCount();
+        qDebug() << "current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
     }
     return true;
 }

@@ -94,23 +94,24 @@ void ThumbnailDelegate::paint(QPainter *painter,
     } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
         if ("First" == data.firstorlast) {
             QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 130);
+            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 134);
             //绘制
             QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-            backgroundRect.setY(backgroundRect.y() + 130);
+            backgroundRect.setY(backgroundRect.y() + 134);
         }
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }
     }
     //选中阴影框
+    QBrush  backbrush;
     if (selected) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
         painter->setClipPath(backgroundBp);
 
         QBrush  shadowbrush;
-        QBrush  backbrush;
+//        QBrush  backbrush;
         QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
@@ -192,7 +193,11 @@ void ThumbnailDelegate::paint(QPainter *painter,
             textwidth = rectwidth - 4;
         int tempcha = (rectwidth - textwidth > 4) ? (rectwidth - textwidth - 4) : 4;
         int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
-        painter->drawRoundedRect(posx, pixmapRect.y() + pixmapRect.height() - textheight - 4 - 2, textwidth, textheight + 2, 10, 10);
+        //文字背景圆角矩形框弧度，与字号相关
+        int radious = 6;
+        if (textheight < 14)
+            radious = 4;
+        painter->drawRoundedRect(posx, pixmapRect.y() + pixmapRect.height() - textheight - 4 - 2, textwidth, textheight + 2, radious, radious);
         painter->setPen(QColor(255, 255, 255));
         if (m_Width - textwidth > 0)
             str = Text.elidedText(str, Qt::ElideRight, textwidth);
