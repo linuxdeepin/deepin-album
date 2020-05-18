@@ -1023,8 +1023,22 @@ void ThumbnailListView::updateMenuContents()
                 COMMON_STR_VIEW_TIMELINE == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
-        m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
-        m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+        //LMH0518多选收藏
+        int indexFavorite = 0;
+        int indexUnfavorite = 0;
+        for (auto path : paths) {
+            if (0 == indexFavorite && DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
+                indexFavorite++;
+            } else if (0 == indexUnfavorite && !DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
+                indexUnfavorite++;
+            }
+
+        }
+        if (0 == indexFavorite) {
+            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+        } else if (0 == indexUnfavorite) {
+            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+        }
     }
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
     if (1 == paths.length()) { //单张照片
@@ -1098,8 +1112,8 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdMoveToTrash, tr("Delete"), ss(""));
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
     m_pMenu->addSeparator();
-    appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
     appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
+    appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
     m_pMenu->addSeparator();
     appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss(ROTATECLOCKWISE_CONTEXT_MENU));
     appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"),
