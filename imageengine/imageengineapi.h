@@ -66,6 +66,9 @@ public:
     // void loadImageDateToMemory(QStringList pathlist);
 
     bool loadImageDateToMemory(QStringList pathlist, QString devName);
+
+    void close(){bcloseFg = true;}
+    bool closeFg(){return bcloseFg;}
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);
@@ -84,6 +87,7 @@ private:
 
     static ImageEngineApi *s_ImageEngine;
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
+    bool bcloseFg = false;
 #ifdef NOGLOBAL
     QThreadPool m_qtpool;
     QThreadPool cacheThreadPool;
