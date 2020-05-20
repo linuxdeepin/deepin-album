@@ -1081,7 +1081,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     QImage tImg;
     bool cache_exist = false;
     QString path = m_path;
-    QFileInfo file(CACHE_PATH + m_path);
+    QFileInfo file(CACHE_PATH + path);
     if (needStop)
         return;
     if (file.exists()) {

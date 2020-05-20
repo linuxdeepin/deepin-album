@@ -930,7 +930,6 @@ void TTBContent::insertImageItem(const ImageDataSt& file)
         m_nowIndex = index;
         bfilefind = true;
         m_currentpath = imageItem->_path;
-//        setCurrentItem();
         emit imageClicked(index, (index - indexNow));
         emit ttbcontentClicked();
     });
@@ -1023,7 +1022,9 @@ void TTBContent::checkAdaptScreenBtn()
 void TTBContent::deleteImage()
 {
     m_ItemLoaded.remove(m_currentpath);
-    m_allfileslist.removeAt(m_nowIndex);
+    if(m_allfileslist.size() == 0)
+        return;
+    m_allfileslist.removeAt(m_nowIndex==-1?0:m_nowIndex);
     m_allNeedRequestFilesCount = m_allfileslist.size();
 
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
@@ -1050,7 +1051,8 @@ void TTBContent::deleteImage()
     if (m_allfileslist.size() > 0) {
         if (m_allfileslist.size() > m_nowIndex) {
             m_lastIndex = -1;
-            m_currentpath = m_allfileslist[m_nowIndex];
+            if(m_nowIndex > -1)
+                m_currentpath = m_allfileslist[m_nowIndex];
         } else {
             m_nowIndex = 0;
             m_lastIndex = -1;
@@ -1180,6 +1182,7 @@ void TTBContent::setImage(const QString &path)
     binsertneedupdate = true;
     if (!m_allfileslist.isEmpty() && !QFileInfo(path).exists()) {
         emit dApp->signalM->picNotExists(true);
+        m_currentpath = path;
         if (m_allfileslist.size() == 1)
             return;
     } else {

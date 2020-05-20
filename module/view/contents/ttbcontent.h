@@ -121,7 +121,6 @@ public:
     {
 //        stopLoadAndClear();
         clearAndStopThread();
-        delete  m_imgList;
     }
 
     //------------------
