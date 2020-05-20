@@ -136,7 +136,7 @@ public:
         return false;
     }
     bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
-    void insertImageItem(const ImageDataSt file);
+    void insertImageItem(const ImageDataSt& file);
     void stopLoadAndClear();
     void reLoad();
     QStringList getAllFileList();
@@ -165,7 +165,6 @@ signals:
 
 public slots:
     void setCurrentDir(QString text);
-//    void setImage(ImageDataSt info, QStringList files);
     void setImage(const QString &path);
     void updateCollectButton();
 
@@ -174,7 +173,6 @@ public slots:
     void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
-//protected slots:
     void deleteImage();
 
 private slots:
@@ -183,7 +181,6 @@ private slots:
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
-
 public:
     QString m_imageType;
 
@@ -207,13 +204,9 @@ private:
     ElidedLabel *m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
-//    DWidget *m_imgListView;
     MyImageListWidget *m_imgListView;
     DWidget *m_preButton_spc;
     DWidget *m_nextButton_spc;
-//    DBImgInfoList m_imgInfos ;
-//    QStringList m_filelist;
-//    QString m_imagePath;
     int m_windowWidth;
     int m_contentWidth;
     int m_nowIndex = -1;
@@ -228,16 +221,12 @@ private:
     QStringList m_filesbeleft;
     bool bneedloadimage = true;
     bool brequestallfiles = false;
-//    QList<ImageDataSt> m_ItemListLeft;
     QMap<QString, TTBContentData> m_ItemLoaded;
-//    QMap<int, QString> m_indextopath;
     int m_requestCount = 0;
     int m_allNeedRequestFilesCount = 0;
-//    bool firstSetImage = true;
     QString m_currentpath = "";
     int m_lastIndex = -1;
     bool binsertneedupdate = true;
-    //------------------
 };
 
 #endif // TTLCONTENT_H

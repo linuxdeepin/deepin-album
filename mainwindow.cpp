@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include "mainwindow.h"
-#include "mainwindow.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/snifferimageformat.h"
@@ -83,12 +81,13 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
-    //delete m_pAlbumview;                    //相册照片界面视图
-    //delete m_pAllPicView;                  //所有照片界面视图
-    //delete m_pTimeLineView;              //时间线界面视图
-    //delete m_pSearchView;                  //搜索界面视图
-    //exit(0);
-    emit dApp->signalM->cacheThreadStop();
+//    delete m_pAlbumview;                    //相册照片界面视图
+//    delete m_pAllPicView;                   //所有照片界面视图
+//    delete m_pTimeLineView;                 //时间线界面视图
+//    delete m_pSearchView;                   //搜索界面视图
+    ImageEngineApi::instance()->close();
+    QThreadPool::globalInstance()->clear();
+    QThreadPool::globalInstance()->waitForDone();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -97,18 +96,6 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     m_pCenterWidget->setFixedSize(size());
 }
 
-
-//void MainWindow::timerEvent(QTimerEvent *e)
-//{
-//    /*
-//       if (e->timerId() == timer) {
-//           killTimer(timer);
-//           timer = 0;
-//           initCentralWidget();
-//           initShortcut();
-//           initConnections();
-//       }*/
-//}
 
 //初始化所有连接
 void MainWindow::initConnections()
@@ -143,7 +130,9 @@ void MainWindow::initConnections()
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {
             if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-                m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
+                //2020/5/20 DJH 修复在设备界面本地导入会导致名称变换 type 写成了 album
+                //m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
+                m_pAlbumview->m_currentType = ALBUM_PATHTYPE_BY_PHONE;
             }
         }
         if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
@@ -1204,6 +1193,10 @@ void MainWindow::onSearchEditFinished()
         } else {
             if (COMMON_STR_RECENT_IMPORTED == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_RECENT_IMPORTED);
+            }
+            //LMH0514,为了解决26092 【相册】【5.6.9.14】在我的收藏相册下无法搜索到收藏的照片，加入我的收藏枚举
+            else if (COMMON_STR_FAVORITES == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_FAVORITES);
             } else if (COMMON_STR_CUSTOM == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, m_pAlbumview->m_pLeftListView->getItemCurrentName());
             }
@@ -1257,20 +1250,15 @@ void MainWindow::onImprotBtnClicked()
     if (file_list.isEmpty())
         return;
     ImageEngineApi::instance()->SaveImagesCache(file_list);
-    ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
+    if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE) {
+        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
+    } else {
+        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
+    }
 }
 
 bool MainWindow::imageImported(bool success)
 {
-//    if (success) {
-//        if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//            m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
-//        }
-//    }
-//    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
-//            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-//    }
     emit dApp->signalM->closeWaitDialog();
     emit sigImageImported(success);
     return true;

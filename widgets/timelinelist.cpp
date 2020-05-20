@@ -43,6 +43,8 @@ TimelineList::TimelineList(QWidget *parent)
     setSpacing(0);
     setDragEnabled(false);
     connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
+        Q_UNUSED(max);
+        Q_UNUSED(min);
         QScrollBar *bar = this->verticalScrollBar();
         bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
     });

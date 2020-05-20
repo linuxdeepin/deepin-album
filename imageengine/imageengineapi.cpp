@@ -27,10 +27,15 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
 {
     Q_UNUSED(parent);
     //文件加载线程池上限
-    m_qtpool.setMaxThreadCount(20);
+
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
-    cacheThreadPool.setMaxThreadCount(10);
+#ifdef NOGLOBAL
+    m_qtpool.setMaxThreadCount(4);
+    cacheThreadPool.setMaxThreadCount(4);
+#else
+    QThreadPool::globalInstance()->setMaxThreadCount(8);
+#endif
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -130,7 +135,6 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
 //载入图片实际位置
 bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache)
 {
-
     if (nullptr == obj) {
         return false;
     }
@@ -155,7 +159,11 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
         m_AllImageData[imagepath] = data;
         imagethread->setData(imagepath, obj, data, needcache);
         obj->addThread(imagethread);
+#ifdef NOGLOBAL
         m_qtpool.start(imagethread);
+#else
+        QThreadPool::globalInstance()->start(imagethread);
+#endif
     }
     return true;
 }
@@ -222,10 +230,14 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
 
 void ImageEngineApi::sltstopCacheSave()
 {
-    for (auto i : cacheThreads) {
-        i->stopThread();
-    }
+#ifdef NOGLOBAL
     cacheThreadPool.waitForDone();
+#else
+    qDebug() << "析构缓存对象线程";
+    QThreadPool::globalInstance()->clear();
+    QThreadPool::globalInstance()->waitForDone();
+
+#endif
 }
 
 void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
@@ -240,7 +252,11 @@ bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject 
     connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(files, obj, true, ImageLoadFromLocalThread::DataType_TrashList);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -251,7 +267,11 @@ bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject 
     connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(files, obj, needcheck);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
@@ -260,7 +280,11 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, obj, bdialogselect);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -270,7 +294,11 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumna
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, obj, bdialogselect);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -281,7 +309,11 @@ bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *o
     connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(files, obj, needcheck);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
@@ -307,7 +339,11 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
         ImageEngineBackThread *imagethread = new ImageEngineBackThread;
         imagethread->setData(tmpPathlist, devName);
         connect(imagethread, &ImageEngineBackThread::sigImageBackLoaded, this, &ImageEngineApi::sigImageBackLoaded, Qt::QueuedConnection);
+#ifdef NOGLOBAL
         m_qtpool.start(imagethread);
+#else
+        QThreadPool::globalInstance()->start(imagethread);
+#endif
         iRet = true;
     } else {
         iRet = false;
@@ -321,7 +357,11 @@ bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, Imag
     connect(imagethread, &ImageLoadFromDBThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(type, obj, name);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -337,22 +377,33 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         if (files.empty()) {
             coreCounts = 0;
         } else {
+#ifdef NOGLOABL
             coreCounts = (files.size() / 50) + 1 - cacheThreadPool.activeThreadCount();
+#else
+            coreCounts = (files.size() / 50) + 1 - QThreadPool::globalInstance()->activeThreadCount();
+#endif
         }
     }
     for (int i = 0; i < coreCounts; i++) {
         ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
         thread->setObject(m_imageCacheSaveobj);
+#ifdef NOGLOBAL
         cacheThreadPool.start(thread);
-        cacheThreads.append(thread);
-        qDebug() << "current Threads:" << cacheThreadPool.activeThreadCount();
+#else
+        QThreadPool::globalInstance()->start(thread);
+#endif
+        qDebug() << "current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
     }
     return true;
 }
 
 int ImageEngineApi::CacheThreadNum()
 {
+#ifdef  NOGLOBAL
     return cacheThreadPool.activeThreadCount();
+#else
+    return  QThreadPool::globalInstance()->activeThreadCount();
+#endif
 }
 
 //从外部启动，启用线程加载图片
@@ -361,7 +412,11 @@ bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportOb
     ImageFromNewAppThread *imagethread = new ImageFromNewAppThread;
     imagethread->setDate(files, obj);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -371,7 +426,11 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
     connect(imagethread, &ImageGetFilesFromMountThread::sigImageFilesGeted, this, &ImageEngineApi::sltImageFilesGeted);
     imagethread->setData(mountname, path, obj);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -380,9 +439,16 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
     emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImageImportFilesFromMountThread *imagethread = new ImageImportFilesFromMountThread;
     connect(imagethread, &ImageImportFilesFromMountThread::sigImageFilesImported, this, &ImageEngineApi::sltImageFilesImported);
+    if (albumname == tr("Gallery")) {
+        albumname = "";
+    }
     imagethread->setData(albumname, paths, obj);
     obj->addThread(imagethread);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -393,7 +459,11 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
         removeImage(files);
     ImageMoveImagesToTrashThread *imagethread = new ImageMoveImagesToTrashThread;
     imagethread->setData(files, typetrash);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 
@@ -402,7 +472,11 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
     emit dApp->signalM->popupWaitDialog(tr("Restoring..."), false);
     ImageRecoveryImagesFromTrashThread *imagethread = new ImageRecoveryImagesFromTrashThread;
     imagethread->setData(files);
+#ifdef NOGLOBAL
     m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
     return true;
 }
 

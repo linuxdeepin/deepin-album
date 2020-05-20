@@ -83,7 +83,7 @@ bool ImageButton::event(QEvent *e)
 }
 
 void ImageButton::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-
+    Q_UNUSED(theme)
 }
 
 void ImageButton::setTooltipVisible(bool visible){

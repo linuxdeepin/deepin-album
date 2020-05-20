@@ -420,7 +420,8 @@ bool checkMimeData(const QMimeData *mimeData)
     using namespace utils::image;
     for (QUrl url : urlList) {
         const QString path = url.toLocalFile();
-        if (QFileInfo(path).isDir()) {
+        QFileInfo fileinfo(path);
+        if (fileinfo.isDir()) {
             auto finfos =  getImagesInfo(path, false);
             for (auto finfo : finfos) {
                 if (imageSupportRead(finfo.absoluteFilePath())) {
@@ -429,6 +430,7 @@ bool checkMimeData(const QMimeData *mimeData)
                     QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
                     QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
                     QString str = info.suffix().toLower();
+
                     if (str.isEmpty()) {
                         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
                             if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
@@ -471,6 +473,7 @@ bool checkMimeData(const QMimeData *mimeData)
             return false;
         }
     }
+    return false;
 }
 
 

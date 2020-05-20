@@ -213,6 +213,7 @@ private:
     void addThumbnailView();
     void sendNeedResize(/*int height*/);
     void resizeEventF();
+
     //------------------
 //    void updateThumbnailView();
     void updateMenuContents();

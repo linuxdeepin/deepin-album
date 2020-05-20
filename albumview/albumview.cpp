@@ -303,8 +303,15 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
-    //LMH0509为了修复24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
-    // connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
+//    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::updateRightView);
+
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, [ = ](QString albumname, QStringList pathlist) {
+        qDebug() << "添加到目的相册：" << albumname;
+        Q_UNUSED(pathlist);
+        if (albumname == m_currentType) //如果需要更新的为当前界面
+            updateRightView();
+    });
+
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
@@ -324,8 +331,8 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::menuOpenImage, this, &AlbumView::menuOpenImage);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::menuOpenImage, this, &AlbumView::menuOpenImage);
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
-    //connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightImportViewColock);
+    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
+//    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightImportViewColock);
 
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
@@ -638,37 +645,29 @@ void AlbumView::initLeftView()
 void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
-
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-
     QString albumName = newalbumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
-
     m_pLeftListView->moveMountListWidget();
-
     //清除其他已选中的项
     QModelIndex index2;
     emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
 }
 
-#if 1
+
 void AlbumView::onCreateNewAlbumFrom(QString albumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
-
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = albumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-
     m_pLeftListView->moveMountListWidget();
 }
 
@@ -681,7 +680,7 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 //        //emit dApp->signalM->DeviceImageLoadEnd();
 //    }
 }
-#endif
+
 
 void AlbumView::iniWaitDiolag()
 {
@@ -1066,11 +1065,11 @@ void AlbumView::initRightView()
 //    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
     m_importSelectByPhoneBtn->setEnabled(false);
     mainImportLayout->addWidget(importLabel);
-    mainImportLayout->addSpacing(15);
+    mainImportLayout->addSpacing(8);
     mainImportLayout->addWidget(m_importByPhoneComboBox);
-    mainImportLayout->addSpacing(30);
+    mainImportLayout->addSpacing(15);
     mainImportLayout->addWidget(m_importAllByPhoneBtn);
-    mainImportLayout->addSpacing(10);
+    mainImportLayout->addSpacing(5);
     mainImportLayout->addWidget(m_importSelectByPhoneBtn);
     m_importByPhoneWidget->setLayout(mainImportLayout);
 
@@ -1211,7 +1210,7 @@ void AlbumView::updateRightImportView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
     }
-    m_pRightThumbnailList->resizeHand();    //重新计算已导入大小
+//    m_pImpTimeLineWidget->resizeHand();    //重新计算已导入大小
 
     emit sigSearchEditIsDisplay(true);
 
@@ -2202,7 +2201,6 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
 void AlbumView::getAllDeviceName()
 {
     QStringList blDevList = m_diskManager->blockDevices();
-    qDebug() << "blDevList:" << blDevList;
     for (const QString &blks : blDevList) {
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
         QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));

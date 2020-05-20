@@ -56,7 +56,7 @@ public:
     explicit MountLoader(AlbumView *parent);
     ~MountLoader()
     {
-        qtpool.waitForDone();
+//        qtpool.waitForDone();
         QThreadPool::globalInstance()->waitForDone();
     }
     bool isRunning()
@@ -86,7 +86,7 @@ private:
     AlbumView *m_parent;
     QStringList m_phoneImgPathList;
     QMap<QString, QPixmap> m_phonePathImage;
-    QThreadPool qtpool;
+//    QThreadPool qtpool;
     bool bIsRunning = false;
     QString m_unmountpath;
     bool bneedunmountpath = false;
@@ -188,9 +188,7 @@ private slots:
     void onUpdateThumbnailViewSize();
     void onUnMountSignal(QString unMountPath);          //手动卸载设备
     void onCreateNewAlbumFromDialog(QString albumname);
-#if 1
     void onCreateNewAlbumFrom(QString albumname);
-#endif
     void onLoadMountImagesEnd(QString mountname);
     void onLeftListDropEvent(QModelIndex dropIndex);
     void onKeyDelete();

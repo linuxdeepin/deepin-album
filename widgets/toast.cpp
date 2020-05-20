@@ -44,7 +44,6 @@ public:
     QLabel  *iconLabel      = Q_NULLPTR;
     QLabel  *textLabel      = Q_NULLPTR;
     DImageButton *closeBt    = Q_NULLPTR;
-
     QPropertyAnimation  *animation  = Q_NULLPTR;
     DGraphicsGlowEffect *effect     = Q_NULLPTR;
 

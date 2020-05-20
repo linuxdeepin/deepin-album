@@ -23,7 +23,7 @@
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fileSuffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
-    , m_suffix(fileName)
+    , m_suffix(fileSuffix)
     , m_index(0)
 {
     if (m_suffix.contains("gif"))

@@ -88,11 +88,9 @@ bool imageSupportRead(const QString &path)
     // take them here for good.
     QStringList errorList;
     errorList << "X3F";
-
     if (errorList.indexOf(suffix.toUpper()) != -1) {
         return false;
     }
-
     return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
 }
 
@@ -576,7 +574,6 @@ const QImage loadTga(QString filePath, bool &success)
 
         //get variables
         vui8Pixels = new std::vector<std::uint8_t>;
-        bool bCompressed;
         std::uint32_t ui32IDLength;
         std::uint32_t ui32PicType;
         std::uint32_t ui32PaletteLength;
@@ -592,7 +589,6 @@ const QImage loadTga(QString filePath, bool &success)
 
         // calculate some more information
         ui32Size = ui32Width * ui32Height * ui32BpP / 8;
-        bCompressed = ui32PicType == 9 || ui32PicType == 10;
         vui8Pixels->resize(ui32Size);
 
         // jump to the data block
@@ -722,8 +718,8 @@ QStringList checkImage(const QString  path)
 
     dir.setNameFilters(sList);
 
-
-    for (int i = 0; i < dir.count(); i++) {
+    int dircount = static_cast<int>(dir.count());
+    for (int i = 0; i < dircount; i++) {
         QString ImageName  = dir[i];
         if (checkFileType(path + QDir::separator() + ImageName)) {
             imagelist << path + QDir::separator() + ImageName;

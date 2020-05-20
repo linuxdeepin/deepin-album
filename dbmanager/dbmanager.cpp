@@ -824,8 +824,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     mutex.unlock();
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
-    //LMH0509,为了解决24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
-    //emit dApp->signalM->insertedIntoAlbum(album, paths);
+    emit dApp->signalM->insertedIntoAlbum(album, paths);
 }
 
 void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList &paths)
@@ -1113,6 +1112,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
 
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value, const bool &needlock) const
 {
+    Q_UNUSED(needlock)
 //    if (needlock)
     QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;
@@ -1164,14 +1164,15 @@ const QSqlDatabase DBManager::getDatabase() const
     db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     if (! db.open()) {
         //  qWarning() << "Open database error:" << db.lastError();
-//            mutex.unlock();
+        //            mutex.unlock();
         return QSqlDatabase();
     } else {
-//            mutex.unlock();
+        //            mutex.unlock();
         return db;
     }
-//}
+
 }
+
 
 //const QSqlDatabase DBManager::getDatabase1() const
 //{

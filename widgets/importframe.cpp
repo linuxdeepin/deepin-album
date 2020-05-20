@@ -81,5 +81,5 @@ const QString ImportFrame::buttonText() const
 
 void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-
+    Q_UNUSED(theme)
 }
