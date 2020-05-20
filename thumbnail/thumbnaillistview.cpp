@@ -261,7 +261,8 @@ void ThumbnailListView::initConnections()
 void ThumbnailListView::calBasePixMap(ItemInfo &info)
 {
     int i_totalwidth = window()->width() - 30;
-    if (0 == info.height || 0 == info.width || ((float)info.height) / ((float)info.width) > 3) {
+    bool bcalBase = static_cast<bool>(info.height / info.width > 3);
+    if (0 == info.height || 0 == info.width || bcalBase) {
         info.width = m_iBaseHeight;
         info.height = m_iBaseHeight;
     } else {
@@ -565,6 +566,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             m_model->appendRow(item);
         }
     }
+
     m_gridItem << gridItem;
 
     int hightlast = m_height;
@@ -809,6 +811,7 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
+
     calWidgetItemWandH();
     addThumbnailView();
     if (bneedloadimage) {
@@ -1384,7 +1387,10 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-    Q_UNUSED(e);
+    if (e->size().width() == e->oldSize().width()) {
+//        qDebug() << "宽度没有改变，证明是导入图片改变了高度";
+        return;
+    }
     resizeEventF();
 }
 

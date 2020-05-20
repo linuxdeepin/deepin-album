@@ -78,6 +78,7 @@ struct DBImgInfo {
 typedef QList<DBImgInfo> DBImgInfoList;
 
 class QSqlDatabase;
+
 class DBManager : public QObject
 {
     Q_OBJECT
@@ -149,6 +150,7 @@ private:
 private:
     QString m_connectionName;
     mutable QMutex m_mutex;
+
 //    mutable QMutex m_mutex1;
 };
 

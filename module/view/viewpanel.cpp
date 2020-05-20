@@ -66,11 +66,11 @@ const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
+    , m_iSlideShowTimerId(0)
     , m_isInfoShowed(false)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
-    , m_iSlideShowTimerId(0)
 //    , m_viewType(utils::common::VIEW_ALLPIC_SRN)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());

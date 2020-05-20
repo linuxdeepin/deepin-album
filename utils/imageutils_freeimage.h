@@ -109,7 +109,8 @@ const QDateTime getDateTime(const QString &path, bool createTime = true)
     if (datas.isEmpty()) {
         QFileInfo info(path);
         if (createTime) {
-            return info.created();
+            return info.birthTime();
+//            return info.created();
         } else {
             return info.lastModified();
         }
@@ -182,7 +183,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
             // NO valid date information
             if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
+//                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
+                admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm:dd"));
                 admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
             }
         }

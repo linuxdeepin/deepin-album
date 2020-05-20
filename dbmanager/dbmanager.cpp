@@ -1164,14 +1164,15 @@ const QSqlDatabase DBManager::getDatabase() const
     db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     if (! db.open()) {
         //  qWarning() << "Open database error:" << db.lastError();
-//            mutex.unlock();
+        //            mutex.unlock();
         return QSqlDatabase();
     } else {
-//            mutex.unlock();
+        //            mutex.unlock();
         return db;
     }
-//}
+
 }
+
 
 //const QSqlDatabase DBManager::getDatabase1() const
 //{

@@ -450,7 +450,6 @@ bool checkMimeData(const QMimeData *mimeData)
             }
         } else if (imageSupportRead(path)) {
 //            paths << path;
-            qDebug() << "33333333";
             QFileInfo info(path);
             QMimeDatabase db;
             QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
