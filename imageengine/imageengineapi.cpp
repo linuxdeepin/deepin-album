@@ -439,6 +439,9 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
     emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImageImportFilesFromMountThread *imagethread = new ImageImportFilesFromMountThread;
     connect(imagethread, &ImageImportFilesFromMountThread::sigImageFilesImported, this, &ImageEngineApi::sltImageFilesImported);
+    if (albumname == tr("Gallery")) {
+        albumname = "";
+    }
     imagethread->setData(albumname, paths, obj);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL

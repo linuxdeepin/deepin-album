@@ -130,7 +130,9 @@ void MainWindow::initConnections()
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {
             if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-                m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
+                //2020/5/20 DJH 修复在设备界面本地导入会导致名称变换 type 写成了 album
+                //m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
+                m_pAlbumview->m_currentType = ALBUM_PATHTYPE_BY_PHONE;
             }
         }
         if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
@@ -1248,20 +1250,15 @@ void MainWindow::onImprotBtnClicked()
     if (file_list.isEmpty())
         return;
     ImageEngineApi::instance()->SaveImagesCache(file_list);
-    ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
+    if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE) {
+        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
+    } else {
+        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
+    }
 }
 
 bool MainWindow::imageImported(bool success)
 {
-//    if (success) {
-//        if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//            m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
-//        }
-//    }
-//    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM
-//            && ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-//        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-//    }
     emit dApp->signalM->closeWaitDialog();
     emit sigImageImported(success);
     return true;

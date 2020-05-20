@@ -188,9 +188,7 @@ private slots:
     void onUpdateThumbnailViewSize();
     void onUnMountSignal(QString unMountPath);          //手动卸载设备
     void onCreateNewAlbumFromDialog(QString albumname);
-#if 1
     void onCreateNewAlbumFrom(QString albumname);
-#endif
     void onLoadMountImagesEnd(QString mountname);
     void onLeftListDropEvent(QModelIndex dropIndex);
     void onKeyDelete();

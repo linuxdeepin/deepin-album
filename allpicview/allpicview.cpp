@@ -185,7 +185,6 @@ void AllPicView::updatePicsIntoThumbnailView()
     } else {
         updateStackedWidget();
     }
-
     restorePicNum();
 }
 
@@ -211,7 +210,6 @@ void AllPicView::updatePicsThumbnailView(QStringList strpath)
     } else {
         updatePicsIntoThumbnailView();
     }
-
 }
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)
@@ -248,9 +246,6 @@ void AllPicView::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
     m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
-//    m_pwidget->setFixedWidth(this->width() / 2 + 150);
-//    m_pwidget->setFixedHeight(443);
-//    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
     m_pwidget->setFixedHeight(this->height() - 23);
     m_pwidget->setFixedWidth(this->width());
     m_pwidget->move(0, 0);

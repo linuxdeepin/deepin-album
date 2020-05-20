@@ -645,37 +645,29 @@ void AlbumView::initLeftView()
 void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
-
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-
     QString albumName = newalbumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
-
     m_pLeftListView->moveMountListWidget();
-
     //清除其他已选中的项
     QModelIndex index2;
     emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
 }
 
-#if 1
+
 void AlbumView::onCreateNewAlbumFrom(QString albumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
-
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = albumname;
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-
     m_pLeftListView->moveMountListWidget();
 }
 
@@ -688,7 +680,7 @@ void AlbumView::onLoadMountImagesEnd(QString mountname)
 //        //emit dApp->signalM->DeviceImageLoadEnd();
 //    }
 }
-#endif
+
 
 void AlbumView::iniWaitDiolag()
 {

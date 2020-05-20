@@ -391,10 +391,13 @@ void ImageImportFilesFromMountThread::run()
             dir.remove(strNewPath);
         }
         newPathList << strNewPath;
-        QFileInfo fi(strPath);
+        QFileInfo fi(strNewPath);
         using namespace utils::image;
         using namespace utils::base;
-        auto mds = getAllMetaData(strPath);
+        if (QFile::copy(strPath, strNewPath)) {
+            qDebug() << "onCopyPhotoFromPhone()";
+        }
+        auto mds = getAllMetaData(strNewPath);
         QString value = mds.value("DateTimeOriginal");
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
@@ -413,9 +416,7 @@ void ImageImportFilesFromMountThread::run()
         dbi.changeTime = QDateTime::currentDateTime();
 
         dbInfos << dbi;
-        if (QFile::copy(strPath, strNewPath)) {
-            qDebug() << "onCopyPhotoFromPhone()";
-        }
+
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
 //        }
     }
@@ -1252,7 +1253,7 @@ void ImageEngineBackThread::run()
         }
         m_data.imgpixmap = pixmap;
         QFileInfo fi(temppath);
-        if (bbackstop|| ImageEngineApi::instance()->closeFg())
+        if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
         auto mds = getAllMetaData(temppath);
         QString value = mds.value("DateTimeOriginal");
