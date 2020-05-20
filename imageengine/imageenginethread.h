@@ -175,7 +175,6 @@ signals:
 private:
     bool getNeedStop();
     QString m_path = "";
-//    ImageEngineObject *m_imgobject = nullptr;
     QList<ImageEngineObject *>m_imgobject;
     ImageDataSt m_data;
     QMutex m_mutex;

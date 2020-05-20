@@ -145,7 +145,7 @@ void ImportImagesThread::run()
     DGioVolumeManager *pvfsManager = new DGioVolumeManager;
     QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
     for (auto mount : mounts) {
-        if (bneedstop) {
+        if (bneedstop || ImageEngineApi::instance()->closeFg()) {
             m_obj->imageImported(false);
             m_obj->removeThread(this);
             return;
@@ -171,7 +171,7 @@ void ImportImagesThread::run()
         }
         QStringList newImagePaths;
         foreach (QString strPath, image_list) {
-            if (bneedstop) {
+            if (bneedstop || ImageEngineApi::instance()->closeFg()) {
                 m_obj->imageImported(false);
                 m_obj->removeThread(this);
                 return;
@@ -373,7 +373,7 @@ void ImageImportFilesFromMountThread::run()
     }
 
     foreach (QString strPath, m_paths) {
-        if (bneedstop) {
+        if (bneedstop || ImageEngineApi::instance()->closeFg()) {
             return;
         }
         //取出文件名称
@@ -531,7 +531,7 @@ void ImageGetFilesFromMountThread::run()
                               QDirIterator::Subdirectories);
     QStringList allfiles;
     while (dir_iterator.hasNext()) {
-        if (bneedstop) {
+        if (bneedstop || ImageEngineApi::instance()->closeFg()) {
 
             return;
         }
@@ -585,7 +585,7 @@ void ImageLoadFromDBThread::run()
                 continue;
             }
             image_list << info.filePath;
-            if (bneedstop) {
+            if (bneedstop || ImageEngineApi::instance()->closeFg()) {
                 return;
             }
             emit sigInsert(info.filePath);
@@ -791,6 +791,7 @@ bool ImageEngineThread::ifCanStopThread(void *imgobject)
         static_cast<ImageEngineObject *>(imgobject)->removeThread(this, false);
     m_imgobject.removeOne(static_cast<ImageEngineObject *>(imgobject));
     if (m_imgobject.size() < 1) {
+        bneedstop = true;
         return true;
     }
     return false;
@@ -949,7 +950,7 @@ void ImageEngineThread::run()
         emit sigImageLoaded(imgobject, m_path, m_data);
     }
     //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
-    while (!bneedstop) {
+    while (!bneedstop && !ImageEngineApi::instance()->closeFg()) {
         QThread::msleep(20);
     }
 }
@@ -1080,7 +1081,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     QImage tImg;
     bool cache_exist = false;
     QString path = m_path;
-    QFileInfo file(CACHE_PATH + m_path);
+    QFileInfo file(CACHE_PATH + path);
     if (needStop)
         return;
     if (file.exists()) {
@@ -1158,7 +1159,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
 
 void ImageCacheQueuePopThread::run()
 {
-    while (!m_obj->isEmpty() && !needStop) {
+    while (!m_obj->isEmpty() && !needStop && !ImageEngineApi::instance()->closeFg()) {
         QString res = m_obj->pop();
         if (!res.isEmpty()) {
             saveCache(res);
@@ -1187,7 +1188,6 @@ void ImageEngineBackThread::setData(QStringList pathlist, QString devName)
 
 void ImageEngineBackThread::run()
 {
-    int count = 1;
     using namespace utils::image;
     using namespace utils::base;
     for (auto temppath : m_pathlist) {
@@ -1205,7 +1205,7 @@ void ImageEngineBackThread::run()
                 tImg = utils::image::loadTga(path, ret);
             }
         } else  {
-            if (bbackstop)
+            if (bbackstop || ImageEngineApi::instance()->closeFg())
                 return;
             QImageReader readerF(path, format.toLatin1());
             readerF.setAutoTransform(true);
@@ -1224,7 +1224,7 @@ void ImageEngineBackThread::run()
                 tImg = readerG.read();
         }
 
-        if (bbackstop)
+        if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
@@ -1247,12 +1247,12 @@ void ImageEngineBackThread::run()
             }
         }
         if (pixmap.isNull()) {
-            qDebug() << "null pixmap" << tImg;
+            qDebug() << "[ImageEngineBackThread]:null pixmap!" << tImg;
             pixmap = QPixmap::fromImage(tImg);
         }
         m_data.imgpixmap = pixmap;
         QFileInfo fi(temppath);
-        if (bbackstop)
+        if (bbackstop|| ImageEngineApi::instance()->closeFg())
             return;
         auto mds = getAllMetaData(temppath);
         QString value = mds.value("DateTimeOriginal");
@@ -1273,11 +1273,10 @@ void ImageEngineBackThread::run()
         m_data.dbi = dbi;
         m_data.loaded = ImageLoadStatu_Loaded;
 
-        if (bbackstop) {
+        if (bbackstop || ImageEngineApi::instance()->closeFg()) {
             return;
         }
 
-        qDebug() << "第几幅图：" << count++;
         if (m_bpause) {
             m_WatiCondition.wait(&m_mutex);     //挂起
         }

@@ -249,6 +249,7 @@ void ViewPanel::initConnect()
             }
             loadFilesFromLocal(m_vinfo.paths);
             m_currentpath = m_vinfo.path;
+
             if (nullptr == m_vinfo.lastPanel) {
                 return false;
             } else if (m_vinfo.lastPanel->moduleName() == "AlbumPanel" ||
@@ -280,7 +281,6 @@ void ViewPanel::initConnect()
         QWidget *pttbc = bottomTopLeftContent();
         emit dApp->signalM->updateBottomToolbarContent(pttbc, (size  > 1));
         emit dynamic_cast<TTBContent *>(pttbc)->sigRequestSomeImages();
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_ttbc->itemLoadedSize() > 1));
     });
 
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
@@ -680,59 +680,11 @@ void ViewPanel::wheelEvent(QWheelEvent *e)
         qApp->sendEvent(m_viewB->viewport(), e);
 }
 
-//void ViewPanel::dropEvent(QDropEvent *event)
-//{
-//    QList<QUrl> urls = event->mimeData()->urls();
-//    if (urls.isEmpty()) {
-//        return;
-//    }
-
-//    using namespace utils::image;
-//    QStringList paths;
-//    for (QUrl url : urls) {
-//        const QString path = url.toLocalFile();
-//        if (QFileInfo(path).isDir()) {
-//            auto finfos =  getImagesInfo(path, false);
-//            for (auto finfo : finfos) {
-//                if (imageSupportRead(finfo.absoluteFilePath())) {
-//                    paths << finfo.absoluteFilePath();
-//                }
-//            }
-//        } else if (imageSupportRead(path)) {
-//            paths << path;
-//        }
-//    }
-
-//    if (! paths.isEmpty()) {
-//#ifdef LITE_DIV
-//        SignalManager::ViewInfo vinfo;
-
-//        vinfo.path = paths.first();
-//        vinfo.paths = paths;
-
-//        onViewImage(vinfo);
-//#else
-//        viewOnNewProcess(paths);
-//#endif
-//    }
-
-//    event->accept();
-//    ModulePanel::dropEvent(event);
-//}
-
-//void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
-//{
-//    event->setDropAction(Qt::CopyAction);
-//    event->accept();
-//    ModulePanel::dragEnterEvent(event);
-//}
-
 void ViewPanel::onViewImage(const QStringList &vinfo)
 {
     using namespace utils::base;
     this->setCursor(Qt::ArrowCursor);
     if (m_vinfo.fullScreen) {
-//        m_isMaximized = m_vinfo.fullScreen;
         showFullScreen();
     }
     if (m_vinfo.slideShow) {
@@ -746,26 +698,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     emit dApp->signalM->gotoPanel(this);
     m_current = -1;
     m_filepathlist = vinfo;
-    // The control buttons is difference
-//    if (! m_vinfo.inDatabase) {
-////        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (vinfo.size() > 1));
-////        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-////        return;
-//    }
 
-//    // Get view range
-//    if (! vinfo.paths.isEmpty()) {
-//        QFileInfoList list;
-//        for (QString path : vinfo.paths) {
-//            list << QFileInfo(path);
-//        }
-//        m_infos = getImageInfos(list);
-//    } else {
-//        QFileInfo info(vinfo.path);
-
-//        m_infos = getImageInfos({info});
-//    }
     if (vinfo.size() == 1) {
         m_imageDirIterator.reset(new QDirIterator(QFileInfo(vinfo.first()).absolutePath(),
                                                   utils::image::supportedImageFormats(), QDir::Files | QDir::Readable));
@@ -778,75 +711,6 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     emit dynamic_cast<TTBContent *>(pttbc)->sigRequestSomeImages();
 }
 
-//void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
-//{
-//    using namespace utils::base;
-//    this->setCursor(Qt::ArrowCursor);
-//    if (vinfo.fullScreen) {
-//        showFullScreen();
-//    }
-
-//    if (vinfo.slideShow) {
-//        m_iSlideShowTimerId = startTimer(3000);
-//    } else {
-//        if (0 != m_iSlideShowTimerId) {
-//            killTimer(m_iSlideShowTimerId);
-//            m_iSlideShowTimerId = 0;
-//        }
-//    }
-
-//    emit dApp->signalM->gotoPanel(this);
-
-//    // The control buttons is difference
-//    if (! vinfo.inDatabase) {
-////        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-//        if (!m_ttbc) {
-//            return;
-//        }
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-////        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-//    }
-
-//    // Get view range
-//    if (! vinfo.paths.isEmpty()) {
-//        QFileInfoList list;
-//        for (QString path : vinfo.paths) {
-//            list << QFileInfo(path);
-//        }
-//        m_infos = getImageInfos(list);
-//    } else {
-//        QFileInfo info(vinfo.path);
-
-//        m_infos = getImageInfos({info});
-//    }
-
-//    if (m_infos.size() == 1) {
-//        m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
-//                                                  utils::image::supportedImageFormats(), QDir::Files | QDir::Readable));
-//    } else {
-//        m_imageDirIterator.reset();
-//    }
-//    // Get the image which need to open currently
-//    m_current = 0;
-//    if (! vinfo.path.isEmpty()) {
-//        for (; m_current < m_infos.size(); m_current ++) {
-//            if (m_infos.at(m_current).filePath == vinfo.path) {
-//                break;
-//            }
-//        }
-//    }
-
-//    if (m_current == m_infos.size()) {
-//        qWarning() << "The specify path not in view range: "
-//                   << vinfo.path << vinfo.paths;
-//        return;
-//    }
-//    if (m_infos.at(m_current).filePath != nullptr) {
-//        openImage(m_infos.at(m_current).filePath);
-////        eatImageDirIterator();
-//    }
-//    emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-//}
 
 void ViewPanel::toggleFullScreen()
 {

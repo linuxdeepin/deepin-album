@@ -2209,7 +2209,6 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
 void AlbumView::getAllDeviceName()
 {
     QStringList blDevList = m_diskManager->blockDevices();
-    qDebug() << "blDevList:" << blDevList;
     for (const QString &blks : blDevList) {
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
         QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));

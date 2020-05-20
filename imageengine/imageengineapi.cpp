@@ -135,7 +135,6 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
 //载入图片实际位置
 bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache)
 {
-
     if (nullptr == obj) {
         return false;
     }

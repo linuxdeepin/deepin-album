@@ -34,12 +34,8 @@ void ElidedLabel::setText(const QString &text, int leftMargin)
 
 void ElidedLabel::paintEvent(QPaintEvent *)
 {
-    QFont font = this->font();
-    QFontMetrics fm(font);
     QPainter painter(this);
-    QRect textR = QRect(m_leftMargin, 0, this->width() - m_leftMargin, this->height());
-    Q_UNUSED(textR);
-//    painter.fillRect(textR, QBrush(Qt::green));
+    QFontMetrics fm(this->font());
     painter.setPen(QPen(m_textColor));
     painter.drawText(m_leftMargin, (this->height() - fm.height())/2,
                      this->width() - m_leftMargin, this->height(), Qt::AlignLeft, m_text);

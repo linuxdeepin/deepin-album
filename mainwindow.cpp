@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include "mainwindow.h"
-#include "mainwindow.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/snifferimageformat.h"
@@ -87,9 +85,9 @@ MainWindow::~MainWindow()
 //    delete m_pAllPicView;                   //所有照片界面视图
 //    delete m_pTimeLineView;                 //时间线界面视图
 //    delete m_pSearchView;                   //搜索界面视图
-    //exit(0);
-    emit dApp->signalM->cacheThreadStop();
-
+    ImageEngineApi::instance()->close();
+    QThreadPool::globalInstance()->clear();
+    QThreadPool::globalInstance()->waitForDone();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -98,18 +96,6 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     m_pCenterWidget->setFixedSize(size());
 }
 
-
-//void MainWindow::timerEvent(QTimerEvent *e)
-//{
-//    /*
-//       if (e->timerId() == timer) {
-//           killTimer(timer);
-//           timer = 0;
-//           initCentralWidget();
-//           initShortcut();
-//           initConnections();
-//       }*/
-//}
 
 //初始化所有连接
 void MainWindow::initConnections()
