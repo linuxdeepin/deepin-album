@@ -2081,6 +2081,8 @@ void AlbumView::onKeyF2()
 //挂载设备改变
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
+    //有外设挂载时,重新获取设备名字,防止gio给出的默认名字出错的问题
+    getAllDeviceName();
     qDebug() << "onVfsMountChangedAdd() name:" << mount->name();
     Q_UNUSED(mount);
     //TODO:
