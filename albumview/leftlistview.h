@@ -26,6 +26,7 @@ public:
     LeftListView(DWidget *parent);
     QString getItemCurrentName();
     QString getItemCurrentType();
+    int getItemDataType();
     void updatePhotoListView();
     void updateAlbumItemsColor();
     void updateCustomizeListView();
@@ -72,6 +73,7 @@ public:
 private:
     QString m_ItemCurrentName;
     QString m_ItemCurrentType;
+    int m_ItemCurrentDataType;
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;
     DWidget *m_pMountWidget;

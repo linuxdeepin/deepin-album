@@ -144,16 +144,22 @@ void CExportImageDialog::initUI()
     connect(m_fileNameEdit, &DLineEdit::editingFinished, this, [ = ] {
         QString arg = m_fileNameEdit->text();
         int len = arg.toLocal8Bit().size();
+        int filemaxlen = 251;
+        if(m_saveFormat.toUpper().compare("JPEG") == 0)
+            filemaxlen -= 1;
         QString Interceptstr;
-        if ( len > 251)
+        if ( len > filemaxlen)
         {
-            unsigned num = 0;
+            int num = 0;
             int pos = 0;
             for (; pos < arg.size(); pos++) {
                 if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
-                    if (num >= 251) break;
                     num += 3;
-                } else if (num < 251) {
+                    if (num >= filemaxlen)
+                    {
+                        break;
+                    }
+                } else if (num < filemaxlen) {
                     num += 1;
                 } else {
                     break;
@@ -285,23 +291,34 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 
 void CExportImageDialog::slotOnFormatChange(int index)
 {
-//    switch (index) {
-//    case PDF:
-//    case BMP:
-//    case TIF:
-//        m_qualitySlider->setValue(100);
-//        m_qualitySlider->setEnabled(false);
-//        break;
-//    case JPG:
-//    case PNG:
-//        m_qualitySlider->setEnabled(true);
-//        break;
-//    default:
-//        break;
-//    }
-
     m_saveFormat = m_formatCombox->itemText(index);
-
+    //when jpeg format,recalculate file name length ,because ".jpeg"==5
+    if(m_saveFormat.toUpper().compare("JPEG") == 0)
+    {
+        QString arg = m_fileNameEdit->text();
+        int len = arg.toLocal8Bit().size();
+        QString Interceptstr;
+        if ( len > 250)
+        {
+            unsigned num = 0;
+            int pos = 0;
+            for (; pos < arg.size(); pos++) {
+                if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
+                    num += 3;
+                    if (num >= 250)
+                    {
+                        break;
+                    }
+                } else if (num < 250) {
+                    num += 1;
+                } else {
+                    break;
+                }
+            }
+            Interceptstr = arg.left(pos);
+            m_fileNameEdit->setText(Interceptstr);
+        }
+    }
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
@@ -426,18 +443,7 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
 bool CExportImageDialog::doSave()
 {
     QString filename = m_fileNameEdit->text();
-    if (filename.toLocal8Bit().size() == 251 && m_saveFormat == "jpeg") {
-        filename = filename.left(filename.length() - 1);
-    }
     QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
-    if (tr("gif") == m_saveFormat) {
-        if ("" != gifpath) {
-            QFile::copy(gifpath, completePath);
-        }
-    } else {
-        bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
-        qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;
-        return isSuccess;
-    }
-    return true;
+
+    return m_saveImage.save(completePath, m_saveFormat.toUpper().toUtf8().data(), m_quality);
 }

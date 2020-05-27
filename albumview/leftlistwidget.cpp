@@ -48,12 +48,7 @@ void LeftListWidget::dropEvent(QDropEvent *event)
 
 void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
 {
-    qDebug() << "xxxxxxxxxxxxxx";
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover")) {
-//        const QMimeData *mimeData = event->mimeData();
-//        if (!utils::base::checkMimeData(mimeData)) {
-//            return;
-//        }
         event->acceptProposedAction();
     } else {
         //event->ignore();
@@ -67,18 +62,6 @@ void LeftListWidget::mousePressEvent(QMouseEvent *e)
     if (!index.isValid()) {
         emit sigMousePressIsNoValid();
     }
-    //    qDebug()<<this->currentRow();
-    //    if (!index.isValid())
-    //    {
-    //        qDebug()<<"111111111"<<index;
-    //    }
-    //    else {
-    //        qDebug()<<index.row();
-    //    }
-
-    //    AlbumLeftTabItem *item = (AlbumLeftTabItem*)this->itemWidget(this->currentItem());
-    //    item->onCheckNameValid();
-
     DListWidget::mousePressEvent(e);
 }
 

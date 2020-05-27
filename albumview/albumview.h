@@ -120,6 +120,13 @@ public:
         IdDeleteAlbum,
     };
 
+    enum AblumType
+    {
+        photosType,
+        ablumType,
+        devType
+    };
+
     AlbumView();
     ~AlbumView() override;
 
@@ -203,6 +210,7 @@ public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
     QString m_currentType;
+    AblumType m_currentItemType = photosType;
     int m_selPicNum;
     bool m_itemClicked;
 

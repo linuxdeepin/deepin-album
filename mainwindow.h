@@ -12,8 +12,6 @@
 #include "widgets/dialogs/imginfodialog.h"
 #include "module/slideshow/slideshowpanel.h"
 
-//#include <QPluginLoader>
-
 #include <DMainWindow>
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -112,7 +110,6 @@ private slots:
     void onLoadingFinished();
 private:
 
-    int m_allPicNum;
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
     bool m_bImport = false;

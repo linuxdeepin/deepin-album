@@ -51,6 +51,7 @@ struct DBImgInfo {
     QDateTime time;     // 图片创建时间
     QDateTime changeTime;   // 导入时间 Or 删除时间
     QString albumname;      // 图片所属相册名，以","分隔
+    QString albumSize;      //原图片分辨率
 
     bool operator==(const DBImgInfo &other)
     {
@@ -59,7 +60,8 @@ struct DBImgInfo {
                 dirHash == other.dirHash &&
                 time == other.time &&
                 changeTime == other.changeTime &&
-                albumname == other.albumname);
+                albumname == other.albumname &&
+                albumSize == other.albumSize);
     }
 
     friend QDebug operator<<(QDebug &dbg, const DBImgInfo &info)
@@ -71,6 +73,7 @@ struct DBImgInfo {
             << "Time:" << info.time
             << "ChangeTime:" << info.changeTime
             << "AlbumName:" << info.albumname
+            << "AlbumSize:" << info.albumSize
             << "]";
         return dbg;
     }

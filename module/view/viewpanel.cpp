@@ -60,6 +60,8 @@ namespace {
 
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 //const QSize ICON_SIZE = QSize(48, 40);
+const int LOAD_ALL = 51;           //一次加载数量
+const int LOAD_LEFT_RIGHT = 25;     //动态加载数量
 
 }  // namespace
 
@@ -178,7 +180,6 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::viewImage,
     this, [ = ](const SignalManager::ViewInfo & info) {
         SignalManager::ViewInfo vinfo = info;
-
         m_vinfo = vinfo;
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
         QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
@@ -203,53 +204,11 @@ void ViewPanel::initConnect()
             return false;
             //TODO: there will be some others panel
         } else {
-            //LMH0415
-            SignalManager::ViewInfo newinfo = vinfo;
-            newinfo.paths.clear();
-            int index = -1;
-            if (m_vinfo.paths.size() == 0) { //only a piece of image
-                index = m_vinfo.path.compare(newinfo.path) == 0 ? 0 : index;
-            } else {
-                index = m_vinfo.paths.indexOf(newinfo.path);
-            }
-
-            if (index < 0) {
-                return false;
-            }
-            if (index > 50) {
-                for (int i = index - 50; i < index; i++) {
-                    newinfo.paths << vinfo.paths[i];
-                }
-            } else {
-                for (int i = 0; i < index; i++) {
-                    newinfo.paths << vinfo.paths[i];
-                }
-            }
-            if (index + 50 < vinfo.paths.count()) {
-                for (int i = index; i < index + 50; i++) {
-                    newinfo.paths << vinfo.paths[i];
-                }
-            } else {
-                for (int i = index; i < vinfo.paths.count(); i++) {
-                    newinfo.paths << vinfo.paths[i];
-                }
-            }
-            m_currentpath = m_vinfo.path;
-            if (newinfo.paths.size() < 1) {
-                newinfo.paths << newinfo.path;
-            }
-            loadFilesFromLocal(newinfo.paths);
-            emit dApp->signalM->showImageView(newinfo.viewMainWindowID);
-            emit dApp->signalM->sigOpenPicture(newinfo.path);
-            QCoreApplication::processEvents();
-
             m_currentpath = m_vinfo.path;
             if (m_vinfo.paths.size() < 1) {
                 m_vinfo.paths << m_vinfo.path;
             }
             loadFilesFromLocal(m_vinfo.paths);
-            m_currentpath = m_vinfo.path;
-
             if (nullptr == m_vinfo.lastPanel) {
                 return false;
             } else if (m_vinfo.lastPanel->moduleName() == "AlbumPanel" ||
@@ -343,7 +302,7 @@ void ViewPanel::feedBackCurrentIndex(int index, QString path)
     if (m_current >= m_filepathlist.size()) {
         return;
     }
-    openImageFirst(path);
+    openImage(path);
 }
 
 void ViewPanel::showNormal()
@@ -499,6 +458,19 @@ QWidget *ViewPanel::bottomTopLeftContent()
     } else {
         m_ttbc->setImage("");
     }
+
+    //测试使用
+    connect(m_ttbc, &TTBContent::sigloadRight, this, [ = ](QStringList rightlist) {
+        m_filepathlist << rightlist;
+    });
+
+    connect(m_ttbc, &TTBContent::sigloadLeft, this, [ = ](QStringList leftlist) {
+        for (const auto &path : leftlist)
+            m_filepathlist.push_front(path);
+
+        m_current += leftlist.size();
+    });
+
     connect(m_ttbc, &TTBContent::ttbcontentClicked, this, [ = ] {
         if (0 != m_iSlideShowTimerId)
         {
@@ -697,7 +669,35 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     }
     emit dApp->signalM->gotoPanel(this);
     m_current = -1;
-    m_filepathlist = vinfo;
+    //以当前图片为中心，前后各自LOAD_ALL张  修改为动态加载--xiaolong  2020/05/22
+    QStringList rightlist, leftlist, tempalllist;
+    int currentindex = vinfo.indexOf(m_vinfo.path); //当前图片下标
+    if (vinfo.size() > LOAD_ALL) {
+        if (currentindex < LOAD_LEFT_RIGHT) {
+            tempalllist << vinfo.mid(0, currentindex);  //前50,不足所有
+            tempalllist << vinfo.mid(currentindex, LOAD_LEFT_RIGHT); //后50
+            leftlist.clear();
+            rightlist << vinfo.mid(currentindex + LOAD_LEFT_RIGHT, vinfo.size() - currentindex - LOAD_LEFT_RIGHT);
+        } else {
+            tempalllist << vinfo.mid(currentindex - LOAD_LEFT_RIGHT, LOAD_LEFT_RIGHT);    //中心前50
+            int temprightcount = vinfo.size() - currentindex;
+            if (temprightcount > LOAD_LEFT_RIGHT) {
+                tempalllist << vinfo.mid(currentindex, LOAD_LEFT_RIGHT); //中心后50
+                rightlist << vinfo.mid(currentindex + LOAD_LEFT_RIGHT, vinfo.size() - currentindex - LOAD_LEFT_RIGHT);
+            } else {
+                tempalllist << vinfo.mid(currentindex, temprightcount);//后不足50
+                rightlist.clear();
+            }
+            leftlist = vinfo.mid(0, currentindex - 20);
+        }
+    } else {
+        tempalllist << vinfo;
+        leftlist.clear();
+        rightlist.clear();
+    }
+
+    m_filepathlist = tempalllist;
+
 
     if (vinfo.size() == 1) {
         m_imageDirIterator.reset(new QDirIterator(QFileInfo(vinfo.first()).absolutePath(),
@@ -707,7 +707,12 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     }
 
     QWidget *pttbc = bottomTopLeftContent();
-    emit dApp->signalM->updateBottomToolbarContent(pttbc, (vinfo.size() > 1));
+    //测试使用
+    dynamic_cast<TTBContent *>(pttbc)->setRightlist(rightlist); //左侧动态加载路径
+    dynamic_cast<TTBContent *>(pttbc)->setLeftlist(leftlist);   //右侧动态加载路径
+    emit dApp->signalM->updateBottomToolbarContent(pttbc, (tempalllist.size() > 1));
+//    emit dApp->signalM->updateBottomToolbarContent(pttbc, (vinfo.size() > 1));
+
     emit dynamic_cast<TTBContent *>(pttbc)->sigRequestSomeImages();
 }
 
@@ -928,66 +933,12 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
 }
-void ViewPanel::openImageFirst(const QString &path, bool inDB)
-{
 
-    m_currentpath = path;
-
-    if (inDB) {
-
-    }
-    m_viewB->setImageFirst(path);
-
-    updateMenuContent();
-
-    if (m_info) {
-        m_info->setImagePath(path);
-    }
-
-    if (!QFileInfo(path).exists()) {
-//        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
-        ImageDataSt data;
-        if (ImageEngineApi::instance()->getImageData(path, data))
-            m_emptyWidget->setThumbnailImage(/*dApp->m_imagemap.value(path)*/data.imgpixmap);
-        m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable()) {
-        m_stack->setCurrentIndex(2);
-    } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-        m_stack->setCurrentIndex(0);
-    } else {
-        m_stack->setCurrentIndex(0);
-
-        // open success.
-        DRecentData data;
-        data.appName = "Deepin Image Viewer";
-        data.appExec = "deepin-image-viewer";
-        DRecentManager::addItem(path, data);
-    }
-    if (inDB) {
-        emit updateTopLeftContentImage(path);
-//        emit updateCollectButton();
-    }
-
-    QTimer::singleShot(100, m_viewB, &ImageView::autoFit);
-}
 void ViewPanel::openImage(const QString &path, bool inDB)
 {
     m_currentpath = path;
-//    if (! QFileInfo(path).exists()) {
-    // removeCurrentImage() will cause timerEvent be trigered again by
-    // showNext() or showPrevious(), so delay to remove current image
-    // to break the loop
-//        TIMER_SINGLESHOT(100, {removeCurrentImage();}, this);
-//        return;
-//    }
 
-    if (inDB) {
-        // TODO
-        // Check whether the thumbnail is been rotated in outside
-//        QtConcurrent::run(utils::image::removeThumbnail, path);
-    }
-
-    m_viewB->setImage(path);
+    m_viewB->setImage(path);    //设置当前显示图片
     updateMenuContent();
 
     if (m_info) {

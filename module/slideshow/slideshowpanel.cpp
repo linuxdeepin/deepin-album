@@ -33,10 +33,11 @@
 #include <QResizeEvent>
 #include <QShortcut>
 #include <QStyleFactory>
+#include <QScreen>
 
 namespace {
 
-const int DELAY_START_INTERVAL = 500;
+//const int DELAY_START_INTERVAL = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 const QColor DARK_BG_COLOR = QColor(27, 27, 27);
 const QColor LIGHT_BG_COLOR = QColor(255, 255, 255);
@@ -112,22 +113,22 @@ QString SlideShowPanel::moduleName()
 
 QWidget *SlideShowPanel::toolbarBottomContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 QWidget *SlideShowPanel::toolbarTopLeftContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 QWidget *SlideShowPanel::toolbarTopMiddleContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 QWidget *SlideShowPanel::extensionPanelContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 void SlideShowPanel::paintEvent(QPaintEvent *e)
@@ -145,8 +146,8 @@ void SlideShowPanel::paintEvent(QPaintEvent *e)
 
 void SlideShowPanel::resizeEvent(QResizeEvent *e)
 {
-    m_player->setFrameSize(e->size().width() * devicePixelRatioF(),
-                           e->size().height() * devicePixelRatioF());
+    m_player->setFrameSize(static_cast<int>(e->size().width() * devicePixelRatioF()),
+                           static_cast<int>(e->size().height() * devicePixelRatioF()));
     ModulePanel::resizeEvent(e);
 }
 
@@ -413,8 +414,8 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
         emit dApp->signalM->updatePauseButton();
     }
 
-    int nParentWidth = QApplication::desktop()->screenGeometry().width();
-    int nParentHeight = QApplication::desktop()->screenGeometry().height();
+    int nParentWidth = QGuiApplication::primaryScreen()->geometry().width();
+    int nParentHeight = QGuiApplication::primaryScreen()->geometry().height();
     slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
 
     m_player->start();

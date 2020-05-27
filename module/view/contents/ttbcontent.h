@@ -66,10 +66,15 @@ signals:
     void mouseLeftReleased();
     void needContinueRequest();
     void silmoved();
+
+    void testloadRight();
+    void testloadLeft();
 private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
     QPoint m_prepoint;
+
+    QTimer *m_timer = nullptr;
 };
 
 class ImageItem : public QLabel
@@ -81,7 +86,7 @@ public:
     void setIndexNow(int i);
     void setPic(QPixmap pixmap);
 
-    QString _path = NULL;
+    QString _path;
     int index() const;
     void setIndex(int index);
     bool index_1(int index);
@@ -136,7 +141,7 @@ public:
         return false;
     }
     bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
-    void insertImageItem(const ImageDataSt& file);
+    void insertImageItem(const ImageDataSt &file, bool bloadRight = true);
     void stopLoadAndClear();
     void reLoad();
     QStringList getAllFileList();
@@ -147,7 +152,16 @@ public:
     QString getIndexPath(int index);
     void requestSomeImages();
     //------------------
+    /**
+     * @brief setRightlist  临时设置右侧数据
+     * @param rightlist
+     */
+    void setRightlist(QStringList rightlist);
 
+    void setLeftlist(QStringList leftlist);
+private:
+    QStringList m_rightlist;
+    QStringList m_leftlist;
 signals:
     void ttbcontentClicked();
     void imageClicked(int index, int addIndex);
@@ -162,6 +176,13 @@ signals:
     void showNext();
     void feedBackCurrentIndex(int index, QString path);
     void sigRequestSomeImages();
+    /**
+     * @brief sigloadRight
+     * @param rightlist
+     */
+    void sigloadRight(QStringList rightlist);
+
+    void sigloadLeft(QStringList leftlist);
 
 public slots:
     void setCurrentDir(QString text);
