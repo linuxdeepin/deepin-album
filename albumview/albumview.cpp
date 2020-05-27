@@ -343,6 +343,7 @@ void AlbumView::initConnections()
 //        qDebug() << "--------------blks:" << blks;
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
         QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
+        qDebug()<<"blk:" <<blk->hasFileSystem() << "  " << drv->mediaCompatibility().join(" ").contains("optical") << " " <<blk->isEncrypted();
 
         if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
             return;
@@ -2082,7 +2083,6 @@ void AlbumView::onKeyF2()
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
     qDebug() << "onVfsMountChangedAdd() name:" << mount->name();
-    Q_UNUSED(mount);
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
@@ -2110,6 +2110,8 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         }
 
         QString rename = "";
+        //有外设挂载时,重新获取设备名字,防止gio给出的默认名字出错的问题
+        getAllDeviceName();
         rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
         if ("" == rename) {
             rename = mount->name();
