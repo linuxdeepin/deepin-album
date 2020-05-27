@@ -63,6 +63,7 @@ private:
     DScrollArea *m_scrollArea;
     void keyPressEvent(QKeyEvent *e) override;
     void paintEvent(QPaintEvent *event) override;
+    bool event(QEvent *event)override;
 signals:
     void closed();
 

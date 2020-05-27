@@ -1,8 +1,10 @@
 #ifndef LEFTLISTVIEW_H
 #define LEFTLISTVIEW_H
 
+#include "dialogs/albumdeletedialog.h"
 #include "albumimagebutton.h"
 #include "leftlistwidget.h"
+
 
 #include <DWidget>
 #include <DLabel>
@@ -77,6 +79,7 @@ private:
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;
     DWidget *m_pMountWidget;
+    AlbumDeleteDialog *deletDialg;
 };
 
 #endif // LEFTLISTVIEW_H

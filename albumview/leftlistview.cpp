@@ -6,6 +6,7 @@
 #include "utils/baseutils.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/exporter.h"
+#include "imageengine/imageengineapi.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <DFontSizeManager>
@@ -335,10 +336,10 @@ void LeftListView::initUI()
 
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for (auto albumName : allAlbumNames) {
-        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView,1);
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView, 1);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
-        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName ,COMMON_STR_CREATEALBUM);
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, COMMON_STR_CREATEALBUM);
         pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/);
         pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
@@ -576,24 +577,28 @@ void LeftListView::onMenuClicked(QAction *action)
     }
     break;
     case IdDeleteAlbum: {
-        QString str;
         QListWidgetItem *item = m_pCustomizeListView->currentItem();
         AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(item));
+        deletDialg = new AlbumDeleteDialog();
+        deletDialg->show();
+        connect(deletDialg, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
+            QString str = pTabItem->m_albumNameStr;
+            QStringList paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr);
+            ImageEngineApi::instance()->moveImagesToTrash(paths);
+            DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
 
-        str = pTabItem->m_albumNameStr;
-        DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
+            if (1 < m_pCustomizeListView->count()) {
+                delete item;
+            } else {
+                updateCustomizeListView();
+                updatePhotoListView();
+            }
+            //移除item后更新右边视图
+            //updateRightView();
+            moveMountListWidget();
+            emit dApp->signalM->sigAlbDelToast(str);
+        });
 
-        if (1 < m_pCustomizeListView->count()) {
-            delete  item;
-        } else {
-            updateCustomizeListView();
-            updatePhotoListView();
-        }
-        //移除item后更新右边视图
-        //updateRightView();
-
-        moveMountListWidget();
-        emit dApp->signalM->sigAlbDelToast(str);
     }
     break;
     default:

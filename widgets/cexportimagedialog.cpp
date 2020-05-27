@@ -145,7 +145,7 @@ void CExportImageDialog::initUI()
         QString arg = m_fileNameEdit->text();
         int len = arg.toLocal8Bit().size();
         int filemaxlen = 251;
-        if(m_saveFormat.toUpper().compare("JPEG") == 0)
+        if (m_saveFormat.toUpper().compare("JPEG") == 0)
             filemaxlen -= 1;
         QString Interceptstr;
         if ( len > filemaxlen)
@@ -155,8 +155,7 @@ void CExportImageDialog::initUI()
             for (; pos < arg.size(); pos++) {
                 if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
                     num += 3;
-                    if (num >= filemaxlen)
-                    {
+                    if (num >= filemaxlen) {
                         break;
                     }
                 } else if (num < filemaxlen) {
@@ -293,20 +292,17 @@ void CExportImageDialog::slotOnFormatChange(int index)
 {
     m_saveFormat = m_formatCombox->itemText(index);
     //when jpeg format,recalculate file name length ,because ".jpeg"==5
-    if(m_saveFormat.toUpper().compare("JPEG") == 0)
-    {
+    if (m_saveFormat.toUpper().compare("JPEG") == 0) {
         QString arg = m_fileNameEdit->text();
         int len = arg.toLocal8Bit().size();
         QString Interceptstr;
-        if ( len > 250)
-        {
+        if ( len > 250) {
             unsigned num = 0;
             int pos = 0;
             for (; pos < arg.size(); pos++) {
                 if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
                     num += 3;
-                    if (num >= 250)
-                    {
+                    if (num >= 250) {
                         break;
                     }
                 } else if (num < 250) {
@@ -332,20 +328,24 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
             showEmptyWarningDialog();
             return;
         }
-        QString completePath = m_savePath + "/" + filename;
-        if (QFileInfo(completePath).exists()) {
-            hide();
-            showQuestionDialog(completePath);
-        } else {
-            bool savere = doSave();
-            hide();
-            if (savere) {
-                emit dApp->signalM->ImgExportSuccess();
-            } else {
-                emit dApp->signalM->ImgExportFailed();
-
+        QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
+        QFileInfo fileinfo(completePath);
+        if (fileinfo.exists()) {
+            if (!fileinfo.isDir()) {
+                hide();
+                showQuestionDialog(completePath);
+                return;
             }
         }
+        bool savere = doSave();
+        hide();
+        if (savere) {
+            emit dApp->signalM->ImgExportSuccess();
+        } else {
+            emit dApp->signalM->ImgExportFailed();
+
+        }
+
     }
 }
 
@@ -360,7 +360,7 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
 {
     Q_UNUSED(text);
     if (index == 1) {
-        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
+        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + m_saveFormat;
         if (doSave()) {
             emit dApp->signalM->ImgExportSuccess();
         } else {

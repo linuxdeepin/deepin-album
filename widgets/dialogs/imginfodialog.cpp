@@ -24,6 +24,7 @@
 #include <QFormLayout>
 #include <QLocale>
 #include <DFontSizeManager>
+#include <QApplication>
 #include <DApplicationHelper>
 
 
@@ -406,5 +407,16 @@ void ImgInfoDialog::paintEvent(QPaintEvent *event)
         updateInfo();
     }
     DDialog::paintEvent(event);
+}
+
+
+bool ImgInfoDialog::event(QEvent *event)
+{
+    if (event->type() == QEvent::ActivationChange) {
+        if (QApplication::activeWindow() != this) {
+            this->close();
+        }
+    }
+    return QWidget::event(event);
 }
 
