@@ -1,7 +1,7 @@
 {
    "type": "homebrew",
    "3rdparty": [],
-   "ignore": ["./.tx","./debian","./icons","./resources","./translations",".gitignore","album.pro","LICENSE","README.md","resources.qrc","相册","*.pri" ,"*.pro","*.png","*.svg"
+   "ignore": ["./.tx","./debian","./icons","./resources","./translations",".gitignore","album.pro","LICENSE","README.md","resources.qrc","deepin-album.desktop","*.pri" ,"*.pro","*.png","*.svg"
 ,"*.qrc"],
    "license": ["GPLv3"]
 }
