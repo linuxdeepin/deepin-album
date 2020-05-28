@@ -12,6 +12,7 @@ AlbumDeleteDialog::AlbumDeleteDialog(DWidget *parent)
 {
     Q_UNUSED(parent);
     iniUI();
+    setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 void AlbumDeleteDialog::iniUI()

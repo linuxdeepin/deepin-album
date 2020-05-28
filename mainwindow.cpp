@@ -1146,7 +1146,7 @@ void MainWindow::onShowImageInfo(const QString &path)
         m_propertyDialogs.remove(path);
 
         dialog = new ImgInfoDialog(path);
-        dialog->setModal(true);
+        //dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
 //        dialog->move((width() - dialog->width()) / 2 +
@@ -1162,7 +1162,7 @@ void MainWindow::onShowImageInfo(const QString &path)
         });
     } else {
         dialog = new ImgInfoDialog(path);
-        dialog->setModal(true);
+        //dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
 //        dialog->move((width() - dialog->width()) / 2 +

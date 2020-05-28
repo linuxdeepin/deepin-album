@@ -579,8 +579,7 @@ void LeftListView::onMenuClicked(QAction *action)
     case IdDeleteAlbum: {
         QListWidgetItem *item = m_pCustomizeListView->currentItem();
         AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(item));
-        deletDialg = new AlbumDeleteDialog();
-        deletDialg->show();
+        deletDialg = new AlbumDeleteDialog;
         connect(deletDialg, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
             QString str = pTabItem->m_albumNameStr;
             QStringList paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr);
@@ -598,7 +597,7 @@ void LeftListView::onMenuClicked(QAction *action)
             moveMountListWidget();
             emit dApp->signalM->sigAlbDelToast(str);
         });
-
+        deletDialg->show();
     }
     break;
     default:

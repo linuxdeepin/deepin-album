@@ -127,6 +127,7 @@ AlbumView::AlbumView()
     , pPhoneWidget(nullptr), phonetopwidget(nullptr), m_waitDeviceScandialog(nullptr)
     , isWaitDialog(true), isIgnore(true), m_waitDailog_timer(nullptr)
     , m_updateMountViewThread(nullptr), isMountThreadRunning(false), m_currentViewPictureCount(0)
+
 {
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
@@ -2022,24 +2023,28 @@ void AlbumView::onKeyDelete()
         paths = m_pRightThumbnailList->selectedPaths();
         // 如果没有选中的照片,或相册中的照片数为0,则删除相册
         if (0 == paths.length() || 0 == DBManager::instance()->getImgsCountByAlbum(m_currentAlbum)) {
-            QString str;
             QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
             AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
 
-            str = pTabItem->m_albumNameStr;
-            DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
+            m_deleteDialog = new AlbumDeleteDialog;
+            connect(m_deleteDialog, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
+                QString str = pTabItem->m_albumNameStr;
+                QStringList album_paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr);
+                ImageEngineApi::instance()->moveImagesToTrash(album_paths);
+                DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
 
-            if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
-                delete  item;
-            } else {
-                m_pLeftListView->updateCustomizeListView();
-                m_pLeftListView->updatePhotoListView();
-            }
-            //刷新右侧视图
-            leftTabClicked();
-
-            m_pLeftListView->moveMountListWidget();
-            emit dApp->signalM->sigAlbDelToast(str);
+                if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
+                    delete  item;
+                } else {
+                    m_pLeftListView->updateCustomizeListView();
+                    m_pLeftListView->updatePhotoListView();
+                }
+                //刷新右侧视图
+                leftTabClicked();
+                m_pLeftListView->moveMountListWidget();
+                emit dApp->signalM->sigAlbDelToast(str);
+            });
+            m_deleteDialog->show();
         } else {
             bMoveToTrash = true;
         }
