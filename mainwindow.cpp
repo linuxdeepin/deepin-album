@@ -125,7 +125,7 @@ void MainWindow::initConnections()
 
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
 #if 1
-    connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
+    connect(dApp->signalM, &SignalManager::viewCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
@@ -967,9 +967,10 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
 //    }
 }
 #if 1
-void MainWindow::onViewCreateAlbum(QString imgpath)
+void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
+    d->setModal(bmodel);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
@@ -1146,14 +1147,8 @@ void MainWindow::onShowImageInfo(const QString &path)
         m_propertyDialogs.remove(path);
 
         dialog = new ImgInfoDialog(path);
-        //dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
-//        dialog->move((width() - dialog->width()) / 2 +
-//                     mapToGlobal(QPoint(0, 0)).x(),
-//                     (window()->height() - dialog->height()) / 2 +
-//                     window()->y() - 120);
-//        dialog->move((width() - dialog->width() + mapToGlobal(QPoint(0, 0)).x()), (window()->height() - dialog->height()) - 650);
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
@@ -1162,13 +1157,8 @@ void MainWindow::onShowImageInfo(const QString &path)
         });
     } else {
         dialog = new ImgInfoDialog(path);
-        //dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
-//        dialog->move((width() - dialog->width()) / 2 +
-//                     mapToGlobal(QPoint(0, 0)).x(),
-//                     (window()->height() - dialog->height()) / 2 +
-//                     window()->y() - 120);
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
