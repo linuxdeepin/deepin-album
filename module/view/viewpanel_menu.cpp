@@ -185,7 +185,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             }
             DBManager::instance()->insertIntoAlbum(album, QStringList(path));
         } else {
-            emit dApp->signalM->viewModeCreateAlbum(path);
+            emit dApp->signalM->viewCreateAlbum(path, false);
         }
     }
     break;
@@ -277,10 +277,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
-//        if (m_isInfoShowed)
-//            emit dApp->signalM->hideExtensionPanel();
-//        else
-        //emit dApp->signalM->showExtensionPanel();
         emit dApp->signalM->showImageInfo(path);
         // Update panel info
         m_info->setImagePath(path);

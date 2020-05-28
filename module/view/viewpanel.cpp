@@ -259,18 +259,6 @@ void ViewPanel::initConnect()
     });
 }
 
-//void ViewPanel::updateLocalImages()
-//{
-//    const QString cp = m_infos.at(m_current).filePath;
-//    m_infos = getImageInfos(getFileInfos(cp));
-//    m_current = 0;
-//    for (; m_current < m_infos.size(); m_current ++) {
-//        if (m_infos.at(m_current).filePath == cp) {
-//            return;
-//        }
-//    }
-//}
-
 void ViewPanel::mousePressEvent(QMouseEvent *e)
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -335,46 +323,6 @@ void ViewPanel::showFullScreen()
     emit dApp->signalM->sigShowFullScreen();
 }
 
-//int ViewPanel::imageIndex(const QString &path)
-//{
-//    for (int i = 0; i < m_infos.length(); i ++) {
-//        if (m_infos.at(i).filePath == path) {
-//            return i;
-//        }
-//    }
-
-//    return -1;
-//}
-
-//DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
-//{
-//    DBImgInfoList imageInfos;
-//    for (QFileInfo info : infos) {
-//        DBImgInfo imgInfo;
-
-//        // 在 Qt 5.6 上的一个Bug，QFileInfo("").absoluteFilePath()会返回当前目录的绝对路径
-////        if (info.isFile())
-//        {
-//            imgInfo.fileName = info.fileName();
-//            imgInfo.filePath = info.absoluteFilePath();
-//        }
-
-//        imageInfos << imgInfo;
-//    }
-
-//    return imageInfos;
-//}
-
-//const QStringList ViewPanel::paths() const
-//{
-//    QStringList list;
-//    for (DBImgInfo info : m_infos) {
-//        list << info.filePath;
-//    }
-
-//    return list;
-//}
-
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
     return utils::image::getImagesInfo(QFileInfo(path).path(), false);
@@ -389,56 +337,6 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 {
     return nullptr;
 }
-//QWidget *ViewPanel::toolbarTopLeftContent()
-//{
-//    TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
-//    ttlc->setCurrentDir(m_currentImageLastDir);
-//    if (! m_infos.isEmpty() && m_current < m_infos.size()) {
-//        ttlc->setImage(m_infos.at(m_current).filePath, m_infos);
-//    } else {
-//        ttlc->setImage("", m_infos);
-//    }
-
-//    connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
-//    connect(this, &ViewPanel::viewImageFrom, ttlc, [ = ](const QString & dir) {
-//        ttlc->setCurrentDir(dir);
-//    });
-////    connect(ttlc, &TTLContent::contentWidthChanged,
-////            this, &ViewPanel::updateTopLeftWidthChanged);
-////    connect(this, &ViewPanel::updateCollectButton,
-////            ttlc, &TTLContent::updateCollectButton);
-//    connect(this, &ViewPanel::imageChanged, ttlc, &TTLContent::setImage);
-//    connect(ttlc, &TTLContent::rotateClockwise, this, [ = ] {
-//        rotateImage(true);
-//    });
-//    connect(ttlc, &TTLContent::rotateCounterClockwise, this, [ = ] {
-//        rotateImage(false);
-//    });
-//    connect(ttlc, &TTLContent::removed, this, [ = ] {
-//        if (m_vinfo.inDatabase)
-//        {
-//            popupDelDialog(m_infos.at(m_current).filePath);
-//        } else
-//        {
-//            const QString path = m_infos.at(m_current).filePath;
-//            removeCurrentImage();
-//            utils::base::trashFile(path);
-//        }
-//    });
-//    connect(ttlc, &TTLContent::resetTransform, this, [ = ](bool fitWindow) {
-//        if (fitWindow) {
-//            m_viewB->fitWindow();
-//        } else {
-//            m_viewB->fitImage();
-//        }
-//    });
-//    connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
-//            ttlc, &TTLContent::updateCollectButton);
-//    connect(dApp->signalM, &SignalManager::removedFromAlbum,
-//            ttlc, &TTLContent::updateCollectButton);
-
-//    return ttlc;
-//}
 
 QWidget *ViewPanel::bottomTopLeftContent()
 {
@@ -688,7 +586,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
                 tempalllist << vinfo.mid(currentindex, temprightcount);//后不足50
                 rightlist.clear();
             }
-            leftlist = vinfo.mid(0, currentindex - 20);
+            leftlist = vinfo.mid(0, currentindex - LOAD_LEFT_RIGHT);
         }
     } else {
         tempalllist << vinfo;

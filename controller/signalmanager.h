@@ -120,7 +120,7 @@ signals:
 
     void sigDrawingBoard(QStringList Paths);//lmh0407
 #if 1
-    void viewModeCreateAlbum(QString path);
+    void viewCreateAlbum(QString path, bool bmodel = true);
     void sigCreateNewAlbumFrom(QString albumname);
 #endif
     void importDir(const QString &dir);
@@ -157,9 +157,6 @@ signals:
     void progressOfWaitDialog(int allfiles, int completefiles);
     void waitDevicescan();
     void cacheThreadStop();
-
-    //尝试手动更新查看界面工具栏
-    void sigUpdateTTB();
 
     //lmh手机加载图片边加载，边传输信息
     void sigPhonePath(QString PhoneName, QString pathName);
