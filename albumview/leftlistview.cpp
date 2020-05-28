@@ -619,8 +619,8 @@ void LeftListView::onMountListView(QModelIndex index)
     m_pCustomizeListView->clearSelection();
     m_pMountListView->clearSelection();
     updateAlbumItemsColor();
-
-    if (m_pPhotoLibListView->currentItem()) {
+    QListWidgetItem *pitem = m_pPhotoLibListView->currentItem();
+    if (pitem) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
         item->newAlbumStatus();
 
@@ -634,6 +634,8 @@ void LeftListView::onMountListView(QModelIndex index)
             m_ItemCurrentName = COMMON_STR_FAVORITES;
             m_ItemCurrentType = COMMON_STR_FAVORITES;
         }
+
+        m_ItemCurrentDataType = pitem->type(); //default 0
     }
 
     m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
@@ -705,6 +707,7 @@ void LeftListView::keyPressEvent(QKeyEvent *event)
             emit sigKeyF2();
         }
     }
+
 }
 
 void LeftListView::resizeEvent(QResizeEvent *e)
