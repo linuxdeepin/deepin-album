@@ -62,7 +62,6 @@ public:
     void rotateCounterclockwise();
     void centerOn(int x, int y);
     void setImage(const QString &path);
-    void setImageFirst(const QString &path);
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
@@ -140,5 +139,7 @@ private:
     ImageSvgItem *m_imgSvgItem {nullptr};
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
+
+    bool m_bLoadmemory;
 };
 #endif // SVGVIEW_H

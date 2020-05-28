@@ -40,13 +40,13 @@ private:
     void initUI();
     void initConnection();
     void createAlbum(const QString &newName);
-    const QString getNewAlbumName() const;
+    const QString getNewAlbumName(const QString &baseName) const;
 
 private:
     QString m_createAlbumName;
     DLineEdit *edit;
-    QAbstractButton *m_Cancel;
-    QAbstractButton *m_OK;
+    DPushButton *m_Cancel;
+    DPushButton *m_OK;
     bool m_OKClicked;
 
 };

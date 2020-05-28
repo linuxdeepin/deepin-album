@@ -31,7 +31,9 @@
 
 DWIDGET_BEGIN_NAMESPACE
 
+
 class ToastPrivate;
+
 class LIBDTKWIDGETSHARED_EXPORT Toast : public QFrame, public DTK_CORE_NAMESPACE::DObject
 {
     Q_OBJECT

@@ -301,12 +301,16 @@
         <source>Restoring...</source>
         <translation>Restoring...</translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Gallery</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation type="vanished">Gallery</translation>
     </message>
 </context>
 <context>
@@ -331,14 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
-    </message>
-</context>
-<context>
-    <name>ImageSVGConvertThread</name>
-    <message>
-        <source>/tmp/%1</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Gallery</translation>
     </message>
 </context>
 <context>
@@ -557,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation type="vanished">%1 photo(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -816,10 +813,14 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import on </translation>
+        <translation type="vanished">Import on </translation>
     </message>
     <message>
-        <source>%1年%2月%3日 %4</source>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

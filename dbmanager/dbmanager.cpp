@@ -34,7 +34,7 @@ const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
 
 }  // namespace
 
-DBManager  *DBManager::m_dbManager = NULL;
+DBManager  *DBManager::m_dbManager = nullptr;
 
 DBManager  *DBManager::instance()
 {
@@ -347,7 +347,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         return;
     }
 
-    QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes;
+    QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes, albumsize;
 
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
@@ -961,6 +961,7 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
         return;
     }
     QSqlQuery query(db);
+
     query.setForwardOnly(true);
     query.prepare("UPDATE AlbumTable3 SET "
                   "AlbumName = :newName "
@@ -1252,8 +1253,8 @@ void DBManager::checkDatabase()
 
         // TrashTable
         //////////////////////////////////////////////////////////////
-        //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | AlbumName //
-        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT //
+        //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | AlbumName  //
+        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT  //
         //////////////////////////////////////////////////////////////
         query.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable ( "
                            "PathHash TEXT primary key, "
@@ -1279,7 +1280,6 @@ void DBManager::checkDatabase()
             queryImage.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
                             .arg(strDate));
         }
-
         // 判断TrashTable中是否有ChangeTime字段
         QString strSqlTrash = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable\" and sql like \"%ChangeTime%\"");
         QSqlQuery queryTrash(db);
@@ -1301,6 +1301,7 @@ void DBManager::checkDatabase()
             queryTrashs.exec(QString("ALTER TABLE \"TrashTable\" ADD COLUMN \"AlbumName\" TEXT default \"%1\"")
                              .arg(strAlbumName));
         }
+
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
@@ -1341,7 +1342,6 @@ void DBManager::importVersion1Data()
                 info.fileName = query.value(0).toString();
                 info.filePath = query.value(1).toString();
                 info.time = stringToDateTime(query.value(2).toString());
-//                info.changeTime = stringToDateTime(query.value(3).toString());
                 info.changeTime = QDateTime::fromString(query.value(3).toString(), DATETIME_FORMAT_DATABASE);
 
                 infos << info;

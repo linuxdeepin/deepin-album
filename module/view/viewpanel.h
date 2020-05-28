@@ -64,8 +64,6 @@ public:
         }
         return m_ttbc->itemLoadedSize();
     }
-
-    void openImageFirst(const QString &path, bool inDB=true);
 signals:
     void updateCollectButton();
 //    void imageChanged(const QString &path, DBImgInfoList infos);

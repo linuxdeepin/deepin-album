@@ -127,6 +127,7 @@ AlbumView::AlbumView()
     , pPhoneWidget(nullptr), phonetopwidget(nullptr), m_waitDeviceScandialog(nullptr)
     , isWaitDialog(true), isIgnore(true), m_waitDailog_timer(nullptr)
     , m_updateMountViewThread(nullptr), isMountThreadRunning(false), m_currentViewPictureCount(0)
+
 {
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
@@ -308,7 +309,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, [ = ](QString albumname, QStringList pathlist) {
         qDebug() << "添加到目的相册：" << albumname;
         Q_UNUSED(pathlist);
-        if (albumname == m_currentType) //如果需要更新的为当前界面
+        if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentType) //如果需要更新的为当前界面
             updateRightView();
     });
 
@@ -645,11 +646,13 @@ void AlbumView::initLeftView()
 void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
-    QListWidgetItem *pListWidgetItem = new QListWidgetItem();
+
+    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pCustomizeListView, ablumType);//hj add data to listwidgetitem to Distinguish item's type
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = newalbumname;
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
+    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, QString(COMMON_STR_CREATEALBUM));
+
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
     m_pLeftListView->moveMountListWidget();
@@ -1603,7 +1606,8 @@ void AlbumView::leftTabClicked()
 {
     emit dApp->signalM->SearchEditClear();
     //若点击当前的item，则不做任何处理
-    if (m_currentAlbum == m_pLeftListView->getItemCurrentName()) {
+    if (m_currentAlbum == m_pLeftListView->getItemCurrentName()
+            && m_currentItemType == m_pLeftListView->getItemDataType()) {
         SearchReturnUpdate();
         return;
     }
@@ -2019,22 +2023,28 @@ void AlbumView::onKeyDelete()
         paths = m_pRightThumbnailList->selectedPaths();
         // 如果没有选中的照片,或相册中的照片数为0,则删除相册
         if (0 == paths.length() || 0 == DBManager::instance()->getImgsCountByAlbum(m_currentAlbum)) {
-            QString str;
             QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
             AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
 
-            str = pTabItem->m_albumNameStr;
-            DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
+            m_deleteDialog = new AlbumDeleteDialog;
+            connect(m_deleteDialog, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
+                QString str = pTabItem->m_albumNameStr;
+                QStringList album_paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr);
+                ImageEngineApi::instance()->moveImagesToTrash(album_paths);
+                DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
 
-            if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
-                delete  item;
-            } else {
-                m_pLeftListView->updateCustomizeListView();
-                m_pLeftListView->updatePhotoListView();
-            }
-
-            m_pLeftListView->moveMountListWidget();
-            emit dApp->signalM->sigAlbDelToast(str);
+                if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
+                    delete  item;
+                } else {
+                    m_pLeftListView->updateCustomizeListView();
+                    m_pLeftListView->updatePhotoListView();
+                }
+                //刷新右侧视图
+                leftTabClicked();
+                m_pLeftListView->moveMountListWidget();
+                emit dApp->signalM->sigAlbDelToast(str);
+            });
+            m_deleteDialog->show();
         } else {
             bMoveToTrash = true;
         }
@@ -2047,24 +2057,6 @@ void AlbumView::onKeyDelete()
     // 删除选中照片
     if (bMoveToTrash) {
         ImageEngineApi::instance()->moveImagesToTrash(paths);
-//        DBImgInfoList infos;
-//        for (auto path : paths) {
-//            DBImgInfo info;
-//            info = DBManager::instance()->getInfoByPath(path);
-//            info.changeTime = QDateTime::currentDateTime();
-
-//            QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-//            for (auto eachname : allalbumnames) {
-//                if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-//                    info.albumname += (eachname + ",");
-//                }
-//            }
-//            infos << info;
-//        }
-
-////        dApp->m_imageloader->addTrashImageLoader(paths);
-//        DBManager::instance()->insertTrashImgInfos(infos);
-//        DBManager::instance()->removeImgInfos(paths);
     }
 }
 
@@ -2510,7 +2502,7 @@ void AlbumView::initExternalDevice()
 
 void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath)
 {
-    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListView);
+    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListView, devType);
     //pListWidgetItem缓存文件挂载路径
 //    QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
 //    QString strPath = LocationFile->path();
@@ -2579,6 +2571,9 @@ void AlbumView::SearchReturnUpdate()
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
         } else {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_THUMBNAIL_LIST);
+
+            //更新搜索结果为空，清除搜索界面没有切换到初始状态   xiaolong 2020/05/22
+            updateRightNoTrashView();
         }
         m_pStatusBar->setVisible(true);
     }
@@ -2622,11 +2617,7 @@ void AlbumView::updateImportComboBox()
     m_importByPhoneComboBox->addItem(tr("Gallery"));
     m_importByPhoneComboBox->addItem(tr("New album"));
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
-    qDebug() << "updateImportComboBox()" << allAlbumNames;
     for (auto albumName : allAlbumNames) {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName) {
-            continue;
-        }
         m_importByPhoneComboBox->addItem(albumName);
     }
     m_importByPhoneComboBox->setCurrentText(tr("Gallery"));     //默认选中

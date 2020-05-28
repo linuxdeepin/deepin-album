@@ -60,33 +60,19 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
     QStringList pathlist;
 
     for (auto info : dbInfos) {
-//        if ( dApp->m_imagemap.value(info.filePath).isNull()) {
-//            continue;
-//        }
         pathlist << info.filePath;
         dbInfoList << info;
     }
 
-//    if (dbInfoList.size() == dbInfos.size()) {
-    int count = 1;
     if (albumname.length() > 0) {
-        if (COMMON_STR_RECENT_IMPORTED != albumname
-                && COMMON_STR_TRASH != albumname
-                && COMMON_STR_FAVORITES != albumname
-                && ALBUM_PATHTYPE_BY_PHONE != albumname
-                && 0 != albumname.compare(tr("Gallery"))) {
-            DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
-        }
+        DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
     }
-
     DBManager::instance()->insertImgInfos(dbInfoList);
     if (pathlist.size() > 0) {
-        emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
+        emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1);
     } else {
-        count = 0;
         emit dApp->signalM->ImportFailed();
     }
-
 }
 
 
@@ -145,7 +131,7 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
             }
 
             if (!cache_exist) {
-                if (((float)pixmap.height()) / ((float)pixmap.width()) > 3) {
+                if ((static_cast<float>(pixmap.height())) / (static_cast<float>(pixmap.width())) > 3) {
                     pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
                 } else {
                     pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
@@ -190,7 +176,7 @@ Application::Application(int &argc, char **argv)
     setApplicationDescription(DApplication::translate("Main", "Album is a fashion photo manager for viewing and organizing pictures."));
     installEventFilter(new GlobalEventFilter(this));
     initChildren();
-    initDB();
+//    initDB();
 
 }
 
@@ -202,32 +188,6 @@ Application::~Application()
 //    }
 }
 
-//void Application::LoadDbImage()
-//{
-//    auto infos = DBManager::instance()->getAllInfos();
-//    QStringList pathlist;
-//    foreach (auto info, infos) {
-//        pathlist.append(info.filePath);
-//    }
-
-//    auto infostrash = DBManager::instance()->getAllTrashInfos();
-//    QStringList pathlisttrash;
-//    foreach (auto info, infostrash) {
-//        pathlisttrash.append(info.filePath);
-//    }
-
-//    m_imageloader = new ImageLoader(this, pathlist, pathlisttrash);
-//    m_LoadThread = new QThread();
-
-//    m_imageloader->moveToThread(m_LoadThread);
-//    m_LoadThread->start();
-
-//    connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
-//    connect(m_imageloader, SIGNAL(sigFinishiLoad()), this, SLOT(finishLoadSlot()));
-////    connect(this, SIGNAL(sigLoadMountImagesStart(QString, QString)), m_imageloader, SLOT(onLoadMountImagesStart(QString, QString)));
-//    qDebug() << "emit sigstartLoad();";
-//    emit sigstartLoad();
-//}
 
 void Application::finishLoadSlot()
 {
@@ -292,9 +252,9 @@ void Application::setupsinglecase()
             return;
         }
         sharedMemory.lock();
-        char *to = (char *)sharedMemory.data();
+        char *to = static_cast<char *>(sharedMemory.data());
         const char *from = byteArray.data();
-        memcpy(to, from, qMin(sharedMemory.size(), byteArray.size()));
+        memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), byteArray.size())));
         sharedMemory.unlock();
 
         // start checking for messages of other instances.
@@ -318,9 +278,9 @@ bool Application::sendMessage(const QString &message)
     byteArray.append(message.toUtf8());
     byteArray.append('/0'); // < should be as char here, not a string!
     sharedMemory.lock();
-    char *to = (char *)sharedMemory.data();
+    char *to = static_cast<char *>(sharedMemory.data());
     const char *from = byteArray.data();
-    memcpy(to, from, qMin(sharedMemory.size(), byteArray.size()));
+    memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), byteArray.size())));
     sharedMemory.unlock();
     return true;
 }
@@ -328,7 +288,7 @@ bool Application::sendMessage(const QString &message)
 void Application::checkForMessage()
 {
     sharedMemory.lock();
-    QByteArray byteArray = QByteArray((char *)sharedMemory.constData(), sharedMemory.size());
+    QByteArray byteArray = QByteArray(static_cast<const char *>(sharedMemory.constData()), sharedMemory.size());
     sharedMemory.unlock();
     if (byteArray.left(1) == "0")
         return;
@@ -339,9 +299,9 @@ void Application::checkForMessage()
     // remove message from shared memory.
     byteArray = "0";
     sharedMemory.lock();
-    char *to = (char *)sharedMemory.data();
+    char *to = static_cast<char *>(sharedMemory.data());
     const char *from = byteArray.data();
-    memcpy(to, from, qMin(sharedMemory.size(), byteArray.size()));
+    memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), byteArray.size())));
     sharedMemory.unlock();
 }
 
