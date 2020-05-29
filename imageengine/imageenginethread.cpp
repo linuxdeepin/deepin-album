@@ -841,9 +841,21 @@ void ImageEngineThread::run()
     bool cache_exist = false;
     QString path = m_path;
     QFileInfo file(CACHE_PATH + m_path);
+    QFileInfo srcfi(m_path);
     if (file.exists()) {
-        cache_exist = true;
-        path = CACHE_PATH + m_path;
+        QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
+        QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
+
+        int timecha = static_cast<int>(srctime.toTime_t()) - static_cast<int>(cachetime.toTime_t());
+        if (timecha > 0) {  //源文件近期修改过，重新生成缓存文件
+            cache_exist = false;
+            breloadCache = true;
+            path = m_path;
+        } else {
+            cache_exist = true;
+            path = CACHE_PATH + m_path;
+        }
+
     }
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -938,6 +950,12 @@ void ImageEngineThread::run()
         return;
     }
     bwaitstop = true;
+    if (breloadCache) { //更新缓存文件
+        QString spath = CACHE_PATH + m_path;
+        mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+        pixmap.save(spath, "PNG");
+    }
+
     QMutexLocker mutex(&m_mutex);
     for (ImageEngineObject *imgobject : m_imgobject) {
         imgobject->removeThread(this);
@@ -1079,8 +1097,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     if (needStop)
         return;
     if (file.exists()) {
-        cache_exist = true;
-        path = CACHE_PATH + m_path;
+        return;
     }
     if (needStop)
         return;

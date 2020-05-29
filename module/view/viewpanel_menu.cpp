@@ -36,7 +36,8 @@
 
 namespace {
 //LMH 500改200
-const int SWITCH_IMAGE_DELAY = 200;
+const int SWITCH_IMAGE_DELAY = 200;     //上一张下一张时间间隔
+const int DELETE_IMAGE_DELAY = 400;     //删除时间间隔
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const int VIEW_MAINWINDOW_POPVIEW = 4;
 
@@ -435,6 +436,12 @@ void ViewPanel::initShortcut()
     m_dt = new QTimer(this);
     m_dt->setSingleShot(true);
     m_dt->setInterval(SWITCH_IMAGE_DELAY);
+
+    // Delay image toggle delete
+    m_deletetimer = new QTimer(this);
+    m_deletetimer->setSingleShot(true);
+    m_deletetimer->setInterval(DELETE_IMAGE_DELAY);
+
     QShortcut *sc = nullptr;
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
