@@ -82,7 +82,7 @@ class ImageItem : public QLabel
     Q_OBJECT
 public:
 //    ImageItem(int index = 0, QString path = "", QString imageType = "", QWidget *parent = 0);
-    ImageItem(int index = 0, ImageDataSt data = ImageDataSt(), QWidget *parent = 0);
+    ImageItem(int index = 0, ImageDataSt data = ImageDataSt(), QWidget *parent = nullptr);
     void setIndexNow(int i);
     void setPic(QPixmap pixmap);
 
@@ -121,10 +121,9 @@ public:
         ImageDataSt data;
     };
 //    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
-    explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = 0);
+    explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = nullptr);
     ~TTBContent() override
     {
-//        stopLoadAndClear();
         clearAndStopThread();
     }
 
@@ -153,15 +152,13 @@ public:
     void requestSomeImages();
     //------------------
     /**
-     * @brief setRightlist  临时设置右侧数据
+     * @brief setRightlist  设置右侧数据
      * @param rightlist
      */
     void setRightlist(QStringList rightlist);
 
     void setLeftlist(QStringList leftlist);
-private:
-    QStringList m_rightlist;
-    QStringList m_leftlist;
+
 signals:
     void ttbcontentClicked();
     void imageClicked(int index, int addIndex);
@@ -248,6 +245,9 @@ private:
     QString m_currentpath = "";
     int m_lastIndex = -1;
     bool binsertneedupdate = true;
+
+    QStringList m_rightlist;        //保存动态加载数据（右侧）
+    QStringList m_leftlist;
 };
 
 #endif // TTLCONTENT_H
