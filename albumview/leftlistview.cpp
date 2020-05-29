@@ -15,7 +15,6 @@
 namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
-const int ITEM_SPACING_ZERO = 0;
 const int LEFT_VIEW_WIDTH_180 = 180;
 const int LEFT_VIEW_LISTITEM_WIDTH_160 = 160;
 const int LEFT_VIEW_LISTITEM_HEIGHT_40 = 40;
@@ -66,6 +65,9 @@ void LeftListView::initConnections()
         m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
         m_pMountListView->setFocusPolicy(Qt::NoFocus);
         m_pCustomizeListView->setFocus();
+
+        if (m_pCustomizeListView->m_bCtrl)
+            updateAlbumItemsColor();
         emit itemClicked();
     });
 
@@ -91,6 +93,10 @@ void LeftListView::initConnections()
         m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
 
         m_pMountListView->setFocus();
+
+        if (m_pMountListView->m_bCtrl)
+            updateAlbumItemsColor();
+
         emit itemClicked();
     });
 
@@ -131,7 +137,8 @@ void LeftListView::initConnections()
                 m_ItemCurrentName = item->m_albumNameStr;
             }
             m_ItemCurrentType = COMMON_STR_CUSTOM;
-            //emit itemClicked();
+
+//            emit itemClicked();
         }
     });
 
@@ -641,6 +648,10 @@ void LeftListView::onMountListView(QModelIndex index)
     m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
     m_pMountListView->setFocusPolicy(Qt::NoFocus);
     m_pPhotoLibListView->setFocus();
+
+    if (m_pPhotoLibListView->m_bCtrl)
+        updateAlbumItemsColor();
+
     emit itemClicked();
 }
 

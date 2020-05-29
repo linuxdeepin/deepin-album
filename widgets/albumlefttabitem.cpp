@@ -7,7 +7,6 @@
 #include <DFontSizeManager>
 #include <QPainter>
 namespace {
-const int LAYOUT_SPACING = 10;
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
 const int OPE_MODE_ADDRENAMEALBUM = 2;
@@ -57,11 +56,11 @@ void AlbumLeftTabItem::initUI()
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
-    }else if (COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr) {
+    } else if (COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr) {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
-    }else if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
+    } else if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
@@ -97,22 +96,17 @@ void AlbumLeftTabItem::initUI()
 
     QFontMetrics elideFont(m_nameLabel->font());
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
-//        m_nameLabel->Settext(elideFont.elidedText(tr("Import"), Qt::ElideRight, 85));
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
         m_nameLabel->Settext(tr("Import"));
     } else if (COMMON_STR_TRASH == m_albumNameStr) {
-//        m_nameLabel->Settext(elideFont.elidedText(tr("Trash"), Qt::ElideRight, 85));
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
         m_nameLabel->Settext(tr("Trash"));
     } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
-//        m_nameLabel->Settext(elideFont.elidedText(tr("Favorites"), Qt::ElideRight, 85));
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
         m_nameLabel->Settext(tr("Favorites"));
     } else {
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-//        m_nameLabel->Settext(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, 85));
         m_nameLabel->Settext(m_albumNameStr);
-        //        m_nameLabel->setText(m_albumNameStr);
     }
     m_nameLabel->setAlignment(Qt::AlignVCenter);
 
@@ -129,13 +123,10 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->setParent(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
-
         m_pLineEdit->setText(tr("Import"));
     } else if (COMMON_STR_TRASH == m_albumNameStr) {
-
         m_pLineEdit->setText(tr("Trash"));
     } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
-
         m_pLineEdit->setText(tr("Favorites"));
     } else {
         m_pLineEdit->setText(m_albumNameStr);
@@ -266,7 +257,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
 
         pImageLabel->setPixmap(pixmap);
         m_unMountBtn->setPixmap(mountpixmap);
-    }else if(COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr){
+    } else if (COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr) {
         QPixmap pixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
@@ -342,11 +333,11 @@ void AlbumLeftTabItem::newAlbumStatus()
         QPixmap mountpixmap;
         mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_exit_active.svg", QSize(24, 24));
         m_unMountBtn->setPixmap(mountpixmap);
-    }else if(COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr){
+    } else if (COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr) {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_album_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
-    }else if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
+    } else if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_import_active.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
