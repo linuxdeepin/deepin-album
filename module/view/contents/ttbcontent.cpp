@@ -683,7 +683,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addSpacing(10);
     m_fileNameLabel = new ElidedLabel();
 
-    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
+    connect(m_trashBtn, &DIconButton::clicked, this, [ = ] {
+        emit dApp->signalM->deleteByMenu();
+    });
+//    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
 

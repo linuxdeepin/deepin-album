@@ -73,7 +73,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
-//    , m_viewType(utils::common::VIEW_ALLPIC_SRN)
+    , m_deletetimer(nullptr)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initShortcut();
@@ -134,11 +134,11 @@ void ViewPanel::initConnect()
 {
     connect(dApp->signalM, &SignalManager::deleteByMenu, this, [ = ] {
 
-        if (m_dt->isActive())
+        if (m_deletetimer->isActive())
         {
             return;
         }
-        m_dt->start();
+        m_deletetimer->start();
 
 
         emit ttbcDeleteImage();
@@ -286,11 +286,11 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 void ViewPanel::feedBackCurrentIndex(int index, QString path)
 {
     m_current = index;
-    m_currentpath = path;
+//    m_currentpath = path;
     if (m_current >= m_filepathlist.size()) {
         return;
     }
-    openImage(path);
+    openImage(path, true, false);
 }
 
 void ViewPanel::showNormal()
@@ -605,7 +605,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     }
 
     QWidget *pttbc = bottomTopLeftContent();
-    //测试使用
+    //
     dynamic_cast<TTBContent *>(pttbc)->setRightlist(rightlist); //左侧动态加载路径
     dynamic_cast<TTBContent *>(pttbc)->setLeftlist(leftlist);   //右侧动态加载路径
     emit dApp->signalM->updateBottomToolbarContent(pttbc, (tempalllist.size() > 1));
@@ -832,8 +832,10 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
 }
 
-void ViewPanel::openImage(const QString &path, bool inDB)
+void ViewPanel::openImage(const QString &path, bool inDB, bool bjudge)
 {
+    if (bjudge && m_currentpath == path)
+        return;
     m_currentpath = path;
 
     m_viewB->setImage(path);    //设置当前显示图片
