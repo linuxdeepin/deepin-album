@@ -4,9 +4,10 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QAbstractItemView>
 #include "widgets/albumlefttabitem.h"
 
-LeftListWidget::LeftListWidget()
+LeftListWidget::LeftListWidget(): m_bCtrl(false)
 {
     setViewportMargins(8, 0, 8, 0);
     setAcceptDrops(true);
@@ -20,17 +21,23 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
         QString leftTabListName = item->m_albumNameStr;
         QString leftTabListType = item->m_albumTypeStr;
         // qDebug()<<"leftTabListName: "<<leftTabListName<<" ;leftTabListType: "<<leftTabListType;
-
-        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName)
-                || (COMMON_STR_TRASH == leftTabListName)
-                || (COMMON_STR_FAVORITES == leftTabListName)
-                || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType)
-                || (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
+        //只支持拖拽到自定义相册
+        if (leftTabListType == COMMON_STR_CREATEALBUM) {
+            return event->accept();
+        } else {
             qDebug() << "Can not drop!";
             return event->ignore();
-        } else {
-            return event->accept();
         }
+//        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName)
+//                || (COMMON_STR_TRASH == leftTabListName)
+//                || (COMMON_STR_FAVORITES == leftTabListName)
+//                || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType)
+//                || (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
+//            qDebug() << "Can not drop!";
+//            return event->ignore();
+//        } else {
+//            return event->accept();
+//        }
     }
 }
 
@@ -63,6 +70,24 @@ void LeftListWidget::mousePressEvent(QMouseEvent *e)
         emit sigMousePressIsNoValid();
     }
     DListWidget::mousePressEvent(e);
+}
+
+void LeftListWidget::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Control) {
+        m_bCtrl = true;
+        return;
+    }
+    DListWidget::keyPressEvent(event);
+}
+
+void LeftListWidget::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Control) {
+        m_bCtrl = false;
+        return;
+    }
+    DListWidget::keyReleaseEvent(event);
 }
 
 QStyleOptionViewItem LeftListWidget::viewOptions() const

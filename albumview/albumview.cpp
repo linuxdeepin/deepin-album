@@ -1613,6 +1613,7 @@ void AlbumView::leftTabClicked()
     }
     m_currentAlbum = m_pLeftListView->getItemCurrentName();
     m_currentType = m_pLeftListView->getItemCurrentType();
+    m_currentItemType = static_cast<AblumType>(m_pLeftListView->getItemDataType());
     updateRightView();
 }
 
@@ -2035,9 +2036,11 @@ void AlbumView::onKeyDelete()
 
                 if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
                     delete  item;
+                    m_currentItemType = ablumType;
                 } else {
                     m_pLeftListView->updateCustomizeListView();
                     m_pLeftListView->updatePhotoListView();
+                    m_currentItemType = photosType;
                 }
                 //刷新右侧视图
                 leftTabClicked();
@@ -2802,10 +2805,11 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 
     //向自己的相册或“已导入”相册拖拽无效
     //“已导入”相册在leftlistwidget.cpp中也屏蔽过
-    if ((m_currentAlbum == dropLeftTabListName) /*|| (COMMON_STR_RECENT_IMPORTED == dropLeftTabListName)*/ || 5 == m_pRightStackWidget->currentIndex()) {
-        qDebug() << "Can not drop!";
-        return;
-    }
+//    if ((m_currentAlbum == dropLeftTabListName) /*|| (COMMON_STR_RECENT_IMPORTED == dropLeftTabListName)*/ || 5 == m_pRightStackWidget->currentIndex()) {
+//        qDebug() << "Can not drop!";
+//        return;
+//    }
+
     if (COMMON_STR_FAVORITES == m_currentAlbum) {
         currentViewList = m_pRightFavoriteThumbnailList;
         dropItemPaths = currentViewList->getDagItemPath();
@@ -2820,18 +2824,12 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
     }
     qDebug() << "dropItemPaths: " << dropItemPaths;
 
-    if (COMMON_STR_TRASH == dropLeftTabListName) {
-        //向回收站拖拽，动作删除
-        //回收站在leftlistwidget.cpp中屏蔽掉了
-    } else {
-        //向其他相册拖拽，动作添加
-        DBManager::instance()->insertIntoAlbum(item->m_albumNameStr, dropItemPaths);
-        //LMH0509,为了解决24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
-        QModelIndex index;
-        emit m_pLeftListView->m_pCustomizeListView->pressed(index);
-        m_pLeftListView->m_pCustomizeListView->setCurrentRow(dropIndex.row());
-    }
-
+    //向其他相册拖拽，动作添加
+    DBManager::instance()->insertIntoAlbum(item->m_albumNameStr, dropItemPaths);
+    //LMH0509,为了解决24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
+    QModelIndex index;
+    emit m_pLeftListView->m_pCustomizeListView->pressed(index);
+    m_pLeftListView->m_pCustomizeListView->setCurrentRow(dropIndex.row());
 }
 
 void AlbumView::updatePicNum()

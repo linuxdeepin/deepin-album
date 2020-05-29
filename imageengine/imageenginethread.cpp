@@ -845,9 +845,7 @@ void ImageEngineThread::run()
     if (file.exists()) {
         QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
         QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
-
-        int timecha = static_cast<int>(srctime.toTime_t()) - static_cast<int>(cachetime.toTime_t());
-        if (timecha > 0) {  //源文件近期修改过，重新生成缓存文件
+        if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
             cache_exist = false;
             breloadCache = true;
             path = m_path;
@@ -855,7 +853,6 @@ void ImageEngineThread::run()
             cache_exist = true;
             path = CACHE_PATH + m_path;
         }
-
     }
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
