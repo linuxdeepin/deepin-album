@@ -1,0 +1,7 @@
+{
+   "type": "homebrew",
+   "3rdparty": [],
+   "ignore": ["./.tx","./debian","./icons","./resources","./translations",".gitignore","album.pro","LICENSE","README.md","resources.qrc","deepin-album.desktop","*.pri" ,"*.pro","*.png","*.svg"
+,"*.qrc","*.json"],
+   "license": ["GPLv3"]
+}
