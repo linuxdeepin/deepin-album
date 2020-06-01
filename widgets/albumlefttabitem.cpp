@@ -1,6 +1,7 @@
 #include "widgets/albumlefttabitem.h"
 #include "dbmanager/dbmanager.h"
 #include "utils/baseutils.h"
+#include "../dialogs/albumcreatedialog.h"
 #include "application.h"
 #include <QHBoxLayout>
 #include "controller/signalmanager.h"
@@ -189,8 +190,14 @@ void AlbumLeftTabItem::onCheckNameValid()
 {
 //    QString newNameStr = m_pLineEdit->text().trimmed();
     QString newNameStr = m_pLineEdit->lineEdit()->text().trimmed();
+    if (newNameStr.isEmpty()) {
+        newNameStr = m_nameLabel->text();
+    }
     if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode) {
 //        m_nameLabel->setText(newNameStr);
+        if (newNameStr != m_nameLabel->text() && DBManager::instance()->isAlbumExistInDB(newNameStr)) {
+            newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr, true, m_nameLabel->text());
+        }
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
         QFont ft;
@@ -206,6 +213,9 @@ void AlbumLeftTabItem::onCheckNameValid()
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     } else if (OPE_MODE_ADDNEWALBUM == m_opeMode) {
 //        m_nameLabel->setText(newNameStr);
+        if (newNameStr != m_nameLabel->text() && DBManager::instance()->isAlbumExistInDB(newNameStr)) {
+            newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr);
+        }
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
         QFont ft;

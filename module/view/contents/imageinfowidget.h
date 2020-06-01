@@ -21,6 +21,7 @@
 #include <DArrowLineExpand>
 #include <DDrawer>
 #include <denhancedwidget.h>
+#include <QObject>
 
 DWIDGET_USE_NAMESPACE
 

@@ -2278,7 +2278,7 @@ runend1:
 }
 
 //获取外部设备列表
-const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumView::getVfsMountList()
+const QList<QExplicitlySharedDataPointer<DGioMount>> AlbumView::getVfsMountList()
 {
     getAllDeviceName();
     QList<QExplicitlySharedDataPointer<DGioMount> > result;
