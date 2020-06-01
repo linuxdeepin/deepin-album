@@ -21,6 +21,7 @@
 #include "dlineedit.h"
 #include "controller/signalmanager.h"
 
+
 class AlbumCreateDialog : public DDialog
 {
     Q_OBJECT
@@ -28,7 +29,7 @@ public:
     explicit AlbumCreateDialog(DWidget *parent = nullptr);
 
     const QString getCreateAlbumName() const;
-
+    static const QString getNewAlbumName(const QString &baseName, bool isWithOutSelf = false, const QString &beforeName = "");
 signals:
     void albumAdded();
     void sigClose();
@@ -40,7 +41,7 @@ private:
     void initUI();
     void initConnection();
     void createAlbum(const QString &newName);
-    const QString getNewAlbumName(const QString &baseName) const;
+
 
 private:
     QString m_createAlbumName;

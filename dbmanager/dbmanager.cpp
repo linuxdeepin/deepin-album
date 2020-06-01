@@ -789,7 +789,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
-    if (! db.isValid() || album.isEmpty()) {
+    if (!db.isValid() || album.isEmpty()) {
         return;
     }
     QStringList nameRows, pathHashRows;

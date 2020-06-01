@@ -66,6 +66,7 @@ MainWindow::~MainWindow()
 //    delete m_pAllPicView;                   //所有照片界面视图
 //    delete m_pTimeLineView;                 //时间线界面视图
 //    delete m_pSearchView;                   //搜索界面视图
+    emit dApp->signalM->sigPauseOrStart(false); //唤醒外设后台挂载,防止析构时线程挂起卡住页面无法退出
     ImageEngineApi::instance()->close();
     QThreadPool::globalInstance()->clear();
     QThreadPool::globalInstance()->waitForDone();
@@ -1182,7 +1183,6 @@ void MainWindow::onShowImageInfo(const QString &path)
     ImgInfoDialog *dialog;
     if (m_propertyDialogs.contains(path)) {
         m_propertyDialogs.remove(path);
-
         dialog = new ImgInfoDialog(path);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();

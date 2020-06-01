@@ -1101,9 +1101,9 @@ void ThumbnailListView::initMenuAction()
 {
     m_pMenu->clear();
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
-        appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
         appendAction(IdMoveToTrash, tr("Delete"), ss(""));
         appendAction(IdTrashRecovery, tr("Restore"), ss(BUTTON_RECOVERY));
+        appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
         return;
     }
     m_MenuActionMap.clear();
