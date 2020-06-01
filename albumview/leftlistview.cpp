@@ -574,7 +574,6 @@ void LeftListView::onMenuClicked(QAction *action)
     break;
     case IdRenameAlbum: {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
-
         item->m_opeMode = OPE_MODE_RENAMEALBUM;
         item->editAlbumEdit();
     }

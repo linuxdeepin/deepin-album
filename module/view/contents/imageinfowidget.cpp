@@ -343,7 +343,6 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
-
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
         //        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
@@ -354,7 +353,6 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
-
         m_exifLayout_base->addRow(title, field);
     }
 }
