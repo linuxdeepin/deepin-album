@@ -27,6 +27,7 @@
 #include <QStandardPaths>
 #include <QPdfWriter>
 #include <QPainter>
+#include <QDesktopWidget>
 
 #include <QDebug>
 #include <QDateTime>
@@ -360,7 +361,6 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
 {
     Q_UNUSED(text);
     if (index == 1) {
-        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + m_saveFormat;
         if (doSave()) {
             emit dApp->signalM->ImgExportSuccess();
         } else {
@@ -436,13 +436,17 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     wid->setLayout(lay);
     m_questionDialog->addContent(wid, Qt::AlignCenter);
 
+    m_saveImage =  QPixmap(path);
+    m_savePath = path.left(path.lastIndexOf("/"));
 //    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
-    m_questionDialog->show();
+    m_questionDialog->move(dApp->desktop()->x() + (dApp->desktop()->width() - m_questionDialog->width()) / 2, dApp->desktop()->y() + (dApp->desktop()->height() - m_questionDialog->height()) / 2);
+    m_questionDialog->exec();
 }
 
 bool CExportImageDialog::doSave()
 {
     QString filename = m_fileNameEdit->text();
+    m_saveFormat = m_formatCombox->currentText();
     QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
 
     return m_saveImage.save(completePath, m_saveFormat.toUpper().toUtf8().data(), m_quality);

@@ -79,7 +79,7 @@ public:
     void removeGifType();
 
     void showEvent(QShowEvent *evet) override;
-
+    void showQuestionDialog(const QString &path);
 private slots:
     void slotOnSavePathChange(int index);
     void slotOnFormatChange(int index);
@@ -110,7 +110,6 @@ private:
     void initConnection();
 
     void showDirChoseDialog();
-    void showQuestionDialog(const QString &path);
     void showEmptyWarningDialog();
     bool doSave();
 };
