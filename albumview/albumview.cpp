@@ -553,7 +553,7 @@ runend:
     });
     connect(m_importByPhoneComboBox, &DComboBox::currentTextChanged, this, &AlbumView::importComboBoxChange);
     connect(dApp->signalM, &SignalManager::updateFavoriteNum, this, [ = ] {
-        m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+        m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
         QString favoriteStr = tr("%1 photo(s)");
         m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
     });
@@ -976,7 +976,7 @@ void AlbumView::initRightView()
     m_pFavoritePicTotal->setForegroundRole(DPalette::TextTips);
     QString favoriteStr = tr("%1 photo(s)");
 
-    int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES);
+    int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES, AlbumDBType::Favourite);
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
 
     pal = DApplicationHelper::instance()->palette(m_pFavoritePicTotal);
@@ -1278,7 +1278,7 @@ void AlbumView::updateRightMyFavoriteView()
 {
     using namespace utils::image;
     DBImgInfoList infos;
-    infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+    infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum, AlbumDBType::Favourite);
 
 //    bcurThumbnaiItemList_str = false;
 //    m_curThumbnaiItemList_info.clear();
@@ -1305,7 +1305,7 @@ void AlbumView::updateRightMyFavoriteView()
     m_pRightFavoriteThumbnailList->loadFilesFromLocal(infos);
 //    m_pRightFavoriteThumbnailList->insertThumbnails(m_curThumbnaiItemList);
 //    m_pRightFavoriteThumbnailList->importFilesFromLocal(infos);
-    m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+    m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
 
     QString favoriteStr = tr("%1 photo(s)");
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
@@ -2071,7 +2071,7 @@ void AlbumView::onKeyDelete()
     } else if (COMMON_STR_FAVORITES == m_currentType) {
         paths = m_pRightFavoriteThumbnailList->selectedPaths();
         if (0 < paths.length()) {
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
+            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         paths = m_pRightThumbnailList->selectedPaths();
@@ -2929,11 +2929,12 @@ void AlbumView::restorePicNum()
         } else if (COMMON_STR_TRASH == m_currentAlbum) {
             selPicNum = DBManager::instance()->getTrashImgsCount();
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
-            selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
+            selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
         } else {
             if (5 == m_pRightStackWidget->currentIndex()) {
                 selPicNum = m_mountPicNum;
             } else {
+                //CUSTOM
                 selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
             }
         }
