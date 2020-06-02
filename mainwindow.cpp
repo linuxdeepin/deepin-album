@@ -129,6 +129,43 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::viewCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
+    connect(m_pSearchEdit, &DSearchEdit::textChanged, this, [ = ](QString text) {
+        if (text.isEmpty()) {
+            m_SearchKey.clear();
+            switch (m_iCurrentView) {
+            case VIEW_ALLPIC: {
+                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                m_pAllPicView->updateStackedWidget();
+                m_pAllPicView->updatePicNum();
+            }
+            break;
+            case VIEW_TIMELINE: {
+                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                m_pTimeLineView->updateStackedWidget();
+                m_pTimeLineView->updatePicNum();
+            }
+            break;
+            case VIEW_ALBUM: {
+                DWidget *pwidget = nullptr;
+                pwidget = m_pAlbumview->m_pRightStackWidget->currentWidget();
+                if (pwidget == m_pAlbumview->pImportTimeLineWidget) { //当前为导入界面
+                    m_pAlbumview->m_pRightThumbnailList->resizeHand();
+                } else if (pwidget == m_pAlbumview->m_pTrashWidget) {
+                    m_pAlbumview->m_pRightTrashThumbnailList->resizeHand();
+                } else if (pwidget == m_pAlbumview->m_pFavoriteWidget) {
+                    m_pAlbumview->m_pRightFavoriteThumbnailList->resizeHand();
+                }
+
+                m_pAlbumview->SearchReturnUpdate();
+                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                m_pAlbumview->updatePicNum();
+                emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed ();
+
+            }
+            break;
+            }
+        }
+    });
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     //当有图片添加时，搜索栏可用
