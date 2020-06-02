@@ -104,7 +104,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         }
     }
     //选中阴影框
-    QBrush  backbrush;
+//    QBrush  backbrush;
     if (selected) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
@@ -116,13 +116,14 @@ void ThumbnailDelegate::paint(QPainter *painter,
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
 //            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
-            backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
-            shadowbrush = QBrush(QColor("#E0E0E0"));
+//            backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
+            shadowbrush = QBrush(QColor("#DEDEDE"));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
 //            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
-            backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR2);
-            shadowbrush = QBrush(QColor("#1E1E1E"));
+//            backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR2);
+//            shadowbrush = QBrush(QColor("#1E1E1E"));
+            shadowbrush = QBrush(QColor("#4F4F4F"));
         }
         painter->fillRect(backgroundRect, shadowbrush);
 //        painter->drawPixmap(backgroundRect, selectedPixmap);
@@ -133,7 +134,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         QPainterPath backBp;
         backBp.addRoundedRect(backRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(backBp);
-        painter->fillRect(backRect, backbrush);
+        painter->fillRect(backRect, shadowbrush);
     }
 
 
