@@ -165,8 +165,11 @@ void ViewPanel::initConnect()
         m_isInfoShowed = false;
     });
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
+        if (m_vinfo.fullScreen)     //全屏退出
+        {
+            toggleFullScreen();
+        }
         m_viewB->clear();
-//        showNormal();
     });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");

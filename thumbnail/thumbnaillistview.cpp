@@ -1027,21 +1027,23 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
         //LMH0518多选收藏
-        int indexFavorite = 0;
-        int indexUnfavorite = 0;
-        for (auto path : paths) {
-            if (0 == indexFavorite && DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
-                indexFavorite++;
-            } else if (0 == indexUnfavorite && !DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
-                indexUnfavorite++;
-            }
+//        int indexFavorite = 0;
+//        int indexUnfavorite = 0;
+//        for (auto path : paths) {
+//            if (0 == indexFavorite && DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
+//                indexFavorite++;
+//            } else if (0 == indexUnfavorite && !DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
+//                indexUnfavorite++;
+//            }
+//        }
+//        if (0 == indexFavorite) {
+//            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+//        } else if (0 == indexUnfavorite) {
+//            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+//        }
+        m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+        m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
 
-        }
-        if (0 == indexFavorite) {
-            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
-        } else if (0 == indexUnfavorite) {
-            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
-        }
     }
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
     if (1 == paths.length()) { //单张照片

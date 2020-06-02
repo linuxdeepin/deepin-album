@@ -208,7 +208,7 @@ void TimeLineView::initTimeLineViewWidget()
 //    m_mainListWidget->setStyleSheet("Background:blue");
 
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    m_mainListWidget->verticalScrollBar()->setSingleStep(5);
+    m_mainListWidget->verticalScrollBar()->setSingleStep(20);
     m_mainLayout->addWidget(m_mainListWidget);
     m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setFrameShape(DTableView::NoFrame);
