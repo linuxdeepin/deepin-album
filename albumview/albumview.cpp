@@ -432,7 +432,7 @@ runend:
     connect(m_pLeftListView->m_pCustomizeListView, &LeftListWidget::signalDropEvent, this, &AlbumView::onLeftListDropEvent);
     //
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-    this, [ = ] {
+    this, [ = ](DGuiApplicationHelper::ColorType themeType) {
         DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
         ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
         m_pRecoveryBtn->setPalette(ReBtn);
@@ -465,6 +465,22 @@ runend:
         ppal_light3.setBrush(DPalette::Background, ppal_light3.color(DPalette::Base));
         m_TrashTitle->setPalette(ppal_light3);
         //add end 3975
+
+        DPalette pal = DApplicationHelper::instance()->palette(m_pFavoritePicTotal);
+        QColor color_BT = pal.color(DPalette::BrightText);
+        if (themeType == DGuiApplicationHelper::LightType) {
+            color_BT.setAlphaF(0.5);
+            pal.setBrush(DPalette::Text, color_BT);
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
+            color_BT.setAlphaF(0.75);
+            pal.setBrush(DPalette::Text, color_BT);
+        }
+        m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
+        m_pFavoritePicTotal->setPalette(pal);
+        m_pRightPicTotal->setForegroundRole(DPalette::Text);
+        m_pRightPicTotal->setPalette(pal);
+        pLabel2->setForegroundRole(DPalette::Text);
+        pLabel2->setPalette(pal);
 
     });
 #if 1
@@ -730,7 +746,20 @@ void AlbumView::initRightView()
 
     m_pRightPicTotal = new DLabel();
     DFontSizeManager::instance()->bind(m_pRightPicTotal, DFontSizeManager::T6, QFont::Medium);
-    m_pRightPicTotal->setForegroundRole(DPalette::TextTips);
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    DPalette pal = DApplicationHelper::instance()->palette(m_pRightPicTotal);
+    QColor color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+    }
+    m_pRightPicTotal->setForegroundRole(DPalette::Text);
+    m_pRightPicTotal->setPalette(pal);
+
+//    m_pRightPicTotal->setForegroundRole(DPalette::TextTips);
 
     m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
@@ -758,7 +787,7 @@ void AlbumView::initRightView()
 
     lsitWidget->setResizeMode(QListWidget::Adjust);
     lsitWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    lsitWidget->verticalScrollBar()->setSingleStep(5);
+    lsitWidget->verticalScrollBar()->setSingleStep(20);
 
     lsitWidget->setFrameShape(DTableView::NoFrame);
     QVBoxLayout *p_all = new QVBoxLayout();
@@ -781,8 +810,8 @@ void AlbumView::initRightView()
     lsitWidget->insertItem(1, m_noTrashItem);
     lsitWidget->setItemWidget(m_noTrashItem, m_pRightThumbnailList);
 
-    m_pRightThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_pRightThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    m_pRightThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    m_pRightThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_pRightThumbnailList->setViewportMargins(-6, 0, 0, 0);
     m_pRightThumbnailList->setContentsMargins(0, 0, 0, 0);
@@ -847,7 +876,18 @@ void AlbumView::initRightView()
 
     pLabel2 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
-    pLabel2->setForegroundRole(DPalette::TextTips);
+    pal = DApplicationHelper::instance()->palette(pLabel2);
+    color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+    }
+    pLabel2->setForegroundRole(DPalette::Text);
+    pLabel2->setPalette(pal);
+//    pLabel2->setForegroundRole(DPalette::TextTips);
     pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
     pTopVBoxlayout->addSpacing(9);
     pTopVBoxlayout->addWidget(pLabel2);
@@ -873,7 +913,7 @@ void AlbumView::initRightView()
 
     lsitWidget3->setResizeMode(QListWidget::Adjust);
     lsitWidget3->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    lsitWidget3->verticalScrollBar()->setSingleStep(5);
+    lsitWidget3->verticalScrollBar()->setSingleStep(20);
 
     lsitWidget3->setFrameShape(DTableView::NoFrame);
     QVBoxLayout *p_Trash = new QVBoxLayout();
@@ -939,6 +979,19 @@ void AlbumView::initRightView()
     int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES);
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
 
+    pal = DApplicationHelper::instance()->palette(m_pFavoritePicTotal);
+    color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+    }
+    m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
+    m_pFavoritePicTotal->setPalette(pal);
+
+
     m_pRightFavoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
 
@@ -956,7 +1009,7 @@ void AlbumView::initRightView()
 
     lsitWidget2->setResizeMode(QListWidget::Adjust);
     lsitWidget2->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    lsitWidget2->verticalScrollBar()->setSingleStep(5);
+    lsitWidget2->verticalScrollBar()->setSingleStep(20);
 
     lsitWidget2->setFrameShape(DTableView::NoFrame);
     QVBoxLayout *p_Favorite = new QVBoxLayout();
