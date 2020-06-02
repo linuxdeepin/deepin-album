@@ -65,6 +65,11 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
+
+    //按照像素滚动，步进20
+    setVerticalScrollMode(QListView::ScrollPerPixel);
+    verticalScrollBar()->setSingleStep(20);
+
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);

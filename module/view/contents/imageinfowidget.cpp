@@ -92,19 +92,6 @@ static int maxTitleWidth()
 
 }  // namespace
 
-class ViewSeparator : public QLabel
-{
-    Q_OBJECT
-public:
-    explicit ViewSeparator(QWidget *parent = nullptr)
-        : QLabel(parent)
-    {
-        setFixedHeight(1);
-    }
-};
-
-
-
 
 /**
  ***************************WARNING********************************

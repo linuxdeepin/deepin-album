@@ -11,7 +11,7 @@ class ImgDeleteDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit ImgDeleteDialog(DWidget *parent,int count);
+    explicit ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonlyone = false);
 signals:
     void imgdelete();
 };
