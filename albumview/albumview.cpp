@@ -1766,7 +1766,14 @@ void AlbumView::onTrashDeleteBtnClicked()
         paths = DBManager::instance()->getAllTrashPaths();
 //        m_pDeleteBtn->setEnabled(false);
     }
-    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count());
+
+    QString str1 = tr("Delete All");
+    QString str2 = m_pDeleteBtn->text();
+    bool bstate = false;
+    if (str1 == str2) {
+        bstate = true;
+    }
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count(), bstate);
     dialog->show();
     connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
 //        DBManager::instance()->removeTrashImgInfos(paths);
@@ -2685,6 +2692,8 @@ void AlbumView::importAllBtnClicked()
 //    QList<ThumbnailListView::ItemInfo> allPaths = m_pRightPhoneThumbnailList->getAllPaths();
     QStringList allPaths = m_pRightPhoneThumbnailList->getAllPaths();
     QString albumNameStr = m_importByPhoneComboBox->currentText();
+    if (m_importByPhoneComboBox->currentIndex() == 0)
+        albumNameStr = "";
     ImageEngineApi::instance()->importImageFilesFromMount(albumNameStr, allPaths, this);
     for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
@@ -2702,6 +2711,8 @@ void AlbumView::importSelectBtnClicked()
 {
     QStringList selectPaths = m_pRightPhoneThumbnailList->selectedPaths();
     QString albumNameStr = m_importByPhoneComboBox->currentText();
+    if (m_importByPhoneComboBox->currentIndex() == 0)
+        albumNameStr = "";
     ImageEngineApi::instance()->importImageFilesFromMount(albumNameStr, selectPaths, this);
     for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
         QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
