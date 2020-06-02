@@ -67,7 +67,6 @@ private:
     QFrame *m_exif_details = nullptr;
     QFormLayout *m_exifLayout_base = nullptr;
     QFormLayout *m_exifLayout_details = nullptr;
-    ViewSeparator *m_separator = nullptr;
     QList<DDrawer *> m_expandGroup;
     QVBoxLayout *m_mainLayout = nullptr;
     QScrollArea *m_scrollArea = nullptr;

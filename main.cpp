@@ -104,9 +104,9 @@ int main(int argc, char *argv[])
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
 //    qDebug() << "设置单例前耗时：" << t1.elapsed();
-//    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
-//        exit(0);
-//    }
+    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
+        exit(0);
+    }
 
     // LMH0420判断是否相同进程启动
     if (a.isRunning()) {

@@ -77,7 +77,7 @@ void LeftListView::initConnections()
         m_pCustomizeListView->clearSelection();
         updateAlbumItemsColor();
 
-        QListWidgetItem *plitem = m_pCustomizeListView->currentItem();
+        QListWidgetItem *plitem = m_pMountListView->currentItem();
         if (plitem)
         {
             m_ItemCurrentDataType = plitem->type(); //default 0
