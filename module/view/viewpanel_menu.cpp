@@ -196,12 +196,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     break;
     //收藏
     case IdAddToFavorites: {
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
     }
     break;
     //取消收藏
     case IdRemoveFromFavorites: {
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path));
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
     }
     break;
     //导出
@@ -358,7 +358,7 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
 #if 1
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath)) {
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), ss("favorite", "Ctrl+K"));       //收藏

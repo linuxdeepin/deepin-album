@@ -987,7 +987,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Delete"))->setEnabled(false);
         m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         m_MenuActionMap.value(tr("Print"))->setVisible(false);
-        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0])) {
+        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
             m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
         } else {
@@ -1020,7 +1020,7 @@ void ThumbnailListView::updateMenuContents()
                 COMMON_STR_VIEW_TIMELINE == m_imageType || COMMON_STR_FAVORITES == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
-        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0])) {
+        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         } else {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
@@ -1048,7 +1048,6 @@ void ThumbnailListView::updateMenuContents()
 //        }
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
-
     }
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
     if (1 == paths.length()) { //单张照片
@@ -1139,9 +1138,10 @@ DMenu *ThumbnailListView::createAlbumMenu()
 {
     DMenu *am = new DMenu(tr("Add to album"));
     QStringList albums = DBManager::instance()->getAllAlbumNames();
-    albums.removeAll(COMMON_STR_FAVORITES);
-    albums.removeAll(COMMON_STR_TRASH);
-    albums.removeAll(COMMON_STR_RECENT_IMPORTED);
+//    2020/6/2 修改数据库后查询结果不会再出现我的收藏
+//    albums.removeAll(COMMON_STR_FAVORITES);
+//    albums.removeAll(COMMON_STR_TRASH);
+//    albums.removeAll(COMMON_STR_RECENT_IMPORTED);
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
     ac->setText(tr("New album"));
@@ -1263,10 +1263,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdAddToFavorites:
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths);
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         break;
     case IdRemoveFromFavorites:
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths);
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         break;
     case IdRemoveFromAlbum: {
         if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
@@ -1385,7 +1385,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
         str << datas[1].toString();
     }
     //通知其它界面更新取消收藏
-    DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str);
+    DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str, AlbumDBType::Favourite);
     emit dApp->signalM->updateFavoriteNum();
     m_model->removeRow(index.row());
     m_ItemList.removeAt(index.row());
