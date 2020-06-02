@@ -95,7 +95,7 @@ void AlbumCreateDialog::initUI()
 
 
     connect(edit, &DLineEdit::textEdited, this, [ = ](const QString &) {
-        if (edit->text().isEmpty()) {
+        if (edit->text().trimmed().isEmpty()) {
             m_OK->setEnabled(false);
         } else {
             m_OK->setEnabled(true);
@@ -247,7 +247,6 @@ const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool i
         num++;
     }
     return static_cast<const QString>(albumName);
-
 }
 
 const QString AlbumCreateDialog::getCreateAlbumName() const
