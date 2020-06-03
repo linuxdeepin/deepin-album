@@ -74,6 +74,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_info(nullptr)
     , m_stack(nullptr)
     , m_deletetimer(nullptr)
+    , m_bFirstFullScreen(false)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initShortcut();
@@ -184,6 +185,7 @@ void ViewPanel::initConnect()
     this, [ = ](const SignalManager::ViewInfo & info) {
         SignalManager::ViewInfo vinfo = info;
         m_vinfo = vinfo;
+        m_bFirstFullScreen = m_vinfo.fullScreen;
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
         QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
         if (fList.contains(strfixL.toUtf8().data()) || vinfo.fullScreen) {
@@ -253,7 +255,11 @@ void ViewPanel::initConnect()
                 killTimer(m_iSlideShowTimerId);
                 m_iSlideShowTimerId = 0;
             }
-            toggleFullScreen();
+            if (m_bFirstFullScreen)
+                emit dApp->signalM->hideImageView();
+            else {
+                toggleFullScreen();
+            }
         }
         m_vinfo.fullScreen = false;
         emit dApp->signalM->showBottomToolbar();
@@ -820,7 +826,12 @@ void ViewPanel::initViewContent()
     m_viewB = new ImageView(this);
 
     connect(m_viewB, &ImageView::doubleClicked, [this]() {
-        toggleFullScreen();
+//        toggleFullScreen();
+        if (m_bFirstFullScreen)
+            emit dApp->signalM->hideImageView();
+        else {
+            toggleFullScreen();
+        }
     });
     connect(m_viewB, &ImageView::clicked, this, [ = ] {
         dApp->signalM->hideExtensionPanel();

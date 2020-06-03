@@ -142,7 +142,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     switch (MenuItemId(id)) {
     case IdFullScreen:
     case IdExitFullScreen:
-        toggleFullScreen();
+        if (m_bFirstFullScreen)
+            emit dApp->signalM->hideImageView();
+        else {
+            toggleFullScreen();
+        }
         break;
     case IdStartSlideShow: {
         auto vinfo = m_vinfo;
