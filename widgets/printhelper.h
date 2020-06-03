@@ -13,8 +13,8 @@ public:
 
     static void showPrintDialog(const QStringList &paths, QWidget *parent = nullptr);
 
-    static QSize adjustSize(PrintOptionsPage* optionsPage, QImage img, int resolution, const QSize & viewportSize);
-    static QPoint adjustPosition(PrintOptionsPage* optionsPage, const QSize& imageSize, const QSize & viewportSize);
+    static QSize adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize);
+    static QPoint adjustPosition(PrintOptionsPage *optionsPage, const QSize &imageSize, const QSize &viewportSize);
 };
 
 #endif // PRINTHELPER_H

@@ -541,7 +541,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == m_hideCursorTid &&
-            !m_menu->isVisible() && !m_printDialogVisible) {
+            !m_menu->isVisible() && !m_printDialogVisible && qApp->modalWindow() == nullptr) {
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
@@ -636,7 +636,7 @@ void ViewPanel::toggleFullScreen()
 //        window()->setWindowFlags (Qt::Window);
         showFullScreen();
         m_vinfo.fullScreen = true;
-        if (!m_menu->isVisible()) {
+        if (!m_menu->isVisible()  && qApp->modalWindow() != nullptr) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
