@@ -419,6 +419,15 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
 
     m_player->start();
+
+    //更新右键菜单文案   xiaolong 2020/06/03
+    auto actionlist = m_menu->actions();
+    for (auto &action : actionlist) {
+        if (action->property("MenuID").toInt() == IdPlayOrPause) {
+            action->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
+        }
+    }
+
 //    emit dApp->signalM->gotoPanel(this);
 
     //加入显示动画效果，以透明度0-1显示，动态加载，视觉效果掩盖左上角展开

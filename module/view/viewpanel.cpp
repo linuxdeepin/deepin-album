@@ -189,7 +189,6 @@ void ViewPanel::initConnect()
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
         QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
         if (fList.contains(strfixL.toUtf8().data()) || vinfo.fullScreen) {
-
             m_currentpath = m_vinfo.path;
             if (m_vinfo.paths.size() < 1) {
                 m_vinfo.paths << m_vinfo.path;
