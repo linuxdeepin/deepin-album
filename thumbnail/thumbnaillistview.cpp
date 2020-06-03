@@ -1333,6 +1333,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 
 void ThumbnailListView::onPixMapScale(int value)
 {
+    if (!this->isVisible())
+        return;
     switch (value) {
     case 0:
         m_iBaseHeight = 80;

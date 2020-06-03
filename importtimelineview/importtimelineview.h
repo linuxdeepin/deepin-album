@@ -75,10 +75,17 @@ public:
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
     void resizeHand();  //手动计算大小
+
 #if 1
     QStringList selectPaths();
     void updateChoseText();
 #endif
+private slots:
+    /**
+     * @brief updateSize
+     * 调整已导入界面的整体大小
+     */
+    void updateSize();
 signals:
     void sigUpdatePicNum();
 
