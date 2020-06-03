@@ -308,7 +308,7 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
         emit dApp->signalM->gotoPanel(this);
 
         showFullScreen();
-    } else if (event->timerId() == m_hideCursorTid) {
+    } else if (event->timerId() == m_hideCursorTid && qApp->modalWindow() == nullptr) {
         this->setCursor(Qt::BlankCursor);
     }
 
