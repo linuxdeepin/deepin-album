@@ -1063,7 +1063,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
-        //DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty() ? QStringList(" ") : imgpaths);
+        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
         emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
 
         m_pAlbumBtn->setChecked(true);

@@ -199,5 +199,6 @@ private:
     //------------------
 
     QTimer *m_deletetimer;  //删除图片定时器
+    bool   m_bFirstFullScreen;  //是否全屏进入
 };
 #endif // VIEWPANEL_H
