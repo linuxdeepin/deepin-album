@@ -161,35 +161,41 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
     admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
     admMap.unite(getMetaData(FIMD_IPTC, dib));
+    //移除秒　　2020/6/5 DJH
+    if(admMap.contains("DateTime"))
+    {
+        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
+        admMap["DateTime"] = time.toString("yyyy/MM/dd HH:mm");
+    }
     // Basic extended data
     QFileInfo info(path);
     if (admMap.isEmpty()) {
-        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
+        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
     } else {
         // ReFormat the date-time
         using namespace utils::base;
         // Exif version 0231
         QString qsdto = admMap.value("DateTimeOriginal");
         QString qsdtd = admMap.value("DateTimeDigitized");
-        QDateTime ot = stringToDateTime(qsdto);
-        QDateTime dt = stringToDateTime(qsdtd);
+        QDateTime ot = QDateTime::fromString(qsdto,"yyyy/MM/dd HH:mm");
+        QDateTime dt = QDateTime::fromString(qsdtd,"yyyy/MM/dd HH:mm");
         if (! ot.isValid()) {
             // Exif version 0221
             QString qsdt = admMap.value("DateTime");
-            ot = stringToDateTime(qsdt);
+            ot = QDateTime::fromString(qsdt,"yyyy/MM/dd HH:mm");
             dt = ot;
 
             // NO valid date information
             if (! ot.isValid()) {
 //                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
-                admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm:dd"));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
+                admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
 
     }
 
