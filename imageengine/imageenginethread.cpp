@@ -418,7 +418,6 @@ void ImageImportFilesFromMountThread::run()
         dbInfos << dbi;
 
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
-//        }
     }
     if (!dbInfos.isEmpty()) {
         DBImgInfoList dbInfoList;
@@ -433,13 +432,7 @@ void ImageImportFilesFromMountThread::run()
         }
 
         if (m_albumname.length() > 0) {
-            if (COMMON_STR_RECENT_IMPORTED != m_albumname
-                    && COMMON_STR_TRASH != m_albumname
-                    && COMMON_STR_FAVORITES != m_albumname
-                    && ALBUM_PATHTYPE_BY_PHONE != m_albumname
-                    && 0 != m_albumname.compare(tr("Gallery"))) {
-                DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathslist);
-            }
+            DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathslist);
         }
         DBManager::instance()->insertImgInfos(dbInfoList);
 
@@ -848,9 +841,18 @@ void ImageEngineThread::run()
     bool cache_exist = false;
     QString path = m_path;
     QFileInfo file(CACHE_PATH + m_path);
+    QFileInfo srcfi(m_path);
     if (file.exists()) {
-        cache_exist = true;
-        path = CACHE_PATH + m_path;
+        QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
+        QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
+        if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
+            cache_exist = false;
+            breloadCache = true;
+            path = m_path;
+        } else {
+            cache_exist = true;
+            path = CACHE_PATH + m_path;
+        }
     }
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -945,6 +947,12 @@ void ImageEngineThread::run()
         return;
     }
     bwaitstop = true;
+    if (breloadCache) { //更新缓存文件
+        QString spath = CACHE_PATH + m_path;
+        mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+        pixmap.save(spath, "PNG");
+    }
+
     QMutexLocker mutex(&m_mutex);
     for (ImageEngineObject *imgobject : m_imgobject) {
         imgobject->removeThread(this);
@@ -1040,7 +1048,7 @@ void ImageSVGConvertThread::run()
     for (QString path : m_paths) {
         QImage pix(path);
         QString dpath = path.right(path.length() - path.lastIndexOf("/") - 1);
-        QString strTmpPath = tr("/tmp/%1").arg(dpath);
+        QString strTmpPath = QString("/tmp/%1").arg(dpath);
         QSvgGenerator generator;
         generator.setFileName(strTmpPath);
         generator.setViewBox(pix.rect());
@@ -1086,8 +1094,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     if (needStop)
         return;
     if (file.exists()) {
-        cache_exist = true;
-        path = CACHE_PATH + m_path;
+        return;
     }
     if (needStop)
         return;

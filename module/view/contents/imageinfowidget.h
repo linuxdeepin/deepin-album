@@ -17,22 +17,19 @@
 #ifndef IMAGEINFOWIDGET_H
 #define IMAGEINFOWIDGET_H
 
-#include "controller/viewerthememanager.h"
-#include "widgets/themewidget.h"
-
-#include <QWidget>
-#include <QLabel>
-#include <QScrollArea>
-#include <QVector>
 #include <QScrollArea>
 #include <DArrowLineExpand>
 #include <DDrawer>
 #include <denhancedwidget.h>
+#include <QObject>
+
 DWIDGET_USE_NAMESPACE
-//class DBaseExpand;
+
 class QFormLayout;
 class QVBoxLayout;
 class ViewSeparator;
+class QWidget;
+
 class ImageInfoWidget : public QFrame
 {
     Q_OBJECT
@@ -56,8 +53,8 @@ private:
     const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
-    QList<DBaseExpand *> addExpandWidget(const QStringList &titleList);
-    void initExpand(QVBoxLayout *layout, DBaseExpand *expand);
+    QList<DDrawer *> addExpandWidget(const QStringList &titleList);
+    void initExpand(QVBoxLayout *layout, DDrawer *expand);
 
 private:
     int m_updateTid = 0;
@@ -70,8 +67,7 @@ private:
     QFrame *m_exif_details = nullptr;
     QFormLayout *m_exifLayout_base = nullptr;
     QFormLayout *m_exifLayout_details = nullptr;
-    ViewSeparator *m_separator = nullptr;
-    QList<DBaseExpand *> m_expandGroup;
+    QList<DDrawer *> m_expandGroup;
     QVBoxLayout *m_mainLayout = nullptr;
     QScrollArea *m_scrollArea = nullptr;
     QString m_closedString;

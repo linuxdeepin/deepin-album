@@ -297,12 +297,16 @@
         <source>Restoring...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">갤러리</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>갤러리</translation>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
@@ -327,14 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>갤러리</translation>
-    </message>
-</context>
-<context>
-    <name>ImageSVGConvertThread</name>
-    <message>
-        <source>/tmp/%1</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
@@ -553,7 +550,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>사진 %1장</translation>
+        <translation type="vanished">사진 %1장</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -808,10 +805,14 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation>가져오기 위치</translation>
+        <translation type="vanished">가져오기 위치</translation>
     </message>
     <message>
-        <source>%1年%2月%3日 %4</source>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

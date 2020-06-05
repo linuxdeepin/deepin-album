@@ -19,25 +19,15 @@
 #include "controller/signalmanager.h"
 #include "utils/imageutils.h"
 #include "widgets/formlabel.h"
+#include "widgets/dialogs/dfmdarrowlineexpand.h"
 
 #include <DApplicationHelper>
-#include <DDialogCloseButton>
-#include <DFontSizeManager>
-#include <QApplication>
-#include <QBoxLayout>
-#include <QDateTime>
-#include <QFileInfo>
 #include <QFormLayout>
 #include <QLabel>
-#include <QString>
-#include <QPushButton>
-#include <QScrollBar>
-#include <QtDebug>
-#include <DPushButton>
-#include <DScrollBar>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
 #include <DDialogCloseButton>
+#include <DArrowLineDrawer>
 
 #define ArrowLineExpand_HIGHT 30
 #define ArrowLineExpand_SPACING 10
@@ -102,61 +92,6 @@ static int maxTitleWidth()
 
 }  // namespace
 
-class ViewSeparator : public QLabel
-{
-    Q_OBJECT
-public:
-    explicit ViewSeparator(QWidget *parent = nullptr)
-        : QLabel(parent)
-    {
-        setFixedHeight(1);
-    }
-};
-
-class DFMDArrowLineExpand : public DArrowLineExpand
-{
-public:
-    DFMDArrowLineExpand()
-    {
-        if (headerLine()) {
-            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6, QFont::Medium);
-            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-            headerLine()->setPalette(pa);
-            headerLine()->setLeftMargin(10);
-        }
-    }
-protected:
-    void mouseMoveEvent(QMouseEvent *e) override
-    {
-        Q_UNUSED(e);
-        qDebug() << "mouseMoveEvent";
-    }
-    void paintEvent(QPaintEvent *event) override
-    {
-        Q_UNUSED(event);
-        QPainter painter(this);
-        QRectF bgRect;
-        bgRect.setSize(size());
-        const QPalette pal = QGuiApplication::palette();//this->palette();
-        QColor bgColor = pal.color(QPalette::Background);
-        QPainterPath path;
-        path.addRoundedRect(bgRect, 8, 8);
-        // drawbackground color
-        painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.fillPath(path, bgColor);
-        painter.setRenderHint(QPainter::Antialiasing, false);
-    }
-
-    void resizeEvent(QResizeEvent *e) override
-    {
-        //修复调大系统字体，信息会遮挡的问题 2020/4/16 hj
-        Q_UNUSED(e);
-        update();
-    }
-};
-
-#include "imageinfowidget.moc"
 
 /**
  ***************************WARNING********************************
@@ -398,7 +333,6 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
             continue;
         if ((i->key == "DateTimeOriginal"  || i->key == "DateTimeDigitized") && value.left(1) == QString("0"))
             continue;
-
         m_isBaseInfo = true;
 
         SimpleFormField *field = new SimpleFormField;
@@ -408,8 +342,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
-
-        SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+        SimpleFormLabel *title = new SimpleFormLabel(""/*trLabel(i->name) + ":"*/);
         title->setMinimumHeight(field->minimumHeight());
         //        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setFixedWidth(TITLE_MAXWIDTH);
@@ -418,8 +351,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
-
+        title->setText(SpliteText(tr(i->name) + ":", title->font(), TITLE_MAXWIDTH));
         m_exifLayout_base->addRow(title, field);
     }
 }
@@ -459,10 +391,10 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     }
 }
 
-QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
+QList<DDrawer *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
 {
     QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
-    QList<DBaseExpand *> group;
+    QList<DDrawer *> group;
 
     for (const QString &title : titleList) {
         DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;//DArrowLineExpand;
@@ -473,7 +405,7 @@ QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleLi
 
     return group;
 }
-void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
+void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
 {
     expand->setFixedHeight(ArrowLineExpand_HIGHT);
     QMargins cm = layout->contentsMargins();
@@ -495,7 +427,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
 
 void ImageInfoWidget::onExpandChanged(const bool &e)
 {
-    DArrowLineExpand *expand = qobject_cast<DArrowLineExpand *>(sender());
+    DArrowLineDrawer *expand = qobject_cast<DArrowLineDrawer *>(sender());
     if (expand) {
         if (e) {
             expand->setSeparatorVisible(false);
@@ -508,10 +440,11 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
 int ImageInfoWidget::contentHeight() const
 {
     int expandsHeight = ArrowLineExpand_SPACING;
-    for (const DBaseExpand *expand : m_expandGroup) {
+    for (const DDrawer *expand : m_expandGroup) {
         expandsHeight += expand->height();
     }
 
     return (DIALOG_TITLEBAR_HEIGHT + expandsHeight + contentsMargins().top() +
             contentsMargins().bottom());
 }
+

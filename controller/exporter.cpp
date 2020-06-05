@@ -138,15 +138,26 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
         QString exportdir = exportDialog.directory().absolutePath();
 
         int failcount = 0;
+        bool bnewpath = false;
         for (int j(0); j < imagePaths.length(); j++) {
             if (utils::image::imageSupportRead(imagePaths[j])) {
                 QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(imagePaths[j])
                                                                            .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());
+                QFileInfo fileinfo(savePath);
+                if (fileinfo.exists()) {
+                    if (!fileinfo.isDir()) {
+                        m_exportImageDialog->setPicFileName(savePath.mid(savePath.lastIndexOf("/") + 1));
+                        m_exportImageDialog->showQuestionDialog(savePath);
+                        continue;
+                    }
+                }
 
                 bool isSucceed = QFile::copy(imagePaths[j], savePath);
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
-                    //   qDebug() << "Export failed";
+                    failcount ++;
+                }else{
+                    bnewpath =  true;
                 }
 
             } else {
@@ -157,7 +168,8 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
         if ( failcount == imagePaths.length()) {
             emit dApp->signalM->ImgExportFailed();
         } else {
-            emit dApp->signalM->ImgExportSuccess();
+            if(bnewpath)
+                emit dApp->signalM->ImgExportSuccess();
             emit dApp->signalM->sigRestoreStatus();
         }
     }

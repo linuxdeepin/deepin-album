@@ -48,6 +48,8 @@ public:
     int pic_count;
 private:
     int m_index;
+    bool m_bcustalbum = false;
+    QString m_alubm;
 
 
 protected:
