@@ -345,7 +345,7 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str2.arg(album));
     });
     //底部，弹出导入成功提示框
-    connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] {
+    connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] () {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
@@ -1163,7 +1163,7 @@ void MainWindow::onImprotBtnClicked()
     if (file_list.isEmpty())
         return;
     ImageEngineApi::instance()->SaveImagesCache(file_list);
-    if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE) {
+    if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE || m_pAlbumview->m_currentItemType == 0) {
         ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
     } else {
         ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
