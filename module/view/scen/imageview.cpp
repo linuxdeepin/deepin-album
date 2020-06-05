@@ -38,7 +38,6 @@
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "application.h"
-#include "widgets/toast.h"
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
 #include "imageengine/imageenginethread.h"

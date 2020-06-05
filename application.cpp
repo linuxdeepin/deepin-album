@@ -276,7 +276,7 @@ bool Application::sendMessage(const QString &message)
 
     QByteArray byteArray("1");
     byteArray.append(message.toUtf8());
-    byteArray.append('/0'); // < should be as char here, not a string!
+    byteArray.append("0"); // < should be as char here, not a string!
     sharedMemory.lock();
     char *to = static_cast<char *>(sharedMemory.data());
     const char *from = byteArray.data();

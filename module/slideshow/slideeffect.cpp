@@ -148,7 +148,7 @@ void SlideEffect::slotrenderFrameFinish(int num, QImage image)
 SlideEffect::~SlideEffect()
 {
 //    qDebug() << "------------SlideEffect start release";
-    disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
+//    disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 //    m_qf.waitForFinished();
 //    for (int i = 0; i < m_qflist.size(); i++) {
 //        m_qflist[i].waitForFinished();
@@ -398,7 +398,6 @@ Qt::AspectRatioMode SlideEffect::aspectRatioMode() const
 {
     return mode;
 }
-
 void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
 {
     current_path = currentPath;
@@ -535,7 +534,7 @@ void SlideEffect::renderFrame(SlideEffectThreadData &data)
 
     p.setClipRegion(mdata.next_region);
     p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
-    emit renderFrameFinish(mdata.num, image);
+//    emit renderFrameFinish(mdata.num, image);
 
 //    qDebug() << "-------renderFrame end num:" << data.num;
 }

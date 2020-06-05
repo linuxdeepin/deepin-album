@@ -6,20 +6,20 @@
 
 DFMDArrowLineExpand::DFMDArrowLineExpand()
 {
-    if (headerLine()) {
-        DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
+//    if (headerLine()) {
+//        DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
 
-        DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-        pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-        headerLine()->setPalette(pa);
-        connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
-            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-            headerLine()->setPalette(pa);
-        });
+//        DPalette pa = DApplicationHelper::instance()->palette(headerLine());
+//        pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+//        headerLine()->setPalette(pa);
+//        connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
+//            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
+//            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+//            headerLine()->setPalette(pa);
+//        });
 
-        headerLine()->setLeftMargin(10);
-    }
+//        headerLine()->setLeftMargin(10);
+//    }
 }
 
 void DFMDArrowLineExpand::paintEvent(QPaintEvent *event)

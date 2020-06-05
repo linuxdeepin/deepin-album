@@ -37,7 +37,6 @@ QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
 DWIDGET_BEGIN_NAMESPACE
-class Toast;
 DWIDGET_END_NAMESPACE
 
 class ImageView : public QGraphicsView

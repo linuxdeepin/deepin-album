@@ -154,6 +154,7 @@ void SlideShowPanel::resizeEvent(QResizeEvent *e)
 void SlideShowPanel::backToLastPanel()
 {
     m_player->stop();
+    m_img = QImage();
     showNormal();
 
     if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID) {

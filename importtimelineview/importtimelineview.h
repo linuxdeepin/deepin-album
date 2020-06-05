@@ -52,6 +52,8 @@ public slots:
 protected:
     void resizeEvent(QResizeEvent *ev) override;
 
+    void showEvent(QShowEvent *ev) override;
+
 private:
     void initTimeLineViewWidget();
     void initConnections();
@@ -118,6 +120,8 @@ private:
     int m_lastShiftClickedIndex;
     bool lastChanged;
     int m_iBaseHeight;
+
+    bool m_bshow = false;
 public:
     int m_index;
     TimelineList *m_mainListWidget;

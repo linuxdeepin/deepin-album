@@ -2255,7 +2255,8 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
 
 void AlbumView::getAllDeviceName()
 {
-    QStringList blDevList = m_diskManager->blockDevices();
+//    QStringList blDevList = m_diskManager->blockDevices();
+    QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
     for (const QString &blks : blDevList) {
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
         QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
@@ -2734,7 +2735,8 @@ bool AlbumView::imageMountImported(QStringList &filelist)
 
 void AlbumView::needUnMount(QString path)
 {
-    QStringList blDevList = m_diskManager->blockDevices();
+//    QStringList blDevList = m_diskManager->blockDevices();
+    QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
     qDebug() << "blDevList:" << blDevList;
     QSharedPointer<DBlockDevice> blkget;
     QString mountPoint = "";

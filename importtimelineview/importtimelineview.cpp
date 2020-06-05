@@ -395,6 +395,7 @@ void ImportTimeLineView::clearAndStartLayout()
     blankItem->setSizeHint(QSize(0, m_pImportTitle->height()));
     //add end 3975
 //    updataLayout();
+
     addTimelineLayout();
 }
 
@@ -402,7 +403,6 @@ void ImportTimeLineView::clearAndStartLayout()
 void ImportTimeLineView::addTimelineLayout()
 {
     if (currentTimeLineLoad >= m_timelines.size()) {
-        QTimer::singleShot(50, this, SLOT(updateSize()));
         return;
     }
     int nowTimeLineLoad = currentTimeLineLoad;
@@ -829,6 +829,11 @@ void ImportTimeLineView::addTimelineLayout()
 
     emit sigUpdatePicNum();
     currentTimeLineLoad++;
+
+    //界面可见时,调整整体大小
+    if (m_bshow) {
+        updateSize();
+    }
 }
 
 void ImportTimeLineView::getFatherStatusBar(DSlider *s)
@@ -912,6 +917,12 @@ void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
     Q_UNUSED(ev);
     updateSize();
+}
+
+void ImportTimeLineView::showEvent(QShowEvent *ev)
+{
+    Q_UNUSED(ev)
+    m_bshow = true;
 }
 
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)

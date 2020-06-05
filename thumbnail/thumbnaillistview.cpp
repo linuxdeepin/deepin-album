@@ -20,8 +20,6 @@
 namespace {
 const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
-const int LEFT_MARGIN = 12;
-const int RIGHT_MARGIN = 8;
 
 // const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString IMAGE_DEFAULTTYPE = "All Photos";
@@ -421,9 +419,9 @@ void ThumbnailListView::calWidgetItemWandH()
 {
     int i_baseWidth = 0;
     int i_totalwidth = width() - 30;  // same as i_totalwidth in calBasePixMapWandH()
-    QList<int> rowWidthList;
-    QList<ItemInfo> itemInfoList;
-    QList<ItemInfo> m_ItemListAll;
+    QList<int> rowWidthList;          //一行的宽度
+    QList<ItemInfo> itemInfoList;     //一行的item项
+    QList<ItemInfo> m_ItemListAll;    //所有图片项
     m_ItemListAll << m_ItemList << m_ItemListLeft;
     rowWidthList.clear();
     itemInfoList.clear();
@@ -446,7 +444,7 @@ void ThumbnailListView::calWidgetItemWandH()
                     m_ItemListAll.removeFirst();
                 }
             }
-        } else if (i_totalwidth - i_baseWidth > 200) {
+        } else if (i_totalwidth - i_baseWidth > 200) {  //一行最后剩余宽度大于200   对当前图片进行缩放
             m_ItemListAll[corrent].imgHeight =
                 m_ItemListAll[corrent].imgHeight * (i_totalwidth - i_baseWidth) / m_ItemListAll[corrent].imgWidth;
             m_ItemListAll[corrent].imgHeight = (1 > m_ItemListAll[corrent].imgHeight) ? 1 : m_ItemListAll[corrent].imgHeight;
@@ -497,7 +495,9 @@ void ThumbnailListView::calWidgetItemWandH()
             int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].size();
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].size();
             int rowWidth = 0;
+//            qDebug() << "i_totalwidthExSpace: " << i_totalwidthExSpace << "rowWidthListExSpace: " << rowWidthListExSpace;
             for (int j = 0; j < m_gridItem[i].size(); j++) {
+//                qDebug() << "行:" << i << "宽度前: " << m_gridItem[i][j].width << "高度前: " << m_gridItem[i][j].height;
                 m_gridItem[i][j].width =
                     m_gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
                 m_gridItem[i][j].height =
@@ -507,6 +507,7 @@ void ThumbnailListView::calWidgetItemWandH()
                 m_gridItem[i][j].imgHeight =
                     m_gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
                 rowWidth = rowWidth + m_gridItem[i][j].width + ITEM_SPACING;
+//                qDebug() << "行:" << i << "宽度: " << m_gridItem[i][j].width << "高度: " << m_gridItem[i][j].height;
             }
             rowWidthList[i] = rowWidth - ITEM_SPACING;
             if (rowWidthList[i] < i_totalwidth) {
@@ -1365,6 +1366,9 @@ void ThumbnailListView::onPixMapScale(int value)
         break;
     case 9:
         m_iBaseHeight = 170;
+        break;
+    default:
+        m_iBaseHeight = 80;
         break;
     }
     calBasePixMapWandH();
