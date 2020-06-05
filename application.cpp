@@ -64,12 +64,14 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
         dbInfoList << info;
     }
 
+    bool bcustalbum = false;
     if (albumname.length() > 0) {
         DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
+        bcustalbum = true;
     }
     DBManager::instance()->insertImgInfos(dbInfoList);
     if (pathlist.size() > 0) {
-        emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1);
+        emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, bcustalbum, albumname);
     } else {
         emit dApp->signalM->ImportFailed();
     }
