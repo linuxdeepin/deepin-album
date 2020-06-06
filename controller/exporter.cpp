@@ -147,7 +147,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 if (fileinfo.exists()) {
                     if (!fileinfo.isDir()) {
                         m_exportImageDialog->setPicFileName(savePath.mid(savePath.lastIndexOf("/") + 1));
-                        m_exportImageDialog->showQuestionDialog(savePath);
+                        m_exportImageDialog->showQuestionDialog(savePath,imagePaths[j]);
                         continue;
                     }
                 }
