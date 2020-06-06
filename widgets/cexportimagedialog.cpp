@@ -415,7 +415,7 @@ void CExportImageDialog::showEmptyWarningDialog()
     m_emptyWarningDialog->show();
 }
 
-void CExportImageDialog::showQuestionDialog(const QString &path)
+void CExportImageDialog::showQuestionDialog(const QString &path,const QString &srcpath)
 {
     m_questionDialog->clearContents();
     DWidget *wid = new DWidget();
@@ -435,8 +435,9 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     lay->addSpacing(100);
     wid->setLayout(lay);
     m_questionDialog->addContent(wid, Qt::AlignCenter);
-
-    m_saveImage =  QPixmap(path);
+    if(!srcpath.isEmpty()){
+        m_saveImage = QPixmap(srcpath);
+    }
     m_savePath = path.left(path.lastIndexOf("/"));
 //    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
     m_questionDialog->move(dApp->desktop()->x() + (dApp->desktop()->width() - m_questionDialog->width()) / 2, dApp->desktop()->y() + (dApp->desktop()->height() - m_questionDialog->height()) / 2);
@@ -448,6 +449,5 @@ bool CExportImageDialog::doSave()
     QString filename = m_fileNameEdit->text();
     m_saveFormat = m_formatCombox->currentText();
     QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
-
     return m_saveImage.save(completePath, m_saveFormat.toUpper().toUtf8().data(), m_quality);
 }
