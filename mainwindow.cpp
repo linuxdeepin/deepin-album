@@ -66,6 +66,7 @@ MainWindow::~MainWindow()
 //    delete m_pAllPicView;                   //所有照片界面视图
 //    delete m_pTimeLineView;                 //时间线界面视图
 //    delete m_pSearchView;                   //搜索界面视图
+    emit dApp->signalM->sigPauseOrStart(false); //唤醒外设后台挂载,防止析构时线程挂起卡住页面无法退出
     ImageEngineApi::instance()->close();
     QThreadPool::globalInstance()->clear();
     QThreadPool::globalInstance()->waitForDone();
@@ -125,9 +126,46 @@ void MainWindow::initConnections()
 
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
 #if 1
-    connect(dApp->signalM, &SignalManager::viewModeCreateAlbum, this, &MainWindow::onViewCreateAlbum);
+    connect(dApp->signalM, &SignalManager::viewCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
     connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
+    connect(m_pSearchEdit, &DSearchEdit::textChanged, this, [ = ](QString text) {
+        if (text.isEmpty()) {
+            m_SearchKey.clear();
+            switch (m_iCurrentView) {
+            case VIEW_ALLPIC: {
+                m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                m_pAllPicView->updateStackedWidget();
+                m_pAllPicView->updatePicNum();
+            }
+            break;
+            case VIEW_TIMELINE: {
+                m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                m_pTimeLineView->updateStackedWidget();
+                m_pTimeLineView->updatePicNum();
+            }
+            break;
+            case VIEW_ALBUM: {
+                DWidget *pwidget = nullptr;
+                pwidget = m_pAlbumview->m_pRightStackWidget->currentWidget();
+                if (pwidget == m_pAlbumview->pImportTimeLineWidget) { //当前为导入界面
+                    m_pAlbumview->m_pRightThumbnailList->resizeHand();
+                } else if (pwidget == m_pAlbumview->m_pTrashWidget) {
+                    m_pAlbumview->m_pRightTrashThumbnailList->resizeHand();
+                } else if (pwidget == m_pAlbumview->m_pFavoriteWidget) {
+                    m_pAlbumview->m_pRightFavoriteThumbnailList->resizeHand();
+                }
+
+                m_pAlbumview->SearchReturnUpdate();
+                m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+                m_pAlbumview->updatePicNum();
+                emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed ();
+
+            }
+            break;
+            }
+        }
+    });
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     //当有图片添加时，搜索栏可用
@@ -307,7 +345,7 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str2.arg(album));
     });
     //底部，弹出导入成功提示框
-    connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] {
+    connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] () {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
@@ -967,9 +1005,10 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
 //    }
 }
 #if 1
-void MainWindow::onViewCreateAlbum(QString imgpath)
+void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
 {
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
+    d->setModal(bmodel);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
@@ -1024,7 +1063,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
-        //DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths.isEmpty() ? QStringList(" ") : imgpaths);
+        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
         emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
 
         m_pAlbumBtn->setChecked(true);
@@ -1124,7 +1163,7 @@ void MainWindow::onImprotBtnClicked()
     if (file_list.isEmpty())
         return;
     ImageEngineApi::instance()->SaveImagesCache(file_list);
-    if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE) {
+    if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE || m_pAlbumview->m_currentItemType == 0) {
         ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
     } else {
         ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
@@ -1144,16 +1183,9 @@ void MainWindow::onShowImageInfo(const QString &path)
     ImgInfoDialog *dialog;
     if (m_propertyDialogs.contains(path)) {
         m_propertyDialogs.remove(path);
-
         dialog = new ImgInfoDialog(path);
-        //dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
-//        dialog->move((width() - dialog->width()) / 2 +
-//                     mapToGlobal(QPoint(0, 0)).x(),
-//                     (window()->height() - dialog->height()) / 2 +
-//                     window()->y() - 120);
-//        dialog->move((width() - dialog->width() + mapToGlobal(QPoint(0, 0)).x()), (window()->height() - dialog->height()) - 650);
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
@@ -1162,13 +1194,8 @@ void MainWindow::onShowImageInfo(const QString &path)
         });
     } else {
         dialog = new ImgInfoDialog(path);
-        //dialog->setModal(true);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
-//        dialog->move((width() - dialog->width()) / 2 +
-//                     mapToGlobal(QPoint(0, 0)).x(),
-//                     (window()->height() - dialog->height()) / 2 +
-//                     window()->y() - 120);
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &ImgInfoDialog::closed, this, [ = ] {

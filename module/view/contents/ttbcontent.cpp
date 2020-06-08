@@ -166,7 +166,6 @@ ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
 {
     _index = index;
     _path = data.dbi.filePath;
-//    qDebug() << index << _path;
     m_bPicNotSuppOrDamaged = data.imgpixmap.isNull();
     bool bLight = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType;
     _pixmap = m_bPicNotSuppOrDamaged ? utils::image::getDamagePixmap(bLight) : data.imgpixmap;
@@ -175,21 +174,6 @@ ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageItem::updateDmgIconByTheme);
 }
 
-//ImageItem::ImageItem(int index, QString path, QString imageType, QWidget *parent):
-//    DLabel(parent)
-//{
-//    _index = index;
-//    _path = path;
-////    QImage image(path,imageType);
-//    qDebug() << index << path;
-//    if (COMMON_STR_TRASH == imageType) {
-//        _pixmap = dApp->m_imagetrashmap.value(path);
-//    } else {
-//        _pixmap = dApp->m_imagemap.value(path);
-//    }
-
-//    _image = new DLabel(this);
-//}
 
 void ImageItem::setIndexNow(int i)
 {
@@ -519,10 +503,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
         if (true == m_bClBTChecked)
         {
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
+            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         } else
         {
-            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
+            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         }
 
         emit ttbcontentClicked();
@@ -565,8 +549,6 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
 
-//    m_imgList->setStyleSheet(QString::fromUtf8("border:1px solid red"));
-
     connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
         if (m_rightlist.isEmpty())
             return ;
@@ -608,7 +590,6 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         for (const auto &path : loadLeft)
             m_allfileslist.push_front(path);    //倒序放置
         m_filelist_size = m_allfileslist.size();
-//        updateScreen();
 //        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadLeft.size());
         emit sigloadLeft(loadLeft);
     });
@@ -702,17 +683,16 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addSpacing(10);
     m_fileNameLabel = new ElidedLabel();
 
-    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
+    connect(m_trashBtn, &DIconButton::clicked, this, [ = ] {
+        emit dApp->signalM->deleteByMenu();
+    });
+//    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
 
     connect(this, &TTBContent::sigRequestSomeImages, this, [ = ] {
         requestSomeImages();
     });
-
-    //当图片载入完毕，更新底部状态栏  2020/04/08 xiaolong
-    connect(dApp->signalM, &SignalManager::sigUpdateTTB, this, &TTBContent::updateScreen);
-
 }
 
 
@@ -728,7 +708,7 @@ void TTBContent::requestSomeImages()
     for (int i = 0; i < Number_Of_Displays_Per_Time; i++) {
         if (m_filesbeleft.size() <= 0) {
             brequestallfiles = true;
-            emit dApp->signalM->sigUpdateTTB();
+            updateScreen();
             return;
         }
         QString firstfilesbeleft = m_filesbeleft.first();
@@ -1064,14 +1044,15 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
             } else {
                 lable->setObjectName(QString("%1").arg(lable->index() + 1));
                 if (lable->indexNow() == lable->index()) { //当前已选中
+                    lable->setIndex(lable->index() + 1);
                     lable->setIndexNow(lable->indexNow() + 1);
                     m_lastIndex = lable->indexNow();
                     m_nowIndex = lable->indexNow();
-                    qDebug() << "m_lastIndex: " << m_lastIndex;
-                    qDebug() << "name: " << lable->objectName() << "index: " << lable->index() << "indexnow: " << lable->indexNow();
+//                    qDebug() << "name: " << lable->objectName() << "index: " << lable->index() << "indexnow: " << lable->indexNow();
+                } else {
+                    lable->setIndex(lable->index() + 1);    //索引加1
+                    lable->setIndexNow(-1);
                 }
-                lable->setIndex(lable->index() + 1);    //索引加1
-
             }
         }
         int movex = m_imgList->x();
@@ -1092,7 +1073,7 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
         m_nowIndex = index;
         bfilefind = true;
         m_currentpath = imageItem->_path;
-        qDebug() << "单击事件：" << "index: " << index << "indexnow: " << indexNow;
+        qDebug() << "单击：" << "index: " << index << "indexnow: " << indexNow << "path: " << m_currentpath;
         emit imageClicked(index, (index - indexNow));
         emit ttbcontentClicked();
     });
@@ -1426,7 +1407,7 @@ void TTBContent::updateCollectButton()
     if (m_currentpath.isEmpty()) {
         return;
     }
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath)) {
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_clBT->setIconSize(QSize(36, 36));

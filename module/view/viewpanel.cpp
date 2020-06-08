@@ -73,7 +73,8 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
-//    , m_viewType(utils::common::VIEW_ALLPIC_SRN)
+    , m_deletetimer(nullptr)
+    , m_bFirstFullScreen(false)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initShortcut();
@@ -134,11 +135,11 @@ void ViewPanel::initConnect()
 {
     connect(dApp->signalM, &SignalManager::deleteByMenu, this, [ = ] {
 
-        if (m_dt->isActive())
+        if (m_deletetimer->isActive())
         {
             return;
         }
-        m_dt->start();
+        m_deletetimer->start();
 
 
         emit ttbcDeleteImage();
@@ -165,8 +166,11 @@ void ViewPanel::initConnect()
         m_isInfoShowed = false;
     });
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
+        if (m_vinfo.fullScreen)     //全屏退出
+        {
+            toggleFullScreen();
+        }
         m_viewB->clear();
-//        showNormal();
     });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
@@ -181,10 +185,10 @@ void ViewPanel::initConnect()
     this, [ = ](const SignalManager::ViewInfo & info) {
         SignalManager::ViewInfo vinfo = info;
         m_vinfo = vinfo;
+        m_bFirstFullScreen = m_vinfo.fullScreen;
         QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
         QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
         if (fList.contains(strfixL.toUtf8().data()) || vinfo.fullScreen) {
-
             m_currentpath = m_vinfo.path;
             if (m_vinfo.paths.size() < 1) {
                 m_vinfo.paths << m_vinfo.path;
@@ -250,7 +254,11 @@ void ViewPanel::initConnect()
                 killTimer(m_iSlideShowTimerId);
                 m_iSlideShowTimerId = 0;
             }
-            toggleFullScreen();
+            if (m_bFirstFullScreen)
+                emit dApp->signalM->hideImageView();
+            else {
+                toggleFullScreen();
+            }
         }
         m_vinfo.fullScreen = false;
         emit dApp->signalM->showBottomToolbar();
@@ -258,18 +266,6 @@ void ViewPanel::initConnect()
 #endif
     });
 }
-
-//void ViewPanel::updateLocalImages()
-//{
-//    const QString cp = m_infos.at(m_current).filePath;
-//    m_infos = getImageInfos(getFileInfos(cp));
-//    m_current = 0;
-//    for (; m_current < m_infos.size(); m_current ++) {
-//        if (m_infos.at(m_current).filePath == cp) {
-//            return;
-//        }
-//    }
-//}
 
 void ViewPanel::mousePressEvent(QMouseEvent *e)
 {
@@ -298,11 +294,11 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 void ViewPanel::feedBackCurrentIndex(int index, QString path)
 {
     m_current = index;
-    m_currentpath = path;
+//    m_currentpath = path;
     if (m_current >= m_filepathlist.size()) {
         return;
     }
-    openImage(path);
+    openImage(path, true, false);
 }
 
 void ViewPanel::showNormal()
@@ -335,46 +331,6 @@ void ViewPanel::showFullScreen()
     emit dApp->signalM->sigShowFullScreen();
 }
 
-//int ViewPanel::imageIndex(const QString &path)
-//{
-//    for (int i = 0; i < m_infos.length(); i ++) {
-//        if (m_infos.at(i).filePath == path) {
-//            return i;
-//        }
-//    }
-
-//    return -1;
-//}
-
-//DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
-//{
-//    DBImgInfoList imageInfos;
-//    for (QFileInfo info : infos) {
-//        DBImgInfo imgInfo;
-
-//        // 在 Qt 5.6 上的一个Bug，QFileInfo("").absoluteFilePath()会返回当前目录的绝对路径
-////        if (info.isFile())
-//        {
-//            imgInfo.fileName = info.fileName();
-//            imgInfo.filePath = info.absoluteFilePath();
-//        }
-
-//        imageInfos << imgInfo;
-//    }
-
-//    return imageInfos;
-//}
-
-//const QStringList ViewPanel::paths() const
-//{
-//    QStringList list;
-//    for (DBImgInfo info : m_infos) {
-//        list << info.filePath;
-//    }
-
-//    return list;
-//}
-
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
     return utils::image::getImagesInfo(QFileInfo(path).path(), false);
@@ -389,56 +345,6 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 {
     return nullptr;
 }
-//QWidget *ViewPanel::toolbarTopLeftContent()
-//{
-//    TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
-//    ttlc->setCurrentDir(m_currentImageLastDir);
-//    if (! m_infos.isEmpty() && m_current < m_infos.size()) {
-//        ttlc->setImage(m_infos.at(m_current).filePath, m_infos);
-//    } else {
-//        ttlc->setImage("", m_infos);
-//    }
-
-//    connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
-//    connect(this, &ViewPanel::viewImageFrom, ttlc, [ = ](const QString & dir) {
-//        ttlc->setCurrentDir(dir);
-//    });
-////    connect(ttlc, &TTLContent::contentWidthChanged,
-////            this, &ViewPanel::updateTopLeftWidthChanged);
-////    connect(this, &ViewPanel::updateCollectButton,
-////            ttlc, &TTLContent::updateCollectButton);
-//    connect(this, &ViewPanel::imageChanged, ttlc, &TTLContent::setImage);
-//    connect(ttlc, &TTLContent::rotateClockwise, this, [ = ] {
-//        rotateImage(true);
-//    });
-//    connect(ttlc, &TTLContent::rotateCounterClockwise, this, [ = ] {
-//        rotateImage(false);
-//    });
-//    connect(ttlc, &TTLContent::removed, this, [ = ] {
-//        if (m_vinfo.inDatabase)
-//        {
-//            popupDelDialog(m_infos.at(m_current).filePath);
-//        } else
-//        {
-//            const QString path = m_infos.at(m_current).filePath;
-//            removeCurrentImage();
-//            utils::base::trashFile(path);
-//        }
-//    });
-//    connect(ttlc, &TTLContent::resetTransform, this, [ = ](bool fitWindow) {
-//        if (fitWindow) {
-//            m_viewB->fitWindow();
-//        } else {
-//            m_viewB->fitImage();
-//        }
-//    });
-//    connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
-//            ttlc, &TTLContent::updateCollectButton);
-//    connect(dApp->signalM, &SignalManager::removedFromAlbum,
-//            ttlc, &TTLContent::updateCollectButton);
-
-//    return ttlc;
-//}
 
 QWidget *ViewPanel::bottomTopLeftContent()
 {
@@ -635,7 +541,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == m_hideCursorTid &&
-            !m_menu->isVisible() && !m_printDialogVisible) {
+            !m_menu->isVisible() && !m_printDialogVisible && qApp->modalWindow() == nullptr) {
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
@@ -688,7 +594,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
                 tempalllist << vinfo.mid(currentindex, temprightcount);//后不足50
                 rightlist.clear();
             }
-            leftlist = vinfo.mid(0, currentindex - 20);
+            leftlist = vinfo.mid(0, currentindex - LOAD_LEFT_RIGHT);
         }
     } else {
         tempalllist << vinfo;
@@ -707,7 +613,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     }
 
     QWidget *pttbc = bottomTopLeftContent();
-    //测试使用
+    //
     dynamic_cast<TTBContent *>(pttbc)->setRightlist(rightlist); //左侧动态加载路径
     dynamic_cast<TTBContent *>(pttbc)->setLeftlist(leftlist);   //右侧动态加载路径
     emit dApp->signalM->updateBottomToolbarContent(pttbc, (tempalllist.size() > 1));
@@ -730,7 +636,7 @@ void ViewPanel::toggleFullScreen()
 //        window()->setWindowFlags (Qt::Window);
         showFullScreen();
         m_vinfo.fullScreen = true;
-        if (!m_menu->isVisible()) {
+        if (!m_menu->isVisible()  && qApp->modalWindow() != nullptr) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -919,7 +825,12 @@ void ViewPanel::initViewContent()
     m_viewB = new ImageView(this);
 
     connect(m_viewB, &ImageView::doubleClicked, [this]() {
-        toggleFullScreen();
+//        toggleFullScreen();
+        if (m_bFirstFullScreen)
+            emit dApp->signalM->hideImageView();
+        else {
+            toggleFullScreen();
+        }
     });
     connect(m_viewB, &ImageView::clicked, this, [ = ] {
         dApp->signalM->hideExtensionPanel();
@@ -934,8 +845,10 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
 }
 
-void ViewPanel::openImage(const QString &path, bool inDB)
+void ViewPanel::openImage(const QString &path, bool inDB, bool bjudge)
 {
+    if (bjudge && m_currentpath == path)
+        return;
     m_currentpath = path;
 
     m_viewB->setImage(path);    //设置当前显示图片

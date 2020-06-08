@@ -99,7 +99,7 @@ private slots:
 
     void onCreateAlbum(QStringList imagepaths);
 #if 1
-    void onViewCreateAlbum(QString imgpath);
+    void onViewCreateAlbum(QString imgpath, bool bmodel = true);
 #endif
     void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);

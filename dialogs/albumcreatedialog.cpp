@@ -95,7 +95,7 @@ void AlbumCreateDialog::initUI()
 
 
     connect(edit, &DLineEdit::textEdited, this, [ = ](const QString &) {
-        if (edit->text().isEmpty()) {
+        if (edit->text().trimmed().isEmpty()) {
             m_OK->setEnabled(false);
         } else {
             m_OK->setEnabled(true);
@@ -218,11 +218,17 @@ void AlbumCreateDialog::initConnection()
 
 }
 
-/*!
- * \brief AlbumCreateDialog::getNewAlbumName
- * \return Return a string like "Unnamed3", &etc
+/**
+ * @brief AlbumCreateDialog::getNewAlbumName
+ * @param[in] baseName
+ * @param[in] isWithOutSelf
+ * @param[in] beforeName
+ * @author DJH
+ * @date 2020/6/1
+ * @return const QString
+ * 根据已有相册名，获取对于数据库中不重复的新相册名，当isWithOutSefl为true的时候，查询不会包含自己，用于替换型查询
  */
-const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName) const
+const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool isWithOutSelf, const QString &beforeName)
 {
     QString nan;
     if (baseName.isEmpty())
@@ -231,10 +237,14 @@ const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName) const
         nan = baseName;
     }
     int num = 1;
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
+    if (isWithOutSelf) {
+        albums.removeOne(beforeName);
+    }
     QString albumName = nan + QString::number(num);
-    while (DBManager::instance()->isAlbumExistInDB(albumName)) {
-        num++;
+    while (albums.contains(albumName)) {
         albumName = nan + QString::number(num);
+        num++;
     }
     return static_cast<const QString>(albumName);
 }
