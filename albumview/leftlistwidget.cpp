@@ -7,7 +7,7 @@
 #include <QAbstractItemView>
 #include "widgets/albumlefttabitem.h"
 
-LeftListWidget::LeftListWidget(): m_bCtrl(false)
+LeftListWidget::LeftListWidget()
 {
     setViewportMargins(8, 0, 8, 0);
     setAcceptDrops(true);
@@ -74,19 +74,11 @@ void LeftListWidget::mousePressEvent(QMouseEvent *e)
 
 void LeftListWidget::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Control) {
-        m_bCtrl = true;
-        return;
-    }
     DListWidget::keyPressEvent(event);
 }
 
 void LeftListWidget::keyReleaseEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Control) {
-        m_bCtrl = false;
-        return;
-    }
     DListWidget::keyReleaseEvent(event);
 }
 

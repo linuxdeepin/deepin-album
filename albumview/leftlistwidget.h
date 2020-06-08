@@ -26,9 +26,6 @@ signals:
     void signalDropEvent(QModelIndex index);
     void sigMousePressIsNoValid();
 
-public:
-    bool m_bCtrl;//是否按下ctrl键
-
 };
 
 #endif  // LEFTLISTWIDGET_H
