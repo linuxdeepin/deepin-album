@@ -47,6 +47,8 @@
 #include <QGLWidget>
 #endif
 
+#include <sys/inotify.h>
+
 DWIDGET_USE_NAMESPACE
 
 namespace {
@@ -153,6 +155,15 @@ ImageView::ImageView(QWidget *parent)
         }
         update();
     });
+
+    m_imgFileWatcher = new CFileWatcher(this);
+    connect(m_imgFileWatcher, &CFileWatcher::fileChanged, this, &ImageView::onImgFileChanged);
+    m_isChangedTimer = new QTimer(this);
+    QObject::connect(m_isChangedTimer, &QTimer::timeout, this, [ = ] {
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+        setImage(m_path);
+        m_isChangedTimer->stop();
+    });
 }
 
 void ImageView::clear()
@@ -173,6 +184,8 @@ void ImageView::setImage(const QString &path)
         return;
     }
     m_path = path;
+    m_imgFileWatcher->clear();
+    m_imgFileWatcher->addWather(m_path);
     QString strfixL = QFileInfo(path).suffix().toLower();
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
@@ -498,6 +511,13 @@ void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 #endif
 }
 
+void ImageView::onImgFileChanged(const QString &ddfFile, int tp)
+{
+    Q_UNUSED(ddfFile)
+    Q_UNUSED(tp)
+    m_isChangedTimer->start(200);
+}
+
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
     emit doubleClicked();
@@ -699,4 +719,125 @@ void ImageView::wheelEvent(QWheelEvent *event)
     scaleAtPoint(event->pos(), factor);
 
     event->accept();
+}
+
+CFileWatcher::CFileWatcher(QObject *parent): QThread (parent)
+{
+    _handleId = inotify_init();
+}
+
+CFileWatcher::~CFileWatcher()
+{
+    clear();
+}
+
+bool CFileWatcher::isVaild()
+{
+    return (_handleId != -1);
+}
+
+void CFileWatcher::addWather(const QString &path)
+{
+    QMutexLocker loker(&_mutex);
+    if (!isVaild())
+        return;
+
+    QFileInfo info(path);
+    if (!info.exists() || !info.isFile()) {
+        return;
+    }
+
+    if (watchedFiles.find(path) != watchedFiles.end()) {
+        return;
+    }
+
+    std::string sfile = path.toStdString();
+    int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
+
+    watchedFiles.insert(path, fileId);
+    watchedFilesId.insert(fileId, path);
+
+    if (!_running) {
+        _running = true;
+        start();
+    }
+}
+
+void CFileWatcher::removePath(const QString &path)
+{
+    QMutexLocker loker(&_mutex);
+
+    if (!isVaild())
+        return;
+
+    auto itf = watchedFiles.find(path);
+    if (itf != watchedFiles.end()) {
+        inotify_rm_watch(_handleId, itf.value());
+
+        watchedFilesId.remove(itf.value());
+        watchedFiles.erase(itf);
+    }
+}
+
+void CFileWatcher::clear()
+{
+    QMutexLocker loker(&_mutex);
+
+    for (auto it : watchedFiles) {
+        inotify_rm_watch(_handleId, it);
+    }
+    watchedFilesId.clear();
+    watchedFiles.clear();
+}
+
+void CFileWatcher::run()
+{
+    doRun();
+}
+
+void CFileWatcher::doRun()
+{
+    if (!isVaild())
+        return;
+
+    char name[1024];
+    auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
+        char *offset = reinterpret_cast<char *>(dest);
+        while (remain) {
+            size_t n = fread(offset, 1, remain, file);
+            if (n == 0) {
+                return -1;
+            }
+
+            remain -= n;
+            offset += n;
+        }
+        return 0;
+    };
+
+    FILE *watcher_file = fdopen(_handleId, "r");
+
+    while (true) {
+        inotify_event event;
+        if ( -1 == freadsome(&event, sizeof(event), watcher_file) ) {
+            qWarning() << "------------- freadsome error !!!!!---------- ";
+        }
+        if (event.len) {
+            freadsome(name, event.len, watcher_file);
+        } else {
+            QMutexLocker loker(&_mutex);
+            auto itf = watchedFilesId.find(event.wd);
+            if (itf != watchedFilesId.end()) {
+                //qDebug() << "file = " << itf.value() << " event.wd = " << event.wd << "event.mask = " << event.mask;
+
+                if (event.mask & IN_MODIFY) {
+                    emit fileChanged(itf.value(), EFileModified);
+                } else if (event.mask & IN_MOVE_SELF) {
+                    emit fileChanged(itf.value(), EFileMoved);
+                } else if (event.mask & IN_DELETE_SELF) {
+                    emit fileChanged(itf.value(), EFileMoved);
+                }
+            }
+        }
+    }
 }

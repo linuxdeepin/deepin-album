@@ -16,11 +16,14 @@
  */
 #ifndef SVGVIEW_H
 #define SVGVIEW_H
+#include "controller/viewerthememanager.h"
+#include "imagesvgitem.h"
 
 #include <QGraphicsView>
 #include <QFutureWatcher>
-#include "controller/viewerthememanager.h"
-#include "imagesvgitem.h"
+#include <QThread>
+#include <QFileSystemWatcher>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -39,6 +42,7 @@ QT_END_NAMESPACE
 DWIDGET_BEGIN_NAMESPACE
 DWIDGET_END_NAMESPACE
 
+class CFileWatcher;
 class ImageView : public QGraphicsView
 {
     Q_OBJECT
@@ -99,6 +103,7 @@ signals:
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
+    void onImgFileChanged(const QString &ddfFile, int tp);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -140,5 +145,42 @@ private:
     GraphicsPixmapItem *m_pixmapItem = nullptr;
 
     bool m_bLoadmemory;
+    CFileWatcher *m_imgFileWatcher;
+    QTimer *m_isChangedTimer;
+};
+
+class CFileWatcher: public QThread
+{
+    Q_OBJECT
+public:
+    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
+
+    CFileWatcher(QObject *parent = nullptr);
+    ~CFileWatcher();
+
+    bool isVaild();
+
+    void addWather(const QString &path);
+    void removePath(const QString &path);
+
+    void clear();
+
+signals:
+    void fileChanged(const QString &path, int tp);
+
+protected:
+    void run();
+
+private:
+    void doRun();
+
+    int  _handleId = -1;
+    bool _running = false;
+
+
+    QMap<QString, int> watchedFiles;
+    QMap<int, QString> watchedFilesId;
+
+    QMutex _mutex;
 };
 #endif // SVGVIEW_H
