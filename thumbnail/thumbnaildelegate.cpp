@@ -165,6 +165,25 @@ void ThumbnailDelegate::paint(QPainter *painter,
             pixmapRect.setHeight(backgroundRect.height() - 16);
         }
     }
+    //2020/6/9 DJH UI 透明图片背景
+    QBrush transparentbrush;
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType) {
+        transparentbrush = QBrush(QColor("#FFFFFF"));
+    }
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        transparentbrush = QBrush(QColor("#252525"));
+        painter->fillRect(backgroundRect, transparentbrush);
+
+        QColor c("#000000");
+        c.setAlphaF((255 * 0.3));
+        transparentbrush = QBrush(c);
+    }
+    QRect transparentRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
+    QPainterPath transparentBp;
+    transparentBp.addRoundedRect(transparentRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+    painter->setClipPath(transparentBp);
+    painter->fillRect(transparentRect, transparentbrush);
 
     QPainterPath bp1;
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);

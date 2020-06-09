@@ -231,17 +231,20 @@ void AlbumCreateDialog::initConnection()
 const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool isWithOutSelf, const QString &beforeName)
 {
     QString nan;
-    if (baseName.isEmpty())
-        nan = tr("Unnamed");
-    else {
-        nan = baseName;
-    }
+    QString albumName;
     int num = 1;
+    if (baseName.isEmpty()) {
+        nan = tr("Unnamed");
+        albumName = nan;
+    } else {
+        nan = baseName;
+        albumName = nan + QString::number(num);
+    }
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     if (isWithOutSelf) {
         albums.removeOne(beforeName);
     }
-    QString albumName = nan + QString::number(num);
+
     while (albums.contains(albumName)) {
         albumName = nan + QString::number(num);
         num++;
