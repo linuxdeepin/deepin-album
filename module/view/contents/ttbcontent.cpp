@@ -395,7 +395,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addStretch();
     //hb->addSpacing(ICON_SPACING * 5);
     connect(m_backButton, &DIconButton::clicked, this, [ = ] {
+        //2020/6/9 DJH 优化退出全屏，不再闪出退出全屏的间隙 31331
+        this->setVisible(false);
         emit dApp->signalM->hideImageView();
+        this->setVisible(true);
         emit dApp->signalM->sigPauseOrStart(false); //唤醒后台外设线程
         emit ttbcontentClicked();
     });
