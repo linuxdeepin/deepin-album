@@ -65,11 +65,9 @@ void LeftListView::initConnections()
         }
 
         m_ItemCurrentType = COMMON_STR_CUSTOM;
-
         m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
         m_pMountListView->setFocusPolicy(Qt::NoFocus);
         m_pCustomizeListView->setFocus();
-
         emit itemClicked();
     });
 

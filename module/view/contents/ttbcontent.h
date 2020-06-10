@@ -59,7 +59,10 @@ class MyImageListWidget : public QWidget
 public:
     MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
+    QObject *getObj();
     void setObj(QObject *obj);
+
+    QTimer *m_timer = nullptr;
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
@@ -74,7 +77,7 @@ private:
     QObject *m_obj = nullptr;
     QPoint m_prepoint;
 
-    QTimer *m_timer = nullptr;
+
 };
 
 class ImageItem : public QLabel

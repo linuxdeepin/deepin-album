@@ -80,6 +80,14 @@ bool MyImageListWidget::ifMouseLeftPressed()
     return bmouseleftpressed;
 }
 
+QObject *MyImageListWidget::getObj()
+{
+    if (nullptr != m_obj) {
+        return m_obj;
+    }
+    return nullptr;
+}
+
 void MyImageListWidget::setObj(QObject *obj)
 {
     m_obj = obj;
@@ -414,6 +422,17 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_preButton->hide();
 
     connect(m_preButton, &DIconButton::clicked, this, [ = ] {
+        //向左加载数据
+        int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+        if (posX > -32 && posX < 32)
+        {
+            if (m_imgListView->m_timer->isActive()) {
+                return;
+            } else {
+                m_imgListView->m_timer->start();
+                emit m_imgListView->testloadLeft();
+            }
+        }
         emit showPrevious();
         emit ttbcontentClicked();
     });
@@ -437,6 +456,18 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
 
     connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
+        int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+
+        //向右加载数据
+        if ((viewwidth - m_imgListView->width()) < 32 && viewwidth - m_imgListView->width() > -32)
+        {
+            if (m_imgListView->m_timer->isActive()) {
+                return;
+            } else {
+                m_imgListView->m_timer->start();
+                emit m_imgListView->testloadRight();
+            }
+        }
         emit showNext();
         emit ttbcontentClicked();
     });
