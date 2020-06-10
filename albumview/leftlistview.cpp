@@ -496,17 +496,12 @@ void LeftListView::initMenu()
     m_MenuActionMap.clear();
 
     appendAction(IdStartSlideShow, tr("Slide show"), ss(""));
-    m_pMenu->addSeparator();
-
     appendAction(IdCreateAlbum, tr("New album"), ss(""));
-    m_pMenu->addSeparator();
 
     appendAction(IdRenameAlbum, tr("Rename"), ss(""));
     m_pMenu->addSeparator();
 
     appendAction(IdExport, tr("Export"), ss(""));
-    m_pMenu->addSeparator();
-
     appendAction(IdDeleteAlbum, tr("Delete"), ss("THROWTOTRASH_CONTEXT_MENU"));
 }
 
