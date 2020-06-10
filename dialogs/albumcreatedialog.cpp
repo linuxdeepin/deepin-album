@@ -29,8 +29,7 @@
 #include <DSuggestButton>
 
 AlbumCreateDialog::AlbumCreateDialog(DWidget *parent)
-    : DDialog(parent), edit(nullptr), m_Cancel(nullptr)
-    , m_OK(nullptr), m_OKClicked(false)
+    : DDialog(parent), edit(nullptr), m_OKClicked(false)
 {
     initUI();
     initConnection();
@@ -47,7 +46,7 @@ void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 
 void AlbumCreateDialog::initUI()
 {
-    setFixedSize(380, 190);
+    setFixedSize(380, 180);
     setModal(true);
     setContentsMargins(0, 0, 0, 0);
 
@@ -71,10 +70,10 @@ void AlbumCreateDialog::initUI()
     title->setForegroundRole(DPalette::TextTitle);
     title->setText(tr("New Album"));
 //    title->setFixedSize(68,25);
-    title->setFixedSize(130, 35);
+    title->setFixedSize(293, 20);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
-    title->move(130, 12);
+    title->move(44, 49);
 //编辑框
     edit = new DLineEdit(contentWidget);
     edit->setEnabled(true);
@@ -83,22 +82,18 @@ void AlbumCreateDialog::initUI()
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
-    edit->move(0, 23);
+    edit->move(0, 28);
     edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     //按钮
-    m_Cancel = new DPushButton(tr("Cancel"));
-    m_OK = new DPushButton(tr("Create"));
-    m_OK->setFocus();
-    insertButton(0, m_Cancel, false);
-    insertButton(1, m_OK, true);
-
+    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+    addButton(tr("Create"), true, DDialog::ButtonRecommend);
 
     connect(edit, &DLineEdit::textEdited, this, [ = ](const QString &) {
         if (edit->text().trimmed().isEmpty()) {
-            m_OK->setEnabled(false);
+            getButton(1)->setEnabled(false);
         } else {
-            m_OK->setEnabled(true);
+            getButton(1)->setEnabled(true);
         }
     });
 

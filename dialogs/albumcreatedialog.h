@@ -29,6 +29,16 @@ public:
     explicit AlbumCreateDialog(DWidget *parent = nullptr);
 
     const QString getCreateAlbumName() const;
+    /**
+     * @brief AlbumCreateDialog::getNewAlbumName
+     * @param[in] baseName
+     * @param[in] isWithOutSelf
+     * @param[in] beforeName
+     * @author DJH
+     * @date 2020/6/1
+     * @return const QString
+     * 根据已有相册名，获取对于数据库中不重复的新相册名，当isWithOutSefl为true的时候，查询不会包含自己，用于替换型查询
+     */
     static const QString getNewAlbumName(const QString &baseName, bool isWithOutSelf = false, const QString &beforeName = "");
 signals:
     void albumAdded();
@@ -46,8 +56,6 @@ private:
 private:
     QString m_createAlbumName;
     DLineEdit *edit;
-    DPushButton *m_Cancel;
-    DPushButton *m_OK;
     bool m_OKClicked;
 
 };
