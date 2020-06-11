@@ -33,7 +33,7 @@ const int EXTENSION_PANEL_WIDTH = 300 + 20;
 
 const QColor DARK_COVERBRUSH = QColor(0, 0, 0, 100);
 const QColor LIGHT_COVERBRUSH = QColor(255, 255, 255, 179);
-const int ANIMATION_DURATION = 500;
+//const int ANIMATION_DURATION = 500;
 const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 }  // namespace
 

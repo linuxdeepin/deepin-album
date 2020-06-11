@@ -42,7 +42,7 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 50;
 const int BOTTOM_TOOLBAR_HEIGHT = 70 + 10;
-const int EXTENSION_PANEL_WIDTH = 300;
+//const int EXTENSION_PANEL_WIDTH = 300;
 const int BOTTOM_TOOLBAR_WIDTH_1 = 532 + 10 + 2;
 const int BOTTOM_TOOLBAR_WIDTH_2 = 782 + 10 + 2;
 const int THUMBNAIL_ADD_WIDTH = 32;
