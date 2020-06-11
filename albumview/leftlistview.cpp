@@ -550,8 +550,8 @@ void LeftListView::onMenuClicked(QAction *action)
         const QString path = paths.first();
 
         emit menuOpenImage(path, paths, true, true);
+        break;
     }
-    break;
     case IdCreateAlbum: {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
@@ -570,18 +570,18 @@ void LeftListView::onMenuClicked(QAction *action)
         item->editAlbumEdit();
 
         moveMountListWidget();
+        break;
     }
-    break;
     case IdRenameAlbum: {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
         item->m_opeMode = OPE_MODE_RENAMEALBUM;
         item->editAlbumEdit();
+        break;
     }
-    break;
     case IdExport: {
         Exporter::instance()->exportAlbum(DBManager::instance()->getPathsByAlbum(m_ItemCurrentName), m_ItemCurrentName);
+        break;
     }
-    break;
     case IdDeleteAlbum: {
         QListWidgetItem *item = m_pCustomizeListView->currentItem();
         AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(item));
@@ -604,10 +604,8 @@ void LeftListView::onMenuClicked(QAction *action)
             emit dApp->signalM->sigAlbDelToast(str);
         });
         deletDialg->show();
-    }
-    break;
-    default:
         break;
+    }
     }
 }
 
