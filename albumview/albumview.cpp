@@ -400,12 +400,12 @@ void AlbumView::initConnections()
                 //            return;
             }
             if (pblk->isEncrypted() && !blk) {
-                udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(size));
+                udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(qint64(size)));
                 goto runend;
                 //            blk->mount({});
                 //            return;
             }
-            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(qint64(size)));
 //            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
 //            udispname = QCoreApplication::translate("PathManager", "System Disk");
             goto runend;
@@ -2311,12 +2311,12 @@ void AlbumView::getAllDeviceName()
                 //            return;
             }
             if (pblk->isEncrypted() && !blk) {
-                udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(size));
+                udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(qint64(size)));
                 goto runend1;
                 //            blk->mount({});
                 //            return;
             }
-            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(size));
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(qint64(size)));
 //            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
 //            udispname += tr("Disk");
             goto runend1;
