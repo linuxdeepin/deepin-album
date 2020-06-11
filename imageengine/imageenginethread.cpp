@@ -729,8 +729,8 @@ void ImageLoadFromLocalThread::run()
                 }
                 QDateTime start = QDateTime::currentDateTime();
                 QDateTime end = info.changeTime;
-                uint etime = start.toTime_t();
-                uint stime = end.toTime_t();
+                int etime = static_cast<int>(start.toTime_t());
+                int stime = static_cast<int>(end.toTime_t());
                 int Day = (etime - stime) / (idaysec) + ((etime - stime) % (idaysec) + (idaysec - 1)) / (idaysec) - 1;
                 if (30 <= Day) {
                     removepaths << info.filePath;

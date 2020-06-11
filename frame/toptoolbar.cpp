@@ -47,8 +47,8 @@ DWIDGET_USE_NAMESPACE
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 50;
-const int ICON_MARGIN = 6;
+//const int TOP_TOOLBAR_HEIGHT = 50;
+//const int ICON_MARGIN = 6;
 
 const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
 const QColor LIGHT_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
