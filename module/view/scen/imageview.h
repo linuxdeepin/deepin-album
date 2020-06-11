@@ -63,7 +63,7 @@ public:
     void fitImage();
     void rotateClockWise();
     void rotateCounterclockwise();
-    void centerOn(int x, int y);
+    void centerOn(qreal x, qreal y);
     void setImage(const QString &path);
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);

@@ -80,9 +80,9 @@ void ThreadRenderFrame::run()
 SlideEffect *SlideEffect::create(const EffectId &id)
 {
     if (id == EffectId()) {
-        srand(time(0));
+        srand(static_cast<uint>(time(nullptr)));
         int count = 0; // To avoid find no match effect
-        while (true || count < 100) {
+        while (true/* || count < 100*/) {
             QList<std::function<SlideEffect*()>> cs = effects.values();
             const int idx = rand() % cs.size();
             std::function<SlideEffect*()> c = cs.at(idx);
@@ -102,11 +102,11 @@ SlideEffect *SlideEffect::create(const EffectId &id)
             }
             count ++;
         }
-        return NULL;
+        //return NULL;
     }
     if (effects.contains(id))
         return effects.value(id)();
-    return NULL;
+    return nullptr;
 }
 
 void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
@@ -155,15 +155,15 @@ SlideEffect::~SlideEffect()
 //    }
     if (current_image) {
         delete current_image;
-        current_image = 0;
+        current_image = nullptr;
     }
     if (next_image) {
         delete next_image;
-        next_image = 0;
+        next_image = nullptr;
     }
     if (frame_image) {
         delete frame_image;
-        frame_image = 0;
+        frame_image = nullptr;
     }
 //    qDebug() << "-------------SlideEffect end release";
 }
@@ -504,7 +504,7 @@ bool SlideEffect::isEndFrame(int frame)
     //if (frame>frames_total)
     //  return true;
     current_frame = frame;
-    progress_ = speed * (qreal)current_frame / (qreal)frames_total;
+    progress_ = speed * current_frame / frames_total;
 
     if (progress_ >= 1.0) {
         progress_ = 1.0; //It's important
