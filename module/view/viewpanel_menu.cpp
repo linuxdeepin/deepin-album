@@ -94,7 +94,7 @@ void ViewPanel::initPopupMenu()
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
-        if (this && this->isVisible())
+        if (/*this && */this->isVisible())
         {
             updateMenuContent();
         }

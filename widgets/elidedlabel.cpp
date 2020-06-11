@@ -10,8 +10,8 @@
 #include "application.h"
 #include "controller/configsetter.h"
 
-const int MAX_WIDTH = 600;
-const int HEIGHT = 39;
+//const int MAX_WIDTH = 600;
+//const int HEIGHT = 39;
 
 ElidedLabel::ElidedLabel(QWidget *parent)
     : QLabel(parent)
@@ -37,11 +37,12 @@ void ElidedLabel::paintEvent(QPaintEvent *)
     QPainter painter(this);
     QFontMetrics fm(this->font());
     painter.setPen(QPen(m_textColor));
-    painter.drawText(m_leftMargin, (this->height() - fm.height())/2,
+    painter.drawText(m_leftMargin, (this->height() - fm.height()) / 2,
                      this->width() - m_leftMargin, this->height(), Qt::AlignLeft, m_text);
 }
 
-void ElidedLabel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void ElidedLabel::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_textColor = QColor(255, 255, 255, 204);
     } else {

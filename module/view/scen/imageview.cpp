@@ -431,7 +431,7 @@ void ImageView::rotateCounterclockwise()
     }
 }
 
-void ImageView::centerOn(int x, int y)
+void ImageView::centerOn(qreal x, qreal y)
 {
     QGraphicsView::centerOn(x, y);
     emit transformChanged();

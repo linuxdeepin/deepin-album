@@ -124,7 +124,7 @@ bool SlideEffect_Switcher::prepareFrameAt_HorizontalOpen(int frame)
     if (isEndFrame(frame))
         return false;
     qreal k = easing_.valueForProgress(progress_);
-    next_clip_region = QRegion(width * (1.0 - k) * 0.5, 0, width * k, height);
+    next_clip_region = QRegion(static_cast<int>(width * (1.0 - k) * 0.5), 0, static_cast<int>(width * k), height);
     current_clip_region = QRegion(0, 0, width, height) - next_clip_region;
     return true;
 }
@@ -134,7 +134,7 @@ bool SlideEffect_Switcher::prepareFrameAt_HorizontalClose(int frame)
     if (isEndFrame(frame))
         return false;
     qreal k = easing_.valueForProgress(progress_);
-    current_clip_region = QRegion(width * k * 0.5, 0, width * (1.0 - k), height);
+    current_clip_region = QRegion(static_cast<int>(width * k * 0.5), 0, static_cast<int>(width * (1.0 - k)), height);
     next_clip_region = QRegion(0, 0, width, height) - current_clip_region;
     return true;
 }
@@ -144,7 +144,7 @@ bool SlideEffect_Switcher::prepareFrameAt_VerticalOpen(int frame)
     if (isEndFrame(frame))
         return false;
     qreal k = easing_.valueForProgress(progress_);
-    next_clip_region = QRegion(0, height * (1.0 - k) * 0.5, width, height * k);
+    next_clip_region = QRegion(0, static_cast<int>(height * (1.0 - k) * 0.5), width, static_cast<int>(height * k));
     current_clip_region = QRegion(0, 0, width, height) - next_clip_region;
     return true;
 }
@@ -154,7 +154,7 @@ bool SlideEffect_Switcher::prepareFrameAt_VerticalClose(int frame)
     if (isEndFrame(frame))
         return false;
     qreal k = easing_.valueForProgress(progress_);
-    current_clip_region = QRegion(0, height * k * 0.5, width, height * (1.0 - k));
+    current_clip_region = QRegion(0, static_cast<int>(height * k * 0.5), width, static_cast<int>(height * (1.0 - k)));
     next_clip_region = QRegion(0, 0, width, height) - current_clip_region;
     return true;
 }
