@@ -47,8 +47,8 @@ void ScaleSlider::paintEvent(QPaintEvent *e)
     if (tickPosition() != NoTicks) {
         for (int i = minimum(); i <= maximum(); i += interval) {
             if (orientation() == Qt::Horizontal) {
-                int x = qRound((double)(((double)(i - minimum()) / (maximum() - minimum())) *
-                                       (double)(width() - handle.width()) + (handle.width() / 2.0))) - 1;
+                int x = qRound((((i - minimum()) / (maximum() - minimum())) *
+                                (width() - handle.width()) + (handle.width() / 2.0))) - 1;
                 int h = i % 2 == 0 ? 8 : 4;
                 if (tickPosition() == TicksBothSides || tickPosition() == TicksAbove) {
                     int y = this->rect().height() / 2 - h;
@@ -59,10 +59,9 @@ void ScaleSlider::paintEvent(QPaintEvent *e)
                     p.drawLine(x, y, x, y + h);
 
                 }
-            }
-            else {
-                int y = qRound((double)(((double)(i - minimum()) / (maximum() - minimum())) *
-                                       (double)(height() - handle.height()) + (handle.height() / 2.0))) - 1;
+            } else {
+                int y = qRound((((i - minimum()) / (maximum() - minimum())) *
+                                (height() - handle.height()) + (handle.height() / 2.0))) - 1;
                 int w = i % 2 == 0 ? 8 : 4;
                 if (tickPosition() == TicksBothSides || tickPosition() == TicksLeft) {
                     int x = this->rect().width() / 2 - w;
@@ -81,8 +80,7 @@ void ScaleSlider::paintEvent(QPaintEvent *e)
     if (m_defaultShape == SliderShape::Line) {
         if (orientation() == Qt::Horizontal) {
             p.drawLine(handle.width() / 2, height() / 2, width() - handle.width() / 2, height() / 2);
-        }
-        else {
+        } else {
             p.drawLine(width() / 2, handle.height() / 2, width() / 2, height() - handle.height() / 2);
         }
     }
@@ -102,11 +100,13 @@ void ScaleSlider::setPenColor(const QColor &penColor)
     m_penColor = penColor;
 }
 
-QColor ScaleSlider::brushColor() const {
+QColor ScaleSlider::brushColor() const
+{
     return m_brushColor;
 }
 
-void ScaleSlider::setBrushColor(const QColor &brushColor) {
+void ScaleSlider::setBrushColor(const QColor &brushColor)
+{
     m_brushColor = brushColor;
 }
 

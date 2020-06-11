@@ -35,11 +35,11 @@
 namespace {
 const int LEFT_MARGIN = 13;
 const QSize ICON_SIZE = QSize(48, 39);
-const int ICON_SPACING = 3;
-const int RETURN_BTN_MAX = 200;
+//const int ICON_SPACING = 3;
+//const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
-const int LEFT_SPACE = 20;
+//const int LEFT_SPACE = 20;
 }  // namespace
 
 TTLContent::TTLContent(bool inDB,

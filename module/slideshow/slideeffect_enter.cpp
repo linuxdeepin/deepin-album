@@ -103,25 +103,25 @@ bool SlideEffect_Enter::prepareFrameAt(int frame)
 
 void SlideEffect_Enter::calculateRegion_FromBottom(qreal k)
 {
-    next_clip_region = QRegion(0, height * (1.0 - k), width, height * k);
-    next_rect = QRect(0, height * (k - 1.0), width, height);
+    next_clip_region = QRegion(0, static_cast<int>(height * (1.0 - k)), width, static_cast<int>(height * k));
+    next_rect = QRect(0, static_cast<int>(height * (k - 1.0)), width, height);
 }
 
 void SlideEffect_Enter::calculateRegion_FromLeft(qreal k)
 {
-    next_clip_region = QRegion(0, 0, width * k, height);
-    next_rect = QRect(width * (1.0 - k), 0, width, height);
+    next_clip_region = QRegion(0, 0, static_cast<int>(width * k), height);
+    next_rect = QRect(static_cast<int>(width * (1.0 - k)), 0, width, height);
 }
 
 
 void SlideEffect_Enter::calculateRegion_FromRight(qreal k)
 {
-    next_clip_region = QRegion(width * (1.0 - k), 0, width * k, height);
-    next_rect = QRect(width * (k - 1.0), 0, width, height);
+    next_clip_region = QRegion(static_cast<int>(width * (1.0 - k)), 0, static_cast<int>(width * k), height);
+    next_rect = QRect(static_cast<int>(width * (k - 1.0)), 0, width, height);
 }
 
 void SlideEffect_Enter::calculateRegion_FromTop(qreal k)
 {
-    next_clip_region = QRegion(0, 0, width, height * k);
-    next_rect = QRect(0, height * (1.0 - k), width, height);
+    next_clip_region = QRegion(0, 0, width, static_cast<int>(height * k));
+    next_rect = QRect(0, static_cast<int>(height * (1.0 - k)), width, height);
 }

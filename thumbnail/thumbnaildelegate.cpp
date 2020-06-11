@@ -138,8 +138,8 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
 
 
-    float fwidth = ((float)backgroundRect.height()) / ((float)data.baseHeight) * ((float)data.baseWidth) / ((float)backgroundRect.width());
-    float fheight = ((float)backgroundRect.width()) / ((float)data.baseWidth) * ((float)data.baseHeight) / ((float)backgroundRect.height());
+    float fwidth = (backgroundRect.height()) / (data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
+    float fheight = (backgroundRect.width()) / (data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
     QRect pixmapRect;
     if ((data.width > data.imgWidth + 16) && fheight <= 3) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
@@ -153,7 +153,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
             pixmapRect.setWidth(backgroundRect.width() - 16);
         }
     }
-    if ((data.height > data.imgHeight + 16) && fwidth <= 1.5) {
+    if ((data.height > data.imgHeight + 16) && (fwidth <= 1.5f)) {
         pixmapRect.setY(backgroundRect.y() + (data.height - data.imgHeight) / 2);
         pixmapRect.setHeight(data.imgHeight);
     } else {
@@ -189,10 +189,10 @@ void ThumbnailDelegate::paint(QPainter *painter,
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    if (fwidth > 1.5) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(((float)pixmapRect.height()) / ((float)data.baseHeight) * data.baseWidth, pixmapRect.height()));
+    if (fwidth > 1.5f) {
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled((pixmapRect.height()) / (data.baseHeight) * data.baseWidth, pixmapRect.height()));
     } else if (fheight > 3) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(pixmapRect.width(), ((float)pixmapRect.width()) / ((float)data.baseWidth) * data.baseHeight));
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(pixmapRect.width(), (pixmapRect.width()) / (data.baseWidth) * data.baseHeight));
     } else {
         painter->drawPixmap(pixmapRect, data.image);
     }

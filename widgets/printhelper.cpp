@@ -103,7 +103,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                         }
                     }
 
-                    return (QObject *)(nullptr);
+                    return static_cast<QObject *>(nullptr);
                 };
 
                 if (QPrintDialog *print_dialog = printDialog.findChild<QPrintDialog *>())
