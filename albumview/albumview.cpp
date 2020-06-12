@@ -1829,8 +1829,11 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
         imagelist = m_pRightThumbnailList->getAllFileList();
     } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
         imagelist = m_pRightFavoriteThumbnailList->getAllFileList();
+    } else if (m_currentType == COMMON_STR_CUSTOM) {
+        imagelist = DBManager::instance()->getPathsByAlbum(m_currentAlbum);
+    } else {
+        imagelist = m_pRightThumbnailList->getAllFileList();
     }
-
     if (paths.size() > 1) {
         info.paths = paths;
     } else {
