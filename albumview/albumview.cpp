@@ -1822,13 +1822,13 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
 
 //    }
 
-    auto imagelist = m_pRightThumbnailList->getAllFileList();
+    QStringList imagelist;
     if (COMMON_STR_TRASH == m_currentAlbum) {
         imagelist = m_pRightTrashThumbnailList->getAllFileList();
     } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
+        imagelist = m_pRightThumbnailList->getAllFileList();
+    } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
         imagelist = m_pRightFavoriteThumbnailList->getAllFileList();
-    } else {
-
     }
 
     if (paths.size() > 1) {
