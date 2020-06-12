@@ -955,9 +955,6 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
 
 void ThumbnailListView::updateMenuContents()
 {
-    if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
-        return;
-    }
     QStringList paths;
     if (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED) {
         emit sigGetSelectedPaths(&paths);
@@ -965,6 +962,14 @@ void ThumbnailListView::updateMenuContents()
         paths = selectedPaths();
     }
     paths.removeAll(QString(""));
+
+    if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
+        if (1 == paths.length())
+            m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
+        else
+            m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
+        return;
+    }
 
     foreach (QAction *action, m_MenuActionMap.values()) {
         action->setVisible(true);
@@ -1032,7 +1037,10 @@ void ThumbnailListView::updateMenuContents()
                 COMMON_STR_VIEW_TIMELINE == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
-        //LMH0518多选收藏
+        if (COMMON_STR_FAVORITES == m_imageType) {
+            m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
+        }
+//        LMH0518多选收藏
 //        int indexFavorite = 0;
 //        int indexUnfavorite = 0;
 //        for (auto path : paths) {
