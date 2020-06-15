@@ -115,7 +115,6 @@ private:
     bool m_bImport = false;
 
     QWidget *m_titleBtnWidget;
-    QWidget *m_ImgWidget;
     DMenu *m_pTitleBarMenu;
 
     DSearchEdit *m_pSearchEdit;
