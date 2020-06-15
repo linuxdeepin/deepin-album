@@ -39,16 +39,33 @@ const int VIEW_SLIDE = 5;
 
 using namespace utils::common;
 MainWindow::MainWindow()
-    : m_iCurrentView(VIEW_ALLPIC), m_bTitleMenuImportClicked(false)
-    , m_bImport(false), m_titleBtnWidget(nullptr), m_ImgWidget(nullptr)
-    , m_pTitleBarMenu(nullptr), m_pSearchEdit(nullptr), m_pCenterWidget(nullptr)
-    , m_commandLine(nullptr), m_pAlbumview(nullptr), m_pAllPicView(nullptr)
-    , m_pTimeLineView(nullptr), m_pSearchView(nullptr), m_slidePanel(nullptr)
-    , m_pDBManager(nullptr), m_backIndex(0), m_backIndex_fromSlide(0)
-    , m_pSliderPos(2), m_pItemButton(nullptr), btnGroup(nullptr)
-    , m_pAllPicBtn(nullptr), m_pTimeBtn(nullptr), m_pAlbumBtn(nullptr)
-    , m_waitdailog(nullptr), m_importBar(nullptr), m_waitlabel(nullptr)
-    , m_countLabel(nullptr), m_pDBus(nullptr)
+    : m_iCurrentView(VIEW_ALLPIC)
+    , m_bTitleMenuImportClicked(false)
+    , m_bImport(false)
+    , m_titleBtnWidget(nullptr)
+    , m_pTitleBarMenu(nullptr)
+    , m_pSearchEdit(nullptr)
+    , m_pCenterWidget(nullptr)
+    , m_commandLine(nullptr)
+    , m_pAlbumview(nullptr)
+    , m_pAllPicView(nullptr)
+    , m_pTimeLineView(nullptr)
+    , m_pSearchView(nullptr)
+    , m_slidePanel(nullptr)
+    , m_pDBManager(nullptr)
+    , m_backIndex(0)
+    , m_backIndex_fromSlide(0)
+    , m_pSliderPos(2)
+    , m_pItemButton(nullptr)
+    , btnGroup(nullptr)
+    , m_pAllPicBtn(nullptr)
+    , m_pTimeBtn(nullptr)
+    , m_pAlbumBtn(nullptr)
+    , m_waitdailog(nullptr)
+    , m_importBar(nullptr)
+    , m_waitlabel(nullptr)
+    , m_countLabel(nullptr)
+    , m_pDBus(nullptr)
 {
     initShortcutKey();          //初始化各种快捷键
     initUI();
@@ -713,21 +730,6 @@ void MainWindow::initWaitDialog()
 //初始化顶部状态栏
 void MainWindow::initTitleBar()
 {
-    // TitleBar Img
-    DLabel *pLabel = new DLabel();
-    pLabel->setFixedSize(33, 32);
-
-    QIcon icon = QIcon::fromTheme("deepin-album");
-
-    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
-
-    QHBoxLayout *pAllTitleLayout = new QHBoxLayout();
-    m_ImgWidget = new DWidget();
-
-    pAllTitleLayout->addSpacing(2);
-    pAllTitleLayout->addWidget(pLabel);
-    m_ImgWidget->setLayout(pAllTitleLayout);
-
     // TitleBar Button
     m_titleBtnWidget = new DWidget();
     btnGroup = new QButtonGroup();
@@ -804,9 +806,9 @@ void MainWindow::initTitleBar()
     m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
 
-    titlebar()->addWidget(m_ImgWidget, Qt::AlignLeft);
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
     titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
+    titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
     titlebar()->setMenu(m_pTitleBarMenu);
     titlebar()->setBlurBackground(true);
 
@@ -1285,8 +1287,8 @@ void MainWindow::paintEvent(QPaintEvent *event)
 //    qDebug() << "titlebar()->width():        " << titlebar()->width();
 //    qDebug() << "blank width:                " << titlebar()->width() - m_pSearchEdit->width() - m_titleBtnWidget->width() - m_ImgWidget->width();
 //    int m_SearchEditWidth = titlebar()->width() - TITLEBAR_BLANK_WIDTH - TITLEBAR_BTNWIDGET_WIDTH - TITLEBAR_ICON_WIDTH - 120;
-    int m_SearchEditWidth = titlebar()->width() - m_ImgWidget->width() -  m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
-//    qDebug() << "m_SearchEditWidth:            " << m_SearchEditWidth;
+    int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
+    //    qDebug() << "m_SearchEditWidth:            " << m_SearchEditWidth;
     if (m_SearchEditWidth <= 350) {
         m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
     } else {
