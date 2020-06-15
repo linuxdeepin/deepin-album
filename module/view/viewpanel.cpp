@@ -134,14 +134,11 @@ bool ViewPanel::imageLocalLoaded(QStringList &filelist)
 void ViewPanel::initConnect()
 {
     connect(dApp->signalM, &SignalManager::deleteByMenu, this, [ = ] {
-
         if (m_deletetimer->isActive())
         {
             return;
         }
         m_deletetimer->start();
-
-
         emit ttbcDeleteImage();
         if (m_vinfo.fullScreen)
         {
@@ -718,8 +715,14 @@ void ViewPanel::removeCurrentImage()
     if (m_filepathlist.isEmpty()) {
         qDebug() << "No images to show!";
         m_current = 0;
-        if (window()->isFullScreen())
-            showNormal();
+//        if (window()->isFullScreen())
+//            showNormal();
+        if (m_bFirstFullScreen)
+            emit dApp->signalM->hideImageView();
+        else {
+            toggleFullScreen();
+        }
+
         emit imageChanged("");
 
         m_emptyWidget->setThumbnailImage(QPixmap());

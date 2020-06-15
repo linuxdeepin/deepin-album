@@ -1038,7 +1038,7 @@ void TTBContent::updateScreen()
 //        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
 //        setFixedWidth(m_contentWidth);
     }
-    m_windowWidth =  this->window()->geometry().width();
+    m_windowWidth = this->window()->geometry().width();
     if (m_ItemLoaded.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     } else if (m_ItemLoaded.size() <= 3) {
@@ -1270,7 +1270,6 @@ void TTBContent::deleteImage()
         updateScreen();
     }
 
-    //2020/3/30 20:34   尚未解决 难复现
     emit ttbcontentClicked();
     emit removed();     //删除数据库图片
 
