@@ -32,7 +32,7 @@ class SimpleFormLabel : public QLabel
 {
     Q_OBJECT
 public:
-    explicit SimpleFormLabel(const QString &t, QWidget *parent = 0)
+    explicit SimpleFormLabel(const QString &t, QWidget *parent = nullptr)
         : QLabel(t, parent) {}
 };
 
@@ -40,7 +40,7 @@ class SimpleFormField : public QLabel
 {
     Q_OBJECT
 public:
-    explicit SimpleFormField(QWidget *parent = 0)
+    explicit SimpleFormField(QWidget *parent = nullptr)
         : QLabel(parent)
     {
         setWordWrap(true);

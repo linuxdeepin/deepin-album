@@ -43,9 +43,9 @@ ViewMainWindow::ViewMainWindow(bool manager, QWidget *parent):
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.65 < MAINWIDGET_MINIMUN_WIDTH
-                         ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.65;
+                         ? MAINWIDGET_MINIMUN_WIDTH : static_cast<int>(dw.geometry().width() * 0.65);
     const int defaultH = dw.geometry().height() * 0.7 < MAINWIDGET_MINIMUN_HEIGHT
-                         ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.7;
+                         ? MAINWIDGET_MINIMUN_HEIGHT : static_cast<int>(dw.geometry().height() * 0.7);
     const int ww = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                        QVariant(defaultW)).toInt();
     const int wh = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,

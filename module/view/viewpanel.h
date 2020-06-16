@@ -64,8 +64,6 @@ public:
         }
         return m_ttbc->itemLoadedSize();
     }
-
-    void openImageFirst(const QString &path, bool inDB=true);
 signals:
     void updateCollectButton();
 //    void imageChanged(const QString &path, DBImgInfoList infos);
@@ -133,7 +131,7 @@ private:
     // View control
     void onViewImage(const  QStringList &vinfo);
 //    void onViewImage(const SignalManager::ViewInfo &vinfo);
-    void openImage(const QString &path, bool inDB = true);
+    void openImage(const QString &path, bool inDB = true, bool bjudge = true);
     void removeCurrentImage();
     void rotateImage(bool clockWise);
     bool showNext();
@@ -199,5 +197,8 @@ private:
     QString m_currentpath = "";
     QTimer *m_dt = nullptr;
     //------------------
+
+    QTimer *m_deletetimer;  //删除图片定时器
+    bool   m_bFirstFullScreen;  //是否全屏进入
 };
 #endif // VIEWPANEL_H

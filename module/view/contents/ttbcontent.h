@@ -59,17 +59,25 @@ class MyImageListWidget : public QWidget
 public:
     MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
+    QObject *getObj();
     void setObj(QObject *obj);
+
+    QTimer *m_timer = nullptr;
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
     void mouseLeftReleased();
     void needContinueRequest();
     void silmoved();
+
+    void testloadRight();
+    void testloadLeft();
 private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
     QPoint m_prepoint;
+
+
 };
 
 class ImageItem : public QLabel
@@ -77,11 +85,11 @@ class ImageItem : public QLabel
     Q_OBJECT
 public:
 //    ImageItem(int index = 0, QString path = "", QString imageType = "", QWidget *parent = 0);
-    ImageItem(int index = 0, ImageDataSt data = ImageDataSt(), QWidget *parent = 0);
+    ImageItem(int index = 0, ImageDataSt data = ImageDataSt(), QWidget *parent = nullptr);
     void setIndexNow(int i);
     void setPic(QPixmap pixmap);
 
-    QString _path = NULL;
+    QString _path;
     int index() const;
     void setIndex(int index);
     bool index_1(int index);
@@ -116,10 +124,9 @@ public:
         ImageDataSt data;
     };
 //    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
-    explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = 0);
+    explicit TTBContent(bool inDB, QStringList filelist, QWidget *parent = nullptr);
     ~TTBContent() override
     {
-//        stopLoadAndClear();
         clearAndStopThread();
     }
 
@@ -136,7 +143,7 @@ public:
         return false;
     }
     bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
-    void insertImageItem(const ImageDataSt& file);
+    void insertImageItem(const ImageDataSt &file, bool bloadRight = true);
     void stopLoadAndClear();
     void reLoad();
     QStringList getAllFileList();
@@ -147,6 +154,13 @@ public:
     QString getIndexPath(int index);
     void requestSomeImages();
     //------------------
+    /**
+     * @brief setRightlist  设置右侧数据
+     * @param rightlist
+     */
+    void setRightlist(QStringList rightlist);
+
+    void setLeftlist(QStringList leftlist);
 
 signals:
     void ttbcontentClicked();
@@ -162,6 +176,13 @@ signals:
     void showNext();
     void feedBackCurrentIndex(int index, QString path);
     void sigRequestSomeImages();
+    /**
+     * @brief sigloadRight
+     * @param rightlist
+     */
+    void sigloadRight(QStringList rightlist);
+
+    void sigloadLeft(QStringList leftlist);
 
 public slots:
     void setCurrentDir(QString text);
@@ -227,6 +248,9 @@ private:
     QString m_currentpath = "";
     int m_lastIndex = -1;
     bool binsertneedupdate = true;
+
+    QStringList m_rightlist;        //保存动态加载数据（右侧）
+    QStringList m_leftlist;
 };
 
 #endif // TTLCONTENT_H

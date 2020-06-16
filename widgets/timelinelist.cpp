@@ -85,7 +85,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
         int ccount = count();
         for (int i = 0; i < ccount; i++) {
             QListWidgetItem *pItem = this->item(i);
-            TimelineItem *pWidget = (TimelineItem *)itemWidget(pItem);
+            TimelineItem *pWidget = static_cast<TimelineItem *>(itemWidget(pItem));
             //add start 3975
             if (pWidget->m_type == "blank") {
                 blankHeight = 47;
@@ -97,7 +97,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
 #if 1
                     QListWidgetItem *pLastItem;
                     pLastItem = this->item(i - 1);
-                    TimelineItem *pLastWidget = (TimelineItem *)itemWidget(pLastItem);
+                    TimelineItem *pLastWidget = static_cast<TimelineItem *>(itemWidget(pLastItem));
                     emit sigMoveTime(pWidget->y() - pWidget->m_title->height() - 47, pLastWidget->m_sdate, pLastWidget->m_snum, pLastWidget->m_Chose->text());
 #endif
                     pWidget->m_title->setVisible(true);

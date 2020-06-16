@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef VIEWMAINWINDOW_H
+#define VIEWMAINWINDOW_H
 
 #include "frame/mainwidget.h"
 #include "controller/viewerthememanager.h"
@@ -50,6 +50,7 @@ public slots:
 
 class ViewMainWindow : public  DMainWindow
 {
+    Q_OBJECT
 public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
@@ -64,4 +65,5 @@ private:
     MainWidget *m_mainWidget;
 };
 
-#endif // MAINWINDOW_H
+#endif // VIEWMAINWINDOW_H
+

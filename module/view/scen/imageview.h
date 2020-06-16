@@ -16,11 +16,14 @@
  */
 #ifndef SVGVIEW_H
 #define SVGVIEW_H
+#include "controller/viewerthememanager.h"
+#include "imagesvgitem.h"
 
 #include <QGraphicsView>
 #include <QFutureWatcher>
-#include "controller/viewerthememanager.h"
-#include "imagesvgitem.h"
+#include <QThread>
+#include <QFileSystemWatcher>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -37,9 +40,9 @@ QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
 DWIDGET_BEGIN_NAMESPACE
-class Toast;
 DWIDGET_END_NAMESPACE
 
+class CFileWatcher;
 class ImageView : public QGraphicsView
 {
     Q_OBJECT
@@ -60,9 +63,8 @@ public:
     void fitImage();
     void rotateClockWise();
     void rotateCounterclockwise();
-    void centerOn(int x, int y);
+    void centerOn(qreal x, qreal y);
     void setImage(const QString &path);
-    void setImageFirst(const QString &path);
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
@@ -101,6 +103,7 @@ signals:
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
+    void onImgFileChanged(const QString &ddfFile, int tp);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -140,5 +143,44 @@ private:
     ImageSvgItem *m_imgSvgItem {nullptr};
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
+
+    bool m_bLoadmemory;
+    CFileWatcher *m_imgFileWatcher;
+    QTimer *m_isChangedTimer;
+};
+
+class CFileWatcher: public QThread
+{
+    Q_OBJECT
+public:
+    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
+
+    CFileWatcher(QObject *parent = nullptr);
+    ~CFileWatcher();
+
+    bool isVaild();
+
+    void addWather(const QString &path);
+    void removePath(const QString &path);
+
+    void clear();
+
+signals:
+    void fileChanged(const QString &path, int tp);
+
+protected:
+    void run();
+
+private:
+    void doRun();
+
+    int  _handleId = -1;
+    bool _running = false;
+
+
+    QMap<QString, int> watchedFiles;
+    QMap<int, QString> watchedFilesId;
+
+    QMutex _mutex;
 };
 #endif // SVGVIEW_H

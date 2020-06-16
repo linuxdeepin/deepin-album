@@ -65,7 +65,8 @@ AllPicView::AllPicView()
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
-    updatePicsIntoThumbnailViewWithCache();
+    QTimer::singleShot(100, this, SLOT(updatePicsIntoThumbnailViewWithCache()));
+    //updatePicsIntoThumbnailViewWithCache();
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
 }

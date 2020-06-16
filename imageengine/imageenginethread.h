@@ -181,6 +181,8 @@ private:
     bool bwaitstop = false;
     bool bneedcache = true;
     bool baborted = false;
+
+    bool breloadCache = false;      //重新生成缓存
 };
 
 //通过参数启动载入图像的线程

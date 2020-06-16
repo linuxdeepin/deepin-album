@@ -29,8 +29,7 @@
 #include <DSuggestButton>
 
 AlbumCreateDialog::AlbumCreateDialog(DWidget *parent)
-    : DDialog(parent), edit(nullptr), m_Cancel(nullptr)
-    , m_OK(nullptr), m_OKClicked(false)
+    : DDialog(parent), edit(nullptr), m_OKClicked(false)
 {
     initUI();
     initConnection();
@@ -47,7 +46,7 @@ void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 
 void AlbumCreateDialog::initUI()
 {
-    setFixedSize(380, 190);
+    setFixedSize(380, 180);
     setModal(true);
     setContentsMargins(0, 0, 0, 0);
 
@@ -71,27 +70,40 @@ void AlbumCreateDialog::initUI()
     title->setForegroundRole(DPalette::TextTitle);
     title->setText(tr("New Album"));
 //    title->setFixedSize(68,25);
-    title->setFixedSize(130, 35);
+    title->setFixedSize(293, 20);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
-    title->move(130, 12);
+    title->move(44, 49);
 //编辑框
     edit = new DLineEdit(contentWidget);
     edit->setEnabled(true);
     edit->setObjectName("DialogEdit");
-    edit->setText(getNewAlbumName());
+    edit->setText(getNewAlbumName(""));
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
-    edit->move(0, 23);
+    edit->move(0, 28);
     edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+
+    //按钮
+    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+    addButton(tr("Create"), true, DDialog::ButtonRecommend);
+
+    connect(edit, &DLineEdit::textEdited, this, [ = ](const QString &) {
+        if (edit->text().trimmed().isEmpty()) {
+            getButton(1)->setEnabled(false);
+        } else {
+            getButton(1)->setEnabled(true);
+        }
+    });
 
 //    contentLayout->addWidget(edit);
 //    contentWidget->setLayout(contentLayout);
 
-//按钮
-    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-    addButton(tr("Create"), true, DDialog::ButtonRecommend);
+
+
+    //addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+    //addButton(tr("Create"), true, DDialog::ButtonRecommend);
 
 //    m_Cancel = new DPushButton(this);
 //    m_Cancel->setText(tr("Cancel"));
@@ -201,18 +213,36 @@ void AlbumCreateDialog::initConnection()
 
 }
 
-/*!
- * \brief AlbumCreateDialog::getNewAlbumName
- * \return Return a string like "Unnamed3", &etc
+/**
+ * @brief AlbumCreateDialog::getNewAlbumName
+ * @param[in] baseName
+ * @param[in] isWithOutSelf
+ * @param[in] beforeName
+ * @author DJH
+ * @date 2020/6/1
+ * @return const QString
+ * 根据已有相册名，获取对于数据库中不重复的新相册名，当isWithOutSefl为true的时候，查询不会包含自己，用于替换型查询
  */
-const QString AlbumCreateDialog::getNewAlbumName() const
+const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool isWithOutSelf, const QString &beforeName)
 {
-    const QString nan = tr("Unnamed");
+    QString nan;
+    QString albumName;
     int num = 1;
-    QString albumName = nan + QString::number(num);
-    while (DBManager::instance()->isAlbumExistInDB(albumName)) {
-        num++;
+    if (baseName.isEmpty()) {
+        nan = tr("Unnamed");
+        albumName = nan;
+    } else {
+        nan = baseName;
         albumName = nan + QString::number(num);
+    }
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
+    if (isWithOutSelf) {
+        albums.removeOne(beforeName);
+    }
+
+    while (albums.contains(albumName)) {
+        albumName = nan + QString::number(num);
+        num++;
     }
     return static_cast<const QString>(albumName);
 }
@@ -224,12 +254,12 @@ const QString AlbumCreateDialog::getCreateAlbumName() const
 
 void AlbumCreateDialog::createAlbum(const QString &newName)
 {
-    if (! DBManager::instance()->getAllAlbumNames().contains(newName)) {
+    if (!DBManager::instance()->isAlbumExistInDB(newName)) {
         m_createAlbumName = newName;
         DBManager::instance()->insertIntoAlbum(newName, QStringList(" "));
     } else {
-        m_createAlbumName = getNewAlbumName();
-        DBManager::instance()->insertIntoAlbum(getNewAlbumName(), QStringList(" "));
+        m_createAlbumName = getNewAlbumName(newName);
+        DBManager::instance()->insertIntoAlbum(m_createAlbumName, QStringList(" "));
     }
 
     emit albumAdded();

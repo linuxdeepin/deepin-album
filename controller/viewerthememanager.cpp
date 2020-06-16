@@ -23,10 +23,10 @@ const QString THEME_GROUP = "APP";
 const QString THEME_TEXT = "AppTheme";
 }
 
-ViewerThemeManager *ViewerThemeManager::m_viewerTheme = NULL;
+ViewerThemeManager *ViewerThemeManager::m_viewerTheme = nullptr;
 ViewerThemeManager *ViewerThemeManager::instance()
 {
-    if (m_viewerTheme == NULL) {
+    if (m_viewerTheme == nullptr) {
         m_viewerTheme = new ViewerThemeManager;
     }
 

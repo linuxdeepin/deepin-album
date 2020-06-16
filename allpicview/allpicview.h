@@ -51,12 +51,11 @@ private:
     void initStackedWidget();
 //    void initThumbnailListView();
     void updatePicsIntoThumbnailView();
-    void updatePicsIntoThumbnailViewWithCache();
     /**
      * @brief updatePicsIntoThumbnailView 针对单个或多个图片刷新
      * @param strpath 图片路径队列
      */
-    void updatePicsThumbnailView(QStringList strpath=QStringList());
+    void updatePicsThumbnailView(QStringList strpath = QStringList());
     void onUpdateAllpicsNumLabel();
     void onKeyDelete();
 
@@ -68,7 +67,7 @@ private:
 
 
 private slots:
-
+    void updatePicsIntoThumbnailViewWithCache();
 public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;

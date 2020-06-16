@@ -325,7 +325,6 @@ bool SlideEffectPlayer::startPrevious()
     if (!m_thread.isRunning()) {
         m_thread.start();
     }
-
     connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
@@ -401,15 +400,21 @@ void SlideEffectPlayer::stop()
 {
     if (!isRunning())
         return;
-    if (m_pausing) {
-        m_pausing = !m_pausing;
-        m_effect->pause();
+    if (m_effect) {
+        m_effect->deleteLater();
+        m_effect = nullptr;
+    }
+    if (m_thread.isRunning()) {
+        m_thread.quit();
+        m_thread.wait();
+//        m_thread.start();
     }
 
     killTimer(m_tid);
     m_tid = 0;
     m_running = false;
     m_cacheImages.clear();
+
     Q_EMIT finished();
 }
 

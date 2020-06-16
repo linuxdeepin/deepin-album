@@ -52,6 +52,8 @@ public slots:
 protected:
     void resizeEvent(QResizeEvent *ev) override;
 
+    void showEvent(QShowEvent *ev) override;
+
 private:
     void initTimeLineViewWidget();
     void initConnections();
@@ -75,10 +77,17 @@ public:
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
     void resizeHand();  //手动计算大小
+
 #if 1
     QStringList selectPaths();
     void updateChoseText();
 #endif
+private slots:
+    /**
+     * @brief updateSize
+     * 调整已导入界面的整体大小
+     */
+    void updateSize();
 signals:
     void sigUpdatePicNum();
 
@@ -111,6 +120,8 @@ private:
     int m_lastShiftClickedIndex;
     bool lastChanged;
     int m_iBaseHeight;
+
+    bool m_bshow = false;
 public:
     int m_index;
     TimelineList *m_mainListWidget;

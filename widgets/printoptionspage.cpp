@@ -70,7 +70,7 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
                 alignment |= Qt::AlignRight;
             }
 
-            m_posBtnGroup->addButton(btn, (int) alignment);
+            m_posBtnGroup->addButton(btn, static_cast<int>(alignment));
         }
     }
 
@@ -132,9 +132,9 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
 
 void PrintOptionsPage::init()
 {
-    Qt::Alignment defaultAlignment;
-    defaultAlignment = Qt::AlignVCenter | Qt::AlignHCenter;
-    m_posBtnGroup->button(defaultAlignment)->setChecked(true);
+//    Qt::Alignment defaultAlignment;
+//    defaultAlignment = Qt::AlignVCenter | Qt::AlignHCenter;
+    m_posBtnGroup->button(Qt::AlignVCenter | Qt::AlignHCenter)->setChecked(true);
 
     switch (m_settings.value("button_index", 2).toInt()) {
     case 0:

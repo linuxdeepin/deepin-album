@@ -4,6 +4,7 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QAbstractItemView>
 #include "widgets/albumlefttabitem.h"
 
 LeftListWidget::LeftListWidget()
@@ -20,17 +21,23 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
         QString leftTabListName = item->m_albumNameStr;
         QString leftTabListType = item->m_albumTypeStr;
         // qDebug()<<"leftTabListName: "<<leftTabListName<<" ;leftTabListType: "<<leftTabListType;
-
-        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName)
-                || (COMMON_STR_TRASH == leftTabListName)
-                || (COMMON_STR_FAVORITES == leftTabListName)
-                || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType)
-                || (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
+        //只支持拖拽到自定义相册
+        if (leftTabListType == COMMON_STR_CREATEALBUM) {
+            return event->accept();
+        } else {
             qDebug() << "Can not drop!";
             return event->ignore();
-        } else {
-            return event->accept();
         }
+//        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName)
+//                || (COMMON_STR_TRASH == leftTabListName)
+//                || (COMMON_STR_FAVORITES == leftTabListName)
+//                || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType)
+//                || (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
+//            qDebug() << "Can not drop!";
+//            return event->ignore();
+//        } else {
+//            return event->accept();
+//        }
     }
 }
 
@@ -48,12 +55,7 @@ void LeftListWidget::dropEvent(QDropEvent *event)
 
 void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
 {
-    qDebug() << "xxxxxxxxxxxxxx";
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover")) {
-//        const QMimeData *mimeData = event->mimeData();
-//        if (!utils::base::checkMimeData(mimeData)) {
-//            return;
-//        }
         event->acceptProposedAction();
     } else {
         //event->ignore();
@@ -67,19 +69,17 @@ void LeftListWidget::mousePressEvent(QMouseEvent *e)
     if (!index.isValid()) {
         emit sigMousePressIsNoValid();
     }
-    //    qDebug()<<this->currentRow();
-    //    if (!index.isValid())
-    //    {
-    //        qDebug()<<"111111111"<<index;
-    //    }
-    //    else {
-    //        qDebug()<<index.row();
-    //    }
-
-    //    AlbumLeftTabItem *item = (AlbumLeftTabItem*)this->itemWidget(this->currentItem());
-    //    item->onCheckNameValid();
-
     DListWidget::mousePressEvent(e);
+}
+
+void LeftListWidget::keyPressEvent(QKeyEvent *event)
+{
+    DListWidget::keyPressEvent(event);
+}
+
+void LeftListWidget::keyReleaseEvent(QKeyEvent *event)
+{
+    DListWidget::keyReleaseEvent(event);
 }
 
 QStyleOptionViewItem LeftListWidget::viewOptions() const
