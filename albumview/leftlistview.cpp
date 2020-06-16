@@ -108,7 +108,13 @@ void LeftListView::initConnections()
         if (m_pPhotoLibListView->currentItem())
         {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-            item->newAlbumStatus();
+            auto list = m_pMountListView->selectedItems(); //当前选中项
+            // 仍有优化空间
+            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+                item->oriAlbumStatus();
+            } else {
+                item->newAlbumStatus();
+            }
 
             if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
                 m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
