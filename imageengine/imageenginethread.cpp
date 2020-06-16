@@ -221,7 +221,7 @@ void ImportImagesThread::run()
         dbi.filePath = imagePath;
         dbi.dirHash = utils::base::hash(QString());
         if ("" != value) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
         } else if (fi.birthTime().isValid()) {
             dbi.time = fi.birthTime();
         } else if (fi.metadataChangeTime().isValid()) {
@@ -932,7 +932,7 @@ void ImageEngineThread::run()
     dbi.filePath = m_path;
     dbi.dirHash = utils::base::hash(QString());
     if ("" != value) {
-        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
     } else if (fi.birthTime().isValid()) {
         dbi.time = fi.birthTime();
     } else if (fi.metadataChangeTime().isValid()) {
