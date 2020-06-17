@@ -49,14 +49,14 @@ void AlbumCreateDialog::initUI()
     setFixedSize(380, 180);
     setModal(true);
     setContentsMargins(0, 0, 0, 0);
-
-//内容widget
+    setSpacing(0);
+    //内容widget
     DWidget *contentWidget = new DWidget(this);
     contentWidget->setContentsMargins(0, 0, 0, 0);
-    QVBoxLayout *contentLayout = new QVBoxLayout();
-    Q_UNUSED(contentLayout);
 
-//图标
+    //contentWidget->setStyleSheet("background:transparent;border:2px solid red;");
+
+    //图标
     DLabel *logoLable = new DLabel(this);
     QIcon icon = QIcon::fromTheme("deepin-album");
     logoLable->setPixmap(icon.pixmap(QSize(32, 32)));
@@ -66,29 +66,35 @@ void AlbumCreateDialog::initUI()
     const QString subStyle =
         utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
-    DFontSizeManager::instance()->bind(title, DFontSizeManager::T5, QFont::DemiBold);
+    DFontSizeManager::instance()->bind(title, DFontSizeManager::T6, QFont::DemiBold);
     title->setForegroundRole(DPalette::TextTitle);
     title->setText(tr("New Album"));
-//    title->setFixedSize(68,25);
-    title->setFixedSize(293, 20);
+    title->setFixedSize(293, 30);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignHCenter);
     title->move(44, 49);
+
 //编辑框
-    edit = new DLineEdit(contentWidget);
+    edit = new DLineEdit(this);
     edit->setEnabled(true);
     edit->setObjectName("DialogEdit");
     edit->setText(getNewAlbumName(""));
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
-    edit->move(0, 28);
+    edit->move(10, 79);
+    //edit->setToolTipDuration(-1);
     edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
+    //contentLayout->addWidget(edit);
     //按钮
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Create"), true, DDialog::ButtonRecommend);
 
+    getButton(0)->setFixedSize(170, 35);
+    getButton(1)->setFixedSize(170, 35);
+
+    //contentWidget->setLayout(contentLayout);
     connect(edit, &DLineEdit::textEdited, this, [ = ](const QString &) {
         if (edit->text().trimmed().isEmpty()) {
             getButton(1)->setEnabled(false);

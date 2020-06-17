@@ -7,6 +7,7 @@
 #include <QMimeData>
 #include <QScrollBar>
 #include <QMutex>
+#include <QScroller>
 
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
@@ -1451,7 +1452,7 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
 
 QPixmap ThumbnailListView::getDamagedPixmap()
 {
-    return utils::image::getDamagePixmap (DApplicationHelper::instance ()->themeType () == DApplicationHelper::LightType);
+    return utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
 }
 
 void ThumbnailListView::updateThumbnaillistview()
@@ -1615,7 +1616,7 @@ void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
 
 void ThumbnailListView::slotReCalcTimelineSize()
 {
-    emit needResize (m_height + 15);
+    emit needResize(m_height + 15);
 }
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)
@@ -1672,5 +1673,5 @@ bool ThumbnailListView::isLoading()
 
 bool ThumbnailListView::isAllPicSeleted()
 {
-    return getAllPaths ().count () == selectedPaths ().count ();
+    return getAllPaths().count() == selectedPaths().count();
 }
