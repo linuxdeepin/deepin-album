@@ -19,6 +19,7 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPointer>
+#include "giflib/gif_lib.h"
 
 class QMovie;
 class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
@@ -34,8 +35,8 @@ private:
     QString m_suffix;
     void *m_pGif;
     QTimer *m_pTImer;
-    int m_index;
-
+    int m_index = 0;
+    QImage m_firstImage;
 };
 
 class GraphicsPixmapItem : public QGraphicsPixmapItem

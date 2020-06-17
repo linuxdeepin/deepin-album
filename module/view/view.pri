@@ -9,7 +9,11 @@ HEADERS += \
     $$PWD/thumbnailwidget.h \
     $$PWD/lockwidget.h \
     $$PWD/contents/ttbcontent.h \
-    $$PWD/scen/imagesvgitem.h
+    $$PWD/scen/imagesvgitem.h \
+    $$PWD/scen/giflib/gif_hash.h \
+    $$PWD/scen/giflib/gif_lib_private.h \
+    $$PWD/scen/giflib/gif_lib.h \
+    $$PWD/scen/cmanagerattributeservice.h
 
 SOURCES += \
     $$PWD/navigationwidget.cpp \
@@ -24,7 +28,16 @@ SOURCES += \
     $$PWD/thumbnailwidget.cpp \
     $$PWD/lockwidget.cpp \
     $$PWD/contents/ttbcontent.cpp \
-    $$PWD/scen/imagesvgitem.cpp
+    $$PWD/scen/imagesvgitem.cpp \
+    $$PWD/scen/giflib/dgif_lib.c \
+    $$PWD/scen/giflib/egif_lib.c \
+    $$PWD/scen/giflib/gif_err.c \
+    $$PWD/scen/giflib/gif_font.c \
+    $$PWD/scen/giflib/gif_hash.c \
+    $$PWD/scen/giflib/gifalloc.c \
+    $$PWD/scen/giflib/openbsd-reallocarray.c \
+    $$PWD/scen/giflib/quantize.c \
+    $$PWD/scen/cmanagerattributeservice.cpp
 
 RESOURCES += \
     $$PWD/viewtheme.qrc
