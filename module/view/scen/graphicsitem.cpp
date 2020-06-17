@@ -20,27 +20,49 @@
 #include <QPainter>
 #include <FreeImage.h>
 #include "utils/imageutils.h"
+#include "cmanagerattributeservice.h"
+#define condifionzero 1
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fileSuffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
     , m_suffix(fileName)
     , m_index(0)
 {
-    if (m_suffix.contains("gif"))
+    if (condifionzero && m_suffix.contains("gif"))
         //用freeimage解析gif
     {
-        m_pGif = utils::image::openGiffromPath(fileName);
-        m_pTImer = new QTimer(this);
-        QObject::connect(m_pTImer, &QTimer::timeout, this, [ = ] {
-            //用freeimage解析的图片显示
-            setPixmap(QPixmap::fromImage(utils::image::getGifImage(m_index, m_pGif)));
-            m_index++;
-            if (m_index >= utils::image::getGifImageCount(m_pGif))
-            {
-                m_index = 0;
+        if (0) {
+            m_index = 0;
+            m_pGif = utils::image::openGiffromPath(fileName);
+            m_pTImer = new QTimer(this);
+            QObject::connect(m_pTImer, &QTimer::timeout, this, [ = ] {
+                //用freeimage解析的图片显示
+                setPixmap(QPixmap::fromImage(utils::image::getGifImage(m_index, m_pGif)));
+                //            QString path = "/home/zouya/Desktop/qmovie/" + QString::number(m_index) + ".jpg";
+                //            pixmap().save(path, "jpg");
+                m_index++;
+                if (m_index >= utils::image::getGifImageCount(m_pGif))
+                {
+                    m_index = 0;
+                }
+            });
+            m_pTImer->start(100);
+        }
+        QObject::connect(CManagerAttributeService::getInstance(), &CManagerAttributeService::emitImageSignal, this, [ = ](QImage image, bool isFirst) {
+            if (isFirst) {
+                m_firstImage = image;
+                setPixmap(QPixmap::fromImage(m_firstImage));
+            } else {
+                QImage second = image;
+                QPainter painter(&m_firstImage);
+                painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                painter.drawImage(0, 0, second);
+                painter.end();
+                setPixmap(QPixmap::fromImage(m_firstImage));
             }
         });
-        m_pTImer->start(100);
+        CManagerAttributeService::getInstance()->setfilePath(fileName);
+        m_pTImer = new QTimer(this);
     } else {
         m_movie = new QMovie(fileName);
         QObject::connect(m_movie, &QMovie::frameChanged, this, [ = ] {
@@ -49,8 +71,6 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fil
         });
         m_movie->start();
     }
-
-
 }
 
 GraphicsMovieItem::~GraphicsMovieItem()
@@ -59,8 +79,9 @@ GraphicsMovieItem::~GraphicsMovieItem()
     // before changing the bounding rect of an item to keep
     // QGraphicsScene's index up to date.
     // If not doing this, it may crash
+    CManagerAttributeService::getInstance()->setCouldRun(false);
     prepareGeometryChange();
-    if (m_suffix.contains("gif")) {
+    if (condifionzero && m_suffix.contains("gif")) {
         m_pTImer->stop();
         m_pTImer->deleteLater();
         m_pTImer = nullptr;
@@ -79,7 +100,7 @@ GraphicsMovieItem::~GraphicsMovieItem()
  */
 bool GraphicsMovieItem::isValid() const
 {
-    if (m_suffix.contains("gif")) {
+    if (condifionzero && m_suffix.contains("gif")) {
         return utils::image::getGifImageCount(m_pGif) > 1;
     } else {
         return m_movie->isValid();
@@ -88,7 +109,7 @@ bool GraphicsMovieItem::isValid() const
 
 void GraphicsMovieItem::start()
 {
-    if (m_suffix.contains("gif")) {
+    if (condifionzero && m_suffix.contains("gif")) {
         m_pTImer->start(100);
     } else {
         m_movie->start();
@@ -97,13 +118,12 @@ void GraphicsMovieItem::start()
 
 void GraphicsMovieItem::stop()
 {
-    if (m_suffix.contains("gif")) {
+    if (condifionzero && m_suffix.contains("gif")) {
         m_pTImer->stop();
     } else {
         m_movie->stop();
     }
 }
-
 
 GraphicsPixmapItem::GraphicsPixmapItem(const QPixmap &pixmap)
     : QGraphicsPixmapItem(pixmap, nullptr)
