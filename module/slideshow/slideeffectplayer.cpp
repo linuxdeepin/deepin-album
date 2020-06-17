@@ -44,14 +44,14 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
 {
 //    QDesktopWidget *desktopWidget = QApplication::desktop();
 //    m_screenrect = desktopWidget->screenGeometry();
-    QScreen *screen = QGuiApplication::primaryScreen ();
-    QRect m_screenrect = QRect(0, 0, 0, 0);
-    qreal m_ratio = 1;
-    m_screenrect = screen->availableGeometry() ;
-    m_ratio = screen->devicePixelRatio();
-    if ((((qreal)m_screenrect.width())*m_ratio) > 3000 || (((qreal)m_screenrect.height())*m_ratio) > 3000) {
-        b_4k = true;
-    }
+QScreen *screen = QGuiApplication::primaryScreen();
+QRect m_screenrect = QRect(0, 0, 0, 0);
+qreal m_ratio = 1;
+m_screenrect = screen->availableGeometry();
+m_ratio = screen->devicePixelRatio();
+if ((static_cast<qreal>(m_screenrect.width()) * m_ratio) > 3000 || ((static_cast<qreal>(m_screenrect.height())) * m_ratio) > 3000) {
+    b_4k = true;
+}
     connect(dApp->signalM, &SignalManager::updateButton, this, [ = ] {
         killTimer(m_tid);
         m_tid = 0;
@@ -155,9 +155,9 @@ void SlideEffectPlayer::start()
     cachePrevious();
     m_running = true;
     if (!b_4k)
-        m_tid = startTimer(ANIMATION_DURATION );
+        m_tid = startTimer(ANIMATION_DURATION);
     else
-        m_tid = startTimer(ANIMATION_DURATION_4K );
+        m_tid = startTimer(ANIMATION_DURATION_4K);
 }
 
 void SlideEffectPlayer::pause()
@@ -238,11 +238,11 @@ bool SlideEffectPlayer::startNext()
         m_thread.start();
     }
 
-    connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
+    connect(m_effect, &SlideEffect::frameReady, this, [=](const QImage &img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
-    }/*, Qt::DirectConnection*/);
+    } /*, Qt::DirectConnection*/);
     //LMH0428下一张数量的增加，幻灯片处理完了才新增
     connect(m_effect, &SlideEffect::stopped, this, [ = ]  {
         if (m_paths.length() > 1)
@@ -325,11 +325,11 @@ bool SlideEffectPlayer::startPrevious()
     if (!m_thread.isRunning()) {
         m_thread.start();
     }
-    connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
+    connect(m_effect, &SlideEffect::frameReady, this, [=](const QImage &img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
-    }/*, Qt::DirectConnection*/);
+    } /*, Qt::DirectConnection*/);
 
     connect(m_effect, &SlideEffect::stopped, this, [ = ]  {
         if (m_paths.length() > 1)
@@ -365,10 +365,10 @@ void SlideEffectPlayer::cacheNext()
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
-        this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages  next: " << path;
-            m_cacheImages.insert(path, img);
-        });
+                this, [=](const QString path, const QImage img) {
+                    qDebug() << "m_cacheImages  next: " << path;
+                    m_cacheImages.insert(path, img);
+                });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
         t->start();
     }
@@ -387,10 +387,10 @@ void SlideEffectPlayer::cachePrevious()
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
-        this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages previous: " << path;
-            m_cacheImages.insert(path, img);
-        });
+                this, [=](const QString path, const QImage img) {
+                    qDebug() << "m_cacheImages previous: " << path;
+                    m_cacheImages.insert(path, img);
+                });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
         t->start();
     }
