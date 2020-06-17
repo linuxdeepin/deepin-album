@@ -37,7 +37,7 @@ signals:
                       const QVariant &value);
 
 private:
-    explicit ConfigSetter(QObject *parent = 0);
+    explicit ConfigSetter(QObject *parent = nullptr);
 
 private:
     static ConfigSetter *m_setter;

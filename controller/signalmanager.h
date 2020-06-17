@@ -168,7 +168,7 @@ signals:
     void sigPauseOrStart(bool bpause);
 
 private:
-    explicit SignalManager(QObject *parent = 0);
+    explicit SignalManager(QObject *parent = nullptr);
 
 private:
     static SignalManager *m_signalManager;
