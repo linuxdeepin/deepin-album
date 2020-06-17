@@ -33,7 +33,6 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
         emit dApp->signalM->updatePauseButton();
         emit dApp->signalM->updateButton();
         emit showPrevious();
-
     });
 
     m_playpauseButton = new DIconButton(this);

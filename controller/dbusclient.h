@@ -20,7 +20,7 @@
 #include <application.h>
 #include "signalmanager.h"
 
-class dbusclient :public QDBusAbstractInterface
+class dbusclient : public QDBusAbstractInterface
 {
     Q_OBJECT
 public:
@@ -32,7 +32,7 @@ public:
     { return "com.deepin.Draw"; }
 
 public:
-    dbusclient(QObject *parent = 0);
+    dbusclient(QObject *parent = nullptr);
     ~dbusclient();
 
 
