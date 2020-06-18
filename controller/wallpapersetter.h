@@ -7,7 +7,7 @@ class WallpaperSetter : public QObject
 {
     Q_OBJECT
 public:
-    static WallpaperSetter * instance();
+    static WallpaperSetter *instance();
     void setWallpaper(const QString &path);
 
 private:
@@ -32,7 +32,7 @@ private:
     DE getDE();
     bool testDE(const QString &app);
 
-    explicit WallpaperSetter(QObject *parent = 0);
+    explicit WallpaperSetter(QObject *parent = nullptr);
 
 private:
     static WallpaperSetter *m_setter;

@@ -55,7 +55,7 @@ void LeftListView::initConnections()
         {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
             auto list = m_pCustomizeListView->selectedItems();  //当前选中项
-            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
                 item->oriAlbumStatus();
             } else {
                 item->newAlbumStatus();
@@ -82,7 +82,7 @@ void LeftListView::initConnections()
         {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
             auto list = m_pMountListView->selectedItems();  //当前选中项
-            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
                 item->oriAlbumStatus();
             } else {
                 item->newAlbumStatus();
@@ -110,7 +110,7 @@ void LeftListView::initConnections()
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             auto list = m_pMountListView->selectedItems(); //当前选中项
             // 仍有优化空间
-            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
                 item->oriAlbumStatus();
             } else {
                 item->newAlbumStatus();
