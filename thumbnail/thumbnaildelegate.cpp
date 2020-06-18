@@ -176,7 +176,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->fillRect(backgroundRect, transparentbrush);
 
         QColor c("#000000");
-        c.setAlphaF(0.3);
+        c.setAlphaF(0.2);
         transparentbrush = QBrush(c);
     }
     QRect transparentRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
