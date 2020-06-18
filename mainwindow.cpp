@@ -176,7 +176,7 @@ void MainWindow::initConnections()
                 m_pAlbumview->SearchReturnUpdate();
                 m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
                 m_pAlbumview->updatePicNum();
-                emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed ();
+                emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
 
             }
             break;
@@ -362,15 +362,14 @@ void MainWindow::initConnections()
         //this->sendMessage(icon, str2.arg(album));
     });
     //底部，弹出导入成功提示框
-    connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ] () {
+    connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ]() {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
 
         QString str2 = tr("Import successful");
 
         QWidget *pwidget = new QWidget();
-        switch (m_pCenterWidget->currentIndex())
-        {
+        switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
             break;
@@ -976,7 +975,7 @@ void MainWindow::albumBtnClicked()
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->updatePicNum();
-    emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed ();
+    emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
 }
 
 //标题菜单栏槽函数
@@ -1165,11 +1164,16 @@ void MainWindow::onImprotBtnClicked()
     if (file_list.isEmpty())
         return;
     ImageEngineApi::instance()->SaveImagesCache(file_list);
-    if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE || m_pAlbumview->m_currentItemType == 0) {
-        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
+    if (m_iCurrentView == VIEW_ALBUM) {
+        if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE || m_pAlbumview->m_currentItemType == 0) {
+            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
+        } else {
+            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
+        }
     } else {
-        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
+        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
     }
+
 }
 
 bool MainWindow::imageImported(bool success)
