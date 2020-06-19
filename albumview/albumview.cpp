@@ -414,7 +414,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -575,7 +575,7 @@ runend:
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
-    connect(m_pLeftListView->m_pMountListView, &DListWidget::clicked, this, [ = ] (const QModelIndex & index) {
+    connect(m_pLeftListView->m_pMountListView, &DListWidget::clicked, this, [=](const QModelIndex &index) {
         Q_UNUSED(index);
         if (!isWaitDialog) {
             isWaitDialog = true;
@@ -588,7 +588,7 @@ runend:
     });
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
 
-    connect (this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
+    connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
 
     //void sigPhonePath(QString PhoneName, QString pathName);
 
@@ -2328,7 +2328,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
