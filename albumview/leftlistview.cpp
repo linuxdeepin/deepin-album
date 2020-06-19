@@ -7,6 +7,7 @@
 #include "dbmanager/dbmanager.h"
 #include "controller/exporter.h"
 #include "imageengine/imageengineapi.h"
+#include "dialogs/albumcreatedialog.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <DFontSizeManager>
@@ -44,78 +45,18 @@ LeftListView::LeftListView(DWidget *parent)
 
 void LeftListView::initConnections()
 {
-    connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onMountListView);
-    connect(m_pCustomizeListView, &DListWidget::pressed, this, [ = ] {
-        qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
-        m_pPhotoLibListView->clearSelection();
-        m_pMountListView->clearSelection();
-        updateAlbumItemsColor();
-        QListWidgetItem *plitem = m_pCustomizeListView->currentItem();
-        if (plitem)
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
-            auto list = m_pCustomizeListView->selectedItems();  //当前选中项
-            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
-                item->oriAlbumStatus();
-            } else {
-                item->newAlbumStatus();
-            }
-            m_ItemCurrentName = item->m_albumNameStr;
-            m_ItemCurrentDataType = plitem->type(); //default 0
-        }
-
-        m_ItemCurrentType = COMMON_STR_CUSTOM;
-        m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
-        m_pMountListView->setFocusPolicy(Qt::NoFocus);
-        m_pCustomizeListView->setFocus();
-        emit itemClicked();
-    });
-
-    connect(m_pMountListView, &DListWidget::pressed, this, [ = ] {
-        qDebug() << "m_pMountListView, &DListWidget::pressed";
-        m_pPhotoLibListView->clearSelection();
-        m_pCustomizeListView->clearSelection();
-        updateAlbumItemsColor();
-
-        QListWidgetItem *plitem = m_pMountListView->currentItem();
-        if (plitem)
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
-            auto list = m_pMountListView->selectedItems();  //当前选中项
-            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
-                item->oriAlbumStatus();
-            } else {
-                item->newAlbumStatus();
-            }
-            m_ItemCurrentName = item->m_albumNameStr;
-            m_ItemCurrentDataType = plitem->type(); //default 0
-        }
-
-        m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
-        m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
-        m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
-
-        m_pMountListView->setFocus();
-
-        emit itemClicked();
-    });
+    connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onPhotoLibListViewPressed);
+    connect(m_pCustomizeListView, &DListWidget::pressed, this, &LeftListView::onCustomListViewPressed);
+    connect(m_pMountListView, &DListWidget::pressed, this, &LeftListView::onMountListViewPressed);
 
     connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, [ = ] {
         m_pCustomizeListView->clearSelection();
         m_pMountListView->clearSelection();
         updateAlbumItemsColor();
-
         if (m_pPhotoLibListView->currentItem())
         {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-            auto list = m_pMountListView->selectedItems(); //当前选中项
-            // 仍有优化空间
-            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
-                item->oriAlbumStatus();
-            } else {
-                item->newAlbumStatus();
-            }
-
+            item->newAlbumStatus();
             if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
                 m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
                 m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
@@ -154,7 +95,6 @@ void LeftListView::initConnections()
             m_pPhotoLibListView->clearSelection();
             m_pCustomizeListView->clearSelection();
             updateAlbumItemsColor();
-
             if (m_pMountListView->currentItem()) {
                 AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
                 if (nullptr != item) {
@@ -162,12 +102,10 @@ void LeftListView::initConnections()
                     m_ItemCurrentName = item->m_albumNameStr;
                 }
             }
-
             m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
             //emit itemClicked();
         }
     });
-
     connect(m_pCustomizeListView, &QListView::customContextMenuRequested, this, &LeftListView::showMenu);
     connect(m_pMenu, &DMenu::triggered, this, &LeftListView::onMenuClicked);
     connect(m_pAddListBtn, &DPushButton::clicked, this, [ = ] {
@@ -222,11 +160,9 @@ void LeftListView::initConnections()
                                           ":/resources/images/sidebar/active/add_focus_dark.svg");
         }
     });
-
     connect(m_pMountListView, &LeftListWidget::sigMousePressIsNoValid, this, [ = ] {
         setFocusPolicy(Qt::ClickFocus);
     });
-
     connect(SignalManager::instance(), &SignalManager::updateLeftListview, this, &LeftListView::onUpdateLeftListview);
 }
 
@@ -622,7 +558,7 @@ void LeftListView::onUpdateLeftListview()
     }
 }
 
-void LeftListView::onMountListView(QModelIndex index)
+void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
 {
     Q_UNUSED(index);
     qDebug() << "m_pPhotoLibListView, &DListWidget::pressed";
@@ -638,7 +574,6 @@ void LeftListView::onMountListView(QModelIndex index)
         } else {
             item->newAlbumStatus(); //选中状态
         }
-
         if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
             m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
@@ -649,27 +584,69 @@ void LeftListView::onMountListView(QModelIndex index)
             m_ItemCurrentName = COMMON_STR_FAVORITES;
             m_ItemCurrentType = COMMON_STR_FAVORITES;
         }
-
         m_ItemCurrentDataType = pitem->type(); //default 0
     }
-
     m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
     m_pMountListView->setFocusPolicy(Qt::NoFocus);
     m_pPhotoLibListView->setFocus();
+    emit itemClicked();
+}
 
+void LeftListView::onCustomListViewPressed(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
+    m_pPhotoLibListView->clearSelection();
+    m_pMountListView->clearSelection();
+    updateAlbumItemsColor();
+    QListWidgetItem *plitem = m_pCustomizeListView->currentItem();
+    if (plitem) {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
+        auto list = m_pCustomizeListView->selectedItems(); //当前选中项
+        if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+            item->oriAlbumStatus();
+        } else {
+            item->newAlbumStatus();
+        }
+        m_ItemCurrentName = item->m_albumNameStr;
+        m_ItemCurrentDataType = plitem->type(); //default 0
+    }
+    m_ItemCurrentType = COMMON_STR_CUSTOM;
+    m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
+    m_pMountListView->setFocusPolicy(Qt::NoFocus);
+    m_pCustomizeListView->setFocus();
+    emit itemClicked();
+}
+
+void LeftListView::onMountListViewPressed(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    qDebug() << "m_pMountListView, &DListWidget::pressed";
+    m_pPhotoLibListView->clearSelection();
+    m_pCustomizeListView->clearSelection();
+    updateAlbumItemsColor();
+    QListWidgetItem *plitem = m_pMountListView->currentItem();
+    if (plitem) {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
+        auto list = m_pMountListView->selectedItems(); //当前选中项
+        if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
+            item->oriAlbumStatus();
+        } else {
+            item->newAlbumStatus();
+        }
+        m_ItemCurrentName = item->m_albumNameStr;
+        m_ItemCurrentDataType = plitem->type(); //default 0
+    }
+    m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
+    m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
+    m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
+    m_pMountListView->setFocus();
     emit itemClicked();
 }
 
 QString LeftListView::getNewAlbumName()
 {
-    const QString nan = tr("Unnamed");
-    int num = 1;
-    QString albumName = nan + QString::number(num);
-    while (DBManager::instance()->isAlbumExistInDB(albumName)) {
-        num++;
-        albumName = nan + QString::number(num);
-    }
-    return albumName;
+    return AlbumCreateDialog::getNewAlbumName("");
 }
 
 QString LeftListView::getItemCurrentName()
