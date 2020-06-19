@@ -45,7 +45,6 @@ private:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-
 signals:
     void itemClicked();
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
@@ -55,7 +54,10 @@ signals:
 public slots:
     void onMenuClicked(QAction *action);
     void onUpdateLeftListview();
-    void onMountListView(QModelIndex index);
+    void onPhotoLibListViewPressed(const QModelIndex &index);
+    void onCustomListViewPressed(const QModelIndex &index);
+    void onMountListViewPressed(const QModelIndex &index);
+
 public:
     // 照片库
     DLabel *m_pPhotoLibLabel;
