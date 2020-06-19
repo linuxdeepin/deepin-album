@@ -84,7 +84,8 @@ void AlbumCreateDialog::initUI()
     edit->setFixedSize(360, 36);
     edit->move(10, 79);
     //edit->setToolTipDuration(-1);
-    edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(edit, DFontSizeManager::T6, QFont::DemiBold);
+    //edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     //contentLayout->addWidget(edit);
     //按钮
