@@ -18,6 +18,7 @@
 #include "application.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 
 #include "widgets/pushbutton.h"
 #include "widgets/returnbutton.h"
@@ -1415,7 +1416,7 @@ bool TTBContent::setCurrentItem()
             m_rotateRBtn->setDisabled(true);
         } else {
 //            m_trashBtn->setDisabled(false);
-            if (utils::image::imageSupportSave(m_currentpath)) {
+            if (UnionImage_NameSpace::isImageSupportRotate(m_currentpath)) {
                 m_rotateLBtn->setDisabled(false);
                 m_rotateRBtn->setDisabled(false);
             } else {

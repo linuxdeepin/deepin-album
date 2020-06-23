@@ -21,6 +21,7 @@
 #include <FreeImage.h>
 #include "utils/imageutils.h"
 
+
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fileSuffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
     , m_suffix(fileSuffix)
@@ -42,12 +43,14 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fil
 //        });
 //        m_pTImer->start(100);
 //    } else {
-    m_movie = new QMovie(fileName);
-    QObject::connect(m_movie, &QMovie::frameChanged, this, [ = ] {
-        if (m_movie.isNull()) return;
-        setPixmap(m_movie->currentPixmap());
+    using namespace UnionImage_NameSpace;
+    //m_movie = new QMovie(fileName);
+    m_movie.setFileName(fileName);
+    m_pTImer = new QTimer(this);
+    connect(m_pTImer, &QTimer::timeout, this, [ = ] {
+        this->setPixmap(QPixmap::fromImage(m_movie++));
     });
-    m_movie->start();
+    m_pTImer->start(100);
     //}
 }
 
@@ -63,43 +66,26 @@ GraphicsMovieItem::~GraphicsMovieItem()
 //        m_pTImer->deleteLater();
 //        m_pTImer = nullptr;
 //    } else {
-    m_movie->stop();
-    m_movie->deleteLater();
-    m_movie = nullptr;
+
 //   }
+    m_pTImer->stop();
+    m_pTImer->deleteLater();
+    m_pTImer = nullptr;
 }
 
-/*!
- * \brief GraphicsMovieItem::isValid
- * There is a bug with QMovie::isValid() that is event if file's format not
- * supported this function still return true.
- * \return
- */
-bool GraphicsMovieItem::isValid() const
-{
-//    if (m_suffix.contains("gif")) {
-//        return utils::image::getGifImageCount(m_pGif) > 1;
-//    } else {
-    return m_movie->isValid();
-//    }
-}
+//bool GraphicsMovieItem::isValid() const
+//{
+//    return
+//}
 
 void GraphicsMovieItem::start()
 {
-//    if (m_suffix.contains("gif")) {
-//        m_pTImer->start(100);
-//    } else {
-    m_movie->start();
-//    }
+    m_pTImer->start(100);
 }
 
 void GraphicsMovieItem::stop()
 {
-//    if (m_suffix.contains("gif")) {
-//        m_pTImer->stop();
-//    } else {
-    m_movie->stop();
-//   }
+    m_pTImer->stop();
 }
 
 

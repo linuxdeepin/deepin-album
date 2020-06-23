@@ -22,6 +22,7 @@
 #include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 #include <QApplication>
 #include <QDebug>
 #include <QDesktopWidget>
@@ -477,7 +478,12 @@ QImage SlideShowPanel::getFitImage(const QString &path)
     const int dwh = dw->screenGeometry(window()).height();
 
     QImage ti(dww, dwh, QImage::Format_ARGB32);
-    QImage image = utils::image::getRotatedImage(path);
+//    QImage image = utils::image::getRotatedImage(path);
+    QImage image;
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, image, errMsg)) {
+        qDebug() << errMsg;
+    }
     QRectF source(0.0, 0.0, image.width(), image.height());
     QRectF target;
     if (1.0 * dww / dwh > 1.0 * image.width() / image.height()) {

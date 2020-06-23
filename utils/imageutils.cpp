@@ -17,7 +17,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 //#include "utils/imageutils_libexif.h"
-#include "utils/imageutils_freeimage.h"
+#include "utils/unionimage.h"
 #include <QBuffer>
 #include <QCryptographicHash>
 #include <QDebug>
@@ -91,7 +91,8 @@ bool imageSupportRead(const QString &path)
     if (errorList.indexOf(suffix.toUpper()) != -1) {
         return false;
     }
-    return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
+    //return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
+    return UnionImage_NameSpace::unionImageSupportFormat().contains(suffix.toUpper());
 }
 
 bool imageSupportSave(const QString &path)
@@ -131,82 +132,15 @@ bool imageSupportSave(const QString &path)
             || (QImageReader(path).imageCount() > 1 )) {
         return true;
     } else {
-        return freeimage::canSave(path);
+        return UnionImage_NameSpace::canSave(path);
     }
 }
 
-bool imageSupportWrite(const QString &path)
-{
-    return freeimage::isSupportsWriting(path);
-}
+//bool imageSupportWrite(const QString &path)
+//{
+//    return UnionImage_NameSpace::isSupportWritting(path);
+//}
 
-bool rotate(const QString &path, int degree)
-{
-    if (degree % 90 != 0)
-        return false;
-
-    int loadFlags = 0;
-    int saveFlags = 0;
-    bool bsaved = false;
-    FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
-    switch (int(fif)) {
-    case FIF_JPEG:
-        loadFlags = JPEG_ACCURATE;          // Load the file with the best quality, sacrificing some speed
-        saveFlags = JPEG_QUALITYSUPERB;     // Saves with superb quality (100:1)
-        break;
-    case FIF_JP2:
-        // Freeimage3.17 does not support special load flags for JP2
-        saveFlags = JP2_DEFAULT;            // Save with a 16:1 rate
-        break;
-    case FIF_BMP:
-        saveFlags = BMP_DEFAULT;            // Save without any compression
-        break;
-    case FIF_EXR:
-        saveFlags = EXR_NONE;               // Save with no compression
-        break;
-    case FIF_PNG:
-        saveFlags = PNG_DEFAULT;   // Save without ZLib compression
-        break;
-    }
-    //need Qt SVG to deal with svg image
-    const QString suffix = QFileInfo(path).suffix();
-    if (suffix.toUpper().compare("SVG") == 0) {
-//        QMatrix matrix;
-//        matrix.rotate(-degree);
-//        QImage image(path);
-//        image.transformed(matrix, Qt::SmoothTransformation);
-//        QPainter *painter = new QPainter;
-//        painter->drawImage(image.rect(), image);
-//        QSvgGenerator svgrender;
-//        svgrender.setFileName("/tmp/test.svg");
-
-    } else {
-        FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
-
-        FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
-
-        if (rotated) {
-            // Regenerate thumbnail if it's exits
-            // Image formats that currently support thumbnail saving are
-            // JPEG (JFIF formats), EXR, TGA and TIFF.
-            if (FreeImage_GetThumbnail(dib)) {
-                FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
-                FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
-                FreeImage_SetThumbnail(rotated, rotateThumb);
-                FreeImage_Unload(rotateThumb);
-            }
-        }
-        //write image to cover oringal one after rotating
-        bsaved = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
-
-        FreeImage_Unload(dib);
-        FreeImage_Unload(rotated);
-
-        // The thumbnail should regenerate by caller
-        removeThumbnail(path);
-    }
-    return bsaved;
-}
 
 /*!
  * \brief cutSquareImage
@@ -296,7 +230,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 
 const QString getOrientation(const QString &path)
 {
-    return freeimage::getOrientation(path);
+    return UnionImage_NameSpace::getOrientation(path);
 }
 
 /*!
@@ -336,7 +270,7 @@ const QImage getRotatedImage(const QString &path)
 
 const QMap<QString, QString> getAllMetaData(const QString &path)
 {
-    return freeimage::getAllMetaData(path);
+    return UnionImage_NameSpace::getAllMetaData(path);
 }
 
 const QPixmap cachePixmap(const QString &path)
@@ -756,18 +690,6 @@ QPixmap getDamagePixmap(bool bLight)
 }
 
 
-void *openGiffromPath(const QString &path)
-{
-    return freeimage::openGiffromPath(path);
-}
-int getGifImageCount(void *pGIF)
-{
-    return freeimage::getGifImageCount(pGIF);
-}
-QImage getGifImage(int index, void *pGIF)
-{
-    return freeimage::getGifImage(index, pGIF);
-}
 
 }  // namespace image
 

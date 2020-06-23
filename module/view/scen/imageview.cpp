@@ -37,10 +37,11 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
+#include "utils/unionimage.h"
 #include "application.h"
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
-#include "imageengine/imageenginethread.h"
+
 #include <imageengine/imageengineapi.h>
 
 #ifndef QT_NO_OPENGL
@@ -103,6 +104,7 @@ ImageView::ImageView(QWidget *parent)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
     , m_bLoadmemory(false)
+    , m_rotateControler(nullptr)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setScene(new QGraphicsScene(this));
@@ -164,6 +166,7 @@ ImageView::ImageView(QWidget *parent)
         setImage(m_path);
         m_isChangedTimer->stop();
     });
+
 }
 
 void ImageView::clear()
@@ -401,34 +404,50 @@ void ImageView::fitImage()
 
 void ImageView::rotateClockWise()
 {
-    const QString suffix = QFileInfo(m_path).suffix();
-    if (suffix.toUpper().compare("SVG") == 0) {
-        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-        imgSVGThread->setData(QStringList() << m_path, 90);
-        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
-        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-        imgSVGThread->start();
-    } else {
-        utils::image::rotate(m_path, 90);
-        setImage(m_path);
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+//    const QString suffix = QFileInfo(m_path).suffix();
+//    if (suffix.toUpper().compare("SVG") == 0) {
+//        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+//        imgSVGThread->setData(QStringList() << m_path, 90);
+//        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
+//        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+//        imgSVGThread->start();
+//    } else {
+//        utils::image::rotate(m_path, 90);
+//        setImage(m_path);
+//        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+//    }
+
+    QString errMsg;
+    if (!UnionImage_NameSpace::rotateImageFIle(90, m_path, errMsg)) {
+        qDebug() << errMsg;
+        return;
     }
+    setImage(m_path);
+
+    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
 }
 
 void ImageView::rotateCounterclockwise()
 {
-    const QString suffix = QFileInfo(m_path).suffix();
-    if (suffix.toUpper().compare("SVG") == 0) {
-        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-        imgSVGThread->setData(QStringList() << m_path, -90);
-        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
-        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-        imgSVGThread->start();
-    } else {
-        utils::image::rotate(m_path, - 90);
-        setImage(m_path);
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+//    const QString suffix = QFileInfo(m_path).suffix();
+//    if (suffix.toUpper().compare("SVG") == 0) {
+//        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+//        imgSVGThread->setData(QStringList() << m_path, -90);
+//        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
+//        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+//        imgSVGThread->start();
+//    } else {
+//        utils::image::rotate(m_path, - 90);
+//        setImage(m_path);
+//        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+//    }
+    QString errMsg;
+    if (!UnionImage_NameSpace::rotateImageFIle(-90, m_path, errMsg)) {
+        qDebug() << errMsg;
+        return;
     }
+    setImage(m_path);
+    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
 }
 
 void ImageView::centerOn(qreal x, qreal y)

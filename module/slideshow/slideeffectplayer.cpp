@@ -44,14 +44,14 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
 {
 //    QDesktopWidget *desktopWidget = QApplication::desktop();
 //    m_screenrect = desktopWidget->screenGeometry();
-QScreen *screen = QGuiApplication::primaryScreen();
-QRect m_screenrect = QRect(0, 0, 0, 0);
-qreal m_ratio = 1;
-m_screenrect = screen->availableGeometry();
-m_ratio = screen->devicePixelRatio();
-if ((static_cast<qreal>(m_screenrect.width()) * m_ratio) > 3000 || ((static_cast<qreal>(m_screenrect.height())) * m_ratio) > 3000) {
-    b_4k = true;
-}
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect m_screenrect = QRect(0, 0, 0, 0);
+    qreal m_ratio = 1;
+    m_screenrect = screen->availableGeometry();
+    m_ratio = screen->devicePixelRatio();
+    if ((static_cast<qreal>(m_screenrect.width()) * m_ratio) > 3000 || ((static_cast<qreal>(m_screenrect.height())) * m_ratio) > 3000) {
+        b_4k = true;
+    }
     connect(dApp->signalM, &SignalManager::updateButton, this, [ = ] {
         killTimer(m_tid);
         m_tid = 0;
@@ -190,7 +190,12 @@ bool SlideEffectPlayer::startNext()
     if (m_cacheImages.value(m_paths[current]).isNull()) {
         //return false;
         //lmh0427，如果还未加载，采用主线程去调用
-        QImage img = utils::image::getRotatedImage(m_paths[current]);
+        QImage img;
+        QString errMsg;
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(m_paths[current], img, errMsg)) {
+            qDebug() << errMsg;
+            return false;
+        }
         m_cacheImages[m_paths[current]] = img;
     }
 
@@ -238,7 +243,7 @@ bool SlideEffectPlayer::startNext()
         m_thread.start();
     }
 
-    connect(m_effect, &SlideEffect::frameReady, this, [=](const QImage &img) {
+    connect(m_effect, &SlideEffect::frameReady, this, [ = ](const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
@@ -283,7 +288,13 @@ bool SlideEffectPlayer::startPrevious()
     if (m_cacheImages.value(m_paths[current]).isNull()) {
         //return false;
         //lmh0427，如果还未加载，采用主线程去调用
-        QImage img = utils::image::getRotatedImage(m_paths[current]);
+        //QImage img = utils::image::getRotatedImage(m_paths[current]);
+        QImage img;
+        QString errMsg;
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(m_paths[current], img, errMsg)) {
+            qDebug() << errMsg;
+            return false;
+        }
         m_cacheImages[m_paths[current]] = img;
     }
 
@@ -325,7 +336,7 @@ bool SlideEffectPlayer::startPrevious()
     if (!m_thread.isRunning()) {
         m_thread.start();
     }
-    connect(m_effect, &SlideEffect::frameReady, this, [=](const QImage &img) {
+    connect(m_effect, &SlideEffect::frameReady, this, [ = ](const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
@@ -365,10 +376,10 @@ void SlideEffectPlayer::cacheNext()
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
-                this, [=](const QString path, const QImage img) {
-                    qDebug() << "m_cacheImages  next: " << path;
-                    m_cacheImages.insert(path, img);
-                });
+        this, [ = ](const QString path, const QImage img) {
+            qDebug() << "m_cacheImages  next: " << path;
+            m_cacheImages.insert(path, img);
+        });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
         t->start();
     }
@@ -387,10 +398,10 @@ void SlideEffectPlayer::cachePrevious()
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
-                this, [=](const QString path, const QImage img) {
-                    qDebug() << "m_cacheImages previous: " << path;
-                    m_cacheImages.insert(path, img);
-                });
+        this, [ = ](const QString path, const QImage img) {
+            qDebug() << "m_cacheImages previous: " << path;
+            m_cacheImages.insert(path, img);
+        });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
         t->start();
     }

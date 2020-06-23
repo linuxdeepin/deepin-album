@@ -23,6 +23,7 @@
 #include "scen/imageview.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 #include "widgets/dialogs/filedeletedialog.h"
 #include "widgets/printhelper.h"
 #include <DMenu>
@@ -374,7 +375,7 @@ void ViewPanel::updateMenuContent()
                      tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_currentpath)) {
+    if (UnionImage_NameSpace::isImageSupportRotate(m_currentpath)) {
         m_menu->addSeparator();
         if (QFileInfo(m_currentpath).isReadable() &&
                 !QFileInfo(m_currentpath).isWritable()) {
@@ -392,7 +393,7 @@ void ViewPanel::updateMenuContent()
         }
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_currentpath)) {
+    if (UnionImage_NameSpace::canSave(m_currentpath)) {
 //        appendAction(IdSetAsWallpaper,
 //                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
         appendAction(IdSetAsWallpaper,

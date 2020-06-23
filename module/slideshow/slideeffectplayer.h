@@ -16,6 +16,7 @@
  */
 #pragma once
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 #include "slideeffect.h"
 #include <QThread>
 #include <QMap>
@@ -35,7 +36,12 @@ signals:
 
 protected:
     void run() Q_DECL_OVERRIDE {
-        QImage img = utils::image::getRotatedImage(m_path);
+        QImage img;
+        QString errMsg;
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(m_path, img, errMsg))
+        {
+            qDebug() << errMsg;
+        }
         emit cached(m_path, img);
     }
 private:

@@ -18,6 +18,7 @@
 #define SVGVIEW_H
 #include "controller/viewerthememanager.h"
 #include "imagesvgitem.h"
+#include "imageengine/imageenginethread.h"
 
 #include <QGraphicsView>
 #include <QFutureWatcher>
@@ -147,6 +148,8 @@ private:
     bool m_bLoadmemory;
     CFileWatcher *m_imgFileWatcher;
     QTimer *m_isChangedTimer;
+
+    ImageRotateThreadControler *m_rotateControler;
 };
 
 class CFileWatcher: public QThread

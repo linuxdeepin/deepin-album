@@ -19,6 +19,7 @@
 #include "slideeffect.h"
 #include "controller/configsetter.h"
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 #include <QPainter>
 #include <QtCore/QTimerEvent>
 
@@ -404,7 +405,11 @@ void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
     next_path = nextPath;
     if (!next_image)
         next_image = new QImage();
-    *next_image = utils::image::getRotatedImage(next_path);//.copy();
+//    *next_image = utils::image::getRotatedImage(next_path);//.copy();
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(next_path, *next_image, errMsg)) {
+        qDebug() << errMsg;
+    }
     if (current_path.isEmpty()) {
         qDebug("The first image. create blank image");
         current_image = new QImage(next_image->size(), QImage::Format_ARGB32);
@@ -412,7 +417,10 @@ void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
     } else {
         if (!current_image)
             current_image = new QImage();
-        *current_image = utils::image::getRotatedImage(current_path);//.copy();
+//       *current_image = utils::image::getRotatedImage(current_path);//.copy();
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(current_path, *current_image, errMsg)) {
+            qDebug() << errMsg;
+        }
     }
 }
 

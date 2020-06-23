@@ -13,7 +13,7 @@ TARGET = deepin-album
 TEMPLATE = app
 QT += dtkwidget
 PKGCONFIG += dtkwidget gio-unix-2.0 gio-qt udisks2-qt5
-LIBS += -lfreeimage
+LIBS += -L$$PWD/lib/ -lUnionImage
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -88,11 +88,13 @@ HEADERS += \
     albumview/leftlistview.h \
     albumview/albumimagebutton.h \
     dtktest.h \
-    albumview/waitdevicedialog.h
+    albumview/waitdevicedialog.h \
+    utils/unionimage.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications
 isEmpty(DSRDIR):DSRDIR=/usr/share/album
+isEmpty(LIBDIR):LIBDIR=/usr/lib
 
 target.path = $$INSTROOT$$BINDIR
 
@@ -102,8 +104,10 @@ desktop.files = deepin-album.desktop
 icon_files.path = /usr/share/icons/hicolor/scalable/apps
 icon_files.files = $$PWD/resources/images/other/deepin-album.svg
 
+unionimagelib.path = $$INSTROOT$$LIBDIR
+unionimagelib.files = $$PWD/lib/libUnionImage.so
 
-INSTALLS += target desktop icon_files
+INSTALLS += target desktop icon_files unionimagelib
 
 RESOURCES += \
     resources.qrc \
@@ -123,4 +127,8 @@ CONFIG(release, debug|release) {
 }
 
 DISTFILES +=
+
+
+
+
 

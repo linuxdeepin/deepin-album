@@ -14,6 +14,7 @@
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 #include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
 #include "imageengine/imageenginethread.h"
@@ -1061,7 +1062,7 @@ void ThumbnailListView::updateMenuContents()
     }
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
     if (1 == paths.length()) { //单张照片
-        if (utils::image::imageSupportSave(paths[0]))
+        if (UnionImage_NameSpace::isImageSupportRotate(paths[0]))
             bflag_imageSupportSave = true;
     }
     if (bflag_imageSupportSave) {
@@ -1286,37 +1287,49 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateClockwise: {
-        for (QString path : paths) {
-            const QString suffix = QFileInfo(path).suffix();
-            if (suffix.toUpper().compare("SVG") == 0) {
-                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-                imgSVGThread->setData(QStringList() << path, 90);
-                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
-                    dApp->m_imageloader->updateImageLoader(path);
-                });
-                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-                imgSVGThread->start();
-            } else {
-                utils::image::rotate(path, 90);
-            }
+//        for (QString path : paths) {
+//            const QString suffix = QFileInfo(path).suffix();
+//            if (suffix.toUpper().compare("SVG") == 0) {
+//                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+//                imgSVGThread->setData(QStringList() << path, 90);
+//                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
+//                    dApp->m_imageloader->updateImageLoader(path);
+//                });
+//                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+//                imgSVGThread->start();
+//            } else {
+//                utils::image::rotate(path, 90);
+//            }
+//        }
+//        dApp->m_imageloader->updateImageLoader(paths);
+        QString errMsg;
+        if (!UnionImage_NameSpace::rotateImageFIle(90, path, errMsg)) {
+            qDebug() << errMsg;
+            return;
         }
         dApp->m_imageloader->updateImageLoader(paths);
     }
     break;
     case IdRotateCounterclockwise: {
-        for (QString path : paths) {
-            const QString suffix = QFileInfo(path).suffix();
-            if (suffix.toUpper().compare("SVG") == 0) {
-                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-                imgSVGThread->setData(QStringList() << path, -90);
-                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
-                    dApp->m_imageloader->updateImageLoader(path);
-                });
-                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-                imgSVGThread->start();
-            } else {
-                utils::image::rotate(path, -90);
-            }
+//        for (QString path : paths) {
+//            const QString suffix = QFileInfo(path).suffix();
+//            if (suffix.toUpper().compare("SVG") == 0) {
+//                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
+//                imgSVGThread->setData(QStringList() << path, -90);
+//                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
+//                    dApp->m_imageloader->updateImageLoader(path);
+//                });
+//                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
+//                imgSVGThread->start();
+//            } else {
+//                utils::image::rotate(path, -90);
+//            }
+//        }
+//        dApp->m_imageloader->updateImageLoader(paths);
+        QString errMsg;
+        if (!UnionImage_NameSpace::rotateImageFIle(90, path, errMsg)) {
+            qDebug() << errMsg;
+            return;
         }
         dApp->m_imageloader->updateImageLoader(paths);
     }

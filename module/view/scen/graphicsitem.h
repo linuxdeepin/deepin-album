@@ -17,6 +17,8 @@
 #ifndef GRAPHICSMOVIEITEM_H
 #define GRAPHICSMOVIEITEM_H
 
+#include "utils/unionimage.h"
+
 #include <QGraphicsPixmapItem>
 #include <QPointer>
 
@@ -30,9 +32,8 @@ public:
     void start();
     void stop();
 private:
-    QPointer <QMovie> m_movie;
+    UnionImage_NameSpace::UnionMovieImage m_movie;
     QString m_suffix;
-    void *m_pGif;
     QTimer *m_pTImer;
     int m_index;
 
