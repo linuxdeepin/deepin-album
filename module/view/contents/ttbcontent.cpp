@@ -63,18 +63,29 @@ const int THUMBNAIL_ADD_WIDTH = 32;
 const int THUMBNAIL_LIST_ADJUST = 9;
 const int THUMBNAIL_VIEW_DVALUE = 668;
 
+const int LOAD_LEFT_RIGHT = 25;     //前后加载图片数（动态）
+
 }  // namespace
 
 
 MyImageListWidget::MyImageListWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), m_timer(new QTimer(this))
 {
     setMouseTracking(true);
+    m_timer->setSingleShot(200);
 }
 
 bool MyImageListWidget::ifMouseLeftPressed()
 {
     return bmouseleftpressed;
+}
+
+QObject *MyImageListWidget::getObj()
+{
+    if (nullptr != m_obj) {
+        return m_obj;
+    }
+    return nullptr;
 }
 
 void MyImageListWidget::setObj(QObject *obj)
@@ -95,21 +106,64 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 
     if (e->type() == QEvent::MouseButtonRelease) {
         bmouseleftpressed = false;
+        int posX = dynamic_cast<DWidget *>(m_obj)->x();
+        int viewwidth = dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x();
+
+        //向右加载数据
+        if ((viewwidth - this->width()) < 32 && viewwidth - this->width() > -32) {
+            if (m_timer->isActive()) {
+                return false;
+            } else {
+                m_timer->start();
+                emit testloadRight();
+            }
+        }
+        //向左加载数据
+        if (posX > -32 && posX < 32) {
+            if (m_timer->isActive()) {
+                return false;
+            } else {
+                m_timer->start();
+                emit testloadLeft();
+            }
+        }
         emit mouseLeftReleased();
+
     }
     if (e->type() == QEvent::Leave && obj == m_obj) {
         bmouseleftpressed = false;
-        emit mouseLeftReleased();
+//        emit mouseLeftReleased();
     }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
+
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         QPoint p = mouseEvent->globalPos();
         dynamic_cast<DWidget *>(m_obj)->move((dynamic_cast<DWidget *>(m_obj))->x() + p.x() - m_prepoint.x(), ((dynamic_cast<DWidget *>(m_obj))->y()));
         m_prepoint = p;
-        if ((dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x() - this->width() - 30) < 0) {
-            emit needContinueRequest();
+        int posX = dynamic_cast<DWidget *>(m_obj)->x();
+        int viewwidth = dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x();
+
+        //向右加载数据
+        if ((viewwidth - this->width()) < 32 && viewwidth - this->width() > -32) {
+//            emit needContinueRequest();
+            if (m_timer->isActive()) {
+                return false;
+            } else {
+                m_timer->start();
+                emit testloadRight();
+            }
         } else {
             emit silmoved();
+        }
+
+        //向左加载数据
+        if (posX > -32 && posX < 32) {
+            if (m_timer->isActive()) {
+                return false;
+            } else {
+                m_timer->start();
+                emit testloadLeft();
+            }
         }
     }
     return false;
@@ -120,7 +174,6 @@ ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
 {
     _index = index;
     _path = data.dbi.filePath;
-//    qDebug() << index << _path;
     m_bPicNotSuppOrDamaged = data.imgpixmap.isNull();
     bool bLight = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType;
     _pixmap = m_bPicNotSuppOrDamaged ? utils::image::getDamagePixmap(bLight) : data.imgpixmap;
@@ -129,21 +182,6 @@ ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageItem::updateDmgIconByTheme);
 }
 
-//ImageItem::ImageItem(int index, QString path, QString imageType, QWidget *parent):
-//    DLabel(parent)
-//{
-//    _index = index;
-//    _path = path;
-////    QImage image(path,imageType);
-//    qDebug() << index << path;
-//    if (COMMON_STR_TRASH == imageType) {
-//        _pixmap = dApp->m_imagetrashmap.value(path);
-//    } else {
-//        _pixmap = dApp->m_imagemap.value(path);
-//    }
-
-//    _image = new DLabel(this);
-//}
 
 void ImageItem::setIndexNow(int i)
 {
@@ -173,8 +211,9 @@ void ImageItem::mousePressEvent(QMouseEvent *ev)
     QEventLoop loop;
     QTimer::singleShot(200, &loop, SLOT(quit()));
     loop.exec();
-    if (bmouserelease)
+    if (bmouserelease) {
         emit imageItemclicked(_index, _indexNow);
+    }
 }
 
 void ImageItem::paintEvent(QPaintEvent *event)
@@ -364,7 +403,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addStretch();
     //hb->addSpacing(ICON_SPACING * 5);
     connect(m_backButton, &DIconButton::clicked, this, [ = ] {
+        //2020/6/9 DJH 优化退出全屏，不再闪出退出全屏的间隙 31331
+        this->setVisible(false);
         emit dApp->signalM->hideImageView();
+        this->setVisible(true);
         emit dApp->signalM->sigPauseOrStart(false); //唤醒后台外设线程
         emit ttbcontentClicked();
     });
@@ -380,6 +422,17 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_preButton->hide();
 
     connect(m_preButton, &DIconButton::clicked, this, [ = ] {
+        //向左加载数据
+        int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+        if (posX > -32 && posX < 32)
+        {
+            if (m_imgListView->m_timer->isActive()) {
+                return;
+            } else {
+                m_imgListView->m_timer->start();
+                emit m_imgListView->testloadLeft();
+            }
+        }
         emit showPrevious();
         emit ttbcontentClicked();
     });
@@ -403,6 +456,18 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
 
     connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
+        int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+
+        //向右加载数据
+        if ((viewwidth - m_imgListView->width()) < 32 && viewwidth - m_imgListView->width() > -32)
+        {
+            if (m_imgListView->m_timer->isActive()) {
+                return;
+            } else {
+                m_imgListView->m_timer->start();
+                emit m_imgListView->testloadRight();
+            }
+        }
         emit showNext();
         emit ttbcontentClicked();
     });
@@ -472,10 +537,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
         if (true == m_bClBTChecked)
         {
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
+            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         } else
         {
-            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
+            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         }
 
         emit ttbcontentClicked();
@@ -515,6 +580,53 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 //    m_imgListView = new DWidget();
     m_imgListView = new MyImageListWidget(this);
     m_imgList = new DWidget(m_imgListView);
+    m_imgListView->setObj(m_imgList);
+    m_imgList->installEventFilter(m_imgListView);
+
+    connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
+        if (m_rightlist.isEmpty())
+            return ;
+        qDebug() << "请求加载右边图片";
+        QStringList loadRight;
+        for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
+        {
+            if (m_rightlist.isEmpty())
+                break;
+            ImageDataSt data;
+            if (ImageEngineApi::instance()->getImageData(m_rightlist.first(), data)) {
+                insertImageItem(data);
+                loadRight << m_rightlist.first();
+                m_rightlist.removeFirst();
+            }
+        }
+        m_allfileslist << loadRight;
+        m_filelist_size = m_allfileslist.size();
+//        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
+        emit sigloadRight(loadRight);
+
+    });
+    connect(m_imgListView, &MyImageListWidget::testloadLeft, this, [ = ] {
+        if (m_leftlist.isEmpty())
+            return;
+        qDebug() << "请求加载左边图片";
+        QStringList loadLeft;
+        for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
+        {
+            if (m_leftlist.isEmpty())
+                break;
+            ImageDataSt data;
+            if (ImageEngineApi::instance()->getImageData(m_leftlist.last(), data)) {
+                insertImageItem(data, false);
+                loadLeft << m_leftlist.last();
+                m_leftlist.removeLast();
+            }
+        }
+        for (const auto &path : loadLeft)
+            m_allfileslist.push_front(path);    //倒序放置
+        m_filelist_size = m_allfileslist.size();
+//        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadLeft.size());
+        emit sigloadLeft(loadLeft);
+    });
 
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
         m_imgList->hide();
@@ -564,8 +676,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         }
         m_imgList->move(movex, m_imgList->y());
     });
-    m_imgListView->setObj(m_imgList);
-    m_imgList->installEventFilter(m_imgListView);
+
     if (m_allfileslist.size() <= 3) {
         m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
@@ -585,10 +696,13 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
 
-    QPalette palette ;
-    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
-    m_imgList->setPalette(palette);
-    m_imgListView->setPalette(palette);
+//    QPalette palette(m_imgList->palette()) ;
+//    m_imgList->setAutoFillBackground(true);
+//    palette.setColor(QPalette::Background, Qt::red); // 最后一项为透明度
+//    m_imgList->setPalette(palette);
+//    m_imgListView->setPalette(palette);
+
+
     hb->addWidget(m_imgListView);
     hb->addSpacing(ICON_SPACING + 14);
 
@@ -603,17 +717,16 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addSpacing(10);
     m_fileNameLabel = new ElidedLabel();
 
-    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
+    connect(m_trashBtn, &DIconButton::clicked, this, [ = ] {
+        emit dApp->signalM->deleteByMenu();
+    });
+//    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
 
     connect(this, &TTBContent::sigRequestSomeImages, this, [ = ] {
         requestSomeImages();
     });
-
-    //当图片载入完毕，更新底部状态栏  2020/04/08 xiaolong
-    connect(dApp->signalM, &SignalManager::sigUpdateTTB, this, &TTBContent::updateScreen);
-
 }
 
 
@@ -629,13 +742,23 @@ void TTBContent::requestSomeImages()
     for (int i = 0; i < Number_Of_Displays_Per_Time; i++) {
         if (m_filesbeleft.size() <= 0) {
             brequestallfiles = true;
-            emit dApp->signalM->sigUpdateTTB();
+            updateScreen();
             return;
         }
         QString firstfilesbeleft = m_filesbeleft.first();
         m_filesbeleft.removeFirst();
         ImageEngineApi::instance()->reQuestImageData(firstfilesbeleft, this);
     }
+}
+
+void TTBContent::setRightlist(QStringList rightlist)
+{
+    m_rightlist = rightlist;
+}
+
+void TTBContent::setLeftlist(QStringList leftlist)
+{
+    m_leftlist = leftlist;
 }
 
 bool TTBContent::imageLoaded(QString filepath)
@@ -675,7 +798,8 @@ void TTBContent::updateScreen()
 
         m_imgListView->show();
         auto num = 32;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
+
         if (m_nowIndex > -1) {
             int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
             int b = m_ItemLoaded.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
@@ -690,19 +814,24 @@ void TTBContent::updateScreen()
                 m_startAnimation = 0;
             }
 
-            if (m_nowIndex < labelList.size())
-                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+            if (labelList.isEmpty())
+                return;
+
+            labelList.at(0)->setIndexNow(m_nowIndex);
 
             if (m_lastIndex > -1) {
-                labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
-                labelList.at(m_lastIndex)->resize(QSize(num, 40));
-                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex);
+                QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
+                if (lastlabelList.isEmpty()) {
+                    return;
+                }
+                lastlabelList.at(0)->setFixedSize(QSize(num, 40));
+                lastlabelList.at(0)->resize(QSize(num, 40));
+                lastlabelList.at(0)->setIndexNow(m_nowIndex);
             }
             if (labelList.size() > 0) {
-                labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
-                labelList.at(m_nowIndex)->resize(QSize(58, 58));
+                labelList.at(0)->setFixedSize(QSize(58, 58));
+                labelList.at(0)->resize(QSize(58, 58));
             }
-
 
             if (binsertneedupdate) {
                 if (1 == m_startAnimation) {
@@ -804,19 +933,24 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
         if (m_nowIndex > -1) {
 
+            if (labelList.isEmpty())
+                return;
             if (m_nowIndex < labelList.size())
-                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+                labelList.at(0)->setIndexNow(m_nowIndex);
             if (m_lastIndex > -1) {
-                labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
-                labelList.at(m_lastIndex)->resize(QSize(num, 40));
-                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex);
+                QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
+                if (lastlabelList.isEmpty())
+                    return;
+                lastlabelList.at(0)->setFixedSize(QSize(num, 40));
+                lastlabelList.at(0)->resize(QSize(num, 40));
+                lastlabelList.at(0)->setIndexNow(m_nowIndex);
             }
             if (labelList.size() > 0) {
-                labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
-                labelList.at(m_nowIndex)->resize(QSize(58, 58));
+                labelList.at(0)->setFixedSize(QSize(58, 58));
+                labelList.at(0)->resize(QSize(58, 58));
             }
 
 //            m_imgListView->show();
@@ -852,18 +986,24 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
         if (m_nowIndex > -1) {
+            if (labelList.isEmpty())
+                return;
             if (m_nowIndex < labelList.size())
-                labelList.at(m_nowIndex)->setIndexNow(m_nowIndex);
+                labelList.at(0)->setIndexNow(m_nowIndex);
             if (m_lastIndex > -1) {
-                labelList.at(m_lastIndex)->setFixedSize(QSize(num, 40));
-                labelList.at(m_lastIndex)->resize(QSize(num, 40));
-                labelList.at(m_lastIndex)->setIndexNow(m_nowIndex);
+                QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
+                if (lastlabelList.isEmpty()) {
+                    return;
+                }
+                lastlabelList.at(0)->setFixedSize(QSize(num, 40));
+                lastlabelList.at(0)->resize(QSize(num, 40));
+                lastlabelList.at(0)->setIndexNow(m_nowIndex);
             }
             if (labelList.size() > 0) {
-                labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
-                labelList.at(m_nowIndex)->resize(QSize(58, 58));
+                labelList.at(0)->setFixedSize(QSize(58, 58));
+                labelList.at(0)->resize(QSize(58, 58));
             }
 
 //            m_imgListView->show();
@@ -898,7 +1038,7 @@ void TTBContent::updateScreen()
 //        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
 //        setFixedWidth(m_contentWidth);
     }
-    m_windowWidth =  this->window()->geometry().width();
+    m_windowWidth = this->window()->geometry().width();
     if (m_ItemLoaded.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     } else if (m_ItemLoaded.size() <= 3) {
@@ -912,7 +1052,7 @@ void TTBContent::updateScreen()
 
 }
 
-void TTBContent::insertImageItem(const ImageDataSt& file)
+void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
 {
     int index = m_ItemLoaded.size();
     TTBContentData data;
@@ -924,12 +1064,50 @@ void TTBContent::insertImageItem(const ImageDataSt& file)
     imageItem->resize(QSize(32, 40));
     imageItem->installEventFilter(m_imgListView);
 
-    m_imglayout->addWidget(imageItem);
+    imageItem->setObjectName(QString("%1").arg(index));
+
+    if (bloadRight) //右侧加载
+        m_imglayout->addWidget(imageItem);
+    else {
+        m_imglayout->insertWidget(0, imageItem);
+        QList<ImageItem *> labelList1 = m_imgList->findChildren<ImageItem *>();
+        for (auto &lable : labelList1) {
+            if (lable->index() == index) { //刚添加进入的
+                lable->setIndex(0);     //设置索引为0
+                lable->setObjectName("0");
+            } else {
+                lable->setObjectName(QString("%1").arg(lable->index() + 1));
+                if (lable->indexNow() == lable->index()) { //当前已选中
+                    lable->setIndex(lable->index() + 1);
+                    lable->setIndexNow(lable->indexNow() + 1);
+                    m_lastIndex = lable->indexNow();
+                    m_nowIndex = lable->indexNow();
+//                    qDebug() << "name: " << lable->objectName() << "index: " << lable->index() << "indexnow: " << lable->indexNow();
+                } else {
+                    lable->setIndex(lable->index() + 1);    //索引加1
+                    lable->setIndexNow(-1);
+                }
+            }
+        }
+        int movex = m_imgList->x();
+        movex = movex - 32;
+        m_imgList->move(movex, m_imgList->y());
+
+        //已加载数据index全部加1
+        for (auto &contenData : m_ItemLoaded) {
+            if (contenData.index == index)
+                contenData.index = 0;
+            else
+                contenData.index++;
+        }
+    }
+
     connect(imageItem, &ImageItem::imageItemclicked, this, [ = ](int index, int indexNow) {
         binsertneedupdate = true;
         m_nowIndex = index;
         bfilefind = true;
         m_currentpath = imageItem->_path;
+        qDebug() << "单击：" << "index: " << index << "indexnow: " << indexNow << "path: " << m_currentpath;
         emit imageClicked(index, (index - indexNow));
         emit ttbcontentClicked();
     });
@@ -937,7 +1115,7 @@ void TTBContent::insertImageItem(const ImageDataSt& file)
         m_nowIndex = index;
         bfilefind = true;
         emit feedBackCurrentIndex(m_nowIndex, m_currentpath);
-        setCurrentItem();
+//        setCurrentItem();
     } else {
 //        if (binsertneedupdate)
 //        updateScreen();
@@ -1022,36 +1200,50 @@ void TTBContent::checkAdaptScreenBtn()
 void TTBContent::deleteImage()
 {
     m_ItemLoaded.remove(m_currentpath);
-    if(m_allfileslist.size() == 0)
+    if (m_allfileslist.size() == 0)
         return;
-    m_allfileslist.removeAt(m_nowIndex==-1?0:m_nowIndex);
+    m_allfileslist.removeAt(m_nowIndex == -1 ? 0 : m_nowIndex);
     m_allNeedRequestFilesCount = m_allfileslist.size();
 
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
 
     ImageItem *getim = nullptr;
-    for (ImageItem *im : labelList) {
-        if (im->index() == m_nowIndex) {
-            getim = im;
+
+    for (auto &lable : labelList) {
+        if (lable->index() == m_nowIndex) {
+            getim = lable;
         } else {
-            im->setIndexNow(m_nowIndex);
-            if (im->index_1(m_nowIndex)) {
-                QMap<QString, TTBContentData>::iterator it;
-                it = m_ItemLoaded.find(im->_path);
-                if (it != m_ItemLoaded.end()) {
-                    TTBContentData data = it.value();
-                    data.index--;
-                    m_ItemLoaded[im->_path] = data;
-                }
+            if (lable->index_1(m_nowIndex)) { //图片索引大于删除图片索引
+                m_ItemLoaded[lable->_path].index--;     //修改已加载图片索引
+                lable->setObjectName(QString("%1").arg(m_ItemLoaded[lable->_path].index));
             }
         }
     }
+
+//    for (ImageItem *im : labelList) {
+//        if (im->index() == m_nowIndex) {
+//            getim = im;
+//        } else {
+//            im->setIndexNow(m_nowIndex);
+//            if (im->index_1(m_nowIndex)) {
+//                QMap<QString, TTBContentData>::iterator it;
+//                it = m_ItemLoaded.find(im->_path);
+//                if (it != m_ItemLoaded.end()) {
+//                    TTBContentData data = it.value();
+//                    data.index--;
+//                    m_ItemLoaded[im->_path] = data;
+
+//                    im->setObjectName(QString("%1").arg(data.index));
+//                }
+//            }
+//        }
+//    }
 
     QList<ImageItem *> labelList1 = m_imgList->findChildren<ImageItem *>();
     if (m_allfileslist.size() > 0) {
         if (m_allfileslist.size() > m_nowIndex) {
             m_lastIndex = -1;
-            if(m_nowIndex > -1)
+            if (m_nowIndex > -1)
                 m_currentpath = m_allfileslist[m_nowIndex];
         } else {
             m_nowIndex = 0;
@@ -1077,26 +1269,10 @@ void TTBContent::deleteImage()
         getim = nullptr;
         updateScreen();
     }
-//    int windowWidth =  this->window()->geometry().width();
-////    int windowWidth = 1000;
-//    if (m_filelist_size <= 1) {
-//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-//    } else if (m_filelist_size <= 3) {
-//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-//        m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-//    } else {
-//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-//        m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-//    }
-//    setFixedWidth(m_contentWidth);
-    //2020/3/30 20:34   尚未解决 难复现
-    emit ttbcontentClicked();
-    emit removed();
 
-    //        qDebug() << "m_trashBtn:m_contentWidth==============" << m_contentWidth;
-    //        qDebug() << "m_trashBtn:m_imgListView.width==============" << m_imgListView->width();
+    emit ttbcontentClicked();
+    emit removed();     //删除数据库图片
+
 }
 
 void TTBContent::updateFilenameLayout()
@@ -1204,10 +1380,14 @@ void TTBContent::setImage(const QString &path)
         TTBContentData data = it.value();
         m_nowIndex = data.index;
         bfilefind = true;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+//        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
         ImageDataSt gdata;
-        if (ImageEngineApi::instance()->getImageData(m_currentpath, gdata))
-            labelList.at(m_nowIndex)->setPic(gdata.imgpixmap);
+        if (ImageEngineApi::instance()->getImageData(m_currentpath, gdata)) {
+            if (labelList.isEmpty())
+                return;
+            labelList.at(0)->setPic(gdata.imgpixmap);
+        }
         setCurrentItem();
     }
 //    emit dApp->signalM->hideBottomToolbar();
@@ -1260,7 +1440,7 @@ void TTBContent::updateCollectButton()
     if (m_currentpath.isEmpty()) {
         return;
     }
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath)) {
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_clBT->setIconSize(QSize(36, 36));

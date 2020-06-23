@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -139,18 +137,6 @@
     <message>
         <source>Ignore</source>
         <translation>忽略</translation>
-    </message>
-    <message>
-        <source>loading images，please wait...</source>
-        <translation type="vanished">正在加载图片，请稍候...</translation>
-    </message>
-    <message>
-        <source>loading end</source>
-        <translation type="vanished">加载完成</translation>
-    </message>
-    <message>
-        <source>loading photos，please wait...</source>
-        <translation type="vanished">正在加载图片，请稍候...</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
@@ -313,12 +299,16 @@
         <source>Restoring...</source>
         <translation>正在恢复照片...</translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation>照片库</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
@@ -343,14 +333,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
-    </message>
-</context>
-<context>
-    <name>ImageSVGConvertThread</name>
-    <message>
-        <source>/tmp/%1</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
@@ -569,7 +552,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation type="vanished">%1张照片</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -740,7 +723,7 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>名称</translation>
+        <translation>照片名称</translation>
     </message>
 </context>
 <context>
@@ -812,7 +795,7 @@
     </message>
     <message>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>%1年%2月%3日</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -824,15 +807,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
+        <translation type="vanished">%1年%2月%3日 %4</translation>
     </message>
     <message>
         <source>Import on </source>
+        <translation type="vanished">导入于</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
         <translation>导入于</translation>
     </message>
     <message>
-        <source>%1年%2月%3日 %4</source>
-        <translation type="unfinished"></translation>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1年%2月%3日 %4</translation>
     </message>
 </context>
 <context>

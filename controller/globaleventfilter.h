@@ -23,7 +23,7 @@ class GlobalEventFilter : public QObject
 {
     Q_OBJECT
 public:
-    explicit GlobalEventFilter(QObject *parent = 0);
+    explicit GlobalEventFilter(QObject *parent = nullptr);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;

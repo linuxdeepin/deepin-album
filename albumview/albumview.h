@@ -11,6 +11,7 @@
 #include "importtimelineview/importtimelineview.h"
 #include "leftlistview.h"
 #include "waitdevicedialog.h"
+#include "dialogs/albumdeletedialog.h"
 
 #include <QWidget>
 #include <QSplitter>
@@ -120,6 +121,12 @@ public:
         IdDeleteAlbum,
     };
 
+    enum AblumType {
+        photosType,
+        ablumType,
+        devType
+    };
+
     AlbumView();
     ~AlbumView() override;
 
@@ -203,6 +210,7 @@ public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
     QString m_currentType;
+    AblumType m_currentItemType = photosType;
     int m_selPicNum;
     bool m_itemClicked;
 
@@ -290,6 +298,8 @@ private:
 
     QListWidgetItem *m_TrashitemItem;
     DWidget *m_TrashTitle;
+
+    AlbumDeleteDialog *m_deleteDialog = nullptr;
 
     //add end 3975
 

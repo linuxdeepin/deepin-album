@@ -80,9 +80,9 @@ void ThreadRenderFrame::run()
 SlideEffect *SlideEffect::create(const EffectId &id)
 {
     if (id == EffectId()) {
-        srand(time(0));
+        srand(static_cast<uint>(time(nullptr)));
         int count = 0; // To avoid find no match effect
-        while (true || count < 100) {
+        while (true/* || count < 100*/) {
             QList<std::function<SlideEffect*()>> cs = effects.values();
             const int idx = rand() % cs.size();
             std::function<SlideEffect*()> c = cs.at(idx);
@@ -102,11 +102,11 @@ SlideEffect *SlideEffect::create(const EffectId &id)
             }
             count ++;
         }
-        return NULL;
+        //return NULL;
     }
     if (effects.contains(id))
         return effects.value(id)();
-    return NULL;
+    return nullptr;
 }
 
 void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
@@ -148,22 +148,22 @@ void SlideEffect::slotrenderFrameFinish(int num, QImage image)
 SlideEffect::~SlideEffect()
 {
 //    qDebug() << "------------SlideEffect start release";
-    disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
+//    disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 //    m_qf.waitForFinished();
 //    for (int i = 0; i < m_qflist.size(); i++) {
 //        m_qflist[i].waitForFinished();
 //    }
     if (current_image) {
         delete current_image;
-        current_image = 0;
+        current_image = nullptr;
     }
     if (next_image) {
         delete next_image;
-        next_image = 0;
+        next_image = nullptr;
     }
     if (frame_image) {
         delete frame_image;
-        frame_image = 0;
+        frame_image = nullptr;
     }
 //    qDebug() << "-------------SlideEffect end release";
 }
@@ -398,7 +398,6 @@ Qt::AspectRatioMode SlideEffect::aspectRatioMode() const
 {
     return mode;
 }
-
 void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
 {
     current_path = currentPath;
@@ -505,7 +504,7 @@ bool SlideEffect::isEndFrame(int frame)
     //if (frame>frames_total)
     //  return true;
     current_frame = frame;
-    progress_ = speed * (qreal)current_frame / (qreal)frames_total;
+    progress_ = speed * current_frame / frames_total;
 
     if (progress_ >= 1.0) {
         progress_ = 1.0; //It's important
@@ -535,7 +534,7 @@ void SlideEffect::renderFrame(SlideEffectThreadData &data)
 
     p.setClipRegion(mdata.next_region);
     p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
-    emit renderFrameFinish(mdata.num, image);
+//    emit renderFrameFinish(mdata.num, image);
 
 //    qDebug() << "-------renderFrame end num:" << data.num;
 }

@@ -25,8 +25,8 @@
 #include "widgets/cexportimagedialog.h"
 #include "application.h"
 
-
-class Exporter : public QObject {
+class Exporter : public QObject
+{
     Q_OBJECT
 public:
     static Exporter *instance();
@@ -36,7 +36,7 @@ public slots:
     void exportAlbum(const QStringList albumPaths, const QString &albumname);
     void popupDialogSaveImage(const QStringList imagePaths);
 private:
-    explicit Exporter(QObject *parent = 0);
+    explicit Exporter(QObject *parent = nullptr);
     static Exporter *m_exporter;
     QMap<QString, QString> m_picFormatMap;
 

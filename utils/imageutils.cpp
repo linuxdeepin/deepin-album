@@ -409,7 +409,7 @@ const QString thumbnailCachePath()
     return thumbCacheP;
 }
 
-QMutex mutex;
+static QMutex mutex;
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
     QMutexLocker locker(&mutex);
@@ -497,8 +497,6 @@ const QString thumbnailPath(const QString &path, ThumbnailType type)
         break;
     case ThumbFail:
         tp = cacheP + "/fail/" + md5s + ".png";
-        break;
-    default:
         break;
     }
     return tp;
@@ -644,9 +642,9 @@ const QImage loadTga(QString filePath, bool &success)
 
         fsPicture.close();
 
-        img = QImage(ui32Width, ui32Height, QImage::Format_RGB888);
+        img = QImage(static_cast<int>(ui32Width), static_cast<int>(ui32Height), QImage::Format_RGB888);
 
-        int pixelSize = ui32BpP == 32 ? 4 : 3;
+        unsigned int pixelSize = ui32BpP == 32 ? 4 : 3;
         //TODO: write direct into img
         for (unsigned int x = 0; x < ui32Width; x++) {
             for (unsigned int y = 0; y < ui32Height; y++) {
@@ -655,7 +653,7 @@ const QImage loadTga(QString filePath, bool &success)
                 int valb = vui8Pixels->at(y * ui32Width * pixelSize + x * pixelSize);
 
                 QColor value(valr, valg, valb);
-                img.setPixelColor(x, y, value);
+                img.setPixelColor(static_cast<int>(x), static_cast<int>(y), value);
             }
         }
 

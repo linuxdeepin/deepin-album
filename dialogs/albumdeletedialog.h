@@ -1,14 +1,18 @@
 #ifndef ALBUMDELETEDIALOG_H
 #define ALBUMDELETEDIALOG_H
 
-#include "dialog.h"
+#include <DWidget>
+#include <DDialog>
 
 
-class AlbumDeleteDialog : public Dialog
+DWIDGET_USE_NAMESPACE
+
+class AlbumDeleteDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit AlbumDeleteDialog();
+    explicit AlbumDeleteDialog(DWidget *parent = nullptr);
+    void iniUI();
 
 signals:
     void deleteAlbum();

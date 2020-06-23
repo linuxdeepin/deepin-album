@@ -36,7 +36,8 @@
 
 namespace {
 //LMH 500改200
-const int SWITCH_IMAGE_DELAY = 200;
+const int SWITCH_IMAGE_DELAY = 200;     //上一张下一张时间间隔
+const int DELETE_IMAGE_DELAY = 400;     //删除时间间隔
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const int VIEW_MAINWINDOW_POPVIEW = 4;
 
@@ -93,7 +94,7 @@ void ViewPanel::initPopupMenu()
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
-        if (this && this->isVisible())
+        if (/*this && */this->isVisible())
         {
             updateMenuContent();
         }
@@ -141,7 +142,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     switch (MenuItemId(id)) {
     case IdFullScreen:
     case IdExitFullScreen:
-        toggleFullScreen();
+        if (m_bFirstFullScreen)
+            emit dApp->signalM->hideImageView();
+        else {
+            toggleFullScreen();
+        }
         break;
     case IdStartSlideShow: {
         auto vinfo = m_vinfo;
@@ -185,18 +190,18 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             }
             DBManager::instance()->insertIntoAlbum(album, QStringList(path));
         } else {
-            emit dApp->signalM->viewModeCreateAlbum(path);
+            emit dApp->signalM->viewCreateAlbum(path, false);
         }
     }
     break;
     //收藏
     case IdAddToFavorites: {
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
     }
     break;
     //取消收藏
     case IdRemoveFromFavorites: {
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path));
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
     }
     break;
     //导出
@@ -277,10 +282,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
-//        if (m_isInfoShowed)
-//            emit dApp->signalM->hideExtensionPanel();
-//        else
-        //emit dApp->signalM->showExtensionPanel();
         emit dApp->signalM->showImageInfo(path);
         // Update panel info
         m_info->setImagePath(path);
@@ -357,7 +358,7 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
 #if 1
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath)) {
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), ss("favorite", "Ctrl+K"));       //收藏
@@ -439,6 +440,12 @@ void ViewPanel::initShortcut()
     m_dt = new QTimer(this);
     m_dt->setSingleShot(true);
     m_dt->setInterval(SWITCH_IMAGE_DELAY);
+
+    // Delay image toggle delete
+    m_deletetimer = new QTimer(this);
+    m_deletetimer->setSingleShot(true);
+    m_deletetimer->setInterval(DELETE_IMAGE_DELAY);
+
     QShortcut *sc = nullptr;
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);

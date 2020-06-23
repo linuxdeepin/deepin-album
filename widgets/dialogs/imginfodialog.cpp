@@ -15,26 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "imginfodialog.h"
-#include "application.h"
 #include "controller/signalmanager.h"
 #include "utils/imageutils.h"
 #include "widgets/formlabel.h"
 
-#include <QApplication>
-#include <QBoxLayout>
-#include <QDateTime>
-#include <QFileInfo>
+#include "dfmdarrowlineexpand.h"
+
 #include <QFormLayout>
-#include <QLabel>
-#include <QString>
-#include <QPushButton>
 #include <QLocale>
-#include <QScrollBar>
-#include <QtDebug>
 #include <DFontSizeManager>
+#include <QApplication>
 #include <DApplicationHelper>
-#include <DDialogCloseButton>
-#include <QGraphicsOpacityEffect>
+
 
 namespace {
 
@@ -43,16 +35,6 @@ struct MetaData {
     const char *name;
 };
 
-//static MetaData MetaDataBasics[] = {
-//    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo name")},
-//    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-//    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
-//    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
-//    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
-//    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
-//    {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
-//    {"", ""}
-//};
 static MetaData MetaDataBasics[] = {
     {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo name")},
 
@@ -87,43 +69,6 @@ static MetaData MetaDataDetails[] = {
 
 }  // namespace
 
-class DFMDArrowLineExpand : public DArrowLineExpand
-{
-public:
-    DFMDArrowLineExpand()
-    {
-        if (headerLine()) {
-            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
-
-            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-            headerLine()->setPalette(pa);
-            connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
-                DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-                pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-                headerLine()->setPalette(pa);
-            });
-
-            headerLine()->setLeftMargin(10);
-        }
-    }
-protected:
-    void paintEvent(QPaintEvent *event) override
-    {
-        Q_UNUSED(event);
-        QPainter painter(this);
-        QRectF bgRect;
-        bgRect.setSize(size());
-        const QPalette pal = QGuiApplication::palette();//this->palette();
-        QColor bgColor = pal.color(QPalette::Background);
-
-        QPainterPath path;
-        path.addRoundedRect(bgRect, 8, 8);
-        painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.fillPath(path, bgColor);
-        painter.setRenderHint(QPainter::Antialiasing, false);
-    }
-};
 
 
 ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
@@ -386,10 +331,10 @@ void ImgInfoDialog::updateDetailsInfo(const QMap<QString, QString> &infos)
     }
 }
 
-QList<DBaseExpand *> ImgInfoDialog::addExpandWidget(const QStringList &titleList)
+QList<DDrawer *> ImgInfoDialog::addExpandWidget(const QStringList &titleList)
 {
     QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
-    QList<DBaseExpand *> group;
+    QList<DDrawer *> group;
 
     for (const QString &title : titleList) {
         DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;//DArrowLineExpand;
@@ -400,7 +345,7 @@ QList<DBaseExpand *> ImgInfoDialog::addExpandWidget(const QStringList &titleList
 
     return group;
 }
-void ImgInfoDialog::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
+void ImgInfoDialog::initExpand(QVBoxLayout *layout, DDrawer *expand)
 {
     expand->setFixedHeight(30);
     QMargins cm = layout->contentsMargins();
@@ -437,7 +382,7 @@ int ImgInfoDialog::contentHeight() const
 //            atleastOneExpand = true;
 //        }
 //    }
-    for (const DBaseExpand *expand : m_expandGroup) {
+    for (const DDrawer *expand : m_expandGroup) {
         expandsHeight += expand->height();
     }
     return (50 + expandsHeight + contentsMargins().top() +
@@ -465,4 +410,13 @@ void ImgInfoDialog::paintEvent(QPaintEvent *event)
 }
 
 
+bool ImgInfoDialog::event(QEvent *event)
+{
+    if (event->type() == QEvent::ActivationChange) {
+        if (QApplication::activeWindow() != this) {
+            this->close();
+        }
+    }
+    return QWidget::event(event);
+}
 

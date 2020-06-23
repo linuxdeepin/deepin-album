@@ -161,44 +161,49 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
     admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
     admMap.unite(getMetaData(FIMD_IPTC, dib));
+    //移除秒　　2020/6/5 DJH
+    if (admMap.contains("DateTime")) {
+        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
+        admMap["DateTime"] = time.toString("yyyy/MM/dd HH:mm");
+    }
     // Basic extended data
     QFileInfo info(path);
     if (admMap.isEmpty()) {
-        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
+        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
     } else {
         // ReFormat the date-time
         using namespace utils::base;
         // Exif version 0231
         QString qsdto = admMap.value("DateTimeOriginal");
         QString qsdtd = admMap.value("DateTimeDigitized");
-        QDateTime ot = stringToDateTime(qsdto);
-        QDateTime dt = stringToDateTime(qsdtd);
+        QDateTime ot = QDateTime::fromString(qsdto, "yyyy/MM/dd HH:mm");
+        QDateTime dt = QDateTime::fromString(qsdtd, "yyyy/MM/dd HH:mm");
         if (! ot.isValid()) {
             // Exif version 0221
             QString qsdt = admMap.value("DateTime");
-            ot = stringToDateTime(qsdt);
+            ot = QDateTime::fromString(qsdt, "yyyy/MM/dd HH:mm");
             dt = ot;
 
             // NO valid date information
             if (! ot.isValid()) {
 //                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
-                admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm:dd"));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
+                admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
 
     }
 
 //    // The value of width and height might incorrect
     QImageReader reader(path);
     int w = reader.size().width();
-    w = w > 0 ? w : FreeImage_GetWidth(dib);
+    w = w > 0 ? w : static_cast<int>(FreeImage_GetWidth(dib));
     int h = reader.size().height();
-    h = h > 0 ? h : FreeImage_GetHeight(dib);
+    h = h > 0 ? h : static_cast<int>(FreeImage_GetHeight(dib));
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
 
     admMap.insert("FileName", info.fileName());
@@ -321,8 +326,8 @@ QImage FIBitmapToQImage(FIBITMAP *dib)
 {
     if (!dib || FreeImage_GetImageType(dib) != FIT_BITMAP)
         return noneQImage();
-    int width  = FreeImage_GetWidth(dib);
-    int height = FreeImage_GetHeight(dib);
+    int width = static_cast<int>(FreeImage_GetWidth(dib));
+    int height = static_cast<int>(FreeImage_GetHeight(dib));
     switch (FreeImage_GetBPP(dib)) {
     case 1: {
         QImage result(width, height, QImage::Format_Mono);
@@ -414,7 +419,7 @@ void *openGiffromPath(const QString &path)
  */
 int getGifImageCount(void *pGIF)
 {
-    return FreeImage_GetPageCount((FIMULTIBITMAP *)pGIF);
+    return FreeImage_GetPageCount(static_cast<FIMULTIBITMAP *>(pGIF));
 }
 /**
  * @brief getGifImage
@@ -427,9 +432,9 @@ int getGifImageCount(void *pGIF)
  */
 QImage getGifImage(int index, void *pGIF)
 {
-    FIBITMAP *tmpMap = FreeImage_LockPage((FIMULTIBITMAP *)pGIF, index);
+    FIBITMAP *tmpMap = FreeImage_LockPage(static_cast<FIMULTIBITMAP *>(pGIF), index);
     QImage image = freeimage::FIBitmapToQImage(tmpMap);
-    FreeImage_UnlockPage((FIMULTIBITMAP *)pGIF, tmpMap, 1);
+    FreeImage_UnlockPage(static_cast<FIMULTIBITMAP *>(pGIF), tmpMap, 1);
     return image;
 }
 }  // namespace freeimage

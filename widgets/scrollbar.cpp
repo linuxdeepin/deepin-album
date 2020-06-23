@@ -90,7 +90,7 @@ void ScrollBar::wheelEvent(QWheelEvent *e)
             m_directionFlag = e->delta();
         }
 
-        int offset = - e->delta() * 2.5;
+        int offset = static_cast<int>(- e->delta() * 2.5);
         if (m_animation->state() == QPropertyAnimation::Running) {
             m_speedTime += 0.4;
         } else {

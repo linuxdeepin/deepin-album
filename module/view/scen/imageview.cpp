@@ -38,14 +38,16 @@
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "application.h"
-#include "widgets/toast.h"
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
 #include "imageengine/imageenginethread.h"
+#include <imageengine/imageengineapi.h>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
 #endif
+
+#include <sys/inotify.h>
 
 DWIDGET_USE_NAMESPACE
 
@@ -56,7 +58,8 @@ const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
-const QSize SPINNER_SIZE = QSize(40, 40);
+const int MAX_WIDTH_HEIGHT = 3500;      //最大尺寸分辨率，超过则加载缩略图替换
+
 
 QVariantList cachePixmap(const QString &path)
 {
@@ -99,6 +102,7 @@ ImageView::ImageView(QWidget *parent)
 //    , m_svgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
+    , m_bLoadmemory(false)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setScene(new QGraphicsScene(this));
@@ -151,10 +155,14 @@ ImageView::ImageView(QWidget *parent)
         }
         update();
     });
-    //0415 open Pictrue
-    connect(dApp->signalM, &SignalManager::sigOpenPicture, this, [ = ](QString path) {
-        setImageFirst(path);
-        emit imageChanged(path);
+
+    m_imgFileWatcher = new CFileWatcher(this);
+    connect(m_imgFileWatcher, &CFileWatcher::fileChanged, this, &ImageView::onImgFileChanged);
+    m_isChangedTimer = new QTimer(this);
+    QObject::connect(m_isChangedTimer, &QTimer::timeout, this, [ = ] {
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+        setImage(m_path);
+        m_isChangedTimer->stop();
     });
 }
 
@@ -176,6 +184,8 @@ void ImageView::setImage(const QString &path)
         return;
     }
     m_path = path;
+    m_imgFileWatcher->clear();
+    m_imgFileWatcher->addWather(m_path);
     QString strfixL = QFileInfo(path).suffix().toLower();
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
@@ -229,131 +239,36 @@ void ImageView::setImage(const QString &path)
         } else {
             m_movieItem = nullptr;
             qDebug() << "Start cache pixmap: " << path;
-            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-            if (! m_watcher.isRunning()) {
-                f.waitForFinished();
-                qDebug() << "Finish cache pixmap: " << path;
-                m_watcher.setFuture(f);
-                emit hideNavigation();
-            }
-        }
-    }
-}
-
-void ImageView::setImageFirst(const QString &path)
-{
-    // Empty path will cause crash in release-build mode
-    if (path.isEmpty()) {
-        return;
-    }
-    m_path = path;
-    QString strfixL = QFileInfo(path).suffix().toLower();
-    QGraphicsScene *s = scene();
-    QFileInfo fi(path);
-
-    // The suffix of svf file should be svg
-    if ( strfixL == "svg" && DSvgRenderer().load(path)) {
-        m_movieItem = nullptr;
-//        m_pixmapItem = nullptr;
-        if (m_pixmapItem != nullptr) {
-            delete m_pixmapItem;
-            m_pixmapItem = nullptr;
-        }
-        s->clear();
-        resetTransform();
-
-        DSvgRenderer *svgRenderer = new DSvgRenderer;
-        svgRenderer->load(path);
-        m_imgSvgItem = new ImageSvgItem();
-        m_imgSvgItem->setSharedRenderer(svgRenderer);
-
-        setSceneRect(m_imgSvgItem->boundingRect());
-        s->addItem(m_imgSvgItem);
-        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
-
-        QSize image_size = image.size();
-
-        if ((image_size.width() >= width() ||
-                image_size.height() >= height()) &&
-                width() > 0 && height() > 0) {
-            fitWindow();
-        } else {
-            fitImage();
-        }
-
-
-    } else {
-        m_imgSvgItem = nullptr;
-        QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
-        //QMovie can't read frameCount of "mng" correctly,so change
-        //the judge way to solve the problem
-        if (fList.contains(strfixL.toUtf8().data())) {
-            if (m_pixmapItem != nullptr) {
-                delete m_pixmapItem;
-                m_pixmapItem = nullptr;
-            }
-
-            s->clear();
-            resetTransform();
-            m_movieItem = new GraphicsMovieItem(path, strfixL);
-            m_movieItem->start();
-            // Make sure item show in center of view after reload
-            setSceneRect(m_movieItem->boundingRect());
-            s->addItem(m_movieItem);
-            QSize image_size = m_movieItem->pixmap().size();
-
-            if ((image_size.width() >= width() ||
-                    image_size.height() >= height()) &&
-                    width() > 0 && height() > 0) {
-                fitWindow();
+            QImageReader imagreader(path);      //取原图的分辨率
+            int w = imagreader.size().width();
+            int h = imagreader.size().height();
+            if (w > MAX_WIDTH_HEIGHT || h > MAX_WIDTH_HEIGHT) { //分辨率较大
+                m_bLoadmemory = true;
             } else {
-                fitImage();
+                m_bLoadmemory = false;
+            }
+            if (m_bLoadmemory) {
+                scene()->clear();
+                resetTransform();
+                ImageDataSt data;   //内存中的数据
+                ImageEngineApi::instance()->getImageData(path, data);
+                QPixmap pix = data.imgpixmap.scaled(w, h, Qt::KeepAspectRatio); //缩放到原图大小
+                m_pixmapItem = new GraphicsPixmapItem(pix);
+                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+                // Make sure item show in center of view after reload
+                setSceneRect(m_pixmapItem->boundingRect());
+                scene()->addItem(m_pixmapItem);
+                autoFit();
+                emit imageChanged(path);
             }
 
-        } else {
-            m_movieItem = nullptr;
-            qDebug() << "Start cache pixmap: " << path;
-
-            QVariantList vl = cachePixmap(path);
-            if (vl.length() == 2) {
-                //const QString path = vl.first().toString();
-                QPixmap pixmap =  vl.last().value<QPixmap>();
-                pixmap.setDevicePixelRatio(devicePixelRatioF());
-                if (path == m_path) {
-                    if (m_pixmapItem != nullptr) {
-                        delete m_pixmapItem;
-                        m_pixmapItem = nullptr;
-                    }
-                    scene()->clear();
-                    resetTransform();
-                    m_pixmapItem = new GraphicsPixmapItem(pixmap);
-                    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-
-                    setSceneRect(m_pixmapItem->boundingRect());
-                    scene()->addItem(m_pixmapItem);
-
-                    QSize image_size = m_pixmapItem->pixmap().size();
-
-                    if ((image_size.width() >= width() ||
-                            image_size.height() >= height()) &&
-                            width() > 0 && height() > 0) {
-                        fitWindow();
-                    } else {
-                        fitImage();
-                    }
-                    //autoFit();
-                    //emit imageChanged(path);
-                }
+            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
+            if (m_watcher.isRunning()) {
+                m_watcher.cancel();
+                m_watcher.waitForFinished();
             }
-
-//            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-//            if (! m_watcher.isRunning()) {
-//                f.waitForFinished();
-//                qDebug() << "Finish cache pixmap: " << path;
-//                m_watcher.setFuture(f);
-
-//                emit hideNavigation();
-//            }
+            m_watcher.setFuture(f);
+            emit hideNavigation();
         }
     }
 }
@@ -411,8 +326,8 @@ void ImageView::setScaleValue(qreal v)
 void ImageView::autoFit()
 {
     //确认场景加载出来后，才能调用场景内的item
-    if (!scene()->isActive())
-        return;
+//    if (!scene()->isActive())
+//        return;
     if (image().isNull())
         return;
     QSize image_size = image().size();
@@ -516,7 +431,7 @@ void ImageView::rotateCounterclockwise()
     }
 }
 
-void ImageView::centerOn(int x, int y)
+void ImageView::centerOn(qreal x, qreal y)
 {
     QGraphicsView::centerOn(x, y);
     emit transformChanged();
@@ -566,7 +481,7 @@ QRect ImageView::mapToImage(const QRect &r) const
 
 QRect ImageView::visibleImageRect() const
 {
-    return mapToImage(rect()) & QRect(0, 0, sceneRect().width(), sceneRect().height());
+    return mapToImage(rect()) & QRect(0, 0, static_cast<int>(sceneRect().width()), static_cast<int>(sceneRect().height()));
 }
 
 bool ImageView::isWholeImageVisible() const
@@ -594,6 +509,13 @@ void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 #else
     Q_UNUSED(highQualityAntialiasing);
 #endif
+}
+
+void ImageView::onImgFileChanged(const QString &ddfFile, int tp)
+{
+    Q_UNUSED(ddfFile)
+    Q_UNUSED(tp)
+    m_isChangedTimer->start(200);
 }
 
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
@@ -701,35 +623,26 @@ void ImageView::onCacheFinish()
         QPixmap pixmap = vl.last().value<QPixmap>();
         pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
-            if (m_pixmapItem != nullptr) {
-                delete m_pixmapItem;
-                m_pixmapItem = nullptr;
+            if (m_bLoadmemory) {
+                if (!m_pixmapItem)
+                    return;
+                m_pixmapItem->setPixmap(pixmap);
+                autoFit();
+                this->update();
+            } else {
+                if (m_pixmapItem != nullptr) {
+                    delete m_pixmapItem;
+                    m_pixmapItem = nullptr;
+                }
+                scene()->clear();
+                resetTransform();
+                m_pixmapItem = new GraphicsPixmapItem(pixmap);
+                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+                // Make sure item show in center of view after reload
+                setSceneRect(m_pixmapItem->boundingRect());
+                scene()->addItem(m_pixmapItem);
+                emit imageChanged(path);
             }
-            scene()->clear();
-            resetTransform();
-            m_pixmapItem = new GraphicsPixmapItem(pixmap);
-            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-//            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
-//                if(isVisible())
-//                {
-//                    if(!m_pixmapItem){
-//                            qDebug()<<"onCacheFinish.............m_pixmapItem="<<m_pixmapItem;
-//                            update();
-//                            return;
-//                    }
-//                    if(scaledmode){
-//                        m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-//                    }else{
-//                        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-//                    }
-//                }
-//            });
-            // Make sure item show in center of view after reload
-            setSceneRect(m_pixmapItem->boundingRect());
-            scene()->addItem(m_pixmapItem);
-            autoFit();
-
-            emit imageChanged(path);
         }
     }
 }
@@ -806,4 +719,125 @@ void ImageView::wheelEvent(QWheelEvent *event)
     scaleAtPoint(event->pos(), factor);
 
     event->accept();
+}
+
+CFileWatcher::CFileWatcher(QObject *parent): QThread (parent)
+{
+    _handleId = inotify_init();
+}
+
+CFileWatcher::~CFileWatcher()
+{
+    clear();
+}
+
+bool CFileWatcher::isVaild()
+{
+    return (_handleId != -1);
+}
+
+void CFileWatcher::addWather(const QString &path)
+{
+    QMutexLocker loker(&_mutex);
+    if (!isVaild())
+        return;
+
+    QFileInfo info(path);
+    if (!info.exists() || !info.isFile()) {
+        return;
+    }
+
+    if (watchedFiles.find(path) != watchedFiles.end()) {
+        return;
+    }
+
+    std::string sfile = path.toStdString();
+    int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
+
+    watchedFiles.insert(path, fileId);
+    watchedFilesId.insert(fileId, path);
+
+    if (!_running) {
+        _running = true;
+        start();
+    }
+}
+
+void CFileWatcher::removePath(const QString &path)
+{
+    QMutexLocker loker(&_mutex);
+
+    if (!isVaild())
+        return;
+
+    auto itf = watchedFiles.find(path);
+    if (itf != watchedFiles.end()) {
+        inotify_rm_watch(_handleId, itf.value());
+
+        watchedFilesId.remove(itf.value());
+        watchedFiles.erase(itf);
+    }
+}
+
+void CFileWatcher::clear()
+{
+    QMutexLocker loker(&_mutex);
+
+    for (auto it : watchedFiles) {
+        inotify_rm_watch(_handleId, it);
+    }
+    watchedFilesId.clear();
+    watchedFiles.clear();
+}
+
+void CFileWatcher::run()
+{
+    doRun();
+}
+
+void CFileWatcher::doRun()
+{
+    if (!isVaild())
+        return;
+
+    char name[1024];
+    auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
+        char *offset = reinterpret_cast<char *>(dest);
+        while (remain) {
+            size_t n = fread(offset, 1, remain, file);
+            if (n == 0) {
+                return -1;
+            }
+
+            remain -= n;
+            offset += n;
+        }
+        return 0;
+    };
+
+    FILE *watcher_file = fdopen(_handleId, "r");
+
+    while (true) {
+        inotify_event event;
+        if ( -1 == freadsome(&event, sizeof(event), watcher_file) ) {
+            qWarning() << "------------- freadsome error !!!!!---------- ";
+        }
+        if (event.len) {
+            freadsome(name, event.len, watcher_file);
+        } else {
+            QMutexLocker loker(&_mutex);
+            auto itf = watchedFilesId.find(event.wd);
+            if (itf != watchedFilesId.end()) {
+                //qDebug() << "file = " << itf.value() << " event.wd = " << event.wd << "event.mask = " << event.mask;
+
+                if (event.mask & IN_MODIFY) {
+                    emit fileChanged(itf.value(), EFileModified);
+                } else if (event.mask & IN_MOVE_SELF) {
+                    emit fileChanged(itf.value(), EFileMoved);
+                } else if (event.mask & IN_DELETE_SELF) {
+                    emit fileChanged(itf.value(), EFileMoved);
+                }
+            }
+        }
+    }
 }

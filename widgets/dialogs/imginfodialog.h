@@ -18,20 +18,17 @@
 #define IMGINFODIALOG_H
 
 #include <DDialog>
-#include <DMainWindow>
-#include "controller/viewerthememanager.h"
-#include "widgets/themewidget.h"
-
-#include <QWidget>
-#include <QLabel>
-#include <QScrollArea>
-#include <QVector>
 #include <DScrollArea>
 #include <DArrowLineExpand>
+#include <DDrawer>
 #include <denhancedwidget.h>
+
 DWIDGET_USE_NAMESPACE
+
 class QFormLayout;
 class QVBoxLayout;
+class QWidget;
+
 class ImgInfoDialog : public DDialog
 {
     Q_OBJECT
@@ -46,8 +43,8 @@ private:
     const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
-    QList<DBaseExpand *> addExpandWidget(const QStringList &titleList);
-    void initExpand(QVBoxLayout *layout, DBaseExpand *expand);
+    QList<DDrawer *> addExpandWidget(const QStringList &titleList);
+    void initExpand(QVBoxLayout *layout, DDrawer *expand);
     int contentHeight() const;
 
 private:
@@ -61,11 +58,12 @@ private:
     QFrame *m_exif_details;
     QFormLayout *m_exifLayout_base;
     QFormLayout *m_exifLayout_details;
-    QList<DBaseExpand *> m_expandGroup;
+    QList<DDrawer *> m_expandGroup;
     QVBoxLayout *m_mainLayout;
     DScrollArea *m_scrollArea;
     void keyPressEvent(QKeyEvent *e) override;
     void paintEvent(QPaintEvent *event) override;
+    bool event(QEvent *event)override;
 signals:
     void closed();
 

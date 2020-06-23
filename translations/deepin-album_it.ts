@@ -297,12 +297,16 @@
         <source>Restoring...</source>
         <translation>Ripristino in corso...</translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galleria</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -327,14 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
-    </message>
-</context>
-<context>
-    <name>ImageSVGConvertThread</name>
-    <message>
-        <source>/tmp/%1</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -554,7 +551,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 immagine(i)</translation>
+        <translation type="vanished">%1 immagine(i)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -809,10 +806,14 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importa in</translation>
+        <translation type="vanished">Importa in</translation>
     </message>
     <message>
-        <source>%1年%2月%3日 %4</source>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

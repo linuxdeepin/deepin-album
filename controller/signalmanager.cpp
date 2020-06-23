@@ -16,10 +16,10 @@
  */
 #include "signalmanager.h"
 
-SignalManager * SignalManager::m_signalManager = NULL;
+SignalManager *SignalManager::m_signalManager = nullptr;
 SignalManager *SignalManager::instance()
 {
-    if (m_signalManager == NULL) {
+    if (m_signalManager == nullptr) {
         m_signalManager = new SignalManager;
     }
 

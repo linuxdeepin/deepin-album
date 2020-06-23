@@ -17,6 +17,7 @@ DGUI_USE_NAMESPACE
 class QSvgRenderer;
 class ImageSvgItemPrivate;
 
+
 class ImageSvgItem : public QGraphicsObject
 {
     Q_OBJECT
@@ -34,6 +35,7 @@ public:
     bool isCachingEnabled() const;
     void setMaximumCacheSize(const QSize &size);
     QSize maximumCacheSize() const;
+    void updateDefaultSize();
     QRectF boundingRect() const override;
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option,
@@ -44,6 +46,11 @@ public:
 private:
     Q_DISABLE_COPY(ImageSvgItem)
     Q_DECLARE_PRIVATE_D(QGraphicsItem::d_ptr.data(), ImageSvgItem)
+
+    DSvgRenderer *m_renderer;
+    QRectF m_boundingRect;
+    bool m_shared;
+    QString m_elemId;
 
 //    Q_PRIVATE_SLOT(d_func(), void _q_repaintItem())
 };

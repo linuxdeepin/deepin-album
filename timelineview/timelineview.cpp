@@ -208,7 +208,7 @@ void TimeLineView::initTimeLineViewWidget()
 //    m_mainListWidget->setStyleSheet("Background:blue");
 
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    m_mainListWidget->verticalScrollBar()->setSingleStep(5);
+    m_mainListWidget->verticalScrollBar()->setSingleStep(20);
     m_mainLayout->addWidget(m_mainListWidget);
     m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setFrameShape(DTableView::NoFrame);
@@ -288,6 +288,7 @@ void TimeLineView::initTimeLineViewWidget()
                     lastChanged = true;
                 }
             }
+            m_ctrlPress = true;
         } else
         {
             pSuspensionChose->setText(QObject::tr("Select"));
@@ -445,8 +446,8 @@ void TimeLineView::addTimelineLayout()
     pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     QStringList datelist = m_timelines.at(nowTimeLineLoad).split(".");
     if (datelist.count() > 2) {
-        listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-//       listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+//        listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
     }
     pDate->setText(listItem->m_sdate);
 

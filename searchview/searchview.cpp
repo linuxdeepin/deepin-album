@@ -7,7 +7,7 @@
 #include <QDebug>
 
 namespace {
-const int VIEW_MAINWINDOW_SEARCH = 3;
+//const int VIEW_MAINWINDOW_SEARCH = 3;
 }  //namespace
 
 

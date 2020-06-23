@@ -23,8 +23,9 @@
 #include <QMimeData>
 
 #if QT_VERSION >= 0x050500
-#define TIMER_SINGLESHOT(Time, Code, captured...){ \
-        QTimer::singleShot(Time, [captured] {Code});\
+#define TIMER_SINGLESHOT(Time, Code, captured, ...) \
+    { \
+        QTimer::singleShot(Time, [captured] { Code }); \
     }
 #else
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \
