@@ -275,9 +275,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdRotateCounterclockwise:
         rotateImage(false);
         break;
-    case IdSetAsWallpaper:
+    case IdSetAsWallpaper: {
+        qDebug() << "SettingWallpaper 1";
         dApp->wpSetter->setWallpaper(path);
         break;
+    }
     case IdDisplayInFileManager:
         emit dApp->signalM->showInFileManager(path);
         break;
