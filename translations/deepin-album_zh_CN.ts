@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -16,6 +18,14 @@
     <message>
         <source>New Album</source>
         <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="obsolete">确定</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="obsolete">新建相册</translation>
     </message>
 </context>
 <context>
@@ -264,6 +274,17 @@
     </message>
 </context>
 <context>
+    <name>DirImportDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">取消</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="obsolete">确定</translation>
+    </message>
+</context>
+<context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
@@ -286,6 +307,17 @@
     </message>
 </context>
 <context>
+    <name>FileDeleteDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="obsolete">删除</translation>
+    </message>
+</context>
+<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -301,7 +333,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
@@ -423,7 +455,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation type="vanished">未命名相册</translation>
     </message>
     <message>
         <source>Device</source>
@@ -821,6 +853,10 @@
         <source> %1-%2-%3 %4</source>
         <translation> %1年%2月%3日 %4</translation>
     </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -839,6 +875,93 @@
     <message>
         <source>Search results</source>
         <translation>搜索结果</translation>
+    </message>
+</context>
+<context>
+    <name>Shortcut</name>
+    <message>
+        <source>Album</source>
+        <translation type="obsolete">相册</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="obsolete">设置</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="obsolete">全屏</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="obsolete">幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="obsolete">复制</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="obsolete">删除</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="obsolete">从相册中移除</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="obsolete">收藏</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="obsolete">取消收藏</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="obsolete">顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="obsolete">逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="obsolete">设为壁纸</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="obsolete">在文件管理器中显示</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="obsolete">照片信息</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="obsolete">上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="obsolete">下一张</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="obsolete">新建相册</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="obsolete">重命名</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="obsolete">帮助</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="obsolete">退出</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation type="obsolete">显示快捷键</translation>
     </message>
 </context>
 <context>
