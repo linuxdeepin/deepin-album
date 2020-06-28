@@ -471,6 +471,7 @@ bool checkMimeData(const QMimeData *mimeData)
             return false;
         }
     }
+    return false;
 }
 
 
