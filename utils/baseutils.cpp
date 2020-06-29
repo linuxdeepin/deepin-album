@@ -371,8 +371,7 @@ QString symFilePath(const QString &path)
 
 QString hash(const QString &str)
 {
-    return QString(QCryptographicHash::hash(str.toUtf8(),
-                                            QCryptographicHash::Md5).toHex());
+    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
 }
 
 bool onMountDevice(const QString &path)
@@ -394,13 +393,12 @@ bool mountDeviceExist(const QString &path)
     }
     return QFileInfo(mountPoint).exists();
 }
-bool        isCommandExist(const QString &command)
+bool isCommandExist(const QString &command)
 {
     QProcess *proc = new QProcess;
     QString cm = QString("which %1\n").arg(command);
     proc->start(cm);
     proc->waitForFinished(1000);
-
     if (proc->exitCode() == 0) {
         return true;
     } else {
@@ -471,6 +469,7 @@ bool checkMimeData(const QMimeData *mimeData)
             return false;
         }
     }
+    return false;
 }
 
 
@@ -478,9 +477,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
     QImageReader reader;
     QPixmap pixmap;
-
     reader.setFileName(filePath);
-
     if (reader.canRead()) {
         const qreal ratio = dApp->devicePixelRatio();
         reader.setScaledSize(size * ratio);

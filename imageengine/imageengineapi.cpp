@@ -222,8 +222,19 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
 
 void ImageEngineApi::sltstopCacheSave()
 {
-    for (auto i : cacheThreads) {
-        i->stopThread();
+    cacheThreadPool.clear();
+//    for (auto i : cacheThreads) {
+//        i->stopThread();
+//    }
+    if (cacheThreadPool.activeThreadCount() > 0) {
+        for (int i = 0; i < cacheThreads.count(); i++) {
+            if (cacheThreads.at(i)) {
+                ImageCacheQueuePopThread *thread = dynamic_cast<ImageCacheQueuePopThread *>(cacheThreads.at(i));
+                if (nullptr != thread) {
+                    thread->stopThread();
+                }
+            }
+        }
     }
     cacheThreadPool.waitForDone();
 }
@@ -286,7 +297,7 @@ bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *o
 }
 bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
 {
-    sltImageDBLoaded(obj, QStringList() << path );
+    sltImageDBLoaded(obj, QStringList() << path);
     insertImage(path, "30");
     return true;
 }
