@@ -226,11 +226,13 @@ void ImageEngineApi::sltstopCacheSave()
 //    for (auto i : cacheThreads) {
 //        i->stopThread();
 //    }
-    for (int i = 0; i < cacheThreads.count(); i++) {
-        if (cacheThreads.at(i)) {
-            ImageCacheQueuePopThread *thread = dynamic_cast<ImageCacheQueuePopThread *>(cacheThreads.at(i));
-            if (nullptr != thread) {
-                thread->stopThread();
+    if (cacheThreadPool.activeThreadCount() > 0) {
+        for (int i = 0; i < cacheThreads.count(); i++) {
+            if (cacheThreads.at(i)) {
+                ImageCacheQueuePopThread *thread = dynamic_cast<ImageCacheQueuePopThread *>(cacheThreads.at(i));
+                if (nullptr != thread) {
+                    thread->stopThread();
+                }
             }
         }
     }
