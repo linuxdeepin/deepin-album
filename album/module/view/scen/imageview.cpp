@@ -87,7 +87,7 @@ QVariantList cachePixmap(const QString &path)
     QPixmap p = QPixmap::fromImage(tImg);
     if (QFileInfo(path).exists() && p.isNull()) {
         //判定为损坏图片
-        p = utils::image::getDamagePixmap (DApplicationHelper::instance ()->themeType () == DApplicationHelper::LightType);
+        p = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
     }
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
@@ -169,6 +169,16 @@ ImageView::ImageView(QWidget *parent)
 
 }
 
+ImageView::~ImageView()
+{
+    if (m_imgFileWatcher) {
+        m_imgFileWatcher->clear();
+        m_imgFileWatcher->terminate();
+        m_imgFileWatcher->wait();
+        m_imgFileWatcher->deleteLater();
+    }
+}
+
 void ImageView::clear()
 {
     if (m_pixmapItem != nullptr) {
@@ -194,7 +204,7 @@ void ImageView::setImage(const QString &path)
     QFileInfo fi(path);
 
     // The suffix of svf file should be svg
-    if ( strfixL == "svg" && DSvgRenderer().load(path)) {
+    if (strfixL == "svg" && DSvgRenderer().load(path)) {
         m_movieItem = nullptr;
 //        m_pixmapItem = nullptr;
         if (m_pixmapItem != nullptr) {
@@ -740,7 +750,7 @@ void ImageView::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
-CFileWatcher::CFileWatcher(QObject *parent): QThread (parent)
+CFileWatcher::CFileWatcher(QObject *parent): QThread(parent)
 {
     _handleId = inotify_init();
 }
@@ -838,7 +848,7 @@ void CFileWatcher::doRun()
 
     while (true) {
         inotify_event event;
-        if ( -1 == freadsome(&event, sizeof(event), watcher_file) ) {
+        if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
             qWarning() << "------------- freadsome error !!!!!---------- ";
         }
         if (event.len) {

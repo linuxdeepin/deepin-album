@@ -52,13 +52,7 @@ public:
     enum RendererType { Native, OpenGL };
 
     ImageView(QWidget *parent = nullptr);
-    ~ImageView() override
-    {
-//        if (m_pixmapItem != nullptr) {
-//            delete m_pixmapItem;
-//            m_pixmapItem = nullptr;
-//        }
-    }
+    ~ImageView() override;
     void clear();
     void fitWindow();
     void fitImage();
