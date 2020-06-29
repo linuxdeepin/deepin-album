@@ -25,7 +25,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}
 set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras OpenGL)
 
 # 查找Qt相关的库链接
-find_package(Qt5 REQUIRED ${QtModule})
+find_package(Qt5 COMPONENTS Test REQUIRED ${QtModule})
 
 # 包含源码文件夹
 include_directories(../album)
@@ -96,6 +96,7 @@ FILE (GLOB allSource
     "../album/utils/*.cpp"  "../album/utils/*.c"
     "../album/widgets/*.cpp"  "../album/widgets/*.c"
     "../album/widgets/dialogs/*.cpp"  "../album/widgets/dialogs/*.c"
+#    "./*.cpp"
     )
 FILE (GLOB allTestSource
     "./*.cpp" "./*.c")
@@ -125,6 +126,8 @@ FILE (GLOB allHeaders
     "../album/widgets/dialogs/*.hpp"  "../album/widgets/dialogs/*.h"
     )
 
+FILE (GLOB allTestHeaders
+    "./*.hpp" "./*.h")
 # 定义资源文件
 set(AllQRC
     ../album/resources.qrc
@@ -172,7 +175,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} )
 #------------------------------添加第三方库end-------------------------------------
 
-target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main)
+target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main Qt5Test)
 
 # 将工程与Qt模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})

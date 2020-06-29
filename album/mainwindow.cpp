@@ -2,6 +2,7 @@
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/snifferimageformat.h"
+#include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -839,9 +840,9 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->lower();
 
     m_pAllPicView = new AllPicView();           //所有照片界面
-    m_pAlbumview = new AlbumView();
-    m_pTimeLineView = new TimeLineView();
-    m_pSearchView = new SearchView();
+    m_pAlbumview = new AlbumView();             //相册界面
+    m_pTimeLineView = new TimeLineView();       //时间线界面
+    m_pSearchView = new SearchView();           //搜索界面
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
     m_slidePanel = new SlideShowPanel();
@@ -1135,8 +1136,8 @@ void MainWindow::onUpdateAllpicsNumLabel()
 void MainWindow::onImprotBtnClicked()
 {
     static QStringList sList;
-    for (const QByteArray &i : QImageReader::supportedImageFormats())
-        sList << "*." + QString::fromLatin1(i);
+    for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
+        sList << ("*." + i);
     QString filter = tr("All Photos");
     filter.append('(');
     filter.append(sList.join(" "));

@@ -2,13 +2,9 @@
 #include <gmock/gmock-matchers.h>
 #include "application.h"
 
-int sum(int a, int b)
-{
-    return a + b;
-}
 TEST(qqq, www)
 {
-    ASSERT_EQ(2, sum(1, 1));
+
 }
 
 

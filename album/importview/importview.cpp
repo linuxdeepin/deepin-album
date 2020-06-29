@@ -10,6 +10,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
+#include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
 
 ImportView::ImportView()
@@ -107,8 +108,8 @@ void ImportView::onImprotBtnClicked()
 {
     qDebug() << "ImportView::onImprotBtnClicked()";
     static QStringList sList;
-    for (const QByteArray &i : QImageReader::supportedImageFormats())
-        sList << "*." + QString::fromLatin1(i);
+    for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
+        sList << ("*." + i);
     QString filter = tr("All Photos");
     filter.append('(');
     filter.append(sList.join(" "));

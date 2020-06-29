@@ -466,18 +466,18 @@
 <context>
     <name>ImportView</name>
     <message>
-        <location filename="../album/importview/importview.cpp" line="57"/>
-        <location filename="../album/importview/importview.cpp" line="128"/>
+        <location filename="../album/importview/importview.cpp" line="58"/>
+        <location filename="../album/importview/importview.cpp" line="129"/>
         <source>Import Photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/importview/importview.cpp" line="64"/>
+        <location filename="../album/importview/importview.cpp" line="65"/>
         <source>Or drag photos here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/importview/importview.cpp" line="112"/>
+        <location filename="../album/importview/importview.cpp" line="113"/>
         <source>All Photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -546,224 +546,224 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../album/mainwindow.cpp" line="201"/>
+        <location filename="../album/mainwindow.cpp" line="202"/>
         <source>%1/%2 photos imported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="203"/>
+        <location filename="../album/mainwindow.cpp" line="204"/>
         <source>%1/%2 photos deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="223"/>
+        <location filename="../album/mainwindow.cpp" line="224"/>
         <source>Importing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="305"/>
+        <location filename="../album/mainwindow.cpp" line="306"/>
         <source>Album “%1” removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="337"/>
+        <location filename="../album/mainwindow.cpp" line="338"/>
         <source>Successfully added to “%1”</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="369"/>
+        <location filename="../album/mainwindow.cpp" line="370"/>
         <source>Import successful</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="405"/>
+        <location filename="../album/mainwindow.cpp" line="406"/>
         <source>Import failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="438"/>
+        <location filename="../album/mainwindow.cpp" line="439"/>
         <source>%1 photos imported, %2 photos failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="472"/>
-        <location filename="../album/mainwindow.cpp" line="538"/>
+        <location filename="../album/mainwindow.cpp" line="473"/>
+        <location filename="../album/mainwindow.cpp" line="539"/>
         <source>Export failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="505"/>
-        <location filename="../album/mainwindow.cpp" line="571"/>
+        <location filename="../album/mainwindow.cpp" line="506"/>
+        <location filename="../album/mainwindow.cpp" line="572"/>
         <source>Export successful</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="745"/>
-        <location filename="../album/mainwindow.cpp" line="1140"/>
+        <location filename="../album/mainwindow.cpp" line="746"/>
+        <location filename="../album/mainwindow.cpp" line="1141"/>
         <source>All Photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="756"/>
+        <location filename="../album/mainwindow.cpp" line="757"/>
         <source>Timelines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="768"/>
-        <location filename="../album/mainwindow.cpp" line="1638"/>
+        <location filename="../album/mainwindow.cpp" line="769"/>
+        <location filename="../album/mainwindow.cpp" line="1639"/>
         <source>Albums</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="796"/>
-        <location filename="../album/mainwindow.cpp" line="984"/>
-        <location filename="../album/mainwindow.cpp" line="1584"/>
+        <location filename="../album/mainwindow.cpp" line="797"/>
+        <location filename="../album/mainwindow.cpp" line="985"/>
+        <location filename="../album/mainwindow.cpp" line="1585"/>
         <source>New album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="803"/>
-        <location filename="../album/mainwindow.cpp" line="988"/>
+        <location filename="../album/mainwindow.cpp" line="804"/>
+        <location filename="../album/mainwindow.cpp" line="989"/>
         <source>Import photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1157"/>
+        <location filename="../album/mainwindow.cpp" line="1158"/>
         <source>Import Photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1512"/>
+        <location filename="../album/mainwindow.cpp" line="1513"/>
         <source>Fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1515"/>
+        <location filename="../album/mainwindow.cpp" line="1516"/>
         <source>Exit fullscreen/slideshow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1521"/>
+        <location filename="../album/mainwindow.cpp" line="1522"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1524"/>
+        <location filename="../album/mainwindow.cpp" line="1525"/>
         <source>Display shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1527"/>
+        <location filename="../album/mainwindow.cpp" line="1528"/>
         <source>Display in file manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1530"/>
+        <location filename="../album/mainwindow.cpp" line="1531"/>
         <source>Slide show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1533"/>
+        <location filename="../album/mainwindow.cpp" line="1534"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1536"/>
+        <location filename="../album/mainwindow.cpp" line="1537"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1539"/>
+        <location filename="../album/mainwindow.cpp" line="1540"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1542"/>
+        <location filename="../album/mainwindow.cpp" line="1543"/>
         <source>Select all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1545"/>
+        <location filename="../album/mainwindow.cpp" line="1546"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1548"/>
+        <location filename="../album/mainwindow.cpp" line="1549"/>
         <source>Delete photo/album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1551"/>
+        <location filename="../album/mainwindow.cpp" line="1552"/>
         <source>Photo info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1554"/>
+        <location filename="../album/mainwindow.cpp" line="1555"/>
         <source>Set as wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1557"/>
+        <location filename="../album/mainwindow.cpp" line="1558"/>
         <source>Rotate clockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1560"/>
+        <location filename="../album/mainwindow.cpp" line="1561"/>
         <source>Rotate counterclockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1566"/>
+        <location filename="../album/mainwindow.cpp" line="1567"/>
         <source>Zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1569"/>
+        <location filename="../album/mainwindow.cpp" line="1570"/>
         <source>Zoom out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1572"/>
+        <location filename="../album/mainwindow.cpp" line="1573"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1575"/>
+        <location filename="../album/mainwindow.cpp" line="1576"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1578"/>
+        <location filename="../album/mainwindow.cpp" line="1579"/>
         <source>Favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1581"/>
+        <location filename="../album/mainwindow.cpp" line="1582"/>
         <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1587"/>
+        <location filename="../album/mainwindow.cpp" line="1588"/>
         <source>Rename album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1590"/>
+        <location filename="../album/mainwindow.cpp" line="1591"/>
         <source>Page up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1593"/>
+        <location filename="../album/mainwindow.cpp" line="1594"/>
         <source>Page down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1635"/>
+        <location filename="../album/mainwindow.cpp" line="1636"/>
         <source>Photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../album/mainwindow.cpp" line="1641"/>
+        <location filename="../album/mainwindow.cpp" line="1642"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
