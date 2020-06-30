@@ -129,7 +129,8 @@ public:
         m_freeiamge_formats["RAS"]     =  FIF_RAS;
         m_freeiamge_formats["TGA"]     =  FIF_TARGA;
         m_freeiamge_formats["TARGA"]   =  FIF_TARGA;
-        //m_freeiamge_formats["TIFF"]    =  FIF_TIFF;//use qt
+        m_freeiamge_formats["TIF"]    =  FIF_TIFF;
+        m_freeiamge_formats["TIFF"]    =  FIF_TIFF;//use qt
         m_freeiamge_formats["WBMP"]    =  FIF_WBMP;
         m_freeiamge_formats["PSD"]     =  FIF_PSD;
         m_freeiamge_formats["CUT"]     =  FIF_CUT;
@@ -156,10 +157,11 @@ public:
         m_freeiamge_formats["JXR"]     =  FIF_JXR;
         m_movie_formats["MNG"]    =  FIF_MNG;
         m_movie_formats["GIF"]    =  FIF_GIF;
+//        m_movie_formats["TIF"]    =  FIF_TIFF;
 //        for (auto i : QImageReader::supportedImageFormats()) {
 //            m_qtSupported.append(QString(i));
 //        }
-        m_qtSupported << "JPG" << "SVG" << "ICNS" << "GIF" << "MNG";
+        m_qtSupported << "JPG" << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF" << "TIFF" << "BMP";
 //        m_qtSupported.removeOne("jpg");
 //        m_qtSupported.removeOne("jpeg");
         m_not_support_rotate_format << "PFM" << "HDR" << "GIF" << "MNG";
@@ -191,7 +193,7 @@ UNIONIMAGESHARED_EXPORT QImage noneQImage()
 UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
 {
     QStringList res = union_image_private.m_freeiamge_formats.keys();
-    for (QString i : union_image_private.m_qtSupported) {
+    for (const QString &i : union_image_private.m_qtSupported) {
         if (!res.contains(i))
             res.append(i);
     }
@@ -1067,9 +1069,9 @@ public:
     {
         CManagerAttributeService::getInstance()->setfilePathWithSignalPlay(path);
         QObject::connect(CManagerAttributeService::getInstance(), &CManagerAttributeService::emitImageSignal, this, [ = ](QImage image, bool isFirst) {
+            Q_UNUSED(isFirst);
             res = image;
         });
-
     }
 
     int getCurrent()

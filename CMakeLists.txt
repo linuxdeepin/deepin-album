@@ -136,8 +136,7 @@ set(AllQRC
 
 set(TargetTsFiles
     translations/deepin-album_zh_CN.ts
-    translations/cn.ts
-    translations/en.ts
+    translations/deepin-album.ts
     )
 
 # 设置不删除生成的文件夹内容文件

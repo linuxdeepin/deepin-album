@@ -38,8 +38,11 @@ void CManagerAttributeService::setfilePathWithSignalPlay(const QString &path)
         while (m_couldRun) {
             m_isFirst = true;
             gEffectGifFile = path;
-            GifLoadFile();
-            GifFrameShow();
+            int32_t ret = GifLoadFile();
+            if (ret >= 0) {
+                GifFrameShow();
+            }
+
         }
         GifFreeFile();
     });
@@ -261,7 +264,6 @@ int32_t CManagerAttributeService::GifFrameShow()
             break;
         }
     } while (gRecordType != TERMINATE_RECORD_TYPE);
-
     return ret;
 }
 
@@ -269,11 +271,9 @@ int32_t CManagerAttributeService::GifFrameShowSingle()
 {
     ColorMapObject *colorMap = nullptr;
     GifByteType *extension = nullptr;
-
     int32_t InterlacedOffset[] = { 0, 4, 2, 1 };  // The way Interlaced image should
     int32_t InterlacedJumps[] = { 8, 8, 4, 2 };   // be read - offsets and jumps...
     uint8_t rgbBuf[240 * 320] = {0};
-
     int32_t extCode = 0;
     int32_t row = 0;
     int32_t col = 0;
@@ -282,7 +282,6 @@ int32_t CManagerAttributeService::GifFrameShowSingle()
     int32_t iW = 0;
     int32_t iH = 0;
     int32_t ret = 0;
-
     if (gRecordType != TERMINATE_RECORD_TYPE) {
         switch (gRecordType) {
         case IMAGE_DESC_RECORD_TYPE: {
@@ -293,12 +292,10 @@ int32_t CManagerAttributeService::GifFrameShowSingle()
                 ret = -2;
                 break;
             }
-
             row = gpGifFile->Image.Top;
             col = gpGifFile->Image.Left;
             width = gpGifFile->Image.Width;
             height = gpGifFile->Image.Height;
-
             if (gpGifFile->Image.Interlace) {
                 for (iH = 0; iH < 4; iH++) {
                     for (iW = row + InterlacedOffset[iH]; iW < row + height; iW += InterlacedJumps[iH]) {
@@ -310,14 +307,12 @@ int32_t CManagerAttributeService::GifFrameShowSingle()
                     DGifGetLine(gpGifFile, &gpScreenBuffer[row++][col], width);
                 }
             }
-
             colorMap = (gpGifFile->Image.ColorMap ?
                         gpGifFile->Image.ColorMap : gpGifFile->SColorMap);
             if (colorMap == nullptr) {
                 ret = -3;
                 break;
             }
-
             GifScreenBufferToRgb888(colorMap, rgbBuf, gpScreenBuffer,
                                     gpGifFile->SWidth, gpGifFile->SHeight, tras);
             //QImage img((uchar *)rgbBuf, gpGifFile->SWidth, gpGifFile->SHeight, QImage::Format_RGB32);
@@ -338,7 +333,6 @@ int32_t CManagerAttributeService::GifFrameShowSingle()
                 else
                     tras = (int)extension[4];
             }
-
             while (extension != NULL) {
                 if (!m_couldRun) {
                     break;

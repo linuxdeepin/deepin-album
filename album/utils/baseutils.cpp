@@ -26,9 +26,6 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QDesktopServices>
-//#include <QDBusInterface>
-//#include <QDBusPendingCall>
-//#include <QDBusPendingCallWatcher>
 #include <QDir>
 #include <QFontMetrics>
 #include <QFileInfo>

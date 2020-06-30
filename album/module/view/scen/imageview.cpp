@@ -66,28 +66,31 @@ QVariantList cachePixmap(const QString &path)
 {
     QImage tImg;
 
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        }
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-                       << format;
-            tImg = QImage(path);
-        }
-    }
+//    QString format = DetectImageFormat(path);
+//    if (format.isEmpty()) {
+//        QImageReader reader(path);
+//        reader.setAutoTransform(true);
+//        if (reader.canRead()) {
+//            tImg = reader.read();
+//        }
+//    } else {
+//        QImageReader readerF(path, format.toLatin1());
+//        readerF.setAutoTransform(true);
+//        if (readerF.canRead()) {
+//            tImg = readerF.read();
+//        } else {
+//            qWarning() << "can't read image:" << readerF.errorString()
+//                       << format;
+//            tImg = QImage(path);
+//        }
+//    }
+    QString errMsg;
+    UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg);
     QPixmap p = QPixmap::fromImage(tImg);
     if (QFileInfo(path).exists() && p.isNull()) {
         //判定为损坏图片
         p = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
+        qDebug() << errMsg;
     }
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);

@@ -303,7 +303,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Gallery</translation>
+        <translation type="obsolete">Gallery</translation>
     </message>
 </context>
 <context>
@@ -425,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation type="vanished">Unnamed</translation>
     </message>
     <message>
         <source>Device</source>
@@ -821,6 +821,10 @@
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Imported on </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
