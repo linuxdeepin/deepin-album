@@ -122,8 +122,10 @@ private:
     CommandLine *m_commandLine;
 
     AlbumView *m_pAlbumview;                    //相册照片界面视图
+    QWidget *m_pAlbumWidget;
     AllPicView *m_pAllPicView;                  //所有照片界面视图
     TimeLineView *m_pTimeLineView;              //时间线界面视图
+    QWidget *m_pTimeLineWidget;
     SearchView *m_pSearchView;                  //搜索界面视图
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
 

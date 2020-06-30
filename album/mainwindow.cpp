@@ -49,8 +49,10 @@ MainWindow::MainWindow()
     , m_pCenterWidget(nullptr)
     , m_commandLine(nullptr)
     , m_pAlbumview(nullptr)
+    , m_pAlbumWidget(nullptr)
     , m_pAllPicView(nullptr)
     , m_pTimeLineView(nullptr)
+    , m_pTimeLineWidget(nullptr)
     , m_pSearchView(nullptr)
     , m_slidePanel(nullptr)
     , m_pDBManager(nullptr)
@@ -71,7 +73,10 @@ MainWindow::MainWindow()
     initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
+    QTime t;
+    t.start();
     initCentralWidget();
+    qDebug() << "zy**********initCentralWidget = " << t.elapsed();
     initShortcut();
     initConnections();
     initDBus();
@@ -111,11 +116,30 @@ void MainWindow::initConnections()
             allPicBtnClicked();
             m_pSearchEdit->setVisible(true);
         }
+        int index = 0;
         if (1 == id) {
+            if (nullptr == m_pTimeLineView) {
+                m_pCenterWidget->removeWidget(m_pTimeLineWidget);
+                index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+                m_pTimeLineView = new TimeLineView();
+                m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+            }
             timeLineBtnClicked();
             m_pSearchEdit->setVisible(true);
         }
         if (2 == id) {
+            if (nullptr == m_pAlbumview) {
+                if (nullptr == m_pTimeLineView) {
+                    m_pCenterWidget->removeWidget(m_pTimeLineWidget);
+                    index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+                    m_pTimeLineView = new TimeLineView();
+                    m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+                }
+                m_pCenterWidget->removeWidget(m_pAlbumWidget);
+                index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
+                m_pAlbumview = new AlbumView();
+                m_pCenterWidget->insertWidget(index, m_pAlbumview);
+            }
             albumBtnClicked();
             // 如果是最近删除或者移动设备,则搜索框不显示
             if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex()) {
@@ -840,16 +864,20 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->lower();
 
     m_pAllPicView = new AllPicView();           //所有照片界面
-    m_pAlbumview = new AlbumView();             //相册界面
-    m_pTimeLineView = new TimeLineView();       //时间线界面
+    m_pAlbumWidget = new QWidget();
+    m_pTimeLineWidget = new QWidget();
+    //m_pAlbumview = new AlbumView();             //相册界面
+    //m_pTimeLineView = new TimeLineView();       //时间线界面
     m_pSearchView = new SearchView();           //搜索界面
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
     m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pAllPicView);
-    m_pCenterWidget->addWidget(m_pTimeLineView);
-    m_pCenterWidget->addWidget(m_pAlbumview);
+    //m_pCenterWidget->addWidget(m_pTimeLineView);
+    //m_pCenterWidget->addWidget(m_pAlbumview);
+    m_pCenterWidget->addWidget(m_pTimeLineWidget);
+    m_pCenterWidget->addWidget(m_pAlbumWidget);
     m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->addWidget(m_slidePanel);
@@ -943,6 +971,13 @@ void MainWindow::allPicBtnClicked()
 //显示时间线照片
 void MainWindow::timeLineBtnClicked()
 {
+    int index = 0;
+    if (nullptr == m_pTimeLineView) {
+        m_pCenterWidget->removeWidget(m_pTimeLineWidget);
+        index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+        m_pTimeLineView = new TimeLineView();
+        m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+    }
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clearEdit();
     m_SearchKey.clear();
@@ -956,6 +991,19 @@ void MainWindow::timeLineBtnClicked()
 //显示相册
 void MainWindow::albumBtnClicked()
 {
+    int index = 0;
+    if (nullptr == m_pAlbumview) {
+        if (nullptr == m_pTimeLineView) {
+            m_pCenterWidget->removeWidget(m_pTimeLineWidget);
+            index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+            m_pTimeLineView = new TimeLineView();
+            m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+        }
+        m_pCenterWidget->removeWidget(m_pAlbumWidget);
+        index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
+        m_pAlbumview = new AlbumView();
+        m_pCenterWidget->insertWidget(index, m_pAlbumview);
+    }
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clearEdit();
     m_SearchKey.clear();
