@@ -226,7 +226,7 @@ void ImageView::setImage(const QString &path)
 //        m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
 //        m_svgItem->setCacheMode(QGraphicsItem::NoCache);
 //        m_svgItem->setZValue(0);
-        // Make sure item show in center of view after reload
+//        Make sure item show in center of view after reload
 //        setSceneRect(m_svgItem->boundingRect());
 //        s->addItem(m_svgItem);
         setSceneRect(m_imgSvgItem->boundingRect());
@@ -235,10 +235,10 @@ void ImageView::setImage(const QString &path)
 
     } else {
         m_imgSvgItem = nullptr;
-        QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
+        QStringList fList =  UnionImage_NameSpace::supportMovieFormat(); //"gif","mng"
         //QMovie can't read frameCount of "mng" correctly,so change
         //the judge way to solve the problem
-        if (fList.contains(strfixL.toUtf8().data())) {
+        if (fList.contains(strfixL.toUtf8().toUpper().data())) {
             if (m_pixmapItem != nullptr) {
                 delete m_pixmapItem;
                 m_pixmapItem = nullptr;
