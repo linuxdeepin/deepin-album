@@ -62,6 +62,7 @@ void CManagerAttributeService::setCouldRun(bool couldRun)
 {
     m_couldRun = couldRun;
     if (nullptr != m_th) {
+        m_th->quit();
         m_th->wait();
     }
 }
@@ -373,7 +374,7 @@ void CManagerAttributeService::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
                                                        int alphaIndex)
 {
     Q_UNUSED(inRgb);
-    if (first.isNull()) {
+    if (m_isFirst) {
         first = QImage(ScreenWidth, ScreenHeight, QImage::Format_RGB32);
         m_isFirst = false;
     }
