@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.2 (81672) - https://sketch.com -->
+    <title>icon_import_checked</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="btn状态" transform="translate(-1599.000000, -356.000000)">
+            <g id="icon_import_checked" transform="translate(1599.000000, 356.000000)">
+                <polygon id="Stroke-1" stroke-opacity="0.00784313771" stroke="#000000" stroke-width="1.33333335e-11" points="0 0 23.9999985 0 23.9999985 23.9999985 0 23.9999985"></polygon>
+                <path d="M12,11 L12,7 L11,7 L11,11 L11,12 L17,12 L17,11 L12,11 Z M11.5,20 C6.80557963,20 3,16.1944204 3,11.5 C3,6.80557963 6.80557963,3 11.5,3 C16.1944204,3 20,6.80557963 20,11.5 C20,16.1944204 16.1944204,20 11.5,20 Z" id="Combined-Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
