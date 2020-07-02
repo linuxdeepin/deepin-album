@@ -129,8 +129,8 @@ public:
         m_freeiamge_formats["RAS"]     =  FIF_RAS;
         m_freeiamge_formats["TGA"]     =  FIF_TARGA;
         m_freeiamge_formats["TARGA"]   =  FIF_TARGA;
-        m_freeiamge_formats["TIF"]    =  FIF_TIFF;
         m_freeiamge_formats["TIFF"]    =  FIF_TIFF;//use qt
+        m_freeiamge_formats["TIF"]    =  FIF_TIFF;//use qt
         m_freeiamge_formats["WBMP"]    =  FIF_WBMP;
         m_freeiamge_formats["PSD"]     =  FIF_PSD;
         m_freeiamge_formats["CUT"]     =  FIF_CUT;
@@ -591,8 +591,13 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
 //        errorMsg = "dynamic Image";
 //        return false;
 //    }
+    bool isSameFormat = true;
     if (f != FIF_UNKNOWN && f != union_image_private.m_freeiamge_formats[file_suffix_upper]) {
+        isSameFormat = false;
         file_suffix_upper = union_image_private.m_freeiamge_formats.key(f);
+    }
+    if (f == FIF_TIFF) {
+        file_suffix_upper = "TIFF";
     }
     QString file_suffix_lower = file_suffix_upper.toLower();
     if (union_image_private.m_qtSupported.contains(file_suffix_upper)) {
@@ -604,6 +609,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
         } else {
             reader.setFormat(format_bar.toLatin1());
         }
+        reader.setAutoTransform(true);
         res_qt = reader.read();
         if (res_qt.isNull()) {
             errorMsg = "load image by qt faild, use format:" + format_bar.toLatin1() + " ,path:" + path;
