@@ -73,6 +73,12 @@ void ImportView::initUI()
     setLayout(pImportFrameLayout);
 }
 
+void ImportView::mousePressEvent(QMouseEvent *e)
+{
+    setFocus();
+    DWidget::mousePressEvent(e);
+}
+
 void ImportView::dragEnterEvent(QDragEnterEvent *e)
 {
     const QMimeData *mimeData = e->mimeData();
