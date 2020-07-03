@@ -9,6 +9,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+#Qt需要的包
 set(QtModule Core Gui Widgets Svg Concurrent)
 
 #先查找到这些qt相关的模块以供链接使用
@@ -16,7 +17,8 @@ find_package(Qt5 REQUIRED ${QtModule})
 
 #设置输出目录
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../deepin-album/lib)
-#文件夹包含
+
+#包含目录
 include_directories(UnionImage)
 include_directories(UnionImage/giflib)
 include_directories(UnionImage/Source)
@@ -31,16 +33,8 @@ include_directories(UnionImage/Source/LibJXR/jxrgluelib)
 include_directories(UnionImage/Source/LibOpenJPEG)
 include_directories(UnionImage/Source/LibPNG)
 include_directories(UnionImage/Source/LibRawLite)
-include_directories(UnionImage/Source/LibRawLite/internal/defines.h)
-include_directories(UnionImage/Source/LibRawLite/internal/libraw_internal_funcs.h)
-include_directories(UnionImage/Source/LibRawLite/internal/var_defines.h)
-include_directories(UnionImage/Source/LibRawLite/libraw/libraw.h)
-include_directories(UnionImage/Source/LibRawLite/libraw/libraw_alloc.h)
-include_directories(UnionImage/Source/LibRawLite/libraw/libraw_const.h)
-include_directories(UnionImage/Source/LibRawLite/libraw/libraw_datastream.h)
-include_directories(UnionImage/Source/LibRawLite/libraw/libraw_internal.h)
-include_directories(UnionImage/Source/LibRawLite/libraw/libraw_types.h)
-include_directories(UnionImage/Source/LibRawLite/libraw/libraw_version.h)
+include_directories(UnionImage/Source/LibRawLite/internal)
+include_directories(UnionImage/Source/LibRawLite/libraw)
 include_directories(UnionImage/Source/LibTIFF4)
 include_directories(UnionImage/Source/LibWebP)
 include_directories(UnionImage/Source/LibWebP/src)
@@ -64,7 +58,7 @@ include_directories(UnionImage/Source/OpenEXR/openexr)
 include_directories(UnionImage/Source/ZLib)
 include_directories(UnionImage/wrapper)
 
-
+#库目录
 aux_source_directory(UnionImage allSources)
 aux_source_directory(UnionImage/giflib allSources)
 aux_source_directory(UnionImage/Source allSources)
@@ -107,7 +101,7 @@ aux_source_directory(UnionImage/wrapper allSources)
 
 
 
-
+#需要打开的头文件
 FILE (GLOB allHeaders
     "./UnionImage/*.hpp"                                   "./UnionImage/*.h"
     "./UnionImage/giflib/*.hpp"                            "./UnionImage/giflib/*.h"
@@ -156,6 +150,7 @@ FILE (GLOB allHeaders
     "./UnionImage/wrapper/*.hpp"                           "./UnionImage/wrapper/*.h"
     )
 
+#需要打开的代码文件
 FILE (GLOB allSources
     "./UnionImage/*.cpp"                                   "./UnionImage/*.c"
     "./UnionImage/giflib/*.cpp"                            "./UnionImage/giflib/*.c"
@@ -199,14 +194,14 @@ FILE (GLOB allSources
     "./UnionImage/wrapper/*.cpp"                           "./UnionImage/wrapper/*.c"
     )
 
-#
+#编译为库
 add_library(UnionImage SHARED ${allHeaders} ${allSources})
-#add_library(UnionImage SHARED ${PROJECT_SOURCE_DIR}../UnionImage/unioniamge.cpp})
+
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
+#使用库
 qt5_use_modules(UnionImage ${QtModule})
 
-
+#将库安装到指定位置
 install(TARGETS UnionImage LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/lib)
-install(FILES ${PROJECT_SOURCE_DIR}/UnionImage/unionimage.cpp DESTINATION ${PROJECT_SOURCE_DIR}/include)
