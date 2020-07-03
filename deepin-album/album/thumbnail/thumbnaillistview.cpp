@@ -39,7 +39,7 @@ QString ss(const QString &text)
 }  // namespace
 
 ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QString imgtype, QWidget *parent)
-    :  DListView(parent), m_delegatetype(type), m_allfileslist()
+    :  DListView(parent), m_delegatetype(type), m_allfileslist(), updateEnableSelectionByMouseTimer(nullptr)
 {
 
     if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
@@ -115,9 +115,38 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         setDragEnabled(false);
     }
 
+
+    // 当事件source为MouseEventSynthesizedByQt，认为此事件为TouchBegin转换而来
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        lastTouchBeginPos = event->pos();
+
+        // 清空触屏滚动操作，因为在鼠标按下时还不知道即将进行的是触屏滚动还是文件框选
+        if (QScroller::hasScroller(this)) {
+            // 不可使用 ungrab，会导致应用崩溃，或许是Qt的bug
+            QScroller::scroller(this)->deleteLater();
+        }
+
+        if (updateEnableSelectionByMouseTimer && updateEnableSelectionByMouseTimer->isActive()) {
+            updateEnableSelectionByMouseTimer->stop();
+        } else {
+            updateEnableSelectionByMouseTimer = new QTimer(this);
+            updateEnableSelectionByMouseTimer->setSingleShot(true);
+            //updateEnableSelectionByMouseTimer->setInterval(touchFlickBeginMoveDelay.isValid() ? touchFlickBeginMoveDelay.toInt() : 300);
+            updateEnableSelectionByMouseTimer->setInterval(50);
+            connect(updateEnableSelectionByMouseTimer, &QTimer::timeout, updateEnableSelectionByMouseTimer, &QTimer::deleteLater);
+        }
+        updateEnableSelectionByMouseTimer->start();
+    }
+
+
+
     bool isListArea = this->indexAt(event->pos()).isValid();
     if (!isListArea) {
         if (QApplication::keyboardModifiers() != Qt::ControlModifier) {
+            clearSelection();
+            update();
+        }
+        if (event->source() != Qt::MouseEventSynthesizedByQt) {
             clearSelection();
             update();
         }
@@ -136,6 +165,21 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
     emit sigMouseMove();
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        if (QScroller::hasScroller(this))
+            return;
+        // 在定时器期间收到鼠标move事件且距离大于一定值则认为触发视图滚动
+        if (updateEnableSelectionByMouseTimer && updateEnableSelectionByMouseTimer->isActive()) {
+            const QPoint difference_pos = event->pos() - lastTouchBeginPos;
+            if (qAbs(difference_pos.x()) > touchTapDistance || qAbs(difference_pos.y()) > touchTapDistance) {
+                QScroller::grabGesture(this);
+                QScroller *scroller = QScroller::scroller(this);
+                scroller->handleInput(QScroller::InputPress, event->localPos(), static_cast<qint64>(event->timestamp()));
+                scroller->handleInput(QScroller::InputMove, event->localPos(), static_cast<qint64>(event->timestamp()));
+            }
+            return;
+        }
+    }
     DListView::mouseMoveEvent(event);
 }
 
@@ -167,6 +211,9 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     } else {
         emit sigMouseRelease();
     }
+    // 避免滚动视图导致文件选中状态被取消
+    if (!QScroller::hasScroller(this))
+        return DListView::mouseReleaseEvent(event);
 }
 
 void ThumbnailListView::keyPressEvent(QKeyEvent *event)

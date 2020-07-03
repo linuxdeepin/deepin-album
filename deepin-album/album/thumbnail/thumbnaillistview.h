@@ -43,6 +43,7 @@
 #include <QBuffer>
 #include <DMenu>
 #include <QMouseEvent>
+#include <QPointer>
 #include <DApplicationHelper>
 #include "imageengine/imageengineobject.h"
 #include "widgets/timelineitem.h"
@@ -278,6 +279,15 @@ private:
 //    int newwidth = 0;
     //------------------
 
+    //---触屏判断--------
+    // 用于实现触屏滚动视图和框选文件不冲突，手指在屏幕上按下短时间内就开始移动
+    // 会被认为触发滚动视图，否则为触发文件选择（时间默认为300毫秒）
+    QPointer<QTimer> updateEnableSelectionByMouseTimer;
+
+    // 记录触摸按下事件，在mouse move事件中使用，用于判断手指移动的距离，当大于
+    // QPlatformTheme::TouchDoubleTapDistance 的值时认为触发触屏滚动
+    QPoint lastTouchBeginPos;
+    int touchTapDistance;
 };
 
 #endif // THUMBNAILLISTVIEW_H
