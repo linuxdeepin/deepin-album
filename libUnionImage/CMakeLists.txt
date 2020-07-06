@@ -99,8 +99,6 @@ aux_source_directory(UnionImage/Source/OpenEXR/openexr allSources)
 aux_source_directory(UnionImage/Source/ZLib allSources)
 aux_source_directory(UnionImage/wrapper allSources)
 
-
-
 #需要打开的头文件
 FILE (GLOB allHeaders
     "./UnionImage/*.hpp"                                   "./UnionImage/*.h"
@@ -196,7 +194,6 @@ FILE (GLOB allSources
 
 #编译为库
 add_library(UnionImage SHARED ${allHeaders} ${allSources})
-
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
