@@ -1159,32 +1159,7 @@ void UnionMovieImage::setFileName(const QString &path)
     }
 }
 
-QImage UnionMovieImage::operator++()
-{
-
-    Q_D(UnionMovieImage);
-    int temp = d->currentIndex;
-    temp++;
-    if (temp >= d->frames) {
-        d->setIndex(temp);
-    }
-    switch (d->currentFormat) {
-    case FIF_GIF: {
-
-    } break;
-    case FIF_MNG: {
-        d->r->jumpToNextImage();
-        d->res = d->r->read();
-        break;
-    }
-    default:
-        break;
-    }
-    return d->res;
-
-}
-
-QImage UnionMovieImage::operator++(int)
+QImage UnionMovieImage::next()
 {
     Q_D(UnionMovieImage);
     switch (d->currentFormat) {

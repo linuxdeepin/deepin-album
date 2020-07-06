@@ -1061,8 +1061,6 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
         qDebug() << "m_path empty";
         return;
     }
-    using namespace utils::image;
-    using namespace utils::base;
     QImage tImg;
     bool cache_exist = false;
     QString path = m_path;
@@ -1074,44 +1072,10 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     }
     if (needStop)
         return;
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        } else if (path.contains(".tga")) {
-            bool ret = false;
-            tImg = utils::image::loadTga(path, ret);
-        }
-        if (needStop)
-            return;
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (needStop)
-            return;
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            if (cache_exist) {
-                QImageReader readerF1(m_path, format.toLatin1());
-                readerF1.setAutoTransform(true);
-                if (readerF1.canRead()) {
-                    tImg = readerF1.read();
-                    cache_exist = false;
-                } else {
-                    qWarning() << "can't read image:" << readerF.errorString()
-                               << format;
-                    tImg = QImage(m_path);
-                }
-
-            } else {
-                qWarning() << "can't read image:" << readerF.errorString()
-                           << format;
-                tImg = QImage(path);
-            }
-        }
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        qDebug() << errMsg;
+        return;
     }
     if (needStop)
         return;
@@ -1137,7 +1101,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     QString spath = CACHE_PATH + m_path;
     if (needStop)
         return;
-    mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+    utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
     pixmap.save(spath, "PNG");
 }
 

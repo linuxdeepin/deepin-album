@@ -20,7 +20,7 @@ ImageEngineApi *ImageEngineApi::instance(QObject *parent)
     if (!s_ImageEngine) {
         s_ImageEngine = new ImageEngineApi();
     }
-    return  s_ImageEngine;
+    return s_ImageEngine;
 }
 
 ImageEngineApi::ImageEngineApi(QObject *parent)

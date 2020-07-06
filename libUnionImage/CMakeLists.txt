@@ -100,53 +100,7 @@ aux_source_directory(UnionImage/Source/ZLib allSources)
 aux_source_directory(UnionImage/wrapper allSources)
 
 #需要打开的头文件
-FILE (GLOB allHeaders
-    "./UnionImage/*.hpp"                                   "./UnionImage/*.h"
-    "./UnionImage/giflib/*.hpp"                            "./UnionImage/giflib/*.h"
-    "./UnionImage/Source/*.hpp"                            "./UnionImage/Source/*.h"
-    "./UnionImage/Source/FreeImage/*.hpp"                  "./UnionImage/Source/FreeImage/*.h"
-    "./UnionImage/Source/FreeImageToolkit/*.hpp"           "./UnionImage/Source/FreeImageToolkit/*.h"
-    "./UnionImage/Source/LibJXR/image/decode/*.hpp"        "./UnionImage/Source/LibJXR/image/decode/*.h"
-    "./UnionImage/Source/LibJXR/image/encode/*.hpp"        "./UnionImage/Source/LibJXR/image/encode/*.h"
-    "./UnionImage/Source/LibJXR/image/sys/*.hpp"           "./UnionImage/Source/LibJXR/image/sys/*.h"
-    "./UnionImage/Source/LibJXR/image/x86/*.hpp"           "./UnionImage/Source/LibJXR/image/x86/*.h"
-    "./UnionImage/Source/LibJXR/jxrgluelib/*.hpp"          "./UnionImage/Source/LibJXR/jxrgluelib/*.h"
-    "./UnionImage/Source/LibOpenJPEG/*.hpp"                "./UnionImage/Source/LibOpenJPEG/*.h"
-    "./UnionImage/Source/LibPNG/*.hpp"                     "./UnionImage/Source/LibPNG/*.h"
-
-    "./UnionImage/Source/LibRawLite/internal/defines.h"
-    "./UnionImage/Source/LibRawLite/internal/libraw_internal_funcs.h"
-    "./UnionImage/Source/LibRawLite/internal/var_defines.h"
-
-    "./UnionImage/Source/LibRawLite/libraw/libraw.h"
-    "./UnionImage/Source/LibRawLite/libraw/libraw_alloc.h"
-    "./UnionImage/Source/LibRawLite/libraw/libraw_const.h"
-    "./UnionImage/Source/LibRawLite/libraw/libraw_datastream.h"
-    "./UnionImage/Source/LibRawLite/libraw/libraw_internal.h"
-    "./UnionImage/Source/LibRawLite/libraw/libraw_types.h"
-    "./UnionImage/Source/LibRawLite/libraw/libraw_version.h"
-
-    "./UnionImage/Source/LibTIFF4/*.hpp"                   "./UnionImage/Source/LibTIFF4/*.h"
-    "./UnionImage/Source/LibWebP/src/dec/*.hpp"            "./UnionImage/Source/LibWebP/src/dec/*.h"
-    "./UnionImage/Source/LibWebP/src/demux/*.hpp"          "./UnionImage/Source/LibWebP/src/demux/*.h"
-    "./UnionImage/Source/LibWebP/src/dsp/*.hpp"            "./UnionImage/Source/LibWebP/src/dsp/*.h"
-    "./UnionImage/Source/LibWebP/src/enc/*.hpp"            "./UnionImage/Source/LibWebP/src/enc/*.h"
-    "./UnionImage/Source/LibWebP/src/mux/*.hpp"            "./UnionImage/Source/LibWebP/src/mux/*.h"
-    "./UnionImage/Source/LibWebP/src/utils/*.hpp"          "./UnionImage/Source/LibWebP/src/utils/*.h"
-    "./UnionImage/Source/LibWebP/src/webp/*.hpp"           "./UnionImage/Source/LibWebP/src/webp/*.h"
-    "./UnionImage/Source/Metadata/*.hpp"                   "./UnionImage/Source/Metadata/*.h"
-    "./UnionImage/Source/OpenEXR/*.hpp"                    "./UnionImage/Source/OpenEXR/*.h"
-    "./UnionImage/Source/OpenEXR/Half/*.hpp"               "./UnionImage/Source/OpenEXR/Half/*.h"
-    "./UnionImage/Source/OpenEXR/Iex/*.hpp"                "./UnionImage/Source/OpenEXR/Iex/*.h"
-    "./UnionImage/Source/OpenEXR/IexMath/*.hpp"            "./UnionImage/Source/OpenEXR/IexMath/*.h"
-    "./UnionImage/Source/OpenEXR/IlmImf/*.hpp"             "./UnionImage/Source/OpenEXR/IlmImf/*.h"
-    "./UnionImage/Source/OpenEXR/IlmThread/*.hpp"          "./UnionImage/Source/OpenEXR/IlmThread/*.h"
-    "./UnionImage/Source/OpenEXR/Imath/*.hpp"              "./UnionImage/Source/OpenEXR/Imath/*.h"
-    "./UnionImage/Source/OpenEXR/ilmbase/*.hpp"            "./UnionImage/Source/OpenEXR/ilmbase/*.h"
-    "./UnionImage/Source/OpenEXR/openexr/*.hpp"            "./UnionImage/Source/OpenEXR/openexr/*.h"
-    "./UnionImage/Source/ZLib/*.hpp"                       "./UnionImage/Source/ZLib/*.h"
-    "./UnionImage/wrapper/*.hpp"                           "./UnionImage/wrapper/*.h"
-    )
+FILE (GLOB allHeaders "./UnionImage/*.h")
 
 #需要打开的代码文件
 FILE (GLOB allSources
@@ -201,4 +155,8 @@ set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 qt5_use_modules(UnionImage ${QtModule})
 
 #将库安装到指定位置
-install(TARGETS UnionImage LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/lib)
+set(PREFIX /usr)
+set(UnionImageDir ${PREFIX}/lib/)
+
+install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
+target_link_libraries(UnionImage)
