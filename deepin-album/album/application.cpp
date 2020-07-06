@@ -22,6 +22,7 @@
 #include "controller/viewerthememanager.h"
 #include "controller/wallpapersetter.h"
 #include "utils/snifferimageformat.h"
+#include "utils/unionimage.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "thumbnail/thumbnaillistview.h"
@@ -82,84 +83,37 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
 {
 
     for (QString path : pathlist) {
-        using namespace utils::base;
         QImage tImg;
-        bool cache_exist = false;
-        QString format = DetectImageFormat(path);
-        if (format.isEmpty()) {
-            QImageReader reader(path);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
-            } else if (path.contains(".tga")) {
-                bool ret = false;
-                tImg = utils::image::loadTga(path, ret);
-            }
-        } else {
-            QImageReader readerF(path, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
-            } else {
-                if (cache_exist) {
-                    QImageReader readerF1(path, format.toLatin1());
-                    readerF1.setAutoTransform(true);
-                    if (readerF1.canRead()) {
-                        tImg = readerF1.read();
-                        cache_exist = false;
-                    } else {
-                        qWarning() << "can't read image:" << readerF.errorString()
-                                   << format;
-                        tImg = QImage(path);
-                    }
-
-                } else {
-                    qWarning() << "can't read image:" << readerF.errorString()
-                               << format;
-                    tImg = QImage(path);
-                }
-            }
+        QString errMsg;
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+            qDebug()  << errMsg;
+            continue;
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
         if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
             if (pixmap.height() != 100 && pixmap.width() != 100) {
                 if (pixmap.height() >= pixmap.width()) {
-                    cache_exist = true;
                     pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
                 } else if (pixmap.height() <= pixmap.width()) {
-                    cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
-                }
-            }
-
-            if (!cache_exist) {
-                if ((static_cast<float>(pixmap.height())) / (static_cast<float>(pixmap.width())) > 3) {
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-                } else {
                     pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
                 }
             }
         }
         if (pixmap.isNull()) {
             pixmap = QPixmap::fromImage(tImg);
-        } else {
-            if (!cache_exist) {
-                //            QBuffer buffer(&m_baThumb);
-                //            buffer.open(QIODevice::WriteOnly);
-                QString spath = CACHE_PATH + path;
-                mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-                pixmap.save(spath, "PNG");
-            }
         }
 
+        //            QBuffer buffer(&m_baThumb);
+        //            buffer.open(QIODevice::WriteOnly);
+        QString spath = CACHE_PATH + path;
+        utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+        pixmap.save(spath, "PNG");
         if (!ImageEngineApi::instance()->updateImageDataPixmap(path, pixmap)) {
-            return;
+            continue;
         }
     }
-
     emit dApp->signalM->sigUpdateImageLoader(pathlist);
     // m_parent->m_imagemap[path] = pixmap;
-
 }
 
 

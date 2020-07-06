@@ -1,7 +1,9 @@
 #定义需要的cmake版本
 cmake_minimum_required(VERSION 3.10)
 
-project(deepin-album)
+set(CMD_NAME deepin-album)
+
+project(${CMD_NAME})
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -139,16 +141,28 @@ set(TargetTsFiles
     translations/deepin-album.ts
     )
 
+
+
 # 设置不删除生成的文件夹内容文件
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
-qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
-    OPTIONS )
-#set_source_files_properties(${TargetTsFiles} PROPERTIES OUTPUT_LOCATION "translations")
-qt5_add_translation(${TargetTsFiles})
+#qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
+#    OPTIONS )
+##set_source_files_properties(${TargetTsFiles} PROPERTIES OUTPUT_LOCATION "translations")
+#qt5_add_translation(${TargetTsFiles})
 
-set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
+#set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
 
+## translations
+file(GLOB TS LIST_DIRECTORIES false translations/${CMD_NAME}*.ts)
+
+set_source_files_properties(${TS}
+    PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/${CMD_NAME}/translations)
+
+if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
+    qt5_create_translation(QM ${SRCS} ${TS})
+endif ()
+# ~
 
 set(LINK_DIR lib)
 link_directories(${LINK_DIR})
@@ -167,6 +181,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
         dtkwidget dtkgui gio-qt udisks2-qt5
         )
+
 #添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 
@@ -185,9 +200,9 @@ set(PREFIX /usr)
 set(UnionImageDir ${PREFIX}/lib/)
 
 # install 3rd library
-install(FILES lib/libUnionImage.so DESTINATION ${UnionImageDir})
-install(FILES lib/libUnionImage.so.1 DESTINATION ${UnionImageDir})
-install(FILES lib/libUnionImage.so.1.0 DESTINATION ${UnionImageDir})
-install(FILES lib/libUnionImage.so.1.0.0 DESTINATION ${UnionImageDir})
+#install(FILES lib/libUnionImage.so DESTINATION ${UnionImageDir})
+#install(FILES lib/libUnionImage.so.1 DESTINATION ${UnionImageDir})
+#install(FILES lib/libUnionImage.so.1.0 DESTINATION ${UnionImageDir})
+#install(FILES lib/libUnionImage.so.1.0.0 DESTINATION ${UnionImageDir})
 
 

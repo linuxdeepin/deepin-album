@@ -48,7 +48,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fil
     m_movie.setFileName(fileName);
     m_pTImer = new QTimer(this);
     connect(m_pTImer, &QTimer::timeout, this, [ = ] {
-        this->setPixmap(QPixmap::fromImage(m_movie++));
+        this->setPixmap(QPixmap::fromImage(m_movie.next()));
     });
     m_pTImer->start(100);
     //}

@@ -215,18 +215,11 @@ public:
     void setFileName(const QString &path);
 
     /**
-     * @brief operator ++
+     * @brief next
      * @return QImage
-     * 返回下一帧，并将下标移到返回的帧
+     * 返回下一帧
      */
-    QImage operator++();
-
-    /**
-     * @brief operator ++
-     * @return QImage
-     * 返回当前帧，并将下标移到下一帧
-     */
-    QImage operator++(int);
+    QImage next();
 
 private:
     UnionMovieImagePrivate *const d_ptr;

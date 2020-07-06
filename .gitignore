@@ -19,7 +19,7 @@
 
 *.dylib
 
-
+/deepin-album/album/lib/
 
 # Qt-es
 
