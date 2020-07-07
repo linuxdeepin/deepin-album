@@ -2,7 +2,7 @@ Source: deepin-album
 Section: utils
 Priority: optional
 Maintainer: Deepin Packages Builder <packages@deepin.com>
-Build-Depends: debhelper (>= 11), cmake, qtbase5-dev, pkg-config,libexif-dev, libqt5svg5-dev, libqt5x11extras5-dev, qttools5-dev-tools, qttools5-dev, libxcb-util0-dev, libstartup-notification0-dev, libraw-dev,libfreeimage-dev, libqt5opengl5-dev, qtbase5-private-dev, qtmultimedia5-dev, x11proto-xext-dev, libmtdev-dev, libegl1-mesa-dev, libudev-dev, libfontconfig1-dev, libfreetype6-dev, libglib2.0-dev, libxrender-dev, libdtkwidget-dev, libdtkwidget5-bin,libdtkcore5-bin, qt5-default, libgio-qt-dev, libudisks2-qt5-dev,deepin-gettext-tools
+Build-Depends: debhelper (>= 11), cmake, qtbase5-dev, pkg-config, libexif-dev, libqt5svg5-dev, libqt5x11extras5-dev, qttools5-dev-tools, qttools5-dev, libxcb-util0-dev, libstartup-notification0-dev, libraw-dev,libfreeimage-dev, libqt5opengl5-dev, qtbase5-private-dev, qtmultimedia5-dev, x11proto-xext-dev, libmtdev-dev, libegl1-mesa-dev, libudev-dev, libfontconfig1-dev, libfreetype6-dev, libglib2.0-dev, libxrender-dev, libdtkwidget-dev, libdtkwidget5-bin,libdtkcore5-bin, qt5-default, libgio-qt-dev, libudisks2-qt5-dev,deepin-gettext-tools
 Standards-Version: 4.1.3
 Homepage: <insert the upstream URL, if relevant>
 #Vcs-Browser: https://salsa.debian.org/debian/album
@@ -13,9 +13,3 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: 
   Album is a fashion photo manager for viewing and organizing pictures.
-
-Package: libUnionImage
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description:
- Album&Iamgeviewer format pic lib.

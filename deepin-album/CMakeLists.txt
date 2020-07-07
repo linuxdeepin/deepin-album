@@ -146,23 +146,23 @@ set(TargetTsFiles
 # 设置不删除生成的文件夹内容文件
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
-#qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
-#    OPTIONS )
-##set_source_files_properties(${TargetTsFiles} PROPERTIES OUTPUT_LOCATION "translations")
-#qt5_add_translation(${TargetTsFiles})
+qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
+    OPTIONS )
+#set_source_files_properties(${TargetTsFiles} PROPERTIES OUTPUT_LOCATION "translations")
+qt5_add_translation(${TargetTsFiles})
 
-#set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
+set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
 
-## translations
-file(GLOB TS LIST_DIRECTORIES false translations/${CMD_NAME}*.ts)
+### translations
+#file(GLOB TS LIST_DIRECTORIES false translations/${CMD_NAME}*.ts)
 
-set_source_files_properties(${TS}
-    PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/${CMD_NAME}/translations)
+#set_source_files_properties(${TS}
+#    PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/${CMD_NAME}/translations)
 
-if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
-    qt5_create_translation(QM ${SRCS} ${TS})
-endif ()
-# ~
+#if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
+#    qt5_create_translation(QM ${SRCS} ${TS})
+#endif ()
+## ~
 
 set(LINK_DIR lib)
 link_directories(${LINK_DIR})
@@ -198,6 +198,10 @@ qt5_use_modules(${PROJECT_NAME} ${QtModule})
 
 set(PREFIX /usr)
 set(UnionImageDir ${PREFIX}/lib/)
+set(TranslationDir ${PREFIX}/share/${CMD_NAME}/translations/)
+set(DesktopDir ${PREFIX}/share/applications/)
+set(ManIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
+set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 
 # install 3rd library
 #install(FILES lib/libUnionImage.so DESTINATION ${UnionImageDir})
@@ -205,4 +209,22 @@ set(UnionImageDir ${PREFIX}/lib/)
 #install(FILES lib/libUnionImage.so.1.0 DESTINATION ${UnionImageDir})
 #install(FILES lib/libUnionImage.so.1.0.0 DESTINATION ${UnionImageDir})
 
+install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}Targets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION /usr/bin
+        INCLUDES DESTINATION allHeaders)
+
+# install Translation files:
+install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
+
+# install Desktop icon
+install(FILES deepin-album.desktop DESTINATION ${DesktopDir})
+
+# install Manual icon
+install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${ManIconDir})
+
+# install App icon
+install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${AppIconDir})
 
