@@ -127,8 +127,8 @@ Application::Application(int &argc, char **argv)
 
     setApplicationDisplayName(tr("Album"));
     setProductIcon(QIcon::fromTheme("deepin-album"));
-    //setApplicationVersion(DApplication::buildVersion("20191011"));
-    setApplicationVersion(ALBUM_VERSION);
+    setApplicationVersion(DApplication::buildVersion(VERSION));
+    //setApplicationVersion(ALBUM_VERSION);
 
 //    setApplicationDescription(DApplication::translate("Main","相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。"));
     setApplicationDescription(DApplication::translate("Main", "Album is a fashion photo manager for viewing and organizing pictures."));
