@@ -159,4 +159,11 @@ set(PREFIX /usr)
 set(UnionImageDir ${PREFIX}/lib/)
 
 install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
+
+execute_process(
+COMMAND ln -s ${UnionImageDir}/libUnionImage.so libUnionImage.so.1
+COMMAND ln -s ${UnionImageDir}/libUnionImage.so libUnionImage.so.1.0
+COMMAND ln -s ${UnionImageDir}/libUnionImage.so libUnionImage.so.1.0.0
+)
+
 target_link_libraries(UnionImage)
