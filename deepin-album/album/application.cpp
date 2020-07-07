@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "application.h"
+#include "config.h"
 
 #include "controller/configsetter.h"
 #include "controller/globaleventfilter.h"
