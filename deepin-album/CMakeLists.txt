@@ -11,8 +11,19 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras OpenGL)
+#设置是否执行测试
+option(DOTEST "option for test" ON)
 
+# 添加gocv覆盖率文件的输出
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+
+
+
+if(DOTEST)
+set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras OpenGL Test)
+else()
+set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras OpenGL)
+endif()
 #先查找到这些qt相关的模块以供链接使用
 find_package(Qt5 REQUIRED ${QtModule})
 
@@ -79,6 +90,14 @@ aux_source_directory(./album/utils allSource)
 aux_source_directory(./album/widgets allSource)
 aux_source_directory(./album/widgets/dialogs allSource)
 
+#如果执行测试
+if(DOTEST)
+include_directories(tests/googletest)
+include_directories(tests/googletest/googlemock/include)
+include_directories(tests/googletest/googletest/include)
+endif()
+
+
 FILE (GLOB allHeaders
     "./album/*.hpp"  "./album/*.h"
     "./album/albumview/*.hpp"  "./album/albumview/*.h"
@@ -104,7 +123,7 @@ FILE (GLOB allHeaders
     )
 
 FILE (GLOB allSource
-    "./album/*.cpp"  "./album/*.c"
+    "./album/application.cpp"  "./album/mainwindow.cpp"
     "./album/albumview/*.cpp"  "./album/albumview/*.c"
     "./album/allpicview/*.cpp"  "./album/allpicview/*.c"
     "./album/controller/*.cpp"  "./album/controller/*.c"
@@ -131,11 +150,8 @@ set(AllQRC
     album/resources.qrc
     icons/theme-icons.qrc
     album/frame/frametheme.qrc
-    #album/frame/frame.qrc
     album/module/view/viewtheme.qrc
-    #album/widgets/widgets.qrc
     album/widgets/widgetstheme.qrc)
-
 set(TargetTsFiles
     translations/deepin-album_zh_CN.ts
     translations/deepin-album.ts
@@ -153,25 +169,62 @@ qt5_add_translation(${TargetTsFiles})
 
 set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
 
-### translations
-#file(GLOB TS LIST_DIRECTORIES false translations/${CMD_NAME}*.ts)
-
-#set_source_files_properties(${TS}
-#    PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/${CMD_NAME}/translations)
-
-#if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
-#    qt5_create_translation(QM ${SRCS} ${TS})
-#endif ()
-## ~
-
 set(LINK_DIR lib)
 link_directories(${LINK_DIR})
-link_libraries(UnionImage)
+#link_libraries(UnionImage)
 #target_include_directories(${PROJECT_NAME} PUBLIC ${LINK_DIR})
 
 
-add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs})
+add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs} "./album/main.cpp")
 add_compile_definitions(LITE_DIV)
+
+#------------------------------ 配置test ---------------------------------------
+
+if(DOTEST)
+    SET(PROJECT_NAME_TEST
+        ${PROJECT_NAME}_test)
+    FILE(GLOB allTestSource
+        "./tests/*.cpp" "./tests/*.c"
+        "./tests/dbmanager/*.cpp"
+        )
+    add_subdirectory(tests/googletest)
+    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allSource} ${allTestSource})
+    target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
+
+    # 添加 QTest 测试
+    add_test(${PROJECT_NAME_TEST} COMMAND ${PROJECT_NAME_TEST})
+
+#------------------------------ 创建'make test'指令---------------------------------------
+    add_custom_target(test
+        COMMAND mkdir -p coverageResult
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    add_custom_command(TARGET test
+        COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
+        #1.清理原先的gcov信息
+        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
+        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
+        COMMAND ./${PROJECT_NAME}/${PROJECT_NAME_TEST}
+
+        #2.收集gcov信息到.info文件中
+        COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
+
+        #3.过滤一些我们不感兴趣的文件的覆盖率信息
+        COMMAND echo " =================== do filter begin ==================== "
+        COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
+        '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
+        -o ./coverageResult/${PROJECT_NAME}_Coverage.info
+        COMMAND echo " =================== do filter end ==================== "
+        #3.将.info信息生成报告到reprot文件夹中
+        COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
+        COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
+        COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+    #'make test'命令依赖与我们的测试程序
+    add_dependencies(test ${PROJECT_NAME_TEST})
+endif()
+
+#------------------------------ 创建'make test'指令---------------------------------------
 
 #------------------添加第三方库begins--------------------------#
 #使用第三方库需要用到的一个包
@@ -184,14 +237,32 @@ pkg_check_modules(3rd_lib REQUIRED
 
 #添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+if(DOTEST)
+    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+endif()
 
 #将第三方库链接进来(注意 *_LIBRARIES)
 target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} UnionImage)
+if(DOTEST)
+    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} UnionImage)
+endif()
+
+# 将第三方库链接进来(注意 *_LIBRARIES)
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
+
+if(DOTEST)
+    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})
+endif()
+
 
 #------------------添加第三方库end--------------------------#
 
 #将工程与这些模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
+
+if(DOTEST)
+qt5_use_modules(${PROJECT_NAME_TEST} ${QtModule})
+endif()
 
 
 # ------------------------------- install report script -------------------------------
@@ -202,12 +273,6 @@ set(TranslationDir ${PREFIX}/share/${CMD_NAME}/translations/)
 set(DesktopDir ${PREFIX}/share/applications/)
 set(ManIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
-
-# install 3rd library
-#install(FILES lib/libUnionImage.so DESTINATION ${UnionImageDir})
-#install(FILES lib/libUnionImage.so.1 DESTINATION ${UnionImageDir})
-#install(FILES lib/libUnionImage.so.1.0 DESTINATION ${UnionImageDir})
-#install(FILES lib/libUnionImage.so.1.0.0 DESTINATION ${UnionImageDir})
 
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets

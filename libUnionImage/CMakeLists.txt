@@ -1,6 +1,7 @@
 #定义需要的cmake版本
 cmake_minimum_required(VERSION 3.10)
 
+# 设置工程名字
 project(libUnionImage)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -156,14 +157,14 @@ qt5_use_modules(UnionImage ${QtModule})
 
 #将库安装到指定位置
 set(PREFIX /usr)
-set(UnionImageDir ${PREFIX}/lib/)
+set(UnionImageDir ${PREFIX}/lib)
 
 install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
 
 execute_process(
-COMMAND ln -s ${UnionImageDir}/libUnionImage.so libUnionImage.so.1
-COMMAND ln -s ${UnionImageDir}/libUnionImage.so libUnionImage.so.1.0
-COMMAND ln -s ${UnionImageDir}/libUnionImage.so libUnionImage.so.1.0.0
+COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1
+COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0
+COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0.0
 )
 
 target_link_libraries(UnionImage)
