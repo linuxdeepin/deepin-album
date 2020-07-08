@@ -70,17 +70,18 @@ MainWindow::MainWindow()
     , m_countLabel(nullptr)
     , m_pDBus(nullptr)
 {
+    QTime t;
+    t.start();
     initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
-    QTime t;
-    t.start();
     initCentralWidget();
-    qDebug() << "zy**********initCentralWidget = " << t.elapsed();
     initShortcut();
     initConnections();
     initDBus();
-    loadZoomRatio();
+    //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
+    //loadZoomRatio();
+    qDebug() << "zy**********MainWindow = " << t.elapsed();
 }
 
 MainWindow::~MainWindow()
@@ -100,7 +101,6 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     Q_UNUSED(e);
     m_pCenterWidget->setFixedSize(size());
 }
-
 
 //初始化所有连接
 void MainWindow::initConnections()
@@ -863,21 +863,25 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->setFixedSize(size());
     m_pCenterWidget->lower();
 
-    m_pAllPicView = new AllPicView();           //所有照片界面
-    m_pAlbumWidget = new QWidget();
+    m_pAllPicView = new AllPicView();             //所有照片界面
+
     m_pTimeLineWidget = new QWidget();
-    //m_pAlbumview = new AlbumView();             //相册界面
     //m_pTimeLineView = new TimeLineView();       //时间线界面
+    m_pAlbumWidget = new QWidget();
+    //m_pAlbumview = new AlbumView();             //相册界面
+
     m_pSearchView = new SearchView();           //搜索界面
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
     m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pAllPicView);
-    //m_pCenterWidget->addWidget(m_pTimeLineView);
-    //m_pCenterWidget->addWidget(m_pAlbumview);
+
     m_pCenterWidget->addWidget(m_pTimeLineWidget);
+    //m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumWidget);
+    //m_pCenterWidget->addWidget(m_pAlbumview);
+
     m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->addWidget(m_slidePanel);
@@ -897,7 +901,8 @@ void MainWindow::initCentralWidget()
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
         m_backIndex = VIEW_ALLPIC;
     } else {
-        m_commandLine->viewImage("", {});
+        //性能优化，此句在构造时不需要执行，增加启动时间
+        //m_commandLine->viewImage("", {});
         m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
     }
 }
@@ -1348,6 +1353,14 @@ void MainWindow::paintEvent(QPaintEvent *event)
         m_SearchEditWidth = 350;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
     }
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+    QMetaObject::invokeMethod(this, [ = ]() {
+        loadZoomRatio();
+    }, Qt::QueuedConnection);
 }
 
 void MainWindow::saveWindowState()

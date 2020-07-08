@@ -70,6 +70,7 @@ public:
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 private:
     void initShortcutKey();
