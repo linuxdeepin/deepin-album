@@ -150,6 +150,8 @@ private:
     QString       m_SearchKey;      //搜索框查询信息
 
     dbusclient *m_pDBus;//LMH0407DBus
+    bool m_isFirstStart = true;
+    bool m_processOptionIsEmpty = false;
 };
 
 #endif // MAINWINDOW_H

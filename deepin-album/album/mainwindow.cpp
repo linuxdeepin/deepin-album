@@ -895,6 +895,7 @@ void MainWindow::initCentralWidget()
     QStringList pas;
     m_commandLine->processOption(pas);
     if (pas.length() > 0) {
+        m_processOptionIsEmpty = false;
         titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
         m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
@@ -902,6 +903,7 @@ void MainWindow::initCentralWidget()
         m_backIndex = VIEW_ALLPIC;
     } else {
         //性能优化，此句在构造时不需要执行，增加启动时间
+        m_processOptionIsEmpty = true;
         //m_commandLine->viewImage("", {});
         m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
     }
@@ -1359,7 +1361,13 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     QMetaObject::invokeMethod(this, [ = ]() {
-        loadZoomRatio();
+        if (m_isFirstStart) {
+            if (m_processOptionIsEmpty) {
+                m_commandLine->viewImage("", {});
+            }
+            loadZoomRatio();
+        }
+        m_isFirstStart = false;
     }, Qt::QueuedConnection);
 }
 
