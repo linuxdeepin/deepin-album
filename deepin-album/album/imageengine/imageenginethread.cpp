@@ -865,7 +865,6 @@ void ImageEngineThread::run()
     } else {
         if (!loadStaticImageFromFile(path, tImg, errMsg)) {
             qDebug() << errMsg;
-            return;
         }
     }
 //    QString format = DetectImageFormat(path);
@@ -978,7 +977,7 @@ void ImageEngineThread::run()
     }
     //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
     while (!bneedstop && !ImageEngineApi::instance()->closeFg()) {
-        QThread::msleep(50);
+        QThread::msleep(100);
     }
 }
 

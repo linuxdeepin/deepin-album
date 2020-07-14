@@ -128,6 +128,7 @@ private:
     TimeLineView *m_pTimeLineView;              //时间线界面视图
     QWidget *m_pTimeLineWidget;
     SearchView *m_pSearchView;                  //搜索界面视图
+    QWidget *m_pSearchViewWidget = nullptr;
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
 
     DBManager *m_pDBManager;

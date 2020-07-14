@@ -183,7 +183,7 @@ private:
     void importComboBoxChange(QString strText);
 
 signals:
-    void sigSearchEditIsDisplay(bool);
+    void sigSearchEditIsDisplay(bool bIsDisp);
     void sigLoadMountImagesStart(QString mountName, QString path);
     void sigReCalcTimeLineSizeIfNeed();
 

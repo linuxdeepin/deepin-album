@@ -161,33 +161,6 @@ void Application::initChildren()
     wpSetter = WallpaperSetter::instance();
 }
 
-void Application::initDB()
-{
-    QStringList removePaths;
-    QStringList removeTrashPaths;
-
-    auto infos = DBManager::instance()->getAllInfos();
-    for (auto info : infos) {
-        QFile file(info.filePath);
-        if (!file.open(QIODevice::ReadOnly)) {
-            qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
-            removePaths << info.filePath;
-        }
-    }
-
-    auto trashInfos = DBManager::instance()->getAllTrashInfos();
-    for (auto info : trashInfos) {
-        QFile file(info.filePath);
-        if (!file.open(QIODevice::ReadOnly)) {
-            qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
-            removeTrashPaths << info.filePath;
-        }
-    }
-
-    DBManager::instance()->removeImgInfosNoSignal(removePaths);
-    DBManager::instance()->removeTrashImgInfosNoSignal(removeTrashPaths);
-}
-
 void Application::setupsinglecase()
 {
     QSharedMemory mem("deepin-album");

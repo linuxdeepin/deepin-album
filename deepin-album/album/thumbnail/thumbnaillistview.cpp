@@ -41,7 +41,6 @@ QString ss(const QString &text)
 ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QString imgtype, QWidget *parent)
     :  DListView(parent), m_delegatetype(type), m_allfileslist(), updateEnableSelectionByMouseTimer(nullptr)
 {
-
     if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
         m_scrollbartopdistance = 50;
         m_scrollbarbottomdistance = 27;
@@ -65,7 +64,6 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
-
     //按照像素滚动，步进20
     setVerticalScrollMode(QListView::ScrollPerPixel);
     verticalScrollBar()->setSingleStep(20);
@@ -1168,6 +1166,7 @@ void ThumbnailListView::initMenuAction()
         appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
         return;
     }
+
     m_MenuActionMap.clear();
     appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
@@ -1176,8 +1175,8 @@ void ThumbnailListView::initMenuAction()
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
     appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
-    appendAction(IdMoveToTrash, tr("Delete"), ss(""));
-    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
+    appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
+    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(REMOVEFROMALBUM_CONTEXT_MENU));
     m_pMenu->addSeparator();
     appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));

@@ -89,7 +89,6 @@ public slots:
 private:
     void initChildren();
     void initI18n();
-    void initDB();
 
     QThread *m_LoadThread;
 public :
