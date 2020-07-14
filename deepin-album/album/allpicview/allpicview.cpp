@@ -38,7 +38,6 @@ AllPicView::AllPicView()
     , m_pSearchView(nullptr), m_spinner(nullptr), fatherwidget(nullptr)
 {
     setAcceptDrops(true);
-
     fatherwidget = new DWidget(this);
     fatherwidget->setFixedSize(this->size());
     m_pStackedWidget = new DStackedWidget(this);

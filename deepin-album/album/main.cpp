@@ -112,7 +112,6 @@ int main(int argc, char *argv[])
     if (a.isRunning()) {
         return 0;
     }
-
     ImageEngineApi::instance(&a);
     MainWindow w;
 //    DtkTest w;

@@ -47,8 +47,10 @@ DBManager  *DBManager::instance()
 
 DBManager::DBManager(QObject *parent)
     : QObject(parent)
-    , m_connectionName("default_connection")
+      //, m_connectionName("default_connection")
 {
+    m_db = QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"); //not dbConnection
+    m_db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     checkDatabase();
 }
 
@@ -99,7 +101,7 @@ const DBImgInfoList DBManager::getAllInfos() const
         //  qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池
         ////ConnectionPool::closeConnection(db);
-        db.close();
+        //db.close();
         return infos;
     } else {
         using namespace utils::base;
@@ -111,14 +113,12 @@ const DBImgInfoList DBManager::getAllInfos() const
             info.time = stringToDateTime(query.value(3).toString());
 //            info.changeTime = stringToDateTime(query.value(4).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
-
             infos << info;
         }
     }
 //    // 连接使用完后需要释放回数据库连接池
     ////ConnectionPool::closeConnection(db);
-    db.close();
-
+    //db.close();
     return infos;
 }
 
@@ -248,12 +248,12 @@ int DBManager::getImgsCount() const
         query.exec("COMMIT");
 //        // 连接使用完后需要释放回数据库连接池
         //ConnectionPool::closeConnection(db);
-        db.close();
+        //db.close();
         return count;
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
-    db.close();
+    //db.close();
     return 0;
 }
 
@@ -1185,26 +1185,16 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
 
 const QSqlDatabase DBManager::getDatabase() const
 {
-//    QMutexLocker mutex(&m_mutex);
-//    QSqlDatabase db = ConnectionPool::openConnection();
-//    return db;
-//    if ( QSqlDatabase::contains(m_connectionName) ) {
-//        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-////        mutex.unlock();
-//        return db;
-//    } else {
-//        //if database not open, open it.
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");//not dbConnection
-    db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
-    if (! db.open()) {
-        //  qWarning() << "Open database error:" << db.lastError();
-        //            mutex.unlock();
-        return QSqlDatabase();
-    } else {
-        //            mutex.unlock();
-        return db;
+    if (!m_db.open()) {
+        qDebug() << "zy------Open database error:" << m_db.lastError();
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"); //not dbConnection
+        m_db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
+        if (!m_db.open()) {
+            qDebug() << "zy------Open database error:" << m_db.lastError();
+            return QSqlDatabase();
+        }
     }
-
+    return m_db;
 }
 
 

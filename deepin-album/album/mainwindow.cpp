@@ -81,7 +81,7 @@ MainWindow::MainWindow()
     initDBus();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
     //loadZoomRatio();
-    qDebug() << "zy**********MainWindow = " << t.elapsed();
+    qDebug() << "zy------MainWindow = " << t.elapsed();
 }
 
 MainWindow::~MainWindow()
@@ -138,6 +138,11 @@ void MainWindow::initConnections()
                 m_pCenterWidget->removeWidget(m_pAlbumWidget);
                 index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
                 m_pAlbumview = new AlbumView();
+                connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
+                    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
+                        m_pSearchEdit->setVisible(bIsDisp);
+                    }
+                });
                 m_pCenterWidget->insertWidget(index, m_pAlbumview);
             }
             albumBtnClicked();
@@ -149,7 +154,6 @@ void MainWindow::initConnections()
             }
         }
     });
-
     //图片导入槽函数
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {
@@ -165,7 +169,6 @@ void MainWindow::initConnections()
 //            m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
 //        }
     });
-
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
 #if 1
     connect(dApp->signalM, &SignalManager::viewCreateAlbum, this, &MainWindow::onViewCreateAlbum);
@@ -622,12 +625,6 @@ void MainWindow::initConnections()
 //        DMessageManager::instance()->sendMessage(pwidget,QIcon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg"),tr("点击"));
         //this->sendMessage(icon, str);
     });
-    connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
-        if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
-            m_pSearchEdit->setVisible(bIsDisp);
-        }
-    });
-
 }
 //初始化DBus
 void MainWindow::initDBus()
@@ -864,16 +861,16 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->lower();
 
     m_pAllPicView = new AllPicView();             //所有照片界面
-
     m_pTimeLineWidget = new QWidget();
     //m_pTimeLineView = new TimeLineView();       //时间线界面
     m_pAlbumWidget = new QWidget();
     //m_pAlbumview = new AlbumView();             //相册界面
+    //m_pSearchView = new SearchView();           //搜索界面
+    m_pSearchViewWidget = new QWidget();
 
-    m_pSearchView = new SearchView();           //搜索界面
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
-    m_slidePanel = new SlideShowPanel();
+    //m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pAllPicView);
 
@@ -882,9 +879,10 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_pAlbumWidget);
     //m_pCenterWidget->addWidget(m_pAlbumview);
 
-    m_pCenterWidget->addWidget(m_pSearchView);
+    //m_pCenterWidget->addWidget(m_pSearchView);
+    m_pCenterWidget->addWidget(m_pSearchViewWidget);
     m_pCenterWidget->addWidget(m_commandLine);
-    m_pCenterWidget->addWidget(m_slidePanel);
+    //m_pCenterWidget->addWidget(m_slidePanel);
 
     //pTitleBtnLayout 设置风格
     DPalette color = DApplicationHelper::instance()->palette(m_pAlbumview);
@@ -1009,6 +1007,11 @@ void MainWindow::albumBtnClicked()
         m_pCenterWidget->removeWidget(m_pAlbumWidget);
         index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
         m_pAlbumview = new AlbumView();
+        connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
+            if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
+                m_pSearchEdit->setVisible(bIsDisp);
+            }
+        });
         m_pCenterWidget->insertWidget(index, m_pAlbumview);
     }
     emit dApp->signalM->hideExtensionPanel();
@@ -1362,6 +1365,17 @@ void MainWindow::showEvent(QShowEvent *event)
     Q_UNUSED(event)
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
+            m_slidePanel = new SlideShowPanel();
+            m_pCenterWidget->addWidget(m_slidePanel);
+
+            int index = 0;
+            if (nullptr == m_pSearchView) {
+                index = m_pCenterWidget->indexOf(m_pSearchViewWidget);
+                m_pSearchView = new SearchView();
+                m_pCenterWidget->insertWidget(index, m_pSearchView);
+                m_pCenterWidget->removeWidget(m_pSearchViewWidget);
+            }
+
             if (m_processOptionIsEmpty) {
                 m_commandLine->viewImage("", {});
             }
