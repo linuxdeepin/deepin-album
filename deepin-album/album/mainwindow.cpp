@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
-#include "utils/snifferimageformat.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
 #include <dgiovolumemanager.h>
@@ -1323,6 +1322,11 @@ void MainWindow::onLoadingFinished()
     } else {
         m_pSearchEdit->setEnabled(false);
     }
+}
+
+QButtonGroup *MainWindow::test_getButG()
+{
+    return (nullptr != static_cast<QButtonGroup *>(btnGroup) ? btnGroup : nullptr);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

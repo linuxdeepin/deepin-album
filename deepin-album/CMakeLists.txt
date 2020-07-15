@@ -12,7 +12,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 #设置是否执行测试
-option(DOTEST "option for test" OFF)
+option(DOTEST "option for test" ON)
 
 # 添加gocv覆盖率文件的输出
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
@@ -184,8 +184,28 @@ if(DOTEST)
     SET(PROJECT_NAME_TEST
         ${PROJECT_NAME}_test)
     FILE(GLOB allTestSource
-        "./tests/*.cpp" "./tests/*.c"
+        "./tests/*.cpp"
+        "./tests/application.cpp"
+        "./tests/albumview/*.cpp"
+        "./tests/allpicview/*.cpp"
+        "./tests/controller/*.cpp"
         "./tests/dbmanager/*.cpp"
+        "./tests/dialogs/*.cpp"
+        "./tests/frame/*.cpp"
+        "./tests/imageengine/*.cpp"
+        "./tests/importtimelineview/*.cpp"
+        "./tests/importview/*.cpp"
+        "./tests/module/*.cpp"
+        "./tests/module/slideshow/*.cpp"
+        "./tests/module/view/*.cpp"
+        "./tests/module/view/scen/*.cpp"
+        "./tests/module/view/contents/*.cpp"
+        "./tests/searchview/*.cpp"
+        "./tests/thumbnail/*.cpp"
+        "./tests/timelineview/*.cpp"
+        "./tests/utils/*.cpp"
+        "./tests/widgets/*.cpp"
+        "./tests/widgets/dialogs/*.cpp"
         )
     add_subdirectory(tests/googletest)
     add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allSource} ${allTestSource})

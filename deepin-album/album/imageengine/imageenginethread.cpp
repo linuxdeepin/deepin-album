@@ -13,7 +13,6 @@
 #include <QDirIterator>
 #include <QSvgGenerator>
 #include "utils/imageutils.h"
-#include "utils/snifferimageformat.h"
 #include "utils/unionimage.h"
 #include "dbmanager/dbmanager.h"
 #include "application.h"
@@ -100,7 +99,7 @@ void ImportImagesThread::run()
         for (QUrl url : m_urls) {
             const QString path = url.toLocalFile();
             if (QFileInfo(path).isDir()) {
-                auto finfos =  utils::image::getImagesInfo(path, false);
+                auto finfos =  utils::image::getImagesInfo(path, true);
                 for (auto finfo : finfos) {
                     if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
                         image_list << finfo.absoluteFilePath();
@@ -119,7 +118,7 @@ void ImportImagesThread::run()
             }
             QFileInfo file(path);
             if (file.isDir()) {
-                auto finfos =  utils::image::getImagesInfo(path, false);
+                auto finfos =  utils::image::getImagesInfo(path, true);
                 for (auto finfo : finfos) {
                     if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
                         image_list << finfo.absoluteFilePath();
@@ -836,8 +835,6 @@ void ImageEngineThread::run()
 {
     if (getNeedStop())
         return;
-//    using namespace utils::image;
-//    using namespace utils::base;
     using namespace UnionImage_NameSpace;
     QImage tImg;
     bool cache_exist = false;
@@ -867,50 +864,6 @@ void ImageEngineThread::run()
             qDebug() << errMsg;
         }
     }
-//    QString format = DetectImageFormat(path);
-//    if (format.isEmpty()) {
-//        QImageReader reader(path);
-//        reader.setAutoTransform(true);
-//        if (reader.canRead()) {
-//            tImg = reader.read();
-//        } else if (path.contains(".tga")) {
-//            bool ret = false;
-//            tImg = utils::image::loadTga(path, ret);
-//        }
-//    } else {
-//        QImageReader readerF(path, format.toLatin1());
-//        readerF.setAutoTransform(true);
-//        if (readerF.canRead()) {
-//            tImg = readerF.read();
-//        } else {
-//            if (cache_exist) {
-//                QImageReader readerF1(m_path, format.toLatin1());
-//                readerF1.setAutoTransform(true);
-//                if (readerF1.canRead()) {
-//                    tImg = readerF1.read();
-//                    cache_exist = false;
-//                } else {
-//                    qWarning() << "can't read image:" << readerF.errorString()
-//                               << format;
-//                    tImg = QImage(m_path);
-//                }
-
-//            } else {
-//                qWarning() << "can't read image:" << readerF.errorString()
-//                           << format;
-//                tImg = QImage(path);
-//            }
-//        }
-//    }
-
-//    if (getNeedStop())
-//        return;
-//    if (tImg.isNull()) {
-//        QImageReader readerG(m_path, QFileInfo(m_path).suffix().toLatin1());
-//        if (readerG.canRead())
-//            tImg = readerG.read();
-//    }
-
     if (getNeedStop())
         return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
@@ -936,11 +889,7 @@ void ImageEngineThread::run()
         qDebug() << "null pixmap" << tImg;
         pixmap = QPixmap::fromImage(tImg);
     }
-//    if (pixmap.isNull()) {
-//        pixmap = utils::image::getDamagePixmap();
-//    }
     m_data.imgpixmap = pixmap;
-
     QFileInfo fi(m_path);
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTimeOriginal");

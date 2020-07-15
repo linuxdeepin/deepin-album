@@ -17,7 +17,6 @@
 #include "thumbnaildelegate.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
-#include "utils/snifferimageformat.h"
 #include "application.h"
 #include <QDateTime>
 

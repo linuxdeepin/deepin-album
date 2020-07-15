@@ -161,7 +161,7 @@ public:
 //        for (auto i : QImageReader::supportedImageFormats()) {
 //            m_qtSupported.append(QString(i));
 //        }
-        m_qtSupported << "JPG" << "JPEG" << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF" << "TIFF" << "BMP";
+        m_qtSupported << "JPG" << "JPEG" << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF" << "TIFF" << "BMP" << "XPM";
 //        m_qtSupported.removeOne("jpg");
 //        m_qtSupported.removeOne("jpeg");
         m_not_support_rotate_format << "PFM" << "HDR" << "GIF" << "MNG";

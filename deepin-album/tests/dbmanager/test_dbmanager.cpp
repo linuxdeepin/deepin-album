@@ -3,6 +3,8 @@
 #include "application.h"
 #include "dbmanager.h"
 
+#include "utils/baseutils.h"
+
 TEST(getAllPaths, db1)
 {
     QStringList res = DBManager::instance()->getAllPaths();
@@ -32,14 +34,25 @@ TEST(getImportTimelines, db4)
     if (!res1.isEmpty()) {
         DBImgInfoList res2 = DBManager::instance()->getInfosByImportTimeline(res1.first());
         ASSERT_FALSE(res2.isEmpty());
+        if (!res2.isEmpty()) {
+            DBImgInfo res3 = DBManager::instance()->getInfoByName(res2.first().fileName);
+            ASSERT_FALSE(res3.fileName.isEmpty());
+            DBImgInfo res4 = DBManager::instance()->getInfoByPath(res2.first().filePath);
+            ASSERT_FALSE(res4.fileName.isEmpty());
+            DBImgInfo res5 = DBManager::instance()->getInfoByPathHash(utils::base::hash(res2.first().filePath));
+            ASSERT_FALSE(res5.fileName.isEmpty());
+        }
     }
+
+}
+
+TEST(getImgsCount, db5)
+{
+    int res1 = DBManager::instance()->getImgsCount();
+    ASSERT_TRUE(res1);
+    DBManager::instance()->getImgsCountByDir("");
+    DBManager::instance()->getPathsByDir("");
+    DBManager::instance()->isImgExist("");
 }
 
 
-//const DBImgInfo         getInfoByName(const QString &name) const;
-//const DBImgInfo         getInfoByPath(const QString &path) const;
-//const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
-//int                     getImgsCount() const;
-//int                     getImgsCountByDir(const QString &dir) const;
-//const QStringList       getPathsByDir(const QString &dir) const;
-//bool                    isImgExist(const QString &path) const;

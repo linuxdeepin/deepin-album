@@ -83,19 +83,11 @@ void AlbumCreateDialog::initUI()
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
     edit->move(10, 79);
-    //edit->setToolTipDuration(-1);
     DFontSizeManager::instance()->bind(edit, DFontSizeManager::T6, QFont::DemiBold);
-    //edit->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-
-    //contentLayout->addWidget(edit);
-    //按钮
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Create"), true, DDialog::ButtonRecommend);
-
     getButton(0)->setFixedSize(170, 35);
     getButton(1)->setFixedSize(170, 35);
-
-    //contentWidget->setLayout(contentLayout);
     connect(edit, &DLineEdit::textEdited, this, [ = ](const QString &) {
         if (edit->text().trimmed().isEmpty()) {
             getButton(1)->setEnabled(false);
@@ -103,44 +95,6 @@ void AlbumCreateDialog::initUI()
             getButton(1)->setEnabled(true);
         }
     });
-
-//    contentLayout->addWidget(edit);
-//    contentWidget->setLayout(contentLayout);
-
-
-
-    //addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-    //addButton(tr("Create"), true, DDialog::ButtonRecommend);
-
-//    m_Cancel = new DPushButton(this);
-//    m_Cancel->setText(tr("Cancel"));
-//    m_Cancel->setFixedSize(170,36);
-//    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-//    DPushButton *m_line = new DPushButton(this);
-
-//    DPalette m_line_pa = DApplicationHelper::instance()->palette(m_line);
-//    m_line_pa.setBrush(DPalette::TextWarning, QColor(0, 0, 0, 0));
-//    m_line->setPalette(m_line_pa);
-
-//    m_line->setFixedSize(1,28);
-//    m_line->setEnabled(false);
-
-//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-//    this, [ = ] {
-//        DPalette m_line_pa = DApplicationHelper::instance()->palette(m_line);
-//        m_line_pa.setBrush(DPalette::TextWarning, QColor(0, 0, 0, 0));
-//        m_line->setPalette(m_line_pa);
-//    });
-
-//    m_OK = new DSuggestButton(this);
-//    m_OK->setText(tr("Create"));
-//    m_OK->setFixedSize(170,36);
-//    m_OK->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-
-//    m_Cancel->move(10,134);
-//    m_line->move(189,138);
-//    m_OK->move(200,134);
-
     addContent(contentWidget);
 }
 
@@ -159,26 +113,6 @@ void AlbumCreateDialog::initConnection()
             this->close();
         }
     });
-//    connect(m_Cancel,&DPushButton::clicked,this, [=]{
-//        deleteLater();
-//        emit sigClose();
-//    });
-
-//    connect(m_OK,&DPushButton::clicked,this,[=]{
-//        if (edit->text().simplified().length()!= 0)
-//        {
-//            createAlbum(edit->text().trimmed());
-//        }
-//        else
-//        {
-//            QString str = tr("Unnamed") + QString::number(1);
-//            createAlbum(str);
-//        }
-
-//        m_OKClicked = true;
-//        this->close();
-//    });
-
     connect(this, &AlbumCreateDialog::buttonClicked, this, [ = ](int index) {
         if (0 == index) {
             deleteLater();
@@ -191,12 +125,10 @@ void AlbumCreateDialog::initConnection()
                 QString str = tr("Unnamed") + QString::number(1);
                 createAlbum(str);
             }
-
             m_OKClicked = true;
             this->close();
         }
     });
-
     connect(this, &AlbumCreateDialog::closed, this, [ = ] {
         deleteLater();
         if (true == m_OKClicked)
@@ -206,18 +138,7 @@ void AlbumCreateDialog::initConnection()
         {
             emit sigClose();
         }
-
     });
-//    connect(this, &AlbumCreateDialog::buttonClicked, this, [=] (int id) {
-//        if (id == 1) {
-//            if (edit->text().simplified().length()!= 0)
-//                createAlbum(edit->text().trimmed());
-//            else
-//                createAlbum(tr("Unnamed"));
-//        }
-
-//    });
-
 }
 
 /**
@@ -252,6 +173,14 @@ const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool i
         num++;
     }
     return static_cast<const QString>(albumName);
+}
+
+void AlbumCreateDialog::test_setEditText(const QString &text)
+{
+    QString newtext = getNewAlbumName(text);
+    edit->setText(newtext);
+    edit->textChanged(newtext);
+    edit->textEdited(newtext);
 }
 
 const QString AlbumCreateDialog::getCreateAlbumName() const

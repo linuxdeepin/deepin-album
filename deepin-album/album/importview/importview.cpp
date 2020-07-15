@@ -9,7 +9,6 @@
 #include <dgiovolume.h>
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "utils/snifferimageformat.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
 

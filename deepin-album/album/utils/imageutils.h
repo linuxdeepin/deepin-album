@@ -48,12 +48,7 @@ bool                                imageSupportRead(const QString &path);
 bool                                imageSupportSave(const QString &path);
 
 bool                                rotate(const QString &path, int degree);
-const QImage                        scaleImage(const QString &path,
-                                               const QSize &size = QSize(384, 383));
 
-bool                                generateThumbnail(const QString &path);
-const QPixmap                       getThumbnail(const QString &path,
-                                                 bool cacheOnly = false);
 void                                removeThumbnail(const QString &path);
 const QString                       thumbnailCachePath();
 const QString                       thumbnailPath(const QString &path, ThumbnailType type = ThumbLarge);

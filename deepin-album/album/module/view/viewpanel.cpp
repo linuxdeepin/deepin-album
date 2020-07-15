@@ -31,7 +31,6 @@
 #include "widgets/imagebutton.h"
 #include "widgets/printoptionspage.h"
 #include "widgets/printhelper.h"
-#include "utils/snifferimageformat.h"
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "imageengine/imageengineapi.h"
 #include <QApplication>

@@ -1,7 +1,6 @@
 #include "timelineview.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
 #include <QScrollBar>
 #include <QScroller>
