@@ -175,14 +175,6 @@ const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool i
     return static_cast<const QString>(albumName);
 }
 
-void AlbumCreateDialog::test_setEditText(const QString &text)
-{
-    QString newtext = getNewAlbumName(text);
-    edit->setText(newtext);
-    edit->textChanged(newtext);
-    edit->textEdited(newtext);
-}
-
 const QString AlbumCreateDialog::getCreateAlbumName() const
 {
     return m_createAlbumName;

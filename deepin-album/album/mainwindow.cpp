@@ -1324,7 +1324,7 @@ void MainWindow::onLoadingFinished()
     }
 }
 
-QButtonGroup *MainWindow::test_getButG()
+QButtonGroup *MainWindow::getButG()
 {
     return (nullptr != static_cast<QButtonGroup *>(btnGroup) ? btnGroup : nullptr);
 }

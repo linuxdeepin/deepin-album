@@ -10,7 +10,6 @@ TEST(albumcreatedialog, dia1)
 {
     AlbumCreateDialog *a = new AlbumCreateDialog;
     a->hide();
-    a->test_setEditText("");
     ASSERT_TRUE(a->getCreateAlbumName().isEmpty());
     AlbumDeleteDialog *d = new AlbumDeleteDialog;
     QTestEventList event;

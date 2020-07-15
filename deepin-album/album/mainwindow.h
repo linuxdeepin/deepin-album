@@ -155,7 +155,7 @@ private:
     bool m_processOptionIsEmpty = false;
 
 public:
-    QButtonGroup *test_getButG();
+    QButtonGroup *getButG();
 };
 
 #endif // MAINWINDOW_H
