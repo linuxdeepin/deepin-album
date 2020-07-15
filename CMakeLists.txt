@@ -11,7 +11,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC")
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
@@ -25,6 +25,10 @@ include_directories(${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
+
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+
+message(STATUS ${CMAKE_CXX_FLAGS})
 
 add_subdirectory(libUnionImage)
 add_subdirectory(deepin-album)

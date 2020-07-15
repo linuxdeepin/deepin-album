@@ -2,9 +2,16 @@
 #include <gmock/gmock-matchers.h>
 #include "mainwindow.h"
 
+#include <QTestEventList>
 
-
-TEST(MainWindow, timeBtnClick)
+TEST(MainWindow, BtnGroupClick)
 {
-    MainWindow m;
+    MainWindow *w = dApp->getMainWindow();
+    w->hide();
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(1));
+    event.simulate(w->getButG()->button(2));
+    event.clear();
+
 }

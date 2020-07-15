@@ -15,7 +15,6 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
-#include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
 #include "imageengine/imageenginethread.h"
 
@@ -100,20 +99,6 @@ static QString myMimeType()
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 {
-    if ((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
-            && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED));
-    else
-        DListView::mousePressEvent(event);
-    if ((m_imageType != COMMON_STR_VIEW_TIMELINE) && (m_imageType != "All Photos") &&
-            (m_imageType != COMMON_STR_TRASH) && (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
-        if (dragDropMode() != NoDragDrop) {
-            setDragDropMode(DragDrop);
-        }
-    } else {
-        setDragEnabled(false);
-    }
-
-
     // 当事件source为MouseEventSynthesizedByQt，认为此事件为TouchBegin转换而来
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
         lastTouchBeginPos = event->pos();
@@ -136,7 +121,18 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         updateEnableSelectionByMouseTimer->start();
     }
 
-
+    if ((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
+            && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED));
+    else
+        DListView::mousePressEvent(event);
+    if ((m_imageType != COMMON_STR_VIEW_TIMELINE) && (m_imageType != "All Photos") &&
+            (m_imageType != COMMON_STR_TRASH) && (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
+        if (dragDropMode() != NoDragDrop) {
+            setDragDropMode(DragDrop);
+        }
+    } else {
+        setDragEnabled(false);
+    }
 
     bool isListArea = this->indexAt(event->pos()).isValid();
     if (!isListArea) {

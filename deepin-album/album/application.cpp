@@ -22,7 +22,6 @@
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
 #include "controller/wallpapersetter.h"
-#include "utils/snifferimageformat.h"
 #include "utils/unionimage.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -214,6 +213,18 @@ bool Application::sendMessage(const QString &message)
     memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), byteArray.size())));
     sharedMemory.unlock();
     return true;
+}
+
+void Application::setMainWindow(MainWindow *window)
+{
+    if (nullptr != window) {
+        m_mainwindow = window;
+    }
+}
+
+MainWindow *Application::getMainWindow()
+{
+    return m_mainwindow;
 }
 
 void Application::checkForMessage()

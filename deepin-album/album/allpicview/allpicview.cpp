@@ -1,6 +1,5 @@
 #include "allpicview.h"
 #include <QMimeData>
-#include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -201,6 +200,16 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
     }
     restorePicNum();
 
+}
+
+void AllPicView::test_openImage(int index)
+{
+    emit m_pThumbnailListView->openImage(index);
+}
+
+ThumbnailListView *AllPicView::getThumbnailListView()
+{
+    return m_pThumbnailListView;
 }
 
 void AllPicView::updatePicsThumbnailView(QStringList strpath)

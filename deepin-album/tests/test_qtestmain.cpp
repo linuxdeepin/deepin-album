@@ -39,6 +39,8 @@
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \
         QTEST_SET_MAIN_SOURCE_PATH \
+        MainWindow *w = new MainWindow; \
+        app.setMainWindow(w); \
         return QTest::qExec(&tc, argc, argv); \
     }
 
