@@ -1,6 +1,5 @@
 #include "searchview.h"
 #include <DApplicationHelper>
-#include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>

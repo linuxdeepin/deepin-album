@@ -35,50 +35,11 @@
 #include <QUrl>
 #include <QApplication>
 #include <QMovie>
-#include "utils/snifferimageformat.h"
 #include <fstream>
 
 namespace utils {
 
 namespace image {
-
-const QImage scaleImage(const QString &path, const QSize &size)
-{
-    QImageReader reader(path);
-    reader.setAutoTransform(true);
-    if (! reader.canRead()) {
-        return QImage();
-    }
-
-    QSize tSize = reader.size();
-    if (! tSize.isValid()) {
-        QStringList rl = getAllMetaData(path).value("Dimension").split("x");
-        if (rl.length() == 2) {
-            tSize = QSize(QString(rl.first()).toInt(),
-                          QString(rl.last()).toInt());
-        }
-    }
-    tSize.scale(size, Qt::KeepAspectRatio);
-    reader.setScaledSize(tSize);
-    QImage tImg = reader.read();
-    // Some format does not support scaling
-    if (tImg.width() > size.width() || tImg.height() > size.height()) {
-        if (tImg.isNull()) {
-            return QImage();
-        } else {
-            // Save as supported format and scale it again
-            const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
-            QFile::remove(tmp);
-            if (tImg.save(tmp, "png", 50)) {
-                return scaleImage(tmp, size);
-            } else {
-                return QImage();
-            }
-        }
-    } else {
-        return tImg;
-    }
-}
 
 bool imageSupportRead(const QString &path)
 {
@@ -233,40 +194,6 @@ const QString getOrientation(const QString &path)
     return UnionImage_NameSpace::getOrientation(path);
 }
 
-/*!
- * \brief getRotatedImage
- * Rotate image base on the exif orientation
- * \param path
- * \return
- */
-const QImage getRotatedImage(const QString &path)
-{
-    QImage tImg;
-
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        } else if (path.contains(".tga")) {
-            bool ret = false;
-            tImg = utils::image::loadTga(path, ret);
-        }
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-                       << format;
-
-            tImg = QImage(path);
-        }
-    }
-    return tImg;
-}
 
 const QMap<QString, QString> getAllMetaData(const QString &path)
 {
@@ -339,81 +266,7 @@ const QString thumbnailCachePath()
     QDir().mkpath(thumbCacheP + "/normal");
     QDir().mkpath(thumbCacheP + "/large");
     QDir().mkpath(thumbCacheP + "/fail");
-
     return thumbCacheP;
-}
-
-static QMutex mutex;
-const QPixmap getThumbnail(const QString &path, bool cacheOnly)
-{
-    QMutexLocker locker(&mutex);
-
-    const QString cacheP = thumbnailCachePath();
-    const QUrl url = QUrl::fromLocalFile(path);
-    const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
-    const QString encodePath = cacheP + "/large/" + md5s + ".png";
-    const QString failEncodePath = cacheP + "/fail/" + md5s + ".png";
-    if (QFileInfo(encodePath).exists()) {
-        return QPixmap(encodePath);
-    } else if (QFileInfo(failEncodePath).exists()) {
-        return QPixmap();
-    } else {
-        // Try to generate thumbnail and load it later
-        if (! cacheOnly && generateThumbnail(path)) {
-            return QPixmap(encodePath);
-        } else {
-            return QPixmap();
-        }
-    }
-}
-
-/*!
- * \brief generateThumbnail
- * Generate and save thumbnail for specific size
- * \return
- */
-bool generateThumbnail(const QString &path)
-{
-    const QUrl url = QUrl::fromLocalFile(path);
-    const QString md5 = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
-    const auto attributes = thumbnailAttribute(url);
-    const QString cacheP = thumbnailCachePath();
-
-    // Large thumbnail
-    QImage lImg = scaleImage(path,
-                             QSize(THUMBNAIL_MAX_SIZE, THUMBNAIL_MAX_SIZE));
-
-    // Normal thumbnail
-    QImage nImg = lImg.scaled(
-                      QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
-                      , Qt::KeepAspectRatio
-                      , Qt::SmoothTransformation);
-
-    // Create filed thumbnail
-    if (lImg.isNull() || nImg.isNull()) {
-        const QString failedP = cacheP + "/fail/" + md5 + ".png";
-        QImage img(1, 1, QImage::Format_ARGB32_Premultiplied);
-        const auto keys = attributes.keys();
-        for (QString key : keys) {
-            img.setText(key, attributes[key]);
-        }
-
-        qDebug() << "Save failed thumbnail:" << img.save(failedP,  "png")
-                 << failedP << url;
-        return false;
-    } else {
-        for (QString key : attributes.keys()) {
-            lImg.setText(key, attributes[key]);
-            nImg.setText(key, attributes[key]);
-        }
-        const QString largeP = cacheP + "/large/" + md5 + ".png";
-        const QString normalP = cacheP + "/normal/" + md5 + ".png";
-        if (lImg.save(largeP, "png", 50) && nImg.save(normalP, "png", 50)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
 
 const QString thumbnailPath(const QString &path, ThumbnailType type)

@@ -43,57 +43,24 @@ const QMap<QString, QString>        getAllMetaData(const QString &path);
 const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
 const QString                       getOrientation(const QString &path);
-//const QImage                        getRotatedImage(const QString &path);
+
 bool                                imageSupportRead(const QString &path);
 bool                                imageSupportSave(const QString &path);
-//bool                                imageSupportWrite(const QString &path);
-bool                                rotate(const QString &path, int degree);
-const QImage                        scaleImage(const QString &path,
-                                               const QSize &size = QSize(384, 383));
 
-bool                                generateThumbnail(const QString &path);
-const QPixmap                       getThumbnail(const QString &path,
-                                                 bool cacheOnly = false);
+bool                                rotate(const QString &path, int degree);
+
 void                                removeThumbnail(const QString &path);
 const QString                       thumbnailCachePath();
 const QString                       thumbnailPath(const QString &path, ThumbnailType type = ThumbLarge);
 bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
 
 QStringList                         supportedImageFormats();
-const QImage loadTga(QString filePath, bool &success);
-QStringList checkImage(const QString  path);
-const QSize getImageQSize(const QString &path);
-bool  checkFileType(const QString &path);
+const QImage                        loadTga(QString filePath, bool &success);
+QStringList                         checkImage(const QString  path);
+const QSize                         getImageQSize(const QString &path);
+bool                                checkFileType(const QString &path);
 
-QPixmap getDamagePixmap(bool bLight = true);
-/**
- * @brief openGiffromPath
- * @param[in]  path
- * @return void *
- * @author LMH
- * @time 2020/05/08
- * 用freeimage打开Gif图片
- */
-void *openGiffromPath(const QString &path);
-/**
- * @brief getGifImageCount
- * @param[in]  pGIF
- * @return int
- * @author LMH
- * @time 2020/05/08
- * 返回gif一共的帧数
- */
-int getGifImageCount(void *pGIF);
-/**
- * @brief getGifImage
- * @param[in]  index
- * @param[in]  pGIF
- * @return QImage
- * @author LMH
- * @time 2020/05/08
- * 返回gif某一帧数的图片
- */
-QImage getGifImage(int index, void *pGIF);
+QPixmap                             getDamagePixmap(bool bLight = true);
 }  // namespace image
 
 }  // namespace utils

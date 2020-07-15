@@ -36,7 +36,6 @@
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "utils/snifferimageformat.h"
 #include "utils/unionimage.h"
 #include "application.h"
 #include <DGuiApplicationHelper>

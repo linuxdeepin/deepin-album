@@ -22,7 +22,6 @@
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
 #include "controller/wallpapersetter.h"
-#include "utils/snifferimageformat.h"
 #include "utils/unionimage.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -161,33 +160,6 @@ void Application::initChildren()
     wpSetter = WallpaperSetter::instance();
 }
 
-void Application::initDB()
-{
-    QStringList removePaths;
-    QStringList removeTrashPaths;
-
-    auto infos = DBManager::instance()->getAllInfos();
-    for (auto info : infos) {
-        QFile file(info.filePath);
-        if (!file.open(QIODevice::ReadOnly)) {
-            qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
-            removePaths << info.filePath;
-        }
-    }
-
-    auto trashInfos = DBManager::instance()->getAllTrashInfos();
-    for (auto info : trashInfos) {
-        QFile file(info.filePath);
-        if (!file.open(QIODevice::ReadOnly)) {
-            qWarning() << "DetectImageFormat() failed to open file:" << info.filePath;
-            removeTrashPaths << info.filePath;
-        }
-    }
-
-    DBManager::instance()->removeImgInfosNoSignal(removePaths);
-    DBManager::instance()->removeTrashImgInfosNoSignal(removeTrashPaths);
-}
-
 void Application::setupsinglecase()
 {
     QSharedMemory mem("deepin-album");
@@ -241,6 +213,18 @@ bool Application::sendMessage(const QString &message)
     memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), byteArray.size())));
     sharedMemory.unlock();
     return true;
+}
+
+void Application::setMainWindow(MainWindow *window)
+{
+    if (nullptr != window) {
+        m_mainwindow = window;
+    }
+}
+
+MainWindow *Application::getMainWindow()
+{
+    return m_mainwindow;
 }
 
 void Application::checkForMessage()

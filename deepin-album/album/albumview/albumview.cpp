@@ -13,7 +13,7 @@
 #include <dgiofileinfo.h>
 #include <dgiovolume.h>
 #include <DFontSizeManager>
-#include "utils/snifferimageformat.h"
+#include "utils/unionimage.h"
 #include <QDirIterator>
 #include <DComboBox>
 #include "widgets/dialogs/imgdeletedialog.h"
@@ -414,7 +414,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -575,7 +575,7 @@ void AlbumView::initConnections()
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
-    connect(m_pLeftListView->m_pMountListView, &DListWidget::clicked, this, [=](const QModelIndex &index) {
+    connect(m_pLeftListView->m_pMountListView, &DListWidget::clicked, this, [ = ](const QModelIndex & index) {
         Q_UNUSED(index);
         if (!isWaitDialog) {
             isWaitDialog = true;
@@ -1813,15 +1813,6 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
     info.album = "";
     info.lastPanel = nullptr;
 
-//    auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
-//    if (COMMON_STR_TRASH == m_currentAlbum) {
-//        imagelist = DBManager::instance()->getAllTrashInfos();
-//    } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
-//        imagelist = DBManager::instance()->getAllInfos();
-//    } else {
-
-//    }
-
     QStringList imagelist;
     if (COMMON_STR_TRASH == m_currentAlbum) {
         imagelist = m_pRightTrashThumbnailList->getAllFileList();
@@ -2328,7 +2319,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2397,7 +2388,7 @@ void AlbumView::loadMountPicture(QString path)
 
         QImage tImg;
 
-        QString format = DetectImageFormat(fileInfo.filePath());
+        QString format = UnionImage_NameSpace::detectImageFormat(fileInfo.filePath());
         if (format.isEmpty()) {
             QImageReader reader(fileInfo.filePath());
             reader.setAutoTransform(true);

@@ -82,6 +82,10 @@ private:
     SearchView *m_pSearchView;
     DSpinner *m_spinner;
     DWidget *fatherwidget;
+
+public:
+    void test_openImage(int index);
+    ThumbnailListView *getThumbnailListView();
 };
 
 #endif // ALLPICVIEW_H

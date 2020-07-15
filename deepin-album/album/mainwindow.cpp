@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
-#include "utils/snifferimageformat.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
 #include <dgiovolumemanager.h>
@@ -70,17 +69,18 @@ MainWindow::MainWindow()
     , m_countLabel(nullptr)
     , m_pDBus(nullptr)
 {
+    QTime t;
+    t.start();
     initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
-    QTime t;
-    t.start();
     initCentralWidget();
-    qDebug() << "zy**********initCentralWidget = " << t.elapsed();
     initShortcut();
     initConnections();
     initDBus();
-    loadZoomRatio();
+    //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
+    //loadZoomRatio();
+    qDebug() << "zy------MainWindow = " << t.elapsed();
 }
 
 MainWindow::~MainWindow()
@@ -100,7 +100,6 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     Q_UNUSED(e);
     m_pCenterWidget->setFixedSize(size());
 }
-
 
 //初始化所有连接
 void MainWindow::initConnections()
@@ -138,6 +137,11 @@ void MainWindow::initConnections()
                 m_pCenterWidget->removeWidget(m_pAlbumWidget);
                 index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
                 m_pAlbumview = new AlbumView();
+                connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
+                    if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
+                        m_pSearchEdit->setVisible(bIsDisp);
+                    }
+                });
                 m_pCenterWidget->insertWidget(index, m_pAlbumview);
             }
             albumBtnClicked();
@@ -149,7 +153,6 @@ void MainWindow::initConnections()
             }
         }
     });
-
     //图片导入槽函数
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {
@@ -165,7 +168,6 @@ void MainWindow::initConnections()
 //            m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
 //        }
     });
-
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
 #if 1
     connect(dApp->signalM, &SignalManager::viewCreateAlbum, this, &MainWindow::onViewCreateAlbum);
@@ -622,12 +624,6 @@ void MainWindow::initConnections()
 //        DMessageManager::instance()->sendMessage(pwidget,QIcon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg"),tr("点击"));
         //this->sendMessage(icon, str);
     });
-    connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
-        if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
-            m_pSearchEdit->setVisible(bIsDisp);
-        }
-    });
-
 }
 //初始化DBus
 void MainWindow::initDBus()
@@ -863,24 +859,29 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->setFixedSize(size());
     m_pCenterWidget->lower();
 
-    m_pAllPicView = new AllPicView();           //所有照片界面
-    m_pAlbumWidget = new QWidget();
+    m_pAllPicView = new AllPicView();             //所有照片界面
     m_pTimeLineWidget = new QWidget();
-    //m_pAlbumview = new AlbumView();             //相册界面
     //m_pTimeLineView = new TimeLineView();       //时间线界面
-    m_pSearchView = new SearchView();           //搜索界面
+    m_pAlbumWidget = new QWidget();
+    //m_pAlbumview = new AlbumView();             //相册界面
+    //m_pSearchView = new SearchView();           //搜索界面
+    m_pSearchViewWidget = new QWidget();
+
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
-    m_slidePanel = new SlideShowPanel();
+    //m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pAllPicView);
-    //m_pCenterWidget->addWidget(m_pTimeLineView);
-    //m_pCenterWidget->addWidget(m_pAlbumview);
+
     m_pCenterWidget->addWidget(m_pTimeLineWidget);
+    //m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumWidget);
-    m_pCenterWidget->addWidget(m_pSearchView);
+    //m_pCenterWidget->addWidget(m_pAlbumview);
+
+    //m_pCenterWidget->addWidget(m_pSearchView);
+    m_pCenterWidget->addWidget(m_pSearchViewWidget);
     m_pCenterWidget->addWidget(m_commandLine);
-    m_pCenterWidget->addWidget(m_slidePanel);
+    //m_pCenterWidget->addWidget(m_slidePanel);
 
     //pTitleBtnLayout 设置风格
     DPalette color = DApplicationHelper::instance()->palette(m_pAlbumview);
@@ -891,13 +892,16 @@ void MainWindow::initCentralWidget()
     QStringList pas;
     m_commandLine->processOption(pas);
     if (pas.length() > 0) {
+        m_processOptionIsEmpty = false;
         titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
         m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
         m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
         m_backIndex = VIEW_ALLPIC;
     } else {
-        m_commandLine->viewImage("", {});
+        //性能优化，此句在构造时不需要执行，增加启动时间
+        m_processOptionIsEmpty = true;
+        //m_commandLine->viewImage("", {});
         m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
     }
 }
@@ -1002,6 +1006,11 @@ void MainWindow::albumBtnClicked()
         m_pCenterWidget->removeWidget(m_pAlbumWidget);
         index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
         m_pAlbumview = new AlbumView();
+        connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
+            if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
+                m_pSearchEdit->setVisible(bIsDisp);
+            }
+        });
         m_pCenterWidget->insertWidget(index, m_pAlbumview);
     }
     emit dApp->signalM->hideExtensionPanel();
@@ -1315,6 +1324,11 @@ void MainWindow::onLoadingFinished()
     }
 }
 
+QButtonGroup *MainWindow::getButG()
+{
+    return (nullptr != static_cast<QButtonGroup *>(btnGroup) ? btnGroup : nullptr);
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     saveWindowState();
@@ -1348,6 +1362,31 @@ void MainWindow::paintEvent(QPaintEvent *event)
         m_SearchEditWidth = 350;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
     }
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+    QMetaObject::invokeMethod(this, [ = ]() {
+        if (m_isFirstStart) {
+            m_slidePanel = new SlideShowPanel();
+            m_pCenterWidget->addWidget(m_slidePanel);
+
+            int index = 0;
+            if (nullptr == m_pSearchView) {
+                index = m_pCenterWidget->indexOf(m_pSearchViewWidget);
+                m_pSearchView = new SearchView();
+                m_pCenterWidget->insertWidget(index, m_pSearchView);
+                m_pCenterWidget->removeWidget(m_pSearchViewWidget);
+            }
+
+            if (m_processOptionIsEmpty) {
+                m_commandLine->viewImage("", {});
+            }
+            loadZoomRatio();
+        }
+        m_isFirstStart = false;
+    }, Qt::QueuedConnection);
 }
 
 void MainWindow::saveWindowState()

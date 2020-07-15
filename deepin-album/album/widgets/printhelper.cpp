@@ -1,6 +1,6 @@
 #include "printhelper.h"
 #include "printoptionspage.h"
-#include "utils/snifferimageformat.h"
+#include "utils/unionimage.h"
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPrintPreviewWidget>
@@ -132,7 +132,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     for (const QString &path : paths) {
         // There're cases that people somehow changed the image file suffixes, like jpg -> png,
         // we'd better detect that before printing, otherwise we get an empty print.
-        const QString format = DetectImageFormat(path);
+        const QString format = UnionImage_NameSpace::detectImageFormat(path);
         if (!img.load(path, format.toLatin1())) {
             qDebug() << "img load failed" << path;
             continue;

@@ -70,6 +70,7 @@ public:
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 private:
     void initShortcutKey();
@@ -90,7 +91,7 @@ signals:
     void sigTitleMenuImportClicked();
     bool sigImageImported(bool success);
 
-private slots:
+public slots:
 
     void allPicBtnClicked();
 
@@ -120,15 +121,16 @@ private:
     DSearchEdit *m_pSearchEdit;
     QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
-
+public:
     AlbumView *m_pAlbumview;                    //相册照片界面视图
     QWidget *m_pAlbumWidget;
     AllPicView *m_pAllPicView;                  //所有照片界面视图
     TimeLineView *m_pTimeLineView;              //时间线界面视图
     QWidget *m_pTimeLineWidget;
     SearchView *m_pSearchView;                  //搜索界面视图
+    QWidget *m_pSearchViewWidget = nullptr;
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
-
+private:
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
     int m_backIndex;
@@ -149,6 +151,11 @@ private:
     QString       m_SearchKey;      //搜索框查询信息
 
     dbusclient *m_pDBus;//LMH0407DBus
+    bool m_isFirstStart = true;
+    bool m_processOptionIsEmpty = false;
+
+public:
+    QButtonGroup *getButG();
 };
 
 #endif // MAINWINDOW_H

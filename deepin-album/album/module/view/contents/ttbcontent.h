@@ -93,6 +93,7 @@ public:
     int index() const;
     void setIndex(int index);
     bool index_1(int index);
+    void emitClickSig();
 
     int indexNow() const;
 

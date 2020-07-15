@@ -33,6 +33,7 @@
 #include <QDateTime>
 #include <QMutex>
 #include <QDebug>
+#include <QSqlDatabase>
 //#include "connectionpool.h"
 
 const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
@@ -156,10 +157,11 @@ private:
 
     static DBManager *m_dbManager;
 private:
-    QString m_connectionName;
+    //QString m_connectionName;
     mutable QMutex m_mutex;
 
 //    mutable QMutex m_mutex1;
+    mutable QSqlDatabase m_db;
 };
 
 #endif // DBMANAGER_H

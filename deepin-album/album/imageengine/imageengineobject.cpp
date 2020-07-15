@@ -163,7 +163,9 @@ void ImageEngineObject::clearAndStopThread()
 {
     QMutexLocker mutex(&m_mutexthread);
     for (auto thread : m_threads) {
-        thread->needStop(this);
+        if (nullptr != thread /*&& ifObjectExist(thread)*/) {
+            thread->needStop(this);
+        }
     }
     m_threads.clear();
     m_checkpath.clear();

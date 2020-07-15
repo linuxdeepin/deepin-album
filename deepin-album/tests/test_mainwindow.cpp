@@ -1,27 +1,17 @@
-#include <QtTest/QTest>
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include "mainwindow.h"
-#include "application.h"
 
+#include <QTestEventList>
 
-
-class MainWindowTest: public ::testing::Test
-
+TEST(MainWindow, BtnGroupClick)
 {
-    virtual void SetUp()
-    {
-        mainwindow = new MainWindow();
-    }
-    virtual void TearDown()
-    {
-        delete mainwindow;
-    }
-    MainWindow *mainwindow;
-};
-
-
-TEST_F(MainWindowTest, SetUp)
-{
+    MainWindow *w = dApp->getMainWindow();
+    w->hide();
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(1));
+    event.simulate(w->getButG()->button(2));
+    event.clear();
 
 }

@@ -23,6 +23,7 @@
 #include <dgiomount.h>
 #include "dbmanager/dbmanager.h"
 
+class MainWindow;
 class Application;
 class ConfigSetter;
 class DatabaseManager;
@@ -89,7 +90,6 @@ public slots:
 private:
     void initChildren();
     void initI18n();
-    void initDB();
 
     QThread *m_LoadThread;
 public :
@@ -99,6 +99,10 @@ public :
     bool isRunning();
     //打印信息
     bool sendMessage(const QString &message);
+
+    //test
+    void setMainWindow(MainWindow *window);
+    MainWindow *getMainWindow();
 public slots:
     void checkForMessage();
 signals:
@@ -106,6 +110,7 @@ signals:
 private:
     bool _isRunning;
     QSharedMemory sharedMemory;
+    MainWindow *m_mainwindow;
 };
 
 #endif  // APPLICATION_H_

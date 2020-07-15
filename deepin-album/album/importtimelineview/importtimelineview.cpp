@@ -1,7 +1,6 @@
 #include "importtimelineview.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "utils/snifferimageformat.h"
 #include "imageengine/imageengineapi.h"
 #include <QScrollBar>
 #include <QScroller>
@@ -504,7 +503,7 @@ void ImportTimeLineView::addTimelineLayout()
     connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, [ = ]() {
         addTimelineLayout();
     });
-    connect (this, &ImportTimeLineView::sigResizeTimelineBlock, pThumbnailListView, &ThumbnailListView::slotReCalcTimelineSize);
+    connect(this, &ImportTimeLineView::sigResizeTimelineBlock, pThumbnailListView, &ThumbnailListView::slotReCalcTimelineSize);
 //        connect(pThumbnailListView, &ThumbnailListView::loadend, this, [ = ](int h) {
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
         if (!pThumbnailListView->checkResizeNum())
@@ -581,7 +580,6 @@ void ImportTimeLineView::addTimelineLayout()
         if (paths.size() > 1) {
             info.paths = paths;
         } else {
-//            auto photolist = DBManager::instance()->getAllInfos();
             auto photolist = pThumbnailListView->getAllFileList();
             if (photolist.size() > 1) {
                 for (auto image : photolist) {

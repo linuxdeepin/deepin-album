@@ -147,7 +147,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     dynamic_cast<ImageEngineObject *>(obj)->addCheckPath(imagepath);
     if (ImageLoadStatu_Loaded == data.loaded) {
         dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
-    } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread) {
+    } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread && ifObjectExist(data.thread)) {
         obj->addThread(dynamic_cast<ImageEngineThreadObject *>(data.thread));
         dynamic_cast<ImageEngineThread *>(data.thread)->addObject(obj);
     } else {
@@ -318,7 +318,7 @@ bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *o
 }
 bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
 {
-    sltImageDBLoaded(obj, QStringList() << path );
+    sltImageDBLoaded(obj, QStringList() << path);
     insertImage(path, "30");
     return true;
 }
