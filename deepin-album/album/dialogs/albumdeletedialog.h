@@ -13,7 +13,8 @@ class AlbumDeleteDialog : public DDialog
 public:
     explicit AlbumDeleteDialog(DWidget *parent = nullptr);
     void iniUI();
-
+    DPushButton *m_Cancel;
+    DPushButton *m_Delete;
 signals:
     void deleteAlbum();
 

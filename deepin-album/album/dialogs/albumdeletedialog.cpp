@@ -8,7 +8,8 @@
 #include "albumview/albumview.h"
 
 
-AlbumDeleteDialog::AlbumDeleteDialog(DWidget *parent)
+AlbumDeleteDialog::AlbumDeleteDialog(DWidget *parent):
+    m_Cancel(nullptr), m_Delete(nullptr)
 {
     Q_UNUSED(parent);
     iniUI();
@@ -33,12 +34,12 @@ void AlbumDeleteDialog::iniUI()
     this->insertContent(0, m_label);
 
     //取消按钮
-    DPushButton *m_Cancel = new DPushButton(this);
+    m_Cancel = new DPushButton(this);
     m_Cancel->setText(tr("Cancel"));
     m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     //确认删除按钮
-    DPushButton *m_Delete = new DPushButton(this);
+    m_Delete = new DPushButton(this);
     m_Delete->setText(tr("Delete"));
     m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 

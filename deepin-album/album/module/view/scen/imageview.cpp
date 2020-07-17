@@ -188,7 +188,6 @@ void ImageView::clear()
         m_pixmapItem = nullptr;
     }
     m_movieItem = nullptr;
-    m_imgSvgItem = nullptr;
     scene()->clear();
 }
 
@@ -204,88 +203,58 @@ void ImageView::setImage(const QString &path)
     QString strfixL = QFileInfo(path).suffix().toLower();
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
-
-    // The suffix of svf file should be svg
-    if (strfixL == "svg" && DSvgRenderer().load(path)) {
-        m_movieItem = nullptr;
-//        m_pixmapItem = nullptr;
+    QStringList fList =  UnionImage_NameSpace::supportMovieFormat(); //"gif","mng"
+    //QMovie can't read frameCount of "mng" correctly,so change
+    //the judge way to solve the problem
+    if (fList.contains(strfixL.toUtf8().toUpper().data())) {
         if (m_pixmapItem != nullptr) {
             delete m_pixmapItem;
             m_pixmapItem = nullptr;
         }
+
         s->clear();
         resetTransform();
-
-        DSvgRenderer *svgRenderer = new DSvgRenderer;
-        svgRenderer->load(path);
-        m_imgSvgItem = new ImageSvgItem();
-        m_imgSvgItem->setSharedRenderer(svgRenderer);
-
-//        m_svgItem = new QGraphicsSvgItem(path);
-//        m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
-//        m_svgItem->setCacheMode(QGraphicsItem::NoCache);
-//        m_svgItem->setZValue(0);
-//        Make sure item show in center of view after reload
-//        setSceneRect(m_svgItem->boundingRect());
-//        s->addItem(m_svgItem);
-        setSceneRect(m_imgSvgItem->boundingRect());
-        s->addItem(m_imgSvgItem);
+        m_movieItem = new GraphicsMovieItem(path, strfixL);
+        m_movieItem->start();
+        // Make sure item show in center of view after reload
+        setSceneRect(m_movieItem->boundingRect());
+        s->addItem(m_movieItem);
         emit imageChanged(path);
-
     } else {
-        m_imgSvgItem = nullptr;
-        QStringList fList =  UnionImage_NameSpace::supportMovieFormat(); //"gif","mng"
-        //QMovie can't read frameCount of "mng" correctly,so change
-        //the judge way to solve the problem
-        if (fList.contains(strfixL.toUtf8().toUpper().data())) {
-            if (m_pixmapItem != nullptr) {
-                delete m_pixmapItem;
-                m_pixmapItem = nullptr;
-            }
-
-            s->clear();
-            resetTransform();
-            m_movieItem = new GraphicsMovieItem(path, strfixL);
-            m_movieItem->start();
-            // Make sure item show in center of view after reload
-            setSceneRect(m_movieItem->boundingRect());
-            s->addItem(m_movieItem);
-            emit imageChanged(path);
+        m_movieItem = nullptr;
+        qDebug() << "Start cache pixmap: " << path;
+        QImageReader imagreader(path);      //取原图的分辨率
+        int w = imagreader.size().width();
+        int h = imagreader.size().height();
+        if (w > MAX_WIDTH_HEIGHT || h > MAX_WIDTH_HEIGHT) { //分辨率较大
+            m_bLoadmemory = true;
         } else {
-            m_movieItem = nullptr;
-            qDebug() << "Start cache pixmap: " << path;
-            QImageReader imagreader(path);      //取原图的分辨率
-            int w = imagreader.size().width();
-            int h = imagreader.size().height();
-            if (w > MAX_WIDTH_HEIGHT || h > MAX_WIDTH_HEIGHT) { //分辨率较大
-                m_bLoadmemory = true;
-            } else {
-                m_bLoadmemory = false;
-            }
-            if (m_bLoadmemory) {
-                scene()->clear();
-                resetTransform();
-                ImageDataSt data;   //内存中的数据
-                ImageEngineApi::instance()->getImageData(path, data);
-                QPixmap pix = data.imgpixmap.scaled(w, h, Qt::KeepAspectRatio); //缩放到原图大小
-                m_pixmapItem = new GraphicsPixmapItem(pix);
-                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-                // Make sure item show in center of view after reload
-                setSceneRect(m_pixmapItem->boundingRect());
-                scene()->addItem(m_pixmapItem);
-                autoFit();
-                emit imageChanged(path);
-            }
-
-            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-            if (m_watcher.isRunning()) {
-                m_watcher.cancel();
-                m_watcher.waitForFinished();
-            }
-            m_watcher.setFuture(f);
-            emit hideNavigation();
+            m_bLoadmemory = false;
         }
+        if (m_bLoadmemory) {
+            scene()->clear();
+            resetTransform();
+            ImageDataSt data;   //内存中的数据
+            ImageEngineApi::instance()->getImageData(path, data);
+            QPixmap pix = data.imgpixmap.scaled(w, h, Qt::KeepAspectRatio); //缩放到原图大小
+            m_pixmapItem = new GraphicsPixmapItem(pix);
+            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+            // Make sure item show in center of view after reload
+            setSceneRect(m_pixmapItem->boundingRect());
+            scene()->addItem(m_pixmapItem);
+            autoFit();
+            emit imageChanged(path);
+        }
+
+        QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
+        if (m_watcher.isRunning()) {
+            m_watcher.cancel();
+            m_watcher.waitForFinished();
+        }
+        m_watcher.setFuture(f);
+        emit hideNavigation();
     }
+
 }
 
 void ImageView::setRenderer(RendererType type)
@@ -366,13 +335,6 @@ const QImage ImageView::image()
         }
         return m_pixmapItem->pixmap().toImage();
 //    } else if (m_svgItem) {    // svg
-    } else if (m_imgSvgItem) {    // svg
-        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
-        image.fill(QColor(0, 0, 0, 0));
-        QPainter imagePainter(&image);
-        m_imgSvgItem->renderer()->render(&imagePainter);
-        imagePainter.end();
-        return image;
     } else {
         return QImage();
     }

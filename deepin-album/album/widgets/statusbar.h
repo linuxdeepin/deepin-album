@@ -14,7 +14,6 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
-#include "widgets/loadingicon.h"
 #include "thumbnail/thumbnaillistview.h"
 
 DWIDGET_USE_NAMESPACE

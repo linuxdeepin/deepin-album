@@ -44,9 +44,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-
-class PushButton;
-class ReturnButton;
 class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;

@@ -18,7 +18,6 @@
 #include "application.h"
 #include "utils/baseutils.h"
 #include "controller/configsetter.h"
-#include "widgets/pushbutton.h"
 
 #include <QBoxLayout>
 #include <QDebug>
@@ -46,16 +45,15 @@ TTMContent::TTMContent(QWidget *parent)
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &TTMContent::onThemeChanged);
-    connect(ConfigSetter::instance(), &ConfigSetter::valueChanged, this, [=](
-            const QString &group, const QString &key, const QVariant &value){
-            Q_UNUSED(key);
-            Q_UNUSED(value);
-            if (group == "MAINWINDOW")
-            {
-                m_contentWidth = std::max(m_windowWidth - 120 - LEFT_WIDGET_WIDTH, 1);
-                setFixedWidth(m_contentWidth);
-                setPath(m_path);
-            }
+    connect(ConfigSetter::instance(), &ConfigSetter::valueChanged, this, [ = ](
+    const QString & group, const QString & key, const QVariant & value) {
+        Q_UNUSED(key);
+        Q_UNUSED(value);
+        if (group == "MAINWINDOW") {
+            m_contentWidth = std::max(m_windowWidth - 120 - LEFT_WIDGET_WIDTH, 1);
+            setFixedWidth(m_contentWidth);
+            setPath(m_path);
+        }
     });
 }
 
@@ -76,17 +74,15 @@ void TTMContent::setPath(const QString &path)
     QFontMetrics fm(font);
     int strWidth = fm.boundingRect(filename).width();
     int leftMargin = 0;
-    if (strWidth > m_contentWidth || strWidth > MAX_LENGTH)
-    {
+    if (strWidth > m_contentWidth || strWidth > MAX_LENGTH) {
         name = fm.elidedText(filename, Qt::ElideMiddle, std::min(m_contentWidth, MAX_LENGTH));
-        if (m_contentWidth > MAX_LENGTH)
-        {
+        if (m_contentWidth > MAX_LENGTH) {
             strWidth = fm.boundingRect(name).width();
-            leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - m_leftContentWidth) - 6;
+            leftMargin = std::max(0, (m_windowWidth - strWidth) / 2 - m_leftContentWidth) - 6;
         } else
             leftMargin = 0;
     } else {
-        leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - m_leftContentWidth);
+        leftMargin = std::max(0, (m_windowWidth - strWidth) / 2 - m_leftContentWidth);
         name = filename;
     }
 
@@ -95,7 +91,8 @@ void TTMContent::setPath(const QString &path)
     updateGeometry();
 }
 
-void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
 //        this->setStyleSheet(utils::base::getFileContent(
 //                                ":/resources/dark/qss/ttl.qss"));
@@ -109,7 +106,7 @@ void TTMContent::updateLayout(int ttlWidth, const QString &path)
 {
     m_leftContentWidth = ttlWidth;
     m_windowWidth = ConfigSetter::instance()->value("MAINWINDOW",
-                                                     "WindowWidth").toInt();
+                                                    "WindowWidth").toInt();
     m_contentWidth = std::max(m_windowWidth - 140 - m_leftContentWidth, 1);
     qDebug() << "TTMContent:" << ttlWidth << m_contentWidth << m_windowWidth;
     setFixedWidth(m_contentWidth);

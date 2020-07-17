@@ -156,6 +156,8 @@ void MainWindow::initConnections()
     //图片导入槽函数
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {
+            if (nullptr == m_pAlbumview)
+                return ;
             if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 //2020/5/20 DJH 修复在设备界面本地导入会导致名称变换 type 写成了 album
                 //m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;

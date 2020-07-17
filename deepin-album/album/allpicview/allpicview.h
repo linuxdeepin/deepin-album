@@ -71,9 +71,7 @@ private slots:
 public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
-
     QWidget *m_pwidget;
-
     int step;
 
 private:
@@ -84,7 +82,6 @@ private:
     DWidget *fatherwidget;
 
 public:
-    void test_openImage(int index);
     ThumbnailListView *getThumbnailListView();
 };
 

@@ -20,8 +20,6 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 
-#include "widgets/pushbutton.h"
-#include "widgets/returnbutton.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"
