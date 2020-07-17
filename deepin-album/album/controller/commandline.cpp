@@ -20,7 +20,7 @@
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
 #include "controller/configsetter.h"
-#include "frame/viewmainwindow.h"
+#include "frame/mainwidget.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 

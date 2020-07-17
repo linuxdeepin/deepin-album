@@ -35,12 +35,12 @@
         Application app(argc, argv); \
         app.setAttribute(Qt::AA_Use96Dpi, true); \
         ImageEngineApi::instance(&app); \
+        MainWindow *w = QTestMain::getMainwindow(); \
+        app.setMainWindow(w); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \
         QTEST_SET_MAIN_SOURCE_PATH \
-        MainWindow *w = new MainWindow; \
-        app.setMainWindow(w); \
         return QTest::qExec(&tc, argc, argv); \
     }
 

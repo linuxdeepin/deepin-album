@@ -20,7 +20,6 @@
 #include "module/slideshow/slideshowpanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
-#include "widgets/separator.h"
 #include "widgets/dialogs/imginfodialog.h"
 
 #include <QFileSystemWatcher>

@@ -19,7 +19,6 @@
 #include "contents/imageinfowidget.h"
 #include "scen/imageview.h"
 #include "dimagebutton.h"
-#include "widgets/pushbutton.h"
 
 #include "utils/baseutils.h"
 

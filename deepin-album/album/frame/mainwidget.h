@@ -22,7 +22,6 @@
 #include "extensionpanel.h"
 #include "toptoolbar.h"
 #include "controller/signalmanager.h"
-#include "widgets/separator.h"
 #include "module/view/viewpanel.h"
 
 #include <QFrame>

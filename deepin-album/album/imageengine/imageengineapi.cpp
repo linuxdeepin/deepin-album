@@ -480,6 +480,11 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
     return true;
 }
 
+QStringList ImageEngineApi::get_AllImagePath()
+{
+    return m_AllImageData.keys();
+}
+
 int ImageEngineApi::Getm_AllImageDataNum()
 {
     return m_AllImageData.size();
