@@ -28,7 +28,7 @@ public:
 #else
         QThreadPool::globalInstance()->clear();     //清除队列
         QThreadPool::globalInstance()->waitForDone();
-        qDebug() << "xigou   current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
+        qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
 #endif
     }
 
