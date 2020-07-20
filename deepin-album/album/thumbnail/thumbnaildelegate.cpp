@@ -191,7 +191,12 @@ void ThumbnailDelegate::paint(QPainter *painter,
     if (fwidth > 1.5f) {
         painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled((pixmapRect.height()) / (data.baseHeight) * data.baseWidth, pixmapRect.height()));
     } else if (fheight > 3) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(pixmapRect.width(), (pixmapRect.width()) / (data.baseWidth) * data.baseHeight));
+        QPixmap temp = data.image.scaled(pixmapRect.width(), (pixmapRect.width()) / (data.baseWidth) * data.baseHeight);
+        if (temp.isNull()) {
+            painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(pixmapRect.width(), pixmapRect.height()));
+        } else {
+            painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), temp);
+        }
     } else {
         painter->drawPixmap(pixmapRect, data.image);
     }
