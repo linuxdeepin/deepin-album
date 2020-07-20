@@ -454,14 +454,14 @@ void ViewPanel::initShortcut()
 //        if (! m_dt->isActive())
 //        {
 //            dt->start();
-        showPrevious();
+        m_ttbc->onPreButton();
 //    }
     });
 // Next
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        showNext();
+        m_ttbc->onNextButton();
     });
 
 // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)

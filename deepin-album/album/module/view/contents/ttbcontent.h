@@ -193,7 +193,8 @@ public slots:
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
     void deleteImage();
-
+    void onNextButton();
+    void onPreButton();
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

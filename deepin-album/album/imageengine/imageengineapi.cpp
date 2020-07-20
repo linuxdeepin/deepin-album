@@ -372,19 +372,21 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave);
     }
     m_imageCacheSaveobj->add(files);
-    int coreCounts = static_cast<int>(std::thread::hardware_concurrency());
-    if (coreCounts * 50 > files.size()) {
+    int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
+    if (needCoreCounts * 100 > files.size()) {
         if (files.empty()) {
-            coreCounts = 0;
+            needCoreCounts = 0;
         } else {
 #ifdef NOGLOABL
-            coreCounts = (files.size() / 50) + 1 - cacheThreadPool.activeThreadCount();
+            needCoreCounts = (files.size() / 100) + 1 - cacheThreadPool.activeThreadCount();
 #else
-            coreCounts = (files.size() / 50) + 1 - QThreadPool::globalInstance()->activeThreadCount();
+            needCoreCounts = (files.size() / 100) + 1 - QThreadPool::globalInstance()->activeThreadCount();
 #endif
         }
     }
-    for (int i = 0; i < coreCounts; i++) {
+    if (needCoreCounts < 1)
+        needCoreCounts = 1;
+    for (int i = 0; i < needCoreCounts; i++) {
         ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
         thread->setObject(m_imageCacheSaveobj);
 #ifdef NOGLOBAL
