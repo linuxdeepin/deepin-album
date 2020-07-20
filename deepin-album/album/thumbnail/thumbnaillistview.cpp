@@ -1106,8 +1106,8 @@ void ThumbnailListView::initMenuAction()
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
     appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
-    appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
-    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(REMOVEFROMALBUM_CONTEXT_MENU));
+    appendAction(IdMoveToTrash, tr("Delete"), ss(""));
+    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
     m_pMenu->addSeparator();
     appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
