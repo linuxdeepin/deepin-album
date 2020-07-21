@@ -70,8 +70,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/
 //        backToLastPanel();
 //    });
-    connect(dApp->signalM, &SignalManager::startSlideShow,
-            this, &SlideShowPanel::startSlideShow);
+    connect(dApp->signalM, &SignalManager::startSlideShow, this, &SlideShowPanel::startSlideShow);
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesRemovedPar, [ = ](
     const DBImgInfoList & infos) {
@@ -367,8 +366,7 @@ void SlideShowPanel::setImage(const QImage &img)
     repaint();
 }
 
-void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
-                                    bool inDB)
+void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB)
 {
     if (vinfo.paths.isEmpty()) {
         qDebug() << "Start SlideShow failed! Paths is empty!";
@@ -390,25 +388,11 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
         qDebug() << "startSlideShow fileMonitor";
         m_fileSystemMonitor->addPaths(m_vinfo.paths);
     }
-
-//    if (m_cancelslideshow != nullptr) {
-//        int nParentWidth = QApplication::desktop()->screenGeometry().width();
-
-//        m_cancelslideshow->move(nParentWidth - 50, 0);
-
-//        m_cancelslideshow->show();
-//        m_cancelslideshow->raise();
-//    }
-
-//    emit dApp->signalM->initButton();
-
-//    slideshowbottombar->playpauseButton(a);
-
     if (1 < vinfo.paths.length()) {
         slideshowbottombar->m_preButton->setEnabled(true);
         slideshowbottombar->m_nextButton->setEnabled(true);
         slideshowbottombar->m_playpauseButton->setEnabled(true);
-        emit dApp->signalM->initButton();
+        emit dApp->signalM->initSlideShowButton();
     } else {
         slideshowbottombar->m_preButton->setEnabled(false);
         slideshowbottombar->m_nextButton->setEnabled(false);
