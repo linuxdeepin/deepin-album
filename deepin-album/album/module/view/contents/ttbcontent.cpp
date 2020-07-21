@@ -569,12 +569,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     });
 
     // imgListView
-//    m_imgListView = new DWidget();
     m_imgListView = new MyImageListWidget(this);
     m_imgList = new DWidget(m_imgListView);
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
-
     connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
         if (m_rightlist.isEmpty())
             return ;
@@ -592,7 +590,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
             }
         }
         m_allfileslist << loadRight;
-        m_filelist_size = m_allfileslist.size();
+        //m_filelist_size = m_allfileslist.size();
 //        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
         emit sigloadRight(loadRight);
 
@@ -616,19 +614,11 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         for (const auto &path : loadLeft)
             m_allfileslist.push_front(path);    //倒序放置
         m_filelist_size = m_allfileslist.size();
-//        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadLeft.size());
         emit sigloadLeft(loadLeft);
     });
 
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
         m_imgList->hide();
-//        QLayoutItem *child;
-//        while ((child = m_imglayout->takeAt(0)) != 0)
-//        {
-//            m_imglayout->removeWidget(child->widget());
-//            child->widget()->setParent(0);
-//            delete child;
-//        }
     });
     connect(m_imgListView, &MyImageListWidget::silmoved, this, [ = ] {
         binsertneedupdate = false;

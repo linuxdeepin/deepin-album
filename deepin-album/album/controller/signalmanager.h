@@ -110,7 +110,7 @@ signals:
     void updateButton();
     void sigStartTimer();
     void updatePauseButton();
-    void initButton();
+    void initSlideShowButton();
 
     void updateFavoriteNum();
 
