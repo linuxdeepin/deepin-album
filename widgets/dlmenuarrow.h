@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QDebug>
 
 DWIDGET_USE_NAMESPACE

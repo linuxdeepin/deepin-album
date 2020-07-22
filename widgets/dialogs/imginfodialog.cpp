@@ -35,6 +35,7 @@
 #include <DApplicationHelper>
 #include <DDialogCloseButton>
 #include <QGraphicsOpacityEffect>
+#include <QPainterPath>
 
 namespace {
 
