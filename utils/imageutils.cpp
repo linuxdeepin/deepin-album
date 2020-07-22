@@ -204,7 +204,7 @@ bool rotate(const QString &path, int degree)
                 FreeImage_Unload(rotateThumb);
             }
         }
-        //write image to cover oringal one after rotating
+        //write image to cover original one after rotating
         bsaved = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
 
         FreeImage_Unload(dib);
