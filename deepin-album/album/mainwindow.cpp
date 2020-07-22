@@ -71,15 +71,18 @@ MainWindow::MainWindow()
 {
     QTime t;
     t.start();
-    initShortcutKey();          //初始化各种快捷键
+//    initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
-    initCentralWidget();
-    initShortcut();
-    initConnections();
-    initDBus();
+    m_pCenterWidget = new QStackedWidget(this);
+    m_pCenterWidget->setFixedSize(size());
+    m_pCenterWidget->lower();
+//    initCentralWidget();
+//    initShortcut();
+//    initConnections();
+//    initDBus();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
-    //loadZoomRatio();
+//    loadZoomRatio();
     qDebug() << "zy------MainWindow = " << t.elapsed();
 }
 
@@ -98,7 +101,7 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
-    m_pCenterWidget->setFixedSize(size());
+//    m_pCenterWidget->setFixedSize(size());
 }
 
 //初始化所有连接
@@ -847,19 +850,19 @@ void MainWindow::initTitleBar()
         setTitleBarThem(curenttheme);
     });
 
-    if (0 < DBManager::instance()->getImgsCount()) {
-        // dothing
-    } else {
-        m_pSearchEdit->setEnabled(false);
-    }
+//    if (0 < DBManager::instance()->getImgsCount()) {
+//        // dothing
+//    } else {
+//        m_pSearchEdit->setEnabled(false);
+//    }
 }
 
 //初始化中心界面
 void MainWindow::initCentralWidget()
 {
-    m_pCenterWidget = new QStackedWidget(this);
-    m_pCenterWidget->setFixedSize(size());
-    m_pCenterWidget->lower();
+//    m_pCenterWidget = new QStackedWidget(this);
+//    m_pCenterWidget->setFixedSize(size());
+//    m_pCenterWidget->lower();
 
     m_pAllPicView = new AllPicView();             //所有照片界面
     m_pTimeLineWidget = new QWidget();
@@ -1371,6 +1374,8 @@ void MainWindow::showEvent(QShowEvent *event)
     Q_UNUSED(event)
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
+            initShortcutKey();
+            initCentralWidget();
             m_slidePanel = new SlideShowPanel();
             m_pCenterWidget->addWidget(m_slidePanel);
 
@@ -1385,9 +1390,20 @@ void MainWindow::showEvent(QShowEvent *event)
             if (m_processOptionIsEmpty) {
                 m_commandLine->viewImage("", {});
             }
+
+            initShortcut();
+            initConnections();
+            initDBus();
+
             loadZoomRatio();
+            if (0 < DBManager::instance()->getImgsCount()) {
+                // dothing
+            } else {
+                m_pSearchEdit->setEnabled(false);
+            }
         }
         m_isFirstStart = false;
+        m_pCenterWidget->setFixedSize(size());
     }, Qt::QueuedConnection);
 }
 
