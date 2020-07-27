@@ -40,6 +40,7 @@ public:
 private:
     void initConnections();
     void initUI();
+    void mousePressEvent(QMouseEvent *e) override;
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
