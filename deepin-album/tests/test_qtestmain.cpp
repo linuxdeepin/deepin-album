@@ -113,6 +113,12 @@ QTestMain::~QTestMain()
 MainWindow *QTestMain::getMainwindow()
 {
     static MainWindow *w = new MainWindow;
+    w->initShortcutKey();
+    w->initCentralWidget();
+    w->initShortcut();
+    w->initConnections();
+    w->initDBus();
+    w->loadZoomRatio();
     return w;
 }
 

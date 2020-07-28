@@ -19,7 +19,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "unionimage.h"
-#include "Source/FreeImage.h"
+#include <FreeImage.h>
 #include "giflib/cmanagerattributeservice.h"
 
 #include <QObject>
@@ -371,14 +371,7 @@ UNIONIMAGESHARED_EXPORT QImage FIBitmap2QImage(FIBITMAP *dib)
     }
     case 48:
     case 64:
-    case 96: {
-        QImage result(width, height, QImage::Format_RGB30);
-        FIBITMAP *res = FreeImage_ConvertToType(dib, FIT_FLOAT);
-        FreeImage_ConvertToRawBits(result.scanLine(0), res, result.bytesPerLine(), 32,
-                                   FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);
-        FreeImage_Unload(res);
-        return result;
-    }
+    case 96:
     //128位暂不支持
     case 128:
     default:
@@ -562,7 +555,7 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion()
 //    ver.append(QString(FreeImage_GetVersion()));
 //    ver.append("\n");
     ver.append("UnionImage Version:");
-    ver.append("0.0.2");
+    ver.append("1.0.0");
     ver.append("\n");
     return ver;
 }
@@ -830,6 +823,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         if (FreeImage_GetThumbnail(dib)) {
             FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
             FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -angel);
+
             FreeImage_SetThumbnail(rotateRes, rotateThumb);
             FreeImage_Unload(rotateThumb);
         }

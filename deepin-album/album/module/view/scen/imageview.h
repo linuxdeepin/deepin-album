@@ -24,6 +24,8 @@
 #include <QThread>
 #include <QFileSystemWatcher>
 #include <QTimer>
+#include <QGraphicsBlurEffect>
+#include <QPointer>
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -133,7 +135,7 @@ private:
     QThreadPool *m_pool;
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
-
+    QPointer<QGraphicsBlurEffect> m_blurEffect;
     bool m_bLoadmemory;
     CFileWatcher *m_imgFileWatcher;
     QTimer *m_isChangedTimer;

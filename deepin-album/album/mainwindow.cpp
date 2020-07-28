@@ -58,7 +58,6 @@ MainWindow::MainWindow()
     , m_backIndex(0)
     , m_backIndex_fromSlide(0)
     , m_pSliderPos(2)
-    , m_pItemButton(nullptr)
     , btnGroup(nullptr)
     , m_pAllPicBtn(nullptr)
     , m_pTimeBtn(nullptr)
@@ -101,7 +100,8 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
-//    m_pCenterWidget->setFixedSize(size());
+    if (m_pCenterWidget)
+        m_pCenterWidget->setFixedSize(size());
 }
 
 //初始化所有连接
@@ -336,7 +336,7 @@ void MainWindow::initConnections()
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
         QString str2 = tr("Album “%1” removed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -368,7 +368,7 @@ void MainWindow::initConnections()
 
         QString str2 = tr("Successfully added to “%1”");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -400,7 +400,7 @@ void MainWindow::initConnections()
 
         QString str2 = tr("Import successful");
 
-        QWidget *pwidget = new QWidget();
+        QWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -436,7 +436,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Import failed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -471,7 +471,7 @@ void MainWindow::initConnections()
         QString str1 = QString::number(successful, 10);
         QString str2 = QString::number(failed, 10);
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -503,7 +503,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export failed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -536,7 +536,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -569,7 +569,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export failed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -602,7 +602,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:

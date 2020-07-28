@@ -6,10 +6,17 @@
 
 #include "utils/baseutils.h"
 
+#include <QTestEventList>
+
 TEST(TimeLineView, T1)
 {
-    TimeLineView *a = static_cast<TimeLineView *>(dApp->getMainWindow()->m_pTimeLineView);
-    if (nullptr ==  a) {
-        return;
-    }
+    QThreadPool::globalInstance()->waitForDone();
+    MainWindow *w = dApp->getMainWindow();
+    w->showEvent(nullptr);
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(1));
+    event.clear();
+    TimeLineView *t = w->m_pTimeLineView;
+    ASSERT_TRUE(t->getIBaseHeight());
 }

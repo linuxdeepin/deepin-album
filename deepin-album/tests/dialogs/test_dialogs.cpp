@@ -3,6 +3,7 @@
 #include "application.h"
 #include "dialogs/albumcreatedialog.h"
 #include "dialogs/albumdeletedialog.h"
+#include "widgets/dialogs/imgdeletedialog.h"
 
 #include <QTestEventList>
 

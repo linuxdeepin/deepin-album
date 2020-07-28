@@ -52,3 +52,22 @@ void AlbumDeleteDialog::iniUI()
         this->close();
     });
 }
+
+void AlbumDeleteDialog::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key()) {
+    case Qt::Key_Y:
+    case Qt::Key_Delete: {
+        emit deleteAlbum();
+        this->close();
+    }
+    break;
+    case Qt::Key_N:
+    case Qt::Key_Escape: {
+        this->deleteLater();
+    }
+    break;
+    default:
+        break;
+    }
+}

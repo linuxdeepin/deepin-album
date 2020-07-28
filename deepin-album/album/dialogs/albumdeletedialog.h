@@ -15,6 +15,7 @@ public:
     void iniUI();
     DPushButton *m_Cancel;
     DPushButton *m_Delete;
+    void keyPressEvent(QKeyEvent *e) override;
 signals:
     void deleteAlbum();
 
