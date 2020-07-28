@@ -4,10 +4,19 @@
 #include "imageengineapi.h"
 #include "utils/imageutils.h"
 #include "mainwindow.h"
+#include "QTestEventList"
 
+QString testPath = "/home/djh/Pictures/test";
 
 TEST(ImportImagesFromFileList, filelist1)
 {
     MainWindow *w = dApp->getMainWindow();
-
+    QThreadPool::globalInstance()->waitForDone();
+    w->showEvent(nullptr);
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(0));
+    event.clear();
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath),"",w->m_pAllPicView,false);
+    QThreadPool::globalInstance()->waitForDone();
 }

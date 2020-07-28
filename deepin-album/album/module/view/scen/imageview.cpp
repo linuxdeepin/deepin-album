@@ -64,25 +64,6 @@ const int MAX_WIDTH_HEIGHT = 3500;      //最大尺寸分辨率，超过则加�
 QVariantList cachePixmap(const QString &path)
 {
     QImage tImg;
-
-//    QString format = DetectImageFormat(path);
-//    if (format.isEmpty()) {
-//        QImageReader reader(path);
-//        reader.setAutoTransform(true);
-//        if (reader.canRead()) {
-//            tImg = reader.read();
-//        }
-//    } else {
-//        QImageReader readerF(path, format.toLatin1());
-//        readerF.setAutoTransform(true);
-//        if (readerF.canRead()) {
-//            tImg = readerF.read();
-//        } else {
-//            qWarning() << "can't read image:" << readerF.errorString()
-//                       << format;
-//            tImg = QImage(path);
-//        }
-//    }
     QString errMsg;
     UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg);
     QPixmap p = QPixmap::fromImage(tImg);
@@ -125,7 +106,7 @@ ImageView::ImageView(QWidget *parent)
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
 
-    connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
+    connect(&m_watcher, &QFutureWatcherBase::finished, this, &ImageView::onCacheFinish);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
@@ -168,7 +149,6 @@ ImageView::ImageView(QWidget *parent)
         setImage(m_path);
         m_isChangedTimer->stop();
     });
-
 }
 
 ImageView::~ImageView()
@@ -240,6 +220,9 @@ void ImageView::setImage(const QString &path)
             m_pixmapItem = new GraphicsPixmapItem(pix);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
+            m_blurEffect = new QGraphicsBlurEffect;
+            m_blurEffect->setBlurRadius(15);
+            m_pixmapItem->setGraphicsEffect(m_blurEffect);
             setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
             autoFit();
@@ -620,6 +603,8 @@ void ImageView::onCacheFinish()
                 if (!m_pixmapItem)
                     return;
                 m_pixmapItem->setPixmap(pixmap);
+                m_pixmapItem->setGraphicsEffect(nullptr);
+                setSceneRect(m_pixmapItem->boundingRect());
                 autoFit();
                 this->update();
             } else {
