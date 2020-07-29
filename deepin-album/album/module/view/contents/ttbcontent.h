@@ -44,9 +44,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-
-class PushButton;
-class ReturnButton;
 class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;
@@ -196,7 +193,8 @@ public slots:
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
     void deleteImage();
-
+    void onNextButton();
+    void onPreButton();
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

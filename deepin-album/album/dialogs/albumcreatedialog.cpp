@@ -175,6 +175,11 @@ const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool i
     return static_cast<const QString>(albumName);
 }
 
+DLineEdit *AlbumCreateDialog::getEdit()
+{
+    return edit;
+}
+
 const QString AlbumCreateDialog::getCreateAlbumName() const
 {
     return m_createAlbumName;

@@ -26,7 +26,6 @@
 #include <DLabel>
 #include <DFrame>
 
-class PushButton;
 class QHBoxLayout;
 
 class TTMContent : public QFrame

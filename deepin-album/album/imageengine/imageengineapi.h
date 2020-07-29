@@ -28,7 +28,7 @@ public:
 #else
         QThreadPool::globalInstance()->clear();     //清除队列
         QThreadPool::globalInstance()->waitForDone();
-        qDebug() << "xigou   current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
+        qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
 #endif
     }
 
@@ -58,6 +58,7 @@ public:
     bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
+    QStringList get_AllImagePath();
     int  Getm_AllImageDataNum();
     bool clearAllImageDate();
     bool loadImagesFromPath(ImageEngineObject *obj, QString path);
@@ -67,8 +68,14 @@ public:
 
     bool loadImageDateToMemory(QStringList pathlist, QString devName);
 
-    void close(){bcloseFg = true;}
-    bool closeFg(){return bcloseFg;}
+    void close()
+    {
+        bcloseFg = true;
+    }
+    bool closeFg()
+    {
+        return bcloseFg;
+    }
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);

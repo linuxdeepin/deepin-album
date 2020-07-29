@@ -21,8 +21,8 @@
 #include <QLabel>
 #include "controller/viewerthememanager.h"
 #include "dbmanager/dbmanager.h"
-class PushButton;
-class ReturnButton;
+
+
 class ElidedLabel;
 class TTLContent : public QLabel
 {

@@ -20,8 +20,6 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 
-#include "widgets/pushbutton.h"
-#include "widgets/returnbutton.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"
@@ -444,21 +442,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     m_preButton->hide();
 
-    connect(m_preButton, &DIconButton::clicked, this, [ = ] {
-        //向左加载数据
-        int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
-        if (posX > -32 && posX < 32)
-        {
-            if (m_imgListView->m_timer->isActive()) {
-                return;
-            } else {
-                m_imgListView->m_timer->start();
-                emit m_imgListView->testloadLeft();
-            }
-        }
-        emit showPrevious();
-        emit ttbcontentClicked();
-    });
+    connect(m_preButton, &DIconButton::clicked, this, &TTBContent::onPreButton);
 
     m_preButton_spc = new DWidget;
     m_preButton_spc->setFixedSize(QSize(10, 50));
@@ -478,22 +462,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     connect(parent, SIGNAL(sigResize()), this, SLOT(onResize()));
 
 
-    connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
-        int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
-
-        //向右加载数据
-        if ((viewwidth - m_imgListView->width()) < 32 && viewwidth - m_imgListView->width() > -32)
-        {
-            if (m_imgListView->m_timer->isActive()) {
-                return;
-            } else {
-                m_imgListView->m_timer->start();
-                emit m_imgListView->testloadRight();
-            }
-        }
-        emit showNext();
-        emit ttbcontentClicked();
-    });
+    connect(m_nextButton, &DIconButton::clicked, this, &TTBContent::onNextButton);
 
 
     m_nextButton_spc = new DWidget;
@@ -600,12 +569,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     });
 
     // imgListView
-//    m_imgListView = new DWidget();
     m_imgListView = new MyImageListWidget(this);
     m_imgList = new DWidget(m_imgListView);
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
-
     connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
         if (m_rightlist.isEmpty())
             return ;
@@ -623,7 +590,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
             }
         }
         m_allfileslist << loadRight;
-        m_filelist_size = m_allfileslist.size();
+        //m_filelist_size = m_allfileslist.size();
 //        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
         emit sigloadRight(loadRight);
 
@@ -647,19 +614,11 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         for (const auto &path : loadLeft)
             m_allfileslist.push_front(path);    //倒序放置
         m_filelist_size = m_allfileslist.size();
-//        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadLeft.size());
         emit sigloadLeft(loadLeft);
     });
 
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
         m_imgList->hide();
-//        QLayoutItem *child;
-//        while ((child = m_imglayout->takeAt(0)) != 0)
-//        {
-//            m_imglayout->removeWidget(child->widget());
-//            child->widget()->setParent(0);
-//            delete child;
-//        }
     });
     connect(m_imgListView, &MyImageListWidget::silmoved, this, [ = ] {
         binsertneedupdate = false;
@@ -957,7 +916,7 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_nowIndex)*/);
         if (m_nowIndex > -1) {
 
             if (labelList.isEmpty())
@@ -1366,6 +1325,39 @@ void TTBContent::updateFilenameLayout()
     }
 
     m_fileNameLabel->setText(name, leftMargin);
+}
+
+void TTBContent::onNextButton()
+{
+    int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+
+    //向右加载数据
+    if ((viewwidth - m_imgListView->width()) < 32 && viewwidth - m_imgListView->width() > -32) {
+        if (m_imgListView->m_timer->isActive()) {
+            return;
+        } else {
+            m_imgListView->m_timer->start();
+            emit m_imgListView->testloadRight();
+        }
+    }
+    emit showNext();
+    emit ttbcontentClicked();
+}
+
+void TTBContent::onPreButton()
+{
+    //向左加载数据
+    int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+    if (posX > -32 && posX < 32) {
+        if (m_imgListView->m_timer->isActive()) {
+            return;
+        } else {
+            m_imgListView->m_timer->start();
+            emit m_imgListView->testloadLeft();
+        }
+    }
+    emit showPrevious();
+    emit ttbcontentClicked();
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)

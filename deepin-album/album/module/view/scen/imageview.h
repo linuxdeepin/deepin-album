@@ -17,7 +17,6 @@
 #ifndef SVGVIEW_H
 #define SVGVIEW_H
 #include "controller/viewerthememanager.h"
-#include "imagesvgitem.h"
 #include "imageengine/imageenginethread.h"
 
 #include <QGraphicsView>
@@ -25,6 +24,8 @@
 #include <QThread>
 #include <QFileSystemWatcher>
 #include <QTimer>
+#include <QGraphicsBlurEffect>
+#include <QPointer>
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -132,13 +133,9 @@ private:
     QString m_path;
     QString m_loadingIconPath;
     QThreadPool *m_pool;
-//    DTK_WIDGET_NAMESPACE::Toast *m_toast;
-
-//    QGraphicsSvgItem *m_svgItem = nullptr;
-    ImageSvgItem *m_imgSvgItem {nullptr};
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
-
+    QPointer<QGraphicsBlurEffect> m_blurEffect;
     bool m_bLoadmemory;
     CFileWatcher *m_imgFileWatcher;
     QTimer *m_isChangedTimer;
