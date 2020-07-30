@@ -430,7 +430,7 @@ bool checkMimeData(const QMimeData *mimeData)
 
                     if (str.isEmpty()) {
                         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-                            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                                 return true;
                             } else if (str.isEmpty()) {
                                 return true;
@@ -438,7 +438,7 @@ bool checkMimeData(const QMimeData *mimeData)
                         }
                     } else {
                         if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                                 return true;
                             }
                         }
@@ -454,7 +454,7 @@ bool checkMimeData(const QMimeData *mimeData)
             QString str = info.suffix().toLower();
             if (str.isEmpty()) {
                 if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-                    if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                         return true;
                     } else if (str.isEmpty()) {
                         return true;
@@ -462,7 +462,7 @@ bool checkMimeData(const QMimeData *mimeData)
                 }
             } else {
                 if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                    if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                         return true;
                     }
                 }

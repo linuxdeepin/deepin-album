@@ -327,9 +327,10 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
 
 QStringList supportedImageFormats()
 {
-    static QStringList list = fromByteArrayList(QImageReader::supportedImageFormats());
+    //static QStringList list = fromByteArrayList(QImageReader::supportedImageFormats());
 
-    return list;
+    //return list;
+    return UnionImage_NameSpace::unionImageSupportFormat();
 }
 
 const QImage loadTga(QString filePath, bool &success)
@@ -451,7 +452,7 @@ const QImage loadTga(QString filePath, bool &success)
     return img;
 }
 
-bool  checkFileType(const QString &path)
+bool checkFileType(const QString &path)
 {
     if (imageSupportRead(path)) {
         //            paths << path;
@@ -461,7 +462,7 @@ bool  checkFileType(const QString &path)
 
         QString str = info.suffix().toLower();
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                 return true;
             }
         }
@@ -469,7 +470,7 @@ bool  checkFileType(const QString &path)
          * 2020/4/29
          * QMimeType能识别的图片类型有限，相册能支持的格式已经不止这些，使用ImageSupporter后替换该函数
          */
-        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+        if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
             return true;
         }
     }

@@ -421,7 +421,6 @@ bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportOb
 #endif
     return true;
 }
-
 bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj)
 {
     ImageGetFilesFromMountThread *imagethread = new ImageGetFilesFromMountThread;
@@ -435,7 +434,6 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
 #endif
     return true;
 }
-
 bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
 {
     emit dApp->signalM->popupWaitDialog(tr("Importing..."));
@@ -453,7 +451,6 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
 #endif
     return true;
 }
-
 bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool bneedprogress)
 {
     emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //autor : jia.dong
@@ -468,7 +465,6 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
 #endif
     return true;
 }
-
 bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 {
     emit dApp->signalM->popupWaitDialog(tr("Restoring..."), false);
@@ -481,22 +477,7 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 #endif
     return true;
 }
-
 QStringList ImageEngineApi::get_AllImagePath()
 {
     return m_AllImageData.keys();
-}
-
-int ImageEngineApi::Getm_AllImageDataNum()
-{
-    return m_AllImageData.size();
-}
-
-bool ImageEngineApi::clearAllImageDate()
-{
-    if (!m_AllImageData.empty()) {
-        m_AllImageData.clear();
-        return true;
-    }
-    return false;
 }

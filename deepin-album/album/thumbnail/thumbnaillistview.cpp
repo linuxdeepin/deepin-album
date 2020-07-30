@@ -85,6 +85,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
+    touchTapDistance = 15;
 }
 
 

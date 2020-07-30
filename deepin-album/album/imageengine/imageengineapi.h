@@ -59,8 +59,6 @@ public:
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
     QStringList get_AllImagePath();
-    int  Getm_AllImageDataNum();
-    bool clearAllImageDate();
     bool loadImagesFromPath(ImageEngineObject *obj, QString path);
 
     //将数据加载到内存中
