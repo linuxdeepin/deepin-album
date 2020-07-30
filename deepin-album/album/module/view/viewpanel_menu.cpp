@@ -276,7 +276,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         rotateImage(false);
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(path);
+        dApp->wpSetter->setBackground(path);
         break;
     case IdDisplayInFileManager:
         emit dApp->signalM->showInFileManager(path);
@@ -384,7 +384,7 @@ void ViewPanel::updateMenuContent()
         }
     }
     /**************************************************************************/
-    if (UnionImage_NameSpace::canSave(m_currentpath)) {
+    if (UnionImage_NameSpace::canSave(m_currentpath) || QFileInfo(m_currentpath).suffix().contains("gif")) {
         appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
     }
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
