@@ -10,6 +10,10 @@ QString testPath = "/home/djh/Pictures/test";
 
 TEST(ImportImagesFromFileList, filelist1)
 {
+    QTime t;
+    t.start();
+    while (t.elapsed() < 3000)
+        dApp->processEvents();
     MainWindow *w = dApp->getMainWindow();
     QThreadPool::globalInstance()->waitForDone();
     w->showEvent(nullptr);
@@ -17,6 +21,6 @@ TEST(ImportImagesFromFileList, filelist1)
     event.addMouseClick(Qt::MouseButton::LeftButton);
     event.simulate(w->getButG()->button(0));
     event.clear();
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath),"",w->m_pAllPicView,false);
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", w->m_pAllPicView, false);
     QThreadPool::globalInstance()->waitForDone();
 }

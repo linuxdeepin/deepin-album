@@ -191,12 +191,12 @@ void QTestMain::testGui_data()
 
 void QTestMain::testGui()
 {
-    QFETCH(QTestEventList, event);
-    QFETCH(QString, result);
+//    QFETCH(QTestEventList, event);
+//    QFETCH(QString, result);
 
-    QLineEdit lineEdit;
-    event.simulate(&lineEdit);
-    QCOMPARE(lineEdit.text(), result);
+//    QLineEdit lineEdit;
+//    event.simulate(&lineEdit);
+//    QCOMPARE(lineEdit.text(), result);
 }
 
 QMYTEST_MAIN(QTestMain)

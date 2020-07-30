@@ -276,7 +276,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         rotateImage(false);
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(path);
+        dApp->wpSetter->setBackground(path);
         break;
     case IdDisplayInFileManager:
         emit dApp->signalM->showInFileManager(path);
@@ -346,7 +346,6 @@ void ViewPanel::updateMenuContent()
     } else {
         appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     }
-
     if (utils::common::VIEW_ALLPIC_SRN != m_vinfo.viewType
             && utils::common::VIEW_TIMELINE_SRN != m_vinfo.viewType
             && utils::common::VIEW_SEARCH_SRN != m_vinfo.viewType
@@ -363,7 +362,6 @@ void ViewPanel::updateMenuContent()
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), ss("favorite", "Ctrl+K"));       //收藏
     }
-
     m_menu->addSeparator();
 #endif
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
@@ -378,31 +376,19 @@ void ViewPanel::updateMenuContent()
         m_menu->addSeparator();
         if (QFileInfo(m_currentpath).isReadable() &&
                 !QFileInfo(m_currentpath).isWritable()) {
-
-
-            appendAction_darkmenu(IdRotateClockwise,
-                                  tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
-            appendAction_darkmenu(IdRotateCounterclockwise,
-                                  tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+            appendAction_darkmenu(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+            appendAction_darkmenu(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         } else {
-            appendAction(IdRotateClockwise,
-                         tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
-            appendAction(IdRotateCounterclockwise,
-                         tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+            appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+            appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         }
     }
     /**************************************************************************/
-    if (UnionImage_NameSpace::canSave(m_currentpath)) {
-//        appendAction(IdSetAsWallpaper,
-//                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
-        appendAction(IdSetAsWallpaper,
-                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
+    if (UnionImage_NameSpace::canSave(m_currentpath) || QFileInfo(m_currentpath).suffix().contains("gif")) {
+        appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
     }
-
-
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
     appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Alt+Return"));
-    // appendAction(IdDrawingBoard, tr("Draw"), ss("Draw", ""));
 }
 #if 1
 DMenu *ViewPanel::createAblumMenu()

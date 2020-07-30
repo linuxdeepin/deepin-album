@@ -85,6 +85,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
+    touchTapDistance = 15;
 }
 
 
@@ -1069,7 +1070,9 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
         m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
     }
-    if (!(1 == paths.length() && utils::image::imageSupportSave(paths[0]))) {
+    if ((1 == paths.length() && utils::image::imageSupportSave(paths[0])) || QFileInfo(paths[0]).suffix().contains("gif")) {
+        m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
+    } else {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
     }
 }
@@ -1314,7 +1317,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(path);
+        dApp->wpSetter->setBackground(path);
         break;
     case IdDisplayInFileManager:
         utils::base::showInFileManager(path);

@@ -8,6 +8,10 @@
 
 TEST(AlbumView, ini)
 {
+    QTime t;
+    t.start();
+    while (t.elapsed() < 3000)
+        dApp->processEvents();
     QThreadPool::globalInstance()->waitForDone();
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);

@@ -95,7 +95,6 @@ include_directories(tests/googletest/googlemock/include)
 include_directories(tests/googletest/googletest/include)
 endif()
 
-
 FILE (GLOB allHeaders
     "./album/*.hpp"  "./album/*.h"
     "./album/albumview/*.hpp"  "./album/albumview/*.h"
