@@ -32,6 +32,7 @@
 #include <QScrollBar>
 #include <QGestureEvent>
 #include <QSvgRenderer>
+#include <QtGlobal>
 
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
@@ -582,10 +583,42 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 //        painter->fillRect(currentImage.rect(), QBrush(pm));
     painter->restore();
 }
-
+int static count = 0;
 bool ImageView::event(QEvent *event)
 {
-    if (event->type() == QEvent::Gesture)
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
+            evType == QEvent::TouchEnd) {
+        if (evType == QEvent::TouchBegin) {
+            count = 0;
+        }
+        if (evType == QEvent::TouchUpdate) {
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+            if (touchPoints.size() > count) {
+                count = touchPoints.size();
+            }
+        }
+        if (evType == QEvent::TouchEnd) {
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+
+            if (touchPoints.size() == 1 && count <= 1) {
+                //QPointF centerPointOffset = gesture->centerPoint();
+                qreal offset = touchPoints.at(0).lastPos().x() - touchPoints.at(0).startPos().x();
+                if (qAbs(offset) > 200) {
+                    if (offset > 0) {
+                        emit previousRequested();
+                        qDebug() << "zy------ImageView::event previousRequested";
+                    } else {
+                        emit nextRequested();
+                        qDebug() << "zy------ImageView::event nextRequested";
+                    }
+                }
+            }
+        }
+        return true;
+    } else if (evType == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
     return QGraphicsView::event(event);
@@ -659,16 +692,41 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
-    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-    else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+//    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+//        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+//    else
+    if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
 {
-    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
-    scaleAtPoint(pos, gesture->scaleFactor());
+    QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+        QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+        scaleAtPoint(pos, gesture->scaleFactor());
+    }
+
+    if (changeFlags & QPinchGesture::CenterPointChanged) {
+        if (!m_isFirstPinch) {
+            m_centerPoint = gesture->centerPoint();
+            m_isFirstPinch = true;
+        }
+    }
+    if (gesture->state() == Qt::GestureFinished) {
+        QPointF centerPointOffset = gesture->centerPoint();
+        qreal offset = centerPointOffset.x() - m_centerPoint.x();
+        if (qAbs(offset) > 200) {
+            if (offset > 0) {
+                emit previousRequested();
+                qDebug() << "zy------ImageView::pinchTriggered previousRequested";
+            } else {
+                emit nextRequested();
+                qDebug() << "zy------ImageView::pinchTriggered nextRequested";
+            }
+        }
+        m_isFirstPinch = false;
+    }
 }
 
 void ImageView::swipeTriggered(QSwipeGesture *gesture)

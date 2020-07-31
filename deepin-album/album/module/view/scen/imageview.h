@@ -26,6 +26,7 @@
 #include <QTimer>
 #include <QGraphicsBlurEffect>
 #include <QPointer>
+#include <QMap>
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -141,6 +142,8 @@ private:
     QTimer *m_isChangedTimer;
 
     ImageRotateThreadControler *m_rotateControler;
+    bool m_isFirstPinch = false;
+    QPointF m_centerPoint;
 };
 
 class CFileWatcher: public QThread
