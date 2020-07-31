@@ -265,7 +265,7 @@ if(DOTEST)
 endif()
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} pthread)
 
 if(DOTEST)
     target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})
