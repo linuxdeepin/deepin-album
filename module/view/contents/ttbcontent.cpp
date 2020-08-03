@@ -600,7 +600,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
             }
         }
         m_allfileslist << loadRight;
-        m_filelist_size = m_allfileslist.size();
+        //m_filelist_size = m_allfileslist.size();
 //        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
         emit sigloadRight(loadRight);
 

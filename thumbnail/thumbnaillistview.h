@@ -181,6 +181,7 @@ protected:
     void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void onMenuItemClicked(QAction *action);
