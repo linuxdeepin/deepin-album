@@ -600,7 +600,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
             }
         }
         m_allfileslist << loadRight;
-        m_filelist_size = m_allfileslist.size();
+        //m_filelist_size = m_allfileslist.size();
 //        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
         emit sigloadRight(loadRight);
 
@@ -933,7 +933,7 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_nowIndex)*/);
         if (m_nowIndex > -1) {
 
             if (labelList.isEmpty())
