@@ -156,6 +156,12 @@ void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
     pDrag->exec(Qt::MoveAction);
 }
 
+void ThumbnailListView::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event);
+    resizeEventF();
+}
+
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
     DListView::mouseReleaseEvent(event);

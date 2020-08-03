@@ -407,7 +407,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
         slideshowbottombar->m_preButton->setEnabled(true);
         slideshowbottombar->m_nextButton->setEnabled(true);
         slideshowbottombar->m_playpauseButton->setEnabled(true);
-        emit dApp->signalM->initButton();
+        emit dApp->signalM->initSlideShowButton();
     } else {
         slideshowbottombar->m_preButton->setEnabled(false);
         slideshowbottombar->m_nextButton->setEnabled(false);
