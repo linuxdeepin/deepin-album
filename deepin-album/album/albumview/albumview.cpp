@@ -1574,50 +1574,13 @@ void AlbumView::updateRightTrashView()
 //    QStringList removepaths;
 
     infos = DBManager::instance()->getAllTrashInfos();
-//    m_curThumbnaiItemList << infos;
 
-//    bcurThumbnaiItemList_str = false;
-//    m_curThumbnaiItemList_info.clear();
+    for (auto pinfo : infos) {
+        if (!QFileInfo(pinfo.filePath).exists()) {
+            infos.removeOne(pinfo);
+        }
+    }
     m_curThumbnaiItemList_info << infos;
-//    for (auto info : infos) {
-//        QDateTime start = QDateTime::currentDateTime();
-//        QDateTime end = info.changeTime;
-
-//        uint etime = start.toTime_t();
-//        uint stime = end.toTime_t();
-
-//        int Day = (etime - stime) / (idaysec) + ((etime - stime) % (idaysec) + (idaysec - 1)) / (idaysec) - 1;
-
-//        if (30 <= Day) {
-//            removepaths << info.filePath;
-//        } else {
-//            ThumbnailListView::ItemInfo vi;
-//            vi.name = info.fileName;
-//            vi.path = info.filePath;
-////            vi.image = dApp->m_imagetrashmap.value(info.filePath);
-//            if (dApp->m_imagetrashmap.value(info.filePath).isNull()) {
-//                QSize imageSize = getImageQSize(vi.path);
-
-//                vi.width = imageSize.width();
-//                vi.height = imageSize.height();
-//            } else {
-//                vi.width = dApp->m_imagetrashmap.value(info.filePath).width();
-//                vi.height = dApp->m_imagetrashmap.value(info.filePath).height();
-//            }
-//            vi.remainDays = QString::number(30 - Day) + tr("days");
-
-//            m_curThumbnaiItemList << vi;
-//        }
-//    }
-
-//    if (0 < removepaths.length()) {
-////        for (auto path : removepaths) {
-////            dApp->m_imagetrashmap.remove(path);
-////        }
-
-//        DBManager::instance()->removeTrashImgInfosNoSignal(removepaths);
-//    }
-
     if (0 < infos.length()) {
         m_pDeleteBtn->setEnabled(true);
     } else {
