@@ -1,7 +1,7 @@
 #定义需要的cmake版本
 cmake_minimum_required(VERSION 3.10)
 
-project(deepin-album VERSION 5.6.9)
+project(deepin-album)
 
 execute_process(COMMAND uname -m OUTPUT_VARIABLE MACH
     ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -10,10 +10,13 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(DMR_DEBUG on)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC")
+################### mips ##################
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "mips64")
+    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,--as-needed -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mmsa -mloongson-ext2 -mloongson-mmi")
+else()
+    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,--as-needed")
 endif()
-
+##
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 find_package(PkgConfig REQUIRED)

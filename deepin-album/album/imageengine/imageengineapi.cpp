@@ -66,6 +66,12 @@ bool ImageEngineApi::ifObjectExist(void *obj)
 
 bool ImageEngineApi::removeImage(QString imagepath)
 {
+    static QStringList dbremovelist;
+    dbremovelist.append(imagepath);
+    if (QThreadPool::globalInstance()->activeThreadCount() < 1) {
+        DBManager::instance()->removeImgInfos(dbremovelist);
+        dbremovelist.clear();
+    }
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
     if (it != m_AllImageData.end()) {
@@ -372,19 +378,21 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave);
     }
     m_imageCacheSaveobj->add(files);
-    int coreCounts = static_cast<int>(std::thread::hardware_concurrency());
-    if (coreCounts * 50 > files.size()) {
+    int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
+    if (needCoreCounts * 100 > files.size()) {
         if (files.empty()) {
-            coreCounts = 0;
+            needCoreCounts = 0;
         } else {
 #ifdef NOGLOABL
-            coreCounts = (files.size() / 50) + 1 - cacheThreadPool.activeThreadCount();
+            needCoreCounts = (files.size() / 100) + 1 - cacheThreadPool.activeThreadCount();
 #else
-            coreCounts = (files.size() / 50) + 1 - QThreadPool::globalInstance()->activeThreadCount();
+            needCoreCounts = (files.size() / 100) + 1 - QThreadPool::globalInstance()->activeThreadCount();
 #endif
         }
     }
-    for (int i = 0; i < coreCounts; i++) {
+    if (needCoreCounts < 1)
+        needCoreCounts = 1;
+    for (int i = 0; i < needCoreCounts; i++) {
         ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
         thread->setObject(m_imageCacheSaveobj);
 #ifdef NOGLOBAL
@@ -419,7 +427,6 @@ bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportOb
 #endif
     return true;
 }
-
 bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj)
 {
     ImageGetFilesFromMountThread *imagethread = new ImageGetFilesFromMountThread;
@@ -433,7 +440,6 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
 #endif
     return true;
 }
-
 bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
 {
     emit dApp->signalM->popupWaitDialog(tr("Importing..."));
@@ -451,7 +457,6 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
 #endif
     return true;
 }
-
 bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool bneedprogress)
 {
     emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //autor : jia.dong
@@ -466,7 +471,6 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
 #endif
     return true;
 }
-
 bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 {
     emit dApp->signalM->popupWaitDialog(tr("Restoring..."), false);
@@ -479,17 +483,7 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 #endif
     return true;
 }
-
-int ImageEngineApi::Getm_AllImageDataNum()
+QStringList ImageEngineApi::get_AllImagePath()
 {
-    return m_AllImageData.size();
-}
-
-bool ImageEngineApi::clearAllImageDate()
-{
-    if (!m_AllImageData.empty()) {
-        m_AllImageData.clear();
-        return true;
-    }
-    return false;
+    return m_AllImageData.keys();
 }

@@ -58,7 +58,6 @@ MainWindow::MainWindow()
     , m_backIndex(0)
     , m_backIndex_fromSlide(0)
     , m_pSliderPos(2)
-    , m_pItemButton(nullptr)
     , btnGroup(nullptr)
     , m_pAllPicBtn(nullptr)
     , m_pTimeBtn(nullptr)
@@ -71,15 +70,18 @@ MainWindow::MainWindow()
 {
     QTime t;
     t.start();
-    initShortcutKey();          //初始化各种快捷键
+//    initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
-    initCentralWidget();
-    initShortcut();
-    initConnections();
-    initDBus();
+    m_pCenterWidget = new QStackedWidget(this);
+    m_pCenterWidget->setFixedSize(size());
+    m_pCenterWidget->lower();
+//    initCentralWidget();
+//    initShortcut();
+//    initConnections();
+//    initDBus();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
-    //loadZoomRatio();
+//    loadZoomRatio();
     qDebug() << "zy------MainWindow = " << t.elapsed();
 }
 
@@ -98,7 +100,8 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
-    m_pCenterWidget->setFixedSize(size());
+    if (m_pCenterWidget)
+        m_pCenterWidget->setFixedSize(size());
 }
 
 //初始化所有连接
@@ -156,6 +159,8 @@ void MainWindow::initConnections()
     //图片导入槽函数
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {
+            if (nullptr == m_pAlbumview)
+                return ;
             if (ALBUM_PATHTYPE_BY_PHONE == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 //2020/5/20 DJH 修复在设备界面本地导入会导致名称变换 type 写成了 album
                 //m_pAlbumview->m_currentAlbum = ALBUM_PATHTYPE_BY_PHONE;
@@ -331,7 +336,7 @@ void MainWindow::initConnections()
 //        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
         QString str2 = tr("Album “%1” removed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -363,7 +368,7 @@ void MainWindow::initConnections()
 
         QString str2 = tr("Successfully added to “%1”");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -395,7 +400,7 @@ void MainWindow::initConnections()
 
         QString str2 = tr("Import successful");
 
-        QWidget *pwidget = new QWidget();
+        QWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -431,7 +436,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Import failed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -466,7 +471,7 @@ void MainWindow::initConnections()
         QString str1 = QString::number(successful, 10);
         QString str2 = QString::number(failed, 10);
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
             pwidget = m_pAllPicView->m_pwidget;
@@ -498,7 +503,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export failed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -531,7 +536,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -564,7 +569,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export failed");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -597,7 +602,7 @@ void MainWindow::initConnections()
 
         QString str = tr("Export successful");
 
-        DWidget *pwidget = new DWidget();
+        DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -845,19 +850,19 @@ void MainWindow::initTitleBar()
         setTitleBarThem(curenttheme);
     });
 
-    if (0 < DBManager::instance()->getImgsCount()) {
-        // dothing
-    } else {
-        m_pSearchEdit->setEnabled(false);
-    }
+//    if (0 < DBManager::instance()->getImgsCount()) {
+//        // dothing
+//    } else {
+//        m_pSearchEdit->setEnabled(false);
+//    }
 }
 
 //初始化中心界面
 void MainWindow::initCentralWidget()
 {
-    m_pCenterWidget = new QStackedWidget(this);
-    m_pCenterWidget->setFixedSize(size());
-    m_pCenterWidget->lower();
+//    m_pCenterWidget = new QStackedWidget(this);
+//    m_pCenterWidget->setFixedSize(size());
+//    m_pCenterWidget->lower();
 
     m_pAllPicView = new AllPicView();             //所有照片界面
     m_pTimeLineWidget = new QWidget();
@@ -1369,6 +1374,8 @@ void MainWindow::showEvent(QShowEvent *event)
     Q_UNUSED(event)
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
+            initShortcutKey();
+            initCentralWidget();
             m_slidePanel = new SlideShowPanel();
             m_pCenterWidget->addWidget(m_slidePanel);
 
@@ -1383,9 +1390,20 @@ void MainWindow::showEvent(QShowEvent *event)
             if (m_processOptionIsEmpty) {
                 m_commandLine->viewImage("", {});
             }
+
+            initShortcut();
+            initConnections();
+            initDBus();
+
             loadZoomRatio();
+            if (0 < DBManager::instance()->getImgsCount()) {
+                // dothing
+            } else {
+                m_pSearchEdit->setEnabled(false);
+            }
         }
         m_isFirstStart = false;
+        m_pCenterWidget->setFixedSize(size());
     }, Qt::QueuedConnection);
 }
 

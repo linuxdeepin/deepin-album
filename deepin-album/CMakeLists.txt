@@ -17,8 +17,6 @@ option(DOTEST "option for test" OFF)
 # 添加gocv覆盖率文件的输出
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
-
-
 if(DOTEST)
 set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras OpenGL Test)
 else()
@@ -96,7 +94,6 @@ include_directories(tests/googletest)
 include_directories(tests/googletest/googlemock/include)
 include_directories(tests/googletest/googletest/include)
 endif()
-
 
 FILE (GLOB allHeaders
     "./album/*.hpp"  "./album/*.h"
@@ -268,7 +265,7 @@ if(DOTEST)
 endif()
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} pthread)
 
 if(DOTEST)
     target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})

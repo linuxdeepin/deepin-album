@@ -51,6 +51,7 @@ AllPicView::AllPicView()
     m_pStackedWidget->addWidget(m_pImportView);
     m_pStackedWidget->addWidget(pThumbnailListView);
     m_pStackedWidget->addWidget(m_pSearchView);
+    m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
     m_pStatusBar = new StatusBar(this);
     m_pStatusBar->raise();
     m_pStatusBar->setFixedWidth(this->width());
@@ -200,11 +201,6 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
     }
     restorePicNum();
 
-}
-
-void AllPicView::test_openImage(int index)
-{
-    emit m_pThumbnailListView->openImage(index);
 }
 
 ThumbnailListView *AllPicView::getThumbnailListView()

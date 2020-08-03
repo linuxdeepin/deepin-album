@@ -2,21 +2,26 @@
 #include <gmock/gmock-matchers.h>
 #include "application.h"
 #include "mainwindow.h"
-#include "timelineview.h"
-
-#include "utils/baseutils.h"
+#include "albumview.h"
 
 #include <QTestEventList>
 
-TEST(TimeLineView, T1)
+TEST(AlbumView, ini)
 {
+    QTime t;
+    t.start();
+    while (t.elapsed() < 3000)
+        dApp->processEvents();
     QThreadPool::globalInstance()->waitForDone();
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
     QTestEventList event;
     event.addMouseClick(Qt::MouseButton::LeftButton);
-    event.simulate(w->getButG()->button(1));
+    event.simulate(w->getButG()->button(2));
     event.clear();
-    TimeLineView *t = w->m_pTimeLineView;
-    ASSERT_TRUE(t->getIBaseHeight());
+    AlbumView *a = w->m_pAlbumview;
+    for (int i = 0; i < 10; i++) {
+        a->m_pStatusBar->m_pSlider->setValue(i);
+    }
+    a->m_pStatusBar->m_pSlider->setValue(1);
 }

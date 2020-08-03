@@ -7,7 +7,6 @@
 TEST(MainWindow, BtnGroupClick)
 {
     MainWindow *w = dApp->getMainWindow();
-    w->hide();
     QTestEventList event;
     event.addMouseClick(Qt::MouseButton::LeftButton);
     event.simulate(w->getButG()->button(1));

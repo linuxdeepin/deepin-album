@@ -20,7 +20,7 @@
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
 #include "controller/configsetter.h"
-#include "frame/viewmainwindow.h"
+#include "frame/mainwidget.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 
@@ -221,7 +221,7 @@ bool CommandLine::processOption(QStringList &paslist)
 //        if (str.isEmpty()) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
                 || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                 bneedexit = false;
 //                break;
                 paslist << info.filePath();

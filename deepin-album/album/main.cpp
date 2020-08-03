@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 //        if (str.isEmpty()) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
                 || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                 bneedexit = false;
                 break;
             } else if (str.isEmpty()) {

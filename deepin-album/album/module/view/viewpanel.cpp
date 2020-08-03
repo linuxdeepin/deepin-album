@@ -177,8 +177,7 @@ void ViewPanel::initConnect()
         showImage(fileindex, 0);
     });
 
-    connect(dApp->signalM, &SignalManager::viewImage,
-    this, [ = ](const SignalManager::ViewInfo & info) {
+    connect(dApp->signalM, &SignalManager::viewImage, this, [ = ](const SignalManager::ViewInfo & info) {
         SignalManager::ViewInfo vinfo = info;
         m_vinfo = vinfo;
         m_bFirstFullScreen = m_vinfo.fullScreen;

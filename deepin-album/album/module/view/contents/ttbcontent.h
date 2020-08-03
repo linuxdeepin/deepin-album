@@ -44,9 +44,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-
-class PushButton;
-class ReturnButton;
 class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;
@@ -63,6 +60,8 @@ public:
     void setObj(QObject *obj);
 
     QTimer *m_timer = nullptr;
+private:
+    bool animationStart();
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
@@ -76,8 +75,8 @@ private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
     QPoint m_prepoint;
-
-
+    QVector<QPoint> m_movePoints;
+    bool m_iRet = true;
 };
 
 class ImageItem : public QLabel
@@ -196,7 +195,8 @@ public slots:
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
     void deleteImage();
-
+    void onNextButton();
+    void onPreButton();
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

@@ -20,8 +20,6 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 
-#include "widgets/pushbutton.h"
-#include "widgets/returnbutton.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"
@@ -94,6 +92,103 @@ void MyImageListWidget::setObj(QObject *obj)
     m_obj = obj;
 }
 
+bool MyImageListWidget::animationStart()
+{
+    int firsttolast = 0;
+    if (m_movePoints.size() > 0) {
+        firsttolast = m_movePoints.first().x() - m_movePoints.last().x();
+        qDebug() << "zy------firsttolast = " << firsttolast;
+    }
+    m_iRet = true;
+    QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
+    animation->setEasingCurve(QEasingCurve::NCurveTypes);
+    animation->setStartValue(((DWidget *)m_obj)->pos());
+    if (firsttolast < 20 && firsttolast > -20) {
+        animation->deleteLater();
+        m_iRet = false;
+        bMove = false;
+        bmouseleftpressed = false;
+        emit mouseLeftReleased();
+        return false;
+    } else if (firsttolast >= 20 && firsttolast < 50) {
+        animation->setDuration(1000);
+        animation->setEndValue(QPoint(((DWidget *)m_obj)->x() - 40, ((DWidget *)m_obj)->y()));
+    } else if (firsttolast <= -20 && firsttolast > -50) {
+        animation->setDuration(1000);
+        animation->setEndValue(QPoint(((DWidget *)m_obj)->x() + 40, ((DWidget *)m_obj)->y()));
+    } else if (firsttolast >= 50 && firsttolast < 100) {
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x() - 70, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x() - 100, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
+    } else if (firsttolast <= -50 && firsttolast > -100) {
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x() + 70, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x() + 100, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
+    } else if (firsttolast >= 100 && firsttolast < 200) {
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x() - 130, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x() - 170, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x() - 200, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
+    } else if (firsttolast <= -100 && firsttolast > -200) {
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x() + 130, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x() + 170, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x() + 200, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
+    } else if (firsttolast >= 200) {
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x() - 150, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x() - 220, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x() - 260, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x() - 300, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
+    } else if (firsttolast <= -200) {
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x() + 150, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x() + 220, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x() + 260, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x() + 300, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
+    }
+    connect(animation, &QPropertyAnimation::finished, [ = ] {
+        m_iRet = false;
+        bMove = false;
+    });
+
+    QThread *th = QThread::create([ = ]() {
+        while (m_iRet && bMove) {
+            QThread::msleep(50);
+            QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+            int middle = (this->geometry().left() + this->geometry().right()) / 2;
+            qDebug() << "middle: " << middle;
+            for (int i = 0; i < list.size(); i++) {
+                QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
+                if (labelList.size() > 0) {
+                    ImageItem *img = labelList.at(0);
+                    if (nullptr == img) {
+                        continue;
+                    }
+                    int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
+                    int left = this->geometry().left() + img->geometry().left() + listLeft;
+                    int right = this->geometry().left() + img->geometry().right() + listLeft;
+                    if (left <= middle && middle < right) {
+                        img->emitClickSig();
+                    }
+                }
+            }
+        }
+    });
+    connect(th, &QThread::finished, th, &QObject::deleteLater);
+    th->start();
+
+    m_movePoints.clear();
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+    return true;
+}
+
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
@@ -106,7 +201,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     }
 
     if (e->type() == QEvent::MouseButtonRelease) {
-        bMove = false;
+        bMove = true;
         bmouseleftpressed = false;
         int posX = dynamic_cast<DWidget *>(m_obj)->x();
         int viewwidth = dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x();
@@ -130,6 +225,11 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         }
         emit mouseLeftReleased();
 
+        QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        qDebug() << "zy------MouseButtonRelease mouseEvent->pos: " << mouseEvent->globalPos();
+        if (!animationStart()) {
+            return false;
+        }
     }
     if (e->type() == QEvent::Leave && obj == m_obj) {
         bmouseleftpressed = false;
@@ -139,6 +239,12 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         bMove = true;
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         QPoint p = mouseEvent->globalPos();
+        if (m_movePoints.size() < 20) {
+            m_movePoints.push_back(p);
+        } else {
+            m_movePoints.pop_front();
+            m_movePoints.push_back(p);
+        }
         dynamic_cast<DWidget *>(m_obj)->move((dynamic_cast<DWidget *>(m_obj))->x() + p.x() - m_prepoint.x(), ((dynamic_cast<DWidget *>(m_obj))->y()));
         m_prepoint = p;
         int posX = dynamic_cast<DWidget *>(m_obj)->x();
@@ -444,21 +550,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     m_preButton->hide();
 
-    connect(m_preButton, &DIconButton::clicked, this, [ = ] {
-        //向左加载数据
-        int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
-        if (posX > -32 && posX < 32)
-        {
-            if (m_imgListView->m_timer->isActive()) {
-                return;
-            } else {
-                m_imgListView->m_timer->start();
-                emit m_imgListView->testloadLeft();
-            }
-        }
-        emit showPrevious();
-        emit ttbcontentClicked();
-    });
+    connect(m_preButton, &DIconButton::clicked, this, &TTBContent::onPreButton);
 
     m_preButton_spc = new DWidget;
     m_preButton_spc->setFixedSize(QSize(10, 50));
@@ -478,22 +570,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     connect(parent, SIGNAL(sigResize()), this, SLOT(onResize()));
 
 
-    connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
-        int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
-
-        //向右加载数据
-        if ((viewwidth - m_imgListView->width()) < 32 && viewwidth - m_imgListView->width() > -32)
-        {
-            if (m_imgListView->m_timer->isActive()) {
-                return;
-            } else {
-                m_imgListView->m_timer->start();
-                emit m_imgListView->testloadRight();
-            }
-        }
-        emit showNext();
-        emit ttbcontentClicked();
-    });
+    connect(m_nextButton, &DIconButton::clicked, this, &TTBContent::onNextButton);
 
 
     m_nextButton_spc = new DWidget;
@@ -600,12 +677,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     });
 
     // imgListView
-//    m_imgListView = new DWidget();
     m_imgListView = new MyImageListWidget(this);
     m_imgList = new DWidget(m_imgListView);
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
-
     connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
         if (m_rightlist.isEmpty())
             return ;
@@ -623,7 +698,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
             }
         }
         m_allfileslist << loadRight;
-        m_filelist_size = m_allfileslist.size();
+        //m_filelist_size = m_allfileslist.size();
 //        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
         emit sigloadRight(loadRight);
 
@@ -647,19 +722,11 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         for (const auto &path : loadLeft)
             m_allfileslist.push_front(path);    //倒序放置
         m_filelist_size = m_allfileslist.size();
-//        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadLeft.size());
         emit sigloadLeft(loadLeft);
     });
 
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
         m_imgList->hide();
-//        QLayoutItem *child;
-//        while ((child = m_imglayout->takeAt(0)) != 0)
-//        {
-//            m_imglayout->removeWidget(child->widget());
-//            child->widget()->setParent(0);
-//            delete child;
-//        }
     });
     connect(m_imgListView, &MyImageListWidget::silmoved, this, [ = ] {
         binsertneedupdate = false;
@@ -957,7 +1024,7 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_nowIndex)*/);
         if (m_nowIndex > -1) {
 
             if (labelList.isEmpty())
@@ -1366,6 +1433,39 @@ void TTBContent::updateFilenameLayout()
     }
 
     m_fileNameLabel->setText(name, leftMargin);
+}
+
+void TTBContent::onNextButton()
+{
+    int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+
+    //向右加载数据
+    if ((viewwidth - m_imgListView->width()) < 32 && viewwidth - m_imgListView->width() > -32) {
+        if (m_imgListView->m_timer->isActive()) {
+            return;
+        } else {
+            m_imgListView->m_timer->start();
+            emit m_imgListView->testloadRight();
+        }
+    }
+    emit showNext();
+    emit ttbcontentClicked();
+}
+
+void TTBContent::onPreButton()
+{
+    //向左加载数据
+    int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
+    if (posX > -32 && posX < 32) {
+        if (m_imgListView->m_timer->isActive()) {
+            return;
+        } else {
+            m_imgListView->m_timer->start();
+            emit m_imgListView->testloadLeft();
+        }
+    }
+    emit showPrevious();
+    emit ttbcontentClicked();
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)

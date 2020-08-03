@@ -69,7 +69,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
         m_playpauseButton->setToolTip(tr("Play"));
         a = 1;
     });
-    connect(dApp->signalM, &SignalManager::initButton, this, [ = ] {
+    connect(dApp->signalM, &SignalManager::initSlideShowButton, this, [ = ] {
         m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
         m_playpauseButton->setToolTip(tr("Pause"));
         a = 0;

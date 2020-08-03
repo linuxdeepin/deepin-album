@@ -62,25 +62,26 @@ public:
     void initUI();
     void initWaitDialog();
     void initShortcut();
+    void initShortcutKey();
     void initTitleBar();
     void initCentralWidget();
     void setWaitDialogColor();
     void setTitleBarThem(DGuiApplicationHelper::ColorType theme);             //更新状态栏主题
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
+    void loadZoomRatio();
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    void initShortcutKey();
     void thumbnailZoomIn();
     void thumbnailZoomOut();
     QJsonObject createShorcutJson();
     void saveWindowState();
     void loadWindowState();
     void saveZoomRatio();
-    void loadZoomRatio();
+
     void viewImageClose();
 
 protected:
@@ -136,7 +137,6 @@ private:
     int m_backIndex;
     int m_backIndex_fromSlide;
     int m_pSliderPos;       //滑动条步进
-    DPushButton *m_pItemButton;
 
     QButtonGroup *btnGroup;
     DPushButton *m_pAllPicBtn;

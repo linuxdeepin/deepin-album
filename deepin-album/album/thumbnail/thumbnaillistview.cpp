@@ -85,6 +85,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
+    touchTapDistance = 15;
 }
 
 
@@ -111,13 +112,11 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 
         if (updateEnableSelectionByMouseTimer && updateEnableSelectionByMouseTimer->isActive()) {
             updateEnableSelectionByMouseTimer->stop();
-        } else {
-            updateEnableSelectionByMouseTimer = new QTimer(this);
-            updateEnableSelectionByMouseTimer->setSingleShot(true);
-            //updateEnableSelectionByMouseTimer->setInterval(touchFlickBeginMoveDelay.isValid() ? touchFlickBeginMoveDelay.toInt() : 300);
-            updateEnableSelectionByMouseTimer->setInterval(50);
-            connect(updateEnableSelectionByMouseTimer, &QTimer::timeout, updateEnableSelectionByMouseTimer, &QTimer::deleteLater);
         }
+        updateEnableSelectionByMouseTimer = new QTimer(this);
+        updateEnableSelectionByMouseTimer->setSingleShot(true);
+        updateEnableSelectionByMouseTimer->setInterval(50);
+        connect(updateEnableSelectionByMouseTimer, &QTimer::timeout, updateEnableSelectionByMouseTimer, &QTimer::deleteLater);
         updateEnableSelectionByMouseTimer->start();
     }
 
@@ -158,6 +157,11 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
+    QRectF rect(QPointF((lastTouchBeginPos.x() - 30), (lastTouchBeginPos.y() - 30)),
+                QPointF((lastTouchBeginPos.x() + 30), (lastTouchBeginPos.y() + 30)));
+    if (rect.contains(event->pos())) {
+        return;
+    }
     emit sigMouseMove();
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
         if (QScroller::hasScroller(this))
@@ -193,6 +197,12 @@ void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
     pDrag->setMimeData(mimeData);
     pDrag->setPixmap(p);
     pDrag->exec(Qt::MoveAction);
+}
+
+void ThumbnailListView::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event);
+    resizeEventF();
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
@@ -436,14 +446,10 @@ void ThumbnailListView::calWidgetItem()
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * gridItem[i].length();
             int rowWidth = 0;
             for (int j = 0; j < gridItem[i].length(); j++) {
-                gridItem[i][j].width =
-                    gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
-                gridItem[i][j].height =
-                    gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
-                gridItem[i][j].imgWidth =
-                    gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
-                gridItem[i][j].imgHeight =
-                    gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
+                gridItem[i][j].width = gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
+                gridItem[i][j].height = gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
+                gridItem[i][j].imgWidth = gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
+                gridItem[i][j].imgHeight = gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
                 rowWidth = rowWidth + gridItem[i][j].width + ITEM_SPACING;
             }
             rowWidthList[i] = rowWidth - ITEM_SPACING;
@@ -488,8 +494,7 @@ void ThumbnailListView::calWidgetItemWandH()
                 }
             }
         } else if (i_totalwidth - i_baseWidth > 200) {  //一行最后剩余宽度大于200   对当前图片进行缩放
-            m_ItemListAll[corrent].imgHeight =
-                m_ItemListAll[corrent].imgHeight * (i_totalwidth - i_baseWidth) / m_ItemListAll[corrent].imgWidth;
+            m_ItemListAll[corrent].imgHeight = m_ItemListAll[corrent].imgHeight * (i_totalwidth - i_baseWidth) / m_ItemListAll[corrent].imgWidth;
             m_ItemListAll[corrent].imgHeight = (1 > m_ItemListAll[corrent].imgHeight) ? 1 : m_ItemListAll[corrent].imgHeight;
             m_ItemListAll[corrent].imgWidth = i_totalwidth - i_baseWidth;
             m_ItemListAll[corrent].width = i_totalwidth - i_baseWidth;
@@ -538,19 +543,12 @@ void ThumbnailListView::calWidgetItemWandH()
             int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].size();
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].size();
             int rowWidth = 0;
-//            qDebug() << "i_totalwidthExSpace: " << i_totalwidthExSpace << "rowWidthListExSpace: " << rowWidthListExSpace;
             for (int j = 0; j < m_gridItem[i].size(); j++) {
-//                qDebug() << "行:" << i << "宽度前: " << m_gridItem[i][j].width << "高度前: " << m_gridItem[i][j].height;
-                m_gridItem[i][j].width =
-                    m_gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
-                m_gridItem[i][j].height =
-                    m_gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
-                m_gridItem[i][j].imgWidth =
-                    m_gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
-                m_gridItem[i][j].imgHeight =
-                    m_gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
+                m_gridItem[i][j].width = m_gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
+                m_gridItem[i][j].height = m_gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
+                m_gridItem[i][j].imgWidth = m_gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
+                m_gridItem[i][j].imgHeight = m_gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
                 rowWidth = rowWidth + m_gridItem[i][j].width + ITEM_SPACING;
-//                qDebug() << "行:" << i << "宽度: " << m_gridItem[i][j].width << "高度: " << m_gridItem[i][j].height;
             }
             rowWidthList[i] = rowWidth - ITEM_SPACING;
             if (rowWidthList[i] < i_totalwidth) {
@@ -615,9 +613,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             m_model->appendRow(item);
         }
     }
-
     m_gridItem << gridItem;
-
     int hightlast = m_height;
     if (0 < m_gridItem.size()) {
         m_height = 0;
@@ -689,9 +685,7 @@ void ThumbnailListView::addThumbnailView()
         }
     }
 
-
 //  设置更新之前的选择状态
-//    emit needSelect(items);
     for (auto it : items) {
         if (it.first < m_model->rowCount()
                 && it.second < m_model->columnCount()) {
@@ -699,40 +693,6 @@ void ThumbnailListView::addThumbnailView()
             selectionModel()->select(qindex, QItemSelectionModel::Select);
         }
     }
-//    QVector<Listolditem>::const_iterator it = items.begin();
-//    for (int i = 0; i < 200 && it != items.end(); i++, it++) {
-//        if (it->row < m_model->rowCount()
-//                && it->column < m_model->columnCount()) {
-//            QModelIndex qindex = m_model->index(it->row, it->column);
-//            selectionModel()->select(qindex, QItemSelectionModel::Select);
-//        }
-//    }
-//    if (isValueChanged) {
-
-//    if (items.size() > 500) {
-//        QList<QFuture<void>*> futures;
-//        QVector<Listolditem>::const_iterator it = items.begin();
-//        for (int i = 0, times = items.size() / 400 + 1; i < times && it != items.end(); i++) {
-//            QVector<Listolditem> needselect;
-//            for (QVector<Listolditem>::const_iterator it_end = it + 400; it != items.end() && it != it_end; it++) {
-//                needselect.append(*it);
-//            }
-//            QFuture<void> f = QtConcurrent::run(this, &ThumbnailListView::selectThreadFunc, needselect);
-//            futures.append(&f);
-//        }
-//        for (auto i : futures) {
-//            i->waitForFinished();
-//        }
-//        sendNeedResize();
-//    } else {
-//        for (Listolditem it : items) {
-//            if (it.row < m_model->rowCount()
-//                    && it.column < m_model->columnCount()) {
-//                QModelIndex qindex = m_model->index(it.row, it.column);
-//                selectionModel()->select(qindex, QItemSelectionModel::Select);
-//            }
-//        }
-//    }
 }
 
 void ThumbnailListView::updateThumbnailView(QString updatePath)
@@ -860,7 +820,6 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
-
     calWidgetItemWandH();
     addThumbnailView();
     if (bneedloadimage) {
@@ -1013,12 +972,10 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
         return;
     }
-
-    foreach (QAction *action, m_MenuActionMap.values()) {
+    for (QAction *action : m_MenuActionMap.values()) {
         action->setVisible(true);
         action->setEnabled(true);
     }
-
     if ((1 == paths.length()) && (!QFileInfo(paths[0]).exists()) && (COMMON_STR_TRASH != m_imageType)) {
         m_MenuActionMap.value(tr("View"))->setEnabled(true);
         m_MenuActionMap.value(tr("Fullscreen"))->setEnabled(false);
@@ -1083,21 +1040,6 @@ void ThumbnailListView::updateMenuContents()
         if (COMMON_STR_FAVORITES == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
-//        LMH0518多选收藏
-//        int indexFavorite = 0;
-//        int indexUnfavorite = 0;
-//        for (auto path : paths) {
-//            if (0 == indexFavorite && DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
-//                indexFavorite++;
-//            } else if (0 == indexUnfavorite && !DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path)) {
-//                indexUnfavorite++;
-//            }
-//        }
-//        if (0 == indexFavorite) {
-//            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
-//        } else if (0 == indexUnfavorite) {
-//            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
-//        }
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
     }
@@ -1128,7 +1070,9 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
         m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
     }
-    if (!(1 == paths.length() && utils::image::imageSupportSave(paths[0]))) {
+    if ((1 == paths.length() && utils::image::imageSupportSave(paths[0])) || QFileInfo(paths[0]).suffix().contains("gif")) {
+        m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
+    } else {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
     }
 }
@@ -1171,8 +1115,8 @@ void ThumbnailListView::initMenuAction()
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
     appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
-    appendAction(IdMoveToTrash, tr("Delete"), ss(THROWTOTRASH_CONTEXT_MENU));
-    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(REMOVEFROMALBUM_CONTEXT_MENU));
+    appendAction(IdMoveToTrash, tr("Delete"), ss(""));
+    appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
     m_pMenu->addSeparator();
     appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
@@ -1191,10 +1135,6 @@ DMenu *ThumbnailListView::createAlbumMenu()
 {
     DMenu *am = new DMenu(tr("Add to album"));
     QStringList albums = DBManager::instance()->getAllAlbumNames();
-//    2020/6/2 修改数据库后查询结果不会再出现我的收藏
-//    albums.removeAll(COMMON_STR_FAVORITES);
-//    albums.removeAll(COMMON_STR_TRASH);
-//    albums.removeAll(COMMON_STR_RECENT_IMPORTED);
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
     ac->setText(tr("New album"));
@@ -1377,7 +1317,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(path);
+        dApp->wpSetter->setBackground(path);
         break;
     case IdDisplayInFileManager:
         utils::base::showInFileManager(path);

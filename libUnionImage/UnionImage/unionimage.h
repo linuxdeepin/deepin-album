@@ -55,10 +55,6 @@ enum SupportType {
     RGBAF       = 12    // 128-bit RGBA float image     : 4 x 32-bit IEEE floating point
 };
 
-/**
- * @brief UnionImageVersion
- * @return 版本信息
- */
 UNIONIMAGESHARED_EXPORT QString unionImageVersion();
 
 /**
@@ -98,7 +94,7 @@ UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width = 0, int heigh
  * 从文件载入图片
  * 载入成功返回true，图片数据返回到res
  * 载入失败返回false，如果需要可以读取errorMsg返回错误信息
- * 载入动态图片时，只会返回动态图片的第一帧，如果需要动图请使用UnionDynamicImage
+ * 载入动态图片时，只会返回动态图片的第一帧，如果需要动图请使用UUnionMovieImage
  */
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar = "");
 
@@ -217,7 +213,7 @@ public:
     /**
      * @brief next
      * @return QImage
-     * 返回下一帧
+     * 返回下一帧，该函数可以循环调用
      */
     QImage next();
 

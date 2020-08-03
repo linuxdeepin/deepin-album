@@ -8,8 +8,8 @@ class WallpaperSetter : public QObject
     Q_OBJECT
 public:
     static WallpaperSetter *instance();
-    void setWallpaper(const QString &path);
-
+    //void setWallpaper(const QString &path);
+    bool setBackground(const QString &pictureFilePath);
 private:
     enum DE {
         Deepin,
