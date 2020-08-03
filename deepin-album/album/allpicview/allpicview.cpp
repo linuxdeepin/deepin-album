@@ -49,6 +49,7 @@ AllPicView::AllPicView()
     pThumbnailListView->setLayout(m_mainLayout);
     m_pSearchView = new SearchView();
     m_pStackedWidget->addWidget(m_pImportView);
+    m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
     m_pStackedWidget->addWidget(pThumbnailListView);
     m_pStackedWidget->addWidget(m_pSearchView);
     m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);

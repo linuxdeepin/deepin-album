@@ -573,9 +573,9 @@ void ImageLoadFromDBThread::run()
         auto infos = DBManager::instance()->getAllInfos();
         for (auto info : infos) {
             //记录源文件不存在的数据
-            QFileInfo tempinfo(info.filePath);
-            if (!tempinfo.exists()) {
+            if (!QFileInfo(info.filePath).exists()) {
                 fail_image_list << info.filePath;
+                emit dApp->signalM->updatePicView(0);
                 continue;
             }
             image_list << info.filePath;

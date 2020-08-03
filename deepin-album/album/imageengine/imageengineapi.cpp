@@ -6,7 +6,6 @@
 #include <QDirIterator>
 #include <QStandardPaths>
 
-
 namespace {
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                            + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
@@ -71,6 +70,7 @@ bool ImageEngineApi::removeImage(QString imagepath)
     if (QThreadPool::globalInstance()->activeThreadCount() < 1) {
         DBManager::instance()->removeImgInfos(dbremovelist);
         dbremovelist.clear();
+        emit dApp->signalM->updatePicView(0);
     }
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
