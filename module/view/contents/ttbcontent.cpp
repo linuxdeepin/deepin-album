@@ -933,7 +933,7 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_nowIndex)*/);
         if (m_nowIndex > -1) {
 
             if (labelList.isEmpty())
