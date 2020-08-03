@@ -82,7 +82,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
 
 bool imageSupportRead(const QString &path)
 {
-    const QString suffix = QFileInfo(path).suffix();
+    const QString suffix = QFileInfo(path).suffix().toLower();
 
     //FIXME: file types below will cause freeimage to crash on loading,
     // take them here for good.
