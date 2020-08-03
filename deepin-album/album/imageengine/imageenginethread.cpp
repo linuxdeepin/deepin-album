@@ -835,6 +835,10 @@ void ImageEngineThread::run()
 {
     if (getNeedStop())
         return;
+    if (!QFileInfo(m_path).exists()) {
+        emit sigAborted(m_path);
+        return;
+    }
     using namespace UnionImage_NameSpace;
     QImage tImg;
     bool cache_exist = false;

@@ -66,6 +66,12 @@ bool ImageEngineApi::ifObjectExist(void *obj)
 
 bool ImageEngineApi::removeImage(QString imagepath)
 {
+    static QStringList dbremovelist;
+    dbremovelist.append(imagepath);
+    if (QThreadPool::globalInstance()->activeThreadCount() < 1) {
+        DBManager::instance()->removeImgInfos(dbremovelist);
+        dbremovelist.clear();
+    }
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
     if (it != m_AllImageData.end()) {
