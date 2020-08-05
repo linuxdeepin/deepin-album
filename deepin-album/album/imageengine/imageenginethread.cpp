@@ -541,8 +541,9 @@ void ImageGetFilesFromMountThread::run()
     emit dApp->signalM->sigLoadMountImagesEnd(m_mountname);
 }
 
-ImageLoadFromDBThread::ImageLoadFromDBThread()
+ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
 {
+    m_loadCount = loadCount;
     setAutoDelete(true);
 }
 
@@ -570,12 +571,12 @@ void ImageLoadFromDBThread::run()
     QStringList image_list;
     QStringList fail_image_list;
     if (ThumbnailDelegate::AllPicViewType == m_type) {
-        auto infos = DBManager::instance()->getAllInfos();
+        auto infos = DBManager::instance()->getAllInfos(m_loadCount);
         for (auto info : infos) {
             //记录源文件不存在的数据
-            QFileInfo tempinfo(info.filePath);
-            if (!tempinfo.exists()) {
+            if (!QFileInfo(info.filePath).exists()) {
                 fail_image_list << info.filePath;
+                emit dApp->signalM->updatePicView(0);
                 continue;
             }
             image_list << info.filePath;

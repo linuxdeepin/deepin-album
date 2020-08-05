@@ -953,7 +953,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
 
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &path)
 {
-    QMutexLocker mutex(&union_image_private.freeimage_mutex);
+    //QMutexLocker mutex(&union_image_private.freeimage_mutex);
 
     //qDebug() << "threadid:" << QThread::currentThread() << "getAllMetaData locking ....";
 

@@ -110,7 +110,7 @@ class ImageLoadFromDBThread : public ImageEngineThreadObject, public QRunnable
 {
     Q_OBJECT
 public:
-    ImageLoadFromDBThread();
+    ImageLoadFromDBThread(int loadCount = 0);
     void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, QString nametype = "");
 
 protected:
@@ -124,6 +124,7 @@ private:
     QString m_nametype;
     ThumbnailDelegate::DelegateType m_type;
     ImageEngineObject *m_imgobject = nullptr;
+    int m_loadCount = 0;
 };
 
 class ImageLoadFromLocalThread : public ImageEngineThreadObject, public QRunnable

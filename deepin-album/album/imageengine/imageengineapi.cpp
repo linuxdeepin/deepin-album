@@ -6,7 +6,6 @@
 #include <QDirIterator>
 #include <QStandardPaths>
 
-
 namespace {
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                            + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
@@ -34,7 +33,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
 #else
-    QThreadPool::globalInstance()->setMaxThreadCount(8);
+    QThreadPool::globalInstance()->setMaxThreadCount(12);
 #endif
 }
 
@@ -71,6 +70,7 @@ bool ImageEngineApi::removeImage(QString imagepath)
     if (QThreadPool::globalInstance()->activeThreadCount() < 1) {
         DBManager::instance()->removeImgInfos(dbremovelist);
         dbremovelist.clear();
+        emit dApp->signalM->updatePicView(0);
     }
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
@@ -356,9 +356,9 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
     }
     return iRet;
 }
-bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name)
+bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {
-    ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread;
+    ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread(loadCount);
     connect(imagethread, &ImageLoadFromDBThread::sigImageLoaded, this, &ImageEngineApi::sltImageDBLoaded);
     connect(imagethread, &ImageLoadFromDBThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(type, obj, name);

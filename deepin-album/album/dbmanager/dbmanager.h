@@ -101,7 +101,7 @@ public:
 
     // TableImage
     const QStringList       getAllPaths() const;
-    const DBImgInfoList     getAllInfos() const;
+    const DBImgInfoList     getAllInfos(int loadCount = 0) const;
     const QStringList       getAllTimelines() const;
     const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
     const QStringList       getImportTimelines() const;
@@ -145,11 +145,11 @@ public:
     const DBImgInfo         getTrashInfoByPath(const QString &path) const;
     const DBImgInfoList     getTrashImgInfos(const QString &key, const QString &value) const;
     int                     getTrashImgsCount() const;
-
+    const QSqlDatabase getDatabase() const;
 private:
     const DBImgInfoList getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList getImgInfos(const QString &key, const QString &value, const bool &needlock = true) const;
-    const QSqlDatabase getDatabase() const;
+
 //    const QSqlDatabase getDatabase1() const;
     void checkDatabase();
     void importVersion1Data();

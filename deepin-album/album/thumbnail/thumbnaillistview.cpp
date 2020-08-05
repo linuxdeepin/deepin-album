@@ -777,9 +777,9 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
     emit needResize(m_height + 15);     //调整整体大小
 }
 
-void ThumbnailListView::loadFilesFromDB(QString name)
+void ThumbnailListView::loadFilesFromDB(QString name, int loadCount)
 {
-    ImageEngineApi::instance()->loadImagesFromDB(m_delegatetype, this, name);
+    ImageEngineApi::instance()->loadImagesFromDB(m_delegatetype, this, name, loadCount);
 }
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)

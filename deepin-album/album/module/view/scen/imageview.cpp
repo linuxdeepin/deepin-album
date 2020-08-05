@@ -33,6 +33,7 @@
 #include <QGestureEvent>
 #include <QSvgRenderer>
 #include <QtGlobal>
+#include <QDesktopWidget>
 
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
@@ -217,7 +218,14 @@ void ImageView::setImage(const QString &path)
             resetTransform();
             ImageDataSt data;   //内存中的数据
             ImageEngineApi::instance()->getImageData(path, data);
-            QPixmap pix = data.imgpixmap.scaled(w, h, Qt::KeepAspectRatio); //缩放到原图大小
+            int wS = 0;
+            int hS = 0;
+            QRect screenRect = QApplication::desktop()->screenGeometry();
+            if (w > screenRect.width()) {
+                wS = screenRect.width();
+                hS = wS * h / w;
+            }
+            QPixmap pix = data.imgpixmap.scaled(wS, hS, Qt::KeepAspectRatio); //缩放到原图大小
             m_pixmapItem = new GraphicsPixmapItem(pix);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
@@ -635,8 +643,8 @@ void ImageView::onCacheFinish()
             if (m_bLoadmemory) {
                 if (!m_pixmapItem)
                     return;
-                m_pixmapItem->setPixmap(pixmap);
                 m_pixmapItem->setGraphicsEffect(nullptr);
+                m_pixmapItem->setPixmap(pixmap);
                 setSceneRect(m_pixmapItem->boundingRect());
                 autoFit();
                 this->update();

@@ -70,6 +70,7 @@ MainWindow::MainWindow()
 {
     QTime t;
     t.start();
+    this->setObjectName("drawMainWindow");
 //    initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
@@ -156,6 +157,7 @@ void MainWindow::initConnections()
             }
         }
     });
+    connect(dApp->signalM, &SignalManager::updatePicView, btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked));
     //图片导入槽函数
     connect(this, &MainWindow::sigImageImported, this, [ = ](bool success) {
         if (success) {

@@ -149,7 +149,8 @@ void CExportImageDialog::initUI()
         if (m_saveFormat.toUpper().compare("JPEG") == 0)
             filemaxlen -= 1;
         QString Interceptstr;
-        if (len > filemaxlen) {
+        if (len > filemaxlen)
+        {
             int num = 0;
             int pos = 0;
             for (; pos < arg.size(); pos++) {
@@ -447,5 +448,5 @@ bool CExportImageDialog::doSave()
     QString filename = m_fileNameEdit->text();
     m_saveFormat = m_formatCombox->currentText();
     QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
-    return m_saveImage.save(completePath, m_saveFormat.toUpper().toUtf8().data(), 100);
+    return m_saveImage.save(completePath, m_saveFormat.toUpper().toUtf8().data(), m_qualitySlider->value());
 }
