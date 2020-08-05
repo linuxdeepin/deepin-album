@@ -9,7 +9,7 @@
 #include "thumbnail/thumbnaildelegate.h"
 
 //加载图片的频率
-const int Number_Of_Displays_Per_Time = 2;
+const int Number_Of_Displays_Per_Time = 32;
 
 //#define   NOGLOBAL;     //是否启用全局线程
 
@@ -48,7 +48,7 @@ public:
     bool loadImagesFromLocal(QStringList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
-    bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "");
+    bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "", int loadCount = 0);
     bool SaveImagesCache(QStringList files);
     int CacheThreadNum();
 

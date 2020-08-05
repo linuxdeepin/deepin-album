@@ -68,6 +68,7 @@ private:
 
 private slots:
     void updatePicsIntoThumbnailViewWithCache();
+    void updatePicsIntoThumbnailViewWithCache80();
 public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;

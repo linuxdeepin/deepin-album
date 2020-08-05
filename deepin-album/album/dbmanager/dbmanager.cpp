@@ -85,7 +85,7 @@ const QStringList DBManager::getAllPaths() const
     return paths;
 }
 
-const DBImgInfoList DBManager::getAllInfos() const
+const DBImgInfoList DBManager::getAllInfos(int loadCount) const
 {
     QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;
@@ -95,8 +95,13 @@ const DBImgInfoList DBManager::getAllInfos() const
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
-                  "FROM ImageTable3");
+    if (loadCount == 0) {
+        query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
+                      "FROM ImageTable3 order by Time desc");
+    } else {
+        query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
+                      "FROM ImageTable3 order by Time desc limit 80");
+    }
     if (! query.exec()) {
         //  qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
 //        // 连接使用完后需要释放回数据库连接池

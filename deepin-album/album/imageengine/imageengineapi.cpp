@@ -33,7 +33,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
 #else
-    QThreadPool::globalInstance()->setMaxThreadCount(8);
+    QThreadPool::globalInstance()->setMaxThreadCount(12);
 #endif
 }
 
@@ -356,9 +356,9 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
     }
     return iRet;
 }
-bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name)
+bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {
-    ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread;
+    ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread(loadCount);
     connect(imagethread, &ImageLoadFromDBThread::sigImageLoaded, this, &ImageEngineApi::sltImageDBLoaded);
     connect(imagethread, &ImageLoadFromDBThread::sigInsert, this, &ImageEngineApi::sltInsert);
     imagethread->setData(type, obj, name);

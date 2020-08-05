@@ -70,6 +70,7 @@ MainWindow::MainWindow()
 {
     QTime t;
     t.start();
+    this->setObjectName("drawMainWindow");
 //    initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
