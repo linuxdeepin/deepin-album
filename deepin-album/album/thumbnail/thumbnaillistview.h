@@ -112,7 +112,7 @@ public:
     void loadFilesFromLocal(QStringList files, bool needcache = true, bool needcheck = true);
     void loadFilesFromLocal(DBImgInfoList files, bool needcache = true, bool needcheck = true);
     void loadFilesFromTrash(DBImgInfoList files);
-    void loadFilesFromDB(QString name = "");
+    void loadFilesFromDB(QString name = "", int loadCount = 0);
     bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
     bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
     bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;

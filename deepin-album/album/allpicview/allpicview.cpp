@@ -65,7 +65,8 @@ AllPicView::AllPicView()
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
-    QTimer::singleShot(100, this, SLOT(updatePicsIntoThumbnailViewWithCache()));
+    QTimer::singleShot(50, this, SLOT(updatePicsIntoThumbnailViewWithCache80()));
+    QTimer::singleShot(200, this, SLOT(updatePicsIntoThumbnailViewWithCache()));
     //updatePicsIntoThumbnailViewWithCache();
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -193,7 +194,7 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
 {
     m_spinner->hide();
     m_spinner->stop();
-    m_pThumbnailListView->stopLoadAndClear();
+    m_pThumbnailListView->stopLoadAndClear(false);
     m_pThumbnailListView->loadFilesFromDB();
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
@@ -258,6 +259,20 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
+}
+
+void AllPicView::updatePicsIntoThumbnailViewWithCache80()
+{
+    m_spinner->hide();
+    m_spinner->stop();
+    m_pThumbnailListView->stopLoadAndClear();
+    m_pThumbnailListView->loadFilesFromDB("", 80);
+    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
+        //donothing
+    } else {
+        updateStackedWidget();
+    }
+    restorePicNum();
 }
 
 void AllPicView::updatePicNum()
