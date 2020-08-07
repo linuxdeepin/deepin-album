@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "config.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/unionimage.h"
@@ -20,6 +21,7 @@
 #include <DMessageManager>
 #include <DFloatingMessage>
 #include <DWidgetUtil>
+#include <DStandardPaths>
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
 namespace  {
@@ -71,6 +73,9 @@ MainWindow::MainWindow()
     QTime t;
     t.start();
     this->setObjectName("drawMainWindow");
+    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
+                             + "/config.conf";
+    m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
 //    initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
@@ -1411,9 +1416,9 @@ void MainWindow::showEvent(QShowEvent *event)
 
 void MainWindow::saveWindowState()
 {
-    QSettings settings(objectName());
-    settings.setValue("album-geometry", saveGeometry());
-    settings.setValue("album-isMaximized", isMaximized());
+    m_settings->setValue("album-geometry", saveGeometry());
+    m_settings->setValue("album-isMaximized", isMaximized());
+    m_settings->setValue("album-version", VERSION);
 //    settings.setValue("album-pos", pos());
 //    settings.endGroup();
 }
@@ -1421,17 +1426,30 @@ void MainWindow::saveWindowState()
 //加载主界面状态（上次退出时）
 void MainWindow::loadWindowState()
 {
-    QSettings settings(objectName());
-    const QByteArray geometry = settings.value("album-geometry").toByteArray();
-    const bool isMaximized = settings.value("album-isMaximized").toBool();
+    const QByteArray geometry = m_settings->value("album-geometry").toByteArray();
+    const bool isMaximized = m_settings->value("album-isMaximized").toBool();
 //    const QByteArray pos = settings.value("album-pos").toByteArray();
     if (!geometry.isEmpty()) {
-        restoreGeometry(geometry);
-        if (isMaximized) {
+        if (m_settings->contains("album-version")) {
+            if (m_settings->value("album-version").toString().isEmpty()) {
+                restoreGeometry(geometry);
+                if (isMaximized) {
+                    resize(1300, 848);
+                    Dtk::Widget::moveToCenter(this);
+                }
+            } else if (compareVersion()) {
+                resize(1300, 848);
+            } else {
+                restoreGeometry(geometry);
+                if (isMaximized) {
+                    resize(1300, 848);
+                    Dtk::Widget::moveToCenter(this);
+                    //            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
+                    //            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
+                }
+            }
+        } else {
             resize(1300, 848);
-            Dtk::Widget::moveToCenter(this);
-//            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
-//            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
         }
     }
 //    settings.endGroup();
@@ -1440,25 +1458,57 @@ void MainWindow::loadWindowState()
 //保存缩放比例
 void MainWindow::saveZoomRatio()
 {
-    QSettings settings(objectName());
-    settings.setValue("album-zoomratio", m_pSliderPos);
+    m_settings->setValue("album-zoomratio", m_pSliderPos);
+}
+
+bool MainWindow::compareVersion()
+{
+    QString versionBuild(VERSION);
+    QStringList versionBuildList = versionBuild.split(".");
+    QStringList versionConfigList = m_settings->value("album-version").toString().split(".");
+    if (versionBuildList.size() == 4 && versionConfigList.size() == 4) {
+        for (int i = 0; i < 4; i++) {
+            if (versionBuildList.at(i).toInt() > versionConfigList.at(i).toInt()) {
+                return true;
+            } else if (versionConfigList.at(i).toInt() == versionBuildList.at(i).toInt()) {
+                continue;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    } else {
+        return false;
+    }
 }
 
 //加载缩放比例（上次退出时）
 void MainWindow::loadZoomRatio()
 {
-    QSettings settings(objectName());
-    const int sliderpos = settings.value("album-zoomratio").toInt();
-    m_pSliderPos = sliderpos;
-//    if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
+    if (m_settings->contains("album-version")) {
+        if (m_settings->value("album-version").toString().isEmpty()) {
+            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+        } else if (compareVersion()) {
+            m_pSliderPos = 4;
+        } else {
+            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+        }
+        //const int sliderpos = m_settings->value("album-zoomratio").toInt();
+        //m_pSliderPos = sliderpos;
+        //    if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
+        //m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        //} else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE)
+        //{
+        //    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        //} else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM)
+        //{
+        //    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        //}
+        dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+    } else {
+        m_pSliderPos = 4;
+    }
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-//} else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE)
-//{
-//    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-//} else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM)
-//{
-//    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-//}
     dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
 }
 

@@ -81,7 +81,7 @@ private:
     void saveWindowState();
     void loadWindowState();
     void saveZoomRatio();
-
+    bool compareVersion();
     void viewImageClose();
 
 protected:
@@ -153,7 +153,7 @@ private:
     dbusclient *m_pDBus;//LMH0407DBus
     bool m_isFirstStart = true;
     bool m_processOptionIsEmpty = false;
-
+    QSettings *m_settings;
 public:
     QButtonGroup *getButG();
 };
