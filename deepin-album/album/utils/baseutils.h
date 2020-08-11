@@ -131,11 +131,13 @@ const QString CTRLR_SHORTCUT = "Ctrl+R";
 const QString CTRLSHIFTR_SHORTCUT = "Ctrl+Shift+R";
 //const QString CTRLF8_SHORTCUT = "Ctrl+F8";
 const QString CTRLF9_SHORTCUT = "Ctrl+F9";
-const QString CTRLD_SHORTCUT = "Ctrl+D";
-const QString ALTRETURN_SHORTCUT = "Alt+Return";
+//const QString CTRLD_SHORTCUT = "Ctrl+D";
+const QString ALTD_SHORTCUT = "Alt+D";
+//const QString ALTRETURN_SHORTCUT = "Alt+Return";
+const QString CTRLI_SHORTCUT = "Ctrl+I";
 const QString CTRLSHIFTN_SHORTCUT = "Ctrl+Shift+N";
 const QString F2_SHORTCUT = "F2";
-const QString CTRLI_SHORTCUT = "Ctrl+O";
+const QString CTRLO_SHORTCUT = "Ctrl+O";
 const QString CTRLQ_SHORTCUT = "Ctrl+Q";
 const QString CTRLUP_SHORTCUT = "Ctrl+=";
 const QString CTRLDOWN_SHORTCUT = "Ctrl+-";
@@ -143,6 +145,7 @@ const QString CTRLSHIFTSLASH_SHORTCUT = "Ctrl+Shift+/";
 const QString CTRLE_SHORTCUT = "Ctrl+E";
 const QString RECTRLUP_SHORTCUT = "Ctrl++";
 const QString CTRLF_SHORTCUT = "Ctrl+F";
+const QString SENTENCE_SHORTCUT = ".";
 }
 namespace timeline {
 const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);

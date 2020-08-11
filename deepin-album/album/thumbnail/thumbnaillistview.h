@@ -70,6 +70,7 @@ public:
         IdEdit,
         IdAddToFavorites,
         IdRemoveFromFavorites,
+//        IdChangeFavorites,
         IdRotateClockwise,
         IdRotateCounterclockwise,
         IdLabel,
