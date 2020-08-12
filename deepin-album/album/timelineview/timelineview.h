@@ -106,7 +106,6 @@ private:
     DCommandLinkButton *pSuspensionChose;
     QWidget *pTimeLineViewWidget;
     ImportView *pImportView;
-    QMap<ThumbnailListView *, QStringList> selpicQmap;
     int allnum;
     DLabel *m_pDate;
     DLabel *pNum_up;

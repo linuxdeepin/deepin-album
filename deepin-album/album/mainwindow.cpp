@@ -4,6 +4,7 @@
 #include "dialogs/albumcreatedialog.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
+#include "accessibledefine.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -769,6 +770,7 @@ void MainWindow::initTitleBar()
     QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
 
     m_pAllPicBtn = new DPushButton();
+
 //    m_pAllPicBtn = new DSuggestButton();
     m_pAllPicBtn->setFlat(true);
 //    m_pAllPicBtn->setFixedSize(80, 36);
@@ -1582,88 +1584,6 @@ void MainWindow::thumbnailZoomOut()
 
 QJsonObject MainWindow::createShorcutJson()
 {
-//    QJsonObject shortcut1;
-//    shortcut1.insert("name", tr("窗口大小切换"));
-//    shortcut1.insert("value", "Ctrl+Alt+F");
-//    QJsonObject shortcut2;
-//    shortcut2.insert("name", tr("全屏"));
-//    shortcut2.insert("value", "F11");
-//    QJsonObject shortcut3;
-//    shortcut3.insert("name", tr("退出全屏/退出幻灯片放映"));
-//    shortcut3.insert("value", "Esc");
-//    QJsonObject shortcut4;
-//    shortcut4.insert("name", tr("关闭应用"));
-//    shortcut4.insert("value", "Alt+F4");
-//    QJsonObject shortcut5;
-//    shortcut5.insert("name", tr("帮助"));
-//    shortcut5.insert("value", "F1");
-//    QJsonObject shortcut6;
-//    shortcut6.insert("name", tr("显示快捷键预览"));
-//    shortcut6.insert("value", "Ctrl+Shift+/");
-//    QJsonObject shortcut7;
-//    shortcut7.insert("name", tr("在文件管理器中显示"));
-//    shortcut7.insert("value", "Ctrl+D");
-//    QJsonObject shortcut8;
-//    shortcut8.insert("name", tr("幻灯片放映"));
-//    shortcut8.insert("value", "F5");
-//    QJsonObject shortcut9;
-//    shortcut9.insert("name", tr("查看图片"));
-//    shortcut9.insert("value", "Enter");
-//    QJsonObject shortcut10;
-//    shortcut10.insert("name", tr("导出图片"));
-//    shortcut10.insert("value", "Ctrl+E");
-//    QJsonObject shortcut11;
-//    shortcut11.insert("name", tr("导入图片"));
-//    shortcut11.insert("value", "Ctrl+O");
-//    QJsonObject shortcut12;
-//    shortcut12.insert("name", tr("全选图片"));
-//    shortcut12.insert("value", "Ctrl+A");
-//    QJsonObject shortcut13;
-//    shortcut13.insert("name", tr("复制"));
-//    shortcut13.insert("value", "Ctrl+C");
-//    QJsonObject shortcut14;
-//    shortcut14.insert("name", tr("删除照片/删除相册"));
-//    shortcut14.insert("value", "Delete");
-//    QJsonObject shortcut15;
-//    shortcut15.insert("name", tr("图片信息"));
-//    shortcut15.insert("value", "Alt+Enter");
-//    QJsonObject shortcut16;
-//    shortcut16.insert("name", tr("设为壁纸"));
-//    shortcut16.insert("value", "Ctrl+F9");
-//    QJsonObject shortcut17;
-//    shortcut17.insert("name", tr("顺时针旋转"));
-//    shortcut17.insert("value", "Ctrl+R");
-//    QJsonObject shortcut18;
-//    shortcut18.insert("name", tr("逆时针旋转"));
-//    shortcut18.insert("value", "Ctrl+Shift+R");
-//    QJsonObject shortcut19;
-//    shortcut19.insert("name", tr("放大缩小图片"));
-//    shortcut19.insert("value", "ctrl+鼠标滚轮缩放图片缩略图");
-//    QJsonObject shortcut20;
-//    shortcut20.insert("name", tr("放大图片"));
-//    shortcut20.insert("value", "Ctrl+“+”");
-//    QJsonObject shortcut21;
-//    shortcut21.insert("name", tr("缩小图片"));
-//    shortcut21.insert("value", "Ctrl+“-”");
-//    QJsonObject shortcut22;
-//    shortcut22.insert("name", tr("上一张"));
-//    shortcut22.insert("value", "键盘<-");
-//    QJsonObject shortcut23;
-//    shortcut23.insert("name", tr("下一张"));
-//    shortcut23.insert("value", "键盘->");
-//    QJsonObject shortcut24;
-//    shortcut24.insert("name", tr("收藏"));
-//    shortcut24.insert("value", "Ctrl+K");
-//    QJsonObject shortcut25;
-//    shortcut25.insert("name", tr("取消收藏"));
-//    shortcut25.insert("value", "Ctrl+Shift+K");
-//    QJsonObject shortcut26;
-//    shortcut26.insert("name", tr("新建相册"));
-//    shortcut26.insert("value", "Ctrl+Shift+N");
-//    QJsonObject shortcut27;
-//    shortcut27.insert("name", tr("重命名相册"));
-//    shortcut27.insert("value", "F2");
-
     //Translations
     QJsonObject shortcut1;
     shortcut1.insert("name", "Window sizing");

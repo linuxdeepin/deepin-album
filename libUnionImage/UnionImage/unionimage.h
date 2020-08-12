@@ -179,10 +179,6 @@ UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path);
 
-UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path);
-
-UNIONIMAGESHARED_EXPORT bool isSupportWritting(const QString &path);
-
 /**
  * @brief getOrientation
  * @param path
@@ -191,8 +187,6 @@ UNIONIMAGESHARED_EXPORT bool isSupportWritting(const QString &path);
  * 获得图片的数据
  */
 UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
-
-
 
 QT_BEGIN_NAMESPACE
 

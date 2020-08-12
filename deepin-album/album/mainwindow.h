@@ -47,6 +47,9 @@ extern bool bfirstandviewimage;
 //class MainWindow;
 //}
 
+
+
+
 class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT

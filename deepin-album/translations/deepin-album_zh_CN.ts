@@ -118,7 +118,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation type="vanished">未命名相册</translation>
     </message>
     <message>
         <source>System Disk</source>

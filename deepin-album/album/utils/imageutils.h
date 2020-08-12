@@ -36,9 +36,9 @@ enum ThumbnailType {
 };
 
 const QPixmap                       cachePixmap(const QString &path);
-const QPixmap                       cutSquareImage(const QPixmap &pixmap);
-const QPixmap                       cutSquareImage(const QPixmap &pixmap,
-                                                   const QSize &size);
+//const QPixmap                       cutSquareImage(const QPixmap &pixmap);
+//const QPixmap                       cutSquareImage(const QPixmap &pixmap,
+//                                                   const QSize &size);
 const QMap<QString, QString>        getAllMetaData(const QString &path);
 const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
@@ -55,7 +55,7 @@ const QString                       thumbnailPath(const QString &path, Thumbnail
 bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
 
 QStringList                         supportedImageFormats();
-const QImage                        loadTga(QString filePath, bool &success);
+//const QImage                        loadTga(QString filePath, bool &success);
 QStringList                         checkImage(const QString  path);
 const QSize                         getImageQSize(const QString &path);
 bool                                checkFileType(const QString &path);
