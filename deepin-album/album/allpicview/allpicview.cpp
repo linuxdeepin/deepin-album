@@ -65,11 +65,20 @@ AllPicView::AllPicView()
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
-    QTimer::singleShot(50, this, SLOT(updatePicsIntoThumbnailViewWithCache80()));
-    QTimer::singleShot(200, this, SLOT(updatePicsIntoThumbnailViewWithCache()));
-    //updatePicsIntoThumbnailViewWithCache();
+    connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish,
+            this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+    if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
+        m_pThumbnailListView->slotLoad80ThumbnailsFinish();
+    } else {
+        if (ImageEngineApi::instance()->m_80isLoaded) {
+            m_pThumbnailListView->slotLoad80ThumbnailsFinish();
+        } else {
+            connect(ImageEngineApi::instance(), &ImageEngineApi::sigLoad80ThumbnailsToView,
+                    m_pThumbnailListView, &ThumbnailListView::slotLoad80ThumbnailsFinish);
+        }
+    }
 }
 
 void AllPicView::initConnections()

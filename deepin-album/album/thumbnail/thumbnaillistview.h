@@ -70,7 +70,6 @@ public:
         IdEdit,
         IdAddToFavorites,
         IdRemoveFromFavorites,
-//        IdChangeFavorites,
         IdRotateClockwise,
         IdRotateCounterclockwise,
         IdLabel,
@@ -173,6 +172,7 @@ signals:
 //    void sigDrop();
 #endif
 
+    void sigLoad80ThumbnailsFinish();
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -197,6 +197,7 @@ private slots:
 
 public slots:
     void slotReCalcTimelineSize();
+    void slotLoad80ThumbnailsFinish();
 
 public:
     void updateThumbnailView(QString updatePath = "");
