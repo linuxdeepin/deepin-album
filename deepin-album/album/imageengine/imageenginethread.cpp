@@ -873,20 +873,20 @@ void ImageEngineThread::run()
         return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
     if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-        if (pixmap.height() != 100 && pixmap.width() != 100) {
+        if (pixmap.height() != 200 && pixmap.width() != 200) {
             if (pixmap.height() >= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
             } else if (pixmap.height() <= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
             if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
             } else {
-                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
     }
@@ -1034,20 +1034,20 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
         return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
     if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-        if (pixmap.height() != 100 && pixmap.width() != 100) {
+        if (pixmap.height() != 200 && pixmap.width() != 200) {
             if (pixmap.height() >= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
             } else if (pixmap.height() <= pixmap.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
             if (static_cast<float>(pixmap.height()) / static_cast<float>(pixmap.width()) > 3) {
-                pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
             } else {
-                pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
     }

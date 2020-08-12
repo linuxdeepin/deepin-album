@@ -115,7 +115,7 @@ public:
         m_freeiamge_formats["KOALA"]   =  FIF_KOALA;
         m_freeiamge_formats["KOA"]     =  FIF_KOALA;
         m_freeiamge_formats["LBM"]     =  FIF_LBM;
-        m_freeiamge_formats["IFF"]     =  FIF_LBM;
+//        m_freeiamge_formats["IFF"]     =  FIF_LBM;
         m_freeiamge_formats["MNG"]     =  FIF_MNG;
         m_freeiamge_formats["PBM"]     =  FIF_PBM;
         m_freeiamge_formats["PBMRAW"]  =  FIF_PBMRAW;
@@ -143,10 +143,10 @@ public:
         m_freeiamge_formats["G3"]      =  FIF_FAXG3;//FAXG3
         m_freeiamge_formats["SGI"]     =  FIF_SGI;
         m_freeiamge_formats["EXR"]     =  FIF_EXR;
-        m_freeiamge_formats["J2K"]     =  FIF_J2K;
+        //m_freeiamge_formats["J2K"]     =  FIF_J2K;
         m_freeiamge_formats["J2C"]     =  FIF_J2K;
         m_freeiamge_formats["JPC"]     =  FIF_J2K;
-        m_freeiamge_formats["JP2"]     =  FIF_JP2;
+        //m_freeiamge_formats["JP2"]     =  FIF_JP2;
         //m_freeiamge_formats["PFM"]     =  FIF_PFM;covert failed
         m_freeiamge_formats["PCT"]     =  FIF_PICT;
         m_freeiamge_formats["PIC"]     =  FIF_PICT;

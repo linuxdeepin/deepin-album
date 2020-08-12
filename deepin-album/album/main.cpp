@@ -117,6 +117,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     ImageEngineApi::instance(&a);
+    ImageEngineApi::instance()->load80Thumbnails();
     MainWindow w;
 //    DtkTest w;
 //    w.resize(1300, 848);
