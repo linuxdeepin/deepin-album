@@ -1599,25 +1599,6 @@ void AlbumView::updateRightTrashView()
     //    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
 }
 
-void AlbumView::updateRightImportViewColock(QStringList updatePahtlist)
-{
-    m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
-
-    if (0 < m_iAlubmPicsNum) {
-        m_pImpTimeLineWidget->updateLayout(updatePahtlist);
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-    } else {
-        m_pImpTimeLineWidget->updateLayout(updatePahtlist);
-        m_pImpTimeLineWidget->clearAndStartLayout();
-        m_pImportView->setAlbumname(QString());
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-    }
-
-    emit sigSearchEditIsDisplay(true);
-
-    setAcceptDrops(true);
-}
-
 void AlbumView::leftTabClicked()
 {
     emit dApp->signalM->SearchEditClear();
@@ -1640,82 +1621,19 @@ bool AlbumView::imageGeted(QStringList &filelist, QString path)
     for (auto list : m_phoneNameAndPathlist) {
         m_pictrueallPathlist << list;
     }
-
-    //LMH0425
     ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[path], path);
     m_currentLoadingPictrue = m_pictrueallPathlist.count();
-
-//    if (nullptr != m_pAllPicture) {
-//        emit dApp->signalM->sigDevStop(path);
-//        ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[path], path);
-//        m_currentLoadingPictrue = m_pictrueallPathlist.count();
-//    }
-
     if (m_itemClicked == true) {
         m_curThumbnaiItemList_str.clear();
         updateRightMountView();
-//        for (auto pathlist : m_phoneNameAndPathlist)
-//            m_pRightPhoneThumbnailList->loadFilesFromLocal(pathlist, false, false);
-//        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
     }
     return true;
-}
-
-void AlbumView::createNewAlbum(QStringList imagepaths)
-{
-    int index = m_pLeftListView->m_pCustomizeListView->count();
-    QListWidgetItem *pListWidgetItem = new QListWidgetItem();
-    m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
-    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-    QString albumName = getNewAlbumName();
-    if (QStringList(" ") != imagepaths) {
-        DBManager::instance()->insertIntoAlbum(albumName, imagepaths);
-    }
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-    m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-    m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
-    AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(m_pLeftListView->m_pCustomizeListView->currentItem()));
-    if (QStringList(" ") != imagepaths) {
-        item->m_opeMode = OPE_MODE_ADDRENAMEALBUM;
-    } else {
-        item->m_opeMode = OPE_MODE_ADDNEWALBUM;
-    }
-    item->editAlbumEdit();
 }
 
 void AlbumView::onTrashRecoveryBtnClicked()
 {
     QStringList paths;
     paths = m_pRightTrashThumbnailList->selectedPaths();
-
-//    DBImgInfoList infos;
-//    for (auto path : paths) {
-//        DBImgInfo info;
-//        info = DBManager::instance()->getTrashInfoByPath(path);
-//        QFileInfo fi(info.filePath);
-//        info.changeTime = QDateTime::currentDateTime();
-//        infos << info;
-
-////        dApp->m_imagetrashmap.remove(path);
-//    }
-
-////    dApp->m_imageloader->addImageLoader(paths);
-//    DBManager::instance()->insertImgInfos(infos);
-
-//    for (auto path : paths) {
-//        DBImgInfo info;
-//        info = DBManager::instance()->getTrashInfoByPath(path);
-//        QStringList namelist = info.albumname.split(",");
-//        for (auto eachname : namelist) {
-//            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
-//                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
-//            }
-//        }
-//    }
-
-//    DBManager::instance()->removeTrashImgInfos(paths);
-
-//    onTrashListClicked();
     ImageEngineApi::instance()->recoveryImagesFromTrash(paths);
 }
 
@@ -1751,7 +1669,6 @@ void AlbumView::openImage(int index)
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-
     if (m_curThumbnaiItemList_info.size() > 0) {
         for (auto image : m_curThumbnaiItemList_info) {
             info.paths << image.filePath;
@@ -1825,17 +1742,17 @@ void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen
     }
 }
 
-QString AlbumView::getNewAlbumName()
-{
-    const QString nan = tr("Unnamed");
-    int num = 1;
-    QString albumName = nan + QString::number(num);
-    while (DBManager::instance()->isAlbumExistInDB(albumName)) {
-        num++;
-        albumName = nan + QString::number(num);
-    }
-    return albumName;
-}
+//QString AlbumView::getNewAlbumName()
+//{
+//    const QString nan = tr("Unnamed");
+//    int num = 1;
+//    QString albumName = nan + QString::number(num);
+//    while (DBManager::instance()->isAlbumExistInDB(albumName)) {
+//        num++;
+//        albumName = nan + QString::number(num);
+//    }
+//    return albumName;
+//}
 
 void AlbumView::onTrashListClicked()
 {
@@ -2357,9 +2274,8 @@ void AlbumView::loadMountPicture(QString path)
             reader.setAutoTransform(true);
             if (reader.canRead()) {
                 tImg = reader.read();
-            } else if (path.contains(".tga")) {
-                bool ret = false;
-                tImg = utils::image::loadTga(path, ret);
+            } else {
+                tImg = QImage();
             }
         } else {
             QImageReader readerF(fileInfo.filePath(), format.toLatin1());

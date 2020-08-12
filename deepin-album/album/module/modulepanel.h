@@ -49,9 +49,10 @@ protected:
     {
         if (p != this)
             return;
-
-        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
-        emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
+        emit dApp->signalM->updateBottomToolbarContent(nullptr);
+        emit dApp->signalM->updateExtensionPanelContent(nullptr);
+//        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+//        emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
 //        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
 //        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
