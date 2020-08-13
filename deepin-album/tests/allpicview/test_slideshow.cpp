@@ -25,4 +25,8 @@ TEST(allpicview, test_beginSlideShow)
     t.restart();
     while (t.elapsed() < 20000)
         dApp->processEvents();
+    emit w->m_slidePanel->slideshowbottombar->showCancel();
+    t.restart();
+    while (t.elapsed() < 2000)
+        dApp->processEvents();
 }

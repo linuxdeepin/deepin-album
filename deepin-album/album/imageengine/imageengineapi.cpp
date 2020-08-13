@@ -1,4 +1,5 @@
 #include "imageengineapi.h"
+#include "DBandImgOperate.h"
 #include "controller/signalmanager.h"
 #include "application.h"
 #include "imageengineapi.h"
@@ -22,6 +23,23 @@ ImageEngineApi *ImageEngineApi::instance(QObject *parent)
     return s_ImageEngine;
 }
 
+ImageEngineApi::~ImageEngineApi()
+{
+#ifdef NOGLOBAL
+    m_qtpool.clear();
+    m_qtpool.waitForDone();
+    cacheThreadPool.clear();
+    cacheThreadPool.waitForDone();
+#else
+    QThreadPool::globalInstance()->clear();     //清除队列
+    QThreadPool::globalInstance()->waitForDone();
+    qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
+#endif
+    m_worker->setThreadShouldStop();
+    m_workerThread->quit();
+    m_workerThread->wait();
+}
+
 ImageEngineApi::ImageEngineApi(QObject *parent)
 {
     Q_UNUSED(parent);
@@ -29,12 +47,28 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
 
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
+    qRegisterMetaType<ImageDataSt>("ImageDataSt");
+    qRegisterMetaType<QMap<QString, ImageDataSt>>("QMap<QString,ImageDataSt>");
 #ifdef NOGLOBAL
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
 #else
     QThreadPool::globalInstance()->setMaxThreadCount(12);
 #endif
+    m_workerThread = new QThread(this);
+    m_worker = new DBandImgOperate();
+    m_worker->moveToThread(m_workerThread);
+    connect(m_workerThread, &QThread::finished, m_worker, &QObject::deleteLater);
+    //发送加载一张图片信息信号
+//    connect(this, SIGNAL(sigLoadOneThumbnail(QString, ImageDataSt)),
+//            m_worker, SLOT(loadOneThumbnail(QString, ImageDataSt)));
+    connect(this, SIGNAL(sigLoad80Thumbnails()),
+            m_worker, SLOT(threadSltLoad80Thumbnail()));
+    //收到获取全部照片信息成功信号
+//    connect(m_worker, &DBandImgOperate::loadOneThumbnailReady, this, &ImageEngineApi::sltLoadOneThumbnail);
+//    connect(m_worker, &DBandImgOperate::fileIsNotExist, this, &ImageEngineApi::sltAborted);
+    connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
+    m_workerThread->start();
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -251,6 +285,15 @@ void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
     m_AllImageData[path] = data;
 }
 
+void ImageEngineApi::slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData)
+{
+    int size = ImageData.size();
+    m_AllImageData = ImageData;
+    m_80isLoaded = true;
+    emit sigLoad80ThumbnailsToView();
+    qDebug() << "11111 size = " << size;
+}
+
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
 {
     ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
@@ -355,6 +398,11 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
         iRet = false;
     }
     return iRet;
+}
+
+void ImageEngineApi::load80Thumbnails()
+{
+    emit sigLoad80Thumbnails();
 }
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {

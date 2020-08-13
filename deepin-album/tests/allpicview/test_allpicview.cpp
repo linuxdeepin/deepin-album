@@ -8,7 +8,10 @@
 
 TEST(allpicview, test_ini)
 {
-    QThreadPool::globalInstance()->waitForDone();
+    QTime time;
+    time.start();
+    while (time.elapsed() < 1000)
+        dApp->processEvents();
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
     QTestEventList event;
@@ -20,6 +23,15 @@ TEST(allpicview, test_ini)
         a->m_pStatusBar->m_pSlider->setValue(i);
     }
     a->m_pStatusBar->m_pSlider->setValue(1);
+
+    dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+    time.restart();
+    while (time.elapsed() < 1000)
+        dApp->processEvents();
+    dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+    time.restart();
+    while (time.elapsed() < 1000)
+        dApp->processEvents();
 }
 
 TEST(allpicview, test_open)

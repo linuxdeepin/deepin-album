@@ -41,6 +41,7 @@ public:
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
+    SlideShowBottomBar *slideshowbottombar;
 protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
@@ -78,7 +79,7 @@ private:
     QColor               m_bgColor;
     bool a = true;
 
-    SlideShowBottomBar *slideshowbottombar;
+
 
 };
 

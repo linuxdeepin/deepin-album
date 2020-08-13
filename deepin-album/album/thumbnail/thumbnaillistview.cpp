@@ -1126,8 +1126,7 @@ void ThumbnailListView::initMenuAction()
                  ss(ROTATECOUNTERCLOCKWISE_CONTEXT_MENU));
     m_pMenu->addSeparator();
     appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss(SETASWALLPAPER_CONTEXT_MENU));
-    appendAction(IdDisplayInFileManager, tr("Display in file manager"),
-                 ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
+    appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
     appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
 }
 
@@ -1256,7 +1255,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdAddToFavorites:
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
+            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        } else
+            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
@@ -1612,6 +1614,32 @@ void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
 void ThumbnailListView::slotReCalcTimelineSize()
 {
     emit needResize(m_height + 15);
+}
+
+void ThumbnailListView::slotLoad80ThumbnailsFinish()
+{
+    qDebug() << "233333333333";
+    for (int i = 0; i < ImageEngineApi::instance()->m_AllImageData.size(); i++) {
+        ImageDataSt data = ImageEngineApi::instance()->m_AllImageData[ImageEngineApi::instance()->m_AllImageData.keys().at(i)];
+        ItemInfo info;
+        if (data.imgpixmap.isNull()) {
+            info.bNotSupportedOrDamaged = true;
+            data.imgpixmap = getDamagedPixmap();
+        }
+
+        info.name = data.dbi.fileName;
+        info.path = data.dbi.filePath;
+        info.width = data.imgpixmap.width();
+        info.height = data.imgpixmap.height();
+        info.image = data.imgpixmap;
+//        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
+        info.remainDays = data.remainDays;
+        info.baseWidth = data.imgpixmap.width();
+        info.baseHeight = data.imgpixmap.height();
+        insertThumbnail(info);
+    }
+    resizeEventF();
+    emit sigLoad80ThumbnailsFinish();
 }
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)

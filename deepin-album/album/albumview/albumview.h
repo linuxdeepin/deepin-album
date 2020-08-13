@@ -139,7 +139,7 @@ public:
     bool imageGeted(QStringList &filelist, QString path) override;
     bool imageMountImported(QStringList &filelist) override;
 
-    void createNewAlbum(QStringList imagepaths);
+    //void createNewAlbum(QStringList imagepaths);
     void iniWaitDiolag();
     void SearchReturnUpdate();
     void restorePicNum();
@@ -159,7 +159,7 @@ private:
     void leftTabClicked();
     void openImage(int index);
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
-    QString getNewAlbumName();
+    //QString getNewAlbumName();
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *e) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
@@ -204,8 +204,6 @@ private slots:
     void importDialog();
     void onWaitDialogClose();
     void onWaitDialogIgnore();
-
-    void updateRightImportViewColock(QStringList updatePahtlist);         //更新旋转图片视图
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;

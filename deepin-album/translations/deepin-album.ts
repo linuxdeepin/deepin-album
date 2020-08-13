@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation type="vanished">Unnamed</translation>
     </message>
     <message>
         <source>System Disk</source>

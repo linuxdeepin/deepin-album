@@ -1,8 +1,10 @@
 #include "mainwindow.h"
+#include "config.h"
 #include "controller/commandline.h"
 #include "dialogs/albumcreatedialog.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
+#include "accessibledefine.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -20,6 +22,7 @@
 #include <DMessageManager>
 #include <DFloatingMessage>
 #include <DWidgetUtil>
+#include <DStandardPaths>
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
 namespace  {
@@ -71,6 +74,9 @@ MainWindow::MainWindow()
     QTime t;
     t.start();
     this->setObjectName("drawMainWindow");
+    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
+                             + "/config.conf";
+    m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
 //    initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
@@ -764,6 +770,7 @@ void MainWindow::initTitleBar()
     QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
 
     m_pAllPicBtn = new DPushButton();
+
 //    m_pAllPicBtn = new DSuggestButton();
     m_pAllPicBtn->setFlat(true);
 //    m_pAllPicBtn->setFixedSize(80, 36);
@@ -829,7 +836,7 @@ void MainWindow::initTitleBar()
     addAction(pImport);
 
     pImport->setText(tr("Import photos"));
-    pImport->setShortcut(QKeySequence(CTRLI_SHORTCUT));
+    pImport->setShortcut(QKeySequence(CTRLO_SHORTCUT));
     m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
 
@@ -1411,9 +1418,9 @@ void MainWindow::showEvent(QShowEvent *event)
 
 void MainWindow::saveWindowState()
 {
-    QSettings settings(objectName());
-    settings.setValue("album-geometry", saveGeometry());
-    settings.setValue("album-isMaximized", isMaximized());
+    m_settings->setValue("album-geometry", saveGeometry());
+    m_settings->setValue("album-isMaximized", isMaximized());
+    m_settings->setValue("album-version", VERSION);
 //    settings.setValue("album-pos", pos());
 //    settings.endGroup();
 }
@@ -1421,17 +1428,30 @@ void MainWindow::saveWindowState()
 //加载主界面状态（上次退出时）
 void MainWindow::loadWindowState()
 {
-    QSettings settings(objectName());
-    const QByteArray geometry = settings.value("album-geometry").toByteArray();
-    const bool isMaximized = settings.value("album-isMaximized").toBool();
+    const QByteArray geometry = m_settings->value("album-geometry").toByteArray();
+    const bool isMaximized = m_settings->value("album-isMaximized").toBool();
 //    const QByteArray pos = settings.value("album-pos").toByteArray();
     if (!geometry.isEmpty()) {
-        restoreGeometry(geometry);
-        if (isMaximized) {
+        if (m_settings->contains("album-version")) {
+            if (m_settings->value("album-version").toString().isEmpty()) {
+                restoreGeometry(geometry);
+                if (isMaximized) {
+                    resize(1300, 848);
+                    Dtk::Widget::moveToCenter(this);
+                }
+            } else if (compareVersion()) {
+                resize(1300, 848);
+            } else {
+                restoreGeometry(geometry);
+                if (isMaximized) {
+                    resize(1300, 848);
+                    Dtk::Widget::moveToCenter(this);
+                    //            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
+                    //            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
+                }
+            }
+        } else {
             resize(1300, 848);
-            Dtk::Widget::moveToCenter(this);
-//            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
-//            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
         }
     }
 //    settings.endGroup();
@@ -1440,25 +1460,57 @@ void MainWindow::loadWindowState()
 //保存缩放比例
 void MainWindow::saveZoomRatio()
 {
-    QSettings settings(objectName());
-    settings.setValue("album-zoomratio", m_pSliderPos);
+    m_settings->setValue("album-zoomratio", m_pSliderPos);
+}
+
+bool MainWindow::compareVersion()
+{
+    QString versionBuild(VERSION);
+    QStringList versionBuildList = versionBuild.split(".");
+    QStringList versionConfigList = m_settings->value("album-version").toString().split(".");
+    if (versionBuildList.size() == 4 && versionConfigList.size() == 4) {
+        for (int i = 0; i < 4; i++) {
+            if (versionBuildList.at(i).toInt() > versionConfigList.at(i).toInt()) {
+                return true;
+            } else if (versionConfigList.at(i).toInt() == versionBuildList.at(i).toInt()) {
+                continue;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    } else {
+        return false;
+    }
 }
 
 //加载缩放比例（上次退出时）
 void MainWindow::loadZoomRatio()
 {
-    QSettings settings(objectName());
-    const int sliderpos = settings.value("album-zoomratio").toInt();
-    m_pSliderPos = sliderpos;
-//    if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
+    if (m_settings->contains("album-version")) {
+        if (m_settings->value("album-version").toString().isEmpty()) {
+            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+        } else if (compareVersion()) {
+            m_pSliderPos = 4;
+        } else {
+            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+        }
+        //const int sliderpos = m_settings->value("album-zoomratio").toInt();
+        //m_pSliderPos = sliderpos;
+        //    if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
+        //m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        //} else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE)
+        //{
+        //    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        //} else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM)
+        //{
+        //    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        //}
+        dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+    } else {
+        m_pSliderPos = 4;
+    }
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-//} else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE)
-//{
-//    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-//} else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM)
-//{
-//    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-//}
     dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
 }
 
@@ -1472,14 +1524,16 @@ void MainWindow::initShortcutKey()
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, DELETE_CONTEXT_MENU, DELETE_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, THROWTOTRASH_CONTEXT_MENU, DELETE_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, REMOVEFROMALBUM_CONTEXT_MENU, SHIFTDEL_SHORTCUT);
-    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, UNFAVORITE_CONTEXT_MENU, CTRLSHIFTK_SHORTCUT);
-    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, FAVORITE_CONTEXT_MENU, CTRLK_SHORTCUT);
+//    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, UNFAVORITE_CONTEXT_MENU, CTRLSHIFTK_SHORTCUT);
+//    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, FAVORITE_CONTEXT_MENU, CTRLK_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, FAVORITE_CONTEXT_MENU, SENTENCE_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ROTATECLOCKWISE_CONTEXT_MENU, CTRLR_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ROTATECOUNTERCLOCKWISE_CONTEXT_MENU, CTRLSHIFTR_SHORTCUT);
 //    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SETASWALLPAPER_CONTEXT_MENU, CTRLF8_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SETASWALLPAPER_CONTEXT_MENU, CTRLF9_SHORTCUT);
-    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, DISPLAYINFILEMANAGER_CONTEXT_MENU, CTRLD_SHORTCUT);
-    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ImageInfo_CONTEXT_MENU, ALTRETURN_SHORTCUT);
+//    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, DISPLAYINFILEMANAGER_CONTEXT_MENU, CTRLD_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, DISPLAYINFILEMANAGER_CONTEXT_MENU, ALTD_SHORTCUT);
+    ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, ImageInfo_CONTEXT_MENU, CTRLI_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_CREATEALBUM, CTRLSHIFTN_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_RENAMEALBUM, F2_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SHOW_SHORTCUT_PREVIEW, CTRLSHIFTSLASH_SHORTCUT);
@@ -1530,88 +1584,6 @@ void MainWindow::thumbnailZoomOut()
 
 QJsonObject MainWindow::createShorcutJson()
 {
-//    QJsonObject shortcut1;
-//    shortcut1.insert("name", tr("窗口大小切换"));
-//    shortcut1.insert("value", "Ctrl+Alt+F");
-//    QJsonObject shortcut2;
-//    shortcut2.insert("name", tr("全屏"));
-//    shortcut2.insert("value", "F11");
-//    QJsonObject shortcut3;
-//    shortcut3.insert("name", tr("退出全屏/退出幻灯片放映"));
-//    shortcut3.insert("value", "Esc");
-//    QJsonObject shortcut4;
-//    shortcut4.insert("name", tr("关闭应用"));
-//    shortcut4.insert("value", "Alt+F4");
-//    QJsonObject shortcut5;
-//    shortcut5.insert("name", tr("帮助"));
-//    shortcut5.insert("value", "F1");
-//    QJsonObject shortcut6;
-//    shortcut6.insert("name", tr("显示快捷键预览"));
-//    shortcut6.insert("value", "Ctrl+Shift+/");
-//    QJsonObject shortcut7;
-//    shortcut7.insert("name", tr("在文件管理器中显示"));
-//    shortcut7.insert("value", "Ctrl+D");
-//    QJsonObject shortcut8;
-//    shortcut8.insert("name", tr("幻灯片放映"));
-//    shortcut8.insert("value", "F5");
-//    QJsonObject shortcut9;
-//    shortcut9.insert("name", tr("查看图片"));
-//    shortcut9.insert("value", "Enter");
-//    QJsonObject shortcut10;
-//    shortcut10.insert("name", tr("导出图片"));
-//    shortcut10.insert("value", "Ctrl+E");
-//    QJsonObject shortcut11;
-//    shortcut11.insert("name", tr("导入图片"));
-//    shortcut11.insert("value", "Ctrl+O");
-//    QJsonObject shortcut12;
-//    shortcut12.insert("name", tr("全选图片"));
-//    shortcut12.insert("value", "Ctrl+A");
-//    QJsonObject shortcut13;
-//    shortcut13.insert("name", tr("复制"));
-//    shortcut13.insert("value", "Ctrl+C");
-//    QJsonObject shortcut14;
-//    shortcut14.insert("name", tr("删除照片/删除相册"));
-//    shortcut14.insert("value", "Delete");
-//    QJsonObject shortcut15;
-//    shortcut15.insert("name", tr("图片信息"));
-//    shortcut15.insert("value", "Alt+Enter");
-//    QJsonObject shortcut16;
-//    shortcut16.insert("name", tr("设为壁纸"));
-//    shortcut16.insert("value", "Ctrl+F9");
-//    QJsonObject shortcut17;
-//    shortcut17.insert("name", tr("顺时针旋转"));
-//    shortcut17.insert("value", "Ctrl+R");
-//    QJsonObject shortcut18;
-//    shortcut18.insert("name", tr("逆时针旋转"));
-//    shortcut18.insert("value", "Ctrl+Shift+R");
-//    QJsonObject shortcut19;
-//    shortcut19.insert("name", tr("放大缩小图片"));
-//    shortcut19.insert("value", "ctrl+鼠标滚轮缩放图片缩略图");
-//    QJsonObject shortcut20;
-//    shortcut20.insert("name", tr("放大图片"));
-//    shortcut20.insert("value", "Ctrl+“+”");
-//    QJsonObject shortcut21;
-//    shortcut21.insert("name", tr("缩小图片"));
-//    shortcut21.insert("value", "Ctrl+“-”");
-//    QJsonObject shortcut22;
-//    shortcut22.insert("name", tr("上一张"));
-//    shortcut22.insert("value", "键盘<-");
-//    QJsonObject shortcut23;
-//    shortcut23.insert("name", tr("下一张"));
-//    shortcut23.insert("value", "键盘->");
-//    QJsonObject shortcut24;
-//    shortcut24.insert("name", tr("收藏"));
-//    shortcut24.insert("value", "Ctrl+K");
-//    QJsonObject shortcut25;
-//    shortcut25.insert("name", tr("取消收藏"));
-//    shortcut25.insert("value", "Ctrl+Shift+K");
-//    QJsonObject shortcut26;
-//    shortcut26.insert("name", tr("新建相册"));
-//    shortcut26.insert("value", "Ctrl+Shift+N");
-//    QJsonObject shortcut27;
-//    shortcut27.insert("name", tr("重命名相册"));
-//    shortcut27.insert("value", "F2");
-
     //Translations
     QJsonObject shortcut1;
     shortcut1.insert("name", "Window sizing");
@@ -1633,7 +1605,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut6.insert("value", "Ctrl+Shift+?");
     QJsonObject shortcut7;
     shortcut7.insert("name", tr("Display in file manager"));
-    shortcut7.insert("value", "Ctrl+D");
+    shortcut7.insert("value", "Alt+D");
     QJsonObject shortcut8;
     shortcut8.insert("name", tr("Slide show"));
     shortcut8.insert("value", "F5");
@@ -1657,7 +1629,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut14.insert("value", "Delete");
     QJsonObject shortcut15;
     shortcut15.insert("name", tr("Photo info"));
-    shortcut15.insert("value", "Alt+Enter");
+    shortcut15.insert("value", "Ctrl+I");
     QJsonObject shortcut16;
     shortcut16.insert("name", tr("Set as wallpaper"));
     shortcut16.insert("value", "Ctrl+F9");

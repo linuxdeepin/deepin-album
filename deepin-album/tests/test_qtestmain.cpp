@@ -119,6 +119,10 @@ MainWindow *QTestMain::getMainwindow()
     w->initConnections();
     w->initDBus();
     w->loadZoomRatio();
+    QTime t;
+    t.start();
+    while (t.elapsed() < 1000)
+        dApp->processEvents();
     return w;
 }
 

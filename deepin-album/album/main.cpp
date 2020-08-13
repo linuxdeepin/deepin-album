@@ -2,11 +2,14 @@
 #include "mainwindow.h"
 #include "dtktest.h"
 #include "imageengine/imageengineapi.h"
+#include "accessibledefine.h"
+#include "accessible.h"
 #include <DMainWindow>
 #include <DWidgetUtil>
 #include <DApplicationSettings>
 #include <DLog>
 #include <QMessageBox>
+
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -49,6 +52,7 @@ int main(int argc, char *argv[])
     Application::loadDXcbPlugin();
     Application a(argc, argv);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QAccessible::installFactory(accessibleFactory);
     //  a.setAttribute(Qt::AA_EnableHighDpiScaling);
     //a.setAttribute(Qt::AA_ForceRasterWidgets);
     a.setOrganizationName("deepin");
@@ -113,6 +117,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     ImageEngineApi::instance(&a);
+    ImageEngineApi::instance()->load80Thumbnails();
     MainWindow w;
 //    DtkTest w;
 //    w.resize(1300, 848);
