@@ -40,7 +40,7 @@ public:
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
-    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
+//    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     SlideShowBottomBar *slideshowbottombar;
 protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
