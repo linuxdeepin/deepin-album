@@ -126,10 +126,10 @@ QWidget *SlideShowPanel::toolbarTopMiddleContent()
     return nullptr;
 }
 
-QWidget *SlideShowPanel::extensionPanelContent()
-{
-    return nullptr;
-}
+//QWidget *SlideShowPanel::extensionPanelContent()
+//{
+//    return nullptr;
+//}
 
 void SlideShowPanel::paintEvent(QPaintEvent *e)
 {

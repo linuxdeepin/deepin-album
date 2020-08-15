@@ -181,8 +181,10 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
     ImageDataSt data;
     data.imgpixmap = pixmap;
     QFileInfo fi(srcPath);
-    auto mds = getAllMetaData(srcPath);
-    QString value = mds.value("DateTimeOriginal");
+    //此处不需要加载拍摄时间
+    //auto mds = getAllMetaData(srcPath);
+
+    QString value;// = mds.value("DateTimeOriginal");
     DBImgInfo dbi;
     dbi.fileName = fi.fileName();
     dbi.filePath = srcPath;
