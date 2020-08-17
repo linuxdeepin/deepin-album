@@ -1,3 +1,23 @@
+/*
+* Copyright (C) 2019 ~ 2020 Deepin Technology Co., Ltd.
+*
+* Author: Deng jinhui<dengjinhui@uniontech.com>
+*
+* Maintainer: Deng jinhui <dengjinhui@uniontech.com>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "slideshowpanel.h"
 #include "application.h"
 #include "controller/configsetter.h"
@@ -45,7 +65,6 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
         emit dApp->signalM->updatePauseButton();
         emit dApp->signalM->updateButton();
         emit showPrevious();
-        emit showPause();
     });
     m_playpauseButton = new DIconButton(this);
     m_playpauseButton->setShortcut(Qt::Key_Space);
@@ -63,14 +82,16 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
             m_playpauseButton->setToolTip(tr("Play"));
             a = 1;
             emit dApp->signalM->updateButton();
+            emit showPause();
         } else
         {
             m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
             m_playpauseButton->setToolTip(tr("Pause"));
             a = 0;
             emit dApp->signalM->sigStartTimer();
+            emit showContinue();
         }
-        emit showPause();
+
     });
     connect(dApp->signalM, &SignalManager::updatePauseButton, this, [ = ] {
         m_playpauseButton->setIcon(QIcon::fromTheme("dcc_play_normal"));
@@ -94,7 +115,6 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
         emit dApp->signalM->updatePauseButton();
         emit dApp->signalM->updateButton();
         emit showNext();
-        emit showPause();
     });
     m_cancelButton = new DIconButton(this);
     m_nextButton->setObjectName("CancelButton");
@@ -134,8 +154,14 @@ void SlideShowPanel::initConnections()
         if (isVisible())
             backToLastPanel();
     });
-    connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
+    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [ = ] {
         m_animation->pauseAndnext();
+    });
+    connect(slideshowbottombar, &SlideShowBottomBar::showContinue, this, [ = ] {
+        m_animation->ifPauseAndContinue();
+    });
+    connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
+        m_animation->pauseAndpre();
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
         m_animation->pauseAndnext();
@@ -170,6 +196,9 @@ void SlideShowPanel::appendAction(int id, const QString &text, const QString &sh
     m_menu->addAction(ac);
     if (id == IdPlayOrPause) {
         connect(slideshowbottombar, &SlideShowBottomBar::showPause, ac, [ = ] {
+            ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
+        });
+        connect(slideshowbottombar, &SlideShowBottomBar::showContinue, ac, [ = ] {
             ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
         });
     }
@@ -295,6 +324,7 @@ void SlideShowPanel::mouseMoveEvent(QMouseEvent *event)
             animation->setStartValue(QPoint((width() - slideshowbottombar->width()) / 2, slideshowbottombar->y()));
             animation->setEndValue(QPoint((width() - slideshowbottombar->width()) / 2, height() - slideshowbottombar->height() - 10));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
+            m_animation->update();
         } else if (height() - slideshowbottombar->height() - 10 > pos.y()
                    && height() - slideshowbottombar->height() - 10 == slideshowbottombar->y()) {
             QPropertyAnimation *animation = new QPropertyAnimation(slideshowbottombar, "pos");
@@ -303,6 +333,7 @@ void SlideShowPanel::mouseMoveEvent(QMouseEvent *event)
             animation->setStartValue(QPoint((width() - slideshowbottombar->width()) / 2, slideshowbottombar->y()));
             animation->setEndValue(QPoint((width() - slideshowbottombar->width()) / 2, height()));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
+            m_animation->update();
         }
     }
 }
