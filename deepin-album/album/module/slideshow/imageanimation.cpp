@@ -687,7 +687,7 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
 ImageAnimation::ImageAnimation(QWidget *parent) :
     QWidget(parent), current_target(EffectPlay), d_ptr(new ImageAnimationPrivate(this))
 {
-//    setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    setAttribute(Qt::WA_TransparentForMouseEvents, true);
     setAttribute(Qt::WA_StyledBackground, true);
     setStyleSheet("background-color:#252525");
 }
@@ -733,28 +733,29 @@ void ImageAnimation::pauseAndpre()
     update();
 }
 
-void ImageAnimation::paintEvent(QPaintEvent *)
+void ImageAnimation::paintEvent(QPaintEvent *e)
 {
+    QWidget::paintEvent(e);
     Q_D(ImageAnimation);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     switch (current_target) {
     case EffectPlay: {
         d->effectPainter(&painter, dApp->desktop()->screenGeometry());
+        break;
     }
-    break;
     case SkipToNext: {
         d->forwardPainter(&painter, dApp->desktop()->screenGeometry());
+        break;
     }
-    break;
     case TurnBackPre: {
         d->retreatPainter(&painter, dApp->desktop()->screenGeometry());
+        break;
     }
-    break;
     case KeepStatic: {
         d->keepStaticPainter(&painter, dApp->desktop()->screenGeometry());
+        break;
     }
-    break;
     }
 }
 

@@ -121,7 +121,10 @@ SlideShowPanel::SlideShowPanel(QWidget *parent) : QWidget(parent)
     layout->setMargin(0);
     layout->addWidget(m_animation);
     this->setLayout(layout);
+    //移出屏幕外
     slideshowbottombar->move((QGuiApplication::primaryScreen()->geometry().width() - slideshowbottombar->width()) / 2, QGuiApplication::primaryScreen()->geometry().height());
+    //移至顶层
+    slideshowbottombar->raise();
 }
 
 void SlideShowPanel::initConnections()
