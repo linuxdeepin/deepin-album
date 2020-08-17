@@ -112,6 +112,20 @@ ImageView::ImageView(QWidget *parent)
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
+    m_loadTimer = new QTimer(this);
+    m_loadTimer->setSingleShot(true);
+    m_loadTimer->setInterval(300);
+
+    connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
+        QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, m_loadPath);
+        if (m_watcher.isRunning())
+        {
+            m_watcher.cancel();
+            m_watcher.waitForFinished();
+        }
+        m_watcher.setFuture(f);
+        emit hideNavigation();
+    });
 
 //    m_toast = new Toast(this);
 //    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
@@ -175,6 +189,7 @@ void ImageView::clear()
 
 void ImageView::setImage(const QString &path)
 {
+    m_loadPath = path;
     // Empty path will cause crash in release-build mode
     if (path.isEmpty()) {
         return;
@@ -230,23 +245,18 @@ void ImageView::setImage(const QString &path)
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
             m_blurEffect = new QGraphicsBlurEffect;
-            m_blurEffect->setBlurRadius(15);
+            m_blurEffect->setBlurRadius(6);
             m_pixmapItem->setGraphicsEffect(m_blurEffect);
             setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
             autoFit();
             emit imageChanged(path);
         }
-
-        QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-        if (m_watcher.isRunning()) {
-            m_watcher.cancel();
-            m_watcher.waitForFinished();
+        if (m_loadTimer->isActive()) {
+            return;
         }
-        m_watcher.setFuture(f);
-        emit hideNavigation();
+        m_loadTimer->start();
     }
-
 }
 
 void ImageView::setRenderer(RendererType type)
@@ -625,7 +635,19 @@ bool ImageView::event(QEvent *event)
                 }
             }
         }
-        return true;
+        /*lmh0804*/
+        const QRect &r = visibleImageRect();
+        double left = r.width() + r.x();
+        const QRectF &sr = sceneRect();
+        if (r.x() <= 1) {
+            return true;
+        }
+        if (left - sr.width() >= -1 && left - sr.width() <= 1) {
+            return true;
+        }
+        if (r.width() >= sr.width()) {
+            return true;
+        }
     } else if (evType == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 

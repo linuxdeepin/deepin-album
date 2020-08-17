@@ -236,8 +236,13 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 //        emit mouseLeftReleased();
     }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
-        bMove = true;
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        QRectF rect(QPointF((m_prepoint.x() - 15), (m_prepoint.y() - 15)),
+                    QPointF((m_prepoint.x() + 15), (m_prepoint.y() + 15)));
+        if (rect.contains(mouseEvent->globalPos())) {
+            return false;
+        }
+        bMove = true;
         QPoint p = mouseEvent->globalPos();
         if (m_movePoints.size() < 20) {
             m_movePoints.push_back(p);
