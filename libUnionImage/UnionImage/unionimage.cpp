@@ -839,7 +839,6 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         if (FreeImage_GetThumbnail(dib)) {
             FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
             FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -angel);
-
             FreeImage_SetThumbnail(rotateRes, rotateThumb);
             FreeImage_Unload(rotateThumb);
         }
@@ -1054,7 +1053,6 @@ bool getThumbnail(QImage &res, const QString &path)
 
 class UnionMovieImagePrivate : public QObject
 {
-
 public:
     explicit UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
     {

@@ -5,6 +5,8 @@
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
 #include "accessibledefine.h"
+#include "viewerthememanager.h"
+
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -56,7 +58,7 @@ MainWindow::MainWindow()
     , m_pTimeLineView(nullptr)
     , m_pTimeLineWidget(nullptr)
     , m_pSearchView(nullptr)
-    , m_slidePanel(nullptr)
+//    , m_slidePanel(nullptr)
     , m_pDBManager(nullptr)
     , m_backIndex(0)
     , m_backIndex_fromSlide(0)
@@ -305,10 +307,6 @@ void MainWindow::initConnections()
     });
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
-//        if (VIEW_IMAGE != index)
-//        {
-//            m_backIndex = index;
-//        }
         m_backIndex_fromSlide = index;
         titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
@@ -883,7 +881,7 @@ void MainWindow::initCentralWidget()
 
     m_commandLine = CommandLine::instance();
     m_commandLine->setThreads(this);
-    //m_slidePanel = new SlideShowPanel();
+    m_slidePanel = new SlideShowPanel();
 
     m_pCenterWidget->addWidget(m_pAllPicView);
 
@@ -895,7 +893,7 @@ void MainWindow::initCentralWidget()
     //m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_pSearchViewWidget);
     m_pCenterWidget->addWidget(m_commandLine);
-    //m_pCenterWidget->addWidget(m_slidePanel);
+    m_pCenterWidget->addWidget(m_slidePanel);
 
     //pTitleBtnLayout 设置风格
     DPalette color = DApplicationHelper::instance()->palette(m_pAlbumview);
@@ -966,7 +964,6 @@ void MainWindow::setTitleBarThem(DGuiApplicationHelper::ColorType themeType)
 void MainWindow::onUpdateCentralWidget()
 {
     emit dApp->signalM->hideExtensionPanel();
-
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
 }
 
@@ -1385,8 +1382,8 @@ void MainWindow::showEvent(QShowEvent *event)
         if (m_isFirstStart) {
             initShortcutKey();
             initCentralWidget();
-            m_slidePanel = new SlideShowPanel();
-            m_pCenterWidget->addWidget(m_slidePanel);
+//            m_slidePanel = new SlideShowPanel();
+//            m_pCenterWidget->addWidget(m_slidePanel);
 
             int index = 0;
             if (nullptr == m_pSearchView) {
