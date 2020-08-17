@@ -144,6 +144,8 @@ private:
     ImageRotateThreadControler *m_rotateControler;
     bool m_isFirstPinch = false;
     QPointF m_centerPoint;
+    QTimer *m_loadTimer = nullptr;
+    QString m_loadPath;//需要加载的图片路径
 };
 
 class CFileWatcher: public QThread
