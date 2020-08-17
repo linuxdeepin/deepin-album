@@ -87,7 +87,7 @@ signals:
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
     void viewImage(const ViewInfo &vinfo);
-    void viewImageNoNeedReload(/*QString &filename*/int &fileindex);
+    void viewImageNoNeedReload(int &fileindex);
     void exportImage(const QStringList &paths);
     void updateFileName(const QString &fileName);
     void resizeFileName();

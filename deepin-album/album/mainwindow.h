@@ -96,12 +96,9 @@ signals:
     bool sigImageImported(bool success);
 
 public slots:
-
     void allPicBtnClicked();
-
     void timeLineBtnClicked();
     void albumBtnClicked();
-
     void onCreateAlbum(QStringList imagepaths);
 #if 1
     void onViewCreateAlbum(QString imgpath, bool bmodel = true);
@@ -114,14 +111,11 @@ public slots:
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
     void onLoadingFinished();
 private:
-
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
     bool m_bImport = false;
-
     QWidget *m_titleBtnWidget;
     DMenu *m_pTitleBarMenu;
-
     DSearchEdit *m_pSearchEdit;
     QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
