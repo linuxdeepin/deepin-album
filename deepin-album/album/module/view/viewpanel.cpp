@@ -21,7 +21,6 @@
 #include "controller/divdbuscontroller.h"
 #include "controller/signalmanager.h"
 #include "controller/configsetter.h"
-#include "contents/imageinfowidget.h"
 #include "contents/ttbcontent.h"
 #include "contents/ttmcontent.h"
 #include "contents/ttlcontent.h"
@@ -70,7 +69,6 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_iSlideShowTimerId(0)
     , m_isInfoShowed(false)
     , m_viewB(nullptr)
-    , m_info(nullptr)
     , m_stack(nullptr)
     , m_deletetimer(nullptr)
     , m_bFirstFullScreen(false)
@@ -807,26 +805,12 @@ void ViewPanel::rotateImage(bool clockWise)
         m_viewB->rotateCounterclockwise();
     }
     m_viewB->autoFit();
-    m_info->updateInfo();
-
-//    if (COMMON_STR_TRASH == m_vinfo.viewType) {
-//        dApp->m_imageloader->updateTrashImageLoader(QStringList(m_currentpath));
-//    } else {
-//    dApp->m_imageloader->updateImageLoader(QStringList(m_currentpath));
-//    }
-
-//    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-//    emit imageChanged(m_currentpath);
-//    m_ttbc->reLoad();
-
 }
 
 void ViewPanel::initViewContent()
 {
     m_viewB = new ImageView(this);
-
     connect(m_viewB, &ImageView::doubleClicked, [this]() {
-//        toggleFullScreen();
         if (m_bFirstFullScreen)
             emit dApp->signalM->hideImageView();
         else {
@@ -851,14 +835,8 @@ void ViewPanel::openImage(const QString &path, bool inDB, bool bjudge)
     if (bjudge && m_currentpath == path)
         return;
     m_currentpath = path;
-
     m_viewB->setImage(path);    //设置当前显示图片
     updateMenuContent();
-
-    if (m_info) {
-        m_info->setImagePath(path);
-    }
-
     if (!QFileInfo(path).exists()) {
 //        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
         ImageDataSt data;
