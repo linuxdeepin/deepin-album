@@ -34,7 +34,6 @@
 DWIDGET_USE_NAMESPACE
 
 class ImageButton;
-class ImageInfoWidget;
 class ImageView;
 class ImageWidget;
 class NavigationWidget;
@@ -169,7 +168,6 @@ private:
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
-    ImageInfoWidget *m_info;
     ThumbnailWidget *m_emptyWidget = nullptr;
     QMenu *m_menu;
     QStackedWidget *m_stack;

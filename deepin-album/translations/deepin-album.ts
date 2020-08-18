@@ -317,11 +317,11 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation type="vanished">Basic info</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation type="vanished">Details</translation>
     </message>
 </context>
 <context>

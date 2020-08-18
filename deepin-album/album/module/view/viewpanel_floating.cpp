@@ -16,7 +16,6 @@
  */
 #include "viewpanel.h"
 #include "navigationwidget.h"
-#include "contents/imageinfowidget.h"
 #include "scen/imageview.h"
 #include "dimagebutton.h"
 
@@ -64,14 +63,6 @@ void ViewPanel::initSwitchButtons()
 
     connect(this, &ViewPanel::mouseMoved, this, [ = ] {
         DAnchors<DIconButton> pb = pre_button;
-        if (m_info && m_info->visibleRegion().isNull())
-        {
-            pb.setLeftMargin(0);
-        } else
-        {
-            pb.setLeftMargin(240);
-        }
-
         QPoint pos = mapFromGlobal(QCursor::pos());
         QRect left_rect = pre_button->geometry();
         QRect right_rect = next_button->geometry();
