@@ -1133,14 +1133,44 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
-        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
-        emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
+        if (nullptr == m_pAlbumview)
+        {
+            int index = 0;
+            if (nullptr == m_pTimeLineView) {
+                m_pCenterWidget->removeWidget(m_pTimeLineWidget);
+                index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+                m_pTimeLineView = new TimeLineView();
+                m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+            }
+            m_pCenterWidget->removeWidget(m_pAlbumWidget);
+            index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
+            m_pAlbumview = new AlbumView();
+            connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, [ = ](bool bIsDisp) {
+                if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
+                    m_pSearchEdit->setVisible(bIsDisp);
+                }
+            });
+            m_pCenterWidget->insertWidget(index, m_pAlbumview);
 
-        m_pAlbumBtn->setChecked(true);
+            DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
+            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
 
-        m_pSearchEdit->clearEdit();
-        m_SearchKey.clear();
-        m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            m_pAlbumBtn->setChecked(true);
+
+            m_pSearchEdit->clearEdit();
+            m_SearchKey.clear();
+            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        } else
+        {
+            DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
+            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
+
+            m_pAlbumBtn->setChecked(true);
+
+            m_pSearchEdit->clearEdit();
+            m_SearchKey.clear();
+            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+        }
 
         m_backIndex = VIEW_ALBUM;
         emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
