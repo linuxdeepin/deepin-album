@@ -59,6 +59,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous_normal"));
     m_preButton->setIconSize(QSize(36, 36));
     m_preButton->setToolTip(tr("Previous"));
+    m_preButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_preButton);
     hb->addSpacing(4);
     connect(m_preButton, &DIconButton::clicked, this, [ = ] {
@@ -73,6 +74,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
     m_playpauseButton->setIconSize(QSize(36, 36));
     m_playpauseButton->setToolTip(tr("Pause"));
+    m_playpauseButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_playpauseButton);
     hb->addSpacing(4);
     connect(m_playpauseButton, &DIconButton::clicked, this, [ = ] {
@@ -109,6 +111,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next_normal"));
     m_nextButton->setIconSize(QSize(36, 36));
     m_nextButton->setToolTip(tr("Next"));
+    m_nextButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_nextButton);
     hb->addSpacing(4);
     connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
@@ -122,6 +125,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_cancelButton->setIcon(QIcon::fromTheme("dcc_exit_normal"));
     m_cancelButton->setIconSize(QSize(36, 36));
     m_cancelButton->setToolTip(tr("Exit"));
+    m_cancelButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_cancelButton);
     connect(m_cancelButton, &DIconButton::clicked, this, [ = ] {
         emit showCancel();
@@ -149,22 +153,25 @@ SlideShowPanel::SlideShowPanel(QWidget *parent) : QWidget(parent)
 
 void SlideShowPanel::initConnections()
 {
+    connect(m_animation, &ImageAnimation::singleAnimationEnd, this, [ = ] {
+        return ;
+    });
     connect(dApp->signalM, &SignalManager::startSlideShow, this, &SlideShowPanel::startSlideShow);
     connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, [ = ] {
         if (isVisible())
             backToLastPanel();
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [ = ] {
-        m_animation->pauseAndnext();
+        m_animation->pauseAndNext();
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showContinue, this, [ = ] {
         m_animation->ifPauseAndContinue();
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
-        m_animation->pauseAndpre();
+        m_animation->playAndPre();
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
-        m_animation->pauseAndnext();
+        m_animation->playAndNext();
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [ = ] {
         backToLastPanel();
@@ -199,6 +206,12 @@ void SlideShowPanel::appendAction(int id, const QString &text, const QString &sh
             ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
         });
         connect(slideshowbottombar, &SlideShowBottomBar::showContinue, ac, [ = ] {
+            ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
+        });
+        connect(slideshowbottombar, &SlideShowBottomBar::showNext, ac, [ = ] {
+            ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
+        });
+        connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, ac, [ = ] {
             ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
         });
     }

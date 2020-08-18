@@ -39,8 +39,6 @@ float GaussFunction(double max, float mu, float sigma, float x)
     return static_cast<float>(max * std::exp(static_cast<double>(-(x - mu) * (x - mu) / 2 * sigma * sigma)));
 }
 
-static bool isStatic = false;
-
 class LoopQueue
 {
 public:
@@ -141,9 +139,17 @@ public:
 
     void setPathList(const QString &first, const QStringList &list);
     void startAnimation();
+    void startSingleNextAnimation();
+    void startSinglePreAnimation();
     void stopAnimation();
     void startStatic();
     void stopStatic();
+
+public slots:
+    void onContinuousAnimationTimer();
+    void onSingleNextAnimation();
+    void onSinglePreAnimation();
+    void onStaticTimer();
 
 private:
     //设置动画因子
@@ -170,11 +176,12 @@ private:
     {
         m_animationType = animationType_bar;
     }
+
 private:
     char m_padding2[4];                 //填充占位,使数据结构内存对齐
     QSharedPointer<LoopQueue> queue;
-
-    QPointer<QTimer> m_animationTimer;
+    QPointer<QTimer> m_singleanimationTimer;
+    QPointer<QTimer> m_continuousanimationTimer;
     QPointer<QTimer> m_staticTimer;
     QPointer<QRect> m_rect;
     QPoint centrePoint;
@@ -247,6 +254,7 @@ const QString LoopQueue::pre()
 
 const QString LoopQueue::jumpTonext()
 {
+    changeOrder(true);
     AddIndex();
     return loop_paths[loop_pindex];
 }
@@ -255,7 +263,6 @@ const QString LoopQueue::jumpTopre()
 {
     changeOrder(false);
     AddIndex();
-    changeOrder(true); // 没有需求逆序播放
     return loop_paths[loop_pindex];
 }
 
@@ -293,7 +300,7 @@ void LoopQueue::AddIndex()
 
 ImageAnimationPrivate::ImageAnimationPrivate(ImageAnimation *qq) :
     m_factor(0.0f), m_funval(0.0f), m_animationType(AnimationType::BlindsEffect), queue(nullptr),
-    m_animationTimer(nullptr), m_staticTimer(nullptr),  q_ptr(qq)
+    m_singleanimationTimer(nullptr), m_continuousanimationTimer(nullptr), m_staticTimer(nullptr),  q_ptr(qq)
 {
     Q_UNUSED(m_padding2);
 }
@@ -305,15 +312,14 @@ ImageAnimationPrivate::~ImageAnimationPrivate()
 
 void ImageAnimationPrivate::effectPainter(QPainter *painter, const QRect &rect)
 {
-//    if (m_factor < 0.0f) {
-//        painter->drawPixmap(0, 0, m_pixmap1);
-//        return;
-//    }
     if (m_pixmap1.isNull() || m_pixmap2.isNull()) {
         return;
+    } else if (!m_staticTimer && !m_continuousanimationTimer && !m_singleanimationTimer) {
+        painter->drawPixmap(0, 0, m_pixmap1);
+        return;
     }
-    if (m_animationTimer) {
-        if (!m_animationTimer->isActive())
+    if (m_continuousanimationTimer) {
+        if (!m_continuousanimationTimer->isActive())
             return;
     }
     if (m_staticTimer) {
@@ -323,14 +329,6 @@ void ImageAnimationPrivate::effectPainter(QPainter *painter, const QRect &rect)
         return;
     }
     centrePoint = rect.center();
-//    finalX = centrePoint.x() - m_pixmap2.width() / 2;
-//    finalY = centrePoint.y() - m_pixmap2.height() / 2;
-//    beginX = centrePoint.x() - m_pixmap1.width() / 2;
-//    beginY = centrePoint.y() - m_pixmap1.height() / 2;
-//    qDebug() << finalX << finalY << beginX << beginY;
-//    if (!m_animationTimer) {
-//        painter->drawPixmap(finalX, finalY, m_pixmap2);
-//    }
     switch (m_animationType) {
     case 0:
         fadeEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
@@ -370,30 +368,27 @@ void ImageAnimationPrivate::forwardPainter(QPainter *painter, const QRect &rect)
         return;
     }
     Q_Q(ImageAnimation);
-    if (!m_animationTimer && !m_staticTimer) {
+    if (!m_continuousanimationTimer && !m_staticTimer) {
+        setImage1(m_imageName2);
         setImage2(queue->jumpTonext());
-        painter->drawPixmap(0, 0, m_pixmap2);
+        painter->drawPixmap(0, 0, m_pixmap1);
         q->setPaintTarget(ImageAnimation::KeepStatic);
         return;
     }
-    if (m_animationTimer) {
-        m_animationTimer->stop();
-        m_animationTimer->setInterval(0);
+    if (m_continuousanimationTimer) {
+        m_continuousanimationTimer->stop();
+        m_continuousanimationTimer->setInterval(0);
         m_factor = 0.0f;
         painter->drawPixmap(0, 0, m_pixmap2);
         q->setPaintTarget(ImageAnimation::KeepStatic);
-        m_animationTimer->deleteLater();
+        m_continuousanimationTimer->deleteLater();
     }
     if (m_staticTimer) {
-        if (m_animationTimer)
-            if (m_animationTimer->timerId() >= 0)
-                killTimer(m_animationTimer->timerId());
+        if (m_continuousanimationTimer)
+            if (m_continuousanimationTimer->timerId() >= 0)
+                killTimer(m_continuousanimationTimer->timerId());
         stopStatic();
-        if (m_staticTimer)
-            if (m_staticTimer->timerId() >= 0)
-                killTimer(m_staticTimer->timerId());
     }
-
     q->update();
 }
 
@@ -404,26 +399,27 @@ void ImageAnimationPrivate::retreatPainter(QPainter *painter, const QRect &rect)
         return;
     }
     Q_Q(ImageAnimation);
-    if (!m_animationTimer && !m_staticTimer) {
+    if (!m_continuousanimationTimer && !m_staticTimer) {
+        setImage1(m_imageName2);
         setImage2(queue->jumpTopre());
-        painter->drawPixmap(0, 0, m_pixmap2);
+        painter->drawPixmap(0, 0, m_pixmap1);
         q->setPaintTarget(ImageAnimation::KeepStatic);
         return;
     }
 
     //动画播放中
-    if (m_animationTimer) {
-        m_animationTimer->stop();
-        m_animationTimer->setInterval(0);
+    if (m_continuousanimationTimer) {
+        m_continuousanimationTimer->stop();
+        m_continuousanimationTimer->setInterval(0);
         m_factor = 0.0f;
         setImage2(queue->jumpTopre());
         painter->drawPixmap(0, 0, m_pixmap2);
         q->setPaintTarget(ImageAnimation::KeepStatic);
-        m_animationTimer->deleteLater();
+        m_continuousanimationTimer->deleteLater();
     }
     if (m_staticTimer) {
-        if (m_animationTimer->timerId() >= 0)
-            killTimer(m_animationTimer->timerId());
+        if (m_continuousanimationTimer->timerId() >= 0)
+            killTimer(m_continuousanimationTimer->timerId());
         stopStatic();
         if (m_staticTimer->timerId() >= 0)
             killTimer(m_staticTimer->timerId());
@@ -543,22 +539,38 @@ void ImageAnimationPrivate::moveLeftToRightEffect(QPainter *painter, const QRect
 
 void ImageAnimationPrivate::moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
 {
-
+    Q_UNUSED(painter);
+    Q_UNUSED(rect);
+    Q_UNUSED(factor);
+    Q_UNUSED(pixmap1);
+    Q_UNUSED(pixmap2);
 }
 
 void ImageAnimationPrivate::moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
 {
-
+    Q_UNUSED(painter);
+    Q_UNUSED(rect);
+    Q_UNUSED(factor);
+    Q_UNUSED(pixmap1);
+    Q_UNUSED(pixmap2);
 }
 
 void ImageAnimationPrivate::moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
 {
-
+    Q_UNUSED(painter);
+    Q_UNUSED(rect);
+    Q_UNUSED(factor);
+    Q_UNUSED(pixmap1);
+    Q_UNUSED(pixmap2);
 }
 
 void ImageAnimationPrivate::moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
 {
-
+    Q_UNUSED(painter);
+    Q_UNUSED(rect);
+    Q_UNUSED(factor);
+    Q_UNUSED(pixmap1);
+    Q_UNUSED(pixmap2);
 }
 
 void ImageAnimationPrivate::setPathList(const QString &first, const QStringList &list)
@@ -570,37 +582,67 @@ void ImageAnimationPrivate::setPathList(const QString &first, const QStringList 
 
 void ImageAnimationPrivate::startAnimation()
 {
-    Q_Q(ImageAnimation);
-    if (!m_animationTimer) {
-        m_animationTimer = new QTimer();
-        connect(m_animationTimer, &QTimer::timeout, this, [ = ]() {
-            m_funval += FACTOR_STEP;
-            m_factor += GaussFunction(0.05, 0.5f, 5, m_funval);
-            if (m_factor + 0.005f > 1)
-                m_factor = 1.0f;
-            if (m_funval > 1.0f) {
-                m_funval = 0.0f;
-                m_factor = 0.0f;
-                isStatic = true;
-                stopAnimation();
-                startStatic();
-            } else {
-                qDebug() << "animation running";
-                m_animationTimer->start(UPDATE_RATE);
-                isStatic = false;
-                q->update();
-            }
-        });
+    if (!m_continuousanimationTimer) {
+        m_continuousanimationTimer = new QTimer();
+        m_factor = 0.0f;
+        m_funval = 0.0f;
+        connect(m_continuousanimationTimer, &QTimer::timeout, this, &ImageAnimationPrivate::onContinuousAnimationTimer);
     }
-    m_animationTimer->start(UPDATE_RATE);
-    isStatic = false;
+    m_continuousanimationTimer->start(UPDATE_RATE);
+}
+
+void ImageAnimationPrivate::startSingleNextAnimation()
+{
+    if (!m_singleanimationTimer) {
+        m_singleanimationTimer = new QTimer();
+        m_factor = 0.0f;
+        m_funval = 0.0f;
+        connect(m_singleanimationTimer, &QTimer::timeout, this, &ImageAnimationPrivate::onSingleNextAnimation);
+        m_singleanimationTimer->start(UPDATE_RATE);
+    } else {
+        Q_Q(ImageAnimation);
+        m_singleanimationTimer->stop();
+        if (m_singleanimationTimer->timerId() > 0) {
+            killTimer(m_singleanimationTimer->timerId());
+        }
+        m_factor = 0.0f;
+        m_funval = 0.0f;
+        m_singleanimationTimer.clear();
+        q->setPaintTarget(ImageAnimation::SkipToNext);
+        q->update();
+    }
+}
+
+void ImageAnimationPrivate::startSinglePreAnimation()
+{
+    if (!m_singleanimationTimer) {
+        QPointer<QThread> thread = QThread::create([ = ] {
+            setImage1(queue->current());
+            setImage2(queue->jumpTopre());
+        });
+        thread->start();
+        m_singleanimationTimer = new QTimer();
+        m_factor = 0.0f;
+        m_funval = 0.0f;
+        connect(m_singleanimationTimer, &QTimer::timeout, this, &ImageAnimationPrivate::onSinglePreAnimation);
+        m_singleanimationTimer->start(UPDATE_RATE);
+    } else {
+        Q_Q(ImageAnimation);
+        m_singleanimationTimer->stop();
+        if (m_singleanimationTimer->timerId() > 0) {
+            killTimer(m_singleanimationTimer->timerId());
+        }
+        m_singleanimationTimer.clear();
+        q->setPaintTarget(ImageAnimation::TurnBackPre);
+        q->update();
+    }
 }
 
 void ImageAnimationPrivate::stopAnimation()
 {
-    if (m_animationTimer)
-        m_animationTimer->stop();
-    delete m_animationTimer;
+    if (m_continuousanimationTimer)
+        m_continuousanimationTimer->stop();
+    delete m_continuousanimationTimer;
 }
 
 void ImageAnimationPrivate::startStatic()
@@ -612,25 +654,97 @@ void ImageAnimationPrivate::startStatic()
             setImage2(queue->jumpTonext());
         });
         thread->start();
-        connect(m_staticTimer, &QTimer::timeout, this, [ = ]() {
-            qDebug() << "static stop";
-            qDebug() << "factor1 =============" << m_factor;
-            stopStatic();
-            qsrand(static_cast<uint>(QTime(0, 0, 0).secsTo(QTime::currentTime())));
-            m_animationType = static_cast<AnimationType>(qrand() % (3));
-            startAnimation();
-        });
-        qDebug() << "static begin " << queue->index();
+        connect(m_staticTimer, &QTimer::timeout, this, &ImageAnimationPrivate::onStaticTimer);
     }
     m_staticTimer->start(2500);
-    qDebug() << "factor2 =============" << m_factor;
 }
 
 void ImageAnimationPrivate::stopStatic()
 {
-    if (m_staticTimer)
+    if (m_staticTimer) {
+        if (m_staticTimer->timerId() > 0)
+            killTimer(m_staticTimer->timerId());
         m_staticTimer->stop();
+    }
     delete m_staticTimer;
+}
+
+void ImageAnimationPrivate::onSingleNextAnimation()
+{
+    Q_Q(ImageAnimation);
+    m_funval += FACTOR_STEP;
+    m_factor += GaussFunction(0.05, 0.5f, 5, m_funval);
+    qDebug()  << "onSingleNextAnimation-----------factor:" << m_factor;
+    qDebug()  << "onSingleNextAnimation-----------value: " << m_factor;
+    if (m_factor > 1)
+        m_factor = 1.0f;
+    if (m_funval > 1 || m_factor >= 1) {
+        m_funval = 0.0f;
+        m_factor = 0.0f;
+        setImage1(m_imageName2);
+        setImage2(queue->jumpTonext());
+        qsrand(static_cast<uint>(QTime(0, 0, 0).secsTo(QTime::currentTime())));
+        m_animationType = static_cast<AnimationType>(qrand() % (3));
+        m_singleanimationTimer->deleteLater();
+        emit q->singleAnimationEnd();
+    } else {
+        qDebug() << "single animation running";
+        m_singleanimationTimer->start(UPDATE_RATE);
+        q->update();
+    }
+}
+
+void ImageAnimationPrivate::onSinglePreAnimation()
+{
+    Q_Q(ImageAnimation);
+    m_funval += FACTOR_STEP;
+    m_factor += GaussFunction(0.05, 0.5f, 5, m_funval);
+    if (m_factor + 0.005f > 1)
+        m_factor = 1.0f;
+    if (m_funval > 1.0f) {
+        m_funval = 0.0f;
+        m_factor = 0.0f;
+        QPointer<QThread> thread = QThread::create([ = ] {
+            setImage1(m_imageName2);
+            setImage2(queue->jumpTopre());
+        });
+        thread->start();
+        qsrand(static_cast<uint>(QTime(0, 0, 0).secsTo(QTime::currentTime())));
+        m_animationType = static_cast<AnimationType>(qrand() % (3));
+        m_singleanimationTimer->deleteLater();
+        emit q->singleAnimationEnd();
+    } else {
+        qDebug() << "single animation running";
+        m_singleanimationTimer->start(UPDATE_RATE);
+        q->update();
+    }
+}
+
+void ImageAnimationPrivate::onContinuousAnimationTimer()
+{
+    Q_Q(ImageAnimation);
+    m_funval += FACTOR_STEP;
+    m_factor += GaussFunction(0.05, 0.5f, 5, m_funval);
+    if (m_factor + 0.005f > 1)
+        m_factor = 1.0f;
+    if (m_funval > 1.0f) {
+        m_funval = 0.0f;
+        m_factor = 0.0f;
+        stopAnimation();
+        startStatic();
+    } else {
+        qDebug() << "animation running";
+        m_continuousanimationTimer->start(UPDATE_RATE);
+        q->update();
+    }
+}
+
+void ImageAnimationPrivate::onStaticTimer()
+{
+    stopStatic();
+    qsrand(static_cast<uint>(QTime(0, 0, 0).secsTo(QTime::currentTime())));
+    m_animationType = static_cast<AnimationType>(qrand() % (3));
+    startAnimation();
 }
 
 void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
@@ -737,7 +851,25 @@ void ImageAnimation::stopSlideShow()
     d->stopStatic();
 }
 
-void ImageAnimation::pauseAndnext()
+void ImageAnimation::playAndNext()
+{
+    Q_D(ImageAnimation);
+    setPaintTarget(EffectPlay);
+    d->stopStatic();
+    d->stopAnimation();
+    d->startSingleNextAnimation();
+}
+
+void ImageAnimation::playAndPre()
+{
+    Q_D(ImageAnimation);
+    setPaintTarget(EffectPlay);
+    d->stopStatic();
+    d->stopAnimation();
+    d->startSinglePreAnimation();
+}
+
+void ImageAnimation::pauseAndNext()
 {
     setPaintTarget(SkipToNext);
     update();
@@ -746,10 +878,8 @@ void ImageAnimation::pauseAndnext()
 void ImageAnimation::ifPauseAndContinue()
 {
     Q_D(ImageAnimation);
-    if (current_target != EffectPlay) {
-        setPaintTarget(EffectPlay);
-        d->startAnimation();
-    }
+    setPaintTarget(EffectPlay);
+    d->startAnimation();
 }
 
 void ImageAnimation::pauseAndpre()

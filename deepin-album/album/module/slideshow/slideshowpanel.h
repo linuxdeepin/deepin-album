@@ -31,6 +31,7 @@
 #include <QHBoxLayout>
 #include <DFloatingWidget>
 #include <QShortcut>
+#include <QObject>
 
 class SlideShowBottomBar : public DFloatingWidget
 {
@@ -70,7 +71,8 @@ public:
     void backToLastPanel();
     void showNormal();
     void showFullScreen();
-signals:
+
+    SlideShowBottomBar *slideshowbottombar;
 
 public slots:
     void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB);
@@ -80,7 +82,6 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void timerEvent(QTimerEvent *event) override;
 private:
-    SlideShowBottomBar *slideshowbottombar;
     ImageAnimation *m_animation;
     DMenu *m_menu;
     QShortcut *m_sEsc;
