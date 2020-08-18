@@ -202,7 +202,7 @@ void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 void ThumbnailListView::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
-    resizeEventF();
+    QTimer::singleShot(100, this, SLOT(resizeEventF()));
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)

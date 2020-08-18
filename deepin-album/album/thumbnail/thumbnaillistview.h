@@ -192,7 +192,7 @@ private slots:
     void onTimerOut();
 //    void onResizeEventTimerOut();
 //    void slotPageNeedResize(int index);
-
+    void resizeEventF();
     void sltChangeDamagedPixOnThemeChanged();
 
 public slots:
@@ -215,7 +215,6 @@ private:
     void addThumbnailViewNew(QList<QList<ItemInfo>> gridItem);
     void addThumbnailView();
     void sendNeedResize(/*int height*/);
-    void resizeEventF();
 
     //------------------
 //    void updateThumbnailView();
