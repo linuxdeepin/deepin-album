@@ -25,7 +25,7 @@
 #include <QWidget>
 #include <QPropertyAnimation>
 #include <QImageReader>
-
+#include <QObject>
 
 #define UPDATE_RATE 30
 #define FACTOR_STEP 0.020f
@@ -35,6 +35,7 @@ QT_BEGIN_NAMESPACE
 class ImageAnimationPrivate;
 class ImageAnimation : public QWidget
 {
+    Q_OBJECT
     enum AnimationType {
         FadeEffect = 0,             //图像1渐渐变淡,图像2渐渐显现
         BlindsEffect = 1,           //百叶窗效果
@@ -61,11 +62,15 @@ public:
     void startSlideShow(const QString &beginPath, const QStringList &pathlist);
     void stopSlideShow();
 
-    void pauseAndnext();
+    void playAndNext();
+    void playAndPre();
+    void pauseAndNext();
     void ifPauseAndContinue();
     void pauseAndpre();
 
     int currentIndex();
+signals:
+    void singleAnimationEnd();
 protected:
     void paintEvent(QPaintEvent *) override;
     void setPaintTarget(PaintTarget target);
