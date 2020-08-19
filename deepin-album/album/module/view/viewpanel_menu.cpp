@@ -16,7 +16,6 @@
  */
 #include "viewpanel.h"
 #include "application.h"
-#include "contents/imageinfowidget.h"
 #include "controller/configsetter.h"
 #include "controller/wallpapersetter.h"
 #include "navigationwidget.h"
@@ -284,7 +283,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdImageInfo:
         emit dApp->signalM->showImageInfo(path);
         // Update panel info
-        m_info->setImagePath(path);
         break;
     default:
         break;

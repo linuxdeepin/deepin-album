@@ -17,7 +17,7 @@
 #include "mainwidget.h"
 #include "application.h"
 #include "controller/configsetter.h"
-#include "module/slideshow/slideshowpanel.h"
+//#include "module/slideshow/slideshowpanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/dialogs/imginfodialog.h"

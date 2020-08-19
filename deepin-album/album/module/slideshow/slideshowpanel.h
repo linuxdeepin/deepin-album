@@ -1,86 +1,94 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+* Copyright (C) 2019 ~ 2020 Deepin Technology Co., Ltd.
+*
+* Author: Deng jinhui<dengjinhui@uniontech.com>
+*
+* Maintainer: Deng jinhui <dengjinhui@uniontech.com>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef SLIDESHOWPANEL_H
 #define SLIDESHOWPANEL_H
 
-#include "module/modulepanel.h"
+#include "imageanimation.h"
 #include "controller/viewerthememanager.h"
-#include "module/slideshow/slideshowbottombar.h"
-#include <QFileSystemWatcher>
+#include "controller/signalmanager.h"
 
-class QMenu;
-class QShortcut;
-class SlideEffectPlayer;
-class SlideShowPanel : public ModulePanel
+#include <DMenu>
+#include <DIconButton>
+#include <DLabel>
+#include <QHBoxLayout>
+#include <DFloatingWidget>
+#include <QShortcut>
+#include <QObject>
+
+class SlideShowBottomBar : public DFloatingWidget
 {
     Q_OBJECT
 public:
-    explicit SlideShowPanel(QWidget *parent = nullptr);
+    explicit SlideShowBottomBar(QWidget *parent = nullptr);
+public:
+    DIconButton *m_preButton;
+    DIconButton *m_nextButton;
+    DIconButton *m_playpauseButton;
+    DIconButton *m_cancelButton;
+    int a = 0;
+private slots:
+//    void onThemeChanged(ViewerThemeManager::AppTheme theme);
+signals:
+    void showPrevious();
+    void showPause();
+    void showContinue();
+    void showNext();
+    void showCancel();
+};
+
+class SlideShowPanel : public QWidget
+{
+    Q_OBJECT
+public:
     enum MenuItemId {
         IdStopslideshow,
         IdPlayOrPause,
         IdPlay,
         IdPause
     };
-    QString moduleName() Q_DECL_OVERRIDE;
-    QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
-    QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
-    QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
-    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-    SlideShowBottomBar *slideshowbottombar;
-protected:
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
-private:
-    void backToLastPanel();
-    QImage getFitImage(const QString &path);
-    void initeffectPlay();
+    explicit SlideShowPanel(QWidget *parent = nullptr);
+    void initConnections();
     void initMenu();
-    void initShortcut();
-    void initFileSystemMonitor();
-    void setImage(const QImage &img);
-    void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB = true);
     void appendAction(int id, const QString &text, const QString &shortcut);
-    void showFullScreen();
+    void backToLastPanel();
     void showNormal();
+    void showFullScreen();
+
+    SlideShowBottomBar *slideshowbottombar;
+
+public slots:
+    void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB);
     void onMenuItemClicked(QAction *action);
     void onThemeChanged(ViewerThemeManager::AppTheme dark);
+protected:
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void timerEvent(QTimerEvent *event) override;
 private:
-    int                  m_hideCursorTid;
-    int                  m_startTid;
-    QShortcut           *m_sEsc;
+    ImageAnimation *m_animation;
+    DMenu *m_menu;
+    QShortcut *m_sEsc;
     SignalManager::ViewInfo m_vinfo;
-    QImage               m_img;
-    DMenu               *m_menu;
-    SlideEffectPlayer   *m_player;
-    bool                 m_isMaximized;
-    QFileSystemWatcher  *m_fileSystemMonitor;
-    DIconButton         *m_cancelslideshow;
-    QColor               m_bgColor;
-    bool a = true;
-
-
-
+    QColor m_bgColor;
+    bool m_isMaximized;
+    int m_hideCursorTid;
 };
 
 #endif // SLIDESHOWPANEL_H

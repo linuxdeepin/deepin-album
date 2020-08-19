@@ -88,7 +88,6 @@ ImageView::ImageView(QWidget *parent)
 //    , m_svgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
-    , m_bLoadmemory(false)
     , m_rotateControler(nullptr)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -112,6 +111,20 @@ ImageView::ImageView(QWidget *parent)
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
+    m_loadTimer = new QTimer(this);
+    m_loadTimer->setSingleShot(true);
+    m_loadTimer->setInterval(300);
+
+    connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
+        QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, m_loadPath);
+        if (m_watcher.isRunning())
+        {
+            m_watcher.cancel();
+            m_watcher.waitForFinished();
+        }
+        m_watcher.setFuture(f);
+        emit hideNavigation();
+    });
 
 //    m_toast = new Toast(this);
 //    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
@@ -175,6 +188,7 @@ void ImageView::clear()
 
 void ImageView::setImage(const QString &path)
 {
+    m_loadPath = path;
     // Empty path will cause crash in release-build mode
     if (path.isEmpty()) {
         return;
@@ -208,45 +222,33 @@ void ImageView::setImage(const QString &path)
         QImageReader imagreader(path);      //取原图的分辨率
         int w = imagreader.size().width();
         int h = imagreader.size().height();
-        if (w > MAX_WIDTH_HEIGHT || h > MAX_WIDTH_HEIGHT) { //分辨率较大
-            m_bLoadmemory = true;
-        } else {
-            m_bLoadmemory = false;
+        scene()->clear();
+        resetTransform();
+        ImageDataSt data;   //内存中的数据
+        ImageEngineApi::instance()->getImageData(path, data);
+        int wS = 0;
+        int hS = 0;
+        QRect screenRect = QApplication::desktop()->screenGeometry();
+        if (w > screenRect.width()) {
+            wS = screenRect.width();
+            hS = wS * h / w;
         }
-        if (m_bLoadmemory) {
-            scene()->clear();
-            resetTransform();
-            ImageDataSt data;   //内存中的数据
-            ImageEngineApi::instance()->getImageData(path, data);
-            int wS = 0;
-            int hS = 0;
-            QRect screenRect = QApplication::desktop()->screenGeometry();
-            if (w > screenRect.width()) {
-                wS = screenRect.width();
-                hS = wS * h / w;
-            }
-            QPixmap pix = data.imgpixmap.scaled(wS, hS, Qt::KeepAspectRatio); //缩放到原图大小
-            m_pixmapItem = new GraphicsPixmapItem(pix);
-            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            // Make sure item show in center of view after reload
-            m_blurEffect = new QGraphicsBlurEffect;
-            m_blurEffect->setBlurRadius(15);
-            m_pixmapItem->setGraphicsEffect(m_blurEffect);
-            setSceneRect(m_pixmapItem->boundingRect());
-            scene()->addItem(m_pixmapItem);
-            autoFit();
-            emit imageChanged(path);
+        QPixmap pix = data.imgpixmap.scaled(wS, hS, Qt::KeepAspectRatio); //缩放到原图大小
+        m_pixmapItem = new GraphicsPixmapItem(pix);
+        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        // Make sure item show in center of view after reload
+        m_blurEffect = new QGraphicsBlurEffect;
+        m_blurEffect->setBlurRadius(6);
+        m_pixmapItem->setGraphicsEffect(m_blurEffect);
+        setSceneRect(m_pixmapItem->boundingRect());
+        scene()->addItem(m_pixmapItem);
+        autoFit();
+        emit imageChanged(path);
+        if (m_loadTimer->isActive()) {
+            return;
         }
-
-        QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-        if (m_watcher.isRunning()) {
-            m_watcher.cancel();
-            m_watcher.waitForFinished();
-        }
-        m_watcher.setFuture(f);
-        emit hideNavigation();
+        m_loadTimer->start();
     }
-
 }
 
 void ImageView::setRenderer(RendererType type)
@@ -625,7 +627,19 @@ bool ImageView::event(QEvent *event)
                 }
             }
         }
-        return true;
+        /*lmh0804*/
+        const QRect &r = visibleImageRect();
+        double left = r.width() + r.x();
+        const QRectF &sr = sceneRect();
+        if (r.x() <= 1) {
+            return true;
+        }
+        if (left - sr.width() >= -1 && left - sr.width() <= 1) {
+            return true;
+        }
+        if (r.width() >= sr.width()) {
+            return true;
+        }
     } else if (evType == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
@@ -640,28 +654,13 @@ void ImageView::onCacheFinish()
         QPixmap pixmap = vl.last().value<QPixmap>();
         pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
-            if (m_bLoadmemory) {
-                if (!m_pixmapItem)
-                    return;
-                m_pixmapItem->setGraphicsEffect(nullptr);
-                m_pixmapItem->setPixmap(pixmap);
-                setSceneRect(m_pixmapItem->boundingRect());
-                autoFit();
-                this->update();
-            } else {
-                if (m_pixmapItem != nullptr) {
-                    delete m_pixmapItem;
-                    m_pixmapItem = nullptr;
-                }
-                scene()->clear();
-                resetTransform();
-                m_pixmapItem = new GraphicsPixmapItem(pixmap);
-                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-                // Make sure item show in center of view after reload
-                setSceneRect(m_pixmapItem->boundingRect());
-                scene()->addItem(m_pixmapItem);
-                emit imageChanged(path);
-            }
+            if (!m_pixmapItem)
+                return;
+            m_pixmapItem->setGraphicsEffect(nullptr);
+            m_pixmapItem->setPixmap(pixmap);
+            setSceneRect(m_pixmapItem->boundingRect());
+            autoFit();
+            this->update();
         }
     }
 }

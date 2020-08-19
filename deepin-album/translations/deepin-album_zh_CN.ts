@@ -347,11 +347,11 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation type="vanished">基本信息</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>详细信息</translation>
+        <translation type="vanished">详细信息</translation>
     </message>
 </context>
 <context>

@@ -839,7 +839,6 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         if (FreeImage_GetThumbnail(dib)) {
             FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
             FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -angel);
-
             FreeImage_SetThumbnail(rotateRes, rotateThumb);
             FreeImage_Unload(rotateThumb);
         }
@@ -904,9 +903,9 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
     } else if (format == "JPG" || format == "JPEG") {
         QImage image_copy(path, "JPG");
         if (!image_copy.isNull()) {
-            QMatrix rotatematrix;
-            rotatematrix.rotate(angel);
-            image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
+            QPainter rotatePainter(&image_copy);
+            rotatePainter.rotate(angel);
+            rotatePainter.end();
             image_copy.save(path, "jpg", SAVE_QUAITY_VALUE);
             return true;
         }
@@ -1054,7 +1053,6 @@ bool getThumbnail(QImage &res, const QString &path)
 
 class UnionMovieImagePrivate : public QObject
 {
-
 public:
     explicit UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
     {

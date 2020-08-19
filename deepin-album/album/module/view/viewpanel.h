@@ -34,7 +34,6 @@
 DWIDGET_USE_NAMESPACE
 
 class ImageButton;
-class ImageInfoWidget;
 class ImageView;
 class ImageWidget;
 class NavigationWidget;
@@ -55,7 +54,7 @@ public:
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *bottomTopLeftContent() ;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
-    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
+//    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
     {
@@ -169,7 +168,6 @@ private:
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
-    ImageInfoWidget *m_info;
     ThumbnailWidget *m_emptyWidget = nullptr;
     QMenu *m_menu;
     QStackedWidget *m_stack;

@@ -39,7 +39,7 @@ public:
         return false;
     }
     virtual QString moduleName() = 0;
-    virtual QWidget *extensionPanelContent() = 0;
+//    virtual QWidget *extensionPanelContent() = 0;
     virtual QWidget *toolbarBottomContent() = 0;
     virtual QWidget *toolbarTopMiddleContent() = 0;
     virtual QWidget *toolbarTopLeftContent() = 0;

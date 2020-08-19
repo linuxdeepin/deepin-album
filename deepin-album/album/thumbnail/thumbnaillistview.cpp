@@ -202,7 +202,7 @@ void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 void ThumbnailListView::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
-    resizeEventF();
+    QTimer::singleShot(100, this, SLOT(resizeEventF()));
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
@@ -1488,6 +1488,9 @@ void ThumbnailListView::updateThumbnaillistview()
             datas.append(QVariant(m_gridItem[i][j].width));
             datas.append(QVariant(m_gridItem[i][j].height));
             datas.append(QVariant(m_gridItem[i][j].remainDays));
+            if (m_gridItem[i][j].bNotSupportedOrDamaged) {
+                m_gridItem[i][j].image = getDamagedPixmap();
+            }
             datas.append(QVariant(m_gridItem[i][j].image));
             datas.append(QVariant(m_gridItem[i][j].imgWidth));
             datas.append(QVariant(m_gridItem[i][j].imgHeight));
