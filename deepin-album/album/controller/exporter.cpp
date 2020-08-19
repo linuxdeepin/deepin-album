@@ -51,7 +51,7 @@ void Exporter::exportImage(const QStringList imagePaths)
         return;
     } else if (imagePaths.length() == 1) {
         initValidFormatMap();
-        QFileDialog exportDialog;
+        //QFileDialog exportDialog;
         //Todo: need to filter the format of images.
         QString imageName = QString("%1.%2").arg(QFileInfo(imagePaths.at(0)).baseName())
                             .arg(QFileInfo(imagePaths.at(0)).completeSuffix());
@@ -114,7 +114,7 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                 continue;
             }
         }
-        if ( failcount == albumPaths.length()) {
+        if (failcount == albumPaths.length()) {
             emit dApp->signalM->AlbExportFailed();
         } else {
             emit dApp->signalM->AlbExportSuccess();
@@ -147,7 +147,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 if (fileinfo.exists()) {
                     if (!fileinfo.isDir()) {
                         m_exportImageDialog->setPicFileName(savePath.mid(savePath.lastIndexOf("/") + 1));
-                        m_exportImageDialog->showQuestionDialog(savePath,imagePaths[j]);
+                        m_exportImageDialog->showQuestionDialog(savePath, imagePaths[j]);
                         continue;
                     }
                 }
@@ -156,7 +156,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
                     failcount ++;
-                }else{
+                } else {
                     bnewpath =  true;
                 }
 
@@ -165,10 +165,10 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 continue;
             }
         }
-        if ( failcount == imagePaths.length()) {
+        if (failcount == imagePaths.length()) {
             emit dApp->signalM->ImgExportFailed();
         } else {
-            if(bnewpath)
+            if (bnewpath)
                 emit dApp->signalM->ImgExportSuccess();
             emit dApp->signalM->sigRestoreStatus();
         }
