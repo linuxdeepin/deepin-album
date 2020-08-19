@@ -69,7 +69,6 @@ public:
     void initTitleBar();
     void initCentralWidget();
     void setWaitDialogColor();
-    void setTitleBarThem(DGuiApplicationHelper::ColorType theme);             //更新状态栏主题
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void loadZoomRatio();
