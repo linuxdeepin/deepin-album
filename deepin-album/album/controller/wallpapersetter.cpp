@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 namespace {
-const QString WALLPAPER_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator() + "wallpapers";
+const QString WALLPAPER_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator() + "wallpapers" + QDir::separator();
 }
 
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;

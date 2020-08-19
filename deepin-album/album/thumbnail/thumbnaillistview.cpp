@@ -1271,21 +1271,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateClockwise: {
-//        for (QString path : paths) {
-//            const QString suffix = QFileInfo(path).suffix();
-//            if (suffix.toUpper().compare("SVG") == 0) {
-//                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-//                imgSVGThread->setData(QStringList() << path, 90);
-//                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
-//                    dApp->m_imageloader->updateImageLoader(path);
-//                });
-//                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-//                imgSVGThread->start();
-//            } else {
-//                utils::image::rotate(path, 90);
-//            }
-//        }
-//        dApp->m_imageloader->updateImageLoader(paths);
         QString errMsg;
         if (!UnionImage_NameSpace::rotateImageFIle(90, path, errMsg)) {
             qDebug() << errMsg;
@@ -1295,23 +1280,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateCounterclockwise: {
-//        for (QString path : paths) {
-//            const QString suffix = QFileInfo(path).suffix();
-//            if (suffix.toUpper().compare("SVG") == 0) {
-//                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-//                imgSVGThread->setData(QStringList() << path, -90);
-//                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
-//                    dApp->m_imageloader->updateImageLoader(path);
-//                });
-//                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-//                imgSVGThread->start();
-//            } else {
-//                utils::image::rotate(path, -90);
-//            }
-//        }
-//        dApp->m_imageloader->updateImageLoader(paths);
         QString errMsg;
-        if (!UnionImage_NameSpace::rotateImageFIle(90, path, errMsg)) {
+        if (!UnionImage_NameSpace::rotateImageFIle(-90, path, errMsg)) {
             qDebug() << errMsg;
             return;
         }

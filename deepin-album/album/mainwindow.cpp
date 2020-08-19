@@ -339,9 +339,7 @@ void MainWindow::initConnections()
     });
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [ = ](QString str1) {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
         QString str2 = tr("Album “%1” removed");
-
         DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
@@ -365,15 +363,10 @@ void MainWindow::initConnections()
         pDFloatingMessage->setMessage(str2.arg(str1));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str2.arg(str1));
     });
-
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
-
         QString str2 = tr("Successfully added to “%1”");
-
         DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
@@ -397,15 +390,11 @@ void MainWindow::initConnections()
         pDFloatingMessage->setMessage(str2.arg(album));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str2.arg(album));
     });
     //底部，弹出导入成功提示框
     connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ]() {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
-
         QString str2 = tr("Import successful");
-
         QWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
@@ -429,7 +418,6 @@ void MainWindow::initConnections()
         pDFloatingMessage->setMessage(str2);
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str2);
     });
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [ = ] {
         m_pSearchEdit->clearEdit();
@@ -438,8 +426,6 @@ void MainWindow::initConnections()
     //导入失败提示框
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
-
         QString str = tr("Import failed");
 
         DWidget *pwidget = nullptr;
@@ -467,16 +453,13 @@ void MainWindow::initConnections()
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
         m_waitdailog->close();
-        //this->sendMessage(icon, str);
     });
     //部分导入失败提示框
     connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ](int successful, int failed) {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
         QString str = tr("%1 photos imported, %2 photos failed");
         QString str1 = QString::number(successful, 10);
         QString str2 = QString::number(failed, 10);
-
         DWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex()) {
         case 0:
@@ -500,16 +483,12 @@ void MainWindow::initConnections()
         pDFloatingMessage->setMessage(str.arg(str1).arg(str2));
         pDFloatingMessage->setIcon(icon);
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str);
     });
-    //导出失败提示框
+    //图片导出失败提示框
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
-
         QString str = tr("Export failed");
-
-        DWidget *pwidget = nullptr;
+        QWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -522,7 +501,7 @@ void MainWindow::initConnections()
             pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine->m_pwidget;
+            pwidget = nullptr;
             break;
         default:
             pwidget = m_pAllPicView->m_pwidget;
@@ -532,17 +511,17 @@ void MainWindow::initConnections()
         pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str);
+        pDFloatingMessage->raise();
+        if (pwidget)
+            DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        else
+            DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
     });
-    //导出成功提示框
+    //图片导出成功提示框
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
-
         QString str = tr("Export successful");
-
-        DWidget *pwidget = nullptr;
+        QWidget *pwidget = nullptr;
         switch (m_pCenterWidget->currentIndex())
         {
         case 0:
@@ -555,7 +534,7 @@ void MainWindow::initConnections()
             pwidget = m_pAlbumview->m_pwidget;
             break;
         case 4:
-            pwidget = m_commandLine->m_pwidget;
+            pwidget = nullptr;
             break;
         default:
             pwidget = m_pAllPicView->m_pwidget;
@@ -565,14 +544,15 @@ void MainWindow::initConnections()
         pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str);
+        pDFloatingMessage->raise();
+        if (pwidget)
+            DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        else
+            DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
     });
     //相册导出失败提示框
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/warning_new.svg", QSize(20, 20));
-
         QString str = tr("Export failed");
 
         DWidget *pwidget = nullptr;
@@ -598,14 +578,13 @@ void MainWindow::initConnections()
         pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
+        pDFloatingMessage->raise();
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str);
+
     });
     //相册导出成功提示框
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess_new.svg", QSize(20, 20));
-
         QString str = tr("Export successful");
 
         DWidget *pwidget = nullptr;
@@ -631,9 +610,8 @@ void MainWindow::initConnections()
         pDFloatingMessage->setBlurBackgroundEnabled(true);
         pDFloatingMessage->setMessage(str);
         pDFloatingMessage->setIcon(icon);
+        pDFloatingMessage->raise();
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-//        DMessageManager::instance()->sendMessage(pwidget,QIcon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg"),tr("点击"));
-        //this->sendMessage(icon, str);
     });
 }
 //初始化DBus
