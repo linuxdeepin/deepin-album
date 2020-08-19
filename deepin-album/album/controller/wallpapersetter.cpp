@@ -1,4 +1,6 @@
 #include "wallpapersetter.h"
+#include "unionimage.h"
+#include "baseutils.h"
 #include <QTimer>
 #include <QFile>
 #include <QFileInfo>
@@ -11,6 +13,10 @@
 #include <QScreen>
 
 #include <unistd.h>
+
+namespace {
+const QString WALLPAPER_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator() + "wallpapers";
+}
 
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;
 WallpaperSetter *WallpaperSetter::instance()
@@ -27,91 +33,44 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 
 }
 
-//void WallpaperSetter::setWallpaper(const QString &path)
-//{
-//    // gsettings unsupported unicode character
-//    QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
-//    QFile(path).copy(tmpImg);
-//    QImage img(tmpImg);
-//    if (img.format() != QImage::Format_Invalid) {
-//        if (img.save(QString("/tmp/DIVIMG.%1").arg("JPG"))) {
-//            //if convert image succeed,remove copy image.
-//            QFile(tmpImg).remove();
-//            //change value of tmpImg
-//            tmpImg = QString("/tmp/DIVIMG.%1").arg("JPG");
-//        }
-//    }
-
-//    if (!qEnvironmentVariableIsEmpty("FLATPAK_APPID")) {
-//        // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
-//        //   qDebug() << "SettingWallpaper: " << "flatpak" << path;
-//        QDBusInterface interface("com.deepin.daemon.Appearance",
-//                                     "/com/deepin/daemon/Appearance",
-//                                     "com.deepin.daemon.Appearance");
-//        if (interface.isValid()) {
-//            QDBusMessage reply = interface.call("Set", "background", path);
-//            //   qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
-//        } else {
-//            //    qWarning() << "SettingWallpaper failed" << interface.lastError();
-//        }
-//    } else {
-//        DE de = getDE();
-//        //   qDebug() << "SettingWallpaper: " << de << path;
-//        switch (de) {
-//        case Deepin:
-//            setDeepinWallpaper(tmpImg);
-//            break;
-//        case KDE:
-//            setKDEWallpaper(tmpImg);
-//            break;
-//        case GNOME:
-//            setGNOMEWallpaper(tmpImg);
-//            break;
-//        case LXDE:
-//            setLXDEWallpaper(tmpImg);
-//            break;
-//        case Xfce:
-//            setXfaceWallpaper(tmpImg);
-//            break;
-//        default:
-//            setGNOMEShellWallpaper(tmpImg);
-//        }
-//    }
-
-//    // Remove the tmp file
-//    QTimer *t = new QTimer(this);
-//    t->setSingleShot(true);
-//    connect(t, &QTimer::timeout, this, [t, tmpImg] {
-//        QFile(tmpImg).remove();
-//        t->deleteLater();
-//    });
-//    t->start(1000);
-//}
-
 bool WallpaperSetter::setBackground(const QString &pictureFilePath)
 {
+    QImage tImg;
+    QString errMsg;
+    QFileInfo info(pictureFilePath);
+    QString tempWallPaperpath;
+    tempWallPaperpath = WALLPAPER_PATH + info.fileName();
+    QFileInfo tempInfo(tempWallPaperpath);
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(pictureFilePath, tImg, errMsg)) {
+        qDebug() << "load wallpaper path error!";
+        return false;
+    }
+    if (!tImg.save(tempWallPaperpath, "JPG", 100)) {
+        qDebug() << "save temp wallpaper path error!";
+        return false;
+    }
+    if (!tempInfo.exists()) {
+        qDebug() << "save temp wallpaper path error!";
+        return false;
+    }
     QDBusMessage msgIntrospect = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "org.freedesktop.DBus.Introspectable", "Introspect");
     QDBusPendingCall call = QDBusConnection::sessionBus().asyncCall(msgIntrospect);
     call.waitForFinished();
     if (call.isFinished()) {
         QDBusReply<QString> reply = call.reply();
         QString value = reply.value();
-
         if (value.contains("SetMonitorBackground")) {
             QDBusMessage msg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "SetMonitorBackground");
-            msg.setArguments({qApp->primaryScreen()->name(), pictureFilePath});
+            msg.setArguments({qApp->primaryScreen()->name(), tempWallPaperpath});
             QDBusConnection::sessionBus().asyncCall(msg);
-
             qDebug() << "FileUtils::setBackground call Appearance SetMonitorBackground";
             return true;
         }
     }
-
     QDBusMessage msg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Set");
-    msg.setArguments({"Background", pictureFilePath});
+    msg.setArguments({"Background", tempWallPaperpath});
     QDBusConnection::sessionBus().asyncCall(msg);
     qDebug() << "FileUtils::setBackground call Appearance Set";
-
     return true;
 }
 

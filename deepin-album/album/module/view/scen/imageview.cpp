@@ -196,22 +196,21 @@ void ImageView::setImage(const QString &path)
     m_path = path;
     m_imgFileWatcher->clear();
     m_imgFileWatcher->addWather(m_path);
-    QString strfixL = QFileInfo(path).suffix().toLower();
+    QString strfixL = QFileInfo(path).suffix().toUpper();
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
-    QStringList fList =  UnionImage_NameSpace::supportMovieFormat(); //"gif","mng"
+    QStringList fList = UnionImage_NameSpace::supportMovieFormat(); //"gif","mng"
     //QMovie can't read frameCount of "mng" correctly,so change
     //the judge way to solve the problem
-    if (fList.contains(strfixL.toUtf8().toUpper().data())) {
+    if (fList.contains(strfixL)) {
         if (m_pixmapItem != nullptr) {
             delete m_pixmapItem;
             m_pixmapItem = nullptr;
         }
-
         s->clear();
         resetTransform();
         m_movieItem = new GraphicsMovieItem(path, strfixL);
-        m_movieItem->start();
+//        m_movieItem->start();
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);

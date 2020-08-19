@@ -157,6 +157,8 @@ public:
         m_freeiamge_formats["JXR"]     =  FIF_JXR;
         m_movie_formats["MNG"]         =  FIF_MNG;
         m_movie_formats["GIF"]         =  FIF_GIF;
+        m_movie_formats["WEBP"]        =  FIF_WEBP;
+
         m_qtSupported << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                       << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
@@ -518,6 +520,10 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
+    QImageReader r(path);
+    if (r.imageCount() > 1) {
+        return false;
+    }
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
@@ -1053,10 +1059,10 @@ bool getThumbnail(QImage &res, const QString &path)
 
 class UnionMovieImagePrivate : public QObject
 {
-public:
-    explicit UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
+protected:
+    UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
     {
-
+        Q_UNUSED(padding);
     }
     ~UnionMovieImagePrivate()
     {
@@ -1097,7 +1103,7 @@ public:
     {
         currentIndex = i;
     }
-public:
+private:
     UnionMovieImage *const q_ptr;
     Q_DECLARE_PUBLIC(UnionMovieImage)
     QImageReader *r = nullptr;
@@ -1106,6 +1112,7 @@ public:
     FREE_IMAGE_FORMAT currentFormat = FIF_UNKNOWN;
     int currentIndex = 0;
     int frames = 0;
+    char padding[4];
 };
 
 UnionMovieImage::UnionMovieImage(): d_ptr(new UnionMovieImagePrivate(this))
@@ -1138,6 +1145,7 @@ void UnionMovieImage::setFileName(const QString &path)
             d->currentFormat = FIF_GIF;
         }
         break;
+        case FIF_WEBP:
         case FIF_MNG: {
             d->r = new QImageReader;
             d->r->setFileName(path);
@@ -1160,6 +1168,7 @@ QImage UnionMovieImage::next()
     case FIF_GIF: {
         return d->res;
     }
+    case FIF_WEBP:
     case FIF_MNG: {
         int temp = d->currentIndex;
         d->setIndex(temp + 1);

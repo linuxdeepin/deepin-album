@@ -33,8 +33,9 @@ public:
     void stop();
 private:
     UnionImage_NameSpace::UnionMovieImage m_movie;
+    QPointer<QMovie> m_qmovie;
+    QPointer<QTimer> m_pTImer;
     QString m_suffix;
-    QTimer *m_pTImer;
     int m_index;
 
 };

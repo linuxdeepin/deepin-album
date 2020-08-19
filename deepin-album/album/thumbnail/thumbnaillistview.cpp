@@ -1070,7 +1070,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
         m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
     }
-    if ((1 == paths.length() && utils::image::imageSupportSave(paths[0])) || QFileInfo(paths[0]).suffix().contains("gif")) {
+    if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
     } else {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
