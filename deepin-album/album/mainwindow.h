@@ -85,7 +85,7 @@ private:
     void saveZoomRatio();
     bool compareVersion();
     void viewImageClose();
-
+    void floatMessage(const QString &str, const QIcon &icon);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
