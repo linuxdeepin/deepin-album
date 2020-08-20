@@ -339,84 +339,20 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, [ = ](QString str1) {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
         QString str2 = tr("Album “%1” removed");
-        DWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex()) {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str2.arg(str1));
-        pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        QString str = str2.arg(str1);
+        floatMessage(str, icon);
     });
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
         QString str2 = tr("Successfully added to “%1”");
-        DWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex()) {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str2.arg(album));
-        pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        QString str = str2.arg(album);
+        floatMessage(str, icon);
     });
     //底部，弹出导入成功提示框
     connect(dApp->signalM, &SignalManager::ImportSuccess, this, [ = ]() {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
-        QString str2 = tr("Import successful");
-        QWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex()) {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str2);
-        pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        QString str = tr("Import successful");
+        floatMessage(str, icon);
     });
     connect(dApp->signalM, &SignalManager::SearchEditClear, this, [ = ] {
         m_pSearchEdit->clearEdit();
@@ -426,32 +362,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::ImportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
         QString str = tr("Import failed");
-
-        DWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex())
-        {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str);
-        pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        m_waitdailog->close();
+        floatMessage(str, icon);
     });
     //部分导入失败提示框
     connect(dApp->signalM, &SignalManager::ImportSomeFailed, this, [ = ](int successful, int failed) {
@@ -459,158 +370,32 @@ void MainWindow::initConnections()
         QString str = tr("%1 photos imported, %2 photos failed");
         QString str1 = QString::number(successful, 10);
         QString str2 = QString::number(failed, 10);
-        DWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex()) {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str.arg(str1).arg(str2));
-        pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        QString res = str.arg(str1).arg(str2);
+        floatMessage(res, icon);
     });
     //图片导出失败提示框
     connect(dApp->signalM, &SignalManager::ImgExportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
         QString str = tr("Export failed");
-        QWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex())
-        {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = nullptr;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str);
-        pDFloatingMessage->setIcon(icon);
-        pDFloatingMessage->raise();
-        if (pwidget)
-            DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        else
-            DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
+        floatMessage(str, icon);
     });
     //图片导出成功提示框
     connect(dApp->signalM, &SignalManager::ImgExportSuccess, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
         QString str = tr("Export successful");
-        QWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex())
-        {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = nullptr;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str);
-        pDFloatingMessage->setIcon(icon);
-        pDFloatingMessage->raise();
-        if (pwidget)
-            DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        else
-            DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
+        floatMessage(str, icon);
     });
     //相册导出失败提示框
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
         QString str = tr("Export failed");
-
-        DWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex())
-        {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str);
-        pDFloatingMessage->setIcon(icon);
-        pDFloatingMessage->raise();
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-
+        floatMessage(str, icon);
     });
     //相册导出成功提示框
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, [ = ] {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
         QString str = tr("Export successful");
-
-        DWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex())
-        {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str);
-        pDFloatingMessage->setIcon(icon);
-        pDFloatingMessage->raise();
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+        floatMessage(str, icon);
     });
 }
 //初始化DBus
@@ -1259,6 +1044,38 @@ void MainWindow::viewImageClose()
     if (bfirstandviewimage) {
         exit(0);
     }
+}
+
+void MainWindow::floatMessage(const QString &str, const QIcon &icon)
+{
+    QString tempStr = str;
+    QWidget *pwidget = nullptr;
+    switch (m_pCenterWidget->currentIndex()) {
+    case 0:
+        pwidget = m_pAllPicView->m_pwidget;
+        break;
+    case 1:
+        pwidget = m_pTimeLineView->m_pwidget;
+        break;
+    case 2:
+        pwidget = m_pAlbumview->m_pwidget;
+        break;
+    case 4:
+        pwidget = nullptr;
+        break;
+    default:
+        pwidget = m_pAllPicView->m_pwidget;
+        break;
+    }
+    DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
+    pDFloatingMessage->setBlurBackgroundEnabled(true);
+    pDFloatingMessage->setMessage(tempStr);
+    pDFloatingMessage->setIcon(icon);
+    pDFloatingMessage->raise();
+    if (pwidget)
+        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+    else
+        DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
 }
 
 //外部使用相册打开图片

@@ -237,7 +237,8 @@ void ImageView::setImage(const QString &path)
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         // Make sure item show in center of view after reload
         m_blurEffect = new QGraphicsBlurEffect;
-        m_blurEffect->setBlurRadius(6);
+        m_blurEffect->setBlurRadius(15);
+        m_blurEffect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
         m_pixmapItem->setGraphicsEffect(m_blurEffect);
         setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
