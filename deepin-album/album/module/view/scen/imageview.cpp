@@ -242,8 +242,6 @@ void ImageView::setImage(const QString &path)
         m_pixmapItem->setGraphicsEffect(m_blurEffect);
         setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
-        autoFit();
-        emit imageChanged(path);
         if (m_loadTimer->isActive()) {
             return;
         }
@@ -328,7 +326,6 @@ const QImage ImageView::image()
             return QImage();
         }
         return m_pixmapItem->pixmap().toImage();
-//    } else if (m_svgItem) {    // svg
     } else {
         return QImage();
     }
@@ -660,6 +657,7 @@ void ImageView::onCacheFinish()
             m_pixmapItem->setPixmap(pixmap);
             setSceneRect(m_pixmapItem->boundingRect());
             autoFit();
+            emit imageChanged(path);
             this->update();
         }
     }
