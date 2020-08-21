@@ -55,12 +55,22 @@ class ImageAnimation : public QWidget
         TurnBackPre = 2
     };
 
+    enum SlideModel {
+        ManualPlayModel = 0,       //手动播放下一张
+        AutoPlayModel = 1,         //自动动播放下一张
+    };
+
+    enum PlayOrStatue {
+        StopStatue = 0,             //停止
+        PlayStatue = 1,             //播放
+    };
+
 public:
     explicit ImageAnimation(QWidget *parent = nullptr);
     ~ImageAnimation() override;
 
     void startSlideShow(const QString &beginPath, const QStringList &pathlist);
-    void stopSlideShow();
+    void endSlider();
 
     void playAndNext();
     void playAndPre();
