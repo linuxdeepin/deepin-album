@@ -589,6 +589,11 @@ QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     QFileInfo file_info(path);
+    if (file_info.size() == 0) {
+        res = QImage();
+        errorMsg = "error file!";
+        return false;
+    }
     QString file_suffix_upper = file_info.suffix().toUpper();
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
