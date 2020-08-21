@@ -168,10 +168,8 @@ public:
 
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
-                  << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
-                  << "J2C" << "J2K" << "JNG" << "JP2" << "PCD"
-                  << "PCX" << "PCT"
-                  << "PICT" << "PIC" << "RAS";
+                  << "SVG" << "TGA" << "XPM" << "ICO" << "J2C"
+                  << "J2K" << "JNG" << "JP2" ;
     }
     ~UnionImage_Private()
     {

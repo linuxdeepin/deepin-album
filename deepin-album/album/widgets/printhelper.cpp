@@ -70,7 +70,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     QPrinter printer;
-    QImage img;
+
 
     printer.setColorMode(QPrinter::Color);
 
@@ -132,12 +132,13 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     for (const QString &path : paths) {
         // There're cases that people somehow changed the image file suffixes, like jpg -> png,
         // we'd better detect that before printing, otherwise we get an empty print.
+        QImage img;
+        QString errMsg;
         const QString format = UnionImage_NameSpace::detectImageFormat(path);
-        if (!img.load(path, format.toLatin1())) {
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg)) {
             qDebug() << "img load failed" << path;
             continue;
         }
-
         imgs << img;
     }
 
