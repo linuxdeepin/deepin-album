@@ -974,8 +974,9 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
     admMap.unite(getMetaData(FIMD_IPTC, dib));
     //移除秒　　2020/6/5 DJH
+    //需要转义才能读出：或者/　　2020/8/21 DJH
     if (admMap.contains("DateTime")) {
-        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm");
+        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
         admMap["DateTime"] = time.toString("yyyy/MM/dd HH:mm");
     }
     // Basic extended data
