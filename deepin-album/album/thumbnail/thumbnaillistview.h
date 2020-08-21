@@ -58,9 +58,8 @@ public:
     enum MenuItemId {
         IdView,
         IdFullScreen,
-        Idprint,
-        IdStartSlideShow,
         IdPrint,
+        IdStartSlideShow,
         IdAddToAlbum,
         IdExport,
         IdCopy,

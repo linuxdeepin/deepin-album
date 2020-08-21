@@ -1571,8 +1571,6 @@ void AlbumView::updateRightTrashView()
 //    m_curThumbnaiItemList.clear();
 
     DBImgInfoList infos;
-//    QStringList removepaths;
-
     infos = DBManager::instance()->getAllTrashInfos();
 
     for (auto pinfo : infos) {
@@ -1588,15 +1586,11 @@ void AlbumView::updateRightTrashView()
         m_pRecoveryBtn->setEnabled(false);
         m_pDeleteBtn->setEnabled(false);
     }
-
-//    m_pRightTrashThumbnailList->insertThumbnails(m_curThumbnaiItemList);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
     m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
-
     m_pRightTrashThumbnailList->resizeHand();
-    //    m_TrashitemItem->setSizeHint(QSize(this->width() - 200, m_pRightTrashThumbnailList->getListViewHeight() + 8)); //add 3975
 }
 
 void AlbumView::leftTabClicked()
@@ -2010,7 +2004,6 @@ void AlbumView::onKeyF2()
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
     qDebug() << "onVfsMountChangedAdd() name:" << mount->name();
-    Q_UNUSED(mount);
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();

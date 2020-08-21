@@ -221,12 +221,12 @@ public:
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     //LMH0424
-    QMap<QString, ThumbnailListView *> m_phoneViewlist;
+    QMap<QString, ThumbnailListView *> m_phoneViewlist;//UNUSED
     QStringList m_pictrueallPathlist;
 //    ThumbnailListView *m_pAllPicture = nullptr;
     int m_currentLoadingPictrue = 0;
 
-    QMap<QString, QPixmap> m_phonePathAndImage;
+    QMap<QString, QPixmap> m_phonePathAndImage; //UNUSED
     DWidget *m_pwidget;
 
     ThumbnailListView *m_pRightThumbnailList;               //已导入

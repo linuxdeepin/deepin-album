@@ -1110,7 +1110,7 @@ void ThumbnailListView::initMenuAction()
     m_MenuActionMap.clear();
     appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
-    appendAction(Idprint, tr("Print"), ss(PRINT_CONTEXT_MENU));
+    appendAction(IdPrint, tr("Print"), ss(PRINT_CONTEXT_MENU));
     appendAction(IdStartSlideShow, tr("Slide show"), ss(SLIDESHOW_CONTEXT_MENU));
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
@@ -1202,7 +1202,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdFullScreen:
         emit menuOpenImage(path, paths, true, false);
         break;
-    case Idprint:
+    case IdPrint:
         PrintHelper::showPrintDialog(paths, this);
         break;
     case IdStartSlideShow:
