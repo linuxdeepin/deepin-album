@@ -157,6 +157,8 @@ public:
         m_freeiamge_formats["JXR"]     =  FIF_JXR;
         m_movie_formats["MNG"]         =  FIF_MNG;
         m_movie_formats["GIF"]         =  FIF_GIF;
+        m_movie_formats["WEBP"]        =  FIF_WEBP;
+
         m_qtSupported << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                       << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
@@ -166,10 +168,8 @@ public:
 
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
-                  << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
-                  << "J2C" << "J2K" << "JNG" << "JP2" << "PCD"
-                  << "PCX" << "PCT"
-                  << "PICT" << "PIC" << "RAS";
+                  << "SVG" << "TGA" << "XPM" << "ICO" << "J2C"
+                  << "J2K" << "JNG" << "JP2" ;
     }
     ~UnionImage_Private()
     {
@@ -518,6 +518,10 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
+    QImageReader r(path);
+    if (r.imageCount() > 1) {
+        return false;
+    }
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
@@ -583,6 +587,11 @@ QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     QFileInfo file_info(path);
+    if (file_info.size() == 0) {
+        res = QImage();
+        errorMsg = "error file!";
+        return false;
+    }
     QString file_suffix_upper = file_info.suffix().toUpper();
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
@@ -965,8 +974,9 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
     admMap.unite(getMetaData(FIMD_IPTC, dib));
     //移除秒　　2020/6/5 DJH
+    //需要转义才能读出：或者/　　2020/8/21 DJH
     if (admMap.contains("DateTime")) {
-        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm");
+        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
         admMap["DateTime"] = time.toString("yyyy/MM/dd HH:mm");
     }
     // Basic extended data
@@ -1053,10 +1063,10 @@ bool getThumbnail(QImage &res, const QString &path)
 
 class UnionMovieImagePrivate : public QObject
 {
-public:
-    explicit UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
+protected:
+    UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
     {
-
+        Q_UNUSED(padding);
     }
     ~UnionMovieImagePrivate()
     {
@@ -1097,7 +1107,7 @@ public:
     {
         currentIndex = i;
     }
-public:
+private:
     UnionMovieImage *const q_ptr;
     Q_DECLARE_PUBLIC(UnionMovieImage)
     QImageReader *r = nullptr;
@@ -1106,6 +1116,7 @@ public:
     FREE_IMAGE_FORMAT currentFormat = FIF_UNKNOWN;
     int currentIndex = 0;
     int frames = 0;
+    char padding[4];
 };
 
 UnionMovieImage::UnionMovieImage(): d_ptr(new UnionMovieImagePrivate(this))
@@ -1138,6 +1149,7 @@ void UnionMovieImage::setFileName(const QString &path)
             d->currentFormat = FIF_GIF;
         }
         break;
+        case FIF_WEBP:
         case FIF_MNG: {
             d->r = new QImageReader;
             d->r->setFileName(path);
@@ -1160,6 +1172,7 @@ QImage UnionMovieImage::next()
     case FIF_GIF: {
         return d->res;
     }
+    case FIF_WEBP:
     case FIF_MNG: {
         int temp = d->currentIndex;
         d->setIndex(temp + 1);

@@ -196,22 +196,21 @@ void ImageView::setImage(const QString &path)
     m_path = path;
     m_imgFileWatcher->clear();
     m_imgFileWatcher->addWather(m_path);
-    QString strfixL = QFileInfo(path).suffix().toLower();
+    QString strfixL = QFileInfo(path).suffix().toUpper();
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
-    QStringList fList =  UnionImage_NameSpace::supportMovieFormat(); //"gif","mng"
+    QStringList fList = UnionImage_NameSpace::supportMovieFormat(); //"gif","mng"
     //QMovie can't read frameCount of "mng" correctly,so change
     //the judge way to solve the problem
-    if (fList.contains(strfixL.toUtf8().toUpper().data())) {
+    if (fList.contains(strfixL)) {
         if (m_pixmapItem != nullptr) {
             delete m_pixmapItem;
             m_pixmapItem = nullptr;
         }
-
         s->clear();
         resetTransform();
         m_movieItem = new GraphicsMovieItem(path, strfixL);
-        m_movieItem->start();
+//        m_movieItem->start();
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
@@ -238,12 +237,11 @@ void ImageView::setImage(const QString &path)
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         // Make sure item show in center of view after reload
         m_blurEffect = new QGraphicsBlurEffect;
-        m_blurEffect->setBlurRadius(6);
+        m_blurEffect->setBlurRadius(15);
+        m_blurEffect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
         m_pixmapItem->setGraphicsEffect(m_blurEffect);
         setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
-        autoFit();
-        emit imageChanged(path);
         if (m_loadTimer->isActive()) {
             return;
         }
@@ -328,7 +326,6 @@ const QImage ImageView::image()
             return QImage();
         }
         return m_pixmapItem->pixmap().toImage();
-//    } else if (m_svgItem) {    // svg
     } else {
         return QImage();
     }
@@ -660,6 +657,7 @@ void ImageView::onCacheFinish()
             m_pixmapItem->setPixmap(pixmap);
             setSceneRect(m_pixmapItem->boundingRect());
             autoFit();
+            emit imageChanged(path);
             this->update();
         }
     }

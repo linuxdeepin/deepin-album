@@ -200,7 +200,7 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
     }
     dbi.changeTime = QDateTime::currentDateTime();
     data.dbi = dbi;
-    data.loaded = ImageLoadStatu_Loaded;
+    data.loaded = ImageLoadStatu_False;
 
     if (breloadCache) { //更新缓存文件
         //QString spath = CACHE_PATH + m_path;

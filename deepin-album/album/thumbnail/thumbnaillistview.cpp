@@ -1070,7 +1070,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
         m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
     }
-    if ((1 == paths.length() && utils::image::imageSupportSave(paths[0])) || QFileInfo(paths[0]).suffix().contains("gif")) {
+    if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
     } else {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
@@ -1110,7 +1110,7 @@ void ThumbnailListView::initMenuAction()
     m_MenuActionMap.clear();
     appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
-    appendAction(Idprint, tr("Print"), ss(PRINT_CONTEXT_MENU));
+    appendAction(IdPrint, tr("Print"), ss(PRINT_CONTEXT_MENU));
     appendAction(IdStartSlideShow, tr("Slide show"), ss(SLIDESHOW_CONTEXT_MENU));
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
@@ -1202,7 +1202,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdFullScreen:
         emit menuOpenImage(path, paths, true, false);
         break;
-    case Idprint:
+    case IdPrint:
         PrintHelper::showPrintDialog(paths, this);
         break;
     case IdStartSlideShow:
@@ -1271,21 +1271,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateClockwise: {
-//        for (QString path : paths) {
-//            const QString suffix = QFileInfo(path).suffix();
-//            if (suffix.toUpper().compare("SVG") == 0) {
-//                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-//                imgSVGThread->setData(QStringList() << path, 90);
-//                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
-//                    dApp->m_imageloader->updateImageLoader(path);
-//                });
-//                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-//                imgSVGThread->start();
-//            } else {
-//                utils::image::rotate(path, 90);
-//            }
-//        }
-//        dApp->m_imageloader->updateImageLoader(paths);
         QString errMsg;
         if (!UnionImage_NameSpace::rotateImageFIle(90, path, errMsg)) {
             qDebug() << errMsg;
@@ -1295,23 +1280,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdRotateCounterclockwise: {
-//        for (QString path : paths) {
-//            const QString suffix = QFileInfo(path).suffix();
-//            if (suffix.toUpper().compare("SVG") == 0) {
-//                ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-//                imgSVGThread->setData(QStringList() << path, -90);
-//                connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, [ = ](QStringList path) {
-//                    dApp->m_imageloader->updateImageLoader(path);
-//                });
-//                connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-//                imgSVGThread->start();
-//            } else {
-//                utils::image::rotate(path, -90);
-//            }
-//        }
-//        dApp->m_imageloader->updateImageLoader(paths);
         QString errMsg;
-        if (!UnionImage_NameSpace::rotateImageFIle(90, path, errMsg)) {
+        if (!UnionImage_NameSpace::rotateImageFIle(-90, path, errMsg)) {
             qDebug() << errMsg;
             return;
         }

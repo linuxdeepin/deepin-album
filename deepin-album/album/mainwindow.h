@@ -69,7 +69,6 @@ public:
     void initTitleBar();
     void initCentralWidget();
     void setWaitDialogColor();
-    void setTitleBarThem(DGuiApplicationHelper::ColorType theme);             //更新状态栏主题
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void loadZoomRatio();
@@ -86,7 +85,7 @@ private:
     void saveZoomRatio();
     bool compareVersion();
     void viewImageClose();
-
+    void floatMessage(const QString &str, const QIcon &icon);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

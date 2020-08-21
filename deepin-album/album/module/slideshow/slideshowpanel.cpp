@@ -219,7 +219,7 @@ void SlideShowPanel::appendAction(int id, const QString &text, const QString &sh
 
 void SlideShowPanel::backToLastPanel()
 {
-    m_animation->stopSlideShow();
+    m_animation->endSlider();
     showNormal();
     if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID) {
         emit dApp->signalM->hideSlidePanel();

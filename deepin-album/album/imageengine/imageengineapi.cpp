@@ -291,7 +291,7 @@ void ImageEngineApi::slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData)
     m_AllImageData = ImageData;
     m_80isLoaded = true;
     emit sigLoad80ThumbnailsToView();
-    qDebug() << "11111 size = " << size;
+    qDebug() << "ImageEngineApi::slt80ImgInfosReady size = " << size;
 }
 
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)

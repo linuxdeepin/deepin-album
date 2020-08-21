@@ -27,56 +27,32 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fil
     , m_suffix(fileSuffix)
     , m_index(0)
 {
-//    if (m_suffix.contains("gif"))
-//        //用freeimage解析gif
-//    {
-//        m_pGif = utils::image::openGiffromPath(fileName);
-//        m_pTImer = new QTimer(this);
-//        QObject::connect(m_pTImer, &QTimer::timeout, this, [ = ] {
-//            //用freeimage解析的图片显示
-//            setPixmap(QPixmap::fromImage(utils::image::getGifImage(m_index, m_pGif)));
-//            m_index++;
-//            if (m_index >= utils::image::getGifImageCount(m_pGif))
-//            {
-//                m_index = 0;
-//            }
-//        });
-//        m_pTImer->start(100);
-//    } else {
-    using namespace UnionImage_NameSpace;
-    //m_movie = new QMovie(fileName);
-    m_movie.setFileName(fileName);
-    m_pTImer = new QTimer(this);
-    connect(m_pTImer, &QTimer::timeout, this, [ = ] {
-        this->setPixmap(QPixmap::fromImage(m_movie.next()));
-    });
-    m_pTImer->start(100);
-    //}
+    if (fileSuffix.toUpper().contains("WEBP")) {
+        m_qmovie = new QMovie(fileName);
+        connect(m_qmovie, &QMovie::frameChanged, this, [ = ]() {
+            if (!m_qmovie->currentPixmap().isNull()) {
+                setPixmap(m_qmovie->currentPixmap());
+            }
+        });
+        m_qmovie->start();
+    } else {
+        using namespace UnionImage_NameSpace;
+        m_movie.setFileName(fileName);
+        m_pTImer = new QTimer(this);
+        connect(m_pTImer, &QTimer::timeout, this, [ = ] {
+            this->setPixmap(QPixmap::fromImage(m_movie.next()));
+        });
+        m_pTImer->start(100);
+    }
 }
 
 GraphicsMovieItem::~GraphicsMovieItem()
 {
-    // Prepares the item for a geometry change. Call this function
-    // before changing the bounding rect of an item to keep
-    // QGraphicsScene's index up to date.
-    // If not doing this, it may crash
-//    prepareGeometryChange();
-//    if (m_suffix.contains("gif")) {
-//        m_pTImer->stop();
-//        m_pTImer->deleteLater();
-//        m_pTImer = nullptr;
-//    } else {
-
-//   }
-    m_pTImer->stop();
-    m_pTImer->deleteLater();
-    m_pTImer = nullptr;
+    if (m_pTImer) {
+        m_pTImer->stop();
+        m_pTImer->deleteLater();
+    }
 }
-
-//bool GraphicsMovieItem::isValid() const
-//{
-//    return
-//}
 
 void GraphicsMovieItem::start()
 {
