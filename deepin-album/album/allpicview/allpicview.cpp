@@ -67,6 +67,8 @@ AllPicView::AllPicView()
     m_spinner->hide();
     connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish,
             this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded,
+            this, &AllPicView::updateStackedWidget);
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
@@ -183,6 +185,7 @@ void AllPicView::updateStackedWidget()
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
     }
+    updatePicNum();
 }
 
 void AllPicView::updatePicsIntoThumbnailView()
@@ -211,7 +214,6 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
         updateStackedWidget();
     }
     restorePicNum();
-
 }
 
 ThumbnailListView *AllPicView::getThumbnailListView()
