@@ -846,6 +846,7 @@ void ImageEngineThread::run()
     QString path = m_path;
     QFileInfo file(CACHE_PATH + m_path);
     QString errMsg;
+    QString dimension;
     QFileInfo srcfi(m_path);
     if (file.exists()) {
         QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
@@ -857,6 +858,7 @@ void ImageEngineThread::run()
             if (!loadStaticImageFromFile(path, tImg, errMsg)) {
                 qDebug() << errMsg;
             }
+            dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
         } else {
             cache_exist = true;
             path = CACHE_PATH + m_path;
@@ -868,6 +870,7 @@ void ImageEngineThread::run()
         if (!loadStaticImageFromFile(path, tImg, errMsg)) {
             qDebug() << errMsg;
         }
+        dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
     }
     if (getNeedStop())
         return;
@@ -913,6 +916,9 @@ void ImageEngineThread::run()
         dbi.time = fi.metadataChangeTime();
     } else {
         dbi.time = QDateTime::currentDateTime();
+    }
+    if (!dimension.isEmpty()) {
+        dbi.albumSize = dimension;
     }
     dbi.changeTime = QDateTime::currentDateTime();
     m_data.dbi = dbi;

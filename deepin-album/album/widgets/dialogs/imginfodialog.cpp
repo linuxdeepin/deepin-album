@@ -17,6 +17,8 @@
 #include "imginfodialog.h"
 #include "controller/signalmanager.h"
 #include "utils/imageutils.h"
+#include "imageengineapi.h"
+#include "utils/unionimage.h"
 #include "widgets/formlabel.h"
 
 #include "dfmdarrowlineexpand.h"
@@ -250,13 +252,22 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString key = i->key;
         QString value = infos.value(i->key);
-
         if (i->key.contains("Dimension")) {
             value = infos.value("Dimension");
-//            value = infos.value("PixelXDimension") + "x" + infos.value("PixelYDimension");
-//            if (1 == value.count()) {
-//                value = "";
-//            }
+            if (value == "0x0") {
+                ImageDataSt st;
+                ImageEngineApi::instance()->getImageData(m_path, st);
+                value = st.dbi.albumSize;
+                if (value.isEmpty()) {
+                    QImage tImg;
+                    QString errMsg;
+                    if (!UnionImage_NameSpace::loadStaticImageFromFile(m_path, tImg, errMsg)) {
+                        qDebug() << errMsg;
+                        continue;
+                    }
+                    value = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
+                }
+            }
         } else if (i->key.contains("FileFormat")) {
             QStringList list = value.split("/");
             if (list.count() > 0) {
