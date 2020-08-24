@@ -168,6 +168,7 @@ signals:
     void sigSelectAll();
     void sigMouseMove();
     void needResizeLabel();
+    bool sigDBImageLoaded();//数据库图片加载完毕
 //    void sigDrop();
 #endif
 

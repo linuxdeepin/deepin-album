@@ -784,6 +784,7 @@ void ThumbnailListView::loadFilesFromDB(QString name, int loadCount)
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
+    emit sigDBImageLoaded();
     stopLoadAndClear();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
