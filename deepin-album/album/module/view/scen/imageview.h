@@ -145,6 +145,8 @@ private:
     QPointF m_centerPoint;
     QTimer *m_loadTimer = nullptr;
     QString m_loadPath;//需要加载的图片路径
+    int m_startpointx = 0;//触摸操作放下时的x坐标
+    int m_maxTouchPoints = 0;//触摸动作时手指数
 };
 
 class CFileWatcher: public QThread

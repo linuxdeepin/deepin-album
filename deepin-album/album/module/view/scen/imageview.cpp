@@ -513,6 +513,24 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     QGraphicsView::mouseReleaseEvent(e);
 
     viewport()->setCursor(Qt::ArrowCursor);
+    if (e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1) {
+        const QRect &r = visibleImageRect();
+        //double left=r.width()+r.x();
+        const QRectF &sr = sceneRect();
+        //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
+        if ((r.width() >= sr.width() && r.height() >= sr.height())) {
+            int xpos = e->pos().x() - m_startpointx;
+            if (abs(xpos) > 200 && m_startpointx != 0) {
+                if (xpos > 0) {
+                    emit previousRequested();
+                } else {
+                    emit nextRequested();
+                }
+            }
+        }
+    }
+    m_startpointx = 0;
+    m_maxTouchPoints = 0;
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
@@ -523,6 +541,7 @@ void ImageView::mousePressEvent(QMouseEvent *e)
     viewport()->setCursor(Qt::ArrowCursor);
 
     emit clicked();
+    m_startpointx = e->pos().x();
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
@@ -598,6 +617,7 @@ bool ImageView::event(QEvent *event)
             evType == QEvent::TouchEnd) {
         if (evType == QEvent::TouchBegin) {
             count = 0;
+            m_maxTouchPoints = 1;
         }
         if (evType == QEvent::TouchUpdate) {
             QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
@@ -625,18 +645,18 @@ bool ImageView::event(QEvent *event)
             }
         }
         /*lmh0804*/
-        const QRect &r = visibleImageRect();
-        double left = r.width() + r.x();
-        const QRectF &sr = sceneRect();
-        if (r.x() <= 1) {
-            return true;
-        }
-        if (left - sr.width() >= -1 && left - sr.width() <= 1) {
-            return true;
-        }
-        if (r.width() >= sr.width()) {
-            return true;
-        }
+//        const QRect &r = visibleImageRect();
+//        double left = r.width() + r.x();
+//        const QRectF &sr = sceneRect();
+//        if (r.x() <= 1) {
+//            return true;
+//        }
+//        if (left - sr.width() >= -1 && left - sr.width() <= 1) {
+//            return true;
+//        }
+//        if (r.width() >= sr.width()) {
+//            return true;
+//        }
     } else if (evType == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
@@ -706,6 +726,7 @@ void ImageView::handleGestureEvent(QGestureEvent *gesture)
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
 {
+    m_maxTouchPoints = 2;
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
     if (changeFlags & QPinchGesture::ScaleFactorChanged) {
         QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
@@ -736,6 +757,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
 
 void ImageView::swipeTriggered(QSwipeGesture *gesture)
 {
+    m_maxTouchPoints = 3;
     if (gesture->state() == Qt::GestureFinished) {
         if (gesture->horizontalDirection() == QSwipeGesture::Left
                 || gesture->verticalDirection() == QSwipeGesture::Up) {
