@@ -46,7 +46,11 @@ int main(int argc, char *argv[])
     QTime t;
     t.start();
 
-    Application::loadDXcbPlugin();
+    //非wayland平台需要添加xcb
+    if (!Application::isWaylandPlatform()) {
+        Application::loadDXcbPlugin();
+    }
+
     Application a(argc, argv);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     //  a.setAttribute(Qt::AA_EnableHighDpiScaling);
