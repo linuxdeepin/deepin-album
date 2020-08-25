@@ -97,13 +97,21 @@ bool MyImageListWidget::animationStart()
     int firsttolast = 0;
     if (m_movePoints.size() > 0) {
         firsttolast = m_movePoints.first().x() - m_movePoints.last().x();
-        qDebug() << "zy------firsttolast = " << firsttolast;
     }
     m_iRet = true;
     QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
     animation->setEasingCurve(QEasingCurve::NCurveTypes);
     animation->setStartValue(((DWidget *)m_obj)->pos());
-    if (firsttolast < 20 && firsttolast > -20) {
+    if (m_movePoints.size() < 20) {
+        animation->deleteLater();
+        m_iRet = false;
+        bMove = false;
+        bmouseleftpressed = false;
+        m_movePoints.clear();
+        //m_lastPoint = QPoint(0, 0);
+        emit mouseLeftReleased();
+        return false;
+    } else if (firsttolast < 20 && firsttolast > -20) {
         animation->deleteLater();
         m_iRet = false;
         bMove = false;
@@ -156,9 +164,12 @@ bool MyImageListWidget::animationStart()
     connect(animation, &QPropertyAnimation::finished, [ = ] {
         m_iRet = false;
         bMove = false;
+        emit mouseLeftReleased();
     });
 
     QThread *th = QThread::create([ = ]() {
+        int count = 0;
+        int listLeftFirst = 0;
         while (m_iRet && bMove) {
             QThread::msleep(50);
             QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
@@ -171,11 +182,53 @@ bool MyImageListWidget::animationStart()
                     if (nullptr == img) {
                         continue;
                     }
-                    int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-                    int left = this->geometry().left() + img->geometry().left() + listLeft;
-                    int right = this->geometry().left() + img->geometry().right() + listLeft;
-                    if (left <= middle && middle < right) {
-                        img->emitClickSig();
+                    if (img->index() == img->indexNow()) {
+                        int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
+                        if (count == 0) {
+                            listLeftFirst = listLeft;
+//                            qDebug() << "----------listLeftFirst = " << listLeftFirst;
+                            count = 1;
+                        }
+                        int left = this->geometry().left() + img->geometry().left() + listLeft;
+                        int right = this->geometry().left() + img->geometry().right() + listLeft;
+                        if (left <= middle && middle < right) {
+                            img->emitClickSig();
+                            break;
+                        } else {
+//                            qDebug() << "---------this->geometry().left() = " << this->geometry().left();
+//                            qDebug() << "---------listLeft = " << listLeft;
+                            if (m_moveToRight) {
+                                QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i + 1));
+                                if (labelList2.size() > 0) {
+                                    ImageItem *img2 = labelList2.at(0);
+                                    if (nullptr != img2) {
+                                        if (abs(listLeft - listLeftFirst) / 32 > 0) {
+                                            listLeftFirst = listLeft;
+//                                            qDebug() << "----------listLeft = " << listLeft;
+//                                            qDebug() << "----------listLeftFirst = " << listLeftFirst;
+                                            img2->emitClickSig();
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            } else {
+                                QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i - 1));
+                                if (labelList2.size() > 0) {
+                                    ImageItem *img2 = labelList2.at(0);
+                                    if (nullptr != img2) {
+                                        if (abs(listLeft - listLeftFirst) / 32 > 0) {
+                                            listLeftFirst = listLeft;
+//                                            qDebug() << "----------2listLeft = " << listLeft;
+//                                            qDebug() << "----------2listLeftFirst = " << listLeftFirst;
+                                            img2->emitClickSig();
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -192,12 +245,29 @@ bool MyImageListWidget::animationStart()
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
-
+    if (e->type() == QEvent::Leave) {
+        QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+        for (int i = 0; i < list.size(); i++) {
+            QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
+            if (labelList.size() <= 0) {
+                continue;
+            }
+            ImageItem *img = labelList.at(0);
+            if (nullptr == img) {
+                continue;
+            }
+            if (img->index() == img->indexNow()) {
+                img->emitClickSig();
+                emit mouseLeftReleased();
+                break;
+            }
+        }
+    }
     if (e->type() == QEvent::MouseButtonPress) {
         bmouseleftpressed = true;
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        m_presspoint = mouseEvent->globalPos();
         m_prepoint = mouseEvent->globalPos();
-        qDebug() << "m_prepoint:" << m_prepoint;
     }
 
     if (e->type() == QEvent::MouseButtonRelease) {
@@ -237,12 +307,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
-        QRectF rect(QPointF((m_prepoint.x() - 15), (m_prepoint.y() - 15)),
-                    QPointF((m_prepoint.x() + 15), (m_prepoint.y() + 15)));
-        if (rect.contains(mouseEvent->globalPos())) {
-            return false;
-        }
-        bMove = true;
         QPoint p = mouseEvent->globalPos();
         if (m_movePoints.size() < 20) {
             m_movePoints.push_back(p);
@@ -250,8 +314,23 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             m_movePoints.pop_front();
             m_movePoints.push_back(p);
         }
-        dynamic_cast<DWidget *>(m_obj)->move((dynamic_cast<DWidget *>(m_obj))->x() + p.x() - m_prepoint.x(), ((dynamic_cast<DWidget *>(m_obj))->y()));
-        m_prepoint = p;
+
+        QRectF rect(QPointF((m_presspoint.x() - 15), (m_presspoint.y() - 15)),
+                    QPointF((m_presspoint.x() + 15), (m_presspoint.y() + 15)));
+        if (rect.contains(mouseEvent->globalPos())) {
+            return false;
+        }
+        bMove = true;
+
+        if (p.x() <= m_prepoint.x()) {
+            m_moveToRight = true;
+        } else {
+            m_moveToRight = false;
+        }
+        m_prepoint = mouseEvent->globalPos();
+
+        dynamic_cast<DWidget *>(m_obj)->move((dynamic_cast<DWidget *>(m_obj))->x() + p.x() - m_presspoint.x(), ((dynamic_cast<DWidget *>(m_obj))->y()));
+        m_presspoint = p;
         int posX = dynamic_cast<DWidget *>(m_obj)->x();
         int viewwidth = dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x();
 
@@ -264,11 +343,34 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                 if (nullptr == img) {
                     continue;
                 }
-                int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-                int left = this->geometry().left() + img->geometry().left() + listLeft;
-                int right = this->geometry().left() + img->geometry().right() + listLeft;
-                if (left <= middle && middle < right) {
-                    img->emitClickSig();
+                if (img->index() == img->indexNow()) {
+                    int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
+                    int left = this->geometry().left() + img->geometry().left() + listLeft;
+                    int right = this->geometry().left() + img->geometry().right() + listLeft;
+                    if (left <= middle && middle < right) {
+                        img->emitClickSig();
+                        break;
+                    } else {
+                        if (m_moveToRight) {
+                            QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i + 1));
+                            if (labelList2.size() > 0) {
+                                ImageItem *img2 = labelList2.at(0);
+                                if (nullptr != img2) {
+                                    img2->emitClickSig();
+                                    break;
+                                }
+                            }
+                        } else {
+                            QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i - 1));
+                            if (labelList2.size() > 0) {
+                                ImageItem *img2 = labelList2.at(0);
+                                if (nullptr != img2) {
+                                    img2->emitClickSig();
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1227,7 +1329,7 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
 
         bfilefind = true;
         m_currentpath = imageItem->_path;
-        qDebug() << "单击：" << "index: " << index << "indexnow: " << indexNow << "path: " << m_currentpath;
+        //qDebug() << "单击：" << "index: " << index << "indexnow: " << indexNow << "path: " << m_currentpath;
         emit imageClicked(index, (index - indexNow));
         emit ttbcontentClicked();
     });

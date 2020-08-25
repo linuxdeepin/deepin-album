@@ -74,9 +74,11 @@ signals:
 private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
-    QPoint m_prepoint;
     QVector<QPoint> m_movePoints;
     bool m_iRet = true;
+    QPoint m_prepoint;//鼠标move时鼠标位置
+    QPoint m_presspoint;//按下时鼠标位置
+    bool m_moveToRight = true;//缩略图中鼠标向右移动为true
 };
 
 class ImageItem : public QLabel
@@ -105,6 +107,8 @@ protected:
     void mousePressEvent(QMouseEvent *ev) override;
     void mouseReleaseEvent(QMouseEvent *ev) override;
     void paintEvent(QPaintEvent *event) override;
+public:
+    bool bmouserelease = false;
 private:
     int _index;
     int _indexNow = -1;
@@ -112,7 +116,7 @@ private:
     QPixmap _pixmap;
     DSpinner *m_spinner;
     QString m_pixmapstring;
-    bool bmouserelease = false;
+    //bool bmouserelease = false;
     bool m_bPicNotSuppOrDamaged = false;
 };
 class TTBContent : public QLabel, public ImageEngineObject
