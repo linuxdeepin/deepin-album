@@ -116,6 +116,7 @@ int main(int argc, char *argv[])
     if (a.isRunning()) {
         return 0;
     }
+    DBManager::instance();
     ImageEngineApi::instance(&a);
     ImageEngineApi::instance()->load80Thumbnails();
     MainWindow w;
