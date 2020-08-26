@@ -240,6 +240,7 @@ void SlideShowPanel::backToLastPanel()
 void SlideShowPanel::showNormal()
 {
     if (m_isMaximized) {
+        window()->showNormal();
         window()->showMaximized();
     } else {
         window()->showNormal();

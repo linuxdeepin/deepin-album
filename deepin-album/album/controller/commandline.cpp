@@ -23,6 +23,7 @@
 #include "frame/mainwidget.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+#include "utils/unionimage.h"
 
 #include "dthememanager.h"
 
@@ -134,16 +135,111 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     // BottomToolbar pos not correct on init
 //    emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
-
+    if(paths.count() == 1){
+        using namespace UnionImage_NameSpace;
+        const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album";
+        QImage tImg;
+        bool cache_exist = false;
+        QFileInfo file(CACHE_PATH + path);
+        QString errMsg;
+        QString dimension;
+        QString tpath;
+        bool breloadCache = false;
+        QFileInfo srcfi(path);
+        if (file.exists()) {
+            QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
+            QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
+            if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
+                cache_exist = false;
+                breloadCache = true;
+                tpath = path;
+                if (!loadStaticImageFromFile(tpath, tImg, errMsg)) {
+                    qDebug() << errMsg;
+                }
+                dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
+            } else {
+                cache_exist = true;
+                tpath = CACHE_PATH + path;
+                if (!loadStaticImageFromFile(tpath, tImg, errMsg, "PNG")) {
+                    qDebug() << errMsg;
+                }
+            }
+        } else {
+            if (!loadStaticImageFromFile(path, tImg, errMsg)) {
+                qDebug() << errMsg;
+            }
+            dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
+        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+            if (pixmap.height() != 200 && pixmap.width() != 200) {
+                if (pixmap.height() >= pixmap.width()) {
+                    cache_exist = true;
+                    pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+                } else if (pixmap.height() <= pixmap.width()) {
+                    cache_exist = true;
+                    pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                }
+            }
+            if (!cache_exist) {
+                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
+                    pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+                } else {
+                    pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                }
+            }
+        }
+        if (pixmap.isNull()) {
+            qDebug() << "null pixmap" << tImg;
+            pixmap = QPixmap::fromImage(tImg);
+        }
+        ImageDataSt pdata;
+        pdata.imgpixmap = pixmap;
+        auto mds = getAllMetaData(path);
+        QString value = mds.value("DateTime");
+        if (value.isEmpty()) {
+            value = mds.value("DateTimeOriginal");
+        }
+        DBImgInfo dbi;
+        dbi.fileName = srcfi.fileName();
+        dbi.filePath = path;
+        dbi.dirHash = utils::base::hash(QString());
+        if (value.isEmpty()) {
+            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
+        } else if (srcfi.birthTime().isValid()) {
+            dbi.time = srcfi.birthTime();
+        } else if (srcfi.metadataChangeTime().isValid()) {
+            dbi.time = srcfi.metadataChangeTime();
+        } else {
+            dbi.time = QDateTime::currentDateTime();
+        }
+        if (!dimension.isEmpty()) {
+            dbi.albumSize = dimension;
+        }
+        dbi.changeTime = QDateTime::currentDateTime();
+        pdata.dbi = dbi;
+        pdata.loaded = ImageLoadStatu_Loaded;
+        if (breloadCache) { //更新缓存文件
+            QString spath = CACHE_PATH + path;
+            utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+            pixmap.save(spath, "PNG");
+        }
+        ImageEngineApi::instance()->m_AllImageData[path] = pdata;
+        SignalManager::ViewInfo info;
+        info.album = "";
+        info.lastPanel = nullptr;
+        info.path = path;
+        info.paths = paths;
+        emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(0);
+        dApp->m_imageloader->ImportImageLoader(DBImgInfoList() << dbi);
+    } else {
     QTimer::singleShot(300, this, [ = ] {
 
         if (paths.count() > 0)
         {
             SignalManager::ViewInfo info;
             info.album = "";
-#ifndef LITE_DIV
-            info.inDatabase = false;
-#endif
             info.lastPanel = nullptr;
             info.path = path;
             info.paths = paths;
@@ -155,6 +251,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 
         }
     });
+    }
 }
 
 QUrl UrlInfo1(QString path)
