@@ -120,6 +120,7 @@ public:
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(const QString &album, const QString &keywords) const;
+    const DBImgInfoList     getInfosByCount(int n = 0);
 
     // TableAlbum
     const DBAlbumInfo       getAlbumInfo(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;

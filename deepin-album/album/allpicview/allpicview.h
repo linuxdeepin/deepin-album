@@ -42,7 +42,6 @@ public:
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
-    void updateStackedWidget();
     void restorePicNum();
     void updatePicNum();
 
@@ -65,7 +64,8 @@ private:
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
-
+public slots:
+    void updateStackedWidget();
 private slots:
     void updatePicsIntoThumbnailViewWithCache();
     void updatePicsIntoThumbnailViewWithCache80();

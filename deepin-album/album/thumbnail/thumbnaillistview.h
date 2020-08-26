@@ -155,7 +155,6 @@ signals:
     void hideExtensionPanel(bool immediately = false);
     void showImageInfo(const QString &path);
     void trashRecovery();
-//    void trashDelete();
     void sigGetSelectedPaths(QStringList *pPaths);
     void sigKeyEvent(int key);
 #if 1
@@ -168,6 +167,7 @@ signals:
     void sigSelectAll();
     void sigMouseMove();
     void needResizeLabel();
+    bool sigDBImageLoaded();//数据库图片加载完毕
 //    void sigDrop();
 #endif
 

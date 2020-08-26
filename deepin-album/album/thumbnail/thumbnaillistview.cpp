@@ -227,6 +227,16 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
         emit sigSelectAll();
     }
     m_dragItemPath = selectedPaths();
+    if(event->key() == Qt::Key_Period){
+        if(m_dragItemPath.empty()){
+            return;
+        }
+        if(!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,m_dragItemPath.first(), AlbumDBType::Favourite)){
+            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
+        }else{
+            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
+        }
+    }
 }
 
 void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
@@ -784,6 +794,7 @@ void ThumbnailListView::loadFilesFromDB(QString name, int loadCount)
 
 bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 {
+    emit sigDBImageLoaded();
     stopLoadAndClear();
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
@@ -1118,8 +1129,8 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdMoveToTrash, tr("Delete"), ss(""));
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
     m_pMenu->addSeparator();
-    appendAction(IdAddToFavorites, tr("Favorite"), ss(FAVORITE_CONTEXT_MENU));
-    appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss(UNFAVORITE_CONTEXT_MENU));
+    appendAction(IdAddToFavorites, tr("Favorite"), "");
+    appendAction(IdRemoveFromFavorites, tr("Unfavorite"), "");
     m_pMenu->addSeparator();
     appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss(ROTATECLOCKWISE_CONTEXT_MENU));
     appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"),
@@ -1255,10 +1266,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdAddToFavorites:
-        if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
-            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
-        } else
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);

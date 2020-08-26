@@ -846,6 +846,7 @@ void ImageEngineThread::run()
     QString path = m_path;
     QFileInfo file(CACHE_PATH + m_path);
     QString errMsg;
+    QString dimension;
     QFileInfo srcfi(m_path);
     if (file.exists()) {
         QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
@@ -857,6 +858,7 @@ void ImageEngineThread::run()
             if (!loadStaticImageFromFile(path, tImg, errMsg)) {
                 qDebug() << errMsg;
             }
+            dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
         } else {
             cache_exist = true;
             path = CACHE_PATH + m_path;
@@ -868,6 +870,7 @@ void ImageEngineThread::run()
         if (!loadStaticImageFromFile(path, tImg, errMsg)) {
             qDebug() << errMsg;
         }
+        dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
     }
     if (getNeedStop())
         return;
@@ -895,24 +898,26 @@ void ImageEngineThread::run()
         pixmap = QPixmap::fromImage(tImg);
     }
     m_data.imgpixmap = pixmap;
-    QFileInfo fi(m_path);
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTime");
     if (value.isEmpty()) {
         value = mds.value("DateTimeOriginal");
     }
     DBImgInfo dbi;
-    dbi.fileName = fi.fileName();
+    dbi.fileName = srcfi.fileName();
     dbi.filePath = m_path;
     dbi.dirHash = utils::base::hash(QString());
     if (value.isEmpty()) {
         dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-    } else if (fi.birthTime().isValid()) {
-        dbi.time = fi.birthTime();
-    } else if (fi.metadataChangeTime().isValid()) {
-        dbi.time = fi.metadataChangeTime();
+    } else if (srcfi.birthTime().isValid()) {
+        dbi.time = srcfi.birthTime();
+    } else if (srcfi.metadataChangeTime().isValid()) {
+        dbi.time = srcfi.metadataChangeTime();
     } else {
         dbi.time = QDateTime::currentDateTime();
+    }
+    if (!dimension.isEmpty()) {
+        dbi.albumSize = dimension;
     }
     dbi.changeTime = QDateTime::currentDateTime();
     m_data.dbi = dbi;

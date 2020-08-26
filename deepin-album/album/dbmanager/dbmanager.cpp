@@ -34,14 +34,13 @@ const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
 
 }  // namespace
 
-DBManager  *DBManager::m_dbManager = nullptr;
+DBManager *DBManager::m_dbManager = nullptr;
 
-DBManager  *DBManager::instance()
+DBManager *DBManager::instance()
 {
     if (!m_dbManager) {
         m_dbManager = new DBManager();
     }
-
     return m_dbManager;
 }
 
@@ -1145,6 +1144,39 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
+    db.close();
+    return infos;
+}
+
+const DBImgInfoList DBManager::getInfosByCount(int n)
+{
+    QMutexLocker mutex(&m_mutex);
+    DBImgInfoList infos;
+    QSqlDatabase db = getDatabase();
+    if (!db.isValid()) {
+        return infos;
+    }
+    QSqlQuery query(db);
+    QString arg = "SELECT FilePath, FileName, Dir, Time, ChangeTime FROM ImageTable3 order by Time desc limit %1";
+    query.setForwardOnly(true);
+    query.prepare(arg.arg(n));
+    if (! query.exec()) {
+        qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
+        //emit sigAllImgInfosReady(infos);
+        return infos;
+    }else{
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+              info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
+            infos << info;
+        }
+    }
     db.close();
     return infos;
 }

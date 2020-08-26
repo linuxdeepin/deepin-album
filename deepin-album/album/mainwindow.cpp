@@ -91,6 +91,10 @@ MainWindow::MainWindow()
 //    initDBus();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
 //    loadZoomRatio();
+//    if (m_processOptionIsEmpty) {
+//        m_commandLine->viewImage("", {});
+//    }
+
     qDebug() << "zy------MainWindow = " << t.elapsed();
 }
 
@@ -1061,7 +1065,7 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
         pwidget = m_pAlbumview->m_pwidget;
         break;
     case 4:
-        pwidget = nullptr;
+        pwidget = m_commandLine;
         break;
     default:
         pwidget = m_pAllPicView->m_pwidget;
@@ -1074,8 +1078,6 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
     pDFloatingMessage->raise();
     if (pwidget)
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-    else
-        DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
 }
 
 //外部使用相册打开图片
