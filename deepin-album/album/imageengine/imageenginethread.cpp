@@ -898,22 +898,21 @@ void ImageEngineThread::run()
         pixmap = QPixmap::fromImage(tImg);
     }
     m_data.imgpixmap = pixmap;
-    QFileInfo fi(m_path);
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTime");
     if (value.isEmpty()) {
         value = mds.value("DateTimeOriginal");
     }
     DBImgInfo dbi;
-    dbi.fileName = fi.fileName();
+    dbi.fileName = srcfi.fileName();
     dbi.filePath = m_path;
     dbi.dirHash = utils::base::hash(QString());
     if (value.isEmpty()) {
         dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-    } else if (fi.birthTime().isValid()) {
-        dbi.time = fi.birthTime();
-    } else if (fi.metadataChangeTime().isValid()) {
-        dbi.time = fi.metadataChangeTime();
+    } else if (srcfi.birthTime().isValid()) {
+        dbi.time = srcfi.birthTime();
+    } else if (srcfi.metadataChangeTime().isValid()) {
+        dbi.time = srcfi.metadataChangeTime();
     } else {
         dbi.time = QDateTime::currentDateTime();
     }

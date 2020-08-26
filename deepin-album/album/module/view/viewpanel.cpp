@@ -179,7 +179,7 @@ void ViewPanel::initConnect()
         SignalManager::ViewInfo vinfo = info;
         m_vinfo = vinfo;
         m_bFirstFullScreen = m_vinfo.fullScreen;
-        QList<QByteArray> fList =  QMovie::supportedFormats(); //"gif","mng","webp"
+        QList<QByteArray> fList = QMovie::supportedFormats(); //"gif","mng","webp"
         QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
         if (fList.contains(strfixL.toUtf8().data()) || vinfo.fullScreen) {
             m_currentpath = m_vinfo.path;

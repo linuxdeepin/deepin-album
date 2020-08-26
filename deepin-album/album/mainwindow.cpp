@@ -91,6 +91,10 @@ MainWindow::MainWindow()
 //    initDBus();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
 //    loadZoomRatio();
+//    if (m_processOptionIsEmpty) {
+//        m_commandLine->viewImage("", {});
+//    }
+
     qDebug() << "zy------MainWindow = " << t.elapsed();
 }
 

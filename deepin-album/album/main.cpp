@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 
     Application::loadDXcbPlugin();
     Application a(argc, argv);
+
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
     //  a.setAttribute(Qt::AA_EnableHighDpiScaling);
