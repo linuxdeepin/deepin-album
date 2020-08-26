@@ -155,7 +155,6 @@ signals:
     void hideExtensionPanel(bool immediately = false);
     void showImageInfo(const QString &path);
     void trashRecovery();
-//    void trashDelete();
     void sigGetSelectedPaths(QStringList *pPaths);
     void sigKeyEvent(int key);
 #if 1
