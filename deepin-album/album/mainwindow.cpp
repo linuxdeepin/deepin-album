@@ -1061,7 +1061,7 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
         pwidget = m_pAlbumview->m_pwidget;
         break;
     case 4:
-        pwidget = nullptr;
+        pwidget = m_commandLine;
         break;
     default:
         pwidget = m_pAllPicView->m_pwidget;
@@ -1074,8 +1074,6 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
     pDFloatingMessage->raise();
     if (pwidget)
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-    else
-        DMessageManager::instance()->sendMessage(this, pDFloatingMessage);
 }
 
 //外部使用相册打开图片
