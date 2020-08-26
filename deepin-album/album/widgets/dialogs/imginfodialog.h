@@ -61,9 +61,12 @@ private:
     QList<DDrawer *> m_expandGroup;
     QVBoxLayout *m_mainLayout;
     DScrollArea *m_scrollArea;
+    bool m_mousePress = false;
+    int m_mouseY = 0;
     void keyPressEvent(QKeyEvent *e) override;
     void paintEvent(QPaintEvent *event) override;
     bool event(QEvent *event)override;
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
     void closed();
 

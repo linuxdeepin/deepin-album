@@ -28,7 +28,7 @@
 #include <DFontSizeManager>
 #include <QApplication>
 #include <DApplicationHelper>
-
+#include <QScrollBar>
 
 namespace {
 
@@ -81,7 +81,7 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
 {
     //LMH0424默认字体大小
     QFont font;
-    m_currentFontSize = DFontSizeManager::instance()->fontPixelSize(font );
+    m_currentFontSize = DFontSizeManager::instance()->fontPixelSize(font);
     QLocale locale;
     if (locale.language() == QLocale::Chinese)  //语言为中文
         m_title_maxwidth = 60;
@@ -159,6 +159,7 @@ void ImgInfoDialog::initUI()
     m_scrollArea->setWidget(infoframe);
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
+    m_scrollArea->viewport()->installEventFilter(this);
 
     QVBoxLayout *scrolllayout = new QVBoxLayout;
     scrolllayout->addWidget(m_scrollArea);
@@ -186,7 +187,7 @@ void ImgInfoDialog::setImagePath(const QString &path)
     }
     m_expandGroup.clear();
 
-    if (m_isBaseInfo == true && m_isDetailsInfo == true ) {
+    if (m_isBaseInfo == true && m_isDetailsInfo == true) {
         titleList << tr("Basic info");
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
@@ -195,12 +196,12 @@ void ImgInfoDialog::setImagePath(const QString &path)
         m_expandGroup.at(1)->setContent(m_exif_details);
         m_expandGroup.at(1)->setExpand(true);
 
-    } else if (m_isBaseInfo == false && m_isDetailsInfo == true ) {
+    } else if (m_isBaseInfo == false && m_isDetailsInfo == true) {
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_details);
         m_expandGroup.at(0)->setExpand(true);
-    } else if (m_isBaseInfo == true && m_isDetailsInfo == false ) {
+    } else if (m_isBaseInfo == true && m_isDetailsInfo == false) {
         titleList << tr("Basic info");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
@@ -275,7 +276,7 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
             }
         } else if (i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") {
             QStringList list = value.split(" ");
-            if (2 == list.count() ) {
+            if (2 == list.count()) {
                 QStringList listDate = list[0].split("/");
                 if (3 == listDate.count()) {
                     value = listDate[0] + "年" + listDate[1] + "月" + listDate[2] + "日 " + list[1];
@@ -412,7 +413,7 @@ void ImgInfoDialog::keyPressEvent(QKeyEvent *e)
 void ImgInfoDialog::paintEvent(QPaintEvent *event)
 {
     QFont font;
-    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font);
     if (currentSize != m_currentFontSize) {
         m_currentFontSize = currentSize;
         updateInfo();
@@ -429,5 +430,34 @@ bool ImgInfoDialog::event(QEvent *event)
         }
     }
     return QWidget::event(event);
+}
+
+bool ImgInfoDialog::eventFilter(QObject *obj, QEvent *e)
+{
+    if (obj == m_scrollArea->viewport()) {
+        QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+        if (e->type() == QEvent::MouseButtonPress && event) {
+            m_mousePress = true;
+            m_mouseY = event->pos().y();
+            return true;
+        }
+        if (e->type() == QEvent::MouseMove && event) {
+            int sliderPosition = m_scrollArea->verticalScrollBar()->sliderPosition();
+            if (m_mousePress) {
+                if (event->pos().y() < m_mouseY) {
+                    m_scrollArea->verticalScrollBar()->setSliderPosition(sliderPosition + 1);
+                } else if (event->pos().y() > m_mouseY) {
+                    m_scrollArea->verticalScrollBar()->setSliderPosition(sliderPosition - 1);
+                }
+            }
+            m_mouseY = event->pos().y();
+            return true;
+        }
+        if (e->type() == QEvent::MouseButtonRelease && event) {
+            m_mousePress = false;
+            return true;
+        }
+    }
+    return DDialog::eventFilter(obj, e);
 }
 
