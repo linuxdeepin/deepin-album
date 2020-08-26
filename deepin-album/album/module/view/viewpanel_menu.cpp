@@ -356,9 +356,9 @@ void ViewPanel::updateMenuContent()
     /**************************************************************************/
 #if 1
     if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
-        appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
+        appendAction(IdRemoveFromFavorites, tr("Unfavorite"), "");    //取消收藏
     } else {
-        appendAction(IdAddToFavorites, tr("Favorite"), ss("favorite", "Ctrl+K"));       //收藏
+        appendAction(IdAddToFavorites, tr("Favorite"), "");       //收藏
     }
     m_menu->addSeparator();
 #endif
@@ -515,4 +515,14 @@ void ViewPanel::popupDelDialog(const QString path)
 #else
     Q_UNUSED(path)
 #endif
+}
+
+void ViewPanel::keyPressEvent(QKeyEvent *e){
+    if(e->key() == Qt::Key_Period){
+        if(!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,m_currentpath, AlbumDBType::Favourite)){
+            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
+        }else{
+            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
+        }
+    }
 }
