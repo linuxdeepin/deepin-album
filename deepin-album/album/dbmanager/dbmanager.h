@@ -114,6 +114,7 @@ public:
     const QStringList       getPathsByDir(const QString &dir) const;
     bool                    isImgExist(const QString &path) const;
     void insertImgInfos(const DBImgInfoList &infos);
+    void insertImgInfo(const DBImgInfo &info);
     void removeImgInfos(const QStringList &paths);
     void removeDir(const QString &dir);
     void removeImgInfosNoSignal(const QStringList &paths);

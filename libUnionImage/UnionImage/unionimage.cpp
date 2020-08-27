@@ -986,7 +986,6 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
         admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
         admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
     } else {
-        // Exif version 0231
         QString qsdto = admMap.value("DateTimeOriginal");
         QString qsdtd = admMap.value("DateTimeDigitized");
         QDateTime ot = QDateTime::fromString(qsdto, "yyyy/MM/dd HH:mm");
@@ -1002,11 +1001,11 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 //                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
                 admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm"));
                 admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+            }else{
+                admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
+                admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
-
     }
 
 //    // The value of width and height might incorrect
@@ -1018,7 +1017,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
 
     admMap.insert("FileName", info.fileName());
-    admMap.insert("FileFormat", getFileFormat(path));
+    admMap.insert("FileFormat", detectImageFormat(path));
     admMap.insert("FileSize", size2Human(info.size()));
     FreeImage_Unload(dib);
     //qDebug() <<  QThread::currentThread() << "getAllMetaData lock end";
