@@ -232,25 +232,20 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         info.paths = paths;
         emit dApp->signalM->viewImage(info);
         emit dApp->signalM->showImageView(0);
-        dApp->m_imageloader->ImportImageLoader(DBImgInfoList() << dbi);
+        DBManager::instance()->insertImgInfos(DBImgInfoList() << pdata.dbi);
     } else {
-    QTimer::singleShot(300, this, [ = ] {
-
-        if (paths.count() > 0)
-        {
-            SignalManager::ViewInfo info;
-            info.album = "";
-            info.lastPanel = nullptr;
-            info.path = path;
-            info.paths = paths;
-
-            emit dApp->signalM->viewImage(info);
-            emit dApp->signalM->showImageView(0);
-
-            ImageEngineApi::instance()->loadImagesFromNewAPP(paths, m_obj);
-
-        }
-    });
+        QTimer::singleShot(300, this, [ = ] {
+            if (paths.count() > 0) {
+                SignalManager::ViewInfo info;
+                info.album = "";
+                info.lastPanel = nullptr;
+                info.path = path;
+                info.paths = paths;
+                emit dApp->signalM->viewImage(info);
+                emit dApp->signalM->showImageView(0);
+                ImageEngineApi::instance()->loadImagesFromNewAPP(paths, m_obj);
+            }
+        });
     }
 }
 
