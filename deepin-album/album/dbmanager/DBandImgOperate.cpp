@@ -136,18 +136,8 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
     QString errMsg;
     QFileInfo srcfi(srcPath);
     if (file.exists()) {
-        QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
-        QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
-        if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
-            cache_exist = false;
-            if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
-                qDebug() << errMsg;
-            }
-        } else {
-            cache_exist = true;
-            if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
-                qDebug() << errMsg;
-            }
+        if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
+            qDebug() << errMsg;
         }
     } else {
         if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
@@ -183,31 +173,7 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
     QFileInfo fi(srcPath);
     //此处不需要加载拍摄时间
     //auto mds = getAllMetaData(srcPath);
-
-    QString value;// = mds.value("DateTimeOriginal");
-    DBImgInfo dbi;
-    dbi.fileName = fi.fileName();
-    dbi.filePath = srcPath;
-    dbi.dirHash = utils::base::hash(QString());
-    if ("" != value) {
-        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-    } else if (fi.birthTime().isValid()) {
-        dbi.time = fi.birthTime();
-    } else if (fi.metadataChangeTime().isValid()) {
-        dbi.time = fi.metadataChangeTime();
-    } else {
-        dbi.time = QDateTime::currentDateTime();
-    }
-    dbi.changeTime = QDateTime::currentDateTime();
-    data.dbi = dbi;
-    //data.loaded = ImageLoadStatu_False;
-    data.loaded = ImageLoadStatu_Loaded;
-
-    if (breloadCache) { //更新缓存文件
-        //QString spath = CACHE_PATH + m_path;
-        utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
-        pixmap.save(thumbnailPath, "PNG");
-    }
+    data.loaded = ImageLoadStatu_PreLoaded;
     return data;
     //emit sigImageLoaded(imgobject, m_path, m_data);
     //emit loadOneThumbnailReady(imagepath, data);

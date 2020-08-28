@@ -93,18 +93,19 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 void TopToolbar::initWidgets()
 {
     m_layout = new QHBoxLayout(this);
-    m_layout->setContentsMargins(10, 0, 0, 0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
     m_titlebar = new DTitlebar(this);
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
     DPalette pa;
     pa.setColor(DPalette::WindowText, QColor(255, 255, 255, 255));
-    QLabel *pLabel = new QLabel();
-    pLabel->setFixedSize(33, 32);
-    QIcon icon = QIcon::fromTheme("deepin-album");
-    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
-    m_titlebar->addWidget(pLabel, Qt::AlignLeft);
+//    QLabel *pLabel = new QLabel();
+//    pLabel->setFixedSize(33, 32);
+//    QIcon icon = QIcon::fromTheme("deepin-album");
+//    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
+//    m_titlebar->addWidget(pLabel, Qt::AlignLeft);
+    m_titlebar->setIcon(QIcon::fromTheme("deepin-album"));
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         Q_UNUSED(themeType);

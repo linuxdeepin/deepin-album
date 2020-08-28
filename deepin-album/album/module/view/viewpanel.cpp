@@ -22,8 +22,6 @@
 #include "controller/signalmanager.h"
 #include "controller/configsetter.h"
 #include "contents/ttbcontent.h"
-#include "contents/ttmcontent.h"
-#include "contents/ttlcontent.h"
 #include "scen/imageview.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"

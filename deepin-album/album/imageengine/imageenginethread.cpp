@@ -840,6 +840,7 @@ void ImageEngineThread::run()
         emit sigAborted(m_path);
         return;
     }
+
     using namespace UnionImage_NameSpace;
     QImage tImg;
     bool cache_exist = false;
@@ -848,6 +849,7 @@ void ImageEngineThread::run()
     QString errMsg;
     QString dimension;
     QFileInfo srcfi(m_path);
+    if(m_data.imgpixmap.isNull()){
     if (file.exists()) {
         QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
         QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
@@ -897,7 +899,13 @@ void ImageEngineThread::run()
         qDebug() << "null pixmap" << tImg;
         pixmap = QPixmap::fromImage(tImg);
     }
+    if (breloadCache) { //更新缓存文件
+        QString spath = CACHE_PATH + m_path;
+        utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+        pixmap.save(spath, "PNG");
+    }
     m_data.imgpixmap = pixmap;
+    }
     auto mds = getAllMetaData(m_path);
     QString value = mds.value("DateTime");
     if (value.isEmpty()) {
@@ -926,11 +934,7 @@ void ImageEngineThread::run()
         return;
     }
     bwaitstop = true;
-    if (breloadCache) { //更新缓存文件
-        QString spath = CACHE_PATH + m_path;
-        utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-        pixmap.save(spath, "PNG");
-    }
+
 
     QMutexLocker mutex(&m_mutex);
     for (ImageEngineObject *imgobject : m_imgobject) {
