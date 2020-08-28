@@ -975,17 +975,20 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.unite(getMetaData(FIMD_IPTC, dib));
     //移除秒　　2020/6/5 DJH
     //需要转义才能读出：或者/　　2020/8/21 DJH
+    QFileInfo info(path);
     if (admMap.contains("DateTime")) {
         QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
-        admMap["DateTime"] = time.toString("yyyy/MM/dd HH:mm");
-    }
-    // Basic extended data
-    QFileInfo info(path);
-    if (admMap.isEmpty()) {
-        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+        admMap["DateTimeOriginal"] = time.toString("yyyy/MM/dd hh:mm");
     } else {
+        admMap.insert("DateTimeOriginal",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
+    }
+    admMap.insert("DateTimeDigitized",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
+//    if (admMap.isEmpty()) {
+//        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
+//        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
+//        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
+//    }
+    /* else {
         QString qsdto = admMap.value("DateTimeOriginal");
         QString qsdtd = admMap.value("DateTimeDigitized");
         QDateTime ot = QDateTime::fromString(qsdto, "yyyy/MM/dd HH:mm");
@@ -998,15 +1001,15 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 
             // NO valid date information
             if (! ot.isValid()) {
-//                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
+    //                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
                 admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm"));
                 admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
-            }else{
+            } else {
                 admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
                 admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
             }
         }
-    }
+    }*/
 
 //    // The value of width and height might incorrect
     QImageReader reader(path);
@@ -1020,7 +1023,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     admMap.insert("FileFormat", detectImageFormat(path));
     admMap.insert("FileSize", size2Human(info.size()));
     FreeImage_Unload(dib);
-    //qDebug() <<  QThread::currentThread() << "getAllMetaData lock end";
+
     return admMap;
 }
 

@@ -181,13 +181,13 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
         return false;
     }
     ImageDataSt data;
-    if(!getImageData(imagepath,data)){
+    if (!getImageData(imagepath, data)) {
         return false;
     }
     dynamic_cast<ImageEngineObject *>(obj)->addCheckPath(imagepath);
     if (ImageLoadStatu_Loaded == data.loaded) {
         dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
-    } else if(ImageLoadStatu_PreLoaded == data.loaded) {
+    } else if (ImageLoadStatu_PreLoaded == data.loaded) {
         using namespace UnionImage_NameSpace;
         QFileInfo srcfi(imagepath);
         QString dimension;
@@ -215,6 +215,8 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
         dbi.changeTime = QDateTime::currentDateTime();
         data.dbi = dbi;
         data.loaded = ImageLoadStatu_Loaded;
+        m_AllImageData[imagepath] = data;
+        //DBManager::instance()->insertImgInfos(DBImgInfoList() << dbi);
         dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
     } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread && ifObjectExist(data.thread)) {
         obj->addThread(dynamic_cast<ImageEngineThreadObject *>(data.thread));
