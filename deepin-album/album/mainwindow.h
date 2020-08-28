@@ -75,11 +75,10 @@ public:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
-
+    QJsonObject createShorcutJson();
 private:
     void thumbnailZoomIn();
     void thumbnailZoomOut();
-    QJsonObject createShorcutJson();
     void saveWindowState();
     void loadWindowState();
     void saveZoomRatio();

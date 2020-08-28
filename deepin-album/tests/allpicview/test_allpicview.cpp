@@ -74,3 +74,16 @@ TEST(allpicview, test_select)
     e.clear();
     e.simulate(a->getThumbnailListView());
 }
+
+TEST(allpicview, test_shortCut)
+{
+    MainWindow *w = dApp->getMainWindow();
+    w->createShorcutJson();
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_Question,Qt::ControlModifier | Qt::ShiftModifier);
+    e.simulate(w);
+    QTime t;
+    t.start();
+    while (t.elapsed() < 3000)
+        dApp->processEvents();
+}

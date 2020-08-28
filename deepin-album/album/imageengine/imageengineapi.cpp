@@ -6,6 +6,8 @@
 #include <QMetaType>
 #include <QDirIterator>
 #include <QStandardPaths>
+#include "utils/unionimage.h"
+#include "utils/baseutils.h"
 
 namespace {
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
@@ -178,14 +180,43 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     if (nullptr == obj) {
         return false;
     }
-    QMap<QString, ImageDataSt>::iterator it;
-    it = m_AllImageData.find(imagepath);
-    if (it == m_AllImageData.end()) {
+    ImageDataSt data;
+    if (!getImageData(imagepath, data)) {
         return false;
     }
-    ImageDataSt data = it.value();
     dynamic_cast<ImageEngineObject *>(obj)->addCheckPath(imagepath);
     if (ImageLoadStatu_Loaded == data.loaded) {
+        dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
+    } else if (ImageLoadStatu_PreLoaded == data.loaded) {
+        using namespace UnionImage_NameSpace;
+        QFileInfo srcfi(imagepath);
+        QString dimension;
+        auto mds = getAllMetaData(imagepath);
+        QString value = mds.value("DateTime");
+        if (value.isEmpty()) {
+            value = mds.value("DateTimeOriginal");
+        }
+        DBImgInfo dbi;
+        dbi.fileName = srcfi.fileName();
+        dbi.filePath = imagepath;
+        dbi.dirHash = utils::base::hash(QString());
+        if (value.isEmpty()) {
+            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
+        } else if (srcfi.birthTime().isValid()) {
+            dbi.time = srcfi.birthTime();
+        } else if (srcfi.metadataChangeTime().isValid()) {
+            dbi.time = srcfi.metadataChangeTime();
+        } else {
+            dbi.time = QDateTime::currentDateTime();
+        }
+        if (!dimension.isEmpty()) {
+            dbi.albumSize = dimension;
+        }
+        dbi.changeTime = QDateTime::currentDateTime();
+        data.dbi = dbi;
+        data.loaded = ImageLoadStatu_Loaded;
+        m_AllImageData[imagepath] = data;
+        //DBManager::instance()->insertImgInfos(DBImgInfoList() << dbi);
         dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
     } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread && ifObjectExist(data.thread)) {
         obj->addThread(dynamic_cast<ImageEngineThreadObject *>(data.thread));
