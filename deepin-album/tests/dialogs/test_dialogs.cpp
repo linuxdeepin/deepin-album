@@ -10,7 +10,6 @@
 TEST(albumcreatedialog, dia1)
 {
     AlbumCreateDialog *a = new AlbumCreateDialog;
-    a->hide();
     ASSERT_TRUE(a->getCreateAlbumName().isEmpty());
 
     QTestEventList event;
@@ -24,7 +23,6 @@ TEST(albumcreatedialog, dia1)
 TEST(albumcreatedialog, creatNewAlbum)
 {
     AlbumCreateDialog *a = new AlbumCreateDialog;
-    a->hide();
     QTest::keyClicks(a->getEdit(), "newtestalbum1");
     emit a->buttonClicked(1, "");
 

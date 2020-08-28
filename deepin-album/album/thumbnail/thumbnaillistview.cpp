@@ -327,7 +327,10 @@ void ThumbnailListView::initConnections()
 void ThumbnailListView::calBasePixMap(ItemInfo &info)
 {
     int i_totalwidth = window()->width() - 30;
-    bool bcalBase = static_cast<bool>(info.height / info.width > 3);
+    bool bcalBase = false;
+    if(info.width != 0){
+        bcalBase = (info.height / info.width) > 3;
+    }
     if (0 == info.height || 0 == info.width || bcalBase) {
         info.width = m_iBaseHeight;
         info.height = m_iBaseHeight;
@@ -975,7 +978,9 @@ void ThumbnailListView::updateMenuContents()
         paths = selectedPaths();
     }
     paths.removeAll(QString(""));
-
+    if(paths.empty()){
+        return;
+    }
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
         if (1 == paths.length())
             m_MenuActionMap.value(tr("Photo info"))->setVisible(true);

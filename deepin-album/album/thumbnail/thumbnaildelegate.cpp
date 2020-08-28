@@ -136,9 +136,8 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->fillRect(backRect, shadowbrush);
     }
 
-
-    float fwidth = (backgroundRect.height()) / (data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
-    float fheight = (backgroundRect.width()) / (data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
+    float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1:data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
+    float fheight = (backgroundRect.width()) / (data.baseWidth  == 0 ? 1:data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
     QRect pixmapRect;
     if ((data.width > data.imgWidth + 16) && fheight <= 3) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);

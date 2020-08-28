@@ -208,31 +208,32 @@ void ImportImagesThread::run()
             continue;
         }
 
-        QFileInfo fi(imagePath);
-        if (!fi.exists()) {  //当前文件不存在
+        QFileInfo srcfi(imagePath);
+        if (!srcfi.exists()) {  //当前文件不存在
             continue;
         }
         using namespace utils::image;
         using namespace utils::base;
         auto mds = getAllMetaData(imagePath);
-        QString value = mds.value("DateTimeOriginal");
+        QString value = mds.value("DateTime");
+        if (value.isEmpty()) {
+            value = mds.value("DateTimeOriginal");
+        }
         DBImgInfo dbi;
-        dbi.fileName = fi.fileName();
+        dbi.fileName = srcfi.fileName();
         dbi.filePath = imagePath;
         dbi.dirHash = utils::base::hash(QString());
-        if ("" != value) {
+        if (!value.isEmpty()) {
             dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-        } else if (fi.birthTime().isValid()) {
-            dbi.time = fi.birthTime();
-        } else if (fi.metadataChangeTime().isValid()) {
-            dbi.time = fi.metadataChangeTime();
+        } else if (srcfi.birthTime().isValid()) {
+            dbi.time = srcfi.birthTime();
+        } else if (srcfi.metadataChangeTime().isValid()) {
+            dbi.time = srcfi.metadataChangeTime();
         } else {
             dbi.time = QDateTime::currentDateTime();
         }
         dbi.changeTime = QDateTime::currentDateTime();
-
         dbInfos << dbi;
-
         emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
     }
 
@@ -840,6 +841,7 @@ void ImageEngineThread::run()
         emit sigAborted(m_path);
         return;
     }
+
     using namespace UnionImage_NameSpace;
     QImage tImg;
     bool cache_exist = false;
@@ -848,70 +850,75 @@ void ImageEngineThread::run()
     QString errMsg;
     QString dimension;
     QFileInfo srcfi(m_path);
-    if (file.exists()) {
-        QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
-        QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
-        if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
-            cache_exist = false;
-            breloadCache = true;
-            path = m_path;
+    if (m_data.imgpixmap.isNull()) {
+        if (file.exists()) {
+            QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
+            QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
+            if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
+                cache_exist = false;
+                breloadCache = true;
+                path = m_path;
+                if (!loadStaticImageFromFile(path, tImg, errMsg)) {
+                    qDebug() << errMsg;
+                }
+                dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
+            } else {
+                cache_exist = true;
+                path = CACHE_PATH + m_path;
+                if (!loadStaticImageFromFile(path, tImg, errMsg, "PNG")) {
+                    qDebug() << errMsg;
+                }
+            }
+        } else {
             if (!loadStaticImageFromFile(path, tImg, errMsg)) {
                 qDebug() << errMsg;
             }
             dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
-        } else {
-            cache_exist = true;
-            path = CACHE_PATH + m_path;
-            if (!loadStaticImageFromFile(path, tImg, errMsg, "PNG")) {
-                qDebug() << errMsg;
+        }
+        if (getNeedStop())
+            return;
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+            if (pixmap.height() != 200 && pixmap.width() != 200) {
+                if (pixmap.height() >= pixmap.width()) {
+                    cache_exist = true;
+                    pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+                } else if (pixmap.height() <= pixmap.width()) {
+                    cache_exist = true;
+                    pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                }
+            }
+            if (!cache_exist) {
+                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
+                    pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+                } else {
+                    pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                }
             }
         }
-    } else {
-        if (!loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
+        if (pixmap.isNull()) {
+            qDebug() << "null pixmap" << tImg;
+            pixmap = QPixmap::fromImage(tImg);
         }
-        dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
-    }
-    if (getNeedStop())
-        return;
-    QPixmap pixmap = QPixmap::fromImage(tImg);
-    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-        if (pixmap.height() != 200 && pixmap.width() != 200) {
-            if (pixmap.height() >= pixmap.width()) {
-                cache_exist = true;
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (pixmap.height() <= pixmap.width()) {
-                cache_exist = true;
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
-            }
+        if (breloadCache) { //更新缓存文件
+            QString spath = CACHE_PATH + m_path;
+            utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+            pixmap.save(spath, "PNG");
         }
-        if (!cache_exist) {
-            if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
-            } else {
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
+        m_data.imgpixmap = pixmap;
     }
-    if (pixmap.isNull()) {
-        qDebug() << "null pixmap" << tImg;
-        pixmap = QPixmap::fromImage(tImg);
-    }
-    m_data.imgpixmap = pixmap;
     auto mds = getAllMetaData(m_path);
-    QString value = mds.value("DateTime");
-    if (value.isEmpty()) {
-        value = mds.value("DateTimeOriginal");
-    }
+    QString value = mds.value("DateTimeOriginal");
+
     DBImgInfo dbi;
     dbi.fileName = srcfi.fileName();
     dbi.filePath = m_path;
     dbi.dirHash = utils::base::hash(QString());
-    if (value.isEmpty()) {
+    if (!value.isEmpty()) {
         dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-    } else if (srcfi.birthTime().isValid()) {
+    } else if (!srcfi.birthTime().isValid()) {
         dbi.time = srcfi.birthTime();
-    } else if (srcfi.metadataChangeTime().isValid()) {
+    } else if (!srcfi.metadataChangeTime().isValid()) {
         dbi.time = srcfi.metadataChangeTime();
     } else {
         dbi.time = QDateTime::currentDateTime();
@@ -926,11 +933,7 @@ void ImageEngineThread::run()
         return;
     }
     bwaitstop = true;
-    if (breloadCache) { //更新缓存文件
-        QString spath = CACHE_PATH + m_path;
-        utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-        pixmap.save(spath, "PNG");
-    }
+
 
     QMutexLocker mutex(&m_mutex);
     for (ImageEngineObject *imgobject : m_imgobject) {

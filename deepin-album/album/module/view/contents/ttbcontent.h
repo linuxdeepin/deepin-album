@@ -49,6 +49,7 @@ class QAbstractItemModel;
 //class DImageButton;
 class ImageButton;
 class MyImageListWidget;
+class ImageItem;
 
 class MyImageListWidget : public QWidget
 {
@@ -58,10 +59,13 @@ public:
     bool ifMouseLeftPressed();
     QObject *getObj();
     void setObj(QObject *obj);
+    void setSelectItem(ImageItem *selectItem);
+    void animationStart(bool isReset, int endPos, int duration);
+    void stopAnimation();
 
     QTimer *m_timer = nullptr;
 private:
-    bool animationStart();
+    void findSelectItem();
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
@@ -71,6 +75,9 @@ signals:
 
     void testloadRight();
     void testloadLeft();
+public slots:
+    void animationTimerTimeOut();
+    void animationFinished();
 private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
@@ -79,6 +86,14 @@ private:
     QPoint m_prepoint;//鼠标move时鼠标位置
     QPoint m_presspoint;//按下时鼠标位置
     bool m_moveToRight = true;//缩略图中鼠标向右移动为true
+    ImageItem *m_selectItem = nullptr;
+    ImageItem *m_preSelectItem = nullptr;
+    QPropertyAnimation *m_resetAnimation = nullptr;//复位动画
+    bool m_isMoving = false;//是否正在移动中
+    QTimer *m_animationTimer = nullptr;//动画，移动使用
+    int m_animationTimerTOCount = 0;
+    int m_preListGeometryLeft = 0;
+    bool m_resetFinish = false;
 };
 
 class ImageItem : public QLabel
@@ -118,6 +133,7 @@ private:
     QString m_pixmapstring;
     //bool bmouserelease = false;
     bool m_bPicNotSuppOrDamaged = false;
+    QTimer *m_timer;
 };
 class TTBContent : public QLabel, public ImageEngineObject
 {
@@ -237,7 +253,6 @@ private:
     int m_contentWidth;
     int m_nowIndex = -1;
     int m_filelist_size = 0;
-    int m_startAnimation = 0;
     bool bfilefind = false;
     bool bresized = true;
     bool badaptImageBtnChecked = false;
@@ -256,6 +271,7 @@ private:
 
     QStringList m_rightlist;        //保存动态加载数据（右侧）
     QStringList m_leftlist;
+    QTimer *m_filterTimer = nullptr;
 };
 
 #endif // TTLCONTENT_H

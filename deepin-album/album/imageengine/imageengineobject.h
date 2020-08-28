@@ -15,6 +15,7 @@ enum ImageLoadStatu {
     ImageLoadStatu_False,
     ImageLoadStatu_BeLoading,
     ImageLoadStatu_Loaded,
+    ImageLoadStatu_PreLoaded
 };
 
 struct ImageDataSt {
