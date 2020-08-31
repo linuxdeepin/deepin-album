@@ -859,5 +859,5 @@ void ViewPanel::openImage(const QString &path, bool inDB, bool bjudge)
 //        emit updateCollectButton();
     }
 
-    //QTimer::singleShot(100, m_viewB, &ImageView::autoFit);
+    QTimer::singleShot(100, m_viewB, &ImageView::autoFit);
 }

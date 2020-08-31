@@ -313,7 +313,7 @@ void AlbumView::initConnections()
             updateRightView();
     });
 
-    connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateAlbumView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
     connect(dApp, &Application::sigFinishLoad, this, [ = ] {
@@ -1245,6 +1245,13 @@ void AlbumView::updateRightView()
     }
 
     updatePicNum();
+}
+
+void AlbumView::updateAlbumView(const QString &album)
+{
+    if(m_currentType == album){
+        updateRightMyFavoriteView();
+    }
 }
 
 // 更新已导入列表

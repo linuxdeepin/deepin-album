@@ -712,7 +712,7 @@ void MainWindow::allPicBtnClicked()
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAllPicView->updateStackedWidget();
     m_pAllPicView->updatePicNum();
-
+    m_pAllPicView->getThumbnailListView()->setFocus();
 }
 
 //显示时间线照片
@@ -733,6 +733,7 @@ void MainWindow::timeLineBtnClicked()
     m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pTimeLineView->updateStackedWidget();
     m_pTimeLineView->updatePicNum();
+    m_pTimeLineView->setFocus();
 }
 
 //显示相册
@@ -776,6 +777,7 @@ void MainWindow::albumBtnClicked()
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->updatePicNum();
+    m_pAlbumview->setFocus();
     emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
 }
 
@@ -797,14 +799,7 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
 //创建相册槽函数
 void MainWindow::onCreateAlbum(QStringList imagepaths)
 {
-//    if (m_pCenterWidget->currentWidget() == m_pAlbumview)
-//  {
-//        m_pAlbumview->createNewAlbum(imagepaths);
-//    }
-//  else
-//  {
     showCreateDialog(imagepaths);
-//    }
 }
 #if 1
 void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
@@ -814,43 +809,12 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
-
         emit dApp->signalM->hideExtensionPanel();
-
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
         emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
-
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
-//        icon = utils::base::renderSVG(":/images/logo/resources/images/other/icon_toast_sucess.svg", QSize(20, 20));
-
         QString str = "Create Album “%1” successfully";
-
-//        QWidget *pwidget = new QWidget();
-        QWidget *pwidget = nullptr;
-        switch (m_pCenterWidget->currentIndex())
-        {
-        case 0:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        case 1:
-            pwidget = m_pTimeLineView->m_pwidget;
-            break;
-        case 2:
-            pwidget = m_pAlbumview->m_pwidget;
-            break;
-        case 4:
-            pwidget = m_commandLine->m_pwidget;
-            break;
-        default:
-            pwidget = m_pAllPicView->m_pwidget;
-            break;
-        }
-        DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(str.arg(d->getCreateAlbumName()));
-        pDFloatingMessage->setIcon(icon);
-        DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
-        //this->sendMessage(icon, str.arg(d->getCreateAlbumName()));
+        floatMessage(str.arg(d->getCreateAlbumName()),icon);
     });
 }
 #endif
@@ -859,10 +823,8 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 {
     Q_UNUSED(imgpaths);
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
-//    d->setWindowModality(Qt::WindowModal);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
-
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
         if (nullptr == m_pAlbumview)
@@ -883,12 +845,9 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
                 }
             });
             m_pCenterWidget->insertWidget(index, m_pAlbumview);
-
             DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
             emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
-
             m_pAlbumBtn->setChecked(true);
-
             m_pSearchEdit->clearEdit();
             m_SearchKey.clear();
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
@@ -896,14 +855,11 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         {
             DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
             emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
-
             m_pAlbumBtn->setChecked(true);
-
             m_pSearchEdit->clearEdit();
             m_SearchKey.clear();
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         }
-
         m_backIndex = VIEW_ALBUM;
         emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
     });
@@ -981,7 +937,6 @@ void MainWindow::onImprotBtnClicked()
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
     DFileDialog dialog;
     dialog.setFileMode(DFileDialog::ExistingFiles);
-//    dialog.setAllowMixedSelection(true);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
@@ -1136,10 +1091,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     saveWindowState();
     if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
-//        if (bfirstandviewimage) {
-//            event->accept();
-//            return;
-//        }
         emit dApp->signalM->hideImageView();
         emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
         event->ignore();
@@ -1210,8 +1161,6 @@ void MainWindow::saveWindowState()
     m_settings->setValue("album-geometry", saveGeometry());
     m_settings->setValue("album-isMaximized", isMaximized());
     m_settings->setValue("album-version", VERSION);
-//    settings.setValue("album-pos", pos());
-//    settings.endGroup();
 }
 
 //加载主界面状态（上次退出时）

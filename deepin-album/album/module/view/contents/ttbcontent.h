@@ -62,7 +62,6 @@ public:
     void setSelectItem(ImageItem *selectItem);
     void animationStart(bool isReset, int endPos, int duration);
     void stopAnimation();
-    bool isAnimationStart();//判断动画是否执行中
 
     QTimer *m_timer = nullptr;
 private:

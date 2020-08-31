@@ -145,7 +145,7 @@ public:
     void restorePicNum();
     void updatePicNum();
     void updateRightView();
-
+    void updateAlbumView(const QString &album);
 private:
     void initConnections();
     void initLeftView();
