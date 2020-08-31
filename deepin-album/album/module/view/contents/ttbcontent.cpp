@@ -106,9 +106,13 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
     if (dynamic_cast<DWidget *>(m_obj) == nullptr) {
         return;
     }
+    if (m_isMoving) {
+        return;
+    }
     if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
         m_resetAnimation->stop();
     }
+
     findSelectItem();
     int moveX = 0;
 //    qDebug() << "zy------this->left() = " << dynamic_cast<DWidget *>(m_obj)->geometry().left();
@@ -126,7 +130,7 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
         moveX = this->geometry().width() - dynamic_cast<DWidget *>(m_obj)->geometry().width();
     } else {
         //点击中间
-        moveX = this->geometry().width() / 2 - m_selectItem->geometry().left();
+        moveX = this->geometry().width() / 2 - m_selectItem->index() * 32 - 26;
     }
     if (!isReset) {
         moveX = endPos;
@@ -143,6 +147,15 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
 void MyImageListWidget::stopAnimation()
 {
     m_resetAnimation->stop();
+}
+
+bool MyImageListWidget::isAnimationStart()
+{
+    if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void MyImageListWidget::findSelectItem()
@@ -558,6 +571,7 @@ void ImageItem::setIndex(int index)
 bool ImageItem::index_1(int index)
 {
     if (_index > index) {
+        this->setIndexNow(index);
         _index--;
         return true;
     }
@@ -971,13 +985,11 @@ void TTBContent::updateScreen()
         QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
 
         if (m_nowIndex > -1) {
-            int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
-            int b = m_ItemLoaded.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
-
             if (labelList.isEmpty())
                 return;
 
             labelList.at(0)->setIndexNow(m_nowIndex);
+            m_imgListView->setSelectItem(labelList.at(0));
 
             if (m_lastIndex > -1) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
@@ -999,6 +1011,7 @@ void TTBContent::updateScreen()
             m_preButton_spc->show();
             m_nextButton->show();
             m_nextButton_spc->show();
+            m_imgListView->animationStart(true, 0, 300);
 
 
             if (m_nowIndex == 0) {
@@ -1028,8 +1041,9 @@ void TTBContent::updateScreen()
 
             if (labelList.isEmpty())
                 return;
-            if (m_nowIndex < labelList.size())
+            if (m_nowIndex < labelList.size()) {
                 labelList.at(0)->setIndexNow(m_nowIndex);
+            }
             if (m_lastIndex > -1) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                 if (lastlabelList.isEmpty())
@@ -1080,8 +1094,9 @@ void TTBContent::updateScreen()
         if (m_nowIndex > -1) {
             if (labelList.isEmpty())
                 return;
-            if (m_nowIndex < labelList.size())
+            if (m_nowIndex < labelList.size()) {
                 labelList.at(0)->setIndexNow(m_nowIndex);
+            }
             if (m_lastIndex > -1) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                 if (lastlabelList.isEmpty()) {
@@ -1139,7 +1154,6 @@ void TTBContent::updateScreen()
         m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
     setFixedWidth(m_contentWidth);
-
 }
 
 void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
@@ -1170,6 +1184,7 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
                 if (lable->indexNow() == lable->index()) { //当前已选中
                     lable->setIndex(lable->index() + 1);
                     lable->setIndexNow(lable->indexNow() + 1);
+                    m_imgListView->setSelectItem(lable);
                     m_lastIndex = lable->indexNow();
                     m_nowIndex = lable->indexNow();
 //                    qDebug() << "name: " << lable->objectName() << "index: " << lable->index() << "indexnow: " << lable->indexNow();
@@ -1216,7 +1231,7 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
 
         bfilefind = true;
         m_currentpath = imageItem->_path;
-        //qDebug() << "单击：" << "index: " << index << "indexnow: " << indexNow << "path: " << m_currentpath;
+        qDebug() << "单击：" << "index: " << index << "indexnow: " << indexNow << "path: " << m_currentpath;
         emit imageClicked(index, (index - indexNow));
         emit ttbcontentClicked();
     });
@@ -1363,7 +1378,7 @@ void TTBContent::deleteImage()
 
     emit ttbcontentClicked();
     emit removed();     //删除数据库图片
-    m_imgListView->animationStart(true, 0, 10);
+    m_imgListView->animationStart(true, 0, 300);
 }
 
 void TTBContent::updateFilenameLayout()
@@ -1416,7 +1431,6 @@ void TTBContent::onNextButton()
     if (m_filterTimer->isActive()) {
         return;
     }
-    m_imgListView->animationStart(true, 0, 300);
     int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
 
     //向右加载数据
@@ -1438,7 +1452,6 @@ void TTBContent::onPreButton()
     if (m_filterTimer->isActive()) {
         return;
     }
-    m_imgListView->animationStart(true, 0, 10);
     //向左加载数据
     int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
     if (posX > -32 && posX < 32) {
