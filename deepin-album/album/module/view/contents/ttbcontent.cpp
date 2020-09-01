@@ -106,9 +106,9 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
     if (dynamic_cast<DWidget *>(m_obj) == nullptr) {
         return;
     }
-    if (m_isMoving) {
-        return;
-    }
+//    if (m_isMoving) {
+//        return;
+//    }
     if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
         m_resetAnimation->stop();
     }
@@ -139,7 +139,6 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
     m_resetAnimation->setEasingCurve(QEasingCurve::OutQuad);
     m_resetAnimation->setStartValue(dynamic_cast<DWidget *>(m_obj)->pos());
     m_resetAnimation->setEndValue(QPoint(moveX, dynamic_cast<DWidget *>(m_obj)->pos().y()));
-    qDebug() << "zy------MyImageListWidget::animationStart m_resetAnimation->start()";
     m_resetAnimation->start();
     connect(m_resetAnimation, SIGNAL(finished()), this, SLOT(animationFinished()));
 }
@@ -228,7 +227,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                 animationStart(false, endPos, 800);
             }
         }
-        //animationStart(true, 0, 300);
         if (!m_isMoving) {
             m_resetFinish = false;
             animationStart(true, 0, 300);

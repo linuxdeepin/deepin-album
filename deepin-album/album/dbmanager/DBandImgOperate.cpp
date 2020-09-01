@@ -236,7 +236,7 @@ void DBandImgOperate::getFirst80ImgInfos(DBImgInfoList &infos)
     QSqlQuery query(db);
     query.setForwardOnly(true);
     query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
-                  "FROM ImageTable3 order by Time desc limit 100");
+                  "FROM ImageTable3 order by Time desc limit 50");
     if (! query.exec()) {
         qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
         //emit sigAllImgInfosReady(infos);
