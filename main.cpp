@@ -49,6 +49,8 @@ int main(int argc, char *argv[])
     //非wayland平台需要添加xcb
     if (!Application::isWaylandPlatform()) {
         Application::loadDXcbPlugin();
+    } else {
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell"); //add wayland parameter
     }
 
     Application a(argc, argv);
