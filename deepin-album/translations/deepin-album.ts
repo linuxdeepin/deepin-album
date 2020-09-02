@@ -782,7 +782,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation type="vanished">Image Settings</translation>
     </message>
 </context>
 <context>

@@ -812,7 +812,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>图像设置</translation>
+        <translation type="vanished">图像设置</translation>
     </message>
 </context>
 <context>
