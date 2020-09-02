@@ -132,6 +132,18 @@
         <source>New album</source>
         <translation>New album</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancel</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>
@@ -250,7 +262,7 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Volume</translation>
     </message>
 </context>
 <context>
@@ -279,22 +291,26 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Deleting...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importing...</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Restoring...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Gallery</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Gallery</translation>
+        <translation type="vanished">Gallery</translation>
     </message>
 </context>
 <context>
@@ -312,14 +328,14 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished">days</translation>
+        <translation>days</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation type="vanished">Gallery</translation>
     </message>
 </context>
 <context>
@@ -360,7 +376,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished">Gallery</translation>
+        <translation>Gallery</translation>
     </message>
 </context>
 <context>
@@ -538,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation type="vanished">%1 photo(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -610,23 +626,19 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 photos imported</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 photos imported, %2 photos failed</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 photos deleted</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importing...</translation>
     </message>
 </context>
 <context>
@@ -797,11 +809,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import on </translation>
+        <translation type="vanished">Import on </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -836,6 +856,14 @@
     <message>
         <source>Exit</source>
         <translation>Exit</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Previous</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Next</translation>
     </message>
 </context>
 <context>
@@ -964,7 +992,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Print</translation>
     </message>
 </context>
 <context>
@@ -1054,7 +1082,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Print</translation>
     </message>
 </context>
 </TS>

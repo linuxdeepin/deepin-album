@@ -120,9 +120,10 @@ bool SlideEffect_Circle::prepareFrameAt_EllipseOpen(int frame)
     current_clip_region = QRegion(0, 0, width, height) - region;
     */
     static qreal ab = qreal(width) / qreal(height); //a/b or b/a
-    static int r = sqrt(qreal(width * width + height * height)) * 0.5;
-    int rk = r * k;
-    QRegion E(0.5 * width - rk, 0.5 * height - rk, 2 * rk, 2 * rk, QRegion::Ellipse); //(x, y, w, h)=>center(x+w/2,y+h/2)
+    static int r = static_cast<int>(sqrt(qreal(width * width + height * height)) * 0.5);
+    int rk = static_cast<int>(r * k);
+    QRegion E(static_cast<int>(0.5 * width - rk),
+              static_cast<int>(0.5 * height - rk), 2 * rk, 2 * rk, QRegion::Ellipse); //(x, y, w, h)=>center(x+w/2,y+h/2)
     //transform to an ellipse
     QMatrix m;
     m.translate(width * 0.5, height * 0.5);
@@ -141,9 +142,10 @@ bool SlideEffect_Circle::prepareFrameAt_EllipseClose(int frame)
         return false;
     qreal k = easing_.valueForProgress(progress_);
     static qreal ab = qreal(width) / qreal(height); //a/b or b/a
-    static int r = sqrt(qreal(width * width + height * height)) * 0.5;
-    int rk = r * (1.0 - k);
-    QRegion E(0.5 * width - rk, 0.5 * height - rk, 2 * rk, 2 * rk, QRegion::Ellipse); //(x, y, w, h)=>center(x+w/2,y+h/2)
+    static int r = static_cast<int>(sqrt(qreal(width * width + height * height)) * 0.5);
+    int rk = static_cast<int>(r * (1.0 - k));
+    QRegion E(static_cast<int>(0.5 * width - rk),
+              static_cast<int>(0.5 * height - rk), 2 * rk, 2 * rk, QRegion::Ellipse); //(x, y, w, h)=>center(x+w/2,y+h/2)
     //transform to an ellipse
     QMatrix m;
     m.translate(width * 0.5, height * 0.5);

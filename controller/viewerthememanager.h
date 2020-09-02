@@ -19,16 +19,17 @@
 
 #include <QObject>
 
-class ViewerThemeManager : public QObject {
+class ViewerThemeManager : public QObject
+{
     Q_OBJECT
-    ViewerThemeManager(QObject* parent = 0);
+    ViewerThemeManager(QObject *parent = nullptr);
 public:
     enum AppTheme {
         Dark,
         Light,
     };
 
-    static ViewerThemeManager* instance();
+    static ViewerThemeManager *instance();
 signals:
     void viewerThemeChanged(AppTheme theme);
 public slots:
@@ -36,7 +37,7 @@ public slots:
     void setCurrentTheme(AppTheme theme);
 
 private:
-    static ViewerThemeManager* m_viewerTheme;
-    AppTheme m_currentTheme = AppTheme::Light;
+    static ViewerThemeManager *m_viewerTheme;
+    AppTheme m_currentTheme;
 };
 #endif // VIEWERTHEMEMANAGER_H

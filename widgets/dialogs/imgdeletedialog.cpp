@@ -5,13 +5,12 @@
 #include <DApplicationHelper>
 #include <DSuggestButton>
 
-ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
+ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonlyone)
     : DDialog(parent)
 {
     setModal(true);
     this->setFixedSize(380, 180);
     setContentsMargins(0, 0, 0, 0);
-
     DLabel *m_pic = new DLabel(this);
     QIcon icon = QIcon::fromTheme("deepin-album");     //照片路径
     m_pic->setPixmap(icon.pixmap(QSize(32, 32)));  //图标大小
@@ -24,8 +23,7 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count)
     DWidget *contentWidget = new DWidget(this);
     contentWidget->setContentsMargins(0, 0, 0, 0);
     addContent(contentWidget);
-
-    if (1 == count) {
+    if (1 == count && !bdeleteallonlyone) {
 
         m_label->setText(tr("Are you sure you want to delete this photo from the album?"));
         DPalette pa = DApplicationHelper::instance()->palette(m_label);

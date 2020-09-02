@@ -25,7 +25,7 @@ class Dialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit Dialog(QWidget *parent = 0);
+    explicit Dialog(QWidget *parent = nullptr);
     void showInCenter(QWidget *w);
 };
 

@@ -26,6 +26,7 @@
 #include <QFileInfo>
 #include <QImage>
 #include <QImageReader>
+#include <QtSvg>
 #include <QMimeDatabase>
 #include <QMutexLocker>
 #include <QPixmapCache>
@@ -33,6 +34,7 @@
 #include <QReadWriteLock>
 #include <QUrl>
 #include <QApplication>
+#include <QMovie>
 #include "utils/snifferimageformat.h"
 #include <fstream>
 
@@ -45,7 +47,6 @@ const QImage scaleImage(const QString &path, const QSize &size)
     QImageReader reader(path);
     reader.setAutoTransform(true);
     if (! reader.canRead()) {
-        qDebug() << "Can't read image: " << path;
         return QImage();
     }
 
@@ -87,16 +88,10 @@ bool imageSupportRead(const QString &path)
     // take them here for good.
     QStringList errorList;
     errorList << "X3F";
-
     if (errorList.indexOf(suffix.toUpper()) != -1) {
         return false;
     }
-
-    if (freeimage::isSupportsReading(path))
-        return true;
-    else {
-        return (suffix == "svg");
-    }
+    return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
 }
 
 bool imageSupportSave(const QString &path)
@@ -122,12 +117,19 @@ bool imageSupportSave(const QString &path)
                              << "XPM"
                              << "PPM"
                              << "PGM"
-                             << "X3F";           // Sigma cameras
+                             << "X3F"           // Sigma cameras
+                             << "SVG";          // need support SVG
 
+    //dynamic image can not be supported
+    if (QMovie::supportedFormats().contains(suffix.toLower().toUtf8().data())) {
+        QMovie  movie(path);
+        return movie.frameCount() == 1 ? true : false;
+    }
 
+    //some images that decode slow also should be written.
     if (raws.indexOf(suffix.toUpper()) != -1
-            || QImageReader(path).imageCount() > 1) {
-        return false;
+            || (QImageReader(path).imageCount() > 1 )) {
+        return true;
     } else {
         return freeimage::canSave(path);
     }
@@ -145,8 +147,8 @@ bool rotate(const QString &path, int degree)
 
     int loadFlags = 0;
     int saveFlags = 0;
+    bool bsaved = false;
     FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
-    qDebug() << "fif" << fif << endl;
     switch (int(fif)) {
     case FIF_JPEG:
         loadFlags = JPEG_ACCURATE;          // Load the file with the best quality, sacrificing some speed
@@ -166,32 +168,44 @@ bool rotate(const QString &path, int degree)
         saveFlags = PNG_DEFAULT;   // Save without ZLib compression
         break;
     }
+    //need Qt SVG to deal with svg image
+    const QString suffix = QFileInfo(path).suffix();
+    if (suffix.toUpper().compare("SVG") == 0) {
+//        QMatrix matrix;
+//        matrix.rotate(-degree);
+//        QImage image(path);
+//        image.transformed(matrix, Qt::SmoothTransformation);
+//        QPainter *painter = new QPainter;
+//        painter->drawImage(image.rect(), image);
+//        QSvgGenerator svgrender;
+//        svgrender.setFileName("/tmp/test.svg");
 
-    FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
+    } else {
+        FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
 
-    FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
+        FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
 
-    if (rotated) {
-        // Regenerate thumbnail if it's exits
-        // Image formats that currently support thumbnail saving are
-        // JPEG (JFIF formats), EXR, TGA and TIFF.
-        if (FreeImage_GetThumbnail(dib)) {
-            FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
-            FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
-            FreeImage_SetThumbnail(rotated, rotateThumb);
-            FreeImage_Unload(rotateThumb);
+        if (rotated) {
+            // Regenerate thumbnail if it's exits
+            // Image formats that currently support thumbnail saving are
+            // JPEG (JFIF formats), EXR, TGA and TIFF.
+            if (FreeImage_GetThumbnail(dib)) {
+                FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
+                FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
+                FreeImage_SetThumbnail(rotated, rotateThumb);
+                FreeImage_Unload(rotateThumb);
+            }
         }
+        //write image to cover oringal one after rotating
+        bsaved = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
+
+        FreeImage_Unload(dib);
+        FreeImage_Unload(rotated);
+
+        // The thumbnail should regenerate by caller
+        removeThumbnail(path);
     }
-
-    bool v = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
-
-    FreeImage_Unload(dib);
-    FreeImage_Unload(rotated);
-
-    // The thumbnail should regenerate by caller
-    removeThumbnail(path);
-
-    return v;
+    return bsaved;
 }
 
 /*!
@@ -293,13 +307,6 @@ const QString getOrientation(const QString &path)
  */
 const QImage getRotatedImage(const QString &path)
 {
-//    QImage tImg;
-//    QImageReader reader(path);
-//    reader.setAutoTransform(true);
-//    if (reader.canRead()) {
-//        tImg = reader.read();
-//    }
-
     QImage tImg;
 
     QString format = DetectImageFormat(path);
@@ -402,7 +409,7 @@ const QString thumbnailCachePath()
     return thumbCacheP;
 }
 
-QMutex mutex;
+static QMutex mutex;
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
     QMutexLocker locker(&mutex);
@@ -415,7 +422,6 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     if (QFileInfo(encodePath).exists()) {
         return QPixmap(encodePath);
     } else if (QFileInfo(failEncodePath).exists()) {
-        qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
         return QPixmap();
     } else {
         // Try to generate thumbnail and load it later
@@ -492,8 +498,6 @@ const QString thumbnailPath(const QString &path, ThumbnailType type)
     case ThumbFail:
         tp = cacheP + "/fail/" + md5s + ".png";
         break;
-    default:
-        break;
     }
     return tp;
 }
@@ -568,7 +572,6 @@ const QImage loadTga(QString filePath, bool &success)
 
         //get variables
         vui8Pixels = new std::vector<std::uint8_t>;
-        bool bCompressed;
         std::uint32_t ui32IDLength;
         std::uint32_t ui32PicType;
         std::uint32_t ui32PaletteLength;
@@ -584,7 +587,6 @@ const QImage loadTga(QString filePath, bool &success)
 
         // calculate some more information
         ui32Size = ui32Width * ui32Height * ui32BpP / 8;
-        bCompressed = ui32PicType == 9 || ui32PicType == 10;
         vui8Pixels->resize(ui32Size);
 
         // jump to the data block
@@ -640,9 +642,9 @@ const QImage loadTga(QString filePath, bool &success)
 
         fsPicture.close();
 
-        img = QImage(ui32Width, ui32Height, QImage::Format_RGB888);
+        img = QImage(static_cast<int>(ui32Width), static_cast<int>(ui32Height), QImage::Format_RGB888);
 
-        int pixelSize = ui32BpP == 32 ? 4 : 3;
+        unsigned int pixelSize = ui32BpP == 32 ? 4 : 3;
         //TODO: write direct into img
         for (unsigned int x = 0; x < ui32Width; x++) {
             for (unsigned int y = 0; y < ui32Height; y++) {
@@ -651,7 +653,7 @@ const QImage loadTga(QString filePath, bool &success)
                 int valb = vui8Pixels->at(y * ui32Width * pixelSize + x * pixelSize);
 
                 QColor value(valr, valg, valb);
-                img.setPixelColor(x, y, value);
+                img.setPixelColor(static_cast<int>(x), static_cast<int>(y), value);
             }
         }
 
@@ -675,6 +677,13 @@ bool  checkFileType(const QString &path)
             if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
                 return true;
             }
+        }
+        /**
+         * 2020/4/29
+         * QMimeType能识别的图片类型有限，相册能支持的格式已经不止这些，使用ImageSupporter后替换该函数
+         */
+        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+            return true;
         }
     }
     return false;
@@ -707,12 +716,12 @@ QStringList checkImage(const QString  path)
 
     dir.setNameFilters(sList);
 
-
-    for (int i = 0; i < dir.count(); i++) {
+    int dircount = static_cast<int>(dir.count());
+    for (int i = 0; i < dircount; i++) {
         QString ImageName  = dir[i];
         if (checkFileType(path + QDir::separator() + ImageName)) {
             imagelist << path + QDir::separator() + ImageName;
-            qDebug() << path + QDir::separator() + ImageName;//输出照片名
+
         }
     }
 
@@ -730,6 +739,34 @@ const QSize getImageQSize(const QString &path)
     }
 
     return tSize;
+}
+
+QPixmap getDamagePixmap(bool bLight)
+{
+    static QPixmap pix_light, pix_dark;
+    if (bLight) {
+        if (pix_light.isNull ())
+            pix_light = utils::base::renderSVG (view::LIGHT_DAMAGEICON, QSize(40, 40));
+        return pix_light;
+    } else {
+        if (pix_dark.isNull ())
+            pix_dark = utils::base::renderSVG (view::DARK_DAMAGEICON, QSize(40, 40));
+        return pix_dark;
+    }
+}
+
+
+void *openGiffromPath(const QString &path)
+{
+    return freeimage::openGiffromPath(path);
+}
+int getGifImageCount(void *pGIF)
+{
+    return freeimage::getGifImageCount(pGIF);
+}
+QImage getGifImage(int index, void *pGIF)
+{
+    return freeimage::getGifImage(index, pGIF);
 }
 
 }  // namespace image

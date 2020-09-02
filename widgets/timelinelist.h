@@ -26,7 +26,10 @@ class TimelineList : public DListWidget
     Q_OBJECT
 public:
     explicit TimelineList(QWidget *parent = nullptr);
+    ~TimelineList()
+    {
 
+    }
     void addItemForWidget(QListWidgetItem *aitem);
 protected:
 //    void wheelEvent(QWheelEvent *event);
@@ -44,8 +47,8 @@ public slots:
 private:
     bool has;
     QList<int> yList;
-    int m_scrollbartopdistance = 50;
-    int m_scrollbarbottomdistance = 27;
+    int m_scrollbartopdistance;
+    int m_scrollbarbottomdistance;
 };
 
 #endif // TIMELINELIST_H

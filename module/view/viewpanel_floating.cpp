@@ -41,8 +41,8 @@ void ViewPanel::initSwitchButtons()
 {
     using namespace utils::base;
 
-    DAnchors<DImageButton> pre_button = new DImageButton(this);
-    DAnchors<DImageButton> next_button = new DImageButton(this);
+    DAnchors<DIconButton> pre_button = new DIconButton(this);
+    DAnchors<DIconButton> next_button = new DIconButton(this);
 
     pre_button->setObjectName("PreviousButton");
     next_button->setObjectName("NextButton");
@@ -59,12 +59,12 @@ void ViewPanel::initSwitchButtons()
     pre_button->hide();
     next_button->hide();
 
-    connect(pre_button, &DImageButton::clicked, this, &ViewPanel::showPrevious);
-    connect(next_button, &DImageButton::clicked, this, &ViewPanel::showNext);
+    connect(pre_button, &DIconButton::clicked, this, &ViewPanel::showPrevious);
+    connect(next_button, &DIconButton::clicked, this, &ViewPanel::showNext);
 
 
     connect(this, &ViewPanel::mouseMoved, this, [ = ] {
-        DAnchors<DImageButton> pb = pre_button;
+        DAnchors<DIconButton> pb = pre_button;
         if (m_info && m_info->visibleRegion().isNull())
         {
             pb.setLeftMargin(0);
@@ -117,7 +117,7 @@ void ViewPanel::initScaleLabel()
     connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
 
     connect(m_viewB, &ImageView::scaled, this, [ = ](qreal perc) {
-        label->setText(QString("%1%").arg(int(perc)));
+        label->setText(QString("%1%").arg(QString::number(perc, 'f', 2)));
         if (perc > 100) {
             emit dApp->signalM->enterScaledMode(true);
         } else {
@@ -152,4 +152,5 @@ void ViewPanel::initNavigation()
     connect(m_viewB, &ImageView::hideNavigation, this, [ = ]() {
         m_nav->setVisible(false);
     });
+
 }

@@ -8,11 +8,9 @@
 #include "searchview/searchview.h"
 #include "controller/commandline.h"
 #include "controller/exporter.h"
+#include "controller/dbusclient.h"
 #include "widgets/dialogs/imginfodialog.h"
 #include "module/slideshow/slideshowpanel.h"
-//#include "plugin.h"
-//#include "plugintest.h"
-#include <QPluginLoader>
 
 #include <DMainWindow>
 #include <QListWidget>
@@ -30,7 +28,6 @@
 #include <QButtonGroup>
 #include <DSuggestButton>
 #include <DProgressBar>
-
 
 #define DEFAULT_WINDOWS_WIDTH   1300
 #define DEFAULT_WINDOWS_HEIGHT  640
@@ -56,22 +53,23 @@ class MainWindow : public DMainWindow, public ImageEngineImportObject
 
 public:
     explicit MainWindow();
-    ~MainWindow();
+    ~MainWindow() override;
 
     bool imageImported(bool success) override;
     void initConnections();
+    void initDBus() ;//lmh0407
+    //初始化UI
     void initUI();
     void initWaitDialog();
     void initShortcut();
     void initTitleBar();
     void initCentralWidget();
-//    void initStatusBar();
     void setWaitDialogColor();
+    void setTitleBarThem(DGuiApplicationHelper::ColorType theme);             //更新状态栏主题
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-//    void themeTypeChanged();
 
 private:
     void initShortcutKey();
@@ -86,7 +84,6 @@ private:
 
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
-//    void timerEvent(QTimerEvent *e)Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
 signals:
@@ -94,12 +91,15 @@ signals:
     bool sigImageImported(bool success);
 
 private slots:
+
     void allPicBtnClicked();
+
     void timeLineBtnClicked();
     void albumBtnClicked();
+
     void onCreateAlbum(QStringList imagepaths);
 #if 1
-    void onViewCreateAlbum(QString imgpath);
+    void onViewCreateAlbum(QString imgpath, bool bmodel = true);
 #endif
     void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);
@@ -109,50 +109,44 @@ private slots:
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
     void onLoadingFinished();
 private:
-//    Ui::MainWindow *ui;
-//    QListWidget *m_listWidget;
 
-    int m_allPicNum;
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
     bool m_bImport = false;
 
     QWidget *m_titleBtnWidget;
-    QWidget *m_ImgWidget;
     DMenu *m_pTitleBarMenu;
-//    DPushButton* m_pAllPicBtn;
-//    DPushButton* m_pTimeLineBtn;
-//    DPushButton* m_pAlbumBtn;
+
     DSearchEdit *m_pSearchEdit;
     QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
-    AlbumView *m_pAlbumview;
-    AllPicView *m_pAllPicView;
-    TimeLineView *m_pTimeLineView;
-    SearchView *m_pSearchView;
-    SlideShowPanel *m_slidePanel;
-//    DStatusBar* m_pStatusBar;
-//    DLabel* m_pAllPicNumLabel;
-//    DSlider* m_pSlider;
+
+    AlbumView *m_pAlbumview;                    //相册照片界面视图
+    AllPicView *m_pAllPicView;                  //所有照片界面视图
+    TimeLineView *m_pTimeLineView;              //时间线界面视图
+    SearchView *m_pSearchView;                  //搜索界面视图
+    SlideShowPanel *m_slidePanel;               //幻灯片播放视图
+
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
     int m_backIndex;
     int m_backIndex_fromSlide;
-    int m_pSliderPos = 2;
+    int m_pSliderPos;       //滑动条步进
     DPushButton *m_pItemButton;
 
     QButtonGroup *btnGroup;
     DPushButton *m_pAllPicBtn;
     DPushButton *m_pTimeBtn;
     DPushButton *m_pAlbumBtn;
-//    DSuggestButton *m_pAllPicBtn;
-//    DSuggestButton *m_pTimeBtn;
-//    DSuggestButton *m_pAlbumBtn;
-//    int timer;
+
     DDialog  *m_waitdailog;
-    DProgressBar *m_importBar = nullptr;
-    DLabel *m_waitlabel = nullptr;
-    DLabel *m_countLabel = nullptr;
+    DProgressBar *m_importBar;
+    DLabel *m_waitlabel;
+    DLabel *m_countLabel;
+
+    QString       m_SearchKey;      //搜索框查询信息
+
+    dbusclient *m_pDBus;//LMH0407DBus
 };
 
 #endif // MAINWINDOW_H

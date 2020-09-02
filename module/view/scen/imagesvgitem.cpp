@@ -7,82 +7,77 @@
 #include "dsvgrenderer.h"
 #include "qdebug.h"
 
-#include "private/qobject_p.h"
-#include "private/qgraphicsitem_p.h"
+//#include "private/qobject_p.h"
+//#include "private/qgraphicsitem_p.h"
 
 QT_BEGIN_NAMESPACE
 
-class ImageSvgItemPrivate : public QGraphicsItemPrivate
-{
-public:
-    Q_DECLARE_PUBLIC(ImageSvgItem)
-
-    ImageSvgItemPrivate()
-        : renderer(nullptr), shared(false)
-    {
-    }
-
-    void init(QGraphicsItem *parent)
-    {
-        Q_Q(ImageSvgItem);
-        q->setParentItem(parent);
-        renderer = new DSvgRenderer(q);
-//        QObject::connect(renderer, SIGNAL(repaintNeeded()),
-//                         q, SLOT(_q_repaintItem()));
-        q->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
-        q->setMaximumCacheSize(QSize(1024, 768));
-    }
-
-//    void _q_repaintItem()
+//class ImageSvgItemPrivate : public QGraphicsItemPrivate
+//{
+//public:
+//    Q_DECLARE_PUBLIC(ImageSvgItem)
+//    ImageSvgItemPrivate()
+//        : renderer(nullptr), shared(false)
 //    {
-//        q_func()->update();
 //    }
 
-    inline void updateDefaultSize()
-    {
-        QRectF bounds;
-        if (elemId.isEmpty()) {
-            bounds = QRectF(QPointF(0, 0), renderer->defaultSize());
-        } else {
-            bounds = renderer->boundsOnElement(elemId);
-        }
-        if (boundingRect.size() != bounds.size()) {
-            q_func()->prepareGeometryChange();
-            boundingRect.setSize(bounds.size());
-        }
-    }
+//    void init(QGraphicsItem *parent)
+//    {
+//        Q_Q(ImageSvgItem);
+//        q->setParentItem(parent);
+//        renderer = new DSvgRenderer(q);
+//        q->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+//        q->setMaximumCacheSize(QSize(1024, 768));
+//    }
 
-    DSvgRenderer *renderer;
-    QRectF boundingRect;
-    bool shared;
-    QString elemId;
-};
+//    inline void updateDefaultSize()
+//    {
+//        QRectF bounds;
+//        if (elemId.isEmpty()) {
+//            bounds = QRectF(QPointF(0, 0), renderer->defaultSize());
+//        } else {
+//            bounds = renderer->boundsOnElement(elemId);
+//        }
+//        if (boundingRect.size() != bounds.size()) {
+//            q_func()->prepareGeometryChange();
+//            boundingRect.setSize(bounds.size());
+//        }
+//    }
+
+//    DSvgRenderer *renderer;
+//    QRectF boundingRect;
+//    bool shared;
+//    QString elemId;
+//};
 
 ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
-    : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
+    : QGraphicsObject(parent)/*QGraphicsObject(*new ImageSvgItemPrivate(), nullptr)*/
 {
-    Q_D(ImageSvgItem);
-    d->init(parent);
+    setParentItem(parent);
+    m_renderer = new DSvgRenderer(this);
+    setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    setMaximumCacheSize(QSize(1024, 768));
 }
 
 ImageSvgItem::ImageSvgItem(const QString &fileName, QGraphicsItem *parent)
-    : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
+    : QGraphicsObject(parent)/*QGraphicsObject(*new ImageSvgItemPrivate(), nullptr)*/
 {
-    Q_D(ImageSvgItem);
-    d->init(parent);
-    d->renderer->load(fileName);
-    d->updateDefaultSize();
+    setParentItem(parent);
+    m_renderer = new DSvgRenderer(this);
+    setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    setMaximumCacheSize(QSize(1024, 768));
+    m_renderer->load(fileName);
+    updateDefaultSize();
 }
 
 DSvgRenderer *ImageSvgItem::renderer() const
 {
-    return d_func()->renderer;
+    return m_renderer;
 }
 
 QRectF ImageSvgItem::boundingRect() const
 {
-    Q_D(const ImageSvgItem);
-    return d->boundingRect;
+    return m_boundingRect;
 }
 
 static void qt_graphicsItem_highlightSelected(
@@ -143,15 +138,13 @@ void ImageSvgItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 {
 //    Q_UNUSED(option);
     Q_UNUSED(widget);
-
-    Q_D(ImageSvgItem);
-    if (!d->renderer->isValid())
+    if (!m_renderer->isValid())
         return;
 
-    if (d->elemId.isEmpty())
-        d->renderer->render(painter, d->boundingRect);
+    if (m_elemId.isEmpty())
+        m_renderer->render(painter, m_boundingRect);
     else
-        d->renderer->render(painter, d->elemId, d->boundingRect);
+        m_renderer->render(painter, m_elemId, m_boundingRect);
 
     if (option->state & QStyle::State_Selected)
         qt_graphicsItem_highlightSelected(this, painter, option);
@@ -164,39 +157,51 @@ int ImageSvgItem::type() const
 
 void ImageSvgItem::setMaximumCacheSize(const QSize &size)
 {
-    QGraphicsItem::d_ptr->setExtra(QGraphicsItemPrivate::ExtraMaxDeviceCoordCacheSize, size);
+    Q_UNUSED(size);
+    //QGraphicsItem::d_ptr->setExtra(QGraphicsItemPrivate::ExtraMaxDeviceCoordCacheSize, size);
     update();
 }
 
 QSize ImageSvgItem::maximumCacheSize() const
 {
-    return QGraphicsItem::d_ptr->extra(QGraphicsItemPrivate::ExtraMaxDeviceCoordCacheSize).toSize();
+    return QSize();//QGraphicsItem::d_ptr->extra(QGraphicsItemPrivate::ExtraMaxDeviceCoordCacheSize).toSize();
+}
+
+void ImageSvgItem::updateDefaultSize()
+{
+    QRectF bounds;
+    if (m_elemId.isEmpty()) {
+        bounds = QRectF(QPointF(0, 0), m_renderer->defaultSize());
+    } else {
+        bounds = m_renderer->boundsOnElement(m_elemId);
+    }
+    if (m_boundingRect.size() != bounds.size()) {
+        prepareGeometryChange();
+        m_boundingRect.setSize(bounds.size());
+    }
 }
 
 void ImageSvgItem::setElementId(const QString &id)
 {
-    Q_D(ImageSvgItem);
-    d->elemId = id;
-    d->updateDefaultSize();
+    m_elemId = id;
+    updateDefaultSize();
     update();
 }
 
 QString ImageSvgItem::elementId() const
 {
-    Q_D(const ImageSvgItem);
-    return d->elemId;
+    return m_elemId;
 }
 
 void ImageSvgItem::setSharedRenderer(DSvgRenderer *renderer)
 {
-    Q_D(ImageSvgItem);
-    if (!d->shared)
-        delete d->renderer;
+    if (!m_shared)
+        delete m_renderer;
 
-    d->renderer = renderer;
-    d->shared = true;
+    m_renderer = renderer;
+    m_shared = true;
 
-    d->updateDefaultSize();
+    updateDefaultSize();
 
     update();
 }

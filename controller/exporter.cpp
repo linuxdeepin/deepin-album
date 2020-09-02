@@ -38,6 +38,7 @@ Exporter *Exporter::instance()
 
 Exporter::Exporter(QObject *parent)
     : QObject(parent)
+    , m_exportImageDialog(nullptr)
 {
     m_exportImageDialog = new CExportImageDialog();
 }
@@ -60,7 +61,6 @@ void Exporter::exportImage(const QStringList imagePaths)
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
 //        QString str = info.suffix().toLower();
 //        if (str.isEmpty()) {
@@ -107,7 +107,7 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                 emit dApp->signalM->sigExporting(albumPaths[j]);
 
                 if (!isSucceed) {
-                    qDebug() << "Export failed";
+                    // qDebug() << "Export failed";
                 }
             } else {
                 failcount++;
@@ -138,15 +138,26 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
         QString exportdir = exportDialog.directory().absolutePath();
 
         int failcount = 0;
+        bool bnewpath = false;
         for (int j(0); j < imagePaths.length(); j++) {
             if (utils::image::imageSupportRead(imagePaths[j])) {
                 QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(imagePaths[j])
                                                                            .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());
+                QFileInfo fileinfo(savePath);
+                if (fileinfo.exists()) {
+                    if (!fileinfo.isDir()) {
+                        m_exportImageDialog->setPicFileName(savePath.mid(savePath.lastIndexOf("/") + 1));
+                        m_exportImageDialog->showQuestionDialog(savePath,imagePaths[j]);
+                        continue;
+                    }
+                }
 
                 bool isSucceed = QFile::copy(imagePaths[j], savePath);
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
-                    qDebug() << "Export failed";
+                    failcount ++;
+                }else{
+                    bnewpath =  true;
                 }
 
             } else {
@@ -157,7 +168,8 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
         if ( failcount == imagePaths.length()) {
             emit dApp->signalM->ImgExportFailed();
         } else {
-            emit dApp->signalM->ImgExportSuccess();
+            if(bnewpath)
+                emit dApp->signalM->ImgExportSuccess();
             emit dApp->signalM->sigRestoreStatus();
         }
     }
@@ -188,7 +200,6 @@ QString Exporter::getOrderFormat(QString defaultFormat)
         else
             allFormat = QString("%1%2;;").arg(allFormat).arg(i.value());
 
-        qDebug() << i.key() << ": " << i.value();
         ++i;
     }
 

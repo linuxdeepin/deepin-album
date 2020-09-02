@@ -6,9 +6,11 @@
 #include <DWidgetUtil>
 #include <DApplicationSettings>
 #include <DLog>
+#include <QMessageBox>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
+
 
 QUrl UrlInfo(QString path)
 {
@@ -41,9 +43,11 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
+    QTime t;
+    t.start();
+
     Application::loadDXcbPlugin();
     Application a(argc, argv);
-
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     //  a.setAttribute(Qt::AA_EnableHighDpiScaling);
     //a.setAttribute(Qt::AA_ForceRasterWidgets);
@@ -83,34 +87,11 @@ int main(int argc, char *argv[])
                 break;
             }
         }
-//        } else {
-//            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-//                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-//                    bneedexit = false;
-//                    break;
-//                }
-//            }
-//        }
-//        if (!filepath.endsWith("jpg") &&
-//                !filepath.endsWith("jpeg") &&
-//                !filepath.endsWith("bmp") &&
-//                !filepath.endsWith("png") &&
-//                !filepath.endsWith("ppm") &&
-//                !filepath.endsWith("xbm") &&
-//                !filepath.endsWith("xpm") &&
-//                !filepath.endsWith("gif")) {
-//            exit(0);
-//        }
     }
 
     if ("" != filepath && bneedexit) {
         exit(0);
     }
-
-    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
-        exit(0);
-    }
-
 
     if (!bneedexit) {
         if (bfirstopen) {
@@ -120,23 +101,17 @@ int main(int argc, char *argv[])
     //save theme
     DApplicationSettings savetheme;
 
-
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
+//    qDebug() << "设置单例前耗时：" << t1.elapsed();
+    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
+        exit(0);
+    }
 
-
-//    QImage* pimg = new QImage();
-
-//    if(argc > 1)
-//    {
-//        for(int i = 0; i < argc - 1; i++)
-//        {
-//            if(!pimg->load(argv[i + 1]))
-//            {
-//                exit(0);
-//            }
-//        }
-//    }
+    // LMH0420判断是否相同进程启动
+    if (a.isRunning()) {
+        return 0;
+    }
 
     ImageEngineApi::instance(&a);
     MainWindow w;
@@ -144,8 +119,10 @@ int main(int argc, char *argv[])
 //    w.resize(1300, 848);
     w.show();
     Dtk::Widget::moveToCenter(&w);
+    qDebug() << "相册启动总耗时：" << t.elapsed();
 
     if (bneedexit)
         bfirstopen = false;
+
     return a.exec();
 }

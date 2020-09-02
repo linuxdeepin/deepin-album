@@ -65,7 +65,8 @@ SOURCES += \
     widgets/cexportimagedialog.cpp \
     albumview/leftlistview.cpp \
     albumview/albumimagebutton.cpp \
-    dtktest.cpp
+    dtktest.cpp \
+    albumview/waitdevicedialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -86,7 +87,8 @@ HEADERS += \
     widgets/cexportimagedialog.h \
     albumview/leftlistview.h \
     albumview/albumimagebutton.h \
-    dtktest.h
+    dtktest.h \
+    albumview/waitdevicedialog.h
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications
@@ -99,6 +101,7 @@ desktop.files = deepin-album.desktop
 
 icon_files.path = /usr/share/icons/hicolor/scalable/apps
 icon_files.files = $$PWD/resources/images/other/deepin-album.svg
+
 
 INSTALLS += target desktop icon_files
 
@@ -118,4 +121,6 @@ CONFIG(release, debug|release) {
     dtk_translations.files = $$PWD/translations/*.qm
     INSTALLS += dtk_translations
 }
+
+DISTFILES +=
 

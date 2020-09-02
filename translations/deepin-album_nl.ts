@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="nl">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,10 +97,6 @@
         <translation>Importeren naar:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Schijf</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importeren</translation>
     </message>
@@ -129,6 +127,18 @@
     <message>
         <source>New album</source>
         <translation>Nieuw album</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuleren</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -285,14 +295,18 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galerij</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerij</translation>
+        <translation type="vanished">Galerij</translation>
     </message>
 </context>
 <context>
@@ -317,7 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerij</translation>
+        <translation type="vanished">Galerij</translation>
     </message>
 </context>
 <context>
@@ -536,7 +550,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(&apos;s)</translation>
+        <translation type="vanished">%1 foto(&apos;s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -595,10 +609,6 @@
         <translation>Instellingen</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Enkele foto&apos;s zijn niet geïmporteerd</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Foto&apos;s importeren</translation>
     </message>
@@ -621,10 +631,6 @@
     <message>
         <source>Importing...</source>
         <translation>Bezig met importeren...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -795,11 +801,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importeren naar </translation>
+        <translation type="vanished">Importeren naar </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +848,14 @@
     <message>
         <source>Exit</source>
         <translation>Afsluiten</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Vorige</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Volgende</translation>
     </message>
 </context>
 <context>

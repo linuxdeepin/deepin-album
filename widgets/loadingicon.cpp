@@ -22,8 +22,6 @@ LoadingIcon::LoadingIcon()
 {
     setStyleSheet("background:red");
     updateIconPath();
-    int a =0;
-    a = 5;
     setPictureSequence(m_iconPaths, true);
     setFixedSize(40, 40);
     setSpeed(40);

@@ -25,26 +25,21 @@ class NavigationWidget : public QWidget
     Q_OBJECT
 
 public:
-    NavigationWidget(QWidget *parent = 0);
+    NavigationWidget(QWidget *parent = nullptr);
     void setImage(const QImage &img);
     void setRectInImage(const QRect &r);
     void setAlwaysHidden(bool value);
     bool isAlwaysHidden() const;
-
     QPoint transImagePos(QPoint pos);
-
 Q_SIGNALS:
     void requestMove(int x, int y);
-
 protected:
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
-
 private:
     void tryMoveRect(const QPoint &p);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
 private:
     bool m_hide = false;
     qreal m_imageScale = 1.0;

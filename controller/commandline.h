@@ -17,6 +17,8 @@
 #ifndef COMMANDLINE_H
 #define COMMANDLINE_H
 
+#include "imageengine/imageengineapi.h"
+
 #include <QObject>
 #include <QCommandLineParser>
 #include <QWidget>
@@ -28,11 +30,11 @@ class CommandLine : public QWidget
 public:
     static CommandLine *instance();
     bool processOption(QStringList &paslist);
-    ~CommandLine();
+    ~CommandLine() override;
+    //设置管理线程的对象
+    void setThreads(ImageEngineImportObject *obj);
     void viewImage(const QString &path, const QStringList &paths);
-
     QWidget *m_pwidget;
-
 private:
     void addOption(const CMOption *option);
     void showHelp();
@@ -46,6 +48,7 @@ private:
 private:
     static CommandLine *m_commandLine;
     QCommandLineParser m_cmdParser;
+    ImageEngineImportObject *m_obj;
 };
 
 #endif // COMMANDLINE_H

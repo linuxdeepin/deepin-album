@@ -33,10 +33,11 @@
 #include <QResizeEvent>
 #include <QShortcut>
 #include <QStyleFactory>
+#include <QScreen>
 
 namespace {
 
-const int DELAY_START_INTERVAL = 500;
+//const int DELAY_START_INTERVAL = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 const QColor DARK_BG_COLOR = QColor(27, 27, 27);
 const QColor LIGHT_BG_COLOR = QColor(255, 255, 255);
@@ -49,14 +50,16 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
     , m_startTid(0)
+    , slideshowbottombar(new SlideShowBottomBar(this))
 {
     setFocusPolicy(Qt::StrongFocus);
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_bgColor = DARK_BG_COLOR;
     initeffectPlay();
-    initMenu();
     initShortcut();
     initFileSystemMonitor();
+
+    initMenu();
     setMouseTracking(true);
 //    m_cancelslideshow = new DIconButton(this);
 //    m_cancelslideshow->setIcon(QIcon(":/resources/exit_slider.svg"));
@@ -88,11 +91,11 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &SlideShowPanel::onThemeChanged);
 
-    slideshowbottombar = new SlideShowBottomBar(this);
+
     connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
         m_player->startPrevious();
     });
-//    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [=]{
+//    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [ = ] {
 
 //    });
     connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
@@ -110,22 +113,22 @@ QString SlideShowPanel::moduleName()
 
 QWidget *SlideShowPanel::toolbarBottomContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 QWidget *SlideShowPanel::toolbarTopLeftContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 QWidget *SlideShowPanel::toolbarTopMiddleContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 QWidget *SlideShowPanel::extensionPanelContent()
 {
-    return NULL;
+    return nullptr;
 }
 
 void SlideShowPanel::paintEvent(QPaintEvent *e)
@@ -143,14 +146,15 @@ void SlideShowPanel::paintEvent(QPaintEvent *e)
 
 void SlideShowPanel::resizeEvent(QResizeEvent *e)
 {
-    m_player->setFrameSize(e->size().width() * devicePixelRatioF(),
-                           e->size().height() * devicePixelRatioF());
+    m_player->setFrameSize(static_cast<int>(e->size().width() * devicePixelRatioF()),
+                           static_cast<int>(e->size().height() * devicePixelRatioF()));
     ModulePanel::resizeEvent(e);
 }
 
 void SlideShowPanel::backToLastPanel()
 {
     m_player->stop();
+    m_img = QImage();
     showNormal();
 
     if (FROM_MAINWINDOW_POPVIEW == m_vinfo.viewMainWindowID) {
@@ -217,26 +221,34 @@ void SlideShowPanel::appendAction(int id, const QString &text, const QString &sh
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
     m_menu->addAction(ac);
+    if (id == IdPlayOrPause) {
+        connect(slideshowbottombar, &SlideShowBottomBar::showPause, ac, [ = ] {
+            ac->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
+        });
+    }
+
 }
 
 void SlideShowPanel::initMenu()
 {
-//    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
 
-//    m_menu = new QMenu;
-//    m_menu->setStyle(QStyleFactory::create("dlight"));
+    m_menu = new DMenu;
+    m_menu->setStyle(QStyleFactory::create("dlight"));
 
-//    QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP,
-//                                         "Slide show").toString();
-//    stopSc.replace(" ", "");
-//    appendAction(IdStopslideshow, tr("End show"),
-//                  stopSc);
-//    appendAction(IdPlayOrPause, tr("Pause/Play"),
+    QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP,
+                                         "Slide show").toString();
+    stopSc.replace(" ", "");
+//    appendAction(IdPlayOrPause, tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()),
 //                 QKeySequence(Qt::Key_Space).toString());
-//    connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
-//    connect(this, &SlideShowPanel::customContextMenuRequested, this, [=] {
-//        m_menu->popup(QCursor::pos());
-//    });
+    appendAction(IdPlayOrPause, tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()),
+                 stopSc);
+    appendAction(IdStopslideshow, tr(slideshowbottombar->m_cancelButton->toolTip().toStdString().c_str()),
+                 stopSc);
+    connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
+    connect(this, &SlideShowPanel::customContextMenuRequested, this, [ = ] {
+        m_menu->popup(QCursor::pos());
+    });
 }
 
 void SlideShowPanel::onMenuItemClicked(QAction *action)
@@ -247,7 +259,8 @@ void SlideShowPanel::onMenuItemClicked(QAction *action)
         backToLastPanel();
         break;
     case IdPlayOrPause:
-        m_player->pause();
+        slideshowbottombar->m_playpauseButton->clicked();
+        action->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
         break;
     default:
         break;
@@ -296,7 +309,7 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
         emit dApp->signalM->gotoPanel(this);
 
         showFullScreen();
-    } else if (event->timerId() == m_hideCursorTid) {
+    } else if (event->timerId() == m_hideCursorTid && qApp->modalWindow() == nullptr) {
         this->setCursor(Qt::BlankCursor);
     }
 
@@ -305,23 +318,20 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
 void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e)
     backToLastPanel();
 }
 
 void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 {
-    backToLastPanel();
+    Q_UNUSED(e)
+    // backToLastPanel();
 }
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
-//    if (!(e->buttons() | Qt::NoButton)) {
+    Q_UNUSED(e)
     this->setCursor(Qt::ArrowCursor);
-//        emit mouseHoverMoved();
-//    } else {
-//        this->setCursor(Qt::ClosedHandCursor);
-//        emit transformChanged();
-//    }
 
     if (window()->isFullScreen()) {
         QPoint pos = mapFromGlobal(QCursor::pos());
@@ -365,6 +375,8 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     }
 
     m_vinfo = vinfo;
+    //m_current;
+    //m_current = vinfo.paths.indexOf(vinfo.path);
     m_player->setImagePaths(vinfo.paths);
     m_player->setCurrentImage(vinfo.path);
 
@@ -403,12 +415,29 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
         emit dApp->signalM->updatePauseButton();
     }
 
-    int nParentWidth = QApplication::desktop()->screenGeometry().width();
-    int nParentHeight = QApplication::desktop()->screenGeometry().height();
+    int nParentWidth = QGuiApplication::primaryScreen()->geometry().width();
+    int nParentHeight = QGuiApplication::primaryScreen()->geometry().height();
     slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
 
     m_player->start();
+
+    //更新右键菜单文案   xiaolong 2020/06/03
+    auto actionlist = m_menu->actions();
+    for (auto &action : actionlist) {
+        if (action->property("MenuID").toInt() == IdPlayOrPause) {
+            action->setText(tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()));
+        }
+    }
+
 //    emit dApp->signalM->gotoPanel(this);
+
+    //加入显示动画效果，以透明度0-1显示，动态加载，视觉效果掩盖左上角展开
+    QPropertyAnimation *animation = new QPropertyAnimation(window(), "windowOpacity");
+    animation->setDuration(50);
+    animation->setEasingCurve(QEasingCurve::Linear);
+    animation->setStartValue(0);
+    animation->setEndValue(1);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
     showFullScreen();
 }
 
@@ -479,6 +508,7 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
 
 void SlideShowPanel::keyPressEvent(QKeyEvent *e)
 {
+    Q_UNUSED(e)
 //    if (Qt::Key_Space == e->key()) {
 //        m_player->pause();
 //    }

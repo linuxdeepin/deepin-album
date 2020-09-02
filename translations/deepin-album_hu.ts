@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,10 +97,6 @@
         <translation>Importálás ide:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Lemez</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importálás</translation>
     </message>
@@ -129,6 +127,18 @@
     <message>
         <source>New album</source>
         <translation>Új album</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Törlés</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -277,22 +287,26 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galéria</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galéria</translation>
+        <translation type="vanished">Galéria</translation>
     </message>
 </context>
 <context>
@@ -317,7 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galéria</translation>
+        <translation type="vanished">Galéria</translation>
     </message>
 </context>
 <context>
@@ -536,7 +550,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kép(ek)</translation>
+        <translation type="vanished">%1 kép(ek)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -595,10 +609,6 @@
         <translation>Beállítások</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Néhány kép nem lett importálva</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Képek importálása</translation>
     </message>
@@ -608,23 +618,19 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -795,11 +801,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importálás</translation>
+        <translation type="vanished">Importálás</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +848,14 @@
     <message>
         <source>Exit</source>
         <translation>Kilépés</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Előző</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Következő</translation>
     </message>
 </context>
 <context>

@@ -31,7 +31,7 @@ class ExtensionPanel : public DDialog
 {
     Q_OBJECT
 public:
-    static ExtensionPanel* getInstance(QWidget *parent);
+    static ExtensionPanel *getInstance(QWidget *parent);
     void setContent(QWidget *content);
     void updateRectWithContent();
 //    void moveWithAnimation(int x, int y);
@@ -48,7 +48,6 @@ private:
     QColor m_coverBrush;
     QWidget *m_content;
     QVBoxLayout *m_contentLayout;
-
     QVBoxLayout *m_mainLayout {nullptr};
     QScrollArea *m_scrollArea {nullptr};
 };

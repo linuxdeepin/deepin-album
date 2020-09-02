@@ -28,6 +28,8 @@
 #include <QMimeType>
 #include <QMutex>
 
+#include <QThread>
+
 static QMutex freeimage_mutex;
 
 namespace utils {
@@ -45,7 +47,6 @@ FREE_IMAGE_FORMAT fFormat(const QString &path)
     if (fif == FIF_UNKNOWN) {
         fif = FreeImage_GetFIFFromFilename(pc);
     }
-
     return fif;
 }
 
@@ -62,6 +63,7 @@ const QString getFileFormat(const QString &path)
     //use mimedatabase get image mimetype
     QFileInfo fi(path);
     QString suffix = fi.suffix();
+    return suffix;
     QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
     QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
@@ -75,33 +77,28 @@ const QString getFileFormat(const QString &path)
 FIBITMAP *readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
     const FREE_IMAGE_FORMAT fif = fFormat(path);
-
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
         const QByteArray ba = path.toUtf8();
         const char *pc = ba.data();
         FIBITMAP *dib = FreeImage_Load(fif, pc, flags);
         return dib;
     }
-
-    return NULL;
+    return nullptr;
 }
-
 
 QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
 {
     QMap<QString, QString> mdMap;  // key-data
-    FITAG *tag = NULL;
-    FIMETADATA *mdhandle = NULL;
+    FITAG *tag = nullptr;
+    FIMETADATA *mdhandle = nullptr;
     mdhandle = FreeImage_FindFirstMetadata(model, dib, &tag);
     if (mdhandle) {
         do {
             mdMap.insert(FreeImage_GetTagKey(tag),
                          FreeImage_TagToString(model, tag));
         } while (FreeImage_FindNextMetadata(mdhandle, &tag));
-
         FreeImage_FindCloseMetadata(mdhandle);
     }
-
     return mdMap;
 }
 
@@ -112,12 +109,12 @@ const QDateTime getDateTime(const QString &path, bool createTime = true)
     if (datas.isEmpty()) {
         QFileInfo info(path);
         if (createTime) {
-            return info.created();
+            return info.birthTime();
+//            return info.created();
         } else {
             return info.lastModified();
         }
     }
-
     if (createTime) {
         return utils::base::stringToDateTime(datas["DateTimeOriginal"]);
     } else {
@@ -132,7 +129,6 @@ const QString getOrientation(const QString &path)
     if (datas.isEmpty()) {
         return QString();
     }
-
     return datas["Orientation"];
 }
 
@@ -154,6 +150,9 @@ QString DateToString(QDateTime ot)
 QMap<QString, QString> getAllMetaData(const QString &path)
 {
     QMutexLocker mutex(&freeimage_mutex);
+
+    //qDebug() << "threadid:" << QThread::currentThread() << "getAllMetaData locking ....";
+
     FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
     QMap<QString, QString> admMap;
     admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
@@ -162,50 +161,56 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
     admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
     admMap.unite(getMetaData(FIMD_IPTC, dib));
-
+    //移除秒　　2020/6/5 DJH
+    if (admMap.contains("DateTime")) {
+        QDateTime time = QDateTime::fromString(admMap["DateTime"], "yyyy:MM:dd hh:mm:ss");
+        admMap["DateTime"] = time.toString("yyyy/MM/dd HH:mm");
+    }
     // Basic extended data
     QFileInfo info(path);
-//    QImageReader reader(path);
     if (admMap.isEmpty()) {
-        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
+        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
     } else {
         // ReFormat the date-time
         using namespace utils::base;
         // Exif version 0231
         QString qsdto = admMap.value("DateTimeOriginal");
         QString qsdtd = admMap.value("DateTimeDigitized");
-        QDateTime ot = stringToDateTime(qsdto);
-        QDateTime dt = stringToDateTime(qsdtd);
+        QDateTime ot = QDateTime::fromString(qsdto, "yyyy/MM/dd HH:mm");
+        QDateTime dt = QDateTime::fromString(qsdtd, "yyyy/MM/dd HH:mm");
         if (! ot.isValid()) {
             // Exif version 0221
             QString qsdt = admMap.value("DateTime");
-            ot = stringToDateTime(qsdt);
+            ot = QDateTime::fromString(qsdt, "yyyy/MM/dd HH:mm");
             dt = ot;
 
             // NO valid date information
             if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm:dd"));
+//                admMap.insert("DateTimeOriginal", info.created().toString("yyyy/MM/dd HH:mm:dd"));
+                admMap.insert("DateTimeOriginal", info.birthTime().toString("yyyy/MM/dd HH:mm"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy/MM/dd HH:mm"));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm:dd"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm:dd"));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy/MM/dd HH:mm"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy/MM/dd HH:mm"));
 
     }
+
 //    // The value of width and height might incorrect
-//    int w = reader.size().width();
-//    w = w > 0 ? w : FreeImage_GetWidth(dib);
-//    int h = reader.size().height();
-//    h = h > 0 ? h : FreeImage_GetHeight(dib);
-//    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
+    QImageReader reader(path);
+    int w = reader.size().width();
+    w = w > 0 ? w : static_cast<int>(FreeImage_GetWidth(dib));
+    int h = reader.size().height();
+    h = h > 0 ? h : static_cast<int>(FreeImage_GetHeight(dib));
+    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
+
     admMap.insert("FileName", info.fileName());
     admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
-
     FreeImage_Unload(dib);
-
+    //qDebug() <<  QThread::currentThread() << "getAllMetaData lock end";
     return admMap;
 }
 
@@ -213,14 +218,12 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
 {
     const QByteArray pb = path.toUtf8();
     const char *pc = pb.data();
-    FIBITMAP *dib = NULL;
+    FIBITMAP *dib = nullptr;
     int flags = 0;              // default load flag
-
     FREE_IMAGE_FORMAT fif = fFormat(path);
     if (fif == FIF_UNKNOWN) {
-        return NULL;
+        return nullptr;
     }
-
     // for JPEG images, we can speedup the loading part
     // Using LibJPEG downsampling feature while loading the image...
     if (fif == FIF_JPEG) {
@@ -228,7 +231,7 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
         flags |= size << 16;
         // Load the dib
         dib = FreeImage_Load(fif, pc, flags);
-        if (! dib) return NULL;
+        if (! dib) return nullptr;
     } else {
         // Any cases other than the JPEG case: load the dib ...
         if (fif == FIF_RAW || fif == FIF_TIFF) {
@@ -236,12 +239,11 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
             // or default to RGB 24-bit ...
             flags = RAW_PREVIEW;
             dib = FreeImage_Load(fif, pc, flags);
-            if (!dib) return NULL;
+            if (!dib) return nullptr;
         } else {
-            return NULL;
+            return nullptr;
         }
     }
-
     // create the requested thumbnail
     FIBITMAP *thumbnail = FreeImage_MakeThumbnail(dib, size, TRUE);
     FreeImage_Unload(dib);
@@ -251,14 +253,12 @@ FIBITMAP *makeThumbnail(const QString &path, int size)
 bool isSupportsReading(const QString &path)
 {
     const FREE_IMAGE_FORMAT fif = fFormat(path);
-
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
 }
 
 bool isSupportsWriting(const QString &path)
 {
     FREE_IMAGE_FORMAT fif = fFormat(path);
-
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
 }
 
@@ -276,7 +276,7 @@ bool canSave(FIBITMAP *dib, const QString &path)
             // standard bitmap type
             // check that the plugin has sufficient writing
             // and export capabilities ...
-            WORD bpp = FreeImage_GetBPP(dib);
+            WORD bpp = static_cast<WORD>(FreeImage_GetBPP(dib));
             bCanSave = (FreeImage_FIFSupportsWriting(fif) &&
                         FreeImage_FIFSupportsExportBPP(fif, bpp));
         } else {
@@ -308,7 +308,6 @@ bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &path, int flag = 0)
     if (fif != FIF_UNKNOWN && canSave(dib, path)) {
         bSuccess = FreeImage_Save(fif, dib, pc, flag);
     }
-
     return (bSuccess == TRUE) ? true : false;
 }
 
@@ -327,9 +326,8 @@ QImage FIBitmapToQImage(FIBITMAP *dib)
 {
     if (!dib || FreeImage_GetImageType(dib) != FIT_BITMAP)
         return noneQImage();
-    int width  = FreeImage_GetWidth(dib);
-    int height = FreeImage_GetHeight(dib);
-
+    int width = static_cast<int>(FreeImage_GetWidth(dib));
+    int height = static_cast<int>(FreeImage_GetHeight(dib));
     switch (FreeImage_GetBPP(dib)) {
     case 1: {
         QImage result(width, height, QImage::Format_Mono);
@@ -397,6 +395,48 @@ QImage FIBitmapToQImage(FIBITMAP *dib)
     return noneQImage();
 }
 
+/**
+ * @brief openGiffromPath
+ * @param[in]  path
+ * @return void *
+ * @author LMH
+ * @time 2020/05/08
+ * 用freeimage打开Gif图片
+ */
+void *openGiffromPath(const QString &path)
+{
+    FREE_IMAGE_FORMAT fif = FIF_GIF;
+    FIMULTIBITMAP *pGIF = FreeImage_OpenMultiBitmap(fif, path.toStdString().c_str(), 0, 1, 0, GIF_PLAYBACK);
+    return pGIF;
+}
+/**
+ * @brief getGifImageCount
+ * @param[in]  pGIF
+ * @return int
+ * @author LMH
+ * @time 2020/05/08
+ * 返回gif一共的帧数
+ */
+int getGifImageCount(void *pGIF)
+{
+    return FreeImage_GetPageCount(static_cast<FIMULTIBITMAP *>(pGIF));
+}
+/**
+ * @brief getGifImage
+ * @param[in]  index
+ * @param[in]  pGIF
+ * @return QImage
+ * @author LMH
+ * @time 2020/05/08
+ * 返回gif某一帧数的图片
+ */
+QImage getGifImage(int index, void *pGIF)
+{
+    FIBITMAP *tmpMap = FreeImage_LockPage(static_cast<FIMULTIBITMAP *>(pGIF), index);
+    QImage image = freeimage::FIBitmapToQImage(tmpMap);
+    FreeImage_UnlockPage(static_cast<FIMULTIBITMAP *>(pGIF), tmpMap, 1);
+    return image;
+}
 }  // namespace freeimage
 
 }  // namespace image

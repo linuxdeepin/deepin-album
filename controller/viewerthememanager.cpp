@@ -23,10 +23,10 @@ const QString THEME_GROUP = "APP";
 const QString THEME_TEXT = "AppTheme";
 }
 
-ViewerThemeManager * ViewerThemeManager::m_viewerTheme = NULL;
+ViewerThemeManager *ViewerThemeManager::m_viewerTheme = nullptr;
 ViewerThemeManager *ViewerThemeManager::instance()
 {
-    if (m_viewerTheme == NULL) {
+    if (m_viewerTheme == nullptr) {
         m_viewerTheme = new ViewerThemeManager;
     }
 
@@ -34,14 +34,17 @@ ViewerThemeManager *ViewerThemeManager::instance()
 }
 
 ViewerThemeManager::ViewerThemeManager(QObject *parent) : QObject(parent)
+    , m_currentTheme(AppTheme::Light)
 {
 }
 
-ViewerThemeManager::AppTheme ViewerThemeManager::getCurrentTheme(){
+ViewerThemeManager::AppTheme ViewerThemeManager::getCurrentTheme()
+{
     return m_currentTheme;
 }
 
-void ViewerThemeManager::setCurrentTheme(AppTheme theme) {
+void ViewerThemeManager::setCurrentTheme(AppTheme theme)
+{
     m_currentTheme = theme;
     if (m_currentTheme == Dark)
         dApp->setter->setValue(THEME_GROUP, THEME_TEXT, QVariant("Dark"));

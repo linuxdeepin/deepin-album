@@ -28,12 +28,13 @@ public:
 protected:
     void paintEvent(QPaintEvent *event)
     {
-
+        Q_UNUSED(event);
         qDebug() << "x is " << x();
         qDebug() << "pos.x is " << pos().x();
     }
     void moveEvent(QMoveEvent *event)
     {
+        Q_UNUSED(event);
         qDebug() << "moveEvent x is " << x();
         qDebug() << "moveEvent pos.x is " << pos().x();
     }
@@ -43,13 +44,14 @@ class TimeLineView : public DWidget, public ImageEngineImportObject
 {
 public:
     TimeLineView();
-    ~TimeLineView()
+    ~TimeLineView() override
     {
         void clearAndStop();
     }
 
     bool imageImported(bool success) override
     {
+        Q_UNUSED(success);
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
@@ -93,13 +95,16 @@ public:
     void restorePicNum();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 
+private slots:
+    //更新布局（旋转图片时）
+    void updataLayout(QStringList updatePathList);
 private:
-    TimelineList *m_mainListWidget = nullptr;
-    QLayout *m_mainLayout = nullptr;
+    TimelineList *m_mainListWidget;
+    QLayout *m_mainLayout;
     QList<QString> m_timelines;
-    QWidget *m_dateItem = nullptr;
+    QWidget *m_dateItem;
     DCommandLinkButton *pSuspensionChose;
-    DWidget *pTimeLineViewWidget;
+    QWidget *pTimeLineViewWidget;
     ImportView *pImportView;
     QMap<ThumbnailListView *, QStringList> selpicQmap;
     int allnum;
@@ -113,15 +118,15 @@ private:
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
 
-    bool m_ctrlPress = false;
+    bool m_ctrlPress;
 
     int lastClickedIndex;
-    int lastRow = -1;
-    bool lastChanged = false;
-    DWidget *fatherwidget = nullptr;
+    int lastRow;
+    bool lastChanged;
+    QWidget *fatherwidget;
 
 public:
-    DStackedWidget *m_pStackedWidget;
+    QStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
     SearchView *pSearchView;
 
@@ -130,7 +135,7 @@ public:
     int m_index;
     int m_selPicNum;
     DSpinner *m_spinner;
-    int currentTimeLineLoad = 0;
+    int currentTimeLineLoad;
 };
 
 #endif // TIMELINEVIEW_H

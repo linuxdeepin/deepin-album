@@ -21,15 +21,18 @@
 #include <QPaintEvent>
 #include <QMouseEvent>
 
+#include <DLabel>
+
 #include "controller/viewerthememanager.h"
 #include "widgets/themewidget.h"
 
-class ThumbnailWidget : public ThemeWidget {
+class ThumbnailWidget : public ThemeWidget
+{
     Q_OBJECT
 public:
     ThumbnailWidget(const QString &darkFile, const QString
-                    &lightFile, QWidget* parent = 0);
-    ~ThumbnailWidget();
+                    &lightFile, QWidget *parent = nullptr);
+    ~ThumbnailWidget() override;
 signals:
     void mouseHoverMoved();
 #ifdef LITE_DIV
@@ -46,10 +49,10 @@ private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     bool m_isDefaultThumbnail = false;
-    QLabel* m_thumbnailLabel;
+    QLabel *m_thumbnailLabel;
     QPixmap m_logo;
 #ifndef LITE_DIV
-    QLabel* m_tips;
+    QLabel *m_tips;
 #endif
     QPixmap m_defaultImage;
     QColor m_inBorderColor;

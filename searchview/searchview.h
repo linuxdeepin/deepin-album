@@ -34,7 +34,7 @@ class SlideShowButton : public DPushButton
 {
     Q_OBJECT
 public:
-    explicit SlideShowButton(DWidget *parent = 0);
+    explicit SlideShowButton(DWidget *parent = nullptr);
     void mSetText(QString text);
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -75,7 +75,8 @@ private:
     DLabel *m_pNoSearchResultLabel;
     DWidget *m_pSearchResultView;
     DWidget *m_searchResultViewbody;
-    DBlurEffectWidget *m_searchResultViewTop;
+    DWidget *m_searchResultViewTop;
+    //DWidget *m_searchResultViewTop;
 //    DPushButton *m_pSlideShowBtn;
     SlideShowButton *m_pSlideShowBtn;
     DLabel *m_pSearchResultLabel;
@@ -83,7 +84,7 @@ private:
     DLabel *pNoResult;
     DLabel *pLabel1;
     QString m_albumName;
-
+    int m_currentFontSize;
 public:
     int m_searchPicNum;
     ThumbnailListView *m_pThumbnailListView;

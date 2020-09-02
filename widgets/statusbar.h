@@ -32,7 +32,7 @@ public:
     void initConnections();
     void onUpdateAllpicsNumLabel();
     void resizeEvent(QResizeEvent *e) override;
-
+    void paintEvent(QPaintEvent *event) override;
 public:
     DLabel *m_pAllPicNumLabel;
     DSlider *m_pSlider;
@@ -47,7 +47,9 @@ public:
     int interval;
     int pic_count;
 private:
-    int i = 0;
+    int m_index;
+    bool m_bcustalbum = false;
+    QString m_alubm;
 
 
 protected:

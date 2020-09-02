@@ -29,11 +29,8 @@ const int ANIMATION_DURATION = 500;
 const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 
 BlurFrame::BlurFrame(QWidget *parent)
-    : DBlurEffectWidget(parent),
-      m_borderColor(Qt::transparent),
-      m_borderRadius(0),
-      m_borderWidth(0),
-      m_coverBrush(QBrush(QColor(0, 0, 0, 200)))
+    : DBlurEffectWidget(parent), m_borderColor(Qt::transparent), m_borderRadius(0),
+      m_borderWidth(0), m_coverBrush(QBrush(QColor(0, 0, 0, 200))), m_moveEnable(false)
 {
     setRadius(50);
 }
@@ -113,22 +110,26 @@ void BlurFrame::keyPressEvent(QKeyEvent *e)
     DBlurEffectWidget::keyPressEvent(e);
 }
 
-void BlurFrame::mousePressEvent(QMouseEvent *event) {
+void BlurFrame::mousePressEvent(QMouseEvent *event)
+{
     m_dragPos = event->globalPos() - mapToGlobal(QPoint(0, 0));
 
     DBlurEffectWidget::mousePressEvent(event);
 }
 
-void BlurFrame::setMoveEnable(bool move) {
+void BlurFrame::setMoveEnable(bool move)
+{
     m_moveEnable = move;
 }
-void BlurFrame::mouseMoveEvent(QMouseEvent *event) {
+void BlurFrame::mouseMoveEvent(QMouseEvent *event)
+{
     if (m_moveEnable)
         this->move(event->globalPos() - m_dragPos);
     DBlurEffectWidget::mouseMoveEvent(event);
 }
 
-void BlurFrame::mouseReleaseEvent(QMouseEvent *event) {
+void BlurFrame::mouseReleaseEvent(QMouseEvent *event)
+{
     DBlurEffectWidget::mouseReleaseEvent(event);
 }
 

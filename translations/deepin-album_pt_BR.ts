@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pt_BR">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -128,7 +130,19 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Novo álbum</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancelar</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -285,14 +299,18 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation>Restaurando...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeria</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation type="vanished">Galeria</translation>
     </message>
 </context>
 <context>
@@ -317,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeria</translation>
+        <translation type="vanished">Galeria</translation>
     </message>
 </context>
 <context>
@@ -472,11 +490,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -536,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
+        <translation type="vanished">%1 foto(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -621,10 +639,6 @@
     <message>
         <source>Importing...</source>
         <translation>Importando...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -779,7 +793,7 @@
     </message>
     <message>
         <source>Unselect</source>
-        <translation>Não Selecionado</translation>
+        <translation>Desmarcar</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -795,11 +809,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importar em</translation>
+        <translation type="vanished">Importar em</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +856,14 @@
     <message>
         <source>Exit</source>
         <translation>Sair</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Próximo</translation>
     </message>
 </context>
 <context>
@@ -871,11 +901,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -914,11 +944,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -1012,11 +1042,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>

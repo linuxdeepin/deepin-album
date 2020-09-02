@@ -18,13 +18,15 @@
 #define LOCKWIDGET_H
 
 #include <QLabel>
+#include <DLabel>
 #include "widgets/themewidget.h"
 
-class LockWidget : public ThemeWidget {
+class LockWidget : public ThemeWidget
+{
     Q_OBJECT
 public:
     LockWidget(const QString &darkFile, const QString &lightFile,
-                  QWidget* parent = 0);
+               QWidget *parent = nullptr);
     ~LockWidget();
 
 public slots:

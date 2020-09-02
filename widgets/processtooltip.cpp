@@ -33,7 +33,7 @@ const QColor LIGHT_COVER_COLOR = QColor(255, 255, 255, 230);
 }  // namespace
 
 ProcessTooltip::ProcessTooltip(QWidget *parent)
-    : BlurFrame(parent)
+    : BlurFrame(parent), m_icon(nullptr), m_message(nullptr)
 {
     setBorderRadius(4);
     setBorderWidth(1);
@@ -54,14 +54,14 @@ ProcessTooltip::ProcessTooltip(QWidget *parent)
     layout->setSpacing(12);
     layout->addWidget(m_icon);
     layout->addWidget(m_message);
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            [=](ViewerThemeManager::AppTheme theme) {
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, [ = ](ViewerThemeManager::AppTheme theme) {
         onThemeChanged(theme);
         m_message->update();
     });
 }
 
-void ProcessTooltip::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void ProcessTooltip::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_borderColor = DARK_BORDER_COLOR;
         m_coverColor = DARK_COVER_COLOR;
@@ -77,14 +77,11 @@ void ProcessTooltip::showTooltip(const QString &message, bool success)
 {
     if (success) {
         m_icon->setPixmap(QPixmap(":/resources/common/images/success_tick.png"));
-    }
-    else {
+    } else {
         m_icon->setPixmap(QPixmap(":/resources/common/images/failure_cross.png"));
     }
     m_message->setText(message);
-
     this->resize(sizeHint().width(), height());
     this->show();
-
     QTimer::singleShot(HIDE_INTERVAL, this, SLOT(deleteLater()));
 }

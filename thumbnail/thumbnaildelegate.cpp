@@ -38,10 +38,17 @@ namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
 
+const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
+const int NotSupportedOrDamagedHeigh = 40;
+
 ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     : QStyledItemDelegate(parent), m_delegatetype(type)
 {
     m_imageTypeStr = IMAGE_DEFAULTTYPE;
+
+    selectedPixmapLight = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
+    selectedPixmapDark = utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28));
+
 }
 
 
@@ -59,19 +66,14 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
     painter->save();
     const ItemData data = itemData(index);
-//    if (data.path.isEmpty()) return;
-
-    bool selected = false;
-
+    bool selected = data.isSelected;
     if (/*(option.state & QStyle::State_MouseOver) &&*/
         (option.state & QStyle::State_Selected) != 0) {
         selected = true;
     }
-
     painter->setRenderHints(QPainter::HighQualityAntialiasing |
                             QPainter::SmoothPixmapTransform |
                             QPainter::Antialiasing);
-
     QRect backgroundRect = option.rect;
     if (AllPicViewType == m_delegatetype) {
         if ("First" == data.firstorlast) {
@@ -92,112 +94,160 @@ void ThumbnailDelegate::paint(QPainter *painter,
     } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
         if ("First" == data.firstorlast) {
             QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 130);
+            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 134);
             //绘制
             QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-            backgroundRect.setY(backgroundRect.y() + 130);
+            backgroundRect.setY(backgroundRect.y() + 134);
         }
         if ("Last" == data.firstorlast) {
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }
     }
-
+    //选中阴影框
+//    QBrush  backbrush;
     if (selected) {
         QPainterPath backgroundBp;
-        backgroundBp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
         painter->setClipPath(backgroundBp);
 
-        painter->fillRect(backgroundRect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
-
+        QBrush  shadowbrush;
+//        QBrush  backbrush;
         QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
-            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+//            backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
+            shadowbrush = QBrush(QColor("#DEDEDE"));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
-            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
+//            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
+//            backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR2);
+//            shadowbrush = QBrush(QColor("#1E1E1E"));
+            shadowbrush = QBrush(QColor("#4F4F4F"));
         }
-        painter->drawPixmap(backgroundRect, selectedPixmap);
+        painter->fillRect(backgroundRect, shadowbrush);
+//        painter->drawPixmap(backgroundRect, selectedPixmap);
+//        painter->drawPath(backgroundBp);
+
+        //绘制选中默认背景
+        QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
+        QPainterPath backBp;
+        backBp.addRoundedRect(backRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(backBp);
+        painter->fillRect(backRect, shadowbrush);
     }
 
-    float fwidth = ((float)backgroundRect.height()) / ((float)data.baseHeight) * ((float)data.baseWidth) / ((float)backgroundRect.width());
-    float fheight = ((float)backgroundRect.width()) / ((float)data.baseWidth) * ((float)data.baseHeight) / ((float)backgroundRect.height());
+
+    float fwidth = (backgroundRect.height()) / (data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
+    float fheight = (backgroundRect.width()) / (data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
     QRect pixmapRect;
-    if ((data.width > data.imgWidth + 12) && fheight <= 3) {
+    if ((data.width > data.imgWidth + 16) && fheight <= 3) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
         pixmapRect.setWidth(data.imgWidth);
     } else {
-        pixmapRect.setX(backgroundRect.x() + 6);
-        pixmapRect.setWidth(backgroundRect.width() - 12);
+        if (data.bNotSupportedOrDamaged) {
+            pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
+            pixmapRect.setWidth(NotSupportedOrDamagedWidth);
+        } else {
+            pixmapRect.setX(backgroundRect.x() + 8);
+            pixmapRect.setWidth(backgroundRect.width() - 16);
+        }
     }
-    if ((data.height > data.imgHeight + 12) && fwidth <= 1.5) {
+    if ((data.height > data.imgHeight + 16) && (fwidth <= 1.5f)) {
         pixmapRect.setY(backgroundRect.y() + (data.height - data.imgHeight) / 2);
         pixmapRect.setHeight(data.imgHeight);
     } else {
-        pixmapRect.setY(backgroundRect.y() + 6);;
-        pixmapRect.setHeight(backgroundRect.height() - 12);
+        if (data.bNotSupportedOrDamaged) {
+            pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
+            pixmapRect.setHeight(NotSupportedOrDamagedHeigh);
+        } else {
+            pixmapRect.setY(backgroundRect.y() + 8);;
+            pixmapRect.setHeight(backgroundRect.height() - 16);
+        }
     }
+    //2020/6/9 DJH UI 透明图片背景
+    QBrush transparentbrush;
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType) {
+        transparentbrush = QBrush(QColor("#FFFFFF"));
+    }
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        transparentbrush = QBrush(QColor("#252525"));
+        painter->fillRect(backgroundRect, transparentbrush);
+
+        QColor c("#000000");
+        c.setAlphaF(0.2);
+        transparentbrush = QBrush(c);
+    }
+    QRect transparentRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
+    QPainterPath transparentBp;
+    transparentBp.addRoundedRect(transparentRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+    painter->setClipPath(transparentBp);
+    painter->fillRect(transparentRect, transparentbrush);
 
     QPainterPath bp1;
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    if (fwidth > 1.5) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), /*dApp->m_imagemap.value(data.path)*/data.image.scaled(((float)pixmapRect.height()) / ((float)data.baseHeight) * data.baseWidth, pixmapRect.height()));
+    if (fwidth > 1.5f) {
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled((pixmapRect.height()) / (data.baseHeight) * data.baseWidth, pixmapRect.height()));
     } else if (fheight > 3) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), /*dApp->m_imagemap.value(data.path)*/data.image.scaled(pixmapRect.width(), ((float)pixmapRect.width()) / ((float)data.baseWidth) * data.baseHeight));
+        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(pixmapRect.width(), (pixmapRect.width()) / (data.baseWidth) * data.baseHeight));
     } else {
-        painter->drawPixmap(pixmapRect, /*dApp->m_imagemap.value(data.path)*/data.image);
+        painter->drawPixmap(pixmapRect, data.image);
     }
+    //绘制剩余天数
     if (COMMON_STR_TRASH == m_imageTypeStr) {
-
         painter->setPen(QColor(85, 85, 85, 170));
-//        QBrush brush;
-
-        painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-        int m_Width = painter->fontMetrics().width(data.remainDays);
-//        int m_Height = painter->fontMetrics().height();
-
+        //字符串的像素宽度
+        const int m_Width = painter->fontMetrics().width(data.remainDays);
         painter->setBrush(QBrush(QColor(85, 85, 85, 170)));
-//        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - 40, pixmapRect.y() + pixmapRect.height() - 18, 48, 16, 8, 8);
-        painter->drawRoundedRect(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 28, m_Width + 4, 20, 8, 8);
-        painter->setPen(QColor(255, 255, 255));
+        QString str(data.remainDays);
+        QFontMetrics Text(str);
 
-//        qDebug() << "m_Width      " << m_Width << endl;
-        painter->drawText(pixmapRect.x() + pixmapRect.width() - m_Width - 4, pixmapRect.y() + pixmapRect.height() - 13, data.remainDays);
+        //2020/3/13-xiaolong
+        int textwidth = m_Width + 6;        //阴影图框
+        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
+        int rectwidth = pixmapRect.width(); //缩略图宽度
+        if (textwidth > rectwidth) //容纳文字像素的宽度大于缩略图宽度
+            textwidth = rectwidth - 4;
+        int tempcha = (rectwidth - textwidth > 4) ? (rectwidth - textwidth - 4) : 4;
+        int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
+        //文字背景圆角矩形框弧度，与字号相关
+        int radious = 6;
+        if (textheight < 14)
+            radious = 4;
+        painter->drawRoundedRect(posx, pixmapRect.y() + pixmapRect.height() - textheight - 4 - 2, textwidth, textheight + 2, radious, radious);
+        painter->setPen(QColor(255, 255, 255));
+        if (m_Width - textwidth > 0)
+            str = Text.elidedText(str, Qt::ElideRight, textwidth);
+        painter->drawText(posx + 3, pixmapRect.y() + pixmapRect.height() - 4 - 2, str);
     }
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         QPixmap favPixmap;
         favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
-
         QRect favRect(pixmapRect.x() + pixmapRect.width() - 20 - 13, pixmapRect.y() + pixmapRect.height() - 20 - 10, 20, 20);
-
         painter->drawPixmap(favRect, favPixmap);
     }
 
+    //绘制选中图标
     if (selected) {
         QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
-            selectedPixmap = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
+            selectedPixmap = selectedPixmapLight;
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
-            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28));
+            selectedPixmap = selectedPixmapDark;
         }
-        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 28, backgroundRect.y(), 28, 28);
+//        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 28, backgroundRect.y(), 28, 28);
+        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 30, backgroundRect.y() + 4, 28, 28);
         QPainterPath selectedBp;
         selectedBp.addRoundedRect(selectedRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(selectedBp);
-
         painter->drawPixmap(selectedRect, selectedPixmap);
     }
-//    if ("Last" == data.firstorlast) {
-//        QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-//        FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y() + backgroundRect.height(), backgroundRect.width(), 27);
-//        //绘制
-//        QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-//    }
     painter->restore();
 }
 
@@ -250,30 +300,23 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     if (datas.length() >= 11) {
         data.firstorlast = datas[10].toString();
     }
+    data.isSelected = index.data(Qt::UserRole).toBool();
+    if (datas.length() >= 12) {
+        data.bNotSupportedOrDamaged = datas[11].toBool();
+    }
     return data;
 }
 
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-    qDebug() << "option:" << option << endl;
+    Q_UNUSED(model);
+    if (!index.isValid())
+        return false;
     QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 20, 20);
-
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
-//    qDebug() << "rect+++++++++++++++++" << rect << endl;
-//    qDebug() << "pMouseEvent->pos()+++++++++++++" << pMouseEvent->pos() << endl;
-//    qDebug() << "rect.contains(pMouseEvent->pos()" << rect.contains(pMouseEvent->pos()) << endl;
-//    qDebug() << " rect.contains(QPoint(pMouseEvent->pos().x(), pMouseEvent->pos().y() - 20)" << rect.contains(pMouseEvent->x(), pMouseEvent->y() + 20) << endl;
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
-//        if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->pos())) {
-//            emit sigCancelFavorite(index);
-//        }
-//        if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {
-//            emit sigCancelFavorite(index);
-//        }
-
         if (event->type() == QEvent::MouseButtonPress) {
             const ItemData data = itemData(index);
-
             bool blast = false;
             if (AllPicViewType == m_delegatetype) {
                 if ("Last" == data.firstorlast) {
@@ -293,9 +336,7 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
             } else if (blast && event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {
                 emit sigCancelFavorite(index);
             }
-
         }
     }
-
-    return QStyledItemDelegate::editorEvent(event, model, option, index);
+    return false;
 }

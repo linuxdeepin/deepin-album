@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fi">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,16 +97,12 @@
         <translation>Tuo kohteeseen:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Levy</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Tuo</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">Päivät</translation>
+        <translation type="vanished">päivää</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -129,6 +127,18 @@
     <message>
         <source>New album</source>
         <translation>Uusi albumi</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Peru</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -285,14 +295,18 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galleria</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -317,7 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -536,7 +550,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kuvaa</translation>
+        <translation type="vanished">%1 kuvaa</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -595,10 +609,6 @@
         <translation>Asetukset</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Joitakin valokuvia ei ole tuotu</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Tuo kuvat</translation>
     </message>
@@ -621,10 +631,6 @@
     <message>
         <source>Importing...</source>
         <translation>Tuodaan...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -795,11 +801,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Tuo päälle</translation>
+        <translation type="vanished">Tuo päälle</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +848,14 @@
     <message>
         <source>Exit</source>
         <translation>Poistu</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Edellinen</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Seuraava</translation>
     </message>
 </context>
 <context>

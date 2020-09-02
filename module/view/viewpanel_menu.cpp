@@ -35,8 +35,9 @@
 #include "widgets/dialogs/imgdeletedialog.h"
 
 namespace {
-
-const int SWITCH_IMAGE_DELAY = 500;
+//LMH 500改200
+const int SWITCH_IMAGE_DELAY = 200;     //上一张下一张时间间隔
+const int DELETE_IMAGE_DELAY = 400;     //删除时间间隔
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const int VIEW_MAINWINDOW_POPVIEW = 4;
 
@@ -68,13 +69,14 @@ enum MenuItemId {
     IdDisplayInFileManager,
     IdImageInfo,
     IdSubMenu,
+    IdDrawingBoard//lmh0407
 };
 
 }  // namespace
 
 void ViewPanel::initPopupMenu()
 {
-    m_menu = new DMenu;
+    m_menu = new QMenu;
     connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
         if (! m_filepathlist.isEmpty()
 #ifdef LITE_DIV
@@ -92,7 +94,7 @@ void ViewPanel::initPopupMenu()
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
-        if (this && this->isVisible())
+        if (/*this && */this->isVisible())
         {
             updateMenuContent();
         }
@@ -140,7 +142,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     switch (MenuItemId(id)) {
     case IdFullScreen:
     case IdExitFullScreen:
-        toggleFullScreen();
+        if (m_bFirstFullScreen)
+            emit dApp->signalM->hideImageView();
+        else {
+            toggleFullScreen();
+        }
         break;
     case IdStartSlideShow: {
         auto vinfo = m_vinfo;
@@ -169,6 +175,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     }
+    case IdDrawingBoard: {
+        emit dApp->signalM->sigDrawingBoard(QStringList(path));
+        break;
+    }
 
 #if 1
     //添加到相册
@@ -180,18 +190,18 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             }
             DBManager::instance()->insertIntoAlbum(album, QStringList(path));
         } else {
-            emit dApp->signalM->viewModeCreateAlbum(path);
+            emit dApp->signalM->viewCreateAlbum(path, false);
         }
     }
     break;
     //收藏
     case IdAddToFavorites: {
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
     }
     break;
     //取消收藏
     case IdRemoveFromFavorites: {
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path));
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
     }
     break;
     //导出
@@ -265,17 +275,15 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdRotateCounterclockwise:
         rotateImage(false);
         break;
-    case IdSetAsWallpaper:
+    case IdSetAsWallpaper: {
+        qDebug() << "SettingWallpaper 1";
         dApp->wpSetter->setWallpaper(path);
         break;
+    }
     case IdDisplayInFileManager:
         emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
-//        if (m_isInfoShowed)
-//            emit dApp->signalM->hideExtensionPanel();
-//        else
-        //emit dApp->signalM->showExtensionPanel();
         emit dApp->signalM->showImageInfo(path);
         // Update panel info
         m_info->setImagePath(path);
@@ -352,7 +360,7 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
 #if 1
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath)) {
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite", "Ctrl+Shift+K"));    //取消收藏
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), ss("favorite", "Ctrl+K"));       //收藏
@@ -396,11 +404,12 @@ void ViewPanel::updateMenuContent()
 
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
     appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Alt+Return"));
+    // appendAction(IdDrawingBoard, tr("Draw"), ss("Draw", ""));
 }
 #if 1
-QMenu *ViewPanel::createAblumMenu()
+DMenu *ViewPanel::createAblumMenu()
 {
-    QMenu *am = new QMenu(tr("Add to album"));
+    DMenu *am = new DMenu(tr("Add to album"));
 
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(COMMON_STR_FAVORITES);
@@ -433,6 +442,12 @@ void ViewPanel::initShortcut()
     m_dt = new QTimer(this);
     m_dt->setSingleShot(true);
     m_dt->setInterval(SWITCH_IMAGE_DELAY);
+
+    // Delay image toggle delete
+    m_deletetimer = new QTimer(this);
+    m_deletetimer->setSingleShot(true);
+    m_deletetimer->setInterval(DELETE_IMAGE_DELAY);
+
     QShortcut *sc = nullptr;
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
@@ -448,11 +463,7 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-//        if (! dt->isActive())
-//        {
-//            dt->start();
         showNext();
-//        }
     });
 
 // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)

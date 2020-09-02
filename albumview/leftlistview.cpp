@@ -6,6 +6,8 @@
 #include "utils/baseutils.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/exporter.h"
+#include "imageengine/imageengineapi.h"
+#include "dialogs/albumcreatedialog.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <DFontSizeManager>
@@ -14,9 +16,8 @@
 namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
-const int ITEM_SPACING_ZERO = 0;
-const int LEFT_VIEW_WIDTH_172 = 172;
-const int LEFT_VIEW_LISTITEM_WIDTH_140 = 140;
+const int LEFT_VIEW_WIDTH_180 = 180;
+const int LEFT_VIEW_LISTITEM_WIDTH_160 = 160;
 const int LEFT_VIEW_LISTITEM_HEIGHT_40 = 40;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
@@ -28,11 +29,15 @@ QString ss(const QString &text)
 }
 };
 
-LeftListView::LeftListView(DWidget *parent): DWidget(parent)
+LeftListView::LeftListView(DWidget *parent)
+    : DWidget(parent), m_pPhotoLibLabel(nullptr), m_pPhotoLibListView(nullptr)
+    , m_pCustomizeLabel(nullptr), m_pAddListBtn(nullptr), m_pCustomizeListView(nullptr)
+    , m_pMountLabel(nullptr), m_pMountListView(nullptr), m_pMenu(nullptr)
+    , m_pMountWidget(nullptr)
 {
     m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
     m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
-
+    m_ItemCurrentDataType = 0;
     initUI();
     initMenu();
     initConnections();
@@ -40,90 +45,18 @@ LeftListView::LeftListView(DWidget *parent): DWidget(parent)
 
 void LeftListView::initConnections()
 {
-    connect(m_pPhotoLibListView, &DListWidget::pressed, this, [ = ](QModelIndex index) {
-        qDebug() << "m_pPhotoLibListView, &DListWidget::pressed";
-        m_pCustomizeListView->clearSelection();
-        m_pMountListView->clearSelection();
-        updateAlbumItemsColor();
-
-        if (m_pPhotoLibListView->currentItem()) {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
-            item->newAlbumStatus();
-
-            if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
-                m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
-                m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
-            } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
-                m_ItemCurrentName = COMMON_STR_TRASH;
-                m_ItemCurrentType = COMMON_STR_TRASH;
-            } else {
-                m_ItemCurrentName = COMMON_STR_FAVORITES;
-                m_ItemCurrentType = COMMON_STR_FAVORITES;
-            }
-        }
-
-        m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
-        m_pMountListView->setFocusPolicy(Qt::NoFocus);
-        m_pPhotoLibListView->setFocus();
-        emit itemClicked();
-    });
-
-    connect(m_pCustomizeListView, &DListWidget::pressed, this, [ = ] {
-        qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
-        m_pPhotoLibListView->clearSelection();
-        m_pMountListView->clearSelection();
-        updateAlbumItemsColor();
-
-        if (m_pCustomizeListView->currentItem())
-        {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
-            item->newAlbumStatus();
-
-            m_ItemCurrentName = item->m_albumNameStr;
-        }
-
-        m_ItemCurrentType = COMMON_STR_CUSTOM;
-
-        m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
-        m_pMountListView->setFocusPolicy(Qt::NoFocus);
-        m_pCustomizeListView->setFocus();
-        emit itemClicked();
-    });
-
-    connect(m_pMountListView, &DListWidget::pressed, this, [ = ] {
-        qDebug() << "m_pMountListView, &DListWidget::pressed";
-        m_pPhotoLibListView->clearSelection();
-        m_pCustomizeListView->clearSelection();
-        updateAlbumItemsColor();
-
-        if (m_pMountListView->currentItem())
-        {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
-            item->newAlbumStatus();
-
-            m_ItemCurrentName = item->m_albumNameStr;
-        }
-
-        m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
-
-        m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
-        m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
-
-        m_pMountListView->setFocus();
-        emit itemClicked();
-    });
+    connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onPhotoLibListViewPressed);
+    connect(m_pCustomizeListView, &DListWidget::pressed, this, &LeftListView::onCustomListViewPressed);
+    connect(m_pMountListView, &DListWidget::pressed, this, &LeftListView::onMountListViewPressed);
 
     connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, [ = ] {
-        qDebug() << "m_pPhotoLibListView, &DListWidget::currentItemChanged";
         m_pCustomizeListView->clearSelection();
         m_pMountListView->clearSelection();
         updateAlbumItemsColor();
-
         if (m_pPhotoLibListView->currentItem())
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
-
             if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
                 m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
                 m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
@@ -135,8 +68,6 @@ void LeftListView::initConnections()
                 m_ItemCurrentType = COMMON_STR_FAVORITES;
             }
         }
-
-        emit itemClicked();
     });
 
     connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, [ = ] {
@@ -148,38 +79,33 @@ void LeftListView::initConnections()
             updateAlbumItemsColor();
 
             if (m_pCustomizeListView->currentItem()) {
-                AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+                AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
                 item->newAlbumStatus();
-
                 m_ItemCurrentName = item->m_albumNameStr;
             }
-
             m_ItemCurrentType = COMMON_STR_CUSTOM;
 
-            emit itemClicked();
+//            emit itemClicked();
         }
     });
 
     connect(m_pMountListView, &DListWidget::currentItemChanged, this, [ = ] {
-        qDebug() << "m_pMountListView, &DListWidget::currentItemChanged";
         if (0 < m_pMountListView->count())
         {
             m_pPhotoLibListView->clearSelection();
             m_pCustomizeListView->clearSelection();
             updateAlbumItemsColor();
-
             if (m_pMountListView->currentItem()) {
-                AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
-                item->newAlbumStatus();
-
-                m_ItemCurrentName = item->m_albumNameStr;
+                AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
+                if (nullptr != item) {
+                    item->newAlbumStatus();
+                    m_ItemCurrentName = item->m_albumNameStr;
+                }
             }
-
             m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
-            emit itemClicked();
+            //emit itemClicked();
         }
     });
-
     connect(m_pCustomizeListView, &QListView::customContextMenuRequested, this, &LeftListView::showMenu);
     connect(m_pMenu, &DMenu::triggered, this, &LeftListView::onMenuClicked);
     connect(m_pAddListBtn, &DPushButton::clicked, this, [ = ] {
@@ -188,28 +114,33 @@ void LeftListView::initConnections()
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
         if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
+            item->oriAlbumStatus();
         }
         if (COMMON_STR_TRASH == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
+            item->oriAlbumStatus();
         }
         if (COMMON_STR_FAVORITES == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
             item->newAlbumStatus();
+            item->oriAlbumStatus();
         }
         if (COMMON_STR_CUSTOM == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
             item->newAlbumStatus();
+            item->oriAlbumStatus();
         }
         if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType)
         {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->currentItem());
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
             item->newAlbumStatus();
+            item->oriAlbumStatus();
         }
     });
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
@@ -229,11 +160,9 @@ void LeftListView::initConnections()
                                           ":/resources/images/sidebar/active/add_focus_dark.svg");
         }
     });
-
     connect(m_pMountListView, &LeftListWidget::sigMousePressIsNoValid, this, [ = ] {
         setFocusPolicy(Qt::ClickFocus);
     });
-
     connect(SignalManager::instance(), &SignalManager::updateLeftListview, this, &LeftListView::onUpdateLeftListview);
 }
 
@@ -245,45 +174,31 @@ void LeftListView::initUI()
 
     QVBoxLayout *pMainLayout = new QVBoxLayout();
     pMainLayout->setContentsMargins(0, 0, 0, 0);
-    pMainLayout->setSpacing(0);
+    //pMainLayout->setSpacing(0);
 
     // 照片库Title
     DWidget *photowidget = new DWidget;
     QHBoxLayout *pPhotoLibLayout = new QHBoxLayout();
-    pPhotoLibLayout->setContentsMargins(0, 0, 0, 0);
+    pPhotoLibLayout->setContentsMargins(20, 0, 0, 0);
     photowidget->setLayout(pPhotoLibLayout);
     photowidget->setFixedHeight(40);
 
     m_pPhotoLibLabel = new DLabel();
-    m_pPhotoLibLabel->setFixedHeight(40);
+    //m_pPhotoLibLabel->setFixedHeight(40);
     DFontSizeManager::instance()->bind(m_pPhotoLibLabel, DFontSizeManager::T6, QFont::Medium);
     m_pPhotoLibLabel->setForegroundRole(DPalette::TextTips);
     m_pPhotoLibLabel->setText(tr("Gallery"));
 
-    pPhotoLibLayout->addSpacing(14);
+    //pPhotoLibLayout->addSpacing(14);
     pPhotoLibLayout->addWidget(m_pPhotoLibLabel);
-
-    // 线
-//    QHBoxLayout *pLineLayout = new QHBoxLayout();
-//    pLineLayout->setContentsMargins(0, 0, 0, 0);
-
-//    DLabel *pLineLabel = new DLabel();
-//    pLineLabel->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
-
-//    pLineLayout->addSpacing(14);
-//    pLineLayout->addWidget(pLineLabel);
 
     // 照片库列表
     m_pPhotoLibListView = new LeftListWidget();
     DStyledItemDelegate *itemDelegate0 = new DStyledItemDelegate(m_pPhotoLibListView);
     itemDelegate0->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pPhotoLibListView->setItemDelegate(itemDelegate0);
-//    m_pPhotoLibListView->setViewportMargins(8, 0, 8, 0);
-//    DStyledItemDelegate *itemDelegate = new DStyledItemDelegate(m_pPhotoLibListView);
-//    itemDelegate->setBackgroundType(DStyledItemDelegate::NoBackground);
-//    m_pPhotoLibListView->setItemDelegate(itemDelegate);
 
-    m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_172);
+    m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_180);
     m_pPhotoLibListView->setFixedHeight(120);
     m_pPhotoLibListView->setSpacing(0);
     m_pPhotoLibListView->setFrameShape(DListWidget::NoFrame);
@@ -291,10 +206,10 @@ void LeftListView::initUI()
 
     // 已导入
     QListWidgetItem *pListWidgetItem1 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem1->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    pListWidgetItem1->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
     AlbumLeftTabItem *pAlbumLeftTabItem1 = new AlbumLeftTabItem(COMMON_STR_RECENT_IMPORTED);
-    pAlbumLeftTabItem1->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+    pAlbumLeftTabItem1->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
     pAlbumLeftTabItem1->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
 
     pAlbumLeftTabItem1->setFocusPolicy(Qt::NoFocus);
@@ -302,20 +217,20 @@ void LeftListView::initUI()
 
     // 最新删除
     QListWidgetItem *pListWidgetItem2 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem2->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    pListWidgetItem2->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
     AlbumLeftTabItem *pAlbumLeftTabItem2 = new AlbumLeftTabItem(COMMON_STR_TRASH);
-    pAlbumLeftTabItem2->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+    pAlbumLeftTabItem2->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
     pAlbumLeftTabItem2->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
 //    pAlbumLeftTabItem2->setFocusPolicy(Qt::NoFocus);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem2, pAlbumLeftTabItem2);
 
     // 我的收藏
     QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
     AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_FAVORITES);
-    pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+    pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
     pAlbumLeftTabItem3->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
 //    pAlbumLeftTabItem3->setFocusPolicy(Qt::NoFocus);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
@@ -325,10 +240,10 @@ void LeftListView::initUI()
     lableCustomixeWidget->setFixedHeight(40);
 
     QHBoxLayout *pCustomizeLayout = new QHBoxLayout();
-    pCustomizeLayout->setContentsMargins(0, 0, 0, 0);
+    pCustomizeLayout->setContentsMargins(20, 0, 14, 0);
 
     m_pCustomizeLabel = new DLabel();
-    m_pCustomizeLabel->setFixedHeight(40);
+    //m_pCustomizeLabel->setFixedHeight(40);
     DFontSizeManager::instance()->bind(m_pCustomizeLabel, DFontSizeManager::T6, QFont::Medium);
     m_pCustomizeLabel->setForegroundRole(DPalette::TextTips);
     m_pCustomizeLabel->setText(tr("Albums"));
@@ -347,23 +262,13 @@ void LeftListView::initUI()
                                       ":/resources/images/sidebar/active/add_focus_dark.svg");
     }
 
-    m_pAddListBtn->setFixedSize(37, 37);
+    m_pAddListBtn->setFixedSize(34, 34);
     m_pAddListBtn->setFocusPolicy(Qt::NoFocus);
 
-    pCustomizeLayout->addSpacing(14);
+    //pCustomizeLayout->addSpacing(14);
     pCustomizeLayout->addWidget(m_pCustomizeLabel, 100, Qt::AlignLeft);
 //    pCustomizeLayout->addStretch();
     pCustomizeLayout->addWidget(m_pAddListBtn, 0, Qt::AlignRight | Qt::AlignVCenter);
-
-    // 线
-//    QHBoxLayout *pLineLayout1 = new QHBoxLayout();
-//    pLineLayout1->setContentsMargins(0, 0, 0, 0);
-
-//    DLabel *pLineLabel1 = new DLabel();
-//    pLineLabel1->setPixmap(QPixmap(":/resources/images/sidebar/sidebar_line_normal.svg"));
-
-//    pLineLayout1->addSpacing(14);
-//    pLineLayout1->addWidget(pLineLabel1);
 
     // 相册列表
     m_pCustomizeListView = new LeftListWidget();
@@ -371,7 +276,7 @@ void LeftListView::initUI()
     itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pCustomizeListView->setItemDelegate(itemDelegate1);
 
-    m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_172);
+    m_pCustomizeListView->setFixedWidth(LEFT_VIEW_WIDTH_180);
 //    m_pCustomizeListView->setFixedHeight(400);
     m_pCustomizeListView->setMinimumHeight(40);
 
@@ -385,15 +290,11 @@ void LeftListView::initUI()
 
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for (auto albumName : allAlbumNames) {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName) {
-            continue;
-        }
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView, 1);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
-        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView);
-        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140 + 8, LEFT_VIEW_LISTITEM_HEIGHT_40));
-
-        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140 + 8);
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, COMMON_STR_CREATEALBUM);
+        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/);
         pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
@@ -412,15 +313,15 @@ void LeftListView::initUI()
     pMountWidget->setFixedHeight(40);
 
     QHBoxLayout *pMountLayout = new QHBoxLayout();
-    pMountLayout->setContentsMargins(0, 0, 0, 0);
+    pMountLayout->setContentsMargins(20, 0, 0, 0);
 
     m_pMountLabel = new DLabel();
-    m_pMountLabel->setFixedHeight(40);
+//    m_pMountLabel->setFixedHeight(40);
     DFontSizeManager::instance()->bind(m_pMountLabel, DFontSizeManager::T6, QFont::Medium);
     m_pMountLabel->setForegroundRole(DPalette::TextTips);
     m_pMountLabel->setText(tr("Device"));
 
-    pMountLayout->addSpacing(14);
+    //pMountLayout->addSpacing(14);
     pMountLayout->addWidget(m_pMountLabel);
     pMountLayout->addStretch();
 
@@ -441,7 +342,7 @@ void LeftListView::initUI()
     itemDelegate2->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pMountListView->setItemDelegate(itemDelegate2);
 
-    m_pMountListView->setFixedWidth(180);
+    m_pMountListView->setFixedWidth(LEFT_VIEW_WIDTH_180);
     m_pMountListView->setMaximumHeight(200);
     m_pMountListView->setSpacing(0);
     m_pMountListView->setFrameShape(DListWidget::NoFrame);
@@ -479,32 +380,34 @@ void LeftListView::updatePhotoListView()
     m_pPhotoLibListView->clear();
     // 已导入
     QListWidgetItem *pListWidgetItem1 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem1->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    pListWidgetItem1->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
     AlbumLeftTabItem *pAlbumLeftTabItem1 = new AlbumLeftTabItem(COMMON_STR_RECENT_IMPORTED);
-    pAlbumLeftTabItem1->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+    pAlbumLeftTabItem1->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
     pAlbumLeftTabItem1->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem1, pAlbumLeftTabItem1);
 
     // 最新删除
     QListWidgetItem *pListWidgetItem2 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem2->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    pListWidgetItem2->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
     AlbumLeftTabItem *pAlbumLeftTabItem2 = new AlbumLeftTabItem(COMMON_STR_TRASH);
-    pAlbumLeftTabItem2->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+    pAlbumLeftTabItem2->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
     pAlbumLeftTabItem2->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem2, pAlbumLeftTabItem2);
 
     // 我的收藏
     QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
     AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_FAVORITES);
-    pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+    pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
     pAlbumLeftTabItem3->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
 
     m_pPhotoLibListView->setCurrentRow(0);
+    QModelIndex index;
+    emit m_pPhotoLibListView->pressed(index);
 }
 
 void LeftListView::updateCustomizeListView()
@@ -512,15 +415,11 @@ void LeftListView::updateCustomizeListView()
     m_pCustomizeListView->clear();
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for (auto albumName : allAlbumNames) {
-        if (COMMON_STR_FAVORITES == albumName || COMMON_STR_RECENT_IMPORTED == albumName || COMMON_STR_TRASH == albumName) {
-            continue;
-        }
-
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView);
-        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
-        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_140);
+        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
         pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
@@ -537,17 +436,12 @@ void LeftListView::initMenu()
     m_MenuActionMap.clear();
 
     appendAction(IdStartSlideShow, tr("Slide show"), ss(""));
-    m_pMenu->addSeparator();
-
     appendAction(IdCreateAlbum, tr("New album"), ss(""));
-    m_pMenu->addSeparator();
 
     appendAction(IdRenameAlbum, tr("Rename"), ss(""));
     m_pMenu->addSeparator();
 
     appendAction(IdExport, tr("Export"), ss(""));
-    m_pMenu->addSeparator();
-
     appendAction(IdDeleteAlbum, tr("Delete"), ss("THROWTOTRASH_CONTEXT_MENU"));
 }
 
@@ -598,11 +492,11 @@ void LeftListView::onMenuClicked(QAction *action)
         const QString path = paths.first();
 
         emit menuOpenImage(path, paths, true, true);
+        break;
     }
-    break;
     case IdCreateAlbum: {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem();
-        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_140, LEFT_VIEW_LISTITEM_HEIGHT_40));
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
         m_pCustomizeListView->insertItem(m_pCustomizeListView->currentRow() + 1, pListWidgetItem);
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(getNewAlbumName());
@@ -613,45 +507,47 @@ void LeftListView::onMenuClicked(QAction *action)
         m_pCustomizeListView->setCurrentRow(m_pCustomizeListView->currentRow() + 1);
 
 
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
 
         moveMountListWidget();
+        break;
     }
-    break;
     case IdRenameAlbum: {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem());
-
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
         item->m_opeMode = OPE_MODE_RENAMEALBUM;
         item->editAlbumEdit();
+        break;
     }
-    break;
     case IdExport: {
         Exporter::instance()->exportAlbum(DBManager::instance()->getPathsByAlbum(m_ItemCurrentName), m_ItemCurrentName);
-    }
-    break;
-    case IdDeleteAlbum: {
-        QString str;
-        QListWidgetItem *item = m_pCustomizeListView->currentItem();
-        AlbumLeftTabItem *pTabItem = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(item);
-
-        str = pTabItem->m_albumNameStr;
-        DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
-
-        if (1 < m_pCustomizeListView->count()) {
-            delete  item;
-        } else {
-            updateCustomizeListView();
-            updatePhotoListView();
-        }
-
-        moveMountListWidget();
-        emit dApp->signalM->sigAlbDelToast(str);
-    }
-    break;
-    default:
         break;
+    }
+    case IdDeleteAlbum: {
+        QListWidgetItem *item = m_pCustomizeListView->currentItem();
+        AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(item));
+        deletDialg = new AlbumDeleteDialog;
+        connect(deletDialg, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
+            QString str = pTabItem->m_albumNameStr;
+            QStringList paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr);
+            ImageEngineApi::instance()->moveImagesToTrash(paths);
+            DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
+
+            if (1 < m_pCustomizeListView->count()) {
+                delete item;
+            } else {
+                updateCustomizeListView();
+                updatePhotoListView();
+            }
+            //移除item后更新右边视图
+            //updateRightView();
+            moveMountListWidget();
+            emit dApp->signalM->sigAlbDelToast(str);
+        });
+        deletDialg->show();
+        break;
+    }
     }
 }
 
@@ -662,16 +558,95 @@ void LeftListView::onUpdateLeftListview()
     }
 }
 
+void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    qDebug() << "m_pPhotoLibListView, &DListWidget::pressed";
+    m_pCustomizeListView->clearSelection();
+    m_pMountListView->clearSelection();
+    updateAlbumItemsColor();
+    QListWidgetItem *pitem = m_pPhotoLibListView->currentItem();
+    if (pitem) {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
+        auto list = m_pPhotoLibListView->selectedItems();  //当前选中项
+        if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+            item->oriAlbumStatus();
+        } else {
+            item->newAlbumStatus(); //选中状态
+        }
+        if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
+            m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
+        } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_TRASH;
+            m_ItemCurrentType = COMMON_STR_TRASH;
+        } else {
+            m_ItemCurrentName = COMMON_STR_FAVORITES;
+            m_ItemCurrentType = COMMON_STR_FAVORITES;
+        }
+        m_ItemCurrentDataType = pitem->type(); //default 0
+    }
+    m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
+    m_pMountListView->setFocusPolicy(Qt::NoFocus);
+    m_pPhotoLibListView->setFocus();
+    emit itemClicked();
+}
+
+void LeftListView::onCustomListViewPressed(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
+    m_pPhotoLibListView->clearSelection();
+    m_pMountListView->clearSelection();
+    updateAlbumItemsColor();
+    QListWidgetItem *plitem = m_pCustomizeListView->currentItem();
+    if (plitem) {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
+        auto list = m_pCustomizeListView->selectedItems(); //当前选中项
+        if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+            item->oriAlbumStatus();
+        } else {
+            item->newAlbumStatus();
+        }
+        m_ItemCurrentName = item->m_albumNameStr;
+        m_ItemCurrentDataType = plitem->type(); //default 0
+    }
+    m_ItemCurrentType = COMMON_STR_CUSTOM;
+    m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
+    m_pMountListView->setFocusPolicy(Qt::NoFocus);
+    m_pCustomizeListView->setFocus();
+    emit itemClicked();
+}
+
+void LeftListView::onMountListViewPressed(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    qDebug() << "m_pMountListView, &DListWidget::pressed";
+    m_pPhotoLibListView->clearSelection();
+    m_pCustomizeListView->clearSelection();
+    updateAlbumItemsColor();
+    QListWidgetItem *plitem = m_pMountListView->currentItem();
+    if (plitem) {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->currentItem()));
+        auto list = m_pMountListView->selectedItems(); //当前选中项
+        if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
+            item->oriAlbumStatus();
+        } else {
+            item->newAlbumStatus();
+        }
+        m_ItemCurrentName = item->m_albumNameStr;
+        m_ItemCurrentDataType = plitem->type(); //default 0
+    }
+    m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
+    m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
+    m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
+    m_pMountListView->setFocus();
+    emit itemClicked();
+}
+
 QString LeftListView::getNewAlbumName()
 {
-    const QString nan = tr("Unnamed");
-    int num = 1;
-    QString albumName = nan + QString::number(num);
-    while (DBManager::instance()->isAlbumExistInDB(albumName)) {
-        num++;
-        albumName = nan + QString::number(num);
-    }
-    return (const QString)(albumName);
+    return AlbumCreateDialog::getNewAlbumName("");
 }
 
 QString LeftListView::getItemCurrentName()
@@ -684,24 +659,30 @@ QString LeftListView::getItemCurrentType()
     return m_ItemCurrentType;
 }
 
+int LeftListView::getItemDataType()
+{
+    return  m_ItemCurrentDataType;
+}
+
 void LeftListView::updateAlbumItemsColor()
 {
     for (int i = 0; i < m_pPhotoLibListView->count(); i++) {
-        AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->item(i));
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->item(i)));
         item->oriAlbumStatus();
     }
 
     if (0 < m_pCustomizeListView->count()) {
         for (int i = 0; i < m_pCustomizeListView->count(); i++) {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pCustomizeListView->itemWidget(m_pCustomizeListView->item(i));
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->item(i)));
             item->oriAlbumStatus();
         }
     }
 
     if (0 < m_pMountListView->count()) {
         for (int i = 0; i < m_pMountListView->count(); i++) {
-            AlbumLeftTabItem *item = (AlbumLeftTabItem *)m_pMountListView->itemWidget(m_pMountListView->item(i));
-            item->oriAlbumStatus();
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListView->itemWidget(m_pMountListView->item(i)));
+            if (item)
+                item->oriAlbumStatus();
         }
     }
 }
@@ -709,16 +690,31 @@ void LeftListView::updateAlbumItemsColor()
 void LeftListView::keyPressEvent(QKeyEvent *event)
 {
     qDebug() << "LeftListView::keyPressEvent()";
-    QWidget::keyPressEvent(event);
-    if (event->key() == Qt::Key_Delete) {
+//    if (event->key() == Qt::Key_Delete) {
+//        if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
+//            emit sigKeyDelete();
+//        }
+//    } else if (event->key() == Qt::Key_F2) {
+//        if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
+//            emit sigKeyF2();
+//        }
+//    }
+    switch (event->key()) {
+    case Qt::Key_Delete:
         if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
             emit sigKeyDelete();
         }
-    } else if (event->key() == Qt::Key_F2) {
+        break;
+    case Qt::Key_F2:
         if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
             emit sigKeyF2();
         }
+        break;
+    default:
+        break;
     }
+    QWidget::keyPressEvent(event);
+
 }
 
 void LeftListView::resizeEvent(QResizeEvent *e)
@@ -757,7 +753,6 @@ void LeftListView::moveMountListWidget()
 
     if (11 > m_pCustomizeListView->count()) {
         iMountY = iMountY + m_pCustomizeListView->count() * 40;
-//        m_pCustomizeListView->setMaximumHeight(m_pCustomizeListView->count() * LEFT_VIEW_LISTITEM_HEIGHT_40);
     } else {
         iMountY = iMountY + 10 * 40;
     }

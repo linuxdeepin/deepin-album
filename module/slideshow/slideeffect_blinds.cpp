@@ -85,7 +85,7 @@ bool SlideEffect_Blinds::prepare()
     else
         calculateRegion_ptr = &SlideEffect_Blinds::calculateRegion_TopToBottom; //calculateRegion_Random
 
-    qsrand(time(0));
+    qsrand(static_cast<uint>(time(nullptr)));
     leafs = 5;
 
     if (effect_type == kBlindsLeftToRight || effect_type == kBlindsRightToLeft) {
@@ -110,24 +110,24 @@ bool SlideEffect_Blinds::prepareFrameAt(int frame)
 void SlideEffect_Blinds::calculateRegion_BottomToTop(qreal k)
 {
     next_clip_region = QRegion();
-    for (int i = 0; i < leafs; next_clip_region += QRegion(0, (i++ +1.0 - k) * leaf_width, width, leaf_width * k));
+    for (int i = 0; i < leafs; next_clip_region += QRegion(0, static_cast<int>((i++ +1.0 - k) * leaf_width), width, static_cast<int>(leaf_width * k)));
 }
 
 //Have some bugs! Pictures are not show completely
 void SlideEffect_Blinds::calculateRegion_LeftToRight(qreal k)
 {
     next_clip_region = QRegion();
-    for (int i = 0; i < leafs; next_clip_region += QRegion(i++*leaf_width, 0, leaf_width * k, height));
+    for (int i = 0; i < leafs; next_clip_region += QRegion(i++*leaf_width, 0, static_cast<int>(leaf_width * k), height));
 }
 
 void SlideEffect_Blinds::calculateRegion_RightToLeft(qreal k)
 {
     next_clip_region = QRegion();
-    for (int i = 0; i < leafs; next_clip_region += QRegion((i++ +1.0 - k) * leaf_width, 0, leaf_width * k, height));
+    for (int i = 0; i < leafs; next_clip_region += QRegion(static_cast<int>((i++ +1.0 - k) * leaf_width), 0, static_cast<int>(leaf_width * k), height));
 }
 
 void SlideEffect_Blinds::calculateRegion_TopToBottom(qreal k)
 {
     next_clip_region = QRegion();
-    for (int i = 0; i < leafs; next_clip_region += QRegion(0, i++*leaf_width, width, leaf_width * k));
+    for (int i = 0; i < leafs; next_clip_region += QRegion(0, i++*leaf_width, width, static_cast<int>(leaf_width * k)));
 }

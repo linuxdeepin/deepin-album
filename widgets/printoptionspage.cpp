@@ -7,8 +7,10 @@
 #include <QDebug>
 
 PrintOptionsPage::PrintOptionsPage(QWidget *parent)
-    : QDialog(parent),
-      m_settings("deepin", "print-image-option")
+    : QDialog(parent), m_noScaleBtn(nullptr), m_fitToImageBtn(nullptr),
+      m_fitToPageBtn(nullptr), m_scaleBtn(nullptr), m_printWidth(nullptr),
+      m_printHeight(nullptr), m_printUnit(nullptr), m_buttonGroup(nullptr),
+      m_posBtnGroup(nullptr), m_settings("deepin", "print-image-option")
 {
     m_noScaleBtn = new QRadioButton(tr("No scaling"));
     m_fitToImageBtn = new QRadioButton(tr("Fit page to image"));
@@ -56,21 +58,21 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
             if (row == 0) {
                 alignment = Qt::AlignTop;
             } else if (row == 1) {
-                    alignment = Qt::AlignVCenter;
-                } else {
-                    alignment = Qt::AlignBottom;
-                }
-                if (column == 0) {
-                    alignment |= Qt::AlignLeft;
-                } else if (column == 1) {
-                    alignment |= Qt::AlignHCenter;
-                } else {
-                    alignment |= Qt::AlignRight;
-                }
-
-                m_posBtnGroup->addButton(btn, (int) alignment);
+                alignment = Qt::AlignVCenter;
+            } else {
+                alignment = Qt::AlignBottom;
             }
+            if (column == 0) {
+                alignment |= Qt::AlignLeft;
+            } else if (column == 1) {
+                alignment |= Qt::AlignHCenter;
+            } else {
+                alignment |= Qt::AlignRight;
+            }
+
+            m_posBtnGroup->addButton(btn, static_cast<int>(alignment));
         }
+    }
 
     QGroupBox *groupBox = new QGroupBox(tr("Scaling"));
     QVBoxLayout *groupLayout = new QVBoxLayout;
@@ -93,30 +95,30 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
     setWindowTitle(tr("Image Settings"));
 
     connect(m_noScaleBtn, &QRadioButton::toggled, this,
-            [=] {
-                updateStatus();
-                m_settings.setValue("button_index", 0);
-            });
+    [ = ] {
+        updateStatus();
+        m_settings.setValue("button_index", 0);
+    });
 
     connect(m_fitToImageBtn, &QRadioButton::toggled, this,
-            [=] {
-                updateStatus();
-                m_settings.setValue("button_index", 1);
-            });
+    [ = ] {
+        updateStatus();
+        m_settings.setValue("button_index", 1);
+    });
 
     connect(m_fitToPageBtn, &QRadioButton::toggled, this,
-            [=] {
-                updateStatus();
-                m_settings.setValue("button_index", 2);
-            });
+    [ = ] {
+        updateStatus();
+        m_settings.setValue("button_index", 2);
+    });
 
     connect(m_scaleBtn, &QRadioButton::toggled, this,
-            [=] (bool) {
-                updateStatus();
-                m_settings.setValue("button_index", 3);
-            });
+    [ = ] (bool) {
+        updateStatus();
+        m_settings.setValue("button_index", 3);
+    });
 
-    connect(m_posBtnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), this, [=] (QAbstractButton *) {
+    connect(m_posBtnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), this, [ = ] (QAbstractButton *) {
 //        m_settings.setValue("pos", m_posBtnGroup->checkedId());
         emit valueChanged();
     });
@@ -130,9 +132,9 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
 
 void PrintOptionsPage::init()
 {
-    Qt::Alignment defaultAlignment;
-    defaultAlignment = Qt::AlignVCenter | Qt::AlignHCenter;
-    m_posBtnGroup->button(defaultAlignment)->setChecked(true);
+//    Qt::Alignment defaultAlignment;
+//    defaultAlignment = Qt::AlignVCenter | Qt::AlignHCenter;
+    m_posBtnGroup->button(Qt::AlignVCenter | Qt::AlignHCenter)->setChecked(true);
 
     switch (m_settings.value("button_index", 2).toInt()) {
     case 0:
@@ -208,4 +210,5 @@ double PrintOptionsPage::unitToInches(PrintOptionsPage::Unit unit)
     case PrintOptionsPage::Millimeters:
         return 1 / 25.4;
     }
+    return 1.0;
 }

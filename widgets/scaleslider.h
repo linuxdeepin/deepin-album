@@ -28,8 +28,7 @@ public:
         Line,
         Rect,
     };
-    explicit ScaleSlider(SliderShape defaultShape = SliderShape::Line, QWidget *parent = 0);
-
+    explicit ScaleSlider(SliderShape defaultShape = SliderShape::Line, QWidget *parent = nullptr);
     QColor penColor() const;
     QColor brushColor() const;
     void setPenColor(const QColor &penColor);

@@ -22,29 +22,21 @@ const QColor DARK_COVERCOLOR = QColor(26, 26, 26, 204);
 const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 const int BOTTOM_TOOLBAR_HEIGHT = 70;
 const int BOTTOM_TOOLBAR_WIDTH_1 = 532;
-const int BOTTOM_TOOLBAR_WIDTH_2 = 782;
+//const int BOTTOM_TOOLBAR_WIDTH_2 = 782;
 }
 
 BottomToolbar::BottomToolbar(QWidget *parent)
     : DFloatingWidget(parent)
 {
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-
     DWidget *dwidget = new DWidget(this);
     m_mainLayout = new QHBoxLayout(dwidget);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setSpacing(0);
     setWidget(dwidget);
-//    setRadius(18);
-//    setBlurRectYRadius(18);
-//    setBlurRectXRadius(18);
-//    setMaskAlpha(102);
     setBlurBackgroundEnabled(true);
     setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
     setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-
-//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-//            &BottomToolbar::onThemeChanged);
 }
 
 void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme)
@@ -54,12 +46,11 @@ void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme)
     } else {
         m_coverBrush = LIGHT_COVERCOLOR;
     }
-//    setCoverBrush(m_coverBrush);
 }
 void BottomToolbar::setContent(QWidget *content)
 {
     QLayoutItem *child;
-    while ((child = m_mainLayout->takeAt(0)) != 0) {
+    while ((child = m_mainLayout->takeAt(0)) != nullptr) {
         if (child->widget())
             child->widget()->deleteLater();
         delete child;
@@ -70,5 +61,4 @@ void BottomToolbar::setContent(QWidget *content)
 
 void BottomToolbar::mouseMoveEvent(QMouseEvent *)
 {
-
 }

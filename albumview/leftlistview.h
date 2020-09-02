@@ -1,8 +1,10 @@
 #ifndef LEFTLISTVIEW_H
 #define LEFTLISTVIEW_H
 
+#include "dialogs/albumdeletedialog.h"
 #include "albumimagebutton.h"
 #include "leftlistwidget.h"
+
 
 #include <DWidget>
 #include <DLabel>
@@ -26,6 +28,7 @@ public:
     LeftListView(DWidget *parent);
     QString getItemCurrentName();
     QString getItemCurrentType();
+    int getItemDataType();
     void updatePhotoListView();
     void updateAlbumItemsColor();
     void updateCustomizeListView();
@@ -42,18 +45,18 @@ private:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-
-
-
 signals:
     void itemClicked();
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
     void sigKeyDelete();
     void sigKeyF2();
 
-private slots:
+public slots:
     void onMenuClicked(QAction *action);
     void onUpdateLeftListview();
+    void onPhotoLibListViewPressed(const QModelIndex &index);
+    void onCustomListViewPressed(const QModelIndex &index);
+    void onMountListViewPressed(const QModelIndex &index);
 
 public:
     // 照片库
@@ -72,9 +75,11 @@ public:
 private:
     QString m_ItemCurrentName;
     QString m_ItemCurrentType;
+    int m_ItemCurrentDataType;
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;
     DWidget *m_pMountWidget;
+    AlbumDeleteDialog *deletDialg;
 };
 
 #endif // LEFTLISTVIEW_H

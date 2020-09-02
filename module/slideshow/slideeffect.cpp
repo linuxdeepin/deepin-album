@@ -16,6 +16,7 @@
  */
 #include "slideeffect.h"
 #include "application.h"
+#include "slideeffect.h"
 #include "controller/configsetter.h"
 #include "utils/imageutils.h"
 #include <QPainter>
@@ -42,7 +43,6 @@ void ThreadRenderFrame::stop()
 
 void ThreadRenderFrame::setData(SlideEffectThreadData &data)
 {
-//    qDebug() << "ThreadRenderImage::setPage" << width << height;
     m_data = data;
 }
 
@@ -51,7 +51,6 @@ void ThreadRenderFrame::run()
     if (bstop)
         return;
     SlideEffectThreadData mdata = m_data;
-//    qDebug() << "-------renderFrame start num:" << mdata.num;
     QImage image = mdata.mimage;
     QPainter p(&image);
     image.fill(Qt::transparent);
@@ -81,9 +80,9 @@ void ThreadRenderFrame::run()
 SlideEffect *SlideEffect::create(const EffectId &id)
 {
     if (id == EffectId()) {
-        srand(time(0));
+        srand(static_cast<uint>(time(nullptr)));
         int count = 0; // To avoid find no match effect
-        while (true || count < 100) {
+        while (true/* || count < 100*/) {
             QList<std::function<SlideEffect*()>> cs = effects.values();
             const int idx = rand() % cs.size();
             std::function<SlideEffect*()> c = cs.at(idx);
@@ -103,11 +102,11 @@ SlideEffect *SlideEffect::create(const EffectId &id)
             }
             count ++;
         }
-        return NULL;
+        //return NULL;
     }
     if (effects.contains(id))
         return effects.value(id)();
-    return NULL;
+    return nullptr;
 }
 
 void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
@@ -130,12 +129,12 @@ SlideEffect::SlideEffect()
     speed = 1.0;
     current_frame = 0;
     frames_total = 17;
-    current_image = next_image = frame_image = 0;
+    current_image = next_image = frame_image = nullptr;
     width = height = 0;
     color = Qt::transparent;
 
     easing_ = QEasingCurve(QEasingCurve::OutBack);
-    QThreadPool::globalInstance()->setMaxThreadCount(50);
+//    QThreadPool::globalInstance()->setMaxThreadCount(4);
 //    m.setMaxThreadCount(20);
 //    connect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 }
@@ -149,22 +148,22 @@ void SlideEffect::slotrenderFrameFinish(int num, QImage image)
 SlideEffect::~SlideEffect()
 {
 //    qDebug() << "------------SlideEffect start release";
-    disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
+//    disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 //    m_qf.waitForFinished();
 //    for (int i = 0; i < m_qflist.size(); i++) {
 //        m_qflist[i].waitForFinished();
 //    }
     if (current_image) {
         delete current_image;
-        current_image = 0;
+        current_image = nullptr;
     }
     if (next_image) {
         delete next_image;
-        next_image = 0;
+        next_image = nullptr;
     }
     if (frame_image) {
         delete frame_image;
-        frame_image = 0;
+        frame_image = nullptr;
     }
 //    qDebug() << "-------------SlideEffect end release";
 }
@@ -206,18 +205,27 @@ int SlideEffect::duration() const
 
 void SlideEffect::start()
 {
+    QMutexLocker locker(&m_mutex);
     allImage.clear();
     allImage[frames_total] = *next_image;
     prepare();
     current_frame = 0;
-    m_qf = QtConcurrent::run([this]() {
-        for (int i = 0; i < frames_total; i++) {
-            if (!prepareNextFrame()) {
-                stop();
-                return;
-            }
+    //从线程中剔除，大量的线程导致崩溃
+    for (int i = 0; i < frames_total; i++) {
+        if (!prepareNextFrame()) {
+            stop();
+            return;
         }
-    });
+    }
+
+//    m_qf = QtConcurrent::run([this]() {
+//        for (int i = 0; i < frames_total; i++) {
+//            if (!prepareNextFrame()) {
+//                stop();
+//                return;
+//            }
+//        }
+//    });
 //    QEventLoop loop;
 //    QTimer::singleShot(all_ms - duration_ms, &loop, SLOT(quit()));
 //    loop.exec();
@@ -286,8 +294,10 @@ bool SlideEffect::prepare()
 
 bool SlideEffect::prepareNextFrame()
 {
+
     //current_frame++? do not paint frame 0?
     if (prepareFrameAt(++current_frame)) {
+
 //        renderFrame(current_frame, current_clip_region, next_clip_region);
 
 //        virtual void renderFrame(QImage mimage, int num, QRegion current_region, QRegion next_region, int width, int height
@@ -308,7 +318,7 @@ bool SlideEffect::prepareNextFrame()
         connect(this, &SlideEffect::deleteLater, threadf, &ThreadRenderFrame::stop);
         threadf->setData(data);
         QThreadPool::globalInstance()->start(threadf);
-//        m.start(threadf);
+
 //        QFuture<void> res = QtConcurrent::run(this, &SlideEffect::renderFrame, data);
         //        QFuture<void> res = QtConcurrent::run(this, &SlideEffect::renderFrame, *frame_image, current_frame, current_clip_region, next_clip_region,
 //                                              width, height, *current_image, *next_image, current_rect, next_rect);
@@ -388,7 +398,6 @@ Qt::AspectRatioMode SlideEffect::aspectRatioMode() const
 {
     return mode;
 }
-
 void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
 {
     current_path = currentPath;
@@ -495,7 +504,7 @@ bool SlideEffect::isEndFrame(int frame)
     //if (frame>frames_total)
     //  return true;
     current_frame = frame;
-    progress_ = speed * (qreal)current_frame / (qreal)frames_total;
+    progress_ = speed * current_frame / frames_total;
 
     if (progress_ >= 1.0) {
         progress_ = 1.0; //It's important
@@ -525,7 +534,7 @@ void SlideEffect::renderFrame(SlideEffectThreadData &data)
 
     p.setClipRegion(mdata.next_region);
     p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
-    emit renderFrameFinish(mdata.num, image);
+//    emit renderFrameFinish(mdata.num, image);
 
 //    qDebug() << "-------renderFrame end num:" << data.num;
 }

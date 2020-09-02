@@ -47,7 +47,8 @@ class ViewPanel : public ModulePanel, public ImageEngineObject
 {
     Q_OBJECT
 public:
-    explicit ViewPanel(QWidget *parent = 0);
+    explicit ViewPanel(QWidget *parent = nullptr);
+    ~ViewPanel() Q_DECL_OVERRIDE;
 
     QString moduleName() Q_DECL_OVERRIDE;
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
@@ -63,7 +64,6 @@ public:
         }
         return m_ttbc->itemLoadedSize();
     }
-
 signals:
     void updateCollectButton();
 //    void imageChanged(const QString &path, DBImgInfoList infos);
@@ -121,7 +121,7 @@ private:
     // Menu control
     void appendAction(int id, const QString &text, const QString &shortcut = "");
     void appendAction_darkmenu(int id, const QString &text, const QString &shortcut = "");
-    QMenu *createAblumMenu();
+    DMenu *createAblumMenu();
 #ifndef LITE_DIV
     DMenu *createAlbumMenu();
 #endif
@@ -131,7 +131,7 @@ private:
     // View control
     void onViewImage(const  QStringList &vinfo);
 //    void onViewImage(const SignalManager::ViewInfo &vinfo);
-    void openImage(const QString &path, bool inDB = true);
+    void openImage(const QString &path, bool inDB = true, bool bjudge = true);
     void removeCurrentImage();
     void rotateImage(bool clockWise);
     bool showNext();
@@ -171,7 +171,7 @@ private:
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
     ThumbnailWidget *m_emptyWidget = nullptr;
-    DMenu *m_menu;
+    QMenu *m_menu;
     QStackedWidget *m_stack;
     LockWidget *m_lockWidget;
 
@@ -197,5 +197,8 @@ private:
     QString m_currentpath = "";
     QTimer *m_dt = nullptr;
     //------------------
+
+    QTimer *m_deletetimer;  //删除图片定时器
+    bool   m_bFirstFullScreen;  //是否全屏进入
 };
 #endif // VIEWPANEL_H

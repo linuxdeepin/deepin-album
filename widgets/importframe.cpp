@@ -27,7 +27,8 @@
 #include <QLabel>
 
 ImportFrame::ImportFrame(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), m_importButton(nullptr), m_bgLabel(nullptr),
+      m_titleLabel(nullptr)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     this->setAcceptDrops(true);
@@ -78,6 +79,7 @@ const QString ImportFrame::buttonText() const
     return m_importButton->text();
 }
 
-void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-
+void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    Q_UNUSED(theme)
 }

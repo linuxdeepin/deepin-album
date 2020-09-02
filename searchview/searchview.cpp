@@ -7,19 +7,20 @@
 #include <QDebug>
 
 namespace {
-const int VIEW_MAINWINDOW_SEARCH = 3;
+//const int VIEW_MAINWINDOW_SEARCH = 3;
 }  //namespace
 
 
-SlideShowButton::SlideShowButton(DWidget *parent) :
-    DPushButton(parent),
-    israised(true)
+SlideShowButton::SlideShowButton(DWidget *parent)
+    : DPushButton(parent), m_filletradii(8), israised(true)
+    , ispressed(false)
 {
     m_filletradii = 8;
 }
 
 void SlideShowButton::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     QColor disablecolor, raisedcolor, disraisedcolor, textcolor, pressedcolor;
     textcolor = QColor(255, 255, 255);
@@ -44,8 +45,8 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
     }
     painter.setPen(Qt::transparent);
     QRect rect = this->rect();
-    rect.setWidth(rect.width() - 1);
-    rect.setHeight(rect.height() - 1);
+    rect.setWidth(rect.width() );
+    rect.setHeight(rect.height() );
     painter.drawRoundedRect(rect, m_filletradii, m_filletradii);
     QFont qf = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     qf.setFamily("SourceHanSansSC-Medium");
@@ -57,26 +58,29 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
     QSize iconsize = iconSize();
     QPixmap qpx = qic.pixmap(QSize(iconsize));
     int widthOfTitle = painter.fontMetrics().width( text());
+    this->setFixedWidth(widthOfTitle + iconsize.width() + 20);
     int offsetleft = (this->width() - widthOfTitle - iconsize.width() - 5) / 2;
     painter.drawPixmap(offsetleft, (this->height() - iconsize.height()) / 2, iconsize.width(), iconsize.height(), qpx);
-    painter.drawText(offsetleft + iconsize.width() + 5, 0, this->width() - iconsize.width() - 5 - offsetleft, this->height(), Qt::AlignLeft | Qt::AlignVCenter, text());
+    //LMH0430居中
+    painter.drawText(offsetleft + iconsize.width() + 5, 0, this->width() - iconsize.width() - 5 - offsetleft, this->height() - 2, Qt::AlignLeft | Qt::AlignVCenter, text());
     if (ispressed) {
         painter.setPen(QColor(0, 0, 0, 0));
         painter.setBrush(QBrush(pressedcolor));
         painter.drawRoundedRect(rect, m_filletradii, m_filletradii);
     }
-    //    DPushButton::paintEvent(event);
+    //DPushButton::paintEvent(event);
 }
 
 void SlideShowButton::enterEvent(QEvent *e)
-
 {
+    Q_UNUSED(e);
     israised = false;
     repaint();     //重新绘制按钮
 }
 
 void SlideShowButton::leaveEvent(QEvent *e)
 {
+    Q_UNUSED(e);
     israised = true;
     repaint();
 }
@@ -114,10 +118,11 @@ void SlideShowButton::mouseEvent(QMouseEvent *e)
 }
 
 SearchView::SearchView()
+    : m_stackWidget(nullptr), m_pNoSearchResultView(nullptr), m_pNoSearchResultLabel(nullptr)
+    , m_pSearchResultView(nullptr), m_searchResultViewbody(nullptr), m_searchResultViewTop(nullptr)
+    , m_pSlideShowBtn(nullptr), m_pSearchResultLabel(nullptr), pNoResult(nullptr)
+    , pLabel1(nullptr), m_searchPicNum(0), m_pThumbnailListView(nullptr)
 {
-    m_albumName = nullptr;
-    m_searchPicNum = 0;
-    m_keywords = "";
     initNoSearchResultView();
     initSearchResultView();
     initMainStackWidget();
@@ -300,24 +305,25 @@ void SearchView::initSearchResultView()
     m_pSearchResultView = new DWidget();
 //    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
-
+    //pLabel1->setFixedSize(QSize(96, 36));
     pLabel1->setText(tr("Search results"));
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     font.setWeight(QFont::DemiBold);
+    //font.setPointSize(16);
     pLabel1->setFont(font);
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
     pLabel1->setForegroundRole(DPalette::Text);
     pLabel1->setPalette(pa);
-    pLabel1->setContentsMargins(13, 0, 0, 0);
+    pLabel1->setContentsMargins(0, 0, 0, 0);
 
     QHBoxLayout *pHBoxLayout = new QHBoxLayout();
     pHBoxLayout->setSpacing(5);
-    pHBoxLayout->setContentsMargins(8, 0, 0, 0);
+    //LMH0417 bug号20706
+    pHBoxLayout->setContentsMargins(0, 0, 0, 15);
 
 //    m_pSlideShowBtn = new DPushButton();
-    m_pSlideShowBtn = new SlideShowButton();
-    m_pSlideShowBtn ->setFocusPolicy(Qt::NoFocus);
+
 //    m_pSlideShowBtn->setFixedSize(105, 31);
 
 //    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -345,37 +351,43 @@ void SearchView::initSearchResultView()
 ////        shadow_effect->setBlurRadius(4);
 ////        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
 //    }
+    m_pSlideShowBtn = new SlideShowButton();
+    m_pSlideShowBtn ->setFocusPolicy(Qt::NoFocus);
 
     QIcon icon;
     icon = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 18));
     m_pSlideShowBtn->setIcon(icon);
     m_pSlideShowBtn->setText(tr("Slide Show"));
-
-//    DLabel* Label1 = new DLabel(m_pSlideShowBtn);
-//    Label1->move(6,7);
-//    DLabel* Label2 = new DLabel(m_pSlideShowBtn);
-//    Label2->setFixedSize(70,18);
-//    Label2->move(29,6);
-//    Label1->setPixmap(pixmap);
-//    Label1->setPalette(pal);
-//    Label2->setText(tr("Slide Show"));
-
+//    m_pSlideShowBtn->setFixedSize(QSize(150, 30));
+    m_pSlideShowBtn->setFixedHeight(30);
+    //  DFontSizeManager::instance()->bind(m_pSlideShowBtn, DFontSizeManager::T6);
 //    QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
 //    ft1.setFamily("SourceHanSansSC-Medium");
 //    ft1.setWeight(QFont::Medium);
 //    m_pSlideShowBtn->setFont(ft1);
 
     m_pSearchResultLabel = new DLabel();
-
-    pHBoxLayout->addSpacing(5);
+    m_pSearchResultLabel->setContentsMargins(0, 0, 0, 0);
+    //pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSlideShowBtn);
     pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSearchResultLabel);
     pHBoxLayout->addStretch(0);
 
-    m_searchResultViewTop = new DBlurEffectWidget(m_pSearchResultView);
+
+    m_searchResultViewTop = new DWidget(m_pSearchResultView);
+
+    QGraphicsOpacityEffect *opacityEffect_light = new QGraphicsOpacityEffect;
+    opacityEffect_light->setOpacity(0.95);
+    m_searchResultViewTop->setGraphicsEffect(opacityEffect_light);
+    m_searchResultViewTop->setAutoFillBackground(true);
+    m_searchResultViewTop->setBackgroundRole(DPalette::Window);
+
     m_searchResultViewbody = new DWidget(m_pSearchResultView);
+
     QVBoxLayout *pSearchResultbodyLayout = new QVBoxLayout();
+    pSearchResultbodyLayout->setContentsMargins(0, 11, 0, 0);
+    //LMH0417 bug号20706
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType);
 
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
@@ -384,14 +396,19 @@ void SearchView::initSearchResultView()
     QVBoxLayout *pSearchResultLayout = new QVBoxLayout();
 //    pSearchResultLayout->addSpacing(5);
 //    pSearchResultLayout->setMargin(2);
-    pSearchResultLayout->setMargin(0);
-    pSearchResultLayout->setSpacing(0);
-    pSearchResultLayout->addWidget(pLabel1);
-    pSearchResultLayout->addItem(pHBoxLayout);
-//    pSearchResultLayout->addWidget(m_pThumbnailListView);
-    pSearchResultLayout->addStretch();
 
-    m_searchResultViewTop->setFixedHeight(80);
+    pSearchResultLayout->setContentsMargins(13, 0, 0, 0);
+    // pSearchResultLayout->setMargin(0);
+    pSearchResultLayout->setSpacing(0);
+    pSearchResultLayout->addSpacing(5);
+    pSearchResultLayout->addWidget(pLabel1);
+    pSearchResultLayout->addSpacing(5);
+    pSearchResultLayout->addItem(pHBoxLayout);
+
+//    pSearchResultLayout->addWidget(m_pThumbnailListView);
+    // pSearchResultLayout->addStretch();
+
+    m_searchResultViewTop->setFixedHeight(95);
     m_searchResultViewTop->move(0, 50);
     m_searchResultViewbody->setLayout(pSearchResultbodyLayout);
     m_searchResultViewTop->setLayout(pSearchResultLayout);
@@ -523,6 +540,7 @@ void SearchView::updateSearchResultsIntoThumbnailView()
 
 void SearchView::changeTheme()
 {
+
     DPalette pale = DApplicationHelper::instance()->palette(pLabel1);
     pale.setBrush(DPalette::Text, pale.color(DPalette::ToolTipText));
     pLabel1->setPalette(pale);
@@ -579,6 +597,11 @@ void SearchView::changeTheme()
 
 void SearchView::paintEvent(QPaintEvent *event)
 {
+    QFont font;
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    if (currentSize != m_currentFontSize) {
+        m_currentFontSize = currentSize;
+    }
     QWidget::paintEvent(event);
     m_searchResultViewTop->setFixedWidth(m_pSearchResultView->width());
     m_searchResultViewbody->setFixedSize(m_pSearchResultView->size());

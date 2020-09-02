@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="uk">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,10 +97,6 @@
         <translation>Імпортувати до:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Диск</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Імпортувати</translation>
     </message>
@@ -129,6 +127,18 @@
     <message>
         <source>New album</source>
         <translation>Новий альбом</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Скасувати</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -285,14 +295,18 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Галерея</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Галерея</translation>
+        <translation type="vanished">Галерея</translation>
     </message>
 </context>
 <context>
@@ -317,7 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Галерея</translation>
+        <translation type="vanished">Галерея</translation>
     </message>
 </context>
 <context>
@@ -512,7 +526,7 @@
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Імпортування зазнало невдачі</translation>
+        <translation>Імпортування зазнало&#xa0;невдачі</translation>
     </message>
     <message>
         <source>Export failed</source>
@@ -536,7 +550,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 фотографії</translation>
+        <translation type="vanished">%1 фотографії</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -595,10 +609,6 @@
         <translation>Параметри</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Деякі з фотографій не імпортовано</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Імпортувати фотографії</translation>
     </message>
@@ -621,10 +631,6 @@
     <message>
         <source>Importing...</source>
         <translation>Імпортування…</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -795,11 +801,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Імпортовано </translation>
+        <translation type="vanished">Імпортовано </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +848,14 @@
     <message>
         <source>Exit</source>
         <translation>Вийти</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Назад</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Далі</translation>
     </message>
 </context>
 <context>

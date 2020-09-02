@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef VIEWMAINWINDOW_H
+#define VIEWMAINWINDOW_H
 
 #include "frame/mainwidget.h"
 #include "controller/viewerthememanager.h"
@@ -31,13 +31,15 @@
 DWIDGET_USE_NAMESPACE
 
 #ifndef LITE_DIV
-class Worker : public QObject {
+class Worker : public QObject
+{
     Q_OBJECT
 public:
     Worker() {}
-    ~Worker(){}
+    ~Worker() {}
 public slots:
-    void initRec() {
+    void initRec()
+    {
         DBManager::instance();
 //        Exporter::instance();
         Importer::instance();
@@ -48,22 +50,20 @@ public slots:
 
 class ViewMainWindow : public  DMainWindow
 {
+    Q_OBJECT
 public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
-    ViewMainWindow(bool manager, QWidget *parent=0);
-
+    ViewMainWindow(bool manager, QWidget *parent = nullptr);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 protected:
     void resizeEvent(QResizeEvent *e) override;
-//    void showEvent(QShowEvent *event);
-
 private:
     void moveFirstWindow();
     void moveCenter();
     bool windowAtEdge();
-
     MainWidget *m_mainWidget;
 };
 
-#endif // MAINWINDOW_H
+#endif // VIEWMAINWINDOW_H
+

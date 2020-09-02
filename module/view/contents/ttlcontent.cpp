@@ -35,11 +35,11 @@
 namespace {
 const int LEFT_MARGIN = 13;
 const QSize ICON_SIZE = QSize(48, 39);
-const int ICON_SPACING = 3;
-const int RETURN_BTN_MAX = 200;
+//const int ICON_SPACING = 3;
+//const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
-const int LEFT_SPACE = 20;
+//const int LEFT_SPACE = 20;
 }  // namespace
 
 TTLContent::TTLContent(bool inDB,
@@ -47,7 +47,7 @@ TTLContent::TTLContent(bool inDB,
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),
-        ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
+                             ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
     m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     setFixedWidth(m_contentWidth);
 
@@ -66,20 +66,20 @@ TTLContent::TTLContent(bool inDB,
     m_folderBtn->setFixedSize(QSize(24, 24));
     m_folderBtn->setObjectName("FolderBtn");
     m_folderBtn->setToolTip("Image management");
-    if(m_inDB) {
+    if (m_inDB) {
         hb->addWidget(m_returnBtn);
     } else {
-       hb->addWidget(m_folderBtn);
+        hb->addWidget(m_folderBtn);
     }
     hb->addSpacing(20);
 
-    connect(m_returnBtn, &ReturnButton::clicked, this, [=] {
+    connect(m_returnBtn, &ReturnButton::clicked, this, [ = ] {
         emit clicked();
     });
-    connect(m_folderBtn, &PushButton::clicked, this, [=] {
+    connect(m_folderBtn, &PushButton::clicked, this, [ = ] {
         emit clicked();
     });
-    connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [=]{
+    connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [ = ] {
         updateFilenameLayout();
     });
 #endif
@@ -112,11 +112,12 @@ TTLContent::TTLContent(bool inDB,
 #ifndef LITE_DIV
     if (m_inDB) {
         hb->addWidget(m_clBT);
-        connect(m_clBT, &PushButton::clicked, this, [=] {
-            if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_imagePath)) {
+        connect(m_clBT, &PushButton::clicked, this, [ = ] {
+            if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_imagePath))
+            {
                 DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_imagePath));
-            }
-            else {
+            } else
+            {
                 DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_imagePath));
             }
             updateCollectButton();
@@ -157,9 +158,9 @@ TTLContent::TTLContent(bool inDB,
             &TTLContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &TTLContent::onThemeChanged);
-     connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
-         updateFilenameLayout();
-     });
+    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [ = ] {
+        updateFilenameLayout();
+    });
 }
 
 void TTLContent::updateFilenameLayout()
@@ -178,11 +179,10 @@ void TTLContent::updateFilenameLayout()
 #ifndef LITE_DIV
     if (m_inDB)
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
-                + (ICON_SIZE.width()+2)*6 + LEFT_SPACE;
-    else
-    {
+                             + (ICON_SIZE.width() + 2) * 6 + LEFT_SPACE;
+    else {
         m_leftContentWidth = m_folderBtn->width()  + 8
-                + (ICON_SIZE.width()+2)*5 + LEFT_SPACE;
+                             + (ICON_SIZE.width() + 2) * 5 + LEFT_SPACE;
     }
 #else
     // 39 为logo以及它的左右margin
@@ -195,23 +195,23 @@ void TTLContent::updateFilenameLayout()
     setFixedWidth(m_contentWidth);
     m_contentWidth = this->width() - m_leftContentWidth;
 
-    if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH)
-    {
+    if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH) {
         name = fm.elidedText(filename, Qt::ElideMiddle, std::min(m_contentWidth - 32,
                                                                  FILENAME_MAX_LENGTH));
         strWidth = fm.boundingRect(name).width();
-        leftMargin = std::max(0, (m_windowWidth - strWidth)/2
+        leftMargin = std::max(0, (m_windowWidth - strWidth) / 2
                               - m_leftContentWidth - LEFT_MARGIN - 2);
     } else {
-        leftMargin = std::max(0, (m_windowWidth - strWidth)/2
-                              );
+        leftMargin = std::max(0, (m_windowWidth - strWidth) / 2
+                             );
         name = filename;
     }
 
     m_fileNameLabel->setText(name, leftMargin);
 }
 
-void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         this->setStyleSheet(utils::base::getFileContent(
                                 ":/resources/dark/qss/ttl.qss"));
@@ -221,7 +221,8 @@ void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     }
 }
 
-void TTLContent::setCurrentDir(QString text) {
+void TTLContent::setCurrentDir(QString text)
+{
     if (text == COMMON_STR_FAVORITES) {
         text = tr(COMMON_STR_FAVORITES);
     }
@@ -238,8 +239,9 @@ void TTLContent::resizeEvent(QResizeEvent *event)
     m_contentWidth = std::max(m_windowWidth - 100, 1);
 }
 
-void TTLContent::setImage(const QString &path,DBImgInfoList infos)
+void TTLContent::setImage(const QString &path, DBImgInfoList infos)
 {
+    Q_UNUSED(infos)
     m_imagePath = path;
     if (path.isEmpty() || !QFileInfo(path).exists()
             || !QFileInfo(path).isReadable()) {

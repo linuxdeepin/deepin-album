@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="tr">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,10 +97,6 @@
         <translation>Şuradan içe aktar:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disk</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>İçe aktar</translation>
     </message>
@@ -129,6 +127,18 @@
     <message>
         <source>New album</source>
         <translation>Yeni albüm</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">İptal</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -285,14 +295,18 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeri</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -317,7 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -536,7 +550,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotoğraf</translation>
+        <translation type="vanished">%1 fotoğraf</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -595,10 +609,6 @@
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Bazı fotoğraflar içe aktarılmadı</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Fotoğrafları içe aktar</translation>
     </message>
@@ -621,10 +631,6 @@
     <message>
         <source>Importing...</source>
         <translation>İçe aktarılıyor...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -795,11 +801,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>İçe aktarma tarihi</translation>
+        <translation type="vanished">İçe aktarma tarihi</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +848,14 @@
     <message>
         <source>Exit</source>
         <translation>Çıkış</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Önceki</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Sonraki</translation>
     </message>
 </context>
 <context>

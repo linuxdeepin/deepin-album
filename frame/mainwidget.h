@@ -31,32 +31,24 @@
 class MainWidget : public QFrame
 {
     Q_OBJECT
-
 public:
-    MainWidget(bool manager, QWidget *parent = 0);
-    ~MainWidget();
-
+    MainWidget(bool manager, QWidget *parent = nullptr);
+    ~MainWidget() override;
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *event) override;
-
 private slots:
     void onGotoPanel(ModulePanel *panel);
     void onImported(const QString &message, bool success);
     void onShowImageInfo(const QString &path);
-
 private:
     void initBottomToolbar();
     void initExtensionPanel();
     void initTopToolbar();
-
     void initConnection();
     void initPanelStack(bool manager);
-//    void initStyleSheet();
-
 private:
     QStringList m_infoShowingList;
-
     QStackedWidget  *m_panelStack;
 
 #ifndef LITE_DIV

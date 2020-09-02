@@ -27,7 +27,7 @@ class ImportFrame : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ImportFrame(QWidget *parent = 0);
+    explicit ImportFrame(QWidget *parent = nullptr);
     void setTitle(const QString &title);
     void setButtonText(const QString &text);
     const QString buttonText() const;

@@ -26,7 +26,6 @@
 #include "utils/baseutils.h"
 
 #include "dthememanager.h"
-#include "imageengine/imageengineapi.h"
 
 #include <QCommandLineOption>
 #include <QDBusConnection>
@@ -72,6 +71,7 @@ CommandLine *CommandLine::instance()
 }
 
 CommandLine::CommandLine()
+    : m_pwidget(nullptr)
 {
     m_cmdParser.addHelpOption();
 //    m_cmdParser.addVersionOption();
@@ -112,6 +112,12 @@ void CommandLine::showHelp()
     fputs(qPrintable(m_cmdParser.helpText()), stdout);
 }
 
+//设置管理线程的对象
+void CommandLine::setThreads(ImageEngineImportObject *obj)
+{
+    m_obj = obj;
+}
+
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
 //    ViewMainWindow *w = new ViewMainWindow(false);
@@ -145,46 +151,9 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(0);
 
-            DBImgInfoList dbInfos;
-            using namespace utils::image;
-            for (auto path : paths) {
-                qDebug() << path;
-                if (! imageSupportRead(path)) {
-                    continue;
-                }
+            ImageEngineApi::instance()->loadImagesFromNewAPP(paths, m_obj);
 
-                QFileInfo fi(path);
-                using namespace utils::image;
-                using namespace utils::base;
-                auto mds = getAllMetaData(path);
-                QString value = mds.value("DateTimeOriginal");
-//                qDebug() << value;
-                DBImgInfo dbi;
-                dbi.fileName = fi.fileName();
-                dbi.filePath = path;
-                dbi.dirHash = utils::base::hash(QString());
-                if ("" != value) {
-                    dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-                } else if (fi.birthTime().isValid()) {
-                    dbi.time = fi.birthTime();
-                } else if (fi.metadataChangeTime().isValid()) {
-                    dbi.time = fi.metadataChangeTime();
-                } else {
-                    dbi.time = QDateTime::currentDateTime();
-                }
-                dbi.changeTime = QDateTime::currentDateTime();
-
-                qDebug() << path;
-                dbInfos << dbi;
-            }
-
-            if (! dbInfos.isEmpty()) {
-                qDebug() << "DBManager::instance()->insertImgInfos(dbInfos)";
-                DBManager::instance()->insertImgInfos(dbInfos);
-            }
         }
-
-//        dApp->LoadDbImage();
     });
 }
 
@@ -217,34 +186,6 @@ QUrl UrlInfo1(QString path)
     return url;
 }
 
-//QUrl UrlInfo1(QString path)
-//{
-//    QUrl url;
-//    // Just check if the path is an existing file.
-//    if (QFile::exists(path)) {
-//        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-//        return url;
-//    }
-
-//    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
-
-//    if (match.isValid()) {
-//        // cut away line/column specification from the path.
-//        path.chop(match.capturedLength());
-//    }
-
-//    // make relative paths absolute using the current working directory
-//    // prefer local file, if in doubt!
-//    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
-
-//    // in some cases, this will fail, e.g.
-//    // assume a local file and just convert it to an url.
-//    if (!url.isValid()) {
-//        // create absolute file path, we will e.g. pass this over dbus to other processes
-//        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-//    }
-//    return url;
-//}
 
 bool CommandLine::processOption(QStringList &paslist)
 {
@@ -275,7 +216,6 @@ bool CommandLine::processOption(QStringList &paslist)
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
         QString str = info.suffix().toLower();
 //        if (str.isEmpty()) {

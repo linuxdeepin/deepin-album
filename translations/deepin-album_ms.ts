@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ms">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,16 +97,8 @@
         <translation>Import ke:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Cakera</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Import</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">hari</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -129,6 +123,18 @@
     <message>
         <source>New album</source>
         <translation>Album baharu</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Batal</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -248,7 +254,7 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -277,22 +283,26 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeri</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -310,14 +320,14 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -358,7 +368,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>Galeri</translation>
     </message>
 </context>
 <context>
@@ -536,7 +546,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto</translation>
+        <translation type="vanished">%1 foto</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -595,10 +605,6 @@
         <translation>Tetapan</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Beberapa foto tidak dapat diimport</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Import foto</translation>
     </message>
@@ -608,23 +614,19 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -795,11 +797,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import pada</translation>
+        <translation type="vanished">Import pada</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +844,14 @@
     <message>
         <source>Exit</source>
         <translation>Keluar</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Terdahulu</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Berikutnya</translation>
     </message>
 </context>
 <context>
@@ -962,7 +980,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1052,7 +1070,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

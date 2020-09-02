@@ -1,7 +1,7 @@
 #include "dlmenuarrow.h"
 
 DLMenuArrow::DLMenuArrow(QWidget *parent)
-    : DPushButton(parent)
+    : DPushButton(parent), m_pParentWgt(nullptr), m_bMouseEnter(false)
 {
     setFlat(true);
     setWindowOpacity(0);
@@ -46,23 +46,21 @@ void DLMenuArrow::paintEvent(QPaintEvent *ev)
     QString strRgb = color.name();
     if (strRgb == "#f8f8f8") {
         pt.setPen(QPen(Qt::black));
-    }
-    else {
+    } else {
         pt.setPen(QPen(Qt::white));
     }
 
     if (IdArrowUp == m_actId) {
         QPainterPath arrow_up;
-        arrow_up.moveTo(width()/2 - OFFSET, OFFSET);
-        arrow_up.lineTo(width()/2, 0);
-        arrow_up.lineTo(width()/2 + OFFSET, OFFSET);
+        arrow_up.moveTo(width() / 2 - OFFSET, OFFSET);
+        arrow_up.lineTo(width() / 2, 0);
+        arrow_up.lineTo(width() / 2 + OFFSET, OFFSET);
         pt.drawPath(arrow_up);
-    }
-    else {
+    } else {
         QPainterPath arrow_down;
-        arrow_down.moveTo(width()/2 - OFFSET, height() - OFFSET - 1 );
-        arrow_down.lineTo(width()/2, height() - 1);
-        arrow_down.lineTo(width()/2 + OFFSET, height() - OFFSET - 1);
+        arrow_down.moveTo(width() / 2 - OFFSET, height() - OFFSET - 1 );
+        arrow_down.lineTo(width() / 2, height() - 1);
+        arrow_down.lineTo(width() / 2 + OFFSET, height() - OFFSET - 1);
         pt.drawPath(arrow_down);
     }
 

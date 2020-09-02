@@ -9,7 +9,8 @@
 DGUI_USE_NAMESPACE
 
 AlbumImageButton::AlbumImageButton(QWidget *parent)
-    : DPushButton(parent)
+    : DPushButton(parent), status(0), autoChecked(false)
+    , transparent(true)
 {
 }
 

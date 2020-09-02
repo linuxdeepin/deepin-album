@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ko">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,10 +97,6 @@
         <translation>가져오기 대상:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">디스크</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>가져오기</translation>
     </message>
@@ -129,6 +127,18 @@
     <message>
         <source>New album</source>
         <translation>새 앨범</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">취소</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -285,14 +295,18 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">갤러리</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>갤러리</translation>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
@@ -317,7 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>갤러리</translation>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
@@ -536,7 +550,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>사진 %1장</translation>
+        <translation type="vanished">사진 %1장</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -595,10 +609,6 @@
         <translation>설정</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">일부 사진은 가져오지 못했습니다</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>사진 가져오기</translation>
     </message>
@@ -621,10 +631,6 @@
     <message>
         <source>Importing...</source>
         <translation>가져오는 중...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -795,11 +801,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>가져오기 위치</translation>
+        <translation type="vanished">가져오기 위치</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,6 +848,14 @@
     <message>
         <source>Exit</source>
         <translation>종료</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>이전</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>다음</translation>
     </message>
 </context>
 <context>

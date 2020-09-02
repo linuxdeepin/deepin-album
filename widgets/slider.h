@@ -23,10 +23,10 @@ class Slider : public QSlider
 {
     Q_OBJECT
 public:
-    explicit Slider(QWidget *parent = 0);
-    explicit Slider(Qt::Orientation orientation, QWidget *parent = 0);
+    explicit Slider(QWidget *parent = nullptr);
+    explicit Slider(Qt::Orientation orientation, QWidget *parent = nullptr);
 protected:
-  void mousePressEvent (QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent (QMouseEvent *e) Q_DECL_OVERRIDE;
 
 };
 

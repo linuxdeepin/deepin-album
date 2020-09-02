@@ -27,6 +27,7 @@
 #include <QStandardPaths>
 #include <QPdfWriter>
 #include <QPainter>
+#include <QDesktopWidget>
 
 #include <QDebug>
 #include <QDateTime>
@@ -36,7 +37,9 @@ const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
 
 CExportImageDialog::CExportImageDialog(DWidget *parent)
-    : DDialog(parent)
+    : DDialog(parent), m_fileNameEdit(nullptr), m_savePathCombox(nullptr)
+    , m_formatCombox(nullptr), m_qualitySlider(nullptr), m_qualityLabel(nullptr)
+    , m_quality(0), m_questionDialog(nullptr), m_emptyWarningDialog(nullptr)
 {
     initUI();
     initConnection();
@@ -113,6 +116,12 @@ void CExportImageDialog::removeGifType()
     }
 }
 
+void CExportImageDialog::showEvent(QShowEvent *evet)
+{
+    m_fileNameEdit->lineEdit()->setFocus();     //设置焦点
+    return QWidget::showEvent(evet);
+}
+
 void CExportImageDialog::initUI()
 {
     setFixedSize(DIALOG_SIZE);
@@ -129,23 +138,36 @@ void CExportImageDialog::initUI()
 
     setWindowTitle(tr("Export"));
 
-//    DLabel *titleLabel = new DLabel(tr("Export"), this);
-//    titleLabel->setFixedSize(DIALOG_SIZE.width(), 40);
-
-//    QHBoxLayout *titleLayout = new QHBoxLayout(this);
-//    titleLayout->setSpacing(0);
-//    titleLayout->setMargin(0);
-//    titleLayout->addWidget(logoLable, 0, Qt::AlignLeft);
-//    titleLayout->addWidget(titleLabel, 0, Qt::AlignHCenter);
-
-
-//    titleLabel->move(0, 0);
-//    titleLabel->setAlignment(Qt::AlignCenter);
-
-
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
+
+    connect(m_fileNameEdit, &DLineEdit::editingFinished, this, [ = ] {
+        QString arg = m_fileNameEdit->text();
+        int len = arg.toLocal8Bit().size();
+        int filemaxlen = 251;
+        if (m_saveFormat.toUpper().compare("JPEG") == 0)
+            filemaxlen -= 1;
+        QString Interceptstr;
+        if (len > filemaxlen) {
+            int num = 0;
+            int pos = 0;
+            for (; pos < arg.size(); pos++) {
+                if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
+                    num += 3;
+                    if (num >= filemaxlen) {
+                        break;
+                    }
+                } else if (num < filemaxlen) {
+                    num += 1;
+                } else {
+                    break;
+                }
+            }
+            Interceptstr = arg.left(pos);
+            m_fileNameEdit->setText(Interceptstr);
+        }
+    });
 
 
     m_savePathCombox = new DComboBox(this);
@@ -157,25 +179,24 @@ void CExportImageDialog::initUI()
     m_savePathCombox->insertItem(Music, tr("Music"));
     m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
 
-    //暂时使用中文字符串，后续需要做翻译
-//    m_savePathCombox->insertItem(Pictures, tr("图片"));
-//    m_savePathCombox->insertItem(Documents, tr("文档"));
-//    m_savePathCombox->insertItem(Downloads, tr("下载"));
-//    m_savePathCombox->insertItem(Desktop, tr("桌面"));
-//    m_savePathCombox->insertItem(Videos, tr("视频"));
-//    m_savePathCombox->insertItem(Music, tr("音乐"));
-//    m_savePathCombox->insertItem(UsrSelect, tr("选择其他文件夹"));
     m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
     m_formatCombox = new DComboBox(this);
+//    m_formatCombox->insertItem(JPG, "jpg");
+//    m_formatCombox->insertItem(JPG, "jpeg");
+//    m_formatCombox->insertItem(PNG, "png");
+//    m_formatCombox->insertItem(BMP, "bmp");
+//    m_formatCombox->insertItem(BMP, "pgm");
+//    m_formatCombox->insertItem(TIF, "xbm");
+//    m_formatCombox->insertItem(PDF, "xpm");
     m_formatCombox->insertItem(JPG, "jpg");
-    m_formatCombox->insertItem(JPG, "jpeg");
+    m_formatCombox->insertItem(JPEG, "jpeg");
     m_formatCombox->insertItem(PNG, "png");
     m_formatCombox->insertItem(BMP, "bmp");
-    m_formatCombox->insertItem(BMP, "pgm");
-    m_formatCombox->insertItem(TIF, "xbm");
-    m_formatCombox->insertItem(PDF, "xpm");
+    m_formatCombox->insertItem(PGM, "pgm");
+    m_formatCombox->insertItem(XBM, "xbm");
+    m_formatCombox->insertItem(XPM, "xpm");
     m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
@@ -205,14 +226,9 @@ void CExportImageDialog::initUI()
     fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);
     fLayout->addRow(tr("Quality:"), qualityHLayout);
-//    fLayout->addRow(tr("文件名:"), m_fileNameEdit);
-//    fLayout->addRow(tr("保存到:"), m_savePathCombox);
-//    fLayout->addRow(tr("文件格式:"), m_formatCombox);
-//    fLayout->addRow(tr("图片质量:"), qualityHLayout);
+
     addContent(contentWidget);
 
-//    addButton(tr("取消"), false, DDialog::ButtonNormal);
-//    addButton(tr("保存"), true, DDialog::ButtonRecommend);
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
@@ -226,20 +242,16 @@ void CExportImageDialog::initUI()
     m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
     m_emptyWarningDialog->setFixedSize(400, 170);
 
-
-
-//    setLayout(titleLayout);
 }
 
 void CExportImageDialog::initConnection()
 {
     connect(m_savePathCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnSavePathChange(int)));
     connect(m_formatCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnFormatChange(int)));
-    connect(this, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnDialogButtonClick(int, const QString & )));
+    connect(this, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnDialogButtonClick(int, const QString &)));
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
-    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnQuestionDialogButtonClick(int, const QString & )));
-    connect(m_emptyWarningDialog, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnEmptyWarningDialogButtonClick(int, const QString & )));
-
+    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnQuestionDialogButtonClick(int, const QString &)));
+    connect(m_emptyWarningDialog, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnEmptyWarningDialogButtonClick(int, const QString &)));
 }
 
 void CExportImageDialog::slotOnSavePathChange(int index)
@@ -277,33 +289,31 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 
 void CExportImageDialog::slotOnFormatChange(int index)
 {
-    switch (index) {
-    case PDF:
-    case BMP:
-    case TIF:
-        m_qualitySlider->setValue(100);
-        m_qualitySlider->setEnabled(false);
-        break;
-    case JPG:
-    case PNG:
-        m_qualitySlider->setEnabled(true);
-        break;
-    default:
-        break;
-    }
-
     m_saveFormat = m_formatCombox->itemText(index);
-
-//    QString name = m_fileNameEdit->text().trimmed();
-
-//    if ("" != name) {
-
-//        name = name.mid(0, name.lastIndexOf("."));
-
-//        name += m_saveFormat;
-
-//        m_fileNameEdit->setText(name);
-//    }
+    //when jpeg format,recalculate file name length ,because ".jpeg"==5
+    if (m_saveFormat.toUpper().compare("JPEG") == 0) {
+        QString arg = m_fileNameEdit->text();
+        int len = arg.toLocal8Bit().size();
+        QString Interceptstr;
+        if (len > 250) {
+            unsigned num = 0;
+            int pos = 0;
+            for (; pos < arg.size(); pos++) {
+                if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
+                    num += 3;
+                    if (num >= 250) {
+                        break;
+                    }
+                } else if (num < 250) {
+                    num += 1;
+                } else {
+                    break;
+                }
+            }
+            Interceptstr = arg.left(pos);
+            m_fileNameEdit->setText(Interceptstr);
+        }
+    }
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
@@ -317,20 +327,24 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
             showEmptyWarningDialog();
             return;
         }
-        QString completePath = m_savePath + "/" + filename;
-        if (QFileInfo(completePath).exists()) {
-            hide();
-            showQuestionDialog(completePath);
-        } else {
-            bool savere = doSave();
-            hide();
-            if (savere) {
-                emit dApp->signalM->ImgExportSuccess();
-            } else {
-                emit dApp->signalM->ImgExportFailed();
-
+        QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
+        QFileInfo fileinfo(completePath);
+        if (fileinfo.exists()) {
+            if (!fileinfo.isDir()) {
+                hide();
+                showQuestionDialog(completePath);
+                return;
             }
         }
+        bool savere = doSave();
+        hide();
+        if (savere) {
+            emit dApp->signalM->ImgExportSuccess();
+        } else {
+            emit dApp->signalM->ImgExportFailed();
+
+        }
+
     }
 }
 
@@ -345,7 +359,6 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
 {
     Q_UNUSED(text);
     if (index == 1) {
-        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
         if (doSave()) {
             emit dApp->signalM->ImgExportSuccess();
         } else {
@@ -400,7 +413,7 @@ void CExportImageDialog::showEmptyWarningDialog()
     m_emptyWarningDialog->show();
 }
 
-void CExportImageDialog::showQuestionDialog(const QString &path)
+void CExportImageDialog::showQuestionDialog(const QString &path, const QString &srcpath)
 {
     m_questionDialog->clearContents();
     DWidget *wid = new DWidget();
@@ -420,22 +433,19 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     lay->addSpacing(100);
     wid->setLayout(lay);
     m_questionDialog->addContent(wid, Qt::AlignCenter);
-
+    if (!srcpath.isEmpty()) {
+        m_saveImage = QPixmap(srcpath);
+    }
+    m_savePath = path.left(path.lastIndexOf("/"));
 //    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
-    m_questionDialog->show();
+    m_questionDialog->move(dApp->desktop()->x() + (dApp->desktop()->width() - m_questionDialog->width()) / 2, dApp->desktop()->y() + (dApp->desktop()->height() - m_questionDialog->height()) / 2);
+    m_questionDialog->exec();
 }
 
 bool CExportImageDialog::doSave()
 {
-    QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + "." + m_saveFormat;
-    if (tr("gif") == m_saveFormat) {
-        if ("" != gifpath) {
-            QFile::copy(gifpath, completePath);
-        }
-    } else {
-        bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
-        qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;
-        return isSuccess;
-    }
-    return true;
+    QString filename = m_fileNameEdit->text();
+    m_saveFormat = m_formatCombox->currentText();
+    QString completePath = m_savePath + "/" + filename.trimmed() + "." + m_saveFormat;
+    return m_saveImage.save(completePath, m_saveFormat.toUpper().toUtf8().data(), 100);
 }

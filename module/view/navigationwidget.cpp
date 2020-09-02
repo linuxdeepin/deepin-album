@@ -168,9 +168,10 @@ void NavigationWidget::setImage(const QImage &img)
 
 
 
-    imageDrawRect = QRect((m_mainRect.width() - m_img.width() / ratio) / 2 + IMAGE_MARGIN,
-                          (m_mainRect.height() - m_img.height() / ratio) / 2 + utils::common::BORDER_WIDTH,
-                          m_img.width() / ratio, m_img.height() / ratio);
+    imageDrawRect = QRect(static_cast<int>((m_mainRect.width() - m_img.width() / ratio) / 2 + IMAGE_MARGIN),
+                          static_cast<int>((m_mainRect.height() - m_img.height() / ratio) / 2 + utils::common::BORDER_WIDTH),
+                          static_cast<int>(m_img.width() / ratio),
+                          static_cast<int>(m_img.height() / ratio));
 
     update();
 }
@@ -206,8 +207,8 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
 //    if (! imageRect.contains(p))
 //        return;
 
-    if (!m_mainRect.contains(p))
-        return;
+//    if (!m_mainRect.contains(p))
+//        return;
 
 //    const qreal x = 1.0 * (p.x() / devicePixelRatioF() - x0) / m_img.width() * m_originRect.width();
 //    const qreal y = 1.0 * (p.y() / devicePixelRatioF() - y0) / m_img.height() * m_originRect.height();
@@ -219,7 +220,7 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
 //    qDebug() << m_r;
 
 
-    Q_EMIT requestMove(x, y);
+    Q_EMIT requestMove(static_cast<int>(x), static_cast<int>(y));
 }
 
 void NavigationWidget::paintEvent(QPaintEvent *)

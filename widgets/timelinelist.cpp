@@ -32,7 +32,9 @@
 //    return QStyledItemDelegate::paint (painter, loption, index);
 //}
 
-TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
+TimelineList::TimelineList(QWidget *parent)
+    : DListWidget(parent), has(false), m_scrollbartopdistance(50)
+    , m_scrollbarbottomdistance(27)
 {
     setContentsMargins(0, 0, 0, 0);
     setResizeMode(QListView::Adjust);
@@ -41,6 +43,8 @@ TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
     setSpacing(0);
     setDragEnabled(false);
     connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
+        Q_UNUSED(max);
+        Q_UNUSED(min);
         QScrollBar *bar = this->verticalScrollBar();
         bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
     });
@@ -49,7 +53,6 @@ TimelineList::TimelineList(QWidget *parent) : DListWidget(parent)
 
 //    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    has = false;
     installEventFilter(this);
 }
 
@@ -82,7 +85,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
         int ccount = count();
         for (int i = 0; i < ccount; i++) {
             QListWidgetItem *pItem = this->item(i);
-            TimelineItem *pWidget = (TimelineItem *)itemWidget(pItem);
+            TimelineItem *pWidget = static_cast<TimelineItem *>(itemWidget(pItem));
             //add start 3975
             if (pWidget->m_type == "blank") {
                 blankHeight = 47;
@@ -94,7 +97,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
 #if 1
                     QListWidgetItem *pLastItem;
                     pLastItem = this->item(i - 1);
-                    TimelineItem *pLastWidget = (TimelineItem *)itemWidget(pLastItem);
+                    TimelineItem *pLastWidget = static_cast<TimelineItem *>(itemWidget(pLastItem));
                     emit sigMoveTime(pWidget->y() - pWidget->m_title->height() - 47, pLastWidget->m_sdate, pLastWidget->m_snum, pLastWidget->m_Chose->text());
 #endif
                     pWidget->m_title->setVisible(true);

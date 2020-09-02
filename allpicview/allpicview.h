@@ -38,6 +38,7 @@ public:
 
     bool imageImported(bool success) override
     {
+        Q_UNUSED(success);
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
@@ -50,6 +51,11 @@ private:
     void initStackedWidget();
 //    void initThumbnailListView();
     void updatePicsIntoThumbnailView();
+    /**
+     * @brief updatePicsIntoThumbnailView 针对单个或多个图片刷新
+     * @param strpath 图片路径队列
+     */
+    void updatePicsThumbnailView(QStringList strpath = QStringList());
     void onUpdateAllpicsNumLabel();
     void onKeyDelete();
 
@@ -59,8 +65,9 @@ private:
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
-private slots:
 
+private slots:
+    void updatePicsIntoThumbnailViewWithCache();
 public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
@@ -74,7 +81,7 @@ private:
     ImportView *m_pImportView;
     SearchView *m_pSearchView;
     DSpinner *m_spinner;
-    DWidget *fatherwidget = nullptr;
+    DWidget *fatherwidget;
 };
 
 #endif // ALLPICVIEW_H

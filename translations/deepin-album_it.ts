@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="it">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -95,10 +97,6 @@
         <translation>Importa in:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disco</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importa</translation>
     </message>
@@ -129,6 +127,18 @@
     <message>
         <source>New album</source>
         <translation>Nuovo album</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -287,12 +297,16 @@
         <source>Restoring...</source>
         <translation>Ripristino in corso...</translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="unfinished">Galleria</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -317,7 +331,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleria</translation>
+        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -537,7 +551,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 immagine(i)</translation>
+        <translation type="vanished">%1 immagine(i)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -596,10 +610,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Alcune immagini non sono state importate</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importa immagini</translation>
     </message>
@@ -622,10 +632,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Importing...</source>
         <translation>Importazione...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>Ripristino in corso...</translation>
     </message>
 </context>
 <context>
@@ -796,11 +802,19 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importa in</translation>
+        <translation type="vanished">Importa in</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -835,6 +849,14 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Exit</source>
         <translation>Esci</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Precedente</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Successiva</translation>
     </message>
 </context>
 <context>

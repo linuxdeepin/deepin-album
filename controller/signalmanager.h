@@ -92,7 +92,7 @@ signals:
     void resizeFileName();
     void sigAlbDelToast(const QString &albname);
     void sigAddToAlbToast(const QString &album);
-    void updateStatusBarImportLabel(const QStringList paths, int count);
+    void updateStatusBarImportLabel(const QStringList paths, int count, bool bcustalbum = false, QString album = "");
     void updateIcon();
     void ImportSuccess();
     void SearchEditClear();
@@ -103,6 +103,7 @@ signals:
     void ImgExportFailed();
     void AlbExportSuccess();
     void AlbExportFailed();
+    void DeviceImageLoadEnd();
     void sigExporting(const QString &path);
     void sigRestoreStatus();
 
@@ -116,8 +117,10 @@ signals:
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());
+
+    void sigDrawingBoard(QStringList Paths);//lmh0407
 #if 1
-    void viewModeCreateAlbum(QString path);
+    void viewCreateAlbum(QString path, bool bmodel = true);
     void sigCreateNewAlbumFrom(QString albumname);
 #endif
     void importDir(const QString &dir);
@@ -132,7 +135,7 @@ signals:
     void sigESCKeyStopSlide();
     void sigUpdataAlbumRightTitle(QString titlename);
     void sigUpdateTrashImageLoader();
-    void sigUpdateImageLoader();
+    void sigUpdateImageLoader(QStringList pathlist = QStringList());
     void sigLoadMountImagesEnd(QString mountname);
     void sigCtrlADDKeyActivated();
     void sigCtrlSubtractKeyActivated();
@@ -152,9 +155,20 @@ signals:
     void popupWaitDialog(QString waittext, bool bneedprogress = true);
     void closeWaitDialog();
     void progressOfWaitDialog(int allfiles, int completefiles);
+    void waitDevicescan();
+    void cacheThreadStop();
+
+    //lmh手机加载图片边加载，边传输信息
+    void sigPhonePath(QString PhoneName, QString pathName);
+
+    //lmh0426设备退出，信号通知线程退出
+    void sigDevStop(QString devName);
+
+    //对于外设后台加载是否暂停，在查看界面使用  -xiaolong
+    void sigPauseOrStart(bool bpause);
 
 private:
-    explicit SignalManager(QObject *parent = 0);
+    explicit SignalManager(QObject *parent = nullptr);
 
 private:
     static SignalManager *m_signalManager;

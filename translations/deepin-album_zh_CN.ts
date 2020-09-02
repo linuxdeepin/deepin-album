@@ -130,6 +130,18 @@
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>忽略</translation>
+    </message>
+    <message>
+        <source>Loading photos, please wait...</source>
+        <translation>正在加载图片，请稍候...</translation>
+    </message>
 </context>
 <context>
     <name>AllPicView</name>
@@ -287,12 +299,16 @@
         <source>Restoring...</source>
         <translation>正在恢复照片...</translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation>照片库</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
@@ -317,7 +333,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
@@ -536,7 +552,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation type="vanished">%1张照片</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -622,10 +638,6 @@
         <source>Importing...</source>
         <translation>正在导入照片，请稍候...</translation>
     </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>正在恢复照片...</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -639,7 +651,7 @@
     </message>
     <message>
         <source>File size</source>
-        <translation>⽂件⼤⼩</translation>
+        <translation>文件大小</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -647,11 +659,11 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>拍摄⽇期</translation>
+        <translation>拍摄日期</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改⽇期</translation>
+        <translation>修改日期</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -667,7 +679,7 @@
     </message>
     <message>
         <source>Aperture</source>
-        <translation>光圈⼤⼩</translation>
+        <translation>光圈大小</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -703,7 +715,7 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>颜⾊空间</translation>
+        <translation>颜色空间</translation>
     </message>
     <message>
         <source>Tag</source>
@@ -783,7 +795,7 @@
     </message>
     <message>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>%1年%2月%3日</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -795,11 +807,19 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1年%2月%3日 %4</translation>
     </message>
     <message>
         <source>Import on </source>
+        <translation type="vanished">导入于</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
         <translation>导入于</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1年%2月%3日 %4</translation>
     </message>
 </context>
 <context>
@@ -834,6 +854,14 @@
     <message>
         <source>Exit</source>
         <translation>退出</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一张</translation>
     </message>
 </context>
 <context>

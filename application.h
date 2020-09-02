@@ -19,6 +19,7 @@
 
 #include <DApplication>
 #include <QThread>
+#include <QSharedMemory>
 #include <dgiomount.h>
 #include "dbmanager/dbmanager.h"
 
@@ -45,33 +46,16 @@ class ImageLoader : public QObject
 public:
     explicit ImageLoader(Application *parent, QStringList pathlist, QStringList pathlisttrash);
 
-//    void addImageLoader(QStringList pathlist);
     void ImportImageLoader(DBImgInfoList dbInfos, QString albumname = nullptr);
     void updateImageLoader(QStringList pathlist);
-
-//    void addTrashImageLoader(QStringList trashpathlist);
-//    void updateTrashImageLoader(QStringList trashpathlist);
-
-//private:
-//    bool findPicturePathByPhone(QString &path);
-
-public slots:
-//    void startLoading();
-//    void onLoadMountImagesStart(QString mountName, QString path);
 
 signals:
     void sigFinishiLoad();
 
 private:
     Application *m_parent;
-
-
     QStringList m_pathlist;
     QStringList m_pathlisttrash;
-
-    QStringList m_phoneImgPathList;
-
-    int count = 0;
 };
 
 class Application : public DApplication
@@ -108,7 +92,20 @@ private:
     void initDB();
 
     QThread *m_LoadThread;
-
+public :
+    //LMH0420设置单例程序
+    void setupsinglecase();
+    //LMH0420是否已有相同程序运行
+    bool isRunning();
+    //打印信息
+    bool sendMessage(const QString &message);
+public slots:
+    void checkForMessage();
+signals:
+    void messageAvailable(QString message);
+private:
+    bool _isRunning;
+    QSharedMemory sharedMemory;
 };
 
 #endif  // APPLICATION_H_

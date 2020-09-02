@@ -30,9 +30,8 @@ const double MAX_SPEED_TIME = 14;
 }  // namespace
 
 ScrollBar::ScrollBar(QWidget *parent)
-    : QScrollBar(parent)
-    , m_speedTime(DEFAULT_SPEED_TIME)
-    , m_directionFlag(1)
+    : QScrollBar(parent), m_timer(nullptr), m_speedTime(DEFAULT_SPEED_TIME)
+    , m_directionFlag(1), m_oldScrollStep(0)
 {
     m_timer = new QTimer;
     m_timer->setSingleShot(true);
@@ -41,21 +40,20 @@ ScrollBar::ScrollBar(QWidget *parent)
     m_animation = new QPropertyAnimation(this, "value");
     m_animation->setEasingCurve(QEasingCurve::OutQuart);
     m_animation->setDuration(ANIMATION_DUARTION);
-    connect(m_animation, &QPropertyAnimation::finished, this, [=] {
+    connect(m_animation, &QPropertyAnimation::finished, this, [ = ] {
         m_timer->start();
     });
     connect(m_animation, &QPropertyAnimation::valueChanged,
-            this, [=] (const QVariant &v) {
-       int iv = v.toInt();
-       int startV = m_animation->startValue().toInt();
-       int endV = m_animation->endValue().toInt();
-       // Reset speedtime when animation almost done
-       if ((startV < endV) && (iv > (endV - 40))) {
-               m_speedTime = DEFAULT_SPEED_TIME;
-       }
-       else if (startV > endV && iv < (endV + 40) && iv > 0) {
+    this, [ = ] (const QVariant & v) {
+        int iv = v.toInt();
+        int startV = m_animation->startValue().toInt();
+        int endV = m_animation->endValue().toInt();
+        // Reset speedtime when animation almost done
+        if ((startV < endV) && (iv > (endV - 40))) {
             m_speedTime = DEFAULT_SPEED_TIME;
-       }
+        } else if (startV > endV && iv < (endV + 40) && iv > 0) {
+            m_speedTime = DEFAULT_SPEED_TIME;
+        }
     });
 }
 
@@ -92,11 +90,10 @@ void ScrollBar::wheelEvent(QWheelEvent *e)
             m_directionFlag = e->delta();
         }
 
-        int offset = - e->delta() * 2.5;
+        int offset = static_cast<int>(- e->delta() * 2.5);
         if (m_animation->state() == QPropertyAnimation::Running) {
             m_speedTime += 0.4;
-        }
-        else {
+        } else {
             m_speedTime = DEFAULT_SPEED_TIME;
         }
         m_animation->stop();
