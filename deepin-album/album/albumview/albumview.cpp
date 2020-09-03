@@ -309,6 +309,9 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, [ = ](QString albumname, QStringList pathlist) {
         qDebug() << "添加到目的相册：" << albumname;
         Q_UNUSED(pathlist);
+        if(m_currentType != albumname){
+            return;
+        }
         if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentType) //如果需要更新的为当前界面
             updateRightView();
     });
