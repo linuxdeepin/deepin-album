@@ -227,13 +227,13 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
         emit sigSelectAll();
     }
     m_dragItemPath = selectedPaths();
-    if(event->key() == Qt::Key_Period){
-        if(m_dragItemPath.empty()){
+    if (event->key() == Qt::Key_Period) {
+        if (m_dragItemPath.empty()) {
             return;
         }
-        if(!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,m_dragItemPath.first(), AlbumDBType::Favourite)){
+        if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_dragItemPath.first(), AlbumDBType::Favourite)) {
             DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
-        }else{
+        } else {
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
         }
     }
@@ -328,7 +328,7 @@ void ThumbnailListView::calBasePixMap(ItemInfo &info)
 {
     int i_totalwidth = window()->width() - 30;
     bool bcalBase = false;
-    if(info.width != 0){
+    if (info.width != 0) {
         bcalBase = (info.height / info.width) > 3;
     }
     if (0 == info.height || 0 == info.width || bcalBase) {
@@ -978,7 +978,7 @@ void ThumbnailListView::updateMenuContents()
         paths = selectedPaths();
     }
     paths.removeAll(QString(""));
-    if(paths.empty()){
+    if (paths.empty()) {
         return;
     }
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
@@ -1604,7 +1604,7 @@ void ThumbnailListView::slotReCalcTimelineSize()
 
 void ThumbnailListView::slotLoad80ThumbnailsFinish()
 {
-    qDebug() << "233333333333";
+    qDebug() << "zy------ThumbnailListView::slotLoad80ThumbnailsFinish";
     for (int i = 0; i < ImageEngineApi::instance()->m_AllImageData.size(); i++) {
         ImageDataSt data = ImageEngineApi::instance()->m_AllImageData[ImageEngineApi::instance()->m_AllImageData.keys().at(i)];
         ItemInfo info;

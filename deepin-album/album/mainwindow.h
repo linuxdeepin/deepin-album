@@ -73,7 +73,6 @@ public:
     void onShowImageInfo(const QString &path);
     void loadZoomRatio();
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     QJsonObject createShorcutJson();
 private:

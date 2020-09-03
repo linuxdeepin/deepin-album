@@ -46,7 +46,7 @@
 #include <imageengine/imageengineapi.h>
 
 #ifndef QT_NO_OPENGL
-#include <QGLWidget>
+//#include <QGLWidget>
 #endif
 
 #include <sys/inotify.h>

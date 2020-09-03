@@ -18,9 +18,9 @@ option(DOTEST "option for test" OFF)
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
 if(DOTEST)
-set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras OpenGL Test)
+set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras Test)
 else()
-set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras OpenGL)
+set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras)
 endif()
 #先查找到这些qt相关的模块以供链接使用
 find_package(Qt5 REQUIRED ${QtModule})

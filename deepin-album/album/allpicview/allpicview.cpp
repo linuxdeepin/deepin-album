@@ -72,9 +72,11 @@ AllPicView::AllPicView()
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
+        qDebug() << "zy------ImageEngineApi::instance()->m_AllImageData.size() > 0";
         m_pThumbnailListView->slotLoad80ThumbnailsFinish();
     } else {
         if (ImageEngineApi::instance()->m_80isLoaded) {
+            //相册为空的情况。
             m_pThumbnailListView->slotLoad80ThumbnailsFinish();
         } else {
             connect(ImageEngineApi::instance(), &ImageEngineApi::sigLoad80ThumbnailsToView,

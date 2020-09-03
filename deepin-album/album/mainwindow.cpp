@@ -79,22 +79,19 @@ MainWindow::MainWindow()
     QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
                              + "/config.conf";
     m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
-//    initShortcutKey();          //初始化各种快捷键
+    initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
-    m_pCenterWidget = new QStackedWidget(this);
-    m_pCenterWidget->setFixedSize(size());
-    m_pCenterWidget->lower();
-//    initCentralWidget();
+    initCentralWidget();
+
 //    initShortcut();
 //    initConnections();
 //    initDBus();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
-//    loadZoomRatio();
+    loadZoomRatio();
 //    if (m_processOptionIsEmpty) {
 //        m_commandLine->viewImage("", {});
 //    }
-
     qDebug() << "zy------MainWindow = " << t.elapsed();
 }
 
@@ -115,6 +112,14 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     Q_UNUSED(e);
     if (m_pCenterWidget)
         m_pCenterWidget->setFixedSize(size());
+
+    int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
+    if (m_SearchEditWidth <= 350) {
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
+    } else {
+        m_SearchEditWidth = 350;
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+    }
 }
 
 //初始化所有连接
@@ -620,9 +625,9 @@ void MainWindow::initTitleBar()
 //初始化中心界面
 void MainWindow::initCentralWidget()
 {
-//    m_pCenterWidget = new QStackedWidget(this);
-//    m_pCenterWidget->setFixedSize(size());
-//    m_pCenterWidget->lower();
+    m_pCenterWidget = new QStackedWidget(this);
+    m_pCenterWidget->setFixedSize(size());
+    m_pCenterWidget->lower();
 
     m_pAllPicView = new AllPicView();             //所有照片界面
     m_pTimeLineWidget = new QWidget();
@@ -814,7 +819,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
         emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
         QString str = "Create Album “%1” successfully";
-        floatMessage(str.arg(d->getCreateAlbumName()),icon);
+        floatMessage(str.arg(d->getCreateAlbumName()), icon);
     });
 }
 #endif
@@ -1099,34 +1104,18 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-void MainWindow::paintEvent(QPaintEvent *event)
+void MainWindow::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
-//    qDebug() << "m_ImgWidget width:          " << m_ImgWidget->width();
-//    qDebug() << "m_titleBtnWidget width:     " << m_titleBtnWidget->width();
-//    qDebug() << "m_pSearchEdit width:        " << m_pSearchEdit->width();
-//    qDebug() << "titlebar()->width():        " << titlebar()->width();
-//    qDebug() << "blank width:                " << titlebar()->width() - m_pSearchEdit->width() - m_titleBtnWidget->width() - m_ImgWidget->width();
-//    int m_SearchEditWidth = titlebar()->width() - TITLEBAR_BLANK_WIDTH - TITLEBAR_BTNWIDGET_WIDTH - TITLEBAR_ICON_WIDTH - 120;
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
-    //    qDebug() << "m_SearchEditWidth:            " << m_SearchEditWidth;
     if (m_SearchEditWidth <= 350) {
         m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
     } else {
         m_SearchEditWidth = 350;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
     }
-}
-
-void MainWindow::showEvent(QShowEvent *event)
-{
-    Q_UNUSED(event)
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
-            initShortcutKey();
-            initCentralWidget();
-//            m_slidePanel = new SlideShowPanel();
-//            m_pCenterWidget->addWidget(m_slidePanel);
 
             int index = 0;
             if (nullptr == m_pSearchView) {
@@ -1135,7 +1124,6 @@ void MainWindow::showEvent(QShowEvent *event)
                 m_pCenterWidget->insertWidget(index, m_pSearchView);
                 m_pCenterWidget->removeWidget(m_pSearchViewWidget);
             }
-
             if (m_processOptionIsEmpty) {
                 m_commandLine->viewImage("", {});
             }
@@ -1144,7 +1132,7 @@ void MainWindow::showEvent(QShowEvent *event)
             initConnections();
             initDBus();
 
-            loadZoomRatio();
+            //loadZoomRatio();
             if (0 < DBManager::instance()->getImgsCount()) {
                 // dothing
             } else {
@@ -1225,6 +1213,7 @@ bool MainWindow::compareVersion()
 //加载缩放比例（上次退出时）
 void MainWindow::loadZoomRatio()
 {
+    qDebug() << "zy------MainWindow::loadZoomRatio begin";
     if (m_settings->contains("album-version")) {
         if (m_settings->value("album-version").toString().isEmpty()) {
             m_pSliderPos = m_settings->value("album-zoomratio").toInt();
@@ -1233,23 +1222,13 @@ void MainWindow::loadZoomRatio()
         } else {
             m_pSliderPos = m_settings->value("album-zoomratio").toInt();
         }
-        //const int sliderpos = m_settings->value("album-zoomratio").toInt();
-        //m_pSliderPos = sliderpos;
-        //    if (m_pCenterWidget->currentIndex() == VIEW_ALLPIC) {
-        //m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        //} else if (m_pCenterWidget->currentIndex() == VIEW_TIMELINE)
-        //{
-        //    m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        //} else if (m_pCenterWidget->currentIndex() == VIEW_ALBUM)
-        //{
-        //    m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        //}
         dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
     } else {
         m_pSliderPos = 4;
     }
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+    qDebug() << "zy------MainWindow::loadZoomRatio end";
 }
 
 //初始化各种快捷键
