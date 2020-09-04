@@ -670,6 +670,14 @@
         <source>Importing...</source>
         <translation>正在导入照片，请稍候...</translation>
     </message>
+    <message>
+        <source>Create Album “%1” successfully</source>
+        <translation type="obsolete">创建相册 %1 成功</translation>
+    </message>
+    <message>
+        <source>Create Album %1 successfully</source>
+        <translation>创建 %1 成功</translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>

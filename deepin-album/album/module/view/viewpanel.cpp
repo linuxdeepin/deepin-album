@@ -824,6 +824,16 @@ void ViewPanel::initViewContent()
         // cache is finish
         m_viewB->autoFit();
     });
+    connect(m_viewB, &ImageView::sigFIleDelete, this, [ = ]() {
+        m_viewB->setImage(m_currentpath);    //设置当前显示图片
+        m_ttbc->setButtonDisabled(!QFileInfo(m_currentpath).exists());
+        if (!QFileInfo(m_currentpath).exists()) {
+            ImageDataSt data;
+            if (ImageEngineApi::instance()->getImageData(m_currentpath, data))
+                m_emptyWidget->setThumbnailImage(/*dApp->m_imagemap.value(path)*/data.imgpixmap);
+            m_stack->setCurrentIndex(1);
+        }
+    });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
 }
@@ -834,6 +844,7 @@ void ViewPanel::openImage(const QString &path, bool inDB, bool bjudge)
         return;
     m_currentpath = path;
     m_viewB->setImage(path);    //设置当前显示图片
+    m_ttbc->setButtonDisabled(!QFileInfo(path).exists());
     updateMenuContent();
     if (!QFileInfo(path).exists()) {
 //        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));

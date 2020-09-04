@@ -96,6 +96,7 @@ signals:
     void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
+    void sigFIleDelete();
 
 
 public slots:

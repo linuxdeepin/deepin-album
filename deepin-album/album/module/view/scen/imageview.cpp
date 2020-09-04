@@ -160,9 +160,17 @@ ImageView::ImageView(QWidget *parent)
     connect(m_imgFileWatcher, &CFileWatcher::fileChanged, this, &ImageView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, [ = ] {
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
-        setImage(m_path);
-        m_isChangedTimer->stop();
+        QFileInfo file(m_path);
+        if (file.exists())
+        {
+            dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+            setImage(m_path);
+            m_isChangedTimer->stop();
+        } else
+        {
+            emit sigFIleDelete();
+            m_isChangedTimer->stop();
+        }
     });
 }
 
@@ -778,10 +786,15 @@ void ImageView::updateImages(const QStringList &path)
 
 void ImageView::wheelEvent(QWheelEvent *event)
 {
-    qreal factor = qPow(1.2, event->delta() / 240.0);
-    scaleAtPoint(event->pos(), factor);
+    QFileInfo file(m_path);
+    if (!file.exists()) {
+        event->accept();
+    } else {
+        qreal factor = qPow(1.2, event->delta() / 240.0);
+        scaleAtPoint(event->pos(), factor);
 
-    event->accept();
+        event->accept();
+    }
 }
 
 CFileWatcher::CFileWatcher(QObject *parent): QThread(parent)

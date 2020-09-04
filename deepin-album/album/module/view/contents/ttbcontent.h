@@ -182,6 +182,7 @@ public:
     void setRightlist(QStringList rightlist);
 
     void setLeftlist(QStringList leftlist);
+    void setButtonDisabled(bool enable);
 
 signals:
     void ttbcontentClicked();
