@@ -197,32 +197,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     if (ImageLoadStatu_Loaded == data.loaded) {
         dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
     } else if (ImageLoadStatu_PreLoaded == data.loaded) {
-        using namespace UnionImage_NameSpace;
-        QFileInfo srcfi(imagepath);
-        QString dimension;
-        auto mds = getAllMetaData(imagepath);
-        QString value = mds.value("DateTime");
-        if (value.isEmpty()) {
-            value = mds.value("DateTimeOriginal");
-        }
-        DBImgInfo dbi;
-        dbi.fileName = srcfi.fileName();
-        dbi.filePath = imagepath;
-        dbi.dirHash = utils::base::hash(QString());
-        if (value.isEmpty()) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-        } else if (srcfi.birthTime().isValid()) {
-            dbi.time = srcfi.birthTime();
-        } else if (srcfi.metadataChangeTime().isValid()) {
-            dbi.time = srcfi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        if (!dimension.isEmpty()) {
-            dbi.albumSize = dimension;
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
-        data.dbi = dbi;
+        data.dbi = getDBInfo(imagepath);
         data.loaded = ImageLoadStatu_Loaded;
         m_AllImageData[imagepath] = data;
         //DBManager::instance()->insertImgInfos(DBImgInfoList() << dbi);

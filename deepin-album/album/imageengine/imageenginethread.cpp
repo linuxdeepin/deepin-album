@@ -1,4 +1,5 @@
 #include "imageenginethread.h"
+#include "imageengineapi.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -17,7 +18,34 @@
 #include "dbmanager/dbmanager.h"
 #include "application.h"
 #include "controller/signalmanager.h"
-#include "imageengineapi.h"
+
+DBImgInfo getDBInfo(const QString &srcpath) {
+    using namespace utils::base;
+    using namespace UnionImage_NameSpace;
+    QFileInfo srcfi(srcpath);
+    DBImgInfo dbi;
+    auto mds = getAllMetaData(srcpath);
+    QString value = mds.value("DateTimeOriginal");
+    dbi.fileName = srcfi.fileName();
+    dbi.filePath = srcpath;
+    dbi.dirHash = utils::base::hash(QString());
+    if (!value.isEmpty()) {
+        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
+    } else if (!srcfi.birthTime().isValid()) {
+        dbi.time = srcfi.birthTime();
+    } else if (!srcfi.metadataChangeTime().isValid()) {
+        dbi.time = srcfi.metadataChangeTime();
+    } else {
+        dbi.time = QDateTime::currentDateTime();
+    }
+    QString changeTime = mds.value("DateTimeDigitized");
+    if(!changeTime.isEmpty()){
+        dbi.changeTime = QDateTime::fromString(changeTime,"yyyy/MM/dd hh:mm");
+    }else{
+        dbi.changeTime = QDateTime::currentDateTime();
+    }
+    return dbi;
+}
 
 namespace {
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album";
@@ -202,38 +230,15 @@ void ImportImagesThread::run()
     using namespace utils::image;
     int noReadCount = 0;
     for (auto imagePath : image_list) {
-
         if (!imageSupportRead(imagePath)) {
             noReadCount++;
             continue;
         }
-
         QFileInfo srcfi(imagePath);
         if (!srcfi.exists()) {  //当前文件不存在
             continue;
         }
-        using namespace utils::image;
-        using namespace utils::base;
-        auto mds = getAllMetaData(imagePath);
-        QString value = mds.value("DateTime");
-        if (value.isEmpty()) {
-            value = mds.value("DateTimeOriginal");
-        }
-        DBImgInfo dbi;
-        dbi.fileName = srcfi.fileName();
-        dbi.filePath = imagePath;
-        dbi.dirHash = utils::base::hash(QString());
-        if (!value.isEmpty()) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-        } else if (srcfi.birthTime().isValid()) {
-            dbi.time = srcfi.birthTime();
-        } else if (srcfi.metadataChangeTime().isValid()) {
-            dbi.time = srcfi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
-        dbInfos << dbi;
+        dbInfos << getDBInfo(imagePath);
         emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
     }
 
@@ -398,25 +403,24 @@ void ImageImportFilesFromMountThread::run()
         if (QFile::copy(strPath, strNewPath)) {
             qDebug() << "onCopyPhotoFromPhone()";
         }
-        auto mds = getAllMetaData(strNewPath);
-        QString value = mds.value("DateTimeOriginal");
-        DBImgInfo dbi;
-        dbi.fileName = fi.fileName();
-        dbi.filePath = strNewPath;
-        dbi.dirHash = utils::base::hash(QString());
-        if ("" != value) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-        } else if (fi.birthTime().isValid()) {
-            dbi.time = fi.birthTime();
-        } else if (fi.metadataChangeTime().isValid()) {
-            dbi.time = fi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
+//        auto mds = getAllMetaData(strNewPath);
+//        QString value = mds.value("DateTimeOriginal");
+//        DBImgInfo dbi;
+//        dbi.fileName = fi.fileName();
+//        dbi.filePath = strNewPath;
+//        dbi.dirHash = utils::base::hash(QString());
+//        if ("" != value) {
+//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+//        } else if (fi.birthTime().isValid()) {
+//            dbi.time = fi.birthTime();
+//        } else if (fi.metadataChangeTime().isValid()) {
+//            dbi.time = fi.metadataChangeTime();
+//        } else {
+//            dbi.time = QDateTime::currentDateTime();
+//        }
 
-        dbi.changeTime = QDateTime::currentDateTime();
-
-        dbInfos << dbi;
+//        dbi.changeTime = QDateTime::currentDateTime();
+        dbInfos << getDBInfo(strNewPath);
 
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
     }
@@ -907,26 +911,35 @@ void ImageEngineThread::run()
         }
         m_data.imgpixmap = pixmap;
     }
-    auto mds = getAllMetaData(m_path);
-    QString value = mds.value("DateTimeOriginal");
+//    auto mds = getAllMetaData(m_path);
+//    QString value = mds.value("DateTimeOriginal");
 
-    DBImgInfo dbi;
-    dbi.fileName = srcfi.fileName();
-    dbi.filePath = m_path;
-    dbi.dirHash = utils::base::hash(QString());
-    if (!value.isEmpty()) {
-        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-    } else if (!srcfi.birthTime().isValid()) {
-        dbi.time = srcfi.birthTime();
-    } else if (!srcfi.metadataChangeTime().isValid()) {
-        dbi.time = srcfi.metadataChangeTime();
-    } else {
-        dbi.time = QDateTime::currentDateTime();
-    }
+//    DBImgInfo dbi;
+//    dbi.fileName = srcfi.fileName();
+//    dbi.filePath = m_path;
+//    dbi.dirHash = utils::base::hash(QString());
+//    if (!value.isEmpty()) {
+//        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
+//    } else if (!srcfi.birthTime().isValid()) {
+//        dbi.time = srcfi.birthTime();
+//    } else if (!srcfi.metadataChangeTime().isValid()) {
+//        dbi.time = srcfi.metadataChangeTime();
+//    } else {
+//        dbi.time = QDateTime::currentDateTime();
+//    }
+//    if (!dimension.isEmpty()) {
+//        dbi.albumSize = dimension;
+//    }
+//    QString changeTime = mds.value("DateTimeDigitized");
+//    if(!changeTime.isEmpty()){
+//        dbi.changeTime = QDateTime::fromString(changeTime,"yyyy/MM/dd hh:mm");
+//    }else{
+//        dbi.changeTime = QDateTime::currentDateTime();
+//    }
+    DBImgInfo dbi = getDBInfo(m_path);
     if (!dimension.isEmpty()) {
         dbi.albumSize = dimension;
     }
-    dbi.changeTime = QDateTime::currentDateTime();
     m_data.dbi = dbi;
     m_data.loaded = ImageLoadStatu_Loaded;
     if (getNeedStop()) {
@@ -982,26 +995,26 @@ void ImageFromNewAppThread::run()
             return;
         }
         if (!imageSupportRead(path)) continue;
-        QFileInfo fi(path);
-        using namespace utils::image;
-        using namespace utils::base;
-        auto mds = getAllMetaData(path);
-        QString value = mds.value("DateTimeOriginal");
-        DBImgInfo dbi;
-        dbi.fileName = fi.fileName();
-        dbi.filePath = path;
-        dbi.dirHash = utils::base::hash(QString());
-        if ("" != value) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-        } else if (fi.birthTime().isValid()) {
-            dbi.time = fi.birthTime();
-        } else if (fi.metadataChangeTime().isValid()) {
-            dbi.time = fi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
-        dbInfos << dbi;
+//        QFileInfo fi(path);
+//        using namespace utils::image;
+//        using namespace utils::base;
+//        auto mds = getAllMetaData(path);
+//        QString value = mds.value("DateTimeOriginal");
+//        DBImgInfo dbi;
+//        dbi.fileName = fi.fileName();
+//        dbi.filePath = path;
+//        dbi.dirHash = utils::base::hash(QString());
+//        if ("" != value) {
+//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+//        } else if (fi.birthTime().isValid()) {
+//            dbi.time = fi.birthTime();
+//        } else if (fi.metadataChangeTime().isValid()) {
+//            dbi.time = fi.metadataChangeTime();
+//        } else {
+//            dbi.time = QDateTime::currentDateTime();
+//        }
+//        dbi.changeTime = QDateTime::currentDateTime();
+        dbInfos << getDBInfo(path);
     }
     if (! dbInfos.isEmpty()) {
         if (bneedstop) {
@@ -1167,26 +1180,25 @@ void ImageEngineBackThread::run()
             pixmap = QPixmap::fromImage(tImg);
         }
         m_data.imgpixmap = pixmap;
-        QFileInfo fi(temppath);
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
-        auto mds = getAllMetaData(temppath);
-        QString value = mds.value("DateTimeOriginal");
-        DBImgInfo dbi;
-        dbi.fileName = fi.fileName();
-        dbi.filePath = temppath;
-        dbi.dirHash = utils::base::hash(QString());
-        if ("" != value) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-        } else if (fi.birthTime().isValid()) {
-            dbi.time = fi.birthTime();
-        } else if (fi.metadataChangeTime().isValid()) {
-            dbi.time = fi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
-        m_data.dbi = dbi;
+//        auto mds = getAllMetaData(temppath);
+//        QString value = mds.value("DateTimeOriginal");
+//        DBImgInfo dbi;
+//        dbi.fileName = fi.fileName();
+//        dbi.filePath = temppath;
+//        dbi.dirHash = utils::base::hash(QString());
+//        if ("" != value) {
+//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
+//        } else if (fi.birthTime().isValid()) {
+//            dbi.time = fi.birthTime();
+//        } else if (fi.metadataChangeTime().isValid()) {
+//            dbi.time = fi.metadataChangeTime();
+//        } else {
+//            dbi.time = QDateTime::currentDateTime();
+//        }
+//        dbi.changeTime = QDateTime::currentDateTime();
+        m_data.dbi = getDBInfo(temppath);
         m_data.loaded = ImageLoadStatu_Loaded;
 
         if (bbackstop || ImageEngineApi::instance()->closeFg()) {

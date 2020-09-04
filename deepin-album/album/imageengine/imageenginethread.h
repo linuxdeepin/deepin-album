@@ -6,6 +6,7 @@
 #include <QUrl>
 #include "imageengineobject.h"
 
+DBImgInfo getDBInfo(const QString &srcpath);
 
 class ImportImagesThread : public ImageEngineThreadObject, public QRunnable
 {
