@@ -88,13 +88,12 @@ private slots:
 
     void sigImageBackLoaded(QString path, ImageDataSt data);
 
-    //void sltLoadOneThumbnail(QString imagepath, ImageDataSt data);
     void slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData);
 signals:
     //发送给缩略图控件
     void sigLoad80ThumbnailsToView();
     //发给线程
-    void sigLoad80Thumbnails();
+    void sigLoad80Thumbnails(DBImgInfoList infos);
     void sigLoadOneThumbnail(QString imagepath, ImageDataSt data);
     void sigLoadOneThumbnailToThumbnailView(QString imagepath, ImageDataSt data);
 public:
@@ -112,8 +111,6 @@ private:
     QThreadPool m_qtpool;
     QThreadPool cacheThreadPool;
 #endif
-    QThread *m_workerThread = nullptr;
-    DBandImgOperate *m_worker = nullptr;
 };
 
 #endif // IMAGEENGINEAPI_H

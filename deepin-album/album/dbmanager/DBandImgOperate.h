@@ -54,12 +54,15 @@ public slots:
     void     generateThumbnails(DBImgInfoList list);
     //加载一张缩略图
     ImageDataSt     loadOneThumbnail(QString imagepath/*, ImageDataSt data*/);
-    void     threadSltLoad80Thumbnail();
+    void     threadSltLoad80Thumbnail(DBImgInfoList infos);
 signals:
     void sig80ImgInfosReady(QMap<QString, ImageDataSt> imageDatas);
     void sigAllImgInfosReady(DBImgInfoList);
     void loadOneThumbnailReady(QString imagepath, ImageDataSt data);
     void fileIsNotExist(QString imagepath);
+public:
+    int m_loadBegin = 0;
+    int m_loadEnd = 0;
 private:
     QStringList m_ImgPaths;
     std::atomic<bool> m_couldRun;

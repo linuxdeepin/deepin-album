@@ -6,6 +6,9 @@
 #include <QMetaType>
 #include <QDirIterator>
 #include <QStandardPaths>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 #include "utils/unionimage.h"
 #include "utils/baseutils.h"
 
@@ -37,9 +40,6 @@ ImageEngineApi::~ImageEngineApi()
     QThreadPool::globalInstance()->waitForDone();
     qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
 #endif
-    m_worker->setThreadShouldStop();
-    m_workerThread->quit();
-    m_workerThread->wait();
 }
 
 ImageEngineApi::ImageEngineApi(QObject *parent)
@@ -50,6 +50,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt");
+    qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
     qRegisterMetaType<QMap<QString, ImageDataSt>>("QMap<QString,ImageDataSt>");
 #ifdef NOGLOBAL
     m_qtpool.setMaxThreadCount(4);
@@ -57,20 +58,28 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
 #else
     QThreadPool::globalInstance()->setMaxThreadCount(12);
 #endif
-    m_workerThread = new QThread(this);
-    m_worker = new DBandImgOperate();
-    m_worker->moveToThread(m_workerThread);
-    connect(m_workerThread, &QThread::finished, m_worker, &QObject::deleteLater);
-    //发送加载一张图片信息信号
-//    connect(this, SIGNAL(sigLoadOneThumbnail(QString, ImageDataSt)),
-//            m_worker, SLOT(loadOneThumbnail(QString, ImageDataSt)));
-    connect(this, SIGNAL(sigLoad80Thumbnails()),
-            m_worker, SLOT(threadSltLoad80Thumbnail()));
-    //收到获取全部照片信息成功信号
-//    connect(m_worker, &DBandImgOperate::loadOneThumbnailReady, this, &ImageEngineApi::sltLoadOneThumbnail);
-//    connect(m_worker, &DBandImgOperate::fileIsNotExist, this, &ImageEngineApi::sltAborted);
-    connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
-    m_workerThread->start();
+    for (int i = 0; i < 3; i++) {
+        QThread *workerThread = new QThread(this);
+        DBandImgOperate *worker = new DBandImgOperate(workerThread);
+        if (i == 0) {
+            worker->m_loadBegin = 0;
+            worker->m_loadEnd = 14;
+        } else if (i == 1) {
+            worker->m_loadBegin = 14;
+            worker->m_loadEnd = 33;
+        } else if (i == 2) {
+            worker->m_loadBegin = 33;
+            worker->m_loadEnd = 50;
+        }
+
+        worker->moveToThread(workerThread);
+        //开始录制
+        connect(this, SIGNAL(sigLoad80Thumbnails(DBImgInfoList)),
+                worker, SLOT(threadSltLoad80Thumbnail(DBImgInfoList)));
+        //收到获取全部照片信息成功信号
+        connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
+        workerThread->start();
+    }
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -315,14 +324,15 @@ void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
 {
     m_AllImageData[path] = data;
 }
-
+int static loadCount = 0;
 void ImageEngineApi::slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData)
 {
-    int size = ImageData.size();
-    m_AllImageData = ImageData;
-    m_80isLoaded = true;
-    emit sigLoad80ThumbnailsToView();
-    qDebug() << "ImageEngineApi::slt80ImgInfosReady size = " << size;
+    loadCount++;
+    m_AllImageData.unite(ImageData);
+    if (loadCount == 3) {
+        m_80isLoaded = true;
+        emit sigLoad80ThumbnailsToView();
+    }
 }
 
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
@@ -433,7 +443,33 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
 
 void ImageEngineApi::load80Thumbnails()
 {
-    emit sigLoad80Thumbnails();
+    DBImgInfoList infos;
+    QSqlDatabase db = DBManager::instance()->getDatabase();
+    if (! db.isValid()) {
+        return;
+    }
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
+                  "FROM ImageTable3 order by Time desc limit 50");
+    if (! query.exec()) {
+        qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
+        //emit sigAllImgInfosReady(infos);
+        return;
+    } else {
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+            //            info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
+            infos << info;
+        }
+    }
+    emit sigLoad80Thumbnails(infos);
 }
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {

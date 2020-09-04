@@ -179,13 +179,15 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
     //emit loadOneThumbnailReady(imagepath, data);
 }
 
-void DBandImgOperate::threadSltLoad80Thumbnail()
+void DBandImgOperate::threadSltLoad80Thumbnail(DBImgInfoList infos)
 {
-    DBImgInfoList infos;
-    getFirst80ImgInfos(infos);
+    DBImgInfoList infosLoad;
+    for (int i = m_loadBegin; (i < infos.size() && i < m_loadEnd); i++) {
+        infosLoad.append(infos.at(i));
+    }
     QMap<QString, ImageDataSt> imageDatas;
     imageDatas.clear();
-    for (auto info : infos) {
+    for (auto info : infosLoad) {
         ImageDataSt data = loadOneThumbnail(info.filePath);
         imageDatas[info.filePath] = data;
     }

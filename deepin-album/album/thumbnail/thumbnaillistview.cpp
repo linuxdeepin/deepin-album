@@ -1605,14 +1605,12 @@ void ThumbnailListView::slotReCalcTimelineSize()
 void ThumbnailListView::slotLoad80ThumbnailsFinish()
 {
     qDebug() << "zy------ThumbnailListView::slotLoad80ThumbnailsFinish";
-    for (int i = 0; i < ImageEngineApi::instance()->m_AllImageData.size(); i++) {
-        ImageDataSt data = ImageEngineApi::instance()->m_AllImageData[ImageEngineApi::instance()->m_AllImageData.keys().at(i)];
+    for (auto data : ImageEngineApi::instance()->m_AllImageData) {
         ItemInfo info;
         if (data.imgpixmap.isNull()) {
             info.bNotSupportedOrDamaged = true;
             data.imgpixmap = getDamagedPixmap();
         }
-
         info.name = data.dbi.fileName;
         info.path = data.dbi.filePath;
         info.width = data.imgpixmap.width();
