@@ -516,13 +516,9 @@ void ImageGetFilesFromMountThread::run()
     QString strPath = m_path;
     //获取所选文件类型过滤器
     QStringList filters;
-    filters << QString("*.jpeg") << QString("*.jpg")
-            << QString("*.bmp") << QString("*.png")
-            << QString("*.gif")
-            << QString("*.JPEG") << QString("*.JPG")
-            << QString("*.BMP") << QString("*.PNG")
-            << QString("*.GIF")
-            ;
+    for (QString i:UnionImage_NameSpace::unionImageSupportFormat()){
+        filters << "*." + i;
+    }
     //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
     QDirIterator dir_iterator(m_path,
                               filters,
@@ -531,7 +527,6 @@ void ImageGetFilesFromMountThread::run()
     QStringList allfiles;
     while (dir_iterator.hasNext()) {
         if (bneedstop || ImageEngineApi::instance()->closeFg()) {
-
             return;
         }
         dir_iterator.next();
@@ -660,8 +655,8 @@ QStringList ImageLoadFromLocalThread::checkImage(const QString  path)
         }
     }
     static QStringList sList;
-    for (const QByteArray &i : QImageReader::supportedImageFormats())
-        sList << "*." + QString::fromLatin1(i);
+    for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
+        sList << "*." +  i;
     dir.setNameFilters(sList);
     for (int i = 0; i < static_cast<int>(dir.count()); i++) {
         if (bneedstop)
@@ -709,9 +704,7 @@ void ImageLoadFromLocalThread::run()
                         emit sigInsert(path);
                     }
                 }
-
             }
-
         }
         break;
     case DataType_InfoList:
@@ -911,31 +904,6 @@ void ImageEngineThread::run()
         }
         m_data.imgpixmap = pixmap;
     }
-//    auto mds = getAllMetaData(m_path);
-//    QString value = mds.value("DateTimeOriginal");
-
-//    DBImgInfo dbi;
-//    dbi.fileName = srcfi.fileName();
-//    dbi.filePath = m_path;
-//    dbi.dirHash = utils::base::hash(QString());
-//    if (!value.isEmpty()) {
-//        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-//    } else if (!srcfi.birthTime().isValid()) {
-//        dbi.time = srcfi.birthTime();
-//    } else if (!srcfi.metadataChangeTime().isValid()) {
-//        dbi.time = srcfi.metadataChangeTime();
-//    } else {
-//        dbi.time = QDateTime::currentDateTime();
-//    }
-//    if (!dimension.isEmpty()) {
-//        dbi.albumSize = dimension;
-//    }
-//    QString changeTime = mds.value("DateTimeDigitized");
-//    if(!changeTime.isEmpty()){
-//        dbi.changeTime = QDateTime::fromString(changeTime,"yyyy/MM/dd hh:mm");
-//    }else{
-//        dbi.changeTime = QDateTime::currentDateTime();
-//    }
     DBImgInfo dbi = getDBInfo(m_path);
     if (!dimension.isEmpty()) {
         dbi.albumSize = dimension;
@@ -946,8 +914,6 @@ void ImageEngineThread::run()
         return;
     }
     bwaitstop = true;
-
-
     QMutexLocker mutex(&m_mutex);
     for (ImageEngineObject *imgobject : m_imgobject) {
         imgobject->removeThread(this);
@@ -1123,36 +1089,6 @@ void ImageEngineBackThread::run()
             qDebug() << errMsg;
             break;
         }
-//        QString format = DetectImageFormat(path);
-//        if (format.isEmpty()) {
-//            QImageReader reader(path);
-//            reader.setAutoTransform(true);
-//            if (reader.canRead()) {
-//                tImg = reader.read();
-//            } else if (path.contains(".tga")) {
-//                bool ret = false;
-//                tImg = utils::image::loadTga(path, ret);
-//            }
-//        } else  {
-//            if (bbackstop || ImageEngineApi::instance()->closeFg())
-//                return;
-//            QImageReader readerF(path, format.toLatin1());
-//            readerF.setAutoTransform(true);
-//            if (readerF.canRead()) {
-//                tImg = readerF.read();
-//            } else {
-//                qWarning() << "can't read image:" << readerF.errorString()
-//                           << format;
-//                tImg = QImage(path);
-//            }
-//        }
-
-//        if (tImg.isNull()) {
-//            QImageReader readerG(temppath, QFileInfo(temppath).suffix().toLatin1());
-//            if (readerG.canRead())
-//                tImg = readerG.read();
-//        }
-
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
 
@@ -1182,22 +1118,6 @@ void ImageEngineBackThread::run()
         m_data.imgpixmap = pixmap;
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
-//        auto mds = getAllMetaData(temppath);
-//        QString value = mds.value("DateTimeOriginal");
-//        DBImgInfo dbi;
-//        dbi.fileName = fi.fileName();
-//        dbi.filePath = temppath;
-//        dbi.dirHash = utils::base::hash(QString());
-//        if ("" != value) {
-//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-//        } else if (fi.birthTime().isValid()) {
-//            dbi.time = fi.birthTime();
-//        } else if (fi.metadataChangeTime().isValid()) {
-//            dbi.time = fi.metadataChangeTime();
-//        } else {
-//            dbi.time = QDateTime::currentDateTime();
-//        }
-//        dbi.changeTime = QDateTime::currentDateTime();
         m_data.dbi = getDBInfo(temppath);
         m_data.loaded = ImageLoadStatu_Loaded;
 

@@ -2032,7 +2032,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
                 return;
             }
         }
-
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
         if (strPath.isEmpty()) {
@@ -2045,7 +2044,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         if ("" == rename) {
             rename = mount->name();
         }
-
 //        emit pMountloader->sigLoadMountImagesStart(rename, strPath);
         //判断路径是否存在
         QDir dir(strPath);
@@ -2055,7 +2053,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
             dApp->signalM->sigLoadMountImagesEnd(rename);
             return;
         }
-
         //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
         if (!strPath.contains("/media/")) {
             bool bFind = findPicturePathByPhone(strPath);
@@ -2065,7 +2062,6 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
                 return;
             }
         }
-
         isWaitDialog = true;
         isIgnore = true;
         updateExternalDevice(mount, strPath);
@@ -2111,9 +2107,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         if ("" == rename) {
             rename = mount->name();
         }
-
         if (rename == pAlbumLeftTabItem->m_albumNameStr &&  pAlbumLeftTabItem->m_mountPath.contains(strPath)) {
-
             if (1 < m_pLeftListView->m_pMountListView->count()) {
                 delete pListWidgetItem;
             } else {

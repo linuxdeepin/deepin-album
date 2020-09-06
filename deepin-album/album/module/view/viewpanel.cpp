@@ -826,7 +826,7 @@ void ViewPanel::initViewContent()
     });
     connect(m_viewB, &ImageView::sigFIleDelete, this, [ = ]() {
         m_viewB->setImage(m_currentpath);    //设置当前显示图片
-        m_ttbc->setButtonDisabled(!QFileInfo(m_currentpath).exists());
+        //m_ttbc->setButtonDisabled(!QFileInfo(m_currentpath).exists());
         if (!QFileInfo(m_currentpath).exists()) {
             ImageDataSt data;
             if (ImageEngineApi::instance()->getImageData(m_currentpath, data))
@@ -844,7 +844,7 @@ void ViewPanel::openImage(const QString &path, bool inDB, bool bjudge)
         return;
     m_currentpath = path;
     m_viewB->setImage(path);    //设置当前显示图片
-    m_ttbc->setButtonDisabled(!QFileInfo(path).exists());
+    //m_ttbc->setButtonDisabled(!QFileInfo(path).exists());
     updateMenuContent();
     if (!QFileInfo(path).exists()) {
 //        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));

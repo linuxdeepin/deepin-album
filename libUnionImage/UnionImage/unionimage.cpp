@@ -518,6 +518,10 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
+    QFileInfo info(path);
+    if(!info.exists()){
+        return false;
+    }
     QImageReader r(path);
     if (r.imageCount() > 1) {
         return false;
@@ -531,7 +535,7 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
             return true;
         }
     }
-    QFileInfo info(path);
+
     if (union_image_private.m_canSave.contains(info.suffix().toUpper()))
         return true;
     return false;

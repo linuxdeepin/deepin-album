@@ -1557,42 +1557,34 @@ void TTBContent::setImage(const QString &path)
         }
         setCurrentItem();
     }
-    setButtonDisabled(!QFileInfo(path).exists());
+    //setButtonDisabled(!QFileInfo(path).exists());
 //    emit dApp->signalM->hideBottomToolbar();
 }
 
 bool TTBContent::setCurrentItem()
 {
-    if ((QFileInfo(m_currentpath).exists()) &&
-            (m_currentpath.isEmpty() || !QFileInfo(m_currentpath).exists() || !QFileInfo(m_currentpath).isReadable())) {
+    if (m_currentpath.isEmpty() || !QFileInfo(m_currentpath).exists()) {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
-//        m_trashBtn->setDisabled(true);
+        m_trashBtn->setDisabled(true);
         m_imgList->setDisabled(false);
+        m_clBT->setDisabled(true);
     } else {
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
 
         updateScreen();
-        if (QFileInfo(m_currentpath).isReadable() &&
-                !QFileInfo(m_currentpath).isWritable()) {
-//            m_trashBtn->setDisabled(true);
-            m_rotateLBtn->setDisabled(true);
-            m_rotateRBtn->setDisabled(true);
+        m_trashBtn->setDisabled(false);
+        if (UnionImage_NameSpace::canSave(m_currentpath)) {
+            m_rotateLBtn->setDisabled(false);
+            m_rotateRBtn->setDisabled(false);
         } else {
-//            m_trashBtn->setDisabled(false);
-            if (UnionImage_NameSpace::isImageSupportRotate(m_currentpath)) {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
-            } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
-            }
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
         }
     }
-
     QString fileName = "";
     if (m_currentpath != "") {
         fileName = QFileInfo(m_currentpath).fileName();
