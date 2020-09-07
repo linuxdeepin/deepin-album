@@ -73,7 +73,6 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     m_timer->setSingleShot(200);
     m_animationTimer = new QTimer(this);
     m_animationTimer->setInterval(100);
-    connect(m_animationTimer, SIGNAL(timeout()), this, SLOT(animationTimerTimeOut()));
 }
 
 bool MyImageListWidget::ifMouseLeftPressed()
@@ -94,11 +93,18 @@ void MyImageListWidget::setObj(QObject *obj)
     m_obj = obj;
     m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
     m_resetAnimation = new QPropertyAnimation(m_obj, "pos");
+    connect(m_resetAnimation, SIGNAL(finished()), this, SLOT(animationFinished()));
+    connect(m_resetAnimation, SIGNAL(valueChanged(const QVariant)), this, SLOT(animationValueChanged(const QVariant)));
 }
 
 void MyImageListWidget::setSelectItem(ImageItem *selectItem)
 {
     m_selectItem = selectItem;
+    if (!m_isMoving) {
+        if (m_resetAnimation->property("type") != "800") {
+            animationStart(true, 0, 300);
+        }
+    }
 }
 
 void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
@@ -106,14 +112,10 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
     if (dynamic_cast<DWidget *>(m_obj) == nullptr) {
         return;
     }
-//    if (m_isMoving) {
-//        return;
-//    }
     if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
         m_resetAnimation->stop();
     }
 
-    findSelectItem();
     int moveX = 0;
 //    qDebug() << "zy------this->left() = " << dynamic_cast<DWidget *>(m_obj)->geometry().left();
 //    qDebug() << "zy------m_obj)->geometry().width() = " << dynamic_cast<DWidget *>(m_obj)->geometry().width();
@@ -136,11 +138,15 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
         moveX = endPos;
     }
     m_resetAnimation->setDuration(duration);
+    if (duration == 800) {
+        m_resetAnimation->setProperty("type", "800");
+    } else {
+        m_resetAnimation->setProperty("type", "300");
+    }
     m_resetAnimation->setEasingCurve(QEasingCurve::OutQuad);
     m_resetAnimation->setStartValue(dynamic_cast<DWidget *>(m_obj)->pos());
     m_resetAnimation->setEndValue(QPoint(moveX, dynamic_cast<DWidget *>(m_obj)->pos().y()));
     m_resetAnimation->start();
-    connect(m_resetAnimation, SIGNAL(finished()), this, SLOT(animationFinished()));
 }
 
 void MyImageListWidget::stopAnimation()
@@ -176,20 +182,86 @@ void MyImageListWidget::findSelectItem()
     }
 }
 
+void MyImageListWidget::thumbnailIsMoving()
+{
+    if (m_obj == nullptr || m_selectItem == nullptr || m_resetFinish) {
+        return;
+    }
+    if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 300) {
+        return;
+    }
+    int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+    if (abs(offset) <= 32) {
+        return;
+    }
+    int index = 0;
+    QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+    if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
+        if (offset < 0) {
+            index = m_selectItem->index() + 1;
+            if (index >= list.size()) {
+                index = list.size() - 1;
+            }
+        } else {
+            index = m_selectItem->index() - 1;
+            if (index < 0) {
+                index = 0;
+            }
+        }
+        QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
+        if (labelList2.size() > 0) {
+            ImageItem *img2 = labelList2.at(0);
+            if (nullptr != img2) {
+                img2->emitClickSig();
+            }
+        }
+    } else {
+        int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+        if (offset > 0) {
+            index = m_preSelectItemIndex - abs(offset) / 32;
+            if (index < 0) {
+                index = 0;
+            }
+        } else if (offset < 0) {
+            index = m_preSelectItemIndex + abs(offset) / 32;
+            if (index >= list.size()) {
+                index = list.size() - 1;
+            }
+        }
+        QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
+        if (labelList2.size() > 0) {
+            ImageItem *img2 = labelList2.at(0);
+            if (nullptr != img2) {
+                img2->emitClickSig();
+            }
+        }
+    }
+}
+
+void MyImageListWidget::animationValueChanged(const QVariant value)
+{
+    if (m_resetAnimation->property("type") != "800") {
+        return;
+    }
+    //惯性滑动过程中显示选中图元
+    thumbnailIsMoving();
+}
+
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Leave) {
     }
     if (e->type() == QEvent::MouseButtonPress) {
-        if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
-            m_resetAnimation->stop();
-        }
+        m_resetAnimation->stop();
         m_animationTimer->start();
         findSelectItem();
         m_isMoving = false;
         m_resetFinish = false;
         bmouseleftpressed = true;
+        //记录点下时当前选中的缩略图图元index，便于移动和惯性时比较
+        m_preSelectItemIndex = m_selectItem->indexNow();
+        m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         m_presspoint = mouseEvent->globalPos();
         m_prepoint = mouseEvent->globalPos();
@@ -222,9 +294,13 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         if (m_isMoving) {
             int endPos = 0;
             if (m_movePoints.size() > 0) {
-                endPos = dynamic_cast<DWidget *>(m_obj)->pos().x() +
-                         m_movePoints.at(m_movePoints.size() - 1).x() - m_movePoints.at(0).x();
-                animationStart(false, endPos, 800);
+                endPos = dynamic_cast<DWidget *>(m_obj)->pos().x() + m_movePoints.last().x() - m_movePoints.first().x();
+                //过滤掉触屏点击时的move误操作
+                if (abs(m_movePoints.last().x() - m_movePoints.first().x()) > 15) {
+                    animationStart(false, endPos, 800);
+                } else {
+                    animationStart(true, 0, 300);
+                }
             }
         }
         if (!m_isMoving) {
@@ -238,8 +314,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 //        emit mouseLeftReleased();
     }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
-        m_isMoving = true;
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        m_isMoving = true;
         QPoint p = mouseEvent->globalPos();
         if (m_movePoints.size() < 20) {
             m_movePoints.push_back(p);
@@ -258,8 +334,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_presspoint = p;
         int posX = dynamic_cast<DWidget *>(m_obj)->x();
         int viewwidth = dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x();
-
-
+        //多动过程中显示选中图元
+        thumbnailIsMoving();
 
         QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
         //向右加载数据
@@ -385,11 +461,12 @@ void MyImageListWidget::animationTimerTimeOut()
 
 void MyImageListWidget::animationFinished()
 {
-    if (m_resetAnimation->duration() == 800) {
+    //设置type标志用来判断是惯性动画还是复位动画
+    if (m_resetAnimation->property("type") == "800") {
         m_resetFinish = false;
         animationStart(true, 0, 300);
     }
-    if (m_resetAnimation->duration() == 300) {
+    if (m_resetAnimation->property("type") == "300") {
         m_resetFinish = true;
     }
 }
@@ -906,9 +983,6 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     connect(this, &TTBContent::sigRequestSomeImages, this, [ = ] {
         requestSomeImages();
     });
-    m_filterTimer = new QTimer(this);
-    m_filterTimer->setInterval(800);
-    m_filterTimer->setSingleShot(true);
 }
 
 
@@ -1031,8 +1105,6 @@ void TTBContent::updateScreen()
             m_preButton_spc->show();
             m_nextButton->show();
             m_nextButton_spc->show();
-            m_imgListView->animationStart(true, 0, 300);
-
 
             if (m_nowIndex == 0) {
                 m_preButton->setDisabled(true);
@@ -1448,9 +1520,6 @@ void TTBContent::updateFilenameLayout()
 
 void TTBContent::onNextButton()
 {
-    if (m_filterTimer->isActive()) {
-        return;
-    }
     int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
 
     //向右加载数据
@@ -1464,14 +1533,10 @@ void TTBContent::onNextButton()
     }
     emit showNext();
     emit ttbcontentClicked();
-    m_filterTimer->start();
 }
 
 void TTBContent::onPreButton()
 {
-    if (m_filterTimer->isActive()) {
-        return;
-    }
     //向左加载数据
     int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
     if (posX > -32 && posX < 32) {
@@ -1484,7 +1549,6 @@ void TTBContent::onPreButton()
     }
     emit showPrevious();
     emit ttbcontentClicked();
-    m_filterTimer->start();
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)

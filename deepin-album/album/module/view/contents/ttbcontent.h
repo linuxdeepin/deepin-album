@@ -79,6 +79,8 @@ signals:
 public slots:
     void animationTimerTimeOut();
     void animationFinished();
+    void thumbnailIsMoving();
+    void animationValueChanged(const QVariant value);
 private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
@@ -88,7 +90,7 @@ private:
     QPoint m_presspoint;//按下时鼠标位置
     bool m_moveToRight = true;//缩略图中鼠标向右移动为true
     ImageItem *m_selectItem = nullptr;
-    ImageItem *m_preSelectItem = nullptr;
+    int m_preSelectItemIndex = -1;
     QPropertyAnimation *m_resetAnimation = nullptr;//复位动画
     bool m_isMoving = false;//是否正在移动中
     QTimer *m_animationTimer = nullptr;//动画，移动使用
@@ -273,7 +275,6 @@ private:
 
     QStringList m_rightlist;        //保存动态加载数据（右侧）
     QStringList m_leftlist;
-    QTimer *m_filterTimer = nullptr;
 };
 
 #endif // TTLCONTENT_H
