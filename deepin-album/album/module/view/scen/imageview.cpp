@@ -233,26 +233,38 @@ void ImageView::setImage(const QString &path)
         resetTransform();
         ImageDataSt data;   //内存中的数据
         ImageEngineApi::instance()->getImageData(path, data);
-        int wS = 0;
-        int hS = 0;
-        QRect screenRect = QApplication::desktop()->screenGeometry();
-        if (w > screenRect.width()) {
-            wS = screenRect.width();
-            hS = wS * h / w;
+        int wScale = 0;
+        int hScale = 0;
+        int wWindow = QApplication::activeWindow()->width();
+        int hWindow = QApplication::activeWindow()->height();
+        if (w >= wWindow) {
+            wScale = wWindow;
+            hScale = wScale * h / w;
+            if (hScale > hWindow) {
+                hScale = hWindow;
+                wScale = hScale * w / h;
+            }
+        } else if (h >= hWindow) {
+            hScale = hWindow;
+            wScale = hScale * w / h;
+            if (wScale >= wWindow) {
+                wScale = wWindow;
+                hScale = wScale * h / w;
+            }
+        } else {
+            wScale = w;
+            hScale = h;
         }
-        QPixmap pix = data.imgpixmap.scaled(wS, hS, Qt::KeepAspectRatio); //缩放到原图大小
+        QPixmap pix = data.imgpixmap.scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
         m_pixmapItem = new GraphicsPixmapItem(pix);
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         // Make sure item show in center of view after reload
         m_blurEffect = new QGraphicsBlurEffect;
-        m_blurEffect->setBlurRadius(15);
+        m_blurEffect->setBlurRadius(5);
         m_blurEffect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
         m_pixmapItem->setGraphicsEffect(m_blurEffect);
         setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
-        if (m_loadTimer->isActive()) {
-            return;
-        }
         m_loadTimer->start();
     }
 }
