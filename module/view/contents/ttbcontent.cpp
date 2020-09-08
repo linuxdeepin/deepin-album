@@ -933,12 +933,12 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_nowIndex)*/);
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
         if (m_nowIndex > -1) {
 
             if (labelList.isEmpty())
                 return;
-            if (m_nowIndex < labelList.size())
+            if (m_nowIndex < m_ItemLoaded.size())
                 labelList.at(0)->setIndexNow(m_nowIndex);
             if (m_lastIndex > -1) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
@@ -968,7 +968,7 @@ void TTBContent::updateScreen()
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_ItemLoaded.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
