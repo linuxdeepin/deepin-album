@@ -99,6 +99,7 @@ void MyImageListWidget::setObj(QObject *obj)
 
 void MyImageListWidget::setSelectItem(ImageItem *selectItem)
 {
+    qDebug() << "zy------MyImageListWidget::setSelectItem";
     m_selectItem = selectItem;
     if (!m_isMoving) {
         if (m_resetAnimation->property("type") != "800") {
@@ -260,7 +261,9 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_resetFinish = false;
         bmouseleftpressed = true;
         //记录点下时当前选中的缩略图图元index，便于移动和惯性时比较
-        m_preSelectItemIndex = m_selectItem->indexNow();
+        if (m_selectItem) {
+            m_preSelectItemIndex = m_selectItem->indexNow();
+        }
         m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         m_presspoint = mouseEvent->globalPos();
@@ -603,18 +606,8 @@ void ImageItem::paintEvent(QPaintEvent *event)
         painter.setClipPath(bg);
     }
 
-
-
     QPainterPath bp1;
-//    bp1.addRoundedRect(pixmapRect, 4, 4);
-//    bp1.addRoundedRect(pixmapRect, 4, 4);
     bp1.addRoundedRect(pixmapRect, 4, 4);
-//    int width = pixmapRect.width();
-//    int height = pixmapRect.height();
-//    pixmapRect.setX(pixmapRect.x() - 1);
-//    pixmapRect.setY(pixmapRect.y() - 1);
-//    pixmapRect.setWidth(pixmapRect.width() - 2);
-//    pixmapRect.setHeight(pixmapRect.height() - 2);
     painter.setClipPath(bp1);
     painter.drawPixmap(pixmapRect, _pixmap);
 
@@ -1068,6 +1061,7 @@ QString TTBContent::getIndexPath(int index)
 
 void TTBContent::updateScreen()
 {
+    qDebug() << "zy------TTBContent::updateScreen";
     if (m_ItemLoaded.size() > 3) {
         m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
         m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT);
@@ -1085,7 +1079,7 @@ void TTBContent::updateScreen()
             labelList.at(0)->setIndexNow(m_nowIndex);
             m_imgListView->setSelectItem(labelList.at(0));
 
-            if (m_lastIndex > -1) {
+            if (m_lastIndex > -1 && m_lastIndex != m_nowIndex) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                 if (lastlabelList.isEmpty()) {
                     return;
@@ -1128,15 +1122,15 @@ void TTBContent::updateScreen()
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_nowIndex)*/);
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
         if (m_nowIndex > -1) {
 
             if (labelList.isEmpty())
                 return;
-            if (m_nowIndex < labelList.size()) {
+            if (m_nowIndex < m_ItemLoaded.size()) {
                 labelList.at(0)->setIndexNow(m_nowIndex);
             }
-            if (m_lastIndex > -1) {
+            if (m_lastIndex > -1 && m_lastIndex != m_nowIndex) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                 if (lastlabelList.isEmpty())
                     return;
@@ -1147,6 +1141,7 @@ void TTBContent::updateScreen()
             if (labelList.size() > 0) {
                 labelList.at(0)->setFixedSize(QSize(58, 58));
                 labelList.at(0)->resize(QSize(58, 58));
+                m_imgListView->setSelectItem(labelList.at(0));
             }
 
 //            m_imgListView->show();
@@ -1164,7 +1159,7 @@ void TTBContent::updateScreen()
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_ItemLoaded.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
@@ -1296,6 +1291,7 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
     }
 
     connect(imageItem, &ImageItem::imageItemclicked, this, [ = ](int index, int indexNow) {
+        qDebug() << "zy------ImageItem::imageItemclicked";
         binsertneedupdate = true;
         m_nowIndex = index;
 
@@ -1586,6 +1582,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
 void TTBContent::setImage(const QString &path)
 {
+    qDebug() << "zy------TTBContent::setImage";
     binsertneedupdate = true;
     if (!m_allfileslist.isEmpty() && !QFileInfo(path).exists()) {
         emit dApp->signalM->picNotExists(true);

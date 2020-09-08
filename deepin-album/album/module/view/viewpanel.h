@@ -193,7 +193,6 @@ private:
     //------------------
     QStringList m_filepathlist;
     QString m_currentpath = "";
-    QTimer *m_dt = nullptr;
     //------------------
 
     QTimer *m_deletetimer;  //删除图片定时器

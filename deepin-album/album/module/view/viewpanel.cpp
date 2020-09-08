@@ -636,10 +636,6 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
-    if (m_dt->isActive()) {
-        return false;
-    }
-    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
@@ -660,10 +656,6 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
-    if (m_dt->isActive()) {
-        return false;
-    }
-    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif

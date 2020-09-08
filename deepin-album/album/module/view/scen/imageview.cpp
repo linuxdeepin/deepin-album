@@ -265,6 +265,7 @@ void ImageView::setImage(const QString &path)
         m_pixmapItem->setGraphicsEffect(m_blurEffect);
         setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
+        emit imageChanged(path);
         m_loadTimer->start();
     }
 }
@@ -697,7 +698,7 @@ void ImageView::onCacheFinish()
             m_pixmapItem->setPixmap(pixmap);
             setSceneRect(m_pixmapItem->boundingRect());
             autoFit();
-            emit imageChanged(path);
+//            emit imageChanged(path);
             this->update();
         }
     }

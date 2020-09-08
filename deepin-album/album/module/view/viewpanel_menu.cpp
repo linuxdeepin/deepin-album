@@ -418,11 +418,6 @@ DMenu *ViewPanel::createAblumMenu()
 
 void ViewPanel::initShortcut()
 {
-    // Delay image toggle
-    m_dt = new QTimer(this);
-    m_dt->setSingleShot(true);
-    m_dt->setInterval(SWITCH_IMAGE_DELAY);
-
     // Delay image toggle delete
     m_deletetimer = new QTimer(this);
     m_deletetimer->setSingleShot(true);
@@ -515,11 +510,12 @@ void ViewPanel::popupDelDialog(const QString path)
 #endif
 }
 
-void ViewPanel::keyPressEvent(QKeyEvent *e){
-    if(e->key() == Qt::Key_Period){
-        if(!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES,m_currentpath, AlbumDBType::Favourite)){
+void ViewPanel::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Period) {
+        if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
             DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
-        }else{
+        } else {
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         }
     }
