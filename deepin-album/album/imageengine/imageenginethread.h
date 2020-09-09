@@ -13,6 +13,7 @@ class ImportImagesThread : public ImageEngineThreadObject, public QRunnable
     Q_OBJECT
 public:
     ImportImagesThread();
+    ~ImportImagesThread() override;
     void setData(QStringList paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
     void setData(QList<QUrl> paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
 
@@ -73,6 +74,7 @@ class ImageImportFilesFromMountThread : public ImageEngineThreadObject, public Q
     Q_OBJECT
 public:
     ImageImportFilesFromMountThread();
+    ~ImageImportFilesFromMountThread() override;
     void setData(QString albumname, QStringList paths, ImageMountImportPathsObject *imgobject);
 
 protected:
@@ -92,6 +94,7 @@ class ImageGetFilesFromMountThread : public ImageEngineThreadObject, public QRun
     Q_OBJECT
 public:
     ImageGetFilesFromMountThread();
+    ~ImageGetFilesFromMountThread() override;
     void setData(QString mountname, QString path, ImageMountGetPathsObject *imgobject);
 
 protected:
@@ -112,6 +115,7 @@ class ImageLoadFromDBThread : public ImageEngineThreadObject, public QRunnable
     Q_OBJECT
 public:
     ImageLoadFromDBThread(int loadCount = 0);
+    ~ImageLoadFromDBThread() override;
     void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, QString nametype = "");
 
 protected:
@@ -139,6 +143,7 @@ public:
         DataType_TrashList
     };
     ImageLoadFromLocalThread();
+    ~ImageLoadFromLocalThread() override;
     void setData(QStringList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
     void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
 
@@ -193,6 +198,7 @@ class ImageFromNewAppThread : public ImageEngineThreadObject, public QRunnable
     Q_OBJECT
 public:
     ImageFromNewAppThread();
+    ~ImageFromNewAppThread() override;
     //配置参数
     void setDate(QStringList files, ImageEngineImportObject *obj);
 protected:
@@ -209,6 +215,7 @@ class ImageCacheQueuePopThread : public QRunnable
 {
 public:
     ImageCacheQueuePopThread();
+    ~ImageCacheQueuePopThread() override;
     void setObject(ImageCacheSaveObject *obj)
     {
         m_obj = obj;

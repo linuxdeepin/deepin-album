@@ -698,7 +698,7 @@ void ImageView::onCacheFinish()
             m_pixmapItem->setPixmap(pixmap);
             setSceneRect(m_pixmapItem->boundingRect());
             autoFit();
-//            emit imageChanged(path);
+            emit imageChanged(path);
             this->update();
         }
     }

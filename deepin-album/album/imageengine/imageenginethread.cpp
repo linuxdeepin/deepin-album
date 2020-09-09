@@ -19,7 +19,8 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 
-DBImgInfo getDBInfo(const QString &srcpath) {
+DBImgInfo getDBInfo(const QString &srcpath)
+{
     using namespace utils::base;
     using namespace UnionImage_NameSpace;
     QFileInfo srcfi(srcpath);
@@ -39,9 +40,9 @@ DBImgInfo getDBInfo(const QString &srcpath) {
         dbi.time = QDateTime::currentDateTime();
     }
     QString changeTime = mds.value("DateTimeDigitized");
-    if(!changeTime.isEmpty()){
-        dbi.changeTime = QDateTime::fromString(changeTime,"yyyy/MM/dd hh:mm");
-    }else{
+    if (!changeTime.isEmpty()) {
+        dbi.changeTime = QDateTime::fromString(changeTime, "yyyy/MM/dd hh:mm");
+    } else {
         dbi.changeTime = QDateTime::currentDateTime();
     }
     return dbi;
@@ -55,6 +56,13 @@ ImportImagesThread::ImportImagesThread()
 {
     m_paths.clear();
     setAutoDelete(true);
+}
+
+ImportImagesThread::~ImportImagesThread()
+{
+    if (m_obj) {
+        m_obj->removeThread(this);
+    }
 }
 
 void ImportImagesThread::setData(QList<QUrl> paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
@@ -346,6 +354,13 @@ ImageImportFilesFromMountThread::ImageImportFilesFromMountThread()
     setAutoDelete(true);
 }
 
+ImageImportFilesFromMountThread::~ImageImportFilesFromMountThread()
+{
+    if (m_imgobject) {
+        m_imgobject->removeThread(this);
+    }
+}
+
 void ImageImportFilesFromMountThread::setData(QString albumname, QStringList paths, ImageMountImportPathsObject *imgobject)
 {
     m_paths = paths;
@@ -463,6 +478,13 @@ ImageGetFilesFromMountThread::ImageGetFilesFromMountThread()
     setAutoDelete(true);
 }
 
+ImageGetFilesFromMountThread::~ImageGetFilesFromMountThread()
+{
+    if (m_imgobject) {
+        m_imgobject->removeThread(this);
+    }
+}
+
 void ImageGetFilesFromMountThread::setData(QString mountname, QString path, ImageMountGetPathsObject *imgobject)
 {
     m_mountname = mountname;
@@ -516,7 +538,7 @@ void ImageGetFilesFromMountThread::run()
     QString strPath = m_path;
     //获取所选文件类型过滤器
     QStringList filters;
-    for (QString i:UnionImage_NameSpace::unionImageSupportFormat()){
+    for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
         filters << "*." + i;
     }
     //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
@@ -545,6 +567,13 @@ ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
 {
     m_loadCount = loadCount;
     setAutoDelete(true);
+}
+
+ImageLoadFromDBThread::~ImageLoadFromDBThread()
+{
+    if (m_imgobject) {
+        m_imgobject->removeThread(this);
+    }
 }
 
 void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageEngineObject *imgobject, QString nametype)
@@ -603,6 +632,13 @@ void ImageLoadFromDBThread::run()
 ImageLoadFromLocalThread::ImageLoadFromLocalThread()
 {
     setAutoDelete(true);
+}
+
+ImageLoadFromLocalThread::~ImageLoadFromLocalThread()
+{
+    if (m_imgobject) {
+        m_imgobject->removeThread(this);
+    }
 }
 
 void ImageLoadFromLocalThread::setData(QStringList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
@@ -766,7 +802,9 @@ ImageEngineThread::ImageEngineThread()
 
 ImageEngineThread::~ImageEngineThread()
 {
-
+    for (auto obj : m_imgobject) {
+        obj->removeThread(this);
+    }
 }
 
 void ImageEngineThread::setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
@@ -930,6 +968,13 @@ ImageFromNewAppThread::ImageFromNewAppThread()
     setAutoDelete(true);
 }
 
+ImageFromNewAppThread::~ImageFromNewAppThread()
+{
+    if (m_imgobj) {
+        m_imgobj->removeThread(this);
+    }
+}
+
 void ImageFromNewAppThread::setDate(QStringList files, ImageEngineImportObject *obj)
 {
     paths = files;
@@ -996,6 +1041,11 @@ void ImageFromNewAppThread::run()
 ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 {
     setAutoDelete(true);
+}
+
+ImageCacheQueuePopThread::~ImageCacheQueuePopThread()
+{
+
 }
 
 void ImageCacheQueuePopThread::saveCache(QString m_path)

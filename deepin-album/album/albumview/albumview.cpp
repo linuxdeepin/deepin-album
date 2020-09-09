@@ -309,7 +309,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, [ = ](QString albumname, QStringList pathlist) {
         qDebug() << "添加到目的相册：" << albumname;
         Q_UNUSED(pathlist);
-        if(m_currentType != albumname){
+        if (m_currentType != albumname) {
             return;
         }
         if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentType) //如果需要更新的为当前界面
@@ -417,7 +417,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -578,7 +578,7 @@ runend:
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
-    connect(m_pLeftListView->m_pMountListView, &DListWidget::clicked, this, [ = ](const QModelIndex & index) {
+    connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, [ = ](const QModelIndex & index) {
         Q_UNUSED(index);
         if (!isWaitDialog) {
             isWaitDialog = true;
@@ -619,8 +619,8 @@ runend:
             ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[PhoneName], PhoneName);
         }
         QString strPath;
-        if (m_pLeftListView->m_pMountListView->currentItem()) {
-            strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+        if (m_pLeftListView->m_pMountListWidget->currentItem()) {
+            strPath = m_pLeftListView->m_pMountListWidget->currentItem()->data(Qt::UserRole).toString();
         }
         //m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
         if (strPath == PhoneName) {
@@ -670,7 +670,7 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = newalbumname;
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, QString(COMMON_STR_CREATEALBUM));
+    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, COMMON_STR_CREATEALBUM);
 
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
@@ -1252,7 +1252,7 @@ void AlbumView::updateRightView()
 
 void AlbumView::updateAlbumView(const QString &album)
 {
-    if(m_currentType == album){
+    if (m_currentType == album) {
         updateRightMyFavoriteView();
     }
 }
@@ -1344,8 +1344,8 @@ void AlbumView::updateRightMountView()
     }
     //    qDebug() << m_phoneNameAndPathlist;
     QString strPath;
-    if (m_pLeftListView->m_pMountListView->currentItem()) {
-        strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
+    if (m_pLeftListView->m_pMountListWidget->currentItem()) {
+        strPath = m_pLeftListView->m_pMountListWidget->currentItem()->data(Qt::UserRole).toString();
     }
     qDebug() << "data(Qt::UserRole).toString()" << strPath;
     qDebug() << m_phoneNameAndPathlist.contains(strPath);
@@ -2013,7 +2013,7 @@ void AlbumView::onKeyF2()
 //挂载设备改变
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    qDebug() << "onVfsMountChangedAdd() name:" << mount->name();
+    qDebug() << "zy------AlbumView::onVfsMountChangedAdd() name:" << mount->name();
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
@@ -2073,6 +2073,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 //卸载外接设备
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
+    qDebug() << "zy------AlbumView::onVfsMountChangedRemove";
     QString uri = mount->getRootFile()->uri();
     QString strPath = mount->getDefaultLocationFile()->path();
     for (auto mountLoop : m_mounts) {
@@ -2093,9 +2094,9 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         }
     }
 
-    for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
-        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
-        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
+    for (int i = 0; i < m_pLeftListView->m_pMountListWidget->count(); i++) {
+        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListWidget->item(i);
+        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem));
 
         if (!pAlbumLeftTabItem || !pListWidgetItem)
             break;
@@ -2108,10 +2109,10 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
             rename = mount->name();
         }
         if (rename == pAlbumLeftTabItem->m_albumNameStr &&  pAlbumLeftTabItem->m_mountPath.contains(strPath)) {
-            if (1 < m_pLeftListView->m_pMountListView->count()) {
+            if (1 < m_pLeftListView->m_pMountListWidget->count()) {
                 delete pListWidgetItem;
             } else {
-                m_pLeftListView->m_pMountListView->clear();
+                m_pLeftListView->m_pMountListWidget->clear();
                 m_pLeftListView->updatePhotoListView();
             }
             durlAndNameMap.erase(durlAndNameMap.find(qurl));
@@ -2196,7 +2197,7 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
 
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2383,7 +2384,7 @@ void AlbumView::initExternalDevice()
 {
     for (auto mount : m_mounts) {
 #if 1
-        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListView);
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(/*m_pLeftListView->m_pMountListWidget*/);
         //pListWidgetItem缓存文件挂载路径
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
@@ -2395,11 +2396,13 @@ void AlbumView::initExternalDevice()
         //判断路径是否存在
         QDir dir(strPath);
         if (!dir.exists()) {
+            delete pListWidgetItem;
+            pListWidgetItem = nullptr;
             qDebug() << "onLoadMountImagesStart() !dir.exists()";
             dApp->signalM->sigLoadMountImagesEnd(rename);
             return;
         }
-
+        m_pLeftListView->m_pMountListWidget->addItem(pListWidgetItem);
         //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
         if (!strPath.contains("/media/")) {
             bool bFind = findPicturePathByPhone(strPath);
@@ -2425,9 +2428,9 @@ void AlbumView::initExternalDevice()
         if (!m_pLeftListView) {
             return;
         }
-        m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+        m_pLeftListView->m_pMountListWidget->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
         if (m_itemClicked == true) {
-            m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+            m_pLeftListView->m_pMountListWidget->setCurrentItem(pListWidgetItem);
         }
         ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
 #endif
@@ -2436,7 +2439,7 @@ void AlbumView::initExternalDevice()
 
 void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath)
 {
-    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListView, devType);
+    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListWidget, devType);
     //pListWidgetItem缓存文件挂载路径
 //    QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
 //    QString strPath = LocationFile->path();
@@ -2463,10 +2466,10 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     }
 
     m_itemClicked = true;
-    m_pLeftListView->m_pMountListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-    m_pLeftListView->m_pMountListView->setCurrentItem(pListWidgetItem);
+    m_pLeftListView->m_pMountListWidget->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+    m_pLeftListView->m_pMountListWidget->setCurrentItem(pListWidgetItem);
     QModelIndex index;
-    emit m_pLeftListView->m_pMountListView->pressed(index);
+    emit m_pLeftListView->m_pMountListWidget->pressed(index);
 
     //右侧视图同时切换
     m_pRightPhoneThumbnailList->stopLoadAndClear(true);     //清除已有数据
@@ -2566,12 +2569,12 @@ void AlbumView::importAllBtnClicked()
     if (m_importByPhoneComboBox->currentIndex() == 0)
         albumNameStr = "";
     ImageEngineApi::instance()->importImageFilesFromMount(albumNameStr, allPaths, this);
-    for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
-        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
-        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
+    for (int i = 0; i < m_pLeftListView->m_pMountListWidget->count(); i++) {
+        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListWidget->item(i);
+        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem));
         if (!pAlbumLeftTabItem) continue;
         if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
-            m_pLeftListView->m_pMountListView->setCurrentRow(i);
+            m_pLeftListView->m_pMountListWidget->setCurrentRow(i);
             break;
         }
     }
@@ -2585,12 +2588,12 @@ void AlbumView::importSelectBtnClicked()
     if (m_importByPhoneComboBox->currentIndex() == 0)
         albumNameStr = "";
     ImageEngineApi::instance()->importImageFilesFromMount(albumNameStr, selectPaths, this);
-    for (int i = 0; i < m_pLeftListView->m_pMountListView->count(); i++) {
-        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListView->item(i);
-        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListView->itemWidget(pListWidgetItem));
+    for (int i = 0; i < m_pLeftListView->m_pMountListWidget->count(); i++) {
+        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListWidget->item(i);
+        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem));
         if (!pAlbumLeftTabItem) continue;
         if (albumNameStr == pAlbumLeftTabItem->m_albumNameStr) {
-            m_pLeftListView->m_pMountListView->setCurrentRow(i);
+            m_pLeftListView->m_pMountListWidget->setCurrentRow(i);
             break;
         }
     }
@@ -2663,14 +2666,14 @@ void AlbumView::needUnMount(QString path)
 //            }
         }
         //设备已卸载，未能在list上移除
-        QWidget *wdg  = m_pLeftListView->m_pMountListView->itemWidget(m_pLeftListView->m_pMountListView->currentItem());
-        m_pLeftListView->m_pMountListView->removeItemWidget(m_pLeftListView->m_pMountListView->currentItem());
+        QWidget *wdg  = m_pLeftListView->m_pMountListWidget->itemWidget(m_pLeftListView->m_pMountListWidget->currentItem());
+        m_pLeftListView->m_pMountListWidget->removeItemWidget(m_pLeftListView->m_pMountListWidget->currentItem());
         wdg->deleteLater();
-        QListWidgetItem *pitem = m_pLeftListView->m_pMountListView->takeItem(m_pLeftListView->m_pMountListView->currentRow());
+        QListWidgetItem *pitem = m_pLeftListView->m_pMountListWidget->takeItem(m_pLeftListView->m_pMountListWidget->currentRow());
         delete pitem;
         pitem = nullptr;
         //转到已导入界面
-        if (m_pLeftListView->m_pMountListView->count() == 0) {
+        if (m_pLeftListView->m_pMountListWidget->count() == 0) {
             m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
             QModelIndex index;
             emit m_pLeftListView->m_pPhotoLibListView->pressed(index);
@@ -2900,7 +2903,7 @@ void AlbumView::onWaitDialogClose()
     if (m_curPhoneItemList_str.size() > 0) {
         isWaitDialog = false;
     }
-    QListWidgetItem *item = m_pLeftListView->m_pMountListView->currentItem();
+    QListWidgetItem *item = m_pLeftListView->m_pMountListWidget->currentItem();
     if (item) {
         QString deviceName = item->data(Qt::UserRole).toString();
         emit dApp->signalM->sigDevStop(deviceName);

@@ -70,7 +70,7 @@ public:
 
     // 设备
     DLabel *m_pMountLabel;
-    LeftListWidget *m_pMountListView;
+    LeftListWidget *m_pMountListWidget;
 
 private:
     QString m_ItemCurrentName;
