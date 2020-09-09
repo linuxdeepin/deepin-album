@@ -236,9 +236,7 @@ const QString ImgInfoDialog::trLabel(const char *str)
 
 void ImgInfoDialog::updateInfo()
 {
-    using namespace utils::image;
-    using namespace utils::base;
-    auto mds = getAllMetaData(m_path);
+    auto mds = UnionImage_NameSpace::getAllMetaData(m_path);
     m_maxFieldWidth = width() - m_title_maxwidth - 20 * 2 - 10 * 2;
     updateBaseInfo(mds);
     updateDetailsInfo(mds);

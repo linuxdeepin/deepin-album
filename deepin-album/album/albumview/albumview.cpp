@@ -112,7 +112,7 @@ AlbumView::AlbumView()
     , m_pRightStackWidget(nullptr), m_pLeftListView(nullptr), m_pStatusBar(nullptr)
     , m_pRightWidget(nullptr), m_pRightPhoneThumbnailList(nullptr), m_pwidget(nullptr)
     , m_pRightThumbnailList(nullptr), m_pRightTrashThumbnailList(nullptr), m_pRightFavoriteThumbnailList(nullptr)
-    , pImportTimeLineWidget(nullptr), m_pTrashWidget(nullptr), m_pFavoriteWidget(nullptr)
+    , pImportTimeLineWidget(nullptr), m_pTrashWidget(nullptr), m_pFavoriteWidget(nullptr), m_waitDeviceScandialog(nullptr)
     , m_pImportView(nullptr), m_pRecoveryBtn(nullptr), m_pDeleteBtn(nullptr)
     , m_pRightTitle(nullptr), m_pRightPicTotal(nullptr), m_pImportPicTotal(nullptr)
     , m_pFavoriteTitle(nullptr), m_pFavoritePicTotal(nullptr), m_pPhoneTitle(nullptr)
@@ -124,7 +124,7 @@ AlbumView::AlbumView()
     , m_pImportTitle(nullptr), m_noTrashItem(nullptr), m_pNoTrashTitle(nullptr)
     , m_pNoTrashWidget(nullptr), m_FavoriteItem(nullptr), m_FavoriteTitle(nullptr)
     , m_TrashitemItem(nullptr), m_TrashTitle(nullptr), fatherwidget(nullptr)
-    , pPhoneWidget(nullptr), phonetopwidget(nullptr), m_waitDeviceScandialog(nullptr)
+    , pPhoneWidget(nullptr), phonetopwidget(nullptr)
     , isWaitDialog(true), isIgnore(true), m_waitDailog_timer(nullptr)
     , m_updateMountViewThread(nullptr), isMountThreadRunning(false), m_currentViewPictureCount(0)
 
@@ -434,8 +434,7 @@ void AlbumView::initConnections()
     //
     connect(m_pLeftListView->m_pCustomizeListView, &LeftListWidget::signalDropEvent, this, &AlbumView::onLeftListDropEvent);
     //
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-    this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
         DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
         ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
         m_pRecoveryBtn->setPalette(ReBtn);

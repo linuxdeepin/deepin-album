@@ -47,23 +47,26 @@ TEST(AlbumView, leftMenu)
     while (time.elapsed() < 2000)
         dApp->processEvents();
     AlbumView *a = w->m_pAlbumview;
-    event.addMouseClick(Qt::MouseButton::LeftButton);
-    event.simulate(a->m_pLeftListView->m_pPhotoLibListView);
+    event.addMousePress(Qt::MouseButton::LeftButton,Qt::NoModifier,QPoint(10,10));
+    event.addMouseRelease(Qt::MouseButton::LeftButton,Qt::NoModifier,QPoint(10,10));
+    event.simulate(a->m_pLeftListView->m_pPhotoLibListView->viewport());
     time.restart();
     while (time.elapsed() < 1000)
         dApp->processEvents();
-    event.simulate(a->m_pLeftListView->m_pCustomizeListView);
+    event.simulate(a->m_pLeftListView->m_pCustomizeListView->viewport());
     time.restart();
     while (time.elapsed() < 1000)
         dApp->processEvents();
-    event.simulate(a->m_pLeftListView->m_pMountListView);
+    event.simulate(a->m_pLeftListView->m_pMountListWidget->viewport());
     time.restart();
     while (time.elapsed() < 1000)
         dApp->processEvents();
-
+    event.simulate(a->m_waitDeviceScandialog->m_closeDeviceScan);
+    while (time.elapsed() < 1000)
+        dApp->processEvents();
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
     time.restart();
-    while (time.elapsed() < 1000)
+    while (time.elapsed() < 200)
         dApp->processEvents();
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     time.restart();

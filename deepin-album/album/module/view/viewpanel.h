@@ -35,7 +35,6 @@ DWIDGET_USE_NAMESPACE
 
 class ImageButton;
 class ImageView;
-class ImageWidget;
 class NavigationWidget;
 class QFileSystemWatcher;
 class QLabel;

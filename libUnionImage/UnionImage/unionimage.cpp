@@ -567,9 +567,6 @@ UNIONIMAGESHARED_EXPORT bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &p
 UNIONIMAGESHARED_EXPORT QString unionImageVersion()
 {
     QString ver;
-//    ver.append("Core version :");
-//    ver.append(QString(FreeImage_GetVersion()));
-//    ver.append("\n");
     ver.append("UnionImage Version:");
     ver.append("1.0.0");
     ver.append("\n");

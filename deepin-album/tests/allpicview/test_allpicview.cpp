@@ -3,6 +3,7 @@
 #include "application.h"
 #include "mainwindow.h"
 #include "allpicview.h"
+#include "imgdeletedialog.h"
 
 #include <QTestEventList>
 
@@ -10,7 +11,7 @@ TEST(allpicview, test_ini)
 {
     QTime time;
     time.start();
-    while (time.elapsed() < 1000)
+    while (time.elapsed() < 200)
         dApp->processEvents();
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
@@ -23,15 +24,6 @@ TEST(allpicview, test_ini)
         a->m_pStatusBar->m_pSlider->setValue(i);
     }
     a->m_pStatusBar->m_pSlider->setValue(1);
-
-    dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-    time.restart();
-    while (time.elapsed() < 1000)
-        dApp->processEvents();
-    dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-    time.restart();
-    while (time.elapsed() < 1000)
-        dApp->processEvents();
 }
 
 TEST(allpicview, test_open)
@@ -43,7 +35,7 @@ TEST(allpicview, test_open)
     ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
     QTime t;
     t.start();
-    while (t.elapsed() < 3000)
+    while (t.elapsed() < 1000)
         dApp->processEvents();
     QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     if (!testPathlist.isEmpty()) {
@@ -53,11 +45,15 @@ TEST(allpicview, test_open)
     }
 
     t.restart();
-    while (t.elapsed() < 3000)
+    while (t.elapsed() < 1000)
         dApp->processEvents();
     QTestEventList e;
     e.addKeyClick(Qt::Key_Escape);
     e.simulate(w);
+
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(a->getThumbnailListView(), testPathlist.length());
+    ImageEngineApi::instance()->moveImagesToTrash(testPathlist, true, false);
+    dialog->deleteLater();
 }
 
 TEST(allpicview, test_select)

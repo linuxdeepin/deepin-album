@@ -236,7 +236,7 @@ public:
     DWidget *pImportTimeLineWidget;
     DWidget *m_pTrashWidget;
     DWidget *m_pFavoriteWidget;
-
+    Waitdevicedialog *m_waitDeviceScandialog;
 private:
     ImportView *m_pImportView;
 
@@ -307,7 +307,7 @@ private:
     // DBlurEffectWidget *phonetopwidget = nullptr;
     DWidget *phonetopwidget;
 
-    Waitdevicedialog *m_waitDeviceScandialog;
+
     bool isWaitDialog;
     bool isIgnore;
     QTimer *m_waitDailog_timer;

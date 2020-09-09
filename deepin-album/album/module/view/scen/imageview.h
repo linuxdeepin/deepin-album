@@ -119,9 +119,7 @@ protected:
 private slots:
     void onCacheFinish();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
     void scaleAtPoint(QPoint pos, qreal factor);
-
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
     void swipeTriggered(QSwipeGesture *gesture);

@@ -358,7 +358,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         filepaths << info.filePath;
         pathhashs << utils::base::hash(info.filePath);
         dirs << info.dirHash;
-        times << utils::base::timeToString(info.time, true);
+        times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
     }
 
@@ -1646,7 +1646,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
         filepaths << info.filePath;
         pathhashs << utils::base::hash(info.filePath);
         dirs << info.dirHash;
-        times << utils::base::timeToString(info.time, true);
+        times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
         albumnames << info.albumname;
     }

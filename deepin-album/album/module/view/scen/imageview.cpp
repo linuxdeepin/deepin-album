@@ -125,27 +125,6 @@ ImageView::ImageView(QWidget *parent)
         m_watcher.setFuture(f);
         emit hideNavigation();
     });
-
-//    m_toast = new Toast(this);
-//    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
-//    m_toast->setText(tr("This file contains multiple pages, please use Evince to view all pages."));
-//    m_toast->hide();
-    // TODO
-    //    QPixmap pm(12, 12);
-    //    QPainter pmp(&pm);
-    //    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-    //    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-    //    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-    //    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-    //    pmp.end();
-
-    //    QPalette pal = palette();
-    //    pal.setBrush(backgroundRole(), QBrush(pm));
-    //    setAutoFillBackground(true);
-    //    setPalette(pal);
-
-    // Use openGL to render by default
-    //    setRenderer(OpenGL);
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::DarkType) {
@@ -155,7 +134,6 @@ ImageView::ImageView(QWidget *parent)
         }
         update();
     });
-
     m_imgFileWatcher = new CFileWatcher(this);
     connect(m_imgFileWatcher, &CFileWatcher::fileChanged, this, &ImageView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
@@ -738,9 +716,6 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
-//    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-//        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-//    else
     if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
@@ -830,22 +805,17 @@ void CFileWatcher::addWather(const QString &path)
     QMutexLocker loker(&_mutex);
     if (!isVaild())
         return;
-
     QFileInfo info(path);
     if (!info.exists() || !info.isFile()) {
         return;
     }
-
     if (watchedFiles.find(path) != watchedFiles.end()) {
         return;
     }
-
     std::string sfile = path.toStdString();
     int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
-
     watchedFiles.insert(path, fileId);
     watchedFilesId.insert(fileId, path);
-
     if (!_running) {
         _running = true;
         start();
@@ -855,14 +825,11 @@ void CFileWatcher::addWather(const QString &path)
 void CFileWatcher::removePath(const QString &path)
 {
     QMutexLocker loker(&_mutex);
-
     if (!isVaild())
         return;
-
     auto itf = watchedFiles.find(path);
     if (itf != watchedFiles.end()) {
         inotify_rm_watch(_handleId, itf.value());
-
         watchedFilesId.remove(itf.value());
         watchedFiles.erase(itf);
     }
@@ -871,7 +838,6 @@ void CFileWatcher::removePath(const QString &path)
 void CFileWatcher::clear()
 {
     QMutexLocker loker(&_mutex);
-
     for (auto it : watchedFiles) {
         inotify_rm_watch(_handleId, it);
     }

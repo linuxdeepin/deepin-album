@@ -672,49 +672,6 @@ void ImageLoadFromLocalThread::setData(DBImgInfoList filelist, ImageEngineObject
         m_type = type;
 }
 
-QStringList ImageLoadFromLocalThread::checkImage(const QString  path)
-{
-    QStringList imagelist;
-    QDir dir(path);
-    if (!dir.exists()) {
-        return imagelist;
-    }
-    QFileInfoList dirlist = dir.entryInfoList(QDir::Dirs);
-    foreach (QFileInfo e_dir, dirlist) {
-        if (bneedstop)
-            return imagelist;
-        if (e_dir.fileName() == "." || e_dir.fileName() == "..") {
-            continue;
-        }
-        if (e_dir.exists()) {
-            imagelist << checkImage(e_dir.filePath());
-        }
-    }
-    static QStringList sList;
-    for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
-        sList << "*." +  i;
-    dir.setNameFilters(sList);
-    for (int i = 0; i < static_cast<int>(dir.count()); i++) {
-        if (bneedstop)
-            return imagelist;
-        QString ImageName  = dir[i];
-        bool checkok = false;
-        if (bneedcheck) {
-            if (utils::image::checkFileType(path + QDir::separator() + ImageName))
-                checkok = true;
-        } else {
-            checkok = true;
-        }
-        if (checkok) {
-            imagelist << path + QDir::separator() + ImageName;
-            sigInsert(path + QDir::separator() + ImageName);
-            qDebug() << path + QDir::separator() + ImageName;//输出照片名
-        }
-    }
-
-    return imagelist;
-}
-
 void ImageLoadFromLocalThread::run()
 {
     if (bneedstop) {
@@ -725,21 +682,8 @@ void ImageLoadFromLocalThread::run()
     case DataType_StrList:
         if (!m_filelist.isEmpty()) {
             for (const QString &path : m_filelist) {
-                QFileInfo file(path);
-                if (false) {
-                } else {
-                    bool checkok = false;
-                    if (bneedcheck) {
-                        if (utils::image::checkFileType(path))
-                            checkok = true;
-                    } else {
-                        checkok = true;
-                    }
-                    if (checkok) {
-                        image_list << path;
-                        emit sigInsert(path);
-                    }
-                }
+                image_list << path;
+                emit sigInsert(path);
             }
         }
         break;

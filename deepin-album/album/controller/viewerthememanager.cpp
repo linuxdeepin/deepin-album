@@ -18,6 +18,8 @@
 #include "application.h"
 #include "configsetter.h"
 
+#include <DApplicationHelper>
+
 namespace {
 const QString THEME_GROUP = "APP";
 const QString THEME_TEXT = "AppTheme";
@@ -46,9 +48,15 @@ ViewerThemeManager::AppTheme ViewerThemeManager::getCurrentTheme()
 void ViewerThemeManager::setCurrentTheme(AppTheme theme)
 {
     m_currentTheme = theme;
-    if (m_currentTheme == Dark)
+    DGuiApplicationHelper::ColorType colorType;
+    if (m_currentTheme == Dark) {
         dApp->setter->setValue(THEME_GROUP, THEME_TEXT, QVariant("Dark"));
-    else
+        colorType = DGuiApplicationHelper::ColorType::DarkType;
+    }
+    else{
         dApp->setter->setValue(THEME_GROUP, THEME_TEXT, QVariant("Light"));
+        colorType = DGuiApplicationHelper::ColorType::LightType;
+    }
     emit viewerThemeChanged(m_currentTheme);
+    emit DGuiApplicationHelper::instance()->themeTypeChanged(colorType);
 }

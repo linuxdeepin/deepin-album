@@ -155,7 +155,6 @@ signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
     void sigInsert(QString imagepath, QString remainDay = "");
 private:
-    QStringList checkImage(const QString  path);
     QStringList m_filelist;
     DBImgInfoList m_fileinfolist;
     ImageEngineObject *m_imgobject = nullptr;

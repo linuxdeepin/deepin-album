@@ -15,7 +15,7 @@ TEST(allpicview, test_beginSlideShow)
     ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
     QTime t;
     t.start();
-    while (t.elapsed() < 10000)
+    while (t.elapsed() < 20000)
         dApp->processEvents();
     QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     if (!testPathlist.isEmpty()) {
@@ -23,7 +23,7 @@ TEST(allpicview, test_beginSlideShow)
         a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, true, true);
     }
     t.restart();
-    while (t.elapsed() < 20000)
+    while (t.elapsed() < 30000)
         dApp->processEvents();
     emit w->m_slidePanel->slideshowbottombar->showCancel();
     t.restart();

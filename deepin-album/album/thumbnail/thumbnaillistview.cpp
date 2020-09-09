@@ -1253,21 +1253,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         } else {
             ImageEngineApi::instance()->moveImagesToTrash(paths);
         }
-
-//        QModelIndexList modelList = selectionModel()->selectedIndexes();
-//        int all1 = m_model->rowCount();
-//        QVector<int>    tempSort;
-//        for (auto index : modelList) {
-//            tempSort.push_back(index.row());
-//        }
-//        //倒序，删除
-//        qSort(tempSort.begin(), tempSort.end(), [ = ](int left, int right) {
-//            return left > right;
-//        });
-//        for (auto index : tempSort) {
-//            m_model->removeRow(index);
-//        }
-        //从内存中删除该数据
     }
     break;
     case IdAddToFavorites:
