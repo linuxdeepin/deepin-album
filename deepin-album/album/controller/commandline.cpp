@@ -195,29 +195,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         }
         ImageDataSt pdata;
         pdata.imgpixmap = pixmap;
-        auto mds = getAllMetaData(path);
-        QString value = mds.value("DateTime");
-        if (value.isEmpty()) {
-            value = mds.value("DateTimeOriginal");
-        }
-        DBImgInfo dbi;
-        dbi.fileName = srcfi.fileName();
-        dbi.filePath = path;
-        dbi.dirHash = utils::base::hash(QString());
-        if (value.isEmpty()) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-        } else if (srcfi.birthTime().isValid()) {
-            dbi.time = srcfi.birthTime();
-        } else if (srcfi.metadataChangeTime().isValid()) {
-            dbi.time = srcfi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        if (!dimension.isEmpty()) {
-            dbi.albumSize = dimension;
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
-        pdata.dbi = dbi;
+        pdata.dbi = getDBInfo(path);
         pdata.loaded = ImageLoadStatu_Loaded;
         if (breloadCache) { //更新缓存文件
             QString spath = CACHE_PATH + path;
