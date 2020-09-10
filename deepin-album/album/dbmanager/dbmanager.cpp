@@ -1234,31 +1234,6 @@ const QSqlDatabase DBManager::getDatabase() const
     return m_db;
 }
 
-
-//const QSqlDatabase DBManager::getDatabase1() const
-//{
-////    QMutexLocker mutex(&m_mutex);
-////    QSqlDatabase db = ConnectionPool::openConnection();
-////    return db;
-////    if ( QSqlDatabase::contains(m_connectionName) ) {
-////        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-//////        mutex.unlock();
-////        return db;
-////    } else {
-////        //if database not open, open it.
-//    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");//not dbConnection
-//    db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
-//    if (! db.open()) {
-//        qWarning() << "Open database error:" << db.lastError();
-////            mutex.unlock();
-//        return QSqlDatabase();
-//    } else {
-////            mutex.unlock();
-//        return db;
-//    }
-////}
-//}
-
 void DBManager::checkDatabase()
 {
     QDir dd(DATABASE_PATH);

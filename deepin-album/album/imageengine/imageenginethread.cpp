@@ -329,6 +329,11 @@ void ImageMoveImagesToTrashThread::run()
         emit dApp->signalM->sigDeletePhotos(paths.length());
     } else {
         DBImgInfoList infos;
+        int pathsCount = paths.size();
+        int remoneOffset = pathsCount / 200;//分100次删除
+        int removedCount = 0;
+        QStringList removedPaths;
+        emit dApp->signalM->progressOfWaitDialog(paths.size(), 0);
         for (auto path : paths) {
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(path);
@@ -340,11 +345,59 @@ void ImageMoveImagesToTrashThread::run()
                 }
             }
             infos << info;
-            emit dApp->signalM->progressOfWaitDialog(paths.size(), infos.size());
-
+            removedPaths << path;
+            removedCount++;
+            if (removedCount == remoneOffset) {
+                DBManager::instance()->insertTrashImgInfos(infos);
+                DBManager::instance()->removeImgInfos(removedPaths);
+                emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
+                remoneOffset += remoneOffset;
+                removedPaths.clear();
+                infos.clear();
+            }
+//            emit dApp->signalM->progressOfWaitDialog(paths.size(), infos.size());
         }
         DBManager::instance()->insertTrashImgInfos(infos);
-        DBManager::instance()->removeImgInfos(paths);
+        DBManager::instance()->removeImgInfos(removedPaths);
+        emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
+//        DBImgInfoList infos;
+//        //获取全部数据
+//        DBImgInfoList infosAll = DBManager::instance()->getAllInfos(0);
+//        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+//        int pathsCount = paths.size();
+//        int remoneOffset = pathsCount / 10;//分10次删除
+//        int removedCount = 0;
+//        QStringList removedPaths;
+//        emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
+//        for (auto path : paths) {
+//            removedPaths << path;
+//            DBImgInfo info;
+//            for (auto infoCompare : infosAll) {
+//                if (infoCompare.filePath == path) {
+//                    info = infoCompare;
+//                    infosAll.removeOne(infoCompare);
+//                    break;
+//                }
+//            }
+
+//            info.changeTime = QDateTime::currentDateTime();
+//            for (auto eachname : allalbumnames) {
+//                if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
+//                    info.albumname += (eachname + ",");
+//                }
+//            }
+//            infos << info;
+//            removedCount++;
+//            if (removedCount == remoneOffset) {
+//                DBManager::instance()->insertTrashImgInfos(infos);
+//                DBManager::instance()->removeImgInfos(removedPaths);
+//                emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
+//                remoneOffset += remoneOffset;
+//                removedPaths.clear();
+//                infos.clear();
+//            }
+//        }
+//        emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
     }
     emit dApp->signalM->closeWaitDialog();
 }
