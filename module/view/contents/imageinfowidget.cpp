@@ -30,6 +30,7 @@
 #include <QFormLayout>
 #include <QLabel>
 #include <QString>
+#include <QPainterPath>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QtDebug>

@@ -35,6 +35,7 @@
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QPainter>
+#include <QPainterPath>
 #include <QProcess>
 #include <QResizeEvent>
 #include <QShortcut>
