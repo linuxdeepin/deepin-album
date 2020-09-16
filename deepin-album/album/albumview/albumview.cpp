@@ -2095,30 +2095,32 @@ void AlbumView::initExternalDevice()
 //                return;
             }
         }
-        m_pLeftListView->m_pMountListWidget->addItem(pListWidgetItem);
-        qDebug() << "strPath :" << strPath << endl;
-        pListWidgetItem->setData(Qt::UserRole, strPath);
-        pListWidgetItem->setData(Qt::UserRole + 1, rename);
-        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-        AlbumLeftTabItem *pAlbumLeftTabItem;
+        if (pListWidgetItem) {
+            m_pLeftListView->m_pMountListWidget->addItem(pListWidgetItem);
+            qDebug() << "strPath :" << strPath << endl;
+            pListWidgetItem->setData(Qt::UserRole, strPath);
+            pListWidgetItem->setData(Qt::UserRole + 1, rename);
+            pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+            AlbumLeftTabItem *pAlbumLeftTabItem;
 
-        if (strPath.contains("/media/")) {
-            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
-        } else {
-            pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_PHONE);
-        }
+            if (strPath.contains("/media/")) {
+                pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
+            } else {
+                pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_PHONE);
+            }
 
-        pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
-        connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
-        if (!m_pLeftListView) {
-            return;
-        }
-        m_pLeftListView->m_pMountListWidget->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-        if (m_itemClicked == true) {
-            m_pLeftListView->m_pMountListWidget->setCurrentItem(pListWidgetItem);
-        }
-        if (bFind) {
-            ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
+            pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
+            connect(pAlbumLeftTabItem, &AlbumLeftTabItem::unMountExternalDevices, this, &AlbumView::onUnMountSignal);
+            if (!m_pLeftListView) {
+                return;
+            }
+            m_pLeftListView->m_pMountListWidget->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+            if (m_itemClicked == true) {
+                m_pLeftListView->m_pMountListWidget->setCurrentItem(pListWidgetItem);
+            }
+            if (bFind) {
+                ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);
+            }
         }
 #endif
     }
