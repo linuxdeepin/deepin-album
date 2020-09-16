@@ -201,7 +201,7 @@ private:
     }
 
 private:
-    char m_padding2[4];                 //填充占位,使数据结构内存对齐
+    char m_padding2[3];                 //填充占位,使数据结构内存对齐
     QSharedPointer<LoopQueue> queue;
     QPointer<QTimer> m_singleanimationTimer;
     QPointer<QTimer> m_continuousanimationTimer;
@@ -646,7 +646,7 @@ void ImageAnimationPrivate::onContinuousAnimationTimer()
 {
     Q_Q(ImageAnimation);
     m_funval += FACTOR_STEP;
-    m_factor += GaussFunction(0.05, 0.5f, 5, m_funval);
+    m_factor += GaussFunction(0.25, 0.5f, 5, m_funval);
     if (m_factor + 0.005f > 1)
         m_factor = 1.0f;
     if (m_funval > 1.0f) {
@@ -837,22 +837,18 @@ void ImageAnimation::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
     switch (current_target) {
     case EffectPlay: {
-        //d->setSlideModel(ImageAnimation::AutoPlayModel);
         d->effectPainter(&painter, dApp->desktop()->screenGeometry());
         break;
     }
     case SkipToNext: {
-        //d->setSlideModel(ImageAnimation::ManualPlayModel);
         d->forwardPainter(&painter, dApp->desktop()->screenGeometry());
         break;
     }
     case TurnBackPre: {
-        //d->setSlideModel(ImageAnimation::ManualPlayModel);
         d->retreatPainter(&painter, dApp->desktop()->screenGeometry());
         break;
     }
     case KeepStatic: {
-        //d->setSlideModel(ImageAnimation::StopModel);
         d->keepStaticPainter(&painter, dApp->desktop()->screenGeometry());
         break;
     }

@@ -39,12 +39,8 @@ DBImgInfo getDBInfo(const QString &srcpath)
     } else {
         dbi.time = QDateTime::currentDateTime();
     }
-    QString changeTime = mds.value("DateTimeDigitized");
-    if (!changeTime.isEmpty()) {
-        dbi.changeTime = QDateTime::fromString(changeTime, "yyyy/MM/dd hh:mm");
-    } else {
-        dbi.changeTime = QDateTime::currentDateTime();
-    }
+    dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
+    dbi.importTime = QDateTime::currentDateTime();
     return dbi;
 }
 
@@ -291,7 +287,7 @@ void ImageRecoveryImagesFromTrashThread::run()
         DBImgInfo info;
         info = DBManager::instance()->getTrashInfoByPath(path);
         QFileInfo fi(info.filePath);
-        info.changeTime = QDateTime::currentDateTime();
+        info.importTime = QDateTime::currentDateTime();
         infos << info;
     }
     DBManager::instance()->insertImgInfos(infos);
@@ -337,7 +333,7 @@ void ImageMoveImagesToTrashThread::run()
         for (auto path : paths) {
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(path);
-            info.changeTime = QDateTime::currentDateTime();
+            info.importTime = QDateTime::currentDateTime();
             QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
             for (auto eachname : allalbumnames) {
                 if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
@@ -760,7 +756,7 @@ void ImageLoadFromLocalThread::run()
                     return;
                 }
                 QDateTime start = QDateTime::currentDateTime();
-                QDateTime end = info.changeTime;
+                QDateTime end = info.importTime;
                 int etime = static_cast<int>(start.toTime_t());
                 int stime = static_cast<int>(end.toTime_t());
                 int Day = (etime - stime) / (idaysec) + ((etime - stime) % (idaysec) + (idaysec - 1)) / (idaysec) - 1;

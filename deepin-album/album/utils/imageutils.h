@@ -35,29 +35,11 @@ enum ThumbnailType {
     ThumbFail
 };
 
-const QPixmap                       cachePixmap(const QString &path);
-//const QPixmap                       cutSquareImage(const QPixmap &pixmap);
-//const QPixmap                       cutSquareImage(const QPixmap &pixmap,
-//                                                   const QSize &size);
-const QMap<QString, QString>        getAllMetaData(const QString &path);
 const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
-const QString                       getOrientation(const QString &path);
-
 bool                                imageSupportRead(const QString &path);
 bool                                imageSupportSave(const QString &path);
-
-bool                                rotate(const QString &path, int degree);
-
-void                                removeThumbnail(const QString &path);
-const QString                       thumbnailCachePath();
-const QString                       thumbnailPath(const QString &path, ThumbnailType type = ThumbLarge);
-bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
-
 QStringList                         supportedImageFormats();
-//const QImage                        loadTga(QString filePath, bool &success);
-QStringList                         checkImage(const QString  path);
-const QSize                         getImageQSize(const QString &path);
 bool                                checkFileType(const QString &path);
 
 QPixmap                             getDamagePixmap(bool bLight = true);

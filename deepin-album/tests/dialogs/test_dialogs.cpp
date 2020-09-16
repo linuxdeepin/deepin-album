@@ -4,6 +4,7 @@
 #include "dialogs/albumcreatedialog.h"
 #include "dialogs/albumdeletedialog.h"
 #include "widgets/dialogs/imgdeletedialog.h"
+#include "controller/exporter.h"
 
 #include <QTestEventList>
 
@@ -36,4 +37,16 @@ TEST(albumdeletedialog, deletdialog)
     QTestEventList event;
     event.addKeyClick(Qt::Key_Escape);
     event.simulate(d->m_Delete);
+}
+
+TEST(Exporter, exportdialog)
+{
+    CExportImageDialog *c = new CExportImageDialog;
+    c->getQuality();
+    c->getSavePath();
+    c->getImageType();
+    c->getImageFormate();
+//    c->showDirChoseDialog();
+//    c->showEmptyWarningDialog();
+    c->deleteLater();
 }

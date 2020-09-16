@@ -36,14 +36,6 @@ class CExportImageDialog : public DDialog
 {
     Q_OBJECT
 public:
-//    enum ESaveFormat {
-//        JPG,
-//        PNG,
-//        BMP,
-//        TIF,
-//        PDF
-//    };
-
     enum ESaveFormat {
         JPG,
         JPEG,
@@ -53,7 +45,6 @@ public:
         XBM,
         XPM
     };
-
     enum ESavePath {
         Pictures,
         Documents,
@@ -67,8 +58,7 @@ public:
 
 public:
     explicit CExportImageDialog(DWidget *parent = nullptr);
-    ~CExportImageDialog();
-
+    ~CExportImageDialog() override;
     void showMe(const QPixmap &pixmap);
     int getImageType() const;
     QString getSavePath() const;
@@ -77,9 +67,10 @@ public:
     void setPicFileName(QString strFileName);
     void setGifType(QString strFilePath);
     void removeGifType();
-
     void showEvent(QShowEvent *evet) override;
     void showQuestionDialog(const QString &path, const QString &srcpath = "");
+    void showDirChoseDialog();
+    void showEmptyWarningDialog();
 private slots:
     void slotOnSavePathChange(int index);
     void slotOnFormatChange(int index);
@@ -108,9 +99,6 @@ private:
 private:
     void initUI();
     void initConnection();
-
-    void showDirChoseDialog();
-    void showEmptyWarningDialog();
     bool doSave();
 };
 

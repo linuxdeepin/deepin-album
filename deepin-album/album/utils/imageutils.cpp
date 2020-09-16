@@ -124,147 +124,8 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     return infos;
 }
 
-const QString getOrientation(const QString &path)
-{
-    return UnionImage_NameSpace::getOrientation(path);
-}
-
-
-const QMap<QString, QString> getAllMetaData(const QString &path)
-{
-    return UnionImage_NameSpace::getAllMetaData(path);
-}
-
-const QPixmap cachePixmap(const QString &path)
-{
-    QPixmap pp;
-    if (! QPixmapCache::find(path, &pp)) {
-        pp = QPixmap(path);
-        QPixmapCache::insert(path, pp);
-    }
-    return pp;
-}
-
-const QString toMd5(const QByteArray &data)
-{
-    return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
-}
-
-/*!
- * \brief thumbnailAttribute
- * Read the attributes of file for generage thumbnail
- * \param url
- * \return
- */
-QMap<QString, QString> thumbnailAttribute(const QUrl &url)
-{
-    QMap<QString, QString> set;
-
-    if (url.isLocalFile()) {
-        const QString path = url.path();
-        QFileInfo info(path);
-        set.insert("Thumb::Mimetype", QMimeDatabase().mimeTypeForFile(path).name());
-        set.insert("Thumb::Size", QString::number(info.size()));
-        set.insert("Thumb::URI", url.toString());
-        set.insert("Thumb::MTime", QString::number(info.lastModified().toTime_t()));
-        set.insert("Software", "Deepin Image Viewer");
-
-        QImageReader reader(path);
-        if (reader.canRead()) {
-            set.insert("Thumb::Image::Width", QString::number(reader.size().width()));
-            set.insert("Thumb::Image::Height", QString::number(reader.size().height()));
-        }
-        return set;
-    } else {
-        //TODO for other's scheme
-    }
-
-    return set;
-}
-
-const QString thumbnailCachePath()
-{
-    QString cacheP;
-
-    QStringList systemEnvs = QProcess::systemEnvironment();
-    for (QString it : systemEnvs) {
-        QStringList el = it.split("=");
-        if (el.length() == 2 && el.first() == "XDG_CACHE_HOME") {
-            cacheP = el.last();
-            break;
-        }
-    }
-    cacheP = cacheP.isEmpty() ? (QDir::homePath() + "/.cache") : cacheP;
-
-    // Check specific size dir
-    const QString thumbCacheP = cacheP + "/thumbnails_album";
-    QDir().mkpath(thumbCacheP + "/normal");
-    QDir().mkpath(thumbCacheP + "/large");
-    QDir().mkpath(thumbCacheP + "/fail");
-    return thumbCacheP;
-}
-
-const QString thumbnailPath(const QString &path, ThumbnailType type)
-{
-    const QString cacheP = thumbnailCachePath();
-    const QUrl url = QUrl::fromLocalFile(path);
-    const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
-    QString tp;
-    switch (type) {
-    case ThumbNormal:
-        tp = cacheP + "/normal/" + md5s + ".png";
-        break;
-    case ThumbLarge:
-        tp = cacheP + "/large/" + md5s + ".png";
-        break;
-    case ThumbFail:
-        tp = cacheP + "/fail/" + md5s + ".png";
-        break;
-    }
-    return tp;
-}
-
-void removeThumbnail(const QString &path)
-{
-    QFile(thumbnailPath(path, ThumbLarge)).remove();
-    QFile(thumbnailPath(path, ThumbNormal)).remove();
-    QFile(thumbnailPath(path, ThumbFail)).remove();
-}
-
-bool thumbnailExist(const QString &path, ThumbnailType type)
-{
-    if (QFileInfo(thumbnailPath(path, type)).exists()
-//            || QFileInfo(thumbnailPath(path, ThumbNormal)).exists()
-//            || QFileInfo(thumbnailPath(path, ThumbFail)).exists()
-       ) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-static QStringList fromByteArrayList(const QByteArrayList &list)
-{
-    QStringList sList;
-
-    for (const QByteArray &i : list)
-        sList << "*." + QString::fromLatin1(i);
-
-    // extern image format//add by luzhou for Bug2672
-    sList << "*.cr2"
-          << "*.dng"
-          << "*.nef"
-          << "*.mef"
-          << "*.mrw";
-
-    return sList;
-}
-
 QStringList supportedImageFormats()
 {
-    //static QStringList list = fromByteArrayList(QImageReader::supportedImageFormats());
-
-    //return list;
     return UnionImage_NameSpace::unionImageSupportFormat();
 }
 
@@ -274,7 +135,6 @@ bool checkFileType(const QString &path)
         QFileInfo info(path);
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-
         QString str = info.suffix().toLower();
         if (mt.name().startsWith("image/*") || mt.name().startsWith("video/x-mng")) {
             if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
@@ -290,57 +150,6 @@ bool checkFileType(const QString &path)
         }
     }
     return false;
-}
-
-QStringList checkImage(const QString  path)
-{
-    QStringList imagelist;
-    QDir dir(path);
-
-    if (!dir.exists()) {
-        return imagelist;
-    }
-
-    QFileInfoList dirlist = dir.entryInfoList(QDir::Dirs);
-
-    foreach (QFileInfo e_dir, dirlist) {
-        if (e_dir.fileName() == "." || e_dir.fileName() == "..") {
-            continue;
-        }
-        if (e_dir.exists()) {
-            imagelist << checkImage(e_dir.filePath());
-        }
-    }
-
-    static QStringList sList;
-
-    for (const QByteArray &i : QImageReader::supportedImageFormats())
-        sList << "*." + QString::fromLatin1(i);
-
-    dir.setNameFilters(sList);
-
-    int dircount = static_cast<int>(dir.count());
-    for (int i = 0; i < dircount; i++) {
-        QString ImageName  = dir[i];
-        if (checkFileType(path + QDir::separator() + ImageName)) {
-            imagelist << path + QDir::separator() + ImageName;
-        }
-    }
-
-    return imagelist;
-}
-
-const QSize getImageQSize(const QString &path)
-{
-
-
-    QSize tSize;
-    QStringList rl = getAllMetaData(path).value("Dimension").split("x");
-    if (rl.length() == 2) {
-        tSize = QSize(QString(rl.first()).toInt(), QString(rl.last()).toInt());
-    }
-
-    return tSize;
 }
 
 QPixmap getDamagePixmap(bool bLight)

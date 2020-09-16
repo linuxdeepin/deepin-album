@@ -429,14 +429,13 @@ void ImageEngineApi::load80Thumbnails()
 {
     DBImgInfoList infos;
     QSqlDatabase db = DBManager::instance()->getDatabase();
-    if (! db.isValid()) {
+    if (!db.isValid()) {
         return;
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
-                  "FROM ImageTable3 order by Time desc limit 50");
-    if (! query.exec()) {
+    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit 50");
+    if (!query.exec()) {
         qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
         //emit sigAllImgInfosReady(infos);
         return;
@@ -448,12 +447,13 @@ void ImageEngineApi::load80Thumbnails()
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-            //            info.changeTime = stringToDateTime(query.value(4).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
+            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
             infos << info;
         }
     }
     emit sigLoad80Thumbnails(infos);
+    db.close();
 }
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {

@@ -1353,8 +1353,6 @@ void MountThumbnailListView::onPixMapScale(int value)
     calWidgetItemWandH();
     updateThumbnaillistview();      //改用新的调整位置--xioalong
 //    addThumbnailView();//耗时最长
-    //2020/4/24 内部为空函数
-    emit SignalManager::instance()->updateThumbnailViewSize();
     sendNeedResize();
 }
 

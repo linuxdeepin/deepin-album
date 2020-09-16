@@ -193,7 +193,6 @@ private slots:
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
-    void onUpdateThumbnailViewSize();
     void onUnMountSignal(QString unMountPath);          //手动卸载设备
     void onCreateNewAlbumFromDialog(QString albumname);
     void onCreateNewAlbumFrom(QString albumname);

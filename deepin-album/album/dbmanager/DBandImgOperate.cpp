@@ -204,7 +204,7 @@ void DBandImgOperate::getAllInfos()
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
+    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime "
                   "FROM ImageTable3");
     if (! query.exec()) {
         qDebug() << "zy------Get data from ImageTable3 failed: " << query.lastError();
@@ -220,6 +220,7 @@ void DBandImgOperate::getAllInfos()
             info.time = stringToDateTime(query.value(3).toString());
 //            info.changeTime = stringToDateTime(query.value(4).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
+            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
             infos << info;
         }
     }
@@ -229,7 +230,6 @@ void DBandImgOperate::getAllInfos()
 
 void DBandImgOperate::getFirst80ImgInfos(DBImgInfoList &infos)
 {
-//    DBImgInfoList infos;
     QSqlDatabase db = DBManager::instance()->getDatabase();
     if (! db.isValid()) {
         emit sigAllImgInfosReady(infos);
@@ -237,11 +237,9 @@ void DBandImgOperate::getFirst80ImgInfos(DBImgInfoList &infos)
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime "
+    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime "
                   "FROM ImageTable3 order by Time desc limit 50");
     if (! query.exec()) {
-        qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
-        //emit sigAllImgInfosReady(infos);
         return;
     } else {
         using namespace utils::base;
@@ -251,8 +249,8 @@ void DBandImgOperate::getFirst80ImgInfos(DBImgInfoList &infos)
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-//            info.changeTime = stringToDateTime(query.value(4).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
+            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
             infos << info;
         }
     }

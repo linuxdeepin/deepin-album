@@ -378,6 +378,7 @@ void ImportTimeLineView::clearAndStartLayout()
     m_timelines = DBManager::instance()->getImportTimelines();
     qDebug() << __func__ << m_timelines.size();
 
+
     if (0 < m_timelines.size()) {
 
     } else {

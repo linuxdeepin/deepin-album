@@ -28,7 +28,14 @@
 #include <QObject>
 
 #define UPDATE_RATE 30
-#define FACTOR_STEP 0.020f
+#define FACTOR_STEP 0.005f
+
+//#define RENDER_DEVIATION 0.005f
+//#define FACTOR_BEGIN 0.0f
+//#define FACTOR_END 1.0f
+//#define FACTOR_EXPECTATION 0.5f
+//#define FACTOR_STANDARD_DEVIATION 5
+//#define NORMAL_DISTRIBUTION_MAX 0.05
 
 QT_BEGIN_NAMESPACE
 

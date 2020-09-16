@@ -19,8 +19,8 @@
 
 // ImageTable
 ///////////////////////////////////////////////////////
-//FilePath           | FileName | Dir        | Time | ChangeTime //
-//TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT //
+//FilePath           | FileName | Dir        | Time | ChangeTime | ImportTime//
+//TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT       | TEXT      //
 ///////////////////////////////////////////////////////
 
 // AlbumTable

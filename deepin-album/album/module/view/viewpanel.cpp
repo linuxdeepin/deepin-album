@@ -407,17 +407,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
             DBImgInfoList infos;
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(m_currentpath);
-#if 1
-//            info.time = QDateTime::currentDateTime();
-            info.changeTime = QDateTime::currentDateTime();
-#endif
+            info.importTime = QDateTime::currentDateTime();
             infos << info;
-//            dApp->m_imageloader->addTrashImageLoader(QStringList(m_currentpath));
-//            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_currentpath));
             removeCurrentImage();
-//            DDesktopServices::trash(m_currentpath);
         }
     });
 
