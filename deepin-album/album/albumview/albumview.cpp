@@ -417,7 +417,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -669,7 +669,6 @@ void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
     emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
 }
 
-
 void AlbumView::onCreateNewAlbumFrom(QString albumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
@@ -682,16 +681,11 @@ void AlbumView::onCreateNewAlbumFrom(QString albumname)
     m_pLeftListView->moveMountListWidget();
 }
 
-//载入完毕
+//载入完毕或者发生错误
 void AlbumView::onLoadMountImagesEnd(QString mountname)
 {
     Q_UNUSED(mountname);
-//    if (!m_waitDailog_timer->isActive()) {
-//        emit m_waitDeviceScandialog->m_closeDeviceScan->clicked();
-//        //emit dApp->signalM->DeviceImageLoadEnd();
-//    }
 }
-
 
 void AlbumView::iniWaitDiolag()
 {
@@ -704,7 +698,6 @@ void AlbumView::iniWaitDiolag()
     if (!m_waitDeviceScandialog) {
         return;
     }
-    //m_waitDeviceScandialog->setWindowFlag(Qt::WindowTitleHint);
     m_waitDeviceScandialog->setFixedSize(QSize(422, 183));
     m_waitDeviceScandialog->move(749, 414);
 }
@@ -719,15 +712,10 @@ void AlbumView::initRightView()
     labelList[1]->setFixedHeight(22);
     labelList[1]->setText(tr("Or drag photos here"));
 
-    // Thumbnail View
-    //    DWidget *pNoTrashWidget = new DWidget();  //del 3975
     m_pNoTrashWidget = new DWidget(); //add 3975
-    //    pNoTrashWidget->setBackgroundRole(DPalette::Window);  //del 3975
-    //add start 3975
     DPalette palcolor = DApplicationHelper::instance()->palette(m_pNoTrashWidget);
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     m_pNoTrashWidget->setPalette(palcolor);
-    //add end 3975
 
     QVBoxLayout *pNoTrashVBoxLayout = new QVBoxLayout();
     pNoTrashVBoxLayout->setContentsMargins(0, 0, 0, 0);
@@ -1920,7 +1908,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
