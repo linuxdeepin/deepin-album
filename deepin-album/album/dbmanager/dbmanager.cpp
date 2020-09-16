@@ -1164,7 +1164,7 @@ const DBImgInfoList DBManager::getInfosByCount(int n)
         qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
         //emit sigAllImgInfosReady(infos);
         return infos;
-    }else{
+    } else {
         using namespace utils::base;
         while (query.next()) {
             DBImgInfo info;
@@ -1172,7 +1172,7 @@ const DBImgInfoList DBManager::getInfosByCount(int n)
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-              info.changeTime = stringToDateTime(query.value(4).toString());
+            info.changeTime = stringToDateTime(query.value(4).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             infos << info;
         }

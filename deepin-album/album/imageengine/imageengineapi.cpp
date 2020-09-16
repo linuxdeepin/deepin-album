@@ -185,7 +185,7 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
 }
 
 //载入图片实际位置
-bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache)
+bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache, bool useGlobalThreadPool)
 {
     if (nullptr == obj) {
         return false;
@@ -218,7 +218,15 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
 #ifdef NOGLOBAL
         m_qtpool.start(imagethread);
 #else
-        QThreadPool::globalInstance()->start(imagethread);
+        if (useGlobalThreadPool) {
+            QThreadPool::globalInstance()->start(imagethread);
+        } else {
+            if (m_pool == nullptr) {
+                m_pool = new QThreadPool(this);
+                m_pool->setMaxThreadCount(1);
+            }
+            m_pool->start(imagethread);
+        }
 #endif
     }
     return true;
@@ -248,9 +256,9 @@ void ImageEngineApi::sltAborted(QString path)
 void ImageEngineApi::sltImageLoaded(void *imgobject, QString path, ImageDataSt &data)
 {
     m_AllImageData[path] = data;
-    ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
-    if (nullptr != thread)
-        thread->needStop(imgobject);
+//    ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
+//    if (nullptr != thread)
+//        thread->needStop(imgobject);
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
         static_cast<ImageEngineObject *>(imgobject)->checkAndReturnPath(path);
     }

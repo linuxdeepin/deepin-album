@@ -149,10 +149,13 @@ set(AllQRC
     album/frame/frametheme.qrc
     album/module/view/viewtheme.qrc
     album/widgets/widgetstheme.qrc)
-set(TargetTsFiles
-    translations/deepin-album_zh_CN.ts
-    translations/deepin-album.ts
-    )
+file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${CMD_NAME}*.ts)
+#set(TargetTsFiles
+#    translations/deepin-album_zh_HK.ts
+#    translations/deepin-album_zh_TW.ts
+#    translations/deepin-album_zh_CN.ts
+#    translations/deepin-album.ts
+#    )
 
 
 

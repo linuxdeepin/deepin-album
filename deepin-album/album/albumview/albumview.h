@@ -2,6 +2,7 @@
 #define ALBUMVIEW_H
 
 #include "thumbnail/thumbnaillistview.h"
+#include "thumbnail/mountthumbnaillistview.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/signalmanager.h"
 #include "widgets/albumlefttabitem.h"
@@ -217,7 +218,7 @@ public:
     StatusBar *m_pStatusBar;
     DWidget *m_pRightWidget;
 
-    ThumbnailListView *m_pRightPhoneThumbnailList;
+    MountThumbnailListView *m_pRightPhoneThumbnailList;
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     //LMH0424
@@ -307,8 +308,6 @@ private:
     // DBlurEffectWidget *phonetopwidget = nullptr;
     DWidget *phonetopwidget;
 
-
-    bool isWaitDialog;
     bool isIgnore;
     QTimer *m_waitDailog_timer;
     QThread *m_updateMountViewThread;

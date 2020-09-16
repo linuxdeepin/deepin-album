@@ -41,7 +41,7 @@ public:
     bool ifObjectExist(void *obj);
     bool getImageData(QString imagepath, ImageDataSt &data);
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
-    bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true);
+    bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true, bool useGlobalThreadPool = true);
     bool reQuestAllImagesData(ImageEngineObject *obj, bool needcache = true);
     bool imageNeedReload(QString imagepath);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
@@ -107,6 +107,7 @@ private:
     static ImageEngineApi *s_ImageEngine;
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
     bool bcloseFg = false;
+    QThreadPool *m_pool = nullptr;
 #ifdef NOGLOBAL
     QThreadPool m_qtpool;
     QThreadPool cacheThreadPool;

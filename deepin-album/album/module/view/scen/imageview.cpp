@@ -201,6 +201,12 @@ void ImageView::setImage(const QString &path)
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
         emit imageChanged(path);
+        QMetaObject::invokeMethod(this, [ = ]() {
+//            this->setTransform(QTransform(1, 0, 0,
+//                                          0, 1, 0,
+//                                          0, 0, 1), false);
+            resetTransform();
+        }, Qt::QueuedConnection);
     } else {
         m_movieItem = nullptr;
         qDebug() << "Start cache pixmap: " << path;
@@ -213,8 +219,16 @@ void ImageView::setImage(const QString &path)
         ImageEngineApi::instance()->getImageData(path, data);
         int wScale = 0;
         int hScale = 0;
-        int wWindow = QApplication::activeWindow()->width();
-        int hWindow = QApplication::activeWindow()->height();
+        int wWindow = 0;
+        int hWindow = 0;
+        if (QApplication::activeWindow()) {
+            wWindow = QApplication::activeWindow()->width();
+            hWindow = QApplication::activeWindow()->height();
+        } else {
+            wWindow = 1300;
+            hWindow = 848;
+        }
+
         if (w >= wWindow) {
             wScale = wWindow;
             hScale = wScale * h / w;

@@ -827,6 +827,7 @@ bool ImageEngineThread::ifCanStopThread(void *imgobject)
 
 bool ImageEngineThread::getNeedStop()
 {
+    return bneedstop;
     if (!bneedstop) {
         return false;
     }
@@ -955,9 +956,9 @@ void ImageEngineThread::run()
         emit sigImageLoaded(imgobject, m_path, m_data);
     }
     //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
-    while (!bneedstop && !ImageEngineApi::instance()->closeFg()) {
-        QThread::msleep(100);
-    }
+//    while (!bneedstop && !ImageEngineApi::instance()->closeFg()) {
+//        QThread::msleep(100);
+//    }
 }
 
 ImageFromNewAppThread::ImageFromNewAppThread()
