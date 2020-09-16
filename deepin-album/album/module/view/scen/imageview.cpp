@@ -202,9 +202,6 @@ void ImageView::setImage(const QString &path)
         s->addItem(m_movieItem);
         emit imageChanged(path);
         QMetaObject::invokeMethod(this, [ = ]() {
-//            this->setTransform(QTransform(1, 0, 0,
-//                                          0, 1, 0,
-//                                          0, 0, 1), false);
             resetTransform();
         }, Qt::QueuedConnection);
     } else {
@@ -259,6 +256,9 @@ void ImageView::setImage(const QString &path)
         scene()->addItem(m_pixmapItem);
         emit imageChanged(path);
         m_loadTimer->start();
+        QMetaObject::invokeMethod(this, [ = ]() {
+            resetTransform();
+        }, Qt::QueuedConnection);
     }
 }
 
