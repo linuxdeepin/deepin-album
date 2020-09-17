@@ -641,10 +641,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <source>Importing...</source>
         <translation>Importazione...</translation>
     </message>
-    <message>
-        <source>Create Album %1 successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>

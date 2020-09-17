@@ -640,10 +640,6 @@
         <source>Importing...</source>
         <translation>Po importohet…</translation>
     </message>
-    <message>
-        <source>Create Album %1 successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>

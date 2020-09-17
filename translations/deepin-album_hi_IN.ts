@@ -640,10 +640,6 @@
         <source>Importing...</source>
         <translation>निर्यात किया जा रहा है...</translation>
     </message>
-    <message>
-        <source>Create Album %1 successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>

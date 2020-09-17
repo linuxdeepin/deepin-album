@@ -818,7 +818,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
         emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
-        QString str = tr("Create Album %1 successfully");
+        QString str = tr("Successfully added to “%1”");
         floatMessage(str.arg(d->getCreateAlbumName()), icon);
     });
 }
