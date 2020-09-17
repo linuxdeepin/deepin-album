@@ -47,7 +47,7 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
     }
     //临时文件目录不存在，先创建临时文件目录
     QDir tempImgDir(WALLPAPER_PATH);
-    if (!tempImgDir.exists() && tempImgDir.mkdir(tempImgDir.path())) {
+    if (!tempImgDir.exists() && !tempImgDir.mkdir(tempImgDir.path())) {
         qDebug() << "save temp wallpaper path error!";
         return false;
     }
