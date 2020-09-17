@@ -18,6 +18,7 @@
 //#include "dbmanager/dbmanager.h"
 #include "exporter.h"
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -62,19 +63,20 @@ void Exporter::exportImage(const QStringList imagePaths)
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
 
-//        QString str = info.suffix().toLower();
-//        if (str.isEmpty()) {
         if (mt.name().startsWith("image/gif")) {
             m_exportImageDialog->setGifType(imagePaths.at(0));
         }
-//        } else {
-//            if (mt1.name().startsWith("image/gif")) {
-//                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-//                    m_exportImageDialog->setGifType();
-//                }
-//            }
-//        }
-        QPixmap pixmap(imagePaths.at(0));
+
+        QImage tImg;
+        QString errMsg;
+        QPixmap pixmap;
+        using namespace UnionImage_NameSpace;
+        if (!loadStaticImageFromFile(imagePaths.at(0), tImg, errMsg)) {
+            qDebug() << errMsg;
+            pixmap = QPixmap::fromImage(tImg);
+        } else {
+            pixmap = QPixmap::fromImage(tImg);
+        }
         m_exportImageDialog->showMe(pixmap);
     } else {
         popupDialogSaveImage(imagePaths);
