@@ -886,7 +886,7 @@ FREE_IMAGE_FORMAT detectImageFormat_f(const QString &path)
         return FIF_UNKNOWN;
     }
     f = static_cast<FREE_IMAGE_FORMAT>(union_image_private.m_freeiamge_formats[file_suffix_upper]);
-    return f > 0 ? f : FIF_UNKNOWN;
+    return f >= 0 ? f : FIF_UNKNOWN;
 }
 
 UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi)

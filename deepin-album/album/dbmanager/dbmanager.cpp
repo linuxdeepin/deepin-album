@@ -1118,29 +1118,39 @@ void DBManager::checkDatabase()
             queryType.exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
                            .arg(COMMON_STR_FAVORITES));
         }
-        // 判断TrashTable的版本
-        QString strSqlTrashTable = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\"");
-        QSqlQuery queryTrashReBuild(db);
-        queryTrashReBuild.exec(strSqlTrashTable);
-        if (queryTrashReBuild.next()) {
-            //有旧版TrashTable，则创建新表，导入旧表数据
-            QString defaultImportTime = QDateTime::currentDateTime().toString();
-            queryTrashReBuild.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
-                                           "PathHash TEXT primary key, "
-                                           "FilePath TEXT, "
-                                           "FileName TEXT, "
-                                           "Dir TEXT, "
-                                           "Time TEXT, "
-                                           "ChangeTime TEXT, "
-                                           "ImportTime TEXT default \"%1\")").arg(defaultImportTime));
-            queryTrashReBuild.exec(QString("REPLACE INTO TrashTable3 (PathHash,FilePath,FileName,Dir,Time,ChangeTime)"
-                                           "SELECT PathHash,FilePath,FileName,Dir,Time,ChangeTime From TrashTable"));
-            queryTrashReBuild.exec(QString("DROP TABLE TrashTable"));
+    }
+    // 判断TrashTable的版本
+    QString strSqlTrashTable = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\"");
+    QSqlQuery queryTrashReBuild(db);
+    queryTrashReBuild.exec(strSqlTrashTable);
+    if (!queryTrashReBuild.next()) {
+        //无新版TrashTable，则创建新表，导入旧表数据
+        QString defaultImportTime = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
+        if (!queryTrashReBuild.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
+                                            "PathHash TEXT primary key, "
+                                            "FilePath TEXT, "
+                                            "FileName TEXT, "
+                                            "Dir TEXT, "
+                                            "Time TEXT, "
+                                            "ChangeTime TEXT, "
+                                            "ImportTime TEXT default \"%1\")").arg(defaultImportTime))) {
+            qDebug() << queryTrashReBuild.lastError();
+        }
+    }
+
+    QString strSqlTrashTableUpdate = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable\"");
+    QSqlQuery queryTrashUpdate(db);
+    queryTrashUpdate.exec(strSqlTrashTableUpdate);
+    if (queryTrashUpdate.next()) {
+        if (!queryTrashUpdate.exec("REPLACE INTO TrashTable3 (PathHash, FilePath, FileName, Dir, Time, ChangeTime) SELECT PathHash, FilePath, FileName, Dir, Time, ChangeTime From TrashTable ")) {
+            qDebug() << queryTrashUpdate.lastError();
+        }
+        if (!queryTrashUpdate.exec(QString("DROP TABLE TrashTable"))) {
+            qDebug() << queryTrashUpdate.lastError();
         }
     }
     db.close();
 }
-
 void DBManager::importVersion1Data()
 {
     QMutexLocker mutex(&m_mutex);
