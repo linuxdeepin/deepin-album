@@ -417,7 +417,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-    runend:
+runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1217,7 +1217,6 @@ void AlbumView::updateRightView()
         setAcceptDrops(false);
         emit sigSearchEditIsDisplay(false);
     }
-
     updatePicNum();
 }
 
@@ -1908,7 +1907,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

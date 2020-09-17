@@ -1173,8 +1173,6 @@ void MainWindow::loadWindowState()
                 if (isMaximized) {
                     resize(1300, 848);
                     Dtk::Widget::moveToCenter(this);
-                    //            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
-                    //            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
                 }
             }
         } else {

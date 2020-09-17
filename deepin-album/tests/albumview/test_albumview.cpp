@@ -10,7 +10,7 @@ TEST(AlbumView, ini)
 {
     QTime t;
     t.start();
-    while (t.elapsed() < 3000)
+    while (t.elapsed() < 1000)
         dApp->processEvents();
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
@@ -36,7 +36,7 @@ TEST(AlbumView, leftMenu)
 {
     QTime time;
     time.start();
-    while (time.elapsed() < 3000)
+    while (time.elapsed() < 1000)
         dApp->processEvents();
     MainWindow *w = dApp->getMainWindow();
     QTestEventList event;
@@ -44,11 +44,11 @@ TEST(AlbumView, leftMenu)
     event.simulate(w->getButG()->button(2));
     event.clear();
     time.restart();
-    while (time.elapsed() < 2000)
+    while (time.elapsed() < 300)
         dApp->processEvents();
     AlbumView *a = w->m_pAlbumview;
-    event.addMousePress(Qt::MouseButton::LeftButton,Qt::NoModifier,QPoint(10,10));
-    event.addMouseRelease(Qt::MouseButton::LeftButton,Qt::NoModifier,QPoint(10,10));
+    event.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
+    event.addMouseRelease(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
     event.simulate(a->m_pLeftListView->m_pPhotoLibListView->viewport());
     time.restart();
     while (time.elapsed() < 1000)
@@ -72,4 +72,19 @@ TEST(AlbumView, leftMenu)
     time.restart();
     while (time.elapsed() < 1000)
         dApp->processEvents();
+}
+
+TEST(AlbumView, deleteImgRecovery)
+{
+    QTime time;
+    time.start();
+    while (time.elapsed() < 3000)
+        dApp->processEvents();
+    MainWindow *w = dApp->getMainWindow();
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(2));
+    event.clear();
+    AlbumView *a = w->m_pAlbumview;
+    a->m_currentType;
 }

@@ -40,7 +40,27 @@ TEST(allpicview, test_open)
     QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     if (!testPathlist.isEmpty()) {
         qDebug() << "test ImageView Success ";
+        w->m_pSearchEdit->setText("1");
+        w->m_pSearchEdit->editingFinished();
+        t.restart();
+        while (t.elapsed() < 300) {
+            dApp->processEvents();
+        }
         emit a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, false);
+        t.restart();
+        while (t.elapsed() < 300) {
+            dApp->processEvents();
+        }
+        QTestEventList e;
+        e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
+        e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
+        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+        e.simulate(w);
+
         emit dApp->signalM->showImageInfo(testPathlist.first());
     }
 
@@ -76,7 +96,7 @@ TEST(allpicview, test_shortCut)
     MainWindow *w = dApp->getMainWindow();
     w->createShorcutJson();
     QTestEventList e;
-    e.addKeyClick(Qt::Key_Question,Qt::ControlModifier | Qt::ShiftModifier);
+    e.addKeyClick(Qt::Key_Question, Qt::ControlModifier | Qt::ShiftModifier);
     e.simulate(w);
     QTime t;
     t.start();

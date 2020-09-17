@@ -113,7 +113,6 @@ private:
     bool m_bImport = false;
     QWidget *m_titleBtnWidget;
     DMenu *m_pTitleBarMenu;
-    DSearchEdit *m_pSearchEdit;
     QStackedWidget *m_pCenterWidget;
     CommandLine *m_commandLine;
 public:
@@ -125,6 +124,7 @@ public:
     SearchView *m_pSearchView;                  //搜索界面视图
     QWidget *m_pSearchViewWidget = nullptr;
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
+    DSearchEdit *m_pSearchEdit;
 private:
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};

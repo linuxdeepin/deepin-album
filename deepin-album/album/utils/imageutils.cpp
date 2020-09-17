@@ -84,7 +84,7 @@ bool imageSupportSave(const QString &path)
 
     //dynamic image can not be supported
     if (QMovie::supportedFormats().contains(suffix.toLower().toUtf8().data())) {
-        QMovie  movie(path);
+        QMovie movie(path);
         return movie.frameCount() == 1 ? true : false;
     }
 
