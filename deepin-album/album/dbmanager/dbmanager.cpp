@@ -1103,7 +1103,7 @@ void DBManager::checkDatabase()
         if (!queryImage2.next()) {
             // 无ImportTime字段,则增加ImportTime字段
             QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-            queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" ")
+            queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
                              .arg(strDate));
         }
 
