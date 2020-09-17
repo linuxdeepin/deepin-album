@@ -1149,6 +1149,7 @@ void MainWindow::saveWindowState()
     m_settings->setValue("album-geometry", saveGeometry());
     m_settings->setValue("album-isMaximized", isMaximized());
     m_settings->setValue("album-version", VERSION);
+    saveZoomRatio();
 }
 
 //加载主界面状态（上次退出时）
@@ -1216,16 +1217,25 @@ void MainWindow::loadZoomRatio()
     qDebug() << "zy------MainWindow::loadZoomRatio begin";
     if (m_settings->contains("album-version")) {
         if (m_settings->value("album-version").toString().isEmpty()) {
-            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            if (!m_settings->contains("album-zoomratio")) {
+                m_pSliderPos = 4;
+            } else {
+                m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            }
         } else if (compareVersion()) {
             m_pSliderPos = 4;
         } else {
-            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            if (!m_settings->contains("album-zoomratio")) {
+                m_pSliderPos = 4;
+            } else {
+                m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            }
         }
         dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
     } else {
         m_pSliderPos = 4;
     }
+
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
     qDebug() << "zy------MainWindow::loadZoomRatio end";
