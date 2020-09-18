@@ -227,7 +227,7 @@ public:
 protected:
     void run() override;
 private:
-    ImageCacheSaveObject *m_obj;
+    ImageCacheSaveObject *m_obj = nullptr;
     bool needStop = false;
 };
 

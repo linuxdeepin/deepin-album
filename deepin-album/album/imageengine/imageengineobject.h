@@ -112,7 +112,7 @@ class ImageCacheSaveObject : public QObject
 public:
     ImageCacheSaveObject();
 public:
-    bool add(const QStringList pahts);
+    bool add(const QStringList paths);
     bool add(const QString path);
     QString pop();
     bool isEmpty();

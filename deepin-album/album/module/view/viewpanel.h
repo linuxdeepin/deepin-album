@@ -48,11 +48,11 @@ public:
     explicit ViewPanel(QWidget *parent = nullptr);
     ~ViewPanel() Q_DECL_OVERRIDE;
 
-    QString moduleName() Q_DECL_OVERRIDE;
-    QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
-    QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
+    QString moduleName() override;
+    QWidget *toolbarBottomContent() override;
+    QWidget *toolbarTopLeftContent() override;
     QWidget *bottomTopLeftContent() ;
-    QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
+    QWidget *toolbarTopMiddleContent() override;
 //    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
@@ -91,12 +91,14 @@ private:
     //------------------
     void loadFilesFromLocal(QStringList files);
     void loadFilesFromLocal(DBImgInfoList files);
-    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
-    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+    bool imageLocalLoaded(QStringList &filelist) override;
+    bool imageFromDBLoaded(QStringList &filelist) override
+    {
         Q_UNUSED(filelist)
         return false;
     }
-    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE {
+    bool imageLoaded(QString filepath) override
+    {
         Q_UNUSED(filepath)
         return false;
     }

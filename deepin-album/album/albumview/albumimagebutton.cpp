@@ -16,7 +16,8 @@ AlbumImageButton::AlbumImageButton(QWidget *parent)
 
 AlbumImageButton::AlbumImageButton(const QString &normalPic, const QString &hoverPic,
                                    const QString &pressPic, const QString &checkedPic, QWidget *parent)
-    : DPushButton (parent)
+    : DPushButton(parent), status(0), autoChecked(false)
+    , transparent(true)
 {
     defaultPicPath.normalPicPath = normalPic;
     defaultPicPath.hoverPicPath = hoverPic;

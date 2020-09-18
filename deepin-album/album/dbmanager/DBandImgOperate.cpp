@@ -127,9 +127,7 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
         return ImageDataSt();
     }
     using namespace UnionImage_NameSpace;
-    bool breloadCache = false;
     QImage tImg;
-    bool cache_exist = false;
     QString srcPath = imagepath;
     QString thumbnailPath = CACHE_PATH + imagepath;
     QFileInfo file(thumbnailPath);
@@ -146,10 +144,10 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
     }
     QPixmap pixmap = QPixmap::fromImage(tImg);
     if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+        bool cache_exist = false;
         if (pixmap.height() != 200 && pixmap.width() != 200) {
             if (pixmap.height() >= pixmap.width()) {
                 cache_exist = true;
-                breloadCache = true;
                 pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
             } else if (pixmap.height() <= pixmap.width()) {
                 cache_exist = true;

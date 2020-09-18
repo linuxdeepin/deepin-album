@@ -157,15 +157,17 @@ public:
 //    void importFilesFromLocal(QStringList files);
 //    void importFilesFromLocal(DBImgInfoList files);
 //    void importFilesFromDB(QString name = "");
-    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+    bool imageLocalLoaded(QStringList &filelist) override
+    {
         Q_UNUSED(filelist)
         return false;
     }
-    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+    bool imageFromDBLoaded(QStringList &filelist) override
+    {
         Q_UNUSED(filelist)
         return false;
     }
-    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
+    bool imageLoaded(QString filepath) override;
     void insertImageItem(const ImageDataSt &file, bool bloadRight = true);
     void stopLoadAndClear();
     void reLoad();

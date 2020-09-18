@@ -18,7 +18,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFrame>
-#include <DSegmentedControl>
+//#include <DSegmentedControl>
 #include <DTitlebar>
 #include <QStackedWidget>
 #include <DSearchEdit>
@@ -113,7 +113,7 @@ private:
     bool m_bImport = false;
     QWidget *m_titleBtnWidget;
     DMenu *m_pTitleBarMenu;
-    QStackedWidget *m_pCenterWidget;
+    QStackedWidget *m_pCenterWidget = nullptr;
     CommandLine *m_commandLine;
 public:
     AlbumView *m_pAlbumview;                    //相册照片界面视图

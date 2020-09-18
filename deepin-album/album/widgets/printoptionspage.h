@@ -29,7 +29,7 @@ public:
         ScaleToCustomSize
     };
 
-    PrintOptionsPage(QWidget *parent = nullptr);
+    explicit PrintOptionsPage(QWidget *parent = nullptr);
 
     ScaleMode scaleMode();
     Unit scaleUnit();

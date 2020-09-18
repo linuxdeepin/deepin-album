@@ -191,7 +191,6 @@ void ImportImagesThread::run()
     }
 
     // 当前导入路径
-    int importMountFailed = 0;
     if (isMountFlag) {
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
@@ -216,7 +215,6 @@ void ImportImagesThread::run()
             newImagePaths << strNewPath;
             //判断新路径下是否存在目标文件，若存在，下一次张
             if (dir.exists(strNewPath)) {
-                importMountFailed++;
                 continue;
             }
 
@@ -873,13 +871,13 @@ void ImageEngineThread::run()
 
     using namespace UnionImage_NameSpace;
     QImage tImg;
-    bool cache_exist = false;
     QString path = m_path;
     QFileInfo file(CACHE_PATH + m_path);
     QString errMsg;
     QString dimension;
     QFileInfo srcfi(m_path);
     if (m_data.imgpixmap.isNull()) {
+        bool cache_exist = false;
         if (file.exists()) {
             QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
             QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
@@ -1049,7 +1047,6 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
         return;
     }
     QImage tImg;
-    bool cache_exist = false;
     QString path = m_path;
     QFileInfo file(CACHE_PATH + path);
     if (needStop)
@@ -1068,6 +1065,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
         return;
     QPixmap pixmap = QPixmap::fromImage(tImg);
     if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+        bool cache_exist = false;
         if (pixmap.height() != 200 && pixmap.width() != 200) {
             if (pixmap.height() >= pixmap.width()) {
                 cache_exist = true;
@@ -1126,7 +1124,6 @@ void ImageEngineBackThread::run()
     using namespace UnionImage_NameSpace;
     for (auto temppath : m_pathlist) {
         QImage tImg;
-        bool cache_exist = false;
         QString path = temppath;
         QString errMsg;
         if (!loadStaticImageFromFile(path, tImg, errMsg)) {
@@ -1138,6 +1135,7 @@ void ImageEngineBackThread::run()
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
         if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+            bool cache_exist = false;
             if (pixmap.height() != 100 && pixmap.width() != 100) {
                 if (pixmap.height() >= pixmap.width()) {
                     cache_exist = true;

@@ -42,7 +42,7 @@ private:
     void initUI();
     void mousePressEvent(QMouseEvent *e) override;
     void dragEnterEvent(QDragEnterEvent *e) override;
-    void dropEvent(QDropEvent *e) override;
+    void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 

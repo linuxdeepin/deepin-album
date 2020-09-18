@@ -19,7 +19,7 @@
 
 #include <DDialog>
 #include <DScrollArea>
-#include <DArrowLineExpand>
+//#include <DArrowLineExpand>
 #include <DDrawer>
 #include <denhancedwidget.h>
 

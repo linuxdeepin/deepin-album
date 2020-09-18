@@ -295,9 +295,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         }
         emit mouseLeftReleased();
         if (m_isMoving) {
-            int endPos = 0;
             if (m_movePoints.size() > 0) {
-                endPos = dynamic_cast<DWidget *>(m_obj)->pos().x() + m_movePoints.last().x() - m_movePoints.first().x();
+                int endPos = dynamic_cast<DWidget *>(m_obj)->pos().x() + m_movePoints.last().x() - m_movePoints.first().x();
                 //过滤掉触屏点击时的move误操作
                 if (abs(m_movePoints.last().x() - m_movePoints.first().x()) > 15) {
                     animationStart(false, endPos, 800);

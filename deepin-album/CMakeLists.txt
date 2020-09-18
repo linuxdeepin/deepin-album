@@ -313,3 +313,6 @@ install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${ManIco
 # install App icon
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${AppIconDir})
 
+#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")

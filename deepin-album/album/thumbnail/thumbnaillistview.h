@@ -112,9 +112,9 @@ public:
     void loadFilesFromLocal(DBImgInfoList files, bool needcache = true, bool needcheck = true);
     void loadFilesFromTrash(DBImgInfoList files);
     void loadFilesFromDB(QString name = "", int loadCount = 0);
-    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
-    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
-    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
+    bool imageLocalLoaded(QStringList &filelist) override;
+    bool imageFromDBLoaded(QStringList &filelist) override;
+    bool imageLoaded(QString filepath) override;
     void insertThumbnail(const ItemInfo &iteminfo);
     void stopLoadAndClear(bool bClearModel = true);    //为true则清除模型中的数据
     QStringList getAllFileList();

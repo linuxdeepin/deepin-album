@@ -541,7 +541,7 @@ void ImageAnimationPrivate::moveLeftToRightEffect(QPainter *painter, const QRect
 {
     int x, y, w, h;
     w = rect.width();
-    h = rect.height();
+//    h = rect.height();
     x = static_cast<int>(0 + w * factor);
     y = 0;
     painter->drawPixmap(x, y, pixmap1);

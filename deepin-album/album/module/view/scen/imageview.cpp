@@ -60,8 +60,6 @@ const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
-const int MAX_WIDTH_HEIGHT = 3500;      //最大尺寸分辨率，超过则加载缩略图替换
-
 
 QVariantList cachePixmap(const QString &path)
 {
@@ -243,6 +241,10 @@ void ImageView::setImage(const QString &path)
         } else {
             wScale = w;
             hScale = h;
+        }
+        if (wScale == 0 || wScale == -1) {
+            wScale = wWindow;
+            hScale = hWindow;
         }
         QPixmap pix = data.imgpixmap.scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
         m_pixmapItem = new GraphicsPixmapItem(pix);

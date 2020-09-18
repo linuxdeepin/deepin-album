@@ -723,10 +723,9 @@ void MainWindow::allPicBtnClicked()
 //显示时间线照片
 void MainWindow::timeLineBtnClicked()
 {
-    int index = 0;
     if (nullptr == m_pTimeLineView) {
         m_pCenterWidget->removeWidget(m_pTimeLineWidget);
-        index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+        int index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
         m_pTimeLineView = new TimeLineView();
         m_pCenterWidget->insertWidget(index, m_pTimeLineView);
     }
@@ -744,8 +743,8 @@ void MainWindow::timeLineBtnClicked()
 //显示相册
 void MainWindow::albumBtnClicked()
 {
-    int index = 0;
     if (nullptr == m_pAlbumview) {
+        int index = 0;
         if (nullptr == m_pTimeLineView) {
             m_pCenterWidget->removeWidget(m_pTimeLineWidget);
             index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
@@ -1116,10 +1115,8 @@ void MainWindow::showEvent(QShowEvent *event)
     }
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
-
-            int index = 0;
             if (nullptr == m_pSearchView) {
-                index = m_pCenterWidget->indexOf(m_pSearchViewWidget);
+                int index = m_pCenterWidget->indexOf(m_pSearchViewWidget);
                 m_pSearchView = new SearchView();
                 m_pCenterWidget->insertWidget(index, m_pSearchView);
                 m_pCenterWidget->removeWidget(m_pSearchViewWidget);
