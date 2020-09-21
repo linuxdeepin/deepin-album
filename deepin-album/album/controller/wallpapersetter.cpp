@@ -1,4 +1,5 @@
 #include "wallpapersetter.h"
+#include "application.h"
 #include "unionimage.h"
 #include "baseutils.h"
 #include <QTimer>
@@ -67,7 +68,14 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
         QString value = reply.value();
         if (value.contains("SetMonitorBackground")) {
             QDBusMessage msg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "SetMonitorBackground");
-            msg.setArguments({qApp->primaryScreen()->name(), tempWallPaperpath});
+            QString mm;
+            if (Application::isWaylandPlatform()) {
+                QDBusInterface interface("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
+                mm = qvariant_cast< QString >(interface.property("Primary"));
+            } else {
+                mm = qApp->primaryScreen()->name();
+            }
+            msg.setArguments({mm, tempWallPaperpath});
             QDBusConnection::sessionBus().asyncCall(msg);
             qDebug() << "FileUtils::setBackground call Appearance SetMonitorBackground";
             return true;

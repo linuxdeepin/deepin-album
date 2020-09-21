@@ -80,6 +80,7 @@ public:
 //    QMap<QString, QStringList> m_phoneNameAndPathlist;
 //    QMap<QString, QPixmap> m_phonePathAndImage;
 
+    static bool isWaylandPlatform();
 signals:
     void sigstartLoad();
     void sigFinishLoad();
