@@ -8,8 +8,7 @@
 #include "albumview/albumview.h"
 
 
-AlbumDeleteDialog::AlbumDeleteDialog(DWidget *parent):
-    m_Cancel(nullptr), m_Delete(nullptr)
+AlbumDeleteDialog::AlbumDeleteDialog(DWidget *parent)
 {
     Q_UNUSED(parent);
     iniUI();
@@ -26,30 +25,33 @@ void AlbumDeleteDialog::iniUI()
 
     //label
     DLabel *m_label = new DLabel(this);
-    DFontSizeManager::instance()->bind(m_label, DFontSizeManager::T6, QFont::DemiBold);
-    m_label->setForegroundRole(DPalette::TextTitle);
     m_label->setAlignment(Qt::AlignCenter);
     m_label->setText(tr("Are you sure you want to delete this album?"));
 
-    this->insertContent(0, m_label);
+    DWidget *contentWidget = new DWidget(this);
+    contentWidget->setFixedHeight(this->height() - 80);
+    contentWidget->setContentsMargins(0, 0, 0, 0);
 
-    //取消按钮
-    m_Cancel = new DPushButton(this);
-    m_Cancel->setText(tr("Cancel"));
-    m_Cancel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    QVBoxLayout *layout = new QVBoxLayout(contentWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(8);
+    layout->addStretch();
+    layout->addWidget(m_label);
+    layout->addStretch();
 
-    //确认删除按钮
-    m_Delete = new DPushButton(this);
-    m_Delete->setText(tr("Delete"));
-    m_Delete->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    addContent(contentWidget);
 
-    this->insertButton(1, m_Cancel);
-    this->insertButton(2, m_Delete);
+    insertButton(0, tr("Cancel"), false, DDialog::ButtonNormal);
+    insertButton(1, tr("Delete"), true, DDialog::ButtonWarning);
 
-    connect(m_Cancel, &DPushButton::clicked, this, &AlbumDeleteDialog::deleteLater);
-    connect(m_Delete, &DPushButton::clicked, this, [ = ] {
-        emit deleteAlbum();
-        this->close();
+    connect(this, &AlbumDeleteDialog::buttonClicked, this, [ = ](int index, const QString & text) {
+        Q_UNUSED(text)
+        if (0 == index) {
+            deleteLater();
+        } else if (1 == index) {
+            emit deleteAlbum();
+            this->close();
+        }
     });
 }
 

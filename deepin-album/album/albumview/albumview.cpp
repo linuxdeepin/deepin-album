@@ -417,7 +417,7 @@ void AlbumView::initConnections()
         }
         udispname = label;
 
-runend:
+    runend:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1907,7 +1907,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2369,7 +2369,7 @@ void AlbumView::needUnMount(QString path)
                 msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
                 msgbox.setTextFormat(Qt::AutoText);
                 msgbox.setMessage(tr("Disk is busy, cannot eject now"));
-                msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonWarning);
+                msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
                 auto ret = msgbox.exec();
                 Q_UNUSED(ret);
                 return;
