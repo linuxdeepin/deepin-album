@@ -1,4 +1,5 @@
 #include "mountexternalbtn.h"
+#include <QMouseEvent>
 
 MountExternalBtn::MountExternalBtn(DLabel *parent) : DLabel(parent)
 {
@@ -7,8 +8,9 @@ MountExternalBtn::MountExternalBtn(DLabel *parent) : DLabel(parent)
 
 
 
-void MountExternalBtn::mouseReleaseEvent(QMouseEvent *event)
+void MountExternalBtn::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
     emit sigMountExternalBtnClicked();
+    event->accept();
 }
