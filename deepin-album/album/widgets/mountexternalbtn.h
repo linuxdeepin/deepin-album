@@ -12,7 +12,7 @@ class MountExternalBtn : public DLabel
 public:
     MountExternalBtn(DLabel *parent = nullptr);
 
-    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 signals:
     void sigMountExternalBtnClicked();

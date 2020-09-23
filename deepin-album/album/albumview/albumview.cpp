@@ -86,7 +86,7 @@ static QMap<QString, QString> opticalmediamap(opticalmediakeys);
 }  //namespace
 
 using namespace utils::common;
-
+Q_DECLARE_METATYPE(QExplicitlySharedDataPointer<DGioMount>)
 
 AlbumViewList::AlbumViewList(QWidget *parent)
     : DListWidget(parent), m_scrollbartopdistance(130), m_scrollbarbottomdistance(27)
@@ -1728,7 +1728,8 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
-    if ((scheme == "file" && mount->canEject()) ||  //usb device
+    bool canEject = mount->canEject();
+    if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
             //(scheme == "afc") ||                  //iPhone document
             (scheme == "mtp")) {                    //android file
@@ -2099,6 +2100,8 @@ void AlbumView::initExternalDevice()
             qDebug() << "strPath :" << strPath << endl;
             pListWidgetItem->setData(Qt::UserRole, strPath);
             pListWidgetItem->setData(Qt::UserRole + 1, rename);
+            QVariant value = QVariant::fromValue(mount);
+            pListWidgetItem->setData(Qt::UserRole + 2, value);
             pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
             AlbumLeftTabItem *pAlbumLeftTabItem;
 
@@ -2138,6 +2141,8 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
         rename = mount->name();
     }
     pListWidgetItem->setData(Qt::UserRole + 1, rename);
+    QVariant value = QVariant::fromValue(mount);
+    pListWidgetItem->setData(Qt::UserRole + 2, value);
     if (strPath.contains("/media/")) {
         pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
     } else {
@@ -2150,8 +2155,11 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
         return;
     }
     m_itemClicked = true;
-    m_pLeftListView->m_pMountListWidget->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-    m_pLeftListView->m_pMountListWidget->setCurrentItem(pListWidgetItem);
+    if (pListWidgetItem) {
+        m_pLeftListView->m_pMountListWidget->addItem(pListWidgetItem);
+        m_pLeftListView->m_pMountListWidget->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+        m_pLeftListView->m_pMountListWidget->setCurrentItem(pListWidgetItem);
+    }
     //右侧视图同时切换
     m_pRightPhoneThumbnailList->stopLoadAndClear(true);     //清除已有数据
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
@@ -2303,81 +2311,146 @@ void AlbumView::needUnMount(QString path)
         }
     }
 
-    if ("" == mountPoint) {
-        for (auto mount : m_mounts) {
-//            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-            //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-            QString strPath = mount->getDefaultLocationFile()->path();
-            if (!strPath.contains("/media/")) {
-                findPicturePathByPhone(strPath);
-            }
-            if (strPath.compare(path) == 0 && mount->canUnmount()) {
-                auto it = m_phoneNameAndPathlist.begin();
-                while (it != m_phoneNameAndPathlist.end()) {
-                    if (it.key().contains(strPath)) {
-                        emit dApp->signalM->sigDevStop(it.key());
-                        ImageEngineApi::instance()->removeImage(it.value());//从内存中删除
-                        m_phoneNameAndPathlist.erase(it);
-                        break;
-                    }
-                    it++;
-                }
+//    if ("" == mountPoint) {
+//        for (auto mount : m_mounts) {
+//            //            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+//            //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+//            QString strPath = mount->getDefaultLocationFile()->path();
+//            if (!strPath.contains("/media/")) {
+//                findPicturePathByPhone(strPath);
+//            }
+//            if (strPath.compare(path) == 0 && mount->canUnmount()) {
+//                auto it = m_phoneNameAndPathlist.begin();
+//                while (it != m_phoneNameAndPathlist.end()) {
+//                    if (it.key().contains(strPath)) {
+//                        emit dApp->signalM->sigDevStop(it.key());
+//                        ImageEngineApi::instance()->removeImage(it.value());//从内存中删除
+//                        m_phoneNameAndPathlist.erase(it);
+//                        break;
+//                    }
+//                    it++;
+//                }
 
-                m_mounts.removeOne(mount);
+//                m_mounts.removeOne(mount);
+//                break;
+//            }
+//        }
+//        //设备已卸载，未能在list上移除
+//        QWidget *wdg  = m_pLeftListView->m_pMountListWidget->itemWidget(m_pLeftListView->m_pMountListWidget->currentItem());
+//        m_pLeftListView->m_pMountListWidget->removeItemWidget(m_pLeftListView->m_pMountListWidget->currentItem());
+//        wdg->deleteLater();
+//        QListWidgetItem *pitem = m_pLeftListView->m_pMountListWidget->takeItem(m_pLeftListView->m_pMountListWidget->currentRow());
+//        delete pitem;
+//        pitem = nullptr;
+//        //转到已导入界面
+//        if (m_pLeftListView->m_pMountListWidget->count() == 0) {
+//            m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
+//            QModelIndex index;
+//            emit m_pLeftListView->m_pPhotoLibListView->pressed(index);
+//            m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
+//            m_currentType = COMMON_STR_RECENT_IMPORTED;
+//            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
+//            m_pStatusBar->setVisible(true);
+//        }
+//        return ;
+//    }
+//    for (auto mount : m_mounts) {
+//        if (!blkget) {
+//            continue;
+//        }
+//        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+//        if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+//            QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
+//            QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
+//            bool err = false;
+//            if (!blkget->mountPoints().empty()) {
+//                blkget->unmount({});
+//                err |= blkget->lastError().isValid();
+//            }
+//            if (blkget->cryptoBackingDevice().length() > 1) {
+//                cbblk->lock({});
+//                err |= cbblk->lastError().isValid();
+//                drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
+//            }
+//            drv->powerOff({});
+//            err |= drv->lastError().isValid();
+//            if (err) {
+//                DDialog msgbox(this);
+//                msgbox.setFixedWidth(400);
+//                msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+//                msgbox.setTextFormat(Qt::AutoText);
+//                msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+//                msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+//                auto ret = msgbox.exec();
+//                Q_UNUSED(ret);
+//                return;
+//            }
+//            break;
+//        }
+//    }
+
+    if (m_waitDeviceScandialog) {
+        m_waitDeviceScandialog->close();
+    }
+    for (int i = 0; i < m_pLeftListView->m_pMountListWidget->count(); i++) {
+        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListWidget->item(i);
+        if (!pListWidgetItem)
+            continue;
+        QExplicitlySharedDataPointer<DGioMount> mount =
+            qvariant_cast<QExplicitlySharedDataPointer<DGioMount>>(pListWidgetItem->data(Qt::UserRole + 2));
+        QString strPath = mount->getDefaultLocationFile()->path();
+        if (!strPath.contains("/media/")) {
+            findPicturePathByPhone(strPath);
+        }
+        if (strPath == path) {
+            if (1 < m_pLeftListView->m_pMountListWidget->count()) {
+                QWidget *wdg  = m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem);
+                m_pLeftListView->m_pMountListWidget->removeItemWidget(pListWidgetItem);
+                wdg->deleteLater();
+                m_pLeftListView->m_pMountListWidget->takeItem(m_pLeftListView->m_pMountListWidget->row(pListWidgetItem));
+                delete pListWidgetItem;
+            } else {
+                m_pLeftListView->m_pMountListWidget->clear();
+                m_pLeftListView->updatePhotoListView();
+            }
+            emit dApp->signalM->sigDevStop(strPath);
+            m_phoneNameAndPathlist.remove(strPath);
+            QUrl qurl(mount->getRootFile()->uri());
+            durlAndNameMap.erase(durlAndNameMap.find(qurl));
+
+            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+            if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+                QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
+                QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
+                bool err = false;
+                if (!blkget->mountPoints().empty()) {
+                    blkget->unmount({});
+                    err |= blkget->lastError().isValid();
+                }
+                if (blkget->cryptoBackingDevice().length() > 1) {
+                    cbblk->lock({});
+                    err |= cbblk->lastError().isValid();
+                    drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
+                }
+                drv->powerOff({});
+                err |= drv->lastError().isValid();
+                if (err) {
+                    DDialog msgbox(this);
+                    msgbox.setFixedWidth(400);
+                    msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+                    msgbox.setTextFormat(Qt::AutoText);
+                    msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+                    msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+                    auto ret = msgbox.exec();
+                    Q_UNUSED(ret);
+                    return;
+                }
                 break;
             }
-        }
-        //设备已卸载，未能在list上移除
-        QWidget *wdg  = m_pLeftListView->m_pMountListWidget->itemWidget(m_pLeftListView->m_pMountListWidget->currentItem());
-        m_pLeftListView->m_pMountListWidget->removeItemWidget(m_pLeftListView->m_pMountListWidget->currentItem());
-        wdg->deleteLater();
-        QListWidgetItem *pitem = m_pLeftListView->m_pMountListWidget->takeItem(m_pLeftListView->m_pMountListWidget->currentRow());
-        delete pitem;
-        pitem = nullptr;
-        //转到已导入界面
-        if (m_pLeftListView->m_pMountListWidget->count() == 0) {
-            m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
-            QModelIndex index;
-            emit m_pLeftListView->m_pPhotoLibListView->pressed(index);
-            m_currentAlbum = COMMON_STR_RECENT_IMPORTED;
-            m_currentType = COMMON_STR_RECENT_IMPORTED;
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
-            m_pStatusBar->setVisible(true);
-        }
-        return ;
-    }
-    for (auto mount : m_mounts) {
-        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-        if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
-            QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
-            QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
-            bool err = false;
-            if (!blkget->mountPoints().empty()) {
-                blkget->unmount({});
-                err |= blkget->lastError().isValid();
-            }
-            if (blkget->cryptoBackingDevice().length() > 1) {
-                cbblk->lock({});
-                err |= cbblk->lastError().isValid();
-                drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
-            }
-            drv->powerOff({});
-            err |= drv->lastError().isValid();
-            if (err) {
-                DDialog msgbox(this);
-                msgbox.setFixedWidth(400);
-                msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
-                msgbox.setTextFormat(Qt::AutoText);
-                msgbox.setMessage(tr("Disk is busy, cannot eject now"));
-                msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
-                auto ret = msgbox.exec();
-                Q_UNUSED(ret);
-                return;
-//                dialogManager->showErrorDialog(tr("Disk is busy, cannot eject now"), QString());
-            }
-//            m_mounts.removeOne(mount);
             break;
         }
+//        mount->unmount();
+//        mount->eject();
     }
     m_mounts = getVfsMountList();
 }
@@ -2386,8 +2459,6 @@ void AlbumView::needUnMount(QString path)
 void AlbumView::onUnMountSignal(QString unMountPath)
 {
     m_pRightPhoneThumbnailList->stopLoadAndClear();
-
-    QThread::sleep(1);
     needUnMount(unMountPath);
 }
 
