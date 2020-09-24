@@ -14,13 +14,12 @@ set(CMAKE_AUTOUIC ON)
 #设置是否执行测试
 option(DOTEST "option for test" OFF)
 
-# 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-
 if(DOTEST)
-set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras Test)
+    # 添加gocv覆盖率文件的输出
+    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
 else()
-set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras)
+    set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools)
 endif()
 #先查找到这些qt相关的模块以供链接使用
 find_package(Qt5 REQUIRED ${QtModule})
@@ -268,7 +267,7 @@ if(DOTEST)
 endif()
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} pthread)
+#target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} pthread)
 
 if(DOTEST)
     target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})
