@@ -65,10 +65,10 @@ set(UnionImageDir ${PREFIX}/lib)
 set_target_properties(UnionImage PROPERTIES VERSION 1.0.0 SOVERSION 1.0)
 install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
 
-execute_process(
-COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1
-COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0
-COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0.0
-)
+#execute_process(
+#COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1
+#COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0
+#COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0.0
+#)
 
 target_link_libraries(UnionImage)
