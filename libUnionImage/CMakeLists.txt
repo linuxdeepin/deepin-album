@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 # 设置工程名字
 project(libUnionImage)
 
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -61,6 +62,7 @@ qt5_use_modules(UnionImage ${QtModule})
 set(PREFIX /usr)
 set(UnionImageDir ${PREFIX}/lib)
 
+set_target_properties(UnionImage PROPERTIES VERSION 1.0.0 SOVERSION 1.0)
 install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
 
 execute_process(
