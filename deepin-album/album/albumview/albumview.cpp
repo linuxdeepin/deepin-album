@@ -1222,9 +1222,8 @@ void AlbumView::updateRightView()
 
 void AlbumView::updateAlbumView(const QString &album)
 {
-    if (m_currentType == album) {
-        updateRightMyFavoriteView();
-    }
+    Q_UNUSED(album)
+    updateRightNoTrashView();
 }
 
 // 更新已导入列表
