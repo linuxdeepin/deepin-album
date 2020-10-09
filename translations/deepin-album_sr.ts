@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Подаци слике</translation>
+        <translation type="obsolete">Подаци слике</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Прикажи</translation>
+        <translation type="obsolete">Прикажи</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Цео екран</translation>
+        <translation type="obsolete">Цео екран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Покретни приказ</translation>
+        <translation type="obsolete">Покретни приказ</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Извези</translation>
+        <translation type="obsolete">Извези</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Копирај</translation>
+        <translation type="obsolete">Копирај</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Обриши</translation>
+        <translation type="obsolete">Обриши</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Уклини из албума</translation>
+        <translation type="obsolete">Уклини из албума</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Штампај</translation>
+        <translation type="obsolete">Штампај</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">У омиљено</translation>
+        <translation type="obsolete">У омиљено</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Из омиљеног</translation>
+        <translation type="obsolete">Из омиљеног</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Ротирај удесно</translation>
+        <translation type="obsolete">Ротирај удесно</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Ротирај улево</translation>
+        <translation type="obsolete">Ротирај улево</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Прикажи у управнику података</translation>
+        <translation type="obsolete">Прикажи у управнику података</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Постави као позадину</translation>
+        <translation type="obsolete">Постави као позадину</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Врати</translation>
+        <translation type="obsolete">Врати</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Додај у албум</translation>
+        <translation type="obsolete">Додај у албум</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Нови албум</translation>
+        <translation type="obsolete">Нови албум</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Без скалирања</translation>
+        <translation type="vanished">Без скалирања</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Прилагоди страницу слици</translation>
+        <translation type="vanished">Прилагоди страницу слици</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Прилагоди слику страници</translation>
+        <translation type="vanished">Прилагоди слику страници</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Скалирај у:</translation>
+        <translation type="vanished">Скалирај у:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Милиметри</translation>
+        <translation type="vanished">Милиметри</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Сантиметри</translation>
+        <translation type="vanished">Сантиметри</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Инчи</translation>
+        <translation type="vanished">Инчи</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Позиција слике</translation>
+        <translation type="vanished">Позиција слике</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Скалирање</translation>
+        <translation type="vanished">Скалирање</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Подешавање слике</translation>
+        <translation type="vanished">Подешавање слике</translation>
     </message>
 </context>
 <context>

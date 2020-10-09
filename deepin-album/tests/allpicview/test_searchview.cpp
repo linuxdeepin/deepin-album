@@ -4,15 +4,17 @@
 #include "mainwindow.h"
 #include "allpicview.h"
 #include "searchview.h"
+#include "../test_qtestDefine.h"
 
 #include <QTestEventList>
 
 TEST(searchview, test_ini)
 {
-    QTime time;
-    time.start();
-    while (time.elapsed() < 200)
-        dApp->processEvents();
+    if (!switch_on_test) {
+        return;
+    }
+    qDebug() << "searchview test_ini count = " << count_testDefine++;
+    QTest::qWait(200);
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
     QTestEventList event;

@@ -863,7 +863,11 @@ void ThumbnailListView::requestSomeImages()
         }
         QString firstfilesbeleft = m_filesbeleft.first();
         m_filesbeleft.removeFirst();
-        ImageEngineApi::instance()->reQuestImageData(firstfilesbeleft, this, bneedcache);
+        bool useGlobalThreadPool = true;
+        if (m_useFor == Mount) {
+            useGlobalThreadPool = false;
+        }
+        ImageEngineApi::instance()->reQuestImageData(firstfilesbeleft, this, bneedcache, useGlobalThreadPool);
     }
 }
 
@@ -1373,6 +1377,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
+    qDebug() << "zy--------ThumbnailListView::resizeEvent";
     if (e->size().width() == e->oldSize().width()) {
 //        qDebug() << "宽度没有改变，证明是导入图片改变了高度";
         return;
@@ -1547,6 +1552,11 @@ void ThumbnailListView::clearSelectionExtent(int start, int end)
 void ThumbnailListView::resizeHand()
 {
     emit needResize(m_height + 15);
+}
+
+void ThumbnailListView::setListViewUseFor(ThumbnailListView::ListViewUseFor usefor)
+{
+    m_useFor = usefor;
 }
 #endif
 //add start 3975

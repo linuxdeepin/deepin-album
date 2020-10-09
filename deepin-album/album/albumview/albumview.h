@@ -2,7 +2,6 @@
 #define ALBUMVIEW_H
 
 #include "thumbnail/thumbnaillistview.h"
-#include "thumbnail/mountthumbnaillistview.h"
 #include "dbmanager/dbmanager.h"
 #include "controller/signalmanager.h"
 #include "widgets/albumlefttabitem.h"
@@ -217,7 +216,7 @@ public:
     StatusBar *m_pStatusBar;
     DWidget *m_pRightWidget;
 
-    MountThumbnailListView *m_pRightPhoneThumbnailList;
+    ThumbnailListView *m_pRightPhoneThumbnailList;
     QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     //LMH0424

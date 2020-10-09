@@ -732,75 +732,63 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Informasi Foto</translation>
+        <translation type="obsolete">Informasi Foto</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">View</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">View</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Tampilan slide</translation>
+        <translation type="obsolete">Tampilan slide</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Ekspor</translation>
+        <translation type="obsolete">Ekspor</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Duplikat</translation>
+        <translation type="obsolete">Duplikat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Hapus</translation>
+        <translation type="obsolete">Hapus</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Hapus dari album</translation>
+        <translation type="obsolete">Hapus dari album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Cetak</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Cetak</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Batal Favorit</translation>
+        <translation type="obsolete">Batal Favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Putar searah jarum jam</translation>
+        <translation type="obsolete">Putar searah jarum jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Putar berlawanan jarum jam</translation>
+        <translation type="obsolete">Putar berlawanan jarum jam</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Tampilkan di manajer file</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Tampilkan di manajer file</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Kembalikan</translation>
+        <translation type="obsolete">Kembalikan</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Tambahkan ke album</translation>
+        <translation type="obsolete">Tambahkan ke album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Album Baru</translation>
+        <translation type="obsolete">Album Baru</translation>
     </message>
 </context>
 <context>
@@ -813,44 +801,40 @@
 <context>
     <name>PrintOptionsPage</name>
     <message>
-        <source>No scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Fit page to image</source>
-        <translation>Sesuaikan halaman dengan gambar</translation>
+        <translation type="vanished">Sesuaikan halaman dengan gambar</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Sesuaikan gambar dengan halaman</translation>
+        <translation type="vanished">Sesuaikan gambar dengan halaman</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skalakan ke:</translation>
+        <translation type="vanished">Skalakan ke:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimeter</translation>
+        <translation type="vanished">Milimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Sentimeter</translation>
+        <translation type="vanished">Sentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inci</translation>
+        <translation type="vanished">Inci</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posisi Foto</translation>
+        <translation type="vanished">Posisi Foto</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skala</translation>
+        <translation type="vanished">Skala</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Pengaturan Gambar</translation>
+        <translation type="vanished">Pengaturan Gambar</translation>
     </message>
 </context>
 <context>

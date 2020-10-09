@@ -139,7 +139,6 @@ private:
     CFileWatcher *m_imgFileWatcher;
     QTimer *m_isChangedTimer;
 
-    ImageRotateThreadControler *m_rotateControler;
     bool m_isFirstPinch = false;
     QPointF m_centerPoint;
     QTimer *m_loadTimer = nullptr;

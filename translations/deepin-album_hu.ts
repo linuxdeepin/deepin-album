@@ -732,75 +732,71 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Kép tulajdonságai</translation>
+        <translation type="obsolete">Kép tulajdonságai</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Nézet</translation>
+        <translation type="obsolete">Nézet</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Teljes képernyő</translation>
+        <translation type="obsolete">Teljes képernyő</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diavetítés</translation>
+        <translation type="obsolete">Diavetítés</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Exportálás</translation>
+        <translation type="obsolete">Exportálás</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Másolás</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Másolás</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Eltávolítás az albumból</translation>
+        <translation type="obsolete">Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Nyomtatás</translation>
+        <translation type="obsolete">Nyomtatás</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Kedvenc</translation>
+        <translation type="obsolete">Kedvenc</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Eltávolítás a kedvencekből</translation>
+        <translation type="obsolete">Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Forgatás óramutató járása szerint</translation>
+        <translation type="obsolete">Forgatás óramutató járása szerint</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Forgatás óramutató járásával ellentétes irányba</translation>
+        <translation type="obsolete">Forgatás óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Megjelenítés fájlkezelőben</translation>
+        <translation type="obsolete">Megjelenítés fájlkezelőben</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Beállítás háttérképként</translation>
+        <translation type="obsolete">Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Helyreállítás</translation>
+        <translation type="obsolete">Helyreállítás</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Hozzáadás az albumhoz</translation>
+        <translation type="obsolete">Hozzáadás az albumhoz</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Új album</translation>
+        <translation type="obsolete">Új album</translation>
     </message>
 </context>
 <context>
@@ -814,43 +810,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Nincs méretezés</translation>
+        <translation type="vanished">Nincs méretezés</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Oldal illesztése a képhez</translation>
+        <translation type="vanished">Oldal illesztése a képhez</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Kép illesztése az oldalra</translation>
+        <translation type="vanished">Kép illesztése az oldalra</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Méretezés:</translation>
+        <translation type="vanished">Méretezés:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Miliméter</translation>
+        <translation type="vanished">Miliméter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centiméter</translation>
+        <translation type="vanished">Centiméter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Incs</translation>
+        <translation type="vanished">Incs</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Kép elhelyezése</translation>
+        <translation type="vanished">Kép elhelyezése</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Méretezés</translation>
+        <translation type="vanished">Méretezés</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Kép beállításai</translation>
+        <translation type="vanished">Kép beállításai</translation>
     </message>
 </context>
 <context>

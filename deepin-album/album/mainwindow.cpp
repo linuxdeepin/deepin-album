@@ -49,16 +49,15 @@ MainWindow::MainWindow()
     , m_bImport(false)
     , m_titleBtnWidget(nullptr)
     , m_pTitleBarMenu(nullptr)
-    , m_pSearchEdit(nullptr)
     , m_pCenterWidget(nullptr)
-    , m_commandLine(nullptr)
     , m_pAlbumview(nullptr)
     , m_pAlbumWidget(nullptr)
     , m_pAllPicView(nullptr)
     , m_pTimeLineView(nullptr)
     , m_pTimeLineWidget(nullptr)
     , m_pSearchView(nullptr)
-//    , m_slidePanel(nullptr)
+    , m_pSearchEdit(nullptr)
+    , m_commandLine(nullptr)
     , m_pDBManager(nullptr)
     , m_backIndex(0)
     , m_backIndex_fromSlide(0)
@@ -127,6 +126,7 @@ void MainWindow::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+        Q_UNUSED(themeType);
         setWaitDialogColor();
     });
     //主界面切换（所有照片、时间线、相册）
@@ -989,7 +989,8 @@ void MainWindow::onShowImageInfo(const QString &path)
             m_propertyDialogs.remove(path);
         });
     } else {
-        dialog = new ImgInfoDialog(path);
+        dialog = new ImgInfoDialog(path, this);
+        dialog->setObjectName("ImgInfoDialog");
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());

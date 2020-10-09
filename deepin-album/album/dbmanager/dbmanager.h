@@ -152,9 +152,6 @@ private:
 
 
     void                    checkDatabase();
-    void                    importVersion1Data();
-    void                    importVersion2Data();
-
     static DBManager       *m_dbManager;
 private:
     //QString m_connectionName;

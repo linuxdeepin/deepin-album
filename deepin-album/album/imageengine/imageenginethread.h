@@ -257,46 +257,48 @@ private:
     bool m_bpause;
 };
 
-struct RotateSaveRequest {
-    double angel;
-    QString path;
-};
+//内存+文件旋转优化方案-已废弃
 
-class RotateSaveThread : public QRunnable
-{
-public:
-    RotateSaveThread();
-    void setDatas(QHash<QString, RotateSaveRequest>   requests_bar);
-protected:
-    void run();
-private:
-    QVector<RotateSaveRequest> m_requests;
-};
+//struct RotateSaveRequest {
+//    double angel;
+//    QString path;
+//};
 
-class ImageRotateThreadControler : public QObject
-{
-    Q_OBJECT
-public:
-    ImageRotateThreadControler();
-    ~ImageRotateThreadControler();
-signals:
-    void updateRotate(int angel);
-public slots:
-    /**
-     * @brief addRotateAndSave
-     * @param request
-     * @param time_gap
-     * @author DJH
-     * 添加旋转请求队列，并设置队列清空等待时间，等待时间结束后，会执行队列所有命令
-     */
-    void addRotateAndSave(RotateSaveRequest request, int time_gap);
-    void startSave();
+//class RotateSaveThread : public QRunnable
+//{
+//public:
+//    RotateSaveThread();
+//    void setDatas(QHash<QString, RotateSaveRequest>   requests_bar);
+//protected:
+//    void run();
+//private:
+//    QVector<RotateSaveRequest> m_requests;
+//};
 
-private:
-    QTimer *wait;
-    QThreadPool rotateThreadPool;
-    //QList<RotateSaveThread *> rotateThreads;
-    QHash<QString, RotateSaveRequest> NoRepeatRequest;
-};
+//class ImageRotateThreadControler : public QObject
+//{
+//    Q_OBJECT
+//public:
+//    ImageRotateThreadControler();
+//    ~ImageRotateThreadControler();
+//signals:
+//    void updateRotate(int angel);
+//public slots:
+//    /**
+//     * @brief addRotateAndSave
+//     * @param request
+//     * @param time_gap
+//     * @author DJH
+//     * 添加旋转请求队列，并设置队列清空等待时间，等待时间结束后，会执行队列所有命令
+//     */
+//    void addRotateAndSave(RotateSaveRequest request, int time_gap);
+//    void startSave();
+
+//private:
+//    QTimer *wait;
+//    QThreadPool rotateThreadPool;
+//    //QList<RotateSaveThread *> rotateThreads;
+//    QHash<QString, RotateSaveRequest> NoRepeatRequest;
+//};
 
 #endif // IMAGEENGINETHREAD_H

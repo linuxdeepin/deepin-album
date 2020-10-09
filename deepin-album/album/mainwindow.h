@@ -46,10 +46,6 @@ extern bool bfirstandviewimage;
 //namespace Ui {
 //class MainWindow;
 //}
-
-
-
-
 class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT
@@ -114,7 +110,6 @@ private:
     QWidget *m_titleBtnWidget;
     DMenu *m_pTitleBarMenu;
     QStackedWidget *m_pCenterWidget = nullptr;
-    CommandLine *m_commandLine;
 public:
     AlbumView *m_pAlbumview;                    //相册照片界面视图
     QWidget *m_pAlbumWidget;
@@ -125,6 +120,7 @@ public:
     QWidget *m_pSearchViewWidget = nullptr;
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
     DSearchEdit *m_pSearchEdit;
+    CommandLine *m_commandLine;
 private:
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};

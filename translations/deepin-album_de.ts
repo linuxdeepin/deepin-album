@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Foto Info</translation>
+        <translation type="obsolete">Foto Info</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Anzeigen</translation>
+        <translation type="obsolete">Anzeigen</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Vollbild</translation>
+        <translation type="obsolete">Vollbild</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diashow</translation>
+        <translation type="obsolete">Diashow</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Exportieren</translation>
+        <translation type="obsolete">Exportieren</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation type="obsolete">Kopieren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation type="obsolete">Löschen</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Aus Album entfernen</translation>
+        <translation type="obsolete">Aus Album entfernen</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Drucken</translation>
+        <translation type="obsolete">Drucken</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Zu Favoriten hinzufügen</translation>
+        <translation type="obsolete">Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Aus Favoriten entfernen</translation>
+        <translation type="obsolete">Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Im Uhrzeigersinn drehen</translation>
+        <translation type="obsolete">Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Gegen den Uhrzeigersinn drehen</translation>
+        <translation type="obsolete">Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Im Dateimanager anzeigen</translation>
+        <translation type="obsolete">Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Als Hintergrundbild einrichten</translation>
+        <translation type="obsolete">Als Hintergrundbild einrichten</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Wiederherstellen</translation>
+        <translation type="obsolete">Wiederherstellen</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Zum Album hinzufügen</translation>
+        <translation type="obsolete">Zum Album hinzufügen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Neues Album</translation>
+        <translation type="obsolete">Neues Album</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Keine Skalierung</translation>
+        <translation type="vanished">Keine Skalierung</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Seite an Bild anpassen</translation>
+        <translation type="vanished">Seite an Bild anpassen</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Bild an Seite anpassen</translation>
+        <translation type="vanished">Bild an Seite anpassen</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skalieren auf:</translation>
+        <translation type="vanished">Skalieren auf:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Zentimeter</translation>
+        <translation type="vanished">Zentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inch</translation>
+        <translation type="vanished">Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Bildposition</translation>
+        <translation type="vanished">Bildposition</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skalierung</translation>
+        <translation type="vanished">Skalierung</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Bildeinstellungen</translation>
+        <translation type="vanished">Bildeinstellungen</translation>
     </message>
 </context>
 <context>

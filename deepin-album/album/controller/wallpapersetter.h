@@ -22,15 +22,15 @@ private:
         OthersDE
     };
 
-    void setDeepinWallpaper(const QString &path);
-    void setGNOMEWallpaper(const QString &path);
-    void setGNOMEShellWallpaper(const QString &path);
-    void setKDEWallpaper(const QString &path);
-    void setLXDEWallpaper(const QString &path);
-    void setXfaceWallpaper(const QString &path);
+//    void setDeepinWallpaper(const QString &path);
+//    void setGNOMEWallpaper(const QString &path);
+//    void setGNOMEShellWallpaper(const QString &path);
+//    void setKDEWallpaper(const QString &path);
+//    void setLXDEWallpaper(const QString &path);
+//    void setXfaceWallpaper(const QString &path);
 
-    DE getDE();
-    bool testDE(const QString &app);
+//    DE getDE();
+//    bool testDE(const QString &app);
 
     explicit WallpaperSetter(QObject *parent = nullptr);
 

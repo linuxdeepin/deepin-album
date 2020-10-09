@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Información da foto</translation>
+        <translation type="obsolete">Información da foto</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation type="obsolete">Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
+        <translation type="obsolete">Pantalla completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Presentación das diapositivas</translation>
+        <translation type="obsolete">Presentación das diapositivas</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Exportar</translation>
+        <translation type="obsolete">Exportar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
+        <translation type="obsolete">Copiar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation type="obsolete">Eliminar</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Eliminar do álbum</translation>
+        <translation type="obsolete">Eliminar do álbum</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation type="obsolete">Imprimir</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorito</translation>
+        <translation type="obsolete">Favorito</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Non favorito</translation>
+        <translation type="obsolete">Non favorito</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Xira en sentido horario</translation>
+        <translation type="obsolete">Xira en sentido horario</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Xire en sentido antihorario</translation>
+        <translation type="obsolete">Xire en sentido antihorario</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Amosar no xestor de ficheiros</translation>
+        <translation type="obsolete">Amosar no xestor de ficheiros</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Establecer como fondo de pantalla</translation>
+        <translation type="obsolete">Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Restaurar</translation>
+        <translation type="obsolete">Restaurar</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Engadir ao álbum</translation>
+        <translation type="obsolete">Engadir ao álbum</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Novo álbum</translation>
+        <translation type="obsolete">Novo álbum</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Sen escalar</translation>
+        <translation type="vanished">Sen escalar</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Axuste a páxina á imaxe</translation>
+        <translation type="vanished">Axuste a páxina á imaxe</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Axuste a imaxe á páxina</translation>
+        <translation type="vanished">Axuste a imaxe á páxina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escala de:</translation>
+        <translation type="vanished">Escala de:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milímetros</translation>
+        <translation type="vanished">Milímetros</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centímetros</translation>
+        <translation type="vanished">Centímetros</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Polgadas</translation>
+        <translation type="vanished">Polgadas</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posición da imaxe</translation>
+        <translation type="vanished">Posición da imaxe</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Escalando</translation>
+        <translation type="vanished">Escalando</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Configuracións da imaxe</translation>
+        <translation type="vanished">Configuracións da imaxe</translation>
     </message>
 </context>
 <context>

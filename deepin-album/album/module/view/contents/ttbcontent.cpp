@@ -859,7 +859,9 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     // imgListView
     m_imgListView = new MyImageListWidget(this);
     m_imgList = new DWidget(m_imgListView);
+    m_imgList->setObjectName("imageListObj");
     m_imgListView->setObj(m_imgList);
+    m_imgListView->setObjectName("MyImageListWidget");
     m_imgList->installEventFilter(m_imgListView);
     connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
         if (m_rightlist.isEmpty())
@@ -1007,28 +1009,6 @@ void TTBContent::setRightlist(QStringList rightlist)
 void TTBContent::setLeftlist(QStringList leftlist)
 {
     m_leftlist = leftlist;
-}
-
-void TTBContent::setButtonDisabled(bool enable)
-{
-    if (m_adaptImageBtn) {
-        m_adaptImageBtn->setDisabled(enable);
-    }
-    if (m_adaptScreenBtn) {
-        m_adaptScreenBtn->setDisabled(enable);
-    }
-    if (m_clBT) {
-        m_clBT->setDisabled(enable);
-    }
-    if (m_rotateLBtn) {
-        m_rotateLBtn->setDisabled(enable);
-    }
-    if (m_rotateRBtn) {
-        m_rotateRBtn->setDisabled(enable);
-    }
-    if (m_trashBtn) {
-        m_trashBtn->setDisabled(enable);
-    }
 }
 
 bool TTBContent::imageLoaded(QString filepath)
@@ -1617,8 +1597,6 @@ void TTBContent::setImage(const QString &path)
         }
         setCurrentItem();
     }
-    //setButtonDisabled(!QFileInfo(path).exists());
-//    emit dApp->signalM->hideBottomToolbar();
 }
 
 bool TTBContent::setCurrentItem()

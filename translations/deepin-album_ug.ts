@@ -732,75 +732,67 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">سۈرەت ئۇچۇرى</translation>
+        <translation type="obsolete">سۈرەت ئۇچۇرى</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">كۆرۈش</translation>
+        <translation type="obsolete">كۆرۈش</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">تولۇق ئېكران</translation>
+        <translation type="obsolete">تولۇق ئېكران</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">تام تەسۋىر</translation>
+        <translation type="obsolete">تام تەسۋىر</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">چىقىرىش</translation>
+        <translation type="obsolete">چىقىرىش</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">كۆچۈرۈش</translation>
+        <translation type="obsolete">كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">ئۆچۈرۈش</translation>
+        <translation type="obsolete">ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">ئالبومغا قايتا نام بېرىش</translation>
+        <translation type="obsolete">ئالبومغا قايتا نام بېرىش</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">بېسىپ چىقىرىش</translation>
+        <translation type="obsolete">بېسىپ چىقىرىش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">ياقتۇرغانلىرىم</translation>
+        <translation type="obsolete">ياقتۇرغانلىرىم</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">ياقمىغانلىرى</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">ياقمىغانلىرى</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">ھۆججەت باشقۇرغۇچتا كۆرسىتىلىدۇ</translation>
+        <translation type="obsolete">ھۆججەت باشقۇرغۇچتا كۆرسىتىلىدۇ</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">تام قەغىزى قىلىپ تەڭشەڭ</translation>
+        <translation type="obsolete">تام قەغىزى قىلىپ تەڭشەڭ</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">ئەسلىگە كەلتۈرۈش</translation>
+        <translation type="obsolete">ئەسلىگە كەلتۈرۈش</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">ئالبومغا قوشۇش</translation>
+        <translation type="obsolete">ئالبومغا قوشۇش</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">يىڭى ئالبۇم</translation>
+        <translation type="obsolete">يىڭى ئالبۇم</translation>
     </message>
 </context>
 <context>
@@ -814,43 +806,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>ئەسلى</translation>
+        <translation type="vanished">ئەسلى</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>رەسىمگە ماس كېلىدىغان بەت</translation>
+        <translation type="vanished">رەسىمگە ماس كېلىدىغان بەت</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>بەتكە ماس كېلىدىغان رەسىم</translation>
+        <translation type="vanished">بەتكە ماس كېلىدىغان رەسىم</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>كۆرسىتىلگىنى:</translation>
+        <translation type="vanished">كۆرسىتىلگىنى:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>مىللىمېتىر</translation>
+        <translation type="vanished">مىللىمېتىر</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>سانتىمېتىر</translation>
+        <translation type="vanished">سانتىمېتىر</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>ديۇيم</translation>
+        <translation type="vanished">ديۇيم</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>رەسىم ئورنى</translation>
+        <translation type="vanished">رەسىم ئورنى</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>كۆرسىتىش</translation>
+        <translation type="vanished">كۆرسىتىش</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>رەسىم تەڭشىكى</translation>
+        <translation type="vanished">رەسىم تەڭشىكى</translation>
     </message>
 </context>
 <context>

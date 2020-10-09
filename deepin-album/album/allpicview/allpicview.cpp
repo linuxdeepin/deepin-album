@@ -33,7 +33,7 @@ const int VIEW_MAINWINDOW_ALLPIC = 0;
 
 AllPicView::AllPicView()
     : m_pStackedWidget(nullptr), m_pStatusBar(nullptr), m_pwidget(nullptr)
-    , step(0), m_pThumbnailListView(nullptr), m_pImportView(nullptr)
+    , step(0), m_pImportView(nullptr), m_pThumbnailListView(nullptr)
     , m_pSearchView(nullptr), m_spinner(nullptr), fatherwidget(nullptr)
 {
     setAcceptDrops(true);
@@ -42,6 +42,7 @@ AllPicView::AllPicView()
     m_pStackedWidget = new DStackedWidget(this);
     m_pImportView = new ImportView();
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType);
+    m_pThumbnailListView->setObjectName("allPicThumbnailListView");
     DWidget *pThumbnailListView = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(8, 0, 0, 0);
@@ -272,20 +273,6 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
-}
-
-void AllPicView::updatePicsIntoThumbnailViewWithCache80()
-{
-    m_spinner->hide();
-    m_spinner->stop();
-    m_pThumbnailListView->stopLoadAndClear();
-    m_pThumbnailListView->loadFilesFromDB("", 80);
-    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        //donothing
-    } else {
-        updateStackedWidget();
-    }
-    restorePicNum();
 }
 
 void AllPicView::updatePicNum()

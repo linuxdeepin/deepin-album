@@ -124,7 +124,8 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 //    ViewMainWindow *w = new ViewMainWindow(false);
     QHBoxLayout *m_layout = new QHBoxLayout;
     m_layout->setContentsMargins(0, 0, 0, 0);
-    MainWidget *m_mainWidget = new MainWidget(false);
+    MainWidget *m_mainWidget = new MainWidget(false, this);
+    m_mainWidget->setObjectName("MainWidget");
     m_layout->addWidget(m_mainWidget);
     setLayout(m_layout);
 //    w->setWindowRadius(18);
@@ -135,7 +136,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     // BottomToolbar pos not correct on init
 //    emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
-    if(paths.count() == 1){
+    if (paths.count() == 1) {
         using namespace UnionImage_NameSpace;
         const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album";
         QImage tImg;
@@ -213,7 +214,8 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         DBManager::instance()->insertImgInfos(DBImgInfoList() << pdata.dbi);
     } else {
         QTimer::singleShot(300, this, [ = ] {
-            if (paths.count() > 0) {
+            if (paths.count() > 0)
+            {
                 SignalManager::ViewInfo info;
                 info.album = "";
                 info.lastPanel = nullptr;

@@ -11,9 +11,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-#设置是否执行测试
-option(DOTEST "option for test" OFF)
-
 if(DOTEST)
     # 添加gocv覆盖率文件的输出
     set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
@@ -173,8 +170,8 @@ link_directories(${LINK_DIR})
 #link_libraries(UnionImage)
 #target_include_directories(${PROJECT_NAME} PUBLIC ${LINK_DIR})
 
-
 add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs} "./album/main.cpp")
+
 add_compile_definitions(LITE_DIV)
 
 #------------------------------ 配置test ---------------------------------------
@@ -182,6 +179,9 @@ add_compile_definitions(LITE_DIV)
 if(DOTEST)
     SET(PROJECT_NAME_TEST
         ${PROJECT_NAME}_test)
+    FILE (GLOB allTestHeaders
+        "./tests/*.h"
+        )
     FILE(GLOB allTestSource
         "./tests/*.cpp"
         "./tests/application.cpp"
@@ -206,8 +206,13 @@ if(DOTEST)
         "./tests/widgets/*.cpp"
         "./tests/widgets/dialogs/*.cpp"
         )
+
+    # 定义测试资源文件
+    set(AllTestQRC
+        ./tests/testResource/testResource.qrc)
+
     add_subdirectory(tests/googletest)
-    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allSource} ${allTestSource})
+    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allTestHeaders} ${AllTestQRC} ${allSource} ${allTestSource})
     target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
 
     # 添加 QTest 测试

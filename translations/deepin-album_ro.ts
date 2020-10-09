@@ -731,76 +731,56 @@
 <context>
     <name>MountThumbnailListView</name>
     <message>
-        <source>Photo info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>View</source>
-        <translation type="unfinished">Vizionare</translation>
+        <translation type="obsolete">Vizionare</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Ecran complet</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Ecran complet</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Exportă</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Exportă</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Eliminare din album</translation>
+        <translation type="obsolete">Eliminare din album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Printare</translation>
+        <translation type="obsolete">Printare</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorit</translation>
+        <translation type="obsolete">Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Anulează favorit</translation>
+        <translation type="obsolete">Anulează favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotește în sensul acelor de ceasornic</translation>
+        <translation type="obsolete">Rotește în sensul acelor de ceasornic</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotește în sens opus acelor de ceasornic </translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Rotește în sens opus acelor de ceasornic </translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Setează ca imagine de fundal</translation>
+        <translation type="obsolete">Setează ca imagine de fundal</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Restabilire</translation>
+        <translation type="obsolete">Restabilire</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Adăugare la album</translation>
+        <translation type="obsolete">Adăugare la album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Album nou</translation>
+        <translation type="obsolete">Album nou</translation>
     </message>
 </context>
 <context>
@@ -814,43 +794,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Fără scalare</translation>
+        <translation type="vanished">Fără scalare</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Adaptare pagina la imagine</translation>
+        <translation type="vanished">Adaptare pagina la imagine</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Adaptare imagine la pagină</translation>
+        <translation type="vanished">Adaptare imagine la pagină</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scalare la:</translation>
+        <translation type="vanished">Scalare la:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimetre</translation>
+        <translation type="vanished">Milimetre</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimetre</translation>
+        <translation type="vanished">Centimetre</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Degete</translation>
+        <translation type="vanished">Degete</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Poziție imagine</translation>
+        <translation type="vanished">Poziție imagine</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scalare</translation>
+        <translation type="vanished">Scalare</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Setări Imagine</translation>
+        <translation type="vanished">Setări Imagine</translation>
     </message>
 </context>
 <context>

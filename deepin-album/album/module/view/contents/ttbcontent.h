@@ -65,7 +65,6 @@ public:
     bool isAnimationStart();//判断动画是否执行中
 
     QTimer *m_timer = nullptr;
-private:
     void findSelectItem();
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
@@ -186,7 +185,6 @@ public:
     void setRightlist(QStringList rightlist);
 
     void setLeftlist(QStringList leftlist);
-    void setButtonDisabled(bool enable);
 
 signals:
     void ttbcontentClicked();
@@ -223,9 +221,9 @@ public slots:
     void deleteImage();
     void onNextButton();
     void onPreButton();
+    void updateFilenameLayout();
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    void updateFilenameLayout();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

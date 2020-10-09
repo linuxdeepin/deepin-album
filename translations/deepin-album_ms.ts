@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Maklumat foto</translation>
+        <translation type="obsolete">Maklumat foto</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Lihat</translation>
+        <translation type="obsolete">Lihat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Skrin penuh</translation>
+        <translation type="obsolete">Skrin penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Paparan slaid</translation>
+        <translation type="obsolete">Paparan slaid</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Eksport</translation>
+        <translation type="obsolete">Eksport</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Salin</translation>
+        <translation type="obsolete">Salin</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Padam</translation>
+        <translation type="obsolete">Padam</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Buang dari album</translation>
+        <translation type="obsolete">Buang dari album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Cetak</translation>
+        <translation type="obsolete">Cetak</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Kegemaran</translation>
+        <translation type="obsolete">Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Nyahgemar</translation>
+        <translation type="obsolete">Nyahgemar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Putar ikut jam</translation>
+        <translation type="obsolete">Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Putar lawan jam</translation>
+        <translation type="obsolete">Putar lawan jam</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Papar dalam pengurus fail</translation>
+        <translation type="obsolete">Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Tetapkan sebagai kertas dinding</translation>
+        <translation type="obsolete">Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Pulih</translation>
+        <translation type="obsolete">Pulih</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Tambah ke album</translation>
+        <translation type="obsolete">Tambah ke album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Album baharu</translation>
+        <translation type="obsolete">Album baharu</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Tiada penskalaan</translation>
+        <translation type="vanished">Tiada penskalaan</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Suai muat halaman dengan imej</translation>
+        <translation type="vanished">Suai muat halaman dengan imej</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Suai muat imej dengan halaman</translation>
+        <translation type="vanished">Suai muat imej dengan halaman</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skala pada:</translation>
+        <translation type="vanished">Skala pada:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Sentimeter</translation>
+        <translation type="vanished">Sentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inci</translation>
+        <translation type="vanished">Inci</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Kedudukan Foto</translation>
+        <translation type="vanished">Kedudukan Foto</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Penskalaan</translation>
+        <translation type="vanished">Penskalaan</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Tetapan Imej</translation>
+        <translation type="vanished">Tetapan Imej</translation>
     </message>
 </context>
 <context>

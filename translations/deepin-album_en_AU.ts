@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Photo info</translation>
+        <translation type="obsolete">Photo info</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">View</translation>
+        <translation type="obsolete">View</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Fullscreen</translation>
+        <translation type="obsolete">Fullscreen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Slide show</translation>
+        <translation type="obsolete">Slide show</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation type="obsolete">Export</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copy</translation>
+        <translation type="obsolete">Copy</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
+        <translation type="obsolete">Delete</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Remove from album</translation>
+        <translation type="obsolete">Remove from album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Print</translation>
+        <translation type="obsolete">Print</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favourite</translation>
+        <translation type="obsolete">Favourite</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Unfavourite</translation>
+        <translation type="obsolete">Unfavourite</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotate clockwise</translation>
+        <translation type="obsolete">Rotate clockwise</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotate counterclockwise</translation>
+        <translation type="obsolete">Rotate counterclockwise</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Display in file manager</translation>
+        <translation type="obsolete">Display in file manager</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Set as wallpaper</translation>
+        <translation type="obsolete">Set as wallpaper</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Restore</translation>
+        <translation type="obsolete">Restore</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Add to album</translation>
+        <translation type="obsolete">Add to album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">New album</translation>
+        <translation type="obsolete">New album</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>No scaling</translation>
+        <translation type="vanished">No scaling</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Fit page to image</translation>
+        <translation type="vanished">Fit page to image</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Fit image to page</translation>
+        <translation type="vanished">Fit image to page</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scale to:</translation>
+        <translation type="vanished">Scale to:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeters</translation>
+        <translation type="vanished">Millimeters</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeters</translation>
+        <translation type="vanished">Centimeters</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inches</translation>
+        <translation type="vanished">Inches</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Image Position</translation>
+        <translation type="vanished">Image Position</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scaling</translation>
+        <translation type="vanished">Scaling</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation type="vanished">Image Settings</translation>
     </message>
 </context>
 <context>

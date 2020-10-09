@@ -50,11 +50,6 @@ private:
     void initStackedWidget();
 //    void initThumbnailListView();
     void updatePicsIntoThumbnailView();
-    /**
-     * @brief updatePicsIntoThumbnailView 针对单个或多个图片刷新
-     * @param strpath 图片路径队列
-     */
-    void updatePicsThumbnailView(QStringList strpath = QStringList());
     void onUpdateAllpicsNumLabel();
     void onKeyDelete();
 
@@ -68,22 +63,26 @@ public slots:
     void updateStackedWidget();
 private slots:
     void updatePicsIntoThumbnailViewWithCache();
-    void updatePicsIntoThumbnailViewWithCache80();
 public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
     QWidget *m_pwidget;
     int step;
-
+    ImportView *m_pImportView;
 private:
     ThumbnailListView *m_pThumbnailListView;
-    ImportView *m_pImportView;
+
     SearchView *m_pSearchView;
     DSpinner *m_spinner;
     DWidget *fatherwidget;
 
 public:
     ThumbnailListView *getThumbnailListView();
+    /**
+     * @brief updatePicsIntoThumbnailView 针对单个或多个图片刷新
+     * @param strpath 图片路径队列
+     */
+    void updatePicsThumbnailView(QStringList strpath = QStringList());
 };
 
 #endif // ALLPICVIEW_H

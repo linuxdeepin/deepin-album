@@ -732,75 +732,63 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">معلومات الصورة</translation>
+        <translation type="obsolete">معلومات الصورة</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">عرض</translation>
+        <translation type="obsolete">عرض</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">ملء الشاشة</translation>
+        <translation type="obsolete">ملء الشاشة</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">عرض الشرائح</translation>
+        <translation type="obsolete">عرض الشرائح</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">تصدير</translation>
+        <translation type="obsolete">تصدير</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">نسخ</translation>
+        <translation type="obsolete">نسخ</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">حذف</translation>
+        <translation type="obsolete">حذف</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">حذف من الإلبوم</translation>
+        <translation type="obsolete">حذف من الإلبوم</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">طباعة</translation>
+        <translation type="obsolete">طباعة</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">تفضيل</translation>
+        <translation type="obsolete">تفضيل</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">عدم التفضيل</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">عدم التفضيل</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">عرض في مدير الملفات</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">عرض في مدير الملفات</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">إستعادة</translation>
+        <translation type="obsolete">إستعادة</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">إضافة إلى الإلبوم</translation>
+        <translation type="obsolete">إضافة إلى الإلبوم</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">ألبوم جديد</translation>
+        <translation type="obsolete">ألبوم جديد</translation>
     </message>
 </context>
 <context>
@@ -814,43 +802,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>بدون قياس</translation>
+        <translation type="vanished">بدون قياس</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>ضبط الصفحة إلى الصورة</translation>
+        <translation type="vanished">ضبط الصفحة إلى الصورة</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>ضبط الصورة إلى الصفحة</translation>
+        <translation type="vanished">ضبط الصورة إلى الصفحة</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>القياس إلى:</translation>
+        <translation type="vanished">القياس إلى:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>مليمتر</translation>
+        <translation type="vanished">مليمتر</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>سنتيمتر</translation>
+        <translation type="vanished">سنتيمتر</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>بوصة</translation>
+        <translation type="vanished">بوصة</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>موقع الصورة</translation>
+        <translation type="vanished">موقع الصورة</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>القياس</translation>
+        <translation type="vanished">القياس</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>إعدادات الصورة</translation>
+        <translation type="vanished">إعدادات الصورة</translation>
     </message>
 </context>
 <context>

@@ -62,6 +62,7 @@ public:
         }
         return m_ttbc->itemLoadedSize();
     }
+    ImageView *getImageView();
 signals:
     void updateCollectButton();
 //    void imageChanged(const QString &path, DBImgInfoList infos);
@@ -146,11 +147,7 @@ private:
     void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
-//    int imageIndex(const QString &path);
     QFileInfoList getFileInfos(const QString &path);
-//    DBImgInfoList getImageInfos(const QFileInfoList &infos);
-//    const QStringList paths() const;
-
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 

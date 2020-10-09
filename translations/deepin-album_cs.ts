@@ -732,75 +732,67 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Informace o fotce</translation>
+        <translation type="obsolete">Informace o fotce</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Pohled</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Pohled</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Promítání</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Promítání</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopírovat</translation>
+        <translation type="obsolete">Kopírovat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation type="obsolete">Smazat</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Odstranit z alba</translation>
+        <translation type="obsolete">Odstranit z alba</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Tisk</translation>
+        <translation type="obsolete">Tisk</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Přidat do oblíbených</translation>
+        <translation type="obsolete">Přidat do oblíbených</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Odebrat z oblíbených</translation>
+        <translation type="obsolete">Odebrat z oblíbených</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Otočit doprava</translation>
+        <translation type="obsolete">Otočit doprava</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Otočit doleva</translation>
+        <translation type="obsolete">Otočit doleva</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Zobrazit ve správci souborů</translation>
+        <translation type="obsolete">Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Nastavit jako pozadí plochy</translation>
+        <translation type="obsolete">Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Obnovit</translation>
+        <translation type="obsolete">Obnovit</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Přidat do alba</translation>
+        <translation type="obsolete">Přidat do alba</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Nové album</translation>
+        <translation type="obsolete">Nové album</translation>
     </message>
 </context>
 <context>
@@ -814,43 +806,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Žádná změna velikosti</translation>
+        <translation type="vanished">Žádná změna velikosti</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Přizpůsobit stránku obrázku</translation>
+        <translation type="vanished">Přizpůsobit stránku obrázku</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Přizpůsobit obrázek na stránku</translation>
+        <translation type="vanished">Přizpůsobit obrázek na stránku</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Změnit velikost na:</translation>
+        <translation type="vanished">Změnit velikost na:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimetry</translation>
+        <translation type="vanished">Milimetry</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimetry</translation>
+        <translation type="vanished">Centimetry</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Palce</translation>
+        <translation type="vanished">Palce</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Pozice obrázku</translation>
+        <translation type="vanished">Pozice obrázku</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Změna velikosti</translation>
+        <translation type="vanished">Změna velikosti</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Nastavení obrázku</translation>
+        <translation type="vanished">Nastavení obrázku</translation>
     </message>
 </context>
 <context>

@@ -49,9 +49,7 @@ public slots:
     void     setThreadShouldStop();
     //获取全部相片信息
     void     getAllInfos();
-    void     getFirst80ImgInfos(DBImgInfoList &infos);
     //产生缩略图
-    void     generateThumbnails(DBImgInfoList list);
     //加载一张缩略图
     ImageDataSt     loadOneThumbnail(QString imagepath/*, ImageDataSt data*/);
     void     threadSltLoad80Thumbnail(DBImgInfoList infos);

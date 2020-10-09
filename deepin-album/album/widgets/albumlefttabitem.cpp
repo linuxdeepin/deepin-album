@@ -188,13 +188,11 @@ QString AlbumLeftTabItem::getalbumname()
 
 void AlbumLeftTabItem::onCheckNameValid()
 {
-//    QString newNameStr = m_pLineEdit->text().trimmed();
     QString newNameStr = m_pLineEdit->lineEdit()->text().trimmed();
     if (newNameStr.isEmpty()) {
         newNameStr = AlbumCreateDialog::getNewAlbumName("", true, m_nameLabel->text());
     }
     if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode) {
-//        m_nameLabel->setText(newNameStr);
         if (newNameStr != m_nameLabel->text() && DBManager::instance()->isAlbumExistInDB(newNameStr)) {
             newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr, true, m_nameLabel->text());
         }

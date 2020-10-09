@@ -732,75 +732,71 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Billedinformation</translation>
+        <translation type="obsolete">Billedinformation</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Vis</translation>
+        <translation type="obsolete">Vis</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Fuldskærm</translation>
+        <translation type="obsolete">Fuldskærm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Slideshow</translation>
+        <translation type="obsolete">Slideshow</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Eksportér</translation>
+        <translation type="obsolete">Eksportér</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopiér</translation>
+        <translation type="obsolete">Kopiér</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Slet</translation>
+        <translation type="obsolete">Slet</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Fjern fra album</translation>
+        <translation type="obsolete">Fjern fra album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Udskriv</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Udskriv</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Fjern fra favorit</translation>
+        <translation type="obsolete">Fjern fra favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Drej med urets retning</translation>
+        <translation type="obsolete">Drej med urets retning</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Drej modsat urets retning</translation>
+        <translation type="obsolete">Drej modsat urets retning</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Vis i filhåndtering</translation>
+        <translation type="obsolete">Vis i filhåndtering</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Indstil som tapet</translation>
+        <translation type="obsolete">Indstil som tapet</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Gendan</translation>
+        <translation type="obsolete">Gendan</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Tilføj til album</translation>
+        <translation type="obsolete">Tilføj til album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Nyt album</translation>
+        <translation type="obsolete">Nyt album</translation>
     </message>
 </context>
 <context>
@@ -814,43 +810,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Ingen skalering</translation>
+        <translation type="vanished">Ingen skalering</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Tilpas side til billede</translation>
+        <translation type="vanished">Tilpas side til billede</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Tilpas billede til side</translation>
+        <translation type="vanished">Tilpas billede til side</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skaler til:</translation>
+        <translation type="vanished">Skaler til:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeter</translation>
+        <translation type="vanished">Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Tommer</translation>
+        <translation type="vanished">Tommer</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Billedposition</translation>
+        <translation type="vanished">Billedposition</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skalering</translation>
+        <translation type="vanished">Skalering</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Billedindstillinger</translation>
+        <translation type="vanished">Billedindstillinger</translation>
     </message>
 </context>
 <context>

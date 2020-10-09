@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">फोटो की जानकारी</translation>
+        <translation type="obsolete">फोटो की जानकारी</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">देखना</translation>
+        <translation type="obsolete">देखना</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">पूर्ण स्क्रीन</translation>
+        <translation type="obsolete">पूर्ण स्क्रीन</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">स्लाइड शो</translation>
+        <translation type="obsolete">स्लाइड शो</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">निर्यात</translation>
+        <translation type="obsolete">निर्यात</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">नकल करे</translation>
+        <translation type="obsolete">नकल करे</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">मिटाए</translation>
+        <translation type="obsolete">मिटाए</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">एल्बम से निकालें</translation>
+        <translation type="obsolete">एल्बम से निकालें</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">प्रिंट</translation>
+        <translation type="obsolete">प्रिंट</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">पसंदीदा</translation>
+        <translation type="obsolete">पसंदीदा</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">नापसंदीदा</translation>
+        <translation type="obsolete">नापसंदीदा</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">घड़ी की सुई की दिशा में घुमाए</translation>
+        <translation type="obsolete">घड़ी की सुई की दिशा में घुमाए</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
+        <translation type="obsolete">घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">फ़ाइल प्रबंधक में प्रदर्शित करें</translation>
+        <translation type="obsolete">फ़ाइल प्रबंधक में प्रदर्शित करें</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">वॉलपेपर के रूप में सेट करें</translation>
+        <translation type="obsolete">वॉलपेपर के रूप में सेट करें</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">पुनःस्थापन करे</translation>
+        <translation type="obsolete">पुनःस्थापन करे</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">एल्बम में जोड़ें</translation>
+        <translation type="obsolete">एल्बम में जोड़ें</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">नयी एल्बम</translation>
+        <translation type="obsolete">नयी एल्बम</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>कोई स्केलिंग नहीं</translation>
+        <translation type="vanished">कोई स्केलिंग नहीं</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>पृष्ठ को छवि लायक बनाए</translation>
+        <translation type="vanished">पृष्ठ को छवि लायक बनाए</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>छवि को पृष्ठ लायक बनाए</translation>
+        <translation type="vanished">छवि को पृष्ठ लायक बनाए</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>आकार को</translation>
+        <translation type="vanished">आकार को</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>मिलीमीटर</translation>
+        <translation type="vanished">मिलीमीटर</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>सेंटीमीटर</translation>
+        <translation type="vanished">सेंटीमीटर</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>इंच</translation>
+        <translation type="vanished">इंच</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>छवि स्थिति</translation>
+        <translation type="vanished">छवि स्थिति</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>आकार परिवर्तन</translation>
+        <translation type="vanished">आकार परिवर्तन</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>इमेज सेटटिंग</translation>
+        <translation type="vanished">इमेज सेटटिंग</translation>
     </message>
 </context>
 <context>

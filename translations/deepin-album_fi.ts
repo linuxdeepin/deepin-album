@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Kuvan tiedot</translation>
+        <translation type="obsolete">Kuvan tiedot</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Näytä</translation>
+        <translation type="obsolete">Näytä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Koko näyttö</translation>
+        <translation type="obsolete">Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diaesitys</translation>
+        <translation type="obsolete">Diaesitys</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Vie</translation>
+        <translation type="obsolete">Vie</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopioi</translation>
+        <translation type="obsolete">Kopioi</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Poista</translation>
+        <translation type="obsolete">Poista</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Poista albumista</translation>
+        <translation type="obsolete">Poista albumista</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Tulosta</translation>
+        <translation type="obsolete">Tulosta</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Suosikki</translation>
+        <translation type="obsolete">Suosikki</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Inhokki</translation>
+        <translation type="obsolete">Inhokki</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Käännä myötäpäivään</translation>
+        <translation type="obsolete">Käännä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Käännä vastapäivään</translation>
+        <translation type="obsolete">Käännä vastapäivään</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Näytä tiedostohallinnassa</translation>
+        <translation type="obsolete">Näytä tiedostohallinnassa</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Aseta taustakuvaksi</translation>
+        <translation type="obsolete">Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Palauta</translation>
+        <translation type="obsolete">Palauta</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Lisää albumiin</translation>
+        <translation type="obsolete">Lisää albumiin</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Uusi albumi</translation>
+        <translation type="obsolete">Uusi albumi</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Ei skaalausta</translation>
+        <translation type="vanished">Ei skaalausta</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Sovita sivu kuvaan</translation>
+        <translation type="vanished">Sovita sivu kuvaan</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Sovita kuva sivulle</translation>
+        <translation type="vanished">Sovita kuva sivulle</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skaalaa:</translation>
+        <translation type="vanished">Skaalaa:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimetriä</translation>
+        <translation type="vanished">Millimetriä</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Senttimetriä</translation>
+        <translation type="vanished">Senttimetriä</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Tuumaa</translation>
+        <translation type="vanished">Tuumaa</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Kuvan sijainti</translation>
+        <translation type="vanished">Kuvan sijainti</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skaalaus</translation>
+        <translation type="vanished">Skaalaus</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Kuvan asetukset</translation>
+        <translation type="vanished">Kuvan asetukset</translation>
     </message>
 </context>
 <context>

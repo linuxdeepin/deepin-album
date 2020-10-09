@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Дані щодо фотографії</translation>
+        <translation type="obsolete">Дані щодо фотографії</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Перегляд</translation>
+        <translation type="obsolete">Перегляд</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">На весь екран</translation>
+        <translation type="obsolete">На весь екран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Показ слайдів</translation>
+        <translation type="obsolete">Показ слайдів</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Експортувати</translation>
+        <translation type="obsolete">Експортувати</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Копіювати</translation>
+        <translation type="obsolete">Копіювати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Вилучити</translation>
+        <translation type="obsolete">Вилучити</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Вилучити з альбому</translation>
+        <translation type="obsolete">Вилучити з альбому</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Надрукувати</translation>
+        <translation type="obsolete">Надрукувати</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Додати до вибраних</translation>
+        <translation type="obsolete">Додати до вибраних</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Вилучити з вибраних</translation>
+        <translation type="obsolete">Вилучити з вибраних</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Обертати за годинниковою стрілкою</translation>
+        <translation type="obsolete">Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Обертати проти годинникової стрілки</translation>
+        <translation type="obsolete">Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Показати у менеджері файлів</translation>
+        <translation type="obsolete">Показати у менеджері файлів</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Встановити зображенням тла</translation>
+        <translation type="obsolete">Встановити зображенням тла</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Відновити</translation>
+        <translation type="obsolete">Відновити</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Додати до альбому</translation>
+        <translation type="obsolete">Додати до альбому</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Новий альбом</translation>
+        <translation type="obsolete">Новий альбом</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Без зміни масштабу</translation>
+        <translation type="vanished">Без зміни масштабу</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Підібрати сторінку за зображенням</translation>
+        <translation type="vanished">Підібрати сторінку за зображенням</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Вмістити зображення в сторінку</translation>
+        <translation type="vanished">Вмістити зображення в сторінку</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Масштаб:</translation>
+        <translation type="vanished">Масштаб:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Міліметри</translation>
+        <translation type="vanished">Міліметри</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Сантиметри</translation>
+        <translation type="vanished">Сантиметри</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Дюйми</translation>
+        <translation type="vanished">Дюйми</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Розташування зображення</translation>
+        <translation type="vanished">Розташування зображення</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Масштаб</translation>
+        <translation type="vanished">Масштаб</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Параметри зображення</translation>
+        <translation type="vanished">Параметри зображення</translation>
     </message>
 </context>
 <context>

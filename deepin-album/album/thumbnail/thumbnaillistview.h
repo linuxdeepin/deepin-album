@@ -55,6 +55,10 @@ class ThumbnailListView : public DListView, public ImageEngineObject
     Q_OBJECT
 
 public:
+    enum ListViewUseFor {
+        Normal,//
+        Mount,//phone
+    };
     enum MenuItemId {
         IdView,
         IdFullScreen,
@@ -144,6 +148,7 @@ public:
     void clearSelectionFront(int row);
     void clearSelectionExtent(int start, int end);
     void resizeHand();  //手动发送信号，计算大小
+    void setListViewUseFor(ListViewUseFor usefor);
 signals:
 //    void loadend(int);
     void needResize(int);
@@ -235,6 +240,7 @@ private:
     void updateThumbnaillistview();
 
 public:
+    ListViewUseFor m_useFor = Normal;
     QString m_imageType;
     QStandardItemModel *m_model = nullptr;
 

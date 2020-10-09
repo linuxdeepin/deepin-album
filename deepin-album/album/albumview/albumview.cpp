@@ -299,7 +299,7 @@ void AlbumView::initConnections()
     });
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
     connect(m_pRightThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
-    connect(m_pRightPhoneThumbnailList, &MountThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
+    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
 #endif
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
@@ -506,7 +506,7 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
-    connect(m_pRightPhoneThumbnailList, &MountThumbnailListView::sigMouseRelease, this, [ = ] {
+    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigMouseRelease, this, [ = ] {
         QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
         if (0 < paths.length())
         {
@@ -569,7 +569,7 @@ void AlbumView::initConnections()
         m_waitDailog_timer->stop();
     });
     //在外部绑定内部按钮事件
-    connect(m_pRightPhoneThumbnailList, &MountThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
+    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
     connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, [ = ](const QModelIndex & index) {
@@ -1053,7 +1053,8 @@ void AlbumView::initRightView()
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
 
-    m_pRightPhoneThumbnailList = new MountThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
+    m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
+    m_pRightPhoneThumbnailList->setListViewUseFor(ThumbnailListView::Mount);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pPhoneVBoxLayout->addSpacing(3);

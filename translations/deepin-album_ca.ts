@@ -732,75 +732,71 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Informació de la fotografia</translation>
+        <translation type="obsolete">Informació de la fotografia</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Visualització</translation>
+        <translation type="obsolete">Visualització</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
+        <translation type="obsolete">Pantalla completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Presentació</translation>
+        <translation type="obsolete">Presentació</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Exporta-ho</translation>
+        <translation type="obsolete">Exporta-ho</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copia</translation>
+        <translation type="obsolete">Copia</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Elimina</translation>
+        <translation type="obsolete">Elimina</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Elimina de l&apos;àlbum</translation>
+        <translation type="obsolete">Elimina de l&apos;àlbum</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Imprimeix</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Imprimeix</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Elimina dels preferits</translation>
+        <translation type="obsolete">Elimina dels preferits</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Gira-la a la dreta</translation>
+        <translation type="obsolete">Gira-la a la dreta</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Gira-la a l&apos;esquerra</translation>
+        <translation type="obsolete">Gira-la a l&apos;esquerra</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Mostra-ho al gestor de fitxers.</translation>
+        <translation type="obsolete">Mostra-ho al gestor de fitxers.</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Estableix com a fons de pantalla</translation>
+        <translation type="obsolete">Estableix com a fons de pantalla</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Restaura</translation>
+        <translation type="obsolete">Restaura</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Afegeix a l&apos;àlbum</translation>
+        <translation type="obsolete">Afegeix a l&apos;àlbum</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Àlbum nou</translation>
+        <translation type="obsolete">Àlbum nou</translation>
     </message>
 </context>
 <context>
@@ -814,43 +810,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Sense escala</translation>
+        <translation type="vanished">Sense escala</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Ajusta la pàgina a la imatge</translation>
+        <translation type="vanished">Ajusta la pàgina a la imatge</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Ajusta la imatge a la pàgina</translation>
+        <translation type="vanished">Ajusta la imatge a la pàgina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escala a:</translation>
+        <translation type="vanished">Escala a:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milímetres</translation>
+        <translation type="vanished">Milímetres</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centímetres</translation>
+        <translation type="vanished">Centímetres</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Polzades</translation>
+        <translation type="vanished">Polzades</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posició de la imatge</translation>
+        <translation type="vanished">Posició de la imatge</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Escala</translation>
+        <translation type="vanished">Escala</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Paràmetres de la imatge</translation>
+        <translation type="vanished">Paràmetres de la imatge</translation>
     </message>
 </context>
 <context>

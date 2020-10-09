@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">사진 정보</translation>
+        <translation type="obsolete">사진 정보</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">보기</translation>
+        <translation type="obsolete">보기</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">전체 화면</translation>
+        <translation type="obsolete">전체 화면</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">슬라이드 쇼</translation>
+        <translation type="obsolete">슬라이드 쇼</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">내보내기</translation>
+        <translation type="obsolete">내보내기</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">복사</translation>
+        <translation type="obsolete">복사</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">삭제</translation>
+        <translation type="obsolete">삭제</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">앨범에서 제거</translation>
+        <translation type="obsolete">앨범에서 제거</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">인쇄</translation>
+        <translation type="obsolete">인쇄</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">즐겨찾기</translation>
+        <translation type="obsolete">즐겨찾기</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">즐겨찾기 해제</translation>
+        <translation type="obsolete">즐겨찾기 해제</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">시계 방향으로 회전</translation>
+        <translation type="obsolete">시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">시계 반대 방향으로 회전</translation>
+        <translation type="obsolete">시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">파일 관리자에 표시</translation>
+        <translation type="obsolete">파일 관리자에 표시</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">배경화면으로 설정</translation>
+        <translation type="obsolete">배경화면으로 설정</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">복원</translation>
+        <translation type="obsolete">복원</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">앨범에 추가</translation>
+        <translation type="obsolete">앨범에 추가</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">새 앨범</translation>
+        <translation type="obsolete">새 앨범</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>크기조정 없음</translation>
+        <translation type="vanished">크기조정 없음</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>이미지에 페이지 맞추기</translation>
+        <translation type="vanished">이미지에 페이지 맞추기</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>페이지에 이미지 맞추기</translation>
+        <translation type="vanished">페이지에 이미지 맞추기</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>배율 조정:</translation>
+        <translation type="vanished">배율 조정:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>밀리미터</translation>
+        <translation type="vanished">밀리미터</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>센티미터</translation>
+        <translation type="vanished">센티미터</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>인치</translation>
+        <translation type="vanished">인치</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>이미지 위치</translation>
+        <translation type="vanished">이미지 위치</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>크기조정</translation>
+        <translation type="vanished">크기조정</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>이미지 설정</translation>
+        <translation type="vanished">이미지 설정</translation>
     </message>
 </context>
 <context>

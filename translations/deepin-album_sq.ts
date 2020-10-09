@@ -732,75 +732,71 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Të dhëna fotoje</translation>
+        <translation type="obsolete">Të dhëna fotoje</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Shihni</translation>
+        <translation type="obsolete">Shihni</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Sa krejt ekrani</translation>
+        <translation type="obsolete">Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Shfaqje si diapozitiva</translation>
+        <translation type="obsolete">Shfaqje si diapozitiva</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Eksporto</translation>
+        <translation type="obsolete">Eksporto</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopjoje</translation>
+        <translation type="obsolete">Kopjoje</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Fshije</translation>
+        <translation type="obsolete">Fshije</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Hiqe nga albumi</translation>
+        <translation type="obsolete">Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Shtype</translation>
+        <translation type="obsolete">Shtype</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Vëre si të parapëlqyer</translation>
+        <translation type="obsolete">Vëre si të parapëlqyer</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Hiqe nga të parapëlqyerat</translation>
+        <translation type="obsolete">Hiqe nga të parapëlqyerat</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rrotulloje në kahun orar</translation>
+        <translation type="obsolete">Rrotulloje në kahun orar</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rrotulloje në kahun anti-orar</translation>
+        <translation type="obsolete">Rrotulloje në kahun anti-orar</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Shfaqe te përgjegjës kartelash</translation>
+        <translation type="obsolete">Shfaqe te përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Vëre si sfond</translation>
+        <translation type="obsolete">Vëre si sfond</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Riktheje</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Riktheje</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Album i ri</translation>
+        <translation type="obsolete">Album i ri</translation>
     </message>
 </context>
 <context>
@@ -814,43 +810,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Pa ripërmasim</translation>
+        <translation type="vanished">Pa ripërmasim</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Përshtatja faqen figurës</translation>
+        <translation type="vanished">Përshtatja faqen figurës</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Përshtatja figurën faqes</translation>
+        <translation type="vanished">Përshtatja figurën faqes</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Ripërmasoje sa:</translation>
+        <translation type="vanished">Ripërmasoje sa:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimetra</translation>
+        <translation type="vanished">Milimetra</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimetra</translation>
+        <translation type="vanished">Centimetra</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inç</translation>
+        <translation type="vanished">Inç</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Pozicion Figure</translation>
+        <translation type="vanished">Pozicion Figure</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Ripërmasim</translation>
+        <translation type="vanished">Ripërmasim</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Rregullime Figure</translation>
+        <translation type="vanished">Rregullime Figure</translation>
     </message>
 </context>
 <context>

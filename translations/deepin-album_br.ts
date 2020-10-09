@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Titouroù ar skeudenn</translation>
+        <translation type="obsolete">Titouroù ar skeudenn</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Gweled</translation>
+        <translation type="obsolete">Gweled</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Skramm-leun</translation>
+        <translation type="obsolete">Skramm-leun</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diaporama</translation>
+        <translation type="obsolete">Diaporama</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Ezporzhiañ</translation>
+        <translation type="obsolete">Ezporzhiañ</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Eilañ</translation>
+        <translation type="obsolete">Eilañ</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Dilemel</translation>
+        <translation type="obsolete">Dilemel</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Dilemel diwar an albom</translation>
+        <translation type="obsolete">Dilemel diwar an albom</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Moullañ</translation>
+        <translation type="obsolete">Moullañ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Sined</translation>
+        <translation type="obsolete">Sined</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Disinedet</translation>
+        <translation type="obsolete">Disinedet</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Treiñ er memes tu hag an horolaj</translation>
+        <translation type="obsolete">Treiñ er memes tu hag an horolaj</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Treiñ en tu enep eus an horolaj</translation>
+        <translation type="obsolete">Treiñ en tu enep eus an horolaj</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Diskouez er merer restroù</translation>
+        <translation type="obsolete">Diskouez er merer restroù</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Termeniñ evel paper-moger</translation>
+        <translation type="obsolete">Termeniñ evel paper-moger</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Adsevel</translation>
+        <translation type="obsolete">Adsevel</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Ouzhpennañ d&apos;an albom</translation>
+        <translation type="obsolete">Ouzhpennañ d&apos;an albom</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Albom nevez</translation>
+        <translation type="obsolete">Albom nevez</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Skeuliaouiñ ebet</translation>
+        <translation type="vanished">Skeuliaouiñ ebet</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Keidañ ar bajennad d&apos;ar skeudenn</translation>
+        <translation type="vanished">Keidañ ar bajennad d&apos;ar skeudenn</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Keidañ ar skeudenn gant ar bajennad</translation>
+        <translation type="vanished">Keidañ ar skeudenn gant ar bajennad</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skeul da:</translation>
+        <translation type="vanished">Skeul da:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimetroù</translation>
+        <translation type="vanished">Milimetroù</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Sañtimetroù</translation>
+        <translation type="vanished">Sañtimetroù</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Meudadoù</translation>
+        <translation type="vanished">Meudadoù</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Lec&apos;hiadur ar skeudenn</translation>
+        <translation type="vanished">Lec&apos;hiadur ar skeudenn</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>O skeuliaouiñ</translation>
+        <translation type="vanished">O skeuliaouiñ</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Arventennoù ar skeudennoù</translation>
+        <translation type="vanished">Arventennoù ar skeudennoù</translation>
     </message>
 </context>
 <context>

@@ -732,75 +732,71 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">པར་གྱི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">ཡོལ་གང་།</translation>
+        <translation type="obsolete">ཡོལ་གང་།</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">སྒྲོན་བརྙན་སྟོན་པ།</translation>
+        <translation type="obsolete">སྒྲོན་བརྙན་སྟོན་པ།</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">ཕྱིར་འདྲེན།</translation>
+        <translation type="obsolete">ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">པར་སློག</translation>
+        <translation type="obsolete">པར་སློག</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">སུབ་པ།</translation>
+        <translation type="obsolete">སུབ་པ།</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">པར་ཁུག་ལས་སྤོ་བ།</translation>
+        <translation type="obsolete">པར་ཁུག་ལས་སྤོ་བ།</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">པར་འདེབས།</translation>
+        <translation type="obsolete">པར་འདེབས།</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">བསྡུ་ཉར།</translation>
+        <translation type="obsolete">བསྡུ་ཉར།</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">བསྡུ་ཉར་བྱེད་པ་འདོར་བ།</translation>
+        <translation type="obsolete">བསྡུ་ཉར་བྱེད་པ་འདོར་བ།</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">གཡས་སྐོར་བརྒྱབ།</translation>
+        <translation type="obsolete">གཡས་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">གཡོན་སྐོར་བརྒྱབ།</translation>
+        <translation type="obsolete">གཡོན་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
+        <translation type="obsolete">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
+        <translation type="obsolete">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">སོར་ཆུད།</translation>
+        <translation type="obsolete">སོར་ཆུད།</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">པར་ཁུག་ནང་དུ་སྣོན་པ།</translation>
+        <translation type="obsolete">པར་ཁུག་ནང་དུ་སྣོན་པ།</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">པར་ཁུག་གསར་འཛུགས།</translation>
+        <translation type="obsolete">པར་ཁུག་གསར་འཛུགས།</translation>
     </message>
 </context>
 <context>
@@ -814,43 +810,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>སྐྱེད་སྐྱུང་བྱས་མེད་པ།</translation>
+        <translation type="vanished">སྐྱེད་སྐྱུང་བྱས་མེད་པ།</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>བརྙན་རིས་ཤོག་ངོས་དང་འཚམ་པ།</translation>
+        <translation type="vanished">བརྙན་རིས་ཤོག་ངོས་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>ཤོག་ངོས་བརྙན་རིས་དང་འཚམ་པ།</translation>
+        <translation type="vanished">ཤོག་ངོས་བརྙན་རིས་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>སྐྱེད་སྐྱུང་།</translation>
+        <translation type="vanished">སྐྱེད་སྐྱུང་།</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>ཧའོ་སྨི།</translation>
+        <translation type="vanished">ཧའོ་སྨི།</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>ལི་སྨི།</translation>
+        <translation type="vanished">ལི་སྨི།</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>དབྱིན་ཚུན།</translation>
+        <translation type="vanished">དབྱིན་ཚུན།</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>བརྙན་རིས་གནས་ས།</translation>
+        <translation type="vanished">བརྙན་རིས་གནས་ས།</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>སྐྱེད་སྐྱུང་།</translation>
+        <translation type="vanished">སྐྱེད་སྐྱུང་།</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>བརྙན་རིས་སྒྲིག་འགོད།</translation>
+        <translation type="vanished">བརྙན་རིས་སྒྲིག་འགོད།</translation>
     </message>
 </context>
 <context>

@@ -732,75 +732,67 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Информация о фотографии</translation>
+        <translation type="obsolete">Информация о фотографии</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Показать</translation>
+        <translation type="obsolete">Показать</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">На весь экран</translation>
+        <translation type="obsolete">На весь экран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Слайд-шоу</translation>
+        <translation type="obsolete">Слайд-шоу</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Экспорт</translation>
+        <translation type="obsolete">Экспорт</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Копировать</translation>
+        <translation type="obsolete">Копировать</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation type="obsolete">Удалить</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Удалить из альбома</translation>
+        <translation type="obsolete">Удалить из альбома</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Печать</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Печать</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Удалить из избранного</translation>
+        <translation type="obsolete">Удалить из избранного</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Повернуть по часовой стрелке</translation>
+        <translation type="obsolete">Повернуть по часовой стрелке</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Повернуть против часовой стрелки</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Повернуть против часовой стрелки</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Установить в качестве обоев</translation>
+        <translation type="obsolete">Установить в качестве обоев</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Восстановить</translation>
+        <translation type="obsolete">Восстановить</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Добавить в альбом</translation>
+        <translation type="obsolete">Добавить в альбом</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Новый альбом</translation>
+        <translation type="obsolete">Новый альбом</translation>
     </message>
 </context>
 <context>
@@ -814,43 +806,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Без масштабирования</translation>
+        <translation type="vanished">Без масштабирования</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Подогнать страницу к изображению</translation>
+        <translation type="vanished">Подогнать страницу к изображению</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Подогнать изображение к странице</translation>
+        <translation type="vanished">Подогнать изображение к странице</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Масштабировать до:</translation>
+        <translation type="vanished">Масштабировать до:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Миллиметров</translation>
+        <translation type="vanished">Миллиметров</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Сантиметров</translation>
+        <translation type="vanished">Сантиметров</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Дюймов</translation>
+        <translation type="vanished">Дюймов</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Положение изображения</translation>
+        <translation type="vanished">Положение изображения</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Масштабирование</translation>
+        <translation type="vanished">Масштабирование</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Параметры изображения</translation>
+        <translation type="vanished">Параметры изображения</translation>
     </message>
 </context>
 <context>

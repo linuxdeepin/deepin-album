@@ -18,6 +18,7 @@
 #include <QCoreApplication>
 #include "application.h"
 #include "mainwindow.h"
+#include "test_qtestDefine.h"
 #include <QTest>
 
 // add necessary includes here
@@ -34,16 +35,19 @@
     { \
         Application app(argc, argv); \
         app.setAttribute(Qt::AA_Use96Dpi, true); \
+        appPath_test = QApplication::applicationDirPath() + QDir::separator() + "test";\
+        DBManager::instance(); \
         ImageEngineApi::instance(&app); \
-        MainWindow *w = QTestMain::getMainwindow(); \
-        app.setMainWindow(w); \
+        ImageEngineApi::instance()->load80Thumbnails(); \
+        MainWindow w; \
+        w.show();\
+        app.setMainWindow(&w); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \
         QTEST_SET_MAIN_SOURCE_PATH \
         return QTest::qExec(&tc, argc, argv); \
     }
-
 
 QUrl UrlInfo(QString path)
 {
@@ -82,8 +86,6 @@ public:
     QTestMain();
     ~QTestMain();
 
-    static MainWindow *getMainwindow();
-
 private slots:
     void initTestCase();
     void cleanupTestCase();
@@ -102,29 +104,11 @@ private slots:
 
 QTestMain::QTestMain()
 {
-
 }
 
 QTestMain::~QTestMain()
 {
 
-}
-
-MainWindow *QTestMain::getMainwindow()
-{
-    static MainWindow *w = new MainWindow;
-    w->initShortcutKey();
-    w->initCentralWidget();
-    w->initShortcut();
-    w->initConnections();
-    w->initDBus();
-    w->loadZoomRatio();
-    w->show();
-    QTime t;
-    t.start();
-    while (t.elapsed() < 1000)
-        dApp->processEvents();
-    return w;
 }
 
 void QTestMain::initTestCase()

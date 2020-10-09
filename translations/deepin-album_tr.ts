@@ -732,75 +732,71 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Fotoğraf bilgisi</translation>
+        <translation type="obsolete">Fotoğraf bilgisi</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Görünüm</translation>
+        <translation type="obsolete">Görünüm</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Tam ekran</translation>
+        <translation type="obsolete">Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Slayt gösterisi</translation>
+        <translation type="obsolete">Slayt gösterisi</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Dışa aktar</translation>
+        <translation type="obsolete">Dışa aktar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopyala</translation>
+        <translation type="obsolete">Kopyala</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Sil</translation>
+        <translation type="obsolete">Sil</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Albümden kaldır</translation>
+        <translation type="obsolete">Albümden kaldır</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Yazdır</translation>
+        <translation type="obsolete">Yazdır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favori</translation>
+        <translation type="obsolete">Favori</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Favori değil</translation>
+        <translation type="obsolete">Favori değil</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Saat yönünde döndür</translation>
+        <translation type="obsolete">Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Saat yönünün tersine döndür</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Duvar kağıdı yap</translation>
+        <translation type="obsolete">Duvar kağıdı yap</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Kurtar</translation>
+        <translation type="obsolete">Kurtar</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Albüme ekle</translation>
+        <translation type="obsolete">Albüme ekle</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Yeni albüm</translation>
+        <translation type="obsolete">Yeni albüm</translation>
     </message>
 </context>
 <context>
@@ -814,43 +810,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Ölçeklendirme yok</translation>
+        <translation type="vanished">Ölçeklendirme yok</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Sayfayı resme sığdır</translation>
+        <translation type="vanished">Sayfayı resme sığdır</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Resmi sayfaya sığdır</translation>
+        <translation type="vanished">Resmi sayfaya sığdır</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Ölçek:</translation>
+        <translation type="vanished">Ölçek:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimetre</translation>
+        <translation type="vanished">Milimetre</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Santimetre</translation>
+        <translation type="vanished">Santimetre</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>İnç</translation>
+        <translation type="vanished">İnç</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Görüntü Konumu</translation>
+        <translation type="vanished">Görüntü Konumu</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Ölçek</translation>
+        <translation type="vanished">Ölçek</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Görüntü Ayarları</translation>
+        <translation type="vanished">Görüntü Ayarları</translation>
     </message>
 </context>
 <context>

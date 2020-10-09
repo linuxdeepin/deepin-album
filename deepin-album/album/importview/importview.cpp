@@ -109,7 +109,7 @@ void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
     Q_UNUSED(e);
 }
 
-void ImportView::onImprotBtnClicked()
+void ImportView::onImprotBtnClicked(bool useDialog, QStringList list)
 {
     qDebug() << "ImportView::onImprotBtnClicked()";
     static QStringList sList;
@@ -127,19 +127,27 @@ void ImportView::onImprotBtnClicked()
     }
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
     DFileDialog dialog;
+    dialog.setObjectName("ImportViewDialog");
     dialog.setFileMode(DFileDialog::ExistingFiles);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
     dialog.setWindowTitle(tr("Import Photos"));
     dialog.setAllowMixedSelection(true);
-    const int mode = dialog.exec();
-    if (mode != QDialog::Accepted) {
-        qDebug() << "mode != QDialog::Accepted";
-        emit dApp->signalM->sigImportFailedToView();
-        return;
+    if (useDialog) {
+        const int mode = dialog.exec();
+        if (mode != QDialog::Accepted) {
+            qDebug() << "mode != QDialog::Accepted";
+            emit dApp->signalM->sigImportFailedToView();
+            return;
+        }
     }
-    const QStringList &file_list = dialog.selectedFiles();
+    QStringList file_list;
+    if (useDialog) {
+        file_list = dialog.selectedFiles();
+    } else {
+        file_list = list;
+    }
     if (file_list.isEmpty()) {
         qDebug() << "file_list.isEmpty()";
         emit dApp->signalM->sigImportFailedToView();

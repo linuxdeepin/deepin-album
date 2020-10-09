@@ -732,75 +732,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Foto-informatie</translation>
+        <translation type="obsolete">Foto-informatie</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Bekijken</translation>
+        <translation type="obsolete">Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Beeldvullende modus</translation>
+        <translation type="obsolete">Beeldvullende modus</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Diavoorstelling</translation>
+        <translation type="obsolete">Diavoorstelling</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Exporteren</translation>
+        <translation type="obsolete">Exporteren</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopiëren</translation>
+        <translation type="obsolete">Kopiëren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation type="obsolete">Verwijderen</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Verwijderen uit album</translation>
+        <translation type="obsolete">Verwijderen uit album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Afdrukken</translation>
+        <translation type="obsolete">Afdrukken</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Toev. aan favorieten</translation>
+        <translation type="obsolete">Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Verw. uit favorieten</translation>
+        <translation type="obsolete">Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Naar rechts draaien</translation>
+        <translation type="obsolete">Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Naar links draaien</translation>
+        <translation type="obsolete">Naar links draaien</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Tonen in bestandsbeheerder</translation>
+        <translation type="obsolete">Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Instellen als achtergrond</translation>
+        <translation type="obsolete">Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Herstellen</translation>
+        <translation type="obsolete">Herstellen</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Toevoegen aan album</translation>
+        <translation type="obsolete">Toevoegen aan album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Nieuw album</translation>
+        <translation type="obsolete">Nieuw album</translation>
     </message>
 </context>
 <context>
@@ -814,43 +814,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Niet inpassen</translation>
+        <translation type="vanished">Niet inpassen</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Pagina aanpassen aan afbeelding</translation>
+        <translation type="vanished">Pagina aanpassen aan afbeelding</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Afbeelding aanpassen aan pagina</translation>
+        <translation type="vanished">Afbeelding aanpassen aan pagina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Aanpassen aan:</translation>
+        <translation type="vanished">Aanpassen aan:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeter</translation>
+        <translation type="vanished">Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimeter</translation>
+        <translation type="vanished">Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inch</translation>
+        <translation type="vanished">Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Afbeeldingspositie</translation>
+        <translation type="vanished">Afbeeldingspositie</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Inpassen</translation>
+        <translation type="vanished">Inpassen</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Afbeeldingsinstellingen</translation>
+        <translation type="vanished">Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>

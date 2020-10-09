@@ -1184,66 +1184,68 @@ void ImageEngineBackThread::onStartOrPause(bool pause)
     }
 }
 
-RotateSaveThread::RotateSaveThread()
-{
-    setAutoDelete(true);
-}
+//内存+文件旋转优化方案-已废弃
 
-void RotateSaveThread::setDatas(QHash<QString, RotateSaveRequest> requests_bar)
-{
-    for (RotateSaveRequest i : requests_bar) {
-        m_requests.append(i);
-    }
-}
+//RotateSaveThread::RotateSaveThread()
+//{
+//    setAutoDelete(true);
+//}
 
-void RotateSaveThread::run()
-{
-    for (RotateSaveRequest i : m_requests) {
-        QString errorMsg;
-        if (!UnionImage_NameSpace::rotateImageFIle(static_cast<int>(i.angel), i.path, errorMsg)) {
-            qDebug() << errorMsg;
-            qDebug() << "Save error";
-        } else {
-            qDebug() << "Save Success";
-            dApp->m_imageloader->updateImageLoader(QStringList(i.path));
-        }
-    }
-    if (m_requests.empty()) {
-        qDebug() << "No Pic and Run Thread";
-    } else {
-        qDebug() << "Save End";
-    }
+//void RotateSaveThread::setDatas(QHash<QString, RotateSaveRequest> requests_bar)
+//{
+//    for (RotateSaveRequest i : requests_bar) {
+//        m_requests.append(i);
+//    }
+//}
 
-}
+//void RotateSaveThread::run()
+//{
+//    for (RotateSaveRequest i : m_requests) {
+//        QString errorMsg;
+//        if (!UnionImage_NameSpace::rotateImageFIle(static_cast<int>(i.angel), i.path, errorMsg)) {
+//            qDebug() << errorMsg;
+//            qDebug() << "Save error";
+//        } else {
+//            qDebug() << "Save Success";
+//            dApp->m_imageloader->updateImageLoader(QStringList(i.path));
+//        }
+//    }
+//    if (m_requests.empty()) {
+//        qDebug() << "No Pic and Run Thread";
+//    } else {
+//        qDebug() << "Save End";
+//    }
 
-ImageRotateThreadControler::ImageRotateThreadControler()
-{
-    wait = new QTimer(this);
-    rotateThreadPool.setMaxThreadCount(5);
-    connect(wait, &QTimer::timeout, this, &ImageRotateThreadControler::startSave);
-}
+//}
 
-ImageRotateThreadControler::~ImageRotateThreadControler()
-{
-    rotateThreadPool.waitForDone();
-}
-void ImageRotateThreadControler::addRotateAndSave(RotateSaveRequest request, int time_gap)
-{
-    if (NoRepeatRequest.contains(request.path)) {
-        NoRepeatRequest[request.path].angel += request.angel;
-        emit updateRotate(static_cast<int>(NoRepeatRequest[request.path].angel));
-    } else {
-        NoRepeatRequest.insert(request.path, request);
-    }
-    wait->start(time_gap);
-}
+//ImageRotateThreadControler::ImageRotateThreadControler()
+//{
+//    wait = new QTimer(this);
+//    rotateThreadPool.setMaxThreadCount(5);
+//    connect(wait, &QTimer::timeout, this, &ImageRotateThreadControler::startSave);
+//}
 
-void ImageRotateThreadControler::startSave()
-{
-    emit updateRotate(0);
-    RotateSaveThread *thread = new RotateSaveThread;
-    thread->setDatas(NoRepeatRequest);
-    NoRepeatRequest.clear();
-    rotateThreadPool.start(thread);
-    wait->stop();
-}
+//ImageRotateThreadControler::~ImageRotateThreadControler()
+//{
+//    rotateThreadPool.waitForDone();
+//}
+//void ImageRotateThreadControler::addRotateAndSave(RotateSaveRequest request, int time_gap)
+//{
+//    if (NoRepeatRequest.contains(request.path)) {
+//        NoRepeatRequest[request.path].angel += request.angel;
+//        emit updateRotate(static_cast<int>(NoRepeatRequest[request.path].angel));
+//    } else {
+//        NoRepeatRequest.insert(request.path, request);
+//    }
+//    wait->start(time_gap);
+//}
+
+//void ImageRotateThreadControler::startSave()
+//{
+//    emit updateRotate(0);
+//    RotateSaveThread *thread = new RotateSaveThread;
+//    thread->setDatas(NoRepeatRequest);
+//    NoRepeatRequest.clear();
+//    rotateThreadPool.start(thread);
+//    wait->stop();
+//}

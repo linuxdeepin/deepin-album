@@ -728,75 +728,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Foto info</translation>
+        <translation type="obsolete">Foto info</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Vaata</translation>
+        <translation type="obsolete">Vaata</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Täisekraan</translation>
+        <translation type="obsolete">Täisekraan</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Slaidiseanss</translation>
+        <translation type="obsolete">Slaidiseanss</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Ekspordi</translation>
+        <translation type="obsolete">Ekspordi</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopeeri</translation>
+        <translation type="obsolete">Kopeeri</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Kustuta</translation>
+        <translation type="obsolete">Kustuta</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Eemalda albumist</translation>
+        <translation type="obsolete">Eemalda albumist</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Prindi</translation>
+        <translation type="obsolete">Prindi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Lemmik</translation>
+        <translation type="obsolete">Lemmik</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Eemalda lemmikutest</translation>
+        <translation type="obsolete">Eemalda lemmikutest</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Pööra päripäeva</translation>
+        <translation type="obsolete">Pööra päripäeva</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Pööra vastupäeva</translation>
+        <translation type="obsolete">Pööra vastupäeva</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Näita failihalduris</translation>
+        <translation type="obsolete">Näita failihalduris</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Määra taustapildiks</translation>
+        <translation type="obsolete">Määra taustapildiks</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Taasta</translation>
+        <translation type="obsolete">Taasta</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Lisa albumisse</translation>
+        <translation type="obsolete">Lisa albumisse</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Uus album</translation>
+        <translation type="obsolete">Uus album</translation>
     </message>
 </context>
 <context>
@@ -809,44 +809,32 @@
 <context>
     <name>PrintOptionsPage</name>
     <message>
-        <source>No scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Fit image to page</source>
-        <translation>Mahuta pilt lehele</translation>
+        <translation type="vanished">Mahuta pilt lehele</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Muuda suurust:</translation>
+        <translation type="vanished">Muuda suurust:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimeetrid</translation>
+        <translation type="vanished">Millimeetrid</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Sentimeetrid</translation>
+        <translation type="vanished">Sentimeetrid</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Tolli</translation>
+        <translation type="vanished">Tolli</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Pildi asukoht</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Pildi asukoht</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Pildi seaded</translation>
+        <translation type="vanished">Pildi seaded</translation>
     </message>
 </context>
 <context>

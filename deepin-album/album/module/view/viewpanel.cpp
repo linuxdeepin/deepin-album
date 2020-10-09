@@ -26,7 +26,7 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
-#include "widgets/printoptionspage.h"
+//#include "widgets/printoptionspage.h"
 #include "widgets/printhelper.h"
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "imageengine/imageengineapi.h"
@@ -84,6 +84,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     installEventFilter(this);
     m_ttbc = nullptr;
+    this->setObjectName("ViewPanel");
 }
 
 ViewPanel::~ViewPanel()
@@ -346,6 +347,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         delete m_ttbc;
 //        m_ttbc->deleteLater();
     m_ttbc = new TTBContent(m_vinfo.inDatabase, m_filepathlist, this);
+    m_ttbc->setObjectName("TTBContent");
     connect(m_ttbc, &TTBContent::feedBackCurrentIndex,
             this, &ViewPanel::feedBackCurrentIndex);
     m_ttbc->m_imageType = m_vinfo.viewType;
@@ -471,6 +473,11 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 const SignalManager::ViewInfo ViewPanel::viewInfo() const
 {
     return m_vinfo;
+}
+
+ImageView *ViewPanel::getImageView()
+{
+    return m_viewB;
 }
 
 bool ViewPanel::eventFilter(QObject *obj, QEvent *e)

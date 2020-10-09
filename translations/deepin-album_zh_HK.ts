@@ -732,75 +732,67 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">照片訊息</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">照片訊息</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">全屏</translation>
+        <translation type="obsolete">全屏</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">幻燈片放映</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">幻燈片放映</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">複製</translation>
+        <translation type="obsolete">複製</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">刪除</translation>
+        <translation type="obsolete">刪除</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">從相冊中移除</translation>
+        <translation type="obsolete">從相冊中移除</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">打印</translation>
+        <translation type="obsolete">打印</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">收藏</translation>
+        <translation type="obsolete">收藏</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">取消收藏</translation>
+        <translation type="obsolete">取消收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">順時針旋轉</translation>
+        <translation type="obsolete">順時針旋轉</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">逆時針旋轉</translation>
+        <translation type="obsolete">逆時針旋轉</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">在檔案管理員中顯示</translation>
+        <translation type="obsolete">在檔案管理員中顯示</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">設為壁紙</translation>
+        <translation type="obsolete">設為壁紙</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">恢復</translation>
+        <translation type="obsolete">恢復</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">添加到相冊</translation>
+        <translation type="obsolete">添加到相冊</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">新建相冊</translation>
+        <translation type="obsolete">新建相冊</translation>
     </message>
 </context>
 <context>
@@ -814,43 +806,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>無縮放</translation>
+        <translation type="vanished">無縮放</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>圖像適應頁面</translation>
+        <translation type="vanished">圖像適應頁面</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>頁面適應圖像</translation>
+        <translation type="vanished">頁面適應圖像</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>縮放至：</translation>
+        <translation type="vanished">縮放至：</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>毫米</translation>
+        <translation type="vanished">毫米</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>厘米</translation>
+        <translation type="vanished">厘米</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>英吋</translation>
+        <translation type="vanished">英吋</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>圖像位置</translation>
+        <translation type="vanished">圖像位置</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>縮放</translation>
+        <translation type="vanished">縮放</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>圖像設置</translation>
+        <translation type="vanished">圖像設置</translation>
     </message>
 </context>
 <context>

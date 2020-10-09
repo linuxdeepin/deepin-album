@@ -86,8 +86,8 @@ ImageView::ImageView(QWidget *parent)
 //    , m_svgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
-    , m_rotateControler(nullptr)
 {
+    this->setObjectName("ImageView");
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setScene(new QGraphicsScene(this));
     setMouseTracking(true);

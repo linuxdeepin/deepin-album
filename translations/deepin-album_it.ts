@@ -733,75 +733,75 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Info immagine</translation>
+        <translation type="obsolete">Info immagine</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Visualizza</translation>
+        <translation type="obsolete">Visualizza</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Tutto schermo</translation>
+        <translation type="obsolete">Tutto schermo</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Presentazione</translation>
+        <translation type="obsolete">Presentazione</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Esporta</translation>
+        <translation type="obsolete">Esporta</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copia</translation>
+        <translation type="obsolete">Copia</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Elimina</translation>
+        <translation type="obsolete">Elimina</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Rimuovi dall&apos;album</translation>
+        <translation type="obsolete">Rimuovi dall&apos;album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Stampa</translation>
+        <translation type="obsolete">Stampa</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Agg. ai preferiti</translation>
+        <translation type="obsolete">Agg. ai preferiti</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Sposta dai preferiti</translation>
+        <translation type="obsolete">Sposta dai preferiti</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Ruota in senso orario</translation>
+        <translation type="obsolete">Ruota in senso orario</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Ruota in senso antiorario</translation>
+        <translation type="obsolete">Ruota in senso antiorario</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Visualizza nel File Manager</translation>
+        <translation type="obsolete">Visualizza nel File Manager</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Imposta come sfondo</translation>
+        <translation type="obsolete">Imposta come sfondo</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Ripristina</translation>
+        <translation type="obsolete">Ripristina</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Aggiungi all&apos;album</translation>
+        <translation type="obsolete">Aggiungi all&apos;album</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Nuovo album</translation>
+        <translation type="obsolete">Nuovo album</translation>
     </message>
 </context>
 <context>
@@ -815,43 +815,43 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Nessuna scala</translation>
+        <translation type="vanished">Nessuna scala</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Adatta pagina all&apos;immagine</translation>
+        <translation type="vanished">Adatta pagina all&apos;immagine</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Adatta immagine alla pagina</translation>
+        <translation type="vanished">Adatta immagine alla pagina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Scala:</translation>
+        <translation type="vanished">Scala:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Millimetri</translation>
+        <translation type="vanished">Millimetri</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centrimetri</translation>
+        <translation type="vanished">Centrimetri</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Pollici</translation>
+        <translation type="vanished">Pollici</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Posizione immagine</translation>
+        <translation type="vanished">Posizione immagine</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Scala</translation>
+        <translation type="vanished">Scala</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Impostazioni immagine</translation>
+        <translation type="vanished">Impostazioni immagine</translation>
     </message>
 </context>
 <context>
