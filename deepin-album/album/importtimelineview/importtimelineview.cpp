@@ -146,7 +146,9 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 //        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 //        pLabelList[0]->setForegroundRole(DPalette::Text);
 //        pLabelList[0]->setPalette(color);
-
+        if (pLabelList.size() < 2) {
+            break;
+        }
         DPalette pal = DApplicationHelper::instance()->palette(pLabelList[1]);
         QColor color_BT = pal.color(DPalette::BrightText);
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();

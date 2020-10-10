@@ -27,7 +27,7 @@ class ModulePanel : public /*QFrame*/QWidget
 {
     Q_OBJECT
 public:
-    ModulePanel(QWidget *parent = nullptr)
+    explicit ModulePanel(QWidget *parent = nullptr)
         : /*QFrame*/QWidget(parent)
     {
         connect(dApp->signalM, &SignalManager::gotoPanel,

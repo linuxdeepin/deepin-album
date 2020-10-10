@@ -53,7 +53,7 @@ class ImageView : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL };
 
-    ImageView(QWidget *parent = nullptr);
+    explicit ImageView(QWidget *parent = nullptr);
     ~ImageView() override;
     void clear();
     void fitWindow();
@@ -153,7 +153,7 @@ class CFileWatcher: public QThread
 public:
     enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
 
-    CFileWatcher(QObject *parent = nullptr);
+    explicit CFileWatcher(QObject *parent = nullptr);
     ~CFileWatcher();
 
     bool isVaild();

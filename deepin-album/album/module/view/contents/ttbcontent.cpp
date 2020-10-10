@@ -241,6 +241,7 @@ void MyImageListWidget::thumbnailIsMoving()
 
 void MyImageListWidget::animationValueChanged(const QVariant value)
 {
+    Q_UNUSED(value)
     if (m_resetAnimation->property("type") != "800") {
         return;
     }
@@ -366,7 +367,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     return false;
 }
 
-int static preOffset = 0;
 void MyImageListWidget::animationTimerTimeOut()
 {
     m_animationTimerTOCount++;
@@ -386,7 +386,7 @@ void MyImageListWidget::animationTimerTimeOut()
     }
     int index = 0;
     QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
-    int showCountHalf = this->geometry().width() / 64;
+
     int middle = this->geometry().width() / 2;
     if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
         qDebug() << "11111111";
@@ -1001,12 +1001,12 @@ void TTBContent::requestSomeImages()
     }
 }
 
-void TTBContent::setRightlist(QStringList rightlist)
+void TTBContent::setRightlist(const QStringList &rightlist)
 {
     m_rightlist = rightlist;
 }
 
-void TTBContent::setLeftlist(QStringList leftlist)
+void TTBContent::setLeftlist(const QStringList &leftlist)
 {
     m_leftlist = leftlist;
 }
@@ -1046,12 +1046,12 @@ void TTBContent::updateScreen()
         m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT);
 
         m_imgList->setContentsMargins(0, 0, 0, 0);
-
         m_imgListView->show();
-        auto num = 32;
+
         QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
 
         if (m_nowIndex > -1) {
+
             if (labelList.isEmpty())
                 return;
 
@@ -1063,6 +1063,7 @@ void TTBContent::updateScreen()
                 if (lastlabelList.isEmpty()) {
                     return;
                 }
+                auto num = 32;
                 lastlabelList.at(0)->setFixedSize(QSize(num, 40));
                 lastlabelList.at(0)->resize(QSize(num, 40));
                 lastlabelList.at(0)->setIndexNow(m_nowIndex);
@@ -1097,7 +1098,6 @@ void TTBContent::updateScreen()
 
         m_imgList->setContentsMargins(0, 0, 0, 0);
 
-        auto num = 32;
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
@@ -1113,6 +1113,7 @@ void TTBContent::updateScreen()
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                 if (lastlabelList.isEmpty())
                     return;
+                auto num = 32;
                 lastlabelList.at(0)->setFixedSize(QSize(num, 40));
                 lastlabelList.at(0)->resize(QSize(num, 40));
                 lastlabelList.at(0)->setIndexNow(m_nowIndex);
@@ -1151,8 +1152,6 @@ void TTBContent::updateScreen()
 
         m_imgList->setContentsMargins(0, 0, 0, 0);
 
-        auto num = 32;
-
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
@@ -1168,6 +1167,7 @@ void TTBContent::updateScreen()
                 if (lastlabelList.isEmpty()) {
                     return;
                 }
+                auto num = 32;
                 lastlabelList.at(0)->setFixedSize(QSize(num, 40));
                 lastlabelList.at(0)->resize(QSize(num, 40));
                 lastlabelList.at(0)->setIndexNow(m_nowIndex);
@@ -1531,14 +1531,15 @@ void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
     Q_UNUSED(theme);
 }
 
-void TTBContent::setCurrentDir(QString text)
+void TTBContent::setCurrentDir(const QString &text)
 {
+#ifndef LITE_DIV
     if (text == COMMON_STR_FAVORITES) {
         text = tr(COMMON_STR_FAVORITES);
     }
-
-#ifndef LITE_DIV
     m_returnBtn->setText(text);
+#else
+    Q_UNUSED(text)
 #endif
 }
 

@@ -88,7 +88,7 @@ public:
     QMap<QString, ImageDataSt>m_AllImageData;
     bool m_80isLoaded = false;
 private:
-    ImageEngineApi(QObject *parent = nullptr);
+    explicit ImageEngineApi(QObject *parent = nullptr);
 
     QMap<void *, void *>m_AllObject;
 

@@ -32,11 +32,14 @@ QString ss(const QString &text)
 LeftListView::LeftListView(DWidget *parent)
     : DWidget(parent), m_pPhotoLibLabel(nullptr), m_pPhotoLibListView(nullptr)
     , m_pCustomizeLabel(nullptr), m_pAddListBtn(nullptr), m_pCustomizeListView(nullptr)
-    , m_pMountLabel(nullptr), m_pMountListWidget(nullptr), m_pMenu(nullptr)
+    , m_pMountLabel(nullptr), m_pMountListWidget(nullptr)
+    , m_ItemCurrentName(COMMON_STR_RECENT_IMPORTED)
+    , m_ItemCurrentType(COMMON_STR_RECENT_IMPORTED)
+    , m_pMenu(nullptr)
     , m_pMountWidget(nullptr)
 {
-    m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
-    m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
+//    m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
+//    m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
     m_ItemCurrentDataType = 0;
     initUI();
     initMenu();

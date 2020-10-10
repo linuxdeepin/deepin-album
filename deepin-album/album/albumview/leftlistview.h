@@ -25,7 +25,7 @@ public:
         IdDeleteAlbum,
     };
 
-    LeftListView(DWidget *parent = nullptr);
+    explicit LeftListView(DWidget *parent = nullptr);
     QString getItemCurrentName();
     QString getItemCurrentType();
     int getItemDataType();

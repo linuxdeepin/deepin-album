@@ -40,7 +40,7 @@ const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
 
 struct DBAlbumInfo {
     QString name;
-    int count;
+//    int count;
     QDateTime beginTime;
     QDateTime endTime;
 };
@@ -55,7 +55,7 @@ struct DBImgInfo {
     QString albumname;      // 图片所属相册名，以","分隔
     QString albumSize;      //原图片分辨率
 
-    bool operator==(const DBImgInfo &other)
+    bool operator==(const DBImgInfo &other) const
     {
         return (filePath == other.filePath &&
                 fileName == other.fileName &&

@@ -73,12 +73,12 @@ PrintHelper::PrintHelper(QObject *parent)
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     QList<QImage> imgs;
-    QImage img;
+    QImage imgTemp;
     for (const QString &path : paths) {
         QString errMsg;
-        UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
-        if (!img.isNull()) {
-            imgs << img;
+        UnionImage_NameSpace::loadStaticImageFromFile(path, imgTemp, errMsg);
+        if (!imgTemp.isNull()) {
+            imgs << imgTemp;
         }
     }
     DPrintPreviewDialog printDialog2(nullptr);

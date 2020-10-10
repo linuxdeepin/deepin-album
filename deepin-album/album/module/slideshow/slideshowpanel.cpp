@@ -318,7 +318,7 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
     if (dark == ViewerThemeManager::Dark) {
         m_bgColor = DARK_BG_COLOR;
     } else {
-        m_bgColor = DARK_BG_COLOR;
+        m_bgColor = LIGHT_BG_COLOR;
     }
     update();
 }

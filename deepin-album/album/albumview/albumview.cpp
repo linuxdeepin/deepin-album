@@ -424,6 +424,7 @@ void AlbumView::initConnections()
         for (QByteArray qb : qbl) {
             mountPoint += qb;
         }
+//        std::accumulate(qbl.first(), qbl.last(), mountPoint);
         QUrl qurl(mountPoint);
         durlAndNameMap[qurl] = udispname;
         return;
@@ -651,7 +652,7 @@ void AlbumView::initLeftView()
     initExternalDevice();
 }
 
-void AlbumView::onCreateNewAlbumFromDialog(QString newalbumname)
+void AlbumView::onCreateNewAlbumFromDialog(const QString newalbumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
 
@@ -1330,8 +1331,8 @@ void AlbumView::updateRightMountView()
 
     QStringList filelist = m_phoneNameAndPathlist.value(strPath);
     m_currentViewPictureCount = filelist.count();
-    if (m_phoneNameAndPathlist.contains(strPath) && 0 < filelist.length()) {
-        QStringList filelist = m_phoneNameAndPathlist.value(strPath);
+    if (m_phoneNameAndPathlist.contains(strPath) && 0 < m_currentViewPictureCount) {
+//        QStringList filelist = m_phoneNameAndPathlist.value(strPath);
         if (!filelist.isEmpty()) {
             m_importByPhoneComboBox->setEnabled(true);
             m_importAllByPhoneBtn->setEnabled(true);
@@ -1729,7 +1730,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
-    bool canEject = mount->canEject();
+//    bool canEject = mount->canEject();
     if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
             //(scheme == "afc") ||                  //iPhone document
@@ -1916,6 +1917,7 @@ void AlbumView::getAllDeviceName()
         for (QByteArray qb : qbl) {
             mountPoint += qb;
         }
+//        std::accumulate(qbl.first(), qbl.last(), mountPoint);
         qDebug() << "mountPoint:" << mountPoint;
         QUrl qurl(mountPoint);
         durlAndNameMap[qurl] = udispname;
@@ -2133,17 +2135,21 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
 {
     QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListWidget, devType);
     //pListWidgetItem缓存文件挂载路径
-    pListWidgetItem->setData(Qt::UserRole, strPath);
-    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+    if (pListWidgetItem) {
+        pListWidgetItem->setData(Qt::UserRole, strPath);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+    }
     AlbumLeftTabItem *pAlbumLeftTabItem;
     QString rename = "";
     rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
     if ("" == rename) {
         rename = mount->name();
     }
-    pListWidgetItem->setData(Qt::UserRole + 1, rename);
-    QVariant value = QVariant::fromValue(mount);
-    pListWidgetItem->setData(Qt::UserRole + 2, value);
+    if (pListWidgetItem) {
+        pListWidgetItem->setData(Qt::UserRole + 1, rename);
+        QVariant value = QVariant::fromValue(mount);
+        pListWidgetItem->setData(Qt::UserRole + 2, value);
+    }
     if (strPath.contains("/media/")) {
         pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
     } else {
@@ -2304,6 +2310,7 @@ void AlbumView::needUnMount(QString path)
         for (QByteArray qb : qbl) {
             mountPoint += qb;
         }
+//        std::accumulate(qbl.first(), qbl.last(), mountPoint);
         if (mountPoint.contains(path, Qt::CaseSensitive)) {
             blkget = blk;
             break;

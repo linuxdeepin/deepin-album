@@ -20,7 +20,7 @@
 */
 #include "unionimage.h"
 #include <FreeImage.h>
-#include "giflib/cmanagerattributeservice.h"
+//#include "giflib/cmanagerattributeservice.h"
 
 #include <QObject>
 #include <QMutex>
@@ -1183,24 +1183,25 @@ bool getThumbnail(QImage &res, const QString &path)
 class UnionMovieImagePrivate : public QObject
 {
 protected:
-    UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
+    explicit UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
     {
         Q_UNUSED(padding);
     }
     ~UnionMovieImagePrivate()
     {
-        CManagerAttributeService::getInstance()->setCouldRun(false);
-        CManagerAttributeService::getInstance()->GifFreeFile();
+//        CManagerAttributeService::getInstance()->setCouldRun(false);
+//        CManagerAttributeService::getInstance()->GifFreeFile();
     }
 
 
     void setPathAndBegin(const QString &path)
     {
-        CManagerAttributeService::getInstance()->setfilePathWithSignalPlay(path);
-        QObject::connect(CManagerAttributeService::getInstance(), &CManagerAttributeService::emitImageSignal, this, [ = ](QImage image, bool isFirst) {
-            Q_UNUSED(isFirst);
-            res = image;
-        });
+        Q_UNUSED(path)
+//        CManagerAttributeService::getInstance()->setfilePathWithSignalPlay(path);
+//        QObject::connect(CManagerAttributeService::getInstance(), &CManagerAttributeService::emitImageSignal, this, [ = ](QImage image, bool isFirst) {
+//            Q_UNUSED(isFirst);
+//            res = image;
+//        });
     }
 
     int getCurrent()
@@ -1210,8 +1211,8 @@ protected:
 
     void reset()
     {
-        CManagerAttributeService::getInstance()->setCouldRun(false);
-        CManagerAttributeService::getInstance()->GifFreeFile();
+//        CManagerAttributeService::getInstance()->setCouldRun(false);
+//        CManagerAttributeService::getInstance()->GifFreeFile();
 
         delete r;
         r = nullptr;

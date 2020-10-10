@@ -80,7 +80,7 @@ private:
     void initMainStackWidget();
     void onKeyDelete();
     void dragEnterEvent(QDragEnterEvent *e) override;
-    void dropEvent(QDropEvent *e) override;
+    void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 

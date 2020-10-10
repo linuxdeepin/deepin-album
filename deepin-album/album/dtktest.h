@@ -9,7 +9,7 @@ class DtkTest: public DMainWindow
 {
     Q_OBJECT
 public:
-    DtkTest(QWidget *parent = nullptr);
+    explicit DtkTest(QWidget *parent = nullptr);
 private:
     void initUI();
 };

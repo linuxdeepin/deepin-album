@@ -32,11 +32,11 @@ public:
     void start();
     void stop();
 private:
-    UnionImage_NameSpace::UnionMovieImage m_movie;
+//    UnionImage_NameSpace::UnionMovieImage m_movie;
     QPointer<QMovie> m_qmovie;
-    QPointer<QTimer> m_pTImer;
-    QString m_suffix;
-    int m_index;
+//    QPointer<QTimer> m_pTImer;
+//    QString m_suffix;
+//    int m_index;
 
 };
 

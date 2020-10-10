@@ -7,7 +7,7 @@ class ImageWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ImageWidget(QWidget *parent = nullptr);
+    explicit ImageWidget(QWidget *parent = nullptr);
 
     void setImage(const QString &path);
     void setImage(const QImage &image);

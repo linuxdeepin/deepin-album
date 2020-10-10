@@ -135,8 +135,9 @@ void ImageEngineObject::checkSelf()
     if (m_checkpath.size() < 1) {
         return;
     }
+
     for (auto file : m_pathlast) {
-        if (file == m_checkpath.first()) {
+        if (QString::compare(file, m_checkpath.first()) == 0) {
             m_checkpath.removeFirst();
             imageLoaded(file);
             m_pathlast.removeOne(file);

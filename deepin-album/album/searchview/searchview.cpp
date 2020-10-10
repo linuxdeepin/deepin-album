@@ -11,10 +11,12 @@ namespace {
 
 
 SlideShowButton::SlideShowButton(DWidget *parent)
-    : DPushButton(parent), m_filletradii(8), israised(true)
+    : DPushButton(parent)
+    , m_filletradii(8)
+    , israised(true)
     , ispressed(false)
 {
-    m_filletradii = 8;
+//    m_filletradii = 8;
 }
 
 void SlideShowButton::paintEvent(QPaintEvent *event)
@@ -44,8 +46,8 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
     }
     painter.setPen(Qt::transparent);
     QRect rect = this->rect();
-    rect.setWidth(rect.width() );
-    rect.setHeight(rect.height() );
+    rect.setWidth(rect.width());
+    rect.setHeight(rect.height());
     painter.drawRoundedRect(rect, m_filletradii, m_filletradii);
     QFont qf = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     qf.setFamily("SourceHanSansSC-Medium");
@@ -56,7 +58,7 @@ void SlideShowButton::paintEvent(QPaintEvent *event)
     QIcon qic = icon();
     QSize iconsize = iconSize();
     QPixmap qpx = qic.pixmap(QSize(iconsize));
-    int widthOfTitle = painter.fontMetrics().width( text());
+    int widthOfTitle = painter.fontMetrics().width(text());
     this->setFixedWidth(widthOfTitle + iconsize.width() + 20);
     int offsetleft = (this->width() - widthOfTitle - iconsize.width() - 5) / 2;
     painter.drawPixmap(offsetleft, (this->height() - iconsize.height()) / 2, iconsize.width(), iconsize.height(), qpx);
@@ -105,7 +107,7 @@ void SlideShowButton::mouseEvent(QMouseEvent *e)
     int  x = e->x();
     int  y = e->y();
     float k = h / w; //斜率
-    if ( y > -k * x + h / 2 &&
+    if (y > -k * x + h / 2 &&
             y >= k * x - h / 2 &&
             y <= k * x + h / 2 &&
             y <= -k * x + 3 * h / 2) {
@@ -597,7 +599,7 @@ void SearchView::changeTheme()
 void SearchView::paintEvent(QPaintEvent *event)
 {
     QFont font;
-    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font);
     if (currentSize != m_currentFontSize) {
         m_currentFontSize = currentSize;
     }

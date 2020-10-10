@@ -114,7 +114,7 @@ class ImageLoadFromDBThread : public ImageEngineThreadObject, public QRunnable
 {
     Q_OBJECT
 public:
-    ImageLoadFromDBThread(int loadCount = 0);
+    explicit ImageLoadFromDBThread(int loadCount = 0);
     ~ImageLoadFromDBThread() override;
     void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, QString nametype = "");
 

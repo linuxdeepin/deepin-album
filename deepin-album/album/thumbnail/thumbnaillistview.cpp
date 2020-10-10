@@ -552,7 +552,7 @@ void ThumbnailListView::calWidgetItemWandH()
         totlelength -= 1;
     // scaling for each row adapting list width except last one
     for (int i = 0; i < totlelength; i++) {
-        if (rowWidthList[i] < i_totalwidth && i < m_gridItem.size()) {
+        if (i < (rowWidthList.size() - 1) && rowWidthList[i] < i_totalwidth && i < m_gridItem.size()) {
             int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].size();
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].size();
             int rowWidth = 0;

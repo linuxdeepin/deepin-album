@@ -675,9 +675,9 @@ bool ViewPanel::showNext()
     openImage(m_ttbc->getIndexPath(m_current), m_vinfo.inDatabase);
     return true;
 }
-bool ViewPanel::showImage(int index, int addindex)
+bool ViewPanel::showImage(int index, int addIndex)
 {
-    Q_UNUSED(addindex);
+    Q_UNUSED(addIndex);
     if (m_filepathlist.isEmpty()) {
         return false;
     }

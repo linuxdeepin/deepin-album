@@ -9,7 +9,7 @@ class ElidedLabel : public QLabel
 {
     Q_OBJECT
 public:
-    ElidedLabel(QWidget *parent = nullptr);
+    explicit ElidedLabel(QWidget *parent = nullptr);
     ~ElidedLabel();
 
     void setText(const QString &text, int leftMargin = 0);

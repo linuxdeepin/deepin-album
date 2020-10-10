@@ -55,7 +55,7 @@ class MyImageListWidget : public QWidget
 {
     Q_OBJECT
 public:
-    MyImageListWidget(QWidget *parent = nullptr);
+    explicit MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
     QObject *getObj();
     void setObj(QObject *obj);
@@ -182,9 +182,9 @@ public:
      * @brief setRightlist  设置右侧数据
      * @param rightlist
      */
-    void setRightlist(QStringList rightlist);
+    void setRightlist(const QStringList &rightlist);
 
-    void setLeftlist(QStringList leftlist);
+    void setLeftlist(const QStringList &leftlist);
 
 signals:
     void ttbcontentClicked();
@@ -209,7 +209,7 @@ signals:
     void sigloadLeft(QStringList leftlist);
 
 public slots:
-    void setCurrentDir(QString text);
+    void setCurrentDir(const QString &text);
     void setImage(const QString &path);
     void updateCollectButton();
 

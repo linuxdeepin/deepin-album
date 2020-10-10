@@ -197,10 +197,12 @@ void ImageView::setImage(const QString &path)
 //        m_movieItem->start();
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
+        qDebug() << "m_movieItem->boundingRect() = " << m_movieItem->boundingRect();
         s->addItem(m_movieItem);
         emit imageChanged(path);
         QMetaObject::invokeMethod(this, [ = ]() {
             resetTransform();
+            autoFit();
         }, Qt::QueuedConnection);
     } else {
         m_movieItem = nullptr;

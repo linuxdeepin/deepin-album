@@ -822,20 +822,20 @@ bool ImageEngineThread::ifCanStopThread(void *imgobject)
 bool ImageEngineThread::getNeedStop()
 {
     return bneedstop;
-    if (!bneedstop) {
-        return false;
-    }
-    baborted = true;
-    bneedstop = false;
-    emit sigAborted(m_path);
-    while (!bneedstop) {
-        QThread::msleep(50);
-    }
-    if (!baborted) {
-        bneedstop = false;
-        return false;
-    }
-    return true;
+//    if (!bneedstop) {
+//        return false;
+//    }
+//    baborted = true;
+//    bneedstop = false;
+//    emit sigAborted(m_path);
+//    while (!bneedstop) {
+//        QThread::msleep(50);
+//    }
+//    if (!baborted) {
+//        bneedstop = false;
+//        return false;
+//    }
+//    return true;
 }
 
 bool ImageEngineThread::addObject(ImageEngineObject *imgobject)

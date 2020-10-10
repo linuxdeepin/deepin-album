@@ -47,8 +47,9 @@ DBManager *DBManager::instance()
 DBManager::DBManager(QObject *parent)
     : QObject(parent)
       //, m_connectionName("default_connection")
+    , m_db(QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"))
 {
-    m_db = QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"); //not dbConnection
+//    m_db = QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"); //not dbConnection
     m_db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     checkDatabase();
 }
@@ -347,13 +348,15 @@ void DBManager::removeImgInfos(const QStringList &paths)
     QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
-    if (! query.execBatch()) {
-        //   qWarning() << "Remove data from AlbumTable3 failed: "
-        //               << query.lastError();
-        query.exec("COMMIT");
-    } else {
-        query.exec("COMMIT");
-    }
+    query.execBatch();
+    query.exec("COMMIT");
+//    if (! query.execBatch()) {
+//        //   qWarning() << "Remove data from AlbumTable3 failed: "
+//        //               << query.lastError();
+//        query.exec("COMMIT");
+//    } else {
+//        query.exec("COMMIT");
+//    }
     // Remove from image table
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     qs = "DELETE FROM ImageTable3 WHERE PathHash=?";
@@ -397,26 +400,30 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
-    if (! query.execBatch()) {
-        //  qWarning() << "Remove data from AlbumTable3 failed: "
-        //              << query.lastError();
-        query.exec("COMMIT");
-    } else {
-        query.exec("COMMIT");
-    }
+    query.execBatch();
+    query.exec("COMMIT");
+//    if (! query.execBatch()) {
+//        //  qWarning() << "Remove data from AlbumTable3 failed: "
+//        //              << query.lastError();
+//        query.exec("COMMIT");
+//    } else {
+//        query.exec("COMMIT");
+//    }
 
     // Remove from image table
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     qs = "DELETE FROM ImageTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
-    if (! query.execBatch()) {
-        //  qWarning() << "Remove data from ImageTable3 failed: "
-        //              << query.lastError();
-        query.exec("COMMIT");
-    } else {
-        query.exec("COMMIT");
-    }
+    query.execBatch();
+    query.exec("COMMIT");
+//    if (! query.execBatch()) {
+//        //  qWarning() << "Remove data from ImageTable3 failed: "
+//        //              << query.lastError();
+//        query.exec("COMMIT");
+//    } else {
+//        query.exec("COMMIT");
+//    }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
     db.close();
@@ -1041,45 +1048,45 @@ void DBManager::checkDatabase()
     }
     //if tables not exist, create it.
     if (!tableExist) {
-        QSqlQuery query(db);
+        QSqlQuery queryCreate(db);
         // ImageTable3
         //////////////////////////////////////////////////////////////
         //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | ImportTime//
         //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT      //
         //////////////////////////////////////////////////////////////
-        query.exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
-                           "PathHash TEXT primary key, "
-                           "FilePath TEXT, "
-                           "FileName TEXT, "
-                           "Dir TEXT, "
-                           "Time TEXT, "
-                           "ChangeTime TEXT, "
-                           "ImportTime TEXT)"));
+        queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
+                                 "PathHash TEXT primary key, "
+                                 "FilePath TEXT, "
+                                 "FileName TEXT, "
+                                 "Dir TEXT, "
+                                 "Time TEXT, "
+                                 "ChangeTime TEXT, "
+                                 "ImportTime TEXT)"));
 
         // AlbumTable3
         ///////////////////////////////////////////////////////////////////////////
         //AlbumId               | AlbumName         | PathHash      |AlbumDBType //
         //INTEGER primari key   | TEXT              | TEXT          |TEXT        //
         ///////////////////////////////////////////////////////////////////////////
-        query.exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
-                           "AlbumId INTEGER primary key, "
-                           "AlbumName TEXT, "
-                           "PathHash TEXT,"
-                           "AlbumDBType INTEGER)"));
+        queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
+                                 "AlbumId INTEGER primary key, "
+                                 "AlbumName TEXT, "
+                                 "PathHash TEXT,"
+                                 "AlbumDBType INTEGER)"));
 
         // TrashTable
         //////////////////////////////////////////////////////////////
         //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | ImportTime//
         //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT      //
         //////////////////////////////////////////////////////////////
-        query.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
-                           "PathHash TEXT primary key, "
-                           "FilePath TEXT, "
-                           "FileName TEXT, "
-                           "Dir TEXT, "
-                           "Time TEXT, "
-                           "ChangeTime TEXT, "
-                           "ImportTime TEXT)"));
+        queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
+                                 "PathHash TEXT primary key, "
+                                 "FilePath TEXT, "
+                                 "FileName TEXT, "
+                                 "Dir TEXT, "
+                                 "Time TEXT, "
+                                 "ChangeTime TEXT, "
+                                 "ImportTime TEXT)"));
 //        // Check if there is an old version table exist or not
 //        //TODO: AlbumTable's primary key is changed, need to importVersion again
     } else {
@@ -1332,26 +1339,30 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
     QString qs = "DELETE FROM AlbumTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
-    if (! query.execBatch()) {
-        //  qWarning() << "Remove data from AlbumTable3 failed: "
-        //            << query.lastError();
-        query.exec("COMMIT");
-    } else {
-        query.exec("COMMIT");
-    }
+    query.execBatch();
+    query.exec("COMMIT");
+//    if (! query.execBatch()) {
+//        //  qWarning() << "Remove data from AlbumTable3 failed: "
+//        //            << query.lastError();
+//        query.exec("COMMIT");
+//    } else {
+//        query.exec("COMMIT");
+//    }
 
     // Remove from image table
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     qs = "DELETE FROM TrashTable3 WHERE PathHash=?";
     query.prepare(qs);
     query.addBindValue(pathHashs);
-    if (! query.execBatch()) {
-        //  qWarning() << "Remove data from TrashTable failed: "
-        //             << query.lastError();
-        query.exec("COMMIT");
-    } else {
-        query.exec("COMMIT");
-    }
+    query.execBatch();
+    query.exec("COMMIT");
+//    if (! query.execBatch()) {
+//        //  qWarning() << "Remove data from TrashTable failed: "
+//        //             << query.lastError();
+//        query.exec("COMMIT");
+//    } else {
+//        query.exec("COMMIT");
+//    }
     // 连接使用完后需要释放回数据库连接池
     ////ConnectionPool::closeConnection(db);
     db.close();

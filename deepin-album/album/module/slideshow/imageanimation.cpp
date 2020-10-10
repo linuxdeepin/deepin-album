@@ -51,7 +51,7 @@ public:
     inline const QString pre();
     inline const QString jumpTonext();
     inline const QString jumpTopre();
-    inline const QString current();
+    inline const QString current()const;
     inline void changeOrder(bool order);
 private:
     inline void AddIndex();
@@ -79,7 +79,7 @@ public:
     };
 
 protected:
-    ImageAnimationPrivate(ImageAnimation *qq = nullptr);
+    explicit ImageAnimationPrivate(ImageAnimation *qq = nullptr);
     ~ImageAnimationPrivate();
     void effectPainter(QPainter *painter, const QRect &rect);
     void forwardPainter(QPainter *painter, const QRect &rect);
@@ -291,7 +291,7 @@ const QString LoopQueue::jumpTopre()
     return loop_paths[loop_pindex];
 }
 
-const QString LoopQueue::current()
+const QString LoopQueue::current() const
 {
     return loop_paths[loop_pindex];
 }
@@ -539,7 +539,7 @@ void ImageAnimationPrivate::outsideToInside(QPainter *painter, const QRect &rect
 
 void ImageAnimationPrivate::moveLeftToRightEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
 {
-    int x, y, w, h;
+    int x, y, w;
     w = rect.width();
 //    h = rect.height();
     x = static_cast<int>(0 + w * factor);

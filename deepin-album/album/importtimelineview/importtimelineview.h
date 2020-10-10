@@ -23,7 +23,7 @@ class ImportTimeLineView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT
 public:
-    ImportTimeLineView(DWidget *parent);
+    explicit ImportTimeLineView(DWidget *parent);
     ~ImportTimeLineView() override
     {
         void clearAndStop();
