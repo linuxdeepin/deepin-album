@@ -1379,10 +1379,10 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut23.insert("value", "Right");
     QJsonObject shortcut24;
     shortcut24.insert("name", tr("Favorite"));
-    shortcut24.insert("value", "Ctrl+K");
+    shortcut24.insert("value", ".");
     QJsonObject shortcut25;
     shortcut25.insert("name", tr("Unfavorite"));
-    shortcut25.insert("value", "Ctrl+Shift+K");
+    shortcut25.insert("value", ".");
     QJsonObject shortcut26;
     shortcut26.insert("name", tr("New album"));
     shortcut26.insert("value", "Ctrl+Shift+N");
