@@ -135,7 +135,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::base;
     using namespace utils::image;
 
-    const QString path = m_currentpath;
+    const QString path1 = m_currentpath;
     const int id = action->property("MenuID").toInt();
 
     switch (MenuItemId(id)) {
@@ -152,7 +152,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.fullScreen = window()->isFullScreen();
 //        vinfo.lastPanel = this;
         vinfo.lastPanel = nullptr;
-        vinfo.path = path;
+        vinfo.path = path1;
 //        vinfo.paths = paths();
         vinfo.paths = m_filepathlist;
         vinfo.viewMainWindowID = VIEW_MAINWINDOW_POPVIEW;
@@ -171,11 +171,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        PrintHelper::showPrintDialog(QStringList(path), this);
+        PrintHelper::showPrintDialog(QStringList(path1), this);
         break;
     }
     case IdDrawingBoard: {
-        emit dApp->signalM->sigDrawingBoard(QStringList(path));
+        emit dApp->signalM->sigDrawingBoard(QStringList(path1));
         break;
     }
 
@@ -184,32 +184,32 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
-            if (! DBManager::instance()->isImgExistInAlbum(album, path)) {
+            if (! DBManager::instance()->isImgExistInAlbum(album, path1)) {
                 emit dApp->signalM->sigAddToAlbToast(album);
             }
-            DBManager::instance()->insertIntoAlbum(album, QStringList(path));
+            DBManager::instance()->insertIntoAlbum(album, QStringList(path1));
         } else {
-            emit dApp->signalM->viewCreateAlbum(path, false);
+            emit dApp->signalM->viewCreateAlbum(path1, false);
         }
     }
     break;
     //收藏
     case IdAddToFavorites: {
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path1), AlbumDBType::Favourite);
     }
     break;
     //取消收藏
     case IdRemoveFromFavorites: {
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path1), AlbumDBType::Favourite);
     }
     break;
     //导出
     case IdExport:
-        emit dApp->signalM->exportImage(QStringList(path));
+        emit dApp->signalM->exportImage(QStringList(path1));
         break;
 #endif
     case IdCopy:
-        copyImageToClipboard(QStringList(path));
+        copyImageToClipboard(QStringList(path1));
         break;
     case IdMoveToTrash: {
         emit SignalManager::instance()->deleteByMenu();
@@ -275,13 +275,13 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         rotateImage(false);
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setBackground(path);
+        dApp->wpSetter->setBackground(path1);
         break;
     case IdDisplayInFileManager:
-        emit dApp->signalM->showInFileManager(path);
+        emit dApp->signalM->showInFileManager(path1);
         break;
     case IdImageInfo:
-        emit dApp->signalM->showImageInfo(path);
+        emit dApp->signalM->showImageInfo(path1);
         // Update panel info
         break;
     default:
@@ -396,12 +396,12 @@ DMenu *ViewPanel::createAblumMenu()
     albums.removeAll(COMMON_STR_TRASH);
     albums.removeAll(COMMON_STR_RECENT_IMPORTED);
 
-    QAction *ac = new QAction(am);
-    ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("New album"));
-    ac->setData("Add to new album");
-    ac->setShortcut(QKeySequence("Ctrl+Shift+N"));
-    am->addAction(ac);
+    QAction *ac1 = new QAction(am);
+    ac1->setProperty("MenuID", IdAddToAlbum);
+    ac1->setText(tr("New album"));
+    ac1->setData("Add to new album");
+    ac1->setShortcut(QKeySequence("Ctrl+Shift+N"));
+    am->addAction(ac1);
     am->addSeparator();
 
     for (QString album : albums) {
@@ -499,16 +499,16 @@ void ViewPanel::initShortcut()
 
 }
 
-void ViewPanel::popupDelDialog(const QString path)
-{
-#ifndef LITE_DIV
-    const QStringList paths(path);
-    FileDeleteDialog *fdd = new FileDeleteDialog(paths);
-    fdd->showInCenter(window());
-#else
-    Q_UNUSED(path)
-#endif
-}
+//void ViewPanel::popupDelDialog(const QString path)
+//{
+//#ifndef LITE_DIV
+//    const QStringList paths(path);
+//    FileDeleteDialog *fdd = new FileDeleteDialog(paths);
+//    fdd->showInCenter(window());
+//#else
+//    Q_UNUSED(path)
+//#endif
+//}
 
 void ViewPanel::keyPressEvent(QKeyEvent *e)
 {

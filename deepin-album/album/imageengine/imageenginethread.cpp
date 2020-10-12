@@ -611,8 +611,9 @@ void ImageGetFilesFromMountThread::run()
 }
 
 ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
+    :m_loadCount(loadCount)
 {
-    m_loadCount = loadCount;
+//    m_loadCount = loadCount;
     setAutoDelete(true);
 }
 

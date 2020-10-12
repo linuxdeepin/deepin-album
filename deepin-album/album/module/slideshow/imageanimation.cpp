@@ -176,29 +176,29 @@ public slots:
 
 private:
     //设置动画因子
-    inline void setFactor(float factor_bar)
-    {
-        m_factor = factor_bar;
-    }
+//    inline void setFactor(float factor_bar)
+//    {
+//        m_factor = factor_bar;
+//    }
 
     //设置图片1+图片2路径名称并适应widget
     void setImage1(const QString &imageName1_bar);
     void setImage2(const QString &imageName2_bar);
 
     //设置图片1+图片2
-    void setPixmap1(const QPixmap &pixmap1_bar)
-    {
-        m_pixmap1 = pixmap1_bar;
-    }
-    void setPixmap2(const QPixmap &pixmap2_bar)
-    {
-        m_pixmap2 = pixmap2_bar;
-    }
+//    void setPixmap1(const QPixmap &pixmap1_bar)
+//    {
+//        m_pixmap1 = pixmap1_bar;
+//    }
+//    void setPixmap2(const QPixmap &pixmap2_bar)
+//    {
+//        m_pixmap2 = pixmap2_bar;
+//    }
     //设置动画类型
-    void setAnimationType(const AnimationType &animationType_bar)
-    {
-        m_animationType = animationType_bar;
-    }
+//    void setAnimationType(const AnimationType &animationType_bar)
+//    {
+//        m_animationType = animationType_bar;
+//    }
 
 private:
     char m_padding2[3];                 //填充占位,使数据结构内存对齐
@@ -232,10 +232,14 @@ LoopQueue::LoopQueue(const QString &beginPath, const QStringList &list): loop_or
     int newfirst = list.indexOf(beginPath);
     QVector<QString> temp;
     QList<QString>::const_iterator i = list.begin();
-    for (int j = 0; i != list.end() && j < newfirst; i++, j++)
+    for (int j = 0; i != list.end() && j < newfirst; j++){
         temp.append(*i);
-    for (; i != list.end(); i++)
+        i.operator++();
+    }
+    for (; i != list.end(); ){
         loop_paths.append(*i);
+        i.operator++();
+    }
     loop_paths.append(temp);
 }
 

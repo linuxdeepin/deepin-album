@@ -786,36 +786,36 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths, 
     //ConnectionPool::closeConnection(db);
 }
 
-void DBManager::removeFromAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype)
-{
-    QMutexLocker mutex(&m_mutex);
-    QSqlDatabase db = getDatabase();
-    if (! db.isValid()) {
-        return;
-    }
+//void DBManager::removeFromAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype)
+//{
+//    QMutexLocker mutex(&m_mutex);
+//    QSqlDatabase db = getDatabase();
+//    if (! db.isValid()) {
+//        return;
+//    }
 
-    QStringList pathHashs;
-    for (QString path : paths) {
-        pathHashs << utils::base::hash(path);
-    }
-    QSqlQuery query(db);
-    query.setForwardOnly(true);
-    query.exec("BEGIN IMMEDIATE TRANSACTION");
-    // Remove from albums table
-    QString qs("DELETE FROM AlbumTable3 WHERE AlbumName=\"%1\" AND PathHash=?,AND AlbumDBType=? ");
-    query.prepare(qs.arg(album));
-    query.addBindValue(pathHashs);
-    query.addBindValue(atype);
-    if (!query.execBatch()) {
-        //  qWarning() << "Remove images from DB failed: " << query.lastError();
-    } else {
-//        mutex.unlock();
-    }
-    query.exec("COMMIT");
-    db.close();
-//    // 连接使用完后需要释放回数据库连接池
-    //ConnectionPool::closeConnection(db);
-}
+//    QStringList pathHashs;
+//    for (QString path : paths) {
+//        pathHashs << utils::base::hash(path);
+//    }
+//    QSqlQuery query(db);
+//    query.setForwardOnly(true);
+//    query.exec("BEGIN IMMEDIATE TRANSACTION");
+//    // Remove from albums table
+//    QString qs("DELETE FROM AlbumTable3 WHERE AlbumName=\"%1\" AND PathHash=?,AND AlbumDBType=? ");
+//    query.prepare(qs.arg(album));
+//    query.addBindValue(pathHashs);
+//    query.addBindValue(atype);
+//    if (!query.execBatch()) {
+//        //  qWarning() << "Remove images from DB failed: " << query.lastError();
+//    } else {
+////        mutex.unlock();
+//    }
+//    query.exec("COMMIT");
+//    db.close();
+////    // 连接使用完后需要释放回数据库连接池
+//    //ConnectionPool::closeConnection(db);
+//}
 
 void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum, AlbumDBType atype)
 {

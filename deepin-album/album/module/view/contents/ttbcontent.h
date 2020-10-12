@@ -56,7 +56,7 @@ class MyImageListWidget : public QWidget
     Q_OBJECT
 public:
     explicit MyImageListWidget(QWidget *parent = nullptr);
-    bool ifMouseLeftPressed();
+//    bool ifMouseLeftPressed();
     QObject *getObj();
     void setObj(QObject *obj);
     void setSelectItem(ImageItem *selectItem);
@@ -169,7 +169,7 @@ public:
     bool imageLoaded(QString filepath) override;
     void insertImageItem(const ImageDataSt &file, bool bloadRight = true);
     void stopLoadAndClear();
-    void reLoad();
+//    void reLoad();
     QStringList getAllFileList();
     bool setCurrentItem();
     void updateScreen();

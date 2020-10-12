@@ -31,7 +31,7 @@ public:
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
     bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true, bool useGlobalThreadPool = true);
     bool reQuestAllImagesData(ImageEngineObject *obj, bool needcache = true);
-    bool imageNeedReload(QString imagepath);
+//    bool imageNeedReload(QString imagepath);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool loadImagesFromLocal(QStringList files, ImageEngineObject *obj, bool needcheck = true);
@@ -48,7 +48,7 @@ public:
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
     QStringList get_AllImagePath();
-    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
+//    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
 
     //将数据加载到内存中
     // void loadImageDateToMemory(QStringList pathlist);

@@ -62,7 +62,7 @@ public:
     void rotateCounterclockwise();
     void centerOn(qreal x, qreal y);
     void setImage(const QString &path);
-    void setRenderer(RendererType type = Native);
+//    void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
     void autoFit();
@@ -100,7 +100,7 @@ signals:
 
 
 public slots:
-    void setHighQualityAntialiasing(bool highQualityAntialiasing);
+//    void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void onImgFileChanged(const QString &ddfFile, int tp);
 
 protected:
@@ -122,8 +122,8 @@ private slots:
     void scaleAtPoint(QPoint pos, qreal factor);
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
-    void swipeTriggered(QSwipeGesture *gesture);
-    void updateImages(const QStringList &path);
+//    void swipeTriggered(QSwipeGesture *gesture);
+//    void updateImages(const QStringList &path);
 private:
     bool m_isFitImage = false;
     bool m_isFitWindow = false;
@@ -159,7 +159,7 @@ public:
     bool isVaild();
 
     void addWather(const QString &path);
-    void removePath(const QString &path);
+//    void removePath(const QString &path);
 
     void clear();
 

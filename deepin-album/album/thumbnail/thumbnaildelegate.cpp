@@ -55,10 +55,10 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
 }
 
 
-void ThumbnailDelegate::setNeedPaint(bool value)
-{
-    bneedpaint = value;
-}
+//void ThumbnailDelegate::setNeedPaint(bool value)
+//{
+//    bneedpaint = value;
+//}
 
 void ThumbnailDelegate::paint(QPainter *painter,
                               const QStyleOptionViewItem &option,
@@ -169,11 +169,11 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
     //2020/6/9 DJH UI 透明图片背景
     QBrush transparentbrush;
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType) {
+    DGuiApplicationHelper::ColorType themeType1 = DGuiApplicationHelper::instance()->themeType();
+    if (themeType1 == DGuiApplicationHelper::LightType) {
         transparentbrush = QBrush(QColor("#FFFFFF"));
     }
-    if (themeType == DGuiApplicationHelper::DarkType) {
+    if (themeType1 == DGuiApplicationHelper::DarkType) {
         transparentbrush = QBrush(QColor("#252525"));
         painter->fillRect(backgroundRect, transparentbrush);
 

@@ -141,18 +141,18 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
     m_pDate->setForegroundRole(DPalette::Text);
     m_pDate->setPalette(pa);
 
-    DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
-    QColor color_BT = pal.color(DPalette::BrightText);
+    DPalette pal1 = DApplicationHelper::instance()->palette(pNum_up);
+    QColor color_BT1 = pal1.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
-        color_BT.setAlphaF(0.5);
-        pal.setBrush(DPalette::Text, color_BT);
+        color_BT1.setAlphaF(0.5);
+        pal1.setBrush(DPalette::Text, color_BT1);
         pNum_up->setForegroundRole(DPalette::Text);
-        pNum_up->setPalette(pal);
+        pNum_up->setPalette(pal1);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
-        color_BT.setAlphaF(0.75);
-        pal.setBrush(DPalette::Text, color_BT);
+        color_BT1.setAlphaF(0.75);
+        pal1.setBrush(DPalette::Text, color_BT1);
         pNum_up->setForegroundRole(DPalette::Text);
-        pNum_up->setPalette(pal);
+        pNum_up->setPalette(pal1);
     }
 
     for (int i = 1; i < m_mainListWidget->count(); i++) {

@@ -41,7 +41,7 @@ signals:
 
 public slots:
     void setThumbnailImage(const QPixmap thumbnail);
-    bool isDefaultThumbnail();
+//    bool isDefaultThumbnail();
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

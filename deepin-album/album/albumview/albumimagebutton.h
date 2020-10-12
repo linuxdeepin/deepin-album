@@ -25,8 +25,8 @@ public:
                         const QString &pressPic, const QString &checkedPic = QString());
     void setPropertyPic(const QString &normalPic, const QString &hoverPic,
                         const QString &pressPic, const QString &checkedPic = QString());
-    void setTransparent(bool flag);
-    void setAutoChecked(bool flag);
+//    void setTransparent(bool flag);
+//    void setAutoChecked(bool flag);
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;

@@ -29,19 +29,19 @@ class QLabel;
 class ImageButton : public DImageButton
 {
     Q_OBJECT
-    Q_PROPERTY(QString disablePic READ getDisablePic WRITE setDisablePic
-               DESIGNABLE true)
+//    Q_PROPERTY(QString disablePic READ getDisablePic WRITE setDisablePic
+//               DESIGNABLE true)
 public:
     explicit ImageButton(QWidget *parent = nullptr);
     explicit ImageButton(const QString &normalPic, const QString &hoverPic,
                          const QString &pressPic, const QString &disablePic,
                          QWidget *parent = nullptr);
 
-    void setDisablePic(const QString &path);
+//    void setDisablePic(const QString &path);
     void setDisabled(bool d);
 
     void setTooltipVisible(bool visible);
-    bool tooltipVisible();
+//    bool tooltipVisible();
 
     inline const QString getDisablePic() const
     {

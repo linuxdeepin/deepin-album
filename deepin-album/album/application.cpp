@@ -159,11 +159,11 @@ bool Application::isWaylandPlatform()
 }
 
 
-void Application::finishLoadSlot()
-{
-    qDebug() << "finishLoadSlot";
-    emit sigFinishLoad();
-}
+//void Application::finishLoadSlot()
+//{
+//    qDebug() << "finishLoadSlot";
+//    emit sigFinishLoad();
+//}
 
 void Application::initChildren()
 {

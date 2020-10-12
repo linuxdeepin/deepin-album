@@ -45,10 +45,10 @@ ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
             &ImageButton::onThemeChanged);
 }
 
-void ImageButton::setDisablePic(const QString &path)
-{
-    m_disablePic_ = path;
-}
+//void ImageButton::setDisablePic(const QString &path)
+//{
+//    m_disablePic_ = path;
+//}
 
 void ImageButton::setDisabled(bool d)
 {
@@ -90,9 +90,9 @@ void ImageButton::setTooltipVisible(bool visible){
     m_tooltipVisiable = visible;
 }
 
-bool ImageButton::tooltipVisible() {
-    return m_tooltipVisiable;
-}
+//bool ImageButton::tooltipVisible() {
+//    return m_tooltipVisiable;
+//}
 
 void ImageButton::enterEvent(QEvent *e)
 {

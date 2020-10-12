@@ -335,8 +335,6 @@ void MainWindow::initConnections()
         Exporter::instance()->exportImage(paths);
     });
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
-//    connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
-//    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &MainWindow::onNewAPPOpen);
     connect(dApp, &Application::sigFinishLoad, this, &MainWindow::onLoadingFinished);
     //右下角滑动条
@@ -533,6 +531,10 @@ void MainWindow::initWaitDialog()
 void MainWindow::initTitleBar()
 {
     // TitleBar Button
+    if(m_titleBtnWidget){
+        delete  m_titleBtnWidget;
+        m_titleBtnWidget = nullptr;
+    }
     m_titleBtnWidget = new DWidget();
     btnGroup = new QButtonGroup();
     btnGroup->setExclusive(true);
@@ -698,11 +700,11 @@ void MainWindow::setWaitDialogColor()
     }
 }
 
-void MainWindow::onUpdateCentralWidget()
-{
-    emit dApp->signalM->hideExtensionPanel();
-    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-}
+//void MainWindow::onUpdateCentralWidget()
+//{
+//    emit dApp->signalM->hideExtensionPanel();
+//    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+//}
 
 //显示所有照片
 void MainWindow::allPicBtnClicked()
@@ -916,12 +918,6 @@ void MainWindow::onSearchEditFinished()
     }
 }
 
-//导入、删除图片时，更新图片总计数
-void MainWindow::onUpdateAllpicsNumLabel()
-{
-
-}
-
 //标题菜单导入照片槽函数
 void MainWindow::onImprotBtnClicked()
 {
@@ -1003,12 +999,12 @@ void MainWindow::onShowImageInfo(const QString &path)
 
 }
 
-void MainWindow::viewImageClose()
-{
-    if (bfirstandviewimage) {
-        exit(0);
-    }
-}
+//void MainWindow::viewImageClose()
+//{
+//    if (bfirstandviewimage) {
+//        exit(0);
+//    }
+//}
 
 void MainWindow::floatMessage(const QString &str, const QIcon &icon)
 {

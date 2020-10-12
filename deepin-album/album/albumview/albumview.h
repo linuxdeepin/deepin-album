@@ -75,7 +75,7 @@ private:
 
 public slots:
 //    void onLoadMountImagesStart(QString mountName, QString path);
-    void onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
+//    void onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
 
 signals:
     void sigFinishiLoad();
@@ -170,7 +170,7 @@ private:
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);        //拔掉外设移除
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
-    bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
+//    bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
     void initExternalDevice();
     void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath = QString());
     bool findPicturePathByPhone(QString &path);

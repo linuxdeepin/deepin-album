@@ -323,10 +323,10 @@ void ViewPanel::showFullScreen()
     emit dApp->signalM->sigShowFullScreen();
 }
 
-QFileInfoList ViewPanel::getFileInfos(const QString &path)
-{
-    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
-}
+//QFileInfoList ViewPanel::getFileInfos(const QString &path)
+//{
+//    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
+//}
 
 QWidget *ViewPanel::toolbarBottomContent()
 {
@@ -470,10 +470,10 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 //    return w;
 //}
 
-const SignalManager::ViewInfo ViewPanel::viewInfo() const
-{
-    return m_vinfo;
-}
+//const SignalManager::ViewInfo ViewPanel::viewInfo() const
+//{
+//    return m_vinfo;
+//}
 
 ImageView *ViewPanel::getImageView()
 {
@@ -728,18 +728,18 @@ void ViewPanel::removeCurrentImage()
     }
 }
 
-void ViewPanel::viewOnNewProcess(const QStringList &paths)
-{
-    const QString pro = "deepin-image-viewer";
-    QProcess *p = new QProcess;
-    connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
+//void ViewPanel::viewOnNewProcess(const QStringList &paths)
+//{
+//    const QString pro = "deepin-image-viewer";
+//    QProcess *p = new QProcess;
+//    connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
 
-    QStringList options;
-    for (QString path : paths) {
-        options << "-o" << path;
-    }
-    p->start(pro, options);
-}
+//    QStringList options;
+//    for (QString path : paths) {
+//        options << "-o" << path;
+//    }
+//    p->start(pro, options);
+//}
 
 void ViewPanel::initStack()
 {

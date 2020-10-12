@@ -232,18 +232,18 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     return true;
 }
 
-bool ImageEngineApi::imageNeedReload(QString imagepath)
-{
-    QMap<QString, ImageDataSt>::iterator it;
-    it = m_AllImageData.find(imagepath);
-    if (it == m_AllImageData.end()) {
-        return false;
-    }
-    ImageDataSt data = it.value();
-    data.loaded = ImageLoadStatu_False;
-    m_AllImageData[imagepath] = data;
-    return true;
-}
+//bool ImageEngineApi::imageNeedReload(QString imagepath)
+//{
+//    QMap<QString, ImageDataSt>::iterator it;
+//    it = m_AllImageData.find(imagepath);
+//    if (it == m_AllImageData.end()) {
+//        return false;
+//    }
+//    ImageDataSt data = it.value();
+//    data.loaded = ImageLoadStatu_False;
+//    m_AllImageData[imagepath] = data;
+//    return true;
+//}
 
 void ImageEngineApi::sltAborted(QString path)
 {
@@ -390,12 +390,12 @@ bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *o
 #endif
     return true;
 }
-bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
-{
-    sltImageDBLoaded(obj, QStringList() << path);
-    insertImage(path, "30");
-    return true;
-}
+//bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
+//{
+//    sltImageDBLoaded(obj, QStringList() << path);
+//    insertImage(path, "30");
+//    return true;
+//}
 
 bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName)
 {

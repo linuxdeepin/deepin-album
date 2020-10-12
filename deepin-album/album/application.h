@@ -87,7 +87,7 @@ signals:
 //    void sigLoadMountImagesStart(QString mountName, QString path);
 
 public slots:
-    void finishLoadSlot();
+//    void finishLoadSlot();
 private:
     void initChildren();
     void initI18n();

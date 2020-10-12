@@ -38,7 +38,6 @@ private:
     void initUI();
     void initMenu();
     void initConnections();
-    void updateMountListView();
     void showMenu(const QPoint &pos);
     void appendAction(int id, const QString &text, const QString &shortcut);
     QString getNewAlbumName();

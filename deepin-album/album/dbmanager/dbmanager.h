@@ -134,7 +134,7 @@ public:
     void                    removeAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom);
     void                    removeFromAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    renameAlbum(const QString &oldAlbum, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
-    void                    removeFromAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+//    void                    removeFromAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
     const QStringList       getAllTrashPaths() const;

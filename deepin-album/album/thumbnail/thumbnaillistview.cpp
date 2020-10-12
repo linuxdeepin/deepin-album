@@ -944,23 +944,23 @@ QStringList ThumbnailListView::getAllFileList()
     return m_allfileslist;
 }
 
-void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
-{
-    m_item = item;
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-}
+//void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
+//{
+//    m_item = item;
+//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//}
 
 void ThumbnailListView::setIBaseHeight(int iBaseHeight)
 {
     m_iBaseHeight = iBaseHeight;
 }
 
-void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
-{
-    m_scrollbartopdistance = topdistance;
-    m_scrollbarbottomdistance = bottomdistance;
-}
+//void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
+//{
+//    m_scrollbartopdistance = topdistance;
+//    m_scrollbarbottomdistance = bottomdistance;
+//}
 
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
@@ -1155,11 +1155,11 @@ DMenu *ThumbnailListView::createAlbumMenu()
 {
     DMenu *am = new DMenu(tr("Add to album"));
     QStringList albums = DBManager::instance()->getAllAlbumNames();
-    QAction *ac = new QAction(am);
-    ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("New album"));
-    ac->setData("Add to new album");
-    am->addAction(ac);
+    QAction *ac1 = new QAction(am);
+    ac1->setProperty("MenuID", IdAddToAlbum);
+    ac1->setText(tr("New album"));
+    ac1->setData("Add to new album");
+    am->addAction(ac1);
     am->addSeparator();
     for (QString album : albums) {
         QAction *ac = new QAction(am);
@@ -1490,11 +1490,11 @@ QModelIndexList ThumbnailListView::getSelectedIndexes()
     return selectedIndexes();
 }
 
-void ThumbnailListView::selectCurrent(int row)
-{
-    QModelIndex qindex = m_model->index(row, 0);
-    selectionModel()->select(qindex, QItemSelectionModel::Select);
-}
+//void ThumbnailListView::selectCurrent(int row)
+//{
+//    QModelIndex qindex = m_model->index(row, 0);
+//    selectionModel()->select(qindex, QItemSelectionModel::Select);
+//}
 
 int ThumbnailListView::getRow(QPoint point)
 {

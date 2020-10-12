@@ -54,7 +54,7 @@ public:
     QWidget *bottomTopLeftContent() ;
     QWidget *toolbarTopMiddleContent() override;
 //    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-    const SignalManager::ViewInfo viewInfo() const;
+//    const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
     {
         if (!m_ttbc) {
@@ -110,12 +110,12 @@ private:
     void initShortcut();
     void initStack();
     void initViewContent();
-    void popupDelDialog(const QString path);
+//    void popupDelDialog(const QString path);
     void popupPrintDialog(const QString path);
 
     // Floating component
     void initFloatingComponent();
-    void initSwitchButtons();
+//    void initSwitchButtons();
     void initScaleLabel();
     void initNavigation();
 
@@ -144,10 +144,10 @@ private:
     void showNormal();
     void showFullScreen();
 
-    void viewOnNewProcess(const QStringList &paths);
+//    void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
-    QFileInfoList getFileInfos(const QString &path);
+//    QFileInfoList getFileInfos(const QString &path);
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 

@@ -266,18 +266,18 @@ void ImageView::setImage(const QString &path)
     }
 }
 
-void ImageView::setRenderer(RendererType type)
-{
-    m_renderer = type;
+//void ImageView::setRenderer(RendererType type)
+//{
+//    m_renderer = type;
 
-    if (m_renderer == OpenGL) {
-#ifndef QT_NO_OPENGL
-        setViewport(new QOpenGLWidget());
-#endif
-    } else {
-        setViewport(new QWidget);
-    }
-}
+//    if (m_renderer == OpenGL) {
+//#ifndef QT_NO_OPENGL
+//        setViewport(new QOpenGLWidget());
+//#endif
+//    } else {
+//        setViewport(new QWidget);
+//    }
+//}
 
 void ImageView::setScaleValue(qreal v)
 {
@@ -503,14 +503,14 @@ bool ImageView::isFitWindow() const
     return m_isFitWindow;
 }
 
-void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
-{
-#ifndef QT_NO_OPENGL
-    setRenderHint(QPainter::HighQualityAntialiasing, highQualityAntialiasing);
-#else
-    Q_UNUSED(highQualityAntialiasing);
-#endif
-}
+//void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
+//{
+//#ifndef QT_NO_OPENGL
+//    setRenderHint(QPainter::HighQualityAntialiasing, highQualityAntialiasing);
+//#else
+//    Q_UNUSED(highQualityAntialiasing);
+//#endif
+//}
 
 void ImageView::onImgFileChanged(const QString &ddfFile, int tp)
 {
@@ -769,26 +769,26 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
 }
 
-void ImageView::swipeTriggered(QSwipeGesture *gesture)
-{
-    m_maxTouchPoints = 3;
-    if (gesture->state() == Qt::GestureFinished) {
-        if (gesture->horizontalDirection() == QSwipeGesture::Left
-                || gesture->verticalDirection() == QSwipeGesture::Up) {
-            emit nextRequested();
-        } else {
-            emit previousRequested();
-        }
-    }
+//void ImageView::swipeTriggered(QSwipeGesture *gesture)
+//{
+//    m_maxTouchPoints = 3;
+//    if (gesture->state() == Qt::GestureFinished) {
+//        if (gesture->horizontalDirection() == QSwipeGesture::Left
+//                || gesture->verticalDirection() == QSwipeGesture::Up) {
+//            emit nextRequested();
+//        } else {
+//            emit previousRequested();
+//        }
+//    }
 
-}
+//}
 
-void ImageView::updateImages(const QStringList &path)
-{
-    dApp->m_imageloader->updateImageLoader(path);
-    //等待svg图片转换完成后在加载
-    setImage(m_path);
-}
+//void ImageView::updateImages(const QStringList &path)
+//{
+//    dApp->m_imageloader->updateImageLoader(path);
+//    //等待svg图片转换完成后在加载
+//    setImage(m_path);
+//}
 
 void ImageView::wheelEvent(QWheelEvent *event)
 {
@@ -840,18 +840,18 @@ void CFileWatcher::addWather(const QString &path)
     }
 }
 
-void CFileWatcher::removePath(const QString &path)
-{
-    QMutexLocker loker(&_mutex);
-    if (!isVaild())
-        return;
-    auto itf = watchedFiles.find(path);
-    if (itf != watchedFiles.end()) {
-        inotify_rm_watch(_handleId, itf.value());
-        watchedFilesId.remove(itf.value());
-        watchedFiles.erase(itf);
-    }
-}
+//void CFileWatcher::removePath(const QString &path)
+//{
+//    QMutexLocker loker(&_mutex);
+//    if (!isVaild())
+//        return;
+//    auto itf = watchedFiles.find(path);
+//    if (itf != watchedFiles.end()) {
+//        inotify_rm_watch(_handleId, itf.value());
+//        watchedFilesId.remove(itf.value());
+//        watchedFiles.erase(itf);
+//    }
+//}
 
 void CFileWatcher::clear()
 {

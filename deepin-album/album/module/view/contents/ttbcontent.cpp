@@ -75,10 +75,10 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     m_animationTimer->setInterval(100);
 }
 
-bool MyImageListWidget::ifMouseLeftPressed()
-{
-    return bmouseleftpressed;
-}
+//bool MyImageListWidget::ifMouseLeftPressed()
+//{
+//    return bmouseleftpressed;
+//}
 
 QObject *MyImageListWidget::getObj()
 {
@@ -191,14 +191,14 @@ void MyImageListWidget::thumbnailIsMoving()
     if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 300) {
         return;
     }
-    int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
-    if (abs(offset) <= 32) {
+    int offsetLimit = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+    if (abs(offsetLimit) <= 32) {
         return;
     }
     int index = 0;
     QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
     if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
-        if (offset < 0) {
+        if (offsetLimit < 0) {
             index = m_selectItem->index() + 1;
             if (index >= list.size()) {
                 index = list.size() - 1;
@@ -377,8 +377,8 @@ void MyImageListWidget::animationTimerTimeOut()
     if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 300) {
         return;
     }
-    int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
-    if (abs(offset) <= 4) {
+    int offset1 = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+    if (abs(offset1) <= 4) {
         return;
     }
     if (m_animationTimerTOCount == 20) {
@@ -390,7 +390,7 @@ void MyImageListWidget::animationTimerTimeOut()
     int middle = this->geometry().width() / 2;
     if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
         qDebug() << "11111111";
-        if (offset < 0) {
+        if (offset1 < 0) {
             index = m_selectItem->index() + 1;
             if (index >= list.size()) {
                 index = list.size() - 1;
@@ -1316,34 +1316,34 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
 //    onResize();
 }
 
-void TTBContent::reLoad()
-{
-    clearAndStopThread();
+//void TTBContent::reLoad()
+//{
+//    clearAndStopThread();
 
-    m_ItemLoaded.clear();
-    m_filesbeleft.clear();
-    m_filesbeleft << m_allfileslist;
-    m_requestCount = 0;
+//    m_ItemLoaded.clear();
+//    m_filesbeleft.clear();
+//    m_filesbeleft << m_allfileslist;
+//    m_requestCount = 0;
 
-    if (m_allfileslist.size() <= 3) {
-        m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-    } else {
-        m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-    }
-    m_allNeedRequestFilesCount = m_allfileslist.size();
-    QLayoutItem *child;
-    while ((child = m_imglayout->takeAt(0)) != nullptr) {
-        m_imglayout->removeWidget(child->widget());
-        child->widget()->setParent(nullptr);
-        delete child;
+//    if (m_allfileslist.size() <= 3) {
+//        m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//    } else {
+//        m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//    }
+//    m_allNeedRequestFilesCount = m_allfileslist.size();
+//    QLayoutItem *child;
+//    while ((child = m_imglayout->takeAt(0)) != nullptr) {
+//        m_imglayout->removeWidget(child->widget());
+//        child->widget()->setParent(nullptr);
+//        delete child;
 
-    }
-    if (m_filesbeleft.size() > 0) {
-        requestSomeImages();
-    }
-}
+//    }
+//    if (m_filesbeleft.size() > 0) {
+//        requestSomeImages();
+//    }
+//}
 
 void TTBContent::stopLoadAndClear()
 {

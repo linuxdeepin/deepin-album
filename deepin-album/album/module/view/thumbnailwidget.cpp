@@ -43,8 +43,8 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
 {
 
 //    m_picString = "";
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::DarkType) {
+    DGuiApplicationHelper::ColorType themeType1 = DGuiApplicationHelper::instance()->themeType();
+    if (themeType1 == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_IMPORT_PHOTO_DARK;
         m_theme = true;
     } else {
@@ -52,8 +52,8 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
         m_theme = false;
     }
 
-    QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
-    m_logo = logo_pix;
+    QPixmap logo_pix1 = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
+    m_logo = logo_pix1;
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -156,10 +156,10 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
     update();
 }
 
-bool ThumbnailWidget::isDefaultThumbnail()
-{
-    return m_isDefaultThumbnail;
-}
+//bool ThumbnailWidget::isDefaultThumbnail()
+//{
+//    return m_isDefaultThumbnail;
+//}
 
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {

@@ -353,9 +353,9 @@ void AlbumView::initConnections()
     connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, [ = ](const QString & blks) {
 //        qDebug() << "--------------blks:" << blks;
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
-        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
+        QScopedPointer<DDiskDevice> drv1(DDiskManager::createDiskDevice(blk->drive()));
 
-        if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+        if (!blk->hasFileSystem() && !drv1->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
             return;
         }
         if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
@@ -1860,9 +1860,9 @@ void AlbumView::getAllDeviceName()
     QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
     for (const QString &blks : blDevList) {
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
-        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
+        QScopedPointer<DDiskDevice> drv1(DDiskManager::createDiskDevice(blk->drive()));
 
-        if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+        if (!blk->hasFileSystem() && !drv1->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
             continue;
         }
         if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
@@ -2028,41 +2028,41 @@ void AlbumView::importComboBoxChange(QString strText)
     }
 }
 
-bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList)
-{
-    //判断路径是否存在
-    QDir dir(path);
-    if (!dir.exists()) return false;
+//bool AlbumView::findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList)
+//{
+//    //判断路径是否存在
+//    QDir dir(path);
+//    if (!dir.exists()) return false;
 
-    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-    if (!path.contains("/media/")) {
-        bool bFind = findPicturePathByPhone(path);
-        if (!bFind) return  false;
-    }
+//    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+//    if (!path.contains("/media/")) {
+//        bool bFind = findPicturePathByPhone(path);
+//        if (!bFind) return  false;
+//    }
 
-    //获取所选文件类型过滤器
-    QStringList filters;
-    filters << QString("*.jpeg") << QString("*.jpg")
-            << QString("*.JPEG") << QString("*.JPG");
+//    //获取所选文件类型过滤器
+//    QStringList filters;
+//    filters << QString("*.jpeg") << QString("*.jpg")
+//            << QString("*.JPEG") << QString("*.JPG");
 
-    //定义迭代器并设置过滤器
-    QDirIterator dir_iterator(path,
-                              filters,
-                              QDir::Files | QDir::NoSymLinks,
-                              QDirIterator::Subdirectories);
-    QStringList string_list;
-    while (dir_iterator.hasNext()) {
-        dir_iterator.next();
-        QFileInfo fileInfo = dir_iterator.fileInfo();
-        ThumbnailListView::ItemInfo vi;
-        vi.name = fileInfo.fileName();
-        vi.path = fileInfo.filePath();
-        vi.image = m_phonePicMap.value(fileInfo.filePath());
-        thumbnaiItemList << vi;
-    }
+//    //定义迭代器并设置过滤器
+//    QDirIterator dir_iterator(path,
+//                              filters,
+//                              QDir::Files | QDir::NoSymLinks,
+//                              QDirIterator::Subdirectories);
+//    QStringList string_list;
+//    while (dir_iterator.hasNext()) {
+//        dir_iterator.next();
+//        QFileInfo fileInfo = dir_iterator.fileInfo();
+//        ThumbnailListView::ItemInfo vi;
+//        vi.name = fileInfo.fileName();
+//        vi.path = fileInfo.filePath();
+//        vi.image = m_phonePicMap.value(fileInfo.filePath());
+//        thumbnaiItemList << vi;
+//    }
 
-    return true;
-}
+//    return true;
+//}
 
 void AlbumView::initExternalDevice()
 {
@@ -2572,14 +2572,14 @@ MountLoader::MountLoader(AlbumView *parent)
 
 }
 
-void MountLoader::onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths)
-{
-    for (int i = 0; i < phonepaths.length(); i++) {
-        if (QFile::copy(phonepaths[i], systempaths[i])) {
-            qDebug() << "onCopyPhotoFromPhone()";
-        }
-    }
-}
+//void MountLoader::onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths)
+//{
+//    for (int i = 0; i < phonepaths.length(); i++) {
+//        if (QFile::copy(phonepaths[i], systempaths[i])) {
+//            qDebug() << "onCopyPhotoFromPhone()";
+//        }
+//    }
+//}
 
 //搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
 //经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下

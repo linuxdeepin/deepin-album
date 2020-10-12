@@ -359,8 +359,8 @@ void ImgInfoDialog::initExpand(QVBoxLayout *layout, DDrawer *expand)
 {
     expand->setFixedHeight(30);
     QMargins cm = layout->contentsMargins();
-    QRect rc = contentsRect();
-    expand->setFixedWidth(rc.width() - cm.left() - cm.right());
+    QRect rc1 = contentsRect();
+    expand->setFixedWidth(rc1.width() - cm.left() - cm.right());
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);

@@ -78,7 +78,7 @@ private:
     void loadWindowState();
     void saveZoomRatio();
     bool compareVersion();
-    void viewImageClose();
+//    void viewImageClose();
     void floatMessage(const QString &str, const QIcon &icon);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -98,9 +98,8 @@ public slots:
 #endif
     void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);
-    void onUpdateAllpicsNumLabel();
     void onImprotBtnClicked();
-    void onUpdateCentralWidget();
+//    void onUpdateCentralWidget();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
     void onLoadingFinished();
 private:

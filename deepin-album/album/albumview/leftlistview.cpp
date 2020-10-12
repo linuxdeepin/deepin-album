@@ -428,11 +428,6 @@ void LeftListView::updateCustomizeListView()
     }
 }
 
-void LeftListView::updateMountListView()
-{
-
-}
-
 void LeftListView::initMenu()
 {
     m_pMenu = new DMenu(this);

@@ -62,9 +62,8 @@ private:
     void initWidgets();
     QString  geteElidedText(QFont font, QString str, int MaxWidth);
 private slots:
-    void onHelp();
-    void onViewShortcut();
-    void onDeepColorMode();
+//    void onHelp();
+//    void onDeepColorMode();
 private:
     QColor m_coverBrush;
     QColor m_topBorderColor;

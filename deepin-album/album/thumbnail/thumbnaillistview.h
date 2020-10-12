@@ -122,8 +122,8 @@ public:
     void insertThumbnail(const ItemInfo &iteminfo);
     void stopLoadAndClear(bool bClearModel = true);    //为true则清除模型中的数据
     QStringList getAllFileList();
-    void setVScrollbarDistance(int topdistance, int bottomdistance);
-    void setListWidgetItem(QListWidgetItem *item);
+//    void setVScrollbarDistance(int topdistance, int bottomdistance);
+//    void setListWidgetItem(QListWidgetItem *item);
     void setIBaseHeight(int iBaseHeight);
     bool checkResizeNum();
     bool isLoading();
@@ -139,7 +139,7 @@ public:
     void menuItemDeal(QStringList paths, QAction *action);
     QModelIndexList getSelectedIndexes();
     int getListViewHeight();     //add 3975
-    void selectCurrent(int row);
+//    void selectCurrent(int row);
     int getRow(QPoint point);
     void selectRear(int row);
     void selectFront(int row);
