@@ -533,6 +533,10 @@ void MainWindow::initWaitDialog()
 void MainWindow::initTitleBar()
 {
     // TitleBar Button
+    if(m_titleBtnWidget){
+        delete  m_titleBtnWidget;
+        m_titleBtnWidget = nullptr;
+    }
     m_titleBtnWidget = new DWidget();
     btnGroup = new QButtonGroup();
     btnGroup->setExclusive(true);
