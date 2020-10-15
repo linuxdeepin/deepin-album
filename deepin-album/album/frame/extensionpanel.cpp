@@ -45,9 +45,9 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     this->setWindowTitle(tr("Photo info"));
     DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Medium);
 
-    m_contentLayout = new QVBoxLayout(this);
+//    m_contentLayout = new QVBoxLayout(this);
 //    m_contentLayout->setContentsMargins(10, 0, 10, 0);
-    m_contentLayout->setSpacing(0);
+//    m_contentLayout->setSpacing(0);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
     setFixedHeight(540);
     setContentLayoutContentsMargins(QMargins(0, 0, 0, 0));
@@ -66,7 +66,7 @@ void ExtensionPanel::setContent(QWidget *content)
 {
     if (content) {
         QLayoutItem *child;
-        if ((child = m_contentLayout->takeAt(0)) != nullptr) {
+        if ((child = this->layout()->takeAt(0)) != nullptr) {
             if (child->widget())
                 child->widget()->deleteLater();
             delete child;

@@ -531,7 +531,7 @@ void MainWindow::initWaitDialog()
 void MainWindow::initTitleBar()
 {
     // TitleBar Button
-    if(m_titleBtnWidget){
+    if (m_titleBtnWidget) {
         delete  m_titleBtnWidget;
         m_titleBtnWidget = nullptr;
     }
@@ -935,7 +935,7 @@ void MainWindow::onImprotBtnClicked()
         pictureFolder = QDir::currentPath();
     }
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
-    DFileDialog dialog;
+    DFileDialog dialog(this);
     dialog.setFileMode(DFileDialog::ExistingFiles);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
