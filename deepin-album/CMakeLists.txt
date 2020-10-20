@@ -242,6 +242,9 @@ if(DOTEST)
         COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
         COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
         COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
+
+        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
+
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
     #'make test'命令依赖与我们的测试程序
