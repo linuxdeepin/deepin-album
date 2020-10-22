@@ -159,7 +159,7 @@ AlbumView::AlbumView()
     pvLayout->addWidget(m_pLeftListView);
 
     QHBoxLayout *pLayout = new QHBoxLayout();
-    pLayout->setContentsMargins(0, 0, 0, 0);
+    pLayout->setContentsMargins(5, 0, 0, 0);
     pLayout->addWidget(leftwidget);
     pLayout->addWidget(m_pRightWidget);
     fatherwidget->setLayout(pLayout);
