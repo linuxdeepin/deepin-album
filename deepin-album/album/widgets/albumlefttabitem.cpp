@@ -54,9 +54,16 @@ void AlbumLeftTabItem::initUI()
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(24, 24));
         pImageLabel->setPixmap(pixmap);
     } else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
-        QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal.svg", QSize(24, 24));
-        pImageLabel->setPixmap(pixmap);
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::LightType) {
+            QPixmap pixmap;
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal.svg", QSize(24, 24));
+            pImageLabel->setPixmap(pixmap);
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
+            QPixmap pixmap;
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal_dark.svg", QSize(24, 24));
+            pImageLabel->setPixmap(pixmap);
+        }
     } else if (COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr) {
         QPixmap pixmap;
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(24, 24));
