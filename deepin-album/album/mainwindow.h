@@ -18,7 +18,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFrame>
-#include <DSegmentedControl>
+//#include <DSegmentedControl>
 #include <DTitlebar>
 #include <QStackedWidget>
 #include <DSearchEdit>
@@ -46,10 +46,6 @@ extern bool bfirstandviewimage;
 //namespace Ui {
 //class MainWindow;
 //}
-
-
-
-
 class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT
@@ -82,7 +78,7 @@ private:
     void loadWindowState();
     void saveZoomRatio();
     bool compareVersion();
-    void viewImageClose();
+//    void viewImageClose();
     void floatMessage(const QString &str, const QIcon &icon);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -102,9 +98,8 @@ public slots:
 #endif
     void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);
-    void onUpdateAllpicsNumLabel();
     void onImprotBtnClicked();
-    void onUpdateCentralWidget();
+//    void onUpdateCentralWidget();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
     void onLoadingFinished();
 private:
@@ -113,9 +108,7 @@ private:
     bool m_bImport = false;
     QWidget *m_titleBtnWidget;
     DMenu *m_pTitleBarMenu;
-    DSearchEdit *m_pSearchEdit;
-    QStackedWidget *m_pCenterWidget;
-    CommandLine *m_commandLine;
+    QStackedWidget *m_pCenterWidget = nullptr;
 public:
     AlbumView *m_pAlbumview;                    //相册照片界面视图
     QWidget *m_pAlbumWidget;
@@ -125,6 +118,8 @@ public:
     SearchView *m_pSearchView;                  //搜索界面视图
     QWidget *m_pSearchViewWidget = nullptr;
     SlideShowPanel *m_slidePanel;               //幻灯片播放视图
+    DSearchEdit *m_pSearchEdit;
+    CommandLine *m_commandLine;
 private:
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};

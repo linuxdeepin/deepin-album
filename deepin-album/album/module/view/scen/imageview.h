@@ -53,7 +53,7 @@ class ImageView : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL };
 
-    ImageView(QWidget *parent = nullptr);
+    explicit ImageView(QWidget *parent = nullptr);
     ~ImageView() override;
     void clear();
     void fitWindow();
@@ -62,7 +62,7 @@ public:
     void rotateCounterclockwise();
     void centerOn(qreal x, qreal y);
     void setImage(const QString &path);
-    void setRenderer(RendererType type = Native);
+//    void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
     void autoFit();
@@ -96,10 +96,11 @@ signals:
     void disCheckAdaptScreenBtn();
     void checkAdaptImageBtn();
     void checkAdaptScreenBtn();
+    void sigFIleDelete();
 
 
 public slots:
-    void setHighQualityAntialiasing(bool highQualityAntialiasing);
+//    void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void onImgFileChanged(const QString &ddfFile, int tp);
 
 protected:
@@ -118,13 +119,11 @@ protected:
 private slots:
     void onCacheFinish();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
     void scaleAtPoint(QPoint pos, qreal factor);
-
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
-    void swipeTriggered(QSwipeGesture *gesture);
-    void updateImages(const QStringList &path);
+//    void swipeTriggered(QSwipeGesture *gesture);
+//    void updateImages(const QStringList &path);
 private:
     bool m_isFitImage = false;
     bool m_isFitWindow = false;
@@ -140,7 +139,6 @@ private:
     CFileWatcher *m_imgFileWatcher;
     QTimer *m_isChangedTimer;
 
-    ImageRotateThreadControler *m_rotateControler;
     bool m_isFirstPinch = false;
     QPointF m_centerPoint;
     QTimer *m_loadTimer = nullptr;
@@ -155,13 +153,13 @@ class CFileWatcher: public QThread
 public:
     enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
 
-    CFileWatcher(QObject *parent = nullptr);
+    explicit CFileWatcher(QObject *parent = nullptr);
     ~CFileWatcher();
 
     bool isVaild();
 
     void addWather(const QString &path);
-    void removePath(const QString &path);
+//    void removePath(const QString &path);
 
     void clear();
 

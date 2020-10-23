@@ -55,6 +55,10 @@ class ThumbnailListView : public DListView, public ImageEngineObject
     Q_OBJECT
 
 public:
+    enum ListViewUseFor {
+        Normal,//
+        Mount,//phone
+    };
     enum MenuItemId {
         IdView,
         IdFullScreen,
@@ -112,14 +116,14 @@ public:
     void loadFilesFromLocal(DBImgInfoList files, bool needcache = true, bool needcheck = true);
     void loadFilesFromTrash(DBImgInfoList files);
     void loadFilesFromDB(QString name = "", int loadCount = 0);
-    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
-    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
-    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
+    bool imageLocalLoaded(QStringList &filelist) override;
+    bool imageFromDBLoaded(QStringList &filelist) override;
+    bool imageLoaded(QString filepath) override;
     void insertThumbnail(const ItemInfo &iteminfo);
     void stopLoadAndClear(bool bClearModel = true);    //为true则清除模型中的数据
     QStringList getAllFileList();
-    void setVScrollbarDistance(int topdistance, int bottomdistance);
-    void setListWidgetItem(QListWidgetItem *item);
+//    void setVScrollbarDistance(int topdistance, int bottomdistance);
+//    void setListWidgetItem(QListWidgetItem *item);
     void setIBaseHeight(int iBaseHeight);
     bool checkResizeNum();
     bool isLoading();
@@ -135,7 +139,7 @@ public:
     void menuItemDeal(QStringList paths, QAction *action);
     QModelIndexList getSelectedIndexes();
     int getListViewHeight();     //add 3975
-    void selectCurrent(int row);
+//    void selectCurrent(int row);
     int getRow(QPoint point);
     void selectRear(int row);
     void selectFront(int row);
@@ -144,6 +148,7 @@ public:
     void clearSelectionFront(int row);
     void clearSelectionExtent(int start, int end);
     void resizeHand();  //手动发送信号，计算大小
+    void setListViewUseFor(ListViewUseFor usefor);
 signals:
 //    void loadend(int);
     void needResize(int);
@@ -235,6 +240,7 @@ private:
     void updateThumbnaillistview();
 
 public:
+    ListViewUseFor m_useFor = Normal;
     QString m_imageType;
     QStandardItemModel *m_model = nullptr;
 

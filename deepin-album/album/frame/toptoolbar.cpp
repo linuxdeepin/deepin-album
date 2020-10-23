@@ -155,29 +155,25 @@ void TopToolbar::initMenu()
     m_menu->addSeparator();
 }
 
-void TopToolbar::onViewShortcut()
-{
-}
+//void TopToolbar::onHelp()
+//{
+//    if (m_manualPro.isNull()) {
+//        const QString pro = "dman";
+//        const QStringList args("deepin-image-viewer");
+//        m_manualPro = new QProcess(this);
+//        connect(m_manualPro.data(), SIGNAL(finished(int)),
+//                m_manualPro.data(), SLOT(deleteLater()));
+//        m_manualPro->start(pro, args);
+//    }
+//}
 
-void TopToolbar::onHelp()
-{
-    if (m_manualPro.isNull()) {
-        const QString pro = "dman";
-        const QStringList args("deepin-image-viewer");
-        m_manualPro = new QProcess(this);
-        connect(m_manualPro.data(), SIGNAL(finished(int)),
-                m_manualPro.data(), SLOT(deleteLater()));
-        m_manualPro->start(pro, args);
-    }
-}
-
-void TopToolbar::onDeepColorMode()
-{
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        dApp->viewerTheme->setCurrentTheme(
-            ViewerThemeManager::Light);
-    } else {
-        dApp->viewerTheme->setCurrentTheme(
-            ViewerThemeManager::Dark);
-    }
-}
+//void TopToolbar::onDeepColorMode()
+//{
+//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+//        dApp->viewerTheme->setCurrentTheme(
+//            ViewerThemeManager::Light);
+//    } else {
+//        dApp->viewerTheme->setCurrentTheme(
+//            ViewerThemeManager::Dark);
+//    }
+//}

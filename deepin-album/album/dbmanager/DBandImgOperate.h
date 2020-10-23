@@ -19,8 +19,8 @@
 
 // ImageTable
 ///////////////////////////////////////////////////////
-//FilePath           | FileName | Dir        | Time | ChangeTime //
-//TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT //
+//FilePath           | FileName | Dir        | Time | ChangeTime | ImportTime //
+//TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT       | TEXT       //
 ///////////////////////////////////////////////////////
 
 // AlbumTable
@@ -49,17 +49,18 @@ public slots:
     void     setThreadShouldStop();
     //获取全部相片信息
     void     getAllInfos();
-    void     getFirst80ImgInfos(DBImgInfoList &infos);
     //产生缩略图
-    void     generateThumbnails(DBImgInfoList list);
     //加载一张缩略图
     ImageDataSt     loadOneThumbnail(QString imagepath/*, ImageDataSt data*/);
-    void     threadSltLoad80Thumbnail();
+    void     threadSltLoad80Thumbnail(DBImgInfoList infos);
 signals:
     void sig80ImgInfosReady(QMap<QString, ImageDataSt> imageDatas);
     void sigAllImgInfosReady(DBImgInfoList);
     void loadOneThumbnailReady(QString imagepath, ImageDataSt data);
     void fileIsNotExist(QString imagepath);
+public:
+    int m_loadBegin = 0;
+    int m_loadEnd = 0;
 private:
     QStringList m_ImgPaths;
     std::atomic<bool> m_couldRun;

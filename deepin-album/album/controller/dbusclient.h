@@ -32,13 +32,12 @@ public:
     { return "com.deepin.Draw"; }
 
 public:
-    dbusclient(QObject *parent = nullptr);
+    explicit dbusclient(QObject *parent = nullptr);
     ~dbusclient();
 
 
 
 public Q_SLOTS:
-    void propertyChanged(const QDBusMessage &msg);
     /*
     * @bref:openFiles 通过路径打开图片文件
     * @param: filePaths 图片的路径

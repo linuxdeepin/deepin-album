@@ -33,7 +33,7 @@ const int VIEW_MAINWINDOW_ALLPIC = 0;
 
 AllPicView::AllPicView()
     : m_pStackedWidget(nullptr), m_pStatusBar(nullptr), m_pwidget(nullptr)
-    , step(0), m_pThumbnailListView(nullptr), m_pImportView(nullptr)
+    , step(0), m_pImportView(nullptr), m_pThumbnailListView(nullptr)
     , m_pSearchView(nullptr), m_spinner(nullptr), fatherwidget(nullptr)
 {
     setAcceptDrops(true);
@@ -42,9 +42,10 @@ AllPicView::AllPicView()
     m_pStackedWidget = new DStackedWidget(this);
     m_pImportView = new ImportView();
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType);
+    m_pThumbnailListView->setObjectName("allPicThumbnailListView");
     DWidget *pThumbnailListView = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
-    m_mainLayout->setContentsMargins(8, 0, 0, 0);
+    m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->addWidget(m_pThumbnailListView);
     pThumbnailListView->setLayout(m_mainLayout);
     m_pSearchView = new SearchView();
@@ -58,13 +59,17 @@ AllPicView::AllPicView()
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(2, 0, 0, 0);
+    pVBoxLayout->setContentsMargins(0, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     fatherwidget->setLayout(pVBoxLayout);
     initConnections();
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
+    QLayout *pAllPicViewLayout = new QVBoxLayout();
+    pAllPicViewLayout->setContentsMargins(10,0,0,0);
+	pAllPicViewLayout->addWidget(fatherwidget);
+    this->setLayout(pAllPicViewLayout);
     connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish,
             this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
     connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded,
@@ -272,20 +277,6 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
-}
-
-void AllPicView::updatePicsIntoThumbnailViewWithCache80()
-{
-    m_spinner->hide();
-    m_spinner->stop();
-    m_pThumbnailListView->stopLoadAndClear();
-    m_pThumbnailListView->loadFilesFromDB("", 80);
-    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        //donothing
-    } else {
-        updateStackedWidget();
-    }
-    restorePicNum();
 }
 
 void AllPicView::updatePicNum()

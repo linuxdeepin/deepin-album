@@ -18,6 +18,7 @@
 //#include "dbmanager/dbmanager.h"
 #include "exporter.h"
 #include "utils/imageutils.h"
+#include "utils/unionimage.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -62,19 +63,20 @@ void Exporter::exportImage(const QStringList imagePaths)
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
 
-//        QString str = info.suffix().toLower();
-//        if (str.isEmpty()) {
         if (mt.name().startsWith("image/gif")) {
             m_exportImageDialog->setGifType(imagePaths.at(0));
         }
-//        } else {
-//            if (mt1.name().startsWith("image/gif")) {
-//                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-//                    m_exportImageDialog->setGifType();
-//                }
-//            }
-//        }
-        QPixmap pixmap(imagePaths.at(0));
+
+        QImage tImg;
+        QString errMsg;
+        QPixmap pixmap;
+        using namespace UnionImage_NameSpace;
+        if (!loadStaticImageFromFile(imagePaths.at(0), tImg, errMsg)) {
+            qDebug() << errMsg;
+            pixmap = QPixmap::fromImage(tImg);
+        } else {
+            pixmap = QPixmap::fromImage(tImg);
+        }
         m_exportImageDialog->showMe(pixmap);
     } else {
         popupDialogSaveImage(imagePaths);
@@ -188,20 +190,20 @@ void Exporter::initValidFormatMap()
 
 }
 
-QString Exporter::getOrderFormat(QString defaultFormat)
-{
-    QString allFormat = "";
-    QMap<QString, QString>::const_iterator i = m_picFormatMap.constBegin();
-    while (i != m_picFormatMap.constEnd()) {
-        if (i.key() == defaultFormat)
-            allFormat = QString("%1;;%2").arg(m_picFormatMap.value(defaultFormat)).arg(allFormat);
-        else if (i == m_picFormatMap.constEnd() - 1)
-            allFormat = QString("%1%2").arg(allFormat).arg(i.value());
-        else
-            allFormat = QString("%1%2;;").arg(allFormat).arg(i.value());
+//QString Exporter::getOrderFormat(QString defaultFormat)
+//{
+//    QString allFormat = "";
+//    QMap<QString, QString>::const_iterator i = m_picFormatMap.constBegin();
+//    while (i != m_picFormatMap.constEnd()) {
+//        if (i.key() == defaultFormat)
+//            allFormat = QString("%1;;%2").arg(m_picFormatMap.value(defaultFormat)).arg(allFormat);
+//        else if (i == m_picFormatMap.constEnd() - 1)
+//            allFormat = QString("%1%2").arg(allFormat).arg(i.value());
+//        else
+//            allFormat = QString("%1%2;;").arg(allFormat).arg(i.value());
 
-        ++i;
-    }
+//        ++i;
+//    }
 
-    return allFormat;
-}
+//    return allFormat;
+//}

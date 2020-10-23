@@ -11,16 +11,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-#设置是否执行测试
-option(DOTEST "option for test" OFF)
-
-# 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-
 if(DOTEST)
-set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras Test)
+    # 添加gocv覆盖率文件的输出
+    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
 else()
-set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras)
+    set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools)
 endif()
 #先查找到这些qt相关的模块以供链接使用
 find_package(Qt5 REQUIRED ${QtModule})
@@ -149,10 +145,13 @@ set(AllQRC
     album/frame/frametheme.qrc
     album/module/view/viewtheme.qrc
     album/widgets/widgetstheme.qrc)
-set(TargetTsFiles
-    translations/deepin-album_zh_CN.ts
-    translations/deepin-album.ts
-    )
+file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${CMD_NAME}*.ts)
+#set(TargetTsFiles
+#    translations/deepin-album_zh_HK.ts
+#    translations/deepin-album_zh_TW.ts
+#    translations/deepin-album_zh_CN.ts
+#    translations/deepin-album.ts
+#    )
 
 
 
@@ -171,8 +170,8 @@ link_directories(${LINK_DIR})
 #link_libraries(UnionImage)
 #target_include_directories(${PROJECT_NAME} PUBLIC ${LINK_DIR})
 
-
 add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs} "./album/main.cpp")
+
 add_compile_definitions(LITE_DIV)
 
 #------------------------------ 配置test ---------------------------------------
@@ -180,6 +179,9 @@ add_compile_definitions(LITE_DIV)
 if(DOTEST)
     SET(PROJECT_NAME_TEST
         ${PROJECT_NAME}_test)
+    FILE (GLOB allTestHeaders
+        "./tests/*.h"
+        )
     FILE(GLOB allTestSource
         "./tests/*.cpp"
         "./tests/application.cpp"
@@ -204,8 +206,13 @@ if(DOTEST)
         "./tests/widgets/*.cpp"
         "./tests/widgets/dialogs/*.cpp"
         )
+
+    # 定义测试资源文件
+    set(AllTestQRC
+        ./tests/testResource/testResource.qrc)
+
     add_subdirectory(tests/googletest)
-    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allSource} ${allTestSource})
+    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allTestHeaders} ${AllTestQRC} ${allSource} ${allTestSource})
     target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
 
     # 添加 QTest 测试
@@ -235,6 +242,9 @@ if(DOTEST)
         COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
         COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
         COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
+
+        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
+
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
     #'make test'命令依赖与我们的测试程序
@@ -265,7 +275,7 @@ if(DOTEST)
 endif()
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} pthread)
+#target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} pthread)
 
 if(DOTEST)
     target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})
@@ -310,3 +320,6 @@ install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${ManIco
 # install App icon
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${AppIconDir})
 
+#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")

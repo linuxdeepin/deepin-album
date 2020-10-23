@@ -41,7 +41,7 @@ private:
     QMap<QString, QString> m_picFormatMap;
 
     void initValidFormatMap();
-    QString getOrderFormat(QString defaultFormat);
+//    QString getOrderFormat(QString defaultFormat);
 
 private:
 

@@ -49,16 +49,15 @@ MainWindow::MainWindow()
     , m_bImport(false)
     , m_titleBtnWidget(nullptr)
     , m_pTitleBarMenu(nullptr)
-    , m_pSearchEdit(nullptr)
     , m_pCenterWidget(nullptr)
-    , m_commandLine(nullptr)
     , m_pAlbumview(nullptr)
     , m_pAlbumWidget(nullptr)
     , m_pAllPicView(nullptr)
     , m_pTimeLineView(nullptr)
     , m_pTimeLineWidget(nullptr)
     , m_pSearchView(nullptr)
-//    , m_slidePanel(nullptr)
+    , m_pSearchEdit(nullptr)
+    , m_commandLine(nullptr)
     , m_pDBManager(nullptr)
     , m_backIndex(0)
     , m_backIndex_fromSlide(0)
@@ -127,6 +126,7 @@ void MainWindow::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+        Q_UNUSED(themeType);
         setWaitDialogColor();
     });
     //主界面切换（所有照片、时间线、相册）
@@ -335,8 +335,6 @@ void MainWindow::initConnections()
         Exporter::instance()->exportImage(paths);
     });
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
-//    connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
-//    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &MainWindow::onUpdateAllpicsNumLabel);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &MainWindow::onNewAPPOpen);
     connect(dApp, &Application::sigFinishLoad, this, &MainWindow::onLoadingFinished);
     //右下角滑动条
@@ -533,6 +531,10 @@ void MainWindow::initWaitDialog()
 void MainWindow::initTitleBar()
 {
     // TitleBar Button
+    if (m_titleBtnWidget) {
+        delete  m_titleBtnWidget;
+        m_titleBtnWidget = nullptr;
+    }
     m_titleBtnWidget = new DWidget();
     btnGroup = new QButtonGroup();
     btnGroup->setExclusive(true);
@@ -698,11 +700,11 @@ void MainWindow::setWaitDialogColor()
     }
 }
 
-void MainWindow::onUpdateCentralWidget()
-{
-    emit dApp->signalM->hideExtensionPanel();
-    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-}
+//void MainWindow::onUpdateCentralWidget()
+//{
+//    emit dApp->signalM->hideExtensionPanel();
+//    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
+//}
 
 //显示所有照片
 void MainWindow::allPicBtnClicked()
@@ -723,10 +725,9 @@ void MainWindow::allPicBtnClicked()
 //显示时间线照片
 void MainWindow::timeLineBtnClicked()
 {
-    int index = 0;
     if (nullptr == m_pTimeLineView) {
         m_pCenterWidget->removeWidget(m_pTimeLineWidget);
-        index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+        int index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
         m_pTimeLineView = new TimeLineView();
         m_pCenterWidget->insertWidget(index, m_pTimeLineView);
     }
@@ -744,8 +745,8 @@ void MainWindow::timeLineBtnClicked()
 //显示相册
 void MainWindow::albumBtnClicked()
 {
-    int index = 0;
     if (nullptr == m_pAlbumview) {
+        int index = 0;
         if (nullptr == m_pTimeLineView) {
             m_pCenterWidget->removeWidget(m_pTimeLineWidget);
             index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
@@ -818,7 +819,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
         emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
-        QString str = "Create Album “%1” successfully";
+        QString str = tr("Successfully added to “%1”");
         floatMessage(str.arg(d->getCreateAlbumName()), icon);
     });
 }
@@ -917,12 +918,6 @@ void MainWindow::onSearchEditFinished()
     }
 }
 
-//导入、删除图片时，更新图片总计数
-void MainWindow::onUpdateAllpicsNumLabel()
-{
-
-}
-
 //标题菜单导入照片槽函数
 void MainWindow::onImprotBtnClicked()
 {
@@ -940,7 +935,7 @@ void MainWindow::onImprotBtnClicked()
         pictureFolder = QDir::currentPath();
     }
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
-    DFileDialog dialog;
+    DFileDialog dialog(this);
     dialog.setFileMode(DFileDialog::ExistingFiles);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
@@ -990,7 +985,8 @@ void MainWindow::onShowImageInfo(const QString &path)
             m_propertyDialogs.remove(path);
         });
     } else {
-        dialog = new ImgInfoDialog(path);
+        dialog = new ImgInfoDialog(path, this);
+        dialog->setObjectName("ImgInfoDialog");
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
@@ -1003,12 +999,12 @@ void MainWindow::onShowImageInfo(const QString &path)
 
 }
 
-void MainWindow::viewImageClose()
-{
-    if (bfirstandviewimage) {
-        exit(0);
-    }
-}
+//void MainWindow::viewImageClose()
+//{
+//    if (bfirstandviewimage) {
+//        exit(0);
+//    }
+//}
 
 void MainWindow::floatMessage(const QString &str, const QIcon &icon)
 {
@@ -1116,10 +1112,8 @@ void MainWindow::showEvent(QShowEvent *event)
     }
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
-
-            int index = 0;
             if (nullptr == m_pSearchView) {
-                index = m_pCenterWidget->indexOf(m_pSearchViewWidget);
+                int index = m_pCenterWidget->indexOf(m_pSearchViewWidget);
                 m_pSearchView = new SearchView();
                 m_pCenterWidget->insertWidget(index, m_pSearchView);
                 m_pCenterWidget->removeWidget(m_pSearchViewWidget);
@@ -1149,6 +1143,7 @@ void MainWindow::saveWindowState()
     m_settings->setValue("album-geometry", saveGeometry());
     m_settings->setValue("album-isMaximized", isMaximized());
     m_settings->setValue("album-version", VERSION);
+    saveZoomRatio();
 }
 
 //加载主界面状态（上次退出时）
@@ -1172,8 +1167,6 @@ void MainWindow::loadWindowState()
                 if (isMaximized) {
                     resize(1300, 848);
                     Dtk::Widget::moveToCenter(this);
-                    //            QDesktopWidget *desktop = QApplication::desktop(); // =qApp->desktop();也可以
-                    //            move((desktop->width() - this->width()) / 2, (desktop->height() - this->height()) / 2);
                 }
             }
         } else {
@@ -1216,16 +1209,25 @@ void MainWindow::loadZoomRatio()
     qDebug() << "zy------MainWindow::loadZoomRatio begin";
     if (m_settings->contains("album-version")) {
         if (m_settings->value("album-version").toString().isEmpty()) {
-            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            if (!m_settings->contains("album-zoomratio")) {
+                m_pSliderPos = 4;
+            } else {
+                m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            }
         } else if (compareVersion()) {
             m_pSliderPos = 4;
         } else {
-            m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            if (!m_settings->contains("album-zoomratio")) {
+                m_pSliderPos = 4;
+            } else {
+                m_pSliderPos = m_settings->value("album-zoomratio").toInt();
+            }
         }
         dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
     } else {
         m_pSliderPos = 4;
     }
+
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
     qDebug() << "zy------MainWindow::loadZoomRatio end";
@@ -1373,10 +1375,10 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut23.insert("value", "Right");
     QJsonObject shortcut24;
     shortcut24.insert("name", tr("Favorite"));
-    shortcut24.insert("value", "Ctrl+K");
+    shortcut24.insert("value", ".");
     QJsonObject shortcut25;
     shortcut25.insert("name", tr("Unfavorite"));
-    shortcut25.insert("value", "Ctrl+Shift+K");
+    shortcut25.insert("value", ".");
     QJsonObject shortcut26;
     shortcut26.insert("name", tr("New album"));
     shortcut26.insert("value", "Ctrl+Shift+N");

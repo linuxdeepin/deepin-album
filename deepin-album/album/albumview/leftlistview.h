@@ -25,7 +25,7 @@ public:
         IdDeleteAlbum,
     };
 
-    LeftListView(DWidget *parent);
+    explicit LeftListView(DWidget *parent = nullptr);
     QString getItemCurrentName();
     QString getItemCurrentType();
     int getItemDataType();
@@ -38,11 +38,10 @@ private:
     void initUI();
     void initMenu();
     void initConnections();
-    void updateMountListView();
     void showMenu(const QPoint &pos);
     void appendAction(int id, const QString &text, const QString &shortcut);
     QString getNewAlbumName();
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 signals:
@@ -70,7 +69,7 @@ public:
 
     // 设备
     DLabel *m_pMountLabel;
-    LeftListWidget *m_pMountListView;
+    LeftListWidget *m_pMountListWidget;
 
 private:
     QString m_ItemCurrentName;

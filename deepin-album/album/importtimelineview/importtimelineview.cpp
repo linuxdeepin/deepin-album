@@ -125,19 +125,19 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 //    m_pDate->setForegroundRole(DPalette::Text);
 //    m_pDate->setPalette(pa);
 
-    DPalette pal = DApplicationHelper::instance()->palette(pNum_up);
-    QColor color_BT = pal.color(DPalette::BrightText);
+    DPalette pal1 = DApplicationHelper::instance()->palette(pNum_up);
+    QColor color_BT1 = pal1.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
-        color_BT.setAlphaF(0.5);
-        pal.setBrush(DPalette::Text, color_BT);
+        color_BT1.setAlphaF(0.5);
+        pal1.setBrush(DPalette::Text, color_BT1);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
-        color_BT.setAlphaF(0.75);
-        pal.setBrush(DPalette::Text, color_BT);
+        color_BT1.setAlphaF(0.75);
+        pal1.setBrush(DPalette::Text, color_BT1);
     }
     pNum_up->setForegroundRole(DPalette::Text);
     m_pDate->setForegroundRole(DPalette::Text);
-    m_pDate->setPalette(pal);
-    pNum_up->setPalette(pal);
+    m_pDate->setPalette(pal1);
+    pNum_up->setPalette(pal1);
 
     for (int i = 1; i < m_mainListWidget->count(); i++) {
         TimelineItem *item = static_cast<TimelineItem *>(m_mainListWidget->itemWidget(m_mainListWidget->item(i)));
@@ -146,7 +146,9 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 //        color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 //        pLabelList[0]->setForegroundRole(DPalette::Text);
 //        pLabelList[0]->setPalette(color);
-
+        if (pLabelList.size() < 2) {
+            break;
+        }
         DPalette pal = DApplicationHelper::instance()->palette(pLabelList[1]);
         QColor color_BT = pal.color(DPalette::BrightText);
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -377,6 +379,7 @@ void ImportTimeLineView::clearAndStartLayout()
     //获取所有时间线
     m_timelines = DBManager::instance()->getImportTimelines();
     qDebug() << __func__ << m_timelines.size();
+
 
     if (0 < m_timelines.size()) {
 
@@ -1089,11 +1092,11 @@ void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
     DWidget::mousePressEvent(e);
 }
 
-void ImportTimeLineView::updateLayout(QStringList updatePathList)
-{
-    if (updatePathList.isEmpty())
-        return;
-    for (ThumbnailListView *list : m_allThumbnailListView) {
-        list->updateThumbnailView(updatePathList.first());
-    }
-}
+//void ImportTimeLineView::updateLayout(QStringList updatePathList)
+//{
+//    if (updatePathList.isEmpty())
+//        return;
+//    for (ThumbnailListView *list : m_allThumbnailListView) {
+//        list->updateThumbnailView(updatePathList.first());
+//    }
+//}

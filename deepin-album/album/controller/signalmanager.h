@@ -149,7 +149,6 @@ signals:
     void picNotExists(bool immediately = false);
 
     void deleteByMenu();
-    void updateThumbnailViewSize();
     void updateLeftListview();
     void sliderValueChange(int step);
     void startImprot();

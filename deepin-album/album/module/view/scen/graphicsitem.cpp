@@ -24,44 +24,60 @@
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fileSuffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
-    , m_suffix(fileSuffix)
-    , m_index(0)
+    , m_qmovie(nullptr)
+//    , m_suffix(fileSuffix)
+//    , m_index(0)
 {
-    if (fileSuffix.toUpper().contains("WEBP")) {
-        m_qmovie = new QMovie(fileName);
-        connect(m_qmovie, &QMovie::frameChanged, this, [ = ]() {
-            if (!m_qmovie->currentPixmap().isNull()) {
-                setPixmap(m_qmovie->currentPixmap());
-            }
-        });
-        m_qmovie->start();
-    } else {
-        using namespace UnionImage_NameSpace;
-        m_movie.setFileName(fileName);
-        m_pTImer = new QTimer(this);
-        connect(m_pTImer, &QTimer::timeout, this, [ = ] {
-            this->setPixmap(QPixmap::fromImage(m_movie.next()));
-        });
-        m_pTImer->start(100);
-    }
+    Q_UNUSED(fileSuffix)
+    m_qmovie = new QMovie(fileName);
+    connect(m_qmovie, &QMovie::frameChanged, this, [ = ]() {
+        if (!m_qmovie->currentPixmap().isNull()) {
+            setPixmap(m_qmovie->currentPixmap());
+        }
+    });
+    m_qmovie->start();
+//    if (fileSuffix.toUpper().contains("WEBP")) {
+//        m_qmovie = new QMovie(fileName);
+//        connect(m_qmovie, &QMovie::frameChanged, this, [ = ]() {
+//            if (!m_qmovie->currentPixmap().isNull()) {
+//                setPixmap(m_qmovie->currentPixmap());
+//            }
+//        });
+//        m_qmovie->start();
+//    } else {
+//        using namespace UnionImage_NameSpace;
+//        m_movie.setFileName(fileName);
+//        m_pTImer = new QTimer(this);
+//        connect(m_pTImer, &QTimer::timeout, this, [ = ] {
+//            this->setPixmap(QPixmap::fromImage(m_movie.next()));
+//        });
+//        m_pTImer->start(100);
+//    }
 }
 
 GraphicsMovieItem::~GraphicsMovieItem()
 {
-    if (m_pTImer) {
-        m_pTImer->stop();
-        m_pTImer->deleteLater();
-    }
+    prepareGeometryChange();
+
+    m_qmovie->stop();
+    m_qmovie->deleteLater();
+    m_qmovie = nullptr;
+//    if (m_pTImer) {
+//        m_pTImer->stop();
+//        m_pTImer->deleteLater();
+//    }
 }
 
 void GraphicsMovieItem::start()
 {
-    m_pTImer->start(100);
+//    m_pTImer->start(100);
+    m_qmovie->start();
 }
 
 void GraphicsMovieItem::stop()
 {
-    m_pTImer->stop();
+//    m_pTImer->stop();
+    m_qmovie->stop();
 }
 
 

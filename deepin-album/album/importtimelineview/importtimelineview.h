@@ -23,7 +23,7 @@ class ImportTimeLineView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT
 public:
-    ImportTimeLineView(DWidget *parent);
+    explicit ImportTimeLineView(DWidget *parent);
     ~ImportTimeLineView() override
     {
         void clearAndStop();
@@ -62,7 +62,7 @@ private:
 
     void initMainStackWidget();
     void dragEnterEvent(QDragEnterEvent *e) override;
-    void dropEvent(QDropEvent *e) override;
+    void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 
@@ -71,7 +71,7 @@ private:
     void mousePressEvent(QMouseEvent *e) override;
 public:
 //    void updataLayout();
-    void updateLayout(QStringList updatePathList = QStringList());          //旋转图片更新视图
+//    void updateLayout(QStringList updatePathList = QStringList());          //旋转图片更新视图
     void clearAndStartLayout();
     void addTimelineLayout();
     void getFatherStatusBar(DSlider *s);

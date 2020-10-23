@@ -20,18 +20,6 @@ class ImageEngineApi: public QObject
 public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
     ~ImageEngineApi();
-//    {
-//#ifdef NOGLOBAL
-//        m_qtpool.clear();
-//        m_qtpool.waitForDone();
-//        cacheThreadPool.clear();
-//        cacheThreadPool.waitForDone();
-//#else
-//        QThreadPool::globalInstance()->clear();     //清除队列
-//        QThreadPool::globalInstance()->waitForDone();
-//        qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
-//#endif
-//    }
 
     bool insertImage(QString imagepath, QString remainDay);
     bool removeImage(QString imagepath);
@@ -41,9 +29,9 @@ public:
     bool ifObjectExist(void *obj);
     bool getImageData(QString imagepath, ImageDataSt &data);
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
-    bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true);
+    bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true, bool useGlobalThreadPool = true);
     bool reQuestAllImagesData(ImageEngineObject *obj, bool needcache = true);
-    bool imageNeedReload(QString imagepath);
+//    bool imageNeedReload(QString imagepath);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool loadImagesFromLocal(QStringList files, ImageEngineObject *obj, bool needcheck = true);
@@ -60,7 +48,7 @@ public:
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
     QStringList get_AllImagePath();
-    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
+//    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
 
     //将数据加载到内存中
     // void loadImageDateToMemory(QStringList pathlist);
@@ -88,32 +76,30 @@ private slots:
 
     void sigImageBackLoaded(QString path, ImageDataSt data);
 
-    //void sltLoadOneThumbnail(QString imagepath, ImageDataSt data);
     void slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData);
 signals:
     //发送给缩略图控件
     void sigLoad80ThumbnailsToView();
     //发给线程
-    void sigLoad80Thumbnails();
+    void sigLoad80Thumbnails(DBImgInfoList infos);
     void sigLoadOneThumbnail(QString imagepath, ImageDataSt data);
     void sigLoadOneThumbnailToThumbnailView(QString imagepath, ImageDataSt data);
 public:
     QMap<QString, ImageDataSt>m_AllImageData;
     bool m_80isLoaded = false;
 private:
-    ImageEngineApi(QObject *parent = nullptr);
+    explicit ImageEngineApi(QObject *parent = nullptr);
 
     QMap<void *, void *>m_AllObject;
 
     static ImageEngineApi *s_ImageEngine;
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
     bool bcloseFg = false;
+    QThreadPool *m_pool = nullptr;
 #ifdef NOGLOBAL
     QThreadPool m_qtpool;
     QThreadPool cacheThreadPool;
 #endif
-    QThread *m_workerThread = nullptr;
-    DBandImgOperate *m_worker = nullptr;
 };
 
 #endif // IMAGEENGINEAPI_H

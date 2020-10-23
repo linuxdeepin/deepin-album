@@ -24,7 +24,7 @@ class StatusBar : public DBlurEffectWidget
     Q_OBJECT
 
 public:
-    StatusBar(QWidget *parent = nullptr);
+    explicit StatusBar(QWidget *parent = nullptr);
 
 public:
     void initUI();

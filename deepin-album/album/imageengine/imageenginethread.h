@@ -6,12 +6,14 @@
 #include <QUrl>
 #include "imageengineobject.h"
 
+DBImgInfo getDBInfo(const QString &srcpath);
 
 class ImportImagesThread : public ImageEngineThreadObject, public QRunnable
 {
     Q_OBJECT
 public:
     ImportImagesThread();
+    ~ImportImagesThread() override;
     void setData(QStringList paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
     void setData(QList<QUrl> paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
 
@@ -72,6 +74,7 @@ class ImageImportFilesFromMountThread : public ImageEngineThreadObject, public Q
     Q_OBJECT
 public:
     ImageImportFilesFromMountThread();
+    ~ImageImportFilesFromMountThread() override;
     void setData(QString albumname, QStringList paths, ImageMountImportPathsObject *imgobject);
 
 protected:
@@ -91,6 +94,7 @@ class ImageGetFilesFromMountThread : public ImageEngineThreadObject, public QRun
     Q_OBJECT
 public:
     ImageGetFilesFromMountThread();
+    ~ImageGetFilesFromMountThread() override;
     void setData(QString mountname, QString path, ImageMountGetPathsObject *imgobject);
 
 protected:
@@ -110,7 +114,8 @@ class ImageLoadFromDBThread : public ImageEngineThreadObject, public QRunnable
 {
     Q_OBJECT
 public:
-    ImageLoadFromDBThread(int loadCount = 0);
+    explicit ImageLoadFromDBThread(int loadCount = 0);
+    ~ImageLoadFromDBThread() override;
     void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, QString nametype = "");
 
 protected:
@@ -138,6 +143,7 @@ public:
         DataType_TrashList
     };
     ImageLoadFromLocalThread();
+    ~ImageLoadFromLocalThread() override;
     void setData(QStringList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
     void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
 
@@ -149,7 +155,6 @@ signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
     void sigInsert(QString imagepath, QString remainDay = "");
 private:
-    QStringList checkImage(const QString  path);
     QStringList m_filelist;
     DBImgInfoList m_fileinfolist;
     ImageEngineObject *m_imgobject = nullptr;
@@ -192,6 +197,7 @@ class ImageFromNewAppThread : public ImageEngineThreadObject, public QRunnable
     Q_OBJECT
 public:
     ImageFromNewAppThread();
+    ~ImageFromNewAppThread() override;
     //配置参数
     void setDate(QStringList files, ImageEngineImportObject *obj);
 protected:
@@ -208,6 +214,7 @@ class ImageCacheQueuePopThread : public QRunnable
 {
 public:
     ImageCacheQueuePopThread();
+    ~ImageCacheQueuePopThread() override;
     void setObject(ImageCacheSaveObject *obj)
     {
         m_obj = obj;
@@ -220,7 +227,7 @@ public:
 protected:
     void run() override;
 private:
-    ImageCacheSaveObject *m_obj;
+    ImageCacheSaveObject *m_obj = nullptr;
     bool needStop = false;
 };
 
@@ -250,46 +257,48 @@ private:
     bool m_bpause;
 };
 
-struct RotateSaveRequest {
-    double angel;
-    QString path;
-};
+//内存+文件旋转优化方案-已废弃
 
-class RotateSaveThread : public QRunnable
-{
-public:
-    RotateSaveThread();
-    void setDatas(QHash<QString, RotateSaveRequest>   requests_bar);
-protected:
-    void run();
-private:
-    QVector<RotateSaveRequest> m_requests;
-};
+//struct RotateSaveRequest {
+//    double angel;
+//    QString path;
+//};
 
-class ImageRotateThreadControler : public QObject
-{
-    Q_OBJECT
-public:
-    ImageRotateThreadControler();
-    ~ImageRotateThreadControler();
-signals:
-    void updateRotate(int angel);
-public slots:
-    /**
-     * @brief addRotateAndSave
-     * @param request
-     * @param time_gap
-     * @author DJH
-     * 添加旋转请求队列，并设置队列清空等待时间，等待时间结束后，会执行队列所有命令
-     */
-    void addRotateAndSave(RotateSaveRequest request, int time_gap);
-    void startSave();
+//class RotateSaveThread : public QRunnable
+//{
+//public:
+//    RotateSaveThread();
+//    void setDatas(QHash<QString, RotateSaveRequest>   requests_bar);
+//protected:
+//    void run();
+//private:
+//    QVector<RotateSaveRequest> m_requests;
+//};
 
-private:
-    QTimer *wait;
-    QThreadPool rotateThreadPool;
-    //QList<RotateSaveThread *> rotateThreads;
-    QHash<QString, RotateSaveRequest> NoRepeatRequest;
-};
+//class ImageRotateThreadControler : public QObject
+//{
+//    Q_OBJECT
+//public:
+//    ImageRotateThreadControler();
+//    ~ImageRotateThreadControler();
+//signals:
+//    void updateRotate(int angel);
+//public slots:
+//    /**
+//     * @brief addRotateAndSave
+//     * @param request
+//     * @param time_gap
+//     * @author DJH
+//     * 添加旋转请求队列，并设置队列清空等待时间，等待时间结束后，会执行队列所有命令
+//     */
+//    void addRotateAndSave(RotateSaveRequest request, int time_gap);
+//    void startSave();
+
+//private:
+//    QTimer *wait;
+//    QThreadPool rotateThreadPool;
+//    //QList<RotateSaveThread *> rotateThreads;
+//    QHash<QString, RotateSaveRequest> NoRepeatRequest;
+//};
 
 #endif // IMAGEENGINETHREAD_H

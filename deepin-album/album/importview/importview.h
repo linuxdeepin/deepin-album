@@ -35,14 +35,14 @@ public:
     ImportView();
     bool imageImported(bool success) override;
     void setAlbumname(const QString &name);
-    void onImprotBtnClicked();
+    void onImprotBtnClicked(bool useDialog = true, QStringList list = QStringList());
 
 private:
     void initConnections();
     void initUI();
     void mousePressEvent(QMouseEvent *e) override;
     void dragEnterEvent(QDragEnterEvent *e) override;
-    void dropEvent(QDropEvent *e) override;
+    void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
 

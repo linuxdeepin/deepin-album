@@ -52,44 +52,6 @@ namespace base {
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
 const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 
-QString sizeToHuman(const qlonglong bytes)
-{
-    qlonglong sb = 1024;
-    if (bytes < sb) {
-        return QString::number(bytes) + " B";
-    } else if (bytes < sb * sb) {
-        QString vs = QString::number(static_cast<double>(bytes) / sb, 'f', 1);
-        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number(static_cast<int>(vs.toDouble())) + " KB";
-        } else {
-            return vs + " KB";
-        }
-    } else if (bytes < sb * sb * sb) {
-        QString vs = QString::number(static_cast<double>(bytes) / sb / sb, 'f', 1);
-        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number(static_cast<int>(vs.toDouble())) + " MB";
-        } else {
-            return vs + " MB";
-        }
-    } else {
-        return QString::number(bytes);
-    }
-}
-
-QString timeToString(const QDateTime &time, bool normalFormat)
-{
-    if (normalFormat)
-        return time.toString(DATETIME_FORMAT_NORMAL);
-    else
-        return time.toString(DATETIME_FORMAT_EXIF);
-}
-
-int stringWidth(const QFont &f, const QString &str)
-{
-    QFontMetrics fm(f);
-    return fm.boundingRect(str).width();
-}
-
 int stringHeight(const QFont &f, const QString &str)
 {
     QFontMetrics fm(f);
@@ -136,13 +98,6 @@ void copyImageToClipboard(const QStringList &paths)
 
     // Ownership of the new data is transferred to the clipboard.
     QMimeData *newMimeData = new QMimeData();
-
-//    // Copy old mimedata
-//    const QMimeData* oldMimeData = cb->mimeData();
-//    for ( const QString &f : oldMimeData->formats())
-//        newMimeData->setData(f, oldMimeData->data(f));
-
-//    // Copy file (gnome)
     QByteArray gnomeFormat = QByteArray("copy\n");
     QString text;
     QList<QUrl> dataUrls;
@@ -178,147 +133,8 @@ QString getFileContent(const QString &file)
     return fileContent;
 }
 
-bool writeTextFile(QString filePath, QString content)
-{
-    QFile file(filePath);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream in(&file);
-        in << content << endl;
-        file.close();
-        return true;
-    }
-
-    return false;
-}
-
-bool trashFile(const QString &file)
-{
-#ifdef QT_GUI_LIB
-    QString trashPath;
-    QString trashInfoPath;
-    QString trashFilesPath;
-
-    QString home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    // There maby others location for trash like $HOME/.trash or
-    // $XDG_DATA_HOME/Trash, but our stupid FileManager coder said we should
-    // assume that the trash lcation is $HOME/.local/share/Trash,so...
-    trashPath = home + "/.local/share/Trash";
-    trashInfoPath = trashPath + "/info";
-    trashFilesPath = trashPath + "/files";
-    if (! QDir(trashFilesPath).exists()) {
-        QDir().mkpath(trashFilesPath);
-    }
-    if (! QDir(trashInfoPath).exists()) {
-        QDir().mkpath(trashInfoPath);
-    }
-
-    QFileInfo originalInfo(file);
-    if (! originalInfo.exists()) {
-        qWarning() << "File doesn't exists, can't move to trash";
-        return false;
-    }
-    // Info for restore
-    QString infoStr;
-    infoStr += "[Trash Info]\nPath=";
-    infoStr += QString(originalInfo.absoluteFilePath().toUtf8().toPercentEncoding("/"));
-    infoStr += "\nDeletionDate=";
-    infoStr += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
-    infoStr += "\n";
-
-    QString trashname = originalInfo.fileName();
-    QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
-    QString filepath = trashFilesPath + "/" + trashname;
-    int nr = 1;
-    while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
-        nr++;
-        trashname = originalInfo.baseName() + "." + QString::number(nr);
-        if (!originalInfo.completeSuffix().isEmpty()) {
-            trashname += QString(".") + originalInfo.completeSuffix();
-        }
-        infopath = trashInfoPath + "/" + trashname + ".trashinfo";
-        filepath = trashFilesPath + "/" + trashname;
-    }
-    QFile infoFile(infopath);
-    if (infoFile.open(QIODevice::WriteOnly)) {
-        infoFile.write(infoStr.toUtf8());
-        infoFile.close();
-
-        if (!QDir().rename(originalInfo.absoluteFilePath(), filepath)) {
-            qWarning() << "move to trash failed!";
-            return false;
-        }
-    } else {
-        return false;
-    }
-    // Remove thumbnail
-    utils::image::removeThumbnail(file);
-    return true;
-#else
-    Q_UNUSED(file);
-    qWarning() << "Trash in server-mode not supported";
-    return false;
-#endif
-}
-
-bool trashFiles(const QStringList &files)
-{
-    bool v = true;
-    for (QString file : files) {
-        if (! trashFile(file))
-            v = false;
-    }
-
-    return v;
-}
-
-/*!
- * \brief wrapStr
- * Split info string by Space
- * \param str
- * \param font
- * \param maxWidth
- * \return
- */
-QString wrapStr(const QString &str, const QFont &font, int maxWidth)
-{
-    QFontMetrics fm(font);
-    QString ns;
-    QString ss;
-    for (int i = 0; i < str.length(); i ++) {
-        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
-            ss = QString();
-            ns += "\n";
-        }
-        ns += str.at(i);
-        ss += str.at(i);
-    }
-    return ns;
-}
-
-
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 {
-//    QFontMetrics fm(font);
-//    int nTextSize = fm.width(text);
-//    if (nTextSize > nLabelSize) {
-//        int nPos = 0;
-//        long nOffset = 0;
-//        for (int i = 0; i < text.size(); i++) {
-//            nOffset += fm.width(text.at(i));
-//            if (nOffset >= nLabelSize) {
-//                nPos = i;
-//                break;
-//            }
-//        }
-
-//        nPos = (nPos - 1 < 0) ? 0 : nPos - 1;
-
-//        QString qstrLeftData = text.left(nPos);
-//        QString qstrMidData = text.mid(nPos);
-//        return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
-//    }
-//    return text;
-    //      递归有风险
 //LMH0424，之前是递归，现在改了算法，判断换行
     QFontMetrics fm(font);
     double dobuleTextSize = fm.width(text);
@@ -355,54 +171,9 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
     }
 }
 
-
-QString symFilePath(const QString &path)
-{
-    QFileInfo fileInfo(path);
-    if (fileInfo.isSymLink()) {
-        return fileInfo.symLinkTarget();
-    } else {
-        return path;
-    }
-}
-
 QString hash(const QString &str)
 {
-    return QString(QCryptographicHash::hash(str.toUtf8(),
-                                            QCryptographicHash::Md5).toHex());
-}
-
-bool onMountDevice(const QString &path)
-{
-    return (path.startsWith("/media/") || path.startsWith("/run/media/"));
-}
-
-bool mountDeviceExist(const QString &path)
-{
-    QString mountPoint;
-    if (path.startsWith("/media/")) {
-        const int sp = path.indexOf("/", 7) + 1;
-        const int ep = path.indexOf("/", sp) + 1;
-        mountPoint = path.mid(0, ep);
-    } else if (path.startsWith("/run/media/")) {
-        const int sp = path.indexOf("/", 11) + 1;
-        const int ep = path.indexOf("/", sp) + 1;
-        mountPoint = path.mid(0, ep);
-    }
-    return QFileInfo(mountPoint).exists();
-}
-bool        isCommandExist(const QString &command)
-{
-    QProcess *proc = new QProcess;
-    QString cm = QString("which %1\n").arg(command);
-    proc->start(cm);
-    proc->waitForFinished(1000);
-
-    if (proc->exitCode() == 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
 }
 
 bool checkMimeData(const QMimeData *mimeData)

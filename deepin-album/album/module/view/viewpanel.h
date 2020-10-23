@@ -35,7 +35,6 @@ DWIDGET_USE_NAMESPACE
 
 class ImageButton;
 class ImageView;
-class ImageWidget;
 class NavigationWidget;
 class QFileSystemWatcher;
 class QLabel;
@@ -49,13 +48,13 @@ public:
     explicit ViewPanel(QWidget *parent = nullptr);
     ~ViewPanel() Q_DECL_OVERRIDE;
 
-    QString moduleName() Q_DECL_OVERRIDE;
-    QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
-    QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
+    QString moduleName() override;
+    QWidget *toolbarBottomContent() override;
+    QWidget *toolbarTopLeftContent() override;
     QWidget *bottomTopLeftContent() ;
-    QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
+    QWidget *toolbarTopMiddleContent() override;
 //    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-    const SignalManager::ViewInfo viewInfo() const;
+//    const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
     {
         if (!m_ttbc) {
@@ -63,6 +62,7 @@ public:
         }
         return m_ttbc->itemLoadedSize();
     }
+    ImageView *getImageView();
 signals:
     void updateCollectButton();
 //    void imageChanged(const QString &path, DBImgInfoList infos);
@@ -92,12 +92,14 @@ private:
     //------------------
     void loadFilesFromLocal(QStringList files);
     void loadFilesFromLocal(DBImgInfoList files);
-    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE;
-    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+    bool imageLocalLoaded(QStringList &filelist) override;
+    bool imageFromDBLoaded(QStringList &filelist) override
+    {
         Q_UNUSED(filelist)
         return false;
     }
-    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE {
+    bool imageLoaded(QString filepath) override
+    {
         Q_UNUSED(filepath)
         return false;
     }
@@ -108,12 +110,12 @@ private:
     void initShortcut();
     void initStack();
     void initViewContent();
-    void popupDelDialog(const QString path);
+//    void popupDelDialog(const QString path);
     void popupPrintDialog(const QString path);
 
     // Floating component
     void initFloatingComponent();
-    void initSwitchButtons();
+//    void initSwitchButtons();
     void initScaleLabel();
     void initNavigation();
 
@@ -142,14 +144,10 @@ private:
     void showNormal();
     void showFullScreen();
 
-    void viewOnNewProcess(const QStringList &paths);
+//    void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
-//    int imageIndex(const QString &path);
-    QFileInfoList getFileInfos(const QString &path);
-//    DBImgInfoList getImageInfos(const QFileInfoList &infos);
-//    const QStringList paths() const;
-
+//    QFileInfoList getFileInfos(const QString &path);
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
@@ -193,7 +191,6 @@ private:
     //------------------
     QStringList m_filepathlist;
     QString m_currentpath = "";
-    QTimer *m_dt = nullptr;
     //------------------
 
     QTimer *m_deletetimer;  //删除图片定时器

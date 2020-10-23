@@ -16,7 +16,8 @@ AlbumImageButton::AlbumImageButton(QWidget *parent)
 
 AlbumImageButton::AlbumImageButton(const QString &normalPic, const QString &hoverPic,
                                    const QString &pressPic, const QString &checkedPic, QWidget *parent)
-    : DPushButton (parent)
+    : DPushButton(parent), status(0), autoChecked(false)
+    , transparent(true)
 {
     defaultPicPath.normalPicPath = normalPic;
     defaultPicPath.hoverPicPath = hoverPic;
@@ -57,15 +58,15 @@ void AlbumImageButton::setPropertyPic(const QString &normalPic, const QString &h
     defaultPicPath.checkedPicPath = checkedPic;
 }
 
-void AlbumImageButton::setTransparent(bool flag)
-{
-    transparent = flag;
-}
+//void AlbumImageButton::setTransparent(bool flag)
+//{
+//    transparent = flag;
+//}
 
-void AlbumImageButton::setAutoChecked(bool flag)
-{
-    autoChecked = flag;
-}
+//void AlbumImageButton::setAutoChecked(bool flag)
+//{
+//    autoChecked = flag;
+//}
 
 void AlbumImageButton::paintEvent(QPaintEvent *event)
 {

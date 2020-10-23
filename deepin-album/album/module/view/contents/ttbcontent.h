@@ -55,8 +55,8 @@ class MyImageListWidget : public QWidget
 {
     Q_OBJECT
 public:
-    MyImageListWidget(QWidget *parent = nullptr);
-    bool ifMouseLeftPressed();
+    explicit MyImageListWidget(QWidget *parent = nullptr);
+//    bool ifMouseLeftPressed();
     QObject *getObj();
     void setObj(QObject *obj);
     void setSelectItem(ImageItem *selectItem);
@@ -65,7 +65,6 @@ public:
     bool isAnimationStart();//判断动画是否执行中
 
     QTimer *m_timer = nullptr;
-private:
     void findSelectItem();
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
@@ -79,6 +78,8 @@ signals:
 public slots:
     void animationTimerTimeOut();
     void animationFinished();
+    void thumbnailIsMoving();
+    void animationValueChanged(const QVariant value);
 private:
     bool bmouseleftpressed = false;
     QObject *m_obj = nullptr;
@@ -88,7 +89,7 @@ private:
     QPoint m_presspoint;//按下时鼠标位置
     bool m_moveToRight = true;//缩略图中鼠标向右移动为true
     ImageItem *m_selectItem = nullptr;
-    ImageItem *m_preSelectItem = nullptr;
+    int m_preSelectItemIndex = -1;
     QPropertyAnimation *m_resetAnimation = nullptr;//复位动画
     bool m_isMoving = false;//是否正在移动中
     QTimer *m_animationTimer = nullptr;//动画，移动使用
@@ -155,18 +156,20 @@ public:
 //    void importFilesFromLocal(QStringList files);
 //    void importFilesFromLocal(DBImgInfoList files);
 //    void importFilesFromDB(QString name = "");
-    bool imageLocalLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+    bool imageLocalLoaded(QStringList &filelist) override
+    {
         Q_UNUSED(filelist)
         return false;
     }
-    bool imageFromDBLoaded(QStringList &filelist) Q_DECL_OVERRIDE {
+    bool imageFromDBLoaded(QStringList &filelist) override
+    {
         Q_UNUSED(filelist)
         return false;
     }
-    bool imageLoaded(QString filepath) Q_DECL_OVERRIDE;
+    bool imageLoaded(QString filepath) override;
     void insertImageItem(const ImageDataSt &file, bool bloadRight = true);
     void stopLoadAndClear();
-    void reLoad();
+//    void reLoad();
     QStringList getAllFileList();
     bool setCurrentItem();
     void updateScreen();
@@ -179,9 +182,9 @@ public:
      * @brief setRightlist  设置右侧数据
      * @param rightlist
      */
-    void setRightlist(QStringList rightlist);
+    void setRightlist(const QStringList &rightlist);
 
-    void setLeftlist(QStringList leftlist);
+    void setLeftlist(const QStringList &leftlist);
 
 signals:
     void ttbcontentClicked();
@@ -206,7 +209,7 @@ signals:
     void sigloadLeft(QStringList leftlist);
 
 public slots:
-    void setCurrentDir(QString text);
+    void setCurrentDir(const QString &text);
     void setImage(const QString &path);
     void updateCollectButton();
 
@@ -218,9 +221,9 @@ public slots:
     void deleteImage();
     void onNextButton();
     void onPreButton();
+    void updateFilenameLayout();
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    void updateFilenameLayout();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -272,7 +275,6 @@ private:
 
     QStringList m_rightlist;        //保存动态加载数据（右侧）
     QStringList m_leftlist;
-    QTimer *m_filterTimer = nullptr;
 };
 
 #endif // TTLCONTENT_H

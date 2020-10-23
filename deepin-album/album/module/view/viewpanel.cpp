@@ -26,7 +26,7 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
-#include "widgets/printoptionspage.h"
+//#include "widgets/printoptionspage.h"
 #include "widgets/printhelper.h"
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "imageengine/imageengineapi.h"
@@ -84,6 +84,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     installEventFilter(this);
     m_ttbc = nullptr;
+    this->setObjectName("ViewPanel");
 }
 
 ViewPanel::~ViewPanel()
@@ -322,10 +323,10 @@ void ViewPanel::showFullScreen()
     emit dApp->signalM->sigShowFullScreen();
 }
 
-QFileInfoList ViewPanel::getFileInfos(const QString &path)
-{
-    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
-}
+//QFileInfoList ViewPanel::getFileInfos(const QString &path)
+//{
+//    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
+//}
 
 QWidget *ViewPanel::toolbarBottomContent()
 {
@@ -346,6 +347,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         delete m_ttbc;
 //        m_ttbc->deleteLater();
     m_ttbc = new TTBContent(m_vinfo.inDatabase, m_filepathlist, this);
+    m_ttbc->setObjectName("TTBContent");
     connect(m_ttbc, &TTBContent::feedBackCurrentIndex,
             this, &ViewPanel::feedBackCurrentIndex);
     m_ttbc->m_imageType = m_vinfo.viewType;
@@ -407,17 +409,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
             DBImgInfoList infos;
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(m_currentpath);
-#if 1
-//            info.time = QDateTime::currentDateTime();
-            info.changeTime = QDateTime::currentDateTime();
-#endif
+            info.importTime = QDateTime::currentDateTime();
             infos << info;
-//            dApp->m_imageloader->addTrashImageLoader(QStringList(m_currentpath));
-//            dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
             DBManager::instance()->insertTrashImgInfos(infos);
             DBManager::instance()->removeImgInfos(QStringList(m_currentpath));
             removeCurrentImage();
-//            DDesktopServices::trash(m_currentpath);
         }
     });
 
@@ -474,9 +470,14 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 //    return w;
 //}
 
-const SignalManager::ViewInfo ViewPanel::viewInfo() const
+//const SignalManager::ViewInfo ViewPanel::viewInfo() const
+//{
+//    return m_vinfo;
+//}
+
+ImageView *ViewPanel::getImageView()
 {
-    return m_vinfo;
+    return m_viewB;
 }
 
 bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
@@ -636,10 +637,6 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
-    if (m_dt->isActive()) {
-        return false;
-    }
-    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
@@ -660,10 +657,6 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
-    if (m_dt->isActive()) {
-        return false;
-    }
-    m_dt->start();
 #ifdef LITE_DIV
 //    eatImageDirIterator();
 #endif
@@ -682,9 +675,9 @@ bool ViewPanel::showNext()
     openImage(m_ttbc->getIndexPath(m_current), m_vinfo.inDatabase);
     return true;
 }
-bool ViewPanel::showImage(int index, int addindex)
+bool ViewPanel::showImage(int index, int addIndex)
 {
-    Q_UNUSED(addindex);
+    Q_UNUSED(addIndex);
     if (m_filepathlist.isEmpty()) {
         return false;
     }
@@ -735,18 +728,18 @@ void ViewPanel::removeCurrentImage()
     }
 }
 
-void ViewPanel::viewOnNewProcess(const QStringList &paths)
-{
-    const QString pro = "deepin-image-viewer";
-    QProcess *p = new QProcess;
-    connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
+//void ViewPanel::viewOnNewProcess(const QStringList &paths)
+//{
+//    const QString pro = "deepin-image-viewer";
+//    QProcess *p = new QProcess;
+//    connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
 
-    QStringList options;
-    for (QString path : paths) {
-        options << "-o" << path;
-    }
-    p->start(pro, options);
-}
+//    QStringList options;
+//    for (QString path : paths) {
+//        options << "-o" << path;
+//    }
+//    p->start(pro, options);
+//}
 
 void ViewPanel::initStack()
 {
@@ -824,6 +817,16 @@ void ViewPanel::initViewContent()
         // cache is finish
         m_viewB->autoFit();
     });
+    connect(m_viewB, &ImageView::sigFIleDelete, this, [ = ]() {
+        m_viewB->setImage(m_currentpath);    //设置当前显示图片
+        //m_ttbc->setButtonDisabled(!QFileInfo(m_currentpath).exists());
+        if (!QFileInfo(m_currentpath).exists()) {
+            ImageDataSt data;
+            if (ImageEngineApi::instance()->getImageData(m_currentpath, data))
+                m_emptyWidget->setThumbnailImage(/*dApp->m_imagemap.value(path)*/data.imgpixmap);
+            m_stack->setCurrentIndex(1);
+        }
+    });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
 }
@@ -834,6 +837,7 @@ void ViewPanel::openImage(const QString &path, bool inDB, bool bjudge)
         return;
     m_currentpath = path;
     m_viewB->setImage(path);    //设置当前显示图片
+    //m_ttbc->setButtonDisabled(!QFileInfo(path).exists());
     updateMenuContent();
     if (!QFileInfo(path).exists()) {
 //        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));

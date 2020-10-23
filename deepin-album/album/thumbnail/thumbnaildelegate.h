@@ -55,7 +55,7 @@ public:
 
     explicit ThumbnailDelegate(DelegateType type, QObject *parent = nullptr);
     void setIsDataLocked(bool value);
-    void setNeedPaint(bool value);
+//    void setNeedPaint(bool value);
 
     void paint(QPainter *painter,
                const QStyleOptionViewItem &option,

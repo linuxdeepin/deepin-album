@@ -75,7 +75,7 @@ private:
 
 public slots:
 //    void onLoadMountImagesStart(QString mountName, QString path);
-    void onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
+//    void onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
 
 signals:
     void sigFinishiLoad();
@@ -161,7 +161,7 @@ private:
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
     //QString getNewAlbumName();
     void dragEnterEvent(QDragEnterEvent *e) override;
-    void dropEvent(QDropEvent *e) override;
+    void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
@@ -170,7 +170,7 @@ private:
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);        //拔掉外设移除
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
-    bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
+//    bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
     void initExternalDevice();
     void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath = QString());
     bool findPicturePathByPhone(QString &path);
@@ -192,9 +192,8 @@ private slots:
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
     void onUpdataAlbumRightTitle(QString titlename);
-    void onUpdateThumbnailViewSize();
     void onUnMountSignal(QString unMountPath);          //手动卸载设备
-    void onCreateNewAlbumFromDialog(QString albumname);
+    void onCreateNewAlbumFromDialog(const QString newalbumname);
     void onCreateNewAlbumFrom(QString albumname);
     void onLoadMountImagesEnd(QString mountname);
     void onLeftListDropEvent(QModelIndex dropIndex);
@@ -236,7 +235,7 @@ public:
     DWidget *pImportTimeLineWidget;
     DWidget *m_pTrashWidget;
     DWidget *m_pFavoriteWidget;
-
+    Waitdevicedialog *m_waitDeviceScandialog;
 private:
     ImportView *m_pImportView;
 
@@ -307,8 +306,6 @@ private:
     // DBlurEffectWidget *phonetopwidget = nullptr;
     DWidget *phonetopwidget;
 
-    Waitdevicedialog *m_waitDeviceScandialog;
-    bool isWaitDialog;
     bool isIgnore;
     QTimer *m_waitDailog_timer;
     QThread *m_updateMountViewThread;

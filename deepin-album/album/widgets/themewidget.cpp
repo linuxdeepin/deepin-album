@@ -20,11 +20,14 @@
 #include "application.h"
 
 ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile, QWidget *parent)
-    : QWidget(parent), m_deepMode(false)
+    : QWidget(parent)
+    , m_darkStyle(utils::base::getFileContent(darkFile))
+    , m_lightStyle(utils::base::getFileContent(lightFile))
+    , m_deepMode(false)
 {
 
-    m_darkStyle = utils::base::getFileContent(darkFile);
-    m_lightStyle = utils::base::getFileContent(lightFile);
+//    m_darkStyle = utils::base::getFileContent(darkFile);
+//    m_lightStyle = utils::base::getFileContent(lightFile);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
@@ -48,11 +51,13 @@ void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
 }
 
 ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFile, QWidget *parent)
-    : QScrollArea(parent), m_deepMode(false)
+    : QScrollArea(parent)
+    , m_darkStyle(utils::base::getFileContent(darkFile))
+    , m_lightStyle(utils::base::getFileContent(lightFile))
+    , m_deepMode(false)
 {
-
-    m_darkStyle = utils::base::getFileContent(darkFile);
-    m_lightStyle = utils::base::getFileContent(lightFile);
+//    m_darkStyle = utils::base::getFileContent(darkFile);
+//    m_lightStyle = utils::base::getFileContent(lightFile);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,

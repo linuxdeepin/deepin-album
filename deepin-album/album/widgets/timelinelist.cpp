@@ -80,9 +80,9 @@ void TimelineList::paintEvent(QPaintEvent *e)
     QScrollBar *bar = this->verticalScrollBar();
     bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
 
-    int blankHeight = 0; //add 3975
     if (this->count() > 0) {
         int ccount = count();
+        int blankHeight = 0; //add 3975
         for (int i = 0; i < ccount; i++) {
             QListWidgetItem *pItem = this->item(i);
             TimelineItem *pWidget = static_cast<TimelineItem *>(itemWidget(pItem));
@@ -106,7 +106,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
                     pWidget->m_Chose->setVisible(true);
 
                     //            } else if ((pWidget->y() <= 0) && (pWidget->y() + pWidget->m_title->height() > 0)) {
-                } else if ((pWidget->y() <= blankHeight + 47) ) { //edit 3975
+                } else if ((pWidget->y() <= blankHeight + 47)) {  //edit 3975
                     has = false;
                     emit sigNewTime(pWidget->m_sdate, pWidget->m_snum, i);
                     pWidget->m_date->setText("");
@@ -127,7 +127,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
 bool TimelineList::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
-    if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers () == Qt::ControlModifier) {
+    if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier) {
         return true;
     }
 

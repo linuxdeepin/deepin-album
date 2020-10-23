@@ -218,25 +218,11 @@ namespace base {
 void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
-int         stringWidth(const QFont &f, const QString &str);
 int         stringHeight(const QFont &f, const QString &str);
-
 QString     hash(const QString &str);
-QString     wrapStr(const QString &str, const QFont &font, int maxWidth);
 QString     SpliteText(const QString &text, const QFont &font, int nLabelSize);
-QString     sizeToHuman(const qlonglong bytes);
-QString     timeToString(const QDateTime &time, bool normalFormat = false);
 QDateTime   stringToDateTime(const QString &time);
 QString     getFileContent(const QString &file);
-QString     symFilePath(const QString &path);
-bool        writeTextFile(QString filePath, QString content);
-
-bool        trashFile(const QString &file);
-bool        trashFiles(const QStringList &files);
-
-bool        onMountDevice(const QString &path);
-bool        mountDeviceExist(const QString &path);
-bool        isCommandExist(const QString &command);
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
 bool checkMimeData(const QMimeData *mimeData);
 QString mkMutiDir(const QString path);

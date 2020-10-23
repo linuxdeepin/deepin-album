@@ -552,7 +552,7 @@ void ThumbnailListView::calWidgetItemWandH()
         totlelength -= 1;
     // scaling for each row adapting list width except last one
     for (int i = 0; i < totlelength; i++) {
-        if (rowWidthList[i] < i_totalwidth && i < m_gridItem.size()) {
+        if (i < (rowWidthList.size() - 1) && rowWidthList[i] < i_totalwidth && i < m_gridItem.size()) {
             int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].size();
             int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].size();
             int rowWidth = 0;
@@ -813,6 +813,7 @@ bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
 
 void ThumbnailListView::loadFilesFromLocal(QStringList files, bool needcache, bool needcheck)
 {
+    qDebug() << "zy------ThumbnailListView::loadFilesFromLocal";
     ImageEngineApi::instance()->loadImagesFromLocal(files, this, needcheck);
     bneedcache = needcache;
 }
@@ -862,7 +863,11 @@ void ThumbnailListView::requestSomeImages()
         }
         QString firstfilesbeleft = m_filesbeleft.first();
         m_filesbeleft.removeFirst();
-        ImageEngineApi::instance()->reQuestImageData(firstfilesbeleft, this, bneedcache);
+        bool useGlobalThreadPool = true;
+        if (m_useFor == Mount) {
+            useGlobalThreadPool = false;
+        }
+        ImageEngineApi::instance()->reQuestImageData(firstfilesbeleft, this, bneedcache, useGlobalThreadPool);
     }
 }
 
@@ -939,23 +944,23 @@ QStringList ThumbnailListView::getAllFileList()
     return m_allfileslist;
 }
 
-void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
-{
-    m_item = item;
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-}
+//void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
+//{
+//    m_item = item;
+//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//}
 
 void ThumbnailListView::setIBaseHeight(int iBaseHeight)
 {
     m_iBaseHeight = iBaseHeight;
 }
 
-void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
-{
-    m_scrollbartopdistance = topdistance;
-    m_scrollbarbottomdistance = bottomdistance;
-}
+//void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
+//{
+//    m_scrollbartopdistance = topdistance;
+//    m_scrollbarbottomdistance = bottomdistance;
+//}
 
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
@@ -1150,11 +1155,11 @@ DMenu *ThumbnailListView::createAlbumMenu()
 {
     DMenu *am = new DMenu(tr("Add to album"));
     QStringList albums = DBManager::instance()->getAllAlbumNames();
-    QAction *ac = new QAction(am);
-    ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("New album"));
-    ac->setData("Add to new album");
-    am->addAction(ac);
+    QAction *ac1 = new QAction(am);
+    ac1->setProperty("MenuID", IdAddToAlbum);
+    ac1->setText(tr("New album"));
+    ac1->setData("Add to new album");
+    am->addAction(ac1);
     am->addSeparator();
     for (QString album : albums) {
         QAction *ac = new QAction(am);
@@ -1253,21 +1258,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         } else {
             ImageEngineApi::instance()->moveImagesToTrash(paths);
         }
-
-//        QModelIndexList modelList = selectionModel()->selectedIndexes();
-//        int all1 = m_model->rowCount();
-//        QVector<int>    tempSort;
-//        for (auto index : modelList) {
-//            tempSort.push_back(index.row());
-//        }
-//        //倒序，删除
-//        qSort(tempSort.begin(), tempSort.end(), [ = ](int left, int right) {
-//            return left > right;
-//        });
-//        for (auto index : tempSort) {
-//            m_model->removeRow(index);
-//        }
-        //从内存中删除该数据
     }
     break;
     case IdAddToFavorites:
@@ -1364,8 +1354,6 @@ void ThumbnailListView::onPixMapScale(int value)
     calWidgetItemWandH();
     updateThumbnaillistview();      //改用新的调整位置--xioalong
 //    addThumbnailView();//耗时最长
-    //2020/4/24 内部为空函数
-    emit SignalManager::instance()->updateThumbnailViewSize();
     sendNeedResize();
 }
 
@@ -1389,6 +1377,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
+    qDebug() << "zy--------ThumbnailListView::resizeEvent";
     if (e->size().width() == e->oldSize().width()) {
 //        qDebug() << "宽度没有改变，证明是导入图片改变了高度";
         return;
@@ -1501,11 +1490,11 @@ QModelIndexList ThumbnailListView::getSelectedIndexes()
     return selectedIndexes();
 }
 
-void ThumbnailListView::selectCurrent(int row)
-{
-    QModelIndex qindex = m_model->index(row, 0);
-    selectionModel()->select(qindex, QItemSelectionModel::Select);
-}
+//void ThumbnailListView::selectCurrent(int row)
+//{
+//    QModelIndex qindex = m_model->index(row, 0);
+//    selectionModel()->select(qindex, QItemSelectionModel::Select);
+//}
 
 int ThumbnailListView::getRow(QPoint point)
 {
@@ -1564,6 +1553,11 @@ void ThumbnailListView::resizeHand()
 {
     emit needResize(m_height + 15);
 }
+
+void ThumbnailListView::setListViewUseFor(ThumbnailListView::ListViewUseFor usefor)
+{
+    m_useFor = usefor;
+}
 #endif
 //add start 3975
 int ThumbnailListView::getListViewHeight()
@@ -1605,14 +1599,12 @@ void ThumbnailListView::slotReCalcTimelineSize()
 void ThumbnailListView::slotLoad80ThumbnailsFinish()
 {
     qDebug() << "zy------ThumbnailListView::slotLoad80ThumbnailsFinish";
-    for (int i = 0; i < ImageEngineApi::instance()->m_AllImageData.size(); i++) {
-        ImageDataSt data = ImageEngineApi::instance()->m_AllImageData[ImageEngineApi::instance()->m_AllImageData.keys().at(i)];
+    for (auto data : ImageEngineApi::instance()->m_AllImageData) {
         ItemInfo info;
         if (data.imgpixmap.isNull()) {
             info.bNotSupportedOrDamaged = true;
             data.imgpixmap = getDamagedPixmap();
         }
-
         info.name = data.dbi.fileName;
         info.path = data.dbi.filePath;
         info.width = data.imgpixmap.width();

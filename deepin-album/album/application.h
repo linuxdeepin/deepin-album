@@ -80,13 +80,14 @@ public:
 //    QMap<QString, QStringList> m_phoneNameAndPathlist;
 //    QMap<QString, QPixmap> m_phonePathAndImage;
 
+    static bool isWaylandPlatform();
 signals:
     void sigstartLoad();
     void sigFinishLoad();
 //    void sigLoadMountImagesStart(QString mountName, QString path);
 
 public slots:
-    void finishLoadSlot();
+//    void finishLoadSlot();
 private:
     void initChildren();
     void initI18n();

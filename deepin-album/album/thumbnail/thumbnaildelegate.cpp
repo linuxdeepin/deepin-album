@@ -41,20 +41,24 @@ const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
 const int NotSupportedOrDamagedHeigh = 40;
 
 ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
-    : QStyledItemDelegate(parent), m_delegatetype(type)
+    : QStyledItemDelegate(parent)
+    , m_imageTypeStr(IMAGE_DEFAULTTYPE)
+    , selectedPixmapLight(utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28)))
+    , selectedPixmapDark(utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28)))
+    , m_delegatetype(type)
 {
-    m_imageTypeStr = IMAGE_DEFAULTTYPE;
+//    m_imageTypeStr = IMAGE_DEFAULTTYPE;
 
-    selectedPixmapLight = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
-    selectedPixmapDark = utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28));
+//    selectedPixmapLight = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
+//    selectedPixmapDark = utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28));
 
 }
 
 
-void ThumbnailDelegate::setNeedPaint(bool value)
-{
-    bneedpaint = value;
-}
+//void ThumbnailDelegate::setNeedPaint(bool value)
+//{
+//    bneedpaint = value;
+//}
 
 void ThumbnailDelegate::paint(QPainter *painter,
                               const QStyleOptionViewItem &option,
@@ -136,8 +140,8 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->fillRect(backRect, shadowbrush);
     }
 
-    float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1:data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
-    float fheight = (backgroundRect.width()) / (data.baseWidth  == 0 ? 1:data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
+    float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1 : data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
+    float fheight = (backgroundRect.width()) / (data.baseWidth  == 0 ? 1 : data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
     QRect pixmapRect;
     if ((data.width > data.imgWidth + 16) && fheight <= 3) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
@@ -165,11 +169,11 @@ void ThumbnailDelegate::paint(QPainter *painter,
     }
     //2020/6/9 DJH UI 透明图片背景
     QBrush transparentbrush;
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType) {
+    DGuiApplicationHelper::ColorType themeType1 = DGuiApplicationHelper::instance()->themeType();
+    if (themeType1 == DGuiApplicationHelper::LightType) {
         transparentbrush = QBrush(QColor("#FFFFFF"));
     }
-    if (themeType == DGuiApplicationHelper::DarkType) {
+    if (themeType1 == DGuiApplicationHelper::DarkType) {
         transparentbrush = QBrush(QColor("#252525"));
         painter->fillRect(backgroundRect, transparentbrush);
 

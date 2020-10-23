@@ -78,8 +78,8 @@ NavigationWidget::NavigationWidget(QWidget *parent)
         setAlwaysHidden(true);
     });
 
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::DarkType) {
+    DGuiApplicationHelper::ColorType themeType1 = DGuiApplicationHelper::instance()->themeType();
+    if (themeType1 == DGuiApplicationHelper::DarkType) {
         closeBtn_light->hide();
         closeBtn_dark->show();
     } else {

@@ -63,8 +63,7 @@ void AlbumCreateDialog::initUI()
     logoLable->move(10, 9);
     logoLable->setAlignment(Qt::AlignLeft);
 //title
-    const QString subStyle =
-        utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
+    const QString subStyle = utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T6, QFont::DemiBold);
     title->setForegroundRole(DPalette::TextTitle);

@@ -60,8 +60,6 @@ const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
-const int MAX_WIDTH_HEIGHT = 3500;      //最大尺寸分辨率，超过则加载缩略图替换
-
 
 QVariantList cachePixmap(const QString &path)
 {
@@ -88,8 +86,8 @@ ImageView::ImageView(QWidget *parent)
 //    , m_svgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
-    , m_rotateControler(nullptr)
 {
+    this->setObjectName("ImageView");
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setScene(new QGraphicsScene(this));
     setMouseTracking(true);
@@ -125,27 +123,6 @@ ImageView::ImageView(QWidget *parent)
         m_watcher.setFuture(f);
         emit hideNavigation();
     });
-
-//    m_toast = new Toast(this);
-//    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
-//    m_toast->setText(tr("This file contains multiple pages, please use Evince to view all pages."));
-//    m_toast->hide();
-    // TODO
-    //    QPixmap pm(12, 12);
-    //    QPainter pmp(&pm);
-    //    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-    //    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-    //    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-    //    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-    //    pmp.end();
-
-    //    QPalette pal = palette();
-    //    pal.setBrush(backgroundRole(), QBrush(pm));
-    //    setAutoFillBackground(true);
-    //    setPalette(pal);
-
-    // Use openGL to render by default
-    //    setRenderer(OpenGL);
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::DarkType) {
@@ -155,14 +132,21 @@ ImageView::ImageView(QWidget *parent)
         }
         update();
     });
-
     m_imgFileWatcher = new CFileWatcher(this);
     connect(m_imgFileWatcher, &CFileWatcher::fileChanged, this, &ImageView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, [ = ] {
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
-        setImage(m_path);
-        m_isChangedTimer->stop();
+        QFileInfo file(m_path);
+        if (file.exists())
+        {
+            dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+            setImage(m_path);
+            m_isChangedTimer->stop();
+        } else
+        {
+            emit sigFIleDelete();
+            m_isChangedTimer->stop();
+        }
     });
 }
 
@@ -213,8 +197,13 @@ void ImageView::setImage(const QString &path)
 //        m_movieItem->start();
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
+        qDebug() << "m_movieItem->boundingRect() = " << m_movieItem->boundingRect();
         s->addItem(m_movieItem);
         emit imageChanged(path);
+        QMetaObject::invokeMethod(this, [ = ]() {
+            resetTransform();
+            autoFit();
+        }, Qt::QueuedConnection);
     } else {
         m_movieItem = nullptr;
         qDebug() << "Start cache pixmap: " << path;
@@ -225,42 +214,70 @@ void ImageView::setImage(const QString &path)
         resetTransform();
         ImageDataSt data;   //内存中的数据
         ImageEngineApi::instance()->getImageData(path, data);
-        int wS = 0;
-        int hS = 0;
-        QRect screenRect = QApplication::desktop()->screenGeometry();
-        if (w > screenRect.width()) {
-            wS = screenRect.width();
-            hS = wS * h / w;
+        int wScale = 0;
+        int hScale = 0;
+        int wWindow = 0;
+        int hWindow = 0;
+        if (QApplication::activeWindow()) {
+            wWindow = QApplication::activeWindow()->width();
+            hWindow = QApplication::activeWindow()->height();
+        } else {
+            wWindow = 1300;
+            hWindow = 848;
         }
-        QPixmap pix = data.imgpixmap.scaled(wS, hS, Qt::KeepAspectRatio); //缩放到原图大小
+
+        if (w >= wWindow) {
+            wScale = wWindow;
+            hScale = wScale * h / w;
+            if (hScale > hWindow) {
+                hScale = hWindow;
+                wScale = hScale * w / h;
+            }
+        } else if (h >= hWindow) {
+            hScale = hWindow;
+            wScale = hScale * w / h;
+            if (wScale >= wWindow) {
+                wScale = wWindow;
+                hScale = wScale * h / w;
+            }
+        } else {
+            wScale = w;
+            hScale = h;
+        }
+        if (wScale == 0 || wScale == -1) {
+            wScale = wWindow;
+            hScale = hWindow;
+        }
+        QPixmap pix = data.imgpixmap.scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
         m_pixmapItem = new GraphicsPixmapItem(pix);
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         // Make sure item show in center of view after reload
         m_blurEffect = new QGraphicsBlurEffect;
-        m_blurEffect->setBlurRadius(15);
+        m_blurEffect->setBlurRadius(5);
         m_blurEffect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
         m_pixmapItem->setGraphicsEffect(m_blurEffect);
         setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
-        if (m_loadTimer->isActive()) {
-            return;
-        }
+        emit imageChanged(path);
         m_loadTimer->start();
+        QMetaObject::invokeMethod(this, [ = ]() {
+            resetTransform();
+        }, Qt::QueuedConnection);
     }
 }
 
-void ImageView::setRenderer(RendererType type)
-{
-    m_renderer = type;
+//void ImageView::setRenderer(RendererType type)
+//{
+//    m_renderer = type;
 
-    if (m_renderer == OpenGL) {
-#ifndef QT_NO_OPENGL
-        setViewport(new QOpenGLWidget());
-#endif
-    } else {
-        setViewport(new QWidget);
-    }
-}
+//    if (m_renderer == OpenGL) {
+//#ifndef QT_NO_OPENGL
+//        setViewport(new QOpenGLWidget());
+//#endif
+//    } else {
+//        setViewport(new QWidget);
+//    }
+//}
 
 void ImageView::setScaleValue(qreal v)
 {
@@ -486,14 +503,14 @@ bool ImageView::isFitWindow() const
     return m_isFitWindow;
 }
 
-void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
-{
-#ifndef QT_NO_OPENGL
-    setRenderHint(QPainter::HighQualityAntialiasing, highQualityAntialiasing);
-#else
-    Q_UNUSED(highQualityAntialiasing);
-#endif
-}
+//void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
+//{
+//#ifndef QT_NO_OPENGL
+//    setRenderHint(QPainter::HighQualityAntialiasing, highQualityAntialiasing);
+//#else
+//    Q_UNUSED(highQualityAntialiasing);
+//#endif
+//}
 
 void ImageView::onImgFileChanged(const QString &ddfFile, int tp)
 {
@@ -717,9 +734,6 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
-//    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-//        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-//    else
     if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
@@ -755,33 +769,38 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
 }
 
-void ImageView::swipeTriggered(QSwipeGesture *gesture)
-{
-    m_maxTouchPoints = 3;
-    if (gesture->state() == Qt::GestureFinished) {
-        if (gesture->horizontalDirection() == QSwipeGesture::Left
-                || gesture->verticalDirection() == QSwipeGesture::Up) {
-            emit nextRequested();
-        } else {
-            emit previousRequested();
-        }
-    }
+//void ImageView::swipeTriggered(QSwipeGesture *gesture)
+//{
+//    m_maxTouchPoints = 3;
+//    if (gesture->state() == Qt::GestureFinished) {
+//        if (gesture->horizontalDirection() == QSwipeGesture::Left
+//                || gesture->verticalDirection() == QSwipeGesture::Up) {
+//            emit nextRequested();
+//        } else {
+//            emit previousRequested();
+//        }
+//    }
 
-}
+//}
 
-void ImageView::updateImages(const QStringList &path)
-{
-    dApp->m_imageloader->updateImageLoader(path);
-    //等待svg图片转换完成后在加载
-    setImage(m_path);
-}
+//void ImageView::updateImages(const QStringList &path)
+//{
+//    dApp->m_imageloader->updateImageLoader(path);
+//    //等待svg图片转换完成后在加载
+//    setImage(m_path);
+//}
 
 void ImageView::wheelEvent(QWheelEvent *event)
 {
-    qreal factor = qPow(1.2, event->delta() / 240.0);
-    scaleAtPoint(event->pos(), factor);
+    QFileInfo file(m_path);
+    if (!file.exists()) {
+        event->accept();
+    } else {
+        qreal factor = qPow(1.2, event->delta() / 240.0);
+        scaleAtPoint(event->pos(), factor);
 
-    event->accept();
+        event->accept();
+    }
 }
 
 CFileWatcher::CFileWatcher(QObject *parent): QThread(parent)
@@ -804,48 +823,39 @@ void CFileWatcher::addWather(const QString &path)
     QMutexLocker loker(&_mutex);
     if (!isVaild())
         return;
-
     QFileInfo info(path);
     if (!info.exists() || !info.isFile()) {
         return;
     }
-
     if (watchedFiles.find(path) != watchedFiles.end()) {
         return;
     }
-
     std::string sfile = path.toStdString();
     int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
-
     watchedFiles.insert(path, fileId);
     watchedFilesId.insert(fileId, path);
-
     if (!_running) {
         _running = true;
         start();
     }
 }
 
-void CFileWatcher::removePath(const QString &path)
-{
-    QMutexLocker loker(&_mutex);
-
-    if (!isVaild())
-        return;
-
-    auto itf = watchedFiles.find(path);
-    if (itf != watchedFiles.end()) {
-        inotify_rm_watch(_handleId, itf.value());
-
-        watchedFilesId.remove(itf.value());
-        watchedFiles.erase(itf);
-    }
-}
+//void CFileWatcher::removePath(const QString &path)
+//{
+//    QMutexLocker loker(&_mutex);
+//    if (!isVaild())
+//        return;
+//    auto itf = watchedFiles.find(path);
+//    if (itf != watchedFiles.end()) {
+//        inotify_rm_watch(_handleId, itf.value());
+//        watchedFilesId.remove(itf.value());
+//        watchedFiles.erase(itf);
+//    }
+//}
 
 void CFileWatcher::clear()
 {
     QMutexLocker loker(&_mutex);
-
     for (auto it : watchedFiles) {
         inotify_rm_watch(_handleId, it);
     }

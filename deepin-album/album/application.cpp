@@ -142,15 +142,28 @@ Application::~Application()
 //    if (m_imageloader) {
 //        delete m_imageloader;
 //        m_imageloader = nullptr;
-//    }
+    //    }
 }
 
-
-void Application::finishLoadSlot()
+bool Application::isWaylandPlatform()
 {
-    qDebug() << "finishLoadSlot";
-    emit sigFinishLoad();
+    auto e = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
+    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
+
+    //判断wayland
+    if (XDG_SESSION_TYPE != QLatin1String("wayland") && !WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive)) {
+        return false;
+    }
+    return true;
 }
+
+
+//void Application::finishLoadSlot()
+//{
+//    qDebug() << "finishLoadSlot";
+//    emit sigFinishLoad();
+//}
 
 void Application::initChildren()
 {

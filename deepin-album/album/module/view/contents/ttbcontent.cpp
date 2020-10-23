@@ -73,13 +73,12 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     m_timer->setSingleShot(200);
     m_animationTimer = new QTimer(this);
     m_animationTimer->setInterval(100);
-    connect(m_animationTimer, SIGNAL(timeout()), this, SLOT(animationTimerTimeOut()));
 }
 
-bool MyImageListWidget::ifMouseLeftPressed()
-{
-    return bmouseleftpressed;
-}
+//bool MyImageListWidget::ifMouseLeftPressed()
+//{
+//    return bmouseleftpressed;
+//}
 
 QObject *MyImageListWidget::getObj()
 {
@@ -94,11 +93,19 @@ void MyImageListWidget::setObj(QObject *obj)
     m_obj = obj;
     m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
     m_resetAnimation = new QPropertyAnimation(m_obj, "pos");
+    connect(m_resetAnimation, SIGNAL(finished()), this, SLOT(animationFinished()));
+    connect(m_resetAnimation, SIGNAL(valueChanged(const QVariant)), this, SLOT(animationValueChanged(const QVariant)));
 }
 
 void MyImageListWidget::setSelectItem(ImageItem *selectItem)
 {
+    qDebug() << "zy------MyImageListWidget::setSelectItem";
     m_selectItem = selectItem;
+    if (!m_isMoving) {
+        if (m_resetAnimation->property("type") != "800") {
+            animationStart(true, 0, 300);
+        }
+    }
 }
 
 void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
@@ -106,14 +113,10 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
     if (dynamic_cast<DWidget *>(m_obj) == nullptr) {
         return;
     }
-//    if (m_isMoving) {
-//        return;
-//    }
     if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
         m_resetAnimation->stop();
     }
 
-    findSelectItem();
     int moveX = 0;
 //    qDebug() << "zy------this->left() = " << dynamic_cast<DWidget *>(m_obj)->geometry().left();
 //    qDebug() << "zy------m_obj)->geometry().width() = " << dynamic_cast<DWidget *>(m_obj)->geometry().width();
@@ -136,11 +139,15 @@ void MyImageListWidget::animationStart(bool isReset, int endPos, int duration)
         moveX = endPos;
     }
     m_resetAnimation->setDuration(duration);
+    if (duration == 800) {
+        m_resetAnimation->setProperty("type", "800");
+    } else {
+        m_resetAnimation->setProperty("type", "300");
+    }
     m_resetAnimation->setEasingCurve(QEasingCurve::OutQuad);
     m_resetAnimation->setStartValue(dynamic_cast<DWidget *>(m_obj)->pos());
     m_resetAnimation->setEndValue(QPoint(moveX, dynamic_cast<DWidget *>(m_obj)->pos().y()));
     m_resetAnimation->start();
-    connect(m_resetAnimation, SIGNAL(finished()), this, SLOT(animationFinished()));
 }
 
 void MyImageListWidget::stopAnimation()
@@ -176,20 +183,89 @@ void MyImageListWidget::findSelectItem()
     }
 }
 
+void MyImageListWidget::thumbnailIsMoving()
+{
+    if (m_obj == nullptr || m_selectItem == nullptr || m_resetFinish) {
+        return;
+    }
+    if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 300) {
+        return;
+    }
+    int offsetLimit = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+    if (abs(offsetLimit) <= 32) {
+        return;
+    }
+    int index = 0;
+    QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+    if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
+        if (offsetLimit < 0) {
+            index = m_selectItem->index() + 1;
+            if (index >= list.size()) {
+                index = list.size() - 1;
+            }
+        } else {
+            index = m_selectItem->index() - 1;
+            if (index < 0) {
+                index = 0;
+            }
+        }
+        QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
+        if (labelList2.size() > 0) {
+            ImageItem *img2 = labelList2.at(0);
+            if (nullptr != img2) {
+                img2->emitClickSig();
+            }
+        }
+    } else {
+        int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+        if (offset > 0) {
+            index = m_preSelectItemIndex - abs(offset) / 32;
+            if (index < 0) {
+                index = 0;
+            }
+        } else if (offset < 0) {
+            index = m_preSelectItemIndex + abs(offset) / 32;
+            if (index >= list.size()) {
+                index = list.size() - 1;
+            }
+        }
+        QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
+        if (labelList2.size() > 0) {
+            ImageItem *img2 = labelList2.at(0);
+            if (nullptr != img2) {
+                img2->emitClickSig();
+            }
+        }
+    }
+}
+
+void MyImageListWidget::animationValueChanged(const QVariant value)
+{
+    Q_UNUSED(value)
+    if (m_resetAnimation->property("type") != "800") {
+        return;
+    }
+    //惯性滑动过程中显示选中图元
+    thumbnailIsMoving();
+}
+
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Leave) {
     }
     if (e->type() == QEvent::MouseButtonPress) {
-        if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
-            m_resetAnimation->stop();
-        }
+        m_resetAnimation->stop();
         m_animationTimer->start();
         findSelectItem();
         m_isMoving = false;
         m_resetFinish = false;
         bmouseleftpressed = true;
+        //记录点下时当前选中的缩略图图元index，便于移动和惯性时比较
+        if (m_selectItem) {
+            m_preSelectItemIndex = m_selectItem->indexNow();
+        }
+        m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
         m_presspoint = mouseEvent->globalPos();
         m_prepoint = mouseEvent->globalPos();
@@ -220,11 +296,14 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         }
         emit mouseLeftReleased();
         if (m_isMoving) {
-            int endPos = 0;
             if (m_movePoints.size() > 0) {
-                endPos = dynamic_cast<DWidget *>(m_obj)->pos().x() +
-                         m_movePoints.at(m_movePoints.size() - 1).x() - m_movePoints.at(0).x();
-                animationStart(false, endPos, 800);
+                int endPos = dynamic_cast<DWidget *>(m_obj)->pos().x() + m_movePoints.last().x() - m_movePoints.first().x();
+                //过滤掉触屏点击时的move误操作
+                if (abs(m_movePoints.last().x() - m_movePoints.first().x()) > 15) {
+                    animationStart(false, endPos, 800);
+                } else {
+                    animationStart(true, 0, 300);
+                }
             }
         }
         if (!m_isMoving) {
@@ -238,8 +317,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 //        emit mouseLeftReleased();
     }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
-        m_isMoving = true;
         QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        m_isMoving = true;
         QPoint p = mouseEvent->globalPos();
         if (m_movePoints.size() < 20) {
             m_movePoints.push_back(p);
@@ -258,8 +337,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_presspoint = p;
         int posX = dynamic_cast<DWidget *>(m_obj)->x();
         int viewwidth = dynamic_cast<DWidget *>(m_obj)->width() + dynamic_cast<DWidget *>(m_obj)->x();
-
-
+        //多动过程中显示选中图元
+        thumbnailIsMoving();
 
         QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
         //向右加载数据
@@ -288,7 +367,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     return false;
 }
 
-int static preOffset = 0;
 void MyImageListWidget::animationTimerTimeOut()
 {
     m_animationTimerTOCount++;
@@ -299,8 +377,8 @@ void MyImageListWidget::animationTimerTimeOut()
     if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 300) {
         return;
     }
-    int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
-    if (abs(offset) <= 4) {
+    int offset1 = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+    if (abs(offset1) <= 4) {
         return;
     }
     if (m_animationTimerTOCount == 20) {
@@ -308,11 +386,11 @@ void MyImageListWidget::animationTimerTimeOut()
     }
     int index = 0;
     QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
-    int showCountHalf = this->geometry().width() / 64;
+
     int middle = this->geometry().width() / 2;
     if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
         qDebug() << "11111111";
-        if (offset < 0) {
+        if (offset1 < 0) {
             index = m_selectItem->index() + 1;
             if (index >= list.size()) {
                 index = list.size() - 1;
@@ -385,11 +463,12 @@ void MyImageListWidget::animationTimerTimeOut()
 
 void MyImageListWidget::animationFinished()
 {
-    if (m_resetAnimation->duration() == 800) {
+    //设置type标志用来判断是惯性动画还是复位动画
+    if (m_resetAnimation->property("type") == "800") {
         m_resetFinish = false;
         animationStart(true, 0, 300);
     }
-    if (m_resetAnimation->duration() == 300) {
+    if (m_resetAnimation->property("type") == "300") {
         m_resetFinish = true;
     }
 }
@@ -526,18 +605,8 @@ void ImageItem::paintEvent(QPaintEvent *event)
         painter.setClipPath(bg);
     }
 
-
-
     QPainterPath bp1;
-//    bp1.addRoundedRect(pixmapRect, 4, 4);
-//    bp1.addRoundedRect(pixmapRect, 4, 4);
     bp1.addRoundedRect(pixmapRect, 4, 4);
-//    int width = pixmapRect.width();
-//    int height = pixmapRect.height();
-//    pixmapRect.setX(pixmapRect.x() - 1);
-//    pixmapRect.setY(pixmapRect.y() - 1);
-//    pixmapRect.setWidth(pixmapRect.width() - 2);
-//    pixmapRect.setHeight(pixmapRect.height() - 2);
     painter.setClipPath(bp1);
     painter.drawPixmap(pixmapRect, _pixmap);
 
@@ -790,7 +859,9 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     // imgListView
     m_imgListView = new MyImageListWidget(this);
     m_imgList = new DWidget(m_imgListView);
+    m_imgList->setObjectName("imageListObj");
     m_imgListView->setObj(m_imgList);
+    m_imgListView->setObjectName("MyImageListWidget");
     m_imgList->installEventFilter(m_imgListView);
     connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
         if (m_rightlist.isEmpty())
@@ -906,9 +977,6 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     connect(this, &TTBContent::sigRequestSomeImages, this, [ = ] {
         requestSomeImages();
     });
-    m_filterTimer = new QTimer(this);
-    m_filterTimer->setInterval(800);
-    m_filterTimer->setSingleShot(true);
 }
 
 
@@ -933,12 +1001,12 @@ void TTBContent::requestSomeImages()
     }
 }
 
-void TTBContent::setRightlist(QStringList rightlist)
+void TTBContent::setRightlist(const QStringList &rightlist)
 {
     m_rightlist = rightlist;
 }
 
-void TTBContent::setLeftlist(QStringList leftlist)
+void TTBContent::setLeftlist(const QStringList &leftlist)
 {
     m_leftlist = leftlist;
 }
@@ -972,28 +1040,30 @@ QString TTBContent::getIndexPath(int index)
 
 void TTBContent::updateScreen()
 {
+    qDebug() << "zy------TTBContent::updateScreen";
     if (m_ItemLoaded.size() > 3) {
         m_imgList->setFixedSize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
         m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT);
 
         m_imgList->setContentsMargins(0, 0, 0, 0);
-
         m_imgListView->show();
-        auto num = 32;
+
         QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
 
         if (m_nowIndex > -1) {
+
             if (labelList.isEmpty())
                 return;
 
             labelList.at(0)->setIndexNow(m_nowIndex);
             m_imgListView->setSelectItem(labelList.at(0));
 
-            if (m_lastIndex > -1) {
+            if (m_lastIndex > -1 && m_lastIndex != m_nowIndex) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                 if (lastlabelList.isEmpty()) {
                     return;
                 }
+                auto num = 32;
                 lastlabelList.at(0)->setFixedSize(QSize(num, 40));
                 lastlabelList.at(0)->resize(QSize(num, 40));
                 lastlabelList.at(0)->setIndexNow(m_nowIndex);
@@ -1009,8 +1079,6 @@ void TTBContent::updateScreen()
             m_preButton_spc->show();
             m_nextButton->show();
             m_nextButton_spc->show();
-            m_imgListView->animationStart(true, 0, 300);
-
 
             if (m_nowIndex == 0) {
                 m_preButton->setDisabled(true);
@@ -1030,22 +1098,22 @@ void TTBContent::updateScreen()
 
         m_imgList->setContentsMargins(0, 0, 0, 0);
 
-        auto num = 32;
         m_imgListView->show();
         if (!binsertneedupdate)
             return;
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_nowIndex)*/);
+        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_nowIndex));
         if (m_nowIndex > -1) {
 
             if (labelList.isEmpty())
                 return;
-            if (m_nowIndex < labelList.size()) {
+            if (m_nowIndex < m_ItemLoaded.size()) {
                 labelList.at(0)->setIndexNow(m_nowIndex);
             }
-            if (m_lastIndex > -1) {
+            if (m_lastIndex > -1 && m_lastIndex != m_nowIndex) {
                 QList<ImageItem *> lastlabelList = m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                 if (lastlabelList.isEmpty())
                     return;
+                auto num = 32;
                 lastlabelList.at(0)->setFixedSize(QSize(num, 40));
                 lastlabelList.at(0)->resize(QSize(num, 40));
                 lastlabelList.at(0)->setIndexNow(m_nowIndex);
@@ -1053,6 +1121,7 @@ void TTBContent::updateScreen()
             if (labelList.size() > 0) {
                 labelList.at(0)->setFixedSize(QSize(58, 58));
                 labelList.at(0)->resize(QSize(58, 58));
+                m_imgListView->setSelectItem(labelList.at(0));
             }
 
 //            m_imgListView->show();
@@ -1070,7 +1139,7 @@ void TTBContent::updateScreen()
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_ItemLoaded.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
@@ -1082,8 +1151,6 @@ void TTBContent::updateScreen()
         m_imgList->resize((m_ItemLoaded.size() + 1)*THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
 
         m_imgList->setContentsMargins(0, 0, 0, 0);
-
-        auto num = 32;
 
         m_imgListView->show();
         if (!binsertneedupdate)
@@ -1100,6 +1167,7 @@ void TTBContent::updateScreen()
                 if (lastlabelList.isEmpty()) {
                     return;
                 }
+                auto num = 32;
                 lastlabelList.at(0)->setFixedSize(QSize(num, 40));
                 lastlabelList.at(0)->resize(QSize(num, 40));
                 lastlabelList.at(0)->setIndexNow(m_nowIndex);
@@ -1202,6 +1270,7 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
     }
 
     connect(imageItem, &ImageItem::imageItemclicked, this, [ = ](int index, int indexNow) {
+        qDebug() << "zy------ImageItem::imageItemclicked";
         binsertneedupdate = true;
         m_nowIndex = index;
 
@@ -1247,34 +1316,34 @@ void TTBContent::insertImageItem(const ImageDataSt &file, bool bloadRight)
 //    onResize();
 }
 
-void TTBContent::reLoad()
-{
-    clearAndStopThread();
+//void TTBContent::reLoad()
+//{
+//    clearAndStopThread();
 
-    m_ItemLoaded.clear();
-    m_filesbeleft.clear();
-    m_filesbeleft << m_allfileslist;
-    m_requestCount = 0;
+//    m_ItemLoaded.clear();
+//    m_filesbeleft.clear();
+//    m_filesbeleft << m_allfileslist;
+//    m_requestCount = 0;
 
-    if (m_allfileslist.size() <= 3) {
-        m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-    } else {
-        m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-    }
-    m_allNeedRequestFilesCount = m_allfileslist.size();
-    QLayoutItem *child;
-    while ((child = m_imglayout->takeAt(0)) != nullptr) {
-        m_imglayout->removeWidget(child->widget());
-        child->widget()->setParent(nullptr);
-        delete child;
+//    if (m_allfileslist.size() <= 3) {
+//        m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//    } else {
+//        m_imgList->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_allfileslist.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//    }
+//    m_allNeedRequestFilesCount = m_allfileslist.size();
+//    QLayoutItem *child;
+//    while ((child = m_imglayout->takeAt(0)) != nullptr) {
+//        m_imglayout->removeWidget(child->widget());
+//        child->widget()->setParent(nullptr);
+//        delete child;
 
-    }
-    if (m_filesbeleft.size() > 0) {
-        requestSomeImages();
-    }
-}
+//    }
+//    if (m_filesbeleft.size() > 0) {
+//        requestSomeImages();
+//    }
+//}
 
 void TTBContent::stopLoadAndClear()
 {
@@ -1426,9 +1495,6 @@ void TTBContent::updateFilenameLayout()
 
 void TTBContent::onNextButton()
 {
-    if (m_filterTimer->isActive()) {
-        return;
-    }
     int viewwidth = dynamic_cast<DWidget *>(m_imgListView->getObj())->width() + dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
 
     //向右加载数据
@@ -1442,14 +1508,10 @@ void TTBContent::onNextButton()
     }
     emit showNext();
     emit ttbcontentClicked();
-    m_filterTimer->start();
 }
 
 void TTBContent::onPreButton()
 {
-    if (m_filterTimer->isActive()) {
-        return;
-    }
     //向左加载数据
     int posX = dynamic_cast<DWidget *>(m_imgListView->getObj())->x();
     if (posX > -32 && posX < 32) {
@@ -1462,7 +1524,6 @@ void TTBContent::onPreButton()
     }
     emit showPrevious();
     emit ttbcontentClicked();
-    m_filterTimer->start();
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
@@ -1470,14 +1531,15 @@ void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
     Q_UNUSED(theme);
 }
 
-void TTBContent::setCurrentDir(QString text)
+void TTBContent::setCurrentDir(const QString &text)
 {
+#ifndef LITE_DIV
     if (text == COMMON_STR_FAVORITES) {
         text = tr(COMMON_STR_FAVORITES);
     }
-
-#ifndef LITE_DIV
     m_returnBtn->setText(text);
+#else
+    Q_UNUSED(text)
 #endif
 }
 
@@ -1500,6 +1562,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
 void TTBContent::setImage(const QString &path)
 {
+    qDebug() << "zy------TTBContent::setImage";
     binsertneedupdate = true;
     if (!m_allfileslist.isEmpty() && !QFileInfo(path).exists()) {
         emit dApp->signalM->picNotExists(true);
@@ -1535,41 +1598,32 @@ void TTBContent::setImage(const QString &path)
         }
         setCurrentItem();
     }
-//    emit dApp->signalM->hideBottomToolbar();
 }
 
 bool TTBContent::setCurrentItem()
 {
-    if ((QFileInfo(m_currentpath).exists()) &&
-            (m_currentpath.isEmpty() || !QFileInfo(m_currentpath).exists() || !QFileInfo(m_currentpath).isReadable())) {
+    if (m_currentpath.isEmpty() || !QFileInfo(m_currentpath).exists()) {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
-//        m_trashBtn->setDisabled(true);
+        m_trashBtn->setDisabled(true);
         m_imgList->setDisabled(false);
+        m_clBT->setDisabled(true);
     } else {
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
 
         updateScreen();
-        if (QFileInfo(m_currentpath).isReadable() &&
-                !QFileInfo(m_currentpath).isWritable()) {
-//            m_trashBtn->setDisabled(true);
-            m_rotateLBtn->setDisabled(true);
-            m_rotateRBtn->setDisabled(true);
+        m_trashBtn->setDisabled(false);
+        if (UnionImage_NameSpace::canSave(m_currentpath)) {
+            m_rotateLBtn->setDisabled(false);
+            m_rotateRBtn->setDisabled(false);
         } else {
-//            m_trashBtn->setDisabled(false);
-            if (UnionImage_NameSpace::isImageSupportRotate(m_currentpath)) {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
-            } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
-            }
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
         }
     }
-
     QString fileName = "";
     if (m_currentpath != "") {
         fileName = QFileInfo(m_currentpath).fileName();

@@ -236,9 +236,7 @@ const QString ImgInfoDialog::trLabel(const char *str)
 
 void ImgInfoDialog::updateInfo()
 {
-    using namespace utils::image;
-    using namespace utils::base;
-    auto mds = getAllMetaData(m_path);
+    auto mds = UnionImage_NameSpace::getAllMetaData(m_path);
     m_maxFieldWidth = width() - m_title_maxwidth - 20 * 2 - 10 * 2;
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
@@ -361,8 +359,8 @@ void ImgInfoDialog::initExpand(QVBoxLayout *layout, DDrawer *expand)
 {
     expand->setFixedHeight(30);
     QMargins cm = layout->contentsMargins();
-    QRect rc = contentsRect();
-    expand->setFixedWidth(rc.width() - cm.left() - cm.right());
+    QRect rc1 = contentsRect();
+    expand->setFixedWidth(rc1.width() - cm.left() - cm.right());
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);

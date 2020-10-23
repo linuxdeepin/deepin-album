@@ -6,6 +6,9 @@
 #include <QMetaType>
 #include <QDirIterator>
 #include <QStandardPaths>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 #include "utils/unionimage.h"
 #include "utils/baseutils.h"
 
@@ -37,9 +40,6 @@ ImageEngineApi::~ImageEngineApi()
     QThreadPool::globalInstance()->waitForDone();
     qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
 #endif
-    m_worker->setThreadShouldStop();
-    m_workerThread->quit();
-    m_workerThread->wait();
 }
 
 ImageEngineApi::ImageEngineApi(QObject *parent)
@@ -50,27 +50,37 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     qRegisterMetaType<QStringList>("QStringList &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt &");
     qRegisterMetaType<ImageDataSt>("ImageDataSt");
+    qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
     qRegisterMetaType<QMap<QString, ImageDataSt>>("QMap<QString,ImageDataSt>");
 #ifdef NOGLOBAL
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
 #else
     QThreadPool::globalInstance()->setMaxThreadCount(12);
+    QThreadPool::globalInstance()->setExpiryTimeout(10);
 #endif
-    m_workerThread = new QThread(this);
-    m_worker = new DBandImgOperate();
-    m_worker->moveToThread(m_workerThread);
-    connect(m_workerThread, &QThread::finished, m_worker, &QObject::deleteLater);
-    //发送加载一张图片信息信号
-//    connect(this, SIGNAL(sigLoadOneThumbnail(QString, ImageDataSt)),
-//            m_worker, SLOT(loadOneThumbnail(QString, ImageDataSt)));
-    connect(this, SIGNAL(sigLoad80Thumbnails()),
-            m_worker, SLOT(threadSltLoad80Thumbnail()));
-    //收到获取全部照片信息成功信号
-//    connect(m_worker, &DBandImgOperate::loadOneThumbnailReady, this, &ImageEngineApi::sltLoadOneThumbnail);
-//    connect(m_worker, &DBandImgOperate::fileIsNotExist, this, &ImageEngineApi::sltAborted);
-    connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
-    m_workerThread->start();
+    for (int i = 0; i < 3; i++) {
+        QThread *workerThread = new QThread(this);
+        DBandImgOperate *worker = new DBandImgOperate(workerThread);
+        if (i == 0) {
+            worker->m_loadBegin = 0;
+            worker->m_loadEnd = 14;
+        } else if (i == 1) {
+            worker->m_loadBegin = 14;
+            worker->m_loadEnd = 33;
+        } else if (i == 2) {
+            worker->m_loadBegin = 33;
+            worker->m_loadEnd = 50;
+        }
+
+        worker->moveToThread(workerThread);
+        //开始录制
+        connect(this, SIGNAL(sigLoad80Thumbnails(DBImgInfoList)),
+                worker, SLOT(threadSltLoad80Thumbnail(DBImgInfoList)));
+        //收到获取全部照片信息成功信号
+        connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
+        workerThread->start();
+    }
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -175,7 +185,7 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
 }
 
 //载入图片实际位置
-bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache)
+bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache, bool useGlobalThreadPool)
 {
     if (nullptr == obj) {
         return false;
@@ -188,32 +198,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     if (ImageLoadStatu_Loaded == data.loaded) {
         dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
     } else if (ImageLoadStatu_PreLoaded == data.loaded) {
-        using namespace UnionImage_NameSpace;
-        QFileInfo srcfi(imagepath);
-        QString dimension;
-        auto mds = getAllMetaData(imagepath);
-        QString value = mds.value("DateTime");
-        if (value.isEmpty()) {
-            value = mds.value("DateTimeOriginal");
-        }
-        DBImgInfo dbi;
-        dbi.fileName = srcfi.fileName();
-        dbi.filePath = imagepath;
-        dbi.dirHash = utils::base::hash(QString());
-        if (value.isEmpty()) {
-            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-        } else if (srcfi.birthTime().isValid()) {
-            dbi.time = srcfi.birthTime();
-        } else if (srcfi.metadataChangeTime().isValid()) {
-            dbi.time = srcfi.metadataChangeTime();
-        } else {
-            dbi.time = QDateTime::currentDateTime();
-        }
-        if (!dimension.isEmpty()) {
-            dbi.albumSize = dimension;
-        }
-        dbi.changeTime = QDateTime::currentDateTime();
-        data.dbi = dbi;
+        data.dbi = getDBInfo(imagepath);
         data.loaded = ImageLoadStatu_Loaded;
         m_AllImageData[imagepath] = data;
         //DBManager::instance()->insertImgInfos(DBImgInfoList() << dbi);
@@ -233,24 +218,32 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
 #ifdef NOGLOBAL
         m_qtpool.start(imagethread);
 #else
-        QThreadPool::globalInstance()->start(imagethread);
+        if (useGlobalThreadPool) {
+            QThreadPool::globalInstance()->start(imagethread);
+        } else {
+            if (m_pool == nullptr) {
+                m_pool = new QThreadPool(this);
+                m_pool->setMaxThreadCount(1);
+            }
+            m_pool->start(imagethread);
+        }
 #endif
     }
     return true;
 }
 
-bool ImageEngineApi::imageNeedReload(QString imagepath)
-{
-    QMap<QString, ImageDataSt>::iterator it;
-    it = m_AllImageData.find(imagepath);
-    if (it == m_AllImageData.end()) {
-        return false;
-    }
-    ImageDataSt data = it.value();
-    data.loaded = ImageLoadStatu_False;
-    m_AllImageData[imagepath] = data;
-    return true;
-}
+//bool ImageEngineApi::imageNeedReload(QString imagepath)
+//{
+//    QMap<QString, ImageDataSt>::iterator it;
+//    it = m_AllImageData.find(imagepath);
+//    if (it == m_AllImageData.end()) {
+//        return false;
+//    }
+//    ImageDataSt data = it.value();
+//    data.loaded = ImageLoadStatu_False;
+//    m_AllImageData[imagepath] = data;
+//    return true;
+//}
 
 void ImageEngineApi::sltAborted(QString path)
 {
@@ -263,9 +256,9 @@ void ImageEngineApi::sltAborted(QString path)
 void ImageEngineApi::sltImageLoaded(void *imgobject, QString path, ImageDataSt &data)
 {
     m_AllImageData[path] = data;
-    ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
-    if (nullptr != thread)
-        thread->needStop(imgobject);
+//    ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
+//    if (nullptr != thread)
+//        thread->needStop(imgobject);
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
         static_cast<ImageEngineObject *>(imgobject)->checkAndReturnPath(path);
     }
@@ -315,14 +308,15 @@ void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
 {
     m_AllImageData[path] = data;
 }
-
+int static loadCount = 0;
 void ImageEngineApi::slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData)
 {
-    int size = ImageData.size();
-    m_AllImageData = ImageData;
-    m_80isLoaded = true;
-    emit sigLoad80ThumbnailsToView();
-    qDebug() << "ImageEngineApi::slt80ImgInfosReady size = " << size;
+    loadCount++;
+    m_AllImageData.unite(ImageData);
+    if (loadCount == 3) {
+        m_80isLoaded = true;
+        emit sigLoad80ThumbnailsToView();
+    }
 }
 
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
@@ -396,12 +390,12 @@ bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *o
 #endif
     return true;
 }
-bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
-{
-    sltImageDBLoaded(obj, QStringList() << path);
-    insertImage(path, "30");
-    return true;
-}
+//bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
+//{
+//    sltImageDBLoaded(obj, QStringList() << path);
+//    insertImage(path, "30");
+//    return true;
+//}
 
 bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName)
 {
@@ -433,7 +427,33 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
 
 void ImageEngineApi::load80Thumbnails()
 {
-    emit sigLoad80Thumbnails();
+    DBImgInfoList infos;
+    QSqlDatabase db = DBManager::instance()->getDatabase();
+    if (!db.isValid()) {
+        return;
+    }
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit 50");
+    if (!query.exec()) {
+        qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
+        //emit sigAllImgInfosReady(infos);
+        return;
+    } else {
+        using namespace utils::base;
+        while (query.next()) {
+            DBImgInfo info;
+            info.filePath = query.value(0).toString();
+            info.fileName = query.value(1).toString();
+            info.dirHash = query.value(2).toString();
+            info.time = stringToDateTime(query.value(3).toString());
+            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
+            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
+            infos << info;
+        }
+    }
+    emit sigLoad80Thumbnails(infos);
+    db.close();
 }
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {

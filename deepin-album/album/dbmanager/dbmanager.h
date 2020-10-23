@@ -40,7 +40,7 @@ const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
 
 struct DBAlbumInfo {
     QString name;
-    int count;
+//    int count;
     QDateTime beginTime;
     QDateTime endTime;
 };
@@ -50,17 +50,19 @@ struct DBImgInfo {
     QString fileName;
     QString dirHash;
     QDateTime time;     // 图片创建时间
-    QDateTime changeTime;   // 导入时间 Or 删除时间
+    QDateTime changeTime;   // 文件修改时间
+    QDateTime importTime;   // 导入时间 Or 删除时间
     QString albumname;      // 图片所属相册名，以","分隔
     QString albumSize;      //原图片分辨率
 
-    bool operator==(const DBImgInfo &other)
+    bool operator==(const DBImgInfo &other) const
     {
         return (filePath == other.filePath &&
                 fileName == other.fileName &&
                 dirHash == other.dirHash &&
                 time == other.time &&
                 changeTime == other.changeTime &&
+                importTime == other.importTime &&
                 albumname == other.albumname &&
                 albumSize == other.albumSize);
     }
@@ -73,6 +75,7 @@ struct DBImgInfo {
             << "Dir:" << info.dirHash
             << "Time:" << info.time
             << "ChangeTime:" << info.changeTime
+            << "ImportTime:" << info.importTime
             << "AlbumName:" << info.albumname
             << "AlbumSize:" << info.albumSize
             << "]";
@@ -110,21 +113,16 @@ public:
     const DBImgInfo         getInfoByPath(const QString &path) const;
     const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
     int                     getImgsCount() const;
-    int                     getImgsCountByDir(const QString &dir) const;
-    const QStringList       getPathsByDir(const QString &dir) const;
     bool                    isImgExist(const QString &path) const;
-    void insertImgInfos(const DBImgInfoList &infos);
-    void insertImgInfo(const DBImgInfo &info);
-    void removeImgInfos(const QStringList &paths);
-    void removeDir(const QString &dir);
-    void removeImgInfosNoSignal(const QStringList &paths);
+    void                    insertImgInfos(const DBImgInfoList &infos);
+    void                    insertImgInfo(const DBImgInfo &info);
+    void                    removeImgInfos(const QStringList &paths);
+    void                    removeImgInfosNoSignal(const QStringList &paths);
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(const QString &album, const QString &keywords) const;
-    const DBImgInfoList     getInfosByCount(int n = 0);
 
     // TableAlbum
-    const DBAlbumInfo       getAlbumInfo(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     const QStringList       getAllAlbumNames(AlbumDBType atype = AlbumDBType::Custom) const;
     const QStringList       getPathsByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     const DBImgInfoList     getInfosByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
@@ -132,32 +130,29 @@ public:
     int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     bool                    isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;
-    void insertIntoAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
-    void removeAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom);
-    void removeFromAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
-    void renameAlbum(const QString &oldAlbum, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
-    void removeFromAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
-    void insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    void                    insertIntoAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    void                    removeAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom);
+    void                    removeFromAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    void                    renameAlbum(const QString &oldAlbum, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
+//    void                    removeFromAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    void                    insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
     const QStringList       getAllTrashPaths() const;
     const DBImgInfoList     getAllTrashInfos() const;
-    void insertTrashImgInfos(const DBImgInfoList &infos);
-    void removeTrashImgInfos(const QStringList &paths);
-    void removeTrashImgInfosNoSignal(const QStringList &paths);
+    void                    insertTrashImgInfos(const DBImgInfoList &infos);
+    void                    removeTrashImgInfos(const QStringList &paths);
+    void                    removeTrashImgInfosNoSignal(const QStringList &paths);
     const DBImgInfo         getTrashInfoByPath(const QString &path) const;
     const DBImgInfoList     getTrashImgInfos(const QString &key, const QString &value) const;
     int                     getTrashImgsCount() const;
-    const QSqlDatabase getDatabase() const;
+    const QSqlDatabase      getDatabase() const;
 private:
-    const DBImgInfoList getInfosByNameTimeline(const QString &value) const;
-    const DBImgInfoList getImgInfos(const QString &key, const QString &value, const bool &needlock = true) const;
+    const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
+    const DBImgInfoList     getImgInfos(const QString &key, const QString &value, const bool &needlock = true) const;
 
-//    const QSqlDatabase getDatabase1() const;
-    void checkDatabase();
-    void importVersion1Data();
-    void importVersion2Data();
 
-    static DBManager *m_dbManager;
+    void                    checkDatabase();
+    static DBManager       *m_dbManager;
 private:
     //QString m_connectionName;
     mutable QMutex m_mutex;

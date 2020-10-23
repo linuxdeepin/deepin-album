@@ -27,7 +27,7 @@ class ModulePanel : public /*QFrame*/QWidget
 {
     Q_OBJECT
 public:
-    ModulePanel(QWidget *parent = nullptr)
+    explicit ModulePanel(QWidget *parent = nullptr)
         : /*QFrame*/QWidget(parent)
     {
         connect(dApp->signalM, &SignalManager::gotoPanel,
@@ -47,14 +47,10 @@ public:
 protected:
     virtual void showPanelEvent(ModulePanel *p)
     {
-        if (p != this)
-            return;
-        emit dApp->signalM->updateBottomToolbarContent(nullptr);
-        emit dApp->signalM->updateExtensionPanelContent(nullptr);
-//        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
-//        emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
-//        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-//        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        if (p == this) {
+            emit dApp->signalM->updateBottomToolbarContent(nullptr);
+            emit dApp->signalM->updateExtensionPanelContent(nullptr);
+        }
     }
 };
 
