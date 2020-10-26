@@ -203,6 +203,9 @@ void TimeLineView::initTimeLineViewWidget()
     pTimeLineViewWidget->setPalette(palcolor);
 
     m_mainListWidget = new TimelineList;
+    QScrollBar *pHorizontalBar = m_mainListWidget->horizontalScrollBar();
+    pHorizontalBar->setEnabled(false);
+    pHorizontalBar->setVisible(false);
 
 //    m_mainListWidget->setStyleSheet("Background:blue");
 
