@@ -126,7 +126,7 @@ void ImportView::onImprotBtnClicked()
         pictureFolder = QDir::currentPath();
     }
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
-    DFileDialog dialog;
+    DFileDialog dialog(this);
     dialog.setFileMode(DFileDialog::ExistingFiles);
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
