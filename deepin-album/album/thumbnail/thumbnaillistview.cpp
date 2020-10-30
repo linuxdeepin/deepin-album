@@ -227,7 +227,7 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
         emit sigSelectAll();
     }
     m_dragItemPath = selectedPaths();
-    if (event->key() == Qt::Key_Period) {
+    if (event->key() == Qt::Key_Period && this->objectName() != "Recently Delete") {
         if (m_dragItemPath.empty()) {
             return;
         }
