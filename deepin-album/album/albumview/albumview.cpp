@@ -159,7 +159,7 @@ AlbumView::AlbumView()
     pvLayout->addWidget(m_pLeftListView);
 
     QHBoxLayout *pLayout = new QHBoxLayout();
-    pLayout->setContentsMargins(5, 0, 0, 0);
+    pLayout->setContentsMargins(0, 0, 0, 0);
     pLayout->addWidget(leftwidget);
     pLayout->addWidget(m_pRightWidget);
     fatherwidget->setLayout(pLayout);
@@ -821,7 +821,7 @@ void AlbumView::initRightView()
 
     //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
     QVBoxLayout *pTopVBoxlayout = new QVBoxLayout();
-    pTopVBoxlayout->setContentsMargins(17, 5, 0, 11);
+    pTopVBoxlayout->setContentsMargins(12, 5, 0, 6);
 
     pLabel1 = new DLabel();
     DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
@@ -933,7 +933,9 @@ void AlbumView::initRightView()
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
     m_TrashTitle->move(0, 50);
-    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
+    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 76);
+//    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
+
 //add end 3975
 
 // Favorite View
@@ -947,11 +949,13 @@ void AlbumView::initRightView()
     QVBoxLayout *pFavoriteVBoxLayout = new QVBoxLayout();
 
     m_pFavoriteTitle = new DLabel();
+    m_pFavoriteTitle->setFixedHeight(36);
     DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
     m_pFavoriteTitle->setText(tr("Favorites"));
 
     m_pFavoritePicTotal = new DLabel();
+    m_pFavoritePicTotal->setFixedHeight(20);
     DFontSizeManager::instance()->bind(m_pFavoritePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pFavoritePicTotal->setForegroundRole(DPalette::TextTips);
     QString favoriteStr = tr("%1 photo(s)");
@@ -975,13 +979,13 @@ void AlbumView::initRightView()
     m_pRightFavoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
 
-    pFavoriteVBoxLayout->addSpacing(3);
-    pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
-    pFavoriteVBoxLayout->addSpacing(2);
-    pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
-    pFavoriteVBoxLayout->addSpacing(-1);
 
-    pFavoriteVBoxLayout->setContentsMargins(12, 0, 0, 0); //edit 3975
+    pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
+    pFavoriteVBoxLayout->addSpacing(9);
+    pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
+
+//    pFavoriteVBoxLayout->setContentsMargins(12, 0, 0, 0); //edit 3975
+    pFavoriteVBoxLayout->setContentsMargins(12, 5, 0, 6); //edit 3975
 
     AlbumViewList *lsitWidget2 = new AlbumViewList();
     lsitWidget2->setContentsMargins(0, 0, 0, 0);
