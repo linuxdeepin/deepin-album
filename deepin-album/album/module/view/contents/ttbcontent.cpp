@@ -30,6 +30,7 @@
 #include <QFileInfo>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <QPainterPath>
 #include <DLabel>
 #include <QAbstractItemModel>
 #include <DImageButton>
