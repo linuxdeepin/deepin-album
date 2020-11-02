@@ -1227,8 +1227,9 @@ void AlbumView::updateRightView()
 
 void AlbumView::updateAlbumView(const QString &album)
 {
-    Q_UNUSED(album)
-    updateRightNoTrashView();
+    if (m_currentType == album) {
+        updateRightNoTrashView();
+    }
 }
 
 // 更新已导入列表
