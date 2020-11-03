@@ -18,7 +18,7 @@ set(QtModule Core Gui Widgets Svg Concurrent)
 find_package(Qt5 REQUIRED ${QtModule})
 
 #设置输出目录
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../deepin-album/lib)
+#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../deepin-album/lib)
 
 #包含目录
 include_directories(UnionImage)
@@ -48,10 +48,9 @@ link_directories(${LINK_DIR})
 
 link_libraries(freeimage)
 
-
-
 #编译为库
 add_library(UnionImage SHARED ${allHeaders} ${allSources})
+set_target_properties(UnionImage PROPERTIES VERSION 1.0.0 SOVERSION 1.0)
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
@@ -62,7 +61,6 @@ qt5_use_modules(UnionImage ${QtModule})
 set(PREFIX /usr)
 set(UnionImageDir ${PREFIX}/lib)
 
-set_target_properties(UnionImage PROPERTIES VERSION 1.0.0 SOVERSION 1.0)
 install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
 
 #execute_process(
@@ -71,4 +69,4 @@ install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
 #COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0.0
 #)
 
-target_link_libraries(UnionImage)
+#target_link_libraries(UnionImage)
