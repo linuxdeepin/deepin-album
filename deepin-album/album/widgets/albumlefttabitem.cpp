@@ -202,11 +202,12 @@ void AlbumLeftTabItem::onCheckNameValid()
     }
     if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode) {
 //        m_nameLabel->setText(newNameStr);
-        if (newNameStr != m_nameLabel->text() && DBManager::instance()->isAlbumExistInDB(newNameStr)) {
+        if (newNameStr != m_nameLabel->oldstr && DBManager::instance()->isAlbumExistInDB(newNameStr)) {
             newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr, true, m_nameLabel->text());
         }
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        m_nameLabel->oldstr = newNameStr;
         QFont ft;
         ft.setPixelSize(14);
 
@@ -225,6 +226,7 @@ void AlbumLeftTabItem::onCheckNameValid()
         }
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        m_nameLabel->oldstr = newNameStr;
         QFont ft;
         ft.setPixelSize(14);
 
