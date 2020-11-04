@@ -1239,7 +1239,7 @@ void AlbumView::updateRightView()
 void AlbumView::updateAlbumView(const QString &album)
 {
     if (m_currentType == album) {
-        updateRightNoTrashView();
+        updateRightMyFavoriteView();
     }
 }
 
