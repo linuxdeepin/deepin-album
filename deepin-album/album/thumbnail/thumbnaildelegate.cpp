@@ -159,14 +159,6 @@ void ThumbnailDelegate::paint(QPainter *painter,
     if (themeType1 == DGuiApplicationHelper::LightType) {
         transparentbrush = QBrush(QColor("#FFFFFF"));
     }
-    if (themeType1 == DGuiApplicationHelper::DarkType) {
-        transparentbrush = QBrush(QColor("#252525"));
-        painter->fillRect(backgroundRect, transparentbrush);
-
-        QColor c("#000000");
-        c.setAlphaF(0.2);
-        transparentbrush = QBrush(c);
-    }
     QRect transparentRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
     QPainterPath transparentBp;
     transparentBp.addRoundedRect(transparentRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
