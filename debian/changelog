@@ -1,5 +1,5 @@
 deepin-album (1.0) unstable; urgency=medium
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Pre-release for deepin album 5.0
 
- -- unknown <zs@zs-PC>  Thu, 12 Sep 2019 13:50:37 +0800
+ -- TagBuilder <tagbuilder@deepin.com>  Mon, 23 May 2016 14:20:26 +0000

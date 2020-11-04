@@ -309,10 +309,10 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, [ = ](QString albumname, QStringList pathlist) {
         qDebug() << "添加到目的相册：" << albumname;
         Q_UNUSED(pathlist);
-        if (m_currentType != albumname) {
+        if (m_currentAlbum != albumname) {
             return;
         }
-        if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentType) //如果需要更新的为当前界面
+        if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentAlbum) //如果需要更新的为当前界面
             updateRightView();
     });
 
@@ -1057,6 +1057,18 @@ void AlbumView::initRightView()
     m_pPhonePicTotal = new DLabel();
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
+
+    pal = DApplicationHelper::instance()->palette(m_pPhonePicTotal);
+    color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+    }
+    m_pPhonePicTotal->setForegroundRole(DPalette::Text);
+    m_pPhonePicTotal->setPalette(pal);
 
     m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setListViewUseFor(ThumbnailListView::Mount);
