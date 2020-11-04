@@ -249,7 +249,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     m_pDate = new DLabel();
     DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T6, QFont::Medium);
-    m_pDate->setForegroundRole(DPalette::TextTips);
+    m_pDate->setForegroundRole(DPalette::Text);
     //原先注释的地方
 //    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
 //    ft3.setFamily("SourceHanSansSC");
@@ -265,7 +265,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     pNum_up = new DLabel();
     DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
-    pNum_up->setForegroundRole(DPalette::TextTips);
+    pNum_up->setForegroundRole(DPalette::Text);
     //原先注释的地方
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
@@ -428,7 +428,7 @@ void ImportTimeLineView::addTimelineLayout()
     DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T6, QFont::Medium);
     pNum_dn = new DLabel();
     DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
-    pDate->setForegroundRole(DPalette::TextTips);
+    pDate->setForegroundRole(DPalette::Text);
     pDate->setFixedHeight(20);
     pNum_dn->setFixedHeight(20);
     QStringList dateTimeList = m_timelines.at(nowTimeLineLoad).split(" ");
@@ -468,7 +468,7 @@ void ImportTimeLineView::addTimelineLayout()
 
     listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
 
-    pNum_dn->setForegroundRole(DPalette::TextTips);
+    pNum_dn->setForegroundRole(DPalette::Text);
 
     pNum_dn->setText(listItem->m_snum);
 

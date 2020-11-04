@@ -1057,6 +1057,17 @@ void AlbumView::initRightView()
     m_pPhonePicTotal = new DLabel();
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
+    pal = DApplicationHelper::instance()->palette(m_pPhonePicTotal);
+    color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+    }
+    m_pPhonePicTotal->setForegroundRole(DPalette::Text);
+    m_pPhonePicTotal->setPalette(pal);
 
     m_pRightPhoneThumbnailList = new MountThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
