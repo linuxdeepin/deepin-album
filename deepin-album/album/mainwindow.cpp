@@ -829,7 +829,6 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
 //创建相册弹出窗
 void MainWindow::showCreateDialog(QStringList imgpaths)
 {
-    Q_UNUSED(imgpaths);
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
@@ -853,7 +852,6 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
                 }
             });
             m_pCenterWidget->insertWidget(index, m_pAlbumview);
-//            DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
 //            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
             m_pAlbumBtn->setChecked(true);
             m_pSearchEdit->clearEdit();
@@ -861,7 +859,6 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         } else
         {
-//            DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
             emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
             m_pAlbumBtn->setChecked(true);
             m_pSearchEdit->clearEdit();
@@ -869,6 +866,8 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         }
         m_backIndex = VIEW_ALBUM;
+        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
+        emit dApp->signalM->insertedIntoAlbum(m_pAlbumview->m_currentAlbum, imgpaths);
         emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
     });
 }
