@@ -678,7 +678,6 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths, 
     mutex.unlock();
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
-    emit dApp->signalM->insertedIntoAlbum(album, paths);
 }
 
 void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype)
