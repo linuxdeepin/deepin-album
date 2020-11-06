@@ -150,13 +150,6 @@ set(AllQRC
     album/module/view/viewtheme.qrc
     album/widgets/widgetstheme.qrc)
 file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${CMD_NAME}*.ts)
-#set(TargetTsFiles
-#    translations/deepin-album_zh_HK.ts
-#    translations/deepin-album_zh_TW.ts
-#    translations/deepin-album_zh_CN.ts
-#    translations/deepin-album.ts
-#    )
-
 
 
 # 设置不删除生成的文件夹内容文件
@@ -164,15 +157,12 @@ set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
 qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
     OPTIONS )
-#set_source_files_properties(${TargetTsFiles} PROPERTIES OUTPUT_LOCATION "translations")
 qt5_add_translation(${TargetTsFiles})
 
 set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
 
 set(LINK_DIR lib)
 link_directories(${LINK_DIR})
-#link_libraries(UnionImage)
-#target_include_directories(${PROJECT_NAME} PUBLIC ${LINK_DIR})
 
 
 add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs} "./album/main.cpp")
@@ -270,11 +260,6 @@ endif()
 # 将第三方库链接进来(注意 *_LIBRARIES)
 target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} pthread)
 
-if(DOTEST)
-    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})
-endif()
-
-
 #------------------添加第三方库end--------------------------#
 
 #将工程与这些模块链接起来
@@ -301,16 +286,10 @@ install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION /usr/bin
         INCLUDES DESTINATION allHeaders)
 
-# install Translation files:
+# install
 install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
-
-# install Desktop icon
 install(FILES deepin-album.desktop DESTINATION ${DesktopDir})
-
-# install Manual icon
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${ManIconDir})
-
-# install App icon
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${AppIconDir})
 
 #set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")

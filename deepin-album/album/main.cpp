@@ -1,3 +1,8 @@
+#include <DVtableHook>
+#define protected public
+#include <DApplication>
+#undef protected
+
 #include "application.h"
 #include "mainwindow.h"
 #include "dtktest.h"
@@ -46,17 +51,22 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
-    Application a(argc, argv);
+#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+    DApplication *dAppNew = new DApplication(argc, argv);
+#else
+    DApplication *dAppNew = DApplication::globalApplication(argc, argv);
+#endif
+    Application::getApp()->setApp(dAppNew);
 
-    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
+    dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
-    a.setOrganizationName("deepin");
-    a.setApplicationName("deepin-album");
+    dAppNew->setOrganizationName("deepin");
+    dAppNew->setApplicationName("deepin-album");
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
 
     QCommandLineParser parser;
-    parser.process(a);
+    parser.process(*dAppNew);
 
     QStringList urls;
     QStringList arguments = parser.positionalArguments();
@@ -97,16 +107,16 @@ int main(int argc, char *argv[])
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
-    if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
+    if (!DGuiApplicationHelper::instance()->setSingleInstance(dAppNew->applicationName(), DGuiApplicationHelper::UserScope)) {
         exit(0);
     }
 
     // LMH0420判断是否相同进程启动
-    if (a.isRunning()) {
+    if (dApp->isRunning()) {
         return 0;
     }
     DBManager::instance();
-    ImageEngineApi::instance(&a);
+    ImageEngineApi::instance(dAppNew);
     ImageEngineApi::instance()->load80Thumbnails();
     MainWindow w;
 
@@ -123,5 +133,8 @@ int main(int argc, char *argv[])
     if (bneedexit)
         bfirstopen = false;
 
-    return a.exec();
+    Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew, &DApplication::handleQuitAction,
+                                             &w, &MainWindow::closeFromMenu);
+
+    return dAppNew->exec();
 }

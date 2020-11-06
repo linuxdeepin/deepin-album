@@ -1470,3 +1470,8 @@ void MainWindow::wheelEvent(QWheelEvent *event)
         event->accept();
     }
 }
+
+void MainWindow::closeFromMenu()
+{
+    close();
+}

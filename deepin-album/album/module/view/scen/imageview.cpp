@@ -577,7 +577,7 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
 
 void ImageView::leaveEvent(QEvent *e)
 {
-    dApp->restoreOverrideCursor();
+    dApp->getDAppNew()->restoreOverrideCursor();
 
     QGraphicsView::leaveEvent(e);
 }

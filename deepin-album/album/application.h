@@ -37,7 +37,8 @@ class ViewerThemeManager;
 #if defined(dApp)
 #undef dApp
 #endif
-#define dApp (static_cast<Application *>(QCoreApplication::instance()))
+//#define dApp (static_cast<Application *>(QCoreApplication::instance()))
+#define dApp (Application::getApp())
 
 DWIDGET_USE_NAMESPACE
 
@@ -59,13 +60,17 @@ private:
     QStringList m_pathlisttrash;
 };
 
-class Application : public DApplication
+class Application : public QObject
 {
     Q_OBJECT
 
 public:
-    Application(int &argc, char **argv);
+    Application(/*int &argc, char **argv*/);
     ~Application();
+
+    DApplication *getDAppNew();
+    static Application *getApp();
+    static void setApp(DApplication *);
 
     ConfigSetter *setter = nullptr;
     SignalManager *signalM = nullptr;
@@ -90,7 +95,7 @@ public slots:
     void finishLoadSlot();
 private:
     void initChildren();
-    void initI18n();
+//    void initI18n();
 
     QThread *m_LoadThread;
 public :
@@ -112,6 +117,8 @@ private:
     bool _isRunning;
     QSharedMemory sharedMemory;
     MainWindow *m_mainwindow;
+    static DApplication *dAppNew;
+    static Application *dApp1;
 };
 
 #endif  // APPLICATION_H_

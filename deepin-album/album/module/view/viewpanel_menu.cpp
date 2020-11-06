@@ -89,7 +89,7 @@ void ViewPanel::initPopupMenu()
         }
     });
     connect(m_menu, &DMenu::aboutToHide, this, [ = ] {
-        dApp->restoreOverrideCursor();
+        dApp->getDAppNew()->restoreOverrideCursor();
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {

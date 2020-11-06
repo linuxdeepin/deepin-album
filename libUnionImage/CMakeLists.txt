@@ -16,9 +16,6 @@ set(QtModule Core Gui Widgets Svg Concurrent)
 #先查找到这些qt相关的模块以供链接使用
 find_package(Qt5 REQUIRED ${QtModule})
 
-#设置输出目录
-#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../deepin-album/lib)
-
 #包含目录
 include_directories(UnionImage)
 include_directories(UnionImage/giflib)
@@ -63,11 +60,3 @@ set(PREFIX /usr)
 set(UnionImageDir ${PREFIX}/lib)
 
 install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
-
-#execute_process(
-#COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1
-#COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0
-#COMMAND sudo ln -s ${UnionImageDir}/libUnionImage.so ${UnionImageDir}/libUnionImage.so.1.0.0
-#)
-
-#target_link_libraries(UnionImage)

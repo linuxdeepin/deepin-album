@@ -439,7 +439,8 @@ void CExportImageDialog::showQuestionDialog(const QString &path, const QString &
     }
     m_savePath = path.left(path.lastIndexOf("/"));
 //    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
-    m_questionDialog->move(dApp->desktop()->x() + (dApp->desktop()->width() - m_questionDialog->width()) / 2, dApp->desktop()->y() + (dApp->desktop()->height() - m_questionDialog->height()) / 2);
+    m_questionDialog->move(dApp->getDAppNew()->desktop()->x() + (dApp->getDAppNew()->desktop()->width() - m_questionDialog->width()) / 2,
+                           dApp->getDAppNew()->desktop()->y() + (dApp->getDAppNew()->desktop()->height() - m_questionDialog->height()) / 2);
     m_questionDialog->exec();
 }
 
