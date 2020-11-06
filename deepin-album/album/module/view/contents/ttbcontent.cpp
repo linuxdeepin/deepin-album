@@ -366,7 +366,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     return false;
 }
 
-int static preOffset = 0;
 void MyImageListWidget::animationTimerTimeOut()
 {
     m_animationTimerTOCount++;
@@ -386,7 +385,6 @@ void MyImageListWidget::animationTimerTimeOut()
     }
     int index = 0;
     QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
-    int showCountHalf = this->geometry().width() / 64;
     int middle = this->geometry().width() / 2;
     if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
         qDebug() << "11111111";
@@ -821,6 +819,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         } else
         {
             DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
+            emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
         }
 
         emit ttbcontentClicked();
