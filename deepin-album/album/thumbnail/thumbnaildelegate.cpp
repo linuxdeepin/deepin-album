@@ -106,24 +106,38 @@ void ThumbnailDelegate::paint(QPainter *painter,
             backgroundRect.setHeight(backgroundRect.height() - 27);
         }
     }
-    //选中阴影框-浅色主题
+    //选中阴影框
+//    QBrush  backbrush;
     if (selected) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
         painter->setClipPath(backgroundBp);
+
         QBrush  shadowbrush;
+//        QBrush  backbrush;
         QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
+//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+//            backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
             shadowbrush = QBrush(QColor("#DEDEDE"));
-            painter->fillRect(backgroundRect, shadowbrush);
-            //绘制选中默认背景
-            QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
-            QPainterPath backBp;
-            backBp.addRoundedRect(backRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-            painter->setClipPath(backBp);
-            painter->fillRect(backRect, shadowbrush);
         }
+        if (themeType == DGuiApplicationHelper::DarkType) {
+//            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
+//            backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR2);
+//            shadowbrush = QBrush(QColor("#1E1E1E"));
+            shadowbrush = QBrush(QColor("#4F4F4F"));
+        }
+        painter->fillRect(backgroundRect, shadowbrush);
+//        painter->drawPixmap(backgroundRect, selectedPixmap);
+//        painter->drawPath(backgroundBp);
+
+        //绘制选中默认背景
+        QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
+        QPainterPath backBp;
+        backBp.addRoundedRect(backRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(backBp);
+        painter->fillRect(backRect, shadowbrush);
     }
 
     float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1 : data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
@@ -164,30 +178,27 @@ void ThumbnailDelegate::paint(QPainter *painter,
     transparentBp.addRoundedRect(transparentRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(transparentBp);
     painter->fillRect(transparentRect, transparentbrush);
-    //选中阴影框-深色主题
-    if (selected) {
-        QPainterPath backgroundBp;
-        backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
-        painter->setClipPath(backgroundBp);
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            QRect tempRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
-            qDebug() << tempRect;
-            painter->setRenderHint(QPainter::Antialiasing, true);
-            painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
-            painter->setRenderHint(QPainter::HighQualityAntialiasing, true);
-            QColor color(00, 00, 00, 255);
-            QBrush  shadowbrush;
-            int arr[17] = {255, 200,100,90,80,70,60,50,40,30,20,10,8,6,4,2,1};
-            for (int i = 0; i < 17; i++) {
-                QPainterPath path;
-                path.setFillRule(Qt::OddEvenFill);
-                path.addRoundedRect(tempRect.x() +15 - i , tempRect.y() + 20 - i , tempRect.width() - (15 - i)*2 , tempRect.height() - (15 - i)*2, 8, 8);
-                color.setAlpha(arr[i]);
-                painter->setPen(color);
-                painter->drawPath(path);
-                painter->fillPath(path, QBrush(color));
-            }
+    //阴影框-深色主题
+    QPainterPath backgroundBp;
+    backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
+    painter->setClipPath(backgroundBp);
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        QRect tempRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+        painter->setRenderHint(QPainter::HighQualityAntialiasing, true);
+        QColor color(00, 00, 00, 255);
+        QBrush  shadowbrush;
+        int arr[17] = {255, 200,100,90,80,70,60,50,40,30,20,10,8,6,4,2,1};
+        for (int i = 0; i < 17; i++) {
+            QPainterPath path;
+            path.setFillRule(Qt::OddEvenFill);
+            path.addRoundedRect(tempRect.x() +15 - i , tempRect.y() + 20 - i , tempRect.width() - (15 - i)*2 , tempRect.height() - (15 - i)*2, 8, 8);
+            color.setAlpha(arr[i]);
+            painter->setPen(color);
+            painter->drawPath(path);
+            painter->fillPath(path, QBrush(color));
         }
     }
 

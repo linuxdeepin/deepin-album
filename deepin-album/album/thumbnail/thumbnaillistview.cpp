@@ -1240,6 +1240,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
                 emit dApp->signalM->sigAddToAlbToast(album);
             }
             DBManager::instance()->insertIntoAlbum(album, paths);
+            emit dApp->signalM->insertedIntoAlbum(album, paths);
         } else {
             emit dApp->signalM->createAlbum(paths);
         }

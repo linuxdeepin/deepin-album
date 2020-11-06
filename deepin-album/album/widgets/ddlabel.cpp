@@ -10,6 +10,7 @@ void Dtk::Widget::DDlabel::Settext(const QString &text)
     QFontMetrics elideFont(this->font());
 
     str = text;
+    oldstr = text;
 
     DLabel::setText(elideFont.elidedText(str, Qt::ElideRight, 85));
 }

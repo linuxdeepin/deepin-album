@@ -13,6 +13,7 @@ class DDlabel : public DLabel
 public:
     DDlabel(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     void Settext(const QString &);
+    QString oldstr;
 
 private:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
