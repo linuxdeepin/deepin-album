@@ -46,21 +46,14 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
-    QTime t;
-    t.start();
-
-//    Application::loadDXcbPlugin();
     Application a(argc, argv);
 
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
-    //  a.setAttribute(Qt::AA_EnableHighDpiScaling);
-    //a.setAttribute(Qt::AA_ForceRasterWidgets);
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-album");
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
-
 
     QCommandLineParser parser;
     parser.process(a);
@@ -81,7 +74,6 @@ int main(int argc, char *argv[])
         qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
         QString str = info.suffix().toLower();
-//        if (str.isEmpty()) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
                 || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
             if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
@@ -93,7 +85,6 @@ int main(int argc, char *argv[])
             }
         }
     }
-
     if ("" != filepath && bneedexit) {
         exit(0);
     }
@@ -103,12 +94,9 @@ int main(int argc, char *argv[])
             bfirstandviewimage = true;
         }
     }
-    //save theme
-    DApplicationSettings savetheme;
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
-//    qDebug() << "设置单例前耗时：" << t1.elapsed();
     if (!DGuiApplicationHelper::instance()->setSingleInstance(a.applicationName(), DGuiApplicationHelper::UserScope)) {
         exit(0);
     }
@@ -121,11 +109,16 @@ int main(int argc, char *argv[])
     ImageEngineApi::instance(&a);
     ImageEngineApi::instance()->load80Thumbnails();
     MainWindow w;
-//    DtkTest w;
-//    w.resize(1300, 848);
+
     w.show();
     Dtk::Widget::moveToCenter(&w);
-    qDebug() << "相册启动总耗时：" << t.elapsed();
+
+    //外部点击图片启动
+    if ("" != filepath) {
+        emit dApp->signalM->showImageView(0);
+    }
+
+//    qDebug() << "相册启动总耗时：" << t.elapsed();
 
     if (bneedexit)
         bfirstopen = false;

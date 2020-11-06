@@ -93,6 +93,13 @@ MainWindow::MainWindow()
 //        m_commandLine->viewImage("", {});
 //    }
     qDebug() << "zy------MainWindow = " << t.elapsed();
+
+    connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
+        m_backIndex = index;
+        titlebar()->setVisible(false);  //隐藏顶部状态栏
+        setTitlebarShadowEnabled(false);
+        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
+    });
 }
 
 MainWindow::~MainWindow()
@@ -127,6 +134,7 @@ void MainWindow::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+        Q_UNUSED(themeType)
         setWaitDialogColor();
     });
     //主界面切换（所有照片、时间线、相册）
@@ -299,13 +307,7 @@ void MainWindow::initConnections()
             m_pSearchEdit->setEnabled(false);
         }
     });
-    //显示图片视图
-    connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
-        m_backIndex = index;
-        titlebar()->setVisible(false);  //隐藏顶部状态栏
-        setTitlebarShadowEnabled(false);
-        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
-    });
+
     //隐藏图片视图
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
 //        viewImageClose(); //2020/4/1 15:39 注释后不关闭相册主界面
