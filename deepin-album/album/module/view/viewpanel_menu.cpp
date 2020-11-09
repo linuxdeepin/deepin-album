@@ -196,6 +196,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     //收藏
     case IdAddToFavorites: {
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
     }
     break;
     //取消收藏
@@ -515,6 +516,7 @@ void ViewPanel::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Period) {
         if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
             DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
+            emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
         } else {
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         }
