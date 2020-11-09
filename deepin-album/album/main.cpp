@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
     QAccessible::installFactory(accessibleFactory);
     dAppNew->setOrganizationName("deepin");
     dAppNew->setApplicationName("deepin-album");
+    dAppNew->loadTranslator(QList<QLocale>() << QLocale::system());
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
 

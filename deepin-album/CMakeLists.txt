@@ -15,7 +15,7 @@ set(CMAKE_AUTOUIC ON)
 option(DOTEST "option for test" OFF)
 
 # 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
 if(DOTEST)
 set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools X11Extras Test)

@@ -152,7 +152,6 @@ Application *Application::getApp()
 void Application::setApp(DApplication *app)
 {
     dAppNew = app;
-    dAppNew->loadTranslator(QList<QLocale>() << QLocale::system());
     dAppNew->setApplicationDisplayName(tr("Album"));
     dAppNew->setProductIcon(QIcon::fromTheme("deepin-album"));
     dAppNew->setApplicationVersion(DApplication::buildVersion(VERSION));
