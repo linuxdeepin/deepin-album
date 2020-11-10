@@ -56,13 +56,14 @@ int main(int argc, char *argv[])
 #else
     DApplication *dAppNew = DApplication::globalApplication(argc, argv);
 #endif
-    Application::getApp()->setApp(dAppNew);
 
     dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
     dAppNew->setOrganizationName("deepin");
     dAppNew->setApplicationName("deepin-album");
     dAppNew->loadTranslator(QList<QLocale>() << QLocale::system());
+
+    Application::getApp()->setApp(dAppNew);
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
 
