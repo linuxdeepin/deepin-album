@@ -35,7 +35,7 @@
 
 namespace {
 //LMH 500改200
-const int SWITCH_IMAGE_DELAY = 200;     //上一张下一张时间间隔
+//const int SWITCH_IMAGE_DELAY = 200;     //上一张下一张时间间隔
 const int DELETE_IMAGE_DELAY = 400;     //删除时间间隔
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const int VIEW_MAINWINDOW_POPVIEW = 4;
@@ -89,7 +89,7 @@ void ViewPanel::initPopupMenu()
         }
     });
     connect(m_menu, &DMenu::aboutToHide, this, [ = ] {
-        dApp->restoreOverrideCursor();
+        dApp->getDAppNew()->restoreOverrideCursor();
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
@@ -196,6 +196,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     //收藏
     case IdAddToFavorites: {
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path1), AlbumDBType::Favourite);
+        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(path1));
     }
     break;
     //取消收藏
@@ -515,6 +516,7 @@ void ViewPanel::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Period) {
         if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
             DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
+            emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
         } else {
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         }

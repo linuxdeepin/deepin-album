@@ -12,7 +12,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 if(DOTEST)
-    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
     set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
 else()
     set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools)

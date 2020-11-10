@@ -93,6 +93,7 @@ public slots:
     void timeLineBtnClicked();
     void albumBtnClicked();
     void onCreateAlbum(QStringList imagepaths);
+    void closeFromMenu();
 #if 1
     void onViewCreateAlbum(QString imgpath, bool bmodel = true);
 #endif

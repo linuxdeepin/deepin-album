@@ -262,7 +262,7 @@ QUrl UrlInfo1(QString path)
 bool CommandLine::processOption(QStringList &paslist)
 {
 
-    if (! m_cmdParser.parse(dApp->arguments())) {
+    if (! m_cmdParser.parse(dApp->getDAppNew()->arguments())) {
         showHelp();
         return false;
     }

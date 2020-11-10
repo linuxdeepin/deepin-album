@@ -232,11 +232,11 @@ LoopQueue::LoopQueue(const QString &beginPath, const QStringList &list): loop_or
     int newfirst = list.indexOf(beginPath);
     QVector<QString> temp;
     QList<QString>::const_iterator i = list.begin();
-    for (int j = 0; i != list.end() && j < newfirst; j++){
+    for (int j = 0; i != list.end() && j < newfirst; j++) {
         temp.append(*i);
         i.operator++();
     }
-    for (; i != list.end(); ){
+    for (; i != list.end();) {
         loop_paths.append(*i);
         i.operator++();
     }
@@ -691,11 +691,11 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
     QPixmap p1 = QPixmap::fromImage(tImg);
     int beginX = 0, beginY = 0;
     if (p1.width() > p1.height()) {
-        m_pixmap1 = QPixmap(dApp->desktop()->screenGeometry().size());
+        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
         QPainter pa1(&m_pixmap1);
         m_pixmap1.fill(QColor("#252525"));
-        p1 = p1.scaledToWidth(dApp->desktop()->screenGeometry().width());
-        centrePoint = dApp->desktop()->screenGeometry().center();
+        p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p1.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p1.height() / 2;
@@ -703,11 +703,11 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
         pa1.drawPixmap(beginX, beginY, p1);
         pa1.end();
     } else {
-        m_pixmap1 = QPixmap(dApp->desktop()->screenGeometry().size());
+        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
         QPainter pa1(&m_pixmap1);
         m_pixmap1.fill(QColor("#252525"));
-        p1 = p1.scaledToHeight(dApp->desktop()->screenGeometry().height() + 8);
-        centrePoint = dApp->desktop()->screenGeometry().center();
+        p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height() + 8);
+        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p1.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p1.height() / 2;
@@ -726,11 +726,11 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
     UnionImage_NameSpace::loadStaticImageFromFile(imageName2_bar, tImg, errMsg);
     QPixmap p2 = QPixmap::fromImage(tImg);
     if (p2.width() > p2.height()) {
-        m_pixmap2 = QPixmap(dApp->desktop()->screenGeometry().size());
+        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
         QPainter pa2(&m_pixmap2);
         m_pixmap2.fill(QColor("#252525"));
-        p2 = p2.scaledToWidth(dApp->desktop()->screenGeometry().width());
-        centrePoint = dApp->desktop()->screenGeometry().center();
+        p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p2.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p2.height() / 2;
@@ -738,11 +738,11 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
         pa2.drawPixmap(beginX, beginY, p2);
         pa2.end();
     } else {
-        m_pixmap2 = QPixmap(dApp->desktop()->screenGeometry().size());
+        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
         QPainter pa2(&m_pixmap2);
         m_pixmap2.fill(QColor("#252525"));
-        p2 = p2.scaledToHeight(dApp->desktop()->screenGeometry().height() + 8);
-        centrePoint = dApp->desktop()->screenGeometry().center();
+        p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height() + 8);
+        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p2.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p2.height() / 2;
@@ -841,19 +841,19 @@ void ImageAnimation::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
     switch (current_target) {
     case EffectPlay: {
-        d->effectPainter(&painter, dApp->desktop()->screenGeometry());
+        d->effectPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
         break;
     }
     case SkipToNext: {
-        d->forwardPainter(&painter, dApp->desktop()->screenGeometry());
+        d->forwardPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
         break;
     }
     case TurnBackPre: {
-        d->retreatPainter(&painter, dApp->desktop()->screenGeometry());
+        d->retreatPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
         break;
     }
     case KeepStatic: {
-        d->keepStaticPainter(&painter, dApp->desktop()->screenGeometry());
+        d->keepStaticPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
         break;
     }
     }
