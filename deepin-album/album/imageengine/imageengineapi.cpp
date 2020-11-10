@@ -78,7 +78,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
         connect(this, SIGNAL(sigLoad80Thumbnails(DBImgInfoList)),
                 worker, SLOT(threadSltLoad80Thumbnail(DBImgInfoList)));
         //收到获取全部照片信息成功信号
-        connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
+        connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady, Qt::DirectConnection);
         workerThread->start();
     }
 }
@@ -311,12 +311,14 @@ void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
 int static loadCount = 0;
 void ImageEngineApi::slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData)
 {
+    m_mutex.lock();
     loadCount++;
     m_AllImageData.unite(ImageData);
     if (loadCount == 3) {
         m_80isLoaded = true;
         emit sigLoad80ThumbnailsToView();
     }
+    m_mutex.unlock();
 }
 
 bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)

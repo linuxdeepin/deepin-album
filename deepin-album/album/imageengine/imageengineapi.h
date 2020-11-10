@@ -7,6 +7,7 @@
 #include "imageenginethread.h"
 #include "imageengineobject.h"
 #include "thumbnail/thumbnaildelegate.h"
+#include <QMutex>
 
 //加载图片的频率
 const int Number_Of_Displays_Per_Time = 32;
@@ -96,6 +97,8 @@ private:
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
     bool bcloseFg = false;
     QThreadPool *m_pool = nullptr;
+
+    QMutex m_mutex;
 #ifdef NOGLOBAL
     QThreadPool m_qtpool;
     QThreadPool cacheThreadPool;

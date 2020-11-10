@@ -1589,7 +1589,6 @@ void ThumbnailListView::slotReCalcTimelineSize()
 
 void ThumbnailListView::slotLoad80ThumbnailsFinish()
 {
-    qDebug() << "zy------ThumbnailListView::slotLoad80ThumbnailsFinish";
     for (auto data : ImageEngineApi::instance()->m_AllImageData) {
         ItemInfo info;
         if (data.imgpixmap.isNull()) {

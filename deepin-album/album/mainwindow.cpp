@@ -73,8 +73,6 @@ MainWindow::MainWindow()
     , m_countLabel(nullptr)
     , m_pDBus(nullptr)
 {
-    QTime t;
-    t.start();
     this->setObjectName("drawMainWindow");
     QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
                              + "/config.conf";
@@ -92,7 +90,6 @@ MainWindow::MainWindow()
 //    if (m_processOptionIsEmpty) {
 //        m_commandLine->viewImage("", {});
 //    }
-    qDebug() << "zy------MainWindow = " << t.elapsed();
 
     connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
         m_backIndex = index;
@@ -1214,7 +1211,6 @@ bool MainWindow::compareVersion()
 //加载缩放比例（上次退出时）
 void MainWindow::loadZoomRatio()
 {
-    qDebug() << "zy------MainWindow::loadZoomRatio begin";
     if (m_settings->contains("album-version")) {
         if (m_settings->value("album-version").toString().isEmpty()) {
             if (!m_settings->contains("album-zoomratio")) {
@@ -1238,7 +1234,6 @@ void MainWindow::loadZoomRatio()
 
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
-    qDebug() << "zy------MainWindow::loadZoomRatio end";
 }
 
 //初始化各种快捷键

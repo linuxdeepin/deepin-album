@@ -66,8 +66,8 @@ AllPicView::AllPicView()
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
     QLayout *pAllPicViewLayout = new QVBoxLayout();
-    pAllPicViewLayout->setContentsMargins(10,0,0,0);
-	pAllPicViewLayout->addWidget(fatherwidget);
+    pAllPicViewLayout->setContentsMargins(10, 0, 0, 0);
+    pAllPicViewLayout->addWidget(fatherwidget);
     this->setLayout(pAllPicViewLayout);
     connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish,
             this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
@@ -76,7 +76,6 @@ AllPicView::AllPicView()
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
-        qDebug() << "zy------ImageEngineApi::instance()->m_AllImageData.size() > 0";
         m_pThumbnailListView->slotLoad80ThumbnailsFinish();
     } else {
         if (ImageEngineApi::instance()->m_80isLoaded) {

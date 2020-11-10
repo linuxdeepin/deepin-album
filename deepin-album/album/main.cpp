@@ -5,7 +5,7 @@
 
 #include "application.h"
 #include "mainwindow.h"
-#include "dtktest.h"
+//#include "dtktest.h"
 #include "imageengine/imageengineapi.h"
 #include "accessibledefine.h"
 #include "accessible.h"
@@ -13,7 +13,6 @@
 #include <DWidgetUtil>
 #include <DApplicationSettings>
 #include <DLog>
-#include <QMessageBox>
 
 
 DWIDGET_USE_NAMESPACE
@@ -51,11 +50,7 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
-#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
-    DApplication *dAppNew = new DApplication(argc, argv);
-#else
     DApplication *dAppNew = DApplication::globalApplication(argc, argv);
-#endif
 
     dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
@@ -78,12 +73,10 @@ int main(int argc, char *argv[])
     for (const QString &path : arguments) {
         filepath = UrlInfo(path).toLocalFile();
 
-
         QFileInfo info(filepath);
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
         QString str = info.suffix().toLower();
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
@@ -107,8 +100,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    DLogManager::registerConsoleAppender();
-    DLogManager::registerFileAppender();
     if (!DGuiApplicationHelper::instance()->setSingleInstance(dAppNew->applicationName(), DGuiApplicationHelper::UserScope)) {
         exit(0);
     }
@@ -125,12 +116,13 @@ int main(int argc, char *argv[])
     w.show();
     Dtk::Widget::moveToCenter(&w);
 
+    DLogManager::registerConsoleAppender();
+    DLogManager::registerFileAppender();
+
     //外部点击图片启动
     if ("" != filepath) {
         emit dApp->signalM->showImageView(0);
     }
-
-//    qDebug() << "相册启动总耗时：" << t.elapsed();
 
     if (bneedexit)
         bfirstopen = false;
