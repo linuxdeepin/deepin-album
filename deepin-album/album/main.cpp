@@ -106,6 +106,8 @@ int main(int argc, char *argv[])
             bfirstandviewimage = true;
         }
     }
+    //save theme
+    DApplicationSettings savetheme;
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
