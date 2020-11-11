@@ -66,7 +66,7 @@ AllPicView::AllPicView()
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
     QLayout *pAllPicViewLayout = new QVBoxLayout();
-    pAllPicViewLayout->setContentsMargins(10, 0, 0, 0);
+    pAllPicViewLayout->setContentsMargins(10,0,0,0);
     pAllPicViewLayout->addWidget(fatherwidget);
     this->setLayout(pAllPicViewLayout);
     connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish,
