@@ -103,6 +103,8 @@ int main(int argc, char *argv[])
             bfirstandviewimage = true;
         }
     }
+    //save theme
+    DApplicationSettings savetheme;
 
     if (!DGuiApplicationHelper::instance()->setSingleInstance(dAppNew->applicationName(), DGuiApplicationHelper::UserScope)) {
         exit(0);
