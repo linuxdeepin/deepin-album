@@ -31,6 +31,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QTimer>
 
 
 const QSize DIALOG_SIZE = QSize(380, 280);
@@ -388,7 +389,9 @@ void CExportImageDialog::showDirChoseDialog()
         } else {
             m_savePathCombox->setItemText(Other, fileDir);
         }
-        m_savePathCombox->setCurrentText(fileDir);
+        QTimer::singleShot(50, this, [ = ] {
+            m_savePathCombox->setCurrentText(fileDir);
+        });
     }
 }
 
