@@ -19,6 +19,13 @@ TEST(MainWindow, BtnGroupClick)
     event.clear();
     QTest::qWait(500);
 }
+TEST(MainWindow, createalbum)
+{
+    MainWindow *w = dApp->getMainWindow();
+    QStringList list;
+    list << "test";
+    w->showCreateDialog(list);
+}
 
 //TEST(MainWindow, destory)
 //{

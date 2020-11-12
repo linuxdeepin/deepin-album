@@ -36,3 +36,12 @@ TEST(sendMessage, ap2)
     qDebug() << "application sendMessage ap2 count = " << count_testDefine++;
     ASSERT_EQ(false, dApp->sendMessage(""));
 }
+
+TEST(ImageLoader, load)
+{
+    QStringList list;
+    list << testPath_test + "/2e5y8y.png" << "/usr/share/wallpapers/deepin/abc-123.jpg";
+    ImageLoader *loader = new ImageLoader(nullptr, list, list);
+    loader->updateImageLoader(list);
+    ASSERT_EQ(false, loader == nullptr);
+}

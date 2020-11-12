@@ -215,7 +215,7 @@ TEST(AlbumView, leftMenu)
     QTest::qWait(500);
     event.simulate(a->m_pLeftListView->m_pCustomizeListView->viewport());
     QTest::qWait(500);
-    dApp->processEvents();
+    dApp->getDAppNew()->processEvents();
     event.simulate(a->m_pLeftListView->m_pMountListWidget->viewport());
     QTest::qWait(500);
     event.simulate(a->m_waitDeviceScandialog->m_closeDeviceScan);

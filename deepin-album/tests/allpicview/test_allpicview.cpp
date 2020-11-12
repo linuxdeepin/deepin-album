@@ -115,22 +115,22 @@ TEST(allpicview, dragevent)
 
     const QPoint pos = a->getThumbnailListView()->viewport()->rect().center();
     QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(a->getThumbnailListView()->viewport(), &eEnter);
+    dApp->getDAppNew()->sendEvent(a->getThumbnailListView()->viewport(), &eEnter);
     QTest::qWait(200);
 
     QDragMoveEvent eMove(pos + QPoint(100, 100), Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(a->getThumbnailListView()->viewport(), &eMove);
+    dApp->getDAppNew()->sendEvent(a->getThumbnailListView()->viewport(), &eMove);
     QTest::qWait(200);
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(a->getThumbnailListView()->viewport(), &e);
+    dApp->getDAppNew()->sendEvent(a->getThumbnailListView()->viewport(), &e);
     QTest::qWait(200);
 
-    dApp->sendEvent(a->getThumbnailListView()->viewport(), &eEnter);
+    dApp->getDAppNew()->sendEvent(a->getThumbnailListView()->viewport(), &eEnter);
     QTest::qWait(200);
 
     QDragLeaveEvent eLeave;
-    dApp->sendEvent(a->getThumbnailListView()->viewport(), &eLeave);
+    dApp->getDAppNew()->sendEvent(a->getThumbnailListView()->viewport(), &eLeave);
     QTest::qWait(2000);
 }
 
