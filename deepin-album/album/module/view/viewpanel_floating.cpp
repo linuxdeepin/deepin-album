@@ -107,7 +107,8 @@ void ViewPanel::initScaleLabel()
     connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
 
     connect(m_viewB, &ImageView::scaled, this, [ = ](qreal perc) {
-        label->setText(QString("%1%").arg(QString::number(perc, 'f', 2)));
+        int p = static_cast<int>(perc);
+        label->setText(QString("%1%").arg(QString::number(p)));
         if (perc > 100) {
             emit dApp->signalM->enterScaledMode(true);
         } else {
@@ -128,7 +129,7 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
-    connect(this, &ViewPanel::imageChanged, this, [ = ] (const QString & path) {
+    connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path) {
         if (path.isEmpty()) m_nav->setVisible(false);
         m_nav->setImage(m_viewB->image());
     });
