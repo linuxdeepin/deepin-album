@@ -252,7 +252,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 
     reader.setFileName(filePath);
 
-    if (reader.canRead()) {
+    if (reader.canRead() && reader.imageCount() > 0) {
         const qreal ratio = dApp->getDAppNew()->devicePixelRatio();
         reader.setScaledSize(size * ratio);
         pixmap = QPixmap::fromImage(reader.read());

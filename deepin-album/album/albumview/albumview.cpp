@@ -1083,7 +1083,7 @@ void AlbumView::initRightView()
     m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setListViewUseFor(ThumbnailListView::Mount);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
-    m_pRightPhoneThumbnailList->setViewportMargins(-3,0,0,0);
+    m_pRightPhoneThumbnailList->setViewportMargins(-3, 0, 0, 0);
 
     pPhoneVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pPhoneVBoxLayout->addSpacing(4);
@@ -1140,7 +1140,7 @@ void AlbumView::initRightView()
     m_importByPhoneWidget->setLayout(mainImportLayout);
 
     QHBoxLayout *allHLayout = new QHBoxLayout;
-    allHLayout->setContentsMargins(2,0,0,0);
+    allHLayout->setContentsMargins(2, 0, 0, 0);
     allHLayout->addLayout(pPhoneVBoxLayout, 1);
     allHLayout->addStretch();
     allHLayout->addWidget(m_importByPhoneWidget, 1);
@@ -1172,7 +1172,7 @@ void AlbumView::initRightView()
     pImportTimeLineWidget = new DWidget();
     pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
     m_pImpTimeLineWidget = new ImportTimeLineView(pImportTimeLineWidget);
-    m_pImpTimeLineWidget->setContentsMargins(2,0,0,0);
+    m_pImpTimeLineWidget->setContentsMargins(2, 0, 0, 0);
 //    connect(m_pImpTimeLineWidget, &ImportTimeLineView::albumviewResize, this, [ = ]() {
 //        this->setFixedSize(QSize(size().width() + 1, size().height()));
 //        this->setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
@@ -2008,7 +2008,7 @@ void AlbumView::loadMountPicture(QString path)
         if (format.isEmpty()) {
             QImageReader reader(fileInfo.filePath());
             reader.setAutoTransform(true);
-            if (reader.canRead()) {
+            if (reader.canRead() && reader.imageCount() > 0) {
                 tImg = reader.read();
             } else {
                 tImg = QImage();
@@ -2016,11 +2016,11 @@ void AlbumView::loadMountPicture(QString path)
         } else {
             QImageReader readerF(fileInfo.filePath(), format.toLatin1());
             readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
+            if (readerF.canRead() && readerF.imageCount() > 0) {
                 tImg = readerF.read();
             } else {
                 qDebug() << "can't read image:" << readerF.errorString() << format;
-                tImg = QImage(fileInfo.filePath());
+                tImg = QImage();
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
