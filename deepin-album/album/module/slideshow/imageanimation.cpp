@@ -686,11 +686,14 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
     UnionImage_NameSpace::loadStaticImageFromFile(imageName1_bar, tImg, errMsg);
     QPixmap p1 = QPixmap::fromImage(tImg);
     int beginX = 0, beginY = 0;
-    if (p1.width() > p1.height()) {
+    if (p1.width() >= p1.height()) {
         m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
         QPainter pa1(&m_pixmap1);
         m_pixmap1.fill(QColor("#252525"));
         p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        if (p1.height() > dApp->getDAppNew()->desktop()->screenGeometry().height()) {
+            p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height());
+        }
         centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p1.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
@@ -703,6 +706,9 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
         QPainter pa1(&m_pixmap1);
         m_pixmap1.fill(QColor("#252525"));
         p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height() + 8);
+        if (p1.width() > dApp->getDAppNew()->desktop()->screenGeometry().width()) {
+            p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        }
         centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p1.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
@@ -721,11 +727,14 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
     QString errMsg;
     UnionImage_NameSpace::loadStaticImageFromFile(imageName2_bar, tImg, errMsg);
     QPixmap p2 = QPixmap::fromImage(tImg);
-    if (p2.width() > p2.height()) {
+    if (p2.width() >= p2.height()) {
         m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
         QPainter pa2(&m_pixmap2);
         m_pixmap2.fill(QColor("#252525"));
         p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        if (p2.height() > dApp->getDAppNew()->desktop()->screenGeometry().height()) {
+            p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height());
+        }
         centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p2.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
@@ -738,6 +747,9 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
         QPainter pa2(&m_pixmap2);
         m_pixmap2.fill(QColor("#252525"));
         p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height() + 8);
+        if (p2.width() > dApp->getDAppNew()->desktop()->screenGeometry().width()) {
+            p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        }
         centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
         beginX = centrePoint.x() - p2.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
