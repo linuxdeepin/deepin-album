@@ -45,7 +45,7 @@ AllPicView::AllPicView()
     m_pThumbnailListView->setObjectName("allPicThumbnailListView");
     DWidget *pThumbnailListView = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
-    m_mainLayout->setContentsMargins(0, 0, 0, 0);
+    m_mainLayout->setContentsMargins(8, 0, 0, 0);
     m_mainLayout->addWidget(m_pThumbnailListView);
     pThumbnailListView->setLayout(m_mainLayout);
     m_pSearchView = new SearchView();
@@ -59,17 +59,13 @@ AllPicView::AllPicView()
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(0, 0, 0, 0);
+    pVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     fatherwidget->setLayout(pVBoxLayout);
     initConnections();
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
-    QLayout *pAllPicViewLayout = new QVBoxLayout();
-    pAllPicViewLayout->setContentsMargins(10,0,0,0);
-	pAllPicViewLayout->addWidget(fatherwidget);
-    this->setLayout(pAllPicViewLayout);
     connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish,
             this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
     connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded,
