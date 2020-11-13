@@ -51,11 +51,11 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
-#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+//#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     DApplication *dAppNew = new DApplication(argc, argv);
-#else
-    DApplication *dAppNew = DApplication::globalApplication(argc, argv);
-#endif
+//#else
+//    DApplication *dAppNew = DApplication::globalApplication(argc, argv);
+//#endif
 
     dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
