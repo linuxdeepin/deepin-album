@@ -619,6 +619,8 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
+        if (!reader.canRead() || reader.imageCount() < 1)
+            return false;
         res_qt = reader.read();
         if (res_qt.isNull()) {
             //try old loading method
@@ -626,11 +628,11 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             QImageReader readerF(path, format.toLatin1());
             QImage try_res;
             readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
+            if (readerF.canRead() && readerF.imageCount() > 0) {
                 try_res = readerF.read();
             } else {
                 errorMsg = "can't read image:" + readerF.errorString() + format;
-                try_res = QImage(path);
+                try_res = QImage();
             }
             if (try_res.isNull()) {
                 errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
