@@ -757,9 +757,8 @@ void AlbumView::initRightView()
     m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
-    pNoTrashVBoxLayout->addSpacing(5);
+    pNoTrashVBoxLayout->addSpacing(3);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
-    pNoTrashVBoxLayout->addSpacing(2);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
     pNoTrashVBoxLayout->addSpacing(-1);
     pNoTrashVBoxLayout->setContentsMargins(12, 0, 0, 0);  //Edit 3975
@@ -806,7 +805,7 @@ void AlbumView::initRightView()
 //    m_pRightThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //    m_pRightThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_pRightThumbnailList->setViewportMargins(-6, 0, 0, 0);
+    m_pRightThumbnailList->setViewportMargins(-2, 0, 0, 0);
     m_pRightThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_pNoTrashTitle = new DWidget(m_pNoTrashWidget);
     m_pNoTrashTitle->setLayout(pNoTrashVBoxLayout);
@@ -819,13 +818,13 @@ void AlbumView::initRightView()
     m_pNoTrashTitle->setGraphicsEffect(opacityEffect_light);
     m_pNoTrashTitle->setAutoFillBackground(true);
     m_pNoTrashTitle->move(0, 50);
-    m_pNoTrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
+    m_pNoTrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
 //add end 3975
 
 // Trash View
 //    DWidget *pTrashWidget = new DWidget(); //del 3975
     m_pTrashWidget = new DWidget(); //add 3975
-    m_pTrashWidget->setFixedWidth(RIGHT_VIEW_WIDTH);
+//    m_pTrashWidget->setFixedWidth(RIGHT_VIEW_WIDTH);
 //add start 3975
     DPalette palcolor3 = DApplicationHelper::instance()->palette(m_pTrashWidget);
     palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
@@ -932,7 +931,7 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightTrashThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_pRightTrashThumbnailList->setViewportMargins(-6, 0, 0, 0);
+    m_pRightTrashThumbnailList->setViewportMargins(-2, 0, 0, 0);
     m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_pRightTrashThumbnailList->setFixedSize(m_pTrashWidget->size());
     m_TrashTitle = new DWidget(m_pTrashWidget);
@@ -946,8 +945,8 @@ void AlbumView::initRightView()
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
     m_TrashTitle->move(0, 50);
-    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 76);
-//    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
+//    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 76);
+    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
 
 //add end 3975
 
@@ -1035,7 +1034,7 @@ void AlbumView::initRightView()
     m_pRightFavoriteThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightFavoriteThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_pRightFavoriteThumbnailList->setViewportMargins(-6, 0, 0, 0);
+    m_pRightFavoriteThumbnailList->setViewportMargins(-2, 0, 0, 0);
     m_pRightFavoriteThumbnailList->setContentsMargins(0, 0, 0, 0);
 
     m_FavoriteTitle = new DWidget(m_pFavoriteWidget);
@@ -1084,13 +1083,15 @@ void AlbumView::initRightView()
     m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setListViewUseFor(ThumbnailListView::Mount);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
+    m_pRightPhoneThumbnailList->setViewportMargins(-3, 0, 0, 0);
 
-    pPhoneVBoxLayout->addSpacing(3);
-    pPhoneVBoxLayout->addWidget(m_pPhoneTitle);
+    pPhoneVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pPhoneVBoxLayout->addSpacing(4);
+    pPhoneVBoxLayout->addWidget(m_pPhoneTitle);
+    pPhoneVBoxLayout->addSpacing(22);
     pPhoneVBoxLayout->addWidget(m_pPhonePicTotal);
     pPhoneVBoxLayout->addSpacing(-1);
-    pPhoneVBoxLayout->setContentsMargins(10, 0, 0, 0);
+
 
 //手机相片导入窗体
     m_importByPhoneWidget = new DWidget;
@@ -1139,6 +1140,7 @@ void AlbumView::initRightView()
     m_importByPhoneWidget->setLayout(mainImportLayout);
 
     QHBoxLayout *allHLayout = new QHBoxLayout;
+    allHLayout->setContentsMargins(2, 0, 0, 0);
     allHLayout->addLayout(pPhoneVBoxLayout, 1);
     allHLayout->addStretch();
     allHLayout->addWidget(m_importByPhoneWidget, 1);
@@ -1155,7 +1157,7 @@ void AlbumView::initRightView()
     phonetopwidget->setGraphicsEffect(opacityEffect_lightphone);
 
     phonetopwidget->setAutoFillBackground(true);
-    phonetopwidget->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 87);
+    phonetopwidget->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
     phonetopwidget->setLayout(p_all2);
     phonetopwidget->move(0, 50);
     phonetopwidget->raise();
@@ -1170,6 +1172,7 @@ void AlbumView::initRightView()
     pImportTimeLineWidget = new DWidget();
     pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
     m_pImpTimeLineWidget = new ImportTimeLineView(pImportTimeLineWidget);
+    m_pImpTimeLineWidget->setContentsMargins(2, 0, 0, 0);
 //    connect(m_pImpTimeLineWidget, &ImportTimeLineView::albumviewResize, this, [ = ]() {
 //        this->setFixedSize(QSize(size().width() + 1, size().height()));
 //        this->setFixedSize(QSize(size().width() - 1, size().height())); //触发resizeevent
@@ -1178,7 +1181,7 @@ void AlbumView::initRightView()
 //    });
     m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
     m_pImpTimeLineWidget->clearAndStartLayout();
-    m_pImpTimeLineWidget->move(-6, 0);
+    m_pImpTimeLineWidget->move(-5, 0);
 //add end 3975
 // Add View
     m_pRightStackWidget->addWidget(m_pImportView);
@@ -2005,7 +2008,7 @@ void AlbumView::loadMountPicture(QString path)
         if (format.isEmpty()) {
             QImageReader reader(fileInfo.filePath());
             reader.setAutoTransform(true);
-            if (reader.canRead()) {
+            if (reader.canRead() && reader.imageCount() > 0) {
                 tImg = reader.read();
             } else {
                 tImg = QImage();
@@ -2013,11 +2016,11 @@ void AlbumView::loadMountPicture(QString path)
         } else {
             QImageReader readerF(fileInfo.filePath(), format.toLatin1());
             readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
+            if (readerF.canRead() && readerF.imageCount() > 0) {
                 tImg = readerF.read();
             } else {
                 qDebug() << "can't read image:" << readerF.errorString() << format;
-                tImg = QImage(fileInfo.filePath());
+                tImg = QImage();
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
@@ -2717,6 +2720,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 //    }
     if (nullptr != m_noTrashItem) {
         m_noTrashItem->setSizeHint(QSize(this->width() - LEFT_VIEW_WIDTH, m_pRightThumbnailList->getListViewHeight() + 8 + 27));
+        m_pRightThumbnailList->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
     }
     if (nullptr != m_FavoriteItem) {
         m_FavoriteItem->setSizeHint(QSize(this->width() - LEFT_VIEW_WIDTH, m_pRightFavoriteThumbnailList->getListViewHeight() + 8 + 27));
@@ -2729,11 +2733,13 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     }
     if (nullptr != m_FavoriteTitle) {
         m_FavoriteTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
+        m_pRightFavoriteThumbnailList->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
+
     }
     if (nullptr != m_TrashTitle) {
         m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
         m_pRightTrashThumbnailList->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
-        m_pTrashWidget->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
+//        m_pTrashWidget->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
     }
     if (nullptr != pPhoneWidget) {
         m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());

@@ -92,6 +92,13 @@ MainWindow::MainWindow()
 //        m_commandLine->viewImage("", {});
 //    }
     qDebug() << "zy------MainWindow = " << t.elapsed();
+
+    connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
+        m_backIndex = index;
+        titlebar()->setVisible(false);  //隐藏顶部状态栏
+        setTitlebarShadowEnabled(false);
+        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
+    });
 }
 
 MainWindow::~MainWindow()
@@ -298,13 +305,6 @@ void MainWindow::initConnections()
         {
             m_pSearchEdit->setEnabled(false);
         }
-    });
-    //显示图片视图
-    connect(dApp->signalM, &SignalManager::showImageView, this, [ = ](int index) {
-        m_backIndex = index;
-        titlebar()->setVisible(false);  //隐藏顶部状态栏
-        setTitlebarShadowEnabled(false);
-        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
     });
     //隐藏图片视图
     connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ]() {
@@ -1461,4 +1461,9 @@ void MainWindow::wheelEvent(QWheelEvent *event)
         }
         event->accept();
     }
+}
+
+void MainWindow::closeFromMenu()
+{
+    close();
 }

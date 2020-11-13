@@ -33,15 +33,17 @@
     QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
-        Application app(argc, argv); \
-        app.setAttribute(Qt::AA_Use96Dpi, true); \
+        DApplication *dAppNew = new DApplication(argc, argv); \
+        Application::getApp()->setApp(dAppNew); \
+        Application *app = Application::getApp(); \
+        dAppNew->setAttribute(Qt::AA_Use96Dpi, true); \
         appPath_test = QApplication::applicationDirPath() + QDir::separator() + "test";\
         DBManager::instance(); \
-        ImageEngineApi::instance(&app); \
+        ImageEngineApi::instance(dAppNew); \
         ImageEngineApi::instance()->load80Thumbnails(); \
         MainWindow w; \
         w.show();\
-        app.setMainWindow(&w); \
+        app->setMainWindow(&w); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \

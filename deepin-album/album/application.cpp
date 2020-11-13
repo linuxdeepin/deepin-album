@@ -116,24 +116,15 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
     // m_parent->m_imagemap[path] = pixmap;
 }
 
-
-Application::Application(int &argc, char **argv)
-    : DApplication(argc, argv)
+DApplication *Application::dAppNew = nullptr;
+Application *Application::dApp1 = nullptr;
+Application::Application()
 {
     //设置单例
     setupsinglecase();
-    initI18n();
 
-    setApplicationDisplayName(tr("Album"));
-    setProductIcon(QIcon::fromTheme("deepin-album"));
-    setApplicationVersion(DApplication::buildVersion(VERSION));
-    //setApplicationVersion(ALBUM_VERSION);
-
-//    setApplicationDescription(DApplication::translate("Main","相册是一款可多种方式浏览照片、整理照片和简单编辑的相册管理工具。"));
-    setApplicationDescription(DApplication::translate("Main", "Album is a fashion photo manager for viewing and organizing pictures."));
     installEventFilter(new GlobalEventFilter(this));
     initChildren();
-//    initDB();
 
 }
 
@@ -143,6 +134,27 @@ Application::~Application()
 //        delete m_imageloader;
 //        m_imageloader = nullptr;
     //    }
+}
+
+DApplication *Application::getDAppNew()
+{
+    return dAppNew;
+}
+
+Application *Application::getApp()
+{
+    if (dApp1 == nullptr)
+        dApp1 = new Application;
+    return dApp1;
+}
+
+void Application::setApp(DApplication *app)
+{
+    dAppNew = app;
+    dAppNew->setApplicationDisplayName(tr("Album"));
+    dAppNew->setProductIcon(QIcon::fromTheme("deepin-album"));
+    dAppNew->setApplicationVersion(DApplication::buildVersion(VERSION));
+    dAppNew->setApplicationDescription(DApplication::translate("Main", "Album is a fashion photo manager for viewing and organizing pictures."));
 }
 
 bool Application::isWaylandPlatform()
@@ -157,13 +169,6 @@ bool Application::isWaylandPlatform()
     }
     return true;
 }
-
-
-//void Application::finishLoadSlot()
-//{
-//    qDebug() << "finishLoadSlot";
-//    emit sigFinishLoad();
-//}
 
 void Application::initChildren()
 {
@@ -258,14 +263,4 @@ void Application::checkForMessage()
     const char *from = byteArray.data();
     memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), byteArray.size())));
     sharedMemory.unlock();
-}
-
-void Application::initI18n()
-{
-    // install translators
-//    QTranslator *translator = new QTranslator;
-//    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
-//                     + QLocale::system().name() + ".qm");
-//    installTranslator(translator);
-    loadTranslator(QList<QLocale>() << QLocale::system());
 }
