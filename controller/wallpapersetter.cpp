@@ -29,6 +29,9 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 void WallpaperSetter::setWallpaper(const QString &path)
 {
     qDebug() << "SettingWallpaper 2";
+    const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
+    QFile(path).copy(tmpImg);
+
     QDBusInterface interface("com.deepin.daemon.Appearance",
                                  "/com/deepin/daemon/Appearance",
                                  "com.deepin.daemon.Appearance");
@@ -45,6 +48,13 @@ void WallpaperSetter::setWallpaper(const QString &path)
     } else {
         qWarning() << "SettingWallpaper failed" << interface.lastError();
     }
+    QTimer *t = new QTimer(this);
+    t->setSingleShot(true);
+    connect(t, &QTimer::timeout, this, [t, tmpImg] {
+        QFile(tmpImg).remove();
+        t->deleteLater();
+    });
+    t->start(1000);
 }
 
 void WallpaperSetter::setDeepinWallpaper(const QString &path)
