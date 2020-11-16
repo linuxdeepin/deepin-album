@@ -51,11 +51,11 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
-//#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
-    DApplication *dAppNew = new DApplication(argc, argv);
-//#else
-//    DApplication *dAppNew = DApplication::globalApplication(argc, argv);
-//#endif
+#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+    QScopedPointer<DApplication> dAppNew(new DApplication(argc, argv));
+#else
+    QScopedPointer<DApplication> dAppNew(DApplication::globalApplication(argc, argv));
+#endif
 
     dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     dAppNew->setApplicationName("deepin-album");
     dAppNew->loadTranslator(QList<QLocale>() << QLocale::system());
 
-    Application::getApp()->setApp(dAppNew);
+    Application::getApp()->setApp(dAppNew.get());
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
 
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     DBManager::instance();
-    ImageEngineApi::instance(dAppNew);
+    ImageEngineApi::instance(dAppNew.get());
     ImageEngineApi::instance()->load80Thumbnails();
     MainWindow w;
 
@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
     if (bneedexit)
         bfirstopen = false;
 
-    Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew, &DApplication::handleQuitAction,
+    Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew.get(), &DApplication::handleQuitAction,
                                              &w, &MainWindow::closeFromMenu);
 
     return dAppNew->exec();
