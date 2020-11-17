@@ -27,6 +27,7 @@
 #include <QStandardItemModel>
 #include <QThread>
 #include <QTimer>
+#include <QPainterPath>
 #include <QMouseEvent>
 #include <QImageReader>
 #include <QApplication>
@@ -190,11 +191,11 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->setRenderHint(QPainter::HighQualityAntialiasing, true);
         QColor color(00, 00, 00, 255);
         QBrush  shadowbrush;
-        int arr[17] = {255, 200,100,90,80,70,60,50,40,30,20,10,8,6,4,2,1};
+        int arr[17] = {255, 200, 100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 8, 6, 4, 2, 1};
         for (int i = 0; i < 17; i++) {
             QPainterPath path;
             path.setFillRule(Qt::OddEvenFill);
-            path.addRoundedRect(tempRect.x() +15 - i , tempRect.y() + 20 - i , tempRect.width() - (15 - i)*2 , tempRect.height() - (15 - i)*2, 8, 8);
+            path.addRoundedRect(tempRect.x() + 15 - i, tempRect.y() + 20 - i, tempRect.width() - (15 - i) * 2, tempRect.height() - (15 - i) * 2, 8, 8);
             color.setAlpha(arr[i]);
             painter->setPen(color);
             painter->drawPath(path);
