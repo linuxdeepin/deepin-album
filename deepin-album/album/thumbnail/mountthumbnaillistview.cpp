@@ -233,6 +233,7 @@ void MountThumbnailListView::keyPressEvent(QKeyEvent *event)
         }
         if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_dragItemPath.first(), AlbumDBType::Favourite)) {
             DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
+            emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()));
         } else {
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
         }
@@ -1259,9 +1260,11 @@ void MountThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         }
     }
     break;
-    case IdAddToFavorites:
+    case IdAddToFavorites: {
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
-        break;
+        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, paths);
+    }
+    break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         break;
