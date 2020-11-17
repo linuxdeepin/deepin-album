@@ -3,6 +3,7 @@
 #include <DFontSizeManager>
 #include <DApplicationHelper>
 #include <QPainter>
+#include <QPainterPath>
 
 DFMDArrowLineExpand::DFMDArrowLineExpand()
 {

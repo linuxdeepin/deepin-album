@@ -30,6 +30,7 @@
 #include <QMouseEvent>
 #include <QImageReader>
 #include <QApplication>
+#include <QPainterPath>
 #include <DFontSizeManager>
 #include <DGuiApplicationHelper>
 
@@ -136,8 +137,8 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->fillRect(backRect, shadowbrush);
     }
 
-    float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1:data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
-    float fheight = (backgroundRect.width()) / (data.baseWidth  == 0 ? 1:data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
+    float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1 : data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
+    float fheight = (backgroundRect.width()) / (data.baseWidth  == 0 ? 1 : data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
     QRect pixmapRect;
     if ((data.width > data.imgWidth + 16) && fheight <= 3) {
         pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
@@ -174,7 +175,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     transparentBp.addRoundedRect(transparentRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(transparentBp);
     painter->fillRect(transparentRect, transparentbrush);
-    //深色主题的选中投影    
+    //深色主题的选中投影
     QPainterPath backgroundBp;
     backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
     painter->setClipPath(backgroundBp);
@@ -189,7 +190,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         for (int i = 0; i < 17; i++) {
             QPainterPath path;
             path.setFillRule(Qt::OddEvenFill);
-            path.addRoundedRect(tempRect.x() +15 - i , tempRect.y() + 20 - i , tempRect.width() - (15 - i) * 2 , tempRect.height() - (15 - i) * 2, 8, 8);
+            path.addRoundedRect(tempRect.x() + 15 - i, tempRect.y() + 20 - i, tempRect.width() - (15 - i) * 2, tempRect.height() - (15 - i) * 2, 8, 8);
             color.setAlpha(arr[i]);
             painter->setPen(color);
             painter->drawPath(path);

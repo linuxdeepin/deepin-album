@@ -37,6 +37,7 @@
 #include <DApplicationHelper>
 #include <DSpinner>
 #include <QtMath>
+#include <QPainterPath>
 
 DWIDGET_USE_NAMESPACE
 namespace {
