@@ -1257,6 +1257,9 @@ void AlbumView::updateAlbumView(const QString &album)
     if (m_currentType == album) {
         updateRightMyFavoriteView();
     }
+    if (m_currentType == COMMON_STR_CUSTOM) {
+        updateRightNoTrashView();
+    }
 }
 
 // 更新已导入列表

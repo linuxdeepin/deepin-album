@@ -38,6 +38,7 @@
 #include <QStyleFactory>
 #include <QImageReader>
 #include <QLabel>
+#include <QPainterPath>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
 DWIDGET_USE_NAMESPACE
