@@ -21,18 +21,12 @@
 
 TEST(isRunning, ap1)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "application isRunning ap1 count = " << count_testDefine++;
     ASSERT_EQ(false, dApp->isRunning());
 }
 
 TEST(sendMessage, ap2)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "application sendMessage ap2 count = " << count_testDefine++;
     ASSERT_EQ(false, dApp->sendMessage(""));
 }

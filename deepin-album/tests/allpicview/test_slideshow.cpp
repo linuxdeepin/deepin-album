@@ -9,9 +9,6 @@
 
 TEST(allpicview, test_beginSlideShow)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview test_beginSlideShow count = " << count_testDefine++;
     QTest::qWait(500);
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
