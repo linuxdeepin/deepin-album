@@ -21,6 +21,7 @@
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/dialogs/imginfodialog.h"
+#include "ac-desktop-define.h"
 
 #include <QFileSystemWatcher>
 #include <QLabel>

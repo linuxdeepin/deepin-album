@@ -146,7 +146,6 @@ void QTestMain::testQString()
     QBENCHMARK{
         Q_UNUSED(string.toUpper())
     }
-
 }
 
 void QTestMain::testFloat_data()

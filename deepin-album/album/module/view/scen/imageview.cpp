@@ -40,6 +40,7 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 #include "application.h"
+#include "ac-desktop-define.h"
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
 

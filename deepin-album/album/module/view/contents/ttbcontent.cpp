@@ -25,6 +25,7 @@
 #include "widgets/elidedlabel.h"
 #include "controller/signalmanager.h"
 #include "imageengine/imageengineapi.h"
+#include "ac-desktop-define.h"
 
 #include <QTimer>
 #include <QFileInfo>
@@ -683,6 +684,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_folderBtn = new PushButton();
     m_folderBtn->setFixedSize(QSize(24, 24));
     m_folderBtn->setObjectName("FolderBtn");
+    //AC_SET_OBJECT_NAME(m_folderBtn, Ttbcontent_Back_Button);
+    //AC_SET_ACCESSIBLE_NAME(m_folderBtn, Ttbcontent_Back_Button);
     m_folderBtn->setToolTip("Image management");
     if (m_inDB) {
         hb->addWidget(m_returnBtn);
@@ -704,7 +707,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     // Adapt buttons////////////////////////////////////////////////////////////
     m_backButton = new DIconButton(this);
     m_backButton->setFixedSize(ICON_SIZE);
-    m_backButton->setObjectName("ReturnBtn");
+    AC_SET_OBJECT_NAME(m_backButton, Ttbcontent_Back_Button);
+    AC_SET_ACCESSIBLE_NAME(m_backButton, Ttbcontent_Back_Button);
     m_backButton->setIcon(QIcon::fromTheme("dcc_back"));
     m_backButton->setIconSize(QSize(36, 36));
     m_backButton->setToolTip(tr("Back"));
@@ -723,7 +727,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     // preButton
     m_preButton = new DIconButton(this);
-    m_preButton->setObjectName("PreviousButton");
+    AC_SET_OBJECT_NAME(m_preButton, Ttbcontent_Pre_Button);
+    AC_SET_ACCESSIBLE_NAME(m_preButton, Ttbcontent_Pre_Button);
     m_preButton->setFixedSize(ICON_SIZE);
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
     m_preButton->setIconSize(QSize(36, 36));
@@ -739,7 +744,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     // nextButton
     m_nextButton = new DIconButton(this);
-    m_nextButton->setObjectName("NextButton");
+    AC_SET_OBJECT_NAME(m_nextButton, Ttbcontent_Next_Button);
+    AC_SET_ACCESSIBLE_NAME(m_nextButton, Ttbcontent_Next_Button);
     m_nextButton->setFixedSize(ICON_SIZE);
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
     m_nextButton->setIconSize(QSize(36, 36));
@@ -766,7 +772,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     // adaptImageBtn
     m_adaptImageBtn = new DIconButton(this);
-    m_adaptImageBtn->setObjectName("AdaptBtn");
+    AC_SET_OBJECT_NAME(m_adaptImageBtn, Ttbcontent_AdaptImg_Button);
+    AC_SET_ACCESSIBLE_NAME(m_adaptImageBtn, Ttbcontent_AdaptImg_Button);
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
     m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
     m_adaptImageBtn->setIconSize(QSize(36, 36));
@@ -790,7 +797,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     // adaptScreenBtn
     m_adaptScreenBtn = new DIconButton(this);
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
-    m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
+    AC_SET_OBJECT_NAME(m_adaptScreenBtn, Ttbcontent_AdaptScreen_Button);
+    AC_SET_ACCESSIBLE_NAME(m_adaptScreenBtn, Ttbcontent_AdaptScreen_Button);
     m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
     m_adaptScreenBtn->setIconSize(QSize(36, 36));
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
@@ -809,10 +817,11 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
         }
     });
 
-    // Collection button////////////////////////////////////////////////////////
+    // Collection button
     m_clBT = new DIconButton(this);
     m_clBT->setFixedSize(ICON_SIZE);
-    m_clBT->setObjectName("CollectBtn");
+    AC_SET_OBJECT_NAME(m_clBT, Ttbcontent_Collect_Button);
+    AC_SET_ACCESSIBLE_NAME(m_clBT, Ttbcontent_Collect_Button);
 
     connect(m_clBT, &DIconButton::clicked, this, [ = ] {
 
@@ -833,6 +842,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     // rotateLBtn
     m_rotateLBtn = new DIconButton(this);
+    AC_SET_OBJECT_NAME(m_rotateLBtn, Ttbcontent_Rotate_Left_Button);
+    AC_SET_ACCESSIBLE_NAME(m_rotateLBtn, Ttbcontent_Rotate_Left_Button);
     m_rotateLBtn->setFixedSize(ICON_SIZE);
     m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
     m_rotateLBtn->setIconSize(QSize(36, 36));
@@ -846,6 +857,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     // rotateRBtn
     m_rotateRBtn = new DIconButton(this);
+    AC_SET_OBJECT_NAME(m_rotateRBtn, Ttbcontent_Rotate_Right_Button);
+    AC_SET_ACCESSIBLE_NAME(m_rotateRBtn, Ttbcontent_Rotate_Right_Button);
     m_rotateRBtn->setFixedSize(ICON_SIZE);
     m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
     m_rotateRBtn->setIconSize(QSize(36, 36));
@@ -960,7 +973,8 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     m_trashBtn = new DIconButton(this);
     m_trashBtn->setFixedSize(ICON_SIZE);
-    m_trashBtn->setObjectName("TrashBtn");
+    AC_SET_OBJECT_NAME(m_trashBtn, Ttbcontent_Trash_Button);
+    AC_SET_ACCESSIBLE_NAME(m_trashBtn, Ttbcontent_Trash_Button);
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36, 36));
     m_trashBtn->setToolTip(tr("Delete"));

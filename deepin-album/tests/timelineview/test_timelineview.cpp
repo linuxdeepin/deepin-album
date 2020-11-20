@@ -11,9 +11,6 @@
 
 TEST(TimeLineView, T1)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "TimeLineView T1 count = " << count_testDefine++;
 //    QThreadPool::globalInstance()->waitForDone();
     MainWindow *w = dApp->getMainWindow();

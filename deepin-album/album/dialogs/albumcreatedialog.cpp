@@ -18,6 +18,7 @@
 #include "albumcreatedialog.h"
 #include "dbmanager/dbmanager.h"
 #include "utils/baseutils.h"
+#include "ac-desktop-define.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <DLineEdit>

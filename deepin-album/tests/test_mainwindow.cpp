@@ -7,9 +7,6 @@
 
 TEST(MainWindow, BtnGroupClick)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "MainWindow BtnGroupClick count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QTestEventList event;

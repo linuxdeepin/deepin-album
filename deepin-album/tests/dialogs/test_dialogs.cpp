@@ -11,9 +11,6 @@
 
 TEST(albumcreatedialog, dia1)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "dialogs albumcreatedialog dia1 count = " << count_testDefine++;
     AlbumCreateDialog *a = new AlbumCreateDialog;
     ASSERT_TRUE(a->getCreateAlbumName().isEmpty());
@@ -28,11 +25,9 @@ TEST(albumcreatedialog, dia1)
 
 TEST(albumdeletedialog, deletdialog)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "dialogs albumdeletedialog deletdialog count = " << count_testDefine++;
     AlbumDeleteDialog *d = new AlbumDeleteDialog;
+    Q_UNUSED(d);
     QTestEventList event;
     event.addKeyClick(Qt::Key_Escape);
 }

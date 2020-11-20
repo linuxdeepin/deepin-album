@@ -15,9 +15,6 @@
 
 TEST(allpicview, test_ini)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview test_ini count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
@@ -56,9 +53,6 @@ TEST(allpicview, test_ini)
 
 TEST(allpicview, resize)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview test_ini count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
@@ -72,9 +66,6 @@ TEST(allpicview, resize)
 
 TEST(allpicview, keypress)
 {
-    if (!switch_on_test) {
-        return;
-    }
     QTest::qWait(200);
     qDebug() << "allpicview test_ini count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
@@ -88,9 +79,6 @@ TEST(allpicview, keypress)
 
 TEST(allpicview, dragevent)
 {
-    if (!switch_on_test) {
-        return;
-    }
     QTest::qWait(200);
     qDebug() << "allpicview test_ini count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
@@ -136,9 +124,6 @@ TEST(allpicview, dragevent)
 
 TEST(allpicview, mousePress)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview mousePress count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
@@ -155,9 +140,6 @@ TEST(allpicview, mousePress)
 
 TEST(allpicview, test_open)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview test_open count = " << count_testDefine++;
     QString publicTestPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     QString testPath = publicTestPath;
@@ -225,9 +207,6 @@ TEST(allpicview, test_open)
 
 TEST(allpicview, test_select)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview test_select count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     AllPicView *a = w->m_pAllPicView;
@@ -256,9 +235,6 @@ TEST(allpicview, test_select)
 
 TEST(allpicview, test_shortCut)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview test_shortCut count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->createShorcutJson();
@@ -270,9 +246,6 @@ TEST(allpicview, test_shortCut)
 
 TEST(allpicview, test_showInFileManagerAndBackGrond)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "allpicview test_showInFileManagerAndBackGrond count = " << count_testDefine++;
     using namespace utils::base;
     using namespace utils::image;
@@ -311,14 +284,10 @@ TEST(allpicview, test_showInFileManagerAndBackGrond)
 
 TEST(ttbcontent, test_ini)
 {
-//    if (!switch_on_test) {
-//        return;
-//    }
     qDebug() << "ttbcontent test_ini count = " << count_testDefine++;
     QString publicTestPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     QString testPath = publicTestPath;
     MainWindow *w = dApp->getMainWindow();
-    QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     AllPicView *a = w->m_pAllPicView;
     QTestEventList tl;
     tl.addMouseMove(QPoint(0, 0), 100);
@@ -328,7 +297,7 @@ TEST(ttbcontent, test_ini)
     ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
     QTest::qWait(500);
 
-    testPathlist = ImageEngineApi::instance()->get_AllImagePath();
+    QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     if (!testPathlist.isEmpty()) {
         qDebug() << "test ImageView Success ";
         w->m_pSearchEdit->setText("1");
@@ -357,7 +326,7 @@ TEST(ttbcontent, test_ini)
         QTest::qWait(500);
         ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
         if (viewPanel) {
-            ImageView *view = viewPanel->getImageView();
+            viewPanel->getImageView();
         }
 
         MainWidget *mw = CommandLine::instance()->findChild<MainWidget *>("MainWidget");
@@ -421,17 +390,16 @@ TEST(ttbcontent, test_ini)
 //            QTest::qWait(300);
             el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, p, 100);
             el.simulate(imgList);
+            el.clear();
 
             if (imgListView) {
-                QTestEventList el;
-                QPoint p(imgListView->pos().x() - 50, imgListView->pos().y() + 10);
-                el.addMouseMove(p);
-                el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p, 100);
-                el.addMouseMove(QPoint(p.x() + 100, p.y()), 100);
-                el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p.x() + 100, p.y()), 100);
+                QPoint p2(imgListView->pos().x() - 50, imgListView->pos().y() + 10);
+                el.addMouseMove(p2);
+                el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p2, 100);
+                el.addMouseMove(QPoint(p2.x() + 100, p2.y()), 100);
+                el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p2.x() + 100, p2.y()), 100);
                 el.simulate(imgListView);
             }
-
         }
     }
 

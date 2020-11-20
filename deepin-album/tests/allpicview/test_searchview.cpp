@@ -10,9 +10,6 @@
 
 TEST(searchview, test_ini)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "searchview test_ini count = " << count_testDefine++;
     QTest::qWait(200);
     MainWindow *w = dApp->getMainWindow();

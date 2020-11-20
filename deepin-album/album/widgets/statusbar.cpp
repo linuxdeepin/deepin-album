@@ -1,4 +1,5 @@
 #include "statusbar.h"
+#include "ac-desktop-define.h"
 #include <QGraphicsDropShadowEffect>
 #include <QItemSelectionModel>
 
@@ -20,6 +21,8 @@ void StatusBar::initUI()
     m_allPicNum = DBManager::instance()->getImgsCount();
 
     m_pAllPicNumLabel = new DLabel();
+    AC_SET_OBJECT_NAME(m_pAllPicNumLabel, All_Pic_Count);
+    AC_SET_ACCESSIBLE_NAME(m_pAllPicNumLabel, All_Pic_Count);
     m_pAllPicNumLabel->setEnabled(false);
 //    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
     m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
@@ -41,6 +44,8 @@ void StatusBar::initUI()
     m_pStackedWidget->addWidget(TextLabel);
 
     m_pSlider = new DSlider(Qt::Horizontal, this);
+    AC_SET_OBJECT_NAME(m_pSlider, Thumbnail_Slider);
+    AC_SET_ACCESSIBLE_NAME(m_pSlider, Thumbnail_Slider);
     m_pSlider->setFixedWidth(180);
     m_pSlider->setFixedHeight(27);
     m_pSlider->setMinimum(0);

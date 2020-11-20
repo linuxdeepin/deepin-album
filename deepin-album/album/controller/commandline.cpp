@@ -26,6 +26,7 @@
 #include "utils/unionimage.h"
 
 #include "dthememanager.h"
+#include "ac-desktop-define.h"
 
 #include <QHBoxLayout>
 #include <QCommandLineOption>

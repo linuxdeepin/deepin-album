@@ -12,9 +12,6 @@
 
 TEST(AlbumView, deleteAll)
 {
-    if (!switch_on_test) {
-        return;
-    }
     ImageEngineApi::instance()->load80Thumbnails();
     QTest::qWait(500);
     qDebug() << "AlbumView deleteAll count = " << count_testDefine++;
@@ -76,9 +73,6 @@ TEST(AlbumView, deleteAll)
 
 TEST(AlbumView, removeTestImagesInfo)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView removeTestImagesInfo count = " << count_testDefine++;
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath_test);
@@ -102,9 +96,6 @@ TEST(AlbumView, removeTestImagesInfo)
 
 TEST(AlbumView, clickImportViewBtn)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView clickImportViewBtn count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     AllPicView *a = w->m_pAllPicView;
@@ -124,9 +115,6 @@ TEST(AlbumView, clickImportViewBtn)
 
 TEST(AlbumView, ini)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView ini count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->loadZoomRatio();
@@ -154,9 +142,6 @@ TEST(AlbumView, ini)
 
 TEST(AlbumView, iniAlbum)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView ini count = " << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
@@ -195,11 +180,38 @@ TEST(AlbumView, iniAlbum)
     }
 }
 
+TEST(AlbumView, createNewAlbumFromDialog)
+{
+    qDebug() << "AlbumView createNewAlbumFromDialog count" << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+
+    QList<QAction*> actions = w->actions();
+    foreach (auto act, actions) {
+        if (act->text() == "new album") {
+            w->onTitleBarMenuClicked(act);
+            break;
+        }
+    }
+    QTest::qWait(500);
+    QList<QWidget *> widgets = w->findChildren<QWidget *>("");
+    foreach (auto widget, widgets) {
+        if (!strcmp(widget->metaObject()->className(),"AlbumCreateDialog")) {
+            AlbumCreateDialog *temp = static_cast<AlbumCreateDialog*>(widget);
+            QPoint pos(10, 10);
+            QTestEventList event;
+            event.addMouseMove(pos);
+            event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
+            event.simulate(temp->getButton(1));
+            event.clear();
+            break;
+        }
+    }
+    QTest::qWait(500);
+}
+
 TEST(AlbumView, leftMenu)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView leftMenu count = " << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
@@ -227,9 +239,6 @@ TEST(AlbumView, leftMenu)
 
 TEST(AlbumView, imageOpen)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView imageOpen count = " << count_testDefine++;
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     MainWindow *w = dApp->getMainWindow();
@@ -259,9 +268,6 @@ TEST(AlbumView, imageOpen)
 
 TEST(AlbumView, deleteImgRecovery)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView deleteImgRecovery count = " << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
@@ -277,9 +283,6 @@ TEST(AlbumView, deleteImgRecovery)
 
 TEST(AlbumView, exportAlbum)
 {
-    if (!switch_on_test) {
-        return;
-    }
     qDebug() << "AlbumView exportAlbum count = " << count_testDefine++;
     AlbumCreateDialog *ad = new AlbumCreateDialog;
     QTest::keyClicks(ad->getEdit(), "newtestalbum1");

@@ -5,6 +5,7 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <dgiovolume.h>
+#include "ac-desktop-define.h"
 
 namespace {
 struct MetaData {
@@ -40,9 +41,12 @@ AllPicView::AllPicView()
     fatherwidget = new DWidget(this);
     fatherwidget->setFixedSize(this->size());
     m_pStackedWidget = new DStackedWidget(this);
+    AC_SET_OBJECT_NAME(m_pStackedWidget, All_Picture_StackedWidget);
+    AC_SET_ACCESSIBLE_NAME(m_pStackedWidget, All_Picture_StackedWidget);
     m_pImportView = new ImportView();
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType);
-    m_pThumbnailListView->setObjectName("allPicThumbnailListView");
+    AC_SET_OBJECT_NAME(m_pThumbnailListView, All_Picture_Thembnail);
+    AC_SET_ACCESSIBLE_NAME(m_pThumbnailListView, All_Picture_Thembnail);
     DWidget *pThumbnailListView = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(8, 0, 0, 0);
@@ -84,6 +88,8 @@ AllPicView::AllPicView()
                     m_pThumbnailListView, &ThumbnailListView::slotLoad80ThumbnailsFinish);
         }
     }
+    AC_SET_OBJECT_NAME(this, All_Picture_View);
+    AC_SET_ACCESSIBLE_NAME(this, All_Picture_View);
 }
 
 void AllPicView::initConnections()
