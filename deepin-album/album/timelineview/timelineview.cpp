@@ -2,6 +2,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "imageengine/imageengineapi.h"
+#include "ac-desktop-define.h"
 #include <QScrollBar>
 #include <QScroller>
 #include <DPushButton>
@@ -266,6 +267,8 @@ void TimeLineView::initTimeLineViewWidget()
     //右侧选择文字
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
+    AC_SET_OBJECT_NAME(pSuspensionChose, Time_Line_Choose_Button);
+    AC_SET_ACCESSIBLE_NAME(pSuspensionChose, Time_Line_Choose_Button);
     DFontSizeManager::instance()->bind(pSuspensionChose, DFontSizeManager::T5);
     pSuspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pSuspensionChose->setFixedHeight(TIMELINE_TITLEHEIGHT);

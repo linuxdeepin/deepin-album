@@ -12,6 +12,8 @@ endif()
 
 option(DOTEST "option for test" OFF)
 
+add_definitions(-DENABLE_ACCESSIBILITY=1)
+
 if(DOTEST)
 else()
     # 加速编译优化参数
