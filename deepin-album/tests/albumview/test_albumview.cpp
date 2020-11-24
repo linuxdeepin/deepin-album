@@ -187,19 +187,18 @@ TEST(AlbumView, createNewAlbumFromDialog)
     w->albumBtnClicked();
 
     QList<QAction*> actions = w->actions();
-    foreach (auto act, actions) {
-        if (act->text() == "new album") {
-            w->onTitleBarMenuClicked(act);
-            break;
-        }
-    }
+
+    AlbumImageButton * btn = w->m_pAlbumview->m_pLeftListView->m_pAddListBtn;
+    QTestEventList event;
+    event.addMouseClick(Qt::LeftButton,Qt::NoModifier);
+    event.simulate(btn);
+    event.clear();
     QTest::qWait(500);
     QList<QWidget *> widgets = w->findChildren<QWidget *>("");
     foreach (auto widget, widgets) {
-        if (!strcmp(widget->metaObject()->className(),"AlbumCreateDialog")) {
+        if (!strcmp(widget->metaObject()->className(), "AlbumCreateDialog")) {
             AlbumCreateDialog *temp = static_cast<AlbumCreateDialog*>(widget);
             QPoint pos(10, 10);
-            QTestEventList event;
             event.addMouseMove(pos);
             event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
             event.simulate(temp->getButton(1));
@@ -207,7 +206,74 @@ TEST(AlbumView, createNewAlbumFromDialog)
             break;
         }
     }
+    QTest::qWait(200);
+}
+
+TEST(AlbumView, dragPhotoToAnAlbum)
+{
+    qDebug() << "AlbumView dragPhotoToAnAlbum count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+
+    w->albumBtnClicked();
+    QTest::qWait(100);
+    AlbumView *a = w->m_pAlbumview;
+    // open import widget
+    QTestEventList event;
+    event.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
+    event.addMouseRelease(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
+    event.simulate(a->m_pLeftListView->m_pPhotoLibListView->viewport());
+    event.clear();
     QTest::qWait(500);
+
+    LeftListWidget *albumList = a->m_pLeftListView->m_pCustomizeListView;
+    a->pImportTimeLineWidget->setFocus();
+    if (albumList->count() > 0) {
+        QList<QWidget *> widgets = a->pImportTimeLineWidget->findChildren<QWidget *>("");
+        for (int index = 0; index < widgets.count(); index++) {
+            if (!strcmp(widgets.at(index)->metaObject()->className(),("ThumbnailListView"))) {
+                ThumbnailListView *listview = static_cast<ThumbnailListView*>(widgets.at(index));
+                listview->setFocus();
+
+                QString jpgItemPath = testPath_test + "/2k9o1m.png";
+                QString text = "xxxxxxxxxxxxxx";
+                QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
+                QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
+                QByteArray itemData;
+                QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+                dataStream << text << icon << icon_hover;
+                QMimeData mimedata;
+                mimedata.setData(QStringLiteral("TestListView/text-icon-icon_hover"), itemData);
+                QList<QUrl> li;
+                li.append(QUrl::fromLocalFile(jpgItemPath));
+                mimedata.setUrls(li);
+
+                QModelIndex model_index;
+                emit a->m_pLeftListView->m_pCustomizeListView->pressed(model_index);
+                QTest::qWait(200);
+                const QPoint pos1 = a->m_pLeftListView->m_pCustomizeListView->pos() + QPoint(90,20);
+                qDebug() << "pos1 " << pos1;
+                QDragEnterEvent eEnter(pos1, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+                dApp->getDAppNew()->sendEvent(a->m_pLeftListView->m_pCustomizeListView, &eEnter);
+                QTest::qWait(200);
+
+                QDragMoveEvent eMove(pos1, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+                dApp->getDAppNew()->sendEvent(a->m_pLeftListView->m_pCustomizeListView, &eMove);
+                QTest::qWait(200);
+
+                QDropEvent e(pos1, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+                dApp->getDAppNew()->sendEvent(a->m_pLeftListView->m_pCustomizeListView, &e);
+                QTest::qWait(200);
+
+                dApp->getDAppNew()->sendEvent(a->m_pLeftListView->m_pCustomizeListView, &eEnter);
+                QTest::qWait(200);
+
+                QDragLeaveEvent eLeave;
+                dApp->getDAppNew()->sendEvent(a->m_pLeftListView->m_pCustomizeListView, &eLeave);
+                QTest::qWait(500);
+                break;
+            }
+        }
+    }
 }
 
 TEST(AlbumView, leftMenu)
