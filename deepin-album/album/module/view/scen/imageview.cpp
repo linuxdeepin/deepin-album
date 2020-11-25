@@ -201,6 +201,7 @@ void ImageView::setImage(const QString &path)
         emit imageChanged(path);
         QMetaObject::invokeMethod(this, [ = ]() {
             resetTransform();
+            autoFit();
         }, Qt::QueuedConnection);
     } else {
         m_movieItem = nullptr;
