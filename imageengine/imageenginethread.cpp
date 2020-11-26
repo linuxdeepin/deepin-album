@@ -99,7 +99,7 @@ void ImportImagesThread::run()
         for (QUrl url : m_urls) {
             const QString path = url.toLocalFile();
             if (QFileInfo(path).isDir()) {
-                auto finfos =  utils::image::getImagesInfo(path, false);
+                auto finfos =  utils::image::getImagesInfo(path, true);
                 for (auto finfo : finfos) {
                     if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
                         image_list << finfo.absoluteFilePath();
@@ -118,7 +118,7 @@ void ImportImagesThread::run()
             }
             QFileInfo file(path);
             if (file.isDir()) {
-                auto finfos =  utils::image::getImagesInfo(path, false);
+                auto finfos =  utils::image::getImagesInfo(path, true);
                 for (auto finfo : finfos) {
                     if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
                         image_list << finfo.absoluteFilePath();
