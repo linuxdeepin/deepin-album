@@ -97,8 +97,12 @@ int ImgInfoDialog::height()
 
 void ImgInfoDialog::initUI()
 {
-//    setAutoFillBackground(true);
-    setAttribute(Qt::WA_TranslucentBackground, true);
+    DPalette imgInfoDlgPl = this->palette();
+    QColor imgInfoDlgColor("#F7F7F7");
+    imgInfoDlgColor.setAlphaF(0.8);
+    imgInfoDlgPl.setColor(DPalette::Window, imgInfoDlgColor);
+    this->setBackgroundRole(DPalette::Window);
+
     setFixedWidth(320);
     setMaximumHeight(540);
     setContentLayoutContentsMargins(QMargins(0, 0, 0, 0));
