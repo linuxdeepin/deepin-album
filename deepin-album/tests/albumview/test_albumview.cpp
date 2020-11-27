@@ -186,18 +186,18 @@ TEST(AlbumView, createNewAlbumFromDialog)
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
 
-    QList<QAction*> actions = w->actions();
+    QList<QAction *> actions = w->actions();
 
-    AlbumImageButton * btn = w->m_pAlbumview->m_pLeftListView->m_pAddListBtn;
+    AlbumImageButton *btn = w->m_pAlbumview->m_pLeftListView->m_pAddListBtn;
     QTestEventList event;
-    event.addMouseClick(Qt::LeftButton,Qt::NoModifier);
+    event.addMouseClick(Qt::LeftButton, Qt::NoModifier);
     event.simulate(btn);
     event.clear();
     QTest::qWait(500);
     QList<QWidget *> widgets = w->findChildren<QWidget *>("");
     foreach (auto widget, widgets) {
         if (!strcmp(widget->metaObject()->className(), "AlbumCreateDialog")) {
-            AlbumCreateDialog *temp = static_cast<AlbumCreateDialog*>(widget);
+            AlbumCreateDialog *temp = static_cast<AlbumCreateDialog *>(widget);
             QPoint pos(10, 10);
             event.addMouseMove(pos);
             event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
@@ -230,8 +230,8 @@ TEST(AlbumView, dragPhotoToAnAlbum)
     if (albumList->count() > 0) {
         QList<QWidget *> widgets = a->pImportTimeLineWidget->findChildren<QWidget *>("");
         for (int index = 0; index < widgets.count(); index++) {
-            if (!strcmp(widgets.at(index)->metaObject()->className(),("ThumbnailListView"))) {
-                ThumbnailListView *listview = static_cast<ThumbnailListView*>(widgets.at(index));
+            if (!strcmp(widgets.at(index)->metaObject()->className(), ("ThumbnailListView"))) {
+                ThumbnailListView *listview = static_cast<ThumbnailListView *>(widgets.at(index));
                 listview->setFocus();
 
                 QString jpgItemPath = testPath_test + "/2k9o1m.png";
@@ -250,7 +250,7 @@ TEST(AlbumView, dragPhotoToAnAlbum)
                 QModelIndex model_index;
                 emit a->m_pLeftListView->m_pCustomizeListView->pressed(model_index);
                 QTest::qWait(200);
-                const QPoint pos1 = a->m_pLeftListView->m_pCustomizeListView->pos() + QPoint(90,20);
+                const QPoint pos1 = a->m_pLeftListView->m_pCustomizeListView->pos() + QPoint(90, 20);
                 qDebug() << "pos1 " << pos1;
                 QDragEnterEvent eEnter(pos1, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
                 dApp->getDAppNew()->sendEvent(a->m_pLeftListView->m_pCustomizeListView, &eEnter);
@@ -376,7 +376,16 @@ TEST(AlbumView, exportAlbum)
     Exporter::instance()->instance()->exportImage(testImage.mid(0, 1));
 }
 
-TEST(AlbumView, device)
+TEST(AlbumImageButton, btn)
 {
-
+    QString pic = testPath_test + "/39elz3.png";
+    AlbumImageButton *b = new AlbumImageButton(pic, pic, pic, pic, nullptr);
+    b->setPropertyPic("a", "", pic, pic, pic, pic);
+    QTestEventList e;
+    QPoint point = b->pos();
+    e.addMouseMove(point + QPoint(1, 1), 10);
+    e.addMouseMove(point + QPoint(2, 2), 10);
+    e.addMouseMove(point + QPoint(100, 100), 10);
+    e.simulate(b);
+    ASSERT_TRUE(b != nullptr);
 }

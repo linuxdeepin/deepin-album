@@ -121,7 +121,7 @@ AlbumView::AlbumView()
     , m_diskManager(nullptr), pLabel1(nullptr), pLabel2(nullptr)
     , m_pImpTimeLineWidget(nullptr), m_importByPhoneWidget(nullptr), m_importByPhoneComboBox(nullptr)
     , m_importAllByPhoneBtn(nullptr), m_importSelectByPhoneBtn(nullptr), m_mountPicNum(0)
-    , m_mountloader(nullptr), m_LoadThread(nullptr), m_spinner(nullptr)
+    , m_LoadThread(nullptr), m_spinner(nullptr)
     , m_pImportTitle(nullptr), m_noTrashItem(nullptr), m_pNoTrashTitle(nullptr)
     , m_pNoTrashWidget(nullptr), m_FavoriteItem(nullptr), m_FavoriteTitle(nullptr)
     , m_TrashitemItem(nullptr), m_TrashTitle(nullptr), fatherwidget(nullptr)
@@ -2602,51 +2602,6 @@ void AlbumView::restorePicNum()
         m_pStatusBar->setVisible(true);
     }
     m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
-}
-
-MountLoader::MountLoader(AlbumView *parent)
-    : m_parent(parent), bIsRunning(false), bneedunmountpath(false)
-{
-
-}
-
-//void MountLoader::onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths)
-//{
-//    for (int i = 0; i < phonepaths.length(); i++) {
-//        if (QFile::copy(phonepaths[i], systempaths[i])) {
-//            qDebug() << "onCopyPhotoFromPhone()";
-//        }
-//    }
-//}
-
-//搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
-//经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下
-bool MountLoader::findPicturePathByPhone(QString &path)
-{
-    QDir dir(path);
-    if (!dir.exists()) return false;
-    QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
-    QFileInfo tempFileInfo;
-    foreach (tempFileInfo, fileInfoList) {
-        if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
-            path = tempFileInfo.absoluteFilePath();
-            return true;
-        } else {
-            QDir subDir;
-            subDir.setPath(tempFileInfo.absoluteFilePath());
-
-            QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
-            QFileInfo subTempFileInfo;
-            foreach (subTempFileInfo, subFileInfoList) {
-                if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
-                    path = subTempFileInfo.absoluteFilePath();
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-    return false;
 }
 
 void AlbumView::paintEvent(QPaintEvent *event)

@@ -50,49 +50,6 @@ class DGioVolumeManager;
 class AlbumView;
 
 
-class MountLoader : public QObject
-{
-    Q_OBJECT
-public:
-    explicit MountLoader(AlbumView *parent);
-    ~MountLoader()
-    {
-//        qtpool.waitForDone();
-        QThreadPool::globalInstance()->waitForDone();
-    }
-    bool isRunning()
-    {
-        return bIsRunning;
-    }
-    void stopRunning(QString path)
-    {
-        bIsRunning = false;
-        bneedunmountpath = true;
-        m_unmountpath = path;
-    }
-private:
-    bool findPicturePathByPhone(QString &path);
-
-public slots:
-//    void onLoadMountImagesStart(QString mountName, QString path);
-//    void onCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
-
-signals:
-    void sigFinishiLoad();
-//    void sigLoadMountImagesStart(QString mountName, QString path);
-    void sigCopyPhotoFromPhone(QStringList phonepaths, QStringList systempaths);
-    void needUnMount(QString path);
-
-private:
-    AlbumView *m_parent;
-    QStringList m_phoneImgPathList;
-    QMap<QString, QPixmap> m_phonePathImage;
-//    QThreadPool qtpool;
-    bool bIsRunning = false;
-    QString m_unmountpath;
-    bool bneedunmountpath = false;
-};
-
 class AlbumViewList : public DListWidget
 {
     Q_OBJECT
@@ -273,7 +230,7 @@ private:
 
     int m_mountPicNum;
 
-    MountLoader *m_mountloader;
+//    MountLoader *m_mountloader;
     QThread *m_LoadThread;
 
 //    QMap<QString, MountLoader *> m_mountLoaderList;
