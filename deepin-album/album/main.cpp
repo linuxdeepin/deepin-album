@@ -129,6 +129,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     w.show();
+    dApp->setMainWindow(&w);
     Dtk::Widget::moveToCenter(&w);
 
     if (bneedexit)

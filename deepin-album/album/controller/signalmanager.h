@@ -93,6 +93,7 @@ signals:
     void resizeFileName();
     void sigAlbDelToast(const QString &albname);
     void sigAddToAlbToast(const QString &album);
+    void sigAddDuplicatePhotos();
     void updateStatusBarImportLabel(const QStringList paths, int count, bool bcustalbum = false, QString album = "");
     void updateIcon();
     void ImportSuccess();
@@ -100,6 +101,7 @@ signals:
     void TransmitAlbumName(const QString &name);
     void ImportFailed();
     void ImportSomeFailed(int successful, int failed);
+    void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
     void ImgExportSuccess();
     void ImgExportFailed();
     void AlbExportSuccess();

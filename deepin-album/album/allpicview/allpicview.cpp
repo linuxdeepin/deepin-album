@@ -1,6 +1,7 @@
 #include "allpicview.h"
 #include <QMimeData>
 #include "imageengine/imageengineapi.h"
+#include "mainwindow.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -99,6 +100,13 @@ void AllPicView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp, &Application::sigFinishLoad, this, [ = ] {
         m_pThumbnailListView->update();
+    });
+    // 添加重复照片提示
+    connect(dApp->signalM,&SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+        Q_UNUSED(importPaths)
+        if (albumName.length() == 0 && dApp->getMainWindow()->getCurrentViewType() == 0) {
+            m_pThumbnailListView->selectDuplicatePhotos(duplicatePaths);
+        }
     });
     connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
         SignalManager::ViewInfo info;

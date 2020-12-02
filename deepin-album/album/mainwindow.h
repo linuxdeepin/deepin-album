@@ -65,6 +65,7 @@ public:
     void initTitleBar();
     void initCentralWidget();
     void setWaitDialogColor();
+    int getCurrentViewType();
     void showCreateDialog(QStringList imgpaths);
     void onShowImageInfo(const QString &path);
     void loadZoomRatio();

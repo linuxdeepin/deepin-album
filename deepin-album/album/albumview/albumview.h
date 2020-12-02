@@ -224,54 +224,34 @@ private:
     QStringList m_curThumbnaiItemList_str;
     QStringList m_curPhoneItemList_str;         //外部设备图片的路径
     QMap<QString, QStringList>   m_phonePath;   //多个设备对应路径
-
-
     QMap<QString, QPixmap> m_phonePicMap;
-
     int m_mountPicNum;
 
 //    MountLoader *m_mountloader;
     QThread *m_LoadThread;
-
-//    QMap<QString, MountLoader *> m_mountLoaderList;
-//    QMap<QString, QThread *> m_loadThreadList;
-
-
     QMap<QUrl, QString> durlAndNameMap;
     void getAllDeviceName();
     DSpinner *m_spinner;
     DLabel *m_pImportTitle;
-
     //add start 3975
     QListWidgetItem *m_noTrashItem;
     DWidget *m_pNoTrashTitle;
     DWidget *m_pNoTrashWidget;
-
     QListWidgetItem *m_FavoriteItem;
     DWidget *m_FavoriteTitle;
-
     QListWidgetItem *m_TrashitemItem;
     DWidget *m_TrashTitle;
-
     AlbumDeleteDialog *m_deleteDialog = nullptr;
-
     //add end 3975
-
-//    QGridLayout *pVBoxLayout = nullptr;
     DWidget *fatherwidget;
     DWidget *pPhoneWidget;
-    // DBlurEffectWidget *phonetopwidget = nullptr;
     DWidget *phonetopwidget;
-
     bool isIgnore;
     QTimer *m_waitDailog_timer;
     QThread *m_updateMountViewThread;
     bool isMountThreadRunning;
-
     int m_currentViewPictureCount;
-
     QMutex m_mutex;
-
 };
 
 #endif // ALBUMVIEW_H

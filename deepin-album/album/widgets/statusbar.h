@@ -48,6 +48,7 @@ public:
 private:
     int m_index;
     bool m_bcustalbum = false;
+    bool m_baddDuplicatePhotos = false;
     QString m_alubm;
 
 

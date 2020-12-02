@@ -149,6 +149,8 @@ public:
     void clearSelectionExtent(int start, int end);
     void resizeHand();  //手动发送信号，计算大小
     void setListViewUseFor(ListViewUseFor usefor);
+    void selectDuplicateForOneListView(QStringList paths, QModelIndex &firstIndex);
+    void selectDuplicatePhotos(QStringList paths, bool bMultiListView = false);
 signals:
 //    void loadend(int);
     void needResize(int);

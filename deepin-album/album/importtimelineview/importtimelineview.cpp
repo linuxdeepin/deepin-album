@@ -1,4 +1,5 @@
 #include "importtimelineview.h"
+#include "mainwindow.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "imageengine/imageengineapi.h"
@@ -102,6 +103,20 @@ void ImportTimeLineView::initConnections()
     });
 
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &ImportTimeLineView::themeChangeSlot);
+
+    // 重复导入图片选中
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+        Q_UNUSED(importPaths)
+        // 导入的照片重复照片提示
+        if (duplicatePaths.size() > 0 && albumName.length() < 1 && dApp->getMainWindow()->getCurrentViewType() == 2) {
+            QTimer::singleShot(100, this, [ = ] {
+                for (ThumbnailListView *list : m_allThumbnailListView) {
+                    // 注意导入界面为多行listview处理类型
+                    list->selectDuplicatePhotos(duplicatePaths, true);
+                }
+            });
+        }
+    });
 }
 
 void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)

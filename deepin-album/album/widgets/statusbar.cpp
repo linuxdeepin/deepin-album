@@ -78,13 +78,19 @@ void StatusBar::initConnections()
             TextLabel->adjustSize();
 
             m_pStackedWidget->setCurrentIndex(1);
-//                loadingicon->move(TextLabel->x()+102, 0);
-//                loadingicon->show();
-//                loadingicon->start();
             interval = startTimer(3);
 
         }
     });
+    // 处理导入图片完成后，弹出重复照片提示
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+        Q_UNUSED(albumName)
+        // 导入的照片不全是重复照片提示
+        if (importPaths.size() > 0 && duplicatePaths.size() > 0) {
+            m_baddDuplicatePhotos = true;
+        }
+    });
+
     connect(dApp->signalM, &SignalManager::sigExporting, this, [ = ](QString path) {
         if (isVisible()) {
             m_pStackedWidget->setCurrentIndex(1);
@@ -136,9 +142,6 @@ void StatusBar::paintEvent(QPaintEvent *event)
 }
 
 
-
-
-
 void StatusBar::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == interval) {
@@ -159,26 +162,39 @@ void StatusBar::timerEvent(QTimerEvent *e)
             m_pStackedWidget->setCurrentIndex(0);
             if (m_bcustalbum) {
                 emit dApp->signalM->sigAddToAlbToast(m_alubm);
+                if(m_baddDuplicatePhotos){
+                    m_baddDuplicatePhotos = false;
+                    emit dApp->signalM->sigAddDuplicatePhotos();
+                }
             } else if (1 == pic_count) {
                 emit dApp->signalM->ImportSuccess();
+                if(m_baddDuplicatePhotos){
+                    m_baddDuplicatePhotos = false;
+                    emit dApp->signalM->sigAddDuplicatePhotos();
+                }
             } else {
                 emit dApp->signalM->ImportFailed();
             }
         } else {
             TextLabel->setText(string.arg(imgpaths[m_index + 1]));
-//            TextLabel->setMinimumSize(TextLabel->sizeHint());
-//            TextLabel->adjustSize();
             TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
             m_index ++;
             if (m_index == imgpaths.count() - 1) {
                 m_index = 0;
                 killTimer(interval);
                 interval = 0;
-
                 if (m_bcustalbum) {
                     emit dApp->signalM->sigAddToAlbToast(m_alubm);
+                    if(m_baddDuplicatePhotos){
+                        m_baddDuplicatePhotos = false;
+                        emit dApp->signalM->sigAddDuplicatePhotos();
+                    }
                 } else if (1 == pic_count) {
                     emit dApp->signalM->ImportSuccess();
+                    if(m_baddDuplicatePhotos){
+                        m_baddDuplicatePhotos = false;
+                        emit dApp->signalM->sigAddDuplicatePhotos();
+                    }
                 } else {
                     emit dApp->signalM->ImportFailed();
                 }

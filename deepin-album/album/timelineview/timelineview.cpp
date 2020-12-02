@@ -2,6 +2,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "imageengine/imageengineapi.h"
+#include "mainwindow.h"
 #include "ac-desktop-define.h"
 #include <QScrollBar>
 #include <QScroller>
@@ -129,6 +130,20 @@ void TimeLineView::initConnections()
         }
     });
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &TimeLineView::onKeyDelete);
+
+    // 重复导入图片选中
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+        Q_UNUSED(importPaths)
+        // 导入的照片重复照片提示
+        if (duplicatePaths.size() > 0 && albumName.length() < 1 && dApp->getMainWindow()->getCurrentViewType() == 1) {
+            QTimer::singleShot(100, this, [ = ] {
+                for (ThumbnailListView *list : m_allThumbnailListView) {
+                    // 注意时间线界面为多行listview处理类型
+                    list->selectDuplicatePhotos(duplicatePaths, true);
+                }
+            });
+        }
+    });
 }
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
@@ -190,7 +205,6 @@ void TimeLineView::updataLayout(QStringList updatePathList)
     for (ThumbnailListView *list : m_allThumbnailListView) {
         list->updateThumbnailView(updatePathList.first());
     }
-
 }
 
 void TimeLineView::initTimeLineViewWidget()

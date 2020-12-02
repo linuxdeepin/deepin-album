@@ -31,6 +31,7 @@
 #include "imageengine/imageengineapi.h"
 #include "imageengine/imageenginethread.h"
 #include "ac-desktop-define.h"
+#include "mainwindow.h"
 
 static QMutex m_mutex;
 
@@ -254,6 +255,13 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
 void AlbumView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
+    // 添加重复照片提示
+    connect(dApp->signalM,&SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+        Q_UNUSED(importPaths)
+        if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2){
+            m_pRightThumbnailList->selectDuplicatePhotos(duplicatePaths);
+        }
+    });
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
         if (!m_pRightFavoriteThumbnailList->checkResizeNum())
             return ;
@@ -1100,8 +1108,6 @@ void AlbumView::initRightView()
 
 //手机相片导入窗体
     m_importByPhoneWidget = new DWidget;
-//    DWidget *topwidget = new DWidget;
-//    topwidget->setFixedHeight(50);
     QHBoxLayout *mainImportLayout = new QHBoxLayout;
     DLabel *importLabel = new DLabel();
     importLabel->setText(tr("Import to:"));
@@ -1110,14 +1116,10 @@ void AlbumView::initRightView()
     importLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     m_importByPhoneComboBox = new DComboBox;
-//    m_importByPhoneComboBox->setMinimumSize(QSize(213, 36));
     m_importByPhoneComboBox->setFixedSize(QSize(213, 36));
     m_importByPhoneComboBox->setEnabled(false);
-
-
     m_importAllByPhoneBtn = new DPushButton(tr("Import All"));
     DFontSizeManager::instance()->bind(m_importAllByPhoneBtn, DFontSizeManager::T6);
-//    m_importAllByPhoneBtn ->setMinimumSize(100, 36);
     m_importAllByPhoneBtn->setFixedSize(100, 36);
     DPalette importAllByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importAllByPhoneBtn);
     importAllByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
@@ -1125,15 +1127,9 @@ void AlbumView::initRightView()
     m_importAllByPhoneBtn->setEnabled(false);
 
     m_importSelectByPhoneBtn = new DSuggestButton(tr("Import"));
-//    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
-//    m_importSelectByPhoneBtn = new DSuggestButton(tr("Import Selected"));
     DFontSizeManager::instance()->bind(m_importSelectByPhoneBtn, DFontSizeManager::T6);
 
-//    m_importSelectByPhoneBtn->setMinimumSize(100, 36);
     m_importSelectByPhoneBtn->setFixedSize(QSize(100, 36));
-//    DPalette importSelectByPhoneBtnPa = DApplicationHelper::instance()->palette(m_importSelectByPhoneBtn);
-//    importSelectByPhoneBtnPa.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-//    m_importSelectByPhoneBtn->setPalette(importSelectByPhoneBtnPa);
     m_importSelectByPhoneBtn->setEnabled(false);
     mainImportLayout->addWidget(importLabel);
     mainImportLayout->addSpacing(8);
@@ -1151,7 +1147,6 @@ void AlbumView::initRightView()
     allHLayout->addWidget(m_importByPhoneWidget, 1);
 
     QVBoxLayout *p_all2 = new QVBoxLayout();
-//    p_all2->addWidget(topwidget);
     p_all2->addLayout(allHLayout);
 //    p_all2->addWidget(m_pRightPhoneThumbnailList);
 
@@ -1189,13 +1184,13 @@ void AlbumView::initRightView()
     m_pImpTimeLineWidget->move(-5, 0);
 //add end 3975
 // Add View
-    m_pRightStackWidget->addWidget(m_pImportView);
-    m_pRightStackWidget->addWidget(m_pNoTrashWidget);  //已导入
-    m_pRightStackWidget->addWidget(m_pTrashWidget);    //最近删除
-    m_pRightStackWidget->addWidget(m_pFavoriteWidget);  //我的收藏
-    m_pRightStackWidget->addWidget(m_pSearchView);
-    m_pRightStackWidget->addWidget(pPhoneWidget);
-    m_pRightStackWidget->addWidget(pImportTimeLineWidget);
+    m_pRightStackWidget->addWidget(m_pImportView);       // 空白导入界面
+    m_pRightStackWidget->addWidget(m_pNoTrashWidget);    // 自定义相册界面
+    m_pRightStackWidget->addWidget(m_pTrashWidget);      // 最近删除
+    m_pRightStackWidget->addWidget(m_pFavoriteWidget);   // 我的收藏
+    m_pRightStackWidget->addWidget(m_pSearchView);       // 搜索界面页面
+    m_pRightStackWidget->addWidget(pPhoneWidget);        // 设备界面
+    m_pRightStackWidget->addWidget(pImportTimeLineWidget); // 已导入界面
 
 // Statusbar
 

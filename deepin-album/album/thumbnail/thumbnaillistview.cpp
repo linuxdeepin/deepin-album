@@ -1594,6 +1594,51 @@ void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
     }
 }
 
+void ThumbnailListView::selectDuplicateForOneListView(QStringList paths, QModelIndex &firstIndex)
+{
+    if (paths.count() > 0) {
+        this->clearSelection();
+        for (int i = 0; i < m_model->rowCount(); i++) {
+            QModelIndex idx = m_model->index(i, 0);
+            QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
+            if (lst.count() >= 12) {
+                for ( int j = 0; j < paths.count(); j++) {
+                    if (lst.at(1).toString() == paths.at(j)) {
+                        // 选中
+                        selectionModel()->select(idx, QItemSelectionModel::Select);
+                        if (!firstIndex.isValid()){
+                            firstIndex = idx;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 选中重复导入的图片
+void ThumbnailListView::selectDuplicatePhotos(QStringList paths, bool bMultiListView)
+{
+    // 针对单行listview处理
+    if (!bMultiListView) {
+        QTimer::singleShot(100, this, [ = ] {
+            QModelIndex firstIndex;
+            selectDuplicateForOneListView(paths, firstIndex);
+            // 定位第一个重复导入的照片
+            if (firstIndex.isValid()) {
+                this->scrollTo(firstIndex);
+            }
+        });
+    }
+    // 多行处理在外部，针对时间线和已导入界面
+    else {
+        if (paths.count() > 0) {
+            QModelIndex firstIndex;
+            selectDuplicateForOneListView(paths, firstIndex);
+        }
+    }
+}
+
 void ThumbnailListView::slotReCalcTimelineSize()
 {
     emit needResize(m_height + 15);

@@ -350,6 +350,13 @@ void MainWindow::initConnections()
         QString str = str2.arg(str1);
         floatMessage(str, icon);
     });
+    // 添加到相册底部提示
+    connect(dApp->signalM, &SignalManager::sigAddDuplicatePhotos, this, [ = ]() {
+        QIcon icon;
+        QString str = tr("图片已存在");
+        floatMessage(str, icon);
+    });
+    // 添加到相册底部提示
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, [ = ](QString album) {
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
         QString str2 = tr("Successfully added to “%1”");
@@ -712,6 +719,11 @@ void MainWindow::setWaitDialogColor()
         pa2.setColor(DPalette::WindowText, QColor("#6D7C88"));
         m_countLabel->setPalette(pa2);
     }
+}
+
+int MainWindow::getCurrentViewType()
+{
+    return m_iCurrentView;
 }
 
 //void MainWindow::onUpdateCentralWidget()
