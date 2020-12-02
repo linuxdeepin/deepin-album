@@ -114,9 +114,9 @@ void copyImageToClipboard(const QStringList &paths)
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
 
     // Copy Image Date
-    QImage img(paths.first());
-    Q_ASSERT(!img.isNull());
-    newMimeData->setImageData(img);
+//    QImage img(paths.first());
+//    Q_ASSERT(!img.isNull());
+//    newMimeData->setImageData(img);
 
     // Set the mimedata
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
