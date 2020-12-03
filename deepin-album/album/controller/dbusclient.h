@@ -43,14 +43,14 @@ public Q_SLOTS:
     * @param: filePaths 图片的路径
     * @return: QDBusPendingReply
     */
-    inline QDBusPendingReply<> openFiles(const QList<QString> &filePaths)
-    {
-        QList<QVariant> argumentList;
-        for (QString path : filePaths) {
-            argumentList << QVariant::fromValue(path.toLocal8Bit());
-        }
-        return call(QStringLiteral("openFiles"), argumentList);
-    }
+//    inline QDBusPendingReply<> openFiles(const QList<QString> &filePaths)
+//    {
+//        QList<QVariant> argumentList;
+//        for (QString path : filePaths) {
+//            argumentList << QVariant::fromValue(path.toLocal8Bit());
+//        }
+//        return call(QStringLiteral("openFiles"), argumentList);
+//    }
 
     /*
     * @bref:openImages 通过QImage打开图片
@@ -58,23 +58,23 @@ public Q_SLOTS:
     * @return: QDBusPendingReply
     * @note: 建议不要一次打开多个图片大文件，会比较卡
     */
-    inline QDBusPendingReply<> openImages(const QList<QImage> &images)
-    {
-        QList<QVariant> argumentList;
-        for (QImage img : images) {
-            QByteArray data;
-            QBuffer buf(&data);
-            if (img.save(&buf, "PNG")) {
-                data = qCompress(data, 9);
-                data = data.toBase64();
-                argumentList << QVariant::fromValue(data);
-            }
-        }
+//    inline QDBusPendingReply<> openImages(const QList<QImage> &images)
+//    {
+//        QList<QVariant> argumentList;
+//        for (QImage img : images) {
+//            QByteArray data;
+//            QBuffer buf(&data);
+//            if (img.save(&buf, "PNG")) {
+//                data = qCompress(data, 9);
+//                data = data.toBase64();
+//                argumentList << QVariant::fromValue(data);
+//            }
+//        }
 
-        return call(QStringLiteral("openImages"), argumentList);
-    }
+//        return call(QStringLiteral("openImages"), argumentList);
+//    }
 private slots:
-    void openDrawingBoard(QStringList paths);
+//    void openDrawingBoard(QStringList paths);
 
 };
 

@@ -49,6 +49,12 @@ TEST(allpicview, test_ini)
         event.clear();
         QTest::qWait(500);
     }
+    event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
+    pos = pos - QPoint(20, 0);
+    event.addMouseMove(pos);
+    event.addMouseRelease(Qt::LeftButton, Qt::NoModifier, pos);
+    event.simulate(a->m_pStatusBar->m_pSlider->slider());
+    event.clear();
 }
 
 TEST(allpicview, resize)
@@ -177,6 +183,12 @@ TEST(allpicview, test_open)
         e.simulate(w);
 
         emit dApp->signalM->showImageInfo(testPathlist.first());
+
+        CommandLine *commandline = CommandLine::instance();
+        QString jpgItemPath = testPath_test + "/2e5y8y.jpg";
+        QStringList list;
+        list << jpgItemPath;
+        commandline->viewImage(jpgItemPath, list);
 
         MainWidget *mw = CommandLine::instance()->findChild<MainWidget *>("MainWidget");
         if (mw) {

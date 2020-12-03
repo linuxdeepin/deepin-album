@@ -72,7 +72,6 @@ void Exporter::exportImage(const QStringList imagePaths)
         QPixmap pixmap;
         using namespace UnionImage_NameSpace;
         if (!loadStaticImageFromFile(imagePaths.at(0), tImg, errMsg)) {
-            qDebug() << errMsg;
             pixmap = QPixmap::fromImage(tImg);
         } else {
             pixmap = QPixmap::fromImage(tImg);

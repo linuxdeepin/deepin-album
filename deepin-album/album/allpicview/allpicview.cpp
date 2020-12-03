@@ -78,7 +78,6 @@ AllPicView::AllPicView()
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
-        qDebug() << "zy------ImageEngineApi::instance()->m_AllImageData.size() > 0";
         m_pThumbnailListView->slotLoad80ThumbnailsFinish();
     } else {
         if (ImageEngineApi::instance()->m_80isLoaded) {
@@ -102,7 +101,7 @@ void AllPicView::initConnections()
         m_pThumbnailListView->update();
     });
     // 添加重复照片提示
-    connect(dApp->signalM,&SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
         Q_UNUSED(importPaths)
         if (albumName.length() == 0 && dApp->getMainWindow()->getCurrentViewType() == 0) {
             m_pThumbnailListView->selectDuplicatePhotos(duplicatePaths);

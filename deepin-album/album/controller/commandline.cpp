@@ -313,27 +313,6 @@ bool CommandLine::processOption(QStringList &paslist)
     return false;
 }
 
-//void CommandLine::checkFileType(QStringList pas, QStringList &paslist)
-//{
-//    QImage* pimg = new QImage();
-
-//    for(int i = 2; i < pas.count(); i++)
-//    {
-//        if(QFileInfo(pas.at(i)).isDir())
-//        {
-//            break;
-//        }
-//        else if(pimg->load(pas.at(i)))
-//        {
-//            paslist.append(pas.at(i));
-//        }
-//        else
-//        {
-//            continue;
-//        }
-//    }
-//}
-
 void CommandLine::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);

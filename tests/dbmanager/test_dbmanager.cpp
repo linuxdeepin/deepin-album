@@ -2,6 +2,7 @@
 #include <gmock/gmock-matchers.h>
 #include "application.h"
 #include "dbmanager.h"
+#include "DBandImgOperate.h"
 
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -128,4 +129,23 @@ TEST(AlbumForTest, db11)
     DBManager::instance()->getInfosByAlbum("testAlbum");
     DBManager::instance()->removeFromAlbum("testAlbum", partList);
     DBManager::instance()->renameAlbum("testAlbum", "newTestAlbum");
+    DBManager::instance()->removeAlbum("newTestAlbum");
+    DBManager::instance()->getTrashInfosForKeyword("");
+    QStringList l;
+    l << "test";
+    DBManager::instance()->removeTrashImgInfosNoSignal(l);
+
+    DBImgInfo info, info1;
+    info.dirHash = "test";
+    info1.dirHash = "test";
+    if (info == info1)
+        qDebug() << "same";
+}
+
+TEST(DBandImgOperate, DBImgOper)
+{
+    DBandImgOperate *db = new DBandImgOperate;
+    QString pic = testPath_test + "/39elz3.png";
+    db->loadOneThumbnail(pic);
+    db->getAllInfos();
 }
