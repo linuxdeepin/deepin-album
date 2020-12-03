@@ -10,14 +10,10 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonly
     : DDialog(parent)
 {
     setModal(true);
-//    this->setFixedSize(380, 180);
     setContentsMargins(0, 0, 0, 0);
-
     QIcon icon = QIcon::fromTheme("deepin-album");
     this->setIcon(icon);
-
     DLabel *m_label = new DLabel(this);
-
     if (1 == count && !bdeleteallonlyone) {
         m_label->setText(tr("Are you sure you want to delete this photo from the album?"));
     } else {
@@ -26,7 +22,6 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonly
     }
     m_label->setWordWrap(true);
     m_label->setAlignment(Qt::AlignHCenter);
-
     DWidget *contentWidget = new DWidget(this);
     contentWidget->setFixedHeight(this->height() - 80);
     contentWidget->setContentsMargins(0, 0, 0, 0);
@@ -37,16 +32,6 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonly
     layout->addWidget(m_label);
     layout->addStretch();
     addContent(contentWidget);
-
     insertButton(0, tr("Cancel"), false, DDialog::ButtonNormal);
     insertButton(1, tr("Delete"), true, DDialog::ButtonWarning);
-    connect(this, &ImgDeleteDialog::buttonClicked, this, [ = ](int index, const QString & text) {
-        Q_UNUSED(text)
-        if (0 == index) {
-            deleteLater();
-        } else if (1 == index) {
-            emit imgdelete();
-            this->close();
-        }
-    });
 }

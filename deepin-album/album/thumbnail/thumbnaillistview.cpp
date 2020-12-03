@@ -1251,15 +1251,9 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         utils::base::copyImageToClipboard(paths);
         break;
     case IdMoveToTrash: {
-        if (COMMON_STR_TRASH == m_imageType) {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
-            dialog->show();
-            connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-                ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
-            });
-        } else {
-            ImageEngineApi::instance()->moveImagesToTrash(paths);
-        }
+        ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
+        if (dialog->exec())
+            (COMMON_STR_TRASH == m_imageType)? ImageEngineApi::instance()->moveImagesToTrash(paths, true, false) : ImageEngineApi::instance()->moveImagesToTrash(paths);
     }
     break;
     case IdAddToFavorites:

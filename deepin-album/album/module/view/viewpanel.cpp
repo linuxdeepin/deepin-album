@@ -397,13 +397,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
         if (COMMON_STR_TRASH == m_vinfo.viewType)
         {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
-            dialog->show();
-            connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
-//                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
+            if (dialog->exec()){
                 DBManager::instance()->removeTrashImgInfos(QStringList(m_currentpath));
                 removeCurrentImage();
                 DDesktopServices::trash(m_currentpath);
-            });
+            }
         } else
         {
             DBImgInfoList infos;

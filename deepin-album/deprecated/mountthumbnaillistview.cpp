@@ -1250,10 +1250,9 @@ void MountThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdMoveToTrash: {
         if (COMMON_STR_TRASH == m_imageType) {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
-            dialog->show();
-            connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
+            if (dialog->exec()){
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
-            });
+            }
         } else {
             ImageEngineApi::instance()->moveImagesToTrash(paths);
         }

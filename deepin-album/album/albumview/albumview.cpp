@@ -1402,10 +1402,9 @@ void AlbumView::onTrashDeleteBtnClicked()
         bstate = true;
     }
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count(), bstate);
-    dialog->show();
-    connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
+    if (dialog->exec())
         ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
-    });
+
     onTrashListClicked();
 }
 
@@ -1553,11 +1552,10 @@ void AlbumView::onKeyDelete()
         paths = m_pRightTrashThumbnailList->selectedPaths();
         if (0 < paths.length()) {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
-            dialog->show();
-            connect(dialog, &ImgDeleteDialog::imgdelete, this, [ = ] {
+            if (dialog->exec()){
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
                 onTrashListClicked();
-            });
+            }
         }
     } else if (COMMON_STR_FAVORITES == m_currentType) {
         paths = m_pRightFavoriteThumbnailList->selectedPaths();
