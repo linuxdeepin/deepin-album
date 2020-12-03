@@ -389,3 +389,38 @@ TEST(AlbumImageButton, btn)
     e.simulate(b);
     ASSERT_TRUE(b != nullptr);
 }
+
+// 导入重复照片提示
+TEST(AlbumView, ImportDuplicatePhotos)
+{
+    // albumview ImportDuplicatePhotos
+    qDebug() << "AlbumView ImportDuplicatePhotos count = " << count_testDefine++;
+    AlbumCreateDialog *ad = new AlbumCreateDialog;
+    ad->show();
+    QTest::qWait(500);
+    QTest::keyClicks(ad->getEdit(), "ImportDuplicatePhotosAlbum");
+    emit ad->buttonClicked(1, "");
+    QTest::qWait(200);
+    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+    AlbumView *a = w->m_pAlbumview;
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "ImportDuplicatePhotosAlbum", a, false);
+    QTest::qWait(200);
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "ImportDuplicatePhotosAlbum", a, false);
+    QTest::qWait(500);
+    // allpicview ImportDuplicatePhotos
+    w->allPicBtnClicked();
+    AllPicView *allpicview = w->m_pAllPicView;
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", allpicview, true);
+    QTest::qWait(200);
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", allpicview, true);
+    QTest::qWait(1000);
+    // timelineview ImportDuplicatePhotos
+    w->timeLineBtnClicked();
+    TimeLineView *timelineview = w->m_pTimeLineView;
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", timelineview, true);
+    QTest::qWait(200);
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", timelineview, true);
+    QTest::qWait(500);
+}

@@ -107,4 +107,52 @@ TEST(TimeLineView, SelectTimeLinesBtn)
     }
 }
 
+TEST(TimeLineView, importImages)
+{
+    qDebug() << "TimeLineView SelectTimeLinesBtn count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    QTestEventList event;
+    w->timeLineBtnClicked();
+    QTest::qWait(500);
+    TimeLineView *t = w->m_pTimeLineView;
+    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
+    QTest::qWait(500);
+    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
+    QTest::qWait(500);
+}
+
+TEST(AlbumView, selectBtn)
+{
+    qDebug() << "AlbumView selectBtn count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+    QTest::qWait(500);
+
+    TimeLineView *t = w->m_pTimeLineView;
+    QList<QWidget*> widgets = t->findChildren<QWidget *>("");
+    for (int i = 0; i < widgets.count(); i++){
+        if (!strcmp(widgets.at(i)->metaObject()->className(),("Dtk::Widget::DCommandLinkButton"))) {
+            QTestEventList event;
+            event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
+            event.simulate(widgets.at(i));
+            event.clear();
+            break;
+        }
+    }
+    QTest::qWait(500);
+    for (int i = 0; i < widgets.count(); i++){
+        if (!strcmp(widgets.at(i)->metaObject()->className(),("Dtk::Widget::DCommandLinkButton"))) {
+            DCommandLinkButton *pDCmdBtn = dynamic_cast<DCommandLinkButton*>(widgets.at(i));
+            if (pDCmdBtn->text() == QObject::tr("Unselect")) {
+                QTestEventList event;
+                event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
+                event.simulate(widgets.at(i));
+                event.clear();
+                break;
+            }
+        }
+    }
+    QTest::qWait(500);
+}
 

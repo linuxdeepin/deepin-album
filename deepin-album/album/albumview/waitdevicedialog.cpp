@@ -33,12 +33,10 @@ void Waitdevicedialog::iniwaitdialog()
     QPixmap iconI = iconImage.scaled(30, 30);
     QIcon icon(iconImage);
     this->setIcon(icon);
-    //m_waitDeviceScandialog->setWindowFlag(Qt::WindowTitleHint);
     waitTips->setAlignment(Qt::AlignCenter);
     this->insertContent(0, waitTips);
     this->insertButton(1, m_closeDeviceScan);
     this->insertButton(2, m_ignoreDeviceScan);
-    //this->setWindowFlag(Qt::WindowStaysOnTopHint);
 }
 
 void Waitdevicedialog::closeEvent(QCloseEvent *event)

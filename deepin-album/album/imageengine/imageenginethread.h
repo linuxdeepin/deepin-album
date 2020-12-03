@@ -29,7 +29,6 @@ private:
         DataType_StringList,
         DataType_UrlList
     };
-    void ImportImageLoader(DBImgInfoList dbInfos/*, QString albumname = nullptr*/);
     QStringList m_paths;
     QList<QUrl> m_urls;
     QString m_albumname;

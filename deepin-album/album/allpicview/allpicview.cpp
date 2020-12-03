@@ -151,16 +151,6 @@ void AllPicView::initConnections()
             } else {
                 info.paths = paths;
             }
-            //lmh0427,选中的缩略图都是能打开的路径。没有必要再判断地址
-//            QStringList pathlist;
-//            pathlist.clear();
-//            for (auto path : info.paths) {
-//                if (QFileInfo(path).exists()) {
-//                    pathlist << path;
-//                }
-//            }
-
-//            info.paths = pathlist;
             emit dApp->signalM->startSlideShow(info);
             emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
         } else {
@@ -175,8 +165,6 @@ void AllPicView::initConnections()
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
-//        m_spinner->show();
-//        m_spinner->start();
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
         emit dApp->signalM->startImprot();
         m_pImportView->onImprotBtnClicked();

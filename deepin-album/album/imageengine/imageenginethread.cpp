@@ -89,36 +89,6 @@ bool ImportImagesThread::ifCanStopThread(void *imgobject)
     return false;
 }
 
-void ImportImagesThread::ImportImageLoader(DBImgInfoList dbInfos/*, QString albumname*/)
-{
-    DBImgInfoList dbInfoList;
-    QStringList pathlist;
-
-    for (auto info : dbInfos) {
-        pathlist << info.filePath;
-        dbInfoList << info;
-    }
-    int count = 1;
-    if (m_albumname.length() > 0) {
-        if (COMMON_STR_RECENT_IMPORTED != m_albumname
-                && COMMON_STR_TRASH != m_albumname
-                && COMMON_STR_FAVORITES != m_albumname
-                && ALBUM_PATHTYPE_BY_PHONE != m_albumname
-                && 0 != m_albumname.compare(tr("Gallery"))) {
-            DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlist);
-        }
-    }
-
-    DBManager::instance()->insertImgInfos(dbInfoList);
-    if (pathlist.size() > 0) {
-        emit dApp->signalM->updateStatusBarImportLabel(pathlist, count);
-    } else {
-        count = 0;
-        emit dApp->signalM->ImportFailed();
-    }
-
-}
-
 void ImportImagesThread::run()
 {
     if (bneedstop) {

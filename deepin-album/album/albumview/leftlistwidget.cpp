@@ -20,7 +20,6 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(this->itemWidget(this->item(index.row())));
         QString leftTabListName = item->m_albumNameStr;
         QString leftTabListType = item->m_albumTypeStr;
-        // qDebug()<<"leftTabListName: "<<leftTabListName<<" ;leftTabListType: "<<leftTabListType;
         //只支持拖拽到自定义相册
         if (leftTabListType == COMMON_STR_CREATEALBUM) {
             return event->accept();
@@ -28,16 +27,6 @@ void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
             qDebug() << "Can not drop!";
             return event->ignore();
         }
-//        if ((COMMON_STR_RECENT_IMPORTED == leftTabListName)
-//                || (COMMON_STR_TRASH == leftTabListName)
-//                || (COMMON_STR_FAVORITES == leftTabListName)
-//                || (ALBUM_PATHTYPE_BY_PHONE == leftTabListType)
-//                || (ALBUM_PATHTYPE_BY_U == leftTabListType)) {
-//            qDebug() << "Can not drop!";
-//            return event->ignore();
-//        } else {
-//            return event->accept();
-//        }
     }
 }
 
@@ -58,7 +47,6 @@ void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover")) {
         event->acceptProposedAction();
     } else {
-        //event->ignore();
         QListWidget::dragEnterEvent(event);
     }
 }
