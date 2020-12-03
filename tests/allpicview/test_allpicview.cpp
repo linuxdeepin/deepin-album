@@ -196,13 +196,13 @@ TEST(allpicview, test_open)
             if (t) {
                 MyImageListWidget *ml = t->findChild<MyImageListWidget *>("MyImageListWidget");
                 if (ml) {
-                    QTestEventList el;
-                    QPoint p(ml->pos().x() - 50, ml->pos().y() + 10);
-                    el.addMouseMove(p);
-                    el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p, 100);
-                    el.addMouseMove(QPoint(p.x() + 100, p.y()), 100);
-                    el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p.x() + 100, p.y()), 100);
-                    el.simulate(ml);
+//                    QTestEventList el;
+//                    QPoint p(ml->pos().x() - 50, ml->pos().y() + 10);
+//                    el.addMouseMove(p);
+//                    el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p, 100);
+//                    el.addMouseMove(QPoint(p.x() + 100, p.y()), 100);
+//                    el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p.x() + 100, p.y()), 100);
+//                    el.simulate(ml);
                 }
             }
         }

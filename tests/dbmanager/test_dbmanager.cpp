@@ -82,10 +82,10 @@ TEST(removeTestImagesInfo, db6)
         info.filePath = i;
         dbinfos << info;
     }
-    DBManager::instance()->insertImgInfos(dbinfos);
-    DBManager::instance()->removeImgInfos(image_list);
-    DBManager::instance()->insertImgInfos(dbinfos);
-    DBManager::instance()->removeImgInfosNoSignal(image_list);
+//    DBManager::instance()->insertImgInfos(dbinfos);
+//    DBManager::instance()->removeImgInfos(image_list);
+//    DBManager::instance()->insertImgInfos(dbinfos);
+//    DBManager::instance()->removeImgInfosNoSignal(image_list);
 
 }
 

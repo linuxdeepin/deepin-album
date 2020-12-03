@@ -343,8 +343,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
     //如果外设加载，则暂停线程
     emit dApp->signalM->sigPauseOrStart(true);
 
-    if (m_ttbc != nullptr)
-        delete m_ttbc;
+//    if (m_ttbc != nullptr)
+//        delete m_ttbc;
 //        m_ttbc->deleteLater();
     m_ttbc = new TTBContent(m_vinfo.inDatabase, m_filepathlist, this);
     m_ttbc->setObjectName("TTBContent");
@@ -397,7 +397,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         if (COMMON_STR_TRASH == m_vinfo.viewType)
         {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
-            if (dialog->exec()){
+            if (dialog->exec()) {
                 DBManager::instance()->removeTrashImgInfos(QStringList(m_currentpath));
                 removeCurrentImage();
                 DDesktopServices::trash(m_currentpath);

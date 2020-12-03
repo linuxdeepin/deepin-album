@@ -40,7 +40,7 @@ TEST(TimeLineView, dragPhotoToAnAlbum)
     TimeLineView *a = w->m_pTimeLineView;
     QList<QWidget *> widgets = a->findChildren<QWidget *>("");
     for (int index = 0; index < widgets.count(); index++) {
-        if (!strcmp(widgets.at(index)->metaObject()->className(),("ThumbnailListView"))) {
+        if (!strcmp(widgets.at(index)->metaObject()->className(), ("ThumbnailListView"))) {
             QString jpgItemPath = testPath_test + "/2k9o1m.png";
             QString text = "xxxxxxxxxxxxxx";
             QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
@@ -89,7 +89,7 @@ TEST(TimeLineView, SelectTimeLinesBtn)
     QList<QWidget *> widgets = t->findChildren<QWidget *>("");
     foreach (auto widget, widgets) {
         if (widget->objectName() == "TimeLineChooseButton") {
-            DCommandLinkButton *temp = static_cast<DCommandLinkButton*>(widget);
+            DCommandLinkButton *temp = static_cast<DCommandLinkButton *>(widget);
             QPoint pos(10, 10);
             event.addMouseMove(pos);
             event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
@@ -130,10 +130,10 @@ TEST(TimeLineView, selectBtn)
     QTest::qWait(500);
 
     TimeLineView *t = w->m_pTimeLineView;
-    QList<QWidget*> widgets = t->findChildren<QWidget *>("");
-    for (int i = 0; i < widgets.count(); i++){
-        if (!strcmp(widgets.at(i)->metaObject()->className(),("Dtk::Widget::DCommandLinkButton"))) {
-            DCommandLinkButton *pDCmdBtnSelect = dynamic_cast<DCommandLinkButton*>(widgets.at(i));
+    QList<QWidget *> widgets = t->findChildren<QWidget *>("");
+    for (int i = 0; i < widgets.count(); i++) {
+        if (!strcmp(widgets.at(i)->metaObject()->className(), ("Dtk::Widget::DCommandLinkButton"))) {
+            DCommandLinkButton *pDCmdBtnSelect = dynamic_cast<DCommandLinkButton *>(widgets.at(i));
             if (pDCmdBtnSelect->text() == QObject::tr("Select")) {
                 QTestEventList event;
                 event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
@@ -144,9 +144,9 @@ TEST(TimeLineView, selectBtn)
         }
     }
     QTest::qWait(500);
-    for (int i = 0; i < widgets.count(); i++){
-        if (!strcmp(widgets.at(i)->metaObject()->className(),("Dtk::Widget::DCommandLinkButton"))) {
-            DCommandLinkButton *pDCmdBtnUnselect = dynamic_cast<DCommandLinkButton*>(widgets.at(i));
+    for (int i = 0; i < widgets.count(); i++) {
+        if (!strcmp(widgets.at(i)->metaObject()->className(), ("Dtk::Widget::DCommandLinkButton"))) {
+            DCommandLinkButton *pDCmdBtnUnselect = dynamic_cast<DCommandLinkButton *>(widgets.at(i));
             if (pDCmdBtnUnselect->text() == QObject::tr("Unselect")) {
                 QTestEventList event;
                 event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
@@ -167,10 +167,10 @@ TEST(TimeLineView, keyDeletePhotos)
     QTest::qWait(500);
     TimeLineView *t = w->m_pTimeLineView;
     t->setFocus();
-    QList<QWidget*> widgets = t->findChildren<QWidget *>("");
-    for (int i = 0; i < widgets.count(); i++){
-        if (!strcmp(widgets.at(i)->metaObject()->className(),("Dtk::Widget::DCommandLinkButton"))) {
-            DCommandLinkButton *pDCmdBtnSelect = dynamic_cast<DCommandLinkButton*>(widgets.at(i));
+    QList<QWidget *> widgets = t->findChildren<QWidget *>("");
+    for (int i = 0; i < widgets.count(); i++) {
+        if (!strcmp(widgets.at(i)->metaObject()->className(), ("Dtk::Widget::DCommandLinkButton"))) {
+            DCommandLinkButton *pDCmdBtnSelect = dynamic_cast<DCommandLinkButton *>(widgets.at(i));
             if (pDCmdBtnSelect->text() == QObject::tr("Select")) {
                 QTestEventList event;
                 event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
@@ -182,10 +182,10 @@ TEST(TimeLineView, keyDeletePhotos)
             }
         }
     }
-    QTest::qWait(500);
-    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
-    QTest::qWait(500);
+//    QTest::qWait(500);
+//    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
+//    QTest::qWait(500);
 }
 
 TEST(TimeLineView, changeTheme)
