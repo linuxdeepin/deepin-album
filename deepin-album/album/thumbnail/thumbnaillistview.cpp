@@ -1522,29 +1522,29 @@ void ThumbnailListView::selectExtent(int start, int end)
     }
 }
 
-void ThumbnailListView::clearSelectionRear(int row)
-{
-    for (int i = row; i < m_model->rowCount(); i++) {
-        QModelIndex qindex = m_model->index(i, 0);
-        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
-    }
-}
+//void ThumbnailListView::clearSelectionRear(int row)
+//{
+//    for (int i = row; i < m_model->rowCount(); i++) {
+//        QModelIndex qindex = m_model->index(i, 0);
+//        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
+//    }
+//}
 
-void ThumbnailListView::clearSelectionFront(int row)
-{
-    for (int i = row; i >= 0; i--) {
-        QModelIndex qindex = m_model->index(i, 0);
-        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
-    }
-}
+//void ThumbnailListView::clearSelectionFront(int row)
+//{
+//    for (int i = row; i >= 0; i--) {
+//        QModelIndex qindex = m_model->index(i, 0);
+//        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
+//    }
+//}
 
-void ThumbnailListView::clearSelectionExtent(int start, int end)
-{
-    for (int i = start; i <= end; i++) {
-        QModelIndex qindex = m_model->index(i, 0);
-        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
-    }
-}
+//void ThumbnailListView::clearSelectionExtent(int start, int end)
+//{
+//    for (int i = start; i <= end; i++) {
+//        QModelIndex qindex = m_model->index(i, 0);
+//        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
+//    }
+//}
 
 void ThumbnailListView::resizeHand()
 {

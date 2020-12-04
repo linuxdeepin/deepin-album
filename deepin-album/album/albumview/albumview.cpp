@@ -1803,57 +1803,57 @@ const QList<QExplicitlySharedDataPointer<DGioMount>> AlbumView::getVfsMountList(
     return result;
 }
 
-void AlbumView::loadMountPicture(QString path)
-{
-    //判断路径是否存在
-    QDir dir(path);
-    if (!dir.exists()) return;
-    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-    if (!path.contains("/media/")) {
-        bool bFind = findPicturePathByPhone(path);
-        if (!bFind) return;
-    }
-    //获取所选文件类型过滤器
-    QStringList filters;
-    filters << QString("*.jpeg") << QString("*.jpg")
-            << QString("*.JPEG") << QString("*.JPG");
-    //定义迭代器并设置过滤器
-    QDirIterator dir_iterator(path, filters, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
-    QStringList string_list;
-    while (dir_iterator.hasNext()) {
-        dir_iterator.next();
-        QFileInfo fileInfo = dir_iterator.fileInfo();
-        QImage tImg;
-        QString format = UnionImage_NameSpace::detectImageFormat(fileInfo.filePath());
-        if (format.isEmpty()) {
-            QImageReader reader(fileInfo.filePath());
-            reader.setAutoTransform(true);
-            if (reader.canRead() && reader.imageCount() > 0) {
-                tImg = reader.read();
-            } else {
-                tImg = QImage();
-            }
-        } else {
-            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead() && readerF.imageCount() > 0) {
-                tImg = readerF.read();
-            } else {
-                qDebug() << "can't read image:" << readerF.errorString() << format;
-                tImg = QImage();
-            }
-        }
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (pixmap.isNull()) {
-            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
-        }
-        pixmap.scaledToHeight(100,  Qt::FastTransformation);
-        if (pixmap.isNull()) {
-            pixmap = QPixmap::fromImage(tImg);
-        }
-        m_phonePicMap.insert(fileInfo.filePath(), pixmap);
-    }
-}
+//void AlbumView::loadMountPicture(QString path)
+//{
+//    //判断路径是否存在
+//    QDir dir(path);
+//    if (!dir.exists()) return;
+//    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
+//    if (!path.contains("/media/")) {
+//        bool bFind = findPicturePathByPhone(path);
+//        if (!bFind) return;
+//    }
+//    //获取所选文件类型过滤器
+//    QStringList filters;
+//    filters << QString("*.jpeg") << QString("*.jpg")
+//            << QString("*.JPEG") << QString("*.JPG");
+//    //定义迭代器并设置过滤器
+//    QDirIterator dir_iterator(path, filters, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+//    QStringList string_list;
+//    while (dir_iterator.hasNext()) {
+//        dir_iterator.next();
+//        QFileInfo fileInfo = dir_iterator.fileInfo();
+//        QImage tImg;
+//        QString format = UnionImage_NameSpace::detectImageFormat(fileInfo.filePath());
+//        if (format.isEmpty()) {
+//            QImageReader reader(fileInfo.filePath());
+//            reader.setAutoTransform(true);
+//            if (reader.canRead() && reader.imageCount() > 0) {
+//                tImg = reader.read();
+//            } else {
+//                tImg = QImage();
+//            }
+//        } else {
+//            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
+//            readerF.setAutoTransform(true);
+//            if (readerF.canRead() && readerF.imageCount() > 0) {
+//                tImg = readerF.read();
+//            } else {
+//                qDebug() << "can't read image:" << readerF.errorString() << format;
+//                tImg = QImage();
+//            }
+//        }
+//        QPixmap pixmap = QPixmap::fromImage(tImg);
+//        if (pixmap.isNull()) {
+//            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
+//        }
+//        pixmap.scaledToHeight(100,  Qt::FastTransformation);
+//        if (pixmap.isNull()) {
+//            pixmap = QPixmap::fromImage(tImg);
+//        }
+//        m_phonePicMap.insert(fileInfo.filePath(), pixmap);
+//    }
+//}
 
 void AlbumView::importComboBoxChange(QString strText)
 {

@@ -83,15 +83,15 @@ void showInFileManager(const QString &path)
     Dtk::Widget::DDesktopServices::showFileItem(url);
 }
 
-void copyOneImageToClipboard(const QString &path)
-{
-    QImage img(path);
-    if (img.isNull())
-        return;
-//    Q_ASSERT(!img.isNull());
-    QClipboard *cb = QApplication::clipboard();
-    cb->setImage(img, QClipboard::Clipboard);
-}
+//void copyOneImageToClipboard(const QString &path)
+//{
+//    QImage img(path);
+//    if (img.isNull())
+//        return;
+////    Q_ASSERT(!img.isNull());
+//    QClipboard *cb = QApplication::clipboard();
+//    cb->setImage(img, QClipboard::Clipboard);
+//}
 
 void copyImageToClipboard(const QStringList &paths)
 {

@@ -83,7 +83,7 @@ public:
     void playAndPre();
     void pauseAndNext();
     void ifPauseAndContinue();
-    void pauseAndpre();
+//    void pauseAndpre();
 
     int currentIndex();
 signals:

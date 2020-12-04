@@ -85,18 +85,18 @@ void ImageWidget::fitWindow()
     setScaleValue(1 / windowRelativeScale());
 }
 
-qreal ImageWidget::scaleValue() const
-{
-    if (m_image.isNull())
-        return 0;
-    // m_scale is relate on window's size, it need to be relate on image
-    return m_scale / windowRelativeScale();
-}
+//qreal ImageWidget::scaleValue() const
+//{
+//    if (m_image.isNull())
+//        return 0;
+//    // m_scale is relate on window's size, it need to be relate on image
+//    return m_scale / windowRelativeScale();
+//}
 
-void ImageWidget::setImageMove(int x, int y)
-{
-    setTransformOrigin(QPoint(x, y), QPoint());
-}
+//void ImageWidget::setImageMove(int x, int y)
+//{
+//    setTransformOrigin(QPoint(x, y), QPoint());
+//}
 
 void ImageWidget::setScaleValue(qreal value)
 {
@@ -139,19 +139,19 @@ void ImageWidget::rotate(int deg)
     updateTransform();
 }
 
-void ImageWidget::flipX()
-{
-    m_flipX = -m_flipX;
-    updateTransform();
-    Q_EMIT fliped(m_flipX < 0, m_flipY < 0);
-}
+//void ImageWidget::flipX()
+//{
+//    m_flipX = -m_flipX;
+//    updateTransform();
+//    Q_EMIT fliped(m_flipX < 0, m_flipY < 0);
+//}
 
-void ImageWidget::flipY()
-{
-    m_flipY = -m_flipY;
-    updateTransform();
-    Q_EMIT fliped(m_flipX < 0, m_flipY < 0);
-}
+//void ImageWidget::flipY()
+//{
+//    m_flipY = -m_flipY;
+//    updateTransform();
+//    Q_EMIT fliped(m_flipX < 0, m_flipY < 0);
+//}
 
 void ImageWidget::resizeEvent(QResizeEvent *e)
 {
@@ -192,10 +192,10 @@ bool ImageWidget::isWholeImageVisible() const
     return visibleImageRect().size() == m_image.size();
 }
 
-bool ImageWidget::isMoving() const
-{
-    return m_moving;
-}
+//bool ImageWidget::isMoving() const
+//{
+//    return m_moving;
+//}
 
 void ImageWidget::timerEvent(QTimerEvent *e)
 {
@@ -349,7 +349,7 @@ bool ImageWidget::inSlideShow() const
     return m_inSlideShow;
 }
 
-void ImageWidget::setInSlideShow(bool inSlideShow)
-{
-    m_inSlideShow = inSlideShow;
-}
+//void ImageWidget::setInSlideShow(bool inSlideShow)
+//{
+//    m_inSlideShow = inSlideShow;
+//}

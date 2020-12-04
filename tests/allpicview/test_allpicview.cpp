@@ -271,10 +271,10 @@ TEST(allpicview, test_showInFileManagerAndBackGrond)
     if (!paths.isEmpty()) {
         QString testImage = paths.first();
         showInFileManager(testImage);
-        imageSupportSave(testImage);
-        checkFileType(testImage);
+//        imageSupportSave(testImage);
+//        checkFileType(testImage);
         copyImageToClipboard(paths);
-        copyOneImageToClipboard(testImage);
+//        copyOneImageToClipboard(testImage);
         WallpaperSetter::instance()->setBackground(testImage);
         QTest::qWait(500);
         QMimeData *newMimeData = new QMimeData();
@@ -377,8 +377,8 @@ TEST(ttbcontent, test_ini)
                 imgListView->findSelectItem();
                 imgListView->animationStart(true, 0, 300);
                 imgListView->stopAnimation();
-                imgListView->isAnimationStart();
-                imgListView->animationTimerTimeOut();
+//                imgListView->isAnimationStart();
+//                imgListView->animationTimerTimeOut();
             }
 
             QTestEventList el;

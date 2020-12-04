@@ -144,9 +144,9 @@ public:
     void selectRear(int row);
     void selectFront(int row);
     void selectExtent(int start, int end);
-    void clearSelectionRear(int row);
-    void clearSelectionFront(int row);
-    void clearSelectionExtent(int start, int end);
+//    void clearSelectionRear(int row);
+//    void clearSelectionFront(int row);
+//    void clearSelectionExtent(int start, int end);
     void resizeHand();  //手动发送信号，计算大小
     void setListViewUseFor(ListViewUseFor usefor);
     void selectDuplicateForOneListView(QStringList paths, QModelIndex &firstIndex);

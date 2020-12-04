@@ -78,20 +78,20 @@ int CExportImageDialog::getImageType() const
     return  m_formatCombox->currentIndex();
 }
 
-QString CExportImageDialog::getSavePath() const
-{
-    return m_savePath + "/" + m_fileNameEdit->text().trimmed();
-}
+//QString CExportImageDialog::getSavePath() const
+//{
+//    return m_savePath + "/" + m_fileNameEdit->text().trimmed();
+//}
 
 QString CExportImageDialog::getImageFormate() const
 {
     return  m_saveFormat;
 }
 
-int CExportImageDialog::getQuality() const
-{
-    return m_quality;
-}
+//int CExportImageDialog::getQuality() const
+//{
+//    return m_quality;
+//}
 
 void CExportImageDialog::setPicFileName(QString strFileName)
 {

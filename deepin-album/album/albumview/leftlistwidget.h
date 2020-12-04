@@ -14,7 +14,7 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     QStyleOptionViewItem viewOptions() const override;
-    QModelIndex getModelIndex(QListWidgetItem *pItem);
+//    QModelIndex getModelIndex(QListWidgetItem *pItem);
 
 protected:
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;

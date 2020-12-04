@@ -175,25 +175,25 @@ void PrintOptionsPage::updateStatus()
     emit valueChanged();
 }
 
-PrintOptionsPage::ScaleMode PrintOptionsPage::scaleMode()
-{
-    return ScaleMode(m_buttonGroup->checkedId());
-}
+//PrintOptionsPage::ScaleMode PrintOptionsPage::scaleMode()
+//{
+//    return ScaleMode(m_buttonGroup->checkedId());
+//}
 
 PrintOptionsPage::Unit PrintOptionsPage::scaleUnit()
 {
     return Unit(m_printUnit->currentIndex());
 }
 
-double PrintOptionsPage::scaleWidth()
-{
-    return m_printWidth->value() * unitToInches(this->scaleUnit());
-}
+//double PrintOptionsPage::scaleWidth()
+//{
+//    return m_printWidth->value() * unitToInches(this->scaleUnit());
+//}
 
-double PrintOptionsPage::scaleHeight()
-{
-    return m_printHeight->value() * unitToInches(scaleUnit());
-}
+//double PrintOptionsPage::scaleHeight()
+//{
+//    return m_printHeight->value() * unitToInches(scaleUnit());
+//}
 
 Qt::Alignment PrintOptionsPage::alignment()
 {

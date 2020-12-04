@@ -62,7 +62,7 @@ public:
     void setSelectItem(ImageItem *selectItem);
     void animationStart(bool isReset, int endPos, int duration);
     void stopAnimation();
-    bool isAnimationStart();//判断动画是否执行中
+//    bool isAnimationStart();//判断动画是否执行中
 
     QTimer *m_timer = nullptr;
     void findSelectItem();
@@ -76,7 +76,7 @@ signals:
     void testloadRight();
     void testloadLeft();
 public slots:
-    void animationTimerTimeOut();
+//    void animationTimerTimeOut();
     void animationFinished();
     void thumbnailIsMoving();
     void animationValueChanged(const QVariant value);

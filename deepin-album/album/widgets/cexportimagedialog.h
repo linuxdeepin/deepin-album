@@ -61,9 +61,9 @@ public:
     ~CExportImageDialog() override;
     void showMe(const QPixmap &pixmap);
     int getImageType() const;
-    QString getSavePath() const;
+//    QString getSavePath() const;
     QString getImageFormate() const;
-    int getQuality() const;
+//    int getQuality() const;
     void setPicFileName(QString strFileName);
     void setGifType(QString strFilePath);
     void removeGifType();

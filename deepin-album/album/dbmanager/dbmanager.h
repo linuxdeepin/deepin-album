@@ -109,11 +109,11 @@ public:
     const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
     const QStringList       getImportTimelines() const;
     const DBImgInfoList     getInfosByImportTimeline(const QString &timeline) const;
-    const DBImgInfo         getInfoByName(const QString &name) const;
+//    const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
-    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
+//    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
     int                     getImgsCount() const;
-    bool                    isImgExist(const QString &path) const;
+//    bool                    isImgExist(const QString &path) const;
     void                    insertImgInfos(const DBImgInfoList &infos);
     void                    insertImgInfo(const DBImgInfo &info);
     void                    removeImgInfos(const QStringList &paths);
@@ -127,7 +127,7 @@ public:
     const QStringList       getPathsByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     const DBImgInfoList     getInfosByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     int                     getImgsCountByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
-    int                     getAlbumsCount() const;
+//    int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     bool                    isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;
     void                    insertIntoAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);

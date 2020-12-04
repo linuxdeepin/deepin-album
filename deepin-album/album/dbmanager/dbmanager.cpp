@@ -196,15 +196,15 @@ const DBImgInfoList DBManager::getInfosByImportTimeline(const QString &timeline)
     }
 }
 
-const DBImgInfo DBManager::getInfoByName(const QString &name) const
-{
-    DBImgInfoList list = getImgInfos("FileName", name);
-    if (list.count() < 1) {
-        return DBImgInfo();
-    } else {
-        return list.first();
-    }
-}
+//const DBImgInfo DBManager::getInfoByName(const QString &name) const
+//{
+//    DBImgInfoList list = getImgInfos("FileName", name);
+//    if (list.count() < 1) {
+//        return DBImgInfo();
+//    } else {
+//        return list.first();
+//    }
+//}
 
 const DBImgInfo DBManager::getInfoByPath(const QString &path) const
 {
@@ -216,15 +216,15 @@ const DBImgInfo DBManager::getInfoByPath(const QString &path) const
     }
 }
 
-const DBImgInfo DBManager::getInfoByPathHash(const QString &pathHash) const
-{
-    DBImgInfoList list = getImgInfos("PathHash", pathHash);
-    if (list.count() != 1) {
-        return DBImgInfo();
-    } else {
-        return list.first();
-    }
-}
+//const DBImgInfo DBManager::getInfoByPathHash(const QString &pathHash) const
+//{
+//    DBImgInfoList list = getImgInfos("PathHash", pathHash);
+//    if (list.count() != 1) {
+//        return DBImgInfo();
+//    } else {
+//        return list.first();
+//    }
+//}
 
 int DBManager::getImgsCount() const
 {
@@ -252,32 +252,32 @@ int DBManager::getImgsCount() const
     return 0;
 }
 
-bool DBManager::isImgExist(const QString &path) const
-{
-    QMutexLocker mutex(&m_mutex);
-    QSqlDatabase db = getDatabase();
-    if (db.isValid()) {
-        return false;
-    }
-    QSqlQuery query(db);
-    query.setForwardOnly(true);
-    query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare("SELECT COUNT(*) FROM ImageTable3 WHERE FilePath = :path");
-    query.bindValue(":path", path);
-    if (query.exec()) {
-        query.first();
-        if (query.value(0).toInt() > 0) {
-            query.exec("COMMIT");
-            db.close();
-            return true;
-        }
-    }
-//    // 连接使用完后需要释放回数据库连接池
-    //ConnectionPool::closeConnection(db);
-    db.close();
+//bool DBManager::isImgExist(const QString &path) const
+//{
+//    QMutexLocker mutex(&m_mutex);
+//    QSqlDatabase db = getDatabase();
+//    if (db.isValid()) {
+//        return false;
+//    }
+//    QSqlQuery query(db);
+//    query.setForwardOnly(true);
+//    query.exec("BEGIN IMMEDIATE TRANSACTION");
+//    query.prepare("SELECT COUNT(*) FROM ImageTable3 WHERE FilePath = :path");
+//    query.bindValue(":path", path);
+//    if (query.exec()) {
+//        query.first();
+//        if (query.value(0).toInt() > 0) {
+//            query.exec("COMMIT");
+//            db.close();
+//            return true;
+//        }
+//    }
+////    // 连接使用完后需要释放回数据库连接池
+//    //ConnectionPool::closeConnection(db);
+//    db.close();
 
-    return false;
-}
+//    return false;
+//}
 
 void DBManager::insertImgInfos(const DBImgInfoList &infos)
 {
@@ -557,29 +557,29 @@ int DBManager::getImgsCountByAlbum(const QString &album, AlbumDBType atype) cons
     }
 }
 
-int DBManager::getAlbumsCount() const
-{
-    QMutexLocker mutex(&m_mutex);
-    QSqlDatabase db = getDatabase();
-    if (! db.isValid()) {
-        return 0;
-    }
-    QSqlQuery query(db);
-    query.setForwardOnly(true);
-    query.prepare("SELECT COUNT(DISTINCT AlbumName) FROM AlbumTable3");
-    if (query.exec()) {
-        query.first();
-//        // 连接使用完后需要释放回数据库连接池
-        //ConnectionPool::closeConnection(db);
-        db.close();
-        return query.value(0).toInt();
-    } else {
-//        // 连接使用完后需要释放回数据库连接池
-        //ConnectionPool::closeConnection(db);
-        db.close();
-        return 0;
-    }
-}
+//int DBManager::getAlbumsCount() const
+//{
+//    QMutexLocker mutex(&m_mutex);
+//    QSqlDatabase db = getDatabase();
+//    if (! db.isValid()) {
+//        return 0;
+//    }
+//    QSqlQuery query(db);
+//    query.setForwardOnly(true);
+//    query.prepare("SELECT COUNT(DISTINCT AlbumName) FROM AlbumTable3");
+//    if (query.exec()) {
+//        query.first();
+////        // 连接使用完后需要释放回数据库连接池
+//        //ConnectionPool::closeConnection(db);
+//        db.close();
+//        return query.value(0).toInt();
+//    } else {
+////        // 连接使用完后需要释放回数据库连接池
+//        //ConnectionPool::closeConnection(db);
+//        db.close();
+//        return 0;
+//    }
+//}
 
 bool DBManager::isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype) const
 {

@@ -38,9 +38,9 @@ enum ThumbnailType {
 const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
 bool                                imageSupportRead(const QString &path);
-bool                                imageSupportSave(const QString &path);
+//bool                                imageSupportSave(const QString &path);
 QStringList                         supportedImageFormats();
-bool                                checkFileType(const QString &path);
+//bool                                checkFileType(const QString &path);
 
 QPixmap                             getDamagePixmap(bool bLight = true);
 }  // namespace image

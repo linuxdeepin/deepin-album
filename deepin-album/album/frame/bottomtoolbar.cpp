@@ -39,14 +39,6 @@ BottomToolbar::BottomToolbar(QWidget *parent)
     setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
 }
 
-void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme)
-{
-    if (theme == ViewerThemeManager::Dark) {
-        m_coverBrush = DARK_COVERCOLOR;
-    } else {
-        m_coverBrush = LIGHT_COVERCOLOR;
-    }
-}
 void BottomToolbar::setContent(QWidget *content)
 {
     QLayoutItem *child;

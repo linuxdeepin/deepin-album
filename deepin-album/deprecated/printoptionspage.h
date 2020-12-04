@@ -31,10 +31,10 @@ public:
 
     explicit PrintOptionsPage(QWidget *parent = nullptr);
 
-    ScaleMode scaleMode();
+//    ScaleMode scaleMode();
     Unit scaleUnit();
-    double scaleWidth();
-    double scaleHeight();
+//    double scaleWidth();
+//    double scaleHeight();
     Qt::Alignment alignment();
 
 signals:

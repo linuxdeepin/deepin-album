@@ -48,7 +48,7 @@ public:
     inline const QString last()const;
     inline int index() const;
     inline const QString next();
-    inline const QString pre();
+//    inline const QString pre();
     inline const QString jumpTonext();
     inline const QString jumpTopre();
     inline const QString current()const;
@@ -118,42 +118,42 @@ public:
     {
         return m_factor;
     }
-    QString getImageName1()         const
-    {
-        return m_imageName1;
-    }
-    QString getImageName2()         const
-    {
-        return m_imageName2;
-    }
-    QPixmap getPixmap1()            const
-    {
-        return m_pixmap1;
-    }
-    QPixmap getPixmap2()            const
-    {
-        return m_pixmap2;
-    }
-    AnimationType getAnimationType()const
-    {
-        return m_animationType;
-    }
+//    QString getImageName1()         const
+//    {
+//        return m_imageName1;
+//    }
+//    QString getImageName2()         const
+//    {
+//        return m_imageName2;
+//    }
+//    QPixmap getPixmap1()            const
+//    {
+//        return m_pixmap1;
+//    }
+//    QPixmap getPixmap2()            const
+//    {
+//        return m_pixmap2;
+//    }
+//    AnimationType getAnimationType()const
+//    {
+//        return m_animationType;
+//    }
     void setSlideModel(ImageAnimation::SlideModel model)
     {
         m_SliderModel = model;
     }
-    ImageAnimation::SlideModel getSlideModel()
-    {
-        return m_SliderModel;
-    }
+//    ImageAnimation::SlideModel getSlideModel()
+//    {
+//        return m_SliderModel;
+//    }
     void setPlayOrStatue(ImageAnimation::PlayOrStatue statue)
     {
         m_PlayOrStatue = statue;
     }
-    ImageAnimation::PlayOrStatue getPlayOrStatue()
-    {
-        return m_PlayOrStatue;
-    }
+//    ImageAnimation::PlayOrStatue getPlayOrStatue()
+//    {
+//        return m_PlayOrStatue;
+//    }
 
     void setPathList(const QString &first, const QStringList &list);
     void startAnimation();
@@ -272,14 +272,14 @@ const QString LoopQueue::next()
     }
 }
 
-const QString LoopQueue::pre()
-{
-    if (loop_pindex - 1 < 0) {
-        return loop_paths.last();
-    } else {
-        return loop_paths[loop_pindex - 1];
-    }
-}
+//const QString LoopQueue::pre()
+//{
+//    if (loop_pindex - 1 < 0) {
+//        return loop_paths.last();
+//    } else {
+//        return loop_paths[loop_pindex - 1];
+//    }
+//}
 
 const QString LoopQueue::jumpTonext()
 {
@@ -839,11 +839,11 @@ void ImageAnimation::ifPauseAndContinue()
     d->startAnimation();
 }
 
-void ImageAnimation::pauseAndpre()
-{
-    setPaintTarget(TurnBackPre);
-    update();
-}
+//void ImageAnimation::pauseAndpre()
+//{
+//    setPaintTarget(TurnBackPre);
+//    update();
+//}
 
 void ImageAnimation::paintEvent(QPaintEvent *e)
 {

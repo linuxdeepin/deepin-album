@@ -215,7 +215,7 @@ namespace widgets {
 
 }
 namespace base {
-void        copyOneImageToClipboard(const QString &path);
+//void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
 int         stringHeight(const QFont &f, const QString &str);

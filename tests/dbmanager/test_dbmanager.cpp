@@ -44,12 +44,12 @@ TEST(getImportTimelines, db4)
         DBImgInfoList res2 = DBManager::instance()->getInfosByImportTimeline(res1.first());
         ASSERT_FALSE(res2.isEmpty());
         if (!res2.isEmpty()) {
-            DBImgInfo res3 = DBManager::instance()->getInfoByName(res2.first().fileName);
-            ASSERT_FALSE(res3.fileName.isEmpty());
+//            DBImgInfo res3 = DBManager::instance()->getInfoByName(res2.first().fileName);
+//            ASSERT_FALSE(res3.fileName.isEmpty());
             DBImgInfo res4 = DBManager::instance()->getInfoByPath(res2.first().filePath);
             ASSERT_FALSE(res4.fileName.isEmpty());
-            DBImgInfo res5 = DBManager::instance()->getInfoByPathHash(utils::base::hash(res2.first().filePath));
-            ASSERT_FALSE(res5.fileName.isEmpty());
+//            DBImgInfo res5 = DBManager::instance()->getInfoByPathHash(utils::base::hash(res2.first().filePath));
+//            ASSERT_FALSE(res5.fileName.isEmpty());
         }
     }
 
@@ -62,8 +62,8 @@ TEST(getImgsCount, db5)
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath);
     DBManager::instance()->getImgsCount();
-    DBManager::instance()->isImgExist("");
-    DBManager::instance()->isImgExist(finfos.first().absoluteFilePath());
+//    DBManager::instance()->isImgExist("");
+//    DBManager::instance()->isImgExist(finfos.first().absoluteFilePath());
 }
 
 TEST(removeTestImagesInfo, db6)
@@ -92,7 +92,7 @@ TEST(removeTestImagesInfo, db6)
 TEST(getAlbumCount, db7)
 {
     qDebug() << "dbmanager getAlbumCount db7 count = " << count_testDefine++;
-    DBManager::instance()->getAlbumsCount();
+//    DBManager::instance()->getAlbumsCount();
     DBManager::instance()->getAllAlbumNames();
 }
 

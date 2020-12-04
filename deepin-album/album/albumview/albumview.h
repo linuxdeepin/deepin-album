@@ -135,7 +135,7 @@ private:
     void importAllBtnClicked();
     void importSelectBtnClicked();
 //    void onUnMountSignal(QString unMountPath);
-    void loadMountPicture(QString path);
+//    void loadMountPicture(QString path);
     void initLeftMenu();
     void importComboBoxChange(QString strText);
 

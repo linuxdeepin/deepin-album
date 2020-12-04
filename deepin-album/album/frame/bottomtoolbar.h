@@ -34,12 +34,8 @@ public:
     void setContent(QWidget *content);
 protected:
     void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-private slots:
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
-    QColor m_coverBrush;
     QHBoxLayout *m_mainLayout;
-
 };
 
 #endif // BOTTOMTOOLBAR_H

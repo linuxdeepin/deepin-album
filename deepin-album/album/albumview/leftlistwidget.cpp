@@ -89,7 +89,7 @@ QStyleOptionViewItem LeftListWidget::viewOptions() const
     return option;
 }
 
-QModelIndex LeftListWidget::getModelIndex(QListWidgetItem *pItem)
-{
-    return indexFromItem(pItem);
-}
+//QModelIndex LeftListWidget::getModelIndex(QListWidgetItem *pItem)
+//{
+//    return indexFromItem(pItem);
+//}

@@ -34,10 +34,10 @@ ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile, QWid
             &ThemeWidget::onThemeChanged);
 }
 
-bool ThemeWidget::isDeepMode()
-{
-    return m_deepMode;
-}
+//bool ThemeWidget::isDeepMode()
+//{
+//    return m_deepMode;
+//}
 
 ThemeWidget::~ThemeWidget() {}
 

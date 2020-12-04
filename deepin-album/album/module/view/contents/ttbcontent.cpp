@@ -157,14 +157,14 @@ void MyImageListWidget::stopAnimation()
     m_resetAnimation->stop();
 }
 
-bool MyImageListWidget::isAnimationStart()
-{
-    if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
-        return true;
-    } else {
-        return false;
-    }
-}
+//bool MyImageListWidget::isAnimationStart()
+//{
+//    if (m_resetAnimation->state() == QPropertyAnimation::State::Running) {
+//        return true;
+//    } else {
+//        return false;
+//    }
+//}
 
 void MyImageListWidget::findSelectItem()
 {
@@ -369,99 +369,99 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     return false;
 }
 
-void MyImageListWidget::animationTimerTimeOut()
-{
-    m_animationTimerTOCount++;
+//void MyImageListWidget::animationTimerTimeOut()
+//{
+//    m_animationTimerTOCount++;
 
-    if (m_obj == nullptr || m_selectItem == nullptr || m_resetFinish) {
-        return;
-    }
-    if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 300) {
-        return;
-    }
-    int offset1 = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
-    if (abs(offset1) <= 4) {
-        return;
-    }
-    if (m_animationTimerTOCount == 20) {
-        m_animationTimerTOCount = 0;
-    }
-    int index = 0;
-    QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+//    if (m_obj == nullptr || m_selectItem == nullptr || m_resetFinish) {
+//        return;
+//    }
+//    if (m_resetAnimation->state() == QPropertyAnimation::State::Running && m_resetAnimation->duration() == 300) {
+//        return;
+//    }
+//    int offset1 = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+//    if (abs(offset1) <= 4) {
+//        return;
+//    }
+//    if (m_animationTimerTOCount == 20) {
+//        m_animationTimerTOCount = 0;
+//    }
+//    int index = 0;
+//    QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
 
-    int middle = this->geometry().width() / 2;
-    if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
-        qDebug() << "11111111";
-        if (offset1 < 0) {
-            index = m_selectItem->index() + 1;
-            if (index >= list.size()) {
-                index = list.size() - 1;
-            }
-        } else {
-            index = m_selectItem->index() - 1;
-            if (index < 0) {
-                index = 0;
-            }
-        }
-        QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
-        if (labelList2.size() > 0) {
-            ImageItem *img2 = labelList2.at(0);
-            if (nullptr != img2) {
-                qDebug() << "2222222222222";
-                img2->emitClickSig();
-            }
-        }
-    } else {
-        int selitemLeft = m_selectItem->geometry().left() - abs(dynamic_cast<DWidget *>(m_obj)->geometry().left());
-        int selitemRight = selitemLeft + 32;
-        if (selitemLeft < middle && middle < selitemRight) {
-            for (int i = 0; i < list.size(); i++) {
-                QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
-                if (labelList.size() > 0) {
-                    ImageItem *img = labelList.at(0);
-                    if (nullptr == img) {
-                        continue;
-                    }
-                    int itemLeft = img->geometry().left() - abs(dynamic_cast<DWidget *>(m_obj)->geometry().left());
-                    int itemRight = itemLeft + 32;
-                    if (itemLeft < middle && middle < itemRight) {
-                        qDebug() << "1111111111111";
-                        img->emitClickSig();
-                        break;
-                    }
-                }
-            }
-        } else {
-            int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
-            qDebug() << "-------begin-------";
-            qDebug() << "zy------(m_obj)->geometry().left() = " << dynamic_cast<DWidget *>(m_obj)->geometry().left();
-            qDebug() << "zy------m_preListGeometryLeft = " << m_preListGeometryLeft;
-            qDebug() << "-------end------- ";
-            if (offset > 0) {
-                qDebug() << "offset > 0 ";
-                index = m_selectItem->index() - 1;
-                if (index < 0) {
-                    index = 0;
-                }
-            } else if (offset < 0) {
-                qDebug() << "offset < 0 ";
-                index = m_selectItem->index() + 1;
-                if (index >= list.size()) {
-                    index = list.size() - 1;
-                }
-            }
-            QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
-            if (labelList2.size() > 0) {
-                ImageItem *img2 = labelList2.at(0);
-                if (nullptr != img2) {
-                    qDebug() << "333333333";
-                    img2->emitClickSig();
-                }
-            }
-        }
-    }
-    m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-}
+//    int middle = this->geometry().width() / 2;
+//    if (dynamic_cast<DWidget *>(m_obj)->geometry().width() <= this->width()) {
+//        qDebug() << "11111111";
+//        if (offset1 < 0) {
+//            index = m_selectItem->index() + 1;
+//            if (index >= list.size()) {
+//                index = list.size() - 1;
+//            }
+//        } else {
+//            index = m_selectItem->index() - 1;
+//            if (index < 0) {
+//                index = 0;
+//            }
+//        }
+//        QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
+//        if (labelList2.size() > 0) {
+//            ImageItem *img2 = labelList2.at(0);
+//            if (nullptr != img2) {
+//                qDebug() << "2222222222222";
+//                img2->emitClickSig();
+//            }
+//        }
+//    } else {
+//        int selitemLeft = m_selectItem->geometry().left() - abs(dynamic_cast<DWidget *>(m_obj)->geometry().left());
+//        int selitemRight = selitemLeft + 32;
+//        if (selitemLeft < middle && middle < selitemRight) {
+//            for (int i = 0; i < list.size(); i++) {
+//                QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
+//                if (labelList.size() > 0) {
+//                    ImageItem *img = labelList.at(0);
+//                    if (nullptr == img) {
+//                        continue;
+//                    }
+//                    int itemLeft = img->geometry().left() - abs(dynamic_cast<DWidget *>(m_obj)->geometry().left());
+//                    int itemRight = itemLeft + 32;
+//                    if (itemLeft < middle && middle < itemRight) {
+//                        qDebug() << "1111111111111";
+//                        img->emitClickSig();
+//                        break;
+//                    }
+//                }
+//            }
+//        } else {
+//            int offset = dynamic_cast<DWidget *>(m_obj)->geometry().left() - m_preListGeometryLeft;
+//            qDebug() << "-------begin-------";
+//            qDebug() << "zy------(m_obj)->geometry().left() = " << dynamic_cast<DWidget *>(m_obj)->geometry().left();
+//            qDebug() << "zy------m_preListGeometryLeft = " << m_preListGeometryLeft;
+//            qDebug() << "-------end------- ";
+//            if (offset > 0) {
+//                qDebug() << "offset > 0 ";
+//                index = m_selectItem->index() - 1;
+//                if (index < 0) {
+//                    index = 0;
+//                }
+//            } else if (offset < 0) {
+//                qDebug() << "offset < 0 ";
+//                index = m_selectItem->index() + 1;
+//                if (index >= list.size()) {
+//                    index = list.size() - 1;
+//                }
+//            }
+//            QList<ImageItem *> labelList2 = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(index));
+//            if (labelList2.size() > 0) {
+//                ImageItem *img2 = labelList2.at(0);
+//                if (nullptr != img2) {
+//                    qDebug() << "333333333";
+//                    img2->emitClickSig();
+//                }
+//            }
+//        }
+//    }
+//    m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
+//}
 
 void MyImageListWidget::animationFinished()
 {

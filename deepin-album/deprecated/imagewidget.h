@@ -19,17 +19,17 @@ public:
     QString imagePath() const;
     void fitImage();
     void fitWindow();
-    qreal scaleValue() const;
+//    qreal scaleValue() const;
     qreal windowRelativeScale() const;
     void setTransformOrigin(const QPointF &imageP, const QPointF &deviceP);
     QPoint mapToImage(const QPoint &p) const;
     QRect mapToImage(const QRect &r) const;
     QRect visibleImageRect() const;
     bool isWholeImageVisible() const;
-    bool isMoving() const;
+//    bool isMoving() const;
 
     bool inSlideShow() const;
-    void setInSlideShow(bool inSlideShow);
+//    void setInSlideShow(bool inSlideShow);
 
 Q_SIGNALS:
     void scaleValueChanged(qreal);
@@ -39,13 +39,13 @@ Q_SIGNALS:
     void mouseMoved();
 
 public Q_SLOTS:
-    void setImageMove(int x, int y);
+//    void setImageMove(int x, int y);
     void setScaleValue(qreal value);
 //    void rotateClockWise();
 //    void rotateCounterclockwise();
     void rotate(int deg);
-    void flipX();
-    void flipY();
+//    void flipX();
+//    void flipY();
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void timerEvent(QTimerEvent *e) override;
