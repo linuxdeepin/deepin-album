@@ -189,8 +189,12 @@ TEST(AlbumView, createNewAlbumFromDialog)
     QList<QAction *> actions = w->actions();
 
     AlbumImageButton *btn = w->m_pAlbumview->m_pLeftListView->m_pAddListBtn;
+    QPoint pointbtn = btn->pos();
     QTestEventList event;
+    event.addMouseMove(pointbtn + QPoint(1, 1), 10);
+    event.addMouseMove(pointbtn + QPoint(2, 2), 10);
     event.addMouseClick(Qt::LeftButton, Qt::NoModifier);
+    event.addMouseMove(pointbtn + QPoint(200, 200), 10);
     event.simulate(btn);
     event.clear();
     QTest::qWait(500);
@@ -207,6 +211,7 @@ TEST(AlbumView, createNewAlbumFromDialog)
         }
     }
     QTest::qWait(200);
+    emit dApp->signalM->sigCreateNewAlbumFromDialog("testalbum");
 }
 
 TEST(AlbumView, dragPhotoToAnAlbum)
@@ -423,4 +428,25 @@ TEST(AlbumView, ImportDuplicatePhotos)
     QTest::qWait(200);
     ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", timelineview, true);
     QTest::qWait(500);
+}
+
+TEST(LeftListView,update)
+{
+    LeftListView * leftlist = new LeftListView;
+    leftlist->updatePhotoListView();
+    leftlist->updateCustomizeListView();
+
+//    leftlist->onMenuClicked(act);
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_Delete,Qt::ControlModifier, 100);
+    e.simulate(leftlist);
+    e.clear();
+
+    LeftListWidget * wid = new LeftListWidget;
+    QPoint pos = wid->pos();
+    e.addMousePress(Qt::LeftButton,Qt::ControlModifier,pos,10);
+    e.addMouseMove(pos + QPoint(1,1));
+    e.addMouseMove(pos + QPoint(2,2));
+    e.simulate(wid);
+    e.clear();
 }

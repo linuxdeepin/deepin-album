@@ -9,6 +9,10 @@ TEST(MainWindow, BtnGroupClick)
 {
     qDebug() << "MainWindow BtnGroupClick count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
+    w->allPicBtnClicked();
+    w->onImprotBtnClicked();
+    w->onLoadingFinished();
+    w->getButG();
     QTestEventList event;
     event.addMouseClick(Qt::MouseButton::LeftButton);
     event.simulate(w->getButG()->button(1));

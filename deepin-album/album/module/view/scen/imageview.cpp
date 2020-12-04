@@ -79,7 +79,6 @@ QVariantList cachePixmap(const QString &path)
 }
 
 }  // namespace
-
 ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
@@ -155,6 +154,7 @@ ImageView::~ImageView()
 {
     if (m_imgFileWatcher) {
         m_imgFileWatcher->clear();
+        m_imgFileWatcher->quit();
         m_imgFileWatcher->terminate();
         m_imgFileWatcher->wait();
         m_imgFileWatcher->deleteLater();
@@ -878,6 +878,8 @@ void CFileWatcher::doRun()
     auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
         char *offset = reinterpret_cast<char *>(dest);
         while (remain) {
+            if(file == nullptr)
+                return -1;
             size_t n = fread(offset, 1, remain, file);
             if (n == 0) {
                 return -1;
@@ -895,6 +897,7 @@ void CFileWatcher::doRun()
         inotify_event event;
         if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
             qWarning() << "------------- freadsome error !!!!!---------- ";
+            break;
         }
         if (event.len) {
             freadsome(name, event.len, watcher_file);
