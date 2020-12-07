@@ -419,3 +419,23 @@ TEST(ttbcontent, test_ini)
     e.addKeyClick(Qt::Key_Escape);
     e.simulate(w);
 }
+
+TEST(allpicview, deleteTips)
+{
+    qDebug() << "allpicview deleteTips count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->allPicBtnClicked();
+    QTest::qWait(500);
+    AllPicView *a = w->m_pAllPicView;
+    QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
+    if (testPathlist.count() > 0) {
+        QStringList tempDel;
+        tempDel << testPathlist.last();
+        ImgDeleteDialog *delDlg= new ImgDeleteDialog(a->getThumbnailListView(), tempDel.length());
+        delDlg->show();
+        QTest::qWait(500);
+        ImageEngineApi::instance()->moveImagesToTrash(tempDel);
+        delDlg->deleteLater();
+        QTest::qWait(500);
+    }
+}
