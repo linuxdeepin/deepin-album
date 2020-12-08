@@ -44,6 +44,16 @@
 #define Import_Time_Line_Choose_Button QObject::tr("ImportTimeLineChooseButton") //导入到时间线选择按钮
 #define Album_Delete_Button QObject::tr("AlbumDeleteButton") //相册界面删除按钮
 #define Album_Restore_Button QObject::tr("AlbumRestoreButton") //相册界面恢复按钮
+#define Album_Import_Label QObject::tr("AlbumImportLabel")
+#define Album_Trash_Label QObject::tr("AlbumTrashLabel")
+#define Album_Fav_Label QObject::tr("AlbumFavLabel")
+
+#define TOP_TOOL_BAR QObject::tr("top tool bar") //顶部工具栏
+#define TITLE_TEXT QObject::tr("title text") //顶部标题栏
+#define TITLE_BAR QObject::tr("title bar") //顶部菜单
+
+#define VIEW_PANEL_WIDGET QObject::tr("viewpanel") //图片显示区域
+#define VIEW_PANEL_STACK QObject::tr("viewpanel stack") //图片显示区域堆栈窗口
 
 #define Slider_Play_Pause_Button QObject::tr("SliderPlayPauseButton") //幻灯片播放暂停按钮
 #define Slider_Pre_Button QObject::tr("SliderPreButton") //幻灯片上一张按钮

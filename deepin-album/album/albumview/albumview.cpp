@@ -251,9 +251,9 @@ void AlbumView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     // 添加重复照片提示
-    connect(dApp->signalM,&SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
         Q_UNUSED(importPaths)
-        if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2){
+        if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2) {
             m_pRightThumbnailList->selectDuplicatePhotos(duplicatePaths);
         }
     });
@@ -1552,7 +1552,7 @@ void AlbumView::onKeyDelete()
         paths = m_pRightTrashThumbnailList->selectedPaths();
         if (0 < paths.length()) {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
-            if (dialog->exec()){
+            if (dialog->exec()) {
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
                 onTrashListClicked();
             }

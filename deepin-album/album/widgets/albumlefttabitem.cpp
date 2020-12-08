@@ -7,6 +7,9 @@
 #include "controller/signalmanager.h"
 #include <DFontSizeManager>
 #include <QPainter>
+
+#include "ac-desktop-define.h"
+
 namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
@@ -106,15 +109,23 @@ void AlbumLeftTabItem::initUI()
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
         m_nameLabel->Settext(tr("Import"));
+        AC_SET_OBJECT_NAME(m_nameLabel, Album_Import_Label);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Import_Label);
     } else if (COMMON_STR_TRASH == m_albumNameStr) {
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
         m_nameLabel->Settext(tr("Trash"));
+        AC_SET_OBJECT_NAME(m_nameLabel, Album_Trash_Label);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Trash_Label);
     } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
         m_nameLabel->Settext(tr("Favorites"));
+        AC_SET_OBJECT_NAME(m_nameLabel, Album_Fav_Label);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Fav_Label);
     } else {
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
         m_nameLabel->Settext(m_albumNameStr);
+        AC_SET_OBJECT_NAME(m_nameLabel, m_albumNameStr);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, m_albumNameStr);
     }
     m_nameLabel->setAlignment(Qt::AlignVCenter);
 

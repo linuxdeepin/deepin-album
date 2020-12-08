@@ -22,6 +22,7 @@
 #include "controller/viewerthememanager.h"
 #include "utils/baseutils.h"
 //#include "utils/shortcut.h"
+#include "ac-desktop-define.h"
 
 #include <dwindowminbutton.h>
 #include <dwindowmaxbutton.h>
@@ -64,6 +65,11 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     setPalette(palette);
     initMenu();
     initWidgets();
+    AC_SET_ACCESSIBLE_NAME(this, TOP_TOOL_BAR);
+    AC_SET_OBJECT_NAME(this, TOP_TOOL_BAR);
+
+    AC_SET_ACCESSIBLE_NAME(m_titlebar, TITLE_BAR);
+    AC_SET_OBJECT_NAME(m_titlebar, TITLE_BAR);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -117,6 +123,8 @@ void TopToolbar::initWidgets()
     m_titlebar->setTitle("");
     m_titletxt = new DLabel;
     m_titletxt->setText("");
+    m_titletxt->setObjectName("");
+    m_titletxt->setAccessibleName("");
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7/*,QFont::DemiBold*/);
     DPalette p = DApplicationHelper::instance()->palette(m_titletxt);
     pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
@@ -132,10 +140,14 @@ void TopToolbar::initWidgets()
     this, [ = ](const QString & filename) {
         QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
         m_titletxt->setText(a);
+        m_titletxt->setObjectName(a);
+        m_titletxt->setAccessibleName(a);
         connect(dApp->signalM, &SignalManager::resizeFileName,
         this, [ = ]() {
             QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
             m_titletxt->setText(b);
+            m_titletxt->setObjectName(b);
+            m_titletxt->setAccessibleName(b);
         });
     });
 }

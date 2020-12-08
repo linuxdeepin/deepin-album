@@ -30,6 +30,7 @@
 #include "widgets/printhelper.h"
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "imageengine/imageengineapi.h"
+#include "ac-desktop-define.h"
 #include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
@@ -84,7 +85,12 @@ ViewPanel::ViewPanel(QWidget *parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     installEventFilter(this);
     m_ttbc = nullptr;
-    this->setObjectName("ViewPanel");
+    AC_SET_ACCESSIBLE_NAME(this, VIEW_PANEL_WIDGET);
+    AC_SET_OBJECT_NAME(this, VIEW_PANEL_WIDGET);
+
+    AC_SET_ACCESSIBLE_NAME(m_stack, VIEW_PANEL_STACK);
+    AC_SET_OBJECT_NAME(m_stack, VIEW_PANEL_STACK);
+//    this->setObjectName("ViewPanel");
 }
 
 ViewPanel::~ViewPanel()
