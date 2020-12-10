@@ -166,6 +166,7 @@ signals:
 
     //对于外设后台加载是否暂停，在查看界面使用  -xiaolong
     void sigPauseOrStart(bool bpause);
+    void sigArrowCursor(bool arrow);
 
 private:
     explicit SignalManager(QObject *parent = nullptr);

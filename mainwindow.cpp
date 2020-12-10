@@ -1189,7 +1189,7 @@ void MainWindow::onShowImageInfo(const QString &path)
     ImgInfoDialog *dialog;
     if (m_propertyDialogs.contains(path)) {
         m_propertyDialogs.remove(path);
-        dialog = new ImgInfoDialog(path);
+        dialog = new ImgInfoDialog(path, this);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
@@ -1199,7 +1199,7 @@ void MainWindow::onShowImageInfo(const QString &path)
             m_propertyDialogs.remove(path);
         });
     } else {
-        dialog = new ImgInfoDialog(path);
+        dialog = new ImgInfoDialog(path, this);
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());

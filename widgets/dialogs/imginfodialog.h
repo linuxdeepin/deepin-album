@@ -23,6 +23,10 @@
 #include <DDrawer>
 #include <denhancedwidget.h>
 
+#include <QMouseEvent>
+
+#include "module/modulepanel.h"
+
 DWIDGET_USE_NAMESPACE
 
 class QFormLayout;
@@ -64,6 +68,10 @@ private:
     void keyPressEvent(QKeyEvent *e) override;
     void paintEvent(QPaintEvent *event) override;
     bool event(QEvent *event)override;
+
+protected:
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
 signals:
     void closed();
 

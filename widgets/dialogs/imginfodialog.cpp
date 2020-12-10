@@ -424,3 +424,13 @@ bool ImgInfoDialog::event(QEvent *event)
     return QWidget::event(event);
 }
 
+void ImgInfoDialog::enterEvent(QEvent *)
+{
+    emit dApp->signalM->sigArrowCursor(true);
+}
+
+void ImgInfoDialog::leaveEvent(QEvent *)
+{
+    emit dApp->signalM->sigArrowCursor(false);
+}
+

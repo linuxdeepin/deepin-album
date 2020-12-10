@@ -262,6 +262,9 @@ void ViewPanel::initConnect()
 
 #endif
     });
+    connect(dApp->signalM, &SignalManager::sigArrowCursor, this, [ = ](bool arrowCursor) {
+        m_isArrowCursor = arrowCursor;
+    });
 }
 
 void ViewPanel::mousePressEvent(QMouseEvent *e)
@@ -537,7 +540,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() == m_hideCursorTid &&
+    if (e->timerId() == m_hideCursorTid && !m_isArrowCursor &&
             !m_menu->isVisible() && !m_printDialogVisible && qApp->modalWindow() == nullptr) {
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }

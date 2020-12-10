@@ -200,5 +200,6 @@ private:
 
     QTimer *m_deletetimer;  //删除图片定时器
     bool   m_bFirstFullScreen;  //是否全屏进入
+    bool   m_isArrowCursor = false; //true时显示鼠标
 };
 #endif // VIEWPANEL_H
