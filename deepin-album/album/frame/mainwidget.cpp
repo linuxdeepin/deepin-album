@@ -224,7 +224,7 @@ void MainWidget::initConnection()
         if (window()->isFullScreen())
         {
             QPoint pos = mapFromGlobal(QCursor::pos());
-            if (height() - 20 < pos.y()
+            if (height() - 45 < pos.y()
                     && height() > pos.y()
                     && height() == m_bottomToolbar->y()) {
                 QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");

@@ -270,7 +270,7 @@ TEST(allpicview, test_showInFileManagerAndBackGrond)
     QStringList paths = ImageEngineApi::instance()->get_AllImagePath();
     if (!paths.isEmpty()) {
         QString testImage = paths.first();
-        showInFileManager(testImage);
+//        showInFileManager(testImage);//roc
 //        imageSupportSave(testImage);
 //        checkFileType(testImage);
         copyImageToClipboard(paths);
