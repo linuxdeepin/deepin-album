@@ -190,7 +190,7 @@ if(DOTEST)
         COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
         COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
 
-        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
+#        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
 
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )

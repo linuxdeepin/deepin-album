@@ -124,9 +124,11 @@ void QTestMain::cleanupTestCase()
 
 void QTestMain::testGTest()
 {
+    testing::GTEST_FLAG(output) = "xml:./report/report_deepin-album.xml";
     testing::InitGoogleTest();
     int ret = RUN_ALL_TESTS();
     Q_UNUSED(ret)
+//    __sanitizer_set_report_path("asan_deepin-album.log");
 }
 
 void QTestMain::testQString_data()

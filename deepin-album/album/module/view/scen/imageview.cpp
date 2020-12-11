@@ -878,7 +878,7 @@ void CFileWatcher::doRun()
     auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
         char *offset = reinterpret_cast<char *>(dest);
         while (remain) {
-            if(file == nullptr)
+            if (file == nullptr)
                 return -1;
             size_t n = fread(offset, 1, remain, file);
             if (n == 0) {
