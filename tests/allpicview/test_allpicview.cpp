@@ -306,8 +306,9 @@ TEST(ttbcontent, test_ini)
     tl.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(0, 0), 100);
     tl.addMouseMove(a->m_pImportView->geometry().center());
     tl.simulate(a->m_pImportView);
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
     QTest::qWait(500);
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
+//    QTest::qWait(500);
 
     QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     if (!testPathlist.isEmpty()) {

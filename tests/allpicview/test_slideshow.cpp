@@ -15,9 +15,9 @@ TEST(allpicview, test_beginSlideShow)
     MainWindow *w = dApp->getMainWindow();
 
     AllPicView *a = w->m_pAllPicView;
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
 
-    QTest::qWait(500);
+//    QTest::qWait(500);
     QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     if (!testPathlist.isEmpty()) {
         qDebug() << "test ImageView load Success ";

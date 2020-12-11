@@ -109,17 +109,17 @@ TEST(TimeLineView, SelectTimeLinesBtn)
 
 TEST(TimeLineView, importImages)
 {
-    qDebug() << "TimeLineView SelectTimeLinesBtn count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
-    QTestEventList event;
-    w->timeLineBtnClicked();
-    QTest::qWait(500);
-    TimeLineView *t = w->m_pTimeLineView;
-    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
-    QTest::qWait(500);
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
-    QTest::qWait(500);
+//    qDebug() << "TimeLineView SelectTimeLinesBtn count = " << count_testDefine++;
+//    MainWindow *w = dApp->getMainWindow();
+//    QTestEventList event;
+//    w->timeLineBtnClicked();
+//    QTest::qWait(500);
+//    TimeLineView *t = w->m_pTimeLineView;
+//    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
+//    QTest::qWait(500);
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
+//    QTest::qWait(500);
 }
 
 TEST(TimeLineView, selectBtn)
