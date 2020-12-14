@@ -162,13 +162,13 @@ void StatusBar::timerEvent(QTimerEvent *e)
             m_pStackedWidget->setCurrentIndex(0);
             if (m_bcustalbum) {
                 emit dApp->signalM->sigAddToAlbToast(m_alubm);
-                if(m_baddDuplicatePhotos){
+                if (m_baddDuplicatePhotos) {
                     m_baddDuplicatePhotos = false;
                     emit dApp->signalM->sigAddDuplicatePhotos();
                 }
             } else if (1 == pic_count) {
                 emit dApp->signalM->ImportSuccess();
-                if(m_baddDuplicatePhotos){
+                if (m_baddDuplicatePhotos) {
                     m_baddDuplicatePhotos = false;
                     emit dApp->signalM->sigAddDuplicatePhotos();
                 }
@@ -185,13 +185,13 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 interval = 0;
                 if (m_bcustalbum) {
                     emit dApp->signalM->sigAddToAlbToast(m_alubm);
-                    if(m_baddDuplicatePhotos){
+                    if (m_baddDuplicatePhotos) {
                         m_baddDuplicatePhotos = false;
                         emit dApp->signalM->sigAddDuplicatePhotos();
                     }
                 } else if (1 == pic_count) {
                     emit dApp->signalM->ImportSuccess();
-                    if(m_baddDuplicatePhotos){
+                    if (m_baddDuplicatePhotos) {
                         m_baddDuplicatePhotos = false;
                         emit dApp->signalM->sigAddDuplicatePhotos();
                     }

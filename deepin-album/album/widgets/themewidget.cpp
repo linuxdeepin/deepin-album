@@ -50,32 +50,32 @@ void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
     }
 }
 
-ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFile, QWidget *parent)
-    : QScrollArea(parent)
-    , m_darkStyle(utils::base::getFileContent(darkFile))
-    , m_lightStyle(utils::base::getFileContent(lightFile))
-    , m_deepMode(false)
-{
-//    m_darkStyle = utils::base::getFileContent(darkFile);
-//    m_lightStyle = utils::base::getFileContent(lightFile);
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+//ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFile, QWidget *parent)
+//    : QScrollArea(parent)
+//    , m_darkStyle(utils::base::getFileContent(darkFile))
+//    , m_lightStyle(utils::base::getFileContent(lightFile))
+//    , m_deepMode(false)
+//{
+////    m_darkStyle = utils::base::getFileContent(darkFile);
+////    m_lightStyle = utils::base::getFileContent(lightFile);
+//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &ThemeScrollArea::onThemeChanged);
-}
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &ThemeScrollArea::onThemeChanged);
+//}
 
-ThemeScrollArea::~ThemeScrollArea() {}
+//ThemeScrollArea::~ThemeScrollArea() {}
 
-void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme)
-{
-    if (theme == ViewerThemeManager::Dark) {
-        m_deepMode = true;
-    } else {
-        m_deepMode = false;
-    }
-}
+//void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme)
+//{
+//    if (theme == ViewerThemeManager::Dark) {
+//        m_deepMode = true;
+//    } else {
+//        m_deepMode = false;
+//    }
+//}
 
-bool ThemeScrollArea::isDeepMode()
-{
-    return m_deepMode;
-}
+//bool ThemeScrollArea::isDeepMode()
+//{
+//    return m_deepMode;
+//}

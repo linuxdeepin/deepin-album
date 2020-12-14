@@ -18,6 +18,8 @@
 #include <gmock/gmock-matchers.h>
 #include "application.h"
 #include "test_qtestDefine.h"
+#include "imagebutton.h"
+#include "elidedlabel.h"
 
 TEST(isRunning, ap1)
 {
@@ -38,4 +40,23 @@ TEST(ImageLoader, load)
     ImageLoader *loader = new ImageLoader(nullptr, list, list);
     loader->updateImageLoader(list);
     ASSERT_EQ(false, loader == nullptr);
+}
+
+TEST(ImageButton, imgbtn)
+{
+    ImageButton *btn = new ImageButton();
+    btn->setDisabled(true);
+    QPoint point = btn->pos();
+    QTestEventList e;
+    e.addMouseMove(point);
+    e.addMouseMove(point + QPoint(1, 1));
+    e.simulate(btn);
+    e.clear();
+}
+
+TEST(ElidedLabel, namelabel)
+{
+    ElidedLabel *lab = new ElidedLabel;
+    lab->setText("test");
+    lab->onThemeChanged(ViewerThemeManager::AppTheme::Dark);
 }

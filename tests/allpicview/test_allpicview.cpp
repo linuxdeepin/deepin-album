@@ -335,6 +335,7 @@ TEST(ttbcontent, test_ini)
 
         QTest::qWait(500);
         ImgInfoDialog *dialog = w->findChild<ImgInfoDialog *>("ImgInfoDialog");
+        dialog->height();
         dialog->deleteLater();
         QTest::qWait(500);
         ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
@@ -432,7 +433,7 @@ TEST(allpicview, deleteTips)
     if (testPathlist.count() > 0) {
         QStringList tempDel;
         tempDel << testPathlist.last();
-        ImgDeleteDialog *delDlg= new ImgDeleteDialog(a->getThumbnailListView(), tempDel.length());
+        ImgDeleteDialog *delDlg = new ImgDeleteDialog(a->getThumbnailListView(), tempDel.length());
         delDlg->show();
         QTest::qWait(500);
         ImageEngineApi::instance()->moveImagesToTrash(tempDel);

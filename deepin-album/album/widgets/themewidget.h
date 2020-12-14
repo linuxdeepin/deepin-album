@@ -43,20 +43,20 @@ private:
 
 //TODO: if a widget Multiple Inheritance from ThemeWidget and
 //      QScrollArea. warning(QWidget is an ambiguous base).
-class ThemeScrollArea : public QScrollArea
-{
-    Q_OBJECT
-public:
-    ThemeScrollArea(const QString &darkFile, const QString &lightFile,
-                    QWidget *parent = nullptr);
-    ~ThemeScrollArea();
+//class ThemeScrollArea : public QScrollArea
+//{
+//    Q_OBJECT
+//public:
+//    ThemeScrollArea(const QString &darkFile, const QString &lightFile,
+//                    QWidget *parent = nullptr);
+//    ~ThemeScrollArea();
 
-public slots:
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    bool isDeepMode();
-private:
-    QString m_darkStyle;
-    QString m_lightStyle;
-    bool m_deepMode;
-};
+//public slots:
+//    void onThemeChanged(ViewerThemeManager::AppTheme theme);
+//    bool isDeepMode();
+//private:
+//    QString m_darkStyle;
+//    QString m_lightStyle;
+//    bool m_deepMode;
+//};
 #endif // THEMEWIDGET_H

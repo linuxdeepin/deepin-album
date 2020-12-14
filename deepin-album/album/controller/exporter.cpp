@@ -104,7 +104,6 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                 QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(albumPaths[j])
                                                                            .baseName()).arg(QFileInfo(albumPaths[j]).completeSuffix());
                 bool isSucceed = QFile::copy(albumPaths[j], savePath);
-
                 emit dApp->signalM->sigExporting(albumPaths[j]);
 
                 if (!isSucceed) {
