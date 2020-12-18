@@ -32,8 +32,9 @@ TEST(albumdeletedialog, deletdialog)
     event.addKeyClick(Qt::Key_Escape);
 }
 
-TEST(Exporter, exportdialog)
+TEST(albumdeletedialog, exportdialog)
 {
+    qDebug() << "dialogs albumdeletedialog exportdialog count = " << count_testDefine++;
     CExportImageDialog *c = new CExportImageDialog;
 //    c->getQuality();
 //    c->getSavePath();

@@ -34,7 +34,7 @@ TEST(TimeLineView, T1)
 
 TEST(TimeLineView, dragPhotoToAnAlbum)
 {
-    qDebug() << "AlbumView dragPhotoToAnAlbum count = " << count_testDefine++;
+    qDebug() << "TimeLineView dragPhotoToAnAlbum count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
     w->timeLineBtnClicked();
@@ -185,34 +185,34 @@ TEST(TimeLineView, selectBtn)
     QTest::qWait(500);
 }
 
-TEST(TimeLineView, keyDeletePhotos)
-{
-    qDebug() << "TimeLineView selectBtn count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
-    w->timeLineBtnClicked();
-    QTest::qWait(500);
-    TimeLineView *t = w->m_pTimeLineView;
-    t->setFocus();
-    QList<QWidget *> widgets = t->findChildren<QWidget *>("");
-    for (int i = 0; i < widgets.count(); i++) {
-        if (!strcmp(widgets.at(i)->metaObject()->className(), ("Dtk::Widget::DCommandLinkButton"))) {
-            DCommandLinkButton *pDCmdBtnSelect = dynamic_cast<DCommandLinkButton *>(widgets.at(i));
-            if (pDCmdBtnSelect->text() == QObject::tr("Select")) {
-                QTestEventList event;
-                event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
-                event.simulate(widgets.at(i));
-                event.clear();
-                QTest::qWait(100);
-                dApp->signalM->sigShortcutKeyDelete();
-                break;
-            }
-        }
-    }
+//TEST(TimeLineView, keyDeletePhotos)//roc
+//{
+//    qDebug() << "TimeLineView selectBtn count = " << count_testDefine++;
+//    MainWindow *w = dApp->getMainWindow();
+//    w->timeLineBtnClicked();
+//    QTest::qWait(500);
+//    TimeLineView *t = w->m_pTimeLineView;
+//    t->setFocus();
+//    QList<QWidget *> widgets = t->findChildren<QWidget *>("");
+//    for (int i = 0; i < widgets.count(); i++) {
+//        if (!strcmp(widgets.at(i)->metaObject()->className(), ("Dtk::Widget::DCommandLinkButton"))) {
+//            DCommandLinkButton *pDCmdBtnSelect = dynamic_cast<DCommandLinkButton *>(widgets.at(i));
+//            if (pDCmdBtnSelect->text() == QObject::tr("Select")) {
+//                QTestEventList event;
+//                event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
+//                event.simulate(widgets.at(i));
+//                event.clear();
+//                QTest::qWait(100);
+//                dApp->signalM->sigShortcutKeyDelete();
+//                break;
+//            }
+//        }
+//    }
 //    QTest::qWait(500);
 //    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
 //    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
 //    QTest::qWait(500);
-}
+//}
 
 TEST(TimeLineView, changeTheme)
 {
@@ -228,6 +228,7 @@ TEST(TimeLineView, changeTheme)
 
 TEST(TimeLineView, changSliderValue)
 {
+    qDebug() << "TimeLineView changSliderValue count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->timeLineBtnClicked();
     TimeLineView *t = w->m_pTimeLineView;

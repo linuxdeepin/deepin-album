@@ -1,5 +1,12 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#include <QTestEventList>
+#include <QString>
+
+#define private public
+#define protected public
+
+#include "leftlistview.h"
 #include "application.h"
 #include "mainwindow.h"
 #include "albumview.h"
@@ -7,178 +14,8 @@
 #include "dbmanager.h"
 #include "albumcreatedialog.h"
 #include "../test_qtestDefine.h"
-
-#include <QTestEventList>
-
-TEST(AlbumView, deleteAll)
-{
-    ImageEngineApi::instance()->load80Thumbnails();
-    QTest::qWait(500);
-    qDebug() << "AlbumView deleteAll count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
-    w->loadZoomRatio();
-
-    QDir dir(testPath_test);
-    if (!dir.exists()) {
-        dir.mkdir(testPath_test);
-    }
-    QFileInfo fileinfo;
-    QPixmap pix;
-    fileinfo.setFile(testPath_test + "/13lzwv.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/13lzwv.png");
-        pix.save(testPath_test + "/13lzwv.png");
-    }
-    fileinfo.setFile(testPath_test + "/2e5y8y.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/2e5y8y.png");
-        pix.save(testPath_test + "/2e5y8y.png");
-    }
-    fileinfo.setFile(testPath_test + "/2ejqyx.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/2ejqyx.png");
-        pix.save(testPath_test + "/2ejqyx.png");
-    }
-    fileinfo.setFile(testPath_test + "/2k9o1m.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/2k9o1m.png");
-        pix.save(testPath_test + "/2k9o1m.png");
-    }
-    fileinfo.setFile(testPath_test + "/3333.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/3333.png");
-        pix.save(testPath_test + "/3333.png");
-    }
-    fileinfo.setFile(testPath_test + "/39elz3.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/39elz3.png");
-        pix.save(testPath_test + "/39elz3.png");
-    }
-    fileinfo.setFile(testPath_test + "/3kp6yv.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/3kp6yv.png");
-        pix.save(testPath_test + "/3kp6yv.png");
-    }
-    fileinfo.setFile(testPath_test + "/4l6r5y.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/4l6r5y.png");
-        pix.save(testPath_test + "/4l6r5y.png");
-    }
-    fileinfo.setFile(testPath_test + "/4v9ml0.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/4v9ml0.png");
-        pix.save(testPath_test + "/4v9ml0.png");
-    }
-}
-
-TEST(AlbumView, removeTestImagesInfo)
-{
-    qDebug() << "AlbumView removeTestImagesInfo count = " << count_testDefine++;
-    QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath_test);
-    for (auto info : finfos) {
-        image_list << info.absoluteFilePath();
-    }
-    QStringList res = DBManager::instance()->getAllPaths();
-    QTest::qWait(1000);
-    DBManager::instance()->removeImgInfos(res);
-    DBImgInfoList dbinfos;
-    for (auto i : image_list) {
-        DBImgInfo info;
-        info.filePath = i;
-        dbinfos << info;
-    }
-    MainWindow *w = dApp->getMainWindow();
-    AllPicView *a = w->m_pAllPicView;
-    a->updatePicsThumbnailView();
-    QTest::qWait(1000);
-}
-
-TEST(AlbumView, clickImportViewBtn)
-{
-    qDebug() << "AlbumView clickImportViewBtn count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
-    AllPicView *a = w->m_pAllPicView;
-    ImportView *importView = a->m_pImportView;
-
-    QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath_test);
-    for (auto info : finfos) {
-        image_list << info.absoluteFilePath();
-    }
-    QTest::qWait(500);
-//    importView->onImprotBtnClicked(false, image_list);
-//    QTest::qWait(500);
-
-    ImageEngineApi::instance()->insertImage(image_list.first(), "");
-}
-
-TEST(AlbumView, ini)
-{
-    qDebug() << "AlbumView ini count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
-    w->loadZoomRatio();
-
-    QPoint pos(10, 10);
-    QTestEventList event;
-    event.addMouseMove(pos);
-    event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
-    event.simulate(w->getButG()->button(0));
-    event.clear();
-    QTest::qWait(500);
-
-    event.addMouseMove(pos);
-    event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
-    event.simulate(w->getButG()->button(1));
-    event.clear();
-    QTest::qWait(500);
-
-    event.addMouseMove(pos);
-    event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
-    event.simulate(w->getButG()->button(2));
-    event.clear();
-    QTest::qWait(500);
-}
-
-TEST(AlbumView, iniAlbum)
-{
-    qDebug() << "AlbumView ini count = " << count_testDefine++;
-    QTest::qWait(500);
-    MainWindow *w = dApp->getMainWindow();
-    w->showEvent(nullptr);
-    QTestEventList event;
-    event.addMouseClick(Qt::MouseButton::LeftButton);
-    event.simulate(w->getButG()->button(2));
-    event.clear();
-    QTest::qWait(500);
-
-    AlbumView *a = w->m_pAlbumview;
-    int width = a->m_pStatusBar->m_pSlider->slider()->width();
-    QPoint pos(width / 10 * a->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-    event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-    pos = pos - QPoint(200, 0);
-    event.addMouseMove(pos);
-    QTest::qWait(500);
-    event.simulate(a->m_pStatusBar->m_pSlider->slider());
-    pos = QPoint(width / 10 * a->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-    for (int i = 0; i < 5; i++) {
-        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-        pos = pos + QPoint(20, 0);
-        event.addMouseMove(pos);
-        event.simulate(a->m_pStatusBar->m_pSlider->slider());
-        event.clear();
-        QTest::qWait(400);
-    }
-    pos = QPoint(width / 10 * a->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-    for (int i = 0; i < 5; i++) {
-        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-        pos = pos - QPoint(20, 0);
-        event.addMouseMove(pos);
-        event.simulate(a->m_pStatusBar->m_pSlider->slider());
-        event.clear();
-        QTest::qWait(400);
-    }
-}
+#include <stub-tool/cpp-stub/stub.h>
+#include <stub-tool/stub-ext/stubext.h>
 
 TEST(AlbumView, createNewAlbumFromDialog)
 {
@@ -211,7 +48,7 @@ TEST(AlbumView, createNewAlbumFromDialog)
         }
     }
     QTest::qWait(200);
-    emit dApp->signalM->sigCreateNewAlbumFromDialog("testalbum");
+    emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album");
 }
 
 TEST(AlbumView, dragPhotoToAnAlbum)
@@ -306,6 +143,46 @@ TEST(AlbumView, leftMenu)
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     QTest::qWait(500);
+}
+
+TEST(AlbumView, iniAlbum)
+{
+    qDebug() << "AlbumView ini count = " << count_testDefine++;
+    QTest::qWait(500);
+    MainWindow *w = dApp->getMainWindow();
+    w->showEvent(nullptr);
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(2));
+    event.clear();
+    QTest::qWait(500);
+
+    AlbumView *a = w->m_pAlbumview;
+    int width = a->m_pStatusBar->m_pSlider->slider()->width();
+    QPoint pos(width / 10 * a->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
+    event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
+    pos = pos - QPoint(200, 0);
+    event.addMouseMove(pos);
+    QTest::qWait(500);
+    event.simulate(a->m_pStatusBar->m_pSlider->slider());
+    pos = QPoint(width / 10 * a->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
+    for (int i = 0; i < 5; i++) {
+        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
+        pos = pos + QPoint(20, 0);
+        event.addMouseMove(pos);
+        event.simulate(a->m_pStatusBar->m_pSlider->slider());
+        event.clear();
+        QTest::qWait(400);
+    }
+    pos = QPoint(width / 10 * a->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
+    for (int i = 0; i < 5; i++) {
+        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
+        pos = pos - QPoint(20, 0);
+        event.addMouseMove(pos);
+        event.simulate(a->m_pStatusBar->m_pSlider->slider());
+        event.clear();
+        QTest::qWait(400);
+    }
 }
 
 TEST(AlbumView, imageOpen)
@@ -449,4 +326,88 @@ TEST(LeftListView,update)
     e.addMouseMove(pos + QPoint(2,2));
     e.simulate(wid);
     e.clear();
+}
+
+
+TEST(AlbumView, upDataAllAlbumView)
+{
+    qDebug() << "AlbumView imageImported_test count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+    QTest::qWait(500);
+    QString s1;
+    w->m_pAlbumview->updateRightNoTrashView();
+    w->m_pAlbumview->updateRightTrashView();
+    w->m_pAlbumview->updateRightImportView();
+    w->m_pAlbumview->updateRightMyFavoriteView();
+    w->m_pAlbumview->updateRightMountView();
+    w->m_pAlbumview->updateRightImportView();
+    w->m_pAlbumview->leftTabClicked();
+    w->m_pAlbumview->updateImportComboBox();
+    w->m_pAlbumview->importAllBtnClicked();
+    w->m_pAlbumview->importSelectBtnClicked();
+    w->m_pAlbumview->needUnMount(s1);
+    w->m_pAlbumview->onKeyDelete();
+    w->m_pAlbumview->onKeyF2();
+    w->m_pAlbumview->importDialog();
+    w->m_pAlbumview->onWaitDialogIgnore();
+    QTest::qWait(500);
+    //
+}
+
+TEST(AlbumView, menuOpenImage_test)
+{
+    qDebug() << "AlbumView menuOpenImage_test count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+    QTest::qWait(500);
+
+    QStringList paths = DBManager::instance()->getAllPaths();
+    QString path = paths.first();
+    bool isfullscr = false;
+    bool isSlideShow = false;
+    w->m_pAlbumview->menuOpenImage(path, paths, isfullscr, isSlideShow);
+    QTest::qWait(500);
+}
+
+TEST(AlbumView, onVfsMountChangedAdd_test)
+{
+//    qDebug() << "AlbumView menuOpenImage_test count = " << count_testDefine++;
+//    MainWindow *w = dApp->getMainWindow();
+//    w->albumBtnClicked();
+//    QTest::qWait(500);
+
+//    stub_ext::StubExt stu;
+//    stu.set_lamda(ADDR(QUrl, scheme), [](){
+//        return "file";
+//    });
+
+//    QExplicitlySharedDataPointer<DGioMount> mount;
+//    w->m_pAlbumview->onVfsMountChangedAdd(mount);
+//    QTest::qWait(500);
+}
+
+//
+TEST(AlbumView, findPicturePathByPhone_test)
+{
+    qDebug() << "AlbumView findPicturePathByPhone_test count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+    QTest::qWait(500);
+
+    QString testPath = testPath_test;
+    w->m_pAlbumview->findPicturePathByPhone(testPath);
+    QTest::qWait(500);
+}
+
+TEST(AlbumView, onLeftListDropEvent_test)
+{
+    qDebug() << "AlbumView onLeftListDropEvent_test count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+    w->m_pAlbumview->m_pLeftListView->m_pCustomizeListView->setCurrentRow(0);
+    QModelIndex curIndex = w->m_pAlbumview->m_pLeftListView->m_pCustomizeListView->currentIndex();
+    QTest::qWait(500);
+    w->m_pAlbumview->onLeftListDropEvent(curIndex);
+    QTest::qWait(500);
 }

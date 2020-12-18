@@ -59,7 +59,7 @@ TEST(allpicview, test_ini)
 
 TEST(allpicview, resize)
 {
-    qDebug() << "allpicview test_ini count = " << count_testDefine++;
+    qDebug() << "allpicview resize count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
     QTest::qWait(200);
@@ -73,7 +73,7 @@ TEST(allpicview, resize)
 TEST(allpicview, keypress)
 {
     QTest::qWait(200);
-    qDebug() << "allpicview test_ini count = " << count_testDefine++;
+    qDebug() << "allpicview keypress count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     AllPicView *a = w->m_pAllPicView;
     w->show();
@@ -86,7 +86,7 @@ TEST(allpicview, keypress)
 TEST(allpicview, dragevent)
 {
     QTest::qWait(200);
-    qDebug() << "allpicview test_ini count = " << count_testDefine++;
+    qDebug() << "allpicview dragevent count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     AllPicView *a = w->m_pAllPicView;
     w->show();

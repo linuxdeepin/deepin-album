@@ -1022,7 +1022,6 @@ void MainWindow::onShowImageInfo(const QString &path)
             m_propertyDialogs.remove(path);
         });
     }
-
 }
 
 //void MainWindow::viewImageClose()

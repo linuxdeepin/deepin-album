@@ -21,6 +21,9 @@
 #include "imagebutton.h"
 #include "elidedlabel.h"
 
+#include <QDebug>
+#include <qdebug.h>
+
 TEST(isRunning, ap1)
 {
     qDebug() << "application isRunning ap1 count = " << count_testDefine++;
@@ -44,6 +47,7 @@ TEST(ImageLoader, load)
 
 TEST(ImageButton, imgbtn)
 {
+    qDebug() << "ImageButton imgbtn count = " << count_testDefine++;
     ImageButton *btn = new ImageButton();
     btn->setDisabled(true);
     QPoint point = btn->pos();
@@ -56,6 +60,7 @@ TEST(ImageButton, imgbtn)
 
 TEST(ElidedLabel, namelabel)
 {
+    qDebug() << "ElidedLabel namelabel = " << count_testDefine++;
     ElidedLabel *lab = new ElidedLabel;
     lab->setText("test");
     lab->onThemeChanged(ViewerThemeManager::AppTheme::Dark);

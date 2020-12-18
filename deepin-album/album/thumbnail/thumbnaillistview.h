@@ -226,7 +226,7 @@ private:
 //    void updateThumbnailView();
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
-    void onShowImageInfo(const QString &path);
+//    void onShowImageInfo(const QString &path);
     void initMenuAction();
     DMenu *createAlbumMenu();
     void resizeEvent(QResizeEvent *e) override;
