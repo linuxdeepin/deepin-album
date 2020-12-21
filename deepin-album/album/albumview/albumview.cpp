@@ -251,54 +251,18 @@ void AlbumView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     // 添加重复照片提示
-    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
-        Q_UNUSED(importPaths)
-        if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2) {
-            m_pRightThumbnailList->selectDuplicatePhotos(duplicatePaths);
-        }
-    });
-    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (!m_pRightFavoriteThumbnailList->checkResizeNum())
-            return ;
-        if (isVisible()) {
-            int mh = h;
-            m_pRightFavoriteThumbnailList->setFixedHeight(mh + 27);
-            m_FavoriteItem->setSizeHint(m_pRightFavoriteThumbnailList->size());
-        }
-    });
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (!m_pRightTrashThumbnailList->checkResizeNum())
-            return ;
-        if (isVisible()) {
-            int mh = h;
-            m_pRightTrashThumbnailList->setFixedHeight(mh + 27);
-            m_TrashitemItem->setSizeHint(m_pRightTrashThumbnailList->size());
-        }
-    });
-    connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (!m_pRightThumbnailList->checkResizeNum())
-            return ;
-        if (isVisible()) {
-            int mh = h;
-            m_pRightThumbnailList->setFixedHeight(mh + 27);
-            m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
-        }
-    });
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &AlbumView::onRepeatImportingTheSamePhotos);
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::needResize, this, &AlbumView::onRightFavoriteThumbnailListNeedResize);
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this,  &AlbumView::onRightTrashThumbnailListNeedResize);
+    connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, &AlbumView::onRightThumbnailListNeedResize);
     connect(m_pLeftListView, &LeftListView::itemClicked, this, &AlbumView::leftTabClicked);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
 #if 1
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFrom, this, &AlbumView::onCreateNewAlbumFrom);
-    connect(m_pRightThumbnailList, &ThumbnailListView::sigMouseMove, this, [ = ] {
-        updatePicNum();
-    });
-    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseMove, this, [ = ] {
-        updatePicNum();
-    });
-    //解决最近删除页面ctrl+all选择所有图片，恢复按钮为灰色的问题
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, [ = ] {
-        m_pRecoveryBtn->setEnabled(true);
-        updatePicNum();
-    });
+    connect(m_pRightThumbnailList, &ThumbnailListView::sigMouseMove, this, &AlbumView::ongMouseMove);
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseMove, this, &AlbumView::ongMouseMove);
+    // 解决最近删除页面ctrl+all选择所有图片，恢复按钮为灰色的问题
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::onSelectAll);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
     connect(m_pRightThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
@@ -306,25 +270,11 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, [ = ](QString albumname, QStringList pathlist) {
-        qDebug() << "添加到目的相册：" << albumname;
-        Q_UNUSED(pathlist);
-        if (m_currentAlbum != albumname) {
-            return;
-        }
-        if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentAlbum) //如果需要更新的为当前界面
-            updateRightView();
-    });
-
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::onInsertedIntoAlbum);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateAlbumView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
-    connect(dApp, &Application::sigFinishLoad, this, [ = ] {
-        m_pImpTimeLineWidget->m_mainListWidget->update();
-        m_pRightThumbnailList->update();
-        m_pRightFavoriteThumbnailList->update();
-        m_pRightTrashThumbnailList->update();
-    });
+    connect(dApp, &Application::sigFinishLoad, this, &AlbumView::onFinishLoad);
     connect(m_pRecoveryBtn, &DPushButton::clicked, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pDeleteBtn, &DPushButton::clicked, this, &AlbumView::onTrashDeleteBtnClicked);
     connect(m_pRightThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::openImage);
@@ -344,277 +294,47 @@ void AlbumView::initConnections()
             vol->mount();
         }
     });
-    connect(m_diskManager, &DDiskManager::fileSystemAdded, this, [ = ](const QString & dbusPath) {
-        DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
-        blDev->mount({});
-    });
-    connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, [ = ](const QString & blks) {
-        QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
-        QScopedPointer<DDiskDevice> drv1(DDiskManager::createDiskDevice(blk->drive()));
-        if (!blk->hasFileSystem() && !drv1->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
-            return;
-        }
-        if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
-            return;
-        }
-        DBlockDevice *pblk = blk.data();
-        QByteArrayList mps = blk->mountPoints();
-        qulonglong size = blk->size();
-        QString label = blk->idLabel();
-        QString fs = blk->idType();
-        QString udispname = "";
-        if (label.startsWith(ddeI18nSym)) {
-            QString i18nKey = label.mid(ddeI18nSym.size(), label.size() - ddeI18nSym.size());
-            udispname = qApp->translate("DeepinStorage", i18nMap.value(i18nKey, i18nKey.toUtf8().constData()));
-            goto runend;
-//            blk->mount({});
-//            return;
-        }
-
-        if (mps.contains(QByteArray("/\0", 2))) {
-            udispname = QCoreApplication::translate("PathManager", "System Disk");
-            goto runend;
-//            blk->mount({});
-//            return;
-        }
-        if (label.length() == 0) {
-            QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(pblk->drive()));
-            if (!drv->mediaAvailable() && drv->mediaCompatibility().join(" ").contains("optical")) {
-                QString maxmediacompat;
-                for (auto i = opticalmediakv.rbegin(); i != opticalmediakv.rend(); ++i) {
-                    if (drv->mediaCompatibility().contains(i->first)) {
-                        maxmediacompat = i->second;
-                        break;
-                    }
-                }
-                udispname = QCoreApplication::translate("DeepinStorage", "%1 Drive").arg(maxmediacompat);
-                goto runend;
-                //            blk->mount({});
-                //            return;
-            }
-            if (drv->opticalBlank()) {
-                udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[drv->media()]);
-                goto runend;
-                //            blk->mount({});
-                //            return;
-            }
-            if (pblk->isEncrypted() && !blk) {
-                udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(qint64(size)));
-                goto runend;
-                //            blk->mount({});
-                //            return;
-            }
-            udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(qint64(size)));
-//            udispname = QCoreApplication::translate("DeepinStorage", "%1 ").arg(formatSize(size));
-//            udispname = QCoreApplication::translate("PathManager", "System Disk");
-            goto runend;
-//            blk->mount({});
-//            return;
-        }
-        udispname = label;
-
-    runend:
-        blk->mount({});
-        QByteArrayList qbl = blk->mountPoints();
-        QString mountPoint = "file://";
-        for (QByteArray qb : qbl) {
-            mountPoint += qb;
-        }
-//        std::accumulate(qbl.first(), qbl.last(), mountPoint);
-        QUrl qurl(mountPoint);
-        durlAndNameMap[qurl] = udispname;
-        return;
-    });
+    connect(m_diskManager, &DDiskManager::fileSystemAdded, this, &AlbumView::onFileSystemAdded);
+    connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, &AlbumView::onBlockDeviceAdded);
     connect(m_importAllByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importAllBtnClicked);
     connect(m_importSelectByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importSelectBtnClicked);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-    //
     connect(m_pLeftListView->m_pCustomizeListView, &LeftListWidget::signalDropEvent, this, &AlbumView::onLeftListDropEvent);
-    //
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
-        DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
-        ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-        m_pRecoveryBtn->setPalette(ReBtn);
-
-        DPalette DeBtn = DApplicationHelper::instance()->palette(m_pDeleteBtn);
-        DeBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
-        m_pDeleteBtn->setPalette(DeBtn);
-        //add start 3975
-        DPalette palcolor = DApplicationHelper::instance()->palette(m_pNoTrashWidget);
-        palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
-        m_pNoTrashWidget->setPalette(palcolor);
-
-        DPalette ppal_light = DApplicationHelper::instance()->palette(m_pNoTrashTitle);
-        ppal_light.setBrush(DPalette::Background, ppal_light.color(DPalette::Base));
-        m_pNoTrashTitle->setPalette(ppal_light);
-
-        DPalette palcolor2 = DApplicationHelper::instance()->palette(m_pFavoriteWidget);
-        palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
-        m_pFavoriteWidget->setPalette(palcolor2);
-
-        DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_FavoriteTitle);
-        ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
-        m_FavoriteTitle->setPalette(ppal_light2);
-
-        DPalette palcolor3 = DApplicationHelper::instance()->palette(m_pTrashWidget);
-        palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
-        m_pTrashWidget->setPalette(palcolor3);
-
-        DPalette ppal_light3 = DApplicationHelper::instance()->palette(m_TrashTitle);
-        ppal_light3.setBrush(DPalette::Background, ppal_light3.color(DPalette::Base));
-        m_TrashTitle->setPalette(ppal_light3);
-        //add end 3975
-
-        DPalette pal = DApplicationHelper::instance()->palette(m_pFavoritePicTotal);
-        QColor color_BT = pal.color(DPalette::BrightText);
-        if (themeType == DGuiApplicationHelper::LightType) {
-            color_BT.setAlphaF(0.5);
-            pal.setBrush(DPalette::Text, color_BT);
-        } else if (themeType == DGuiApplicationHelper::DarkType) {
-            color_BT.setAlphaF(0.75);
-            pal.setBrush(DPalette::Text, color_BT);
-        }
-        m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
-        m_pFavoritePicTotal->setPalette(pal);
-        m_pRightPicTotal->setForegroundRole(DPalette::Text);
-        m_pRightPicTotal->setPalette(pal);
-        pLabel2->setForegroundRole(DPalette::Text);
-        pLabel2->setPalette(pal);
-        // 设备相册界面标题
-        DPalette phonePal = DApplicationHelper::instance()->palette(m_pPhonePicTotal);
-        QColor phone_Color_BT = phonePal.color(DPalette::BrightText);
-        if (themeType == DGuiApplicationHelper::LightType) {
-            phone_Color_BT.setAlphaF(0.5);
-            phonePal.setBrush(DPalette::Text, phone_Color_BT);
-        } else if (themeType == DGuiApplicationHelper::DarkType) {
-            phone_Color_BT.setAlphaF(0.75);
-            phonePal.setBrush(DPalette::Text, phone_Color_BT);
-        }
-        m_pPhonePicTotal->setForegroundRole(DPalette::Text);
-        m_pPhonePicTotal->setPalette(phonePal);
-
-    });
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &AlbumView::onThemeTypeChanged);
 #if 1
     connect(m_pRightThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
-    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::customContextMenuRequested, this, [ = ] {
-        QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
-        if (0 < paths.length())
-        {
-            m_importSelectByPhoneBtn->setEnabled(true);
-        } else
-        {
-            m_importSelectByPhoneBtn->setEnabled(false);
-        }
-
-        updatePicNum();
-    });
-
+    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onRightPhoneCustomContextMenuRequested);
     connect(m_pRightThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
-    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigMouseRelease, this, [ = ] {
-        QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
-        if (0 < paths.length())
-        {
-            m_importSelectByPhoneBtn->setEnabled(true);
-        } else
-        {
-            m_importSelectByPhoneBtn->setEnabled(false);
-        }
-
-        updatePicNum();
-    });
+    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onRightPhoneThumbnailListMouseRelease);
     connect(m_pImpTimeLineWidget, &ImportTimeLineView::sigUpdatePicNum, this, &AlbumView::updatePicNum);
-
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onTrashListClicked);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
 #endif
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onTrashListClicked);
-    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
-        m_pRightTitle->setVisible(false);
-        m_pRightPicTotal->setVisible(false);
-        emit dApp->signalM->startImprot();
-        m_pImportView->onImprotBtnClicked();
-    });
-    connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
-        if (isVisible())
-        {
-            m_spinner->hide();
-            m_spinner->stop();
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-            m_pStatusBar->setVisible(false);
-        }
-    });
+    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AlbumView::onImportViewImportBtnClicked);
+    connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &AlbumView::onImportFailedToView);
     connect(m_importByPhoneComboBox, &DComboBox::currentTextChanged, this, &AlbumView::importComboBoxChange);
-    connect(dApp->signalM, &SignalManager::updateFavoriteNum, this, [ = ] {
-        m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
-        QString favoriteStr = tr("%1 photo(s)");
-        m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
-    });
+    connect(dApp->signalM, &SignalManager::updateFavoriteNum, this, &AlbumView::onUpdateFavoriteNum);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AlbumView::onKeyDelete);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyF2, this, &AlbumView::onKeyF2);
     //2020年03月26日15:12:23
     connect(dApp->signalM, &SignalManager::waitDevicescan, this, &AlbumView::importDialog);
-    connect(m_waitDailog_timer, &QTimer::timeout, this, [ = ] {
-        m_waitDeviceScandialog->m_ignoreDeviceScan->setEnabled(true);
-        m_waitDeviceScandialog->m_closeDeviceScan->setEnabled(true);
-        m_waitDailog_timer->stop();
-    });
+    connect(m_waitDailog_timer, &QTimer::timeout, this, &AlbumView::onWaitDailogTimeout);
     //在外部绑定内部按钮事件
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
-    connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, [ = ](const QModelIndex & index) {
-        Q_UNUSED(index);
-        m_pRightPhoneThumbnailList->stopLoadAndClear(false);
-        m_pLeftListView->setFocus();
-        updateRightView();
-    });
+    connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, &AlbumView::onLeftListViewMountListWidgetClicked);
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
     connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
     //lmh手机加载图片边加载，边传输信息
-    connect(dApp->signalM, &SignalManager::sigPhonePath, this, [ = ](QString PhoneName, QString pathName) {
-        if (!m_phoneNameAndPathlist[PhoneName].contains(pathName)) {
-            m_phoneNameAndPathlist[PhoneName] << pathName;
-            emit dApp->signalM->sigDevStop(PhoneName);
-            ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[PhoneName], PhoneName);
-        }
-        QString strPath;
-        if (m_pLeftListView->m_pMountListWidget->currentItem()) {
-            strPath = m_pLeftListView->m_pMountListWidget->currentItem()->data(Qt::UserRole).toString();
-        }
-        //m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
-        if (strPath == PhoneName) {
-            //判断状态栏
-            if (!m_pStatusBar->isVisible()) {
-                m_pStatusBar->setVisible(true);
-
-            }
-            if (RIGHT_VIEW_PHONE != m_pRightStackWidget->currentIndex()) {
-                m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
-            }
-            QString str1 = tr("%1 photo(s)");
-            m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
-            QString str = tr("%1 photo(s)");
-            m_pPhonePicTotal->setText(str.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
-            if (m_currentViewPictureCount == m_pRightPhoneThumbnailList->model()->rowCount()) {
-                m_currentViewPictureCount = m_phoneNameAndPathlist[PhoneName].count();
-                if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore) {
-                    if (isVisible()) {
-                        emit dApp->signalM->waitDevicescan();
-                    }
-                    m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
-                } else if (!isIgnore) {
-                    m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
-                }
-            }
-            // updateRightMountView();
-        }
-    }, Qt::QueuedConnection);
+    connect(dApp->signalM, &SignalManager::sigPhonePath, this, &AlbumView::onPhonePath ,Qt::QueuedConnection);
 }
 
 void AlbumView::initLeftView()
@@ -2327,6 +2047,320 @@ void AlbumView::onWaitDialogIgnore()
     isIgnore = false;
     m_waitDeviceScandialog->hide();
     this->setEnabled(true);
+}
+
+void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName)
+{
+    Q_UNUSED(importPaths)
+    if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2) {
+        m_pRightThumbnailList->selectDuplicatePhotos(duplicatePaths);
+    }
+}
+
+void AlbumView::onRightFavoriteThumbnailListNeedResize(int h)
+{
+    if (!m_pRightFavoriteThumbnailList->checkResizeNum())
+        return ;
+    if (isVisible()) {
+        int mh = h;
+        m_pRightFavoriteThumbnailList->setFixedHeight(mh + 27);
+        m_FavoriteItem->setSizeHint(m_pRightFavoriteThumbnailList->size());
+    }
+}
+
+void AlbumView::onRightTrashThumbnailListNeedResize(int h)
+{
+    if (!m_pRightTrashThumbnailList->checkResizeNum())
+        return ;
+    if (isVisible()) {
+        int mh = h;
+        m_pRightTrashThumbnailList->setFixedHeight(mh + 27);
+        m_TrashitemItem->setSizeHint(m_pRightTrashThumbnailList->size());
+    }
+}
+
+void AlbumView::onRightThumbnailListNeedResize(int h)
+{
+    if (!m_pRightThumbnailList->checkResizeNum())
+        return ;
+    if (isVisible()) {
+        int mh = h;
+        m_pRightThumbnailList->setFixedHeight(mh + 27);
+        m_noTrashItem->setSizeHint(m_pRightThumbnailList->size());
+    }
+}
+
+void AlbumView::ongMouseMove()
+{
+    updatePicNum();
+}
+
+void AlbumView::onSelectAll()
+{
+    m_pRecoveryBtn->setEnabled(true);
+    updatePicNum();
+}
+
+void AlbumView::onInsertedIntoAlbum(QString albumname, QStringList pathlist)
+{
+    qDebug() << "添加到目的相册：" << albumname;
+    Q_UNUSED(pathlist);
+    if (m_currentAlbum != albumname) {
+        return;
+    }
+    if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentAlbum) //如果需要更新的为当前界面
+        updateRightView();
+}
+
+void AlbumView::onFinishLoad()
+{
+    m_pImpTimeLineWidget->m_mainListWidget->update();
+    m_pRightThumbnailList->update();
+    m_pRightFavoriteThumbnailList->update();
+    m_pRightTrashThumbnailList->update();
+}
+
+void AlbumView::onFileSystemAdded(const QString & dbusPath)
+{
+    DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
+    blDev->mount({});
+}
+
+void AlbumView::onBlockDeviceAdded(const QString &blks)
+{
+    QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
+    QScopedPointer<DDiskDevice> drv1(DDiskManager::createDiskDevice(blk->drive()));
+    if (!blk->hasFileSystem() && !drv1->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+        return;
+    }
+    if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
+        return;
+    }
+    DBlockDevice *pblk = blk.data();
+    QByteArrayList mps = blk->mountPoints();
+    qulonglong size = blk->size();
+    QString label = blk->idLabel();
+    QString fs = blk->idType();
+    QString udispname = "";
+    if (label.startsWith(ddeI18nSym)) {
+        QString i18nKey = label.mid(ddeI18nSym.size(), label.size() - ddeI18nSym.size());
+        udispname = qApp->translate("DeepinStorage", i18nMap.value(i18nKey, i18nKey.toUtf8().constData()));
+        goto runend;
+    }
+
+    if (mps.contains(QByteArray("/\0", 2))) {
+        udispname = QCoreApplication::translate("PathManager", "System Disk");
+        goto runend;
+    }
+    if (label.length() == 0) {
+        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(pblk->drive()));
+        if (!drv->mediaAvailable() && drv->mediaCompatibility().join(" ").contains("optical")) {
+            QString maxmediacompat;
+            for (auto i = opticalmediakv.rbegin(); i != opticalmediakv.rend(); ++i) {
+                if (drv->mediaCompatibility().contains(i->first)) {
+                    maxmediacompat = i->second;
+                    break;
+                }
+            }
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Drive").arg(maxmediacompat);
+            goto runend;
+        }
+        if (drv->opticalBlank()) {
+            udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[drv->media()]);
+            goto runend;
+        }
+        if (pblk->isEncrypted() && !blk) {
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(qint64(size)));
+            goto runend;
+        }
+        udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(qint64(size)));
+        goto runend;
+    }
+    udispname = label;
+
+runend:
+    blk->mount({});
+    QByteArrayList qbl = blk->mountPoints();
+    QString mountPoint = "file://";
+    for (QByteArray qb : qbl) {
+        mountPoint += qb;
+    }
+    QUrl qurl(mountPoint);
+    durlAndNameMap[qurl] = udispname;
+    return;
+}
+
+void AlbumView::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)
+{
+    DPalette ReBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
+    ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+    m_pRecoveryBtn->setPalette(ReBtn);
+
+    DPalette DeBtn = DApplicationHelper::instance()->palette(m_pDeleteBtn);
+    DeBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
+    m_pDeleteBtn->setPalette(DeBtn);
+    //add start 3975
+    DPalette palcolor = DApplicationHelper::instance()->palette(m_pNoTrashWidget);
+    palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
+    m_pNoTrashWidget->setPalette(palcolor);
+
+    DPalette ppal_light = DApplicationHelper::instance()->palette(m_pNoTrashTitle);
+    ppal_light.setBrush(DPalette::Background, ppal_light.color(DPalette::Base));
+    m_pNoTrashTitle->setPalette(ppal_light);
+
+    DPalette palcolor2 = DApplicationHelper::instance()->palette(m_pFavoriteWidget);
+    palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
+    m_pFavoriteWidget->setPalette(palcolor2);
+
+    DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_FavoriteTitle);
+    ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
+    m_FavoriteTitle->setPalette(ppal_light2);
+
+    DPalette palcolor3 = DApplicationHelper::instance()->palette(m_pTrashWidget);
+    palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
+    m_pTrashWidget->setPalette(palcolor3);
+
+    DPalette ppal_light3 = DApplicationHelper::instance()->palette(m_TrashTitle);
+    ppal_light3.setBrush(DPalette::Background, ppal_light3.color(DPalette::Base));
+    m_TrashTitle->setPalette(ppal_light3);
+    //add end 3975
+
+    DPalette pal = DApplicationHelper::instance()->palette(m_pFavoritePicTotal);
+    QColor color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+    }
+    m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
+    m_pFavoritePicTotal->setPalette(pal);
+    m_pRightPicTotal->setForegroundRole(DPalette::Text);
+    m_pRightPicTotal->setPalette(pal);
+    pLabel2->setForegroundRole(DPalette::Text);
+    pLabel2->setPalette(pal);
+    // 设备相册界面标题
+    DPalette phonePal = DApplicationHelper::instance()->palette(m_pPhonePicTotal);
+    QColor phone_Color_BT = phonePal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        phone_Color_BT.setAlphaF(0.5);
+        phonePal.setBrush(DPalette::Text, phone_Color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        phone_Color_BT.setAlphaF(0.75);
+        phonePal.setBrush(DPalette::Text, phone_Color_BT);
+    }
+    m_pPhonePicTotal->setForegroundRole(DPalette::Text);
+    m_pPhonePicTotal->setPalette(phonePal);
+}
+
+void AlbumView::onRightPhoneCustomContextMenuRequested()
+{
+    QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+    if (0 < paths.length())
+    {
+        m_importSelectByPhoneBtn->setEnabled(true);
+    } else
+    {
+        m_importSelectByPhoneBtn->setEnabled(false);
+    }
+
+    updatePicNum();
+}
+
+void AlbumView::onRightPhoneThumbnailListMouseRelease()
+{
+    QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+    if (0 < paths.length())
+    {
+        m_importSelectByPhoneBtn->setEnabled(true);
+    } else
+    {
+        m_importSelectByPhoneBtn->setEnabled(false);
+    }
+
+    updatePicNum();
+}
+
+void AlbumView::onImportViewImportBtnClicked()
+{
+    m_pRightTitle->setVisible(false);
+    m_pRightPicTotal->setVisible(false);
+    emit dApp->signalM->startImprot();
+    m_pImportView->onImprotBtnClicked();
+}
+
+void AlbumView::onImportFailedToView()
+{
+    if (isVisible())
+    {
+        m_spinner->hide();
+        m_spinner->stop();
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
+        m_pStatusBar->setVisible(false);
+    }
+}
+
+void AlbumView::onUpdateFavoriteNum()
+{
+    m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
+    QString favoriteStr = tr("%1 photo(s)");
+    m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
+}
+
+void AlbumView::onWaitDailogTimeout()
+{
+    m_waitDeviceScandialog->m_ignoreDeviceScan->setEnabled(true);
+    m_waitDeviceScandialog->m_closeDeviceScan->setEnabled(true);
+    m_waitDailog_timer->stop();
+}
+
+void AlbumView::onLeftListViewMountListWidgetClicked(const QModelIndex & index)
+{
+    Q_UNUSED(index);
+    m_pRightPhoneThumbnailList->stopLoadAndClear(false);
+    m_pLeftListView->setFocus();
+    updateRightView();
+}
+
+void AlbumView::onPhonePath(QString PhoneName, QString pathName)
+{
+    if (!m_phoneNameAndPathlist[PhoneName].contains(pathName)) {
+        m_phoneNameAndPathlist[PhoneName] << pathName;
+        emit dApp->signalM->sigDevStop(PhoneName);
+        ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[PhoneName], PhoneName);
+    }
+    QString strPath;
+    if (m_pLeftListView->m_pMountListWidget->currentItem()) {
+        strPath = m_pLeftListView->m_pMountListWidget->currentItem()->data(Qt::UserRole).toString();
+    }
+    //m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+    if (strPath == PhoneName) {
+        //判断状态栏
+        if (!m_pStatusBar->isVisible()) {
+            m_pStatusBar->setVisible(true);
+
+        }
+        if (RIGHT_VIEW_PHONE != m_pRightStackWidget->currentIndex()) {
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+        }
+        QString str1 = tr("%1 photo(s)");
+        m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
+        QString str = tr("%1 photo(s)");
+        m_pPhonePicTotal->setText(str.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
+        if (m_currentViewPictureCount == m_pRightPhoneThumbnailList->model()->rowCount()) {
+            m_currentViewPictureCount = m_phoneNameAndPathlist[PhoneName].count();
+            if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore) {
+                if (isVisible()) {
+                    emit dApp->signalM->waitDevicescan();
+                }
+                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
+            } else if (!isIgnore) {
+                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
+            }
+        }
+        // updateRightMountView();
+    }
 }
 
 void AlbumView::resizeEvent(QResizeEvent *e)

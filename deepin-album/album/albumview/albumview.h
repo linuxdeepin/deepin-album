@@ -159,6 +159,26 @@ private slots:
     void importDialog();
     void onWaitDialogClose();
     void onWaitDialogIgnore();
+    // change lambda to normal slt
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void onRightFavoriteThumbnailListNeedResize(int h);
+    void onRightTrashThumbnailListNeedResize(int h);
+    void onRightThumbnailListNeedResize(int h);
+    void ongMouseMove();
+    void onSelectAll();
+    void onInsertedIntoAlbum(QString albumname, QStringList pathlist);
+    void onFinishLoad();
+    void onFileSystemAdded(const QString &dbusPath);
+    void onBlockDeviceAdded(const QString & blks);
+    void onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
+    void onRightPhoneCustomContextMenuRequested();
+    void onRightPhoneThumbnailListMouseRelease();
+    void onImportViewImportBtnClicked();
+    void onImportFailedToView();
+    void onUpdateFavoriteNum();
+    void onWaitDailogTimeout();
+    void onLeftListViewMountListWidgetClicked(const QModelIndex & index);
+    void onPhonePath(QString PhoneName, QString pathName);
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
