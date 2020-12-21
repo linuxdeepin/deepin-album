@@ -24,6 +24,8 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 #include "widgets/printhelper.h"
+#include "mainwindow.h"
+#include "allpicview.h"
 #include <DMenu>
 #include <QKeySequence>
 #include <QJsonArray>
@@ -186,6 +188,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         if (album != "Add to new album") {
             if (! DBManager::instance()->isImgExistInAlbum(album, path1)) {
                 emit dApp->signalM->sigAddToAlbToast(album);
+                QStringList paths;
+                paths << path1;
+                // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
+                ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
+                emit SignalManager::instance()->sigSyncListviewModelData(paths, album, IdAddToAlbum);
             }
             DBManager::instance()->insertIntoAlbum(album, QStringList(path1));
         } else {
@@ -405,14 +412,29 @@ DMenu *ViewPanel::createAblumMenu()
     am->addAction(ac1);
     am->addSeparator();
 
+    QStringList albumNames;
+    if (albums.count() > 0) {
+        QStandardItemModel *pTempModel = dApp->getMainWindow()->m_pAllPicView->getAllPicThumbnailListViewModel()->m_model;
+        for (int i = 0; i < pTempModel->rowCount(); i++) {
+            QModelIndex idx = pTempModel->index(i, 0);
+            QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
+            if (lst.count() >= 12) {
+                if (lst.at(1).toString() == m_currentpath) {
+                    albumNames = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
+                }
+            }
+        }
+    }
     for (QString album : albums) {
         QAction *ac = new QAction(am);
         ac->setProperty("MenuID", IdAddToAlbum);
         ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
         ac->setData(album);
         am->addAction(ac);
+        if (albumNames.contains(album)) {
+            ac->setEnabled(false);
+        }
     }
-
     return am;
 }
 #endif

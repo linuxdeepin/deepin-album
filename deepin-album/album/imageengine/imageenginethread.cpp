@@ -693,6 +693,9 @@ void ImageLoadFromDBThread::run()
 
     //删除数据库失效的图片
     DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+    // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
+    ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
+
     //先处理图片再存数据库
     emit sigImageLoaded(m_imgobject, image_list);
 

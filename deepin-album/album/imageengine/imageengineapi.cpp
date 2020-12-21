@@ -513,6 +513,17 @@ int ImageEngineApi::CacheThreadNum()
 #endif
 }
 
+void ImageEngineApi::setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums)
+{
+    m_allPathAndAlbumNames.clear();
+    m_allPathAndAlbumNames = imgPahtAlbums;
+}
+
+const QMultiMap<QString, QString> &ImageEngineApi::getImgPathAndAlbumNames()
+{
+    return m_allPathAndAlbumNames;
+}
+
 //从外部启动，启用线程加载图片
 bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj)
 {

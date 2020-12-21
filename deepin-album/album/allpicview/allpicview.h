@@ -44,6 +44,7 @@ public:
     }
     void restorePicNum();
     void updatePicNum();
+    const ThumbnailListView *getAllPicThumbnailListViewModel();
 
 private:
     void initConnections();

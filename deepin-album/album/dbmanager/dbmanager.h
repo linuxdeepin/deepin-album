@@ -123,6 +123,7 @@ public:
     const DBImgInfoList     getInfosForKeyword(const QString &album, const QString &keywords) const;
 
     // TableAlbum
+    const QMultiMap<QString, QString> getAllPathAlbumNames() const;
     const QStringList       getAllAlbumNames(AlbumDBType atype = AlbumDBType::Custom) const;
     const QStringList       getPathsByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     const DBImgInfoList     getInfosByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;

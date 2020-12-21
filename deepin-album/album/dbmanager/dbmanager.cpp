@@ -927,8 +927,6 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
 
 const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QString &keywords) const
 {
-
-
 //    QString queryStr = "SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
 //                       "WHERE FileName like \'\%%1\%\' OR Time like \'\%%1\%\' ORDER BY Time DESC";
 
@@ -969,6 +967,37 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
     }
 //    // 连接使用完后需要释放回数据库连接池
     //ConnectionPool::closeConnection(db);
+    db.close();
+    return infos;
+}
+
+const QMultiMap<QString, QString> DBManager::getAllPathAlbumNames() const
+{
+    QMutexLocker mutex(&m_mutex);
+
+    QMultiMap<QString, QString> infos;
+    infos.clear();
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return infos;
+    }
+
+    QString queryStr = "SELECT DISTINCT i.FilePath, a.AlbumName "
+                       "FROM ImageTable3 AS i, AlbumTable3 AS a "
+                       "inner join AlbumTable3 on i.PathHash=a.PathHash "
+                       "where a.AlbumDBType = 1";
+
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    query.prepare(queryStr);
+    if (! query.exec()) {
+           qWarning() << "getAllPathAlbumNames failed: " << query.lastError();
+    } else {
+        using namespace utils::base;
+        while (query.next()) {
+            infos.insert(query.value(0).toString(), query.value(1).toString());
+        }
+    }
     db.close();
     return infos;
 }

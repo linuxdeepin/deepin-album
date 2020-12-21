@@ -159,6 +159,7 @@ signals:
     void progressOfWaitDialog(int allfiles, int completefiles);
     void waitDevicescan();
     void cacheThreadStop();
+    void sigSyncListviewModelData(QStringList paths, QString albumName, int actionType);
 
     //lmh手机加载图片边加载，边传输信息
     void sigPhonePath(QString PhoneName, QString pathName);

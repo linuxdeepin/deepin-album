@@ -294,6 +294,11 @@ void AllPicView::updatePicNum()
     }
 }
 
+const ThumbnailListView *AllPicView::getAllPicThumbnailListViewModel()
+{
+    return m_pThumbnailListView;
+}
+
 void AllPicView::restorePicNum()
 {
     QString str = tr("%1 photo(s)");

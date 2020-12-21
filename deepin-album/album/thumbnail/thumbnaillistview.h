@@ -151,6 +151,7 @@ public:
     void setListViewUseFor(ListViewUseFor usefor);
     void selectDuplicateForOneListView(QStringList paths, QModelIndex &firstIndex);
     void selectDuplicatePhotos(QStringList paths, bool bMultiListView = false);
+    void updateModelRoleData(QString albumName, int actionType);
 signals:
 //    void loadend(int);
     void needResize(int);

@@ -40,6 +40,8 @@ public:
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "", int loadCount = 0);
     bool SaveImagesCache(QStringList files);
     int CacheThreadNum();
+    void setImgPathAndAlbumNames(const QMultiMap<QString, QString>& imgPahtAlbums);
+    const QMultiMap<QString, QString>& getImgPathAndAlbumNames();
 
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
@@ -86,6 +88,7 @@ signals:
     void sigLoadOneThumbnailToThumbnailView(QString imagepath, ImageDataSt data);
 public:
     QMap<QString, ImageDataSt>m_AllImageData;
+    QMultiMap<QString, QString> m_allPathAndAlbumNames;
     bool m_80isLoaded = false;
 private:
     explicit ImageEngineApi(QObject *parent = nullptr);
