@@ -17,6 +17,8 @@ public:
 signals:
     void deleteAlbum();
 
+private slots:
+    void onButtonClicked(int index, const QString & text);
 };
 
 #endif // ALBUMDELETEDIALOG_H

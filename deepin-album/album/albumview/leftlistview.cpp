@@ -50,116 +50,15 @@ void LeftListView::initConnections()
     connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onPhotoLibListViewPressed);
     connect(m_pCustomizeListView, &DListWidget::pressed, this, &LeftListView::onCustomListViewPressed);
     connect(m_pMountListWidget, &DListWidget::pressed, this, &LeftListView::onMountListViewPressed);
-    connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, [ = ] {
-        m_pCustomizeListView->clearSelection();
-        m_pMountListWidget->clearSelection();
-        updateAlbumItemsColor();
-        if (m_pPhotoLibListView->currentItem())
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-            item->newAlbumStatus();
-            if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
-                m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
-                m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
-            } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
-                m_ItemCurrentName = COMMON_STR_TRASH;
-                m_ItemCurrentType = COMMON_STR_TRASH;
-            } else {
-                m_ItemCurrentName = COMMON_STR_FAVORITES;
-                m_ItemCurrentType = COMMON_STR_FAVORITES;
-            }
-        }
-    });
-
-    connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, [ = ] {
-        qDebug() << "m_pCustomizeListView, &DListWidget::currentItemChanged";
-        if (0 < m_pCustomizeListView->count())
-        {
-            m_pPhotoLibListView->clearSelection();
-            m_pMountListWidget->clearSelection();
-            updateAlbumItemsColor();
-            if (m_pCustomizeListView->currentItem()) {
-                AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
-                item->newAlbumStatus();
-                m_ItemCurrentName = item->m_albumNameStr;
-            }
-            m_ItemCurrentType = COMMON_STR_CUSTOM;
-        }
-    });
-
-    connect(m_pMountListWidget, &DListWidget::currentItemChanged, this, [ = ] {
-        if (0 < m_pMountListWidget->count())
-        {
-            m_pPhotoLibListView->clearSelection();
-            m_pCustomizeListView->clearSelection();
-            updateAlbumItemsColor();
-            if (m_pMountListWidget->currentItem()) {
-                AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
-                if (nullptr != item) {
-                    item->newAlbumStatus();
-                    m_ItemCurrentName = item->m_albumNameStr;
-                }
-            }
-            m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
-        }
-    });
+    connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, &LeftListView::onPhotoLibListViewCurrentItemChanged);
+    connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, &LeftListView::onCustomizeListViewCurrentItemChanged);
+    connect(m_pMountListWidget, &DListWidget::currentItemChanged, this, &LeftListView::onMountListWidgetCurrentItemChanged);
     connect(m_pCustomizeListView, &QListView::customContextMenuRequested, this, &LeftListView::showMenu);
     connect(m_pMenu, &DMenu::triggered, this, &LeftListView::onMenuClicked);
-    connect(m_pAddListBtn, &DPushButton::clicked, this, [ = ] {
-        emit dApp->signalM->createAlbum(QStringList(" "));
-    });
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [ = ] {
-        if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType)
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-            item->newAlbumStatus();
-            item->oriAlbumStatus();
-        }
-        if (COMMON_STR_TRASH == m_ItemCurrentType)
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-            item->newAlbumStatus();
-            item->oriAlbumStatus();
-        }
-        if (COMMON_STR_FAVORITES == m_ItemCurrentType)
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-            item->newAlbumStatus();
-            item->oriAlbumStatus();
-        }
-        if (COMMON_STR_CUSTOM == m_ItemCurrentType)
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
-            item->newAlbumStatus();
-            item->oriAlbumStatus();
-        }
-        if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType)
-        {
-            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
-            item->newAlbumStatus();
-            item->oriAlbumStatus();
-        }
-    });
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
-            m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",
-                                          ":/resources/images/sidebar/active/add_hover.svg",
-                                          ":/resources/images/sidebar/active/add_press.svg",
-                                          ":/resources/images/sidebar/active/add_focus.svg");
-        }
-        if (themeType == DGuiApplicationHelper::DarkType)
-        {
-            m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/active/add_normal_dark.svg",
-                                          ":/resources/images/sidebar/active/add_hover_dark.svg",
-                                          ":/resources/images/sidebar/active/add_press_dark.svg",
-                                          ":/resources/images/sidebar/active/add_focus_dark.svg");
-        }
-    });
-    connect(m_pMountListWidget, &LeftListWidget::sigMousePressIsNoValid, this, [ = ] {
-        setFocusPolicy(Qt::ClickFocus);
-    });
+    connect(m_pAddListBtn, &DPushButton::clicked, this, &LeftListView::onAddListBtnClicked);
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &LeftListView::onApplicationHelperThemeTypeChanged);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &LeftListView::onGuiApplicationHelperThemeTypeChanged);
+    connect(m_pMountListWidget, &LeftListWidget::sigMousePressIsNoValid, this, &LeftListView::onMousePressIsNoValid);
     connect(SignalManager::instance(), &SignalManager::updateLeftListview, this, &LeftListView::onUpdateLeftListview);
 }
 
@@ -567,6 +466,127 @@ void LeftListView::onMountListViewPressed(const QModelIndex &index)
     m_pMountListWidget->setFocus();
     emit itemClicked();
 }
+
+void LeftListView::onPhotoLibListViewCurrentItemChanged()
+{
+    m_pCustomizeListView->clearSelection();
+    m_pMountListWidget->clearSelection();
+    updateAlbumItemsColor();
+    if (m_pPhotoLibListView->currentItem())
+    {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
+        item->newAlbumStatus();
+        if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
+            m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
+        } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_TRASH;
+            m_ItemCurrentType = COMMON_STR_TRASH;
+        } else {
+            m_ItemCurrentName = COMMON_STR_FAVORITES;
+            m_ItemCurrentType = COMMON_STR_FAVORITES;
+        }
+    }
+}
+
+void LeftListView::onCustomizeListViewCurrentItemChanged()
+{
+    if (0 < m_pCustomizeListView->count())
+    {
+        m_pPhotoLibListView->clearSelection();
+        m_pMountListWidget->clearSelection();
+        updateAlbumItemsColor();
+        if (m_pCustomizeListView->currentItem()) {
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
+            item->newAlbumStatus();
+            m_ItemCurrentName = item->m_albumNameStr;
+        }
+        m_ItemCurrentType = COMMON_STR_CUSTOM;
+    }
+}
+
+void LeftListView::onMountListWidgetCurrentItemChanged()
+{
+    if (0 < m_pMountListWidget->count())
+    {
+        m_pPhotoLibListView->clearSelection();
+        m_pCustomizeListView->clearSelection();
+        updateAlbumItemsColor();
+        if (m_pMountListWidget->currentItem()) {
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
+            if (nullptr != item) {
+                item->newAlbumStatus();
+                m_ItemCurrentName = item->m_albumNameStr;
+            }
+        }
+        m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
+    }
+}
+
+void LeftListView::onAddListBtnClicked()
+{
+    emit dApp->signalM->createAlbum(QStringList(" "));
+}
+
+void LeftListView::onApplicationHelperThemeTypeChanged()
+{
+    if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType)
+    {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
+        item->newAlbumStatus();
+        item->oriAlbumStatus();
+    }
+    if (COMMON_STR_TRASH == m_ItemCurrentType)
+    {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
+        item->newAlbumStatus();
+        item->oriAlbumStatus();
+    }
+    if (COMMON_STR_FAVORITES == m_ItemCurrentType)
+    {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
+        item->newAlbumStatus();
+        item->oriAlbumStatus();
+    }
+    if (COMMON_STR_CUSTOM == m_ItemCurrentType)
+    {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
+        item->newAlbumStatus();
+        item->oriAlbumStatus();
+    }
+    if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType)
+    {
+        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
+        item->newAlbumStatus();
+        item->oriAlbumStatus();
+    }
+}
+
+void LeftListView::onGuiApplicationHelperThemeTypeChanged()
+{
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",
+                                      ":/resources/images/sidebar/active/add_hover.svg",
+                                      ":/resources/images/sidebar/active/add_press.svg",
+                                      ":/resources/images/sidebar/active/add_focus.svg");
+    }
+    if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/active/add_normal_dark.svg",
+                                      ":/resources/images/sidebar/active/add_hover_dark.svg",
+                                      ":/resources/images/sidebar/active/add_press_dark.svg",
+                                      ":/resources/images/sidebar/active/add_focus_dark.svg");
+    }
+}
+
+void LeftListView::onMousePressIsNoValid()
+{
+    setFocusPolicy(Qt::ClickFocus);
+}
+
+
 
 QString LeftListView::getNewAlbumName()
 {

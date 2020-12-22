@@ -37,11 +37,11 @@ public:
     }
     void updateStackedWidget();
     int getIBaseHeight();
-//signals:
-//    void albumviewResize();
+
 signals:
     void sigResizeTimelineBlock();
 public slots:
+
     void on_AddLabel(QString date, QString num);
     void on_DelLabel();
 #if 1
@@ -51,7 +51,6 @@ public slots:
 
 protected:
     void resizeEvent(QResizeEvent *ev) override;
-
     void showEvent(QShowEvent *ev) override;
 
 private:
@@ -59,25 +58,22 @@ private:
     void initConnections();
     void sigImprotPicsIntoThumbnailView();
     void getImageInfos();
-
     void initMainStackWidget();
+
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
-
     void keyPressEvent(QKeyEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
+
 public:
-//    void updataLayout();
-//    void updateLayout(QStringList updatePathList = QStringList());          //旋转图片更新视图
     void clearAndStartLayout();
     void addTimelineLayout();
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
     void resizeHand();  //手动计算大小
-
 #if 1
     QStringList selectPaths();
     void updateChoseText();
@@ -88,6 +84,10 @@ private slots:
      * 调整已导入界面的整体大小
      */
     void updateSize();
+    void onNewTime(QString date, QString num, int index);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void onSuspensionChoseBtnClicked();
+
 signals:
     void sigUpdatePicNum();
 
@@ -108,20 +108,18 @@ private:
     DSlider *m_DSlider;
     QList<ThumbnailListView *> m_allThumbnailListView;
     QList<DCommandLinkButton *> m_allChoseButton;
-
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
 
     bool m_ctrlPress;
-
     int lastClickedIndex;
     int lastRow;
     int m_lastShiftRow;
     int m_lastShiftClickedIndex;
     bool lastChanged;
     int m_iBaseHeight;
-
     bool m_bshow = false;
+
 public:
     int m_index;
     TimelineList *m_mainListWidget;

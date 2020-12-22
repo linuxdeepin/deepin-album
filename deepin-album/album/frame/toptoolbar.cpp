@@ -113,13 +113,7 @@ void TopToolbar::initWidgets()
 //    pLabel->setPixmap(icon.pixmap(QSize(30, 30)));
 //    m_titlebar->addWidget(pLabel, Qt::AlignLeft);
     m_titlebar->setIcon(QIcon::fromTheme("deepin-album"));
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        Q_UNUSED(themeType);
-        QPalette pa1;
-        pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
-        m_titlebar->setPalette(pa1);
-    });
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TopToolbar::onThemeTypeChanged);
     m_titlebar->setTitle("");
     m_titletxt = new DLabel;
     m_titletxt->setText("");
@@ -136,20 +130,7 @@ void TopToolbar::initWidgets()
     m_titlebar->setPalette(titleBarPA);
     m_titlebar->setBackgroundTransparent(true);
     m_layout->addWidget(m_titlebar);
-    connect(dApp->signalM, &SignalManager::updateFileName,
-    this, [ = ](const QString & filename) {
-        QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
-        m_titletxt->setText(a);
-        m_titletxt->setObjectName(a);
-        m_titletxt->setAccessibleName(a);
-        connect(dApp->signalM, &SignalManager::resizeFileName,
-        this, [ = ]() {
-            QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
-            m_titletxt->setText(b);
-            m_titletxt->setObjectName(b);
-            m_titletxt->setAccessibleName(b);
-        });
-    });
+    connect(dApp->signalM, &SignalManager::updateFileName, this, &TopToolbar::onUpdateFileName);
 }
 
 QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
@@ -160,6 +141,29 @@ QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
         str = fontWidth.elidedText(str, Qt::ElideRight, MaxWidth);
     }
     return str;
+}
+
+void TopToolbar::onThemeTypeChanged()
+{
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    Q_UNUSED(themeType);
+    QPalette pa1;
+    pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+    m_titlebar->setPalette(pa1);
+}
+
+void TopToolbar::onUpdateFileName(const QString &filename)
+{
+    QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
+    m_titletxt->setText(a);
+    m_titletxt->setObjectName(a);
+    m_titletxt->setAccessibleName(a);
+    connect(dApp->signalM, &SignalManager::resizeFileName, this, [ = ]() {
+        QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7), filename, width() - 500);
+        m_titletxt->setText(b);
+        m_titletxt->setObjectName(b);
+        m_titletxt->setAccessibleName(b);
+    });
 }
 
 void TopToolbar::initMenu()

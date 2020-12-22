@@ -46,10 +46,8 @@ DBManager *DBManager::instance()
 
 DBManager::DBManager(QObject *parent)
     : QObject(parent)
-      //, m_connectionName("default_connection")
     , m_db(QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"))
 {
-//    m_db = QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"); //not dbConnection
     m_db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     checkDatabase();
 }
@@ -68,9 +66,6 @@ const QStringList DBManager::getAllPaths() const
                   "FilePath "
                   "FROM ImageTable3"/* ORDER BY Time DESC"*/);
     if (! query.exec()) {
-        //qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
-//        // 连接使用完后需要释放回数据库连接池
-//        ////ConnectionPool::closeConnection(db);
         db.close();
         return paths;
     } else {
@@ -78,8 +73,7 @@ const QStringList DBManager::getAllPaths() const
             paths << query.value(0).toString();
         }
     }
-//    // 连接使用完后需要释放回数据库连接池
-    ////ConnectionPool::closeConnection(db);
+    // 连接使用完后需要释放回数据库连接池
     db.close();
 
     return paths;
@@ -116,8 +110,7 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount) const
             infos << info;
         }
     }
-//    // 连接使用完后需要释放回数据库连接池
-    ////ConnectionPool::closeConnection(db);
+    // 连接使用完后需要释放回数据库连接池
     //db.close();
     return infos;
 }
@@ -134,9 +127,6 @@ const QStringList DBManager::getAllTimelines() const
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT Time FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
-        //   qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
-//        // 连接使用完后需要释放回数据库连接池
-        //ConnectionPool::closeConnection(db);
         db.close();
         return times;
     } else {
@@ -144,8 +134,7 @@ const QStringList DBManager::getAllTimelines() const
             times << query.value(0).toString();
         }
     }
-//    // 连接使用完后需要释放回数据库连接池
-    //ConnectionPool::closeConnection(db);
+    // 连接使用完后需要释放回数据库连接池
     db.close();
 
     return times;
@@ -180,8 +169,7 @@ const QStringList DBManager::getImportTimelines() const
             importtimes << query.value(0).toString();
         }
     }
-//    // 连接使用完后需要释放回数据库连接池
-    //ConnectionPool::closeConnection(db);
+    // 连接使用完后需要释放回数据库连接池
     db.close();
     return importtimes;
 }
@@ -241,13 +229,11 @@ int DBManager::getImgsCount() const
         query.first();
         int count = query.value(0).toInt();
         query.exec("COMMIT");
-//        // 连接使用完后需要释放回数据库连接池
-        //ConnectionPool::closeConnection(db);
+        // 连接使用完后需要释放回数据库连接池
         //db.close();
         return count;
     }
-//    // 连接使用完后需要释放回数据库连接池
-    //ConnectionPool::closeConnection(db);
+    // 连接使用完后需要释放回数据库连接池
     //db.close();
     return 0;
 }

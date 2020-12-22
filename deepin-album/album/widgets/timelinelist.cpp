@@ -2,36 +2,6 @@
 #include "controller/signalmanager.h"
 #include <QScrollBar>
 
-//TimelineListDelegate::TimelineListDelegate(QObject *parent)
-//    : QStyledItemDelegate(parent)
-//{
-//}
-
-//void TimelineListDelegate::paint(QPainter *painter,
-//                                 const QStyleOptionViewItem &option,
-//                                 const QModelIndex &index) const
-//{
-//    int row = index.row();
-//    int x = option.rect.x();
-//    int y = option.rect.y();
-//    int width = option.rect.width();
-//    int height = option.rect.height();
-
-//    QStyleOptionViewItem loption = option;
-//    if (row == 0 ) { //UE
-//        //qDebug()<<"row == 0";
-
-//        //选项
-//        QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-//        FrameOption->rect = QRect(x, y, width, 50);
-//        //绘制
-//        QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-//        loption.rect = QRect(x, y + 50, width, height - 50);
-//    }
-
-//    return QStyledItemDelegate::paint (painter, loption, index);
-//}
-
 TimelineList::TimelineList(QWidget *parent)
     : DListWidget(parent), has(false), m_scrollbartopdistance(50)
     , m_scrollbarbottomdistance(27)
@@ -42,17 +12,7 @@ TimelineList::TimelineList(QWidget *parent)
     setFlow(QListView::TopToBottom);
     setSpacing(0);
     setDragEnabled(false);
-    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
-        Q_UNUSED(max);
-        Q_UNUSED(min);
-        QScrollBar *bar = this->verticalScrollBar();
-        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
-    });
-//    TimelineListDelegate *m_delegate = new TimelineListDelegate;
-//    setItemDelegate(m_delegate);
-
-//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, &TimelineList::onRangeChanged);
     installEventFilter(this);
 }
 
@@ -61,7 +21,14 @@ void TimelineList::addItemForWidget(QListWidgetItem *aitem)
     int y = 1;
     yList.append(y);
     this->addItem(aitem);
+}
 
+void TimelineList::onRangeChanged(int min, int max)
+{
+    Q_UNUSED(max);
+    Q_UNUSED(min);
+    QScrollBar *bar = this->verticalScrollBar();
+    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
 }
 
 void TimelineList::dragMoveEvent(QDragMoveEvent *event)
@@ -130,6 +97,5 @@ bool TimelineList::eventFilter(QObject *obj, QEvent *e)
     if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier) {
         return true;
     }
-
     return false;
 }

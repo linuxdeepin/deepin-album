@@ -33,18 +33,33 @@ class MainWidget : public QFrame
 public:
     MainWidget(bool manager, QWidget *parent = nullptr);
     ~MainWidget() override;
+
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *event) override;
+
 private slots:
     void onGotoPanel(ModulePanel *panel);
     void onShowImageInfo(const QString &path);
+    void onBackToMainPanel();
+    void onActiveWindow();
+    void onShowInFileManager(const QString &path);
+    void onMouseMove();
+    void onShowFullScreen();
+    void onUpdateBottomToolbar(bool wideMode);
+    void onUpdateBottomToolbarContent(QWidget * c, bool wideMode);
+    void onShowBottomToolbar();
+    void onHideBottomToolbar(bool immediately);
+    void onUpdateExtensionPanelContent(QWidget * c);
+    void onShowExtensionPanel();
+
 private:
     void initBottomToolbar();
     void initExtensionPanel();
     void initTopToolbar();
     void initConnection();
     void initPanelStack(bool manager);
+
 private:
     QStringList m_infoShowingList;
     QStackedWidget  *m_panelStack;

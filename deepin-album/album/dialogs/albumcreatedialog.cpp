@@ -88,57 +88,16 @@ void AlbumCreateDialog::initUI()
     addButton(tr("Create"), true, DDialog::ButtonRecommend);
     getButton(0)->setFixedSize(170, 35);
     getButton(1)->setFixedSize(170, 35);
-    connect(edit, &DLineEdit::textEdited, this, [ = ](const QString &) {
-        if (edit->text().trimmed().isEmpty()) {
-            getButton(1)->setEnabled(false);
-        } else {
-            getButton(1)->setEnabled(true);
-        }
-    });
+    connect(edit, &DLineEdit::textEdited, this, &AlbumCreateDialog::onTextEdited);
     addContent(contentWidget);
 }
 
 void AlbumCreateDialog::initConnection()
 {
-    connect(this, &AlbumCreateDialog::visibleChanged, this, [ = ](bool v) {
-        if (! v) return;
-        edit->lineEdit()->selectAll();
-        edit->lineEdit()->setFocus();
-    });
-    connect(edit, &DLineEdit::returnPressed, this, [ = ] {
-        const QString album = edit->text().trimmed();
-        if (! album.isEmpty())
-        {
-            createAlbum(album);
-            this->close();
-        }
-    });
-    connect(this, &AlbumCreateDialog::buttonClicked, this, [ = ](int index) {
-        if (0 == index) {
-            deleteLater();
-            emit sigClose();
-        }
-        if (1 == index) {
-            if (edit->text().simplified().length() != 0) {
-                createAlbum(edit->text().trimmed());
-            } else {
-                QString str = tr("Unnamed") + QString::number(1);
-                createAlbum(str);
-            }
-            m_OKClicked = true;
-            this->close();
-        }
-    });
-    connect(this, &AlbumCreateDialog::closed, this, [ = ] {
-        deleteLater();
-        if (true == m_OKClicked)
-        {
-            m_OKClicked = false;
-        } else
-        {
-            emit sigClose();
-        }
-    });
+    connect(this, &AlbumCreateDialog::visibleChanged, this, &AlbumCreateDialog::onVisibleChanged);
+    connect(edit, &DLineEdit::returnPressed, this, &AlbumCreateDialog::onReturnPressed);
+    connect(this, &AlbumCreateDialog::buttonClicked, this, &AlbumCreateDialog::onButtonClicked);
+    connect(this, &AlbumCreateDialog::closed, this, &AlbumCreateDialog::onClosed);
 }
 
 /**
@@ -196,4 +155,60 @@ void AlbumCreateDialog::createAlbum(const QString &newName)
     }
 
     emit albumAdded();
+}
+
+void AlbumCreateDialog::onTextEdited(const QString &)
+{
+    if (edit->text().trimmed().isEmpty()) {
+        getButton(1)->setEnabled(false);
+    } else {
+        getButton(1)->setEnabled(true);
+    }
+}
+
+void AlbumCreateDialog::onVisibleChanged(bool v)
+{
+    if (! v) return;
+    edit->lineEdit()->selectAll();
+    edit->lineEdit()->setFocus();
+}
+
+void AlbumCreateDialog::onReturnPressed()
+{
+    const QString album = edit->text().trimmed();
+    if (! album.isEmpty())
+    {
+        createAlbum(album);
+        this->close();
+    }
+}
+
+void AlbumCreateDialog::onButtonClicked(int index)
+{
+    if (0 == index) {
+        deleteLater();
+        emit sigClose();
+    }
+    if (1 == index) {
+        if (edit->text().simplified().length() != 0) {
+            createAlbum(edit->text().trimmed());
+        } else {
+            QString str = tr("Unnamed") + QString::number(1);
+            createAlbum(str);
+        }
+        m_OKClicked = true;
+        this->close();
+    }
+}
+
+void AlbumCreateDialog::onClosed()
+{
+    deleteLater();
+    if (true == m_OKClicked)
+    {
+        m_OKClicked = false;
+    } else
+    {
+        emit sigClose();
+    }
 }

@@ -56,6 +56,13 @@ public slots:
     void onPhotoLibListViewPressed(const QModelIndex &index);
     void onCustomListViewPressed(const QModelIndex &index);
     void onMountListViewPressed(const QModelIndex &index);
+    void onPhotoLibListViewCurrentItemChanged();
+    void onCustomizeListViewCurrentItemChanged();
+    void onMountListWidgetCurrentItemChanged();
+    void onAddListBtnClicked();
+    void onApplicationHelperThemeTypeChanged();
+    void onGuiApplicationHelperThemeTypeChanged();
+    void onMousePressIsNoValid();
 
 public:
     // 照片库

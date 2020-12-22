@@ -35,7 +35,7 @@ const int VIEW_MAINWINDOW_ALLPIC = 0;
 
 AllPicView::AllPicView()
     : m_pStackedWidget(nullptr), m_pStatusBar(nullptr), m_pwidget(nullptr)
-    , step(0), m_pImportView(nullptr), m_pThumbnailListView(nullptr)
+    , m_pImportView(nullptr), step(0), m_pThumbnailListView(nullptr)
     , m_pSearchView(nullptr), m_spinner(nullptr), fatherwidget(nullptr)
 {
     setAcceptDrops(true);
@@ -71,10 +71,8 @@ AllPicView::AllPicView()
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
-    connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish,
-            this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
-    connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded,
-            this, &AllPicView::updateStackedWidget);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish, this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded, this, &AllPicView::updateStackedWidget);
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
@@ -97,85 +95,19 @@ void AllPicView::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::updatePicsIntoThumbnailView);
-    connect(dApp, &Application::sigFinishLoad, this, [ = ] {
-        m_pThumbnailListView->update();
-    });
+    connect(dApp, &Application::sigFinishLoad, this, &AllPicView::onFinishLoad);
     // 添加重复照片提示
-    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
-        Q_UNUSED(importPaths)
-        if (albumName.length() == 0 && dApp->getMainWindow()->getCurrentViewType() == 0) {
-            m_pThumbnailListView->selectDuplicatePhotos(duplicatePaths);
-        }
-    });
-    connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
-        SignalManager::ViewInfo info;
-        info.album = "";
-        info.lastPanel = nullptr;
-        auto imagelist = m_pThumbnailListView->getAllFileList();
-        if (imagelist.size() > 0) {
-            info.paths << imagelist;
-            info.path = imagelist[index];
-        } else {
-            info.paths.clear();
-        }
-        info.viewType = utils::common::VIEW_ALLPIC_SRN;
-        info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
-
-        emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
-    });
-    connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
-        SignalManager::ViewInfo info;
-        info.album = "";
-        info.lastPanel = nullptr;
-        auto imagelist = m_pThumbnailListView->getAllFileList();
-        if (paths.size() > 1) {
-            info.paths = paths;
-        } else {
-            if (imagelist.size() > 0) {
-                info.paths << imagelist;
-            } else {
-                info.paths.clear();
-            }
-        }
-        info.path = path;
-        info.fullScreen = isFullScreen;
-        info.slideShow = isSlideShow;
-        info.viewType = utils::common::VIEW_ALLPIC_SRN;
-        info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
-        if (info.slideShow) {
-            //lmh0427幻灯片播放选中地址
-            if (paths.count() == 1) {
-                info.paths = imagelist;
-            } else {
-                info.paths = paths;
-            }
-            emit dApp->signalM->startSlideShow(info);
-            emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
-        } else {
-            emit dApp->signalM->viewImage(info);
-            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
-        }
-    });
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &AllPicView::onRepeatImportingTheSamePhotos);
+    connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, &AllPicView::onOpenImage);
+    connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, &AllPicView::onMenuOpenImage);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
-    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, [ = ] {
-        m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
-        emit dApp->signalM->startImprot();
-        m_pImportView->onImprotBtnClicked();
-    });
-    connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, [ = ] {
-        if (isVisible())
-        {
-            m_spinner->hide();
-            m_spinner->stop();
-            updateStackedWidget();
-        }
-    });
+    connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AllPicView::onImportViewImportBtnClicked);
+    connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &AllPicView::onImportFailedToView);
     connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AllPicView::onKeyDelete);
 }
@@ -218,6 +150,90 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
         updateStackedWidget();
     }
     restorePicNum();
+}
+
+void AllPicView::onFinishLoad()
+{
+    m_pThumbnailListView->update();
+}
+
+void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName)
+{
+    Q_UNUSED(importPaths)
+    if (albumName.length() == 0 && dApp->getMainWindow()->getCurrentViewType() == 0) {
+        m_pThumbnailListView->selectDuplicatePhotos(duplicatePaths);
+    }
+}
+
+void AllPicView::onOpenImage(int index)
+{
+    SignalManager::ViewInfo info;
+    info.album = "";
+    info.lastPanel = nullptr;
+    auto imagelist = m_pThumbnailListView->getAllFileList();
+    if (imagelist.size() > 0) {
+        info.paths << imagelist;
+        info.path = imagelist[index];
+    } else {
+        info.paths.clear();
+    }
+    info.viewType = utils::common::VIEW_ALLPIC_SRN;
+    info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
+
+    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
+}
+
+void AllPicView::onMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow)
+{
+    SignalManager::ViewInfo info;
+    info.album = "";
+    info.lastPanel = nullptr;
+    auto imagelist = m_pThumbnailListView->getAllFileList();
+    if (paths.size() > 1) {
+        info.paths = paths;
+    } else {
+        if (imagelist.size() > 0) {
+            info.paths << imagelist;
+        } else {
+            info.paths.clear();
+        }
+    }
+    info.path = path;
+    info.fullScreen = isFullScreen;
+    info.slideShow = isSlideShow;
+    info.viewType = utils::common::VIEW_ALLPIC_SRN;
+    info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
+    if (info.slideShow) {
+        //lmh0427幻灯片播放选中地址
+        if (paths.count() == 1) {
+            info.paths = imagelist;
+        } else {
+            info.paths = paths;
+        }
+        emit dApp->signalM->startSlideShow(info);
+        emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
+    } else {
+        emit dApp->signalM->viewImage(info);
+        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
+    }
+}
+
+void AllPicView::onImportViewImportBtnClicked()
+{
+    m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+    emit dApp->signalM->startImprot();
+    m_pImportView->onImprotBtnClicked();
+}
+
+void AllPicView::onImportFailedToView()
+{
+    if (isVisible())
+    {
+        m_spinner->hide();
+        m_spinner->stop();
+        updateStackedWidget();
+    }
 }
 
 ThumbnailListView *AllPicView::getThumbnailListView()

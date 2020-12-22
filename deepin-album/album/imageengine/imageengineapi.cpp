@@ -75,8 +75,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
 
         worker->moveToThread(workerThread);
         //开始录制
-        connect(this, SIGNAL(sigLoad80Thumbnails(DBImgInfoList)),
-                worker, SLOT(threadSltLoad80Thumbnail(DBImgInfoList)));
+        connect(this, SIGNAL(sigLoad80Thumbnails(DBImgInfoList)), worker, SLOT(threadSltLoad80Thumbnail(DBImgInfoList)));
         //收到获取全部照片信息成功信号
         connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
         workerThread->start();

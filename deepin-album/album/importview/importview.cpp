@@ -25,19 +25,7 @@ ImportView::ImportView()
 
 void ImportView::initConnections()
 {
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, pLabel, [ = ] {
-        QPixmap pixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType)
-        {
-            pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
-        }
-        if (themeType == DGuiApplicationHelper::DarkType)
-        {
-            pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
-        }
-        pLabel->setPixmap(pixmap);
-    });
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &ImportView::onThemeTypeChanged);
 }
 
 void ImportView::initUI()
@@ -112,6 +100,21 @@ void ImportView::dragMoveEvent(QDragMoveEvent *event)
 void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
 {
     Q_UNUSED(e);
+}
+
+void ImportView::onThemeTypeChanged()
+{
+    QPixmap pixmap;
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType)
+    {
+        pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
+    }
+    if (themeType == DGuiApplicationHelper::DarkType)
+    {
+        pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
+    }
+    pLabel->setPixmap(pixmap);
 }
 
 void ImportView::onImprotBtnClicked(bool useDialog, QStringList list)

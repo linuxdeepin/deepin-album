@@ -27,7 +27,6 @@ class AlbumCreateDialog : public DDialog
     Q_OBJECT
 public:
     explicit AlbumCreateDialog(DWidget *parent = nullptr);
-
     const QString getCreateAlbumName() const;
     /**
      * @brief AlbumCreateDialog::getNewAlbumName
@@ -41,6 +40,7 @@ public:
      */
     static const QString getNewAlbumName(const QString &baseName, bool isWithOutSelf = false, const QString &beforeName = "");
     DLineEdit *getEdit();
+
 signals:
     void albumAdded();
     void sigClose();
@@ -53,6 +53,12 @@ private:
     void initConnection();
     void createAlbum(const QString &newName);
 
+private slots:
+    void onTextEdited(const QString &);
+    void onVisibleChanged(bool v);
+    void onReturnPressed();
+    void onButtonClicked(int index);
+    void onClosed();
 
 private:
     QString m_createAlbumName;

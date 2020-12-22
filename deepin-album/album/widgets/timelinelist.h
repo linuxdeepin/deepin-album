@@ -10,17 +10,7 @@
 #include "application.h"
 
 DWIDGET_USE_NAMESPACE
-//class TimelineListDelegate : public QStyledItemDelegate
-//{
-//    Q_OBJECT
 
-//public:
-//    explicit TimelineListDelegate(QObject *parent = nullptr);
-
-//    void paint(QPainter *painter,
-//               const QStyleOptionViewItem &option,
-//               const QModelIndex &index) const Q_DECL_OVERRIDE;
-//};
 class TimelineList : public DListWidget
 {
     Q_OBJECT
@@ -31,8 +21,8 @@ public:
 
     }
     void addItemForWidget(QListWidgetItem *aitem);
+
 protected:
-//    void wheelEvent(QWheelEvent *event);
     void dragMoveEvent(QDragMoveEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *e) override;
@@ -43,7 +33,9 @@ signals:
     void sigDelTime();
     void sigMoveTime(int y, QString date, QString num, QString choseText);
 
-public slots:
+private slots:
+    void onRangeChanged(int min, int max);
+
 private:
     bool has;
     QList<int> yList;

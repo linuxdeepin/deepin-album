@@ -49,7 +49,6 @@ public:
 private:
     void initConnections();
     void initStackedWidget();
-//    void initThumbnailListView();
     void updatePicsIntoThumbnailView();
     void onUpdateAllpicsNumLabel();
     void onKeyDelete();
@@ -62,17 +61,25 @@ private:
 
 public slots:
     void updateStackedWidget();
+
 private slots:
     void updatePicsIntoThumbnailViewWithCache();
+    void onFinishLoad();
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void onOpenImage(int index);
+    void onMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    void onImportViewImportBtnClicked();
+    void onImportFailedToView();
+
 public:
     DStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
     QWidget *m_pwidget;
-    int step;
     ImportView *m_pImportView;
+    int step;
+
 private:
     ThumbnailListView *m_pThumbnailListView;
-
     SearchView *m_pSearchView;
     DSpinner *m_spinner;
     DWidget *fatherwidget;

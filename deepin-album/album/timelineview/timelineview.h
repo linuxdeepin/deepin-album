@@ -38,8 +38,8 @@ protected:
         qDebug() << "moveEvent x is " << x();
         qDebug() << "moveEvent pos.x is " << pos().x();
     }
-
 };
+
 class TimeLineView : public DWidget, public ImageEngineImportObject
 {
 public:
@@ -55,8 +55,14 @@ public:
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
+
     void updateStackedWidget();
     int getIBaseHeight();
+    void updatePicNum();
+    void updateChoseText();
+    void restorePicNum();
+    void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
+
 public slots:
     void on_AddLabel(QString date, QString num);
     void on_DelLabel();
@@ -75,7 +81,6 @@ private:
     void initConnections();
     void sigImprotPicsIntoThumbnailView();
     void getImageInfos();
-//    void updataLayout();
     void clearAndStop();
     void clearAndStartLayout();
     void addTimelineLayout();
@@ -85,21 +90,19 @@ private:
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
-
     void keyPressEvent(QKeyEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;
-
     void mousePressEvent(QMouseEvent *e) override;
-public:
-    void updatePicNum();
-    void updateChoseText();
-
-    void restorePicNum();
-    void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 
 public slots:
     //更新布局（旋转图片时）
     void updataLayout(QStringList updatePathList);
+    void onFinishLoad();
+    void onNewTime(QString date, QString num, int index);
+    void onImportViewImportBtnClicked();
+    void onImportFailedToView();
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+
 private:
     TimelineList *m_mainListWidget;
     QLayout *m_mainLayout;
@@ -112,15 +115,11 @@ private:
     DLabel *m_pDate;
     DLabel *pNum_up;
     DLabel *pNum_dn;
-
     QList<ThumbnailListView *> m_allThumbnailListView;
     QList<DCommandLinkButton *> m_allChoseButton;
-
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
-
     bool m_ctrlPress;
-
     int lastClickedIndex;
     int lastRow;
     bool lastChanged;
@@ -130,9 +129,7 @@ public:
     QStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
     SearchView *pSearchView;
-
     QWidget *m_pwidget;
-
     int m_index;
     int m_selPicNum;
     DSpinner *m_spinner;

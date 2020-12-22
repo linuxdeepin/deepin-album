@@ -42,11 +42,14 @@ class TopToolbar : public DBlurEffectWidget
     Q_OBJECT
 public:
     TopToolbar(bool manager, QWidget *parent);
+
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
+
 signals:
     void updateMaxBtn();
+
 private:
     enum MenuItemId {
         IdCreateAlbum,
@@ -61,9 +64,11 @@ private:
     void initMenu();
     void initWidgets();
     QString  geteElidedText(QFont font, QString str, int MaxWidth);
+
 private slots:
-//    void onHelp();
-//    void onDeepColorMode();
+    void onThemeTypeChanged();
+    void onUpdateFileName(const QString & filename);
+
 private:
     QColor m_coverBrush;
     QColor m_topBorderColor;
