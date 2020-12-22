@@ -2,6 +2,8 @@
 
 cd ..
 rm -rf ./build-ut
+echo ${HOME}
+rm -rf ${HOME}/.local/share/deepin/deepin-album
 mkdir build-ut
 
 cmake . -B build -D DOTEST=ON

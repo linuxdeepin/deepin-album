@@ -28,13 +28,17 @@ TEST(CExportImageDialog, showQuestionDialog_test)
 
     CExportImageDialog *expdlg0 = new CExportImageDialog;
 
-    int (*dlgexec)() = [](){return 1;};
-    typedef int (*fptr)(QDialog*);
+    int (*dlgexec)() = []() {return 1;};
+    typedef int (*fptr)(QDialog *);
     fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 
-    QString path = DBManager::instance()->getAllPaths().first();
+    QString path;
+    if (DBManager::instance()->getAllPaths().length() > 0)
+        path = DBManager::instance()->getAllPaths().first();
+    else
+        path = testPath_test + "/2e5y8y.jpg";
     QString srcpath = path;
     expdlg0->showQuestionDialog(path, srcpath);
 }
@@ -47,14 +51,14 @@ TEST(CExportImageDialog, showDirChoseDialog_test)
     w->allPicBtnClicked();
     QTest::qWait(500);
 
-    int (*dlgexec)() = [](){return 1;};
-    typedef int (*fptr)(QDialog*);
+    int (*dlgexec)() = []() {return 1;};
+    typedef int (*fptr)(QDialog *);
     fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(DFileDialog, selectedFiles), [](){
+    stu.set_lamda(ADDR(DFileDialog, selectedFiles), []() {
         QStringList filelist;
         filelist << ":/2e5y8y.jpg" << ":/2ejqyx.jpg" << ":/2k9o1m.png";
         return filelist;
@@ -87,14 +91,14 @@ TEST(CExportImageDialog, CExportImageDialog_func)
 
     expdlg3->slotOnQualityChanged(1);
 
-    int index =0;
+    int index = 0;
     QString text = "hello";
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(CExportImageDialog, doSave), [](){
+    stu.set_lamda(ADDR(CExportImageDialog, doSave), []() {
         return true;
     });
 
-    expdlg3->slotOnQuestionDialogButtonClick(index,text);
+    expdlg3->slotOnQuestionDialogButtonClick(index, text);
 }
 
 TEST(CExportImageDialog, slotOnDialogButtonClick_test)
@@ -109,11 +113,11 @@ TEST(CExportImageDialog, slotOnDialogButtonClick_test)
     int index = 1;
     QString text = "hello";
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(CExportImageDialog, showDirChoseDialog), [](){
+    stu.set_lamda(ADDR(CExportImageDialog, showDirChoseDialog), []() {
         return;
     });
 
-    expdlg4->slotOnDialogButtonClick(index,text);
+    expdlg4->slotOnDialogButtonClick(index, text);
     QTest::qWait(50);
     expdlg4->setGifType(text);
     QTest::qWait(50);
@@ -136,7 +140,7 @@ TEST(CExportImageDialog, doSave_test)
     CExportImageDialog *expdlg = new CExportImageDialog;
 
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(QComboBox, currentText), [](){
+    stu.set_lamda(ADDR(QComboBox, currentText), []() {
         return "gif";
     });
 

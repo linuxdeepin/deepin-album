@@ -23,7 +23,7 @@ TEST(allpicview, test_beginSlideShow)
         qDebug() << "test ImageView load Success ";
         a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, true, true);
     }
-    QTest::qWait(25000);
+    QTest::qWait(2500);
     emit w->m_slidePanel->slideshowbottombar->showCancel();
     QTest::qWait(500);
 }

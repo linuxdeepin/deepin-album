@@ -732,19 +732,6 @@ void ViewPanel::removeCurrentImage()
     }
 }
 
-//void ViewPanel::viewOnNewProcess(const QStringList &paths)
-//{
-//    const QString pro = "deepin-image-viewer";
-//    QProcess *p = new QProcess;
-//    connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
-
-//    QStringList options;
-//    for (QString path : paths) {
-//        options << "-o" << path;
-//    }
-//    p->start(pro, options);
-//}
-
 void ViewPanel::initStack()
 {
     m_stack = new QStackedWidget;

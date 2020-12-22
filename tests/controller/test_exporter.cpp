@@ -52,7 +52,10 @@ TEST(Exporter, exportImage_test)
     AlbumView *a = w->m_pAlbumview;
 
     QStringList paths;
-    paths << DBManager::instance()->getAllPaths().first();
+    if (DBManager::instance()->getAllPaths().length() > 0)
+        paths << DBManager::instance()->getAllPaths().first();
+    else
+        paths << testPath_test + "/2e5y8y.jpg";
     Exporter::instance()->exportImage(paths);
     QTest::qWait(500);
 }
@@ -63,7 +66,10 @@ TEST(Exporter, exportAlbum_test)
     qDebug() << "Exporter exportAlbum_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
-    paths << DBManager::instance()->getAllPaths().first();
+    if (DBManager::instance()->getAllPaths().length() > 0)
+        paths << DBManager::instance()->getAllPaths().first();
+    else
+        paths << testPath_test + "/2e5y8y.jpg";
 
     AlbumView *a = w->m_pAlbumview;
 //    AlbumCreateDialog *ad = new AlbumCreateDialog;
@@ -74,8 +80,8 @@ TEST(Exporter, exportAlbum_test)
     const QStringList albumPaths;
     const QString albumnam;
 
-    int (*dlgexec)() = [](){return 1;};
-    typedef int (*fptr)(QDialog*);
+    int (*dlgexec)() = []() {return 1;};
+    typedef int (*fptr)(QDialog *);
     fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
@@ -87,10 +93,10 @@ TEST(Exporter, exportAlbum_test)
 
     QFileInfo fileinfo(paths.first());
     QDir dir = fileinfo.dir();
-    stu.set_lamda(ADDR(QFileDialog, directory), [dir](){
+    stu.set_lamda(ADDR(QFileDialog, directory), [dir]() {
         return dir;
     });
-    stu.set_lamda(ADDR(QDir, absolutePath), [paths](){
+    stu.set_lamda(ADDR(QDir, absolutePath), [paths]() {
         return paths.first();
     });
 
@@ -109,12 +115,15 @@ TEST(Exporter, popupDialogSaveImage_test)
     qDebug() << "Exporter popupDialogSaveImage_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
-    paths << DBManager::instance()->getAllPaths().first();
+    if (DBManager::instance()->getAllPaths().length() > 0)
+        paths << DBManager::instance()->getAllPaths().first();
+    else
+        paths << testPath_test + "/2e5y8y.jpg";
 
     AlbumView *a = w->m_pAlbumview;
 
-    int (*dlgexec)() = [](){return 1;};
-    typedef int (*fptr)(QDialog*);
+    int (*dlgexec)() = []() {return 1;};
+    typedef int (*fptr)(QDialog *);
     fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
@@ -122,10 +131,10 @@ TEST(Exporter, popupDialogSaveImage_test)
     stub_ext::StubExt stu;
     QFileInfo fileinfo(paths.first());
     QDir dir = fileinfo.dir();
-    stu.set_lamda(ADDR(QFileDialog, directory), [dir](){
+    stu.set_lamda(ADDR(QFileDialog, directory), [dir]() {
         return dir;
     });
-    stu.set_lamda(ADDR(QDir, absolutePath), [paths](){
+    stu.set_lamda(ADDR(QDir, absolutePath), [paths]() {
         return paths.first();
     });
 

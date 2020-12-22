@@ -137,7 +137,8 @@ void TimeLineView::initConnections()
         // 导入的照片重复照片提示
         if (duplicatePaths.size() > 0 && albumName.length() < 1 && dApp->getMainWindow()->getCurrentViewType() == 1) {
             QTimer::singleShot(100, this, [ = ] {
-                for (ThumbnailListView *list : m_allThumbnailListView) {
+                for (ThumbnailListView *list : m_allThumbnailListView)
+                {
                     // 注意时间线界面为多行listview处理类型
                     list->selectDuplicatePhotos(duplicatePaths, true);
                 }
@@ -293,36 +294,7 @@ void TimeLineView::initTimeLineViewWidget()
     Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     Layout->setContentsMargins(0, 0, 12, 0);
     Layout->addWidget(pSuspensionChose);
-    connect(pSuspensionChose, &DCommandLinkButton::clicked, this, [ = ] {
-        if (QObject::tr("Select") == pSuspensionChose->text())
-        {
-            pSuspensionChose->setText(QObject::tr("Unselect"));
-            QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-            p[0]->selectAll();
-            updatePicNum();
-            for (int i = 0; i < m_allChoseButton.length(); i++) {
-                if (m_allThumbnailListView[i] == p[0]) {
-                    lastClickedIndex = i;
-                    lastRow = 0;
-                    lastChanged = true;
-                }
-            }
-            m_ctrlPress = true;
-        } else
-        {
-            pSuspensionChose->setText(QObject::tr("Select"));
-            QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-            if (p.size() > 0) {
-                p[0]->clearSelection();
-                updatePicNum();
-            }
-        }
-#if 1
-        QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-        if (b.size() > 0)
-            b[0]->setText(pSuspensionChose->text());
-#endif
-    });
+    connect(pSuspensionChose, &DCommandLinkButton::clicked, this, &TimeLineView::on_DCommandLinkButton);
 
 //    DPalette ppal_light = DApplicationHelper::instance()->palette(m_dateItem);
 //    ppal_light.setBrush(DPalette::Background, ppal_light.color(DPalette::Base));
@@ -613,31 +585,6 @@ void TimeLineView::addTimelineLayout()
     m_mainListWidget->addItemForWidget(item);
     m_mainListWidget->setItemWidget(item, listItem);
     connect(pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
-//            SignalManager::ViewInfo info;
-//            info.album = "";
-//            info.lastPanel = nullptr;
-//            if (ImgInfoList.size() <= 1) {
-//                info.paths.clear();
-//            } else {
-//                for (auto image : ImgInfoList) {
-//                    info.paths << image.filePath;
-//                }
-//            }
-//            info.path = path;
-//            info.fullScreen = isFullScreen;
-//            info.slideShow = isSlideShow;
-//            info.viewType = utils::common::VIEW_TIMELINE_SRN;
-
-//            if (info.slideShow) {
-//                if (ImgInfoList.count() == 1) {
-//                    info.paths = paths;
-//                }
-//                emit dApp->signalM->startSlideShow(info);
-//            } else {
-//                emit dApp->signalM->viewImage(info);
-//            }
-//            emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
-
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
@@ -719,12 +666,7 @@ void TimeLineView::addTimelineLayout()
         updatePicNum();
     });
 #if 1
-    connect(pThumbnailListView, &ThumbnailListView::sigGetSelectedPaths, this, [ = ](QStringList * pPaths) {
-        pPaths->clear();
-        for (int j = 0; j < m_allThumbnailListView.size(); j++) {
-            pPaths->append(m_allThumbnailListView[j]->selectedPaths());
-        }
-    });
+    connect(pThumbnailListView, &ThumbnailListView::sigGetSelectedPaths, this, &TimeLineView::on_GetSelectedPaths);
 
     connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
         lastRow = -1;
@@ -912,6 +854,45 @@ void TimeLineView::on_DelLabel()
     QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
     pSuspensionChose->setText(b[0]->text());
 #endif
+}
+
+void TimeLineView::on_DCommandLinkButton()
+{
+    if (QObject::tr("Select") == pSuspensionChose->text()) {
+        pSuspensionChose->setText(QObject::tr("Unselect"));
+        QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
+        if (p.size() > 0)
+            p[0]->selectAll();
+        updatePicNum();
+        for (int i = 0; i < m_allChoseButton.length(); i++) {
+            if (m_allThumbnailListView[i] == p[0]) {
+                lastClickedIndex = i;
+                lastRow = 0;
+                lastChanged = true;
+            }
+        }
+        m_ctrlPress = true;
+    } else {
+        pSuspensionChose->setText(QObject::tr("Select"));
+        QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
+        if (p.size() > 0) {
+            p[0]->clearSelection();
+            updatePicNum();
+        }
+    }
+#if 1
+    QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+    if (b.size() > 0)
+        b[0]->setText(pSuspensionChose->text());
+#endif
+}
+
+void TimeLineView::on_GetSelectedPaths(QStringList *pPaths)
+{
+    pPaths->clear();
+    for (int j = 0; j < m_allThumbnailListView.size(); j++) {
+        pPaths->append(m_allThumbnailListView[j]->selectedPaths());
+    }
 }
 
 #if 1

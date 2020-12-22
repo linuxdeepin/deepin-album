@@ -60,6 +60,7 @@ protected:
 
 signals:
 public slots:
+    void on_rangeChanged(int min, int max);
 private:
     int m_scrollbartopdistance;
     int m_scrollbarbottomdistance;

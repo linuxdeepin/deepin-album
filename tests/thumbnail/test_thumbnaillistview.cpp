@@ -24,14 +24,24 @@ TEST(ThumbnailListView, initThumbnailListView)
     w->timeLineBtnClicked();
     w->allPicBtnClicked();
     // w->m_pAllPicView->m_pThumbnailListView->
-    QStringList paths = DBManager::instance()->getAllPaths();
+    QStringList paths;
+    if (DBManager::instance()->getAllPaths().length() > 0)
+        paths << DBManager::instance()->getAllPaths().first();
+    else
+        paths << testPath_test + "/2e5y8y.jpg";
     QStringList files;
     files << paths.first();
     bool needcache = true;
     bool needcheck = true;;
     w->m_pAllPicView->m_pThumbnailListView->loadFilesFromLocal(files, needcache, needcheck);
     QTest::qWait(200);
-    DBImgInfoList infolist = DBManager::instance()->getAllInfos();
+    DBImgInfoList infolist;
+    DBImgInfo temp;
+    temp.fileName = testPath_test + "/2k9o1m.png";
+    if (DBManager::instance()->getAllInfos().size() > 0)
+        infolist = DBManager::instance()->getAllInfos();
+    else
+        infolist << temp;
     DBImgInfoList info;
     info << infolist.first();
     w->m_pAllPicView->m_pThumbnailListView->loadFilesFromLocal(info, needcache, needcheck);
@@ -41,7 +51,7 @@ TEST(ThumbnailListView, initThumbnailListView)
     w->m_pAllPicView->m_pThumbnailListView->checkResizeNum();
     w->m_pAllPicView->m_pThumbnailListView->getDagItemPath();
     w->m_pAllPicView->m_pThumbnailListView->getSelectedIndexes();
-    QPoint point(10,10);
+    QPoint point(10, 10);
     w->m_pAllPicView->m_pThumbnailListView->getRow(point);
     int row = 1;
     int start = 1;
@@ -62,7 +72,6 @@ TEST(ThumbnailListView, initThumbnailListView)
     w->m_pAllPicView->m_pThumbnailListView->createAlbumMenu();
     w->m_pAllPicView->m_pThumbnailListView->getDamagedPixmap();
     w->m_pAllPicView->m_pThumbnailListView->updateThumbnaillistview();
-    //
 }
 
 TEST(ThumbnailListView, createNewAlbumFromDialog1)
@@ -96,5 +105,5 @@ TEST(ThumbnailListView, createNewAlbumFromDialog1)
         }
     }
     QTest::qWait(200);
-    emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album");
+    emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album1");
 }

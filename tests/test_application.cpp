@@ -49,12 +49,16 @@ TEST(ImageButton, imgbtn)
 {
     qDebug() << "ImageButton imgbtn count = " << count_testDefine++;
     ImageButton *btn = new ImageButton();
-    btn->setDisabled(true);
+    btn->setDisabled(false);
+    btn->setTooltipVisible(false);
+    btn->show();
     QPoint point = btn->pos();
     QTestEventList e;
     e.addMouseMove(point);
     e.addMouseMove(point + QPoint(1, 1));
     e.simulate(btn);
+    QTest::qWait(100);
+    btn->hide();
     e.clear();
 }
 
@@ -64,4 +68,7 @@ TEST(ElidedLabel, namelabel)
     ElidedLabel *lab = new ElidedLabel;
     lab->setText("test");
     lab->onThemeChanged(ViewerThemeManager::AppTheme::Dark);
+    QSize size = lab->size();
+    lab->resize(size.width() + 1, size.height() + 1);
+    lab->update();
 }

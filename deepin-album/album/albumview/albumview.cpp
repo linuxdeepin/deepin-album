@@ -93,19 +93,24 @@ Q_DECLARE_METATYPE(QExplicitlySharedDataPointer<DGioMount>)
 AlbumViewList::AlbumViewList(QWidget *parent)
     : DListWidget(parent), m_scrollbartopdistance(130), m_scrollbarbottomdistance(27)
 {
-    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
-        Q_UNUSED(min);
-        Q_UNUSED(max);
-        QScrollBar *bar = this->verticalScrollBar();
-        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
-    });
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, &AlbumViewList::on_rangeChanged);
 }
 
 void AlbumViewList::paintEvent(QPaintEvent *e)
 {
     QListWidget::paintEvent(e);
     QScrollBar *bar = this->verticalScrollBar();
-    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(),
+                     this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+}
+
+void AlbumViewList::on_rangeChanged(int min, int max)
+{
+    Q_UNUSED(min);
+    Q_UNUSED(max);
+    QScrollBar *bar = this->verticalScrollBar();
+    bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(),
+                     this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
 }
 
 AlbumView::AlbumView()

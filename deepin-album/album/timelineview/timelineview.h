@@ -46,7 +46,7 @@ public:
     TimeLineView();
     ~TimeLineView() override
     {
-        void clearAndStop();
+        clearAndStop();
     }
 
     bool imageImported(bool success) override
@@ -60,6 +60,8 @@ public:
 public slots:
     void on_AddLabel(QString date, QString num);
     void on_DelLabel();
+    void on_DCommandLinkButton();
+    void on_GetSelectedPaths(QStringList *pPaths);
 #if 1
     void on_MoveLabel(int y, QString date, QString num, QString choseText);
 #endif
@@ -95,7 +97,7 @@ public:
     void restorePicNum();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
 
-private slots:
+public slots:
     //更新布局（旋转图片时）
     void updataLayout(QStringList updatePathList);
 private:

@@ -31,9 +31,21 @@ TEST(CommandLine, test_CommandLine)
     qDebug() << "CommandLine test_CommandLine count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     CommandLine::instance();
-    QString path = DBManager::instance()->getAllPaths().first();
-    QUrl UrlInfo1(QString path);
+    QStringList image_list;
+    auto finfos = utils::image::getImagesInfo(testPath_test);
+    for (auto info : finfos) {
+        image_list << info.absoluteFilePath();
+    }
+    DBManager::instance()->removeImgInfos(QStringList());
 
+    QStringList paths;
+    if (DBManager::instance()->getAllPaths().length() > 0)
+        paths << DBManager::instance()->getAllPaths().first();
+    else
+        paths << testPath_test + "/2e5y8y.jpg";
+
+    QString path = paths.first();
+    QUrl UrlInfo1(QString path);
 }
 
 TEST(CommandLine, urltest)
@@ -41,7 +53,7 @@ TEST(CommandLine, urltest)
     qDebug() << "CommandLine urltest count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(QCommandLineParser, addOption), [](){
+    stu.set_lamda(ADDR(QCommandLineParser, addOption), []() {
         return false;
     });
     CMOption option;
@@ -52,7 +64,8 @@ TEST(CommandLine, viewImage_test)
 {
     qDebug() << "CommandLine viewImage_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
-    QStringList paths = DBManager::instance()->getAllPaths();
+    QStringList paths;
+    paths << testPath_test + "/2e5y8y.jpg";
     CommandLine::instance()->viewImage(paths.first(), paths);
     QTest::qWait(500);
     w->allPicBtnClicked();
@@ -68,7 +81,8 @@ TEST(CommandLine, processOption_test)
 //        return false;
 //    });
 //    CMOption option;
-    QStringList paths = DBManager::instance()->getAllPaths();
+    QStringList paths ;
+    paths << testPath_test + "/2e5y8y.jpg";
     CommandLine::instance()->processOption(paths);
     QTest::qWait(500);
     w->allPicBtnClicked();

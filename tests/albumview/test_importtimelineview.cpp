@@ -31,7 +31,7 @@ TEST(ImportTimeLineView, getIBaseHeight_test)
     ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
     int a = 0;
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(DSlider, value), [&a](){
+    stu.set_lamda(ADDR(DSlider, value), [&a]() {
         return a++;
     });
     for (int i = 0; i < 10; i++) {
@@ -72,4 +72,17 @@ TEST(ImportTimeLineView, on_KeyEvent_test)
     QTest::qWait(100);
     impTimeline->on_KeyEvent(Qt::Key_PageUp);
     QTest::qWait(500);
+}
+
+TEST(ImportTimeLineView, resizeHand_test)
+
+{
+    qDebug() << "ImportTimeLineView getIBaseHeight_test count" << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+    QTest::qWait(500);
+    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
+    impTimeline->resizeHand();
+    QTest::qWait(500);
+
 }

@@ -83,9 +83,9 @@ TEST(removeTestImagesInfo, db6)
         dbinfos << info;
     }
 //    DBManager::instance()->insertImgInfos(dbinfos);
-//    DBManager::instance()->removeImgInfos(image_list);
+    DBManager::instance()->removeImgInfos(image_list);
 //    DBManager::instance()->insertImgInfos(dbinfos);
-//    DBManager::instance()->removeImgInfosNoSignal(image_list);
+    DBManager::instance()->removeImgInfosNoSignal(image_list);
 
 }
 
@@ -127,13 +127,13 @@ TEST(AlbumForTest, db11)
     DBManager::instance()->insertIntoAlbumNoSignal("testAlbum", image_list);
     DBManager::instance()->getPathsByAlbum("testAlbum");
     DBManager::instance()->getInfosByAlbum("testAlbum");
-    DBManager::instance()->removeFromAlbum("testAlbum", partList);
+//    DBManager::instance()->removeFromAlbum("testAlbum", partList);
     DBManager::instance()->renameAlbum("testAlbum", "newTestAlbum");
-    DBManager::instance()->removeAlbum("newTestAlbum");
+//    DBManager::instance()->removeAlbum("newTestAlbum");
     DBManager::instance()->getTrashInfosForKeyword("");
     QStringList l;
     l << "test";
-    DBManager::instance()->removeTrashImgInfosNoSignal(l);
+//    DBManager::instance()->removeTrashImgInfosNoSignal(l);
 
     DBImgInfo info, info1;
     info.dirHash = "test";

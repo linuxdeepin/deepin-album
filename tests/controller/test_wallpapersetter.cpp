@@ -39,7 +39,11 @@ TEST(WallpaperSetter, setBackground_test)
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
-    QString path = DBManager::instance()->getAllPaths().first();
+    QString path;
+    if (DBManager::instance()->getAllPaths().length() > 0)
+        path = DBManager::instance()->getAllPaths().first();
+    else
+        path = testPath_test + "/2e5y8y.jpg";
     WallpaperSetter::instance()->setBackground(path);
     QTest::qWait(500);
 }

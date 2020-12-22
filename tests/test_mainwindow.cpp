@@ -23,9 +23,9 @@ TEST(MainWindow, BtnGroupClick)
 {
     qDebug() << "MainWindow BtnGroupClick count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
-    w->allPicBtnClicked();
     w->onLoadingFinished();
     w->getButG();
+    w->allPicBtnClicked();
     QTestEventList event;
     event.addMouseClick(Qt::MouseButton::LeftButton);
     event.simulate(w->getButG()->button(1));
@@ -44,7 +44,7 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
-    QList<QAction*> actions = w->actions();
+    QList<QAction *> actions = w->actions();
     foreach (auto act, actions) {
         if (act->text() == QObject::tr("New album")) {
             act->trigger();
@@ -52,12 +52,12 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
         }
     }
     QTest::qWait(500);
-    QList<QWidget*> widgets = w->findChildren<QWidget*>();
+    QList<QWidget *> widgets = w->findChildren<QWidget *>();
     foreach (auto widget, widgets) {
-        if (!strcmp(widget->metaObject()->className() ,"AlbumCreateDialog")) {
-            AlbumCreateDialog *tempDlg = dynamic_cast<AlbumCreateDialog*>(widget);
+        if (!strcmp(widget->metaObject()->className(), "AlbumCreateDialog")) {
+            AlbumCreateDialog *tempDlg = dynamic_cast<AlbumCreateDialog *>(widget);
             tempDlg->getEdit()->setText("TestAlbum");
-            emit tempDlg->buttonClicked(1,"");
+            emit tempDlg->buttonClicked(1, "");
             break;
         }
     }
@@ -73,19 +73,19 @@ TEST(MainWindow, ImportPhotosFromTitlebarMenu)
     w->allPicBtnClicked();
     QTest::qWait(500);
 
-    int (*dlgexec)() = [](){return 1;};
-    typedef int (*fptr)(QDialog*);
+    int (*dlgexec)() = []() {return 1;};
+    typedef int (*fptr)(QDialog *);
     fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(DFileDialog, selectedFiles), [](){
+    stu.set_lamda(ADDR(DFileDialog, selectedFiles), []() {
         QStringList filelist;
         filelist << ":/2e5y8y.jpg" << ":/2ejqyx.jpg" << ":/2k9o1m.png";
         return filelist;
     });
-    QList<QAction*> actions = w->actions();
+    QList<QAction *> actions = w->actions();
     foreach (auto act, actions) {
         if (act->text() == QObject::tr("Import photos")) {
             act->trigger();
@@ -104,13 +104,13 @@ TEST(MainWindow, setWaitDialogColor_test)
     QTest::qWait(500);
 
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), [](){
+    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), []() {
         return DGuiApplicationHelper::DarkType;
     });
 
     w->setWaitDialogColor();
     QTest::qWait(500);
-    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), [](){
+    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), []() {
         return DGuiApplicationHelper::LightType;
     });
     w->setWaitDialogColor();
@@ -221,13 +221,13 @@ TEST(MainWindow, onNewAPPOpen_test)
     QTest::qWait(500);
 
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(DSearchEdit, text), [](){
+    stu.set_lamda(ADDR(DSearchEdit, text), []() {
         return "hello";
     });
 
     w->timeLineBtnClicked();
     w->albumBtnClicked();
-
+    w->allPicBtnClicked();
 
     QStringList filelist;
     filelist << "noid" << ":/2e5y8y.jpg" << ":/2ejqyx.jpg" << ":/2k9o1m.png";
@@ -235,4 +235,18 @@ TEST(MainWindow, onNewAPPOpen_test)
     QTest::qWait(500);
     w->onSearchEditFinished();
     QTest::qWait(500);
+    emit dApp->signalM->SearchEditClear();
+    emit dApp->signalM->ImportFailed();
+    emit dApp->signalM->ImportSomeFailed(2, 1);
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_Slash, Qt::ControlModifier | Qt::ShiftModifier, 10);
+    e.simulate(w);
+
+    QPoint p = w->pos();
+    int wi = w->width();
+    int h = w->height();
+    e.addMouseMove(p + QPoint(wi / 2, h / 2));
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier);
+    e.simulate(w);
+    e.clear();
 }

@@ -417,8 +417,10 @@ void LeftListView::onMenuClicked(QAction *action)
         for (auto image : imagelist) {
             paths << image.filePath;
         }
-        const QString path = paths.first();
-        emit menuOpenImage(path, paths, true, true);
+        if (paths.length() > 0) {
+            const QString path = paths.first();
+            emit menuOpenImage(path, paths, true, true);
+        }
         break;
     }
     case IdCreateAlbum: {

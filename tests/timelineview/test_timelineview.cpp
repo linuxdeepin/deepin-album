@@ -91,7 +91,7 @@ TEST(TimeLineView, dragPhotoToAnAlbum)
             QTest::qWait(200);
 
             QDropEvent e(pos1, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-            dApp->getDAppNew()->sendEvent(a, &e);
+//            dApp->getDAppNew()->sendEvent(a, &e);
             QTest::qWait(200);
 
             dApp->getDAppNew()->sendEvent(a, &eEnter);
