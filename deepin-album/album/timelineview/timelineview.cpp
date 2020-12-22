@@ -343,8 +343,7 @@ void TimeLineView::onImportViewImportBtnClicked()
 
 void TimeLineView::onImportFailedToView()
 {
-    if (isVisible())
-    {
+    if (isVisible()) {
         m_spinner->hide();
         m_spinner->stop();
         updateStackedWidget();
@@ -357,7 +356,8 @@ void TimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStri
     // 导入的照片重复照片提示
     if (duplicatePaths.size() > 0 && albumName.length() < 1 && dApp->getMainWindow()->getCurrentViewType() == 1) {
         QTimer::singleShot(100, this, [ = ] {
-            for (ThumbnailListView *list : m_allThumbnailListView) {
+            for (ThumbnailListView *list : m_allThumbnailListView)
+            {
                 // 注意时间线界面为多行listview处理类型
                 list->selectDuplicatePhotos(duplicatePaths, true);
             }
@@ -569,7 +569,8 @@ void TimeLineView::addTimelineLayout()
         }
     });
     connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
-        if (QObject::tr("Select") == pChose->text()) {
+        if (QObject::tr("Select") == pChose->text())
+        {
             pChose->setText(QObject::tr("Unselect"));
             for (int j = 0; j < m_allChoseButton.length(); j++) {
                 if (pChose == m_allChoseButton[j])
@@ -578,7 +579,8 @@ void TimeLineView::addTimelineLayout()
             lastRow = 0;
             lastChanged = true;
             pThumbnailListView->selectAll();
-        } else {
+        } else
+        {
             pChose->setText(QObject::tr("Select"));
             pThumbnailListView->clearSelection();
         }
@@ -1007,20 +1009,20 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
     Q_UNUSED(e);
 }
 
-void TimeLineView::keyPressEvent(QKeyEvent *e)
-{
-    qDebug() << "TimeLineView::keyPressEvent()";
-    if (e->key() == Qt::Key_Control) {
-//        m_ctrlPress = true;
-    }
-}
+//void TimeLineView::keyPressEvent(QKeyEvent *e)
+//{
+//    qDebug() << "TimeLineView::keyPressEvent()";
+//    if (e->key() == Qt::Key_Control) {
+////        m_ctrlPress = true;
+//    }
+//}
 
-void TimeLineView::keyReleaseEvent(QKeyEvent *e)
-{
-    if (e->key() == Qt::Key_Control) {
-//        m_ctrlPress = false;
-    }
-}
+//void TimeLineView::keyReleaseEvent(QKeyEvent *e)
+//{
+//    if (e->key() == Qt::Key_Control) {
+////        m_ctrlPress = false;
+//    }
+//}
 
 void TimeLineView::mousePressEvent(QMouseEvent *e)
 {

@@ -39,8 +39,8 @@ TEST(PrintHelper, PrintHelper_test)
     w->allPicBtnClicked();
     QTest::qWait(500);
 
-    int (*dlgexec)() = [](){return 1;};
-    typedef int (*fptr)(QDialog*);
+    int (*dlgexec)() = []() {return 1;};
+    typedef int (*fptr)(QDialog *);
     fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
@@ -48,6 +48,9 @@ TEST(PrintHelper, PrintHelper_test)
     QStringList paths = DBManager::instance()->getAllPaths();
     QWidget *p = nullptr;
 
+    PrintHelper *p1 = new PrintHelper;
+    if (paths.size() < 1)
+        paths << testPath_test + "2k9o1m.png";
     PrintHelper::showPrintDialog(paths, p);
 }
 

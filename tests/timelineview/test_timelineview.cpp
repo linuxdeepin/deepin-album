@@ -23,11 +23,62 @@ TEST(TimeLineView, T1)
     event.clear();
     QTest::qWait(500);
     TimeLineView *t = w->m_pTimeLineView;
+    t->m_pStatusBar->m_pSlider->setValue(1);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(2);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(3);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(4);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(5);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(6);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(7);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(8);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(9);
+    t->getIBaseHeight();
+    t->m_pStatusBar->m_pSlider->setValue(10);
+    t->getIBaseHeight();
+    t->onFinishLoad();
 
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
     QTest::qWait(500);
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-    QTest::qWait(500);
+    QStringList list;
+    list << testPath_test + "2k9o1m.png";
+    t->updataLayout(list);
+    t->on_DCommandLinkButton();
+    t->on_GetSelectedPaths(&list);
+    t->on_KeyEvent(Qt::Key_PageDown);
+    t->on_KeyEvent(Qt::Key_PageUp);
+//    t->updateChoseText();
+
+    QString jpgItemPath = testPath_test + "/2k9o1m.png";
+    QString text = "xxxxxxxxxxxxxx";
+    QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
+    QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    dataStream << text << icon << icon_hover;
+    QMimeData mimedata;
+    mimedata.setData(QStringLiteral("TestListView/text-icon-icon_hover"), itemData);
+    QList<QUrl> li;
+    li.append(QUrl::fromLocalFile(jpgItemPath));
+    mimedata.setUrls(li);
+
+    QPoint pos1 = t->pos();
+    QDropEvent ed(pos1, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->getDAppNew()->sendEvent(t, &ed);
+    QTest::qWait(100);
+
+    QTestEventList e;
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, pos1, 10);
+    e.simulate(t);
+    e.clear();
 
     ASSERT_TRUE(t->getIBaseHeight());
 }

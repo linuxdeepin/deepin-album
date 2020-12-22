@@ -14,6 +14,7 @@
 #include "dbmanager.h"
 #include "albumcreatedialog.h"
 #include "../test_qtestDefine.h"
+#include "thumbnaillistview.h"
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
@@ -72,6 +73,21 @@ TEST(ThumbnailListView, initThumbnailListView)
     w->m_pAllPicView->m_pThumbnailListView->createAlbumMenu();
     w->m_pAllPicView->m_pThumbnailListView->getDamagedPixmap();
     w->m_pAllPicView->m_pThumbnailListView->updateThumbnaillistview();
+
+//    ThumbnailListView::ItemInfo m_info, info1;
+//    info1.name = "";
+//    info1.path = testPath_test;
+//    if (m_info == info1)
+//        qDebug() << " ";
+
+//    QPoint point1 = w->m_pAllPicView->m_pThumbnailListView->pos();
+//    QTestEventList event;
+//    event.addMouseMove(point1 + QPoint(1, 1), 10);
+//    event.addMouseMove(point1 + QPoint(2, 2), 10);
+//    event.simulate(w->m_pAllPicView->m_pThumbnailListView);
+//    event.clear();
+
+//    w->m_pAllPicView->m_pThumbnailListView->updateMenuContents();
 }
 
 TEST(ThumbnailListView, createNewAlbumFromDialog1)

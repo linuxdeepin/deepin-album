@@ -1,5 +1,10 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#include <QTestEventList>
+
+#define private public
+#define protected public
+
 #include "application.h"
 #include "mainwindow.h"
 #include "allpicview.h"
@@ -11,7 +16,6 @@
 #include "signalmanager.h"
 #include "../test_qtestDefine.h"
 
-#include <QTestEventList>
 
 TEST(allpicview, test_ini)
 {
@@ -181,6 +185,7 @@ TEST(allpicview, test_open)
         e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
         e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
         e.simulate(w);
+        e.clear();
 
         emit dApp->signalM->showImageInfo(testPathlist.first());
 
@@ -196,6 +201,16 @@ TEST(allpicview, test_open)
             if (t) {
                 MyImageListWidget *ml = t->findChild<MyImageListWidget *>("MyImageListWidget");
                 if (ml) {
+                    ml->getObj();
+                    ml->findSelectItem();
+                    ml->thumbnailIsMoving();
+                    ml->stopAnimation();
+//                    QPoint po = ml->pos();
+//                    e.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, po, 50);
+//                    e.addMouseRelease(Qt::MouseButton::LeftButton, Qt::NoModifier, po, 50);
+//                    e.simulate(ml);
+//                    e.clear();
+                    ml->deleteLater();
 //                    QTestEventList el;
 //                    QPoint p(ml->pos().x() - 50, ml->pos().y() + 10);
 //                    el.addMouseMove(p);
@@ -265,7 +280,7 @@ TEST(allpicview, test_showInFileManagerAndBackGrond)
     AllPicView *a = w->m_pAllPicView;
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
-    QTime t;
+//    QTime t;
     QTest::qWait(500);
     QStringList paths = ImageEngineApi::instance()->get_AllImagePath();
     if (!paths.isEmpty()) {
@@ -336,6 +351,13 @@ TEST(ttbcontent, test_ini)
         QTest::qWait(500);
         ImgInfoDialog *dialog = w->findChild<ImgInfoDialog *>("ImgInfoDialog");
         dialog->height();
+        dialog->setImagePath(testPath_test + "2k9o1m.png");
+        dialog->updateInfo();
+        QPoint p = dialog->pos();
+        e.addMouseMove(p, 10);
+        e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 10);
+        e.simulate(dialog);
+        e.clear();
         dialog->deleteLater();
         QTest::qWait(500);
         ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");

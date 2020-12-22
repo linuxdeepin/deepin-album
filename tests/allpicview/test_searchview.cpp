@@ -25,3 +25,27 @@ TEST(searchview, test_ini)
 
     ASSERT_TRUE(w->m_pSearchView);
 }
+
+TEST(SlideShowButton, slidebtn)
+{
+    SlideShowButton *btn = new SlideShowButton;
+    QPoint point = btn->pos();
+    int width = btn->width();
+    QTestEventList e;
+    e.addMouseMove(point, 10);
+    e.addMouseMove(point + QPoint(1, 1), 10);
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, point + QPoint(1, 1), 10);
+    e.addMouseRelease(Qt::MouseButton::LeftButton, Qt::NoModifier, point + QPoint(1, 1), 10);
+    e.addMouseMove(point + QPoint(width + 5, 0), 10);
+    e.simulate(btn);
+    e.clear();
+    btn->deleteLater();
+}
+
+TEST(searchview, search)
+{
+    MainWindow *w = dApp->getMainWindow();
+    w->showEvent(nullptr);
+    SearchView *s = w->m_pSearchView;
+    s->on_m_pSlideShowBtnClicked();
+}

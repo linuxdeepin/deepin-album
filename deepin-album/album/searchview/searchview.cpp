@@ -534,6 +534,29 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     }
 }
 
+void SearchView::on_m_pSlideShowBtnClicked()
+{
+    DBImgInfoList imagelist;
+    if (COMMON_STR_ALLPHOTOS == m_albumName
+            || COMMON_STR_TIMELINE == m_albumName
+            || COMMON_STR_RECENT_IMPORTED == m_albumName) {
+        imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+    } else if (COMMON_STR_TRASH == m_albumName) {
+        imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+    } else {
+        imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
+    }
+
+    QStringList paths;
+    for (auto image : imagelist) {
+        paths << image.filePath;
+    }
+
+    const QString path = paths.first();
+
+    emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+}
+
 void SearchView::updateSearchResultsIntoThumbnailView()
 {
     improtSearchResultsIntoThumbnailView(m_keywords, m_albumName);

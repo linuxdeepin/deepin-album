@@ -71,4 +71,5 @@ TEST(ElidedLabel, namelabel)
     QSize size = lab->size();
     lab->resize(size.width() + 1, size.height() + 1);
     lab->update();
+    lab->deleteLater();
 }

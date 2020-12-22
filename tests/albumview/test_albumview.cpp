@@ -84,6 +84,8 @@ TEST(AlbumView, removeTestImagesInfo)
     qDebug() << "AlbumView removeTestImagesInfo count = " << count_testDefine++;
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath_test);
+    auto finfos1 = utils::image::getImagesInfo(testPath_test, false);
+    auto pixmap = utils::image::getDamagePixmap(true);
     for (auto info : finfos) {
         image_list << info.absoluteFilePath();
     }

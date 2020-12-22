@@ -58,6 +58,9 @@ public:
     SearchView();
     void improtSearchResultsIntoThumbnailView(QString s, QString album);
 
+public slots:
+    void on_m_pSlideShowBtnClicked();
+
 private:
     void initConnections();
     void initNoSearchResultView();
