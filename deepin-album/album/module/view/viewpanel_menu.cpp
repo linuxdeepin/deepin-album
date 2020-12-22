@@ -100,16 +100,6 @@ void ViewPanel::initPopupMenu()
             updateMenuContent();
         }
     });
-//    QShortcut *sc = new QShortcut(QKeySequence("Alt+Enter"), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [ = ] {
-//        if (m_isInfoShowed)
-//            emit dApp->signalM->hideExtensionPanel();
-//        else
-//            emit dApp->signalM->showExtensionPanel();
-//        // Update panel info
-//        m_info->setImagePath(m_infos.at(m_current).filePath);
-//    });
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
@@ -221,49 +211,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash: {
         emit SignalManager::instance()->deleteByMenu();
-//        SignalManager::ViewInfo info;
         if (m_vinfo.fullScreen == true) {
             emit SignalManager::instance()->hideBottomToolbar();
         }
-//        if (utils::common::VIEW_ALLPIC_SRN != m_viewType
-//                && utils::common::VIEW_TIMELINE_SRN != m_viewType
-//                && utils::common::VIEW_SEARCH_SRN != m_viewType
-//                && COMMON_STR_RECENT_IMPORTED != m_viewType
-//                && COMMON_STR_TRASH != m_viewType
-//                && COMMON_STR_FAVORITES != m_viewType)
-//        {
-//            DBManager::instance()->removeFromAlbum(m_vinfo.viewType, QStringList(m_infos.at(m_current).filePath));
-//            removeCurrentImage();
-//        }
-//        else if (COMMON_STR_TRASH == m_viewType)
-//        {
-//            ImgDeleteDialog *dialog = new ImgDeleteDialog(1);
-//            dialog->show();
-//            connect(dialog,&ImgDeleteDialog::imgdelete,this,[=]
-//            {
-//                dApp->m_imagetrashmap.remove(m_infos.at(m_current).filePath);
-//                DBManager::instance()->removeTrashImgInfos(QStringList(m_infos.at(m_current).filePath));
-//                removeCurrentImage();
-//            });
-//        }
-//        else
-//        {
-//        DBImgInfoList infos;
-//        DBImgInfo info;
-//        info = DBManager::instance()->getInfoByPath(m_infos.at(m_current).filePath);
-//#if 1
-////        info.time = QDateTime::currentDateTime();
-//        info.changeTime = QDateTime::currentDateTime();
-//#endif
-//        infos << info;
-//        dApp->m_imageloader->addTrashImageLoader(QStringList(m_infos.at(m_current).filePath));
-////        dApp->m_imagemap.remove(m_infos.at(m_current).filePath);
-//        DBManager::instance()->insertTrashImgInfos(infos);
-//        DBManager::instance()->removeImgInfos(QStringList(m_infos.at(m_current).filePath));
-
-
-//        removeCurrentImage();
-//        }
     }
     break;
     case IdRemoveFromAlbum:
@@ -473,46 +423,6 @@ void ViewPanel::initShortcut()
         m_viewB->setScaleValue(0.9);
     });
 
-//    sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        qDebug() << "Qt::Key_Up:";
-//        m_viewB->setScaleValue(1.1);
-//    });
-//    sc = new QShortcut(QKeySequence("Ctrl+="), this);
-//    sc->setContext(Qt::WidgetShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        m_viewB->setScaleValue(1.1);
-//    });
-// Zoom in
-//    sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        qDebug() << "Qt::Key_Down:";
-//        m_viewB->setScaleValue(0.9);
-//    });
-//    sc = new QShortcut(QKeySequence("Ctrl+-"), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        m_viewB->setScaleValue(0.9);
-//    });
-// Esc
-//    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-//    esc->setContext(Qt::WindowShortcut);
-//    connect(esc, &QShortcut::activated, this, [=] {
-//        if (window()->isFullScreen()) {
-//            toggleFullScreen();
-//        }
-//        else {
-//            if (m_vinfo.inDatabase) {
-//                backToLastPanel();
-//            }
-//            else {
-//                dApp->quit();
-//            }
-//        }
-//        emit dApp->signalM->hideExtensionPanel(true);
-//    });
 //1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);
@@ -521,17 +431,6 @@ void ViewPanel::initShortcut()
     });
 
 }
-
-//void ViewPanel::popupDelDialog(const QString path)
-//{
-//#ifndef LITE_DIV
-//    const QStringList paths(path);
-//    FileDeleteDialog *fdd = new FileDeleteDialog(paths);
-//    fdd->showInCenter(window());
-//#else
-//    Q_UNUSED(path)
-//#endif
-//}
 
 void ViewPanel::keyPressEvent(QKeyEvent *e)
 {

@@ -122,38 +122,27 @@ public:
     void insertThumbnail(const ItemInfo &iteminfo);
     void stopLoadAndClear(bool bClearModel = true);    //为true则清除模型中的数据
     QStringList getAllFileList();
-//    void setVScrollbarDistance(int topdistance, int bottomdistance);
-//    void setListWidgetItem(QListWidgetItem *item);
     void setIBaseHeight(int iBaseHeight);
     bool checkResizeNum();
     bool isLoading();
     bool isAllPicSeleted();
     //------------------
-
-//    void insertThumbnails(const QList<ItemInfo> &itemList);
     QStringList selectedPaths();
-//    QList<ItemInfo> getAllPaths();
     QStringList getAllPaths();
     QStringList getDagItemPath();
-
     void menuItemDeal(QStringList paths, QAction *action);
     QModelIndexList getSelectedIndexes();
     int getListViewHeight();     //add 3975
-//    void selectCurrent(int row);
     int getRow(QPoint point);
     void selectRear(int row);
     void selectFront(int row);
     void selectExtent(int start, int end);
-//    void clearSelectionRear(int row);
-//    void clearSelectionFront(int row);
-//    void clearSelectionExtent(int start, int end);
     void resizeHand();  //手动发送信号，计算大小
     void setListViewUseFor(ListViewUseFor usefor);
     void selectDuplicateForOneListView(QStringList paths, QModelIndex &firstIndex);
     void selectDuplicatePhotos(QStringList paths, bool bMultiListView = false);
     void updateModelRoleData(QString albumName, int actionType);
 signals:
-//    void loadend(int);
     void needResize(int);
     void loadEnd();
     void openImage(int);
@@ -167,7 +156,6 @@ signals:
     void sigKeyEvent(int key);
 #if 1
     void sigMouseRelease();
-//    void sigCtrlMouseRelease();
     void sigMousePress(QMouseEvent *event);
     void sigShiftMousePress(QMouseEvent *event);
     void sigCtrlMousePress(QMouseEvent *event);
@@ -176,7 +164,6 @@ signals:
     void sigMouseMove();
     void needResizeLabel();
     bool sigDBImageLoaded();//数据库图片加载完毕
-//    void sigDrop();
 #endif
 
     void sigLoad80ThumbnailsFinish();
@@ -197,14 +184,17 @@ private slots:
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
     void onTimerOut();
-//    void onResizeEventTimerOut();
-//    void slotPageNeedResize(int index);
     void resizeEventF();
     void sltChangeDamagedPixOnThemeChanged();
 
 public slots:
     void slotReCalcTimelineSize();
     void slotLoad80ThumbnailsFinish();
+    void onSyncListviewModelData(QStringList paths, QString albumName, int actionType);
+    void onScrollbarValueChanged(int value);
+    void onScrollBarRangeChanged(int min, int max);
+    void onDoubleClicked(const QModelIndex & index);
+    void onClicked();
 
 public:
     void updateThumbnailView(QString updatePath = "");
@@ -223,16 +213,12 @@ private:
     void addThumbnailView();
     void sendNeedResize(/*int height*/);
 
-    //------------------
-//    void updateThumbnailView();
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
-//    void onShowImageInfo(const QString &path);
     void initMenuAction();
     DMenu *createAlbumMenu();
     void resizeEvent(QResizeEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *e) override;
-
     QPixmap getDamagedPixmap();
 
     /**
@@ -282,10 +268,6 @@ private:
     bool bneedsendresize = false;
     int lastresizeheight = 0;
     int resizenum = 0;
-//    QTimer *m_dtresizeevent = nullptr;
-//    bool bneedresize = false;
-//    int lastwidth = 0;
-//    int newwidth = 0;
     //------------------
 
     //---触屏判断--------

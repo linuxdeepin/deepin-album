@@ -222,6 +222,19 @@ public slots:
     void onNextButton();
     void onPreButton();
     void updateFilenameLayout();
+    void onBackButtonClicked();
+    void onAdaptImageBtnClicked();
+    void onAdaptScreenBtnClicked();
+    void onclBTClicked();
+    void onRotateLBtnClicked();
+    void onRotateRBtnClicked();
+    void onImgListViewTestloadRight();
+    void onImgListViewTestloadLeft();
+    void onHideImageView();
+    void onSilmoved();
+    void onNeedContinueRequest();
+    void onTrashBtnClicked();
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 

@@ -60,6 +60,10 @@ public:
 
 public slots:
     void on_m_pSlideShowBtnClicked();
+	void onSlideShowBtnClicked();
+    void onThumbnailListViewOpenImage(int index);
+    void onThumbnailListViewMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    void onFinishLoad();
 
 private:
     void initConnections();
@@ -79,8 +83,6 @@ private:
     DWidget *m_pSearchResultView;
     DWidget *m_searchResultViewbody;
     DWidget *m_searchResultViewTop;
-    //DWidget *m_searchResultViewTop;
-//    DPushButton *m_pSlideShowBtn;
     SlideShowButton *m_pSlideShowBtn;
     DLabel *m_pSearchResultLabel;
     QString m_keywords;

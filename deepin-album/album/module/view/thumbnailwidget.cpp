@@ -55,27 +55,10 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
     QPixmap logo_pix1 = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
     m_logo = logo_pix1;
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        m_picString = "";
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            m_picString = ICON_IMPORT_PHOTO_DARK;
-            m_theme = true;
-        } else {
-            m_picString = ICON_IMPORT_PHOTO_LIGHT;
-            m_theme = false;
-        }
-
-        QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
-        m_logo = logo_pix;
-        if (m_isDefaultThumbnail)
-            m_defaultImage = logo_pix;
-        update();
-    });
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ThumbnailWidget::onThemeTypeChanged);
 
     setMouseTracking(true);
     m_thumbnailLabel = new QLabel(this);
-//    m_thumbnailLabel->setObjectName("ThumbnailLabel");
     m_thumbnailLabel->setFixedSize(THUMBNAIL_BORDERSIZE);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
@@ -90,12 +73,6 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
     DFontSizeManager::instance()->bind(tips, DFontSizeManager::T6);
     tips->setForegroundRole(DPalette::TextTips);
     tips->hide();
-
-//    DSuggestButton *button = new DSuggestButton(tr("Open the picture"), this);
-//    button->setFixedWidth(302);
-//    button->setFixedHeight(36);
-//    button->setShortcut(QKeySequence("Ctrl+O"));
-//    connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 
     connect(dApp->signalM, &SignalManager::picNotExists, this, [ = ](bool visible) {
         if (visible) {
@@ -113,13 +90,11 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
     layout->addWidget(m_tips,  0, Qt::AlignCenter);
 #else
     layout->addWidget(tips,  0, Qt::AlignCenter);
-//    layout->addWidget(button,  0, Qt::AlignCenter);
 #endif
     layout->addStretch();
     setLayout(layout);
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &ThumbnailWidget::onThemeChanged);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &ThumbnailWidget::onThemeChanged);
 }
 
 void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
@@ -141,11 +116,6 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
 void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 {
     if (thumbnail.isNull()) {
-//        if (m_theme) {
-//            m_defaultImage = m_logo;
-//        } else {
-//            m_defaultImage = m_logo;
-//        }
         m_defaultImage = m_logo;
         m_isDefaultThumbnail = true;
     } else {
@@ -155,6 +125,26 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 
     update();
 }
+
+void ThumbnailWidget::onThemeTypeChanged()
+{
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    m_picString = "";
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        m_picString = ICON_IMPORT_PHOTO_DARK;
+        m_theme = true;
+    } else {
+        m_picString = ICON_IMPORT_PHOTO_LIGHT;
+        m_theme = false;
+    }
+
+    QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
+    m_logo = logo_pix;
+    if (m_isDefaultThumbnail)
+        m_defaultImage = logo_pix;
+    update();
+}
+
 
 //bool ThumbnailWidget::isDefaultThumbnail()
 //{

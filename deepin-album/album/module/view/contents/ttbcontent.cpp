@@ -716,14 +716,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addWidget(m_backButton);
     hb->addStretch();
     //hb->addSpacing(ICON_SPACING * 5);
-    connect(m_backButton, &DIconButton::clicked, this, [ = ] {
-        //2020/6/9 DJH 优化退出全屏，不再闪出退出全屏的间隙 31331
-        this->setVisible(false);
-        emit dApp->signalM->hideImageView();
-        this->setVisible(true);
-        emit dApp->signalM->sigPauseOrStart(false); //唤醒后台外设线程
-        emit ttbcontentClicked();
-    });
+    connect(m_backButton, &DIconButton::clicked, this, &TTBContent::onBackButtonClicked);
 
     // preButton
     m_preButton = new DIconButton(this);
@@ -783,15 +776,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
-        m_adaptImageBtn->setChecked(true);
-        if (!badaptImageBtnChecked)
-        {
-            badaptImageBtnChecked = true;
-            emit resetTransform(false);
-            emit ttbcontentClicked();
-        }
-    });
+    connect(m_adaptImageBtn, &DIconButton::clicked, this, &TTBContent::onAdaptImageBtnClicked);
 
 
     // adaptScreenBtn
@@ -807,15 +792,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] {
-        m_adaptScreenBtn->setChecked(true);
-        if (!badaptScreenBtnChecked)
-        {
-            badaptScreenBtnChecked = true;
-            emit resetTransform(true);
-            emit ttbcontentClicked();
-        }
-    });
+    connect(m_adaptScreenBtn, &DIconButton::clicked, this, &TTBContent::onAdaptScreenBtnClicked);
 
     // Collection button
     m_clBT = new DIconButton(this);
@@ -823,19 +800,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     AC_SET_OBJECT_NAME(m_clBT, Ttbcontent_Collect_Button);
     AC_SET_ACCESSIBLE_NAME(m_clBT, Ttbcontent_Collect_Button);
 
-    connect(m_clBT, &DIconButton::clicked, this, [ = ] {
-
-        if (true == m_bClBTChecked)
-        {
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
-        } else
-        {
-            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
-            emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
-        }
-
-        emit ttbcontentClicked();
-    });
+    connect(m_clBT, &DIconButton::clicked, this, &TTBContent::onclBTClicked);
 
     hb->addWidget(m_clBT);
     hb->addSpacing(ICON_SPACING);
@@ -850,10 +815,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
     hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_rotateLBtn, &DIconButton::clicked, this, [ = ] {
-        emit rotateCounterClockwise();
-        emit ttbcontentClicked();
-    });
+    connect(m_rotateLBtn, &DIconButton::clicked, this, &TTBContent::onRotateLBtnClicked);
 
     // rotateRBtn
     m_rotateRBtn = new DIconButton(this);
@@ -866,10 +828,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
 
     hb->addWidget(m_rotateRBtn);
     hb->addSpacing(ICON_SPACING + 8);
-    connect(m_rotateRBtn, &DIconButton::clicked, this, [ = ] {
-        emit rotateClockwise();
-        emit ttbcontentClicked();
-    });
+    connect(m_rotateRBtn, &DIconButton::clicked, this, &TTBContent::onRotateRBtnClicked);
 
     // imgListView
     m_imgListView = new MyImageListWidget(this);
@@ -878,69 +837,12 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     m_imgListView->setObj(m_imgList);
     m_imgListView->setObjectName("MyImageListWidget");
     m_imgList->installEventFilter(m_imgListView);
-    connect(m_imgListView, &MyImageListWidget::testloadRight, this, [ = ] {
-        if (m_rightlist.isEmpty())
-            return ;
-        qDebug() << "请求加载右边图片";
-        QStringList loadRight;
-        for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
-        {
-            if (m_rightlist.isEmpty())
-                break;
-            ImageDataSt data;
-            if (ImageEngineApi::instance()->getImageData(m_rightlist.first(), data)) {
-                insertImageItem(data);
-                loadRight << m_rightlist.first();
-                m_rightlist.removeFirst();
-            }
-        }
-        m_allfileslist << loadRight;
-        //m_filelist_size = m_allfileslist.size();
-//        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
-        emit sigloadRight(loadRight);
-
-    });
-    connect(m_imgListView, &MyImageListWidget::testloadLeft, this, [ = ] {
-        if (m_leftlist.isEmpty())
-            return;
-        qDebug() << "请求加载左边图片";
-        QStringList loadLeft;
-        for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
-        {
-            if (m_leftlist.isEmpty())
-                break;
-            ImageDataSt data;
-            if (ImageEngineApi::instance()->getImageData(m_leftlist.last(), data)) {
-                insertImageItem(data, false);
-                loadLeft << m_leftlist.last();
-                m_leftlist.removeLast();
-            }
-        }
-        for (const auto &path : loadLeft)
-            m_allfileslist.push_front(path);    //倒序放置
-        m_filelist_size = m_allfileslist.size();
-        emit sigloadLeft(loadLeft);
-    });
-
-    connect(dApp->signalM, &SignalManager::hideImageView, this, [ = ] {
-        m_imgList->hide();
-    });
-    connect(m_imgListView, &MyImageListWidget::silmoved, this, [ = ] {
-        binsertneedupdate = false;
-    });
-    connect(m_imgListView, &MyImageListWidget::needContinueRequest, this, [ = ] {
-        binsertneedupdate = false;
-        if (m_requestCount > 0)
-        {
-            bneedloadimage = true;
-        } else
-        {
-            requestSomeImages();
-        }
-    });
-    connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [ = ] {
-        this->updateScreen();
-    });
+    connect(m_imgListView, &MyImageListWidget::testloadRight, this, &TTBContent::onImgListViewTestloadRight);
+    connect(m_imgListView, &MyImageListWidget::testloadLeft, this, &TTBContent::onImgListViewTestloadLeft);
+    connect(dApp->signalM, &SignalManager::hideImageView, this, &TTBContent::onHideImageView);
+    connect(m_imgListView, &MyImageListWidget::silmoved, this, &TTBContent::onSilmoved);
+    connect(m_imgListView, &MyImageListWidget::needContinueRequest, this, &TTBContent::onNeedContinueRequest);
+    connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, &TTBContent::updateScreen);
 
     if (m_allfileslist.size() <= 3) {
         m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
@@ -983,16 +885,10 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     hb->addSpacing(10);
     m_fileNameLabel = new ElidedLabel();
 
-    connect(m_trashBtn, &DIconButton::clicked, this, [ = ] {
-        emit dApp->signalM->deleteByMenu();
-    });
-//    connect(m_trashBtn, &DIconButton::clicked, SignalManager::instance(), &SignalManager::deleteByMenu);
+    connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::onTrashBtnClicked);
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
-
-    connect(this, &TTBContent::sigRequestSomeImages, this, [ = ] {
-        requestSomeImages();
-    });
+    connect(this, &TTBContent::sigRequestSomeImages, this, &TTBContent::requestSomeImages);
 }
 
 
@@ -1507,6 +1403,137 @@ void TTBContent::updateFilenameLayout()
     }
 
     m_fileNameLabel->setText(name, leftMargin);
+}
+
+void TTBContent::onBackButtonClicked()
+{
+    //2020/6/9 DJH 优化退出全屏，不再闪出退出全屏的间隙 31331
+    this->setVisible(false);
+    emit dApp->signalM->hideImageView();
+    this->setVisible(true);
+    emit dApp->signalM->sigPauseOrStart(false); //唤醒后台外设线程
+    emit ttbcontentClicked();
+}
+
+void TTBContent::onAdaptImageBtnClicked()
+{
+    m_adaptImageBtn->setChecked(true);
+    if (!badaptImageBtnChecked)
+    {
+        badaptImageBtnChecked = true;
+        emit resetTransform(false);
+        emit ttbcontentClicked();
+    }
+}
+
+void TTBContent::onAdaptScreenBtnClicked()
+{
+    m_adaptScreenBtn->setChecked(true);
+    if (!badaptScreenBtnChecked)
+    {
+        badaptScreenBtnChecked = true;
+        emit resetTransform(true);
+        emit ttbcontentClicked();
+    }
+}
+
+void TTBContent::onclBTClicked()
+{
+    if (true == m_bClBTChecked)
+    {
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
+    } else
+    {
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
+        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
+    }
+
+    emit ttbcontentClicked();
+}
+
+void TTBContent::onRotateLBtnClicked()
+{
+    emit rotateCounterClockwise();
+    emit ttbcontentClicked();
+}
+
+void TTBContent::onRotateRBtnClicked()
+{
+    emit rotateClockwise();
+    emit ttbcontentClicked();
+}
+
+void TTBContent::onImgListViewTestloadRight()
+{
+    if (m_rightlist.isEmpty())
+        return ;
+    qDebug() << "请求加载右边图片";
+    QStringList loadRight;
+    for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
+    {
+        if (m_rightlist.isEmpty())
+            break;
+        ImageDataSt data;
+        if (ImageEngineApi::instance()->getImageData(m_rightlist.first(), data)) {
+            insertImageItem(data);
+            loadRight << m_rightlist.first();
+            m_rightlist.removeFirst();
+        }
+    }
+    m_allfileslist << loadRight;
+    //m_filelist_size = m_allfileslist.size();
+//        m_imgList->setFixedWidth(m_imgList->width() + 32 * loadRight.size());
+    emit sigloadRight(loadRight);
+}
+
+void TTBContent::onImgListViewTestloadLeft()
+{
+    if (m_leftlist.isEmpty())
+        return;
+    qDebug() << "请求加载左边图片";
+    QStringList loadLeft;
+    for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
+    {
+        if (m_leftlist.isEmpty())
+            break;
+        ImageDataSt data;
+        if (ImageEngineApi::instance()->getImageData(m_leftlist.last(), data)) {
+            insertImageItem(data, false);
+            loadLeft << m_leftlist.last();
+            m_leftlist.removeLast();
+        }
+    }
+    for (const auto &path : loadLeft)
+        m_allfileslist.push_front(path);    //倒序放置
+    m_filelist_size = m_allfileslist.size();
+    emit sigloadLeft(loadLeft);
+}
+
+void TTBContent::onHideImageView()
+{
+    m_imgList->hide();
+}
+
+void TTBContent::onSilmoved()
+{
+    binsertneedupdate = false;
+}
+
+void TTBContent::onNeedContinueRequest()
+{
+    binsertneedupdate = false;
+    if (m_requestCount > 0)
+    {
+        bneedloadimage = true;
+    } else
+    {
+        requestSomeImages();
+    }
+}
+
+void TTBContent::onTrashBtnClicked()
+{
+    emit dApp->signalM->deleteByMenu();
 }
 
 void TTBContent::onNextButton()

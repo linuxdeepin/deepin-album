@@ -64,11 +64,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_preButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_preButton);
     hb->addSpacing(4);
-    connect(m_preButton, &DIconButton::clicked, this, [ = ] {
-        emit dApp->signalM->updatePauseButton();
-        emit dApp->signalM->updateButton();
-        emit showPrevious();
-    });
+    connect(m_preButton, &DIconButton::clicked, this, &SlideShowBottomBar::onPreButtonClicked);
     m_playpauseButton = new DIconButton(this);
     m_playpauseButton->setShortcut(Qt::Key_Space);
     AC_SET_OBJECT_NAME(m_playpauseButton, Slider_Play_Pause_Button);
@@ -80,34 +76,9 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_playpauseButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_playpauseButton);
     hb->addSpacing(4);
-    connect(m_playpauseButton, &DIconButton::clicked, this, [ = ] {
-        if (0 == a)
-        {
-            m_playpauseButton->setIcon(QIcon::fromTheme("dcc_play_normal"));
-            m_playpauseButton->setToolTip(tr("Play"));
-            a = 1;
-            emit dApp->signalM->updateButton();
-            emit showPause();
-        } else
-        {
-            m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
-            m_playpauseButton->setToolTip(tr("Pause"));
-            a = 0;
-            emit dApp->signalM->sigStartTimer();
-            emit showContinue();
-        }
-
-    });
-    connect(dApp->signalM, &SignalManager::updatePauseButton, this, [ = ] {
-        m_playpauseButton->setIcon(QIcon::fromTheme("dcc_play_normal"));
-        m_playpauseButton->setToolTip(tr("Play"));
-        a = 1;
-    });
-    connect(dApp->signalM, &SignalManager::initSlideShowButton, this, [ = ] {
-        m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
-        m_playpauseButton->setToolTip(tr("Pause"));
-        a = 0;
-    });
+    connect(m_playpauseButton, &DIconButton::clicked, this, &SlideShowBottomBar::onPlaypauseButtonClicked);
+    connect(dApp->signalM, &SignalManager::updatePauseButton, this, &SlideShowBottomBar::onUpdatePauseButton);
+    connect(dApp->signalM, &SignalManager::initSlideShowButton, this, &SlideShowBottomBar::onInitSlideShowButton);
     m_nextButton = new DIconButton(this);
     AC_SET_OBJECT_NAME(m_nextButton, Slider_Next_Button);
     AC_SET_ACCESSIBLE_NAME(m_nextButton, Slider_Next_Button);
@@ -118,11 +89,7 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_nextButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_nextButton);
     hb->addSpacing(4);
-    connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
-        emit dApp->signalM->updatePauseButton();
-        emit dApp->signalM->updateButton();
-        emit showNext();
-    });
+    connect(m_nextButton, &DIconButton::clicked, this, &SlideShowBottomBar::onNextButtonClicked);
     m_cancelButton = new DIconButton(this);
     AC_SET_OBJECT_NAME(m_cancelButton, Slider_Exit_Button);
     AC_SET_ACCESSIBLE_NAME(m_cancelButton, Slider_Exit_Button);
@@ -132,10 +99,60 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     m_cancelButton->setToolTip(tr("Exit"));
     m_cancelButton->setFocusPolicy(Qt::NoFocus);
     hb->addWidget(m_cancelButton);
-    connect(m_cancelButton, &DIconButton::clicked, this, [ = ] {
-        emit showCancel();
-    });
+    connect(m_cancelButton, &DIconButton::clicked, this, &SlideShowBottomBar::onCancelButtonClicked);
     setLayout(hb);
+}
+
+void SlideShowBottomBar::onPreButtonClicked()
+{
+    emit dApp->signalM->updatePauseButton();
+    emit dApp->signalM->updateButton();
+    emit showPrevious();
+}
+
+void SlideShowBottomBar::onPlaypauseButtonClicked()
+{
+    if (0 == a)
+    {
+        m_playpauseButton->setIcon(QIcon::fromTheme("dcc_play_normal"));
+        m_playpauseButton->setToolTip(tr("Play"));
+        a = 1;
+        emit dApp->signalM->updateButton();
+        emit showPause();
+    } else
+    {
+        m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
+        m_playpauseButton->setToolTip(tr("Pause"));
+        a = 0;
+        emit dApp->signalM->sigStartTimer();
+        emit showContinue();
+    }
+}
+
+void SlideShowBottomBar::onUpdatePauseButton()
+{
+    m_playpauseButton->setIcon(QIcon::fromTheme("dcc_play_normal"));
+    m_playpauseButton->setToolTip(tr("Play"));
+    a = 1;
+}
+
+void SlideShowBottomBar::onInitSlideShowButton()
+{
+    m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
+    m_playpauseButton->setToolTip(tr("Pause"));
+    a = 0;
+}
+
+void SlideShowBottomBar::onNextButtonClicked()
+{
+    emit dApp->signalM->updatePauseButton();
+    emit dApp->signalM->updateButton();
+    emit showNext();
+}
+
+void SlideShowBottomBar::onCancelButtonClicked()
+{
+    emit showCancel();
 }
 
 SlideShowPanel::SlideShowPanel(QWidget *parent) : QWidget(parent)
@@ -158,29 +175,14 @@ SlideShowPanel::SlideShowPanel(QWidget *parent) : QWidget(parent)
 
 void SlideShowPanel::initConnections()
 {
-    connect(m_animation, &ImageAnimation::singleAnimationEnd, this, [ = ] {
-        return ;
-    });
+    connect(m_animation, &ImageAnimation::singleAnimationEnd, this, &SlideShowPanel::onSingleAnimationEnd);
     connect(dApp->signalM, &SignalManager::startSlideShow, this, &SlideShowPanel::startSlideShow);
-    connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, [ = ] {
-        if (isVisible())
-            backToLastPanel();
-    });
-    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [ = ] {
-        m_animation->pauseAndNext();
-    });
-    connect(slideshowbottombar, &SlideShowBottomBar::showContinue, this, [ = ] {
-        m_animation->ifPauseAndContinue();
-    });
-    connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
-        m_animation->playAndPre();
-    });
-    connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
-        m_animation->playAndNext();
-    });
-    connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [ = ] {
-        backToLastPanel();
-    });
+    connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, &SlideShowPanel::onESCKeyStopSlide);
+    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, &SlideShowPanel::onShowPause);
+    connect(slideshowbottombar, &SlideShowBottomBar::showContinue, this, &SlideShowPanel::onShowContinue);
+    connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, &SlideShowPanel::onShowPrevious);
+    connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, &SlideShowPanel::onShowNext);
+    connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, &SlideShowPanel::backToLastPanel);
 }
 
 void SlideShowPanel::initMenu()
@@ -193,9 +195,7 @@ void SlideShowPanel::initMenu()
     appendAction(IdPlayOrPause, tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()), stopSc);
     appendAction(IdStopslideshow, tr(slideshowbottombar->m_cancelButton->toolTip().toStdString().c_str()), stopSc);
     connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
-    connect(this, &SlideShowPanel::customContextMenuRequested, this, [ = ] {
-        m_menu->popup(QCursor::pos());
-    });
+    connect(this, &SlideShowPanel::customContextMenuRequested, this, &SlideShowPanel::onCustomContextMenuRequested);
 }
 
 void SlideShowPanel::appendAction(int id, const QString &text, const QString &shortcut)
@@ -326,6 +326,42 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
         m_bgColor = LIGHT_BG_COLOR;
     }
     update();
+}
+
+void SlideShowPanel::onSingleAnimationEnd()
+{
+    return ;
+}
+
+void SlideShowPanel::onESCKeyStopSlide()
+{
+    if (isVisible())
+        backToLastPanel();
+}
+
+void SlideShowPanel::onShowPause()
+{
+    m_animation->pauseAndNext();
+}
+
+void SlideShowPanel::onShowContinue()
+{
+    m_animation->ifPauseAndContinue();
+}
+
+void SlideShowPanel::onShowPrevious()
+{
+    m_animation->playAndPre();
+}
+
+void SlideShowPanel::onShowNext()
+{
+    m_animation->playAndNext();
+}
+
+void SlideShowPanel::onCustomContextMenuRequested()
+{
+    m_menu->popup(QCursor::pos());
 }
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *event)

@@ -35,50 +35,6 @@ void ViewPanel::initFloatingComponent()
     initNavigation();
 }
 
-//void ViewPanel::initSwitchButtons()
-//{
-//    using namespace utils::base;
-
-//    DAnchors<DIconButton> pre_button = new DIconButton(this);
-//    DAnchors<DIconButton> next_button = new DIconButton(this);
-
-//    pre_button->setObjectName("PreviousButton");
-//    next_button->setObjectName("NextButton");
-
-//    pre_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
-//    pre_button.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
-
-//    next_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
-//    next_button.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
-
-//    pre_button->setFixedSize(100, 200);
-//    next_button->setFixedSize(100, 200);
-
-//    pre_button->hide();
-//    next_button->hide();
-
-//    connect(pre_button, &DIconButton::clicked, this, &ViewPanel::showPrevious);
-//    connect(next_button, &DIconButton::clicked, this, &ViewPanel::showNext);
-
-
-//    connect(this, &ViewPanel::mouseMoved, this, [ = ] {
-//        DAnchors<DIconButton> pb = pre_button;
-//        QPoint pos = mapFromGlobal(QCursor::pos());
-//        QRect left_rect = pre_button->geometry();
-//        QRect right_rect = next_button->geometry();
-
-//        if (left_rect.contains(pos, true) || right_rect.contains(pos))
-//        {
-//            pre_button->show();
-//            next_button->show();
-//        } else
-//        {
-//            pre_button->hide();
-//            next_button->hide();
-//        }
-//    });
-//}
-
 void ViewPanel::initScaleLabel()
 {
     using namespace utils::base;

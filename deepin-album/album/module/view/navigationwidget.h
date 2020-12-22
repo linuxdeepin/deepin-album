@@ -31,6 +31,7 @@ public:
     void setAlwaysHidden(bool value);
     bool isAlwaysHidden() const;
     QPoint transImagePos(QPoint pos);
+
 Q_SIGNALS:
     void requestMove(int x, int y);
 protected:

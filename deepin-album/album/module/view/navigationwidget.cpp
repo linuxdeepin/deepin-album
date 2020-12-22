@@ -114,8 +114,7 @@ NavigationWidget::NavigationWidget(QWidget *parent)
                        rect().height() - IMAGE_MARGIN_BOTTOM * 2);
 
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &NavigationWidget::onThemeChanged);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &NavigationWidget::onThemeChanged);
 }
 
 void NavigationWidget::setAlwaysHidden(bool value)

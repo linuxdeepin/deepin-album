@@ -48,22 +48,10 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     , selectedPixmapDark(utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28)))
     , m_delegatetype(type)
 {
-//    m_imageTypeStr = IMAGE_DEFAULTTYPE;
-
-//    selectedPixmapLight = utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28));
-//    selectedPixmapDark = utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28));
 
 }
 
-
-//void ThumbnailDelegate::setNeedPaint(bool value)
-//{
-//    bneedpaint = value;
-//}
-
-void ThumbnailDelegate::paint(QPainter *painter,
-                              const QStyleOptionViewItem &option,
-                              const QModelIndex &index) const
+void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (!bneedpaint) {
         return;

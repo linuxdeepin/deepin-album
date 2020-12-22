@@ -83,8 +83,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     m_dt->setSingleShot(true);
     m_dt->setInterval(20);
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-            this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
     touchTapDistance = 15;
 }
 
@@ -291,104 +290,15 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 
 void ThumbnailListView::initConnections()
 {
-    connect(dApp->signalM, &SignalManager::sigSyncListviewModelData, this, [ = ](QStringList paths, QString albumName, int actionType) {
-        if (paths.count() < 1)
-            return ;
-        if (sender() != this) {
-            // listview存在多个，状态model不同，所以先处理已知的，再通知其他model
-            // 本listview对象不再处理其他listviw对象model的同步问题！
-            if (actionType == IdRemoveFromAlbum) {
-                // remove from album
-                if (paths.count() == 1 && !this->getAllPaths().contains(paths.at(0)))
-                    return;
-                for (int i = 0; i < m_model->rowCount(); i++) {
-                    QModelIndex idx = m_model->index(i, 0);
-                    QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                    if (lst.count() >= 12) {
-                        for (int j = 0; j < paths.count(); j++) {
-                            if (lst.at(1).toString() == paths.at(j)) {
-                                QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
-                                datas.removeAll(albumName);
-                                QMap<int, QVariant> tempData;
-                                tempData.insert(Qt::UserRole + 2, datas);
-                                m_model->setItemData(idx,tempData);
-                            }
-                        }
-                    }
-                }
-            } else if (actionType == IdAddToAlbum) {
-                // add to album
-                if (paths.count() == 1 && !this->getAllPaths().contains(paths.at(0)))
-                    return;
-                for (int i = 0; i < m_model->rowCount(); i++) {
-                    QModelIndex idx = m_model->index(i, 0);
-                    QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                    if (lst.count() >= 12) {
-                        for (int j = 0; j < paths.count(); j++) {
-                            if (lst.at(1).toString() == paths.at(j)) {
-                                QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
-                                datas.append(albumName);
-                                QMap<int, QVariant> tempData;
-                                tempData.insert(Qt::UserRole + 2, datas);
-                                m_model->setItemData(idx,tempData);
-                            }
-                        }
-                    }
-                }
-            } else if (actionType == IdMoveToTrash) {
-                // delete photos
-                if (paths.count() == 1 &&!this->getAllPaths().contains(paths.at(0)))
-                    return;
-                for (int i = 0; i < m_model->rowCount(); i++) {
-                    QModelIndex idx = m_model->index(i, 0);
-                    QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                    if (lst.count() >= 12) {
-                        for (int j = 0; j < paths.count(); j++) {
-                            if (lst.at(1).toString() == paths.at(j)) {
-                                QStringList datas;
-                                datas.clear();
-                                QMap<int, QVariant> tempData;
-                                tempData.insert(Qt::UserRole + 2, datas);
-                                m_model->setItemData(idx,tempData);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-    connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, [ = ](int value) {
-        if (value && value >= (this->verticalScrollBar()->maximum())) {
-            if (m_requestCount > 0) {
-                bneedloadimage = true;
-            } else {
-                requestSomeImages();
-            }
-        }
-    });
-    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, [ = ](int min, int max) {
-        Q_UNUSED(max);
-        Q_UNUSED(min);
-        if (nullptr == m_item) {
-            QScrollBar *bar = this->verticalScrollBar();
-            bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
-        }
-    });
+    connect(dApp->signalM, &SignalManager::sigSyncListviewModelData, this, &ThumbnailListView::onSyncListviewModelData);
+    connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, &ThumbnailListView::onScrollbarValueChanged);
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, &ThumbnailListView::onScrollBarRangeChanged);
     connect(this, &QListView::customContextMenuRequested, this, &ThumbnailListView::onShowMenu);
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
-    connect(this, &ThumbnailListView::doubleClicked, this, [ = ](const QModelIndex & index) {
-        if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
-            if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
-                emit openImage(index.row());
-            }
-        }
-    });
-    connect(this, &ThumbnailListView::clicked, this, [ = ]() {
-        emit hideExtensionPanel();
-    });
+    connect(this, &ThumbnailListView::doubleClicked, this, &ThumbnailListView::onDoubleClicked);
+    connect(this, &ThumbnailListView::clicked, this, &ThumbnailListView::onClicked);
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, &ThumbnailListView::onPixMapScale);
-    connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this,
-            &ThumbnailListView::onCancelFavorite);
+    connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this, &ThumbnailListView::onCancelFavorite);
 }
 
 void ThumbnailListView::calBasePixMap(ItemInfo &info)
@@ -1789,6 +1699,109 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
     }
     resizeEventF();
     emit sigLoad80ThumbnailsFinish();
+}
+
+void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString albumName, int actionType)
+{
+    if (paths.count() < 1)
+        return ;
+    if (sender() != this) {
+        // listview存在多个，状态model不同，所以先处理已知的，再通知其他model
+        // 本listview对象不再处理其他listviw对象model的同步问题！
+        if (actionType == IdRemoveFromAlbum) {
+            // remove from album
+            if (paths.count() == 1 && !this->getAllPaths().contains(paths.at(0)))
+                return;
+            for (int i = 0; i < m_model->rowCount(); i++) {
+                QModelIndex idx = m_model->index(i, 0);
+                QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
+                if (lst.count() >= 12) {
+                    for (int j = 0; j < paths.count(); j++) {
+                        if (lst.at(1).toString() == paths.at(j)) {
+                            QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
+                            datas.removeAll(albumName);
+                            QMap<int, QVariant> tempData;
+                            tempData.insert(Qt::UserRole + 2, datas);
+                            m_model->setItemData(idx,tempData);
+                        }
+                    }
+                }
+            }
+        } else if (actionType == IdAddToAlbum) {
+            // add to album
+            if (paths.count() == 1 && !this->getAllPaths().contains(paths.at(0)))
+                return;
+            for (int i = 0; i < m_model->rowCount(); i++) {
+                QModelIndex idx = m_model->index(i, 0);
+                QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
+                if (lst.count() >= 12) {
+                    for (int j = 0; j < paths.count(); j++) {
+                        if (lst.at(1).toString() == paths.at(j)) {
+                            QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
+                            datas.append(albumName);
+                            QMap<int, QVariant> tempData;
+                            tempData.insert(Qt::UserRole + 2, datas);
+                            m_model->setItemData(idx,tempData);
+                        }
+                    }
+                }
+            }
+        } else if (actionType == IdMoveToTrash) {
+            // delete photos
+            if (paths.count() == 1 &&!this->getAllPaths().contains(paths.at(0)))
+                return;
+            for (int i = 0; i < m_model->rowCount(); i++) {
+                QModelIndex idx = m_model->index(i, 0);
+                QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
+                if (lst.count() >= 12) {
+                    for (int j = 0; j < paths.count(); j++) {
+                        if (lst.at(1).toString() == paths.at(j)) {
+                            QStringList datas;
+                            datas.clear();
+                            QMap<int, QVariant> tempData;
+                            tempData.insert(Qt::UserRole + 2, datas);
+                            m_model->setItemData(idx,tempData);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void ThumbnailListView::onScrollbarValueChanged(int value)
+{
+    if (value && value >= (this->verticalScrollBar()->maximum())) {
+        if (m_requestCount > 0) {
+            bneedloadimage = true;
+        } else {
+            requestSomeImages();
+        }
+    }
+}
+
+void ThumbnailListView::onScrollBarRangeChanged(int min, int max)
+{
+    Q_UNUSED(max);
+    Q_UNUSED(min);
+    if (nullptr == m_item) {
+        QScrollBar *bar = this->verticalScrollBar();
+        bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
+    }
+}
+
+void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
+{
+    if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
+        if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
+            emit openImage(index.row());
+        }
+    }
+}
+
+void ThumbnailListView::onClicked()
+{
+    emit hideExtensionPanel();
 }
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)

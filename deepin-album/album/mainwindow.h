@@ -95,6 +95,40 @@ public slots:
     void albumBtnClicked();
     void onCreateAlbum(QStringList imagepaths);
     void closeFromMenu();
+    void onButtonClicked(int id);
+    void onImageImported(bool success);
+    void onSearchEditTextChanged(QString text);
+    void onImagesInserted();
+    void onStartImprot();
+    void onProgressOfWaitDialog(int allfiles, int completefiles);
+    void onPopupWaitDialog(QString waittext, bool bneedprogress);
+    void onCloseWaitDialog();
+    void onImagesRemoved();
+    void onHideImageView();
+    void onShowSlidePanel(int index);
+    void onHideSlidePanel();
+    void onExportImage(QStringList paths);
+    void onMainwindowSliderValueChg(int step);
+    void onAlbDelToast(QString str1);
+    void onAddDuplicatePhotos();
+    void onAddToAlbToast(QString album);
+    void onImportSuccess();
+    void onSearchEditClear();
+    void onImportFailed();
+    void onImportSomeFailed(int successful, int failed);
+    void onImgExportFailed();
+    void onImgExportSuccess();
+    void onAlbExportFailed();
+    void onAlbExportSuccess();
+    void onEscShortcutActivated();
+    void onDelShortcutActivated();
+    void onKeyF2ShortcutActivated();
+    void onCtrlShiftSlashShortcutActivated();
+    void onCtrlFShortcutActivated();
+    void onShowImageView(int index);
+    void onSearchEditIsDisplay(bool bIsDisp);
+
+
 #if 1
     void onViewCreateAlbum(QString imgpath, bool bmodel = true);
 #endif

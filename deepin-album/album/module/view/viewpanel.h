@@ -53,8 +53,6 @@ public:
     QWidget *toolbarTopLeftContent() override;
     QWidget *bottomTopLeftContent() ;
     QWidget *toolbarTopMiddleContent() override;
-//    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-//    const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
     {
         if (!m_ttbc) {
@@ -63,24 +61,43 @@ public:
         return m_ttbc->itemLoadedSize();
     }
     ImageView *getImageView();
+
+
 signals:
     void updateCollectButton();
-//    void imageChanged(const QString &path, DBImgInfoList infos);
-    //------------------
     void imageChanged(const QString &path);
     void ttbcDeleteImage();
-    //------------------
     void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
     void updateTopLeftContentImage(const QString &path);
     void imgloader();
-
     void sigResize();
 
+public slots:
+    void onDeleteByMenu();
+    void onGotoPanel(ModulePanel *p);
+    void onShowExtensionPanel();
+    void onHideExtensionPanel();
+    void onHideImageView();
+    bool onSigViewImage(const SignalManager::ViewInfo & info);
+    void onMouseHoverMoved();
+    void onESCKeyActivated();
+    void onImagesInserted();
+    void onViewImageNoNeedReload(int &fileindex);
+    void onLoadRight(QStringList rightlist);
+    void onLoadLeft(QStringList leftlist);
+    void onttbcontentClicked();
+    void onRotateClockwise();
+    void onRotateCounterClockwise();
+    void onRemoved();
+    void onResetTransform(bool fitWindow);
+    void onDoubleClicked();
+    void onViewBClicked();
+    void onViewBImageChanged(QString path);
+    void onFIleDelete();
+
 protected:
-//    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-//    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
@@ -110,12 +127,10 @@ private:
     void initShortcut();
     void initStack();
     void initViewContent();
-//    void popupDelDialog(const QString path);
     void popupPrintDialog(const QString path);
 
     // Floating component
     void initFloatingComponent();
-//    void initSwitchButtons();
     void initScaleLabel();
     void initNavigation();
 
@@ -131,7 +146,6 @@ private:
 
     // View control
     void onViewImage(const  QStringList &vinfo);
-//    void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString &path, bool inDB = true, bool bjudge = true);
     void removeCurrentImage();
     void rotateImage(bool clockWise);
@@ -143,19 +157,11 @@ private:
     void toggleFullScreen();
     void showNormal();
     void showFullScreen();
-
-//    void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
-//    QFileInfoList getFileInfos(const QString &path);
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
-    //------------------
     void feedBackCurrentIndex(int index, QString path);
-    //------------------
-
-//    void updateLocalImages();
 
 private:
     int m_hideCursorTid;
@@ -173,26 +179,18 @@ private:
 
     // Floating component
     DAnchors<NavigationWidget> m_nav;
-
     SignalManager::ViewInfo m_vinfo;
-//    DBImgInfoList m_infos;
-//    DBImgInfoList::ConstIterator m_current =NULL;
-
     TTBContent *m_ttbc;
     int m_current = -1;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
-
     void eatImageDirIterator();
 #endif
     QString m_currentImageLastDir = "";
-//    QString m_viewType;
-
     //------------------
     QStringList m_filepathlist;
     QString m_currentpath = "";
     //------------------
-
     QTimer *m_deletetimer;  //删除图片定时器
     bool   m_bFirstFullScreen;  //是否全屏进入
 };

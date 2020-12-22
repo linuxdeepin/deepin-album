@@ -44,8 +44,15 @@ public:
     DIconButton *m_playpauseButton;
     DIconButton *m_cancelButton;
     int a = 0;
+
 private slots:
-//    void onThemeChanged(ViewerThemeManager::AppTheme theme);
+    void onPreButtonClicked();
+    void onPlaypauseButtonClicked();
+    void onUpdatePauseButton();
+    void onInitSlideShowButton();
+    void onNextButtonClicked();
+    void onCancelButtonClicked();
+
 signals:
     void showPrevious();
     void showPause();
@@ -78,6 +85,14 @@ public slots:
     void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB);
     void onMenuItemClicked(QAction *action);
     void onThemeChanged(ViewerThemeManager::AppTheme dark);
+    void onSingleAnimationEnd();
+    void onESCKeyStopSlide();
+    void onShowPause();
+    void onShowContinue();
+    void onShowPrevious();
+    void onShowNext();
+    void onCustomContextMenuRequested();
+
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void timerEvent(QTimerEvent *event) override;

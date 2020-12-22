@@ -133,134 +133,15 @@ SearchView::SearchView()
 void SearchView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-    connect(m_pSlideShowBtn, &DPushButton::clicked, this, [ = ] {
-        DBImgInfoList imagelist;
-        if (COMMON_STR_ALLPHOTOS == m_albumName
-                || COMMON_STR_TIMELINE == m_albumName
-                || COMMON_STR_RECENT_IMPORTED == m_albumName)
-        {
-            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
-        } else if (COMMON_STR_TRASH == m_albumName)
-        {
-            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
-        } else
-        {
-            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
-        }
-
-        QStringList paths;
-        for (auto image : imagelist)
-        {
-            paths << image.filePath;
-        }
-
-        const QString path = paths.first();
-
-        emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
-    });
+    connect(m_pSlideShowBtn, &DPushButton::clicked, this, &SearchView::onSlideShowBtnClicked);
     connect(dApp->signalM, &SignalManager::sigSendKeywordsIntoALLPic, this, &SearchView::improtSearchResultsIntoThumbnailView);
-    connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, [ = ](int index) {
-        SignalManager::ViewInfo info;
-        info.album = "";
-        info.lastPanel = nullptr;
-        DBImgInfoList imagelist;
-        if (COMMON_STR_ALLPHOTOS == m_albumName
-                || COMMON_STR_TIMELINE == m_albumName
-                || COMMON_STR_RECENT_IMPORTED == m_albumName) {
-            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
-        } else if (COMMON_STR_TRASH == m_albumName) {
-            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
-        } else {
-            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
-        }
-        for (auto image : imagelist) {
-            info.paths << image.filePath;
-        }
-        info.path = info.paths[index];
-        info.viewType = utils::common::VIEW_SEARCH_SRN;
-
-        emit dApp->signalM->viewImage(info);
-
-        if (COMMON_STR_ALLPHOTOS == m_albumName) {
-            emit dApp->signalM->showImageView(0);
-        } else if (COMMON_STR_TIMELINE == m_albumName) {
-            emit dApp->signalM->showImageView(1);
-        } else {
-            emit dApp->signalM->showImageView(2);
-        }
-    });
-    connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, [ = ](QString path, QStringList paths, bool isFullScreen, bool isSlideShow) {
-        SignalManager::ViewInfo info;
-        info.album = "";
-        info.lastPanel = nullptr;
-//        DBImgInfoList imagelist;
-//        if (COMMON_STR_ALLPHOTOS == m_albumName
-//                || COMMON_STR_TIMELINE == m_albumName
-//                || COMMON_STR_RECENT_IMPORTED == m_albumName) {
-//            imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
-//        } else if (COMMON_STR_TRASH == m_albumName) {
-//            imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
-//        } else {
-//            imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
-//        }
-
-        auto imagelist = m_pThumbnailListView->getAllFileList();
-        if (paths.size() > 1) {
-            info.paths = paths;
-        } else if (imagelist.size() > 1) {
-            for (auto image : imagelist) {
-                info.paths << image;
-            }
-        }
-        info.path = path;
-        info.fullScreen = isFullScreen;
-        info.slideShow = isSlideShow;
-        info.viewType = utils::common::VIEW_SEARCH_SRN;
-
-        if (info.slideShow) {
-            if (imagelist.count() == 1) {
-                info.paths = paths;
-            }
-
-            QStringList pathlist;
-            pathlist.clear();
-            for (auto path : info.paths) {
-                if (QFileInfo(path).exists()) {
-                    pathlist << path;
-                }
-            }
-
-            info.paths = pathlist;
-            emit dApp->signalM->startSlideShow(info);
-
-            if (COMMON_STR_ALLPHOTOS == m_albumName) {
-                emit dApp->signalM->showSlidePanel(0);
-            } else if (COMMON_STR_TIMELINE == m_albumName) {
-                emit dApp->signalM->showSlidePanel(1);
-            } else {
-                emit dApp->signalM->showSlidePanel(2);
-            }
-        } else {
-            emit dApp->signalM->viewImage(info);
-            if (COMMON_STR_ALLPHOTOS == m_albumName) {
-                emit dApp->signalM->showImageView(0);
-            } else if (COMMON_STR_TIMELINE == m_albumName) {
-                emit dApp->signalM->showImageView(1);
-            } else {
-                emit dApp->signalM->showImageView(2);
-            }
-        }
-
-    });
-
+    connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, &SearchView::onThumbnailListViewOpenImage);
+    connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, &SearchView::onThumbnailListViewMenuOpenImage);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &SearchView::updateSearchResultsIntoThumbnailView);
-//    qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &SearchView::changeTheme);
-    connect(dApp, &Application::sigFinishLoad, this, [ = ] {
-        m_pThumbnailListView->update();
-    });
+    connect(dApp, &Application::sigFinishLoad, this, &SearchView::onFinishLoad);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &SearchView::onKeyDelete);
 }
 
@@ -269,14 +150,8 @@ void SearchView::initNoSearchResultView()
     m_pNoSearchResultView = new DWidget();
     QVBoxLayout *pNoSearchResultLayout = new QVBoxLayout();
     pNoResult = new DLabel();
-
     pNoResult->setText(tr("No search results"));
     pNoResult->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
-
-//    DPalette pa = DApplicationHelper::instance()->palette(pNoResult);
-//    pa.setBrush(DPalette::Text, pa.color(DPalette::PlaceholderText));
-//    pNoResult->setPalette(pa);
-
     DPalette palette = DApplicationHelper::instance()->palette(pNoResult);
     QColor color_TTT = palette.color(DPalette::ToolTipText);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -304,13 +179,10 @@ void SearchView::initNoSearchResultView()
 void SearchView::initSearchResultView()
 {
     m_pSearchResultView = new DWidget();
-//    pSearchResultLayout->setSpacing(10);
     pLabel1 = new DLabel();
-    //pLabel1->setFixedSize(QSize(96, 36));
     pLabel1->setText(tr("Search results"));
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     font.setWeight(QFont::DemiBold);
-    //font.setPointSize(16);
     pLabel1->setFont(font);
     DPalette pa = DApplicationHelper::instance()->palette(pLabel1);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
@@ -323,35 +195,6 @@ void SearchView::initSearchResultView()
     //LMH0417 bug号20706
     pHBoxLayout->setContentsMargins(0, 0, 0, 15);
 
-//    m_pSlideShowBtn = new DPushButton();
-
-//    m_pSlideShowBtn->setFixedSize(105, 31);
-
-//    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//    if (themeType == DGuiApplicationHelper::LightType) {
-//        QPalette pal = m_pSlideShowBtn->palette();
-//        pal.setColor(QPalette::Light, QColor(253, 94, 94));
-//        pal.setColor(QPalette::Dark, QColor(237, 86, 86));
-//        pal.setColor(QPalette::ButtonText, QColor(255, 255, 255));
-//        m_pSlideShowBtn->setPalette(pal);
-////        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
-////        shadow_effect->setOffset(0,4);
-////        shadow_effect->setColor(QColor(248,44,71,102));
-////        shadow_effect->setBlurRadius(6);
-////        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
-//    }
-//    if (themeType == DGuiApplicationHelper::DarkType) {
-//        QPalette pal = m_pSlideShowBtn->palette();
-//        pal.setColor(QPalette::Light, QColor(218, 45, 45));
-//        pal.setColor(QPalette::Dark, QColor(165, 27, 27));
-//        pal.setColor(QPalette::ButtonText, QColor(255, 255, 255));
-//        m_pSlideShowBtn->setPalette(pal);
-////        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn); //阴影效果
-////        shadow_effect->setOffset(0,2);
-////        shadow_effect->setColor(QColor(193,10,10,127));
-////        shadow_effect->setBlurRadius(4);
-////        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
-//    }
     m_pSlideShowBtn = new SlideShowButton();
     m_pSlideShowBtn ->setFocusPolicy(Qt::NoFocus);
 
@@ -359,17 +202,10 @@ void SearchView::initSearchResultView()
     icon = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 18));
     m_pSlideShowBtn->setIcon(icon);
     m_pSlideShowBtn->setText(tr("Slide Show"));
-//    m_pSlideShowBtn->setFixedSize(QSize(150, 30));
     m_pSlideShowBtn->setFixedHeight(30);
-    //  DFontSizeManager::instance()->bind(m_pSlideShowBtn, DFontSizeManager::T6);
-//    QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-//    ft1.setFamily("SourceHanSansSC-Medium");
-//    ft1.setWeight(QFont::Medium);
-//    m_pSlideShowBtn->setFont(ft1);
 
     m_pSearchResultLabel = new DLabel();
     m_pSearchResultLabel->setContentsMargins(0, 0, 0, 0);
-    //pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSlideShowBtn);
     pHBoxLayout->addSpacing(5);
     pHBoxLayout->addWidget(m_pSearchResultLabel);
@@ -395,32 +231,23 @@ void SearchView::initSearchResultView()
 
     pSearchResultbodyLayout->addWidget(m_pThumbnailListView);
     QVBoxLayout *pSearchResultLayout = new QVBoxLayout();
-//    pSearchResultLayout->addSpacing(5);
-//    pSearchResultLayout->setMargin(2);
 
     pSearchResultLayout->setContentsMargins(13, 0, 0, 0);
-    // pSearchResultLayout->setMargin(0);
     pSearchResultLayout->setSpacing(0);
     pSearchResultLayout->addSpacing(5);
     pSearchResultLayout->addWidget(pLabel1);
     pSearchResultLayout->addSpacing(5);
     pSearchResultLayout->addItem(pHBoxLayout);
 
-//    pSearchResultLayout->addWidget(m_pThumbnailListView);
-    // pSearchResultLayout->addStretch();
-
     m_searchResultViewTop->setFixedHeight(95);
     m_searchResultViewTop->move(0, 50);
     m_searchResultViewbody->setLayout(pSearchResultbodyLayout);
     m_searchResultViewTop->setLayout(pSearchResultLayout);
     m_searchResultViewTop->raise();
-//    m_pSearchResultView->setLayout(pSearchResultLayout);
 }
 
 void SearchView::initMainStackWidget()
 {
-//    DWidget *topwidget = new DWidget;
-//    topwidget->setFixedHeight(50);
     m_stackWidget = new DStackedWidget();
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
     m_stackWidget->addWidget(m_pNoSearchResultView);
@@ -428,7 +255,6 @@ void SearchView::initMainStackWidget()
 
     QLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
-//    layout->addWidget(topwidget);
     layout->addWidget(m_stackWidget);
 }
 
@@ -450,43 +276,6 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     }
 
     if (0 < infos.length()) {
-//        for (auto info : infos) {
-//            ThumbnailListView::ItemInfo vi;
-//            vi.name = info.fileName;
-//            vi.path = info.filePath;
-////            if (COMMON_STR_TRASH == album)
-////            {
-////                vi.image = dApp->m_imagetrashmap.value(info.filePath);//TODO_DS
-////            }
-////            else
-////            {
-////                vi.image = dApp->m_imagemap.value(info.filePath);//TODO_DS
-////            }
-
-//            if (COMMON_STR_TRASH == m_albumName) {
-//                if (dApp->m_imagetrashmap.value(info.filePath).isNull()) {
-//                    QSize imageSize = getImageQSize(vi.path);
-
-//                    vi.width = imageSize.width();
-//                    vi.height = imageSize.height();
-//                } else {
-//                    vi.width = dApp->m_imagetrashmap.value(info.filePath).width();
-//                    vi.height = dApp->m_imagetrashmap.value(info.filePath).height();
-//                }
-//            } else {
-//                if (dApp->m_imagemap.value(info.filePath).isNull()) {
-//                    QSize imageSize = getImageQSize(vi.path);
-
-//                    vi.width = imageSize.width();
-//                    vi.height = imageSize.height();
-//                } else {
-//                    vi.width = dApp->m_imagemap.value(info.filePath).width();
-//                    vi.height = dApp->m_imagemap.value(info.filePath).height();
-//                }
-//            }
-//            thumbnaiItemList << vi;
-//        }
-//        m_pThumbnailListView->insertThumbnails(thumbnaiItemList);
         m_pThumbnailListView->loadFilesFromLocal(infos);
         QString searchStr = tr("%1 photo(s) found");
         QString str = QString::number(infos.length());
@@ -510,32 +299,43 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
 
         m_stackWidget->setCurrentIndex(1);
     } else {
-
-//        QString str = tr("No results for '%1',please try another word");
-//        m_pNoSearchResultLabel->setText(str.arg(s));
-//        m_pNoSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-//        DPalette palette = DApplicationHelper::instance()->palette(m_pNoSearchResultLabel);
-//        QColor color_TTT = palette.color(DPalette::ToolTipText);
-//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//        if (themeType == DGuiApplicationHelper::LightType) {
-//            color_TTT.setAlphaF(0.3);
-//            palette.setBrush(DPalette::Text, color_TTT);
-//            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
-//            m_pNoSearchResultLabel->setPalette(palette);
-//        } else if (themeType == DGuiApplicationHelper::DarkType) {
-//            color_TTT.setAlphaF(0.4);
-//            palette.setBrush(DPalette::Text, color_TTT);
-//            m_pNoSearchResultLabel->setForegroundRole(DPalette::Text);
-//            m_pNoSearchResultLabel->setPalette(palette);
-//        }
-
         m_searchPicNum = 0;
         m_stackWidget->setCurrentIndex(0);
     }
 }
 
-void SearchView::on_m_pSlideShowBtnClicked()
+void SearchView::onSlideShowBtnClicked()
 {
+    DBImgInfoList imagelist;
+    if (COMMON_STR_ALLPHOTOS == m_albumName
+            || COMMON_STR_TIMELINE == m_albumName
+            || COMMON_STR_RECENT_IMPORTED == m_albumName)
+    {
+        imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+    } else if (COMMON_STR_TRASH == m_albumName)
+    {
+        imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+    } else
+    {
+        imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
+    }
+
+    QStringList paths;
+    for (auto image : imagelist)
+    {
+        paths << image.filePath;
+    }
+
+    const QString path = paths.first();
+
+    emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+}
+
+void SearchView::onThumbnailListViewOpenImage(int index)
+{
+    SignalManager::ViewInfo info;
+    info.album = "";
+    info.lastPanel = nullptr;
     DBImgInfoList imagelist;
     if (COMMON_STR_ALLPHOTOS == m_albumName
             || COMMON_STR_TIMELINE == m_albumName
@@ -546,15 +346,79 @@ void SearchView::on_m_pSlideShowBtnClicked()
     } else {
         imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
     }
-
-    QStringList paths;
     for (auto image : imagelist) {
-        paths << image.filePath;
+        info.paths << image.filePath;
     }
+    info.path = info.paths[index];
+    info.viewType = utils::common::VIEW_SEARCH_SRN;
 
-    const QString path = paths.first();
+    emit dApp->signalM->viewImage(info);
 
-    emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+    if (COMMON_STR_ALLPHOTOS == m_albumName) {
+        emit dApp->signalM->showImageView(0);
+    } else if (COMMON_STR_TIMELINE == m_albumName) {
+        emit dApp->signalM->showImageView(1);
+    } else {
+        emit dApp->signalM->showImageView(2);
+    }
+}
+
+void SearchView::onThumbnailListViewMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow)
+{
+    SignalManager::ViewInfo info;
+    info.album = "";
+    info.lastPanel = nullptr;
+    auto imagelist = m_pThumbnailListView->getAllFileList();
+    if (paths.size() > 1) {
+        info.paths = paths;
+    } else if (imagelist.size() > 1) {
+        for (auto image : imagelist) {
+            info.paths << image;
+        }
+    }
+    info.path = path;
+    info.fullScreen = isFullScreen;
+    info.slideShow = isSlideShow;
+    info.viewType = utils::common::VIEW_SEARCH_SRN;
+
+    if (info.slideShow) {
+        if (imagelist.count() == 1) {
+            info.paths = paths;
+        }
+
+        QStringList pathlist;
+        pathlist.clear();
+        for (auto path : info.paths) {
+            if (QFileInfo(path).exists()) {
+                pathlist << path;
+            }
+        }
+
+        info.paths = pathlist;
+        emit dApp->signalM->startSlideShow(info);
+
+        if (COMMON_STR_ALLPHOTOS == m_albumName) {
+            emit dApp->signalM->showSlidePanel(0);
+        } else if (COMMON_STR_TIMELINE == m_albumName) {
+            emit dApp->signalM->showSlidePanel(1);
+        } else {
+            emit dApp->signalM->showSlidePanel(2);
+        }
+    } else {
+        emit dApp->signalM->viewImage(info);
+        if (COMMON_STR_ALLPHOTOS == m_albumName) {
+            emit dApp->signalM->showImageView(0);
+        } else if (COMMON_STR_TIMELINE == m_albumName) {
+            emit dApp->signalM->showImageView(1);
+        } else {
+            emit dApp->signalM->showImageView(2);
+        }
+    }
+}
+
+void SearchView::onFinishLoad()
+{
+    m_pThumbnailListView->update();
 }
 
 void SearchView::updateSearchResultsIntoThumbnailView()
@@ -584,17 +448,6 @@ void SearchView::changeTheme()
         color_BT.setAlphaF(0.5);
         pat.setBrush(DPalette::Text, color_BT);
         m_pSearchResultLabel->setPalette(pat);
-
-//        QPalette pal = m_pSlideShowBtn->palette();
-//        pal.setColor(QPalette::Light, QColor(253, 94, 94));
-//        pal.setColor(QPalette::Dark, QColor(237, 86, 86));
-//        pal.setColor(QPalette::ButtonText, QColor(255, 255, 255));
-//        m_pSlideShowBtn->setPalette(pal);
-//        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
-//        shadow_effect->setOffset(0,4);
-//        shadow_effect->setColor(QColor(248,44,71,102));
-//        shadow_effect->setBlurRadius(6);
-//        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
         color_TTT.setAlphaF(0.4);
         pa.setBrush(DPalette::Text, color_TTT);
@@ -604,17 +457,6 @@ void SearchView::changeTheme()
         color_BT.setAlphaF(0.75);
         pat.setBrush(DPalette::Text, color_BT);
         m_pSearchResultLabel->setPalette(pat);
-
-//        QPalette pal = m_pSlideShowBtn->palette();
-//        pal.setColor(QPalette::Light, QColor(218, 45, 45));
-//        pal.setColor(QPalette::Dark, QColor(165, 27, 27));
-//        pal.setColor(QPalette::ButtonText, QColor(255, 255, 255));
-//        m_pSlideShowBtn->setPalette(pal);
-//        QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(m_pSlideShowBtn);
-//        shadow_effect->setOffset(0,2);
-//        shadow_effect->setColor(QColor(193,10,10,127));
-//        shadow_effect->setBlurRadius(4);
-//        m_pSlideShowBtn->setGraphicsEffect(shadow_effect);
     }
 
 }
@@ -650,22 +492,26 @@ void SearchView::onKeyDelete()
         return;
     }
     ImageEngineApi::instance()->moveImagesToTrash(paths);
-//    DBImgInfoList infos;
-//    for (auto path : paths) {
-//        DBImgInfo info;
-//        info = DBManager::instance()->getInfoByPath(path);
-//        info.changeTime = QDateTime::currentDateTime();
-
-//        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-//        for (auto eachname : allalbumnames) {
-//            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-//                info.albumname += (eachname + ",");
-//            }
-//        }
-//        infos << info;
-//    }
-
-////    dApp->m_imageloader->addTrashImageLoader(paths);
-//    DBManager::instance()->insertTrashImgInfos(infos);
-//    DBManager::instance()->removeImgInfos(paths);
 }
+
+void SearchView::on_m_pSlideShowBtnClicked()
+{
+    DBImgInfoList imagelist;
+    if (COMMON_STR_ALLPHOTOS == m_albumName
+            || COMMON_STR_TIMELINE == m_albumName
+            || COMMON_STR_RECENT_IMPORTED == m_albumName) {
+        imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+    } else if (COMMON_STR_TRASH == m_albumName) {
+        imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+    } else {
+        imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
+    }
+
+    QStringList paths;
+    for (auto image : imagelist) {
+        paths << image.filePath;
+    }
+    const QString path = paths.first();
+    emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+}
+

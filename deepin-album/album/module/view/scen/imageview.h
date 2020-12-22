@@ -102,6 +102,11 @@ signals:
 public slots:
 //    void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void onImgFileChanged(const QString &ddfFile, int tp);
+    void onLoadTimerTimeout();
+    void onThemeTypeChanged();
+    void onIsChangedTimerTimeout();
+
+
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;

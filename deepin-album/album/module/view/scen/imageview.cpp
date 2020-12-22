@@ -106,48 +106,18 @@ ImageView::ImageView(QWidget *parent)
     grabGesture(Qt::SwipeGesture);
 
     connect(&m_watcher, &QFutureWatcherBase::finished, this, &ImageView::onCacheFinish);
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &ImageView::onThemeChanged);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
     m_loadTimer = new QTimer(this);
     m_loadTimer->setSingleShot(true);
     m_loadTimer->setInterval(300);
 
-    connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
-        QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, m_loadPath);
-        if (m_watcher.isRunning())
-        {
-            m_watcher.cancel();
-            m_watcher.waitForFinished();
-        }
-        m_watcher.setFuture(f);
-        emit hideNavigation();
-    });
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
-        } else {
-            m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
-        }
-        update();
-    });
+    connect(m_loadTimer, &QTimer::timeout, this, &ImageView::onLoadTimerTimeout);
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageView::onThemeTypeChanged);
     m_imgFileWatcher = new CFileWatcher(this);
     connect(m_imgFileWatcher, &CFileWatcher::fileChanged, this, &ImageView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
-    QObject::connect(m_isChangedTimer, &QTimer::timeout, this, [ = ] {
-        QFileInfo file(m_path);
-        if (file.exists())
-        {
-            dApp->m_imageloader->updateImageLoader(QStringList(m_path));
-            setImage(m_path);
-            m_isChangedTimer->stop();
-        } else
-        {
-            emit sigFIleDelete();
-            m_isChangedTimer->stop();
-        }
-    });
+    QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageView::onIsChangedTimerTimeout);
 }
 
 ImageView::~ImageView()
@@ -518,6 +488,44 @@ void ImageView::onImgFileChanged(const QString &ddfFile, int tp)
     Q_UNUSED(ddfFile)
     Q_UNUSED(tp)
     m_isChangedTimer->start(200);
+}
+
+void ImageView::onLoadTimerTimeout()
+{
+    QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, m_loadPath);
+    if (m_watcher.isRunning())
+    {
+        m_watcher.cancel();
+        m_watcher.waitForFinished();
+    }
+    m_watcher.setFuture(f);
+    emit hideNavigation();
+}
+
+void ImageView::onThemeTypeChanged()
+{
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
+    } else {
+        m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
+    }
+    update();
+}
+
+void ImageView::onIsChangedTimerTimeout()
+{
+    QFileInfo file(m_path);
+    if (file.exists())
+    {
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+        setImage(m_path);
+        m_isChangedTimer->stop();
+    } else
+    {
+        emit sigFIleDelete();
+        m_isChangedTimer->stop();
+    }
 }
 
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)

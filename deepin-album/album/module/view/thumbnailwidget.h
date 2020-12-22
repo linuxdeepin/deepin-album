@@ -41,6 +41,9 @@ signals:
 
 public slots:
     void setThumbnailImage(const QPixmap thumbnail);
+    void onThemeTypeChanged();
+
+
 //    bool isDefaultThumbnail();
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
