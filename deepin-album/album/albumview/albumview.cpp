@@ -339,7 +339,7 @@ void AlbumView::initConnections()
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
     connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
     //lmh手机加载图片边加载，边传输信息
-    connect(dApp->signalM, &SignalManager::sigPhonePath, this, &AlbumView::onPhonePath ,Qt::QueuedConnection);
+    connect(dApp->signalM, &SignalManager::sigPhonePath, this, &AlbumView::onPhonePath, Qt::QueuedConnection);
 }
 
 void AlbumView::initLeftView()
@@ -1496,8 +1496,10 @@ void AlbumView::getAllDeviceName()
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
-        for (QByteArray qb : qbl) {
-            mountPoint += qb;
+        QList<QByteArray>::iterator qb = qbl.begin();
+        while (qb != qbl.end()) {
+            mountPoint += (*qb);
+            ++qb;
         }
         qDebug() << "mountPoint:" << mountPoint;
         QUrl qurl(mountPoint);
@@ -1839,8 +1841,10 @@ void AlbumView::needUnMount(QString path)
         }
         QByteArrayList qbl = blk->mountPoints();
         mountPoint = "file://";
-        for (QByteArray qb : qbl) {
-            mountPoint += qb;
+        QList<QByteArray>::iterator qb = qbl.begin();
+        while (qb != qbl.end()) {
+            mountPoint += (*qb);
+            ++qb;
         }
         if (mountPoint.contains(path, Qt::CaseSensitive)) {
             blkget = blk;
@@ -2125,7 +2129,7 @@ void AlbumView::onFinishLoad()
     m_pRightTrashThumbnailList->update();
 }
 
-void AlbumView::onFileSystemAdded(const QString & dbusPath)
+void AlbumView::onFileSystemAdded(const QString &dbusPath)
 {
     DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
     blDev->mount({});
@@ -2187,8 +2191,10 @@ runend:
     blk->mount({});
     QByteArrayList qbl = blk->mountPoints();
     QString mountPoint = "file://";
-    for (QByteArray qb : qbl) {
-        mountPoint += qb;
+    QList<QByteArray>::iterator qb = qbl.begin();
+    while (qb != qbl.end()) {
+        mountPoint += (*qb);
+        ++qb;
     }
     QUrl qurl(mountPoint);
     durlAndNameMap[qurl] = udispname;
@@ -2262,11 +2268,9 @@ void AlbumView::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)
 void AlbumView::onRightPhoneCustomContextMenuRequested()
 {
     QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
-    if (0 < paths.length())
-    {
+    if (0 < paths.length()) {
         m_importSelectByPhoneBtn->setEnabled(true);
-    } else
-    {
+    } else {
         m_importSelectByPhoneBtn->setEnabled(false);
     }
 
@@ -2276,11 +2280,9 @@ void AlbumView::onRightPhoneCustomContextMenuRequested()
 void AlbumView::onRightPhoneThumbnailListMouseRelease()
 {
     QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
-    if (0 < paths.length())
-    {
+    if (0 < paths.length()) {
         m_importSelectByPhoneBtn->setEnabled(true);
-    } else
-    {
+    } else {
         m_importSelectByPhoneBtn->setEnabled(false);
     }
 
@@ -2297,8 +2299,7 @@ void AlbumView::onImportViewImportBtnClicked()
 
 void AlbumView::onImportFailedToView()
 {
-    if (isVisible())
-    {
+    if (isVisible()) {
         m_spinner->hide();
         m_spinner->stop();
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
@@ -2320,7 +2321,7 @@ void AlbumView::onWaitDailogTimeout()
     m_waitDailog_timer->stop();
 }
 
-void AlbumView::onLeftListViewMountListWidgetClicked(const QModelIndex & index)
+void AlbumView::onLeftListViewMountListWidgetClicked(const QModelIndex &index)
 {
     Q_UNUSED(index);
     m_pRightPhoneThumbnailList->stopLoadAndClear(false);

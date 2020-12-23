@@ -164,7 +164,8 @@ void ImportTimeLineView::updateSize()
 {
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
         m_allThumbnailListView[i]->setFixedWidth(width() + 2);
-        emit m_allThumbnailListView[i]->needResizeLabel();
+        ThumbnailListView *view = m_allThumbnailListView[i];
+        emit view->needResizeLabel();
     }
     m_dateItem->setFixedSize(width() - 15, SUBTITLE_HEIGHT);
     m_pImportTitle->setFixedSize(width() - 15, 47); //add 3
@@ -182,7 +183,8 @@ void ImportTimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths,
     // 导入的照片重复照片提示
     if (duplicatePaths.size() > 0 && albumName.length() < 1 && dApp->getMainWindow()->getCurrentViewType() == 2) {
         QTimer::singleShot(100, this, [ = ] {
-            for (ThumbnailListView *list : m_allThumbnailListView) {
+            for (ThumbnailListView *list : m_allThumbnailListView)
+            {
                 // 注意导入界面为多行listview处理类型
                 list->selectDuplicatePhotos(duplicatePaths, true);
             }
@@ -192,8 +194,7 @@ void ImportTimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths,
 
 void ImportTimeLineView::onSuspensionChoseBtnClicked()
 {
-    if (QObject::tr("Select") == pSuspensionChose->text())
-    {
+    if (QObject::tr("Select") == pSuspensionChose->text()) {
         pSuspensionChose->setText(QObject::tr("Unselect"));
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
         p[0]->selectAll();
@@ -205,8 +206,7 @@ void ImportTimeLineView::onSuspensionChoseBtnClicked()
                 lastChanged = true;
             }
         }
-    } else
-    {
+    } else {
         pSuspensionChose->setText(QObject::tr("Select"));
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
         p[0]->clearSelection();

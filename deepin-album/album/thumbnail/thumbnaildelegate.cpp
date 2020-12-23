@@ -171,8 +171,8 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     QPainterPath backgroundBp;
     backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
     painter->setClipPath(backgroundBp);
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::DarkType) {
+    DGuiApplicationHelper::ColorType themeType2 = DGuiApplicationHelper::instance()->themeType();
+    if (themeType2 == DGuiApplicationHelper::DarkType) {
         QRect tempRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
         painter->setRenderHint(QPainter::Antialiasing, true);
         painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
@@ -245,11 +245,11 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     //绘制选中图标
     if (selected) {
         QPixmap selectedPixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::LightType) {
+        DGuiApplicationHelper::ColorType themeType3 = DGuiApplicationHelper::instance()->themeType();
+        if (themeType3 == DGuiApplicationHelper::LightType) {
             selectedPixmap = selectedPixmapLight;
         }
-        if (themeType == DGuiApplicationHelper::DarkType) {
+        if (themeType3 == DGuiApplicationHelper::DarkType) {
             selectedPixmap = selectedPixmapDark;
         }
 //        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 28, backgroundRect.y(), 28, 28);

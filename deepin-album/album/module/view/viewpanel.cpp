@@ -390,8 +390,13 @@ void ViewPanel::onLoadRight(QStringList rightlist)
 
 void ViewPanel::onLoadLeft(QStringList leftlist)
 {
-    for (const auto &path : leftlist)
-        m_filepathlist.push_front(path);
+//    for (const auto &path : leftlist)
+//        m_filepathlist.push_front(path);
+    auto path = leftlist.begin();
+    while (path != leftlist.end()) {
+        m_filepathlist.push_front(QString::fromStdString(path->toStdString()));
+        ++path;
+    }
     m_current += leftlist.size();
 }
 

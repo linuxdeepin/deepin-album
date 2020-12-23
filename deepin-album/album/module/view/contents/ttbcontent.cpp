@@ -1418,8 +1418,7 @@ void TTBContent::onBackButtonClicked()
 void TTBContent::onAdaptImageBtnClicked()
 {
     m_adaptImageBtn->setChecked(true);
-    if (!badaptImageBtnChecked)
-    {
+    if (!badaptImageBtnChecked) {
         badaptImageBtnChecked = true;
         emit resetTransform(false);
         emit ttbcontentClicked();
@@ -1429,8 +1428,7 @@ void TTBContent::onAdaptImageBtnClicked()
 void TTBContent::onAdaptScreenBtnClicked()
 {
     m_adaptScreenBtn->setChecked(true);
-    if (!badaptScreenBtnChecked)
-    {
+    if (!badaptScreenBtnChecked) {
         badaptScreenBtnChecked = true;
         emit resetTransform(true);
         emit ttbcontentClicked();
@@ -1439,11 +1437,9 @@ void TTBContent::onAdaptScreenBtnClicked()
 
 void TTBContent::onclBTClicked()
 {
-    if (true == m_bClBTChecked)
-    {
+    if (true == m_bClBTChecked) {
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
-    } else
-    {
+    } else {
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath), AlbumDBType::Favourite);
         emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_currentpath));
     }
@@ -1469,8 +1465,7 @@ void TTBContent::onImgListViewTestloadRight()
         return ;
     qDebug() << "请求加载右边图片";
     QStringList loadRight;
-    for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
-    {
+    for (int i = 0; i < LOAD_LEFT_RIGHT; ++i) {
         if (m_rightlist.isEmpty())
             break;
         ImageDataSt data;
@@ -1492,8 +1487,7 @@ void TTBContent::onImgListViewTestloadLeft()
         return;
     qDebug() << "请求加载左边图片";
     QStringList loadLeft;
-    for (int i = 0; i < LOAD_LEFT_RIGHT; ++i)
-    {
+    for (int i = 0; i < LOAD_LEFT_RIGHT; ++i) {
         if (m_leftlist.isEmpty())
             break;
         ImageDataSt data;
@@ -1503,8 +1497,13 @@ void TTBContent::onImgListViewTestloadLeft()
             m_leftlist.removeLast();
         }
     }
-    for (const auto &path : loadLeft)
-        m_allfileslist.push_front(path);    //倒序放置
+//    for (const auto &path : loadLeft)
+//        m_allfileslist.push_front(path);    //倒序放置
+    auto path = loadLeft.begin();
+    while (path != loadLeft.end()) {
+        m_allfileslist.push_front(QString::fromStdString(path->toStdString()));
+        ++path;
+    }
     m_filelist_size = m_allfileslist.size();
     emit sigloadLeft(loadLeft);
 }
@@ -1522,11 +1521,9 @@ void TTBContent::onSilmoved()
 void TTBContent::onNeedContinueRequest()
 {
     binsertneedupdate = false;
-    if (m_requestCount > 0)
-    {
+    if (m_requestCount > 0) {
         bneedloadimage = true;
-    } else
-    {
+    } else {
         requestSomeImages();
     }
 }

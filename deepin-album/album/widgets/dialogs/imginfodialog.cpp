@@ -392,8 +392,13 @@ int ImgInfoDialog::contentHeight() const
 //            atleastOneExpand = true;
 //        }
 //    }
-    for (const DDrawer *expand : m_expandGroup) {
-        expandsHeight += expand->height();
+//    for (const DDrawer *expand : m_expandGroup) {
+//        expandsHeight += expand->height();
+//    }
+    QList<DDrawer *>::const_iterator expand = m_expandGroup.cbegin();
+    while (expand != m_expandGroup.cend()) {
+        expandsHeight += (*expand)->height();
+        ++expand;
     }
     return (50 + expandsHeight + contentsMargins().top() +
             contentsMargins().bottom());

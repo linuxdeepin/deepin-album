@@ -72,20 +72,18 @@ MainWindow::MainWindow()
     , m_waitlabel(nullptr)
     , m_countLabel(nullptr)
     , m_pDBus(nullptr)
+    , m_settings(nullptr)
 {
-    QTime t;
-    t.start();
     this->setObjectName("drawMainWindow");
-    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
-                             + "/config.conf";
-    m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
+//    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
+//                             + "/config.conf";
+//    m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
     initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
     initCentralWidget();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
     loadZoomRatio();
-    qDebug() << "zy------MainWindow = " << t.elapsed();
 
     connect(dApp->signalM, &SignalManager::showImageView, this, &MainWindow::onShowImageView);
 }
@@ -1019,6 +1017,10 @@ void MainWindow::initShortcutKey()
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, COMMON_STR_RENAMEALBUM, F2_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, SHOW_SHORTCUT_PREVIEW, CTRLSHIFTSLASH_SHORTCUT);
     ConfigSetter::instance()->setValue(SHORTCUTVIEW_GROUP, EXPORT_CONTEXT_MENU, CTRLE_SHORTCUT);
+
+    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
+                             + "/config.conf";
+    m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
 }
 
 //缩略图放大

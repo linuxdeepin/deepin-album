@@ -129,7 +129,7 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 void ThumbnailWidget::onThemeTypeChanged()
 {
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    m_picString = "";
+//    m_picString = "";
     if (themeType == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_IMPORT_PHOTO_DARK;
         m_theme = true;

@@ -710,9 +710,14 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 info.baseWidth = data.imgpixmap.width();
                 info.baseHeight = data.imgpixmap.height();
                 calBasePixMap(info);
-                for (auto &item : m_ItemList) {     //替换
-                    if (item == m_gridItem[i][j])
-                        item = info;
+//                for (auto &item : m_ItemList) {     //替换
+//                    if (item == m_gridItem[i][j])
+//                        item = info;
+//                }
+                QList<ItemInfo>::iterator item = m_ItemList.begin();
+                while (item != m_ItemList.end()) {
+                    if (*item == m_gridItem[i][j])
+                        *item = info;
                 }
                 m_gridItem[i][j] = info;
 
@@ -1146,7 +1151,7 @@ DMenu *ThumbnailListView::createAlbumMenu()
     QModelIndexList indexList = selectionModel()->selectedIndexes();
     QStringList albumNames;
     if (indexList.count() == 1) {
-        albumNames = indexList.first().model()->data(indexList.first(),Qt::UserRole + 2).toStringList();
+        albumNames = indexList.first().model()->data(indexList.first(), Qt::UserRole + 2).toStringList();
     }
     for (QString album : albums) {
         QAction *ac = new QAction(am);
@@ -1234,7 +1239,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
             ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
             // 只更新部分，即将照片添加或者删除相册时
-            updateModelRoleData(album,IdAddToAlbum);
+            updateModelRoleData(album, IdAddToAlbum);
 
         } else {
             emit dApp->signalM->createAlbum(paths);
@@ -1248,8 +1253,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
         if (dialog->exec()) {
             // 只更新部分，删除
-            updateModelRoleData("",IdMoveToTrash);
-            (COMMON_STR_TRASH == m_imageType)? ImageEngineApi::instance()->moveImagesToTrash(paths, true, false) : ImageEngineApi::instance()->moveImagesToTrash(paths);
+            updateModelRoleData("", IdMoveToTrash);
+            (COMMON_STR_TRASH == m_imageType) ? ImageEngineApi::instance()->moveImagesToTrash(paths, true, false) : ImageEngineApi::instance()->moveImagesToTrash(paths);
         }
     }
     break;
@@ -1264,7 +1269,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
                 COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType) {
             // 只更新部分，从相册移出时
-            updateModelRoleData(m_imageType,IdRemoveFromAlbum);
+            updateModelRoleData(m_imageType, IdRemoveFromAlbum);
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
         }
     }
@@ -1595,11 +1600,11 @@ void ThumbnailListView::selectDuplicateForOneListView(QStringList paths, QModelI
             QModelIndex idx = m_model->index(i, 0);
             QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
             if (lst.count() >= 12) {
-                for ( int j = 0; j < paths.count(); j++) {
+                for (int j = 0; j < paths.count(); j++) {
                     if (lst.at(1).toString() == paths.at(j)) {
                         // 选中
                         selectionModel()->select(idx, QItemSelectionModel::Select);
-                        if (!firstIndex.isValid()){
+                        if (!firstIndex.isValid()) {
                             firstIndex = idx;
                         }
                     }
@@ -1618,7 +1623,8 @@ void ThumbnailListView::selectDuplicatePhotos(QStringList paths, bool bMultiList
             QModelIndex firstIndex;
             selectDuplicateForOneListView(paths, firstIndex);
             // 定位第一个重复导入的照片
-            if (firstIndex.isValid()) {
+            if (firstIndex.isValid())
+            {
                 this->scrollTo(firstIndex);
             }
         });
@@ -1643,7 +1649,7 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
             datas.removeAll(albumName);
             QMap<int, QVariant> tempData;
             tempData.insert(Qt::UserRole + 2, datas);
-            m_model->setItemData(index,tempData);
+            m_model->setItemData(index, tempData);
         }
     } else if (actionType == IdAddToAlbum) {
         // add to album
@@ -1652,7 +1658,7 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
             datas.append(albumName);
             QMap<int, QVariant> tempData;
             tempData.insert(Qt::UserRole + 2, datas);
-            m_model->setItemData(index,tempData);
+            m_model->setItemData(index, tempData);
         }
     } else if (actionType == IdMoveToTrash) {
         // delete photos
@@ -1661,7 +1667,7 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
             datas.clear();
             QMap<int, QVariant> tempData;
             tempData.insert(Qt::UserRole + 2, datas);
-            m_model->setItemData(index,tempData);
+            m_model->setItemData(index, tempData);
         }
     }
     QStringList paths;
@@ -1722,7 +1728,7 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                             datas.removeAll(albumName);
                             QMap<int, QVariant> tempData;
                             tempData.insert(Qt::UserRole + 2, datas);
-                            m_model->setItemData(idx,tempData);
+                            m_model->setItemData(idx, tempData);
                         }
                     }
                 }
@@ -1741,14 +1747,14 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                             datas.append(albumName);
                             QMap<int, QVariant> tempData;
                             tempData.insert(Qt::UserRole + 2, datas);
-                            m_model->setItemData(idx,tempData);
+                            m_model->setItemData(idx, tempData);
                         }
                     }
                 }
             }
         } else if (actionType == IdMoveToTrash) {
             // delete photos
-            if (paths.count() == 1 &&!this->getAllPaths().contains(paths.at(0)))
+            if (paths.count() == 1 && !this->getAllPaths().contains(paths.at(0)))
                 return;
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
@@ -1760,7 +1766,7 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                             datas.clear();
                             QMap<int, QVariant> tempData;
                             tempData.insert(Qt::UserRole + 2, datas);
-                            m_model->setItemData(idx,tempData);
+                            m_model->setItemData(idx, tempData);
                         }
                     }
                 }

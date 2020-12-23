@@ -230,7 +230,7 @@ inline QString getAccessibleName(QWidget *w, QAccessible::Role r, const QString 
         QString text(QAccessible::Text t) const override;\
         FUNC_RECT(m_w)\
     };\
-/*******************************************简化使用*******************************************/
+    /*******************************************简化使用*******************************************/
 #define SET_BUTTON_ACCESSIBLE(classname,accessiblename)                         SET_ACCESSIBLE_WITH_PRESS_SHOWMENU_DESCRIPTION(classname,QAccessible::Button,"")\
     FUNC_TEXT(classname,accessiblename)
 #define SET_MENU_ACCESSIBLE(classname,accessiblename)                           SET_ACCESSIBLE_WITH_PRESS_SHOWMENU_DESCRIPTION(classname,QAccessible::PopupMenu,"")\

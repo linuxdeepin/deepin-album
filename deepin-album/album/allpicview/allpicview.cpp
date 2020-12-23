@@ -88,6 +88,9 @@ AllPicView::AllPicView()
     }
     AC_SET_OBJECT_NAME(this, All_Picture_View);
     AC_SET_ACCESSIBLE_NAME(this, All_Picture_View);
+    MetaData data;
+    data.key = "";
+    data.name = "";
 }
 
 void AllPicView::initConnections()
@@ -228,8 +231,7 @@ void AllPicView::onImportViewImportBtnClicked()
 
 void AllPicView::onImportFailedToView()
 {
-    if (isVisible())
-    {
+    if (isVisible()) {
         m_spinner->hide();
         m_spinner->stop();
         updateStackedWidget();
