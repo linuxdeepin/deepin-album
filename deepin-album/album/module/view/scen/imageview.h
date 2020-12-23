@@ -70,7 +70,7 @@ public:
     const QImage image();
     qreal imageRelativeScale() const;
     qreal windowRelativeScale() const;
-    const QRectF imageRect() const;
+//    const QRectF imageRect() const;
     const QString path() const;
 
     QPoint mapToImage(const QPoint &p) const;

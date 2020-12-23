@@ -47,5 +47,5 @@ TEST(searchview, search)
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
     SearchView *s = w->m_pSearchView;
-    s->on_m_pSlideShowBtnClicked();
+    s->onSlideShowBtnClicked();
 }

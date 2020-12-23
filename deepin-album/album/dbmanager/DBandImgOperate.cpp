@@ -43,10 +43,10 @@ DBandImgOperate::~DBandImgOperate()
 
 }
 
-void DBandImgOperate::setThreadShouldStop()
-{
-    m_couldRun.store(false);
-}
+//void DBandImgOperate::setThreadShouldStop()
+//{
+//    m_couldRun.store(false);
+//}
 
 ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt data*/)
 {

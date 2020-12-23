@@ -60,7 +60,7 @@ public:
         }
         return m_ttbc->itemLoadedSize();
     }
-    ImageView *getImageView();
+//    ImageView *getImageView();
 
 
 signals:
@@ -80,7 +80,7 @@ public slots:
     void onShowExtensionPanel();
     void onHideExtensionPanel();
     void onHideImageView();
-    bool onSigViewImage(const SignalManager::ViewInfo & info);
+    bool onSigViewImage(const SignalManager::ViewInfo &info);
     void onMouseHoverMoved();
     void onESCKeyActivated();
     void onImagesInserted();

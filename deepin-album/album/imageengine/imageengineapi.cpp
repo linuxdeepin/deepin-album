@@ -80,6 +80,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
         connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
         workerThread->start();
     }
+    get_AllImagePath();
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -594,5 +595,7 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 }
 QStringList ImageEngineApi::get_AllImagePath()
 {
-    return m_AllImageData.keys();
+    if (m_AllImageData.size() > 0)
+        return m_AllImageData.keys();
+    return QStringList();
 }

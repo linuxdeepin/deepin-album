@@ -573,7 +573,8 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
         QString str = tr("Successfully added to “%1”");
         floatMessage(str.arg(d->getCreateAlbumName()), icon);
-        if (imgpath.count() > 0 && imgpath != " ") {
+        if (imgpath.count() > 0 && imgpath != " ")
+        {
             ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
             QStringList paths;
             paths << imgpath;
@@ -624,7 +625,8 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
         // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
         // " " 新建空的相册
-        if (imgpaths.first() != " ") {
+        if (imgpaths.first() != " ")
+        {
             ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
             emit SignalManager::instance()->sigSyncListviewModelData(imgpaths, d->getCreateAlbumName(), 4);
         }
@@ -933,6 +935,7 @@ void MainWindow::loadWindowState()
         }
     }
 //    settings.endGroup();
+    getButG();
 }
 
 //保存缩放比例
@@ -1380,11 +1383,9 @@ void MainWindow::onCloseWaitDialog()
 
 void MainWindow::onImagesRemoved()
 {
-    if (0 < DBManager::instance()->getImgsCount())
-    {
+    if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
-    } else
-    {
+    } else {
         m_pSearchEdit->setEnabled(false);
     }
 }
@@ -1510,12 +1511,10 @@ void MainWindow::onAlbExportSuccess()
 
 void MainWindow::onEscShortcutActivated()
 {
-    if (window()->isFullScreen())
-    {
+    if (window()->isFullScreen()) {
         emit dApp->signalM->sigESCKeyActivated();
         emit dApp->signalM->sigESCKeyStopSlide();
-    } else if (VIEW_IMAGE == m_pCenterWidget->currentIndex())
-    {
+    } else if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
         this->close();
     }
     emit dApp->signalM->hideExtensionPanel();

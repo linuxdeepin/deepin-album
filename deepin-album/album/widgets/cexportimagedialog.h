@@ -60,9 +60,9 @@ public:
     explicit CExportImageDialog(DWidget *parent = nullptr);
     ~CExportImageDialog() override;
     void showMe(const QPixmap &pixmap);
-    int getImageType() const;
+//    int getImageType() const;
 //    QString getSavePath() const;
-    QString getImageFormate() const;
+//    QString getImageFormate() const;
 //    int getQuality() const;
     void setPicFileName(QString strFileName);
     void setGifType(QString strFilePath);
@@ -76,7 +76,7 @@ private slots:
     void slotOnFormatChange(int index);
     void slotOnDialogButtonClick(int index, const QString &text);
     void slotOnQuestionDialogButtonClick(int index, const QString &text);
-    void slotOnEmptyWarningDialogButtonClick(int, const QString & );
+    void slotOnEmptyWarningDialogButtonClick(int, const QString &);
     void slotOnQualityChanged(int value);
 
 private:

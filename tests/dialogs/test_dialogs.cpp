@@ -38,8 +38,8 @@ TEST(albumdeletedialog, exportdialog)
     CExportImageDialog *c = new CExportImageDialog;
 //    c->getQuality();
 //    c->getSavePath();
-    c->getImageType();
-    c->getImageFormate();
+//    c->getImageType();
+//    c->getImageFormate();
 //    c->showDirChoseDialog();
 //    c->showEmptyWarningDialog();
     c->deleteLater();

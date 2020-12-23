@@ -249,26 +249,24 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     return w;
 }
 
-ImageView *ViewPanel::getImageView()
-{
-    return m_viewB;
-}
+//ImageView *ViewPanel::getImageView()
+//{
+//    return m_viewB;
+//}
 
 void ViewPanel::onDeleteByMenu()
 {
-    if (m_deletetimer->isActive())
-    {
+    if (m_deletetimer->isActive()) {
         return;
     }
     m_deletetimer->start();
     emit ttbcDeleteImage();
-    if (m_vinfo.fullScreen)
-    {
+    if (m_vinfo.fullScreen) {
         emit dApp->signalM->hideBottomToolbar();
     }
 }
 
-void ViewPanel::onGotoPanel(ModulePanel * p)
+void ViewPanel::onGotoPanel(ModulePanel *p)
 {
     if (p != this) {
         emit dApp->signalM->showTopToolbar();
@@ -290,8 +288,7 @@ void ViewPanel::onHideExtensionPanel()
 
 void ViewPanel::onHideImageView()
 {
-    if (m_vinfo.fullScreen)     //全屏退出
-    {
+    if (m_vinfo.fullScreen) {   //全屏退出
         toggleFullScreen();
     }
     m_viewB->clear();
@@ -353,28 +350,26 @@ void ViewPanel::onMouseHoverMoved()
 void ViewPanel::onESCKeyActivated()
 {
 #if 1
-        if (isVisible())
-        {
-            if (0 != m_iSlideShowTimerId) {
-                killTimer(m_iSlideShowTimerId);
-                m_iSlideShowTimerId = 0;
-            }
-            if (m_bFirstFullScreen)
-                emit dApp->signalM->hideImageView();
-            else {
-                toggleFullScreen();
-            }
+    if (isVisible()) {
+        if (0 != m_iSlideShowTimerId) {
+            killTimer(m_iSlideShowTimerId);
+            m_iSlideShowTimerId = 0;
         }
-        m_vinfo.fullScreen = false;
-        emit dApp->signalM->showBottomToolbar();
+        if (m_bFirstFullScreen)
+            emit dApp->signalM->hideImageView();
+        else {
+            toggleFullScreen();
+        }
+    }
+    m_vinfo.fullScreen = false;
+    emit dApp->signalM->showBottomToolbar();
 
 #endif
 }
 
 void ViewPanel::onImagesInserted()
 {
-    if (!m_ttbc)
-    {
+    if (!m_ttbc) {
         return;
     }
     int size = m_ttbc->itemLoadedSize();
@@ -402,8 +397,7 @@ void ViewPanel::onLoadLeft(QStringList leftlist)
 
 void ViewPanel::onttbcontentClicked()
 {
-    if (0 != m_iSlideShowTimerId)
-    {
+    if (0 != m_iSlideShowTimerId) {
         killTimer(m_iSlideShowTimerId);
         m_iSlideShowTimerId = 0;
     }
@@ -421,16 +415,14 @@ void ViewPanel::onRotateCounterClockwise()
 
 void ViewPanel::onRemoved()
 {
-    if (COMMON_STR_TRASH == m_vinfo.viewType)
-    {
+    if (COMMON_STR_TRASH == m_vinfo.viewType) {
         ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
         if (dialog->exec()) {
             DBManager::instance()->removeTrashImgInfos(QStringList(m_currentpath));
             removeCurrentImage();
             DDesktopServices::trash(m_currentpath);
         }
-    } else
-    {
+    } else {
         DBImgInfoList infos;
         DBImgInfo info;
         info = DBManager::instance()->getInfoByPath(m_currentpath);

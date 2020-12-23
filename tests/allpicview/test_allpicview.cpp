@@ -361,9 +361,9 @@ TEST(ttbcontent, test_ini)
         dialog->deleteLater();
         QTest::qWait(500);
         ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
-        if (viewPanel) {
-            viewPanel->getImageView();
-        }
+//        if (viewPanel) {
+//            viewPanel->getImageView();
+//        }
 
         MainWidget *mw = CommandLine::instance()->findChild<MainWidget *>("MainWidget");
         if (mw) {

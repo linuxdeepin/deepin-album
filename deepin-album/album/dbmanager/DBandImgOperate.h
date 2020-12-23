@@ -46,7 +46,7 @@ public:
     explicit DBandImgOperate(QObject *parent = nullptr);
     ~DBandImgOperate();
 public slots:
-    void     setThreadShouldStop();
+//    void     setThreadShouldStop();
     //获取全部相片信息
     void     getAllInfos();
     //产生缩略图

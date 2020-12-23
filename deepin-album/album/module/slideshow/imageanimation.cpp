@@ -114,10 +114,10 @@ private:
     bool m_isAnimationIng = false;    //正在播动画
 
 public:
-    float getFactor()               const
-    {
-        return m_factor;
-    }
+//    float getFactor()               const
+//    {
+//        return m_factor;
+//    }
 //    QString getImageName1()         const
 //    {
 //        return m_imageName1;

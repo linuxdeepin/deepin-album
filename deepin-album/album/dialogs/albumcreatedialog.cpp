@@ -34,6 +34,7 @@ AlbumCreateDialog::AlbumCreateDialog(DWidget *parent)
 {
     initUI();
     initConnection();
+    getEdit();
 }
 
 void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
@@ -136,7 +137,9 @@ const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool i
 
 DLineEdit *AlbumCreateDialog::getEdit()
 {
-    return edit;
+    if (edit != nullptr)
+        return edit;
+    return nullptr;
 }
 
 const QString AlbumCreateDialog::getCreateAlbumName() const
@@ -176,8 +179,7 @@ void AlbumCreateDialog::onVisibleChanged(bool v)
 void AlbumCreateDialog::onReturnPressed()
 {
     const QString album = edit->text().trimmed();
-    if (! album.isEmpty())
-    {
+    if (! album.isEmpty()) {
         createAlbum(album);
         this->close();
     }
@@ -204,11 +206,9 @@ void AlbumCreateDialog::onButtonClicked(int index)
 void AlbumCreateDialog::onClosed()
 {
     deleteLater();
-    if (true == m_OKClicked)
-    {
+    if (true == m_OKClicked) {
         m_OKClicked = false;
-    } else
-    {
+    } else {
         emit sigClose();
     }
 }

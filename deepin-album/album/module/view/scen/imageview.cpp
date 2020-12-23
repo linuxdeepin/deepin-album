@@ -425,16 +425,16 @@ qreal ImageView::windowRelativeScale() const
     }
 }
 
-const QRectF ImageView::imageRect() const
-{
-    QRectF br(mapFromScene(0, 0), sceneRect().size());
-    QTransform tf = transform();
-    br.translate(tf.dx(), tf.dy());
-    br.setWidth(br.width() * tf.m11());
-    br.setHeight(br.height() * tf.m22());
+//const QRectF ImageView::imageRect() const
+//{
+//    QRectF br(mapFromScene(0, 0), sceneRect().size());
+//    QTransform tf = transform();
+//    br.translate(tf.dx(), tf.dy());
+//    br.setWidth(br.width() * tf.m11());
+//    br.setHeight(br.height() * tf.m22());
 
-    return br;
-}
+//    return br;
+//}
 
 const QString ImageView::path() const
 {
@@ -493,8 +493,7 @@ void ImageView::onImgFileChanged(const QString &ddfFile, int tp)
 void ImageView::onLoadTimerTimeout()
 {
     QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, m_loadPath);
-    if (m_watcher.isRunning())
-    {
+    if (m_watcher.isRunning()) {
         m_watcher.cancel();
         m_watcher.waitForFinished();
     }
@@ -516,13 +515,11 @@ void ImageView::onThemeTypeChanged()
 void ImageView::onIsChangedTimerTimeout()
 {
     QFileInfo file(m_path);
-    if (file.exists())
-    {
+    if (file.exists()) {
         dApp->m_imageloader->updateImageLoader(QStringList(m_path));
         setImage(m_path);
         m_isChangedTimer->stop();
-    } else
-    {
+    } else {
         emit sigFIleDelete();
         m_isChangedTimer->stop();
     }

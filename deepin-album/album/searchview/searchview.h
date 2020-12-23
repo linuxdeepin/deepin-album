@@ -59,8 +59,7 @@ public:
     void improtSearchResultsIntoThumbnailView(QString s, QString album);
 
 public slots:
-    void on_m_pSlideShowBtnClicked();
-	void onSlideShowBtnClicked();
+    void onSlideShowBtnClicked();
     void onThumbnailListViewOpenImage(int index);
     void onThumbnailListViewMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
     void onFinishLoad();
