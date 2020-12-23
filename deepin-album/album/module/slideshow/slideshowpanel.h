@@ -45,7 +45,7 @@ public:
     DIconButton *m_cancelButton;
     int a = 0;
 
-private slots:
+public slots:
     void onPreButtonClicked();
     void onPlaypauseButtonClicked();
     void onUpdatePauseButton();

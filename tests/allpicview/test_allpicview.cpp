@@ -309,7 +309,7 @@ TEST(allpicview, test_showInFileManagerAndBackGrond)
     }
 }
 
-TEST(ttbcontent, test_ini)
+TEST(allpicview, viewpaneltest)
 {
     qDebug() << "ttbcontent test_ini count = " << count_testDefine++;
     QString publicTestPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
@@ -361,9 +361,47 @@ TEST(ttbcontent, test_ini)
         dialog->deleteLater();
         QTest::qWait(500);
         ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
-//        if (viewPanel) {
-//            viewPanel->getImageView();
-//        }
+
+        QList<QWidget*> widgets = w->findChildren<QWidget *>();
+        foreach (auto widget, widgets) {
+            if (!strcmp(widget->metaObject()->className(),"ViewPanel")) {
+                ViewPanel *viewPanel = dynamic_cast<ViewPanel*>(widget);
+
+                viewPanel->onDeleteByMenu();
+                QTest::qWait(100);
+                viewPanel->onShowExtensionPanel();
+                QTest::qWait(100);
+                viewPanel->onHideExtensionPanel();
+                QTest::qWait(100);
+//                viewPanel->onRotateClockwise();
+//                QTest::qWait(100);
+//                viewPanel->onRotateCounterClockwise();
+//                QTest::qWait(100);
+//                viewPanel->toggleFullScreen();
+//                QTest::qWait(100);
+//                viewPanel->onViewBClicked();
+//                QTest::qWait(100);
+                viewPanel->onResetTransform(false);
+                QTest::qWait(100);
+                viewPanel->onResetTransform(true);
+                QTest::qWait(100);
+//                viewPanel->onRemoved();
+//                QTest::qWait(100);
+//                viewPanel->onttbcontentClicked();
+//                viewPanel->toolbarBottomContent();
+//                viewPanel->toolbarTopLeftContent();
+                QTest::qWait(100);
+                viewPanel->showNormal();
+                QTest::qWait(100);
+                viewPanel->onHideImageView();
+                QTest::qWait(500);
+                emit a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, false);
+                QTest::qWait(500);
+                viewPanel->onESCKeyActivated();
+                QTest::qWait(500);
+                break;
+            }
+        }
 
         MainWidget *mw = CommandLine::instance()->findChild<MainWidget *>("MainWidget");
         if (mw) {
