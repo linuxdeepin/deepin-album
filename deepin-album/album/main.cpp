@@ -54,12 +54,12 @@ int main(int argc, char *argv[])
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     QScopedPointer<DApplication> dAppNew(new DApplication(argc, argv));
 #else
+    qDebug() << "DTK_VERSION > 5.4,turbo is running ";
     QScopedPointer<DApplication> dAppNew(DApplication::globalApplication(argc, argv));
 #endif
 
 #ifdef ENABLE_ACCESSIBILITY
 #endif
-
 
     dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
@@ -86,7 +86,6 @@ int main(int argc, char *argv[])
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-        qDebug() << info.filePath() << "&&&&&&&&&&&&&&" << "mt" << mt.name() << "mt1" << mt1.name();
 
         QString str = info.suffix().toLower();
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
@@ -137,6 +136,5 @@ int main(int argc, char *argv[])
 
     Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew.get(), &DApplication::handleQuitAction,
                                              &w, &MainWindow::closeFromMenu);
-
     return dAppNew->exec();
 }
