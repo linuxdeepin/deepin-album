@@ -8,6 +8,8 @@
 #include "controller/exporter.h"
 #include "imageengine/imageengineapi.h"
 #include "dialogs/albumcreatedialog.h"
+#include "ac-desktop-define.h"
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <DFontSizeManager>
@@ -248,6 +250,8 @@ void LeftListView::initUI()
     m_pCustomizeLabel->setForegroundRole(DPalette::TextTips);
     m_pCustomizeLabel->setText(tr("Albums"));
     m_pAddListBtn = new AlbumImageButton();
+    AC_SET_OBJECT_NAME(m_pAddListBtn, Add_Album_Button);
+    AC_SET_ACCESSIBLE_NAME(m_pAddListBtn, Add_Album_Button);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::LightType) {
         m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",

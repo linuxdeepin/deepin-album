@@ -21,6 +21,7 @@
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
 #include "utils/baseutils.h"
+#include "ac-desktop-define.h"
 //#include "utils/shortcut.h"
 
 #include <dwindowminbutton.h>
@@ -64,6 +65,11 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     setPalette(palette);
     initMenu();
     initWidgets();
+    AC_SET_ACCESSIBLE_NAME(this, TOP_TOOL_BAR);
+    AC_SET_OBJECT_NAME(this, TOP_TOOL_BAR);
+
+    AC_SET_ACCESSIBLE_NAME(m_titlebar, TITLE_BAR);
+    AC_SET_OBJECT_NAME(m_titlebar, TITLE_BAR);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)

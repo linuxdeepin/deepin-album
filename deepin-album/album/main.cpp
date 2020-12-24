@@ -56,6 +56,9 @@ int main(int argc, char *argv[])
 //    DApplication *dAppNew = DApplication::globalApplication(argc, argv);
 //#endif
 
+#ifdef ENABLE_ACCESSIBILITY
+#endif
+
     dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
     dAppNew->setOrganizationName("deepin");

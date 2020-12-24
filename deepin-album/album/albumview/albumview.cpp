@@ -30,6 +30,7 @@
 
 #include "imageengine/imageengineapi.h"
 #include "imageengine/imageenginethread.h"
+#include "ac-desktop-define.h"
 
 static QMutex m_mutex;
 
@@ -845,6 +846,8 @@ void AlbumView::initRightView()
     pTopButtonLayout->setContentsMargins(0, 0, 20, 0);
 
     m_pRecoveryBtn = new DPushButton();
+    AC_SET_OBJECT_NAME(m_pRecoveryBtn, Album_Restore_Button);
+    AC_SET_ACCESSIBLE_NAME(m_pRecoveryBtn, Album_Restore_Button);
     m_pRecoveryBtn->setText(tr("Restore"));
     m_pRecoveryBtn->setEnabled(false);
     m_pRecoveryBtn->setFixedSize(100, 36);
@@ -857,6 +860,8 @@ void AlbumView::initRightView()
     pTopButtonLayout->addSpacing(5);
 
     m_pDeleteBtn = new DWarningButton();
+    AC_SET_OBJECT_NAME(m_pDeleteBtn, Album_Delete_Button);
+    AC_SET_ACCESSIBLE_NAME(m_pDeleteBtn, Album_Delete_Button);
     m_pDeleteBtn->setText(tr("Delete All"));
     m_pDeleteBtn->setFixedSize(100, 36);
 

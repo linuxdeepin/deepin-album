@@ -26,6 +26,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
+#include "ac-desktop-define.h"
 
 #include <QResizeEvent>
 #include <QStyleFactory>
@@ -54,7 +55,8 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(ICON_SPACING, 0, ICON_SPACING, 0);
     m_preButton = new DIconButton(this);
-    m_preButton->setObjectName("PreviousButton");
+    AC_SET_OBJECT_NAME(m_preButton, Slider_Pre_Button);
+    AC_SET_ACCESSIBLE_NAME(m_preButton, Slider_Pre_Button);
     m_preButton->setFixedSize(ICON_SIZE);
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous_normal"));
     m_preButton->setIconSize(QSize(36, 36));
@@ -68,8 +70,9 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
         emit showPrevious();
     });
     m_playpauseButton = new DIconButton(this);
+    AC_SET_OBJECT_NAME(m_playpauseButton, Slider_Play_Pause_Button);
+    AC_SET_ACCESSIBLE_NAME(m_playpauseButton, Slider_Play_Pause_Button);
     m_playpauseButton->setShortcut(Qt::Key_Space);
-    m_playpauseButton->setObjectName("PlayPauseButton");
     m_playpauseButton->setFixedSize(ICON_SIZE);
     m_playpauseButton->setIcon(QIcon::fromTheme("dcc_suspend_normal"));
     m_playpauseButton->setIconSize(QSize(36, 36));
@@ -106,7 +109,8 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
         a = 0;
     });
     m_nextButton = new DIconButton(this);
-    m_nextButton->setObjectName("NextButton");
+    AC_SET_OBJECT_NAME(m_nextButton, Slider_Next_Button);
+    AC_SET_ACCESSIBLE_NAME(m_nextButton, Slider_Next_Button);
     m_nextButton->setFixedSize(ICON_SIZE);
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next_normal"));
     m_nextButton->setIconSize(QSize(36, 36));
@@ -120,7 +124,8 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
         emit showNext();
     });
     m_cancelButton = new DIconButton(this);
-    m_nextButton->setObjectName("CancelButton");
+    AC_SET_OBJECT_NAME(m_cancelButton, Slider_Exit_Button);
+    AC_SET_ACCESSIBLE_NAME(m_cancelButton, Slider_Exit_Button);
     m_cancelButton->setFixedSize(ICON_SIZE);
     m_cancelButton->setIcon(QIcon::fromTheme("dcc_exit_normal"));
     m_cancelButton->setIconSize(QSize(36, 36));

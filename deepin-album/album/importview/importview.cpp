@@ -11,11 +11,14 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
+#include "ac-desktop-define.h"
 
 ImportView::ImportView()
     : m_pImportBtn(nullptr), pLabel(nullptr)
 {
     setAcceptDrops(true);
+    AC_SET_OBJECT_NAME(this, Import_Image_View);
+    AC_SET_ACCESSIBLE_NAME(this, Import_Image_View);
     initUI();
     initConnections();
 }
@@ -52,6 +55,8 @@ void ImportView::initUI()
     }
     pLabel->setPixmap(pixmap);
     m_pImportBtn = new DSuggestButton();
+    AC_SET_OBJECT_NAME(m_pImportBtn, Import_Image_View_Button);
+    AC_SET_ACCESSIBLE_NAME(m_pImportBtn, Import_Image_View_Button);
     m_pImportBtn->setFocusPolicy(Qt::NoFocus);
     DFontSizeManager::instance()->bind(m_pImportBtn, DFontSizeManager::T6, QFont::ExtraLight);
     m_pImportBtn->setText(tr("Import Photos"));

@@ -6,6 +6,7 @@
 #include "imageengine/imageengineapi.h"
 #include "accessibledefine.h"
 #include "viewerthememanager.h"
+#include "ac-desktop-define.h"
 
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -537,11 +538,15 @@ void MainWindow::initTitleBar()
         m_titleBtnWidget = nullptr;
     }
     m_titleBtnWidget = new DWidget();
+    AC_SET_OBJECT_NAME(m_titleBtnWidget, MainWindow_TitleBtn_Widget);
+    AC_SET_ACCESSIBLE_NAME(m_titleBtnWidget, MainWindow_TitleBtn_Widget);
     btnGroup = new QButtonGroup();
     btnGroup->setExclusive(true);
     QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
 
     m_pAllPicBtn = new DPushButton();
+    AC_SET_OBJECT_NAME(m_pAllPicBtn, Main_All_Picture_Button);
+    AC_SET_ACCESSIBLE_NAME(m_pAllPicBtn, Main_All_Picture_Button);
 
 //    m_pAllPicBtn = new DSuggestButton();
     m_pAllPicBtn->setFlat(true);
@@ -555,6 +560,8 @@ void MainWindow::initTitleBar()
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
 
     m_pTimeBtn = new DPushButton();
+    AC_SET_OBJECT_NAME(m_pTimeBtn, Main_Time_Line_Button);
+    AC_SET_ACCESSIBLE_NAME(m_pTimeBtn, Main_Time_Line_Button);
 //    m_pTimeBtn = new DSuggestButton();
     m_pTimeBtn->setFlat(true);
 //    m_pTimeBtn->setFixedSize(60, 36);
@@ -567,6 +574,8 @@ void MainWindow::initTitleBar()
     pTitleBtnLayout->addWidget(m_pTimeBtn);
 
     m_pAlbumBtn = new DPushButton();
+    AC_SET_OBJECT_NAME(m_pAlbumBtn, Main_Album_Button);
+    AC_SET_ACCESSIBLE_NAME(m_pAlbumBtn, Main_Album_Button);
 //    m_pAlbumBtn = new DSuggestButton();
     m_pAlbumBtn->setFlat(true);
 //    m_pAlbumBtn->setFixedSize(60, 36);
@@ -605,6 +614,7 @@ void MainWindow::initTitleBar()
     m_pTitleBarMenu->addAction(pNewAlbum);
 
     QAction *pImport = new QAction();
+    AC_SET_OBJECT_NAME(pImport, Import_Image_View);
     addAction(pImport);
 
     pImport->setText(tr("Import photos"));
@@ -617,6 +627,8 @@ void MainWindow::initTitleBar()
     titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
     titlebar()->setMenu(m_pTitleBarMenu);
     titlebar()->setBlurBackground(true);
+    AC_SET_OBJECT_NAME(titlebar(), MainWindow_Titlebar);
+    AC_SET_ACCESSIBLE_NAME(titlebar(), MainWindow_Titlebar);
 
 //    if (0 < DBManager::instance()->getImgsCount()) {
 //        // dothing
@@ -629,6 +641,8 @@ void MainWindow::initTitleBar()
 void MainWindow::initCentralWidget()
 {
     m_pCenterWidget = new QStackedWidget(this);
+    AC_SET_OBJECT_NAME(m_pCenterWidget, MainWindow_Center_Widget);
+    AC_SET_ACCESSIBLE_NAME(m_pCenterWidget, MainWindow_Center_Widget);
     m_pCenterWidget->setFixedSize(size());
     m_pCenterWidget->lower();
 
