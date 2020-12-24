@@ -27,6 +27,6 @@
 static int count_testDefine = 0;
 //static bool switch_on_test = true;
 static QString testPath_test = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-static QString appPath_test = QApplication::applicationDirPath() + QDir::separator() + "test";
+//static QString appPath_test = QApplication::applicationDirPath() + QDir::separator() + "test";
 
 #endif // QTESTDEFINE_H

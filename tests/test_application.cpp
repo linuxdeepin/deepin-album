@@ -22,7 +22,9 @@
 #include "elidedlabel.h"
 
 #include <QDebug>
-#include <qdebug.h>
+#include <QDir>
+#include <QStringList>
+#include <QStandardPaths>
 
 TEST(isRunning, ap1)
 {
@@ -36,10 +38,65 @@ TEST(sendMessage, ap2)
     ASSERT_EQ(false, dApp->sendMessage(""));
 }
 
+// 文件夹拷贝
+bool copyDirFiles(const QString &fromDir, const QString &toDir)
+{
+    QDir sourceDir(fromDir);
+    QDir targetDir(toDir);
+
+    if (!targetDir.exists()) {
+        if (!targetDir.mkdir(targetDir.absolutePath())) {
+            return false;
+        }
+    }
+
+    QFileInfoList fileInfoList = sourceDir.entryInfoList();
+    for (auto fileInfo : fileInfoList) {
+        if (fileInfo.fileName() == "." || fileInfo.fileName() == "..") {
+            continue;
+        }
+
+        if (fileInfo.isDir()) {
+            if (!copyDirFiles(fileInfo.filePath(), targetDir.filePath(fileInfo.fileName()))) {
+                return false;
+            }
+        } else {
+            if (!QFile::copy(fileInfo.filePath(), targetDir.filePath(fileInfo.fileName()))) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+//拷贝图片
+void CopyPicToLocal()
+{
+//    TEST_CASE_NAME("other")
+    QDir dir;
+    dir.cd("./../../tests/testResource");//脚本终端run
+    // 启动方式不同，路径不同
+//    if (!dir.path().contains("testResource")) {
+//        dir.setPath("../../../tests/resource");
+//    }
+
+    QStringList stringList = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    if (stringList.size() > 0) {
+        stringList[0].append("/Picture");
+
+        QDir deleteDir(stringList[0]);
+        deleteDir.removeRecursively();
+
+        QTest::qWait(50);
+        copyDirFiles(dir.path(), stringList[0]);
+    }
+}
+
 TEST(ImageLoader, load)
 {
-    QStringList list;
-    list << testPath_test + "/2e5y8y.jpg" << "/usr/share/wallpapers/deepin/abc-123.jpg";
+    QStringList list/* = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation)*/;
+    list  << "/usr/share/wallpapers/deepin/abc-123.jpg";
     ImageLoader *loader = new ImageLoader(nullptr, list, list);
     loader->updateImageLoader(list);
     ASSERT_EQ(false, loader == nullptr);

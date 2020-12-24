@@ -360,12 +360,12 @@ TEST(allpicview, viewpaneltest)
         e.clear();
         dialog->deleteLater();
         QTest::qWait(500);
-        ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
+//        ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
 
-        QList<QWidget*> widgets = w->findChildren<QWidget *>();
+        QList<QWidget *> widgets = w->findChildren<QWidget *>();
         foreach (auto widget, widgets) {
-            if (!strcmp(widget->metaObject()->className(),"ViewPanel")) {
-                ViewPanel *viewPanel = dynamic_cast<ViewPanel*>(widget);
+            if (!strcmp(widget->metaObject()->className(), "ViewPanel")) {
+                ViewPanel *viewPanel = dynamic_cast<ViewPanel *>(widget);
 
                 viewPanel->onDeleteByMenu();
                 QTest::qWait(100);
@@ -373,23 +373,9 @@ TEST(allpicview, viewpaneltest)
                 QTest::qWait(100);
                 viewPanel->onHideExtensionPanel();
                 QTest::qWait(100);
-//                viewPanel->onRotateClockwise();
-//                QTest::qWait(100);
-//                viewPanel->onRotateCounterClockwise();
-//                QTest::qWait(100);
-//                viewPanel->toggleFullScreen();
-//                QTest::qWait(100);
-//                viewPanel->onViewBClicked();
-//                QTest::qWait(100);
                 viewPanel->onResetTransform(false);
                 QTest::qWait(100);
                 viewPanel->onResetTransform(true);
-                QTest::qWait(100);
-//                viewPanel->onRemoved();
-//                QTest::qWait(100);
-//                viewPanel->onttbcontentClicked();
-//                viewPanel->toolbarBottomContent();
-//                viewPanel->toolbarTopLeftContent();
                 QTest::qWait(100);
                 viewPanel->showNormal();
                 QTest::qWait(100);
@@ -397,8 +383,8 @@ TEST(allpicview, viewpaneltest)
                 QTest::qWait(500);
                 emit a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, false);
                 QTest::qWait(500);
-                viewPanel->onESCKeyActivated();
-                QTest::qWait(500);
+//                viewPanel->onESCKeyActivated();
+//                QTest::qWait(500);
                 break;
             }
         }

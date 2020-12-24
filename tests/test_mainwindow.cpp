@@ -7,6 +7,7 @@
 #include <QDialog>
 #include <QStringList>
 #include <DSearchEdit>
+#include <DIconButton>
 
 #define private public
 #define protected public
@@ -15,26 +16,135 @@
 #include "albumcreatedialog.h"
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
+#include "mainwidget.h"
+#include "commandline.h"
+#include "imageview.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
 // 3个button界面主视图切换显示
 TEST(MainWindow, BtnGroupClick)
 {
+    QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    if (list.size() > 0)
+        QString picdir = list.at(0);
+    else {
+        list << "/usr/share/wallpapers/deepin/abc-123.jpg";
+    }
     qDebug() << "MainWindow BtnGroupClick count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->onLoadingFinished();
     w->getButG();
     w->allPicBtnClicked();
+
+    AllPicView *allpicview = w->m_pAllPicView;
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
+
     QTestEventList event;
     event.addMouseClick(Qt::MouseButton::LeftButton);
     event.simulate(w->getButG()->button(1));
-    QTest::qWait(500);
+    QTest::qWait(300);
     event.simulate(w->getButG()->button(2));
-    QTest::qWait(500);
+    QTest::qWait(300);
     event.simulate(w->getButG()->button(0));
     event.clear();
-    QTest::qWait(500);
+    QTest::qWait(300);
+
+    TimeLineView *timelineview = w->m_pTimeLineView;
+    CommandLine *commandline = w->m_commandLine;
+    MainWidget *pmainwidget = nullptr;
+    ViewPanel *viewpanel = nullptr;
+    TTBContent *ttbc = nullptr;
+    ImageView *imageview = nullptr;
+
+    if (commandline)
+        pmainwidget = commandline->findChild<MainWidget *>("MainWidget");
+    if (pmainwidget)
+        viewpanel = pmainwidget->m_viewPanel;
+
+    QTest::qWait(200);
+    QPoint p1(100, 100);
+    event.addMouseMove(p1);
+    event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    event.addMouseDClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    event.simulate(allpicview->m_pThumbnailListView->viewport());
+    QTest::qWait(300);
+    event.clear();
+    //全屏
+    event.addMouseDClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    if (viewpanel) {
+        imageview = viewpanel->m_viewB;
+        ttbc = viewpanel->m_ttbc;
+    }
+    if (imageview)
+        event.simulate(imageview->viewport());
+    QTest::qWait(3000);
+    event.clear();
+
+    if (ttbc) {
+        DIconButton *adapt = ttbc->findChild<DIconButton *>("TtbcontentAdaptImgButton");
+        event.addMouseClick(Qt::MouseButton::LeftButton);
+        if (adapt)
+            event.simulate(adapt);
+//        event.clear();
+        QTest::qWait(500);
+
+        DIconButton *adaptscreen = ttbc->findChild<DIconButton *>("TtbcontentAdaptScreenButton");
+        if (adaptscreen)
+            event.simulate(adaptscreen);
+        QTest::qWait(500);
+
+        DIconButton *next = ttbc->findChild<DIconButton *>("TtbcontentNextButton");
+        if (next)
+            event.simulate(next);
+        QTest::qWait(500);
+
+        DIconButton *pre = ttbc->findChild<DIconButton *>("TtbcontentPreButton");
+        if (pre)
+            event.simulate(pre);
+        QTest::qWait(500);
+
+        DIconButton *collect = ttbc->findChild<DIconButton *>("TtbcontentCollectButton");
+        if (collect)
+            event.simulate(collect);
+        QTest::qWait(500);
+
+//        DIconButton *rotateR = ttbc->findChild<DIconButton *>("TtbcontentRotateRightButton");
+//        if (rotateR)
+//            event.simulate(rotateR);
+//        QTest::qWait(1000);
+
+//        DIconButton *rotateL = ttbc->findChild<DIconButton *>("TtbcontentRotateLeftButton");
+//        if (rotateL)
+//            event.simulate(rotateL);
+//        QTest::qWait(1000);
+
+        DIconButton *back = ttbc->findChild<DIconButton *>("TtbcontentBackButton");
+        if (back)
+            event.simulate(back);
+        QTest::qWait(500);
+        event.clear();
+
+        //TODO 旋转+删除
+        //------
+    }
+
+    //退出全屏
+    event.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);
+    if (imageview)
+        event.simulate(imageview->viewport());
+    QTest::qWait(1000);
+    event.clear();
+    //退出大图
+    event.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);
+    if (imageview)
+        event.simulate(imageview->viewport());
+    event.clear();
+    QTest::qWait(300);
+
+    QTestEventList e;
+
 }
 
 // 从菜单创建相册

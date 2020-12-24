@@ -45,19 +45,19 @@ TEST(Exporter, test_Exporter_init)
 
 TEST(Exporter, exportImage_test)
 {
-    qDebug() << "Exporter exportImage_test count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
-    w->albumBtnClicked();
-    QTest::qWait(500);
-    AlbumView *a = w->m_pAlbumview;
+//    qDebug() << "Exporter exportImage_test count = " << count_testDefine++;
+//    MainWindow *w = dApp->getMainWindow();
+//    w->albumBtnClicked();
+//    QTest::qWait(500);
+////    AlbumView *a = w->m_pAlbumview;
 
-    QStringList paths;
-    if (DBManager::instance()->getAllPaths().length() > 0)
-        paths << DBManager::instance()->getAllPaths().first();
-    else
-        paths << testPath_test + "/2e5y8y.jpg";
-    Exporter::instance()->exportImage(paths);
-    QTest::qWait(500);
+//    QStringList paths;
+//    if (DBManager::instance()->getAllPaths().length() > 0)
+//        paths << DBManager::instance()->getAllPaths().first();
+//    else
+//        paths << testPath_test + "/2e5y8y.jpg";
+////    Exporter::instance()->exportImage(paths);
+//    QTest::qWait(500);
 }
 
 

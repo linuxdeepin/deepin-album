@@ -27,6 +27,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
+using namespace Dtk::Core;
+using namespace Dtk::Widget;
+
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
     QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS \
@@ -34,13 +37,14 @@
     int main(int argc, char *argv[]) \
     { \
         DApplication *dAppNew = new DApplication(argc, argv); \
+        dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps); \
+        dAppNew->setOrganizationName("deepin"); \
+        dAppNew->setApplicationName("deepin-album"); \
+        dAppNew->loadTranslator(QList<QLocale>() << QLocale::system()); \
         Application::getApp()->setApp(dAppNew); \
         Application *app = Application::getApp(); \
-        dAppNew->setAttribute(Qt::AA_Use96Dpi, true); \
-        appPath_test = QApplication::applicationDirPath() + QDir::separator() + "test";\
         DBManager::instance(); \
         ImageEngineApi::instance(dAppNew); \
-        ImageEngineApi::instance()->load80Thumbnails(); \
         MainWindow w; \
         w.show();\
         app->setMainWindow(&w); \
@@ -49,36 +53,7 @@
         TestObject tc; \
         QTEST_SET_MAIN_SOURCE_PATH \
         return QTest::qExec(&tc, argc, argv); \
-    }
-
-QUrl UrlInfo(QString path)
-{
-    QUrl url;
-    // Just check if the path is an existing file.
-    if (QFile::exists(path)) {
-        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-        return url;
-    }
-
-    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
-
-    if (match.isValid()) {
-        // cut away line/column specification from the path.
-        path.chop(match.capturedLength());
-    }
-
-    // make relative paths absolute using the current working directory
-    // prefer local file, if in doubt!
-    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
-
-    // in some cases, this will fail, e.g.
-    // assume a local file and just convert it to an url.
-    if (!url.isValid()) {
-        // create absolute file path, we will e.g. pass this over dbus to other processes
-        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-    }
-    return url;
-}
+    } \
 
 class QTestMain : public QObject
 {

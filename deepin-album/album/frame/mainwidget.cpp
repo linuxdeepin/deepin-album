@@ -69,6 +69,7 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
 
     initConnection();
     setMouseTracking(true);
+    setObjectName("MainWidget");
 }
 
 MainWidget::~MainWidget()
@@ -166,16 +167,14 @@ void MainWidget::onBackToMainPanel()
     window()->activateWindow();
     QString name = dApp->setter->value(SETTINGS_GROUP,
                                        SETTINGS_MAINPANEL_KEY).toString();
-    if (name.isEmpty())
-    {
+    if (name.isEmpty()) {
         emit dApp->signalM->gotoTimelinePanel();
         return;
     }
 
-    for (int i = 0; i < m_panelStack->count(); i++)
-    {
+    for (int i = 0; i < m_panelStack->count(); i++) {
         if (ModulePanel *p =
-                static_cast<ModulePanel *>(m_panelStack->widget(i))) {
+                    static_cast<ModulePanel *>(m_panelStack->widget(i))) {
             if ((p->moduleName() == name) && p->isMainPanel()) {
                 emit dApp->signalM->gotoPanel(p);
                 return;
@@ -190,15 +189,14 @@ void MainWidget::onActiveWindow()
     window()->activateWindow();
 }
 
-void MainWidget::onShowInFileManager(const QString & path)
+void MainWidget::onShowInFileManager(const QString &path)
 {
     utils::base::showInFileManager(path);
 }
 
 void MainWidget::onMouseMove()
 {
-    if (window()->isFullScreen())
-    {
+    if (window()->isFullScreen()) {
         QPoint pos = mapFromGlobal(QCursor::pos());
         if (height() - 45 < pos.y()
                 && height() > pos.y()
