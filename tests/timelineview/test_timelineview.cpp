@@ -311,5 +311,51 @@ TEST(TimeLineView, changSliderValue)
     }
 }
 
+TEST(TimeLineView, oneThumblistview_test)
+{
+    qDebug() << "TimeLineView T1 count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->showEvent(nullptr);
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(1));
+    event.clear();
+    QTest::qWait(500);
+
+
+    TimeLineView *tlView = w->m_pTimeLineView;
+    QList<QWidget *> widgets =  tlView->findChildren<QWidget *>();
+    foreach (auto wgt, widgets) {
+        if (!strcmp(wgt->metaObject()->className(), "ThumbnailListView")) {
+
+            QPoint pos(60, 60);
+            event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
+            event.simulate(wgt);
+            event.clear();
+            QTest::qWait(500);
+
+            event.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
+            event.simulate(wgt);
+            event.clear();
+            QTest::qWait(500);
+
+            event.addMousePress(Qt::MouseButton::LeftButton, Qt::ControlModifier, pos);
+            event.simulate(wgt);
+            event.clear();
+            QTest::qWait(500);
+
+            event.addMousePress(Qt::MouseButton::LeftButton, Qt::ShiftModifier, pos);
+            event.simulate(wgt);
+            event.clear();
+            QTest::qWait(500);
+
+            event.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
+            event.addMouseRelease(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
+            event.simulate(wgt);
+            event.clear();
+            QTest::qWait(500);
+        }
+    }
+}
 
 

@@ -1251,6 +1251,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdMoveToTrash: {
         ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
+        dialog->setObjectName("deteledialog");
         if (dialog->exec()) {
             // 只更新部分，删除
             updateModelRoleData("", IdMoveToTrash);

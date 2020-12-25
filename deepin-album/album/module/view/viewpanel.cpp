@@ -422,6 +422,7 @@ void ViewPanel::onRemoved()
 {
     if (COMMON_STR_TRASH == m_vinfo.viewType) {
         ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
+        dialog->setObjectName("deteledialog");
         if (dialog->exec()) {
             DBManager::instance()->removeTrashImgInfos(QStringList(m_currentpath));
             removeCurrentImage();

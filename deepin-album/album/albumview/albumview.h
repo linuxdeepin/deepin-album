@@ -97,7 +97,6 @@ public:
     bool imageGeted(QStringList &filelist, QString path) override;
     bool imageMountImported(QStringList &filelist) override;
 
-    //void createNewAlbum(QStringList imagepaths);
     void iniWaitDiolag();
     void SearchReturnUpdate();
     void restorePicNum();
@@ -108,7 +107,6 @@ private:
     void initConnections();
     void initLeftView();
     void initRightView();
-    //void updateRightView();
     void updateRightNoTrashView();
     void updateRightTrashView();
     void updateRightImportView();
@@ -117,7 +115,7 @@ private:
     void leftTabClicked();
     void openImage(int index);
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
-    //QString getNewAlbumName();
+
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
@@ -128,15 +126,14 @@ private:
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);        //拔掉外设移除
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
-//    bool findPictureFile(QString &path, QList<ThumbnailListView::ItemInfo> &thumbnaiItemList);
+
     void initExternalDevice();
     void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath = QString());
     bool findPicturePathByPhone(QString &path);
     void updateImportComboBox();
     void importAllBtnClicked();
     void importSelectBtnClicked();
-//    void onUnMountSignal(QString unMountPath);
-//    void loadMountPicture(QString path);
+
     void initLeftMenu();
     void importComboBoxChange(QString strText);
 
@@ -170,7 +167,7 @@ private slots:
     void onInsertedIntoAlbum(QString albumname, QStringList pathlist);
     void onFinishLoad();
     void onFileSystemAdded(const QString &dbusPath);
-    void onBlockDeviceAdded(const QString & blks);
+    void onBlockDeviceAdded(const QString &blks);
     void onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
     void onRightPhoneCustomContextMenuRequested();
     void onRightPhoneThumbnailListMouseRelease();
@@ -178,7 +175,7 @@ private slots:
     void onImportFailedToView();
     void onUpdateFavoriteNum();
     void onWaitDailogTimeout();
-    void onLeftListViewMountListWidgetClicked(const QModelIndex & index);
+    void onLeftListViewMountListWidgetClicked(const QModelIndex &index);
     void onPhonePath(QString PhoneName, QString pathName);
 public:
     int m_iAlubmPicsNum;
@@ -199,13 +196,12 @@ public:
     //LMH0424
     QMap<QString, ThumbnailListView *> m_phoneViewlist;//UNUSED
     QStringList m_pictrueallPathlist;
-//    ThumbnailListView *m_pAllPicture = nullptr;
     int m_currentLoadingPictrue = 0;
 
     QMap<QString, QPixmap> m_phonePathAndImage; //UNUSED
     DWidget *m_pwidget;
 
-    ThumbnailListView *m_pRightThumbnailList;               //已导入
+    ThumbnailListView *m_pRightThumbnailList;               //自定义
     ThumbnailListView *m_pRightTrashThumbnailList;          //最近删除
     ThumbnailListView *m_pRightFavoriteThumbnailList;       //我的收藏
 
@@ -239,7 +235,7 @@ private:
     DPushButton *m_importAllByPhoneBtn;
     DSuggestButton *m_importSelectByPhoneBtn;
     QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
-//    QList<ThumbnailListView::ItemInfo> m_curThumbnaiItemList;
+
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
     QStringList m_curPhoneItemList_str;         //外部设备图片的路径
@@ -247,7 +243,6 @@ private:
     QMap<QString, QPixmap> m_phonePicMap;
     int m_mountPicNum;
 
-//    MountLoader *m_mountloader;
     QThread *m_LoadThread;
     QMap<QUrl, QString> durlAndNameMap;
     void getAllDeviceName();

@@ -70,4 +70,9 @@
 #define Ttbcontent_Rotate_Left_Button QObject::tr("TtbcontentRotateLeftButton") //ttb逆时针按钮
 #define Ttbcontent_Trash_Button QObject::tr("TtbcontentTrashButton") //ttb删除按钮
 
+// helin
+#define ImportTime_pChose QObject::tr("importTime_pChose")
+#define ImportTime_pThumbnailListView QObject::tr("importTime_pThumbnailListView")
+#define AlbumView_pImpTimeLineWidget QObject::tr("albumView_pImpTimeLineWidget")
+
 #endif // DESKTOP_ACCESSIBLE_UI_DEFINE_H

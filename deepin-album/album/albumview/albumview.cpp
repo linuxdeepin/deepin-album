@@ -436,7 +436,7 @@ void AlbumView::initRightView()
 
     m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
-
+    m_pRightThumbnailList->setStyleSheet("background:red");
     pNoTrashVBoxLayout->addSpacing(3);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
@@ -1127,6 +1127,7 @@ void AlbumView::onTrashDeleteBtnClicked()
         bstate = true;
     }
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count(), bstate);
+    dialog->setObjectName("deteledialog");
     if (dialog->exec())
         ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
 
@@ -1277,6 +1278,7 @@ void AlbumView::onKeyDelete()
         paths = m_pRightTrashThumbnailList->selectedPaths();
         if (0 < paths.length()) {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
+            dialog->setObjectName("deteledialog");
             if (dialog->exec()) {
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
                 onTrashListClicked();

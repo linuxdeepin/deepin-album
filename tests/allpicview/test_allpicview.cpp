@@ -487,3 +487,31 @@ TEST(allpicview, deleteTips)
         QTest::qWait(500);
     }
 }
+
+TEST(allpicview, allpicview_other_test)
+{
+    qDebug() << "allpicview allpicviewOther count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+
+    w->m_pAllPicView->onFinishLoad();
+    w->m_pAllPicView->onMenuOpenImage("", QStringList(), false, false);
+    w->m_pAllPicView->onImportViewImportBtnClicked();
+
+
+    QMimeData mimedata;
+    QList<QUrl> li;
+    QString lastImportPath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first();
+    lastImportPath += "/test/4l6r5y.png";
+    li.append(QUrl(lastImportPath));
+    mimedata.setUrls(li);
+
+    QPoint pos = QPoint(20, 20);
+    QDragEnterEvent dee(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAllPicView->dragEnterEvent(&dee);
+
+    QDragMoveEvent dme(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAllPicView->dragMoveEvent(&dme);
+
+    QDropEvent de(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAllPicView->dropEvent(&de);
+}

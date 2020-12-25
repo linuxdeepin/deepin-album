@@ -8,12 +8,19 @@
 
 #include "leftlistview.h"
 #include "application.h"
+#include "frame/mainwidget.h"
+#include "module/view/navigationwidget.h"
+#include "module/view/scen/graphicsitem.h"
+#include "searchview/searchview.h"
+#include "module/view/scen/imageview.h"
 #include "mainwindow.h"
 #include "albumview.h"
 #include "baseutils.h"
 #include "dbmanager.h"
 #include "albumcreatedialog.h"
 #include "../test_qtestDefine.h"
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 #include <QTestEventList>
@@ -693,4 +700,239 @@ TEST(AlbumViewList, viewlist)
 {
     AlbumViewList *vi = new AlbumViewList;
     vi->on_rangeChanged(1, 1);
+}
+
+
+TEST(AlbumView, albumView_other1_test)
+{
+    qDebug() << "AlbumView albumView_other1_test count = " << count_testDefine++;
+    MainWindow *w = dApp->getMainWindow();
+    w->albumBtnClicked();
+
+    QMimeData mimedata;
+    QList<QUrl> li;
+    QString lastImportPath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first();
+    lastImportPath += "/test/4l6r5y.png";
+    li.append(QUrl(lastImportPath));
+    mimedata.setUrls(li);
+
+
+    QPoint pos = QPoint(20, 20);
+    QDragEnterEvent dee(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->dragEnterEvent(&dee);
+
+    QDragMoveEvent dme(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->dragMoveEvent(&dme);
+
+    QDropEvent de(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->dropEvent(&de);
+
+    w->m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setViewMode(QListView::IconMode);
+    w->m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->viewOptions();
+
+    w->m_pAlbumview->m_currentType = ALBUM_PATHTYPE_BY_PHONE;
+    w->m_pAlbumview->updateRightView();
+
+    w->m_pAlbumview->m_currentType = COMMON_STR_FAVORITES;
+    w->m_pAlbumview->updateRightView();
+
+    w->m_pAlbumview->updateAlbumView(w->m_pAlbumview->m_currentType);
+    w->m_pAlbumview->updateRightMyFavoriteView();
+    w->m_pAlbumview->updateRightNoTrashView();
+    w->m_pAlbumview->onTrashDeleteBtnClicked();
+
+    w->m_pAlbumview->dragEnterEvent(&dee);
+    w->m_pAlbumview->dragMoveEvent(&dme);
+
+    w->m_pAlbumview->m_currentType = COMMON_STR_RECENT_IMPORTED;
+    w->m_pAlbumview->onKeyDelete();
+    w->m_pAlbumview->m_currentType = COMMON_STR_TRASH;
+    w->m_pAlbumview->onKeyDelete();
+    w->m_pAlbumview->m_currentType = COMMON_STR_FAVORITES;
+    w->m_pAlbumview->onKeyDelete();
+    w->m_pAlbumview->m_currentType = COMMON_STR_CUSTOM;
+    w->m_pAlbumview->onKeyDelete();
+    w->m_pAlbumview->m_currentType = ALBUM_PATHTYPE_BY_PHONE;
+    w->m_pAlbumview->onKeyDelete();
+
+    w->m_pAlbumview->onKeyF2();
+
+    w->m_pAlbumview->SearchReturnUpdate();
+    QString str = "";
+    w->m_pAlbumview->findPicturePathByPhone(str);
+    w->m_pAlbumview->importAllBtnClicked();
+    w->m_pAlbumview->needUnMount("");
+
+    w->m_pAlbumview->m_currentType = COMMON_STR_RECENT_IMPORTED;
+    w->m_pAlbumview->restorePicNum();
+
+    w->m_pAlbumview->m_currentType = COMMON_STR_FAVORITES;
+    w->m_pAlbumview->restorePicNum();
+
+    w->m_pAlbumview->m_currentType = COMMON_STR_CUSTOM;
+    w->m_pAlbumview->restorePicNum();
+
+    w->m_pAlbumview->onThemeTypeChanged(DGuiApplicationHelper::DarkType);
+    w->m_pAlbumview->onThemeTypeChanged(DGuiApplicationHelper::LightType);
+
+    w->m_pAlbumview->onImportFailedToView();
+    w->m_pAlbumview->onUpdateFavoriteNum();
+    w->m_pAlbumview->onWaitDailogTimeout();
+
+
+    QTest::qWait(500);
+}
+
+TEST(AlbumViewList, albumViewList_other2_test)
+{
+    qDebug() << "AlbumView albumViewList_other2_test count = " << count_testDefine++;
+
+    AlbumViewList *vi = new AlbumViewList;
+    vi->on_rangeChanged(1, 1);
+}
+
+TEST(AlbumViewList, albumViewList_other3_test)
+{
+    qDebug() << "AlbumView albumViewList_other3_test count = " << count_testDefine++;
+
+    MainWindow *w = dApp->getMainWindow();
+
+    QEnterEvent ee(QPoint(10, 10), QPoint(10, 10), QPoint(10, 10));
+    w->m_pAlbumview->m_pLeftListView->m_pAddListBtn->enterEvent(&ee);
+
+}
+
+//TEST(AlbumViewList, albumViewList_other4_test)
+//{
+//    qDebug() << "AlbumView albumViewList_other4_test count = " << count_testDefine++;
+
+//    MainWindow *w = dApp->getMainWindow();
+
+//    w->m_pAlbumview->m_pLeftListView->onMountListWidgetCurrentItemChanged();
+
+
+//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
+//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
+
+//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_TRASH;
+//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
+
+//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_FAVORITES;
+//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
+
+//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_CUSTOM;
+//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
+
+//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
+//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
+//}
+
+TEST(AlbumViewList, albumViewList_other4_test)
+{
+    qDebug() << "AlbumView albumViewList_other4_test count = " << count_testDefine++;
+
+    MainWindow *w = dApp->getMainWindow();
+    ThumbnailListView *pThumbnailListView = w->findChild<ThumbnailListView *>(ImportTime_pThumbnailListView);
+
+    if (pThumbnailListView) {
+        emit pThumbnailListView->openImage(0);
+        emit pThumbnailListView->menuOpenImage("", QStringList(), false);
+        QStringList stringList;
+        emit pThumbnailListView->sigGetSelectedPaths(&stringList);
+        emit pThumbnailListView->sigSelectAll();
+        emit pThumbnailListView->sigMouseMove();
+        emit pThumbnailListView->sigMouseRelease();
+        emit pThumbnailListView->customContextMenuRequested(QPoint());
+    }
+
+    DCommandLinkButton *pChose = w->findChild<DCommandLinkButton *>(All_Picture_Thembnail);
+
+    if (pChose) {
+        emit pChose->clicked();
+    }
+
+    ImportTimeLineView *pImpTimeLineWidget = w->findChild<ImportTimeLineView *>(AlbumView_pImpTimeLineWidget);
+
+    if (pImpTimeLineWidget) {
+        pImpTimeLineWidget->on_DelLabel();
+        pImpTimeLineWidget->on_MoveLabel(1, "", "", "");
+
+
+        QMimeData mimedata;
+        QList<QUrl> li;
+        QString lastImportPath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first();
+        lastImportPath += "/test/4l6r5y.png";
+        li.append(QUrl(lastImportPath));
+        mimedata.setUrls(li);
+
+        QPoint pos = QPoint(20, 20);
+        QDragEnterEvent dee(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+        pImpTimeLineWidget->dragEnterEvent(&dee);
+
+        QDragMoveEvent dme(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+        pImpTimeLineWidget->dragMoveEvent(&dme);
+
+        QDropEvent de(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+        pImpTimeLineWidget->dropEvent(&de);
+    }
+}
+
+TEST(AlbumViewList, albumViewList_other5_test)
+{
+    qDebug() << "AlbumView albumViewList_other5_test count = " << count_testDefine++;
+
+    MainWindow *w = dApp->getMainWindow();
+
+    QMimeData mimedata;
+    QList<QUrl> li;
+    QString lastImportPath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first();
+    lastImportPath += "/test/4l6r5y.png";
+    li.append(QUrl(lastImportPath));
+    mimedata.setUrls(li);
+
+    QPoint pos = QPoint(20, 20);
+    QDragEnterEvent dee(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAlbumview->m_pImportView->dragEnterEvent(&dee);
+
+    QDragMoveEvent dme(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAlbumview->m_pImportView->dragMoveEvent(&dme);
+
+    QDropEvent de(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    w->m_pAlbumview->m_pImportView->dropEvent(&de);
+
+    w->m_pAlbumview->m_pImportView->imageImported(true);
+    w->m_pAlbumview->m_pImportView->imageImported(false);
+
+
+    MainWidget *mainWidget = w->m_commandLine->findChild<MainWidget *>("MainWidget");
+
+    if (mainWidget) {
+        NavigationWidget *nw = mainWidget->m_viewPanel->m_nav.widget();
+        nw->setAlwaysHidden(false);
+        nw->setAlwaysHidden(true);
+        nw->transImagePos(QPoint(0, 0));
+
+        mainWidget->m_viewPanel->m_ttbc->stopLoadAndClear();
+        mainWidget->m_viewPanel->m_ttbc->getAllFileList();
+        mainWidget->m_viewPanel->m_ttbc->deleteImage();
+        mainWidget->m_viewPanel->m_ttbc->onSilmoved();
+        mainWidget->m_viewPanel->m_ttbc->onNeedContinueRequest();
+        mainWidget->m_viewPanel->m_ttbc->setCurrentDir("");
+    }
+}
+
+
+TEST(AlbumViewList, albumViewList_other6_test)
+{
+    MainWindow *w = dApp->getMainWindow();
+    GraphicsMovieItem gmi("", "");
+    ImageView *iv = new ImageView;
+    iv->setImage("");
+    iv->windowRelativeScale();
+    iv->imageRelativeScale();
+    iv->isWholeImageVisible();
+    iv->onThemeTypeChanged();
+
+    ImgInfoDialog iid("");
+    iid.height();
 }

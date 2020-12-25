@@ -43,11 +43,6 @@ DBandImgOperate::~DBandImgOperate()
 
 }
 
-//void DBandImgOperate::setThreadShouldStop()
-//{
-//    m_couldRun.store(false);
-//}
-
 ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt data*/)
 {
     if (!QFileInfo(imagepath).exists()) {
@@ -98,11 +93,8 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
     data.imgpixmap = pixmap;
     QFileInfo fi(srcPath);
     //此处不需要加载拍摄时间
-    //auto mds = getAllMetaData(srcPath);
     data.loaded = ImageLoadStatu_PreLoaded;
     return data;
-    //emit sigImageLoaded(imgobject, m_path, m_data);
-    //emit loadOneThumbnailReady(imagepath, data);
 }
 
 void DBandImgOperate::threadSltLoad80Thumbnail(DBImgInfoList infos)
@@ -133,7 +125,6 @@ void DBandImgOperate::getAllInfos()
     query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime "
                   "FROM ImageTable3");
     if (! query.exec()) {
-        qDebug() << "zy------Get data from ImageTable3 failed: " << query.lastError();
         emit sigAllImgInfosReady(infos);
         return;
     } else {
@@ -144,7 +135,6 @@ void DBandImgOperate::getAllInfos()
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
-//            info.changeTime = stringToDateTime(query.value(4).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
             infos << info;
