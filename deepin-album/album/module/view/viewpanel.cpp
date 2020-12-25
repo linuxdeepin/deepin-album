@@ -195,15 +195,15 @@ void ViewPanel::showFullScreen()
     emit dApp->signalM->sigShowFullScreen();
 }
 
-QWidget *ViewPanel::toolbarBottomContent()
-{
-    return nullptr;
-}
+//QWidget *ViewPanel::toolbarBottomContent()
+//{
+//    return nullptr;
+//}
 
-QWidget *ViewPanel::toolbarTopLeftContent()
-{
-    return nullptr;
-}
+//QWidget *ViewPanel::toolbarTopLeftContent()
+//{
+//    return nullptr;
+//}
 
 QWidget *ViewPanel::bottomTopLeftContent()
 {
@@ -243,11 +243,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(m_ttbc, &TTBContent::imageClicked, this, &ViewPanel::showImage);
     return m_ttbc;
 }
-QWidget *ViewPanel::toolbarTopMiddleContent()
-{
-    QWidget *w = new QWidget();
-    return w;
-}
+//QWidget *ViewPanel::toolbarTopMiddleContent()
+//{
+//    QWidget *w = new QWidget();
+//    return w;
+//}
 
 //ImageView *ViewPanel::getImageView()
 //{

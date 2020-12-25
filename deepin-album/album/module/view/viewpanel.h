@@ -49,10 +49,10 @@ public:
     ~ViewPanel() Q_DECL_OVERRIDE;
 
     QString moduleName() override;
-    QWidget *toolbarBottomContent() override;
-    QWidget *toolbarTopLeftContent() override;
+//    QWidget *toolbarBottomContent() override;
+//    QWidget *toolbarTopLeftContent() override;
     QWidget *bottomTopLeftContent() ;
-    QWidget *toolbarTopMiddleContent() override;
+//    QWidget *toolbarTopMiddleContent() override;
     int getPicCount()
     {
         if (!m_ttbc) {
