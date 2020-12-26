@@ -5,7 +5,7 @@
 #include "albumimagebutton.h"
 #include "leftlistwidget.h"
 
-
+#include <DScrollArea>
 #include <DWidget>
 #include <DLabel>
 #include <DListWidget>
@@ -13,7 +13,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-class LeftListView : public DWidget
+class LeftListView : public DScrollArea
 {
     Q_OBJECT
 public:
@@ -25,14 +25,13 @@ public:
         IdDeleteAlbum,
     };
 
-    explicit LeftListView(DWidget *parent = nullptr);
+    explicit LeftListView(QWidget *parent = nullptr);
     QString getItemCurrentName();
     QString getItemCurrentType();
     int getItemDataType();
     void updatePhotoListView();
     void updateAlbumItemsColor();
     void updateCustomizeListView();
-    void moveMountListWidget();
 
 private:
     void initUI();
@@ -43,7 +42,6 @@ private:
     QString getNewAlbumName();
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 signals:
     void itemClicked();
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
@@ -77,6 +75,7 @@ public:
     // 设备
     DLabel *m_pMountLabel;
     LeftListWidget *m_pMountListWidget;
+    DWidget *m_pMountWidget;
 
 private:
     QString m_ItemCurrentName;
@@ -84,7 +83,6 @@ private:
     int m_ItemCurrentDataType;
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;
-    DWidget *m_pMountWidget;
     AlbumDeleteDialog *deletDialg;
 };
 

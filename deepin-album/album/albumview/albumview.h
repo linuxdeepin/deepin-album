@@ -103,6 +103,7 @@ public:
     void updatePicNum();
     void updateRightView();
     void updateAlbumView(const QString &album);
+    void updateDeviceLeftList();
 private:
     void initConnections();
     void initLeftView();

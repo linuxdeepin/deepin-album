@@ -151,7 +151,7 @@ signals:
     void picNotExists(bool immediately = false);
 
     void deleteByMenu();
-    void updateLeftListview();
+//    void updateLeftListview();
     void sliderValueChange(int step);
     void startImprot();
     void popupWaitDialog(QString waittext, bool bneedprogress = true);

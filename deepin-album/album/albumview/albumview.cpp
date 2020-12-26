@@ -32,6 +32,7 @@
 #include "imageengine/imageenginethread.h"
 #include "ac-desktop-define.h"
 #include "mainwindow.h"
+#include "leftlistview.h"
 
 static QMutex m_mutex;
 
@@ -350,6 +351,7 @@ void AlbumView::initLeftView()
     //init externalDevice
     m_mounts = getVfsMountList();
     initExternalDevice();
+    updateDeviceLeftList();
 }
 
 void AlbumView::onCreateNewAlbumFromDialog(const QString newalbumname)
@@ -364,7 +366,7 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString newalbumname)
 
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
-    m_pLeftListView->moveMountListWidget();
+    m_pLeftListView->onUpdateLeftListview();
     //清除其他已选中的项
     QModelIndex index2;
     emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
@@ -379,7 +381,7 @@ void AlbumView::onCreateNewAlbumFrom(QString albumname)
     AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-    m_pLeftListView->moveMountListWidget();
+    m_pLeftListView->onUpdateLeftListview();
 }
 
 void AlbumView::iniWaitDiolag()
@@ -436,7 +438,7 @@ void AlbumView::initRightView()
 
     m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_RECENT_IMPORTED);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
-    m_pRightThumbnailList->setStyleSheet("background:red");
+
     pNoTrashVBoxLayout->addSpacing(3);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
     pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
@@ -883,6 +885,16 @@ void AlbumView::updateAlbumView(const QString &album)
     }
 }
 
+void AlbumView::updateDeviceLeftList()
+{
+    bool tempB = false;
+    m_mounts.count() > 0? tempB = true : tempB = false;
+    // 有设备接入时，左边栏显示设备item
+    m_pLeftListView->m_pMountListWidget->setVisible(tempB);
+    m_pLeftListView->m_pMountWidget->setVisible(tempB);
+    m_pLeftListView->m_pMountListWidget->setFixedHeight(m_pLeftListView->m_pMountListWidget->count() * 40);
+}
+
 // 更新已导入列表
 void AlbumView::updateRightImportView()
 {
@@ -1312,7 +1324,7 @@ void AlbumView::onKeyDelete()
                 }
                 //刷新右侧视图
                 leftTabClicked();
-                m_pLeftListView->moveMountListWidget();
+                m_pLeftListView->onUpdateLeftListview();
                 emit dApp->signalM->sigAlbDelToast(str);
             });
             m_deleteDialog->show();
@@ -1388,7 +1400,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         isIgnore = true;
         updateExternalDevice(mount, strPath);
         m_mounts = getVfsMountList();
-
+        updateDeviceLeftList();
         if (bFind) {
             qDebug() << "zy------AlbumView::onVfsMountChangedAdd ImageEngineApi getImageFilesFromMount";
             ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);//zy123
@@ -1437,6 +1449,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
         }
     }
     m_mounts = getVfsMountList();
+    updateDeviceLeftList();
 }
 
 void AlbumView::getAllDeviceName()
@@ -1917,6 +1930,7 @@ void AlbumView::needUnMount(QString path)
         }
     }
     m_mounts = getVfsMountList();
+    updateDeviceLeftList();
 }
 
 //卸载外部设备
