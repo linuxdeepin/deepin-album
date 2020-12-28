@@ -736,6 +736,7 @@ void MainWindow::onShowImageInfo(const QString &path)
     if (m_propertyDialogs.contains(path)) {
         m_propertyDialogs.remove(path);
         dialog = new ImgInfoDialog(path);
+        dialog->setObjectName("ImgInfoDialog");
         m_propertyDialogs.insert(path, dialog);
         dialog->show();
         dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());

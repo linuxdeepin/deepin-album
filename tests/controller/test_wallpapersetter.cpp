@@ -23,6 +23,7 @@
 // 从菜单导入照片
 TEST(WallpaperSetter, test_WallpaperSetter)
 {
+    TEST_CASE_NAME("test_WallpaperSetter")
     qDebug() << "WallpaperSetter test_WallpaperSetter count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -35,6 +36,7 @@ TEST(WallpaperSetter, test_WallpaperSetter)
 // 从菜单导入照片
 TEST(WallpaperSetter, setBackground_test)
 {
+    TEST_CASE_NAME("setBackground_test")
     qDebug() << "WallpaperSetter setBackground_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();

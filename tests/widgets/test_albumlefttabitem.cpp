@@ -20,13 +20,14 @@
 
 TEST(AlbumLeftTabItem, func_test)
 {
+    TEST_CASE_NAME("func_test")
     qDebug() << "AlbumLeftTabItem func_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem* leftItem = new AlbumLeftTabItem(str,strType);
+    AlbumLeftTabItem *leftItem = new AlbumLeftTabItem(str, strType);
     leftItem->initUI();
     leftItem->unMountBtnClicked();
     leftItem->editAlbumEdit();
@@ -37,6 +38,7 @@ TEST(AlbumLeftTabItem, func_test)
 
 TEST(AlbumLeftTabItem, onCheckNameValid_test)
 {
+    TEST_CASE_NAME("onCheckNameValid_test")
     qDebug() << "AlbumLeftTabItem onCheckNameValid_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -44,7 +46,7 @@ TEST(AlbumLeftTabItem, onCheckNameValid_test)
 
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem* leftItem1 = new AlbumLeftTabItem(str,strType);
+    AlbumLeftTabItem *leftItem1 = new AlbumLeftTabItem(str, strType);
     leftItem1->initUI();
     leftItem1->m_opeMode = 1;
     leftItem1->onCheckNameValid();
@@ -59,6 +61,7 @@ TEST(AlbumLeftTabItem, onCheckNameValid_test)
 
 TEST(AlbumLeftTabItem, oriAlbumStatus_test)
 {
+    TEST_CASE_NAME("oriAlbumStatus_test")
     qDebug() << "AlbumLeftTabItem oriAlbumStatus_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -66,12 +69,12 @@ TEST(AlbumLeftTabItem, oriAlbumStatus_test)
 
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem* leftItem2 = new AlbumLeftTabItem(str,strType);
+    AlbumLeftTabItem *leftItem2 = new AlbumLeftTabItem(str, strType);
     leftItem2->initUI();
 
     int i = 0;
     stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), [i](){
+    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), [i]() {
         if (i == 0)
             return DGuiApplicationHelper::LightType;
         else
@@ -112,6 +115,7 @@ TEST(AlbumLeftTabItem, oriAlbumStatus_test)
 //
 TEST(AlbumLeftTabItem, newAlbumStatus_test)
 {
+    TEST_CASE_NAME("newAlbumStatus_test")
     qDebug() << "AlbumLeftTabItem newAlbumStatus_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -119,7 +123,7 @@ TEST(AlbumLeftTabItem, newAlbumStatus_test)
 
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem* leftItem3 = new AlbumLeftTabItem(str,strType);
+    AlbumLeftTabItem *leftItem3 = new AlbumLeftTabItem(str, strType);
     leftItem3->initUI();
 
     leftItem3->m_albumTypeStr = ALBUM_PATHTYPE_BY_PHONE;

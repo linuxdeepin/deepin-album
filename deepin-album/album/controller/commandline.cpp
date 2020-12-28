@@ -18,7 +18,7 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
-#include "controller/divdbuscontroller.h"
+//#include "controller/divdbuscontroller.h"
 #include "controller/configsetter.h"
 #include "frame/mainwidget.h"
 #include "utils/imageutils.h"
@@ -34,6 +34,8 @@
 #include <QDesktopWidget>
 #include <QDebug>
 #include <QFileInfo>
+#include <QStandardPaths>
+#include <QMimeDatabase>
 
 using namespace Dtk::Widget;
 

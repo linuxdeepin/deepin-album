@@ -20,6 +20,7 @@
 
 TEST(ThumbnailListView, initThumbnailListView)
 {
+    TEST_CASE_NAME("initThumbnailListView")
     qDebug() << "ThumbnailListView initThumbnailListView count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->timeLineBtnClicked();
@@ -92,6 +93,7 @@ TEST(ThumbnailListView, initThumbnailListView)
 
 TEST(ThumbnailListView, createNewAlbumFromDialog1)
 {
+    TEST_CASE_NAME("createNewAlbumFromDialog1")
     qDebug() << "ThumbnailListView createNewAlbumFromDialog1 count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();

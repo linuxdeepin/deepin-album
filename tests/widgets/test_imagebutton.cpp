@@ -22,6 +22,7 @@
 
 TEST(imagebutton, showTooltip_test)
 {
+    TEST_CASE_NAME("showTooltip_test")
     qDebug() << "imagebutton showTooltip_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();

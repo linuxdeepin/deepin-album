@@ -22,6 +22,7 @@
 
 TEST(ImportView, test_onImprotBtnClicked)
 {
+    TEST_CASE_NAME("test_onImprotBtnClicked")
     qDebug() << "ImportView test_onImprotBtnClicked count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -54,6 +55,7 @@ TEST(ImportView, test_onImprotBtnClicked)
 
 TEST(ImportView, test_onImprotBtnClicked_empty)
 {
+    TEST_CASE_NAME("test_onImprotBtnClicked_empty")
     qDebug() << "ImportView test_onImprotBtnClicked_empty count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();

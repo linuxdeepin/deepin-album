@@ -19,6 +19,7 @@
 
 TEST(allpicview, test_ini)
 {
+    TEST_CASE_NAME("test_ini")
     qDebug() << "allpicview test_ini count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
@@ -63,6 +64,7 @@ TEST(allpicview, test_ini)
 
 TEST(allpicview, resize)
 {
+    TEST_CASE_NAME("resize")
     qDebug() << "allpicview resize count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
@@ -76,6 +78,7 @@ TEST(allpicview, resize)
 
 TEST(allpicview, keypress)
 {
+    TEST_CASE_NAME("keypress")
     QTest::qWait(200);
     qDebug() << "allpicview keypress count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
@@ -89,6 +92,7 @@ TEST(allpicview, keypress)
 
 TEST(allpicview, dragevent)
 {
+    TEST_CASE_NAME("dragevent")
     QTest::qWait(200);
     qDebug() << "allpicview dragevent count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
@@ -134,6 +138,7 @@ TEST(allpicview, dragevent)
 
 TEST(allpicview, mousePress)
 {
+    TEST_CASE_NAME("mousePress")
     qDebug() << "allpicview mousePress count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
@@ -150,6 +155,7 @@ TEST(allpicview, mousePress)
 
 TEST(allpicview, test_open)
 {
+    TEST_CASE_NAME("test_open")
     qDebug() << "allpicview test_open count = " << count_testDefine++;
     QString publicTestPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     QString testPath = publicTestPath;
@@ -234,6 +240,7 @@ TEST(allpicview, test_open)
 
 TEST(allpicview, test_select)
 {
+    TEST_CASE_NAME("test_select")
     qDebug() << "allpicview test_select count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     AllPicView *a = w->m_pAllPicView;
@@ -262,6 +269,7 @@ TEST(allpicview, test_select)
 
 TEST(allpicview, test_shortCut)
 {
+    TEST_CASE_NAME("test_shortCut")
     qDebug() << "allpicview test_shortCut count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->createShorcutJson();
@@ -273,6 +281,7 @@ TEST(allpicview, test_shortCut)
 
 TEST(allpicview, test_showInFileManagerAndBackGrond)
 {
+    TEST_CASE_NAME("test_showInFileManagerAndBackGrond")
     qDebug() << "allpicview test_showInFileManagerAndBackGrond count = " << count_testDefine++;
     using namespace utils::base;
     using namespace utils::image;
@@ -311,6 +320,7 @@ TEST(allpicview, test_showInFileManagerAndBackGrond)
 
 TEST(allpicview, viewpaneltest)
 {
+    TEST_CASE_NAME("viewpaneltest")
     qDebug() << "ttbcontent test_ini count = " << count_testDefine++;
     QString publicTestPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     QString testPath = publicTestPath;
@@ -470,6 +480,7 @@ TEST(allpicview, viewpaneltest)
 
 TEST(allpicview, deleteTips)
 {
+    TEST_CASE_NAME("deleteTips")
     qDebug() << "allpicview deleteTips count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -490,12 +501,13 @@ TEST(allpicview, deleteTips)
 
 TEST(allpicview, allpicview_other_test)
 {
+    TEST_CASE_NAME("allpicview_other_test")
     qDebug() << "allpicview allpicviewOther count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
     w->m_pAllPicView->onFinishLoad();
     w->m_pAllPicView->onMenuOpenImage("", QStringList(), false, false);
-    w->m_pAllPicView->onImportViewImportBtnClicked();
+//    w->m_pAllPicView->onImportViewImportBtnClicked();
 
 
     QMimeData mimedata;

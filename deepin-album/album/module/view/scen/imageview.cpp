@@ -114,8 +114,8 @@ ImageView::ImageView(QWidget *parent)
 
     connect(m_loadTimer, &QTimer::timeout, this, &ImageView::onLoadTimerTimeout);
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ImageView::onThemeTypeChanged);
-    m_imgFileWatcher = new CFileWatcher(this);
-    connect(m_imgFileWatcher, &CFileWatcher::fileChanged, this, &ImageView::onImgFileChanged);
+    m_imgFileWatcher = new QFileSystemWatcher(this);
+    connect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageView::onIsChangedTimerTimeout);
 }
@@ -123,10 +123,10 @@ ImageView::ImageView(QWidget *parent)
 ImageView::~ImageView()
 {
     if (m_imgFileWatcher) {
-        m_imgFileWatcher->clear();
-        m_imgFileWatcher->quit();
-        m_imgFileWatcher->terminate();
-        m_imgFileWatcher->wait();
+//        m_imgFileWatcher->clear();
+//        m_imgFileWatcher->quit();
+//        m_imgFileWatcher->terminate();
+//        m_imgFileWatcher->wait();
         m_imgFileWatcher->deleteLater();
     }
 }
@@ -148,9 +148,9 @@ void ImageView::setImage(const QString &path)
     if (path.isEmpty()) {
         return;
     }
+    m_imgFileWatcher->removePath(m_path);
     m_path = path;
-    m_imgFileWatcher->clear();
-    m_imgFileWatcher->addWather(m_path);
+    m_imgFileWatcher->addPath(m_path);
     QString strfixL = QFileInfo(path).suffix().toUpper();
     QGraphicsScene *s = scene();
     QFileInfo fi(path);
@@ -236,19 +236,6 @@ void ImageView::setImage(const QString &path)
         }, Qt::QueuedConnection);
     }
 }
-
-//void ImageView::setRenderer(RendererType type)
-//{
-//    m_renderer = type;
-
-//    if (m_renderer == OpenGL) {
-//#ifndef QT_NO_OPENGL
-//        setViewport(new QOpenGLWidget());
-//#endif
-//    } else {
-//        setViewport(new QWidget);
-//    }
-//}
 
 void ImageView::setScaleValue(qreal v)
 {
@@ -425,17 +412,6 @@ qreal ImageView::windowRelativeScale() const
     }
 }
 
-//const QRectF ImageView::imageRect() const
-//{
-//    QRectF br(mapFromScene(0, 0), sceneRect().size());
-//    QTransform tf = transform();
-//    br.translate(tf.dx(), tf.dy());
-//    br.setWidth(br.width() * tf.m11());
-//    br.setHeight(br.height() * tf.m22());
-
-//    return br;
-//}
-
 const QString ImageView::path() const
 {
     return m_path;
@@ -474,19 +450,9 @@ bool ImageView::isFitWindow() const
     return m_isFitWindow;
 }
 
-//void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
-//{
-//#ifndef QT_NO_OPENGL
-//    setRenderHint(QPainter::HighQualityAntialiasing, highQualityAntialiasing);
-//#else
-//    Q_UNUSED(highQualityAntialiasing);
-//#endif
-//}
-
-void ImageView::onImgFileChanged(const QString &ddfFile, int tp)
+void ImageView::onImgFileChanged(const QString &ddfFile)
 {
     Q_UNUSED(ddfFile)
-    Q_UNUSED(tp)
     m_isChangedTimer->start(200);
 }
 
@@ -775,27 +741,6 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
 }
 
-//void ImageView::swipeTriggered(QSwipeGesture *gesture)
-//{
-//    m_maxTouchPoints = 3;
-//    if (gesture->state() == Qt::GestureFinished) {
-//        if (gesture->horizontalDirection() == QSwipeGesture::Left
-//                || gesture->verticalDirection() == QSwipeGesture::Up) {
-//            emit nextRequested();
-//        } else {
-//            emit previousRequested();
-//        }
-//    }
-
-//}
-
-//void ImageView::updateImages(const QStringList &path)
-//{
-//    dApp->m_imageloader->updateImageLoader(path);
-//    //等待svg图片转换完成后在加载
-//    setImage(m_path);
-//}
-
 void ImageView::wheelEvent(QWheelEvent *event)
 {
     QFileInfo file(m_path);
@@ -809,42 +754,42 @@ void ImageView::wheelEvent(QWheelEvent *event)
     }
 }
 
-CFileWatcher::CFileWatcher(QObject *parent): QThread(parent)
-{
-    _handleId = inotify_init();
-}
+//CFileWatcher::CFileWatcher(QObject *parent): QThread(parent)
+//{
+//    _handleId = inotify_init();
+//}
 
-CFileWatcher::~CFileWatcher()
-{
-    clear();
-}
+//CFileWatcher::~CFileWatcher()
+//{
+//    clear();
+//}
 
-bool CFileWatcher::isVaild()
-{
-    return (_handleId != -1);
-}
+//bool CFileWatcher::isVaild()
+//{
+//    return (_handleId != -1);
+//}
 
-void CFileWatcher::addWather(const QString &path)
-{
-    QMutexLocker loker(&_mutex);
-    if (!isVaild())
-        return;
-    QFileInfo info(path);
-    if (!info.exists() || !info.isFile()) {
-        return;
-    }
-    if (watchedFiles.find(path) != watchedFiles.end()) {
-        return;
-    }
-    std::string sfile = path.toStdString();
-    int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
-    watchedFiles.insert(path, fileId);
-    watchedFilesId.insert(fileId, path);
-    if (!_running) {
-        _running = true;
-        start();
-    }
-}
+//void CFileWatcher::addWather(const QString &path)
+//{
+//    QMutexLocker loker(&_mutex);
+//    if (!isVaild())
+//        return;
+//    QFileInfo info(path);
+//    if (!info.exists() || !info.isFile()) {
+//        return;
+//    }
+//    if (watchedFiles.find(path) != watchedFiles.end()) {
+//        return;
+//    }
+//    std::string sfile = path.toStdString();
+//    int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
+//    watchedFiles.insert(path, fileId);
+//    watchedFilesId.insert(fileId, path);
+//    if (!_running) {
+//        _running = true;
+//        start();
+//    }
+//}
 
 //void CFileWatcher::removePath(const QString &path)
 //{
@@ -859,67 +804,67 @@ void CFileWatcher::addWather(const QString &path)
 //    }
 //}
 
-void CFileWatcher::clear()
-{
-    QMutexLocker loker(&_mutex);
-    for (auto it : watchedFiles) {
-        inotify_rm_watch(_handleId, it);
-    }
-    watchedFilesId.clear();
-    watchedFiles.clear();
-}
+//void CFileWatcher::clear()
+//{
+//    QMutexLocker loker(&_mutex);
+//    for (auto it : watchedFiles) {
+//        inotify_rm_watch(_handleId, it);
+//    }
+//    watchedFilesId.clear();
+//    watchedFiles.clear();
+//}
 
-void CFileWatcher::run()
-{
-    doRun();
-}
+//void CFileWatcher::run()
+//{
+//    doRun();
+//}
 
-void CFileWatcher::doRun()
-{
-    if (!isVaild())
-        return;
+//void CFileWatcher::doRun()
+//{
+//    if (!isVaild())
+//        return;
 
-    char name[1024];
-    auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
-        char *offset = reinterpret_cast<char *>(dest);
-        while (remain) {
-            if (file == nullptr)
-                return -1;
-            size_t n = fread(offset, 1, remain, file);
-            if (n == 0) {
-                return -1;
-            }
+//    char name[1024];
+//    auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
+//        char *offset = reinterpret_cast<char *>(dest);
+//        while (remain) {
+//            if (file == nullptr)
+//                return -1;
+//            size_t n = fread(offset, 1, remain, file);
+//            if (n == 0) {
+//                return -1;
+//            }
 
-            remain -= n;
-            offset += n;
-        }
-        return 0;
-    };
+//            remain -= n;
+//            offset += n;
+//        }
+//        return 0;
+//    };
 
-    FILE *watcher_file = fdopen(_handleId, "r");
+//    FILE *watcher_file = fdopen(_handleId, "r");
 
-    while (true) {
-        inotify_event event;
-        if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
-            qWarning() << "------------- freadsome error !!!!!---------- ";
-            break;
-        }
-        if (event.len) {
-            freadsome(name, event.len, watcher_file);
-        } else {
-            QMutexLocker loker(&_mutex);
-            auto itf = watchedFilesId.find(event.wd);
-            if (itf != watchedFilesId.end()) {
-                //qDebug() << "file = " << itf.value() << " event.wd = " << event.wd << "event.mask = " << event.mask;
+//    while (true) {
+//        inotify_event event;
+//        if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
+//            qWarning() << "------------- freadsome error !!!!!---------- ";
+//            break;
+//        }
+//        if (event.len) {
+//            freadsome(name, event.len, watcher_file);
+//        } else {
+//            QMutexLocker loker(&_mutex);
+//            auto itf = watchedFilesId.find(event.wd);
+//            if (itf != watchedFilesId.end()) {
+//                //qDebug() << "file = " << itf.value() << " event.wd = " << event.wd << "event.mask = " << event.mask;
 
-                if (event.mask & IN_MODIFY) {
-                    emit fileChanged(itf.value(), EFileModified);
-                } else if (event.mask & IN_MOVE_SELF) {
-                    emit fileChanged(itf.value(), EFileMoved);
-                } else if (event.mask & IN_DELETE_SELF) {
-                    emit fileChanged(itf.value(), EFileMoved);
-                }
-            }
-        }
-    }
-}
+//                if (event.mask & IN_MODIFY) {
+//                    emit fileChanged(itf.value(), EFileModified);
+//                } else if (event.mask & IN_MOVE_SELF) {
+//                    emit fileChanged(itf.value(), EFileMoved);
+//                } else if (event.mask & IN_DELETE_SELF) {
+//                    emit fileChanged(itf.value(), EFileMoved);
+//                }
+//            }
+//        }
+//    }
+//}

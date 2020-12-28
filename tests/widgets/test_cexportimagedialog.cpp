@@ -21,6 +21,7 @@
 
 TEST(CExportImageDialog, showQuestionDialog_test)
 {
+    TEST_CASE_NAME("showQuestionDialog_test")
     qDebug() << "CExportImageDialog showQuestionDialog_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -46,6 +47,7 @@ TEST(CExportImageDialog, showQuestionDialog_test)
 //
 TEST(CExportImageDialog, showDirChoseDialog_test)
 {
+    TEST_CASE_NAME("showDirChoseDialog_test")
     qDebug() << "CExportImageDialog showDirChoseDialog_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -71,6 +73,7 @@ TEST(CExportImageDialog, showDirChoseDialog_test)
 
 TEST(CExportImageDialog, showEmptyWarningDialog_test)
 {
+    TEST_CASE_NAME("showEmptyWarningDialog_test")
     qDebug() << "CExportImageDialog showEmptyWarningDialog_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -82,6 +85,7 @@ TEST(CExportImageDialog, showEmptyWarningDialog_test)
 }
 TEST(CExportImageDialog, CExportImageDialog_func)
 {
+    TEST_CASE_NAME("CExportImageDialog_func")
     qDebug() << "CExportImageDialog CExportImageDialog_func count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -103,6 +107,7 @@ TEST(CExportImageDialog, CExportImageDialog_func)
 
 TEST(CExportImageDialog, slotOnDialogButtonClick_test)
 {
+    TEST_CASE_NAME("slotOnDialogButtonClick_test")
     qDebug() << "CExportImageDialog slotOnDialogButtonClick_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -132,6 +137,7 @@ TEST(CExportImageDialog, slotOnDialogButtonClick_test)
 
 TEST(CExportImageDialog, doSave_test)
 {
+    TEST_CASE_NAME("doSave_test")
     qDebug() << "CExportImageDialog doSave_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();

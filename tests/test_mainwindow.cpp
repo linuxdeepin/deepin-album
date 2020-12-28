@@ -29,6 +29,7 @@
 // 3个button界面主视图切换显示
 TEST(MainWindow, BtnGroupClick)
 {
+    TEST_CASE_NAME("load")
     QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (list.size() > 0)
         QString picdir = list.at(0);
@@ -44,6 +45,8 @@ TEST(MainWindow, BtnGroupClick)
     AllPicView *allpicview = w->m_pAllPicView;
     StatusBar *allbar = allpicview->m_pStatusBar;
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
+
+    QTest::qWait(400);
 
     QTestEventList event;
     event.addMouseClick(Qt::MouseButton::LeftButton);
@@ -75,7 +78,7 @@ TEST(MainWindow, BtnGroupClick)
     QTest::qWait(300);
     allbar->m_pSlider->slider()->setValue(4);
     QTest::qWait(300);
-//    TimeLineView *timelineview = w->m_pTimeLineView;
+
     CommandLine *commandline = w->m_commandLine;
     MainWidget *pmainwidget = nullptr;
     ViewPanel *viewpanel = nullptr;
@@ -133,15 +136,15 @@ TEST(MainWindow, BtnGroupClick)
             event.simulate(collect);
         QTest::qWait(500);
 
-//        DIconButton *rotateR = ttbc->findChild<DIconButton *>("TtbcontentRotateRightButton");
-//        if (rotateR)
-//            event.simulate(rotateR);
-//        QTest::qWait(1000);
+        DIconButton *rotateR = ttbc->findChild<DIconButton *>("TtbcontentRotateRightButton");
+        if (rotateR)
+            event.simulate(rotateR);
+        QTest::qWait(1500);
 
-//        DIconButton *rotateL = ttbc->findChild<DIconButton *>("TtbcontentRotateLeftButton");
-//        if (rotateL)
-//            event.simulate(rotateL);
-//        QTest::qWait(1000);
+        DIconButton *rotateL = ttbc->findChild<DIconButton *>("TtbcontentRotateLeftButton");
+        if (rotateL)
+            event.simulate(rotateL);
+        QTest::qWait(1500);
 
         DIconButton *back = ttbc->findChild<DIconButton *>("TtbcontentBackButton");
         if (back)
@@ -149,8 +152,13 @@ TEST(MainWindow, BtnGroupClick)
         QTest::qWait(500);
         event.clear();
 
-        //TODO 旋转+删除
-        //------
+        event.addMouseMove(p1);
+        event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+        event.simulate(allpicview->m_pThumbnailListView->viewport());
+        event.clear();
+        QTest::qWait(500);
+
+        //TODO 删除
     }
     //------右键菜单start---------
     QContextMenuEvent menuEvent(QContextMenuEvent::Mouse, p1);
@@ -208,17 +216,17 @@ TEST(MainWindow, BtnGroupClick)
             DIconButton *ExitButton = sliderbar->findChild<DIconButton *>("SliderExitButton");
             if (NextButton) {
                 e.simulate(NextButton);
-                QTest::qWait(300);
+                QTest::qWait(500);
             }
             if (preButton) {
                 e.simulate(preButton);
-                QTest::qWait(300);
+                QTest::qWait(500);
             }
             if (Play_PauseButton) {
                 e.simulate(Play_PauseButton);
-                QTest::qWait(300);
+                QTest::qWait(500);
                 e.simulate(Play_PauseButton);
-                QTest::qWait(300);
+                QTest::qWait(500);
             }
             if (ExitButton) {
                 e.simulate(ExitButton);
@@ -243,7 +251,7 @@ TEST(MainWindow, BtnGroupClick)
     e.clear();
     QTest::qWait(300);
 
-    //删除8
+    //删除8-d
 //    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
 //    QTest::qWait(300);
 //    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
@@ -257,10 +265,14 @@ TEST(MainWindow, BtnGroupClick)
 //    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
 //    e.simulate(menuWidget);
 
-//    ImgDeleteDialog *dialog = allpicview->m_pThumbnailListView->findChild<ImgDeleteDialog *>("deteledialog");
-//    if (dialog)
-//        e.clear();
-//    QTest::qWait(100);
+//    e.clear();
+//    QTest::qWait(1000);
+
+    e.addMouseMove(p1);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    e.simulate(allpicview->m_pThumbnailListView->viewport());
+    e.clear();
+    QTest::qWait(200);
 
     //收藏9
     qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
@@ -280,45 +292,53 @@ TEST(MainWindow, BtnGroupClick)
     QTest::qWait(100);
 
     //顺时针10
-//    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
-//    QTest::qWait(300);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-//    e.simulate(menuWidget);
-//    e.clear();
-//    QTest::qWait(100);
+    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
+    QTest::qWait(300);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+    e.simulate(menuWidget);
+    e.clear();
+    QTest::qWait(1500);
 
-//    //逆时针11
-//    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
-//    QTest::qWait(300);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-//    e.simulate(menuWidget);
-//    e.clear();
-//    QTest::qWait(100);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    e.simulate(allpicview->m_pThumbnailListView->viewport());
+    e.clear();
+    QTest::qWait(200);
+
+    //逆时针11
+    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);;
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+    e.simulate(menuWidget);
+    e.clear();
+    QTest::qWait(1500);
+
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    e.simulate(allpicview->m_pThumbnailListView->viewport());
+    e.clear();
+    QTest::qWait(200);
 
     //设为壁纸12
     qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
-    QTest::qWait(300);
     e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
     e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
     e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
@@ -357,6 +377,10 @@ TEST(MainWindow, BtnGroupClick)
     e.clear();
     QTest::qWait(300);
     w->raise();
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    e.simulate(allpicview->m_pThumbnailListView->viewport());
+    e.clear();
+    QTest::qWait(200);
 
     //照片信息14
     qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
@@ -379,33 +403,197 @@ TEST(MainWindow, BtnGroupClick)
     e.simulate(menuWidget);
     e.clear();
     QTest::qWait(500);
-    w->allPicBtnClicked();
-    ImgInfoDialog *dia = static_cast<ImgInfoDialog *>(qApp->activePopupWidget());
-    if (dia)
-        dia->hide();
+
+    QList<QWidget *> lis =  dApp->getDAppNew()->topLevelWidgets();
+    auto iter = lis.cbegin();
+    while (iter != lis.cend()) {
+        if ((*iter)->objectName() == "ImgInfoDialog") {
+            (*iter)->hide();
+            break;
+        }
+        ++iter;
+    }
     //------右键菜单end---------
+
+    //多选
+    QPoint p2(280, 100);
+    QContextMenuEvent menuEvent2(QContextMenuEvent::Mouse, p2);
+
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    e.addMouseMove(p2);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::ControlModifier, p2, 50);
+    e.simulate(allpicview->m_pThumbnailListView->viewport());
+    e.clear();
+    QTest::qWait(300);
+
+    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent2);
+    QTest::qWait(300);
+    DMenu *menuWidget2 = static_cast<DMenu *>(qApp->activePopupWidget());
+
+    //1 2 4 5 6
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//    e.simulate(menuWidget2);
+//    e.clear();
+//    QTest::qWait(500);
+    //幻灯片
+    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent2);
+    QTest::qWait(300);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+    e.simulate(menuWidget2);
+    e.clear();
+    QTest::qWait(1000);
+
+    e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);
+    e.simulate(imageview->viewport());
+    e.clear();
+    //导出-d
+//    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent2);
+//    QTest::qWait(300);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//    e.simulate(menuWidget2);
+//    e.clear();
+//    QTest::qWait(500);
+    //复制
+    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent2);
+    QTest::qWait(300);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+    e.simulate(menuWidget2);
+    e.clear();
+    QTest::qWait(500);
+    //删除-d
+//    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent2);
+//    QTest::qWait(300);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//    e.simulate(menuWidget2);
+//    e.clear();
+//    QTest::qWait(500);
+
     w->resize(980, 600);
 }
 
 TEST(MainWindow, timelineview)
 {
+    TEST_CASE_NAME("timelineview")
     MainWindow *w = dApp->getMainWindow();
     TimeLineView *timelineview = w->m_pTimeLineView;
     w->timeLineBtnClicked();
+
     QTestEventList e;
     e.addMouseClick(Qt::MouseButton::LeftButton);
     e.simulate(w->getButG()->button(1));
+    e.clear();
+
+    CommandLine *commandline = w->m_commandLine;
+    ImageView *imageview = commandline->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB;
+
+    QPoint p3(100, 50);
+    QContextMenuEvent menuEvent2(QContextMenuEvent::Mouse, p3);
+
     if (timelineview) {
-        DCommandLinkButton *btn = timelineview->pSuspensionChose;
-        if (btn) {
-            QTestEventList e1;
-            e1.addMouseClick(Qt::MouseButton::LeftButton);
-            e1.simulate(btn);
-            QTest::qWait(300);
-            e1.simulate(btn);
-            e1.clear();
-            QTest::qWait(300);
+        QList<DCommandLinkButton *> btns = timelineview->m_allChoseButton;
+        QTestEventList e1;
+        e1.addMouseClick(Qt::MouseButton::LeftButton);
+        for (int i = 0; i < btns.size(); i++) {
+            e1.simulate(btns.at(i));
+            QTest::qWait(200);
         }
+        e1.clear();
+
+        e1.addMouseMove(p3);
+        e1.simulate(timelineview->m_allThumbnailListView[0]->viewport());
+        e1.clear();
+        QTest::qWait(300);
+
+        qApp->sendEvent(timelineview->m_allThumbnailListView[0]->viewport(), &menuEvent2);
+        QTest::qWait(300);
+        DMenu *menuWidget3 = static_cast<DMenu *>(qApp->activePopupWidget());
+
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//        e.simulate(menuWidget3);
+//        e.clear();
+//        QTest::qWait(500);
+        //幻灯片
+        qApp->sendEvent(timelineview->m_allThumbnailListView[0]->viewport(), &menuEvent2);
+        QTest::qWait(300);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+        e.simulate(menuWidget3);
+        e.clear();
+        QTest::qWait(1000);
+
+
+        commandline->findChild<MainWidget *>("MainWidget")->m_extensionPanel->setContent(nullptr);
+        commandline->findChild<MainWidget *>("MainWidget")->m_extensionPanel->updateRectWithContent();
+        e.addMouseMove(commandline->findChild<MainWidget *>("MainWidget")->m_extensionPanel->pos());
+        e.simulate(commandline->findChild<MainWidget *>("MainWidget")->m_extensionPanel);
+        commandline->findChild<MainWidget *>("MainWidget")->m_extensionPanel->update();
+        e.clear();
+        QTest::qWait(300);
+        commandline->findChild<MainWidget *>("MainWidget")->onBackToMainPanel();
+        commandline->findChild<MainWidget *>("MainWidget")->onActiveWindow();
+        commandline->findChild<MainWidget *>("MainWidget")->onShowInFileManager("");
+        commandline->findChild<MainWidget *>("MainWidget")->onMouseMove();
+        commandline->findChild<MainWidget *>("MainWidget")->onShowFullScreen();
+
+        e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);
+        e.simulate(imageview->viewport());
+        e.clear();
+        //导出-d
+//        qApp->sendEvent(timelineview->m_allThumbnailListView[0]->viewport(), &menuEvent2);
+//        QTest::qWait(300);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//        e.simulate(menuWidget3);
+//        e.clear();
+//        QTest::qWait(500);
+        //复制
+        qApp->sendEvent(timelineview->m_allThumbnailListView[0]->viewport(), &menuEvent2);
+        QTest::qWait(300);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+        e.simulate(menuWidget3);
+        e.clear();
+        QTest::qWait(500);
+        //删除-d
+//        qApp->sendEvent(timelineview->m_allThumbnailListView[0]->viewport(), &menuEvent2);
+//        QTest::qWait(300);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//        e.simulate(menuWidget3);
+//        e.clear();
+//        QTest::qWait(500);
     }
     StatusBar *bar1 = timelineview->m_pStatusBar;
     bar1->m_pSlider->slider()->setValue(0);
@@ -482,6 +670,7 @@ TEST(MainWindow, timelineview)
 // 从菜单创建相册
 TEST(MainWindow, createalbumFromTitlebarMenu)
 {
+    TEST_CASE_NAME("createalbumFromTitlebarMenu")
     qDebug() << "MainWindow createalbumFromTitlebarMenu count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -509,6 +698,7 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
 
 TEST(MainWindow, addpictoalbum)
 {
+    TEST_CASE_NAME("addpictoalbum")
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QPoint p1(100, 100);
@@ -540,9 +730,27 @@ TEST(MainWindow, addpictoalbum)
     QTest::qWait(1000);
 }
 
+TEST(MainWindow, albumview)
+{
+    TEST_CASE_NAME("albumview")
+    MainWindow *w = dApp->getMainWindow();
+//    AlbumView *albumview = w->m_pAlbumview;
+
+    w->albumBtnClicked();
+
+    QTestEventList e;
+    e.addMouseClick(Qt::MouseButton::LeftButton);
+    e.simulate(w->getButG()->button(2));
+    e.clear();
+//    CommandLine *commandline = w->m_commandLine;
+//    ImageView *imageview = commandline->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB;
+
+}
+
 // 从菜单导入照片
 TEST(MainWindow, ImportPhotosFromTitlebarMenu)
 {
+    TEST_CASE_NAME("ImportPhotosFromTitlebarMenu")
     qDebug() << "MainWindow ImportPhotosFromTitlebarMenu count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -573,6 +781,7 @@ TEST(MainWindow, ImportPhotosFromTitlebarMenu)
 
 TEST(MainWindow, setWaitDialogColor_test)
 {
+    TEST_CASE_NAME("setWaitDialogColor_test")
     qDebug() << "MainWindow setWaitDialogColor_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -594,6 +803,7 @@ TEST(MainWindow, setWaitDialogColor_test)
 
 TEST(MainWindow, onShowImageInfo_test)
 {
+    TEST_CASE_NAME("onShowImageInfo_test")
     qDebug() << "MainWindow onShowImageInfo_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -607,6 +817,7 @@ TEST(MainWindow, onShowImageInfo_test)
 
 TEST(MainWindow, loadZoomRatio_test)
 {
+    TEST_CASE_NAME("loadZoomRatio_test")
     qDebug() << "MainWindow loadZoomRatio_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -618,6 +829,7 @@ TEST(MainWindow, loadZoomRatio_test)
 
 TEST(MainWindow, createShorcutJson_test)
 {
+    TEST_CASE_NAME("createShorcutJson_test")
     qDebug() << "MainWindow createShorcutJson_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -629,6 +841,7 @@ TEST(MainWindow, createShorcutJson_test)
 
 TEST(MainWindow, thumbnailZoomIn_test)
 {
+    TEST_CASE_NAME("thumbnailZoomIn_test")
     qDebug() << "MainWindow thumbnailZoomIn_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -640,6 +853,7 @@ TEST(MainWindow, thumbnailZoomIn_test)
 
 TEST(MainWindow, thumbnailZoomOut_test)
 {
+    TEST_CASE_NAME("thumbnailZoomOut_test")
     qDebug() << "MainWindow thumbnailZoomOut_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -651,6 +865,7 @@ TEST(MainWindow, thumbnailZoomOut_test)
 
 TEST(MainWindow, saveWindowState_test)
 {
+    TEST_CASE_NAME("saveWindowState_test")
     qDebug() << "MainWindow saveWindowState_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -662,6 +877,7 @@ TEST(MainWindow, saveWindowState_test)
 
 TEST(MainWindow, compareVersion_test)
 {
+    TEST_CASE_NAME("compareVersion_test")
     qDebug() << "MainWindow compareVersion_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -673,6 +889,7 @@ TEST(MainWindow, compareVersion_test)
 
 TEST(MainWindow, onSearchEditFinished_test)
 {
+    TEST_CASE_NAME("onSearchEditFinished_test")
     qDebug() << "MainWindow onSearchEditFinished_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -690,6 +907,7 @@ TEST(MainWindow, onSearchEditFinished_test)
 
 TEST(MainWindow, onNewAPPOpen_test)
 {
+    TEST_CASE_NAME("onNewAPPOpen_test")
     qDebug() << "MainWindow onNewAPPOpen_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();

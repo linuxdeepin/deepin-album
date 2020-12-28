@@ -27,6 +27,7 @@
 #include <QGraphicsBlurEffect>
 #include <QPointer>
 #include <QMap>
+#include <QFileSystemWatcher>
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -101,7 +102,7 @@ signals:
 
 public slots:
 //    void setHighQualityAntialiasing(bool highQualityAntialiasing);
-    void onImgFileChanged(const QString &ddfFile, int tp);
+    void onImgFileChanged(const QString &ddfFile);
     void onLoadTimerTimeout();
     void onThemeTypeChanged();
     void onIsChangedTimerTimeout();
@@ -141,7 +142,8 @@ private:
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
     QPointer<QGraphicsBlurEffect> m_blurEffect;
-    CFileWatcher *m_imgFileWatcher;
+//    CFileWatcher *m_imgFileWatcher;
+    QFileSystemWatcher *m_imgFileWatcher;
     QTimer *m_isChangedTimer;
 
     bool m_isFirstPinch = false;
@@ -152,38 +154,38 @@ private:
     int m_maxTouchPoints = 0;//触摸动作时手指数
 };
 
-class CFileWatcher: public QThread
-{
-    Q_OBJECT
-public:
-    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
+//class CFileWatcher: public QThread
+//{
+//    Q_OBJECT
+//public:
+//    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
 
-    explicit CFileWatcher(QObject *parent = nullptr);
-    ~CFileWatcher();
+//    explicit CFileWatcher(QObject *parent = nullptr);
+//    ~CFileWatcher();
 
-    bool isVaild();
+//    bool isVaild();
 
-    void addWather(const QString &path);
-//    void removePath(const QString &path);
+//    void addWather(const QString &path);
+////    void removePath(const QString &path);
 
-    void clear();
+//    void clear();
 
-signals:
-    void fileChanged(const QString &path, int tp);
+//signals:
+//    void fileChanged(const QString &path, int tp);
 
-protected:
-    void run();
+//protected:
+//    void run();
 
-private:
-    void doRun();
+//private:
+//    void doRun();
 
-    int  _handleId = -1;
-    bool _running = false;
+//    int  _handleId = -1;
+//    bool _running = false;
 
 
-    QMap<QString, int> watchedFiles;
-    QMap<int, QString> watchedFilesId;
+//    QMap<QString, int> watchedFiles;
+//    QMap<int, QString> watchedFilesId;
 
-    QMutex _mutex;
-};
+//    QMutex _mutex;
+//};
 #endif // SVGVIEW_H

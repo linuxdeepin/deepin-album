@@ -31,6 +31,7 @@
 #include <QTimer>
 #include <QObject>
 #include <QDesktopWidget>
+#include <QPalette>
 
 #include <cmath>
 
@@ -774,7 +775,10 @@ ImageAnimation::ImageAnimation(QWidget *parent) :
 {
     setAttribute(Qt::WA_TransparentForMouseEvents, true);
     setAttribute(Qt::WA_StyledBackground, true);
-    setStyleSheet("background-color:#252525");
+    QPalette pal(palette());
+    pal.setColor(QPalette::Background, Qt::black);
+    setAutoFillBackground(true);
+    setPalette(pal);
 }
 
 ImageAnimation::~ImageAnimation()

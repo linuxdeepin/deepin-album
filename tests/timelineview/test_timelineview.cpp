@@ -14,6 +14,7 @@
 
 TEST(TimeLineView, T1)
 {
+    TEST_CASE_NAME("T1")
     qDebug() << "TimeLineView T1 count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
@@ -85,6 +86,7 @@ TEST(TimeLineView, T1)
 
 TEST(TimeLineView, dragPhotoToAnAlbum)
 {
+    TEST_CASE_NAME("dragPhotoToAnAlbum")
     qDebug() << "TimeLineView dragPhotoToAnAlbum count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
@@ -157,6 +159,7 @@ TEST(TimeLineView, dragPhotoToAnAlbum)
 }
 TEST(TimeLineView, SelectTimeLinesBtn)
 {
+    TEST_CASE_NAME("SelectTimeLinesBtn")
     qDebug() << "TimeLineView SelectTimeLinesBtn count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QTestEventList event;
@@ -201,6 +204,7 @@ TEST(TimeLineView, importImages)
 
 TEST(TimeLineView, selectBtn)
 {
+    TEST_CASE_NAME("selectBtn")
     qDebug() << "TimeLineView selectBtn count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->timeLineBtnClicked();
@@ -267,6 +271,7 @@ TEST(TimeLineView, selectBtn)
 
 TEST(TimeLineView, changeTheme)
 {
+    TEST_CASE_NAME("changeTheme")
     qDebug() << "TimeLineView changeTheme count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->timeLineBtnClicked();
@@ -277,42 +282,44 @@ TEST(TimeLineView, changeTheme)
     QTest::qWait(500);
 }
 
-TEST(TimeLineView, changSliderValue)
-{
-    qDebug() << "TimeLineView changSliderValue count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
-    w->timeLineBtnClicked();
-    TimeLineView *t = w->m_pTimeLineView;
-    int width = t->m_pStatusBar->m_pSlider->slider()->width();
-    QPoint pos(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-    QTestEventList event;
-    event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-    pos = pos - QPoint(200, 0);
-    event.addMouseMove(pos);
-    QTest::qWait(500);
-    event.simulate(t->m_pStatusBar->m_pSlider->slider());
-    pos = QPoint(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-    for (int i = 0; i < 5; i++) {
-        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-        pos = pos + QPoint(20, 0);
-        event.addMouseMove(pos);
-        event.simulate(t->m_pStatusBar->m_pSlider->slider());
-        event.clear();
-        QTest::qWait(400);
-    }
-    pos = QPoint(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-    for (int i = 0; i < 5; i++) {
-        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-        pos = pos - QPoint(20, 0);
-        event.addMouseMove(pos);
-        event.simulate(t->m_pStatusBar->m_pSlider->slider());
-        event.clear();
-        QTest::qWait(400);
-    }
-}
+//TEST(TimeLineView, changSliderValue)
+//{
+//	  TEST_CASE_NAME("changSliderValue")
+//    qDebug() << "TimeLineView changSliderValue count = " << count_testDefine++;
+//    MainWindow *w = dApp->getMainWindow();
+//    w->timeLineBtnClicked();
+//    TimeLineView *t = w->m_pTimeLineView;
+//    int width = t->m_pStatusBar->m_pSlider->slider()->width();
+//    QPoint pos(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
+//    QTestEventList event;
+//    event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
+//    pos = pos - QPoint(200, 0);
+//    event.addMouseMove(pos);
+//    QTest::qWait(500);
+//    event.simulate(t->m_pStatusBar->m_pSlider->slider());
+//    pos = QPoint(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
+//    for (int i = 0; i < 5; i++) {
+//        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
+//        pos = pos + QPoint(20, 0);
+//        event.addMouseMove(pos);
+//        event.simulate(t->m_pStatusBar->m_pSlider->slider());
+//        event.clear();
+//        QTest::qWait(400);
+//    }
+//    pos = QPoint(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
+//    for (int i = 0; i < 5; i++) {
+//        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
+//        pos = pos - QPoint(20, 0);
+//        event.addMouseMove(pos);
+//        event.simulate(t->m_pStatusBar->m_pSlider->slider());
+//        event.clear();
+//        QTest::qWait(400);
+//    }
+//}
 
 TEST(TimeLineView, oneThumblistview_test)
 {
+    TEST_CASE_NAME("oneThumblistview_test")
     qDebug() << "TimeLineView T1 count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);

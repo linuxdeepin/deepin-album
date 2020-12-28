@@ -34,6 +34,7 @@
 
 TEST(PrintHelper, PrintHelper_test)
 {
+    TEST_CASE_NAME("PrintHelper_test")
     qDebug() << "PrintHelper PrintHelper_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();

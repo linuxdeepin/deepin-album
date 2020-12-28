@@ -24,6 +24,7 @@
 
 TEST(ImportTimeLineView, getIBaseHeight_test)
 {
+    TEST_CASE_NAME("getIBaseHeight_test")
     qDebug() << "ImportTimeLineView getIBaseHeight_test count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
@@ -44,6 +45,7 @@ TEST(ImportTimeLineView, getIBaseHeight_test)
 
 TEST(ImportTimeLineView, test_func)
 {
+    TEST_CASE_NAME("test_func")
     qDebug() << "ImportTimeLineView test_func count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
@@ -63,6 +65,7 @@ TEST(ImportTimeLineView, test_func)
 
 TEST(ImportTimeLineView, on_KeyEvent_test)
 {
+    TEST_CASE_NAME("on_KeyEvent_test")
     qDebug() << "ImportTimeLineView on_KeyEvent_test count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
@@ -78,6 +81,7 @@ TEST(ImportTimeLineView, on_KeyEvent_test)
 TEST(ImportTimeLineView, resizeHand_test)
 
 {
+    TEST_CASE_NAME("resizeHand_test")
     qDebug() << "ImportTimeLineView getIBaseHeight_test count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
@@ -89,6 +93,7 @@ TEST(ImportTimeLineView, resizeHand_test)
 
 TEST(ImportTimeLineView, thumbnaillistViewSlot_test)
 {
+    TEST_CASE_NAME("thumbnaillistViewSlot_test")
     qDebug() << "ImportTimeLineView getIBaseHeight_test count" << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
@@ -104,13 +109,13 @@ TEST(ImportTimeLineView, thumbnaillistViewSlot_test)
     QTest::qWait(1000);
 
     ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
-    if (impTimeline->m_allThumbnailListView.count() >0) {
-        ThumbnailListView* tempThumbnailListView =  impTimeline->m_allThumbnailListView.first();
+    if (impTimeline->m_allThumbnailListView.count() > 0) {
+        ThumbnailListView *tempThumbnailListView =  impTimeline->m_allThumbnailListView.first();
         ViewPanel *viewPanel = nullptr;
-        QList<QWidget*> widgets = w->findChildren<QWidget *>();
+        QList<QWidget *> widgets = w->findChildren<QWidget *>();
         foreach (auto widget, widgets) {
-            if (!strcmp(widget->metaObject()->className(),"ViewPanel")) {
-                viewPanel = dynamic_cast<ViewPanel*>(widget);
+            if (!strcmp(widget->metaObject()->className(), "ViewPanel")) {
+                viewPanel = dynamic_cast<ViewPanel *>(widget);
             }
         }
 
@@ -121,19 +126,19 @@ TEST(ImportTimeLineView, thumbnaillistViewSlot_test)
             viewPanel->onESCKeyActivated();
 
             QString temppath = tempPaths.at(1);
-            emit tempThumbnailListView->menuOpenImage(temppath,tempPaths,false,false);
+            emit tempThumbnailListView->menuOpenImage(temppath, tempPaths, false, false);
             QTest::qWait(500);
             viewPanel->onESCKeyActivated();
 
-            QMouseEvent event(QEvent::MouseButtonPress, QPointF(60,60), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+            QMouseEvent event(QEvent::MouseButtonPress, QPointF(60, 60), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
             emit tempThumbnailListView->sigMousePress(&event);
             QTest::qWait(500);
 
-            QMouseEvent shiftevent(QEvent::MouseButtonPress, QPointF(60,60), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+            QMouseEvent shiftevent(QEvent::MouseButtonPress, QPointF(60, 60), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
             emit tempThumbnailListView->sigShiftMousePress(&shiftevent);
             QTest::qWait(500);
 
-            QMouseEvent ctrlevent(QEvent::MouseButtonPress, QPointF(60,60), Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+            QMouseEvent ctrlevent(QEvent::MouseButtonPress, QPointF(60, 60), Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
             emit tempThumbnailListView->sigShiftMousePress(&ctrlevent);
             QTest::qWait(500);
 

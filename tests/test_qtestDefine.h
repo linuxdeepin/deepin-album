@@ -24,6 +24,14 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
+//#define SELECT_CASE "load"
+
+#ifdef SELECT_CASE
+#define TEST_CASE_NAME(testName) if(testName != SELECT_CASE) return;
+#else
+#define TEST_CASE_NAME(testName)
+#endif
+
 static int count_testDefine = 0;
 //static bool switch_on_test = true;
 static QString testPath_test = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";

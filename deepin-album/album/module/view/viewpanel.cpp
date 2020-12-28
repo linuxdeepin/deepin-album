@@ -18,7 +18,7 @@
 #include "viewpanel.h"
 #include "application.h"
 #include "navigationwidget.h"
-#include "controller/divdbuscontroller.h"
+//#include "controller/divdbuscontroller.h"
 #include "controller/signalmanager.h"
 #include "controller/configsetter.h"
 #include "contents/ttbcontent.h"
@@ -760,11 +760,6 @@ void ViewPanel::backToLastPanel()
         emit dApp->signalM->hideExtensionPanel(true);
         emit dApp->signalM->showBottomToolbar();
     } else {
-#ifndef LITE_DIV
-        // Use dbus interface to make sure it will always back to the
-        // main process
-        DIVDBusController().backToMainWindow();
-#endif
     }
 }
 

@@ -718,6 +718,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 while (item != m_ItemList.end()) {
                     if (*item == m_gridItem[i][j])
                         *item = info;
+                    ++item;
                 }
                 m_gridItem[i][j] = info;
 

@@ -28,6 +28,7 @@ struct CMOption {
 
 TEST(CommandLine, test_CommandLine)
 {
+    TEST_CASE_NAME("test_CommandLine")
     qDebug() << "CommandLine test_CommandLine count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     CommandLine::instance();
@@ -50,6 +51,7 @@ TEST(CommandLine, test_CommandLine)
 
 TEST(CommandLine, urltest)
 {
+    TEST_CASE_NAME("urltest")
     qDebug() << "CommandLine urltest count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     stub_ext::StubExt stu;
@@ -62,6 +64,7 @@ TEST(CommandLine, urltest)
 
 TEST(CommandLine, viewImage_test)
 {
+    TEST_CASE_NAME("viewImage_test")
     qDebug() << "CommandLine viewImage_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
@@ -74,6 +77,7 @@ TEST(CommandLine, viewImage_test)
 
 TEST(CommandLine, processOption_test)
 {
+    TEST_CASE_NAME("processOption_test")
     qDebug() << "CommandLine processOption_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 //    stub_ext::StubExt stu;

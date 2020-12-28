@@ -10,6 +10,7 @@
 
 TEST(searchview, test_ini)
 {
+    TEST_CASE_NAME("test_ini")
     qDebug() << "searchview test_ini count = " << count_testDefine++;
     QTest::qWait(200);
     MainWindow *w = dApp->getMainWindow();
@@ -28,6 +29,7 @@ TEST(searchview, test_ini)
 
 TEST(SlideShowButton, slidebtn)
 {
+    TEST_CASE_NAME("slidebtn")
     SlideShowButton *btn = new SlideShowButton;
     QPoint point = btn->pos();
     int width = btn->width();
@@ -44,6 +46,7 @@ TEST(SlideShowButton, slidebtn)
 
 TEST(searchview, search)
 {
+    TEST_CASE_NAME("search")
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
     SearchView *s = w->m_pSearchView;

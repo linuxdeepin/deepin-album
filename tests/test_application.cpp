@@ -25,15 +25,19 @@
 #include <QDir>
 #include <QStringList>
 #include <QStandardPaths>
+#include <QTest>
 
 TEST(isRunning, ap1)
 {
+    TEST_CASE_NAME("ap1")
     qDebug() << "application isRunning ap1 count = " << count_testDefine++;
     ASSERT_EQ(false, dApp->isRunning());
+    QTest::qWait(300);
 }
 
 TEST(sendMessage, ap2)
 {
+    TEST_CASE_NAME("ap2")
     qDebug() << "application sendMessage ap2 count = " << count_testDefine++;
     ASSERT_EQ(false, dApp->sendMessage(""));
 }
@@ -95,6 +99,7 @@ void CopyPicToLocal()
 
 TEST(ImageLoader, load)
 {
+	TEST_CASE_NAME("load")
     QStringList list/* = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation)*/;
     list  << "/usr/share/wallpapers/deepin/abc-123.jpg";
     ImageLoader *loader = new ImageLoader(nullptr, list, list);
@@ -104,6 +109,7 @@ TEST(ImageLoader, load)
 
 TEST(ImageButton, imgbtn)
 {
+    TEST_CASE_NAME("load")
     qDebug() << "ImageButton imgbtn count = " << count_testDefine++;
     ImageButton *btn = new ImageButton();
     btn->setDisabled(false);
@@ -121,6 +127,7 @@ TEST(ImageButton, imgbtn)
 
 TEST(ElidedLabel, namelabel)
 {
+    TEST_CASE_NAME("load")
     qDebug() << "ElidedLabel namelabel = " << count_testDefine++;
     ElidedLabel *lab = new ElidedLabel;
     lab->setText("test");

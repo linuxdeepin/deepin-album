@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp -r ./testResource/ ${HOME}/Picture
+cp -r ./testResource/* ${HOME}/图片/
 
 cd ..
 rm -rf ./build-ut

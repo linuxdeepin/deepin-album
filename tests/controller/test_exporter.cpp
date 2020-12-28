@@ -37,6 +37,7 @@ struct CMOption {
 
 TEST(Exporter, test_Exporter_init)
 {
+    TEST_CASE_NAME("test_Exporter_init")
     qDebug() << "Exporter test_Exporter_init count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     Exporter::instance();
@@ -45,6 +46,7 @@ TEST(Exporter, test_Exporter_init)
 
 TEST(Exporter, exportImage_test)
 {
+    TEST_CASE_NAME("exportImage_test")
 //    qDebug() << "Exporter exportImage_test count = " << count_testDefine++;
 //    MainWindow *w = dApp->getMainWindow();
 //    w->albumBtnClicked();
@@ -63,6 +65,7 @@ TEST(Exporter, exportImage_test)
 
 TEST(Exporter, exportAlbum_test)
 {
+    TEST_CASE_NAME("exportAlbum_test")
     qDebug() << "Exporter exportAlbum_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
@@ -112,6 +115,7 @@ TEST(Exporter, exportAlbum_test)
 
 TEST(Exporter, popupDialogSaveImage_test)
 {
+    TEST_CASE_NAME("popupDialogSaveImage_test")
     qDebug() << "Exporter popupDialogSaveImage_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
@@ -144,6 +148,7 @@ TEST(Exporter, popupDialogSaveImage_test)
 
 TEST(Exporter, initValidFormatMap_test)
 {
+    TEST_CASE_NAME("initValidFormatMap_test")
     qDebug() << "Exporter initValidFormatMap_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
