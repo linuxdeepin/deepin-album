@@ -193,7 +193,7 @@ public slots:
     void onSyncListviewModelData(QStringList paths, QString albumName, int actionType);
     void onScrollbarValueChanged(int value);
     void onScrollBarRangeChanged(int min, int max);
-    void onDoubleClicked(const QModelIndex & index);
+    void onDoubleClicked(const QModelIndex &index);
     void onClicked();
 
 public:
@@ -212,6 +212,13 @@ private:
     void addThumbnailViewNew(QList<QList<ItemInfo>> gridItem);
     void addThumbnailView();
     void sendNeedResize(/*int height*/);
+
+    // zy 新算法
+    void modifyAllPic(ItemInfo &info);
+    void cutPixmap(ItemInfo &iteminfo);
+    void calgridItems();
+    void calBasePixMapWidth();
+    void calgridItemsWidth();
 
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
@@ -279,6 +286,9 @@ private:
     // QPlatformTheme::TouchDoubleTapDistance 的值时认为触发触屏滚动
     QPoint lastTouchBeginPos;
     int touchTapDistance;
+
+    int rowSizeHint = 0;
+    QList<ItemInfo> m_allItemLeft;//所有待处理的
 };
 
 #endif // THUMBNAILLISTVIEW_H

@@ -740,7 +740,7 @@ void AlbumView::initRightView()
     m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setListViewUseFor(ThumbnailListView::Mount);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
-    m_pRightPhoneThumbnailList->setViewportMargins(-3, 0, 0, 0);
+    m_pRightPhoneThumbnailList->setViewportMargins(-3, 126, 0, 0);
 
     pPhoneVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pPhoneVBoxLayout->addSpacing(4);
@@ -888,7 +888,7 @@ void AlbumView::updateAlbumView(const QString &album)
 void AlbumView::updateDeviceLeftList()
 {
     bool tempB = false;
-    m_mounts.count() > 0? tempB = true : tempB = false;
+    m_mounts.count() > 0 ? tempB = true : tempB = false;
     // 有设备接入时，左边栏显示设备item
     m_pLeftListView->m_pMountListWidget->setVisible(tempB);
     m_pLeftListView->m_pMountWidget->setVisible(tempB);
@@ -1604,9 +1604,6 @@ void AlbumView::importComboBoxChange(QString strText)
         AlbumCreateDialog *dialog = new AlbumCreateDialog(this);
         dialog->show();
         qDebug() << "xxxxxxxxxx" << window()->x();
-        qDebug() << "xxxxxxxxxx" << window()->y();
-        qDebug() << "xxxxxxxxxx" << dialog->width();
-        qDebug() << "xxxxxxxxxx" << window()->width();
         dialog->move(window()->x() + (window()->width() - dialog->width()) / 2, window()->y() + (window()->height() - dialog->height()) / 2);
         connect(dialog, &AlbumCreateDialog::albumAdded, this, [ = ] {
             DBManager::instance()->insertIntoAlbum(dialog->getCreateAlbumName(), QStringList(" "));

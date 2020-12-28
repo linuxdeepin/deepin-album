@@ -67,34 +67,34 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
                             QPainter::SmoothPixmapTransform |
                             QPainter::Antialiasing);
     QRect backgroundRect = option.rect;
-    if (AllPicViewType == m_delegatetype) {
-        if ("First" == data.firstorlast) {
-            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 50);
-            //绘制
-            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-            backgroundRect.setY(backgroundRect.y() + 50);
-            delete FrameOption;
-        }
-        if ("Last" == data.firstorlast) {
-            backgroundRect.setHeight(backgroundRect.height() - 27);
-        }
-    } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
-        if ("Last" == data.firstorlast) {
-            backgroundRect.setHeight(backgroundRect.height() - 27);
-        }
-    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
-        if ("First" == data.firstorlast) {
-            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 134);
-            //绘制
-            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-            backgroundRect.setY(backgroundRect.y() + 134);
-        }
-        if ("Last" == data.firstorlast) {
-            backgroundRect.setHeight(backgroundRect.height() - 27);
-        }
-    }
+//    if (AllPicViewType == m_delegatetype) {
+//        if ("First" == data.firstorlast) {
+//            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
+//            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 50);
+//            //绘制
+//            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
+//            backgroundRect.setY(backgroundRect.y() + 50);
+//            delete FrameOption;
+//        }
+//        if ("Last" == data.firstorlast) {
+//            backgroundRect.setHeight(backgroundRect.height() - 27);
+//        }
+//    } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+//        if ("Last" == data.firstorlast) {
+//            backgroundRect.setHeight(backgroundRect.height() - 27);
+//        }
+//    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
+//        if ("First" == data.firstorlast) {
+//            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
+//            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 134);
+//            //绘制
+//            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
+//            backgroundRect.setY(backgroundRect.y() + 134);
+//        }
+//        if ("Last" == data.firstorlast) {
+//            backgroundRect.setHeight(backgroundRect.height() - 27);
+//        }
+//    }
     //选中阴影框
 //    QBrush  backbrush;
     if (selected) {

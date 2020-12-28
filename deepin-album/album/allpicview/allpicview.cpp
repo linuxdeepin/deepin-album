@@ -50,7 +50,7 @@ AllPicView::AllPicView()
     AC_SET_ACCESSIBLE_NAME(m_pThumbnailListView, All_Picture_Thembnail);
     DWidget *pThumbnailListView = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
-    m_mainLayout->setContentsMargins(8, 0, 0, 0);
+    m_mainLayout->setContentsMargins(8, 50, 0, 27);
     m_mainLayout->addWidget(m_pThumbnailListView);
     pThumbnailListView->setLayout(m_mainLayout);
     m_pSearchView = new SearchView();
