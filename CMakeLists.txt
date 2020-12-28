@@ -15,6 +15,11 @@ option(DOTEST "option for test" OFF)
 add_definitions(-DENABLE_ACCESSIBILITY=1)
 
 if(DOTEST)
+        if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+            set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+        else()
+            set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage -lgcov")
+        endif()
 else()
     # 加速编译优化参数
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")

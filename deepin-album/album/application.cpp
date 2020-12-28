@@ -48,8 +48,8 @@ const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppD
 #define IMAGE_HEIGHT_DEFAULT    100
 #define IMAGE_LOAD_DEFAULT    100
 
-ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QStringList pathlisttrash)
-    : m_parent(parent), m_pathlist(pathlist), m_pathlisttrash(pathlisttrash)
+ImageLoader::ImageLoader(/*Application *parent, QStringList pathlist, QStringList pathlisttrash)
+    : m_parent(parent), m_pathlist(pathlist), m_pathlisttrash(pathlisttrash*/)
 {
 
 }
@@ -125,7 +125,7 @@ Application::Application()
 
     installEventFilter(new GlobalEventFilter(this));
     initChildren();
-
+    m_imageloader = new ImageLoader();
 }
 
 Application::~Application()

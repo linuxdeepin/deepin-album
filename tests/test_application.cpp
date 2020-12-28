@@ -99,10 +99,10 @@ void CopyPicToLocal()
 
 TEST(ImageLoader, load)
 {
-	TEST_CASE_NAME("load")
+    TEST_CASE_NAME("load")
     QStringList list/* = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation)*/;
     list  << "/usr/share/wallpapers/deepin/abc-123.jpg";
-    ImageLoader *loader = new ImageLoader(nullptr, list, list);
+    ImageLoader *loader = new ImageLoader();
     loader->updateImageLoader(list);
     ASSERT_EQ(false, loader == nullptr);
 }

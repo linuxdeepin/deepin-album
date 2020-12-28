@@ -26,6 +26,7 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#include <sanitizer/asan_interface.h>
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
@@ -103,7 +104,7 @@ void QTestMain::testGTest()
     testing::InitGoogleTest();
     int ret = RUN_ALL_TESTS();
     Q_UNUSED(ret)
-//    __sanitizer_set_report_path("asan_deepin-album.log");
+    __sanitizer_set_report_path("asan_deepin-album.log");
 }
 
 void QTestMain::testQString_data()

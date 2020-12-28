@@ -965,7 +965,8 @@ void ThumbnailListView::updateMenuContents()
     if (COMMON_STR_TRASH == m_imageType) {
         m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
-        m_albumMenu->deleteLater();
+        if (m_albumMenu)
+            m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
         if (m_albumMenu) {
             QAction *action = m_MenuActionMap.value(tr("Export"));
@@ -1772,6 +1773,8 @@ void ThumbnailListView::modifyAllPic(ThumbnailListView::ItemInfo &info)
 void ThumbnailListView::cutPixmap(ThumbnailListView::ItemInfo &iteminfo)
 {
     int width = iteminfo.image.width();
+    if (width == 0)
+        width = m_iBaseHeight;
     int height = iteminfo.image.height();
     if (abs((width - height) * 10 / width) >= 1) {
         QRect rect = iteminfo.image.rect();

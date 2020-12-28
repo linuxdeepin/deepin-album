@@ -167,34 +167,41 @@ if(DOTEST)
 
     add_test(${PROJECT_NAME_TEST} COMMAND ${PROJECT_NAME_TEST})
 
+    if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+        set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    else()
+        set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage -lgcov")
+    endif()
+
+
 #------------------------------ 创建'make test'指令---------------------------------------
-    add_custom_target(test
-        COMMAND mkdir -p coverageResult
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-    add_custom_command(TARGET test
-        COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
+#    add_custom_target(test
+#        COMMAND mkdir -p coverageResult
+#        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+#    add_custom_command(TARGET test
+#        COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
 
-        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
-        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
-        COMMAND ./${PROJECT_NAME}/${PROJECT_NAME_TEST}
+#        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
+#        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
+#        COMMAND ./${PROJECT_NAME}/${PROJECT_NAME_TEST}
 
-        COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
+#        COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
 
-        COMMAND echo " =================== do filter begin ==================== "
-        COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
-        '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
-        -o ./coverageResult/${PROJECT_NAME}_Coverage.info
-        COMMAND echo " =================== do filter end ==================== "
+#        COMMAND echo " =================== do filter begin ==================== "
+#        COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
+#        '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
+#        -o ./coverageResult/${PROJECT_NAME}_Coverage.info
+#        COMMAND echo " =================== do filter end ==================== "
 
-        COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
-        COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
-        COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
+#        COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
+#        COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
+#        COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
 
-#        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
+##        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
 
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-    add_dependencies(test ${PROJECT_NAME_TEST})
+#        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+#    )
+#    add_dependencies(test ${PROJECT_NAME_TEST})
 endif()
 
 #------------------------------ 创建'make test'指令---------------------------------------

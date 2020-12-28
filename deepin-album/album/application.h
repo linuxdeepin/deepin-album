@@ -46,7 +46,7 @@ class ImageLoader : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageLoader(Application *parent, QStringList pathlist, QStringList pathlisttrash);
+    explicit ImageLoader(/*Application *parent, QStringList pathlist, QStringList pathlisttrash*/);
 
     void ImportImageLoader(DBImgInfoList dbInfos, QString albumname = nullptr);
     void updateImageLoader(QStringList pathlist);
@@ -55,9 +55,9 @@ signals:
     void sigFinishiLoad();
 
 private:
-    Application *m_parent;
-    QStringList m_pathlist;
-    QStringList m_pathlisttrash;
+//    Application *m_parent;
+//    QStringList m_pathlist;
+//    QStringList m_pathlisttrash;
 };
 
 class Application : public QObject
