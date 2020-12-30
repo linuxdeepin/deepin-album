@@ -12,8 +12,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 if(DOTEST)
-    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
     set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
+    set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage -lgcov")
 else()
     set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools)
 endif()
@@ -158,50 +158,42 @@ if(DOTEST)
         "./album/mainwindow.cpp"
         )
 
-    set(AllTestQRC
-        ./../tests/testResource/testResource.qrc)
+#    set(AllTestQRC
+#        ./../tests/testResource/testResource.qrc)
 
     add_subdirectory(../tests/googletest test)
     add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${AllTestQRC} ${allTestSource} ${allTestSource1})
-    target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
+    target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main pthread)
 
     add_test(${PROJECT_NAME_TEST} COMMAND ${PROJECT_NAME_TEST})
 
-    if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-        set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-    else()
-        set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage -lgcov")
-    endif()
-
-
 #------------------------------ 创建'make test'指令---------------------------------------
-#    add_custom_target(test
-#        COMMAND mkdir -p coverageResult
-#        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-#    add_custom_command(TARGET test
-#        COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
+    add_custom_target(test
+        COMMAND mkdir -p coverageResult
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    add_custom_command(TARGET test
+        COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
 
-#        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
-#        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
-#        COMMAND ./${PROJECT_NAME}/${PROJECT_NAME_TEST}
+        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
+        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
+        COMMAND ./${PROJECT_NAME}/${PROJECT_NAME_TEST}
 
-#        COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
+        COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
 
-#        COMMAND echo " =================== do filter begin ==================== "
-#        COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
-#        '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
-#        -o ./coverageResult/${PROJECT_NAME}_Coverage.info
-#        COMMAND echo " =================== do filter end ==================== "
+        COMMAND echo " =================== do filter begin ==================== "
+        COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
+        '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
+        -o ./coverageResult/${PROJECT_NAME}_Coverage.info
+        COMMAND echo " =================== do filter end ==================== "
 
-#        COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
-#        COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
-#        COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
+        COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
+        COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
 
-##        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
+#        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
 
-#        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-#    )
-#    add_dependencies(test ${PROJECT_NAME_TEST})
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+    add_dependencies(test ${PROJECT_NAME_TEST})
 endif()
 
 #------------------------------ 创建'make test'指令---------------------------------------

@@ -359,17 +359,17 @@ TEST(allpicview, viewpaneltest)
         emit dApp->signalM->showImageInfo(testPathlist.first());
 
         QTest::qWait(500);
-        ImgInfoDialog *dialog = w->findChild<ImgInfoDialog *>("ImgInfoDialog");
-        dialog->height();
-        dialog->setImagePath(testPath_test + "2k9o1m.png");
-        dialog->updateInfo();
-        QPoint p = dialog->pos();
-        e.addMouseMove(p, 10);
-        e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 10);
-        e.simulate(dialog);
-        e.clear();
-        dialog->deleteLater();
-        QTest::qWait(500);
+//        ImgInfoDialog *dialog = w->findChild<ImgInfoDialog *>("ImgInfoDialog");
+//        dialog->height();
+//        dialog->setImagePath(testPath_test + "2k9o1m.png");
+//        dialog->updateInfo();
+//        QPoint p = dialog->pos();
+//        e.addMouseMove(p, 10);
+//        e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 10);
+//        e.simulate(dialog);
+//        e.clear();
+//        dialog->deleteLater();
+//        QTest::qWait(500);
 //        ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
 
         QList<QWidget *> widgets = w->findChildren<QWidget *>();

@@ -178,7 +178,7 @@ void LeftListView::initUI()
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
     // 设备Widget
-    QVBoxLayout *pMountVLayout = new QVBoxLayout();
+    QVBoxLayout *pMountVLayout = new QVBoxLayout(this);
     pMountVLayout->setContentsMargins(0, 0, 0, 0);
 
     // 设备Title
@@ -476,8 +476,7 @@ void LeftListView::onPhotoLibListViewCurrentItemChanged()
     m_pCustomizeListView->clearSelection();
     m_pMountListWidget->clearSelection();
     updateAlbumItemsColor();
-    if (m_pPhotoLibListView->currentItem())
-    {
+    if (m_pPhotoLibListView->currentItem()) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
         item->newAlbumStatus();
         if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
@@ -495,8 +494,7 @@ void LeftListView::onPhotoLibListViewCurrentItemChanged()
 
 void LeftListView::onCustomizeListViewCurrentItemChanged()
 {
-    if (0 < m_pCustomizeListView->count())
-    {
+    if (0 < m_pCustomizeListView->count()) {
         m_pPhotoLibListView->clearSelection();
         m_pMountListWidget->clearSelection();
         updateAlbumItemsColor();
@@ -511,8 +509,7 @@ void LeftListView::onCustomizeListViewCurrentItemChanged()
 
 void LeftListView::onMountListWidgetCurrentItemChanged()
 {
-    if (0 < m_pMountListWidget->count())
-    {
+    if (0 < m_pMountListWidget->count()) {
         m_pPhotoLibListView->clearSelection();
         m_pCustomizeListView->clearSelection();
         updateAlbumItemsColor();
@@ -534,32 +531,27 @@ void LeftListView::onAddListBtnClicked()
 
 void LeftListView::onApplicationHelperThemeTypeChanged()
 {
-    if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType)
-    {
+    if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
         item->newAlbumStatus();
         item->oriAlbumStatus();
     }
-    if (COMMON_STR_TRASH == m_ItemCurrentType)
-    {
+    if (COMMON_STR_TRASH == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
         item->newAlbumStatus();
         item->oriAlbumStatus();
     }
-    if (COMMON_STR_FAVORITES == m_ItemCurrentType)
-    {
+    if (COMMON_STR_FAVORITES == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
         item->newAlbumStatus();
         item->oriAlbumStatus();
     }
-    if (COMMON_STR_CUSTOM == m_ItemCurrentType)
-    {
+    if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
         item->newAlbumStatus();
         item->oriAlbumStatus();
     }
-    if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType)
-    {
+    if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
         item->newAlbumStatus();
         item->oriAlbumStatus();
@@ -569,15 +561,13 @@ void LeftListView::onApplicationHelperThemeTypeChanged()
 void LeftListView::onGuiApplicationHelperThemeTypeChanged()
 {
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/normal/add_normal.svg",
                                       ":/resources/images/sidebar/active/add_hover.svg",
                                       ":/resources/images/sidebar/active/add_press.svg",
                                       ":/resources/images/sidebar/active/add_focus.svg");
     }
-    if (themeType == DGuiApplicationHelper::DarkType)
-    {
+    if (themeType == DGuiApplicationHelper::DarkType) {
         m_pAddListBtn->setPropertyPic(":/resources/images/sidebar/active/add_normal_dark.svg",
                                       ":/resources/images/sidebar/active/add_hover_dark.svg",
                                       ":/resources/images/sidebar/active/add_press_dark.svg",

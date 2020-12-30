@@ -15,11 +15,9 @@ option(DOTEST "option for test" OFF)
 add_definitions(-DENABLE_ACCESSIBILITY=1)
 
 if(DOTEST)
-        if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-            set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-        else()
-            set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage -lgcov")
-        endif()
+    if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+        set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    endif()
 else()
     # 加速编译优化参数
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
@@ -43,8 +41,6 @@ include_directories(${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
-
-message(STATUS ${CMAKE_CXX_FLAGS})
 
 add_subdirectory(libUnionImage)
 add_subdirectory(deepin-album)

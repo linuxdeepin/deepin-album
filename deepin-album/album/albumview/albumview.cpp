@@ -190,10 +190,10 @@ AlbumView::~AlbumView()
     ImageMountGetPathsObject::clearAndStopThread();
     ImageMountImportPathsObject::clearAndStopThread();
     m_pImpTimeLineWidget->getFatherStatusBar(nullptr);
-    if (m_vfsManager) {
-        delete  m_vfsManager;
-        m_vfsManager = nullptr;
-    }
+//    if (m_vfsManager) {
+//        delete  m_vfsManager;
+//        m_vfsManager = nullptr;
+//    }
 }
 
 QString sizeString(const QString &str)

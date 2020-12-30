@@ -9,10 +9,9 @@ mkdir build-ut
 
 cmake . -B build -D DOTEST=ON
 cd build
-make -j8
+make  -j8
 
-lcov --directory ./CMakeFiles/deepin-album-test.dir --zerocounter
-lcov --directory ./CMakeFiles/deepin-album.dir --zerocounters
+lcov --directory ./CMakeFiles/deepin-album_test.dir --zerocounters
 ./deepin-album/deepin-album_test
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-album_Coverage.info
@@ -21,12 +20,14 @@ lcov --remove ./coverageResult/deepin-album_Coverage.info '*/deepin-album_test_a
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-album_Coverage.info
 
+sleep 2
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
 lcov --remove ./coverageResult/deepin-album_Coverage.info '*/deepin-album_test_autogen/*' '*/deepin-album_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*' '*/UnionImage/*' -o ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-album_Coverage.info
+
 
 
 cd ./../build-ut

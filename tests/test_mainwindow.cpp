@@ -29,7 +29,7 @@
 // 3个button界面主视图切换显示
 TEST(MainWindow, BtnGroupClick)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("BtnGroupClick")
     QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (list.size() > 0)
         QString picdir = list.at(0);
@@ -670,7 +670,7 @@ TEST(MainWindow, timelineview)
 // 从菜单创建相册
 TEST(MainWindow, createalbumFromTitlebarMenu)
 {
-    TEST_CASE_NAME("createalbumFromTitlebarMenu")
+    TEST_CASE_NAME("load")
     qDebug() << "MainWindow createalbumFromTitlebarMenu count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
