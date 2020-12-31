@@ -1196,7 +1196,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdMoveToTrash: {
         ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
         dialog->setObjectName("deteledialog");
-        if (dialog->exec()) {
+        if (dialog->exec() > 0) {
             // 只更新部分，删除
             updateModelRoleData("", IdMoveToTrash);
             (COMMON_STR_TRASH == m_imageType) ? ImageEngineApi::instance()->moveImagesToTrash(paths, true, false) : ImageEngineApi::instance()->moveImagesToTrash(paths);

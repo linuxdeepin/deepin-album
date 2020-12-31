@@ -1140,7 +1140,7 @@ void AlbumView::onTrashDeleteBtnClicked()
     }
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count(), bstate);
     dialog->setObjectName("deteledialog");
-    if (dialog->exec())
+    if (dialog->exec() > 0)
         ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
 
     onTrashListClicked();
@@ -1291,7 +1291,7 @@ void AlbumView::onKeyDelete()
         if (0 < paths.length()) {
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
             dialog->setObjectName("deteledialog");
-            if (dialog->exec()) {
+            if (dialog->exec() > 0) {
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
                 onTrashListClicked();
             }
