@@ -223,7 +223,7 @@ void SearchView::initSearchResultView()
     m_searchResultViewbody = new DWidget(m_pSearchResultView);
 
     QVBoxLayout *pSearchResultbodyLayout = new QVBoxLayout();
-    pSearchResultbodyLayout->setContentsMargins(0, 11, 0, 0);
+    pSearchResultbodyLayout->setContentsMargins(8, 146, 0, 0);
     //LMH0417 bug号20706
     m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType);
 
