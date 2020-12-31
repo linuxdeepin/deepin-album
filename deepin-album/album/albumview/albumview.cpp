@@ -352,7 +352,6 @@ void AlbumView::initConnections()
         blDev->mount({});
     });
     connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, [ = ](const QString & blks) {
-//        qDebug() << "--------------blks:" << blks;
         QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
         QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
 
@@ -595,24 +594,6 @@ void AlbumView::initConnections()
 
     connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
 
-    //void sigPhonePath(QString PhoneName, QString pathName);
-
-//    QTimer::singleShot(2000, this, [ = ] {
-//        if (RIGHT_VIEW_PHONE == m_pRightStackWidget->currentIndex())
-//        {
-//            QString strPath;
-//            if (m_pLeftListView->m_pMountListView->currentItem()) {
-//                strPath = m_pLeftListView->m_pMountListView->currentItem()->data(Qt::UserRole).toString();
-//            }
-//            if (0 != m_currentViewPictureCount && m_currentViewPictureCount == m_pRightPhoneThumbnailList->model()->rowCount()) {
-//                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[strPath], false, false);
-//            }
-//        }
-
-//    });
-//    if (nullptr == m_pAllPicture ) {
-//        m_pAllPicture = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
-//    }
     //lmh手机加载图片边加载，边传输信息
     connect(dApp->signalM, &SignalManager::sigPhonePath, this, [ = ](QString PhoneName, QString pathName) {
         if (!m_phoneNameAndPathlist[PhoneName].contains(pathName)) {
