@@ -4,6 +4,7 @@ cp -r ./testResource/* ${HOME}/图片/
 
 cd ..
 rm -rf ./build-ut
+rm -rf ./build
 rm -rf ${HOME}/.local/share/deepin/deepin-album
 mkdir build-ut
 
