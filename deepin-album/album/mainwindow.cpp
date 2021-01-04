@@ -792,8 +792,14 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
     pDFloatingMessage->setMessage(tempStr);
     pDFloatingMessage->setIcon(icon);
     pDFloatingMessage->raise();
-    if (pwidget)
+    if (pwidget) {
+        if (icon.isNull()) {
+            QLabel *tempLabel = new QLabel(pDFloatingMessage);
+            tempLabel->setFixedWidth(8);
+            pDFloatingMessage->setWidget(tempLabel);
+        }
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
+    }
 }
 
 //外部使用相册打开图片
@@ -1441,7 +1447,7 @@ void MainWindow::onAlbDelToast(QString str1)
 
 void MainWindow::onAddDuplicatePhotos()
 {
-    QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
+    QIcon icon;
     QString str = tr("图片已存在");
     floatMessage(str, icon);
 }
