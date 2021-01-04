@@ -1094,8 +1094,23 @@ DMenu *ThumbnailListView::createAlbumMenu()
     am->addSeparator();
     QModelIndexList indexList = selectionModel()->selectedIndexes();
     QStringList albumNames;
+    // 单选
     if (indexList.count() == 1) {
         albumNames = indexList.first().model()->data(indexList.first(), Qt::UserRole + 2).toStringList();
+    }
+    // 多选,以第一个作标准
+    else if (indexList.count() > 1) {
+        albumNames = indexList.first().model()->data(indexList.first(), Qt::UserRole + 2).toStringList();
+        for (int idx = 1; idx < indexList.count(); idx++) {
+            QStringList tempList = indexList.at(idx).model()->data(indexList.at(idx), Qt::UserRole + 2).toStringList();
+            for (int i = 0; i < albumNames.count(); i++) {
+                // 不存在相册名
+                if (!tempList.contains(albumNames.at(i))) {
+                    albumNames.removeAll(albumNames.at(i));
+                    break;
+                }
+            }
+        }
     }
     for (QString album : albums) {
         QAction *ac = new QAction(am);
