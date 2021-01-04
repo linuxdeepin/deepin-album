@@ -1,5 +1,5 @@
 #!/bin/bash
-
+QTEST_FUNCTION_TIMEOUT='800000'
 cp -r ./testResource/* ${HOME}/图片/
 
 cd ..

@@ -696,39 +696,39 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
     QTest::qWait(500);
 }
 
-TEST(MainWindow, addpictoalbum)
-{
-    TEST_CASE_NAME("addpictoalbum")
-    MainWindow *w = dApp->getMainWindow();
-    w->allPicBtnClicked();
-    QPoint p1(100, 100);
-    QTestEventList e;
-    e.addMouseMove(p1);
-    QContextMenuEvent menuEvent(QContextMenuEvent::Mouse, p1);
-    qApp->sendEvent(w->m_pAllPicView->m_pThumbnailListView->viewport(), &menuEvent);
-    e.clear();
-    QTest::qWait(300);
+//TEST(MainWindow, addpictoalbum)
+//{
+//    TEST_CASE_NAME("addpictoalbum")
+//    MainWindow *w = dApp->getMainWindow();
+//    w->allPicBtnClicked();
+//    QPoint p1(100, 100);
+//    QTestEventList e;
+//    e.addMouseMove(p1);
+//    QContextMenuEvent menuEvent(QContextMenuEvent::Mouse, p1);
+//    qApp->sendEvent(w->m_pAllPicView->m_pThumbnailListView->viewport(), &menuEvent);
+//    e.clear();
+//    QTest::qWait(300);
 
-    DMenu *menuWidget = static_cast<DMenu *>(qApp->activePopupWidget());
-    e.addMouseMove(p1);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-    QTest::qWait(300);
-    e.simulate(menuWidget);
-    e.clear();
+//    DMenu *menuWidget = static_cast<DMenu *>(qApp->activePopupWidget());
+//    e.addMouseMove(p1);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//    QTest::qWait(300);
+//    e.simulate(menuWidget);
+//    e.clear();
 
-    DMenu *menuWidget2 = static_cast<DMenu *>(qApp->activePopupWidget());
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    QTest::qWait(100);
-    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-    e.simulate(menuWidget2);
-    e.clear();
-    QTest::qWait(1000);
-}
+//    DMenu *menuWidget2 = static_cast<DMenu *>(qApp->activePopupWidget());
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+//    QTest::qWait(100);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+//    e.simulate(menuWidget2);
+//    e.clear();
+//    QTest::qWait(1000);
+//}
 
 TEST(MainWindow, albumview)
 {
