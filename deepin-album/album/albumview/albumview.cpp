@@ -895,6 +895,11 @@ void AlbumView::updateDeviceLeftList()
     m_pLeftListView->m_pMountListWidget->setFixedHeight(m_pLeftListView->m_pMountListWidget->count() * 40);
 }
 
+void AlbumView::setCurrentItemType(int type)
+{
+    m_currentItemType = static_cast<AblumType>(type);
+}
+
 // 更新已导入列表
 void AlbumView::updateRightImportView()
 {
@@ -1438,9 +1443,11 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
             if (1 < m_pLeftListView->m_pMountListWidget->count()) {
                 m_pLeftListView->m_pMountListWidget->takeItem(m_pLeftListView->m_pMountListWidget->row(pListWidgetItem));
                 delete pListWidgetItem;
+                m_currentItemType = devType;
             } else {
                 m_pLeftListView->m_pMountListWidget->clear();
                 m_pLeftListView->updatePhotoListView();
+                m_currentItemType = photosType;
             }
             emit dApp->signalM->sigDevStop(strPath);
             m_phoneNameAndPathlist.remove(strPath);
@@ -1448,6 +1455,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
             break;
         }
     }
+    leftTabClicked();
     m_mounts = getVfsMountList();
     updateDeviceLeftList();
 }
@@ -1717,6 +1725,9 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
         m_pLeftListView->m_pMountListWidget->addItem(pListWidgetItem);
         m_pLeftListView->m_pMountListWidget->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
         m_pLeftListView->m_pMountListWidget->setCurrentItem(pListWidgetItem);
+        // 设置当前的相册名及类型，正确跳转其他页面
+        m_currentAlbum = rename;
+        m_currentType = AblumType::devType;
     }
     //右侧视图同时切换
     m_pRightPhoneThumbnailList->stopLoadAndClear(true);     //清除已有数据

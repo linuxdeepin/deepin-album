@@ -104,6 +104,8 @@ public:
     void updateRightView();
     void updateAlbumView(const QString &album);
     void updateDeviceLeftList();
+    void setCurrentItemType(int type);
+    void leftTabClicked();
 private:
     void initConnections();
     void initLeftView();
@@ -113,7 +115,6 @@ private:
     void updateRightImportView();
     void updateRightMyFavoriteView();
     void updateRightMountView();
-    void leftTabClicked();
     void openImage(int index);
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
 

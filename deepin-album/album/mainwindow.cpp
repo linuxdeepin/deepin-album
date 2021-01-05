@@ -122,7 +122,7 @@ void MainWindow::initConnections()
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::setWaitDialogColor);
     //主界面切换（所有照片、时间线、相册）
     connect(btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, &MainWindow::onButtonClicked);
-    connect(dApp->signalM, &SignalManager::updatePicView, btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked));
+//    connect(dApp->signalM, &SignalManager::updatePicView, btnGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked));
     //图片导入槽函数
     connect(this, &MainWindow::sigImageImported, this, &MainWindow::onImageImported);
     connect(dApp->signalM, &SignalManager::createAlbum, this, &MainWindow::onCreateAlbum);
