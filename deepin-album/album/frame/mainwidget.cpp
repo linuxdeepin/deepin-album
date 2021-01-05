@@ -198,9 +198,7 @@ void MainWidget::onMouseMove()
 {
     if (window()->isFullScreen()) {
         QPoint pos = mapFromGlobal(QCursor::pos());
-        if (height() - 45 < pos.y()
-                && height() > pos.y()
-                && height() == m_bottomToolbar->y()) {
+        if (height() - 90 < pos.y() && height() > pos.y() && height() >= m_bottomToolbar->y()) {
             QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
@@ -208,7 +206,7 @@ void MainWidget::onMouseMove()
             animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
         } else if (height() - m_bottomToolbar->height() - 10 > pos.y()
-                   && height() - m_bottomToolbar->height() - 10 == m_bottomToolbar->y()) {
+                   && height() - m_bottomToolbar->height() - 10 <= m_bottomToolbar->y()) {
             QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);

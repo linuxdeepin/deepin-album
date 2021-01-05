@@ -261,9 +261,9 @@ void ViewPanel::onDeleteByMenu()
     }
     m_deletetimer->start();
     emit ttbcDeleteImage();
-    if (m_vinfo.fullScreen) {
-        emit dApp->signalM->hideBottomToolbar();
-    }
+//    if (m_vinfo.fullScreen) {
+//        emit dApp->signalM->hideBottomToolbar();
+//    }
 }
 
 void ViewPanel::onGotoPanel(ModulePanel *p)
