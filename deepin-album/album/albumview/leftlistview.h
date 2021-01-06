@@ -47,6 +47,8 @@ signals:
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
     void sigKeyDelete();
     void sigKeyF2();
+    void updateCurrentItemType(int type);
+    void sigLeftTabClicked();
 
 public slots:
     void onMenuClicked(QAction *action);
@@ -63,6 +65,7 @@ public slots:
     void onMousePressIsNoValid();
 
 public:
+
     // 照片库
     DLabel *m_pPhotoLibLabel;
     LeftListWidget *m_pPhotoLibListView;

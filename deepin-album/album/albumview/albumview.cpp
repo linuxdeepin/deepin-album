@@ -262,6 +262,8 @@ void AlbumView::initConnections()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::needResize, this,  &AlbumView::onRightTrashThumbnailListNeedResize);
     connect(m_pRightThumbnailList, &ThumbnailListView::needResize, this, &AlbumView::onRightThumbnailListNeedResize);
     connect(m_pLeftListView, &LeftListView::itemClicked, this, &AlbumView::leftTabClicked);
+    connect(m_pLeftListView, &LeftListView::sigLeftTabClicked, this, &AlbumView::leftTabClicked);
+    connect(m_pLeftListView, &LeftListView::updateCurrentItemType, this, &AlbumView::setCurrentItemType);
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFromDialog, this, &AlbumView::onCreateNewAlbumFromDialog);
 #if 1
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFrom, this, &AlbumView::onCreateNewAlbumFrom);

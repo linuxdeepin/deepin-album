@@ -19,6 +19,7 @@
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QScrollBar>
 #include <QProcess>
 #include <DApplication>
 #include <QDesktopWidget>

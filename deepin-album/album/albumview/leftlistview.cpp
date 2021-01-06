@@ -8,7 +8,6 @@
 #include "controller/exporter.h"
 #include "imageengine/imageengineapi.h"
 #include "dialogs/albumcreatedialog.h"
-#include "mainwindow.h"
 #include "ac-desktop-define.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -360,15 +359,15 @@ void LeftListView::onMenuClicked(QAction *action)
 
             if (1 < m_pCustomizeListView->count()) {
                 delete item;
-                dApp->getMainWindow()->m_pAlbumview->setCurrentItemType(1);
+                emit updateCurrentItemType(1);
             } else {
                 updateCustomizeListView();
                 updatePhotoListView();
-                dApp->getMainWindow()->m_pAlbumview->setCurrentItemType(0);
+                emit updateCurrentItemType(0);
             }
             //移除item后更新右边视图
             //updateRightView();
-            dApp->getMainWindow()->m_pAlbumview->leftTabClicked();
+            emit sigLeftTabClicked();
             onUpdateLeftListview();
             emit dApp->signalM->sigAlbDelToast(str);
         });
