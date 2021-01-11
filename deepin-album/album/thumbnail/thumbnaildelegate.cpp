@@ -207,33 +207,6 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     } else {
         painter->drawPixmap(pixmapRect, data.image);
     }
-    //绘制剩余天数
-    if (COMMON_STR_TRASH == m_imageTypeStr) {
-        painter->setPen(QColor(85, 85, 85, 170));
-        //字符串的像素宽度
-        const int m_Width = painter->fontMetrics().width(data.remainDays);
-        painter->setBrush(QBrush(QColor(85, 85, 85, 170)));
-        QString str(data.remainDays);
-        QFontMetrics Text(str);
-
-        //2020/3/13-xiaolong
-        int textwidth = m_Width + 6;        //阴影图框
-        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
-        int rectwidth = pixmapRect.width(); //缩略图宽度
-        if (textwidth > rectwidth) //容纳文字像素的宽度大于缩略图宽度
-            textwidth = rectwidth - 4;
-        int tempcha = (rectwidth - textwidth > 4) ? (rectwidth - textwidth - 4) : 4;
-        int posx = pixmapRect.x() + tempcha;    //剩余天数起始坐标
-        //文字背景圆角矩形框弧度，与字号相关
-        int radious = 6;
-        if (textheight < 14)
-            radious = 4;
-        painter->drawRoundedRect(posx, pixmapRect.y() + pixmapRect.height() - textheight - 4 - 2, textwidth, textheight + 2, radious, radious);
-        painter->setPen(QColor(255, 255, 255));
-        if (m_Width - textwidth > 0)
-            str = Text.elidedText(str, Qt::ElideRight, textwidth);
-        painter->drawText(posx + 3, pixmapRect.y() + pixmapRect.height() - 4 - 2, str);
-    }
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         QPixmap favPixmap;
@@ -259,6 +232,41 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         painter->setClipPath(selectedBp);
         painter->drawPixmap(selectedRect, selectedPixmap);
     }
+
+    //绘制剩余天数
+    if (COMMON_STR_TRASH == m_imageTypeStr) {
+        QPainterPath bp;
+        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(bp);
+        painter->setPen(QColor(85, 85, 85, 170)); //边框颜色：灰色
+        //字符串的像素宽度
+        const int m_Width = painter->fontMetrics().width(data.remainDays);
+        painter->setBrush(QBrush(QColor(85, 85, 85, 170)));//填充颜色：灰色
+        QString str(data.remainDays);
+        QFontMetrics Text(str);
+
+        //2020/3/13-xiaolong
+        int textwidth = m_Width + 6;        //阴影图框：6：左3像素+右3像素
+        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
+        int rectwidth = backgroundRect.width() - 8; //缩略图宽度：总宽度减去选中框宽度8
+        if (textwidth > rectwidth) //容纳文字像素的宽度大于缩略图宽度
+            textwidth = rectwidth - 4;//减少距离：左右各2
+        int tempcha = (rectwidth - textwidth > 4) ? (rectwidth - textwidth - 4) : 4;
+        int posx = backgroundRect.x() + tempcha;    //剩余天数起始坐标
+        //文字背景圆角矩形框弧度，与字号相关
+        int radious = 6;
+        if (textheight < 14)
+            radious = 4;
+
+        painter->drawRoundedRect(posx, backgroundRect.y() + backgroundRect.height() - textheight - 14,
+                                 textwidth, textheight + 2, radious, radious); //Y参数：backgroundRect宽度-文字宽度-14边距
+
+        painter->setPen(QColor(255, 255, 255));
+        if (m_Width - textwidth > 0)
+            str = Text.elidedText(str, Qt::ElideRight, textwidth);
+        painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
+    }
+
     painter->restore();
 }
 
