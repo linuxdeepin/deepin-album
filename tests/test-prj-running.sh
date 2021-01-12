@@ -13,7 +13,7 @@ cd build
 make  -j8
 
 lcov --directory ./CMakeFiles/deepin-album_test.dir --zerocounters
-./deepin-album/deepin-album_test
+./src/deepin-album_test
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 

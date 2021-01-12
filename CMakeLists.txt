@@ -43,4 +43,4 @@ include_directories(${PROJECT_SOURCE_DIR})
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 
 add_subdirectory(libUnionImage)
-add_subdirectory(deepin-album)
+add_subdirectory(src)
