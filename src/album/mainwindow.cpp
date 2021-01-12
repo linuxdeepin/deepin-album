@@ -128,10 +128,33 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 initNoPhotoNormalTabOrder();
                 initInstallFilter(-1);
             }
+            // 相册中有图，且在所有照片界面时
+            else if (m_iCurrentView == VIEW_ALLPIC) {
+                // 所有照片界面 and listveiw tab键切换
+                initAllpicViewTabOrder();
+                initInstallFilter(VIEW_ALLPIC);
+                // 当焦点在thumbnailListview中时,选中第一个
+                QWidget *pTempWidget = static_cast<QWidget*>(obj);
+                int index = m_AllpicViewTabOrder.indexOf(pTempWidget);
+                // 当焦点在thumbnaillistview之前的一个widget上时，再次tab，默认选中第一个图片
+                if (index == m_AllpicViewTabOrder.count() - 2){
+                    m_pAllPicView->getThumbnailListView()->setFocus();
+                    m_pAllPicView->getThumbnailListView()->selectFirstPhoto();
+                    return true;
+                }
+                // 当焦点在thumbnaillistview上时，第一个没选中/其他有选中，不可以tab键切换返回
+                if (obj == m_pAllPicView->getThumbnailListView()) {
+                    if (!m_pAllPicView->getThumbnailListView()->isFirstPhotoSelected() && !m_pAllPicView->getThumbnailListView()->isNoPhotosSelected()) {
+                        return true;
+                    }
+                } else {
+                    m_pAllPicView->getThumbnailListView()->clearSelection();
+                }
+            }
         }
         if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) {
 
-            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0) {
+            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 || m_iCurrentView == VIEW_ALLPIC) {
                 // 相册内没有图时,应用初始启动无图时enter键进入
                 QPushButton *pTempBtn = dynamic_cast<QPushButton*>(obj);
                 if (pTempBtn && m_emptyAllViewTabOrder.contains(pTempBtn))
@@ -139,28 +162,68 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             }
         }
         if (keyEvent->key() == Qt::Key_Right) {
+            // 无图且当前界面非所有照片界面，屏蔽btngroup左右键切换
+            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView != VIEW_ALLPIC) {
+                if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget*>(obj))) {
+                    if (m_emptyAllViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj)) < 3) {
+                        return true;
+                    }
+                }
+            }
             // 无图且当前界面是所有照片界面时,标题栏焦点可以左右键切换，其他界面不允许切换
-            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView == VIEW_ALLPIC) {
+            else if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView == VIEW_ALLPIC) {
                 if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget*>(obj))) {
                     int index = m_emptyAllViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj));
                     // 焦点范围限定在标题栏
                     QWidget *pTempWidget = dynamic_cast<QWidget*>(m_emptyAllViewTabOrder.at((index + 1) % (m_emptyAllViewTabOrder.count() -1)));
                     pTempWidget->setFocus();
+                    return true;
                 }
             }
-            return true;
+            // 有图所有照片界面
+            else if (m_iCurrentView == VIEW_ALLPIC) {
+                // 必须初始化tab order,因为第一次tab键不触发事件
+                initAllpicViewTabOrder();
+                initInstallFilter(VIEW_ALLPIC);
+                if (m_AllpicViewTabOrder.contains(dynamic_cast<QWidget*>(obj)) && obj != m_pAllPicView->getThumbnailListView()) {
+                    int index = m_AllpicViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj));
+                    // 焦点范围限定在标题栏
+                    QWidget *pTempWidget = dynamic_cast<QWidget*>(m_AllpicViewTabOrder.at((index + 1) % (m_AllpicViewTabOrder.count() - 1)));
+                    pTempWidget->setFocus();
+                    return true;
+                }
+            }
         }
         if ( keyEvent->key() == Qt::Key_Left) {
+            // 无图且当前界面非所有照片界面，屏蔽btngroup左右键切换
+            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView != VIEW_ALLPIC) {
+                if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget*>(obj))) {
+                    if (m_emptyAllViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj)) < 3) {
+                        return true;
+                    }
+                }
+            }
             // 无图且当前界面是所有照片界面时,标题栏左右键切换
             if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView == VIEW_ALLPIC) {
                 if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget*>(obj))) {
                     int wgtIndex = m_emptyAllViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj));
                     // 焦点范围限定在标题栏
-                    QWidget *tempwidget = dynamic_cast<QWidget*>(m_emptyAllViewTabOrder.at((wgtIndex + m_emptyAllViewTabOrder.count() -2) % (m_emptyAllViewTabOrder.count() -1)));
-                    tempwidget->setFocus();
+                    QWidget *pTempWidget = dynamic_cast<QWidget*>(m_emptyAllViewTabOrder.at((wgtIndex + m_emptyAllViewTabOrder.count() -2) % (m_emptyAllViewTabOrder.count() -1)));
+                    pTempWidget->setFocus();
+                    return true;
                 }
             }
-            return true;
+            // 有图所有照片界面
+            else if (m_iCurrentView == VIEW_ALLPIC) {
+                if (m_AllpicViewTabOrder.contains(dynamic_cast<QWidget*>(obj)) && obj != m_pAllPicView->getThumbnailListView()) {
+                    // 针对listview不能左右键切换
+                    int wgtIndex = m_AllpicViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj));
+                    // 焦点范围限定在标题栏
+                    QWidget *pTempWidget = dynamic_cast<QWidget*>(m_AllpicViewTabOrder.at((wgtIndex + m_AllpicViewTabOrder.count() -2) % (m_AllpicViewTabOrder.count() -1)));
+                    pTempWidget->setFocus();
+                    return true;
+                }
+            }
         }
     }
     return QWidget::eventFilter(obj, event);
@@ -382,6 +445,7 @@ void MainWindow::initTitleBar()
     //QWidget *m_titleSearchWidget = new QWidget();
 //    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
+    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::StrongFocus);
 //    m_pSearchEdit->setFixedSize(350, 36);
     m_pSearchEdit->setMaximumSize(350, 36);
     if (0 < DBManager::instance()->getImgsCount()) {
@@ -536,6 +600,32 @@ void MainWindow::initNoPhotoNormalTabOrder()
     }
 }
 
+// allpicview界面存在图片时 tab切换顺序
+void MainWindow::initAllpicViewTabOrder()
+{
+    titlebar()->setFocusPolicy(Qt::NoFocus);
+    m_pAllPicBtn->setFocusPolicy(Qt::TabFocus);
+    m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
+    m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
+    m_AllpicViewTabOrder.clear();
+    m_AllpicViewTabOrder.insert(0, m_pAllPicBtn);
+    m_AllpicViewTabOrder.insert(1, m_pTimeBtn);
+    m_AllpicViewTabOrder.insert(2, m_pAlbumBtn);
+    QWidget* optionButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowOptionButton");
+    QWidget* minButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowMinButton");
+    QWidget* maxButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowMaxButton");
+    QWidget* closeButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowCloseButton");
+    m_AllpicViewTabOrder.insert(3, m_pSearchEdit->lineEdit());
+    m_AllpicViewTabOrder.insert(4, optionButton);
+    m_AllpicViewTabOrder.insert(5, minButton);
+    m_AllpicViewTabOrder.insert(6, maxButton);
+    m_AllpicViewTabOrder.insert(7, closeButton);
+    m_AllpicViewTabOrder.insert(8, m_pAllPicView->getThumbnailListView());
+
+    for (int idx = 0; idx < m_AllpicViewTabOrder.count() -1; idx++) {
+        this->setTabOrder(m_AllpicViewTabOrder.at(idx), m_AllpicViewTabOrder.at(idx + 1));
+    }
+}
 //设置等待窗口颜色
 void MainWindow::setWaitDialogColor()
 {
@@ -589,7 +679,7 @@ void MainWindow::allPicBtnClicked()
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAllPicView->updateStackedWidget();
     m_pAllPicView->updatePicNum();
-    m_pAllPicView->getThumbnailListView()->setFocus();
+//    m_pAllPicView->getThumbnailListView()->setFocus();
 
     m_pTimeBtn->setCheckable(false);
     m_pAlbumBtn->setCheckable(false);

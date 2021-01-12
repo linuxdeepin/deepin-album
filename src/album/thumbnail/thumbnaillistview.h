@@ -142,6 +142,9 @@ public:
     void selectDuplicateForOneListView(QStringList paths, QModelIndex &firstIndex);
     void selectDuplicatePhotos(QStringList paths, bool bMultiListView = false);
     void updateModelRoleData(QString albumName, int actionType);
+    void selectFirstPhoto();
+    bool isFirstPhotoSelected();
+    bool isNoPhotosSelected();
 signals:
     void needResize(int);
     void loadEnd();

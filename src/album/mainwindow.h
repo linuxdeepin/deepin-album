@@ -68,6 +68,8 @@ public:
     void initInstallFilter(int viewType);
     // 设置初始启动,没有图片时的allpicview tab切换顺序
     void initNoPhotoNormalTabOrder();
+    // 设置有图片时的allpicview tab tab切换顺序
+    void initAllpicViewTabOrder();
 
     void setWaitDialogColor();
     int getCurrentViewType();

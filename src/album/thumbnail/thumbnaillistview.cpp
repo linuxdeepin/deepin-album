@@ -1615,6 +1615,34 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
     emit SignalManager::instance()->sigSyncListviewModelData(paths, albumName, actionType);
 }
 
+void ThumbnailListView::selectFirstPhoto()
+{
+    if (m_model->rowCount() < 1)
+        return;
+    QModelIndex idx = m_model->index(0, 0);
+    selectionModel()->select(idx, QItemSelectionModel::Select);
+}
+
+bool ThumbnailListView::isFirstPhotoSelected()
+{
+    QModelIndexList idx = selectionModel()->selectedIndexes();
+    for (QModelIndex index : selectionModel()->selectedIndexes()) {
+        if (index.row() == 0) {
+            return true;
+        }
+    }
+    return  false;
+}
+
+bool ThumbnailListView::isNoPhotosSelected()
+{
+    QModelIndexList indexList = selectionModel()->selectedIndexes();
+    if (indexList.count() > 0)
+        return false;
+    else
+        return true;
+}
+
 void ThumbnailListView::slotReCalcTimelineSize()
 {
     emit needResize(m_height + 15);
