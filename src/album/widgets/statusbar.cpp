@@ -44,6 +44,7 @@ void StatusBar::initUI()
     m_pStackedWidget->addWidget(TextLabel);
 
     m_pSlider = new DSlider(Qt::Horizontal, this);
+    m_pSlider->slider()->setFocusPolicy(Qt::NoFocus);
     AC_SET_OBJECT_NAME(m_pSlider, Thumbnail_Slider);
     AC_SET_ACCESSIBLE_NAME(m_pSlider, Thumbnail_Slider);
     m_pSlider->setFixedWidth(180);

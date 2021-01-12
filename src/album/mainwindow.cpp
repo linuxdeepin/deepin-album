@@ -19,7 +19,6 @@
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QScrollBar>
 #include <QProcess>
 #include <DApplication>
 #include <QDesktopWidget>
@@ -83,6 +82,8 @@ MainWindow::MainWindow()
     initUI();
     initTitleBar();             //初始化顶部状态栏
     initCentralWidget();
+    initNoPhotoNormalTabOrder();
+    initInstallFilter(-1);
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
     loadZoomRatio();
 
@@ -114,6 +115,55 @@ void MainWindow::resizeEvent(QResizeEvent *e)
         m_SearchEditWidth = 350;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
     }
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    // 打印所有tab键 focus in 的控件 ,用于调试
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Tab) {
+            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0) {
+                // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
+                initNoPhotoNormalTabOrder();
+                initInstallFilter(-1);
+            }
+        }
+        if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) {
+
+            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0) {
+                // 相册内没有图时,应用初始启动无图时enter键进入
+                QPushButton *pTempBtn = dynamic_cast<QPushButton*>(obj);
+                if (pTempBtn && m_emptyAllViewTabOrder.contains(pTempBtn))
+                    emit pTempBtn->click();
+            }
+        }
+        if (keyEvent->key() == Qt::Key_Right) {
+            // 无图且当前界面是所有照片界面时,标题栏焦点可以左右键切换，其他界面不允许切换
+            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView == VIEW_ALLPIC) {
+                if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget*>(obj))) {
+                    int index = m_emptyAllViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj));
+                    // 焦点范围限定在标题栏
+                    QWidget *pTempWidget = dynamic_cast<QWidget*>(m_emptyAllViewTabOrder.at((index + 1) % (m_emptyAllViewTabOrder.count() -1)));
+                    pTempWidget->setFocus();
+                }
+            }
+            return true;
+        }
+        if ( keyEvent->key() == Qt::Key_Left) {
+            // 无图且当前界面是所有照片界面时,标题栏左右键切换
+            if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView == VIEW_ALLPIC) {
+                if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget*>(obj))) {
+                    int wgtIndex = m_emptyAllViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj));
+                    // 焦点范围限定在标题栏
+                    QWidget *tempwidget = dynamic_cast<QWidget*>(m_emptyAllViewTabOrder.at((wgtIndex + m_emptyAllViewTabOrder.count() -2) % (m_emptyAllViewTabOrder.count() -1)));
+                    tempwidget->setFocus();
+                }
+            }
+            return true;
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 //初始化所有连接
@@ -267,6 +317,7 @@ void MainWindow::initWaitDialog()
 //初始化顶部状态栏
 void MainWindow::initTitleBar()
 {
+    titlebar()->setFocusPolicy(Qt::NoFocus);
     // TitleBar Button
     if (m_titleBtnWidget) {
         delete  m_titleBtnWidget;
@@ -280,6 +331,7 @@ void MainWindow::initTitleBar()
     QHBoxLayout *pTitleBtnLayout = new QHBoxLayout();
 
     m_pAllPicBtn = new DPushButton();
+    m_pAllPicBtn->setFocusPolicy(Qt::TabFocus);
     AC_SET_OBJECT_NAME(m_pAllPicBtn, Main_All_Picture_Button);
     AC_SET_ACCESSIBLE_NAME(m_pAllPicBtn, Main_All_Picture_Button);
 
@@ -295,6 +347,7 @@ void MainWindow::initTitleBar()
     pTitleBtnLayout->addWidget(m_pAllPicBtn);
 
     m_pTimeBtn = new DPushButton();
+    m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
     AC_SET_OBJECT_NAME(m_pTimeBtn, Main_Time_Line_Button);
     AC_SET_ACCESSIBLE_NAME(m_pTimeBtn, Main_Time_Line_Button);
 //    m_pTimeBtn = new DSuggestButton();
@@ -309,6 +362,7 @@ void MainWindow::initTitleBar()
     pTitleBtnLayout->addWidget(m_pTimeBtn);
 
     m_pAlbumBtn = new DPushButton();
+    m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
     AC_SET_OBJECT_NAME(m_pAlbumBtn, Main_Album_Button);
     AC_SET_ACCESSIBLE_NAME(m_pAlbumBtn, Main_Album_Button);
 //    m_pAlbumBtn = new DSuggestButton();
@@ -422,6 +476,66 @@ void MainWindow::initCentralWidget()
     }
 }
 
+void MainWindow::initInstallFilter(int viewType)
+{
+    if (viewType == VIEW_ALLPIC) {
+        foreach (auto widget, m_AllpicViewTabOrder) {
+            widget->installEventFilter(this);
+        }
+    } else if (viewType == VIEW_TIMELINE) {
+        foreach (auto widget, m_TimelineViewTabOrder) {
+            widget->installEventFilter(this);
+        }
+    } else if (viewType == VIEW_ALBUM) {
+        foreach (auto widget, m_AlbumViewTabOrder) {
+            widget->installEventFilter(this);
+        }
+    } else {
+        foreach (auto widget, m_emptyAllViewTabOrder) {
+            widget->installEventFilter(this);
+        }
+    }
+}
+
+// 界面无图时 tab切换顺序
+void MainWindow::initNoPhotoNormalTabOrder()
+{
+    // titlebar tab键循环时会focus,隐掉
+    titlebar()->setFocusPolicy(Qt::NoFocus);
+    m_pAllPicBtn->setFocusPolicy(Qt::TabFocus);
+    m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
+    m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
+    m_emptyAllViewTabOrder.clear();
+    m_emptyAllViewTabOrder.insert(0, m_pAllPicBtn);
+    m_emptyAllViewTabOrder.insert(1, m_pTimeBtn);
+    m_emptyAllViewTabOrder.insert(2, m_pAlbumBtn);
+    QWidget* optionButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowOptionButton");
+    QWidget* minButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowMinButton");
+    QWidget* maxButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowMaxButton");
+    QWidget* closeButton =  titlebar()->findChild<QWidget*>("DTitlebarDWindowCloseButton");
+    m_emptyAllViewTabOrder.insert(3, optionButton);
+    m_emptyAllViewTabOrder.insert(4, minButton);
+    m_emptyAllViewTabOrder.insert(5, maxButton);
+    m_emptyAllViewTabOrder.insert(6, closeButton);
+    m_emptyAllViewTabOrder.insert(7, m_pAllPicView->m_pImportView->m_pImportBtn);
+
+    // allpicview
+    if (m_iCurrentView == VIEW_ALLPIC && m_pAllPicView->m_pStackedWidget->currentIndex() == 0) {
+        m_emptyAllViewTabOrder[7] = m_pAllPicView->m_pImportView->m_pImportBtn;
+    }
+    // timelineview
+    else if (m_iCurrentView == VIEW_TIMELINE && m_pTimeLineView->m_pStackedWidget->currentIndex() == 0){
+        m_emptyAllViewTabOrder[7] = m_pTimeLineView->pImportView->m_pImportBtn;
+    }
+    // albumview
+    else if (m_iCurrentView == VIEW_ALBUM && m_pAlbumview->m_pRightStackWidget->currentIndex() == 0){
+        m_emptyAllViewTabOrder[7] = m_pAlbumview->m_pImportView->m_pImportBtn;
+    }
+    for (int idx = 0; idx < m_emptyAllViewTabOrder.count() -1; idx++) {
+        this->setTabOrder(m_emptyAllViewTabOrder.at(idx), m_emptyAllViewTabOrder.at(idx + 1));
+    }
+}
+
 //设置等待窗口颜色
 void MainWindow::setWaitDialogColor()
 {
@@ -464,6 +578,7 @@ int MainWindow::getCurrentViewType()
 //显示所有照片
 void MainWindow::allPicBtnClicked()
 {
+    clearFocus();
     emit dApp->signalM->hideExtensionPanel();
 //    m_pSearchEdit->clear();
     m_pSearchEdit->clearEdit();
@@ -475,11 +590,18 @@ void MainWindow::allPicBtnClicked()
     m_pAllPicView->updateStackedWidget();
     m_pAllPicView->updatePicNum();
     m_pAllPicView->getThumbnailListView()->setFocus();
+
+    m_pTimeBtn->setCheckable(false);
+    m_pAlbumBtn->setCheckable(false);
+
+    m_pAllPicBtn->setCheckable(true);
+    m_pAllPicBtn->setChecked(true);
 }
 
 //显示时间线照片
 void MainWindow::timeLineBtnClicked()
 {
+    clearFocus();
     if (nullptr == m_pTimeLineView) {
         m_pCenterWidget->removeWidget(m_pTimeLineWidget);
         int index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
@@ -494,12 +616,18 @@ void MainWindow::timeLineBtnClicked()
     m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pTimeLineView->updateStackedWidget();
     m_pTimeLineView->updatePicNum();
-    m_pTimeLineView->setFocus();
+    m_pTimeLineView->m_pwidget->setFocus();
+
+    m_pAllPicBtn->setCheckable(false);
+    m_pAlbumBtn->setCheckable(false);
+    m_pTimeBtn->setCheckable(true);
+    m_pTimeBtn->setChecked(true);
 }
 
 //显示相册
 void MainWindow::albumBtnClicked()
 {
+    clearFocus();
     if (nullptr == m_pAlbumview) {
         int index = 0;
         if (nullptr == m_pTimeLineView) {
@@ -534,7 +662,12 @@ void MainWindow::albumBtnClicked()
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
     m_pAlbumview->updatePicNum();
-    m_pAlbumview->setFocus();
+    m_pAlbumview->m_pwidget->setFocus();
+
+    m_pAllPicBtn->setCheckable(false);
+    m_pTimeBtn->setCheckable(false);
+    m_pAlbumBtn->setCheckable(true);
+    m_pAlbumBtn->setChecked(true);
     emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
 }
 

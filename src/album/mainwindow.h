@@ -64,6 +64,11 @@ public:
     void initShortcutKey();
     void initTitleBar();
     void initCentralWidget();
+    // install filter
+    void initInstallFilter(int viewType);
+    // 设置初始启动,没有图片时的allpicview tab切换顺序
+    void initNoPhotoNormalTabOrder();
+
     void setWaitDialogColor();
     int getCurrentViewType();
     void showCreateDialog(QStringList imgpaths);
@@ -84,6 +89,7 @@ private:
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void sigTitleMenuImportClicked();
@@ -179,6 +185,16 @@ private:
     bool m_isFirstStart = true;
     bool m_processOptionIsEmpty = false;
     QSettings *m_settings;
+    // 所有照片空白界面时的taborder
+    QList<QWidget*> m_emptyAllViewTabOrder;
+    // 所有照片非空白界面时
+    QList<QWidget*> m_AllpicViewTabOrder;
+    // 时间线非空白界面时
+    QList<QWidget*> m_TimelineViewTabOrder;
+    // 相册非空白界面时
+    QList<QWidget*> m_AlbumViewTabOrder;
+
+
 public:
     QButtonGroup *getButG();
 };

@@ -109,8 +109,7 @@ private:
     QList<QString> m_timelines;
     QWidget *m_dateItem;
     DCommandLinkButton *pSuspensionChose;
-    QWidget *pTimeLineViewWidget;
-    ImportView *pImportView;
+
     int allnum;
     DLabel *m_pDate;
     DLabel *pNum_up;
@@ -129,6 +128,8 @@ public:
     QStackedWidget *m_pStackedWidget;
     StatusBar *m_pStatusBar;
     SearchView *pSearchView;
+    ImportView *pImportView;
+    QWidget *pTimeLineViewWidget;
     QWidget *m_pwidget;
     int m_index;
     int m_selPicNum;

@@ -90,6 +90,7 @@ void LeftListView::initUI()
     pPhotoLibLayout->addWidget(m_pPhotoLibLabel);
     // 照片库列表
     m_pPhotoLibListView = new LeftListWidget();
+    m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
     DStyledItemDelegate *itemDelegate0 = new DStyledItemDelegate(m_pPhotoLibListView);
     itemDelegate0->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pPhotoLibListView->setItemDelegate(itemDelegate0);
@@ -160,6 +161,7 @@ void LeftListView::initUI()
 
     // 相册列表
     m_pCustomizeListView = new LeftListWidget();
+    m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
     DStyledItemDelegate *itemDelegate1 = new DStyledItemDelegate(m_pCustomizeListView);
     itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pCustomizeListView->setItemDelegate(itemDelegate1);
@@ -196,6 +198,7 @@ void LeftListView::initUI()
 
     // 设备列表
     m_pMountListWidget = new LeftListWidget();
+    m_pMountListWidget->setFocusPolicy(Qt::NoFocus);
     m_pMountListWidget->setVisible(false);
     DStyledItemDelegate *itemDelegate2 = new DStyledItemDelegate(m_pMountListWidget);
     itemDelegate2->setBackgroundType(DStyledItemDelegate::NoBackground);

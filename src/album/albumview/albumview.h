@@ -211,8 +211,8 @@ public:
     DWidget *m_pTrashWidget;
     DWidget *m_pFavoriteWidget;
     Waitdevicedialog *m_waitDeviceScandialog;
-private:
     ImportView *m_pImportView;
+private:
 
     DPushButton *m_pRecoveryBtn;
     DPushButton *m_pDeleteBtn;

@@ -348,6 +348,7 @@ void AlbumView::initConnections()
 void AlbumView::initLeftView()
 {
     m_pLeftListView = new LeftListView(this);
+    m_pLeftListView->setFocusPolicy(Qt::NoFocus);
     m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
 
     //init externalDevice
