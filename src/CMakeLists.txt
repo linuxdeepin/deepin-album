@@ -70,12 +70,6 @@ aux_source_directory(./album/utils allSource)
 aux_source_directory(./album/widgets allSource)
 aux_source_directory(./album/widgets/dialogs allSource)
 
-if(DOTEST)
-    include_directories(tests/googletest)
-    include_directories(tests/googletest/googlemock/include)
-    include_directories(tests/googletest/googletest/include)
-endif()
-
 FILE (GLOB allHeaders
     "./album/module/*.h"
     )
@@ -161,9 +155,8 @@ if(DOTEST)
 #    set(AllTestQRC
 #        ./../tests/testResource/testResource.qrc)
 
-    add_subdirectory(../tests/googletest test)
     add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${AllTestQRC} ${allTestSource} ${allTestSource1})
-    target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main pthread)
+    target_link_libraries(${PROJECT_NAME_TEST} gmock gtest pthread)
 
     add_test(${PROJECT_NAME_TEST} COMMAND ${PROJECT_NAME_TEST})
 
