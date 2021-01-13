@@ -31,6 +31,8 @@
 #include <QResizeEvent>
 #include <QStyleFactory>
 #include <QScreen>
+#include <QDesktopWidget>
+#include <QGuiApplication>
 
 namespace  {
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
@@ -281,8 +283,9 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo, bool i
         slideshowbottombar->m_playpauseButton->setEnabled(false);
         emit dApp->signalM->updatePauseButton();
     }
-    int nParentWidth = QGuiApplication::primaryScreen()->geometry().width();
-    int nParentHeight = QGuiApplication::primaryScreen()->geometry().height();
+    int screenId = dApp->getDAppNew()->desktop()->screenNumber(this);
+    int nParentWidth = dApp->getDAppNew()->desktop()->screenGeometry(screenId).width();
+    int nParentHeight = dApp->getDAppNew()->desktop()->screenGeometry(screenId).height();
     slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
     m_animation->startSlideShow(m_vinfo.path, m_vinfo.paths);
     auto actionlist = m_menu->actions();
@@ -370,9 +373,11 @@ void SlideShowPanel::mouseMoveEvent(QMouseEvent *event)
     this->setCursor(Qt::ArrowCursor);
     if (window()->isFullScreen()) {
         QPoint pos = mapFromGlobal(QCursor::pos());
-        if (height() - 20 < pos.y()
-                && height() > pos.y()
-                && height() == slideshowbottombar->y()) {
+        // 处理程序界面的初始高度和全屏下幻灯片界面不一致导致底部工具栏位置错误
+        int screenId = dApp->getDAppNew()->desktop()->screenNumber(this);
+        if (dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height() != height())
+            return;
+        if (height() - 20 < pos.y() && height() >= pos.y() && height() >= slideshowbottombar->y()) {
             QPropertyAnimation *animation = new QPropertyAnimation(slideshowbottombar, "pos");
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
@@ -380,8 +385,7 @@ void SlideShowPanel::mouseMoveEvent(QMouseEvent *event)
             animation->setEndValue(QPoint((width() - slideshowbottombar->width()) / 2, height() - slideshowbottombar->height() - 10));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             m_animation->update();
-        } else if (height() - slideshowbottombar->height() - 10 > pos.y()
-                   && height() - slideshowbottombar->height() - 10 == slideshowbottombar->y()) {
+        } else if (height() - slideshowbottombar->height() - 10 > pos.y() && height() - slideshowbottombar->height() - 10 <= slideshowbottombar->y()) {
             QPropertyAnimation *animation = new QPropertyAnimation(slideshowbottombar, "pos");
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);

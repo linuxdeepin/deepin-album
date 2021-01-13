@@ -86,6 +86,7 @@ public:
 //    void pauseAndpre();
 
     int currentIndex();
+    const QRect getCurScreenGeometry();
 signals:
     void singleAnimationEnd();
 protected:

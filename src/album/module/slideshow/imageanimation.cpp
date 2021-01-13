@@ -29,6 +29,7 @@
 #include <QSharedPointer>
 #include <QTime>
 #include <QTimer>
+#include <QScreen>
 #include <QObject>
 #include <QDesktopWidget>
 #include <QPalette>
@@ -691,15 +692,18 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
     UnionImage_NameSpace::loadStaticImageFromFile(imageName1_bar, tImg, errMsg);
     QPixmap p1 = QPixmap::fromImage(tImg);
     int beginX = 0, beginY = 0;
+    // 多屏显示问题，定位当前屏幕
+    int screenId = dApp->getDAppNew()->desktop()->screenNumber(q_ptr);
     if (p1.width() >= p1.height()) {
-        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
+        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
         QPainter pa1(&m_pixmap1);
         m_pixmap1.fill(QColor("#252525"));
-        p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
-        if (p1.height() > dApp->getDAppNew()->desktop()->screenGeometry().height()) {
-            p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height());
+        p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
+        if (p1.height() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height()) {
+            p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height());
         }
-        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
+        // 多屏显示去除x偏移
+        centrePoint = q_ptr->getCurScreenGeometry().center();
         beginX = centrePoint.x() - p1.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p1.height() / 2;
@@ -707,14 +711,15 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
         pa1.drawPixmap(beginX, beginY, p1);
         pa1.end();
     } else {
-        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
+        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
         QPainter pa1(&m_pixmap1);
         m_pixmap1.fill(QColor("#252525"));
-        p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height() + 8);
-        if (p1.width() > dApp->getDAppNew()->desktop()->screenGeometry().width()) {
-            p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height() + 8);
+        if (p1.width() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width()) {
+            p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
         }
-        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
+        // 多屏显示去除x偏移
+        centrePoint = q_ptr->getCurScreenGeometry().center();
         beginX = centrePoint.x() - p1.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p1.height() / 2;
@@ -732,15 +737,18 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
     QString errMsg;
     UnionImage_NameSpace::loadStaticImageFromFile(imageName2_bar, tImg, errMsg);
     QPixmap p2 = QPixmap::fromImage(tImg);
+    // 双屏下或者多屏下
+    int screenId = dApp->getDAppNew()->desktop()->screenNumber(q_ptr);
     if (p2.width() >= p2.height()) {
-        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
+        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
         QPainter pa2(&m_pixmap2);
         m_pixmap2.fill(QColor("#252525"));
-        p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
-        if (p2.height() > dApp->getDAppNew()->desktop()->screenGeometry().height()) {
-            p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height());
+        p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
+        if (p2.height() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height()) {
+            p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height());
         }
-        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
+        // 多屏显示下，要去除x偏移
+        centrePoint = q_ptr->getCurScreenGeometry().center();
         beginX = centrePoint.x() - p2.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p2.height() / 2;
@@ -748,14 +756,15 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
         pa2.drawPixmap(beginX, beginY, p2);
         pa2.end();
     } else {
-        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry().size());
+        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
         QPainter pa2(&m_pixmap2);
         m_pixmap2.fill(QColor("#252525"));
-        p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry().height() + 8);
-        if (p2.width() > dApp->getDAppNew()->desktop()->screenGeometry().width()) {
-            p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry().width());
+        p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height() + 8);
+        if (p2.width() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width()) {
+            p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
         }
-        centrePoint = dApp->getDAppNew()->desktop()->screenGeometry().center();
+        // 多屏显示下，要去除x偏移
+        centrePoint = q_ptr->getCurScreenGeometry().center();
         beginX = centrePoint.x() - p2.width() / 2;
         beginX = beginX > 0 ? beginX : 0;
         beginY = centrePoint.y() - p2.height() / 2;
@@ -843,6 +852,14 @@ void ImageAnimation::ifPauseAndContinue()
     d->startAnimation();
 }
 
+const QRect ImageAnimation::getCurScreenGeometry()
+{
+    int screenId = dApp->getDAppNew()->desktop()->screenNumber(this);
+    QRect tempRect = dApp->getDAppNew()->desktop()->screenGeometry(screenId);
+    tempRect.setRect(0,0,tempRect.width(),tempRect.height());
+    return tempRect;
+}
+
 //void ImageAnimation::pauseAndpre()
 //{
 //    setPaintTarget(TurnBackPre);
@@ -855,21 +872,23 @@ void ImageAnimation::paintEvent(QPaintEvent *e)
     Q_D(ImageAnimation);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
+    QRect tempRect = getCurScreenGeometry();
     switch (current_target) {
     case EffectPlay: {
-        d->effectPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
+
+        d->effectPainter(&painter, tempRect);
         break;
     }
     case SkipToNext: {
-        d->forwardPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
+        d->forwardPainter(&painter, tempRect);
         break;
     }
     case TurnBackPre: {
-        d->retreatPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
+        d->retreatPainter(&painter, tempRect);
         break;
     }
     case KeepStatic: {
-        d->keepStaticPainter(&painter, dApp->getDAppNew()->desktop()->screenGeometry());
+        d->keepStaticPainter(&painter, tempRect);
         break;
     }
     }
