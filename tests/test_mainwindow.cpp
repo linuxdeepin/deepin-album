@@ -160,6 +160,99 @@ TEST(MainWindow, BtnGroupClick)
 
         //TODO 删除
     }
+    // allpicview tab键切换
+    w->allPicBtnClicked();
+    QTest::qWait(500);
+    QKeyEvent EventPress(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier);
+    qApp->sendEvent(w->m_pAllPicBtn, &EventPress);
+    QTest::qWait(100);
+    QTestEventList tabEvent;
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.simulate(w);
+    tabEvent.clear();
+    QTest::qWait(500);
+
+    // 左键切换
+    qApp->sendEvent(w->m_pAllPicBtn, &EventPress);
+    QTest::qWait(100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Left, Qt::NoModifier, 100);
+    tabEvent.simulate(w);
+    tabEvent.clear();
+    QTest::qWait(500);
+
+    // 右键切换
+    qApp->sendEvent(w->m_pAllPicBtn, &EventPress);
+    QTest::qWait(100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Right, Qt::NoModifier, 100);
+    tabEvent.simulate(w);
+    tabEvent.clear();
+    QTest::qWait(500);
+
+    // timeline tab键切换
+    w->timeLineBtnClicked();
+    QTest::qWait(500);
+    qApp->sendEvent(w->m_pTimeBtn, &EventPress);
+    QTest::qWait(100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.simulate(w);
+    tabEvent.clear();
+    QTest::qWait(500);
+
+    // album view tab
+    w->albumBtnClicked();
+    QTest::qWait(500);
+    qApp->sendEvent(w->m_pAlbumBtn, &EventPress);
+    QTest::qWait(100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    tabEvent.simulate(w);
+    tabEvent.clear();
+    QTest::qWait(500);
+
+    w->allPicBtnClicked();
+    QTest::qWait(500);
+    event.addMouseMove(p1);
+    event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    event.simulate(allpicview->m_pThumbnailListView->viewport());
+    event.clear();
+    QTest::qWait(500);
+
+
     //------右键菜单start---------
     QContextMenuEvent menuEvent(QContextMenuEvent::Mouse, p1);
     qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
