@@ -83,7 +83,7 @@ MainWindow::MainWindow()
     initTitleBar();             //初始化顶部状态栏
     initCentralWidget();
     initNoPhotoNormalTabOrder();
-    initInstallFilter(-1);
+    initInstallFilter();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
     loadZoomRatio();
 
@@ -126,13 +126,11 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0) {
                 // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
                 initNoPhotoNormalTabOrder();
-                initInstallFilter(-1);
             }
             // 相册中有图，且在所有照片界面时
             else if (m_iCurrentView == VIEW_ALLPIC) {
                 // 所有照片界面 and listveiw tab键切换
                 initAllpicViewTabOrder();
-                initInstallFilter(VIEW_ALLPIC);
                 // 当焦点在thumbnailListview中时,选中第一个
                 QWidget *pTempWidget = static_cast<QWidget*>(obj);
                 int index = m_AllpicViewTabOrder.indexOf(pTempWidget);
@@ -144,11 +142,38 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 }
                 // 当焦点在thumbnaillistview上时，第一个没选中/其他有选中，不可以tab键切换返回
                 if (obj == m_pAllPicView->getThumbnailListView()) {
-                    if (!m_pAllPicView->getThumbnailListView()->isFirstPhotoSelected() && !m_pAllPicView->getThumbnailListView()->isNoPhotosSelected()) {
+                    if (!m_pAllPicView->getThumbnailListView()->isFirstPhotoSelected() && !m_pAllPicView->getThumbnailListView()->isNoPhotosSelected())
                         return true;
-                    }
-                } else {
-                    m_pAllPicView->getThumbnailListView()->clearSelection();
+                    else
+                        m_pAllPicView->getThumbnailListView()->clearSelection();
+                }
+            }
+            else if (m_iCurrentView == VIEW_TIMELINE) {
+                // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
+                initTimeLineViewTabOrder();
+                ThumbnailListView *tempListView = m_pTimeLineView->getFirstListViewFromTimeline();
+                if (obj == m_pTimeBtn && tempListView) {
+                    tempListView->setFocus();
+                    tempListView->selectFirstPhoto();
+                    return true;
+                } else if (obj == tempListView) {
+                    tempListView->clearSelection();
+                    m_pTimeBtn->setFocus();
+                    return true;
+                }
+            }
+            else if (m_iCurrentView == VIEW_ALBUM) {
+                // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
+                initAlbumViewTabOrder();
+                ThumbnailListView *tempListView = m_pAlbumview->m_pImpTimeLineView->getFirstListView();
+                if (obj == m_AlbumViewTabOrder.at(1) && tempListView != nullptr) {
+                    tempListView->setFocus();
+                    tempListView->selectFirstPhoto();
+                    return true;
+                } else if (obj == tempListView) {
+                    tempListView->clearSelection();
+                    m_pAlbumBtn->setFocus();
+                    return true;
                 }
             }
         }
@@ -159,6 +184,25 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 QPushButton *pTempBtn = dynamic_cast<QPushButton*>(obj);
                 if (pTempBtn && m_emptyAllViewTabOrder.contains(pTempBtn))
                     emit pTempBtn->click();
+            }
+            if (m_iCurrentView == VIEW_ALBUM) {
+                // 相册内没有图时,应用初始启动无图时enter键进入
+                QPushButton *pTempBtn = dynamic_cast<QPushButton*>(obj);
+                if (pTempBtn && m_AlbumViewTabOrder.contains(pTempBtn)) {
+                    emit pTempBtn->click();
+                }
+                else if (obj == m_pAlbumview->m_pLeftListView->m_pPhotoLibListView){
+                    QModelIndex tempIndex = m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->currentIndex();
+                    emit m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->pressed(tempIndex);
+                }
+                else if (obj == m_pAlbumview->m_pLeftListView->m_pMountListWidget){
+                    QModelIndex tempIndex = m_pAlbumview->m_pLeftListView->m_pMountListWidget->currentIndex();
+                    emit m_pAlbumview->m_pLeftListView->m_pMountListWidget->pressed(tempIndex);
+                }
+                else if (obj == m_pAlbumview->m_pLeftListView->m_pCustomizeListView){
+                    QModelIndex tempIndex = m_pAlbumview->m_pLeftListView->m_pCustomizeListView->currentIndex();
+                    emit m_pAlbumview->m_pLeftListView->m_pCustomizeListView->pressed(tempIndex);
+                }
             }
         }
         if (keyEvent->key() == Qt::Key_Right) {
@@ -184,7 +228,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             else if (m_iCurrentView == VIEW_ALLPIC) {
                 // 必须初始化tab order,因为第一次tab键不触发事件
                 initAllpicViewTabOrder();
-                initInstallFilter(VIEW_ALLPIC);
                 if (m_AllpicViewTabOrder.contains(dynamic_cast<QWidget*>(obj)) && obj != m_pAllPicView->getThumbnailListView()) {
                     int index = m_AllpicViewTabOrder.indexOf(dynamic_cast<QWidget*>(obj));
                     // 焦点范围限定在标题栏
@@ -193,6 +236,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                     return true;
                 }
             }
+            // 有图时间线界面
+            // 有图相册界面
         }
         if ( keyEvent->key() == Qt::Key_Left) {
             // 无图且当前界面非所有照片界面，屏蔽btngroup左右键切换
@@ -222,6 +267,71 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                     QWidget *pTempWidget = dynamic_cast<QWidget*>(m_AllpicViewTabOrder.at((wgtIndex + m_AllpicViewTabOrder.count() -2) % (m_AllpicViewTabOrder.count() -1)));
                     pTempWidget->setFocus();
                     return true;
+                }
+            }
+        }
+        if ( keyEvent->key() == Qt::Key_Down) {
+            // 相册界面，左边栏焦点向下循环切换
+            if (m_iCurrentView == VIEW_ALBUM) {
+                QList<LeftListWidget*> tempLeftListView;
+                tempLeftListView.append(m_pAlbumview->m_pLeftListView->m_pPhotoLibListView);
+                tempLeftListView.append(m_pAlbumview->m_pLeftListView->m_pMountListWidget);
+                tempLeftListView.append(m_pAlbumview->m_pLeftListView->m_pCustomizeListView);
+                for(int i = 0; i < tempLeftListView.count(); i++) {
+                    if (tempLeftListView.at(i)->hasFocus()) {
+                        if (tempLeftListView.at(i)->count() > 0 && tempLeftListView.at(i)->currentRow() == tempLeftListView.at(i)->count() -1) {
+                            bool isNotEmpty = true;
+                            int cnt = 0;
+                            // 设备左边栏列表可能不存在，跳过
+                            while (isNotEmpty) {
+                                if (tempLeftListView.at((i + 1 + cnt) % 3)->count() > 0) {
+                                    tempLeftListView.at(i)->setCurrentRow(-1);
+                                    tempLeftListView.at((i + 1 + cnt) % 3)->setFocus();
+                                    tempLeftListView.at((i + 1 + cnt) % 3)->setCurrentRow(0);
+                                    isNotEmpty = false;
+                                } else {
+                                    cnt ++;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        if ( keyEvent->key() == Qt::Key_Up) {
+            // 相册界面，左边栏焦点向上循环切换
+            if (m_iCurrentView == VIEW_ALBUM) {
+                QList<LeftListWidget*> tempLeftListView;
+                tempLeftListView.append(m_pAlbumview->m_pLeftListView->m_pPhotoLibListView);
+                tempLeftListView.append(m_pAlbumview->m_pLeftListView->m_pMountListWidget);
+                tempLeftListView.append(m_pAlbumview->m_pLeftListView->m_pCustomizeListView);
+                int showListViewCount = 0;
+                foreach (auto listView, tempLeftListView) {
+                    if (listView->count() > 0) {
+                        showListViewCount ++;
+                    }
+                }
+                for(int i = 0; i < tempLeftListView.count(); i++) {
+                    if (tempLeftListView.at(i)->hasFocus()) {
+                        if (tempLeftListView.at(i)->count() > 0 && tempLeftListView.at(i)->currentRow() == 0) {
+                            bool isNotEmpty = true;
+                            int cnt = 0;
+                            // 设备左边栏列表可能不存在，跳过
+                            while (isNotEmpty) {
+                                int loopListView = (i + showListViewCount -1 + cnt) % 3;
+                                if (tempLeftListView.at(loopListView)->count() > 0) {
+                                    tempLeftListView.at(i)->setCurrentRow(-1);
+                                    tempLeftListView.at(loopListView)->setFocus();
+                                    tempLeftListView.at(loopListView)->setCurrentRow(tempLeftListView.at(loopListView)->count() - 1);
+                                    isNotEmpty = false;
+                                } else {
+                                    cnt ++;
+                                }
+                            }
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -540,25 +650,12 @@ void MainWindow::initCentralWidget()
     }
 }
 
-void MainWindow::initInstallFilter(int viewType)
+void MainWindow::initInstallFilter()
 {
-    if (viewType == VIEW_ALLPIC) {
-        foreach (auto widget, m_AllpicViewTabOrder) {
-            widget->installEventFilter(this);
-        }
-    } else if (viewType == VIEW_TIMELINE) {
-        foreach (auto widget, m_TimelineViewTabOrder) {
-            widget->installEventFilter(this);
-        }
-    } else if (viewType == VIEW_ALBUM) {
-        foreach (auto widget, m_AlbumViewTabOrder) {
-            widget->installEventFilter(this);
-        }
-    } else {
-        foreach (auto widget, m_emptyAllViewTabOrder) {
-            widget->installEventFilter(this);
-        }
+    foreach (auto widget, m_emptyAllViewTabOrder) {
+        widget->installEventFilter(this);
     }
+    m_pSearchEdit->lineEdit()->installEventFilter(this);
 }
 
 // 界面无图时 tab切换顺序
@@ -603,10 +700,9 @@ void MainWindow::initNoPhotoNormalTabOrder()
 // allpicview界面存在图片时 tab切换顺序
 void MainWindow::initAllpicViewTabOrder()
 {
+    if (!m_pAllPicView->getThumbnailListView())
+        return;
     titlebar()->setFocusPolicy(Qt::NoFocus);
-    m_pAllPicBtn->setFocusPolicy(Qt::TabFocus);
-    m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
-    m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
     m_AllpicViewTabOrder.clear();
     m_AllpicViewTabOrder.insert(0, m_pAllPicBtn);
     m_AllpicViewTabOrder.insert(1, m_pTimeBtn);
@@ -622,8 +718,59 @@ void MainWindow::initAllpicViewTabOrder()
     m_AllpicViewTabOrder.insert(7, closeButton);
     m_AllpicViewTabOrder.insert(8, m_pAllPicView->getThumbnailListView());
 
+    for (int idx = 0; idx < m_AllpicViewTabOrder.count(); idx++) {
+        m_AllpicViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+    }
     for (int idx = 0; idx < m_AllpicViewTabOrder.count() -1; idx++) {
         this->setTabOrder(m_AllpicViewTabOrder.at(idx), m_AllpicViewTabOrder.at(idx + 1));
+    }
+}
+
+void MainWindow::initTimeLineViewTabOrder()
+{
+    // 时间线listview空
+    if (!m_pTimeLineView->getFirstListViewFromTimeline())
+        return;
+    titlebar()->setFocusPolicy(Qt::NoFocus);
+    m_pAllPicBtn->setFocusPolicy(Qt::NoFocus);
+    m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
+    m_pAlbumBtn->setFocusPolicy(Qt::NoFocus);
+
+    m_pTimeLineView->getFirstListViewFromTimeline()->setFocusPolicy(Qt::TabFocus);
+    m_TimelineViewTabOrder.clear();
+    m_TimelineViewTabOrder.insert(1, m_pTimeBtn);
+    m_TimelineViewTabOrder.insert(2, m_pTimeLineView->getFirstListViewFromTimeline());
+    for (int idx = 0; idx < m_AllpicViewTabOrder.count(); idx++) {
+        m_AllpicViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
+    }
+    for (int idx = 0; idx < m_TimelineViewTabOrder.count(); idx++) {
+        m_TimelineViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+    }
+    for (int idx = 0; idx < m_TimelineViewTabOrder.count() -1; idx++) {
+        this->setTabOrder(m_TimelineViewTabOrder.at(idx), m_TimelineViewTabOrder.at(idx + 1));
+    }
+}
+
+void MainWindow::initAlbumViewTabOrder()
+{
+    // 时间线listview空
+    if (!m_pAlbumview->m_pImpTimeLineView->getFirstListView())
+        return;
+    titlebar()->setFocusPolicy(Qt::NoFocus);
+    m_pAllPicBtn->setFocusPolicy(Qt::NoFocus);
+    m_pTimeBtn->setFocusPolicy(Qt::NoFocus);
+    m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
+    m_pAlbumview->m_pImpTimeLineView->getFirstListView()->setFocusPolicy(Qt::TabFocus);
+    m_AlbumViewTabOrder.clear();
+    m_AlbumViewTabOrder.insert(0, m_pAlbumBtn);
+    m_AlbumViewTabOrder.insert(1, m_pAlbumview->m_pLeftListView->m_pPhotoLibListView);
+    m_AlbumViewTabOrder.insert(2, m_pAlbumview->m_pImpTimeLineView->getFirstListView());
+    for (int idx = 0; idx < m_AlbumViewTabOrder.count() -1; idx++) {
+        this->setTabOrder(m_AlbumViewTabOrder.at(idx), m_AlbumViewTabOrder.at(idx + 1));
+        m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+        if (idx == m_AlbumViewTabOrder.count() -2) {
+            m_AlbumViewTabOrder.at(idx + 1)->setFocusPolicy(Qt::TabFocus);
+        }
     }
 }
 //设置等待窗口颜色
@@ -686,6 +833,8 @@ void MainWindow::allPicBtnClicked()
 
     m_pAllPicBtn->setCheckable(true);
     m_pAllPicBtn->setChecked(true);
+    initAllpicViewTabOrder();
+    m_pAllPicView->m_pImportView->m_pImportBtn->installEventFilter(this);
 }
 
 //显示时间线照片
@@ -712,6 +861,12 @@ void MainWindow::timeLineBtnClicked()
     m_pAlbumBtn->setCheckable(false);
     m_pTimeBtn->setCheckable(true);
     m_pTimeBtn->setChecked(true);
+
+    initTimeLineViewTabOrder();
+    if (m_pTimeLineView->getFirstListViewFromTimeline())
+        m_pTimeLineView->getFirstListViewFromTimeline()->installEventFilter(this);
+    // timelineview
+    m_pTimeLineView->pImportView->m_pImportBtn->installEventFilter(this);;
 }
 
 //显示相册
@@ -759,6 +914,16 @@ void MainWindow::albumBtnClicked()
     m_pAlbumBtn->setCheckable(true);
     m_pAlbumBtn->setChecked(true);
     emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
+
+    initAlbumViewTabOrder();
+
+    // albumview left list view up and down key event filter
+    m_pAlbumview->m_pImportView->m_pImportBtn->installEventFilter(this);
+    if (m_pAlbumview->m_pImpTimeLineView->getFirstListView())
+        m_pAlbumview->m_pImpTimeLineView->getFirstListView()->installEventFilter(this);
+    m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->installEventFilter(this);
+    m_pAlbumview->m_pLeftListView->m_pMountListWidget->installEventFilter(this);
+    m_pAlbumview->m_pLeftListView->m_pCustomizeListView->installEventFilter(this);
 }
 
 //标题菜单栏槽函数

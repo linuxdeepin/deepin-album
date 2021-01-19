@@ -65,11 +65,15 @@ public:
     void initTitleBar();
     void initCentralWidget();
     // install filter
-    void initInstallFilter(int viewType);
+    void initInstallFilter();
     // 设置初始启动,没有图片时的allpicview tab切换顺序
     void initNoPhotoNormalTabOrder();
     // 设置有图片时的allpicview tab tab切换顺序
     void initAllpicViewTabOrder();
+    // 设置有图片时的allpicview tab tab切换顺序
+    void initTimeLineViewTabOrder();
+    // 设置有图片时的AlbumView tab tab切换顺序
+    void initAlbumViewTabOrder();
 
     void setWaitDialogColor();
     int getCurrentViewType();

@@ -76,6 +76,7 @@ public:
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
     void resizeHand();  //手动计算大小
+    ThumbnailListView *getFirstListView();
 #if 1
     QStringList selectPaths();
     void updateChoseText();

@@ -212,6 +212,8 @@ public:
     DWidget *m_pFavoriteWidget;
     Waitdevicedialog *m_waitDeviceScandialog;
     ImportView *m_pImportView;
+    // 已导入窗体
+    ImportTimeLineView *m_pImpTimeLineView;
 private:
 
     DPushButton *m_pRecoveryBtn;
@@ -230,7 +232,7 @@ private:
     DLabel *pLabel2;
 
     // 已导入窗体
-    ImportTimeLineView *m_pImpTimeLineView;
+//    ImportTimeLineView *m_pImpTimeLineView;
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;

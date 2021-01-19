@@ -63,6 +63,7 @@ TimeLineView::TimeLineView()
     initTimeLineViewWidget();
     initConnections();
     m_pwidget = new QWidget(this);
+    m_pwidget->setFocusPolicy(Qt::NoFocus);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
@@ -141,6 +142,14 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
     }
 }
 
+ThumbnailListView *TimeLineView::getFirstListViewFromTimeline()
+{
+    if(m_allThumbnailListView.count() > 0)
+        return m_allThumbnailListView.at(0);
+    else
+        return nullptr;
+}
+
 void TimeLineView::updataLayout(QStringList updatePathList)
 {
     m_spinner->hide();
@@ -161,6 +170,7 @@ void TimeLineView::initTimeLineViewWidget()
     palcolor.setBrush(DPalette::Window, palcolor.color(DPalette::Base));
     pTimeLineViewWidget->setPalette(palcolor);
     m_mainListWidget = new TimelineListWidget;
+    m_mainListWidget->setFocusPolicy(Qt::NoFocus);
     QScrollBar *pHorizontalBar = m_mainListWidget->horizontalScrollBar();
     pHorizontalBar->setEnabled(false);
     pHorizontalBar->setVisible(false);
@@ -221,6 +231,7 @@ void TimeLineView::initTimeLineViewWidget()
     //右侧选择文字
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
+    pSuspensionChose->setFocusPolicy(Qt::NoFocus);
     AC_SET_OBJECT_NAME(pSuspensionChose, Time_Line_Choose_Button);
     AC_SET_ACCESSIBLE_NAME(pSuspensionChose, Time_Line_Choose_Button);
     DFontSizeManager::instance()->bind(pSuspensionChose, DFontSizeManager::T5);
@@ -438,6 +449,7 @@ void TimeLineView::addTimelineLayout()
 
     QHBoxLayout *Layout = new QHBoxLayout();
     DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
+    pChose->setFocusPolicy(Qt::NoFocus);
     DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
     m_allChoseButton << pChose;
     pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
@@ -459,6 +471,7 @@ void TimeLineView::addTimelineLayout()
 
     //添加照片
     ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, COMMON_STR_VIEW_TIMELINE);
+    pThumbnailListView->setFocusPolicy(Qt::NoFocus);
     int m_Baseheight =  getIBaseHeight();
     if (m_Baseheight == 0) {
         return;

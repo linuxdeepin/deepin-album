@@ -192,6 +192,14 @@ void ImportTimeLineView::resizeHand()
     }
 }
 
+ThumbnailListView *ImportTimeLineView::getFirstListView()
+{
+    if (m_allThumbnailListView.count() > 0)
+        return m_allThumbnailListView.at(0);
+    else
+        return nullptr;
+}
+
 void ImportTimeLineView::updateSize()
 {
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
@@ -369,6 +377,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
+    pSuspensionChose->setFocusPolicy(Qt::NoFocus);
     AC_SET_OBJECT_NAME(pSuspensionChose, Import_Time_Line_Choose_Button);
     AC_SET_ACCESSIBLE_NAME(pSuspensionChose, Import_Time_Line_Choose_Button);
 
@@ -511,6 +520,7 @@ void ImportTimeLineView::addTimelineLayout()
 
     QHBoxLayout *Layout = new QHBoxLayout();
     DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
+    pChose->setFocusPolicy(Qt::NoFocus);
     m_allChoseButton << pChose;
     DFontSizeManager::instance()->bind(pChose, DFontSizeManager::T5);
     pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
@@ -531,6 +541,7 @@ void ImportTimeLineView::addTimelineLayout()
 
     //添加照片
     ThumbnailListView *pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::NullType, COMMON_STR_RECENT_IMPORTED);
+    pThumbnailListView->setFocusPolicy(Qt::NoFocus);
     int m_Baseheight =  getIBaseHeight();
     if (m_Baseheight == 0) {
         return;

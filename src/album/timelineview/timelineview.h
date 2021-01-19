@@ -62,6 +62,7 @@ public:
     void updateChoseText();
     void restorePicNum();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
+    ThumbnailListView *getFirstListViewFromTimeline();
 
 public slots:
     void on_AddLabel(QString date, QString num);
