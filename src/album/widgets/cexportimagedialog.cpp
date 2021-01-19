@@ -119,7 +119,7 @@ void CExportImageDialog::removeGifType()
 
 void CExportImageDialog::showEvent(QShowEvent *evet)
 {
-    m_fileNameEdit->lineEdit()->setFocus();     //设置焦点
+//    m_fileNameEdit->lineEdit()->setFocus();     //设置焦点
     return QWidget::showEvent(evet);
 }
 
@@ -140,6 +140,7 @@ void CExportImageDialog::initUI()
     setWindowTitle(tr("Export"));
 
     m_fileNameEdit = new DLineEdit(this);
+    m_fileNameEdit->lineEdit()->setFocusPolicy(Qt::NoFocus);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
 
@@ -173,6 +174,7 @@ void CExportImageDialog::initUI()
 
 
     m_savePathCombox = new DComboBox(this);
+    m_savePathCombox->setFocusPolicy(Qt::NoFocus);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
     m_savePathCombox->insertItem(Documents, tr("Documents"));
     m_savePathCombox->insertItem(Downloads, tr("Downloads"));
@@ -185,6 +187,7 @@ void CExportImageDialog::initUI()
 
 
     m_formatCombox = new DComboBox(this);
+    m_formatCombox->setFocusPolicy(Qt::NoFocus);
 //    m_formatCombox->insertItem(JPG, "jpg");
 //    m_formatCombox->insertItem(JPG, "jpeg");
 //    m_formatCombox->insertItem(PNG, "png");
@@ -202,6 +205,7 @@ void CExportImageDialog::initUI()
     m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
+    m_qualitySlider->slider()->setFocusPolicy(Qt::NoFocus);
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
@@ -235,6 +239,7 @@ void CExportImageDialog::initUI()
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
     m_questionDialog = new DDialog(this);
+    m_questionDialog->setFocusPolicy(Qt::NoFocus);
     m_questionDialog->setModal(true);
     m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
     m_questionDialog->setFixedSize(400, 170);
@@ -244,6 +249,9 @@ void CExportImageDialog::initUI()
     m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
     m_emptyWarningDialog->setFixedSize(400, 170);
 
+    QWidget* closeButton =  this->findChild<QWidget*>("DTitlebarDWindowCloseButton");
+    closeButton->setFocusPolicy(Qt::NoFocus);
+    this->setTabOrder(getButton(0), getButton(1));
 }
 
 void CExportImageDialog::initConnection()
@@ -399,6 +407,7 @@ void CExportImageDialog::showEmptyWarningDialog()
 {
     m_emptyWarningDialog->clearContents();
     DWidget *wid = new DWidget();
+    wid->setFocusPolicy(Qt::NoFocus);
 //    DLabel *lab1 = new DLabel();
 //    QFontMetrics elideFont(lab1->font());
     DLabel *lab2 = new DLabel();

@@ -89,6 +89,10 @@ void AlbumCreateDialog::initUI()
     getButton(1)->setFixedSize(170, 35);
     connect(edit, &DLineEdit::textEdited, this, &AlbumCreateDialog::onTextEdited);
     addContent(contentWidget);
+    QWidget* closeButton =  this->findChild<QWidget*>("DTitlebarDWindowCloseButton");
+    closeButton->setFocusPolicy(Qt::NoFocus);
+    edit->lineEdit()->setFocusPolicy(Qt::NoFocus);
+    this->setTabOrder(getButton(0), getButton(1));
 }
 
 void AlbumCreateDialog::initConnection()
@@ -171,7 +175,7 @@ void AlbumCreateDialog::onVisibleChanged(bool v)
 {
     if (! v) return;
     edit->lineEdit()->selectAll();
-    edit->lineEdit()->setFocus();
+//    edit->lineEdit()->setFocus();
 }
 
 void AlbumCreateDialog::onReturnPressed()
