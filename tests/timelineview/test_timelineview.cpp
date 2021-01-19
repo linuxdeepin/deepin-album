@@ -96,7 +96,7 @@ TEST(TimeLineView, dragPhotoToAnAlbum)
     QList<QWidget *> widgets = a->findChildren<QWidget *>("");
     for (int index = 0; index < widgets.count(); index++) {
         if (!strcmp(widgets.at(index)->metaObject()->className(), ("TimelineList"))) {
-            TimelineList *li = static_cast<TimelineList *>(widgets.at(index));
+            TimelineListWidget *li = static_cast<TimelineListWidget *>(widgets.at(index));
             if (li) {
                 QScrollBar *bar = li->verticalScrollBar();
                 bar->setRange(1, 100);

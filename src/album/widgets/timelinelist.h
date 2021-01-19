@@ -11,12 +11,12 @@
 
 DWIDGET_USE_NAMESPACE
 
-class TimelineList : public DListWidget
+class TimelineListWidget : public DListWidget
 {
     Q_OBJECT
 public:
-    explicit TimelineList(QWidget *parent = nullptr);
-    ~TimelineList()
+    explicit TimelineListWidget(QWidget *parent = nullptr);
+    ~TimelineListWidget()
     {
 
     }

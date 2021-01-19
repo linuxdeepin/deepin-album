@@ -65,7 +65,8 @@ QVariant ConfigSetter::value(const QString &group, const QString &key,
 
     QVariant value;
     m_settings->beginGroup(group);
-    value = m_settings->value(key, defaultValue);
+    if (key != "")
+        value = m_settings->value(key, defaultValue);
     m_settings->endGroup();
 
     return value;

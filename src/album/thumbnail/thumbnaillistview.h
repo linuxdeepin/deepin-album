@@ -170,6 +170,8 @@ signals:
 #endif
 
     void sigLoad80ThumbnailsFinish();
+    void sigMoveToTrash();
+
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -216,13 +218,16 @@ private:
     void addThumbnailView();
     void sendNeedResize(/*int height*/);
 
+public:
     // zy 新算法
     void modifyAllPic(ItemInfo &info);
     void cutPixmap(ItemInfo &iteminfo);
     void calgridItems();
     void calBasePixMapWidth();
     void calgridItemsWidth();
+    void setCurrentSelectPath();
 
+private:
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
     void initMenuAction();
@@ -246,7 +251,6 @@ public:
 private:
     int m_iDefaultWidth = 0;
     int m_iBaseHeight = 0;
-    int m_height = 0;
 
     QList<ItemInfo> m_ItemList;
     QList<QList<ItemInfo>> m_gridItem;
@@ -290,8 +294,15 @@ private:
     QPoint lastTouchBeginPos;
     int touchTapDistance;
 
+public:
     int rowSizeHint = 0;
     QList<ItemInfo> m_allItemLeft;//所有待处理的
+    QStringList m_currentDeletePath; //当前选中图片的路径
+    QString m_selectPrePath;//最后选中图片的上一张未选中图片
+    double m_Row = 0.0;
+    int m_timeLineSelectPrePic = 0;
+    int m_height = 0;
+    int m_onePicWidth = 0;
 };
 
 #endif // THUMBNAILLISTVIEW_H

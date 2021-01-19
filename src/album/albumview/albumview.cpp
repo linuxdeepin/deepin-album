@@ -91,13 +91,13 @@ static QMap<QString, QString> opticalmediamap(opticalmediakeys);
 using namespace utils::common;
 Q_DECLARE_METATYPE(QExplicitlySharedDataPointer<DGioMount>)
 
-AlbumViewList::AlbumViewList(QWidget *parent)
+AlbumViewListWidget::AlbumViewListWidget(QWidget *parent)
     : DListWidget(parent), m_scrollbartopdistance(130), m_scrollbarbottomdistance(27)
 {
-    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, &AlbumViewList::on_rangeChanged);
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, &AlbumViewListWidget::on_rangeChanged);
 }
 
-void AlbumViewList::paintEvent(QPaintEvent *e)
+void AlbumViewListWidget::paintEvent(QPaintEvent *e)
 {
     QListWidget::paintEvent(e);
     QScrollBar *bar = this->verticalScrollBar();
@@ -105,7 +105,7 @@ void AlbumViewList::paintEvent(QPaintEvent *e)
                      this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
 }
 
-void AlbumViewList::on_rangeChanged(int min, int max)
+void AlbumViewListWidget::on_rangeChanged(int min, int max)
 {
     Q_UNUSED(min);
     Q_UNUSED(max);
@@ -126,7 +126,7 @@ AlbumView::AlbumView()
     , m_pFavoriteTitle(nullptr), m_pFavoritePicTotal(nullptr), m_pPhoneTitle(nullptr)
     , m_pPhonePicTotal(nullptr), m_pSearchView(nullptr), m_vfsManager(nullptr)
     , m_diskManager(nullptr), pLabel1(nullptr), pLabel2(nullptr)
-    , m_pImpTimeLineWidget(nullptr), m_importByPhoneWidget(nullptr), m_importByPhoneComboBox(nullptr)
+    , m_pImpTimeLineView(nullptr), m_importByPhoneWidget(nullptr), m_importByPhoneComboBox(nullptr)
     , m_importAllByPhoneBtn(nullptr), m_importSelectByPhoneBtn(nullptr), m_mountPicNum(0)
     , m_LoadThread(nullptr), m_spinner(nullptr)
     , m_pImportTitle(nullptr), m_noTrashItem(nullptr), m_pNoTrashTitle(nullptr)
@@ -189,7 +189,7 @@ AlbumView::~AlbumView()
     ImageEngineImportObject::clearAndStopThread();
     ImageMountGetPathsObject::clearAndStopThread();
     ImageMountImportPathsObject::clearAndStopThread();
-    m_pImpTimeLineWidget->getFatherStatusBar(nullptr);
+    m_pImpTimeLineView->getFatherStatusBar(nullptr);
 //    if (m_vfsManager) {
 //        delete  m_vfsManager;
 //        m_vfsManager = nullptr;
@@ -319,7 +319,7 @@ void AlbumView::initConnections()
     connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onRightPhoneThumbnailListMouseRelease);
-    connect(m_pImpTimeLineWidget, &ImportTimeLineView::sigUpdatePicNum, this, &AlbumView::updatePicNum);
+    connect(m_pImpTimeLineView, &ImportTimeLineView::sigUpdatePicNum, this, &AlbumView::updatePicNum);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onTrashListClicked);
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onTrashListClicked);
 #endif
@@ -340,7 +340,7 @@ void AlbumView::initConnections()
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
     connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, &AlbumView::onLeftListViewMountListWidgetClicked);
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
-    connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineWidget, &ImportTimeLineView::sigResizeTimelineBlock);
+    connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineView, &ImportTimeLineView::sigResizeTimelineBlock);
     //lmh手机加载图片边加载，边传输信息
     connect(dApp->signalM, &SignalManager::sigPhonePath, this, &AlbumView::onPhonePath, Qt::QueuedConnection);
 }
@@ -439,7 +439,7 @@ void AlbumView::initRightView()
     m_pRightPicTotal->setForegroundRole(DPalette::Text);
     m_pRightPicTotal->setPalette(pal);
 
-    m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_RECENT_IMPORTED);
+    m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_CUSTOM);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
 
     pNoTrashVBoxLayout->addSpacing(3);
@@ -448,33 +448,33 @@ void AlbumView::initRightView()
     pNoTrashVBoxLayout->addSpacing(-1);
     pNoTrashVBoxLayout->setContentsMargins(12, 0, 0, 0);  //Edit 3975
 
-    AlbumViewList *lsitWidget = new AlbumViewList();
-    lsitWidget->setContentsMargins(0, 0, 0, 0);
-    lsitWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_noTrashListWidget = new AlbumViewListWidget();
+    m_noTrashListWidget->setContentsMargins(0, 0, 0, 0);
+    m_noTrashListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    lsitWidget->setResizeMode(QListWidget::Adjust);
-    lsitWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    lsitWidget->verticalScrollBar()->setSingleStep(20);
+    m_noTrashListWidget->setResizeMode(QListWidget::Adjust);
+    m_noTrashListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
+    m_noTrashListWidget->verticalScrollBar()->setSingleStep(20);
 
-    lsitWidget->setFrameShape(DTableView::NoFrame);
+    m_noTrashListWidget->setFrameShape(DTableView::NoFrame);
     QVBoxLayout *p_all = new QVBoxLayout();
     p_all->setContentsMargins(0, 0, 0, 0);
-    p_all->addWidget(lsitWidget);
+    p_all->addWidget(m_noTrashListWidget);
     m_pNoTrashWidget->setLayout(p_all);
 
     DWidget *blankWidget = new DWidget();
     QListWidgetItem *item = new QListWidgetItem();
 
     item->setFlags(Qt::NoItemFlags);
-    lsitWidget->insertItem(0, item);
-    lsitWidget->setItemWidget(item, blankWidget);
+    m_noTrashListWidget->insertItem(0, item);
+    m_noTrashListWidget->setItemWidget(item, blankWidget);
     item->setSizeHint(QSize(width(), 83 + 50));
 
     m_noTrashItem = new QListWidgetItem();
     m_noTrashItem->setFlags(Qt::NoItemFlags);
 
-    lsitWidget->insertItem(1, m_noTrashItem);
-    lsitWidget->setItemWidget(m_noTrashItem, m_pRightThumbnailList);
+    m_noTrashListWidget->insertItem(1, m_noTrashItem);
+    m_noTrashListWidget->setItemWidget(m_noTrashItem, m_pRightThumbnailList);
 
     m_pRightThumbnailList->setViewportMargins(-2, 0, 0, 0);
     m_pRightThumbnailList->setContentsMargins(0, 0, 0, 0);
@@ -567,34 +567,34 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
 
-    AlbumViewList *lsitWidget3 = new AlbumViewList();
-    lsitWidget3->setContentsMargins(0, 0, 0, 0);
-    lsitWidget3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_TrashListWidget = new AlbumViewListWidget();
+    m_TrashListWidget->setContentsMargins(0, 0, 0, 0);
+    m_TrashListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    lsitWidget3->setResizeMode(QListWidget::Adjust);
-    lsitWidget3->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    lsitWidget3->verticalScrollBar()->setSingleStep(20);
+    m_TrashListWidget->setResizeMode(QListWidget::Adjust);
+    m_TrashListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
+    m_TrashListWidget->verticalScrollBar()->setSingleStep(20);
 
-    lsitWidget3->setFrameShape(DTableView::NoFrame);
+    m_TrashListWidget->setFrameShape(DTableView::NoFrame);
     QVBoxLayout *p_Trash = new QVBoxLayout();
     p_Trash->setContentsMargins(0, 0, 0, 0);
-    p_Trash->addWidget(lsitWidget3);
+    p_Trash->addWidget(m_TrashListWidget);
     m_pTrashWidget->setLayout(p_Trash);
 
     DWidget *blankWidget3 = new DWidget();
     QListWidgetItem *Trashitem = new QListWidgetItem();
 
     Trashitem->setFlags(Qt::NoItemFlags);
-    lsitWidget3->insertItem(0, Trashitem);
-    lsitWidget3->setItemWidget(Trashitem, blankWidget3);
+    m_TrashListWidget->insertItem(0, Trashitem);
+    m_TrashListWidget->setItemWidget(Trashitem, blankWidget3);
 
     Trashitem->setSizeHint(QSize(width(), 83 + 50));
 
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
 
-    lsitWidget3->insertItem(1, m_TrashitemItem);
-    lsitWidget3->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
+    m_TrashListWidget->insertItem(1, m_TrashitemItem);
+    m_TrashListWidget->setItemWidget(m_TrashitemItem, m_pRightTrashThumbnailList);
 
     m_pRightTrashThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightTrashThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -662,34 +662,32 @@ void AlbumView::initRightView()
 
     pFavoriteVBoxLayout->setContentsMargins(12, 5, 0, 6); //edit 3975
 
-    AlbumViewList *lsitWidget2 = new AlbumViewList();
-    lsitWidget2->setContentsMargins(0, 0, 0, 0);
-    lsitWidget2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_FavListWidget = new AlbumViewListWidget();
+    m_FavListWidget->setContentsMargins(0, 0, 0, 0);
+    m_FavListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    lsitWidget2->setResizeMode(QListWidget::Adjust);
-    lsitWidget2->setVerticalScrollMode(QListWidget::ScrollPerPixel);
-    lsitWidget2->verticalScrollBar()->setSingleStep(20);
+    m_FavListWidget->setResizeMode(QListWidget::Adjust);
+    m_FavListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
+    m_FavListWidget->verticalScrollBar()->setSingleStep(20);
 
-    lsitWidget2->setFrameShape(DTableView::NoFrame);
+    m_FavListWidget->setFrameShape(DTableView::NoFrame);
     QVBoxLayout *p_Favorite = new QVBoxLayout();
     p_Favorite->setContentsMargins(0, 0, 0, 0);
-    p_Favorite->addWidget(lsitWidget2);
+    p_Favorite->addWidget(m_FavListWidget);
     m_pFavoriteWidget->setLayout(p_Favorite);
 
     DWidget *blankWidget2 = new DWidget();
     QListWidgetItem *Favoriteitem = new QListWidgetItem();
 
     Favoriteitem->setFlags(Qt::NoItemFlags);
-    lsitWidget2->insertItem(0, Favoriteitem);
-    lsitWidget2->setItemWidget(Favoriteitem, blankWidget2);
+    m_FavListWidget->insertItem(0, Favoriteitem);
+    m_FavListWidget->setItemWidget(Favoriteitem, blankWidget2);
     Favoriteitem->setSizeHint(QSize(width(), 83 + 50));
 
     m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
-    lsitWidget2->insertItem(1, m_FavoriteItem);
-    lsitWidget2->setItemWidget(m_FavoriteItem, m_pRightFavoriteThumbnailList);
-    qDebug() << "m_pRightThumbnailList height" << m_pRightFavoriteThumbnailList->height() << endl;
-    qDebug() << "listWidget2 height" << lsitWidget2->height() << endl;
+    m_FavListWidget->insertItem(1, m_FavoriteItem);
+    m_FavListWidget->setItemWidget(m_FavoriteItem, m_pRightFavoriteThumbnailList);
 
     m_pRightFavoriteThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightFavoriteThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -813,11 +811,11 @@ void AlbumView::initRightView()
 
     pImportTimeLineWidget = new DWidget();
     pImportTimeLineWidget->setBackgroundRole(DPalette::Window);
-    m_pImpTimeLineWidget = new ImportTimeLineView(pImportTimeLineWidget);
-    m_pImpTimeLineWidget->setContentsMargins(2, 0, 0, 0);
-    m_pImpTimeLineWidget->getFatherStatusBar(m_pStatusBar->m_pSlider);
-    m_pImpTimeLineWidget->clearAndStartLayout();
-    m_pImpTimeLineWidget->move(-5, 0);
+    m_pImpTimeLineView = new ImportTimeLineView(pImportTimeLineWidget);
+    m_pImpTimeLineView->setContentsMargins(2, 0, 0, 0);
+    m_pImpTimeLineView->getFatherStatusBar(m_pStatusBar->m_pSlider);
+    m_pImpTimeLineView->clearAndStartLayout();
+    m_pImpTimeLineView->move(-5, 0);
 //add end 3975
 // Add View
     m_pRightStackWidget->addWidget(m_pImportView);       // 空白导入界面
@@ -909,11 +907,11 @@ void AlbumView::updateRightImportView()
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
 
     if (0 < m_iAlubmPicsNum) {
-        m_pImpTimeLineWidget->clearAndStartLayout();
+        m_pImpTimeLineView->clearAndStartLayout();
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
         m_pStatusBar->setVisible(true);
     } else {
-        m_pImpTimeLineWidget->clearAndStartLayout();
+        m_pImpTimeLineView->clearAndStartLayout();
         m_pImportView->setAlbumname(QString());
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
@@ -1065,6 +1063,8 @@ void AlbumView::updateRightNoTrashView()
 
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(true);
+    int value = static_cast<int>(m_noTrashListWidget->verticalScrollBar()->maximum() * m_pRightThumbnailList->m_Row);
+    m_noTrashListWidget->verticalScrollBar()->setValue(value + 100);
 }
 
 void AlbumView::updateRightTrashView()
@@ -1290,9 +1290,10 @@ void AlbumView::onKeyDelete()
     QStringList paths;
     paths.clear();
     if (COMMON_STR_RECENT_IMPORTED == m_currentType) {
-        paths = m_pImpTimeLineWidget->selectPaths();
+        paths = m_pImpTimeLineView->selectPaths();
         if (0 < paths.length()) {
             bMoveToTrash = true;
+            m_pImpTimeLineView->getCurrentSelectPics();//获取选中图片
         }
     } else if (COMMON_STR_TRASH == m_currentType) {
         paths = m_pRightTrashThumbnailList->selectedPaths();
@@ -1300,6 +1301,7 @@ void AlbumView::onKeyDelete()
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
             dialog->setObjectName("deteledialog");
             if (dialog->exec() > 0) {
+                m_pRightTrashThumbnailList->setCurrentSelectPath();
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
                 onTrashListClicked();
             }
@@ -1307,6 +1309,7 @@ void AlbumView::onKeyDelete()
     } else if (COMMON_STR_FAVORITES == m_currentType) {
         paths = m_pRightFavoriteThumbnailList->selectedPaths();
         if (0 < paths.length()) {
+            m_pRightFavoriteThumbnailList->setCurrentSelectPath();
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
@@ -1346,6 +1349,7 @@ void AlbumView::onKeyDelete()
     }
     // 删除选中照片
     if (bMoveToTrash) {
+        m_pRightThumbnailList->setCurrentSelectPath();
         ImageEngineApi::instance()->moveImagesToTrash(paths);
     }
 }
@@ -1555,58 +1559,6 @@ const QList<QExplicitlySharedDataPointer<DGioMount>> AlbumView::getVfsMountList(
     }
     return result;
 }
-
-//void AlbumView::loadMountPicture(QString path)
-//{
-//    //判断路径是否存在
-//    QDir dir(path);
-//    if (!dir.exists()) return;
-//    //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,在调用findPicturePathByPhone函数搜索DCIM文件目录
-//    if (!path.contains("/media/")) {
-//        bool bFind = findPicturePathByPhone(path);
-//        if (!bFind) return;
-//    }
-//    //获取所选文件类型过滤器
-//    QStringList filters;
-//    filters << QString("*.jpeg") << QString("*.jpg")
-//            << QString("*.JPEG") << QString("*.JPG");
-//    //定义迭代器并设置过滤器
-//    QDirIterator dir_iterator(path, filters, QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
-//    QStringList string_list;
-//    while (dir_iterator.hasNext()) {
-//        dir_iterator.next();
-//        QFileInfo fileInfo = dir_iterator.fileInfo();
-//        QImage tImg;
-//        QString format = UnionImage_NameSpace::detectImageFormat(fileInfo.filePath());
-//        if (format.isEmpty()) {
-//            QImageReader reader(fileInfo.filePath());
-//            reader.setAutoTransform(true);
-//            if (reader.canRead() && reader.imageCount() > 0) {
-//                tImg = reader.read();
-//            } else {
-//                tImg = QImage();
-//            }
-//        } else {
-//            QImageReader readerF(fileInfo.filePath(), format.toLatin1());
-//            readerF.setAutoTransform(true);
-//            if (readerF.canRead() && readerF.imageCount() > 0) {
-//                tImg = readerF.read();
-//            } else {
-//                qDebug() << "can't read image:" << readerF.errorString() << format;
-//                tImg = QImage();
-//            }
-//        }
-//        QPixmap pixmap = QPixmap::fromImage(tImg);
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap(":/resources/images/other/deepin-album.svg");
-//        }
-//        pixmap.scaledToHeight(100,  Qt::FastTransformation);
-//        if (pixmap.isNull()) {
-//            pixmap = QPixmap::fromImage(tImg);
-//        }
-//        m_phonePicMap.insert(fileInfo.filePath(), pixmap);
-//    }
-//}
 
 void AlbumView::importComboBoxChange(QString strText)
 {
@@ -1968,7 +1920,7 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
         currentViewList = m_pRightTrashThumbnailList;
         dropItemPaths = currentViewList->getDagItemPath();
     } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
-        dropItemPaths = m_pImpTimeLineWidget->selectPaths();
+        dropItemPaths = m_pImpTimeLineView->selectPaths();
     } else {
         currentViewList = m_pRightThumbnailList;
         dropItemPaths = currentViewList->getDagItemPath();
@@ -1997,7 +1949,7 @@ void AlbumView::updatePicNum()
             QStringList paths = m_pRightFavoriteThumbnailList->selectedPaths();
             selPicNum = paths.length();
         } else if (m_currentAlbum == COMMON_STR_RECENT_IMPORTED) {
-            QStringList paths = m_pImpTimeLineWidget->selectPaths();
+            QStringList paths = m_pImpTimeLineView->selectPaths();
             selPicNum = paths.length();
         } else if (5 == m_pRightStackWidget->currentIndex()) {
             QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
@@ -2150,7 +2102,7 @@ void AlbumView::onInsertedIntoAlbum(QString albumname, QStringList pathlist)
 
 void AlbumView::onFinishLoad()
 {
-    m_pImpTimeLineWidget->m_mainListWidget->update();
+    m_pImpTimeLineView->m_mainListWidget->update();
     m_pRightThumbnailList->update();
     m_pRightFavoriteThumbnailList->update();
     m_pRightTrashThumbnailList->update();
@@ -2399,7 +2351,7 @@ void AlbumView::onPhonePath(QString PhoneName, QString pathName)
 void AlbumView::resizeEvent(QResizeEvent *e)
 {
     m_spinner->move(width() / 2 + 60, (height() - 50) / 2 - 20);
-    m_pImpTimeLineWidget->setFixedSize(width() - 181, height());
+    m_pImpTimeLineView->setFixedSize(width() - 181, height());
     m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
     if (nullptr != m_noTrashItem) {

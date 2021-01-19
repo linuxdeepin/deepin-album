@@ -49,12 +49,12 @@ DCORE_USE_NAMESPACE
 class DGioVolumeManager;
 class AlbumView;
 
-
-class AlbumViewList : public DListWidget
+/*相册界面右边展示界面类*/
+class AlbumViewListWidget : public DListWidget
 {
     Q_OBJECT
 public:
-    explicit AlbumViewList(QWidget *parent = nullptr);
+    explicit AlbumViewListWidget(QWidget *parent = nullptr);
 protected:
     void paintEvent(QPaintEvent *e) override;
 
@@ -230,7 +230,7 @@ private:
     DLabel *pLabel2;
 
     // 已导入窗体
-    ImportTimeLineView *m_pImpTimeLineWidget;
+    ImportTimeLineView *m_pImpTimeLineView;
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
@@ -253,7 +253,7 @@ private:
     //add start 3975
     QListWidgetItem *m_noTrashItem;
     DWidget *m_pNoTrashTitle;
-    DWidget *m_pNoTrashWidget;
+    DWidget *m_pNoTrashWidget;//自定义相册右侧展示界面外层窗口
     QListWidgetItem *m_FavoriteItem;
     DWidget *m_FavoriteTitle;
     QListWidgetItem *m_TrashitemItem;
@@ -269,6 +269,10 @@ private:
     bool isMountThreadRunning;
     int m_currentViewPictureCount;
     QMutex m_mutex;
+public:
+    AlbumViewListWidget *m_TrashListWidget;
+    AlbumViewListWidget *m_noTrashListWidget;
+    AlbumViewListWidget *m_FavListWidget;
 };
 
 #endif // ALBUMVIEW_H

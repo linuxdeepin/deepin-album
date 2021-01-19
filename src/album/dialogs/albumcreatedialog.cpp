@@ -56,8 +56,6 @@ void AlbumCreateDialog::initUI()
     DWidget *contentWidget = new DWidget(this);
     contentWidget->setContentsMargins(0, 0, 0, 0);
 
-    //contentWidget->setStyleSheet("background:transparent;border:2px solid red;");
-
     //图标
     DLabel *logoLable = new DLabel(this);
     QIcon icon = QIcon::fromTheme("deepin-album");

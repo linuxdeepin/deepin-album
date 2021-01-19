@@ -104,7 +104,7 @@ public slots:
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
 
 private:
-    TimelineList *m_mainListWidget;
+    TimelineListWidget *m_mainListWidget;
     QLayout *m_mainLayout;
     QList<QString> m_timelines;
     QWidget *m_dateItem;
@@ -135,6 +135,9 @@ public:
     int m_selPicNum;
     DSpinner *m_spinner;
     int currentTimeLineLoad;
+    QString selectPrePaths = "";//跳转的上一图片位置
+    int hasPicView = -1;//包含跳转图片的view索引
+    bool isFindPic = false;
 };
 
 #endif // TIMELINEVIEW_H

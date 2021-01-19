@@ -30,7 +30,7 @@ TEST(ImportTimeLineView, getIBaseHeight_test)
     w->albumBtnClicked();
     QTest::qWait(500);
 
-    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
+    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineView;
     int a = 0;
     stub_ext::StubExt stu;
     stu.set_lamda(ADDR(DSlider, value), [&a]() {
@@ -51,7 +51,7 @@ TEST(ImportTimeLineView, test_func)
     w->albumBtnClicked();
     QTest::qWait(500);
 
-    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
+    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineView;
     impTimeline->updateChoseText();
 
     emit impTimeline->pSuspensionChose->clicked();
@@ -71,7 +71,7 @@ TEST(ImportTimeLineView, on_KeyEvent_test)
     w->albumBtnClicked();
     QTest::qWait(500);
 
-    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
+    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineView;
     impTimeline->on_KeyEvent(Qt::Key_PageDown);
     QTest::qWait(100);
     impTimeline->on_KeyEvent(Qt::Key_PageUp);
@@ -86,7 +86,7 @@ TEST(ImportTimeLineView, resizeHand_test)
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
-    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
+    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineView;
     impTimeline->resizeHand();
     QTest::qWait(500);
 }
@@ -108,7 +108,7 @@ TEST(ImportTimeLineView, thumbnaillistViewSlot_test)
     event.simulate(a->m_pLeftListView->m_pPhotoLibListView->viewport());
     QTest::qWait(1000);
 
-    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineWidget;
+    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineView;
     if (impTimeline->m_allThumbnailListView.count() > 0) {
         ThumbnailListView *tempThumbnailListView =  impTimeline->m_allThumbnailListView.first();
         ViewPanel *viewPanel = nullptr;

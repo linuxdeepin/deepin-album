@@ -561,7 +561,6 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
         for (int j = 0; j < gridItem[i].length(); j++) {
             QStandardItem *item = new QStandardItem;
             QString qsfirstorlast = "NotFirstOrLast";
-            int height = gridItem[i][j].height;
 
             QVariantList datas;
             datas.append(QVariant(gridItem[i][j].name));
@@ -607,6 +606,29 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
     if (hightlast != m_height) {
         sendNeedResize();
     }
+
+    if (m_selectPrePath.length() > 0) {
+        this->clearSelection();
+        QModelIndex lastIndex;
+        int rowcount = m_model->rowCount();
+        for (int i = 0; i < rowcount; i++) {
+            for (int j = 0 ; j < m_model->columnCount(); j++) {
+                QVariantList datas = m_model->item(i, j)->data(Qt::DisplayRole).toList();
+                QString path;
+                if (datas.length() >= 2) {
+                    path = datas[1].toString();
+                }
+                if (m_selectPrePath == path) {
+                    lastIndex = m_model->item(i, j)->index();
+                    if (lastIndex.isValid()) {
+                        m_Row = m_model->item(i, j)->row() / m_model->rowCount();
+                        this->scrollTo(lastIndex, ScrollHint::PositionAtCenter);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void ThumbnailListView::addThumbnailView()
@@ -624,7 +646,6 @@ void ThumbnailListView::addThumbnailView()
         for (int j = 0; j < m_gridItem[i].length(); j++) {
             QStandardItem *item = new QStandardItem;
             QString qsfirstorlast = "NotFirstOrLast";
-            int height = m_gridItem[i][j].height;
 
             QVariantList datas;
             datas.append(QVariant(m_gridItem[i][j].name));
@@ -689,8 +710,6 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                     ++item;
                 }
                 m_gridItem[i][j] = info;
-
-                int height = m_gridItem[i][j].height;
                 QVariantList newdatas;
                 QString qsfirstorlast = "NotFirstOrLast";
 
@@ -874,23 +893,10 @@ QStringList ThumbnailListView::getAllFileList()
     return m_allfileslist;
 }
 
-//void ThumbnailListView::setListWidgetItem(QListWidgetItem *item)
-//{
-//    m_item = item;
-//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//}
-
 void ThumbnailListView::setIBaseHeight(int iBaseHeight)
 {
     m_iBaseHeight = iBaseHeight;
 }
-
-//void ThumbnailListView::setVScrollbarDistance(int topdistance, int bottomdistance)
-//{
-//    m_scrollbartopdistance = topdistance;
-//    m_scrollbarbottomdistance = bottomdistance;
-//}
 
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
@@ -1139,12 +1145,19 @@ void ThumbnailListView::onMenuItemClicked(QAction *action)
 QStringList ThumbnailListView::selectedPaths()
 {
     QStringList paths;
+    bool first = true;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
         if (datas.length() >= 8) {
             paths << datas[1].toString();
         }
+        if (first) {
+            m_timeLineSelectPrePic = index.row() - 1;
+            if (m_timeLineSelectPrePic < 0)
+                m_timeLineSelectPrePic = 0;
+        }
     }
+    m_currentDeletePath = paths;
     return paths;
 }
 
@@ -1214,6 +1227,9 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         if (dialog->exec() > 0) {
             // 只更新部分，删除
             updateModelRoleData("", IdMoveToTrash);
+            if (COMMON_STR_VIEW_TIMELINE == m_imageType || COMMON_STR_RECENT_IMPORTED == m_imageType) {
+                emit sigMoveToTrash();
+            }
             (COMMON_STR_TRASH == m_imageType) ? ImageEngineApi::instance()->moveImagesToTrash(paths, true, false) : ImageEngineApi::instance()->moveImagesToTrash(paths);
         }
     }
@@ -1338,7 +1354,6 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-    qDebug() << "zy--------ThumbnailListView::resizeEvent";
     if (e->size().width() == e->oldSize().width()) {
 //        qDebug() << "宽度没有改变，证明是导入图片改变了高度";
         return;
@@ -1428,12 +1443,6 @@ QModelIndexList ThumbnailListView::getSelectedIndexes()
     return selectedIndexes();
 }
 
-//void ThumbnailListView::selectCurrent(int row)
-//{
-//    QModelIndex qindex = m_model->index(row, 0);
-//    selectionModel()->select(qindex, QItemSelectionModel::Select);
-//}
-
 int ThumbnailListView::getRow(QPoint point)
 {
     return indexAt(point).row();
@@ -1462,30 +1471,6 @@ void ThumbnailListView::selectExtent(int start, int end)
         selectionModel()->select(qindex, QItemSelectionModel::Select);
     }
 }
-
-//void ThumbnailListView::clearSelectionRear(int row)
-//{
-//    for (int i = row; i < m_model->rowCount(); i++) {
-//        QModelIndex qindex = m_model->index(i, 0);
-//        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
-//    }
-//}
-
-//void ThumbnailListView::clearSelectionFront(int row)
-//{
-//    for (int i = row; i >= 0; i--) {
-//        QModelIndex qindex = m_model->index(i, 0);
-//        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
-//    }
-//}
-
-//void ThumbnailListView::clearSelectionExtent(int start, int end)
-//{
-//    for (int i = start; i <= end; i++) {
-//        QModelIndex qindex = m_model->index(i, 0);
-//        selectionModel()->select(qindex, QItemSelectionModel::Deselect);
-//    }
-//}
 
 void ThumbnailListView::resizeHand()
 {
@@ -1607,6 +1592,7 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
             m_model->setItemData(index, tempData);
         }
     }
+	setCurrentSelectPath();
     QStringList paths;
     paths.clear();
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
@@ -1840,6 +1826,7 @@ void ThumbnailListView::calgridItems()
     int i_totalwidth = width() - 30;
     rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);//计算一行能放几个
     int currentwidth = (i_totalwidth - ITEM_SPACING * (rowSizeHint - 1)) / rowSizeHint;//一张图的宽度
+    m_onePicWidth = currentwidth;
     if (currentwidth < 1)
         return;
 
@@ -1897,6 +1884,7 @@ void ThumbnailListView::calgridItemsWidth()
     //计算一行的个数
     rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
     int currentwidth = (i_totalwidth - ITEM_SPACING * (rowSizeHint - 1)) / rowSizeHint;//一张图的宽度
+    m_onePicWidth = currentwidth;
     if (currentwidth < 80)
         currentwidth = 80;
 
@@ -1924,6 +1912,34 @@ void ThumbnailListView::calgridItemsWidth()
 
         m_height = (m_gridItem[0][0].height + ITEM_SPACING) * m_row;
         m_height -= ITEM_SPACING;
+    }
+}
+
+void ThumbnailListView::setCurrentSelectPath()
+{
+    m_currentDeletePath.clear();
+    m_selectPrePath = "";
+
+    int row;//最后选中的索引
+    for (int i = 0; i < selectionModel()->selectedIndexes().size(); i++) {
+        QModelIndex index = selectionModel()->selectedIndexes().at(i);
+        m_currentDeletePath.append(index.model()->data(index, Qt::DisplayRole).toList().at(1).toString());
+        if (i == selectionModel()->selectedIndexes().size() - 1) {
+            row = index.row();
+            while (m_currentDeletePath.contains(index.model()->data(index, Qt::DisplayRole).toList().at(1).toString())) {
+                if (row > 0) {
+                    row -= 1;
+                    QModelIndex indextemp = index.model()->index(row, 0);
+                    if (indextemp.isValid()) {
+                        m_selectPrePath = indextemp.data(Qt::DisplayRole).toList().at(1).toString();
+                    }
+                } else {
+                    break;
+                }
+                if (!m_currentDeletePath.contains(m_selectPrePath))
+                    break;
+            }
+        }
     }
 }
 

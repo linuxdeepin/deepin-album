@@ -2,7 +2,7 @@
 #include "controller/signalmanager.h"
 #include <QScrollBar>
 
-TimelineList::TimelineList(QWidget *parent)
+TimelineListWidget::TimelineListWidget(QWidget *parent)
     : DListWidget(parent), has(false), m_scrollbartopdistance(50)
     , m_scrollbarbottomdistance(27)
 {
@@ -12,18 +12,18 @@ TimelineList::TimelineList(QWidget *parent)
     setFlow(QListView::TopToBottom);
     setSpacing(0);
     setDragEnabled(false);
-    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, &TimelineList::onRangeChanged);
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, this, &TimelineListWidget::onRangeChanged);
     installEventFilter(this);
 }
 
-void TimelineList::addItemForWidget(QListWidgetItem *aitem)
+void TimelineListWidget::addItemForWidget(QListWidgetItem *aitem)
 {
     int y = 1;
     yList.append(y);
     this->addItem(aitem);
 }
 
-void TimelineList::onRangeChanged(int min, int max)
+void TimelineListWidget::onRangeChanged(int min, int max)
 {
     Q_UNUSED(max);
     Q_UNUSED(min);
@@ -31,17 +31,17 @@ void TimelineList::onRangeChanged(int min, int max)
     bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
 }
 
-void TimelineList::dragMoveEvent(QDragMoveEvent *event)
+void TimelineListWidget::dragMoveEvent(QDragMoveEvent *event)
 {
     return QListWidget::dragMoveEvent(event);
 }
 
-void TimelineList::mouseMoveEvent(QMouseEvent *event)
+void TimelineListWidget::mouseMoveEvent(QMouseEvent *event)
 {
     return QListWidget::mouseMoveEvent(event);
 }
 
-void TimelineList::paintEvent(QPaintEvent *e)
+void TimelineListWidget::paintEvent(QPaintEvent *e)
 {
     QListWidget::paintEvent(e);
     QScrollBar *bar = this->verticalScrollBar();
@@ -91,7 +91,7 @@ void TimelineList::paintEvent(QPaintEvent *e)
     }
 }
 
-bool TimelineList::eventFilter(QObject *obj, QEvent *e)
+bool TimelineListWidget::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier) {

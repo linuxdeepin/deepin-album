@@ -80,11 +80,43 @@ int ImportTimeLineView::getIBaseHeight()
     }
 }
 
+void ImportTimeLineView::getCurrentSelectPics()
+{
+    bool bDeleteAll = false;
+    bool first = true;
+    QStringList paths;
+
+    for (int i = 0; i < m_allThumbnailListView.size(); i++) {
+        paths << m_allThumbnailListView[i]->selectedPaths();
+        bDeleteAll = m_allThumbnailListView[i]->isAllPicSeleted();
+        if (first && paths.length() > 0) {
+            if (!bDeleteAll) {
+                selectPrePaths = m_allThumbnailListView[i]->m_model->index(m_allThumbnailListView[i]->m_timeLineSelectPrePic, 0).data().toList().at(1).toString();
+                int index = 1;
+                while (paths.contains(selectPrePaths)) {
+                    selectPrePaths = m_allThumbnailListView[i]->m_model->index(index, 0).data().toList().at(1).toString();
+                    index ++ ;
+                    if (index == m_allThumbnailListView[i]->m_model->rowCount() - 1)
+                        break;
+                }
+            } else {
+                if (i > 1) {
+                    selectPrePaths = m_allThumbnailListView[i - 1]->m_model->index(0, 0).data().toList().at(1).toString();
+                } else {
+                    selectPrePaths = "";
+                }
+            }
+            first = false;
+        }
+    }
+}
+
+
 void ImportTimeLineView::initConnections()
 {
-    connect(m_mainListWidget, &TimelineList::sigNewTime, this, &ImportTimeLineView::onNewTime);
-    connect(m_mainListWidget, &TimelineList::sigDelTime, this, &ImportTimeLineView::on_DelLabel);
-    connect(m_mainListWidget, &TimelineList::sigMoveTime, this, &ImportTimeLineView::on_MoveLabel);
+    connect(m_mainListWidget, &TimelineListWidget::sigNewTime, this, &ImportTimeLineView::onNewTime);
+    connect(m_mainListWidget, &TimelineListWidget::sigDelTime, this, &ImportTimeLineView::on_DelLabel);
+    connect(m_mainListWidget, &TimelineListWidget::sigMoveTime, this, &ImportTimeLineView::on_MoveLabel);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &ImportTimeLineView::themeChangeSlot);
     // 重复导入图片选中
     connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &ImportTimeLineView::onRepeatImportingTheSamePhotos);
@@ -250,7 +282,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     pTimeLineViewWidget->setPalette(palcolor);
 
-    m_mainListWidget = new TimelineList(this);
+    m_mainListWidget = new TimelineListWidget(this);
     m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(20);
@@ -393,7 +425,6 @@ void ImportTimeLineView::clearAndStartLayout()
 
 
     if (0 < m_timelines.size()) {
-
     } else {
         m_dateItem->setVisible(false);
     }
@@ -419,7 +450,6 @@ void ImportTimeLineView::addTimelineLayout()
         return;
     }
     int nowTimeLineLoad = currentTimeLineLoad;
-//    for (int i = 0; i < m_timelines.size(); i++) {
     //获取当前时间照片
     DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(m_timelines.at(nowTimeLineLoad));
 
@@ -525,6 +555,7 @@ void ImportTimeLineView::addTimelineLayout()
             listItem->setFixedHeight(TitleView->height() + mh);
             item->setSizeHint(listItem->rect().size());
         }
+//        m_mainListWidget->verticalScrollBar()->setValue(m_goToHeight);
     });
 
     m_allThumbnailListView.append(pThumbnailListView);
@@ -535,6 +566,7 @@ void ImportTimeLineView::addTimelineLayout()
     //保存当前时间照片
     pThumbnailListView->loadFilesFromLocal(ImgInfoList);
     pThumbnailListView->m_imageType = COMMON_STR_RECENT_IMPORTED;
+    connect(pThumbnailListView, &ThumbnailListView::sigMoveToTrash, this, &ImportTimeLineView::getCurrentSelectPics);
 
     if (0 == nowTimeLineLoad) {
         DWidget *topwidget = new DWidget;
@@ -794,7 +826,6 @@ void ImportTimeLineView::addTimelineLayout()
         emit sigUpdatePicNum();
         updateChoseText();
     });
-
 #endif
     connect(m_allThumbnailListView[nowTimeLineLoad], &ThumbnailListView::sigKeyEvent, this, &ImportTimeLineView::on_KeyEvent);
     emit sigUpdatePicNum();
@@ -804,6 +835,66 @@ void ImportTimeLineView::addTimelineLayout()
     if (m_bshow) {
         updateSize();
     }
+
+    //判断跳转位置图片是否包含在当前listview
+    if (selectPrePaths.length() > 0 && !isFindPic) {
+        for (DBImgInfo &imgInfo : ImgInfoList) {
+            if (imgInfo.filePath == selectPrePaths) {
+                hasPicViewNum = nowTimeLineLoad;
+                qDebug() << "have find pic view num: " << hasPicViewNum;
+                isFindPic = true;
+                break;
+            }
+        }
+    }
+    QTimer::singleShot(150, this, [ = ] {
+        if (nowTimeLineLoad == m_timelines.size() - 1 && hasPicViewNum >= 0)
+        {
+            int height = 0;
+            for (int i = 0; i < m_timelines.size(); i++) {
+                if (i < hasPicViewNum) {
+                    height = height + m_allThumbnailListView[i]->height() + m_allChoseButton[0]->height();
+                }
+                if (i == hasPicViewNum) {
+                    for (int j = 0; j < m_allThumbnailListView[i]->m_model->rowCount(); j ++) {
+                        QModelIndex index = m_allThumbnailListView[i]->m_model->index(j, 0);
+                        QVariantList lst = index.model()->data(index, Qt::DisplayRole).toList();
+                        int rowcount = 0;
+                        int allrowcount = 0;
+                        if (lst.count() >= 12) {
+                            QString path = lst.at(1).toString();
+                            if (path == selectPrePaths) {
+                                if (index.row() % m_allThumbnailListView[i]->rowSizeHint == 0) {
+                                    rowcount = index.row() / m_allThumbnailListView[i]->rowSizeHint;
+                                } else {
+                                    rowcount = index.row() / m_allThumbnailListView[i]->rowSizeHint + 1;
+                                }
+                                if ((m_allThumbnailListView[i]->m_model->rowCount() % m_allThumbnailListView[i]->rowSizeHint) == 0) {
+                                    allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->rowSizeHint ;
+                                } else {
+                                    allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->rowSizeHint + 1;
+                                }
+                                double tempheight = rowcount / static_cast<double>(allrowcount);
+                                int thumbnailheight =  m_allThumbnailListView[i]->m_height;
+                                double finalheight = tempheight * thumbnailheight;
+                                height = height + static_cast<int>(finalheight) ;
+
+                                if (hasPicViewNum == 0)
+                                    height = height - m_allThumbnailListView[i]->m_onePicWidth;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+
+            m_mainListWidget->verticalScrollBar()->setValue(height);
+            hasPicViewNum = -1;
+            selectPrePaths = "";
+            isFindPic = false;
+        }
+    });
 }
 
 void ImportTimeLineView::getFatherStatusBar(DSlider *s)

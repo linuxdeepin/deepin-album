@@ -67,59 +67,22 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
                             QPainter::SmoothPixmapTransform |
                             QPainter::Antialiasing);
     QRect backgroundRect = option.rect;
-//    if (AllPicViewType == m_delegatetype) {
-//        if ("First" == data.firstorlast) {
-//            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-//            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 50);
-//            //绘制
-//            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-//            backgroundRect.setY(backgroundRect.y() + 50);
-//            delete FrameOption;
-//        }
-//        if ("Last" == data.firstorlast) {
-//            backgroundRect.setHeight(backgroundRect.height() - 27);
-//        }
-//    } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
-//        if ("Last" == data.firstorlast) {
-//            backgroundRect.setHeight(backgroundRect.height() - 27);
-//        }
-//    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
-//        if ("First" == data.firstorlast) {
-//            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-//            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 134);
-//            //绘制
-//            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-//            backgroundRect.setY(backgroundRect.y() + 134);
-//        }
-//        if ("Last" == data.firstorlast) {
-//            backgroundRect.setHeight(backgroundRect.height() - 27);
-//        }
-//    }
     //选中阴影框
-//    QBrush  backbrush;
     if (selected) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
         painter->setClipPath(backgroundBp);
 
         QBrush  shadowbrush;
-//        QBrush  backbrush;
         QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
-//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
-//            backbrush = QBrush(utils::common::LIGHT_BACKGROUND_COLOR);
             shadowbrush = QBrush(QColor("#DEDEDE"));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
-//            selectedPixmap = utils::base::renderSVG(":/images/logo/resources/images/other/photo_checked_dark.svg", QSize(data.width, data.height));
-//            backbrush = QBrush(utils::common::DARK_BACKGROUND_COLOR2);
-//            shadowbrush = QBrush(QColor("#1E1E1E"));
             shadowbrush = QBrush(QColor("#4F4F4F"));
         }
         painter->fillRect(backgroundRect, shadowbrush);
-//        painter->drawPixmap(backgroundRect, selectedPixmap);
-//        painter->drawPath(backgroundBp);
 
         //绘制选中默认背景
         QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);

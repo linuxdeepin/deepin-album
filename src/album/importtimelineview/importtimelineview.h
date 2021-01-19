@@ -37,11 +37,13 @@ public:
     }
     void updateStackedWidget();
     int getIBaseHeight();
+    int getGoToHeight();
 
 signals:
     void sigResizeTimelineBlock();
-public slots:
 
+public slots:
+    void getCurrentSelectPics();
     void on_AddLabel(QString date, QString num);
     void on_DelLabel();
 #if 1
@@ -122,8 +124,11 @@ private:
 
 public:
     int m_index;
-    TimelineList *m_mainListWidget;
+    TimelineListWidget *m_mainListWidget;
     int currentTimeLineLoad;
+    QString selectPrePaths = "";//跳转的上一图片位置
+    int hasPicViewNum = -1;//包含跳转图片的view索引
+    bool isFindPic = false;
 };
 
 #endif // IMPORTTIMELINEVIEW_H

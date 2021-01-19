@@ -339,5 +339,6 @@ void AllPicView::onKeyDelete()
     if (0 >= paths.length()) {
         return;
     }
+    m_pThumbnailListView->setCurrentSelectPath();
     ImageEngineApi::instance()->moveImagesToTrash(paths);
 }

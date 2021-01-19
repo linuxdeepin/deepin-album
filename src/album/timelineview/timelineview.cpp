@@ -77,9 +77,9 @@ void TimeLineView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::clearAndStartLayout);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::clearAndStartLayout);
     connect(dApp, &Application::sigFinishLoad, this, &TimeLineView::onFinishLoad);
-    connect(m_mainListWidget, &TimelineList::sigNewTime, this, &TimeLineView::onNewTime);
-    connect(m_mainListWidget, &TimelineList::sigDelTime, this, &TimeLineView::on_DelLabel);
-    connect(m_mainListWidget, &TimelineList::sigMoveTime, this, &TimeLineView::on_MoveLabel);
+    connect(m_mainListWidget, &TimelineListWidget::sigNewTime, this, &TimeLineView::onNewTime);
+    connect(m_mainListWidget, &TimelineListWidget::sigDelTime, this, &TimeLineView::on_DelLabel);
+    connect(m_mainListWidget, &TimelineListWidget::sigMoveTime, this, &TimeLineView::on_MoveLabel);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
@@ -160,7 +160,7 @@ void TimeLineView::initTimeLineViewWidget()
     DPalette palcolor = DApplicationHelper::instance()->palette(pTimeLineViewWidget);
     palcolor.setBrush(DPalette::Window, palcolor.color(DPalette::Base));
     pTimeLineViewWidget->setPalette(palcolor);
-    m_mainListWidget = new TimelineList;
+    m_mainListWidget = new TimelineListWidget;
     QScrollBar *pHorizontalBar = m_mainListWidget->horizontalScrollBar();
     pHorizontalBar->setEnabled(false);
     pHorizontalBar->setVisible(false);
@@ -267,9 +267,9 @@ int TimeLineView::getIBaseHeight()
     int value = m_pStatusBar->m_pSlider->value();
     switch (value) {
     case 0:
-        return  80;
+        return 80;
     case 1:
-        return  90;
+        return 90;
     case 2:
         return 100;
     case 3:
@@ -277,9 +277,9 @@ int TimeLineView::getIBaseHeight()
     case 4:
         return 120;
     case 5:
-        return  130;
+        return 130;
     case 6:
-        return  140;
+        return 140;
     case 7:
         return 150;
     case 8:
@@ -318,10 +318,8 @@ void TimeLineView::clearAndStartLayout()
     currentTimeLineLoad = 0;
     //获取所有时间线
     m_timelines = DBManager::instance()->getAllTimelines();
-    qDebug() << m_timelines.size();
 //    updataLayout();
     addTimelineLayout();
-//    qDebug() << "11";
 }
 
 void TimeLineView::onFinishLoad()
@@ -725,6 +723,7 @@ void TimeLineView::addTimelineLayout()
         updatePicNum();
         updateChoseText();
     });
+    connect(pThumbnailListView, &ThumbnailListView::sigMoveToTrash, this, &TimeLineView::onKeyDelete);//跳转
 #endif
 
     connect(m_allThumbnailListView[nowTimeLineLoad], &ThumbnailListView::sigKeyEvent, this, &TimeLineView::on_KeyEvent);
@@ -736,6 +735,64 @@ void TimeLineView::addTimelineLayout()
 
     updatePicNum();
     currentTimeLineLoad++;
+
+    //判断跳转位置图片是否包含在当前listview
+    if (selectPrePaths.length() > 0) {
+        for (DBImgInfo &imgInfo : ImgInfoList) {
+            if (imgInfo.filePath == selectPrePaths) {
+                hasPicView = nowTimeLineLoad;
+                isFindPic = true;
+                break;
+            }
+        }
+    }
+
+    if (nowTimeLineLoad == m_timelines.size() - 1 && hasPicView >= 0) {
+        int height = 0;
+        for (int i = 0; i < m_timelines.size(); i++) {
+            if (i < hasPicView) {
+                height = height + m_allThumbnailListView[i]->height() + m_allChoseButton[0]->height();
+            } else if (i == hasPicView) {
+                for (int j = 0; j < m_allThumbnailListView[i]->count(); j ++) {
+                    QModelIndex index = m_allThumbnailListView[i]->m_model->index(j, 0);
+                    QVariantList lst = index.model()->data(index, Qt::DisplayRole).toList();
+                    int rowcount = 0;
+                    int allrowcount = 0;
+                    if (lst.count() >= 12) {
+                        QString path = lst.at(1).toString();
+                        if (path == selectPrePaths) {
+                            if ((index.row() % m_allThumbnailListView[i]->rowSizeHint) == 0) {
+                                rowcount = index.row() / m_allThumbnailListView[i]->rowSizeHint;
+                            } else {
+                                rowcount = index.row() / m_allThumbnailListView[i]->rowSizeHint + 1;
+                            }
+                            if ((m_allThumbnailListView[i]->m_model->rowCount() % m_allThumbnailListView[i]->rowSizeHint) == 0) {
+                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->rowSizeHint ;
+                            } else {
+                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->rowSizeHint + 1;
+                            }
+                            double tempheight = rowcount / static_cast<double>(allrowcount);
+                            int thumbnailheight =  m_allThumbnailListView.at(i)->height();
+                            double finalheight = tempheight * thumbnailheight;
+                            height = height + static_cast<int>(finalheight) ;
+                            qDebug() << " ---" << rowcount << allrowcount << tempheight << thumbnailheight << finalheight << height;
+
+                            if (hasPicView == 0)
+                                height = height - m_allThumbnailListView[i]->m_onePicWidth;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        qDebug() << "height: " << height;
+//        m_mainListWidget->setCurrentRow(hasPicView);
+        m_mainListWidget->verticalScrollBar()->setValue(height);
+        hasPicView = -1;
+        selectPrePaths = "";
+        isFindPic = false;
+    }
 }
 
 void TimeLineView::on_AddLabel(QString date, QString num)
@@ -845,22 +902,15 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
     m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
     m_dateItem->setFixedSize(width() - 15, 87);
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-//        m_allThumbnailListView[i]->setStyleSheet("Background:yellow");
         m_allThumbnailListView[i]->setFixedWidth(width() + 2);
         QList<DLabel *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(i))->findChildren<DLabel *>();
         b[1]->setFixedWidth(width() - 14);
     }
-//    m_pwidget->setFixedWidth(this->width() / 2 + 150);
-//    m_pwidget->setFixedHeight(240);
-//    m_pwidget->move(this->width() / 4, this->height() - 240 - 23);
-//    m_pwidget->setFixedHeight(this->height() - 23);
-//    m_pwidget->setFixedWidth(this->width());
     m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
-
 }
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
@@ -880,122 +930,6 @@ void TimeLineView::dropEvent(QDropEvent *event)
         return;
     }
     ImageEngineApi::instance()->ImportImagesFromUrlList(urls, nullptr, this);
-
-//    using namespace utils::image;
-//    QStringList paths;
-//    for (QUrl url : urls) {
-//        const QString path = url.toLocalFile();
-//        if (QFileInfo(path).isDir()) {
-//            auto finfos =  getImagesInfo(path, false);
-//            for (auto finfo : finfos) {
-//                if (imageSupportRead(finfo.absoluteFilePath())) {
-//                    paths << finfo.absoluteFilePath();
-//                }
-//            }
-//        } else if (imageSupportRead(path)) {
-//            paths << path;
-//        }
-//    }
-
-//    if (paths.isEmpty()) {
-//        return;
-//    }
-
-//    // 判断当前导入路径是否为外接设备
-//    int isMountFlag = 0;
-//    DGioVolumeManager *pvfsManager = new DGioVolumeManager;
-//    QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
-//    for (auto mount : mounts) {
-//        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-//        QString strPath = LocationFile->path();
-//        if (0 == paths.first().compare(strPath)) {
-//            isMountFlag = 1;
-//            break;
-//        }
-//    }
-
-//    // 当前导入路径
-//    if (isMountFlag) {
-//        QString strHomePath = QDir::homePath();
-//        //获取系统现在的时间
-//        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-//        QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
-//        QDir dir;
-//        if (!dir.exists(basePath)) {
-//            dir.mkpath(basePath);
-//        }
-
-//        QStringList newImagePaths;
-//        foreach (QString strPath, paths) {
-//            //取出文件名称
-//            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-//            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
-//            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
-
-//            newImagePaths << strNewPath;
-//            //判断新路径下是否存在目标文件，若存在，下一次张
-//            if (dir.exists(strNewPath)) {
-//                continue;
-//            }
-
-//            // 外接设备图片拷贝到系统
-//            if (QFile::copy(strPath, strNewPath)) {
-
-//            }
-//        }
-
-//        paths.clear();
-//        paths = newImagePaths;
-//    }
-
-//    DBImgInfoList dbInfos;
-
-//    using namespace utils::image;
-
-//    for (auto path : paths) {
-//        if (! imageSupportRead(path)) {
-//            continue;
-//        }
-
-////        // Generate thumbnail and storage into cache dir
-////        if (! utils::image::thumbnailExist(path)) {
-////            // Generate thumbnail failed, do not insert into DB
-////            if (! utils::image::generateThumbnail(path)) {
-////                continue;
-////            }
-////        }
-
-//        QFileInfo fi(path);
-//        using namespace utils::image;
-//        using namespace utils::base;
-//        auto mds = getAllMetaData(path);
-//        QString value = mds.value("DateTimeOriginal");
-////        qDebug() << value;
-//        DBImgInfo dbi;
-//        dbi.fileName = fi.fileName();
-//        dbi.filePath = path;
-//        dbi.dirHash = utils::base::hash(QString());
-//        if ("" != value) {
-//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-//        } else if (fi.birthTime().isValid()) {
-//            dbi.time = fi.birthTime();
-//        } else if (fi.metadataChangeTime().isValid()) {
-//            dbi.time = fi.metadataChangeTime();
-//        } else {
-//            dbi.time = QDateTime::currentDateTime();
-//        }
-//        dbi.changeTime = QDateTime::currentDateTime();
-
-//        dbInfos << dbi;
-//    }
-
-//    if (! dbInfos.isEmpty()) {
-//        dApp->m_imageloader->ImportImageLoader(dbInfos);
-
-//    } else {
-//        emit dApp->signalM->ImportFailed();
-//    }
-
     event->accept();
 }
 
@@ -1008,21 +942,6 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
     Q_UNUSED(e);
 }
-
-//void TimeLineView::keyPressEvent(QKeyEvent *e)
-//{
-//    qDebug() << "TimeLineView::keyPressEvent()";
-//    if (e->key() == Qt::Key_Control) {
-////        m_ctrlPress = true;
-//    }
-//}
-
-//void TimeLineView::keyReleaseEvent(QKeyEvent *e)
-//{
-//    if (e->key() == Qt::Key_Control) {
-////        m_ctrlPress = false;
-//    }
-//}
 
 void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
@@ -1097,10 +1016,33 @@ void TimeLineView::onKeyDelete()
     paths.clear();
 
     bool bDeleteAll = true;
+    bool first = true;
+    //获取当前所有选中的
     for (int i = 0; i < m_allThumbnailListView.size(); i++) {
+
         paths << m_allThumbnailListView[i]->selectedPaths();
-        bDeleteAll &= m_allThumbnailListView[i]->isAllPicSeleted();
+        bDeleteAll = m_allThumbnailListView[i]->isAllPicSeleted();
+        if (first && paths.length() > 0) {
+            if (!bDeleteAll) {
+                selectPrePaths = m_allThumbnailListView[i]->m_model->index(0, 0).data().toList().at(1).toString();
+                int index = 1;
+                while (paths.contains(selectPrePaths)) {
+                    selectPrePaths = m_allThumbnailListView[i]->m_model->index(index, 0).data().toList().at(1).toString();
+                    index ++ ;
+                    if (index == m_allThumbnailListView[i]->m_model->rowCount() - 1)
+                        break;
+                }
+            } else {
+                if (i > 1) {
+                    selectPrePaths = m_allThumbnailListView[i - 1]->m_model->index(0, 0).data().toList().at(1).toString();
+                } else {
+                    selectPrePaths = "";
+                }
+            }
+            first = false;
+        }
     }
+    qDebug() << "getpic onKeyDelete" << selectPrePaths;
 
     if (0 >= paths.length()) {
         return;
@@ -1111,22 +1053,4 @@ void TimeLineView::onKeyDelete()
     }
 
     ImageEngineApi::instance()->moveImagesToTrash(paths);
-//    DBImgInfoList infos;
-//    for (auto path : paths) {
-//        DBImgInfo info;
-//        info = DBManager::instance()->getInfoByPath(path);
-//        info.changeTime = QDateTime::currentDateTime();
-
-//        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-//        for (auto eachname : allalbumnames) {
-//            if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-//                info.albumname += (eachname + ",");
-//            }
-//        }
-//        infos << info;
-//    }
-
-////    dApp->m_imageloader->addTrashImageLoader(paths);
-//    DBManager::instance()->insertTrashImgInfos(infos);
-//    DBManager::instance()->removeImgInfos(paths);
 }

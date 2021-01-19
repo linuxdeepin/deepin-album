@@ -716,10 +716,10 @@ TEST(AlbumView, onLeftListDropEvent_test)
     QTest::qWait(500);
 }
 
-TEST(AlbumViewList, viewlist)
+TEST(AlbumViewListWidget, viewlist)
 {
     TEST_CASE_NAME("viewlist")
-    AlbumViewList *vi = new AlbumViewList;
+    AlbumViewListWidget *vi = new AlbumViewListWidget;
     vi->on_rangeChanged(1, 1);
 }
 
@@ -805,12 +805,12 @@ TEST(AlbumView, albumView_other1_test)
     QTest::qWait(500);
 }
 
-TEST(AlbumViewList, albumViewList_other2_test)
+TEST(AlbumViewListWidget, albumViewList_other2_test)
 {
     TEST_CASE_NAME("albumViewList_other2_test")
     qDebug() << "AlbumView albumViewList_other2_test count = " << count_testDefine++;
 
-    AlbumViewList *vi = new AlbumViewList;
+    AlbumViewListWidget *vi = new AlbumViewListWidget;
     vi->on_rangeChanged(1, 1);
 }
 
