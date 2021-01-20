@@ -103,18 +103,15 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
                 QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(albumPaths[j])
                                                                            .baseName()).arg(QFileInfo(albumPaths[j]).completeSuffix());
                 bool isSucceed = QFile::copy(albumPaths[j], savePath);
-
                 emit dApp->signalM->sigExporting(albumPaths[j]);
-
                 if (!isSucceed) {
-                    // qDebug() << "Export failed";
+                    failcount++;
                 }
             } else {
                 failcount++;
-                continue;
             }
         }
-        if ( failcount == albumPaths.length()) {
+        if (failcount == albumPaths.length()) {
             emit dApp->signalM->AlbExportFailed();
         } else {
             emit dApp->signalM->AlbExportSuccess();
@@ -147,7 +144,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 if (fileinfo.exists()) {
                     if (!fileinfo.isDir()) {
                         m_exportImageDialog->setPicFileName(savePath.mid(savePath.lastIndexOf("/") + 1));
-                        m_exportImageDialog->showQuestionDialog(savePath,imagePaths[j]);
+                        m_exportImageDialog->showQuestionDialog(savePath, imagePaths[j]);
                         continue;
                     }
                 }
@@ -156,7 +153,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
                     failcount ++;
-                }else{
+                } else {
                     bnewpath =  true;
                 }
 
@@ -165,11 +162,12 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths)
                 continue;
             }
         }
-        if ( failcount == imagePaths.length()) {
+        if (failcount == imagePaths.length()) {
             emit dApp->signalM->ImgExportFailed();
         } else {
-            if(bnewpath)
+            if (bnewpath) {
                 emit dApp->signalM->ImgExportSuccess();
+            }
             emit dApp->signalM->sigRestoreStatus();
         }
     }

@@ -286,7 +286,69 @@ void MainWindow::initConnections()
     });
     //导出图片
     connect(dApp->signalM, &SignalManager::exportImage, this, [ = ](QStringList paths) {
-        Exporter::instance()->exportImage(paths);
+        //导出图片弹窗在此处设置，便于设置父类，不用exporter单例
+        CExportImageDialog m_exportImageDialog(this);
+
+        if (paths.isEmpty()) {
+            return;
+        } else if (paths.length() == 1) {
+            QString imageName = QString("%1.%2").arg(QFileInfo(paths.at(0)).baseName())
+                                .arg(QFileInfo(paths.at(0)).completeSuffix());
+            m_exportImageDialog.setPicFileName(imageName);
+            m_exportImageDialog.removeGifType();
+            QFileInfo info(paths.at(0));
+            QMimeDatabase db;
+            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+
+            if (mt.name().startsWith("image/gif")) {
+                m_exportImageDialog.setGifType(paths.at(0));
+            }
+            QPixmap pixmap(paths.at(0));
+            m_exportImageDialog.showMe(pixmap);
+            m_exportImageDialog.exec();
+        } else {
+            QFileDialog exportDialog(this);
+            exportDialog.setWindowTitle(tr("Export Photos"));
+
+            exportDialog.setFileMode(QFileDialog::Directory);
+            exportDialog.setLabelText(QFileDialog::Reject, tr("Cancel"));
+            exportDialog.setLabelText(QFileDialog::Accept, tr("Save"));
+            exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
+
+            if (exportDialog.exec() == QDialog::Accepted) {
+                QString exportdir = exportDialog.directory().absolutePath();
+
+                int failcount = 0;
+                for (int j = 0; j < paths.length(); j++) {
+                    if (utils::image::imageSupportRead(paths[j])) {
+                        QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(paths[j])
+                                                                                   .baseName()).arg(QFileInfo(paths[j]).completeSuffix());
+                        QFileInfo fileinfo(savePath);
+                        if (fileinfo.exists()) {
+                            if (!fileinfo.isDir()) {
+                                m_exportImageDialog.setPicFileName(savePath.mid(savePath.lastIndexOf("/") + 1));
+                                m_exportImageDialog.showQuestionDialog(savePath, paths[j]);
+                                continue;
+                            }
+                        }
+
+                        bool isSucceed = QFile::copy(paths[j], savePath);
+                        emit dApp->signalM->sigExporting(paths[j]);
+                        if (!isSucceed) {
+                            failcount ++;
+                        }
+                    } else {
+                        failcount ++;
+                    }
+                }
+                if (failcount == paths.length()) {     //全部导出失败
+                    emit dApp->signalM->ImgExportFailed();
+                } else {                               //部分或者全部导出成功
+                    emit dApp->signalM->ImgExportSuccess();
+                }
+            }
+        }
     });
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
 //    connect(dApp->signalM, &SignalManager::imagesInserted, this, &MainWindow::onUpdateAllpicsNumLabel);
@@ -1148,7 +1210,7 @@ void MainWindow::onImprotBtnClicked()
         pictureFolder = QDir::currentPath();
     }
     pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
-    DFileDialog dialog;
+    DFileDialog dialog(this);
     dialog.setFileMode(DFileDialog::ExistingFiles);
 //    dialog.setAllowMixedSelection(true);
     dialog.setDirectory(pictureFolder);

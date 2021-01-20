@@ -1,3 +1,12 @@
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QFileDialog>
+#include <QDir>
+#include <QStandardPaths>
+
+#include <DFontSizeManager>
+#include <DStyledItemDelegate>
+
 #include "leftlistview.h"
 #include "widgets/albumlefttabitem.h"
 #include "dbmanager/dbmanager.h"
@@ -8,10 +17,8 @@
 #include "controller/exporter.h"
 #include "imageengine/imageengineapi.h"
 #include "dialogs/albumcreatedialog.h"
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <DFontSizeManager>
-#include <DStyledItemDelegate>
+#include "utils/imageutils.h"
+
 
 namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
@@ -521,7 +528,45 @@ void LeftListView::onMenuClicked(QAction *action)
         break;
     }
     case IdExport: {
-        Exporter::instance()->exportAlbum(DBManager::instance()->getPathsByAlbum(m_ItemCurrentName), m_ItemCurrentName);
+        //导出弹窗在此处配置，便于设置弹窗父类
+        QStringList albumPaths = DBManager::instance()->getPathsByAlbum(m_ItemCurrentName);
+        if (albumPaths.length() <= 0) {
+            break;
+        }
+        QFileDialog exportDialog(this);
+        exportDialog.setFileMode(QFileDialog::DirectoryOnly);
+        exportDialog.setLabelText(QFileDialog::Accept, tr("Save"));
+        exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
+
+        if (exportDialog.exec() == QDialog::Accepted) {
+            QString exportdir = exportDialog.directory().absolutePath();
+
+            QDir dir;
+            dir.mkdir(exportdir + "/" + m_ItemCurrentName);
+            exportdir = exportdir + "/" + m_ItemCurrentName;
+
+            int failcount = 0;
+            for (int j = 0; j < albumPaths.length(); j++) {
+                if (utils::image::imageSupportRead(albumPaths[j])) {
+                    QPixmap tmpImage(albumPaths[j]);
+                    QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(albumPaths[j])
+                                                                               .baseName()).arg(QFileInfo(albumPaths[j]).completeSuffix());
+                    bool isSucceed = QFile::copy(albumPaths[j], savePath);
+                    emit dApp->signalM->sigExporting(albumPaths[j]);
+                    if (!isSucceed) {
+                        failcount++;
+                    }
+                } else {
+                    failcount++;
+                }
+            }
+            if (failcount == albumPaths.length()) {    //全部导出失败
+                emit dApp->signalM->AlbExportFailed();
+            } else {                                   //部分或者全部导出成功
+                emit dApp->signalM->AlbExportSuccess();
+            }
+
+        }
         break;
     }
     case IdDeleteAlbum: {
