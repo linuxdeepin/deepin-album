@@ -664,7 +664,6 @@ void ImageAnimationPrivate::onContinuousAnimationTimer()
             startStatic();
         }
     } else {
-        qDebug() << "animation running";
         m_continuousanimationTimer->start(UPDATE_RATE);
         q->update();
     }
@@ -856,7 +855,7 @@ const QRect ImageAnimation::getCurScreenGeometry()
 {
     int screenId = dApp->getDAppNew()->desktop()->screenNumber(this);
     QRect tempRect = dApp->getDAppNew()->desktop()->screenGeometry(screenId);
-    tempRect.setRect(0,0,tempRect.width(),tempRect.height());
+    tempRect.setRect(0, 0, tempRect.width(), tempRect.height());
     return tempRect;
 }
 

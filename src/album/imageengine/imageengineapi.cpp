@@ -59,28 +59,6 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     QThreadPool::globalInstance()->setMaxThreadCount(12);
     QThreadPool::globalInstance()->setExpiryTimeout(10);
 #endif
-    for (int i = 0; i < 3; i++) {
-        QThread *workerThread = new QThread(this);
-        DBandImgOperate *worker = new DBandImgOperate(workerThread);
-        if (i == 0) {
-            worker->m_loadBegin = 0;
-            worker->m_loadEnd = 14;
-        } else if (i == 1) {
-            worker->m_loadBegin = 14;
-            worker->m_loadEnd = 33;
-        } else if (i == 2) {
-            worker->m_loadBegin = 33;
-            worker->m_loadEnd = 50;
-        }
-
-        worker->moveToThread(workerThread);
-        //开始录制
-        connect(this, SIGNAL(sigLoad80Thumbnails(DBImgInfoList)), worker, SLOT(threadSltLoad80Thumbnail(DBImgInfoList)));
-        //收到获取全部照片信息成功信号
-        connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
-        workerThread->start();
-    }
-    get_AllImagePath();
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -425,8 +403,10 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
     return iRet;
 }
 
-void ImageEngineApi::load80Thumbnails()
+void ImageEngineApi::load80Thumbnails(int num)
 {
+    thumbnailLoadThread(num);
+
     DBImgInfoList infos;
     QSqlDatabase db = DBManager::instance()->getDatabase();
     if (!db.isValid()) {
@@ -434,10 +414,9 @@ void ImageEngineApi::load80Thumbnails()
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit 50");
+    query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
     if (!query.exec()) {
         qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
-        //emit sigAllImgInfosReady(infos);
         return;
     } else {
         using namespace utils::base;
@@ -454,6 +433,32 @@ void ImageEngineApi::load80Thumbnails()
     }
     emit sigLoad80Thumbnails(infos);
     db.close();
+}
+
+void ImageEngineApi::thumbnailLoadThread(int num)
+{
+    int index = num / 3;
+    for (int i = 0; i < 3; i++) {
+        QThread *workerThread = new QThread(this);
+        DBandImgOperate *worker = new DBandImgOperate(workerThread);
+        if (i == 0) {
+            worker->m_loadBegin = 0;
+            worker->m_loadEnd = index;
+        } else if (i == 1) {
+            worker->m_loadBegin = index + 1;
+            worker->m_loadEnd = index * 2;
+        } else if (i == 2) {
+            worker->m_loadBegin = index * 2 + 1;
+            worker->m_loadEnd = num;
+        }
+
+        worker->moveToThread(workerThread);
+        //开始录制
+        connect(this, SIGNAL(sigLoad80Thumbnails(DBImgInfoList)), worker, SLOT(threadSltLoad80Thumbnail(DBImgInfoList)));
+        //收到获取全部照片信息成功信号
+        connect(worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
+        workerThread->start();
+    }
 }
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {

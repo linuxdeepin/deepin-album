@@ -40,8 +40,8 @@ public:
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "", int loadCount = 0);
     bool SaveImagesCache(QStringList files);
     int CacheThreadNum();
-    void setImgPathAndAlbumNames(const QMultiMap<QString, QString>& imgPahtAlbums);
-    const QMultiMap<QString, QString>& getImgPathAndAlbumNames();
+    void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
+    const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
 
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
@@ -65,7 +65,8 @@ public:
     {
         return bcloseFg;
     }
-    void load80Thumbnails();
+    void load80Thumbnails(int num);
+    void thumbnailLoadThread(int num);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
     void sltInsert(QString imagepath, QString remainDay);

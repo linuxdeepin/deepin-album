@@ -31,12 +31,18 @@ TEST(MainWindow, BtnGroupClick)
 {
     TEST_CASE_NAME("BtnGroupClick")
     QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-    if (list.size() > 0)
-        QString picdir = list.at(0);
-    else {
-        list << "/usr/share/wallpapers/deepin/abc-123.jpg" << "desktop.jpg";
+    QString picdir;
+    if (list.size() > 0) {
+        picdir = list.at(0);
+    } else {
+        QStringList listtemp = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
+        if (listtemp.size() > 0) {
+            picdir = listtemp.at(0);
+        }
+        list << QString(picdir + "/Pictrues");
     }
     qDebug() << "MainWindow BtnGroupClick count = " << count_testDefine++;
+    qDebug() << "Picture count = " << list.size();
     MainWindow *w = dApp->getMainWindow();
     w->onLoadingFinished();
     w->getButG();

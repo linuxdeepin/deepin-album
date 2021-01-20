@@ -9,12 +9,16 @@
 #include "imageengine/imageengineapi.h"
 #include "accessibledefine.h"
 #include "accessible.h"
+
 #include <DMainWindow>
 #include <DWidgetUtil>
 #include <DApplicationSettings>
 #include <DLog>
-#include <QMessageBox>
+#include <DStandardPaths>
 
+#include <QMessageBox>
+#include <QStandardPaths>
+#include <QSettings>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -122,9 +126,56 @@ int main(int argc, char *argv[])
     if (dApp->isRunning()) {
         return 0;
     }
+
+    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
+                             + "/config.conf";
+    QSettings *settings = new QSettings(userConfigPath, QSettings::IniFormat);
+    const QByteArray geometry = settings->value("album-geometry").toByteArray();
+    int num = settings->value("album-zoomratio").toInt();
+    QRect restoredFrameGeometry;
+    if (!geometry.isEmpty()) {
+        QDataStream stream(geometry);
+        stream.setVersion(QDataStream::Qt_4_0);
+
+        quint32 storedMagicNumber;
+        stream >> storedMagicNumber;
+
+        quint16 majorVersion = 0;
+        quint16 minorVersion = 0;
+
+        stream >> majorVersion >> minorVersion;
+        QRect restoredNormalGeometry;
+        qint32 restoredScreenNumber;
+        quint8 maximized;
+        quint8 fullScreen;
+
+        stream >> restoredFrameGeometry
+               >> restoredNormalGeometry
+               >> restoredScreenNumber
+               >> maximized
+               >> fullScreen;
+    }
+    //计算当前一屏照片数量
+    QMap<int, int> picSize;
+    picSize.insert(0, 80);
+    picSize.insert(1, 90);
+    picSize.insert(2, 100);
+    picSize.insert(3, 110);
+    picSize.insert(4, 120);
+    picSize.insert(5, 130);
+    picSize.insert(6, 140);
+    picSize.insert(7, 150);
+    picSize.insert(8, 160);
+    picSize.insert(9, 170);
+    if (num < 0 || num > 9) {
+        num = 4;
+    }
+    int picsize = picSize.value(num);
+    int number = ((restoredFrameGeometry.width() - 50) * (restoredFrameGeometry.height() - 50)) / (picsize * picsize);
+
     DBManager::instance();
     ImageEngineApi::instance(dAppNew.get());
-    ImageEngineApi::instance()->load80Thumbnails();
+    ImageEngineApi::instance()->load80Thumbnails(number);
     MainWindow w;
 
     w.show();

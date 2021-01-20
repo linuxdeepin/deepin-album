@@ -322,9 +322,11 @@ void SearchView::onSlideShowBtnClicked()
         paths << image.filePath;
     }
 
-    const QString path = paths.first();
-
-    emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+    QString path = "";
+    if (paths.size() > 0) {
+        path = paths.first();
+        emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+    }
 }
 
 void SearchView::onThumbnailListViewOpenImage(int index)

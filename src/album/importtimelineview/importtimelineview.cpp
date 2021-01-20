@@ -237,8 +237,10 @@ void ImportTimeLineView::onSuspensionChoseBtnClicked()
     if (QObject::tr("Select") == pSuspensionChose->text()) {
         pSuspensionChose->setText(QObject::tr("Unselect"));
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-        p[0]->selectAll();
-        emit sigUpdatePicNum();
+        if (p.size() > 0) {
+            p[0]->selectAll();
+            emit sigUpdatePicNum();
+        }
         for (int i = 0; i < m_allChoseButton.length(); i++) {
             if (m_allThumbnailListView[i] == p[0]) {
                 lastClickedIndex = i;
@@ -249,12 +251,16 @@ void ImportTimeLineView::onSuspensionChoseBtnClicked()
     } else {
         pSuspensionChose->setText(QObject::tr("Select"));
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-        p[0]->clearSelection();
-        emit sigUpdatePicNum();
+        if (p.size() > 0) {
+            p[0]->clearSelection();
+            emit sigUpdatePicNum();
+        }
     }
 #if 1
     QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-    b[0]->setText(pSuspensionChose->text());
+    if (b.size() > 0) {
+        b[0]->setText(pSuspensionChose->text());
+    }
 #endif
 }
 

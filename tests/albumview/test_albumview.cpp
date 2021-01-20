@@ -28,7 +28,7 @@
 TEST(AlbumView, deleteAll)
 {
     TEST_CASE_NAME("deleteAll")
-    ImageEngineApi::instance()->load80Thumbnails();
+    ImageEngineApi::instance()->load80Thumbnails(50);
     QTest::qWait(500);
     qDebug() << "AlbumView deleteAll count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
@@ -119,7 +119,6 @@ TEST(AlbumView, clickImportViewBtn)
     qDebug() << "AlbumView clickImportViewBtn count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     AllPicView *a = w->m_pAllPicView;
-    ImportView *importView = a->m_pImportView;
 
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath_test);
@@ -127,10 +126,9 @@ TEST(AlbumView, clickImportViewBtn)
         image_list << info.absoluteFilePath();
     }
     QTest::qWait(500);
-//    importView->onImprotBtnClicked(false, image_list);
-//    QTest::qWait(500);
 
-    ImageEngineApi::instance()->insertImage(image_list.first(), "");
+    if (image_list.size() > 0)
+        ImageEngineApi::instance()->insertImage(image_list.first(), "");
 }
 
 TEST(AlbumView, ini)
@@ -664,7 +662,10 @@ TEST(AlbumView, menuOpenImage_test)
     QTest::qWait(500);
 
     QStringList paths = DBManager::instance()->getAllPaths();
-    QString path = paths.first();
+    QString path;
+    if (paths.size() > 0) {
+        path = paths.first();
+    }
     bool isfullscr = false;
     bool isSlideShow = false;
     w->m_pAlbumview->menuOpenImage(path, paths, isfullscr, isSlideShow);
