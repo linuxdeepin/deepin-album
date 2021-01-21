@@ -86,7 +86,7 @@ MainWindow::MainWindow()
     initInstallFilter();
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
     loadZoomRatio();
-
+    m_bVector << true << true << true;
     connect(dApp->signalM, &SignalManager::showImageView, this, &MainWindow::onShowImageView);
 }
 
@@ -167,11 +167,15 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 if (obj == m_AlbumViewTabOrder.at(1) && tempListView != nullptr) {
                     tempListView->setFocus();
                     tempListView->selectFirstPhoto();
+                    m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(-1);
                     return true;
                 } else if (obj == tempListView) {
                     tempListView->clearSelection();
                     m_pAlbumBtn->setFocus();
                     return true;
+                } else if (obj == m_AlbumViewTabOrder.at(0)) {
+                    tempListView->clearSelection();
+                    m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
                 }
             }
         }
@@ -599,6 +603,7 @@ void MainWindow::initTitleBar()
 void MainWindow::initCentralWidget()
 {
     m_pCenterWidget = new QStackedWidget(this);
+    m_pCenterWidget->setFocusPolicy(Qt::NoFocus);
     AC_SET_OBJECT_NAME(m_pCenterWidget, MainWindow_Center_Widget);
     AC_SET_ACCESSIBLE_NAME(m_pCenterWidget, MainWindow_Center_Widget);
     m_pCenterWidget->setFixedSize(size());
@@ -657,10 +662,6 @@ void MainWindow::initInstallFilter()
 void MainWindow::initNoPhotoNormalTabOrder()
 {
     // titlebar tab键循环时会focus,隐掉
-    titlebar()->setFocusPolicy(Qt::NoFocus);
-    m_pAllPicBtn->setFocusPolicy(Qt::TabFocus);
-    m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
-    m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
     m_emptyAllViewTabOrder.clear();
     m_emptyAllViewTabOrder.insert(0, m_pAllPicBtn);
     m_emptyAllViewTabOrder.insert(1, m_pTimeBtn);
@@ -687,6 +688,9 @@ void MainWindow::initNoPhotoNormalTabOrder()
     else if (m_iCurrentView == VIEW_ALBUM && m_pAlbumview->m_pRightStackWidget->currentIndex() == 0) {
         m_emptyAllViewTabOrder[7] = m_pAlbumview->m_pImportView->m_pImportBtn;
     }
+    for (int idx = 0; idx < m_emptyAllViewTabOrder.count(); idx++) {
+        m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+    }
     for (int idx = 0; idx < m_emptyAllViewTabOrder.count() - 1; idx++) {
         this->setTabOrder(m_emptyAllViewTabOrder.at(idx), m_emptyAllViewTabOrder.at(idx + 1));
     }
@@ -697,7 +701,6 @@ void MainWindow::initAllpicViewTabOrder()
 {
     if (!m_pAllPicView->getThumbnailListView())
         return;
-    titlebar()->setFocusPolicy(Qt::NoFocus);
     m_AllpicViewTabOrder.clear();
     m_AllpicViewTabOrder.insert(0, m_pAllPicBtn);
     m_AllpicViewTabOrder.insert(1, m_pTimeBtn);
@@ -713,11 +716,18 @@ void MainWindow::initAllpicViewTabOrder()
     m_AllpicViewTabOrder.insert(7, closeButton);
     m_AllpicViewTabOrder.insert(8, m_pAllPicView->getThumbnailListView());
 
-    for (int idx = 0; idx < m_AllpicViewTabOrder.count(); idx++) {
-        m_AllpicViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+    if (m_AlbumViewTabOrder.count() > 0) {
+        m_pAlbumBtn->setFocusPolicy(Qt::NoFocus);
+        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
     }
-    for (int idx = 0; idx < m_AllpicViewTabOrder.count() - 1; idx++) {
-        this->setTabOrder(m_AllpicViewTabOrder.at(idx), m_AllpicViewTabOrder.at(idx + 1));
+    for (int j = 0; j < m_AllpicViewTabOrder.count(); j++) {
+        if (m_AllpicViewTabOrder.at(j)) {
+            m_AllpicViewTabOrder.at(j)->setFocusPolicy(Qt::TabFocus);
+        }
+    }
+    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::StrongFocus);
+    for (int k = 0; k < m_AllpicViewTabOrder.count() - 1; k++) {
+        this->setTabOrder(m_AllpicViewTabOrder.at(k), m_AllpicViewTabOrder.at(k + 1));
     }
 }
 
@@ -726,24 +736,21 @@ void MainWindow::initTimeLineViewTabOrder()
     // 时间线listview空
     if (!m_pTimeLineView->getFirstListViewFromTimeline())
         return;
-    titlebar()->setFocusPolicy(Qt::NoFocus);
-    m_pAllPicBtn->setFocusPolicy(Qt::NoFocus);
-    m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
-    m_pAlbumBtn->setFocusPolicy(Qt::NoFocus);
-
     m_pTimeLineView->getFirstListViewFromTimeline()->setFocusPolicy(Qt::TabFocus);
     m_TimelineViewTabOrder.clear();
     m_TimelineViewTabOrder.insert(1, m_pTimeBtn);
     m_TimelineViewTabOrder.insert(2, m_pTimeLineView->getFirstListViewFromTimeline());
-    for (int idx = 0; idx < m_AllpicViewTabOrder.count(); idx++) {
-        m_AllpicViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
+    for (int idx = 0; idx < m_emptyAllViewTabOrder.count(); idx++) {
+        if (m_emptyAllViewTabOrder.at(idx) != nullptr) {
+            m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
+        }
     }
+    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+
     for (int idx = 0; idx < m_TimelineViewTabOrder.count(); idx++) {
         m_TimelineViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
     }
-    for (int idx = 0; idx < m_TimelineViewTabOrder.count() - 1; idx++) {
-        this->setTabOrder(m_TimelineViewTabOrder.at(idx), m_TimelineViewTabOrder.at(idx + 1));
-    }
+    this->setTabOrder(m_TimelineViewTabOrder.at(0), m_TimelineViewTabOrder.at(1));
 }
 
 void MainWindow::initAlbumViewTabOrder()
@@ -751,21 +758,21 @@ void MainWindow::initAlbumViewTabOrder()
     // 时间线listview空
     if (!m_pAlbumview->m_pImpTimeLineView->getFirstListView())
         return;
-    titlebar()->setFocusPolicy(Qt::NoFocus);
-    m_pAllPicBtn->setFocusPolicy(Qt::NoFocus);
-    m_pTimeBtn->setFocusPolicy(Qt::NoFocus);
-    m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
     m_pAlbumview->m_pImpTimeLineView->getFirstListView()->setFocusPolicy(Qt::TabFocus);
     m_AlbumViewTabOrder.clear();
     m_AlbumViewTabOrder.insert(0, m_pAlbumBtn);
     m_AlbumViewTabOrder.insert(1, m_pAlbumview->m_pLeftListView->m_pPhotoLibListView);
     m_AlbumViewTabOrder.insert(2, m_pAlbumview->m_pImpTimeLineView->getFirstListView());
-    for (int idx = 0; idx < m_AlbumViewTabOrder.count() - 1; idx++) {
-        this->setTabOrder(m_AlbumViewTabOrder.at(idx), m_AlbumViewTabOrder.at(idx + 1));
-        m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
-        if (idx == m_AlbumViewTabOrder.count() - 2) {
-            m_AlbumViewTabOrder.at(idx + 1)->setFocusPolicy(Qt::TabFocus);
+    for (int idx = 0; idx < m_emptyAllViewTabOrder.count(); idx++) {
+        if (m_emptyAllViewTabOrder.at(idx) != nullptr) {
+            m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
         }
+    }
+    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+    this->setTabOrder(m_AlbumViewTabOrder.at(0), m_AlbumViewTabOrder.at(1));
+    this->setTabOrder(m_AlbumViewTabOrder.at(1), m_AlbumViewTabOrder.at(2));
+    for (int idx = 0; idx < m_AlbumViewTabOrder.count(); idx++) {
+        m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
     }
 }
 //设置等待窗口颜色
@@ -829,7 +836,10 @@ void MainWindow::allPicBtnClicked()
     m_pAllPicBtn->setCheckable(true);
     m_pAllPicBtn->setChecked(true);
     initAllpicViewTabOrder();
-    m_pAllPicView->m_pImportView->m_pImportBtn->installEventFilter(this);
+    if (m_AllpicViewTabOrder.count() > 0 && m_bVector.at(0)) {
+        m_pAllPicView->m_pImportView->m_pImportBtn->installEventFilter(this);
+        m_bVector[0] = false;
+    }
 }
 
 //显示时间线照片
@@ -858,10 +868,13 @@ void MainWindow::timeLineBtnClicked()
     m_pTimeBtn->setChecked(true);
 
     initTimeLineViewTabOrder();
-    if (m_pTimeLineView->getFirstListViewFromTimeline())
-        m_pTimeLineView->getFirstListViewFromTimeline()->installEventFilter(this);
-    // timelineview
-    m_pTimeLineView->pImportView->m_pImportBtn->installEventFilter(this);;
+    if (m_TimelineViewTabOrder.count() > 0 && m_bVector.at(1)) {
+        if (m_pTimeLineView->getFirstListViewFromTimeline())
+            m_pTimeLineView->getFirstListViewFromTimeline()->installEventFilter(this);
+        // timelineview
+        m_pTimeLineView->pImportView->m_pImportBtn->installEventFilter(this);
+        m_bVector[1] = false;
+    }
 }
 
 //显示相册
@@ -913,12 +926,15 @@ void MainWindow::albumBtnClicked()
     initAlbumViewTabOrder();
 
     // albumview left list view up and down key event filter
-    m_pAlbumview->m_pImportView->m_pImportBtn->installEventFilter(this);
-    if (m_pAlbumview->m_pImpTimeLineView->getFirstListView())
-        m_pAlbumview->m_pImpTimeLineView->getFirstListView()->installEventFilter(this);
-    m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->installEventFilter(this);
-    m_pAlbumview->m_pLeftListView->m_pMountListWidget->installEventFilter(this);
-    m_pAlbumview->m_pLeftListView->m_pCustomizeListView->installEventFilter(this);
+    if (m_AlbumViewTabOrder.count() > 0 && m_bVector.at(2)) {
+        m_pAlbumview->m_pImportView->m_pImportBtn->installEventFilter(this);
+        if (m_pAlbumview->m_pImpTimeLineView->getFirstListView())
+            m_pAlbumview->m_pImpTimeLineView->getFirstListView()->installEventFilter(this);
+        m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->installEventFilter(this);
+        m_pAlbumview->m_pLeftListView->m_pMountListWidget->installEventFilter(this);
+        m_pAlbumview->m_pLeftListView->m_pCustomizeListView->installEventFilter(this);
+        m_bVector[2] = false;
+    }
 }
 
 //标题菜单栏槽函数

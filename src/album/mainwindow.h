@@ -199,7 +199,8 @@ private:
     QList<QWidget*> m_TimelineViewTabOrder;
     // 相册非空白界面时
     QList<QWidget*> m_AlbumViewTabOrder;
-
+    // isfirst init
+    QVector<bool> m_bVector;
 
 public:
     QButtonGroup *getButG();

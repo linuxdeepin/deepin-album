@@ -297,6 +297,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     pTimeLineViewWidget->setPalette(palcolor);
 
     m_mainListWidget = new TimelineListWidget(this);
+    m_mainListWidget->setFocusPolicy(Qt::NoFocus);
     m_mainListWidget->setResizeMode(QListWidget::Adjust);
     m_mainListWidget->setVerticalScrollMode(QListWidget::ScrollPerPixel);
     m_mainListWidget->verticalScrollBar()->setSingleStep(20);

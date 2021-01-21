@@ -287,7 +287,10 @@ const QString LoopQueue::jumpTonext()
 {
     changeOrder(true);
     AddIndex();
-    return loop_paths[loop_pindex];
+    if (loop_paths.size() > loop_pindex)
+        return loop_paths[loop_pindex];
+    else
+        return QString();
 }
 
 const QString LoopQueue::jumpTopre()
