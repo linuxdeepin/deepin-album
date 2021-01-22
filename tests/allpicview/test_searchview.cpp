@@ -1,17 +1,19 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
+#include <QTestEventList>
+
 #include "application.h"
 #include "mainwindow.h"
 #include "allpicview.h"
 #include "searchview.h"
 #include "../test_qtestDefine.h"
+#include "ac-desktop-define.h"
 
-#include <QTestEventList>
 
 TEST(searchview, test_ini)
 {
     TEST_CASE_NAME("test_ini")
-    qDebug() << "searchview test_ini count = " << count_testDefine++;
     QTest::qWait(200);
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);

@@ -2,11 +2,13 @@
 #include <gmock/gmock-matchers.h>
 #include <QMap>
 #include <DFileDialog>
-#include <QTestEventList>
+#include <DSearchEdit>
+
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
-#include <DSearchEdit>
+#include <QTestEventList>
+#include <QCommandLineParser>
 
 #define private public
 #define protected public
@@ -15,7 +17,8 @@
 #include "albumcreatedialog.h"
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
-#include <QCommandLineParser>
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
@@ -29,8 +32,7 @@ struct CMOption {
 TEST(CommandLine, test_CommandLine)
 {
     TEST_CASE_NAME("test_CommandLine")
-    qDebug() << "CommandLine test_CommandLine count = " << count_testDefine++;
-    MainWindow *w = dApp->getMainWindow();
+//    MainWindow *w = dApp->getMainWindow();
     CommandLine::instance();
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath_test);
@@ -52,7 +54,6 @@ TEST(CommandLine, test_CommandLine)
 TEST(CommandLine, urltest)
 {
     TEST_CASE_NAME("urltest")
-    qDebug() << "CommandLine urltest count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     stub_ext::StubExt stu;
     stu.set_lamda(ADDR(QCommandLineParser, addOption), []() {
@@ -65,7 +66,6 @@ TEST(CommandLine, urltest)
 TEST(CommandLine, viewImage_test)
 {
     TEST_CASE_NAME("viewImage_test")
-    qDebug() << "CommandLine viewImage_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
     paths << testPath_test + "/2e5y8y.jpg";
@@ -78,7 +78,6 @@ TEST(CommandLine, viewImage_test)
 TEST(CommandLine, processOption_test)
 {
     TEST_CASE_NAME("processOption_test")
-    qDebug() << "CommandLine processOption_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 //    stub_ext::StubExt stu;
 //    stu.set_lamda(ADDR(QCommandLineParser, addOption), [](){

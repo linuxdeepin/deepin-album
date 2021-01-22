@@ -1,12 +1,14 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QMap>
-#include <DFileDialog>
 #include <QTestEventList>
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
+
 #include <DSearchEdit>
+#include <DFileDialog>
 
 #define private public
 #define protected public
@@ -18,6 +20,8 @@
 #include "imginfodialog.h"
 #include "imageengine/imageengineapi.h"
 #include "viewpanel.h"
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
@@ -25,7 +29,6 @@
 TEST(ImportTimeLineView, getIBaseHeight_test)
 {
     TEST_CASE_NAME("getIBaseHeight_test")
-    qDebug() << "ImportTimeLineView getIBaseHeight_test count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -46,7 +49,6 @@ TEST(ImportTimeLineView, getIBaseHeight_test)
 TEST(ImportTimeLineView, test_func)
 {
     TEST_CASE_NAME("test_func")
-    qDebug() << "ImportTimeLineView test_func count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -66,7 +68,6 @@ TEST(ImportTimeLineView, test_func)
 TEST(ImportTimeLineView, on_KeyEvent_test)
 {
     TEST_CASE_NAME("on_KeyEvent_test")
-    qDebug() << "ImportTimeLineView on_KeyEvent_test count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -82,7 +83,6 @@ TEST(ImportTimeLineView, resizeHand_test)
 
 {
     TEST_CASE_NAME("resizeHand_test")
-    qDebug() << "ImportTimeLineView getIBaseHeight_test count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -94,7 +94,6 @@ TEST(ImportTimeLineView, resizeHand_test)
 TEST(ImportTimeLineView, thumbnaillistViewSlot_test)
 {
     TEST_CASE_NAME("thumbnaillistViewSlot_test")
-    qDebug() << "ImportTimeLineView getIBaseHeight_test count" << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
     QTestEventList event;

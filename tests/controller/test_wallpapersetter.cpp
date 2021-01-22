@@ -1,12 +1,14 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QMap>
-#include <DFileDialog>
 #include <QTestEventList>
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
+
 #include <DSearchEdit>
+#include <DFileDialog>
 
 #define private public
 #define protected public
@@ -16,6 +18,8 @@
 #include "albumcreatedialog.h"
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
@@ -24,7 +28,6 @@
 TEST(WallpaperSetter, test_WallpaperSetter)
 {
     TEST_CASE_NAME("test_WallpaperSetter")
-    qDebug() << "WallpaperSetter test_WallpaperSetter count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -37,7 +40,6 @@ TEST(WallpaperSetter, test_WallpaperSetter)
 TEST(WallpaperSetter, setBackground_test)
 {
     TEST_CASE_NAME("setBackground_test")
-    qDebug() << "WallpaperSetter setBackground_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);

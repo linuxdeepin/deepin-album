@@ -1,12 +1,14 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QMap>
-#include <DFileDialog>
 #include <QTestEventList>
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
+
 #include <DSearchEdit>
+#include <DFileDialog>
 
 #define private public
 #define protected public
@@ -15,13 +17,14 @@
 #include "albumcreatedialog.h"
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
 TEST(AlbumLeftTabItem, func_test)
 {
     TEST_CASE_NAME("func_test")
-    qDebug() << "AlbumLeftTabItem func_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -39,7 +42,6 @@ TEST(AlbumLeftTabItem, func_test)
 TEST(AlbumLeftTabItem, onCheckNameValid_test)
 {
     TEST_CASE_NAME("onCheckNameValid_test")
-    qDebug() << "AlbumLeftTabItem onCheckNameValid_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -62,7 +64,6 @@ TEST(AlbumLeftTabItem, onCheckNameValid_test)
 TEST(AlbumLeftTabItem, oriAlbumStatus_test)
 {
     TEST_CASE_NAME("oriAlbumStatus_test")
-    qDebug() << "AlbumLeftTabItem oriAlbumStatus_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -116,7 +117,6 @@ TEST(AlbumLeftTabItem, oriAlbumStatus_test)
 TEST(AlbumLeftTabItem, newAlbumStatus_test)
 {
     TEST_CASE_NAME("newAlbumStatus_test")
-    qDebug() << "AlbumLeftTabItem newAlbumStatus_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);

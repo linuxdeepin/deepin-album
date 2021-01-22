@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QTestEventList>
 #include <QString>
+#include <QTestEventList>
 
 #define private public
 #define protected public
@@ -23,14 +25,12 @@
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
-#include <QTestEventList>
 
 TEST(AlbumView, deleteAll)
 {
     TEST_CASE_NAME("deleteAll")
     ImageEngineApi::instance()->load80Thumbnails(50);
     QTest::qWait(500);
-    qDebug() << "AlbumView deleteAll count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->loadZoomRatio();
 
@@ -90,7 +90,6 @@ TEST(AlbumView, deleteAll)
 TEST(AlbumView, removeTestImagesInfo)
 {
     TEST_CASE_NAME("removeTestImagesInfo")
-    qDebug() << "AlbumView removeTestImagesInfo count = " << count_testDefine++;
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath_test);
     auto finfos1 = utils::image::getImagesInfo(testPath_test, false);
@@ -116,9 +115,8 @@ TEST(AlbumView, removeTestImagesInfo)
 TEST(AlbumView, clickImportViewBtn)
 {
     TEST_CASE_NAME("clickImportViewBtn")
-    qDebug() << "AlbumView clickImportViewBtn count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
-    AllPicView *a = w->m_pAllPicView;
+//    AllPicView *a = w->m_pAllPicView;
 
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath_test);
@@ -134,7 +132,6 @@ TEST(AlbumView, clickImportViewBtn)
 TEST(AlbumView, ini)
 {
     TEST_CASE_NAME("ini")
-    qDebug() << "AlbumView ini count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->loadZoomRatio();
 
@@ -162,7 +159,6 @@ TEST(AlbumView, ini)
 TEST(AlbumView, iniAlbum)
 {
     TEST_CASE_NAME("iniAlbum")
-    qDebug() << "AlbumView ini count = " << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
@@ -203,7 +199,6 @@ TEST(AlbumView, iniAlbum)
 TEST(AlbumView, createNewAlbumFromDialog)
 {
     TEST_CASE_NAME("createNewAlbumFromDialog")
-    qDebug() << "AlbumView createNewAlbumFromDialog count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
 
@@ -239,7 +234,6 @@ TEST(AlbumView, createNewAlbumFromDialog)
 TEST(AlbumView, dragPhotoToAnAlbum)
 {
     TEST_CASE_NAME("dragPhotoToAnAlbum")
-    qDebug() << "AlbumView dragPhotoToAnAlbum count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
     w->albumBtnClicked();
@@ -307,7 +301,6 @@ TEST(AlbumView, dragPhotoToAnAlbum)
 TEST(AlbumView, leftMenu)
 {
     TEST_CASE_NAME("leftMenu")
-    qDebug() << "AlbumView leftMenu count = " << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
     QTestEventList event;
@@ -335,7 +328,6 @@ TEST(AlbumView, leftMenu)
 TEST(AlbumView, iniAlbum1)
 {
     TEST_CASE_NAME("iniAlbum1")
-    qDebug() << "AlbumView ini count = " << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
@@ -376,7 +368,6 @@ TEST(AlbumView, iniAlbum1)
 TEST(AlbumView, imageOpen)
 {
     TEST_CASE_NAME("imageOpen")
-    qDebug() << "AlbumView imageOpen count = " << count_testDefine++;
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     MainWindow *w = dApp->getMainWindow();
     AlbumView *a = w->m_pAlbumview;
@@ -407,7 +398,6 @@ TEST(AlbumView, imageOpen)
 TEST(AlbumView, deleteImgRecovery)
 {
     TEST_CASE_NAME("deleteImgRecovery")
-    qDebug() << "AlbumView deleteImgRecovery count = " << count_testDefine++;
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
     QTestEventList event;
@@ -472,7 +462,6 @@ TEST(AlbumView, ImportDuplicatePhotos)
 {
     TEST_CASE_NAME("ImportDuplicatePhotos")
     // albumview ImportDuplicatePhotos
-    qDebug() << "AlbumView ImportDuplicatePhotos count = " << count_testDefine++;
     AlbumCreateDialog *ad = new AlbumCreateDialog;
     ad->show();
     QTest::qWait(500);
@@ -603,7 +592,6 @@ TEST(LeftListView, update)
 TEST(AlbumView, upDataAllAlbumView)
 {
     TEST_CASE_NAME("upDataAllAlbumView")
-    qDebug() << "AlbumView imageImported_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -656,7 +644,6 @@ TEST(AlbumView, upDataAllAlbumView)
 TEST(AlbumView, menuOpenImage_test)
 {
     TEST_CASE_NAME("menuOpenImage_test")
-    qDebug() << "AlbumView menuOpenImage_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -694,7 +681,6 @@ TEST(AlbumView, onVfsMountChangedAdd_test)
 TEST(AlbumView, findPicturePathByPhone_test)
 {
     TEST_CASE_NAME("findPicturePathByPhone_test")
-    qDebug() << "AlbumView findPicturePathByPhone_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -707,7 +693,6 @@ TEST(AlbumView, findPicturePathByPhone_test)
 TEST(AlbumView, onLeftListDropEvent_test)
 {
     TEST_CASE_NAME("onLeftListDropEvent_test")
-    qDebug() << "AlbumView onLeftListDropEvent_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     w->m_pAlbumview->m_pLeftListView->m_pCustomizeListView->setCurrentRow(0);
@@ -728,7 +713,6 @@ TEST(AlbumViewListWidget, viewlist)
 TEST(AlbumView, albumView_other1_test)
 {
     TEST_CASE_NAME("albumView_other1_test")
-    qDebug() << "AlbumView albumView_other1_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
 
@@ -809,7 +793,6 @@ TEST(AlbumView, albumView_other1_test)
 TEST(AlbumViewListWidget, albumViewList_other2_test)
 {
     TEST_CASE_NAME("albumViewList_other2_test")
-    qDebug() << "AlbumView albumViewList_other2_test count = " << count_testDefine++;
 
     AlbumViewListWidget *vi = new AlbumViewListWidget;
     vi->on_rangeChanged(1, 1);
@@ -818,7 +801,6 @@ TEST(AlbumViewListWidget, albumViewList_other2_test)
 TEST(AlbumViewList, albumViewList_other3_test)
 {
     TEST_CASE_NAME("albumViewList_other3_test")
-    qDebug() << "AlbumView albumViewList_other3_test count = " << count_testDefine++;
 
     MainWindow *w = dApp->getMainWindow();
 
@@ -855,7 +837,6 @@ TEST(AlbumViewList, albumViewList_other3_test)
 TEST(AlbumViewList, albumViewList_other4_test)
 {
     TEST_CASE_NAME("albumViewList_other4_test")
-    qDebug() << "AlbumView albumViewList_other4_test count = " << count_testDefine++;
 
     MainWindow *w = dApp->getMainWindow();
     ThumbnailListView *pThumbnailListView = w->findChild<ThumbnailListView *>(ImportTime_pThumbnailListView);
@@ -906,7 +887,6 @@ TEST(AlbumViewList, albumViewList_other4_test)
 TEST(AlbumViewList, albumViewList_other5_test)
 {
     TEST_CASE_NAME("albumViewList_other5_test")
-    qDebug() << "AlbumView albumViewList_other5_test count = " << count_testDefine++;
 
     MainWindow *w = dApp->getMainWindow();
 
@@ -952,7 +932,7 @@ TEST(AlbumViewList, albumViewList_other5_test)
 TEST(AlbumViewList, albumViewList_other6_test)
 {
     TEST_CASE_NAME("albumViewList_other6_test")
-    MainWindow *w = dApp->getMainWindow();
+//    MainWindow *w = dApp->getMainWindow();
     GraphicsMovieItem gmi("", "");
     ImageView *iv = new ImageView;
     iv->setImage("");

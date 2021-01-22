@@ -1,15 +1,17 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QMap>
-#include <DFileDialog>
+#include <QTimer>
 #include <QTestEventList>
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
+
 #include <DSearchEdit>
 #include <DIconButton>
-#include <QTimer>
 #include <DMenu>
+#include <DFileDialog>
 
 #define private public
 #define protected public
@@ -22,6 +24,7 @@
 #include "commandline.h"
 #include "imageview.h"
 #include "imgdeletedialog.h"
+#include "ac-desktop-define.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
@@ -29,20 +32,16 @@
 // 3个button界面主视图切换显示
 TEST(MainWindow, BtnGroupClick)
 {
-    TEST_CASE_NAME("BtnGroupClick")
+    TEST_CASE_NAME("load")
     QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-    QString picdir;
     if (list.size() > 0) {
-        picdir = list.at(0);
     } else {
         QStringList listtemp = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
         if (listtemp.size() > 0) {
-            picdir = listtemp.at(0);
+            list << listtemp.at(0) + "/Pictures";
         }
-        list << QString(picdir + "/Pictrues");
     }
-    qDebug() << "MainWindow BtnGroupClick count = " << count_testDefine++;
-    qDebug() << "Picture count = " << list.size();
+    qDebug() << "Picture count = " << list.size() << list.at(0);
     MainWindow *w = dApp->getMainWindow();
     w->onLoadingFinished();
     w->getButG();
@@ -51,7 +50,7 @@ TEST(MainWindow, BtnGroupClick)
     AllPicView *allpicview = w->m_pAllPicView;
     StatusBar *allbar = allpicview->m_pStatusBar;
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
-
+    allpicview->update();
     QTest::qWait(400);
 
     QTestEventList event;
@@ -151,6 +150,18 @@ TEST(MainWindow, BtnGroupClick)
         if (rotateL)
             event.simulate(rotateL);
         QTest::qWait(1500);
+
+        DIconButton *rotatedel = ttbc->findChild<DIconButton *>("TtbcontentTrashButton");
+        if (rotatedel)
+            event.simulate(rotatedel);
+        QTest::qWait(1500);
+
+        int (*dlgexec)() = []() {return 1;};
+        typedef int (*fptr)(QDialog *);
+        fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+        Stub stub;
+        stub.set(fptrexec, dlgexec);
+        QTest::qWait(500);
 
         DIconButton *back = ttbc->findChild<DIconButton *>("TtbcontentBackButton");
         if (back)
@@ -770,7 +781,6 @@ TEST(MainWindow, timelineview)
 TEST(MainWindow, createalbumFromTitlebarMenu)
 {
     TEST_CASE_NAME("load")
-    qDebug() << "MainWindow createalbumFromTitlebarMenu count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -850,7 +860,6 @@ TEST(MainWindow, albumview)
 TEST(MainWindow, ImportPhotosFromTitlebarMenu)
 {
     TEST_CASE_NAME("ImportPhotosFromTitlebarMenu")
-    qDebug() << "MainWindow ImportPhotosFromTitlebarMenu count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -881,7 +890,6 @@ TEST(MainWindow, ImportPhotosFromTitlebarMenu)
 TEST(MainWindow, setWaitDialogColor_test)
 {
     TEST_CASE_NAME("setWaitDialogColor_test")
-    qDebug() << "MainWindow setWaitDialogColor_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -903,7 +911,6 @@ TEST(MainWindow, setWaitDialogColor_test)
 TEST(MainWindow, onShowImageInfo_test)
 {
     TEST_CASE_NAME("onShowImageInfo_test")
-    qDebug() << "MainWindow onShowImageInfo_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -917,7 +924,6 @@ TEST(MainWindow, onShowImageInfo_test)
 TEST(MainWindow, loadZoomRatio_test)
 {
     TEST_CASE_NAME("loadZoomRatio_test")
-    qDebug() << "MainWindow loadZoomRatio_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -929,7 +935,6 @@ TEST(MainWindow, loadZoomRatio_test)
 TEST(MainWindow, createShorcutJson_test)
 {
     TEST_CASE_NAME("createShorcutJson_test")
-    qDebug() << "MainWindow createShorcutJson_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -941,7 +946,6 @@ TEST(MainWindow, createShorcutJson_test)
 TEST(MainWindow, thumbnailZoomIn_test)
 {
     TEST_CASE_NAME("thumbnailZoomIn_test")
-    qDebug() << "MainWindow thumbnailZoomIn_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -953,7 +957,6 @@ TEST(MainWindow, thumbnailZoomIn_test)
 TEST(MainWindow, thumbnailZoomOut_test)
 {
     TEST_CASE_NAME("thumbnailZoomOut_test")
-    qDebug() << "MainWindow thumbnailZoomOut_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -965,7 +968,6 @@ TEST(MainWindow, thumbnailZoomOut_test)
 TEST(MainWindow, saveWindowState_test)
 {
     TEST_CASE_NAME("saveWindowState_test")
-    qDebug() << "MainWindow saveWindowState_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -977,7 +979,6 @@ TEST(MainWindow, saveWindowState_test)
 TEST(MainWindow, compareVersion_test)
 {
     TEST_CASE_NAME("compareVersion_test")
-    qDebug() << "MainWindow compareVersion_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -989,7 +990,6 @@ TEST(MainWindow, compareVersion_test)
 TEST(MainWindow, onSearchEditFinished_test)
 {
     TEST_CASE_NAME("onSearchEditFinished_test")
-    qDebug() << "MainWindow onSearchEditFinished_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -1007,7 +1007,6 @@ TEST(MainWindow, onSearchEditFinished_test)
 TEST(MainWindow, onNewAPPOpen_test)
 {
     TEST_CASE_NAME("onNewAPPOpen_test")
-    qDebug() << "MainWindow onNewAPPOpen_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);

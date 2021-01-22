@@ -1,17 +1,20 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-#include <QMap>
+
 #include <DFileDialog>
+#include <DSearchEdit>
+
 #include <QTestEventList>
+#include <QMap>
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
-#include <DSearchEdit>
 #include <QFileDialog>
 #include <QDir>
 #include <QStandardPaths>
 #include <QDebug>
 #include <QMimeDatabase>
+#include <QCommandLineParser>
 
 #define private public
 #define protected public
@@ -24,7 +27,8 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
-#include <QCommandLineParser>
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
@@ -38,8 +42,8 @@ struct CMOption {
 TEST(Exporter, test_Exporter_init)
 {
     TEST_CASE_NAME("test_Exporter_init")
-    qDebug() << "Exporter test_Exporter_init count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
+    Q_UNUSED(w)
     Exporter::instance();
     QUrl UrlInfo1(QString path);
 }
@@ -66,7 +70,6 @@ TEST(Exporter, exportImage_test)
 TEST(Exporter, exportAlbum_test)
 {
     TEST_CASE_NAME("exportAlbum_test")
-    qDebug() << "Exporter exportAlbum_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
     if (DBManager::instance()->getAllPaths().length() > 0)
@@ -116,7 +119,6 @@ TEST(Exporter, exportAlbum_test)
 TEST(Exporter, popupDialogSaveImage_test)
 {
     TEST_CASE_NAME("popupDialogSaveImage_test")
-    qDebug() << "Exporter popupDialogSaveImage_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QStringList paths;
     if (DBManager::instance()->getAllPaths().length() > 0)
@@ -149,7 +151,6 @@ TEST(Exporter, popupDialogSaveImage_test)
 TEST(Exporter, initValidFormatMap_test)
 {
     TEST_CASE_NAME("initValidFormatMap_test")
-    qDebug() << "Exporter initValidFormatMap_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     Exporter::instance()->initValidFormatMap();

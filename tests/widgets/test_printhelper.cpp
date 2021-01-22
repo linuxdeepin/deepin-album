@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPrintPreviewWidget>
@@ -9,15 +10,17 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
-#include <dprintpreviewdialog.h>
-#include <dprintpreviewwidget.h>
 #include <QMap>
-#include <DFileDialog>
 #include <QTestEventList>
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
+
 #include <DSearchEdit>
+#include <DFileDialog>
+
+#include <dprintpreviewdialog.h>
+#include <dprintpreviewwidget.h>
 
 #define private public
 #define protected public
@@ -27,15 +30,15 @@
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
 #include "printhelper.h"
-//#include "printoptionspage.h"
+#include "ac-desktop-define.h"
 #include "utils/unionimage.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
 TEST(PrintHelper, PrintHelper_test)
 {
     TEST_CASE_NAME("PrintHelper_test")
-    qDebug() << "PrintHelper PrintHelper_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);

@@ -16,10 +16,12 @@
 */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include "application.h"
 #include "test_qtestDefine.h"
 #include "imagebutton.h"
 #include "elidedlabel.h"
+#include "ac-desktop-define.h"
 
 #include <QDebug>
 #include <QDir>
@@ -30,7 +32,6 @@
 TEST(isRunning, ap1)
 {
     TEST_CASE_NAME("ap1")
-    qDebug() << "application isRunning ap1 count = " << count_testDefine++;
     ASSERT_EQ(false, dApp->isRunning());
     QTest::qWait(300);
 }
@@ -38,11 +39,10 @@ TEST(isRunning, ap1)
 TEST(sendMessage, ap2)
 {
     TEST_CASE_NAME("ap1")
-    qDebug() << "application sendMessage ap2 count = " << count_testDefine++;
     ASSERT_EQ(false, dApp->sendMessage(""));
 }
-
-// 文件夹拷贝
+#if 0
+// 文件夹拷贝,暂不使用
 bool copyDirFiles(const QString &fromDir, const QString &toDir)
 {
     QDir sourceDir(fromDir);
@@ -77,7 +77,6 @@ bool copyDirFiles(const QString &fromDir, const QString &toDir)
 //拷贝图片
 void CopyPicToLocal()
 {
-//    TEST_CASE_NAME("other")
     QDir dir;
     dir.cd("./../../tests/testResource");//脚本终端run
     // 启动方式不同，路径不同
@@ -96,6 +95,7 @@ void CopyPicToLocal()
         copyDirFiles(dir.path(), stringList[0]);
     }
 }
+#endif
 
 TEST(ImageLoader, load)
 {
@@ -110,7 +110,6 @@ TEST(ImageLoader, load)
 TEST(ImageButton, imgbtn)
 {
     TEST_CASE_NAME("ap1")
-    qDebug() << "ImageButton imgbtn count = " << count_testDefine++;
     ImageButton *btn = new ImageButton();
     btn->setDisabled(false);
     btn->setTooltipVisible(false);
@@ -128,7 +127,6 @@ TEST(ImageButton, imgbtn)
 TEST(ElidedLabel, namelabel)
 {
     TEST_CASE_NAME("ap1")
-    qDebug() << "ElidedLabel namelabel = " << count_testDefine++;
     ElidedLabel *lab = new ElidedLabel;
     lab->setText("test");
     lab->onThemeChanged(ViewerThemeManager::AppTheme::Dark);

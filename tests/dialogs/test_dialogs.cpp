@@ -1,18 +1,19 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include "application.h"
 #include "dialogs/albumcreatedialog.h"
 #include "dialogs/albumdeletedialog.h"
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "controller/exporter.h"
 #include "../test_qtestDefine.h"
+#include "ac-desktop-define.h"
 
 #include <QTestEventList>
 
 TEST(albumcreatedialog, dia1)
 {
     TEST_CASE_NAME("dia1")
-    qDebug() << "dialogs albumcreatedialog dia1 count = " << count_testDefine++;
     AlbumCreateDialog *a = new AlbumCreateDialog;
     ASSERT_TRUE(a->getCreateAlbumName().isEmpty());
 
@@ -27,7 +28,6 @@ TEST(albumcreatedialog, dia1)
 TEST(albumdeletedialog, deletdialog)
 {
     TEST_CASE_NAME("deletdialog")
-    qDebug() << "dialogs albumdeletedialog deletdialog count = " << count_testDefine++;
     AlbumDeleteDialog *d = new AlbumDeleteDialog;
     Q_UNUSED(d);
     QTestEventList event;
@@ -37,7 +37,6 @@ TEST(albumdeletedialog, deletdialog)
 TEST(albumdeletedialog, exportdialog)
 {
     TEST_CASE_NAME("exportdialog")
-    qDebug() << "dialogs albumdeletedialog exportdialog count = " << count_testDefine++;
     CExportImageDialog *c = new CExportImageDialog;
 //    c->getQuality();
 //    c->getSavePath();

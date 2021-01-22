@@ -13,6 +13,14 @@
 // 使用宏定义，方便国际化操作
 #define OPENACCESSIBLE
 
+//#define SELECT_CASE "load"
+
+#ifdef SELECT_CASE
+#define TEST_CASE_NAME(testName) if(testName != SELECT_CASE) return;
+#else
+#define TEST_CASE_NAME(testName)
+#endif
+
 #ifdef ENABLE_ACCESSIBILITY
 #define AC_SET_ACCESSIBLE_NAME(classObj,accessiblename) classObj->setAccessibleName(accessiblename);
 #else

@@ -1,13 +1,15 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QMap>
-#include <DFileDialog>
 #include <QTestEventList>
 #include <QObject>
 #include <QDialog>
 #include <QStringList>
-#include <DSearchEdit>
 #include <QFileInfo>
+
+#include <DSearchEdit>
+#include <DFileDialog>
 
 #define private public
 #define protected public
@@ -16,13 +18,14 @@
 #include "albumcreatedialog.h"
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
 TEST(CExportImageDialog, showQuestionDialog_test)
 {
     TEST_CASE_NAME("showQuestionDialog_test")
-    qDebug() << "CExportImageDialog showQuestionDialog_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -48,7 +51,6 @@ TEST(CExportImageDialog, showQuestionDialog_test)
 TEST(CExportImageDialog, showDirChoseDialog_test)
 {
     TEST_CASE_NAME("showDirChoseDialog_test")
-    qDebug() << "CExportImageDialog showDirChoseDialog_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -74,7 +76,6 @@ TEST(CExportImageDialog, showDirChoseDialog_test)
 TEST(CExportImageDialog, showEmptyWarningDialog_test)
 {
     TEST_CASE_NAME("showEmptyWarningDialog_test")
-    qDebug() << "CExportImageDialog showEmptyWarningDialog_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -86,7 +87,6 @@ TEST(CExportImageDialog, showEmptyWarningDialog_test)
 TEST(CExportImageDialog, CExportImageDialog_func)
 {
     TEST_CASE_NAME("CExportImageDialog_func")
-    qDebug() << "CExportImageDialog CExportImageDialog_func count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -108,7 +108,6 @@ TEST(CExportImageDialog, CExportImageDialog_func)
 TEST(CExportImageDialog, slotOnDialogButtonClick_test)
 {
     TEST_CASE_NAME("slotOnDialogButtonClick_test")
-    qDebug() << "CExportImageDialog slotOnDialogButtonClick_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
@@ -138,7 +137,6 @@ TEST(CExportImageDialog, slotOnDialogButtonClick_test)
 TEST(CExportImageDialog, doSave_test)
 {
     TEST_CASE_NAME("doSave_test")
-    qDebug() << "CExportImageDialog doSave_test count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);

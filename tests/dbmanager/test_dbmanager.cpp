@@ -1,19 +1,18 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include "application.h"
 #include "dbmanager.h"
 #include "DBandImgOperate.h"
-
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "../test_qtestDefine.h"
-
+#include "ac-desktop-define.h"
 #include "mainwindow.h"
 
 TEST(getAllPaths, db1)
 {
     TEST_CASE_NAME("db1")
-    qDebug() << "dbmanager getAllPaths db1 count = " << count_testDefine++;
     QStringList res = DBManager::instance()->getAllPaths();
 //    ASSERT_FALSE(res.isEmpty());
 }
@@ -21,7 +20,6 @@ TEST(getAllPaths, db1)
 TEST(getAllPaths, db2)
 {
     TEST_CASE_NAME("db2")
-    qDebug() << "dbmanager getAllPaths db2 count = " << count_testDefine++;
     DBImgInfoList res = DBManager::instance()->getAllInfos();
 //    ASSERT_FALSE(res.isEmpty());
 }
@@ -29,7 +27,6 @@ TEST(getAllPaths, db2)
 TEST(getAllTimelines, db3)
 {
     TEST_CASE_NAME("db3")
-    qDebug() << "dbmanager getAllPaths db3 count = " << count_testDefine++;
     QStringList res1 = DBManager::instance()->getAllTimelines();
 //    ASSERT_FALSE(res1.isEmpty());
     if (!res1.isEmpty()) {
@@ -41,7 +38,6 @@ TEST(getAllTimelines, db3)
 TEST(getImportTimelines, db4)
 {
     TEST_CASE_NAME("db4")
-    qDebug() << "dbmanager getImportTimelines db4 count = " << count_testDefine++;
     QStringList res1 = DBManager::instance()->getImportTimelines();
 //    ASSERT_FALSE(res1.isEmpty());
     if (!res1.isEmpty()) {
@@ -62,7 +58,6 @@ TEST(getImportTimelines, db4)
 TEST(getImgsCount, db5)
 {
     TEST_CASE_NAME("db5")
-    qDebug() << "dbmanager getImgsCount db5 count = " << count_testDefine++;
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath);
@@ -74,7 +69,6 @@ TEST(getImgsCount, db5)
 TEST(removeTestImagesInfo, db6)
 {
     TEST_CASE_NAME("db6")
-    qDebug() << "dbmanager getImgsCount db6 count = " << count_testDefine++;
 //    QString testPath = "/home/djh/Pictures/dbtest";
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath_test);
@@ -98,7 +92,6 @@ TEST(removeTestImagesInfo, db6)
 TEST(getAlbumCount, db7)
 {
     TEST_CASE_NAME("db7")
-    qDebug() << "dbmanager getAlbumCount db7 count = " << count_testDefine++;
 //    DBManager::instance()->getAlbumsCount();
     DBManager::instance()->getAllAlbumNames();
 }
@@ -106,7 +99,6 @@ TEST(getAlbumCount, db7)
 TEST(getImageByKeyBoard, db8)
 {
     TEST_CASE_NAME("db8")
-    qDebug() << "dbmanager getImageByKeyBoard db8 count = " << count_testDefine++;
     DBManager::instance()->getInfosForKeyword("");
     DBManager::instance()->getInfosForKeyword("1");
     DBManager::instance()->getInfosForKeyword("a");
@@ -115,7 +107,6 @@ TEST(getImageByKeyBoard, db8)
 TEST(getTrashImageCount, db10)
 {
     TEST_CASE_NAME("db10")
-    qDebug() << "dbmanager getTrashImageCount db10 count = " << count_testDefine++;
     DBManager::instance()->getTrashImgsCount();
     DBManager::instance()->getAllTrashInfos();
     DBManager::instance()->getAllTrashPaths();
@@ -125,7 +116,6 @@ TEST(getTrashImageCount, db10)
 TEST(AlbumForTest, db11)
 {
     TEST_CASE_NAME("db11")
-    qDebug() << "dbmanager AlbumForTest db11 count = " << count_testDefine++;
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "dbtest";
     QStringList image_list;
     auto finfos = utils::image::getImagesInfo(testPath);

@@ -1,21 +1,22 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-#include "application.h"
-#include "mainwindow.h"
-#include "timelineview.h"
-#include "../test_qtestDefine.h"
-
-#include "utils/baseutils.h"
-#include "imageengineapi.h"
-
 
 #include <QTestEventList>
 #include <QScrollBar>
 
+#include "application.h"
+#include "mainwindow.h"
+#include "timelineview.h"
+#include "../test_qtestDefine.h"
+#include "ac-desktop-define.h"
+#include "utils/baseutils.h"
+#include "imageengineapi.h"
+
+
+
 TEST(TimeLineView, T1)
 {
     TEST_CASE_NAME("T1")
-    qDebug() << "TimeLineView T1 count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
     QTestEventList event;
@@ -87,7 +88,6 @@ TEST(TimeLineView, T1)
 TEST(TimeLineView, dragPhotoToAnAlbum)
 {
     TEST_CASE_NAME("dragPhotoToAnAlbum")
-    qDebug() << "TimeLineView dragPhotoToAnAlbum count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
 
     w->timeLineBtnClicked();
@@ -160,7 +160,6 @@ TEST(TimeLineView, dragPhotoToAnAlbum)
 TEST(TimeLineView, SelectTimeLinesBtn)
 {
     TEST_CASE_NAME("SelectTimeLinesBtn")
-    qDebug() << "TimeLineView SelectTimeLinesBtn count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     QTestEventList event;
     w->timeLineBtnClicked();
@@ -205,7 +204,6 @@ TEST(TimeLineView, importImages)
 TEST(TimeLineView, selectBtn)
 {
     TEST_CASE_NAME("selectBtn")
-    qDebug() << "TimeLineView selectBtn count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->timeLineBtnClicked();
     QTest::qWait(500);
@@ -272,7 +270,6 @@ TEST(TimeLineView, selectBtn)
 TEST(TimeLineView, changeTheme)
 {
     TEST_CASE_NAME("changeTheme")
-    qDebug() << "TimeLineView changeTheme count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->timeLineBtnClicked();
     QTest::qWait(500);
@@ -284,7 +281,7 @@ TEST(TimeLineView, changeTheme)
 
 //TEST(TimeLineView, changSliderValue)
 //{
-//	  TEST_CASE_NAME("changSliderValue")
+//    TEST_CASE_NAME("changSliderValue")
 //    qDebug() << "TimeLineView changSliderValue count = " << count_testDefine++;
 //    MainWindow *w = dApp->getMainWindow();
 //    w->timeLineBtnClicked();
@@ -320,7 +317,6 @@ TEST(TimeLineView, changeTheme)
 TEST(TimeLineView, oneThumblistview_test)
 {
     TEST_CASE_NAME("oneThumblistview_test")
-    qDebug() << "TimeLineView T1 count = " << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->showEvent(nullptr);
     QTestEventList event;

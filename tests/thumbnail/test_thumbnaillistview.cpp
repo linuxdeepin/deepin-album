@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
 #include <QTestEventList>
 #include <QString>
 
@@ -15,13 +16,14 @@
 #include "albumcreatedialog.h"
 #include "../test_qtestDefine.h"
 #include "thumbnaillistview.h"
+#include "ac-desktop-define.h"
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
 TEST(ThumbnailListView, initThumbnailListView)
 {
     TEST_CASE_NAME("initThumbnailListView")
-    qDebug() << "ThumbnailListView initThumbnailListView count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->timeLineBtnClicked();
     w->allPicBtnClicked();
@@ -94,7 +96,6 @@ TEST(ThumbnailListView, initThumbnailListView)
 TEST(ThumbnailListView, createNewAlbumFromDialog1)
 {
     TEST_CASE_NAME("createNewAlbumFromDialog1")
-    qDebug() << "ThumbnailListView createNewAlbumFromDialog1 count" << count_testDefine++;
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
 
