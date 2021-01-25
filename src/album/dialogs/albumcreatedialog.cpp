@@ -91,7 +91,8 @@ void AlbumCreateDialog::initUI()
     addContent(contentWidget);
     QWidget *closeButton =  this->findChild<QWidget *>("DTitlebarDWindowCloseButton");
     closeButton->setFocusPolicy(Qt::NoFocus);
-    edit->lineEdit()->setFocusPolicy(Qt::NoFocus);
+    // 修改点击可获取lineEdit焦点
+    edit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
     this->setTabOrder(getButton(0), getButton(1));
 }
 
