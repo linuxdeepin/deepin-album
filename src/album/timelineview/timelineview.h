@@ -66,7 +66,7 @@ public:
 
 public slots:
     void on_AddLabel(QString date, QString num);
-    void on_DelLabel();
+//    void on_DelLabel();//未使用
     void on_DCommandLinkButton();
     void on_GetSelectedPaths(QStringList *pPaths);
 #if 1

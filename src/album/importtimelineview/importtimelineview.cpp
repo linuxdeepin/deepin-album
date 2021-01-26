@@ -115,7 +115,7 @@ void ImportTimeLineView::getCurrentSelectPics()
 void ImportTimeLineView::initConnections()
 {
     connect(m_mainListWidget, &TimelineListWidget::sigNewTime, this, &ImportTimeLineView::onNewTime);
-    connect(m_mainListWidget, &TimelineListWidget::sigDelTime, this, &ImportTimeLineView::on_DelLabel);
+//    connect(m_mainListWidget, &TimelineListWidget::sigDelTime, this, &ImportTimeLineView::on_DelLabel);
     connect(m_mainListWidget, &TimelineListWidget::sigMoveTime, this, &ImportTimeLineView::on_MoveLabel);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &ImportTimeLineView::themeChangeSlot);
     // 重复导入图片选中
@@ -935,16 +935,16 @@ void ImportTimeLineView::on_AddLabel(QString date, QString num)
 #endif
 }
 
-void ImportTimeLineView::on_DelLabel()
-{
-    if (nullptr != m_dateItem) {
-        m_dateItem->setVisible(false);
-    }
-#if 1
-    QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-    pSuspensionChose->setText(b[0]->text());
-#endif
-}
+//void ImportTimeLineView::on_DelLabel()
+//{
+//    if (nullptr != m_dateItem) {
+//        m_dateItem->setVisible(false);
+//    }
+//#if 1
+//    QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+//    pSuspensionChose->setText(b[0]->text());
+//#endif
+//}
 
 #if 1
 void ImportTimeLineView::on_MoveLabel(int y, QString date, QString num, QString choseText)

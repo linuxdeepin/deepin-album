@@ -33,58 +33,6 @@ TEST(AlbumView, deleteAll)
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
     w->loadZoomRatio();
-
-    QDir dir(testPath_test);
-    if (!dir.exists()) {
-        dir.mkdir(testPath_test);
-    }
-    QFileInfo fileinfo;
-    QPixmap pix;
-    fileinfo.setFile(testPath_test + "/13lzwv.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/13lzwv.png");
-        pix.save(testPath_test + "/13lzwv.png");
-    }
-    fileinfo.setFile(testPath_test + "/2e5y8y.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/2e5y8y.png");
-        pix.save(testPath_test + "/2e5y8y.png");
-    }
-    fileinfo.setFile(testPath_test + "/2ejqyx.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/2ejqyx.png");
-        pix.save(testPath_test + "/2ejqyx.png");
-    }
-    fileinfo.setFile(testPath_test + "/2k9o1m.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/2k9o1m.png");
-        pix.save(testPath_test + "/2k9o1m.png");
-    }
-    fileinfo.setFile(testPath_test + "/3333.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/3333.png");
-        pix.save(testPath_test + "/3333.png");
-    }
-    fileinfo.setFile(testPath_test + "/39elz3.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/39elz3.png");
-        pix.save(testPath_test + "/39elz3.png");
-    }
-    fileinfo.setFile(testPath_test + "/3kp6yv.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/3kp6yv.png");
-        pix.save(testPath_test + "/3kp6yv.png");
-    }
-    fileinfo.setFile(testPath_test + "/4l6r5y.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/4l6r5y.png");
-        pix.save(testPath_test + "/4l6r5y.png");
-    }
-    fileinfo.setFile(testPath_test + "/4v9ml0.png");
-    if (!fileinfo.exists()) {
-        pix = QPixmap(":/4v9ml0.png");
-        pix.save(testPath_test + "/4v9ml0.png");
-    }
 }
 
 TEST(AlbumView, removeTestImagesInfo)
@@ -809,31 +757,6 @@ TEST(AlbumViewList, albumViewList_other3_test)
 
 }
 
-//TEST(AlbumViewList, albumViewList_other4_test)
-//{
-//    qDebug() << "AlbumView albumViewList_other4_test count = " << count_testDefine++;
-
-//    MainWindow *w = dApp->getMainWindow();
-
-//    w->m_pAlbumview->m_pLeftListView->onMountListWidgetCurrentItemChanged();
-
-
-//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
-//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
-
-//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_TRASH;
-//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
-
-//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_FAVORITES;
-//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
-
-//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = COMMON_STR_CUSTOM;
-//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
-
-//    w->m_pAlbumview->m_pLeftListView->m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
-//    w->m_pAlbumview->m_pLeftListView->onApplicationHelperThemeTypeChanged();
-//}
-
 TEST(AlbumViewList, albumViewList_other4_test)
 {
     TEST_CASE_NAME("albumViewList_other4_test")
@@ -861,7 +784,7 @@ TEST(AlbumViewList, albumViewList_other4_test)
     ImportTimeLineView *pImpTimeLineWidget = w->findChild<ImportTimeLineView *>(AlbumView_pImpTimeLineWidget);
 
     if (pImpTimeLineWidget) {
-        pImpTimeLineWidget->on_DelLabel();
+//        pImpTimeLineWidget->on_DelLabel();
         pImpTimeLineWidget->on_MoveLabel(1, "", "", "");
 
 

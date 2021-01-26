@@ -186,21 +186,6 @@ TEST(TimeLineView, SelectTimeLinesBtn)
     }
 }
 
-TEST(TimeLineView, importImages)
-{
-//    qDebug() << "TimeLineView SelectTimeLinesBtn count = " << count_testDefine++;
-//    MainWindow *w = dApp->getMainWindow();
-//    QTestEventList event;
-//    w->timeLineBtnClicked();
-//    QTest::qWait(500);
-//    TimeLineView *t = w->m_pTimeLineView;
-//    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
-//    QTest::qWait(500);
-//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
-//    QTest::qWait(500);
-}
-
 TEST(TimeLineView, selectBtn)
 {
     TEST_CASE_NAME("selectBtn")
@@ -238,35 +223,6 @@ TEST(TimeLineView, selectBtn)
     QTest::qWait(500);
 }
 
-//TEST(TimeLineView, keyDeletePhotos)//roc
-//{
-//    qDebug() << "TimeLineView selectBtn count = " << count_testDefine++;
-//    MainWindow *w = dApp->getMainWindow();
-//    w->timeLineBtnClicked();
-//    QTest::qWait(500);
-//    TimeLineView *t = w->m_pTimeLineView;
-//    t->setFocus();
-//    QList<QWidget *> widgets = t->findChildren<QWidget *>("");
-//    for (int i = 0; i < widgets.count(); i++) {
-//        if (!strcmp(widgets.at(i)->metaObject()->className(), ("Dtk::Widget::DCommandLinkButton"))) {
-//            DCommandLinkButton *pDCmdBtnSelect = dynamic_cast<DCommandLinkButton *>(widgets.at(i));
-//            if (pDCmdBtnSelect->text() == QObject::tr("Select")) {
-//                QTestEventList event;
-//                event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, QPoint(10, 10));
-//                event.simulate(widgets.at(i));
-//                event.clear();
-//                QTest::qWait(100);
-//                dApp->signalM->sigShortcutKeyDelete();
-//                break;
-//            }
-//        }
-//    }
-//    QTest::qWait(500);
-//    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", t, true);
-//    QTest::qWait(500);
-//}
-
 TEST(TimeLineView, changeTheme)
 {
     TEST_CASE_NAME("changeTheme")
@@ -278,41 +234,6 @@ TEST(TimeLineView, changeTheme)
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     QTest::qWait(500);
 }
-
-//TEST(TimeLineView, changSliderValue)
-//{
-//    TEST_CASE_NAME("changSliderValue")
-//    qDebug() << "TimeLineView changSliderValue count = " << count_testDefine++;
-//    MainWindow *w = dApp->getMainWindow();
-//    w->timeLineBtnClicked();
-//    TimeLineView *t = w->m_pTimeLineView;
-//    int width = t->m_pStatusBar->m_pSlider->slider()->width();
-//    QPoint pos(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-//    QTestEventList event;
-//    event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-//    pos = pos - QPoint(200, 0);
-//    event.addMouseMove(pos);
-//    QTest::qWait(500);
-//    event.simulate(t->m_pStatusBar->m_pSlider->slider());
-//    pos = QPoint(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-//    for (int i = 0; i < 5; i++) {
-//        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-//        pos = pos + QPoint(20, 0);
-//        event.addMouseMove(pos);
-//        event.simulate(t->m_pStatusBar->m_pSlider->slider());
-//        event.clear();
-//        QTest::qWait(400);
-//    }
-//    pos = QPoint(width / 10 * t->m_pStatusBar->m_pSlider->slider()->sliderPosition(), 10);
-//    for (int i = 0; i < 5; i++) {
-//        event.addMousePress(Qt::LeftButton, Qt::NoModifier, pos);
-//        pos = pos - QPoint(20, 0);
-//        event.addMouseMove(pos);
-//        event.simulate(t->m_pStatusBar->m_pSlider->slider());
-//        event.clear();
-//        QTest::qWait(400);
-//    }
-//}
 
 TEST(TimeLineView, oneThumblistview_test)
 {

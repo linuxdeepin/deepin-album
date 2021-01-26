@@ -45,7 +45,7 @@ signals:
 public slots:
     void getCurrentSelectPics();
     void on_AddLabel(QString date, QString num);
-    void on_DelLabel();
+//    void on_DelLabel();//未使用
 #if 1
     void on_MoveLabel(int y, QString date, QString num, QString choseText);
 #endif

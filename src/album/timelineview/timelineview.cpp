@@ -79,7 +79,7 @@ void TimeLineView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::clearAndStartLayout);
     connect(dApp, &Application::sigFinishLoad, this, &TimeLineView::onFinishLoad);
     connect(m_mainListWidget, &TimelineListWidget::sigNewTime, this, &TimeLineView::onNewTime);
-    connect(m_mainListWidget, &TimelineListWidget::sigDelTime, this, &TimeLineView::on_DelLabel);
+//    connect(m_mainListWidget, &TimelineListWidget::sigDelTime, this, &TimeLineView::on_DelLabel);//未使用
     connect(m_mainListWidget, &TimelineListWidget::sigMoveTime, this, &TimeLineView::on_MoveLabel);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
@@ -144,7 +144,7 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 
 ThumbnailListView *TimeLineView::getFirstListViewFromTimeline()
 {
-    if(m_allThumbnailListView.count() > 0)
+    if (m_allThumbnailListView.count() > 0)
         return m_allThumbnailListView.at(0);
     else
         return nullptr;
@@ -823,16 +823,16 @@ void TimeLineView::on_AddLabel(QString date, QString num)
 #endif
 }
 
-void TimeLineView::on_DelLabel()
-{
-    if (nullptr != m_dateItem) {
-        m_dateItem->setVisible(false);
-    }
-#if 1
-    QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-    pSuspensionChose->setText(b[0]->text());
-#endif
-}
+//void TimeLineView::on_DelLabel()
+//{
+//    if (nullptr != m_dateItem) {
+//        m_dateItem->setVisible(false);
+//    }
+//#if 1
+//    QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
+//    pSuspensionChose->setText(b[0]->text());
+//#endif
+//}
 
 void TimeLineView::on_DCommandLinkButton()
 {

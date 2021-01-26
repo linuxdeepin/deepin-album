@@ -101,7 +101,7 @@ void ImportImagesThread::run()
     if (m_albumname.length() > 0) {
         // 在相册中导入时,
         curAlbumImgPathList = DBManager::instance()->getPathsByAlbum(m_albumname);
-    }else {
+    } else {
         // 不是在相册中导入时,allpic timeline .etc
         curAlbumImgPathList = DBManager::instance()->getAllPaths();
     }
@@ -117,7 +117,7 @@ void ImportImagesThread::run()
                 for (auto finfo : finfos) {
                     if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
                         // if path imported album
-                        if (curAlbumImgPathList.contains(finfo.absoluteFilePath())){
+                        if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
                             curAlbumImportedPathList << finfo.absoluteFilePath();
                         } else {
                             image_list << finfo.absoluteFilePath();
@@ -149,7 +149,7 @@ void ImportImagesThread::run()
                 for (auto finfo : finfos) {
                     if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
                         // if path imported album
-                        if (curAlbumImgPathList.contains(finfo.absoluteFilePath())){
+                        if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
                             curAlbumImportedPathList << finfo.absoluteFilePath();
                         } else {
                             image_list << finfo.absoluteFilePath();
@@ -159,7 +159,7 @@ void ImportImagesThread::run()
             } else if (file.exists()) { //文件存在
 
                 // if path imported album
-                if (curAlbumImgPathList.contains(path)){
+                if (curAlbumImgPathList.contains(path)) {
                     curAlbumImportedPathList << path;
                 } else {
                     image_list << path;
@@ -182,8 +182,7 @@ void ImportImagesThread::run()
         m_obj->imageImported(true);
         m_obj->removeThread(this);
         return;
-    }
-    else if (image_list.size() > 0) {
+    } else if (image_list.size() > 0) {
         if (m_bdialogselect) {
             QFileInfo firstFileInfo(image_list.first());
             static QString cfgGroupName = QStringLiteral("General"), cfgLastOpenPath = QStringLiteral("LastOpenPath");
@@ -277,7 +276,7 @@ void ImportImagesThread::run()
             dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);// 导入照片提示在此处理中
             m_obj->imageImported(true);
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
-            if(curAlbumImportedPathList.count() > 0) {
+            if (curAlbumImportedPathList.count() > 0) {
                 emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
             }
         } else {
@@ -633,7 +632,7 @@ void ImageGetFilesFromMountThread::run()
 }
 
 ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
-    :m_loadCount(loadCount)
+    : m_loadCount(loadCount)
 {
 //    m_loadCount = loadCount;
     setAutoDelete(true);
@@ -1209,69 +1208,3 @@ void ImageEngineBackThread::onStartOrPause(bool pause)
         m_bpause = false;
     }
 }
-
-//内存+文件旋转优化方案-已废弃
-
-//RotateSaveThread::RotateSaveThread()
-//{
-//    setAutoDelete(true);
-//}
-
-//void RotateSaveThread::setDatas(QHash<QString, RotateSaveRequest> requests_bar)
-//{
-//    for (RotateSaveRequest i : requests_bar) {
-//        m_requests.append(i);
-//    }
-//}
-
-//void RotateSaveThread::run()
-//{
-//    for (RotateSaveRequest i : m_requests) {
-//        QString errorMsg;
-//        if (!UnionImage_NameSpace::rotateImageFIle(static_cast<int>(i.angel), i.path, errorMsg)) {
-//            qDebug() << errorMsg;
-//            qDebug() << "Save error";
-//        } else {
-//            qDebug() << "Save Success";
-//            dApp->m_imageloader->updateImageLoader(QStringList(i.path));
-//        }
-//    }
-//    if (m_requests.empty()) {
-//        qDebug() << "No Pic and Run Thread";
-//    } else {
-//        qDebug() << "Save End";
-//    }
-
-//}
-
-//ImageRotateThreadControler::ImageRotateThreadControler()
-//{
-//    wait = new QTimer(this);
-//    rotateThreadPool.setMaxThreadCount(5);
-//    connect(wait, &QTimer::timeout, this, &ImageRotateThreadControler::startSave);
-//}
-
-//ImageRotateThreadControler::~ImageRotateThreadControler()
-//{
-//    rotateThreadPool.waitForDone();
-//}
-//void ImageRotateThreadControler::addRotateAndSave(RotateSaveRequest request, int time_gap)
-//{
-//    if (NoRepeatRequest.contains(request.path)) {
-//        NoRepeatRequest[request.path].angel += request.angel;
-//        emit updateRotate(static_cast<int>(NoRepeatRequest[request.path].angel));
-//    } else {
-//        NoRepeatRequest.insert(request.path, request);
-//    }
-//    wait->start(time_gap);
-//}
-
-//void ImageRotateThreadControler::startSave()
-//{
-//    emit updateRotate(0);
-//    RotateSaveThread *thread = new RotateSaveThread;
-//    thread->setDatas(NoRepeatRequest);
-//    NoRepeatRequest.clear();
-//    rotateThreadPool.start(thread);
-//    wait->stop();
-//}

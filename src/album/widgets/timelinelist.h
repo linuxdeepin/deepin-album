@@ -30,7 +30,7 @@ protected:
 
 signals:
     void sigNewTime(QString date, QString num, int index);
-    void sigDelTime();
+//    void sigDelTime();//未使用
     void sigMoveTime(int y, QString date, QString num, QString choseText);
 
 private slots:

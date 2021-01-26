@@ -76,19 +76,6 @@ TEST(allpicview, resize)
     QTest::qWait(200);
 }
 
-TEST(allpicview, keypress)
-{
-    TEST_CASE_NAME("keypress")
-    QTest::qWait(200);
-    MainWindow *w = dApp->getMainWindow();
-    AllPicView *a = w->m_pAllPicView;
-    w->show();
-    QTestEventList event;
-    event.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
-    event.simulate(a->getThumbnailListView());
-    QTest::qWait(200);
-}
-
 TEST(allpicview, dragevent)
 {
     TEST_CASE_NAME("dragevent")
@@ -207,19 +194,7 @@ TEST(allpicview, test_open)
                     ml->findSelectItem();
                     ml->thumbnailIsMoving();
                     ml->stopAnimation();
-//                    QPoint po = ml->pos();
-//                    e.addMousePress(Qt::MouseButton::LeftButton, Qt::NoModifier, po, 50);
-//                    e.addMouseRelease(Qt::MouseButton::LeftButton, Qt::NoModifier, po, 50);
-//                    e.simulate(ml);
-//                    e.clear();
                     ml->deleteLater();
-//                    QTestEventList el;
-//                    QPoint p(ml->pos().x() - 50, ml->pos().y() + 10);
-//                    el.addMouseMove(p);
-//                    el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p, 100);
-//                    el.addMouseMove(QPoint(p.x() + 100, p.y()), 100);
-//                    el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p.x() + 100, p.y()), 100);
-//                    el.simulate(ml);
                 }
             }
         }

@@ -80,7 +80,6 @@ TEST(ImportTimeLineView, on_KeyEvent_test)
 }
 
 TEST(ImportTimeLineView, resizeHand_test)
-
 {
     TEST_CASE_NAME("resizeHand_test")
     MainWindow *w = dApp->getMainWindow();
