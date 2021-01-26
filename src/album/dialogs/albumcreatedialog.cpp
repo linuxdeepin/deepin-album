@@ -46,6 +46,25 @@ void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
     }
 }
 
+bool AlbumCreateDialog::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Tab) {
+            // 修改编辑框焦点方式
+            edit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+            // cancel sure btn tab foucs
+            if (getButton(0) == obj) {
+                getButton(1)->setFocus();
+                return true;
+            } else if (getButton(0) == obj) {
+                getButton(1)->setFocus();
+            }
+        }
+    }
+    return QWidget::eventFilter(obj, event);
+}
+
 void AlbumCreateDialog::initUI()
 {
     setFixedSize(380, 180);
@@ -91,9 +110,9 @@ void AlbumCreateDialog::initUI()
     addContent(contentWidget);
     QWidget *closeButton =  this->findChild<QWidget *>("DTitlebarDWindowCloseButton");
     closeButton->setFocusPolicy(Qt::NoFocus);
-    // 修改点击可获取lineEdit焦点
-    edit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
     this->setTabOrder(getButton(0), getButton(1));
+    getButton(0)->installEventFilter(this);
+    getButton(1)->installEventFilter(this);
 }
 
 void AlbumCreateDialog::initConnection()
@@ -176,7 +195,7 @@ void AlbumCreateDialog::onVisibleChanged(bool v)
 {
     if (! v) return;
     edit->lineEdit()->selectAll();
-//    edit->lineEdit()->setFocus();
+    edit->lineEdit()->setFocus();
 }
 
 void AlbumCreateDialog::onReturnPressed()

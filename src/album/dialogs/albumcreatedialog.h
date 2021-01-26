@@ -47,6 +47,8 @@ signals:
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 
 private:
     void initUI();
