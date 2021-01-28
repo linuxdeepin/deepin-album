@@ -74,6 +74,18 @@ public:
     void initTimeLineViewTabOrder();
     // 设置有图片时的AlbumView tab tab切换顺序
     void initAlbumViewTabOrder();
+    // enter key
+    void initEnterkeyAction(QObject *obj);
+    // right key
+    bool initRightKeyOrder(QObject *obj);
+    // left key
+    bool initLeftKeyOrder(QObject *obj);
+    // down key
+    bool initDownKeyOrder();
+    // up key
+    bool initUpKeyOrder();
+    // all view tab key order
+    bool initAllViewTabKeyOrder(QObject *obj);
 
     void setWaitDialogColor();
     int getCurrentViewType();

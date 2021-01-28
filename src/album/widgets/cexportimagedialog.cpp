@@ -119,8 +119,30 @@ void CExportImageDialog::removeGifType()
 
 void CExportImageDialog::showEvent(QShowEvent *evet)
 {
-//    m_fileNameEdit->lineEdit()->setFocus();     //设置焦点
+    // 初始编辑框焦点设置
+    m_fileNameEdit->lineEdit()->selectAll();
+    m_fileNameEdit->lineEdit()->setFocus();     //设置焦点
     return QWidget::showEvent(evet);
+}
+
+bool CExportImageDialog::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Tab) {
+            // 修改编辑框焦点方式
+            m_fileNameEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+            // cancel sure btn tab foucs
+            if (getButton(0) == obj) {
+                getButton(1)->setFocus();
+                return true;
+            } else if (getButton(1) == obj) {
+                getButton(0)->setFocus();
+                return true;
+            }
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 void CExportImageDialog::initUI()
@@ -140,7 +162,6 @@ void CExportImageDialog::initUI()
     setWindowTitle(tr("Export"));
 
     m_fileNameEdit = new DLineEdit(this);
-    m_fileNameEdit->lineEdit()->setFocusPolicy(Qt::NoFocus);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
 
@@ -249,9 +270,11 @@ void CExportImageDialog::initUI()
     m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
     m_emptyWarningDialog->setFixedSize(400, 170);
 
-    QWidget* closeButton =  this->findChild<QWidget*>("DTitlebarDWindowCloseButton");
-    closeButton->setFocusPolicy(Qt::NoFocus);
+    QWidget* closeButton = findChild<QWidget*>("DTitlebarDWindowCloseButton");
+    closeButton->setFocusPolicy(Qt::ClickFocus);
     this->setTabOrder(getButton(0), getButton(1));
+    getButton(0)->installEventFilter(this);
+    getButton(1)->installEventFilter(this);
 }
 
 void CExportImageDialog::initConnection()

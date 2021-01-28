@@ -57,8 +57,9 @@ bool AlbumCreateDialog::eventFilter(QObject *obj, QEvent *event)
             if (getButton(0) == obj) {
                 getButton(1)->setFocus();
                 return true;
-            } else if (getButton(0) == obj) {
-                getButton(1)->setFocus();
+            } else if (getButton(1) == obj) {
+                getButton(0)->setFocus();
+                return true;
             }
         }
     }
