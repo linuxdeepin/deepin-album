@@ -231,6 +231,7 @@ install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
 install(FILES deepin-album.desktop DESTINATION ${DesktopDir})
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${ManIconDir})
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${AppIconDir})
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/../assets/deepin-album DESTINATION /usr/share/deepin-manual/manual-assets/application/)
 
 #set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
 #set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
