@@ -150,6 +150,7 @@ if(DOTEST)
     FILE(GLOB allTestSource1
         "./album/application.cpp"
         "./album/mainwindow.cpp"
+        "./album/fileinotify.cpp"
         )
 
 #    set(AllTestQRC

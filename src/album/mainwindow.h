@@ -11,6 +11,7 @@
 #include "controller/dbusclient.h"
 #include "widgets/dialogs/imginfodialog.h"
 #include "module/slideshow/slideshowpanel.h"
+#include "fileinotify.h"
 
 #include <DMainWindow>
 #include <QListWidget>
@@ -95,6 +96,8 @@ public:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     QJsonObject createShorcutJson();
+    //开始监控
+    void startMonitor();
 private:
     void thumbnailZoomIn();
     void thumbnailZoomOut();
@@ -204,15 +207,16 @@ private:
     bool m_processOptionIsEmpty = false;
     QSettings *m_settings;
     // 所有照片空白界面时的taborder
-    QList<QWidget*> m_emptyAllViewTabOrder;
+    QList<QWidget *> m_emptyAllViewTabOrder;
     // 所有照片非空白界面时
-    QList<QWidget*> m_AllpicViewTabOrder;
+    QList<QWidget *> m_AllpicViewTabOrder;
     // 时间线非空白界面时
-    QList<QWidget*> m_TimelineViewTabOrder;
+    QList<QWidget *> m_TimelineViewTabOrder;
     // 相册非空白界面时
-    QList<QWidget*> m_AlbumViewTabOrder;
+    QList<QWidget *> m_AlbumViewTabOrder;
     // isfirst init
     QVector<bool> m_bVector;
+    FileInotify *m_fileInotify;//固定文件夹监控
 
 public:
     QButtonGroup *getButG();

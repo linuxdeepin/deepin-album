@@ -113,6 +113,7 @@ void AllPicView::initConnections()
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &AllPicView::onImportFailedToView);
     connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AllPicView::onKeyDelete);
+    connect(dApp->signalM, &SignalManager::sigMonitorChanged, this, &AllPicView::monitorHaveNewFile);
 }
 
 void AllPicView::updateStackedWidget()
@@ -125,6 +126,11 @@ void AllPicView::updateStackedWidget()
         m_pStatusBar->setVisible(false);
     }
     updatePicNum();
+}
+
+void AllPicView::monitorHaveNewFile(QStringList list)
+{
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", this, true);
 }
 
 void AllPicView::updatePicsIntoThumbnailView()

@@ -61,6 +61,8 @@ private:
 
 public slots:
     void updateStackedWidget();
+    // 监控到新文件
+    void monitorHaveNewFile(QStringList list);
 
 private slots:
     void updatePicsIntoThumbnailViewWithCache();

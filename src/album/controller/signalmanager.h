@@ -170,6 +170,9 @@ signals:
     //对于外设后台加载是否暂停，在查看界面使用  -xiaolong
     void sigPauseOrStart(bool bpause);
 
+    //监控到改变
+    void sigMonitorChanged(QStringList newfile);
+
 private:
     explicit SignalManager(QObject *parent = nullptr);
 

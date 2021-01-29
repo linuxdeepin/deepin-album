@@ -73,11 +73,9 @@ MainWindow::MainWindow()
     , m_countLabel(nullptr)
     , m_pDBus(nullptr)
     , m_settings(nullptr)
+    , m_fileInotify(nullptr)
 {
     this->setObjectName("drawMainWindow");
-//    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
-//                             + "/config.conf";
-//    m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
     initShortcutKey();          //初始化各种快捷键
     initUI();
     initTitleBar();             //初始化顶部状态栏
@@ -788,8 +786,7 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
         if (obj == m_pAllPicView->getThumbnailListView()) {
             if (!m_pAllPicView->getThumbnailListView()->isFirstPhotoSelected() && !m_pAllPicView->getThumbnailListView()->isNoPhotosSelected()) {
                 return true;
-            }
-            else {
+            } else {
                 m_pAllPicView->getThumbnailListView()->clearSelection();
             }
         }
@@ -1670,6 +1667,17 @@ QJsonObject MainWindow::createShorcutJson()
     main_shortcut.insert("shortcut", shortcutArrayall);
 
     return main_shortcut;
+}
+
+void MainWindow::startMonitor()
+{
+    m_fileInotify = new FileInotify();
+    QStringList paths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    if (paths.size() > 0) {
+        QString path = paths.at(0) + "/Picture";
+        m_fileInotify->addWather(path);
+        m_fileInotify->start();
+    }
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)

@@ -181,6 +181,7 @@ int main(int argc, char *argv[])
     w.show();
     dApp->setMainWindow(&w);
     Dtk::Widget::moveToCenter(&w);
+    w.startMonitor();
 
     if (bneedexit)
         bfirstopen = false;
