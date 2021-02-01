@@ -2,7 +2,6 @@
 #define DFMDARROWLINEEXPAND_H
 
 #include <DArrowLineDrawer>
-#include <DArrowLineExpand>
 
 DWIDGET_USE_NAMESPACE
 

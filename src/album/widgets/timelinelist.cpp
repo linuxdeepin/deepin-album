@@ -38,7 +38,8 @@ void TimelineListWidget::dragMoveEvent(QDragMoveEvent *event)
 
 void TimelineListWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    return QListWidget::mouseMoveEvent(event);
+    Q_UNUSED(event)
+//    return QListWidget::mouseMoveEvent(event); //不返回给QListWidget
 }
 
 void TimelineListWidget::paintEvent(QPaintEvent *e)
