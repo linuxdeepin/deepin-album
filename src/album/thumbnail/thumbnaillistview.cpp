@@ -1592,7 +1592,7 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
             m_model->setItemData(index, tempData);
         }
     }
-	setCurrentSelectPath();
+    setCurrentSelectPath();
     QStringList paths;
     paths.clear();
     for (QModelIndex index : selectionModel()->selectedIndexes()) {

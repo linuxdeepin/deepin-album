@@ -76,10 +76,8 @@ FILE (GLOB allHeaders
 
 set(AllQRC
     album/resources.qrc
-    icons/theme-icons.qrc
-    album/frame/frametheme.qrc
-    album/module/view/viewtheme.qrc
-    album/widgets/widgetstheme.qrc)
+    icons/icons.qrc
+    )
 file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${CMD_NAME}*.ts)
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
@@ -152,9 +150,6 @@ if(DOTEST)
         "./album/mainwindow.cpp"
         "./album/fileinotify.cpp"
         )
-
-#    set(AllTestQRC
-#        ./../tests/testResource/testResource.qrc)
 
     add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${AllTestQRC} ${allTestSource} ${allTestSource1})
     target_link_libraries(${PROJECT_NAME_TEST} gmock gtest pthread)

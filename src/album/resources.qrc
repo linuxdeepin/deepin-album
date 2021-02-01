@@ -1,19 +1,11 @@
 <RCC>
     <qresource prefix="/images/logo">
-        <file>resources/images/logo/deepin_image_viewer_24.png</file>
-        <file>resources/images/logo/deepin-image-viewer.svg</file>
-        <file>resources/images/logo/deepin-image-viewer.png</file>
-        <file>resources/images/logo/deepin_image_viewer_24.svg</file>
         <file>resources/images/other/photo_checked_dark.svg</file>
         <file>resources/images/other/select_active_dark.svg</file>
         <file>resources/images/other/icon_toast_sucess_new.svg</file>
         <file>resources/images/other/warning_new.svg</file>
     </qresource>
     <qresource prefix="/">
-        <file>resources/images/logo/deepin-image-viewer.png</file>
-        <file>resources/images/logo/deepin-image-viewer.svg</file>
-        <file>resources/images/logo/deepin_image_viewer_24.png</file>
-        <file>resources/images/logo/deepin_image_viewer_24.svg</file>
         <file>resources/images/sidebar/normal/icon_album_normal.svg</file>
         <file>resources/images/sidebar/normal/icon_collection_normal.svg</file>
         <file>resources/images/sidebar/normal/icon_exit_normal.svg</file>
