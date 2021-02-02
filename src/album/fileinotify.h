@@ -21,7 +21,7 @@ public:
 
     void clear();
     //获取监控目录所有照片
-    void getAllPicture();
+    void getAllPicture(bool isFirst);
     //文件数量改变
 //    void fileNumChange(); //预留，暂未使用
     //启动时加载一次
@@ -44,7 +44,7 @@ private:
     QStringList m_newFile;      //当前新添加的
     QString m_currentDir;       //给定的当前监控路径
     QStringList  m_Supported;   //支持的格式
-    QTimer * m_timer;
+    QTimer *m_timer;
 };
 
 #endif // FILEINOTIFY_H

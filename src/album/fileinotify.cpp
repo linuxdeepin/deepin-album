@@ -103,7 +103,7 @@ void FileInotify::clear()
     }
 }
 
-void FileInotify::getAllPicture()
+void FileInotify::getAllPicture(bool isFirst)
 {
     QDir dir(m_currentDir);
     if (!dir.exists()) {
@@ -124,6 +124,15 @@ void FileInotify::getAllPicture()
             if (!m_allPic.contains(filename)) {
                 m_allPic << filename;
                 m_newFile << filename;
+            }
+        }
+    }
+    //初次导入，判重
+    if (isFirst) {
+        QStringList allpaths = DBManager::instance()->getAllPaths();
+        for (int i = 0; i < m_allPic.size(); i++) {
+            if (allpaths.contains(m_allPic.at(i))) {
+                m_newFile.removeOne(m_allPic.at(i));
             }
         }
     }
@@ -156,7 +165,7 @@ void FileInotify::getAllPicture()
 
 void FileInotify::pathLoadOnce()
 {
-    getAllPicture();
+    getAllPicture(true);
 }
 
 void FileInotify::onNeedSendPictures()
@@ -181,7 +190,7 @@ void FileInotify::run()
             nread = nread + static_cast<int>(sizeof(inotify_event) + event->len);
             len = len - static_cast<int>(sizeof(inotify_event) + event->len);
             qDebug() << " need to get new file" <<  event->mask;
-            getAllPicture();
+            getAllPicture(false);
         }
     }
 }
