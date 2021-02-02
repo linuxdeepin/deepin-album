@@ -334,18 +334,6 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_pDate = new DLabel();
     DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T6, QFont::Medium);
     m_pDate->setForegroundRole(DPalette::Text);
-    //原先注释的地方
-//    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-//    ft3.setFamily("SourceHanSansSC");
-//    ft3.setWeight(QFont::DemiBold);
-//    DPalette color = DApplicationHelper::instance()->palette(m_pDate);
-//    color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
-
-//    m_pDate->setFixedHeight(24);
-//    m_pDate->setFont(ft3);
-//    m_pDate->setForegroundRole(DPalette::Text);
-//    m_pDate->setPalette(color);
-    //end xiaolong
 
     pNum_up = new DLabel();
     DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
@@ -372,7 +360,6 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_pDate->setPalette(pal);
     pNum_up->setPalette(pal);
 
-//    pNum_up->setFixedHeight(24);
     pNum_up->setFont(ft6);
     m_pDate->setFont(ft6);
     pNum_up->setForegroundRole(DPalette::Text);
@@ -453,13 +440,10 @@ void ImportTimeLineView::clearAndStartLayout()
     m_mainListWidget->addItemForWidget(blankItem);
     m_mainListWidget->setItemWidget(blankItem, blankWidget);
     blankItem->setSizeHint(QSize(0, m_pImportTitle->height()));
-    //add end 3975
-//    updataLayout();
 
     addTimelineLayout();
 }
 
-//void ImportTimeLineView::updataLayout()
 void ImportTimeLineView::addTimelineLayout()
 {
     if (currentTimeLineLoad >= m_timelines.size()) {
@@ -492,10 +476,11 @@ void ImportTimeLineView::addTimelineLayout()
     QStringList datelist = dateTimeList.at(0).split(".");
     if (datelist.count() > 2) {
         if (dateTimeList.count() == 2) {
-            listItem->m_sdate = QString(QObject::tr("Imported on") + QObject::tr(" %1-%2-%3 %4")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
+            listItem->m_sdate = QString(QObject::tr("Imported on") + QObject::tr(" %1-%2-%3 %4"))
+                                .arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
         } else {
-            listItem->m_sdate = QString(QObject::tr("Imported on ") + QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
-//            listItem->m_sdate = QString("%1年%2月%3日").arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            listItem->m_sdate = QString(QObject::tr("Imported on ") + QObject::tr("%1/%2/%3"))
+                                .arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
     }
 
@@ -573,7 +558,6 @@ void ImportTimeLineView::addTimelineLayout()
             listItem->setFixedHeight(TitleView->height() + mh);
             item->setSizeHint(listItem->rect().size());
         }
-//        m_mainListWidget->verticalScrollBar()->setValue(m_goToHeight);
     });
 
     m_allThumbnailListView.append(pThumbnailListView);
@@ -906,7 +890,9 @@ void ImportTimeLineView::addTimelineLayout()
                     break;
                 }
             }
-
+            //相对界面调整位置
+            int modify = (dApp->getMainWindow()->height() - 140 - m_allThumbnailListView[0]->m_onePicWidth) / 2;
+            height -= modify;
             m_mainListWidget->verticalScrollBar()->setValue(height);
             hasPicViewNum = -1;
             selectPrePaths = "";

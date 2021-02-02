@@ -619,7 +619,15 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
                     path = datas[1].toString();
                 }
                 if (m_selectPrePath == path) {
-                    lastIndex = m_model->item(i, j)->index();
+                    if (this->objectName() == "RightTrashThumbnail" || this->objectName() == "RightFavoriteThumbnail") {
+                        if (i >= rowSizeHint) {
+                            lastIndex = m_model->item(i - rowSizeHint, j)->index();
+                        } else {
+                            lastIndex = m_model->item(i, j)->index();
+                        }
+                    } else {
+                        lastIndex = m_model->item(i, j)->index();
+                    }
                     if (lastIndex.isValid()) {
                         m_Row = m_model->item(i, j)->row() / m_model->rowCount();
                         this->scrollTo(lastIndex, ScrollHint::PositionAtCenter);

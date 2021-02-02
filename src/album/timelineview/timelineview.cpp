@@ -788,7 +788,6 @@ void TimeLineView::addTimelineLayout()
                             int thumbnailheight =  m_allThumbnailListView.at(i)->height();
                             double finalheight = tempheight * thumbnailheight;
                             height = height + static_cast<int>(finalheight) ;
-                            qDebug() << " ---" << rowcount << allrowcount << tempheight << thumbnailheight << finalheight << height;
 
                             if (hasPicView == 0)
                                 height = height - m_allThumbnailListView[i]->m_onePicWidth;
@@ -799,7 +798,6 @@ void TimeLineView::addTimelineLayout()
                 break;
             }
         }
-        qDebug() << "height: " << height;
 //        m_mainListWidget->setCurrentRow(hasPicView);
         m_mainListWidget->verticalScrollBar()->setValue(height);
         hasPicView = -1;
@@ -822,17 +820,6 @@ void TimeLineView::on_AddLabel(QString date, QString num)
     pSuspensionChose->setText(b[0]->text());
 #endif
 }
-
-//void TimeLineView::on_DelLabel()
-//{
-//    if (nullptr != m_dateItem) {
-//        m_dateItem->setVisible(false);
-//    }
-//#if 1
-//    QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
-//    pSuspensionChose->setText(b[0]->text());
-//#endif
-//}
 
 void TimeLineView::on_DCommandLinkButton()
 {
@@ -1029,13 +1016,15 @@ void TimeLineView::onKeyDelete()
     paths.clear();
 
     bool bDeleteAll = true;
-    bool first = true;
     //获取当前所有选中的
     for (int i = 0; i < m_allThumbnailListView.size(); i++) {
 
         paths << m_allThumbnailListView[i]->selectedPaths();
+        QStringList currentPaths;
+        currentPaths << m_allThumbnailListView[i]->selectedPaths();
         bDeleteAll = m_allThumbnailListView[i]->isAllPicSeleted();
-        if (first && paths.length() > 0) {
+        //改为跳转到最后一张选中位置
+        if (/*first && */currentPaths.length() > 0) {
             if (!bDeleteAll) {
                 selectPrePaths = m_allThumbnailListView[i]->m_model->index(0, 0).data().toList().at(1).toString();
                 int index = 1;
@@ -1052,11 +1041,8 @@ void TimeLineView::onKeyDelete()
                     selectPrePaths = "";
                 }
             }
-            first = false;
         }
     }
-    qDebug() << "getpic onKeyDelete" << selectPrePaths;
-
     if (0 >= paths.length()) {
         return;
     }

@@ -566,6 +566,7 @@ void AlbumView::initRightView()
 
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
+    m_pRightTrashThumbnailList->setObjectName("RightTrashThumbnail");
 
     m_TrashListWidget = new AlbumViewListWidget();
     m_TrashListWidget->setContentsMargins(0, 0, 0, 0);
@@ -654,6 +655,7 @@ void AlbumView::initRightView()
 
     m_pRightFavoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
+    m_pRightFavoriteThumbnailList->setObjectName("RightFavoriteThumbnail");
 
 
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
