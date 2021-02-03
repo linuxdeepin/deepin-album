@@ -97,6 +97,10 @@
         <translation>가져오기 대상:</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">디스크</translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation>가져오기</translation>
     </message>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>이름 미지정</translation>
+        <translation type="vanished">이름 미지정</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>무시</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>사진 불러오는 중, 기다려주십시오...</translation>
     </message>
 </context>
 <context>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>복원중...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>갤러리</translation>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>기본 정보</translation>
+        <translation type="vanished">기본 정보</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>세부 정보</translation>
+        <translation type="vanished">세부 정보</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>갤러리</translation>
+        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>이름 미지정</translation>
+        <translation type="vanished">이름 미지정</translation>
     </message>
     <message>
         <source>Device</source>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>사진 %1장</translation>
+        <translation type="vanished">사진 %1장</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -603,6 +611,10 @@
     <message>
         <source>Settings</source>
         <translation>설정</translation>
+    </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">일부 사진은 가져오지 못했습니다</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">사진 정보</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">보기</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">전체 화면</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">슬라이드 쇼</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">내보내기</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">복사</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">삭제</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">앨범에서 제거</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">인쇄</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">즐겨찾기</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">즐겨찾기 해제</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">시계 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">시계 반대 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">파일 관리자에 표시</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">배경화면으로 설정</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">복원</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">앨범에 추가</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">새 앨범</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>이미지 설정</translation>
+        <translation type="vanished">이미지 설정</translation>
     </message>
 </context>
 <context>
@@ -797,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>가져오기 위치</translation>
+        <translation type="vanished">가져오기 위치</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>가져온 위치</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1-%2-%3 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

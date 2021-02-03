@@ -1,6 +1,6 @@
 # album
 
-Deepin album is a fashion photo manager for viewing and organizing pictures developed by Deepin Technology.
+Deepin  Album is a photo management tool with fashionable appearance and smooth performance, which supports viewing and managing multiple image formats. You can arrange your photos by date timeline, add them to your collection, or categorize them into different albums to keep them in order.
 
 ### Dependencies
 
@@ -24,7 +24,7 @@ _The **master** branch is current development branch, build dependencies may cha
 * libxrender-dev
 * libdtkwidget-dev
 * libdtkwidget5-bin
-* libdtkcore5-binSetMonitorBackground
+* libdtkcore5-bin
 * Qt5(>=5.6) with modules:
   * qt5-default
   * libgio-qt-dev
@@ -47,9 +47,9 @@ _The **master** branch is current development branch, build dependencies may cha
 
 1. Make sure you have installed all dependencies.
 
-_Package name may be different between distros, if deepin-album is available from your distro, check the packaging script delivered from your distro is a better idea._
+_Package name may be different between distros, if dde-file-manager is available from your distro, check the packaging script delivered from your distro is a better idea._
 
-Assume you are using [Deepin](https://distrowatch.com/table.php?distribution=deepin) or other debian-based distro which got deepin-album delivered:
+Assume you are using [Deepin](https://distrowatch.com/table.php?distribution=deepin) or other debian-based distro which got dde-file-manager delivered:
 
 ``` shell
 $ apt build-dep deepin-album
@@ -98,4 +98,4 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-deepin-album is licensed under [GPLv3](LICENSE)
+deepin-album is licensed under [GPLv3](

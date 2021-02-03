@@ -97,6 +97,10 @@
         <translation>Importieren nach:</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">Speichermedium</translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation>Importieren</translation>
     </message>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Ohne Namen</translation>
+        <translation type="vanished">Ohne Namen</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorieren</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fotos werden geladen, bitte warten ...</translation>
     </message>
 </context>
 <context>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederherstellen...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Allgemeine Informationen</translation>
+        <translation type="vanished">Allgemeine Informationen</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation type="vanished">Details</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Ohne Namen</translation>
+        <translation type="vanished">Ohne Namen</translation>
     </message>
     <message>
         <source>Device</source>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 Foto(s)</translation>
+        <translation type="vanished">%1 Foto(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -603,6 +611,10 @@
     <message>
         <source>Settings</source>
         <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Einige Fotos sind nicht importiert worden</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Foto Info</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Anzeigen</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Vollbild</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diashow</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Exportieren</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopieren</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Löschen</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Aus Album entfernen</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Drucken</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Zu Favoriten hinzufügen</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Aus Favoriten entfernen</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Im Uhrzeigersinn drehen</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Gegen den Uhrzeigersinn drehen</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Im Dateimanager anzeigen</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Als Hintergrundbild einrichten</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Wiederherstellen</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Zum Album hinzufügen</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Neues Album</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Bildeinstellungen</translation>
+        <translation type="vanished">Bildeinstellungen</translation>
     </message>
 </context>
 <context>
@@ -797,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
+        <translation type="vanished">Importiert am</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
         <translation>Importiert am</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

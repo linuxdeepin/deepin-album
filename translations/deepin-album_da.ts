@@ -97,6 +97,10 @@
         <translation>Importér til:</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">Disk</translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation>Importér</translation>
     </message>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unavngivet</translation>
+        <translation type="vanished">Unavngivet</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuller</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Indlæser billeder, vent venligst ...</translation>
     </message>
 </context>
 <context>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gendanner ...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Galleri</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleri</translation>
+        <translation type="vanished">Galleri</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Grundlæggende information</translation>
+        <translation type="vanished">Grundlæggende information</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Detaljer</translation>
+        <translation type="vanished">Detaljer</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galleri</translation>
+        <translation type="vanished">Galleri</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unavngivet</translation>
+        <translation type="vanished">Unavngivet</translation>
     </message>
     <message>
         <source>Device</source>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 billed(er)</translation>
+        <translation type="vanished">%1 billed(er)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -603,6 +611,10 @@
     <message>
         <source>Settings</source>
         <translation>Indstillinger</translation>
+    </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Nogle billeder blev ikke importeret</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Billedinformation</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Vis</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Fuldskærm</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slideshow</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Eksportér</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopiér</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Slet</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Fjern fra album</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Udskriv</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Fjern fra favorit</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Drej med urets retning</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Drej modsat urets retning</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Vis i filhåndtering</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Indstil som tapet</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Gendan</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Tilføj til album</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Nyt album</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Billedindstillinger</translation>
+        <translation type="vanished">Billedindstillinger</translation>
     </message>
 </context>
 <context>
@@ -797,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%3/%2/%1 %4</translation>
+        <translation type="vanished">%3/%2/%1 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importeret </translation>
+        <translation type="vanished">Importeret </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation type="vanished">未命名相册</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -139,18 +139,6 @@
     <message>
         <source>Ignore</source>
         <translation>忽略</translation>
-    </message>
-    <message>
-        <source>loading images，please wait...</source>
-        <translation type="vanished">正在加载图片，请稍候...</translation>
-    </message>
-    <message>
-        <source>loading end</source>
-        <translation type="vanished">加载完成</translation>
-    </message>
-    <message>
-        <source>loading photos，please wait...</source>
-        <translation type="vanished">正在加载图片，请稍候...</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
@@ -313,23 +301,27 @@
         <source>Restoring...</source>
         <translation>正在恢复照片...</translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">照片库</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation type="vanished">基本信息</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>详细信息</translation>
+        <translation type="vanished">详细信息</translation>
     </message>
 </context>
 <context>
@@ -343,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>照片库</translation>
+        <translation type="vanished">照片库</translation>
     </message>
 </context>
 <context>
@@ -433,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation type="vanished">未命名相册</translation>
     </message>
     <message>
         <source>Device</source>
@@ -562,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1张照片</translation>
+        <translation type="vanished">%1张照片</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -737,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">照片信息</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">全屏</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">复制</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">从相册中移除</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">打印</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">收藏</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">取消收藏</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">在文件管理器中显示</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">设为壁纸</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">恢复</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">添加到相册</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">新建相册</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -790,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>图像设置</translation>
+        <translation type="vanished">图像设置</translation>
     </message>
 </context>
 <context>
@@ -805,7 +872,7 @@
     </message>
     <message>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>%1年%2月%3日</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -817,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1年%2月%3日 %4</translation>
     </message>
     <message>
         <source>Import on </source>
+        <translation type="vanished">导入于</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
         <translation>导入于</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1年%2月%3日 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -97,6 +97,10 @@
         <translation>Şuradan içe aktar:</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">Disk</translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation>İçe aktar</translation>
     </message>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>İsimsiz</translation>
+        <translation type="vanished">İsimsiz</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Yoksay</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fotoğraflar yükleniyor, lütfen bekleyin...</translation>
     </message>
 </context>
 <context>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Geri yükleniyor...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Temel bilgi</translation>
+        <translation type="vanished">Temel bilgi</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Ayrıntılar</translation>
+        <translation type="vanished">Ayrıntılar</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>İsimsiz</translation>
+        <translation type="vanished">İsimsiz</translation>
     </message>
     <message>
         <source>Device</source>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotoğraf</translation>
+        <translation type="vanished">%1 fotoğraf</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -603,6 +611,10 @@
     <message>
         <source>Settings</source>
         <translation>Ayarlar</translation>
+    </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Bazı fotoğraflar içe aktarılmadı</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Fotoğraf bilgisi</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Görünüm</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Tam ekran</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slayt gösterisi</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Dışa aktar</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopyala</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Sil</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Albümden kaldır</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Yazdır</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favori</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Favori değil</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Saat yönünde döndür</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Saat yönünün tersine döndür</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Duvar kağıdı yap</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Kurtar</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Albüme ekle</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Yeni albüm</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Görüntü Ayarları</translation>
+        <translation type="vanished">Görüntü Ayarları</translation>
     </message>
 </context>
 <context>
@@ -797,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>İçe aktarma tarihi</translation>
+        <translation type="vanished">İçe aktarma tarihi</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>İçe aktarıldı</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1-%2-%3 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

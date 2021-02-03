@@ -13,7 +13,7 @@
     </message>
     <message>
         <source>Create</source>
-        <translation>Új hozzáadása</translation>
+        <translation>Létrehozás</translation>
     </message>
     <message>
         <source>New Album</source>
@@ -24,15 +24,15 @@
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Törlés</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Töröl</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Biztosan törölni szeretnéd az albumot?</translation>
+        <translation>Biztosan törölni szeretné ezt az albumot?</translation>
     </message>
 </context>
 <context>
@@ -47,7 +47,7 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importálás</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Mindent töröl</translation>
+        <translation>Összes törlése</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -70,7 +70,7 @@
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Vagy húzd a képeket ide</translation>
+        <translation>Vagy húzza a képeket ide</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -78,7 +78,7 @@
     </message>
     <message>
         <source>Import All</source>
-        <translation>Mind importálása</translation>
+        <translation>Összes importálása</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
@@ -90,11 +90,15 @@
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 kép() kiválasztva</translation>
+        <translation>%1 kép(ek) kiválasztva</translation>
     </message>
     <message>
         <source>Import to:</source>
         <translation>Importálás ide:</translation>
+    </message>
+    <message>
+        <source>Disk</source>
+        <translation type="vanished">Lemez</translation>
     </message>
     <message>
         <source>Import</source>
@@ -102,11 +106,11 @@
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">nap</translation>
+        <translation type="vanished">napok</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Névtelen</translation>
+        <translation type="vanished">Névtelen</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,22 +134,22 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Törlés</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Figyelmen kívül hagyás</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fényképek töltése, kérjük várjon...</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 kép() kiválasztva</translation>
+        <translation>%1 kép(ek) kiválasztva</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -235,7 +239,7 @@
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>már létezik. Szeretnéd felülírni?</translation>
+        <translation>már létezik. Szeretné felülírni?</translation>
     </message>
 </context>
 <context>
@@ -273,7 +277,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Törlés</translation>
+        <translation>Mégsem</translation>
     </message>
 </context>
 <context>
@@ -287,54 +291,58 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Törlés...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importálás...</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Visszaállítás...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Galéria</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galéria</translation>
+        <translation type="vanished">Galéria</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Alap információk</translation>
+        <translation type="vanished">Alap információk</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Részletek</translation>
+        <translation type="vanished">Részletek</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>nap</translation>
+        <translation>napok</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galéria</translation>
+        <translation type="vanished">Galéria</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Törlés</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -342,11 +350,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Biztosan törölni szeretnéd ezt a képet az albumból?</translation>
+        <translation>Biztosan törölni szeretné ezt a képet az albumból?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Biztosan törölni szeretnéd a %1 képet az albumból?</translation>
+        <translation>Biztosan törölni szeretné a %1 képet az albumból?</translation>
     </message>
 </context>
 <context>
@@ -390,7 +398,7 @@
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Vagy húzd a képeket ide</translation>
+        <translation>Vagy húzza ide a képeket</translation>
     </message>
     <message>
         <source>Gallery</source>
@@ -413,11 +421,11 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Töröl</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Névtelen</translation>
+        <translation type="vanished">Névtelen</translation>
     </message>
     <message>
         <source>Device</source>
@@ -440,7 +448,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Nincs jogosultságod megnézni ezt a képet</translation>
+        <translation>Nincs jogosultsága megtekinteni ezt a képet</translation>
     </message>
 </context>
 <context>
@@ -474,7 +482,7 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation>Másol</translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kép(ek)</translation>
+        <translation type="vanished">%1 kép(ek)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -605,6 +613,10 @@
         <translation>Beállítások</translation>
     </message>
     <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Néhány fénykép nem került importálásra</translation>
+    </message>
+    <message>
         <source>Import photos</source>
         <translation>Képek importálása</translation>
     </message>
@@ -614,19 +626,19 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 fénykép importálva</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 fénykép importálva, %2 fénykép importálása sikertelen</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 fénykép törölve</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importálás...</translation>
     </message>
 </context>
 <context>
@@ -669,7 +681,7 @@
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Apertúra</translation>
+        <translation>Rekeszérték</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -693,7 +705,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Villanó fény csökkentés</translation>
+        <translation>Villanó fény csökkentése</translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -709,11 +721,86 @@
     </message>
     <message>
         <source>Tag</source>
-        <translation>Tag</translation>
+        <translation>Címke</translation>
     </message>
     <message>
         <source>Photo name</source>
         <translation>Kép neve</translation>
+    </message>
+</context>
+<context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Kép tulajdonságai</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Nézet</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Teljes képernyő</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diavetítés</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Exportálás</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Másolás</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Eltávolítás az albumból</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Nyomtatás</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Kedvenc</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Eltávolítás a kedvencekből</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Forgatás óramutató járása szerint</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Forgatás óramutató járásával ellentétes irányba</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Megjelenítés fájlkezelőben</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Beállítás háttérképként</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Helyreállítás</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Hozzáadás az albumhoz</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Új album</translation>
     </message>
 </context>
 <context>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Kép beállításai</translation>
+        <translation type="vanished">Kép beállításai</translation>
     </message>
 </context>
 <context>
@@ -789,26 +876,38 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kép ()</translation>
+        <translation>%1 kép(ek)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 kép () kiválasztva</translation>
+        <translation>%1 kép(ek) kiválasztva</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importálás</translation>
+        <translation type="vanished">Importálás</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>Importált</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1-%2-%3 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Nincs találat</translation>
+        <translation>Nincs keresési eredmény</translation>
     </message>
     <message>
         <source>Slide Show</source>
@@ -816,18 +915,18 @@
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 képet () sikerült találni</translation>
+        <translation>%1 képe(ke)t sikerült találni</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Keresés eredménye</translation>
+        <translation>Keresési eredmények</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Megszakít</translation>
+        <translation>Szüneteltetés</translation>
     </message>
     <message>
         <source>Play</source>
@@ -889,7 +988,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Töröl</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -940,7 +1039,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Töröl</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -948,7 +1047,7 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation>Másol</translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -979,7 +1078,7 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nem találtam képfájlokat</translation>
+        <translation>Nem találhatóak képfájlok</translation>
     </message>
     <message>
         <source>Photo not found</source>
@@ -1006,11 +1105,11 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation>Másol</translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Töröl</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Show navigation window</source>

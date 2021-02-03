@@ -47,7 +47,7 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>Увези</translation>
+        <translation>Увезено</translation>
     </message>
 </context>
 <context>
@@ -97,8 +97,12 @@
         <translation>Увези у:</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">Диск</translation>
+    </message>
+    <message>
         <source>Import</source>
-        <translation>Увези</translation>
+        <translation>Увезено</translation>
     </message>
     <message>
         <source>days</source>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Неименовано</translation>
+        <translation type="vanished">Неименовано</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Откажи</translation>
+        <translation>Откажи</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Занемари</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Учитавање слика, молимо сачекајте...</translation>
     </message>
 </context>
 <context>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Враћање...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Галерија</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Галерија</translation>
+        <translation type="vanished">Галерија</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Основни подаци</translation>
+        <translation type="vanished">Основни подаци</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Детаљи</translation>
+        <translation type="vanished">Детаљи</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Галерија</translation>
+        <translation type="vanished">Галерија</translation>
     </message>
 </context>
 <context>
@@ -375,7 +383,7 @@
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Увези</translation>
+        <translation>Увезено</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Неименовано</translation>
+        <translation type="vanished">Неименовано</translation>
     </message>
     <message>
         <source>Device</source>
@@ -447,7 +455,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Албум је модеран управник слика за приказ и организацију слика.</translation>
+        <translation>Албум је савремен управник слика за приказ и организацију.</translation>
     </message>
 </context>
 <context>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 слика(е)</translation>
+        <translation type="vanished">%1 слика(е)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -605,6 +613,10 @@
         <translation>Подешавања</translation>
     </message>
     <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Неке слике нису увезене</translation>
+    </message>
+    <message>
         <source>Import photos</source>
         <translation>Увези слику</translation>
     </message>
@@ -637,7 +649,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>Тип</translation>
+        <translation>Врста</translation>
     </message>
     <message>
         <source>File size</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Подаци слике</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Прикажи</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Цео екран</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Покретни приказ</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Извези</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Копирај</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Обриши</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Уклини из албума</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Штампај</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">У омиљено</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Из омиљеног</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Ротирај удесно</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Ротирај улево</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Прикажи у управнику података</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Постави као позадину</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Врати</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Додај у албум</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Нови албум</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -763,14 +850,14 @@
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Поставке слике</translation>
+        <translation>Подешавање слике</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Поставке слике</translation>
+        <translation type="vanished">Подешавање слике</translation>
     </message>
 </context>
 <context>
@@ -797,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Увези на</translation>
+        <translation type="vanished">Увезено </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>Увезено</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %3-%2-%1 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

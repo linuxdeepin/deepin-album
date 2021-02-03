@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation type="vanished">Unnamed</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -134,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignore</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Loading photos, please wait...</translation>
     </message>
 </context>
 <context>
@@ -301,23 +301,27 @@
         <source>Restoring...</source>
         <translation>Restoring...</translation>
     </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Gallery</translation>
+    </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation type="vanished">Gallery</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Basic info</translation>
+        <translation type="vanished">Basic info</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation type="vanished">Details</translation>
     </message>
 </context>
 <context>
@@ -331,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation type="vanished">Gallery</translation>
     </message>
 </context>
 <context>
@@ -421,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation type="vanished">Unnamed</translation>
     </message>
     <message>
         <source>Device</source>
@@ -550,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation type="vanished">%1 photo(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -725,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Photo info</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">View</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Fullscreen</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slide show</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Export</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Copy</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Delete</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Remove from album</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Print</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favorite</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Unfavorite</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rotate clockwise</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rotate counterclockwise</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Display in file manager</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Set as wallpaper</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Restore</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Add to album</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">New album</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -778,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Image Settings</translation>
+        <translation type="vanished">Image Settings</translation>
     </message>
 </context>
 <context>
@@ -805,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Import on </translation>
+        <translation type="vanished">Import on </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>Imported on</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1-%2-%3 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

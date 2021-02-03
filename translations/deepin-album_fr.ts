@@ -97,6 +97,10 @@
         <translation>Importer vers :</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">Disque</translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation>Importer</translation>
     </message>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sans nom</translation>
+        <translation type="vanished">Sans nom</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Chargement des photos, veuillez patienter...</translation>
     </message>
 </context>
 <context>
@@ -223,7 +227,7 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Sélectionner d&apos;autres répertoires</translation>
+        <translation>Sélectionner d&apos;autres dossiers</translation>
     </message>
     <message>
         <source>OK</source>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Restauration en cours...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informations de base</translation>
+        <translation type="vanished">Informations de base</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Détails</translation>
+        <translation type="vanished">Détails</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sans nom</translation>
+        <translation type="vanished">Sans nom</translation>
     </message>
     <message>
         <source>Device</source>
@@ -447,7 +455,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album est un gestionnaire de photos de mode pour visualiser et organiser les photos.</translation>
+        <translation>Album est un gestionnaire de photos pour visualiser et organiser les photos.</translation>
     </message>
 </context>
 <context>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation type="vanished">%1 photo(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -603,6 +611,10 @@
     <message>
         <source>Settings</source>
         <translation>Paramètres</translation>
+    </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Certaines photos n&apos;ont pas été importées</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Informations sur la photo</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Afficher</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Plein écran</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diaporama</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Exporter</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Copier</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Supprimer</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Supprimer de l&apos;album</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Imprimer</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favoris</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Défavoris</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rotation dans le sens horaire</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rotation dans le sens antihoraire</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Afficher dans le gestionnaire de fichiers</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Définir comme fond d&apos;écran</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Restaurer</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Ajouter à l&apos;album</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Nouvel album</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Paramètres d&apos;image</translation>
+        <translation type="vanished">Paramètres d&apos;image</translation>
     </message>
 </context>
 <context>
@@ -797,18 +884,30 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importer sur</translation>
+        <translation type="vanished">Importer sur</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>Importé le</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1-%2-%3 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Aucun résultat de recherche</translation>
+        <translation>Aucun résultat trouvé</translation>
     </message>
     <message>
         <source>Slide Show</source>
@@ -820,7 +919,7 @@
     </message>
     <message>
         <source>Search results</source>
-        <translation>Résultats de recherche</translation>
+        <translation>Résultats de la recherche</translation>
     </message>
 </context>
 <context>
@@ -831,7 +930,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation>Jouer</translation>
+        <translation>Lire</translation>
     </message>
     <message>
         <source>Exit</source>

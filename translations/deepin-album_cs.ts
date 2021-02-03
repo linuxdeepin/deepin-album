@@ -5,7 +5,7 @@
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Nepojmenovaný</translation>
+        <translation>Nepojmenované</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -32,7 +32,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Opravdu chcete smazat toto album?</translation>
+        <translation>Opravdu chcete toto album smazat?</translation>
     </message>
 </context>
 <context>
@@ -47,7 +47,7 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>Zavést</translation>
+        <translation>Import</translation>
     </message>
 </context>
 <context>
@@ -70,19 +70,19 @@
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Nebo fotografie přetáhněte sem</translation>
+        <translation>Nebo fotky přetáhněte sem</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotografií</translation>
+        <translation>%1 fotek</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Zavést vše</translation>
+        <translation>Importovat vše</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Fotografie budou po počtu dní na nich ukázaných smazány</translation>
+        <translation>Po uplynutí počtu dnů na tomto zobrazených budou fotky nadobro smazány</translation>
     </message>
     <message>
         <source>Restore</source>
@@ -90,19 +90,27 @@
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 fotografií vybráno</translation>
+        <translation>vybráno %1 fotek</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Zavést do:</translation>
+        <translation>Importovat do:</translation>
+    </message>
+    <message>
+        <source>Disk</source>
+        <translation type="vanished">Disk</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Zavést</translation>
+        <translation>Import</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation type="vanished">dní</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Nepojmenovaný</translation>
+        <translation type="vanished">Nepojmenované</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -114,7 +122,7 @@
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk je zaneprázdněný. Nyní jej nelze vysunout</translation>
+        <translation>Jednotka je zaneprázdněná. Nyní ji nelze vysunout</translation>
     </message>
     <message>
         <source>OK</source>
@@ -126,26 +134,26 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorovat</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Načítání fotek – čekejte prosím…</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>Vybráno %1 fotografií</translation>
+        <translation>Vybráno %1 fotek</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotografií</translation>
+        <translation>%1 fotek</translation>
     </message>
 </context>
 <context>
@@ -167,7 +175,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Exportovat</translation>
     </message>
     <message>
         <source>Pictures</source>
@@ -187,7 +195,7 @@
     </message>
     <message>
         <source>Videos</source>
-        <translation>Obrazy</translation>
+        <translation>Videa</translation>
     </message>
     <message>
         <source>Music</source>
@@ -207,7 +215,7 @@
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Jakost:</translation>
+        <translation>Kvalita:</translation>
     </message>
     <message>
         <source>Save</source>
@@ -219,7 +227,7 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Vybrat jiné adresáře</translation>
+        <translation>Vybrat jiné složky</translation>
     </message>
     <message>
         <source>OK</source>
@@ -231,14 +239,14 @@
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>již existuje. Chcete jej nahradit?</translation>
+        <translation>už existuje. Má být nahrazeno?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 mechanika</translation>
+        <translation>%1 jednotka</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
@@ -265,7 +273,7 @@
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Vyvést fotografie</translation>
+        <translation>Exportovat fotky</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -276,54 +284,58 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Údaje o fotografii</translation>
+        <translation>Informace o fotce</translation>
     </message>
 </context>
 <context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mazání…</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importování…</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovování…</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Základní údaje</translation>
+        <translation type="vanished">Základní údaje</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Podrobnosti</translation>
+        <translation type="vanished">Podrobnosti</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>dní</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
@@ -338,11 +350,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Opravdu chcete smazat tuto fotografii z alba?</translation>
+        <translation>Opravdu chcete tuto fotku vymazat z alba?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Opravdu chcete smazat %1 fotografií z alb?</translation>
+        <translation>Opravdu chcete %1 fotek vymazat z alb?</translation>
     </message>
 </context>
 <context>
@@ -357,7 +369,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Údaje o fotografii</translation>
+        <translation>Informace o fotce</translation>
     </message>
 </context>
 <context>
@@ -371,22 +383,22 @@
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Zavést</translation>
+        <translation>Importovat</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Všechny fotografie</translation>
+        <translation>Všechny fotky</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Zavést fotografie</translation>
+        <translation>Importovat fotky</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Nebo fotografie přetáhněte sem</translation>
+        <translation>Nebo fotky přetáhněte sem</translation>
     </message>
     <message>
         <source>Gallery</source>
@@ -405,7 +417,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Exportovat</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -413,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Nepojmenovaný</translation>
+        <translation type="vanished">Nepojmenovaný</translation>
     </message>
     <message>
         <source>Device</source>
@@ -436,21 +448,21 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Nemáte oprávnění k zobrazení obrázku</translation>
+        <translation>Nemáte oprávnění zobrazit obrázek</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album je šikovný správce fotografií na zobrazování a pořádání obrázků.</translation>
+        <translation>Album je šikovný správce fotek pro zobrazování a uspořádávání obrázků.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Fotografie</translation>
+        <translation>Fotky</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -506,31 +518,31 @@
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” odstraněno</translation>
+        <translation>Album „%1“ odstraněno</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Úspěšně přidáno do “%1”</translation>
+        <translation>Úspěšně přidáno do „%1“</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Úspěšně zavedeno</translation>
+        <translation>Úspěšně naimportováno</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Nepodařilo se zavést</translation>
+        <translation>Import se nezdařil</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Nepodařilo se vyvést</translation>
+        <translation>Export se nezdařil</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Úspěšně vyvedeno</translation>
+        <translation>Úspěšně exportováno</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>Všechny fotografie</translation>
+        <translation>Všechny fotky</translation>
     </message>
     <message>
         <source>Timelines</source>
@@ -542,11 +554,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotografií</translation>
+        <translation type="vanished">%1 fotek</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Údaje o fotografii</translation>
+        <translation>Informace o fotce</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -562,11 +574,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Exportovat</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Zavést</translation>
+        <translation>Importovat</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -574,7 +586,7 @@
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Smazat fotografii/album</translation>
+        <translation>Smazat fotku/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -590,39 +602,43 @@
     </message>
     <message>
         <source>Page up</source>
-        <translation>O stranu nahoru</translation>
+        <translation>O stránku výše</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>O stranu dolů</translation>
+        <translation>O stránku níže</translation>
     </message>
     <message>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Některé fotky nebyly naimportovány</translation>
+    </message>
+    <message>
         <source>Import photos</source>
-        <translation>Zavést fotografie</translation>
+        <translation>Importovat fotky</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Zavést fotografie</translation>
+        <translation>Import fotek</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"></translation>
+        <translation>Naimportováno %1/%2 fotek</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Naimportováno %1 fotek, nepodařilo se u %2 fotek</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazáno %1/%2 fotek</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importování…</translation>
     </message>
 </context>
 <context>
@@ -645,7 +661,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Zachyceno</translation>
+        <translation>Datum pořízení</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -653,19 +669,19 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Režim osvitu</translation>
+        <translation>Režim expozice</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Program osvitu</translation>
+        <translation>Expoziční program</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Čas osvitu</translation>
+        <translation>Expoziční čas</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Závěrka</translation>
+        <translation>Clona</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -677,11 +693,11 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Největší závěrka</translation>
+        <translation>Nejvyšší clona</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Měřicí režim</translation>
+        <translation>Režim měření</translation>
     </message>
     <message>
         <source>White balance</source>
@@ -705,11 +721,86 @@
     </message>
     <message>
         <source>Tag</source>
-        <translation>Značka</translation>
+        <translation>Štítek</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Název fotografie</translation>
+        <translation>Název fotky</translation>
+    </message>
+</context>
+<context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Informace o fotce</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Pohled</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Promítání</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopírovat</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Smazat</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Odstranit z alba</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Tisk</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Přidat do oblíbených</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Odebrat z oblíbených</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Otočit doprava</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Otočit doleva</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Zobrazit ve správci souborů</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Nastavit jako pozadí plochy</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Obnovit</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Přidat do alba</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Nové album</translation>
     </message>
 </context>
 <context>
@@ -727,11 +818,11 @@
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Přizpůsobit stranu obrázku</translation>
+        <translation>Přizpůsobit stránku obrázku</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Přizpůsobit obrázek straně</translation>
+        <translation>Přizpůsobit obrázek na stránku</translation>
     </message>
     <message>
         <source>Scale to:</source>
@@ -751,7 +842,7 @@
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Poloha obrázku</translation>
+        <translation>Pozice obrázku</translation>
     </message>
     <message>
         <source>Scaling</source>
@@ -766,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Nastavení obrázku</translation>
+        <translation type="vanished">Nastavení obrázku</translation>
     </message>
 </context>
 <context>
@@ -785,26 +876,38 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotografií</translation>
+        <translation>%1 fotek</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>Vybráno %1 fotografií</translation>
+        <translation>Vybráno %1 fotek</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Zavést</translation>
+        <translation type="vanished">Importováno</translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>Importováno </translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %3-%2-%1 v %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Žádné výsledky hledání</translation>
+        <translation>Nic nenalezeno</translation>
     </message>
     <message>
         <source>Slide Show</source>
@@ -812,7 +915,7 @@
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>Nalezeno %1 fotografií</translation>
+        <translation>Nalezeno %1 fotek</translation>
     </message>
     <message>
         <source>Search results</source>
@@ -831,7 +934,7 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>Opustit</translation>
+        <translation>Ukončit</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -846,11 +949,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Zavádí se fotografie: &apos;%1&apos;</translation>
+        <translation>Import fotek: „%1“</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Vyvádí se fotografie: &apos;%1&apos;</translation>
+        <translation>Export fotek: „%1“</translation>
     </message>
 </context>
 <context>
@@ -904,11 +1007,11 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Celá obrazovka</translation>
+        <translation>Na celou obrazovku</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -948,7 +1051,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Údaje o fotografii</translation>
+        <translation>Informace o fotce</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -968,18 +1071,18 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Tisk</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nenalezeny žádné obrázkové soubory</translation>
+        <translation>Nenalezeny žádné soubory s obrázky</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Fotografie nenalezena</translation>
+        <translation>Fotka nenalezena</translation>
     </message>
 </context>
 <context>
@@ -1010,11 +1113,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Ukázat naváděcí okno</translation>
+        <translation>Zobrazit okno navigace</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Skrýt naváděcí okno</translation>
+        <translation>Skrýt navigační okno</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -1034,7 +1137,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -1042,7 +1145,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Údaje o fotografii</translation>
+        <translation>Informace o fotce</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -1058,7 +1161,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Tisk</translation>
     </message>
 </context>
 </TS>

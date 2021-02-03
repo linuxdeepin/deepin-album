@@ -97,6 +97,10 @@
         <translation>Importeren naar:</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">Schijf</translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation>Importeren</translation>
     </message>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Naamloos</translation>
+        <translation type="vanished">Naamloos</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Negeren</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met laden van foto&apos;s...</translation>
     </message>
 </context>
 <context>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met herstellen...</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Galerij</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerij</translation>
+        <translation type="vanished">Galerij</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Eigenschappen</translation>
+        <translation type="vanished">Eigenschappen</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation type="vanished">Details</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerij</translation>
+        <translation type="vanished">Galerij</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Naamloos</translation>
+        <translation type="vanished">Naamloos</translation>
     </message>
     <message>
         <source>Device</source>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(&apos;s)</translation>
+        <translation type="vanished">%1 foto(&apos;s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -603,6 +611,10 @@
     <message>
         <source>Settings</source>
         <translation>Instellingen</translation>
+    </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Enkele foto&apos;s zijn niet geïmporteerd</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Foto-informatie</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Bekijken</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Beeldvullende modus</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diavoorstelling</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Exporteren</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopiëren</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Verwijderen</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Verwijderen uit album</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Afdrukken</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Toev. aan favorieten</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Verw. uit favorieten</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Naar rechts draaien</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Naar links draaien</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Tonen in bestandsbeheerder</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Instellen als achtergrond</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Herstellen</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Toevoegen aan album</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Nieuw album</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Afbeeldingsinstellingen</translation>
+        <translation type="vanished">Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>
@@ -797,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Importeren naar </translation>
+        <translation type="vanished">Importeren naar </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>Geïmporteerd op</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %1-%2-%3 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

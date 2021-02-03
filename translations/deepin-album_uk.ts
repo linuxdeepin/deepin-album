@@ -97,6 +97,10 @@
         <translation>Імпортувати до:</translation>
     </message>
     <message>
+        <source>Disk</source>
+        <translation type="vanished">Диск</translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation>Імпортувати</translation>
     </message>
@@ -106,7 +110,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Без назви</translation>
+        <translation type="vanished">Без назви</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -130,15 +134,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Скасувати</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ігнорувати</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Завантажуємо фотографії, будь ласка, зачекайте…</translation>
     </message>
 </context>
 <context>
@@ -295,25 +299,29 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"></translation>
+        <translation>Відновлення…</translation>
+    </message>
+    <message>
+        <source>Gallery</source>
+        <translation type="vanished">Галерея</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Галерея</translation>
+        <translation type="vanished">Галерея</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Базові відомості</translation>
+        <translation type="vanished">Базові відомості</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Подробиці</translation>
+        <translation type="vanished">Подробиці</translation>
     </message>
 </context>
 <context>
@@ -327,7 +335,7 @@
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation>Галерея</translation>
+        <translation type="vanished">Галерея</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Без назви</translation>
+        <translation type="vanished">Без назви</translation>
     </message>
     <message>
         <source>Device</source>
@@ -546,7 +554,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 фотографії</translation>
+        <translation type="vanished">%1 фотографії</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -603,6 +611,10 @@
     <message>
         <source>Settings</source>
         <translation>Параметри</translation>
+    </message>
+    <message>
+        <source>Some photos have not been imported</source>
+        <translation type="vanished">Деякі з фотографій не імпортовано</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -717,6 +729,81 @@
     </message>
 </context>
 <context>
+    <name>MountThumbnailListView</name>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Дані щодо фотографії</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Перегляд</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">На весь екран</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Показ слайдів</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Експортувати</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Копіювати</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Вилучити</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Вилучити з альбому</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Надрукувати</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Додати до вибраних</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Вилучити з вибраних</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Обертати за годинниковою стрілкою</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Обертати проти годинникової стрілки</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Показати у менеджері файлів</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Встановити зображенням тла</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Відновити</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Додати до альбому</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Новий альбом</translation>
+    </message>
+</context>
+<context>
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
@@ -770,7 +857,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Параметри зображення</translation>
+        <translation type="vanished">Параметри зображення</translation>
     </message>
 </context>
 <context>
@@ -797,11 +884,23 @@
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation>%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation>Імпортовано </translation>
+        <translation type="vanished">Імпортовано </translation>
+    </message>
+    <message>
+        <source>Imported on</source>
+        <translation>Імпортовано</translation>
+    </message>
+    <message>
+        <source> %1-%2-%3 %4</source>
+        <translation> %3-%2-%1 %4</translation>
+    </message>
+    <message>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

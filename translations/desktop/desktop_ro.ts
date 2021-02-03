@@ -9,7 +9,7 @@
 <message>
 <location filename="Desktop Entry]Name" line="0"/>
 <source>Deepin Album</source>
-<translation>Deepin Album</translation>
+<translation>Album Deepin </translation>
 </message>
 </context>
 </TS>
