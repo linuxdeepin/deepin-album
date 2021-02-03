@@ -16,6 +16,7 @@ add_definitions(-DENABLE_ACCESSIBILITY=1)
 
 if(DOTEST)
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+        add_definitions(-DSYSTEM_MIPS)
         set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
     endif()
 else()

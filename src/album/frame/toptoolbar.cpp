@@ -87,7 +87,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
     QPainter p(this);
-    QPixmap pixmap(":/resources/common/titlebar.svg");
+    QPixmap pixmap(":/icons/deepin/builtin/frame/titlebar.svg");
     const QPalette pal = QGuiApplication::palette();
     QBrush bgColor = QBrush(pixmap.scaled(size().width(), 74));
     QRectF bgRect;

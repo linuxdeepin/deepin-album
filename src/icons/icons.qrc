@@ -18,6 +18,9 @@
         <file>texts/dcc_previous_normal_36px.svg</file>
         <file>texts/dcc_suspend_normal_36px.svg</file>
         <file>icons/Bullet_window_warning.svg</file>
+        <file>frame/titlebar.png</file>
+        <file>frame/titlebar.svg</file>
+        <file>frame/ttb60.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>

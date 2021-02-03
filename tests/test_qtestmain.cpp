@@ -26,7 +26,10 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
+#ifndef SYSTEM_MIPS
 #include <sanitizer/asan_interface.h>
+#endif
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
@@ -108,7 +111,11 @@ void QTestMain::testGTest()
     testing::InitGoogleTest(&argc, &argv0);
     int ret = RUN_ALL_TESTS();
     Q_UNUSED(ret)
+
+    // 内存分析屏蔽mips
+#ifndef SYSTEM_MIPS
     __sanitizer_set_report_path("asan_deepin-album.log");
+#endif
 }
 
 void QTestMain::testQString_data()
