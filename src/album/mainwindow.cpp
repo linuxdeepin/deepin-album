@@ -1674,7 +1674,7 @@ void MainWindow::startMonitor()
     m_fileInotify = new FileInotify();
     QStringList paths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (paths.size() > 0) {
-        QString path = paths.at(0) + "/Picture";
+        QString path = paths.at(0) + "/album";
         m_fileInotify->addWather(path);
         m_fileInotify->start();
     }
