@@ -1,6 +1,7 @@
 #include "printhelper.h"
 //#include "printoptionspage.h"
 #include "utils/unionimage.h"
+
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPrintPreviewWidget>
@@ -10,6 +11,8 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
+#include <QVector>
+
 #include <dprintpreviewdialog.h>
 #include <dprintpreviewwidget.h>
 DWIDGET_USE_NAMESPACE
@@ -81,6 +84,69 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             imgs << imgTemp;
         }
     }
+    //适配打印接口2.0，dtk大于 5.4.4 版才合入最新的2.0打印控件接口
+#if (DTK_VERSION_MAJOR > 5 \
+    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
+    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH > 4))//5.4.4暂时没有合入
+    DPrintPreviewDialog printDialog2(nullptr);
+    bool suc = printDialog2.setAsynPreview(imgs.size());//设置总页数，异步方式
+    if (suc) {
+        //异步
+        QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer, const QVector<int> &pageRange) {
+            QPainter painter(_printer);
+            for (int i = 0; i < pageRange.size(); i++) {
+                QImage img = imgs.at(pageRange.at(i) - 1);
+                if (!img.isNull()) {
+                    painter.setRenderHint(QPainter::Antialiasing);
+                    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                    QRect wRect  = _printer->pageRect();
+                    QImage tmpMap;
+                    if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                        tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                    } else {
+                        tmpMap = img;
+                    }
+                    QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                              qreal(wRect.height() - tmpMap.height()) / 2,
+                                              tmpMap.width(), tmpMap.height());
+                    painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                             tmpMap.height()), tmpMap);
+                }
+                if (i < pageRange.size() - 1) {
+                    _printer->newPage();
+                }
+            }
+            painter.end();
+        });
+    } else {
+        //同步
+        QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
+            QPainter painter(_printer);
+            for (QImage img : imgs) {
+                if (!img.isNull()) {
+                    painter.setRenderHint(QPainter::Antialiasing);
+                    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                    QRect wRect  = _printer->pageRect();
+                    QImage tmpMap;
+                    if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                        tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                    } else {
+                        tmpMap = img;
+                    }
+                    QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                              qreal(wRect.height() - tmpMap.height()) / 2,
+                                              tmpMap.width(), tmpMap.height());
+                    painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                             tmpMap.height()), tmpMap);
+                }
+                if (img != imgs.last()) {
+                    _printer->newPage();
+                }
+            }
+            painter.end();
+        });
+    }
+#else
     DPrintPreviewDialog printDialog2(nullptr);
     QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
         QPainter painter(_printer);
@@ -108,6 +174,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         }
         painter.end();
     });
+#endif
     printDialog2.exec();
 }
 

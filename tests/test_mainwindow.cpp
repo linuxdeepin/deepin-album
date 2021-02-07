@@ -1771,6 +1771,9 @@ TEST(MainWindow, ImportPhotosFromTitlebarMenu)
 TEST(MainWindow, setWaitDialogColor_test)
 {
     TEST_CASE_NAME("setWaitDialogColor_test")
+#ifdef SYSTEM_MIPS
+    return;
+#endif
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
