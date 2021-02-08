@@ -376,7 +376,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>ئالبوم</translation>
+        <translation type="vanished">ئالبوم</translation>
     </message>
 </context>
 <context>
@@ -639,6 +639,10 @@
     <message>
         <source>Importing...</source>
         <translation>ئەكىرۋاتىدۇ...</translation>
+    </message>
+    <message>
+        <source>图片已存在</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

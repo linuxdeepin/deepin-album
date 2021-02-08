@@ -376,7 +376,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>པར་མཛོད།</translation>
+        <translation type="vanished">པར་མཛོད།</translation>
     </message>
 </context>
 <context>
@@ -639,6 +639,10 @@
     <message>
         <source>Importing...</source>
         <translation>པར་ནང་དུ་འདྲེན་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
+    </message>
+    <message>
+        <source>图片已存在</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
