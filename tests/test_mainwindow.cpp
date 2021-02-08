@@ -24,10 +24,13 @@
 #include "commandline.h"
 #include "imageview.h"
 #include "imgdeletedialog.h"
+#include "navigationwidget.h"
+#include "fileinotify.h"
 #include "ac-desktop-define.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
+
 
 //初始无图界面tab切换
 TEST(MainWindow, noPicTab)
@@ -1418,7 +1421,7 @@ TEST(MainWindow, recentlydelete)
 
 TEST(MainWindow, favorite)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("favorite")
     MainWindow *w = dApp->getMainWindow();
     AlbumView *albumview = w->m_pAlbumview;
     ImageView *imageview = w->m_commandLine->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB;
@@ -1924,4 +1927,60 @@ TEST(MainWindow, onNewAPPOpen_test)
     e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier);
     e.simulate(w);
     e.clear();
+}
+
+TEST(MainWindow, callFuncitons_test)
+{
+    TEST_CASE_NAME("callFuncitons_test")
+
+    ViewPanel viewPanel;
+    QStringList strList;
+    strList << "0" << "1";
+
+    viewPanel.onLoadLeft(strList);
+    viewPanel.onttbcontentClicked();
+    viewPanel.onRemoved();
+    viewPanel.onViewBClicked();
+    viewPanel.onViewBImageChanged(" ");
+    viewPanel.removeCurrentImage();
+    viewPanel.rotateImage(true);
+    viewPanel.rotateImage(false);
+
+    viewPanel.appendAction_darkmenu(0, " ", "");
+    QAction action;
+    viewPanel.onMenuItemClicked(&action);
+
+    QWidget *parent = nullptr;
+    NavigationWidget *navigationWidget = new NavigationWidget(parent);
+    QMouseEvent mouseevent(QMouseEvent::None, QPointF(100, 100), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    navigationWidget->mousePressEvent(&mouseevent);
+    navigationWidget->mouseMoveEvent(&mouseevent);
+    navigationWidget->tryMoveRect(QPoint(1, 1));
+
+    QRegion region(1, 1, 1, 1);
+    QPaintEvent paintevent(region);
+    navigationWidget->paintEvent(&paintevent);
+
+    FileInotify fileinotify;
+    fileinotify.isVaild();
+    fileinotify.addWather(" ");
+    fileinotify.removeWatcher(" ");
+    fileinotify.getAllPicture(true);
+    fileinotify.getAllPicture(false);
+    fileinotify.pathLoadOnce();
+
+    QObject obj;
+    MainWindow *w = dApp->getMainWindow();
+
+    w->initRightKeyOrder(&obj);
+    w->initUpKeyOrder();
+    w->compareVersion();
+    w->onButtonClicked(0);
+    w->onButtonClicked(1);
+    w->onButtonClicked(2);
+    w->onImportSuccess();
+    w->onImportFailed();
+    w->onEscShortcutActivated();
+    w->onDelShortcutActivated();
+
 }
