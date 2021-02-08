@@ -2,19 +2,22 @@
 #define PRINTHELPER_H
 
 #include <QObject>
-//#include "printoptionspage.h"
 
+class RequestedSlot;
 class PrintHelper : public QObject
 {
     Q_OBJECT
 
 public:
+    static PrintHelper *getIntance();
     explicit PrintHelper(QObject *parent = nullptr);
 
-    static void showPrintDialog(const QStringList &paths, QWidget *parent = nullptr);
+    void showPrintDialog(const QStringList &paths, QWidget *parent = nullptr);
 
-//    static QSize adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize);
-//    static QPoint adjustPosition(PrintOptionsPage *optionsPage, const QSize &imageSize, const QSize &viewportSize);
+    RequestedSlot *m_re = nullptr;
+
+private:
+    static PrintHelper *m_Printer;
 };
 
 #endif // PRINTHELPER_H

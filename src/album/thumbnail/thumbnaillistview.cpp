@@ -1199,7 +1199,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         emit menuOpenImage(path, paths, true, false);
         break;
     case IdPrint:
-        PrintHelper::showPrintDialog(paths, this);
+        PrintHelper::getIntance()->showPrintDialog(paths, this);
         break;
     case IdStartSlideShow:
         emit menuOpenImage(path, paths, true, true);

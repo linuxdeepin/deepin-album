@@ -163,7 +163,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        PrintHelper::showPrintDialog(QStringList(path1), this);
+        PrintHelper::getIntance()->showPrintDialog(QStringList(path1), this);
         break;
     }
     case IdDrawingBoard: {

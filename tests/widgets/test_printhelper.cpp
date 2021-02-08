@@ -55,7 +55,7 @@ TEST(PrintHelper, PrintHelper_test)
     PrintHelper *p1 = new PrintHelper;
     if (paths.size() < 1)
         paths << testPath_test + "2k9o1m.png";
-    PrintHelper::showPrintDialog(paths, p);
+    PrintHelper::getIntance()->showPrintDialog(paths, p);
 }
 
 
