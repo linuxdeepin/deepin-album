@@ -1,5 +1,8 @@
 #include "printhelper.h"
 #include "utils/unionimage.h"
+
+#include <DPrintPreviewDialog>
+
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPrintPreviewWidget>
@@ -11,8 +14,6 @@
 #include <QDebug>
 #include <QVector>
 
-#include <dprintpreviewdialog.h>
-#include <dprintpreviewwidget.h>
 DWIDGET_USE_NAMESPACE
 
 //绘制图片处理类

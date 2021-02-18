@@ -313,36 +313,6 @@ TEST(AlbumView, iniAlbum1)
     }
 }
 
-TEST(AlbumView, imageOpen)
-{
-    TEST_CASE_NAME("imageOpen")
-    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-    MainWindow *w = dApp->getMainWindow();
-    AlbumView *a = w->m_pAlbumview;
-    emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::ColorType::DarkType);
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
-    QTest::qWait(500);
-    QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
-    if (!testPathlist.isEmpty()) {
-        qDebug() << "test ImageView Success ";
-        w->m_pSearchEdit->setText("1");
-        w->m_pSearchEdit->editingFinished();
-        QTest::qWait(300);
-        emit a->m_pRightThumbnailList->menuOpenImage(testPathlist.first(), testPathlist, false);
-        QTest::qWait(300);
-        QTestEventList e;
-        e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.simulate(w);
-        emit dApp->signalM->showImageInfo(testPathlist.first());
-    }
-}
-
 TEST(AlbumView, deleteImgRecovery)
 {
     TEST_CASE_NAME("deleteImgRecovery")
@@ -406,88 +376,94 @@ TEST(AlbumImageButton, btn)
 }
 
 // 导入重复照片提示
-TEST(AlbumView, ImportDuplicatePhotos)
-{
-    TEST_CASE_NAME("ImportDuplicatePhotos")
-    // albumview ImportDuplicatePhotos
-    AlbumCreateDialog *ad = new AlbumCreateDialog;
-    ad->show();
-    QTest::qWait(500);
-    QTest::keyClicks(ad->getEdit(), "ImportDuplicatePhotosAlbum");
-    emit ad->buttonClicked(1, "");
-    QTest::qWait(200);
-    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-    MainWindow *w = dApp->getMainWindow();
-    w->albumBtnClicked();
-    AlbumView *a = w->m_pAlbumview;
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "ImportDuplicatePhotosAlbum", a, false);
-    QTest::qWait(200);
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "ImportDuplicatePhotosAlbum", a, false);
-    QTest::qWait(500);
-    // allpicview ImportDuplicatePhotos
-    w->allPicBtnClicked();
-    AllPicView *allpicview = w->m_pAllPicView;
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", allpicview, true);
-    QTest::qWait(200);
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", allpicview, true);
-    QTest::qWait(1000);
-    // timelineview ImportDuplicatePhotos
-    w->timeLineBtnClicked();
-    TimeLineView *timelineview = w->m_pTimeLineView;
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", timelineview, true);
-    QTest::qWait(200);
-    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", timelineview, true);
-    QTest::qWait(500);
+//TEST(AlbumView, ImportDuplicatePhotos)
+//{
+//    TEST_CASE_NAME("load")
+//    // albumview ImportDuplicatePhotos
+//    AlbumCreateDialog *ad = new AlbumCreateDialog;
+//    ad->show();
+//    QTest::qWait(500);
+//    QTest::keyClicks(ad->getEdit(), "ImportDuplicatePhotosAlbum");
+//    emit ad->buttonClicked(1, "");
+//    QTest::qWait(200);
+//    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
+//    MainWindow *w = dApp->getMainWindow();
+//    w->albumBtnClicked();
+//    AlbumView *a = w->m_pAlbumview;
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "ImportDuplicatePhotosAlbum", a, false);
+//    QTest::qWait(200);
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "ImportDuplicatePhotosAlbum", a, false);
+//    QTest::qWait(500);
+//    // allpicview ImportDuplicatePhotos
+//    w->allPicBtnClicked();
+//    AllPicView *allpicview = w->m_pAllPicView;
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", allpicview, true);
+//    QTest::qWait(200);
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", allpicview, true);
+//    QTest::qWait(1000);
+//    // timelineview ImportDuplicatePhotos
+//    w->timeLineBtnClicked();
+//    TimeLineView *timelineview = w->m_pTimeLineView;
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", timelineview, true);
+//    QTest::qWait(200);
+//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", timelineview, true);
+//    QTest::qWait(500);
 
-    LeftListView *leftlist = a->m_pLeftListView;
-    DMenu *menu = leftlist->m_pMenu;
-    QPoint point = leftlist->pos();
-    QTestEventList e;
-    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
-    e.addDelay(50);
-    e.simulate(menu);
-    e.clear();
-    QTest::qWait(100);
+//    QTestEventList e;
+//    e.addMouseClick(Qt::MouseButton::LeftButton);
+//    w->albumBtnClicked();
+//    e.simulate(w->getButG()->button(2));
+//    e.clear();
 
-    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
-    e.addDelay(50);
-    e.simulate(menu);
-    e.clear();
-    QTest::qWait(100);
+//    LeftListView *leftlist = a->m_pLeftListView;
+//    DMenu *menu = leftlist->m_pMenu;
+//    QPoint point = leftlist->pos();
+////    QTestEventList e;
+//    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
+//    e.addDelay(50);
+//    e.simulate(menu);
+//    e.clear();
+//    QTest::qWait(100);
 
-    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
-    e.addDelay(50);
-    e.simulate(menu);
-    e.clear();
-    QTest::qWait(100);
+//    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
+//    e.addDelay(50);
+//    e.simulate(menu);
+//    e.clear();
+//    QTest::qWait(100);
 
-    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
-    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
-    e.addDelay(50);
-    e.simulate(menu);
-    e.clear();
-    QTest::qWait(100);
-    a->hide();
-    leftlist->hide();
-}
+//    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
+//    e.addDelay(50);
+//    e.simulate(menu);
+//    e.clear();
+//    QTest::qWait(100);
+
+//    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, point, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 10);
+//    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 10);
+//    e.addDelay(50);
+//    e.simulate(menu);
+//    e.clear();
+//    QTest::qWait(100);
+//    a->hide();
+//    leftlist->hide();
+//}
 
 TEST(LeftListView, update)
 {
-    TEST_CASE_NAME("update")
+    TEST_CASE_NAME("load")
     LeftListView *leftlist = new LeftListView;
     leftlist->updatePhotoListView();
     leftlist->updateCustomizeListView();
@@ -536,58 +512,54 @@ TEST(LeftListView, update)
     QTest::qWait(200);
 }
 
+//TEST(AlbumView, upDataAllAlbumView)
+//{
+//    TEST_CASE_NAME("upDataAllAlbumView")
+//    MainWindow *w = dApp->getMainWindow();
+//    w->albumBtnClicked();
+//    QTest::qWait(500);
+//    QString s1;
+//    w->m_pAlbumview->updateRightNoTrashView();
+//    w->m_pAlbumview->updateRightTrashView();
+//    w->m_pAlbumview->updateRightImportView();
+//    w->m_pAlbumview->updateRightMyFavoriteView();
+//    w->m_pAlbumview->updateRightMountView();
+//    w->m_pAlbumview->updateRightImportView();
+//    w->m_pAlbumview->leftTabClicked();
+//    w->m_pAlbumview->updateImportComboBox();
+//    w->m_pAlbumview->importAllBtnClicked();
+//    w->m_pAlbumview->importSelectBtnClicked();
+//    w->m_pAlbumview->needUnMount(s1);
+//    w->m_pAlbumview->onKeyDelete();
+//    w->m_pAlbumview->onKeyF2();
+//    w->m_pAlbumview->importDialog();
+//    w->m_pAlbumview->onWaitDialogIgnore();
+//    w->m_pAlbumview->openImage(0);
+////    w->m_pAlbumview->onUpdataAlbumRightTitle("timelinesview");//coredump
+//    w->m_pAlbumview->SearchReturnUpdate();
+//    w->m_pAlbumview->onUnMountSignal("");
 
-TEST(AlbumView, upDataAllAlbumView)
-{
-    TEST_CASE_NAME("upDataAllAlbumView")
-    MainWindow *w = dApp->getMainWindow();
-    w->albumBtnClicked();
-    QTest::qWait(500);
-    QString s1;
-    w->m_pAlbumview->updateRightNoTrashView();
-    w->m_pAlbumview->updateRightTrashView();
-    w->m_pAlbumview->updateRightImportView();
-    w->m_pAlbumview->updateRightMyFavoriteView();
-    w->m_pAlbumview->updateRightMountView();
-    w->m_pAlbumview->updateRightImportView();
-    w->m_pAlbumview->leftTabClicked();
-    w->m_pAlbumview->updateImportComboBox();
-    w->m_pAlbumview->importAllBtnClicked();
-    w->m_pAlbumview->importSelectBtnClicked();
-    w->m_pAlbumview->needUnMount(s1);
-    w->m_pAlbumview->onKeyDelete();
-    w->m_pAlbumview->onKeyF2();
-    w->m_pAlbumview->importDialog();
-    w->m_pAlbumview->onWaitDialogIgnore();
-    w->m_pAlbumview->openImage(0);
-//    w->m_pAlbumview->onUpdataAlbumRightTitle("timelinesview");//coredump
-    w->m_pAlbumview->SearchReturnUpdate();
-    w->m_pAlbumview->onUnMountSignal("");
+//    QString jpgItemPath = testPath_test + "/2k9o1m.png";
+//    QString text = "xxxxxxxxxxxxxx";
+//    QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
+//    QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
+//    QByteArray itemData;
+//    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+//    dataStream << text << icon << icon_hover;
+//    QMimeData mimedata;
+//    mimedata.setData(QStringLiteral("TestListView/text-icon-icon_hover"), itemData);
+//    QList<QUrl> li;
+//    li.append(QUrl::fromLocalFile(jpgItemPath));
+//    mimedata.setUrls(li);
 
-    QString jpgItemPath = testPath_test + "/2k9o1m.png";
-    QString text = "xxxxxxxxxxxxxx";
-    QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
-    QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
-    QByteArray itemData;
-    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-    dataStream << text << icon << icon_hover;
-    QMimeData mimedata;
-    mimedata.setData(QStringLiteral("TestListView/text-icon-icon_hover"), itemData);
-    QList<QUrl> li;
-    li.append(QUrl::fromLocalFile(jpgItemPath));
-    mimedata.setUrls(li);
-
-    QPoint pos = w->m_pAlbumview->pos();
-    QDragMoveEvent eMove(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->getDAppNew()->sendEvent(w->m_pAlbumview, &eMove);
-    QTest::qWait(200);
-    QDropEvent ed(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->getDAppNew()->sendEvent(w->m_pAlbumview, &ed);
-    QTest::qWait(200);
-
-    QTest::qWait(500);
-    //
-}
+//    QPoint pos = w->m_pAlbumview->pos();
+//    QDragMoveEvent eMove(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+//    dApp->getDAppNew()->sendEvent(w->m_pAlbumview, &eMove);
+//    QTest::qWait(200);
+//    QDropEvent ed(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+//    dApp->getDAppNew()->sendEvent(w->m_pAlbumview, &ed);
+//    QTest::qWait(200);
+//}
 
 TEST(AlbumView, menuOpenImage_test)
 {
@@ -607,25 +579,6 @@ TEST(AlbumView, menuOpenImage_test)
     QTest::qWait(500);
 }
 
-TEST(AlbumView, onVfsMountChangedAdd_test)
-{
-    TEST_CASE_NAME("onVfsMountChangedAdd_test")
-//    qDebug() << "AlbumView menuOpenImage_test count = " << count_testDefine++;
-//    MainWindow *w = dApp->getMainWindow();
-//    w->albumBtnClicked();
-//    QTest::qWait(500);
-
-//    stub_ext::StubExt stu;
-//    stu.set_lamda(ADDR(QUrl, scheme), [](){
-//        return "file";
-//    });
-
-//    QExplicitlySharedDataPointer<DGioMount> mount;
-//    w->m_pAlbumview->onVfsMountChangedAdd(mount);
-//    QTest::qWait(500);
-}
-
-//
 TEST(AlbumView, findPicturePathByPhone_test)
 {
     TEST_CASE_NAME("findPicturePathByPhone_test")
@@ -698,17 +651,6 @@ TEST(AlbumView, albumView_other1_test)
 
     w->m_pAlbumview->dragEnterEvent(&dee);
     w->m_pAlbumview->dragMoveEvent(&dme);
-
-//    w->m_pAlbumview->m_currentType = COMMON_STR_RECENT_IMPORTED;
-//    w->m_pAlbumview->onKeyDelete();
-//    w->m_pAlbumview->m_currentType = COMMON_STR_TRASH;
-//    w->m_pAlbumview->onKeyDelete();
-//    w->m_pAlbumview->m_currentType = COMMON_STR_FAVORITES;
-//    w->m_pAlbumview->onKeyDelete();
-//    w->m_pAlbumview->m_currentType = COMMON_STR_CUSTOM;
-//    w->m_pAlbumview->onKeyDelete();
-//    w->m_pAlbumview->m_currentType = ALBUM_PATHTYPE_BY_PHONE;
-//    w->m_pAlbumview->onKeyDelete();
 
     w->m_pAlbumview->onKeyF2();
 
