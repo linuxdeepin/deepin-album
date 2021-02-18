@@ -403,7 +403,7 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
     return iRet;
 }
 
-void ImageEngineApi::load80Thumbnails(int num)
+void ImageEngineApi::loadFirstPageThumbnails(int num)
 {
     thumbnailLoadThread(num);
 

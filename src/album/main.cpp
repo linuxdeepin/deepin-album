@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 
     DBManager::instance();
     ImageEngineApi::instance(dAppNew.get());
-    ImageEngineApi::instance()->load80Thumbnails(number);
+    ImageEngineApi::instance()->loadFirstPageThumbnails(number);
     MainWindow w;
 
     w.show();

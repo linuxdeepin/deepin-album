@@ -65,7 +65,7 @@ public:
     {
         return bcloseFg;
     }
-    void load80Thumbnails(int num);
+    void loadFirstPageThumbnails(int num);
     void thumbnailLoadThread(int num);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);

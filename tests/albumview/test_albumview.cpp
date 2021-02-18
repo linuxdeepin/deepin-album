@@ -29,7 +29,7 @@
 TEST(AlbumView, deleteAll)
 {
     TEST_CASE_NAME("deleteAll")
-    ImageEngineApi::instance()->load80Thumbnails(50);
+    ImageEngineApi::instance()->loadFirstPageThumbnails(50);
     QTest::qWait(500);
     MainWindow *w = dApp->getMainWindow();
     w->loadZoomRatio();
