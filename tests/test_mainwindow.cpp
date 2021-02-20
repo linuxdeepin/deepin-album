@@ -27,6 +27,7 @@
 #include "navigationwidget.h"
 #include "fileinotify.h"
 #include "ac-desktop-define.h"
+#include "qgesture.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
@@ -2013,6 +2014,7 @@ TEST(MainWindow, callFuncitons_test)
     viewPanel.removeCurrentImage();
     viewPanel.rotateImage(true);
     viewPanel.rotateImage(false);
+    viewPanel.onMouseHoverMoved();
 
     viewPanel.appendAction_darkmenu(0, " ", "");
     QAction action;
@@ -2020,9 +2022,9 @@ TEST(MainWindow, callFuncitons_test)
 
     QWidget *parent = nullptr;
     NavigationWidget *navigationWidget = new NavigationWidget(parent);
-    QMouseEvent mouseevent(QMouseEvent::None, QPointF(100, 100), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-    navigationWidget->mousePressEvent(&mouseevent);
-    navigationWidget->mouseMoveEvent(&mouseevent);
+    QMouseEvent mouseEvent(QMouseEvent::None, QPointF(100, 100), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    navigationWidget->mousePressEvent(&mouseEvent);
+    navigationWidget->mouseMoveEvent(&mouseEvent);
     navigationWidget->tryMoveRect(QPoint(1, 1));
 
     QRegion region(1, 1, 1, 1);
@@ -2052,4 +2054,59 @@ TEST(MainWindow, callFuncitons_test)
     w->onDelShortcutActivated();
     w->onSearchEditClear();
     w->onCtrlFShortcutActivated();
+
+    QModelIndex index;
+    //    w->m_pAlbumview->onLeftListViewMountListWidgetClicked(index);
+    w->m_slidePanel->onThemeChanged(ViewerThemeManager::Dark);
+
+    QTimerEvent timeEvent(100);
+    w->m_slidePanel->timerEvent(&timeEvent);
+    w->m_pSearchView->onFinishLoad();
+    w->m_pSearchView->onKeyDelete();
+
+    AlbumImageButton imageButton;
+    imageButton.leaveEvent(&mouseEvent);
+
+    AlbumDeleteDialog deleteDialog;
+    QKeyEvent keyevent(QKeyEvent::None, 1, Qt::NoModifier, " ");
+    deleteDialog.keyPressEvent(&keyevent);
+    deleteDialog.onButtonClicked(0, " ");
+    deleteDialog.onButtonClicked(1, " ");
+
+    ImportTimeLineView importTimeLineView(nullptr);
+    QMimeData mimedata;
+    QDragEnterEvent dragenterevent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
+    importTimeLineView.dragEnterEvent(&dragenterevent);
+    QDropEvent dropEvent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
+    importTimeLineView.dropEvent(&dropEvent);
+    QDragMoveEvent dragMoveEvent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
+    importTimeLineView.dragMoveEvent(&dragMoveEvent);
+    QDragLeaveEvent dragLeaveEvent;
+    importTimeLineView.dragLeaveEvent(&dragLeaveEvent);
+    importTimeLineView.mousePressEvent(&mouseEvent);
+
+    ImageItem imageItem;
+    imageItem.mouseReleaseEvent(&mouseEvent);
+    imageItem.mousePressEvent(&mouseEvent);
+    imageItem.setIndex(1);
+    imageItem.emitClickSig();
+
+    TTBContent ttbContent(true, strList);
+    ttbContent.updateFilenameLayout();
+    ttbContent.onImgListViewTestloadRight();
+
+    ImageView imageView;
+    imageView.mousePressEvent(&mouseEvent);
+    imageView.mouseMoveEvent(&mouseEvent);
+    const QList<QGesture *> gestures;
+    QGestureEvent gestureEvent(gestures);
+    imageView.handleGestureEvent(&gestureEvent);
+    QPinchGesture pinchGesture(&obj);
+    imageView.pinchTriggered(&pinchGesture);
+    QWheelEvent wheelEvent(QPointF(100, 100), 1, Qt::LeftButton, Qt::NoModifier, Qt::Orientation::Vertical);
+    imageView.wheelEvent(&wheelEvent);
+
+    SlideShowButton slideShowButton;
+    slideShowButton.enterEvent(&wheelEvent);
+    slideShowButton.mouseEvent(&mouseEvent);
 }
