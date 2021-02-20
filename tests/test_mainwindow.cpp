@@ -56,6 +56,11 @@ TEST(MainWindow, noPicTab)
     QTest::qWait(100);
 
     QTestEventList tabEvent;
+    tabEvent.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 100);
+    tabEvent.simulate(w->getButG()->button(0));
+    tabEvent.clear();
+    QTest::qWait(200);
+
     tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
     tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
     tabEvent.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
@@ -78,7 +83,6 @@ TEST(MainWindow, noPicTab)
     QTest::qWait(100);
 
     // 右键切换
-    qDebug() << "右键切换 ";
     QKeyEvent EventPressr(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
     qApp->sendEvent(w->m_pAllPicBtn, &EventPressr);
     QTest::qWait(100);
@@ -700,9 +704,6 @@ TEST(MainWindow, timelineview)
     CommandLine *commandline = w->m_commandLine;
     ImageView *imageview = commandline->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB;
 
-//    QPoint p3(100, 50);
-//    QContextMenuEvent menuEvent2(QContextMenuEvent::Mouse, p3);
-
     if (timelineview) {
         // ----右键菜单start----
         QPoint pr(80, 50);
@@ -918,11 +919,6 @@ TEST(MainWindow, timelineview)
             QTest::qWait(200);
         }
         e1.clear();
-
-//        e1.addMouseMove(pr);
-//        e1.simulate(timelineview->m_allThumbnailListView[0]->viewport());
-//        e1.clear();
-//        QTest::qWait(300);
 
         qApp->sendEvent(timelineview->m_allThumbnailListView[0]->viewport(), &menuEvent);
         QTest::qWait(300);
@@ -1715,38 +1711,56 @@ TEST(MainWindow, search)
 // 从菜单创建相册
 TEST(MainWindow, createalbumFromTitlebarMenu)
 {
-    TEST_CASE_NAME("createalbumFromTitlebarMenu")
+    TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
-    QList<QAction *> actions = w->actions();
-    foreach (auto act, actions) {
-        if (act->text() == QObject::tr("New album")) {
-            act->trigger();
-            break;
+    QAction *act = w->findChild<QAction *> ("New album");
+    QTimer::singleShot(1000, w, [ = ]() {
+        QList<QWidget *> widgets = w->findChildren<QWidget *>();
+        foreach (auto widget, widgets) {
+            if (!strcmp(widget->metaObject()->className(), "AlbumCreateDialog")) {
+                AlbumCreateDialog *tempDlg = dynamic_cast<AlbumCreateDialog *>(widget);
+                tempDlg->getEdit()->setText("albumFromAction");
+                emit tempDlg->buttonClicked(1, "");
+                break;
+            }
         }
+    });
+    if (act) {
+        emit w->m_pTitleBarMenu->triggered(act);
     }
-    QTest::qWait(500);
-    QList<QWidget *> widgets = w->findChildren<QWidget *>();
-    foreach (auto widget, widgets) {
-        if (!strcmp(widget->metaObject()->className(), "AlbumCreateDialog")) {
-            AlbumCreateDialog *tempDlg = dynamic_cast<AlbumCreateDialog *>(widget);
-            tempDlg->getEdit()->setText("TestAlbum");
-            emit tempDlg->buttonClicked(1, "");
-            break;
-        }
-    }
-    w->albumBtnClicked();
+
+    //往此相册导入图片
+    int (*dlgexec)() = []() {return 1;};
+    typedef int (*fptr)(QDialog *);
+    fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+    Stub stub;
+    stub.set(fptrexec, dlgexec);
+
+    stub_ext::StubExt stu;
+    stu.set_lamda(ADDR(DFileDialog, selectedFiles), []() {
+        QStringList filelist;
+        filelist << testPath_Pictures + "/a.jpg" << testPath_Pictures + "/aa.jpg" ;
+        return filelist;
+    });
+    emit w->m_pAlbumview->m_pImportView->m_pImportBtn->clicked(true);
+
     QTest::qWait(500);
 }
 
 // 从菜单导入照片
 TEST(MainWindow, ImportPhotosFromTitlebarMenu)
 {
-    TEST_CASE_NAME("ImportPhotosFromTitlebarMenu")
+    TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
-    w->allPicBtnClicked();
+    w->albumBtnClicked();
     QTest::qWait(500);
+    QTestEventList e;
+    e.addMouseClick(Qt::MouseButton::LeftButton);
+    e.simulate(w->getButG()->button(2));
+    QTest::qWait(300);
+    e.clear();
 
     int (*dlgexec)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
@@ -1757,19 +1771,73 @@ TEST(MainWindow, ImportPhotosFromTitlebarMenu)
     stub_ext::StubExt stu;
     stu.set_lamda(ADDR(DFileDialog, selectedFiles), []() {
         QStringList filelist;
-        filelist << ":/2e5y8y.jpg" << ":/2ejqyx.jpg" << ":/2k9o1m.png";
+        filelist << testPath_Pictures + "/a.jpg" << testPath_Pictures + "/3333.jpg" ;
         return filelist;
     });
-    QList<QAction *> actions = w->actions();
-    foreach (auto act, actions) {
-        if (act->text() == QObject::tr("Import photos")) {
-            act->trigger();
-            break;
-        }
+    QAction *act = w->findChild<QAction *> (Import_Image_View);
+    if (act) {
+        emit w->m_pTitleBarMenu->triggered(act);
     }
-    QTest::qWait(500);
-}
+    QTest::qWait(200);
+    //自定义相册右键点击
+    QPoint p = w->m_pAlbumview->m_pLeftListView->m_pCustomizeLabel->pos();
+    p += QPoint(2, 50);
+    e.addMouseMove(p);
+    e.simulate(w->m_pAlbumview->m_pLeftListView->m_pCustomizeLabel);
+    e.clear();
 
+    e.addMouseClick(Qt::MouseButton::RightButton, Qt::NoModifier, p, 10);
+    QMap<QString, QAction *> act1 = w->m_pAlbumview->m_pLeftListView->m_MenuActionMap;
+    QList<QAction *> allact;
+    auto item = act1.begin();
+    for (; item != act1.end(); item ++) {
+        allact.append(item.value());
+    }
+    //导出
+    emit allact.at(1)->trigger();
+    QTest::qWait(2000);
+    //幻灯片
+    emit allact.at(2)->trigger();
+    QTest::qWait(2000);
+    e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 10);
+    e.simulate(w->m_slidePanel);
+    e.clear();
+    QTest::qWait(500);
+    //重命名
+    emit allact.at(4)->trigger();
+
+    e.addMouseClick(Qt::MouseButton::LeftButton);
+    e.simulate(w->getButG()->button(0));
+    w->allPicBtnClicked();
+    QTest::qWait(500);
+    e.simulate(w->getButG()->button(2));
+    w->albumBtnClicked();
+    e.clear();
+    QTest::qWait(500);
+
+    //新建
+    QTimer::singleShot(1000, w, [ = ]() {
+        QList<QWidget *> widgets = w->findChildren<QWidget *>();
+        foreach (auto widget, widgets) {
+            if (!strcmp(widget->metaObject()->className(), "AlbumCreateDialog")) {
+                AlbumCreateDialog *tempDlg = dynamic_cast<AlbumCreateDialog *>(widget);
+                tempDlg->getEdit()->setText("albumFromAction2");
+                emit tempDlg->buttonClicked(1, "");
+                break;
+            }
+        }
+    });
+    emit allact.at(3)->trigger();
+    QTest::qWait(1000);
+
+    //删除
+    QTimer::singleShot(1000, w, [ = ]() {
+        emit w->m_pAlbumview->m_pLeftListView->deletDialg->buttonClicked(1, "");
+    });
+    emit allact.at(0)->trigger();
+
+    QTest::qWait(200);
+}
 
 TEST(MainWindow, setWaitDialogColor_test)
 {
@@ -1982,5 +2050,6 @@ TEST(MainWindow, callFuncitons_test)
     w->onImportFailed();
     w->onEscShortcutActivated();
     w->onDelShortcutActivated();
-
+    w->onSearchEditClear();
+    w->onCtrlFShortcutActivated();
 }

@@ -388,14 +388,15 @@ void MainWindow::initTitleBar()
 
     // TitleBar Menu
     m_pTitleBarMenu = new DMenu();
-    QAction *pNewAlbum = new QAction();
+    QAction *pNewAlbum = new QAction(this);
     addAction(pNewAlbum);
+    pNewAlbum->setObjectName("New album");
 
     pNewAlbum->setText(tr("New album"));
     pNewAlbum->setShortcut(QKeySequence(CTRLSHIFTN_SHORTCUT));
     m_pTitleBarMenu->addAction(pNewAlbum);
 
-    QAction *pImport = new QAction();
+    QAction *pImport = new QAction(this);
     AC_SET_OBJECT_NAME(pImport, Import_Image_View);
     addAction(pImport);
 

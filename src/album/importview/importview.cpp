@@ -105,12 +105,10 @@ void ImportView::onThemeTypeChanged()
 {
     QPixmap pixmap;
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::LightType)
-    {
+    if (themeType == DGuiApplicationHelper::LightType) {
         pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo.svg", QSize(128, 128));
     }
-    if (themeType == DGuiApplicationHelper::DarkType)
-    {
+    if (themeType == DGuiApplicationHelper::DarkType) {
         pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
     }
     pLabel->setPixmap(pixmap);

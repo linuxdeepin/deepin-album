@@ -86,7 +86,7 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
         QImage tImg;
         QString errMsg;
         if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug()  << errMsg;
+//            qDebug()  << errMsg;
             continue;
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);

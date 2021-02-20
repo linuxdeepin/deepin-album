@@ -58,16 +58,6 @@ void AlbumImageButton::setPropertyPic(const QString &normalPic, const QString &h
     defaultPicPath.checkedPicPath = checkedPic;
 }
 
-//void AlbumImageButton::setTransparent(bool flag)
-//{
-//    transparent = flag;
-//}
-
-//void AlbumImageButton::setAutoChecked(bool flag)
-//{
-//    autoChecked = flag;
-//}
-
 void AlbumImageButton::paintEvent(QPaintEvent *event)
 {
     if (!transparent) {
