@@ -183,7 +183,7 @@ void FileInotify::run()
     char buf[1024];
     inotify_event *event;
     len = static_cast<int>(read(m_handleId, buf, sizeof(buf) - 1));
-    while ((len = static_cast<int>(read(m_handleId, buf, sizeof(buf) - 1))) > 0) {
+    while (len > 0) {
         nread = 0;
         while (len > 0) {
             event = (inotify_event *)&buf[nread];
@@ -192,5 +192,6 @@ void FileInotify::run()
             qDebug() << " need to get new file" <<  event->mask;
             getAllPicture(false);
         }
+        len = static_cast<int>(read(m_handleId, buf, sizeof(buf) - 1));
     }
 }
