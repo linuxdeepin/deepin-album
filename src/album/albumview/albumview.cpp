@@ -722,10 +722,12 @@ void AlbumView::initRightView()
     pPhoneVBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pPhoneTitle = new DLabel();
+    m_pPhoneTitle->setFixedHeight(36);
     DFontSizeManager::instance()->bind(m_pPhoneTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pPhoneTitle->setForegroundRole(DPalette::TextTitle);
 
     m_pPhonePicTotal = new DLabel();
+    m_pPhonePicTotal->setFixedHeight(20);
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
     pal = DApplicationHelper::instance()->palette(m_pPhonePicTotal);
@@ -747,6 +749,7 @@ void AlbumView::initRightView()
 
     pPhoneVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pPhoneVBoxLayout->addSpacing(4);
+    m_pPhoneTitle->setFixedHeight(36);
     pPhoneVBoxLayout->addWidget(m_pPhoneTitle);
     pPhoneVBoxLayout->addSpacing(22);
     pPhoneVBoxLayout->addWidget(m_pPhonePicTotal);

@@ -375,14 +375,12 @@ void MainWindow::initTitleBar()
 //    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
     m_pSearchEdit = new DSearchEdit();
     m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::StrongFocus);
-//    m_pSearchEdit->setFixedSize(350, 36);
     m_pSearchEdit->setMaximumSize(350, 36);
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
     } else {
         m_pSearchEdit->setEnabled(false);
     }
-
 //    pTitleSearchLayout->addWidget(m_pSearchEdit);
     //m_titleSearchWidget->setLayout(pTitleSearchLayout);
 
@@ -412,12 +410,6 @@ void MainWindow::initTitleBar()
     titlebar()->setBlurBackground(true);
     AC_SET_OBJECT_NAME(titlebar(), MainWindow_Titlebar);
     AC_SET_ACCESSIBLE_NAME(titlebar(), MainWindow_Titlebar);
-
-//    if (0 < DBManager::instance()->getImgsCount()) {
-//        // dothing
-//    } else {
-//        m_pSearchEdit->setEnabled(false);
-//    }
 }
 
 //初始化中心界面
@@ -857,12 +849,6 @@ int MainWindow::getCurrentViewType()
     return m_iCurrentView;
 }
 
-//void MainWindow::onUpdateCentralWidget()
-//{
-//    emit dApp->signalM->hideExtensionPanel();
-//    m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-//}
-
 //显示所有照片
 void MainWindow::allPicBtnClicked()
 {
@@ -1207,13 +1193,6 @@ void MainWindow::onShowImageInfo(const QString &path)
         });
     }
 }
-
-//void MainWindow::viewImageClose()
-//{
-//    if (bfirstandviewimage) {
-//        exit(0);
-//    }
-//}
 
 void MainWindow::floatMessage(const QString &str, const QIcon &icon)
 {

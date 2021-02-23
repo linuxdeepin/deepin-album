@@ -112,8 +112,8 @@ void AlbumImageButton::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::HighQualityAntialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
-    int pixmapWidth = pixmap.rect().width();
-    int pixmapHeight = pixmap.rect().height();
+    int pixmapWidth = pixmap.rect().width() - 3;//按钮配置大小比资源图片小3像素
+    int pixmapHeight = pixmap.rect().height() - 3;//按钮配置大小比资源图片小3像素
     QRect pixmapRect((rect().width() - pixmapWidth) / 2, (rect().height() - pixmapHeight) / 2, pixmapWidth, pixmapHeight);
     pixmapRect = pixmapRect.intersected(rect());
     painter.drawPixmap(pixmapRect, pixmap, QRect(0, 0, pixmapWidth, pixmapHeight));
