@@ -774,15 +774,15 @@ void TimeLineView::addTimelineLayout()
                     if (lst.count() >= 12) {
                         QString path = lst.at(1).toString();
                         if (path == selectPrePaths) {
-                            if ((index.row() % m_allThumbnailListView[i]->rowSizeHint) == 0) {
-                                rowcount = index.row() / m_allThumbnailListView[i]->rowSizeHint;
+                            if ((index.row() % m_allThumbnailListView[i]->m_rowSizeHint) == 0) {
+                                rowcount = index.row() / m_allThumbnailListView[i]->m_rowSizeHint;
                             } else {
-                                rowcount = index.row() / m_allThumbnailListView[i]->rowSizeHint + 1;
+                                rowcount = index.row() / m_allThumbnailListView[i]->m_rowSizeHint + 1;
                             }
-                            if ((m_allThumbnailListView[i]->m_model->rowCount() % m_allThumbnailListView[i]->rowSizeHint) == 0) {
-                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->rowSizeHint ;
+                            if ((m_allThumbnailListView[i]->m_model->rowCount() % m_allThumbnailListView[i]->m_rowSizeHint) == 0) {
+                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->m_rowSizeHint ;
                             } else {
-                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->rowSizeHint + 1;
+                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->m_rowSizeHint + 1;
                             }
                             double tempheight = rowcount / static_cast<double>(allrowcount);
                             int thumbnailheight =  m_allThumbnailListView.at(i)->height();

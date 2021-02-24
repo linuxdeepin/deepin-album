@@ -1712,6 +1712,9 @@ TEST(MainWindow, search)
 // 从菜单创建相册
 TEST(MainWindow, createalbumFromTitlebarMenu)
 {
+#ifdef SYSTEM_MIPS
+    return;
+#endif
     TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
@@ -2055,8 +2058,6 @@ TEST(MainWindow, callFuncitons_test)
     w->onSearchEditClear();
     w->onCtrlFShortcutActivated();
 
-    QModelIndex index;
-    //    w->m_pAlbumview->onLeftListViewMountListWidgetClicked(index);
     w->m_slidePanel->onThemeChanged(ViewerThemeManager::Dark);
 
     QTimerEvent timeEvent(100);

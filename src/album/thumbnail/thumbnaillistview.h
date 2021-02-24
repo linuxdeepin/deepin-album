@@ -210,10 +210,6 @@ private:
 
     void initConnections();
     //------------------
-    void calBasePixMap(ItemInfo &info);
-    void calBasePixMapWandH();
-    void calWidgetItem();
-    void calWidgetItemWandH();
     void addThumbnailViewNew(QList<QList<ItemInfo>> gridItem);
     void addThumbnailView();
     void sendNeedResize(/*int height*/);
@@ -272,8 +268,8 @@ private:
     QList<ItemInfo> m_ItemListLeft;
     int m_requestCount = 0;
     int m_allNeedRequestFilesCount = 0;
-    bool blastload = false;
-    bool bfirstload = true;
+//    bool blastload = false;
+//    bool bfirstload = true;
     bool bneedcache = true;
     int m_scrollbartopdistance = 0;
     int m_scrollbarbottomdistance = 0;
@@ -295,7 +291,7 @@ private:
     int touchTapDistance;
 
 public:
-    int rowSizeHint = 0;
+    int m_rowSizeHint = 0;
     QList<ItemInfo> m_allItemLeft;//所有待处理的
     QStringList m_currentDeletePath; //当前选中图片的路径
     QString m_selectPrePath;//最后选中图片的上一张未选中图片

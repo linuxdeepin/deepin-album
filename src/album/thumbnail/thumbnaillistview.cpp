@@ -40,10 +40,10 @@ QString ss(const QString &text)
 ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QString imgtype, QWidget *parent)
     :  DListView(parent), m_delegatetype(type), m_allfileslist(), updateEnableSelectionByMouseTimer(nullptr)
 {
-//    if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
-//        m_scrollbartopdistance = 50;
-//        m_scrollbarbottomdistance = 27;
-//    } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
+    if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+        m_scrollbartopdistance = 50;
+        m_scrollbarbottomdistance = 0;
+    }// else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
 //        m_scrollbarbottomdistance = 27;
 //    } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
 //        m_scrollbartopdistance = 134;
@@ -301,266 +301,22 @@ void ThumbnailListView::initConnections()
     connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this, &ThumbnailListView::onCancelFavorite);
 }
 
-void ThumbnailListView::calBasePixMap(ItemInfo &info)
-{
-    int i_totalwidth = window()->width() - 30;
-    bool bcalBase = false;
-    if (info.width != 0) {
-        bcalBase = (info.height / info.width) > 3;
-    }
-    if (0 == info.height || 0 == info.width || bcalBase) {
-        info.width = m_iBaseHeight;
-        info.height = m_iBaseHeight;
-    } else {
-        info.width = info.width * m_iBaseHeight / info.height;
-        if (info.width > i_totalwidth) {
-            info.height = m_iBaseHeight / 4;
-            info.width = i_totalwidth / 4;
-        } else {
-            info.height = m_iBaseHeight;
-        }
-    }
-    info.imgHeight = info.height;
-    info.imgWidth = info.width;
-    info.imgHeight = (1 > info.imgHeight) ? 1 : info.imgHeight;
-    info.imgWidth = (1 > info.imgWidth) ? 1 : info.imgWidth;
-    info.height =
-        (m_iBaseHeight > info.height) ? m_iBaseHeight : info.height;
-    info.width = (28 > info.width) ? 28 : info.width;
-}
-
-void ThumbnailListView::calBasePixMapWandH()
-{
-    int i_totalwidth = window()->width() - 30;
-
-    for (int i = 0; i < m_ItemList.length(); i++) {
-        if (0 == m_ItemList[i].height || 0 == m_ItemList[i].width) {
-            m_ItemList[i].width = m_iBaseHeight;
-            m_ItemList[i].height = m_iBaseHeight;
-        } else {
-            m_ItemList[i].width = m_ItemList[i].width * m_iBaseHeight / m_ItemList[i].height;
-            if (m_ItemList[i].width > i_totalwidth) {
-                m_ItemList[i].height = m_iBaseHeight / 4;
-                m_ItemList[i].width = i_totalwidth / 4;
-            } else {
-                m_ItemList[i].height = m_iBaseHeight;
-            }
-        }
-
-        m_ItemList[i].imgHeight = m_ItemList[i].height;
-        m_ItemList[i].imgWidth = m_ItemList[i].width;
-        // Prevents height or width less than 2 after scaling
-        m_ItemList[i].imgHeight = (1 > m_ItemList[i].imgHeight) ? 1 : m_ItemList[i].imgHeight;
-        m_ItemList[i].imgWidth = (1 > m_ItemList[i].imgWidth) ? 1 : m_ItemList[i].imgWidth;
-        m_ItemList[i].height =
-            (m_iBaseHeight > m_ItemList[i].height) ? m_iBaseHeight : m_ItemList[i].height;
-        m_ItemList[i].width = (28 > m_ItemList[i].width) ? 28 : m_ItemList[i].width;
-    }
-}
-
-void ThumbnailListView::calWidgetItem()
-{
-    int m_gbaseWidth = 0;
-    int i_totalwidth = width() - 30;  // same as i_totalwidth in calBasePixMapWandH()
-    QList<int> rowWidthList;
-    QList<ItemInfo> itemInfoList;
-    rowWidthList.clear();
-    itemInfoList.clear();
-    QList<QList<ItemInfo>> gridItem;
-    gridItem.clear();
-    int totlelength = m_ItemListLeft.size();
-    int corrent = 0;
-    // set rows for list
-    for (int i = 0; i < totlelength; i++) {
-        if ((m_gbaseWidth + m_ItemListLeft[corrent].width) <= i_totalwidth) {
-            m_gbaseWidth = m_gbaseWidth + m_ItemListLeft[corrent].width + ITEM_SPACING;
-            itemInfoList << m_ItemListLeft[corrent];
-            if (m_allNeedRequestFilesCount < 1 && corrent == m_ItemListLeft.size() - 1) {
-                m_gbaseWidth -= ITEM_SPACING;
-                rowWidthList << m_gbaseWidth;
-                gridItem << itemInfoList;
-                for (int j = 0; j <= corrent; j++) {
-                    m_ItemList << m_ItemListLeft.first();
-                    m_ItemListLeft.removeFirst();
-                }
-            }
-        } else if (i_totalwidth - m_gbaseWidth > 200) {
-            m_ItemListLeft[corrent].imgHeight =
-                m_ItemListLeft[corrent].imgHeight * (i_totalwidth - m_gbaseWidth) / m_ItemListLeft[corrent].imgWidth;
-            m_ItemListLeft[corrent].imgHeight = (1 > m_ItemListLeft[corrent].imgHeight) ? 1 : m_ItemListLeft[corrent].imgHeight;
-            m_ItemListLeft[corrent].imgWidth = i_totalwidth - m_gbaseWidth;
-            m_ItemListLeft[corrent].width = i_totalwidth - m_gbaseWidth;
-            m_gbaseWidth = i_totalwidth;
-            rowWidthList << m_gbaseWidth;
-            itemInfoList << m_ItemListLeft[corrent];
-            gridItem << itemInfoList;
-            for (int j = 0; j <= corrent; j++) {
-                m_ItemList << m_ItemListLeft.first();
-                m_ItemListLeft.removeFirst();
-            }
-            corrent = -1;
-            m_gbaseWidth = 0;
-            itemInfoList.clear();
-        } else {
-            m_gbaseWidth -= ITEM_SPACING;
-            rowWidthList << m_gbaseWidth;
-            m_gbaseWidth = m_ItemListLeft[corrent].width + ITEM_SPACING;
-            gridItem << itemInfoList;
-            for (int j = 0; j < corrent; j++) {
-                m_ItemList << m_ItemListLeft.first();
-                m_ItemListLeft.removeFirst();
-            }
-            itemInfoList.clear();
-            corrent = 0;
-            itemInfoList << m_ItemListLeft[corrent];
-            if (m_allNeedRequestFilesCount < 1 && corrent == m_ItemListLeft.size() - 1) {
-                m_gbaseWidth -= ITEM_SPACING;
-                rowWidthList << m_gbaseWidth;
-                gridItem << itemInfoList;
-                for (int j = 0; j <= corrent; j++) {
-                    m_ItemList << m_ItemListLeft.first();
-                    m_ItemListLeft.removeFirst();
-                }
-            }
-        }
-        corrent++;
-    }
-
-    // scaling for each row adapting list width except last one
-    totlelength = rowWidthList.size();
-    if (m_allNeedRequestFilesCount < 1)
-        totlelength -= 1;
-    for (int i = 0; i < totlelength; i++) {
-        if (rowWidthList[i] < i_totalwidth) {
-            int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * gridItem[i].length();
-            int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * gridItem[i].length();
-            int rowWidth = 0;
-            for (int j = 0; j < gridItem[i].length(); j++) {
-                gridItem[i][j].width = gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
-                gridItem[i][j].height = gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
-                gridItem[i][j].imgWidth = gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
-                gridItem[i][j].imgHeight = gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
-                rowWidth = rowWidth + gridItem[i][j].width + ITEM_SPACING;
-            }
-            rowWidthList[i] = rowWidth - ITEM_SPACING;
-            if (rowWidthList[i] < i_totalwidth) {
-                gridItem[i][0].width = gridItem[i][0].width + i_totalwidth - rowWidthList[i];
-            }
-        }
-    }
-    addThumbnailViewNew(gridItem);
-    if (gridItem.size() > 0) {
-        bfirstload = false;
-    }
-}
-
-void ThumbnailListView::calWidgetItemWandH()
-{
-    int i_baseWidth = 0;
-    int i_totalwidth = width() - 30;  // same as i_totalwidth in calBasePixMapWandH()
-    QList<int> rowWidthList;          //一行的宽度
-    QList<ItemInfo> itemInfoList;     //一行的item项
-    QList<ItemInfo> m_ItemListAll;    //所有图片项
-    m_ItemListAll << m_ItemList << m_ItemListLeft;
-    rowWidthList.clear();
-    itemInfoList.clear();
-    m_gridItem.clear();
-    m_ItemList.clear();
-    m_ItemListLeft.clear();
-    int totlelength = m_ItemListAll.size();
-    int corrent = 0;
-    // set rows for list
-    for (int i = 0; i < totlelength; i++) {
-        if ((i_baseWidth + m_ItemListAll[corrent].width) <= i_totalwidth) {
-            i_baseWidth = i_baseWidth + m_ItemListAll[corrent].width + ITEM_SPACING;
-            itemInfoList << m_ItemListAll[corrent];
-            if (m_allNeedRequestFilesCount < 1 && corrent == m_ItemListAll.size() - 1) {
-                i_baseWidth -= ITEM_SPACING;
-                rowWidthList << i_baseWidth;
-                m_gridItem << itemInfoList;
-                for (int j = 0; j <= corrent; j++) {
-                    m_ItemList << m_ItemListAll.first();
-                    m_ItemListAll.removeFirst();
-                }
-            }
-        } else if (i_totalwidth - i_baseWidth > 200) {  //一行最后剩余宽度大于200   对当前图片进行缩放
-            m_ItemListAll[corrent].imgHeight = m_ItemListAll[corrent].imgHeight * (i_totalwidth - i_baseWidth) / m_ItemListAll[corrent].imgWidth;
-            m_ItemListAll[corrent].imgHeight = (1 > m_ItemListAll[corrent].imgHeight) ? 1 : m_ItemListAll[corrent].imgHeight;
-            m_ItemListAll[corrent].imgWidth = i_totalwidth - i_baseWidth;
-            m_ItemListAll[corrent].width = i_totalwidth - i_baseWidth;
-            i_baseWidth = i_totalwidth;
-            rowWidthList << i_baseWidth;
-            itemInfoList << m_ItemListAll[corrent];
-            m_gridItem << itemInfoList;
-            for (int j = 0; j <= corrent; j++) {
-                m_ItemList << m_ItemListAll.first();
-                m_ItemListAll.removeFirst();
-            }
-            corrent = -1;
-            i_baseWidth = 0;
-            itemInfoList.clear();
-        } else {
-            i_baseWidth -= ITEM_SPACING;
-            rowWidthList << i_baseWidth;
-            i_baseWidth = m_ItemListAll[corrent].width + ITEM_SPACING;
-            m_gridItem << itemInfoList;
-            for (int j = 0; j < corrent; j++) {
-                m_ItemList << m_ItemListAll.first();
-                m_ItemListAll.removeFirst();
-            }
-            itemInfoList.clear();
-            corrent = 0;
-            itemInfoList << m_ItemListAll[corrent];
-            if (m_allNeedRequestFilesCount < 1 && corrent == m_ItemListAll.size() - 1) {
-                i_baseWidth -= ITEM_SPACING;
-                rowWidthList << i_baseWidth;
-                m_gridItem << itemInfoList;
-                for (int j = 0; j <= corrent; j++) {
-                    m_ItemList << m_ItemListAll.first();
-                    m_ItemListAll.removeFirst();
-                }
-            }
-        }
-        corrent++;
-    }
-    m_ItemListLeft << m_ItemListAll;
-    totlelength = rowWidthList.size();
-    if (m_allNeedRequestFilesCount < 1)
-        totlelength -= 1;
-    // scaling for each row adapting list width except last one
-    for (int i = 0; i < totlelength; i++) {
-        if (i < (rowWidthList.size() - 1) && rowWidthList[i] < i_totalwidth && i < m_gridItem.size()) {
-            int i_totalwidthExSpace = i_totalwidth - ITEM_SPACING * m_gridItem[i].size();
-            int rowWidthListExSpace = rowWidthList[i] - ITEM_SPACING * m_gridItem[i].size();
-            int rowWidth = 0;
-            for (int j = 0; j < m_gridItem[i].size(); j++) {
-                m_gridItem[i][j].width = m_gridItem[i][j].width * i_totalwidthExSpace / rowWidthListExSpace;
-                m_gridItem[i][j].height = m_gridItem[i][j].height * i_totalwidthExSpace / rowWidthListExSpace;
-                m_gridItem[i][j].imgWidth = m_gridItem[i][j].imgWidth * i_totalwidthExSpace / rowWidthListExSpace;
-                m_gridItem[i][j].imgHeight = m_gridItem[i][j].imgHeight * i_totalwidthExSpace / rowWidthListExSpace;
-                rowWidth = rowWidth + m_gridItem[i][j].width + ITEM_SPACING;
-            }
-            rowWidthList[i] = rowWidth - ITEM_SPACING;
-            if (rowWidthList[i] < i_totalwidth) {
-                m_gridItem[i][0].width = m_gridItem[i][0].width + i_totalwidth - rowWidthList[i];
-            }
-        }
-    }
-    if (0 < m_gridItem.size()) {
-        m_height = 0;
-        for (int i = 0; i < rowWidthList.size(); i++) {
-            m_height = m_height + m_gridItem[i][0].height + ITEM_SPACING;
-        }
-        m_height -= ITEM_SPACING;
-    }
-}
-
 void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
 {
     for (int i = 0; i < gridItem.length(); i++) {
         for (int j = 0; j < gridItem[i].length(); j++) {
             QStandardItem *item = new QStandardItem;
             QString qsfirstorlast = "NotFirstOrLast";
+            //针对第一行做处理
+            int height = gridItem[i][j].height;
+            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                if (m_model->rowCount() < m_rowSizeHint) {
+                    if (i == 0) {
+                        height += 50;
+                        qsfirstorlast = "First";
+                    }
+                }
+            }
 
             QVariantList datas;
             datas.append(QVariant(gridItem[i][j].name));
@@ -579,7 +335,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(gridItem[i][j].path);
             item->setData(QVariant(albumNames), Qt::UserRole + 2);
 
-            item->setData(QVariant(QSize(gridItem[i][j].width, gridItem[i][j].height)),
+            item->setData(QVariant(QSize(gridItem[i][j].width, /*gridItem[i][j].height*/height)),
                           Qt::SizeHintRole);
             m_model->appendRow(item);
         }
@@ -595,10 +351,10 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             }
         }
         int m_row = 0;//当前一个list的行数
-        if (index % rowSizeHint == 0)
-            m_row = index / rowSizeHint;
+        if (index % m_rowSizeHint == 0)
+            m_row = index / m_rowSizeHint;
         else
-            m_row = index / rowSizeHint + 1;
+            m_row = index / m_rowSizeHint + 1;
 
         m_height = (m_gridItem[0][0].height + ITEM_SPACING) * m_row;
         m_height -= ITEM_SPACING;
@@ -620,8 +376,8 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
                 }
                 if (m_selectPrePath == path) {
                     if (this->objectName() == "RightTrashThumbnail" || this->objectName() == "RightFavoriteThumbnail") {
-                        if (i >= rowSizeHint) {
-                            lastIndex = m_model->item(i - rowSizeHint, j)->index();
+                        if (i >= m_rowSizeHint) {
+                            lastIndex = m_model->item(i - m_rowSizeHint, j)->index();
                         } else {
                             lastIndex = m_model->item(i, j)->index();
                         }
@@ -654,6 +410,16 @@ void ThumbnailListView::addThumbnailView()
         for (int j = 0; j < m_gridItem[i].length(); j++) {
             QStandardItem *item = new QStandardItem;
             QString qsfirstorlast = "NotFirstOrLast";
+            int height = m_gridItem[i][j].height;
+            //针对第一行做处理
+            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                if (m_model->rowCount() < m_rowSizeHint) {
+                    if (i == 0) {
+                        height += 50;
+                        qsfirstorlast = "First";
+                    }
+                }
+            }
 
             QVariantList datas;
             datas.append(QVariant(m_gridItem[i][j].name));
@@ -669,7 +435,7 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(qsfirstorlast));
             datas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
             item->setData(QVariant(datas), Qt::DisplayRole);
-            item->setData(QVariant(QSize(m_gridItem[i][j].width, m_gridItem[i][j].height)),
+            item->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
                           Qt::SizeHintRole);
             m_model->appendRow(item);
         }
@@ -720,6 +486,16 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 m_gridItem[i][j] = info;
                 QVariantList newdatas;
                 QString qsfirstorlast = "NotFirstOrLast";
+                int height = m_gridItem[i][j].height;
+                //针对第一行做处理
+                if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                    if (m_model->rowCount() < m_rowSizeHint) {
+                        if (i == 0) {
+                            height += 50;
+                            qsfirstorlast = "First";
+                        }
+                    }
+                }
 
                 newdatas.append(QVariant(m_gridItem[i][j].name));
                 newdatas.append(QVariant(m_gridItem[i][j].path));
@@ -734,7 +510,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 newdatas.append(QVariant(qsfirstorlast));
                 newdatas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
                 m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
-                m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem[i][j].width, m_gridItem[i][j].height)),
+                m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].*/height)),
                                                  Qt::SizeHintRole);
                 QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(m_gridItem[i][j].path);
                 m_model->item(index, 0)->setData(QVariant(albumNames), Qt::UserRole + 2);
@@ -837,7 +613,7 @@ bool ThumbnailListView::imageLoaded(QString filepath)
     m_allNeedRequestFilesCount--;
     if (m_requestCount < 1) {
         if (brequestallfiles) {
-            blastload = true;
+//            blastload = true;
             emit loadEnd();
         }
     }
@@ -892,8 +668,6 @@ void ThumbnailListView::stopLoadAndClear(bool bClearModel)
     m_requestCount = 0;
     m_ItemList.clear();
     m_gridItem.clear();
-    blastload = false;
-    bfirstload = true;
 }
 
 QStringList ThumbnailListView::getAllFileList()
@@ -1414,6 +1188,21 @@ void ThumbnailListView::updateThumbnaillistview()
     for (int i = 0; i < m_gridItem.length(); i++) {
         for (int j = 0; j < m_gridItem[i].length(); j++) {
             QString qsfirstorlast = "NotFirstOrLast";
+            int height = m_gridItem[i][j].height;
+            //针对第一行做处理
+            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
+                if (m_model->rowCount() < m_rowSizeHint) {
+                    if (i == 0) {
+                        height += 50;
+                        qsfirstorlast = "First";
+                    }
+                } else { //刷新，只取第一行添加
+                    if (i < m_rowSizeHint) {
+                        height += 50;
+                        qsfirstorlast = "First";
+                    }
+                }
+            }
 
             QVariantList datas;
             datas.append(QVariant(m_gridItem[i][j].name));
@@ -1436,7 +1225,7 @@ void ThumbnailListView::updateThumbnaillistview()
             QStandardItem *newItem = m_model->item(index);
             if (newItem) {
                 newItem->setData(QVariant(datas), Qt::DisplayRole);
-                newItem->setData(QVariant(QSize(m_gridItem[i][j].width, m_gridItem[i][j].height)),
+                newItem->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].*/height)),
                                  Qt::SizeHintRole);
                 m_model->setItem(index++, newItem);
             }
@@ -1832,8 +1621,8 @@ void ThumbnailListView::cutPixmap(ThumbnailListView::ItemInfo &iteminfo)
 void ThumbnailListView::calgridItems()
 {
     int i_totalwidth = width() - 30;
-    rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);//计算一行能放几个
-    int currentwidth = (i_totalwidth - ITEM_SPACING * (rowSizeHint - 1)) / rowSizeHint;//一张图的宽度
+    m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);//计算一行能放几个
+    int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
     m_onePicWidth = currentwidth;
     if (currentwidth < 1)
         return;
@@ -1849,7 +1638,7 @@ void ThumbnailListView::calgridItems()
         m_allItemLeft[i].height = currentwidth;
         m_allItemLeft[i].imgHeight = currentwidth;
         m_allItemLeft[i].imgWidth = currentwidth;
-        if (index < rowSizeHint) {
+        if (index < m_rowSizeHint) {
             rowList << m_allItemLeft[i];
             index ++;
         } else {
@@ -1865,9 +1654,6 @@ void ThumbnailListView::calgridItems()
         rowList.clear();
     }
     addThumbnailViewNew(gridItem);
-    if (gridItem.size() > 0) {
-        bfirstload = false;
-    }
 }
 
 void ThumbnailListView::calBasePixMapWidth()
@@ -1890,8 +1676,8 @@ void ThumbnailListView::calgridItemsWidth()
     int i_totalwidth = width() - 30;
     QList<ItemInfo> oneRowList;
     //计算一行的个数
-    rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
-    int currentwidth = (i_totalwidth - ITEM_SPACING * (rowSizeHint - 1)) / rowSizeHint;//一张图的宽度
+    m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
+    int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
     m_onePicWidth = currentwidth;
     if (currentwidth < 80)
         currentwidth = 80;
@@ -1913,10 +1699,10 @@ void ThumbnailListView::calgridItemsWidth()
             }
         }
         int m_row = 0;//当前一个list的行数
-        if (index % rowSizeHint == 0)
-            m_row = index / rowSizeHint;
+        if (index % m_rowSizeHint == 0)
+            m_row = index / m_rowSizeHint;
         else
-            m_row = index / rowSizeHint + 1;
+            m_row = index / m_rowSizeHint + 1;
 
         m_height = (m_gridItem[0][0].height + ITEM_SPACING) * m_row;
         m_height -= ITEM_SPACING;
