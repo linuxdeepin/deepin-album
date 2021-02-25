@@ -13,6 +13,7 @@
 #include <QImageReader>
 #include <QDebug>
 #include <QVector>
+#include <QFileInfo>
 
 DWIDGET_USE_NAMESPACE
 
@@ -53,6 +54,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     Q_UNUSED(parent)
     m_re->m_paths.clear();
     m_re->m_imgs.clear();
+    QStringList tempExsitPaths;//保存存在的图片路径
 
     m_re->m_paths = paths;
     QImage imgTemp;
@@ -62,14 +64,20 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         UnionImage_NameSpace::loadStaticImageFromFile(path, imgTemp, errMsg);
         if (!imgTemp.isNull()) {
             m_re->m_imgs << imgTemp;
+            tempExsitPaths << path;
         }
     }
-    //适配打印接口2.0，dtk大于 5.4.4 版才合入最新的2.0打印控件接口
+    //适配打印接口2.0，dtk大于 5.4.7 版才合入最新的2.0打印控件接口
 #if (DTK_VERSION_MAJOR > 5 \
     || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
-    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH > 4))//5.4.4暂时没有合入
+    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 7))//5.4.4暂时没有合入
     DPrintPreviewDialog printDialog2(nullptr);
     bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
+    //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
+    if (tempExsitPaths.size() == 1) {
+        QString docName = QString(QFileInfo(tempExsitPaths.at(0)).baseName());
+        printDialog2.setDocName(docName);
+    }//else 多张照片不设置名称，默认使用print模块的print.pdf
     if (suc) {//异步
         connect(&printDialog2, SIGNAL(paintRequested(DPrinter *, const QVector<int> &)),
                 m_re, SLOT(paintRequestedAsyn(DPrinter *, const QVector<int> &)));
