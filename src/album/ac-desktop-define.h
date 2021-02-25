@@ -13,6 +13,9 @@
 // 使用宏定义，方便国际化操作
 #define OPENACCESSIBLE
 
+//平板宏定义
+//#define tablet_PC
+
 //#define SELECT_CASE "load"
 
 #ifdef SELECT_CASE
