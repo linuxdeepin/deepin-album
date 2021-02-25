@@ -361,6 +361,9 @@ void ImgInfoDialog::initExpand(QVBoxLayout *layout, DDrawer *expand)
     QMargins cm = layout->contentsMargins();
     QRect rc1 = contentsRect();
     expand->setFixedWidth(rc1.width() - cm.left() - cm.right());
+    // 去掉界面的横线
+    expand->setExpandedSeparatorVisible(false);
+    expand->setSeparatorVisible(false);
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);
