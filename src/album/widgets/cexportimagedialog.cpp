@@ -73,26 +73,6 @@ void CExportImageDialog::showMe(const QPixmap &pixmap)
     show();
 }
 
-//int CExportImageDialog::getImageType() const
-//{
-//    return  m_formatCombox->currentIndex();
-//}
-
-//QString CExportImageDialog::getSavePath() const
-//{
-//    return m_savePath + "/" + m_fileNameEdit->text().trimmed();
-//}
-
-//QString CExportImageDialog::getImageFormate() const
-//{
-//    return  m_saveFormat;
-//}
-
-//int CExportImageDialog::getQuality() const
-//{
-//    return m_quality;
-//}
-
 void CExportImageDialog::setPicFileName(QString strFileName)
 {
     QString name = strFileName.mid(0, strFileName.lastIndexOf("."));
@@ -270,7 +250,7 @@ void CExportImageDialog::initUI()
     m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
     m_emptyWarningDialog->setFixedSize(400, 170);
 
-    QWidget* closeButton = findChild<QWidget*>("DTitlebarDWindowCloseButton");
+    QWidget *closeButton = findChild<QWidget *>("DTitlebarDWindowCloseButton");
     closeButton->setFocusPolicy(Qt::ClickFocus);
     this->setTabOrder(getButton(0), getButton(1));
     getButton(0)->installEventFilter(this);

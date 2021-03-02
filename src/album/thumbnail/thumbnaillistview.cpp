@@ -311,7 +311,10 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             int height = gridItem[i][j].height;
             if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
                 if (m_model->rowCount() < m_rowSizeHint) {
-                    if (i == 0) {
+                    height += 50;
+                    qsfirstorlast = "First";
+                } else { //刷新，只取第一行添加
+                    if (i < m_rowSizeHint) {
                         height += 50;
                         qsfirstorlast = "First";
                     }
@@ -414,7 +417,10 @@ void ThumbnailListView::addThumbnailView()
             //针对第一行做处理
             if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
                 if (m_model->rowCount() < m_rowSizeHint) {
-                    if (i == 0) {
+                    height += 50;
+                    qsfirstorlast = "First";
+                } else { //刷新，只取第一行添加
+                    if (i < m_rowSizeHint) {
                         height += 50;
                         qsfirstorlast = "First";
                     }
@@ -490,7 +496,10 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 //针对第一行做处理
                 if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
                     if (m_model->rowCount() < m_rowSizeHint) {
-                        if (i == 0) {
+                        height += 50;
+                        qsfirstorlast = "First";
+                    } else { //刷新，只取第一行添加
+                        if (i < m_rowSizeHint) {
                             height += 50;
                             qsfirstorlast = "First";
                         }
@@ -1192,10 +1201,8 @@ void ThumbnailListView::updateThumbnaillistview()
             //针对第一行做处理
             if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
                 if (m_model->rowCount() < m_rowSizeHint) {
-                    if (i == 0) {
-                        height += 50;
-                        qsfirstorlast = "First";
-                    }
+                    height += 50;
+                    qsfirstorlast = "First";
                 } else { //刷新，只取第一行添加
                     if (i < m_rowSizeHint) {
                         height += 50;

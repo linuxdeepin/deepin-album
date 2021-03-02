@@ -10,8 +10,6 @@
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
 #include "utils/baseutils.h"
-#include "imageengineapi.h"
-
 
 
 TEST(TimeLineView, T1)
