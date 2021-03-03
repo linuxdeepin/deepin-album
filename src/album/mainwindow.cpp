@@ -1258,6 +1258,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             info.paths = paths;
 
             emit dApp->signalM->viewImage(info);
+            //若外部打开图片退出时，不默认跳转到所有照片界面，则获取当前页面索引发送
             emit dApp->signalM->showImageView(0);
 
             //更改为调用线程api
@@ -1855,6 +1856,10 @@ void MainWindow::onHideImageView()
     titlebar()->setVisible(true);   //显示状态栏
     setTitlebarShadowEnabled(true);
     m_pCenterWidget->setCurrentIndex(m_backIndex);
+    //外部打开图片，返回时默认跳转到所有照片界面
+    if (m_backIndex == VIEW_ALLPIC) {
+        allPicBtnClicked();
+    }
 }
 
 void MainWindow::onShowSlidePanel(int index)
