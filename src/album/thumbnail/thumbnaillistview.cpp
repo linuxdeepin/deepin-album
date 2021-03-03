@@ -17,6 +17,7 @@
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
 #include "imageengine/imageenginethread.h"
+#include "ac-desktop-define.h"
 
 namespace {
 const int ITEM_SPACING = 4;
@@ -313,11 +314,6 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
                 if (m_model->rowCount() < m_rowSizeHint) {
                     height += 50;
                     qsfirstorlast = "First";
-                } else { //刷新，只取第一行添加
-                    if (i < m_rowSizeHint) {
-                        height += 50;
-                        qsfirstorlast = "First";
-                    }
                 }
             }
 
@@ -713,6 +709,7 @@ void ThumbnailListView::updateMenuContents()
     if (paths.empty()) {
         return;
     }
+#ifndef tablet_PC
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
         if (1 == paths.length())
             m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
@@ -720,11 +717,14 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
         return;
     }
+#endif
     for (QAction *action : m_MenuActionMap.values()) {
         action->setVisible(true);
         action->setEnabled(true);
     }
     if ((1 == paths.length()) && (!QFileInfo(paths[0]).exists()) && (COMMON_STR_TRASH != m_imageType)) {
+        //源文件不存在时的菜单
+#ifndef tablet_PC
         m_MenuActionMap.value(tr("View"))->setEnabled(true);
         m_MenuActionMap.value(tr("Fullscreen"))->setEnabled(false);
         m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
@@ -738,8 +738,10 @@ void ThumbnailListView::updateMenuContents()
             m_pMenu->insertMenu(action, m_albumMenu);
         }
         m_MenuActionMap.value(tr("Copy"))->setEnabled(false);
+#endif
         m_MenuActionMap.value(tr("Delete"))->setEnabled(false);
         m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
+#ifndef tablet_PC
         m_MenuActionMap.value(tr("Print"))->setVisible(false);
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
@@ -753,12 +755,15 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Display in file manager"))->setEnabled(false);
         m_MenuActionMap.value(tr("Photo info"))->setEnabled(false);
         m_MenuActionMap.value(tr("Set as wallpaper"))->setEnabled(false);
+#endif
         return;
     }
+#ifndef tablet_PC
     if (1 != paths.length()) {
         m_MenuActionMap.value(tr("View"))->setVisible(false);
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
     }
+#endif
     if (COMMON_STR_TRASH == m_imageType) {
         m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
@@ -775,12 +780,14 @@ void ThumbnailListView::updateMenuContents()
                 COMMON_STR_VIEW_TIMELINE == m_imageType || COMMON_STR_FAVORITES == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
+#ifndef tablet_PC
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         } else {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         }
         m_pMenu->addSeparator();
+#endif
     } else {
         if (COMMON_STR_RECENT_IMPORTED == m_imageType || IMAGE_DEFAULTTYPE == m_imageType ||
                 COMMON_STR_VIEW_TIMELINE == m_imageType) {
@@ -789,14 +796,17 @@ void ThumbnailListView::updateMenuContents()
         if (COMMON_STR_FAVORITES == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
+#ifndef tablet_PC
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+#endif
     }
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
     if (1 == paths.length()) { //单张照片
         if (UnionImage_NameSpace::isImageSupportRotate(paths[0]))
             bflag_imageSupportSave = true;
     }
+#ifndef tablet_PC
     if (bflag_imageSupportSave) {
         int flag_isRW = 0;
         if (1 == paths.length()) {
@@ -824,6 +834,7 @@ void ThumbnailListView::updateMenuContents()
     } else {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
     }
+#endif
 }
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
@@ -857,6 +868,7 @@ void ThumbnailListView::initMenuAction()
     }
 
     m_MenuActionMap.clear();
+#ifndef tablet_PC
     appendAction(IdView, tr("View"), ss(VIEW_CONTEXT_MENU));
     appendAction(IdFullScreen, tr("Fullscreen"), ss(FULLSCREEN_CONTEXT_MENU));
     appendAction(IdPrint, tr("Print"), ss(PRINT_CONTEXT_MENU));
@@ -864,8 +876,10 @@ void ThumbnailListView::initMenuAction()
     m_pMenu->addSeparator();
     appendAction(IdExport, tr("Export"), ss(EXPORT_CONTEXT_MENU));
     appendAction(IdCopyToClipboard, tr("Copy"), ss(COPYTOCLIPBOARD_CONTEXT_MENU));
+#endif
     appendAction(IdMoveToTrash, tr("Delete"), ss(""));
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
+#ifndef tablet_PC
     m_pMenu->addSeparator();
     appendAction(IdAddToFavorites, tr("Favorite"), "");
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), "");
@@ -877,6 +891,7 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss(SETASWALLPAPER_CONTEXT_MENU));
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
     appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
+#endif
 }
 
 DMenu *ThumbnailListView::createAlbumMenu()

@@ -1,6 +1,6 @@
 #!/bin/bash
 export QT_QPA_PLATFORM='offscreen'
-QTEST_FUNCTION_TIMEOUT='800000'
+export QTEST_FUNCTION_TIMEOUT='800000'
 cp -r ./testResource/* ${HOME}/图片/
 cp -r ./testResource/* ${HOME}/Pictures/
 
