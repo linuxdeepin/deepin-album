@@ -47,10 +47,10 @@ private slots:
     void onMouseMove();
     void onShowFullScreen();
     void onUpdateBottomToolbar(bool wideMode);
-    void onUpdateBottomToolbarContent(QWidget * c, bool wideMode);
+    void onUpdateBottomToolbarContent(QWidget *c, bool wideMode);
     void onShowBottomToolbar();
     void onHideBottomToolbar(bool immediately);
-    void onUpdateExtensionPanelContent(QWidget * c);
+    void onUpdateExtensionPanelContent(QWidget *c);
     void onShowExtensionPanel();
 
 private:

@@ -194,7 +194,6 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
             }
         }
         if (pixmap.isNull()) {
-            qDebug() << "null pixmap" << tImg;
             pixmap = QPixmap::fromImage(tImg);
         }
         ImageDataSt pdata;
@@ -212,9 +211,18 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         info.lastPanel = nullptr;
         info.path = path;
         info.paths = paths;
-        emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(0);
-        DBManager::instance()->insertImgInfos(DBImgInfoList() << pdata.dbi);
+        // 未启动相册，从外部打开图片时，延迟发送查看图片
+        if (dApp->getMainWindow() == nullptr) {
+            QTimer::singleShot(100, this, [ = ] {
+                emit dApp->signalM->viewImage(info);
+                emit dApp->signalM->showImageView(0);
+                DBManager::instance()->insertImgInfos(DBImgInfoList() << pdata.dbi);
+            });
+        } else {
+            emit dApp->signalM->viewImage(info);
+            emit dApp->signalM->showImageView(0);
+            DBManager::instance()->insertImgInfos(DBImgInfoList() << pdata.dbi);
+        }
     } else {
         QTimer::singleShot(300, this, [ = ] {
             if (paths.count() > 0)

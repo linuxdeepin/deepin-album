@@ -179,7 +179,6 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
         data.dbi = getDBInfo(imagepath);
         data.loaded = ImageLoadStatu_Loaded;
         m_AllImageData[imagepath] = data;
-        //DBManager::instance()->insertImgInfos(DBImgInfoList() << dbi);
         dynamic_cast<ImageEngineObject *>(obj)->checkAndReturnPath(imagepath);
     } else if (ImageLoadStatu_BeLoading == data.loaded && nullptr != data.thread && ifObjectExist(data.thread)) {
         obj->addThread(dynamic_cast<ImageEngineThreadObject *>(data.thread));
@@ -209,19 +208,6 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     }
     return true;
 }
-
-//bool ImageEngineApi::imageNeedReload(QString imagepath)
-//{
-//    QMap<QString, ImageDataSt>::iterator it;
-//    it = m_AllImageData.find(imagepath);
-//    if (it == m_AllImageData.end()) {
-//        return false;
-//    }
-//    ImageDataSt data = it.value();
-//    data.loaded = ImageLoadStatu_False;
-//    m_AllImageData[imagepath] = data;
-//    return true;
-//}
 
 void ImageEngineApi::sltAborted(QString path)
 {

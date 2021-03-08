@@ -363,7 +363,8 @@ DMenu *ViewPanel::createAblumMenu()
     am->addSeparator();
 
     QStringList albumNames;
-    if (albums.count() > 0) {
+    // 增加外部打开图片时主界面未创建时判断逻辑
+    if (albums.count() > 0 && dApp->getMainWindow() != nullptr) {
         QStandardItemModel *pTempModel = dApp->getMainWindow()->m_pAllPicView->getAllPicThumbnailListViewModel()->m_model;
         for (int i = 0; i < pTempModel->rowCount(); i++) {
             QModelIndex idx = pTempModel->index(i, 0);

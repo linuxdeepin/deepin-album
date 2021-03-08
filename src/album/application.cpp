@@ -126,6 +126,7 @@ Application::Application()
     installEventFilter(new GlobalEventFilter(this));
     initChildren();
     m_imageloader = new ImageLoader();
+    m_mainwindow = nullptr;
 }
 
 Application::~Application()

@@ -199,7 +199,7 @@ void MainWidget::onMouseMove()
     if (window()->isFullScreen()) {
         QPoint pos = mapFromGlobal(QCursor::pos());
         if (height() - 90 < pos.y() && height() > pos.y() && height() >= m_bottomToolbar->y()) {
-            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
+            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
@@ -207,7 +207,11 @@ void MainWidget::onMouseMove()
             animation->start(QAbstractAnimation::DeleteWhenStopped);
         } else if (height() - m_bottomToolbar->height() - 10 > pos.y()
                    && height() - m_bottomToolbar->height() - 10 <= m_bottomToolbar->y()) {
-            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
+            //隐藏状态下，区域外的移动事件不响应
+            if (m_bottomToolbar->y() >= height()) {
+                return;
+            }
+            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
@@ -272,11 +276,17 @@ void MainWidget::onUpdateBottomToolbarContent(QWidget *c, bool wideMode)
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
     }
-    m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
+    m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2,
+                          this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 }
 
 void MainWidget::onShowBottomToolbar()
 {
+    // 显示时先停止动画
+    QList<QPropertyAnimation *> lis = this->findChildren<QPropertyAnimation *>();
+    for (auto animation : lis) {
+        animation->stop();
+    }
     m_bottomToolbar->setVisible(true);
     m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
 }
@@ -296,7 +306,8 @@ void MainWidget::onUpdateExtensionPanelContent(QWidget *c)
 
 void MainWidget::onShowExtensionPanel()
 {
-    m_extensionPanel->move(window()->x() + (window()->width() - m_extensionPanel->width()) / 2, window()->y() + (window()->height() - m_extensionPanel->height()) / 2);
+    m_extensionPanel->move(window()->x() + (window()->width() - m_extensionPanel->width()) / 2,
+                           window()->y() + (window()->height() - m_extensionPanel->height()) / 2);
     m_extensionPanel->show();
 }
 

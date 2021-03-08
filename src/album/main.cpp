@@ -178,8 +178,8 @@ int main(int argc, char *argv[])
     ImageEngineApi::instance()->loadFirstPageThumbnails(number);
     MainWindow w;
 
-    w.show();
     dApp->setMainWindow(&w);
+    w.show();
     Dtk::Widget::moveToCenter(&w);
     w.startMonitor();
 
