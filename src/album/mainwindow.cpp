@@ -407,7 +407,7 @@ void MainWindow::initTitleBar()
     titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
     titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
     titlebar()->setMenu(m_pTitleBarMenu);
-    titlebar()->setBlurBackground(true);
+//    titlebar()->setBlurBackground(true);// 0308 zy ui确认，取消标题栏透明效果
     AC_SET_OBJECT_NAME(titlebar(), MainWindow_Titlebar);
     AC_SET_ACCESSIBLE_NAME(titlebar(), MainWindow_Titlebar);
 
