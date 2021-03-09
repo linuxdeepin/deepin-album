@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ug">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ug" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -641,8 +639,8 @@
         <translation>ئەكىرۋاتىدۇ...</translation>
     </message>
     <message>
-        <source>图片已存在</source>
-        <translation type="unfinished"></translation>
+        <source>Photos already exist</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -736,67 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">سۈرەت ئۇچۇرى</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">كۆرۈش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">تولۇق ئېكران</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">تام تەسۋىر</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">چىقىرىش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">كۆچۈرۈش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">ئۆچۈرۈش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">ئالبومغا قايتا نام بېرىش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">بېسىپ چىقىرىش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">ياقتۇرغانلىرىم</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">ياقمىغانلىرى</translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">ھۆججەت باشقۇرغۇچتا كۆرسىتىلىدۇ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">تام قەغىزى قىلىپ تەڭشەڭ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">ئەسلىگە كەلتۈرۈش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">ئالبومغا قوشۇش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">يىڭى ئالبۇم</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -896,7 +902,7 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>ئەكىرگىنىڭىز</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Törlés</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <source>Create</source>
@@ -32,7 +30,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Biztosan törölni szeretné ezt az albumot?</translation>
+        <translation>Biztos, hogy törölni szeretné ezt az albumot?</translation>
     </message>
 </context>
 <context>
@@ -134,15 +132,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Törlés</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation>Figyelmen kívül hagyás</translation>
+        <translation>Kihagyás</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>Fényképek töltése, kérjük várjon...</translation>
+        <translation>Fényképek betöltése, kérjük várjon...</translation>
     </message>
 </context>
 <context>
@@ -167,11 +165,11 @@
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Törlés</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Áthelyezés</translation>
+        <translation>Csere</translation>
     </message>
     <message>
         <source>Export</source>
@@ -215,7 +213,7 @@
     </message>
     <message>
         <source>Quality:</source>
-        <translation>MInőség:</translation>
+        <translation>Minőség:</translation>
     </message>
     <message>
         <source>Save</source>
@@ -239,7 +237,7 @@
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>már létezik. Szeretné felülírni?</translation>
+        <translation>Már létezik. Szeretné felülírni?</translation>
     </message>
 </context>
 <context>
@@ -254,7 +252,7 @@
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 titkosított</translation>
+        <translation>%1 titkosítva</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -262,7 +260,7 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation>%1 méret</translation>
+        <translation>%1 hangerő</translation>
     </message>
 </context>
 <context>
@@ -317,7 +315,7 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">Alap információk</translation>
+        <translation type="vanished">Alapvető információk</translation>
     </message>
     <message>
         <source>Details</source>
@@ -346,22 +344,22 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Töröl</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Biztosan törölni szeretné ezt a képet az albumból?</translation>
+        <translation>Biztos, hogy törölni szeretné ezt a képet az albumból?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Biztosan törölni szeretné a %1 képet az albumból?</translation>
+        <translation>Biztos, hogy törölni szeretné a %1 képeket az albumból?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Alap információk</translation>
+        <translation>Alapvető információk</translation>
     </message>
     <message>
         <source>Details</source>
@@ -376,7 +374,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galéria</translation>
+        <translation type="vanished">Galéria</translation>
     </message>
 </context>
 <context>
@@ -390,7 +388,7 @@
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Minden kép</translation>
+        <translation>Összes kép</translation>
     </message>
     <message>
         <source>Import Photos</source>
@@ -455,7 +453,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Az album egy divatos képkezelő képek nézegetésére és rendszerezésére</translation>
+        <translation>Az Album egy divatos képkezelő képek nézegetésére és rendszerezésére</translation>
     </message>
 </context>
 <context>
@@ -474,7 +472,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Megjelenítés fájlkezelőben</translation>
+        <translation>Megjelenítés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -490,11 +488,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás óramutató járása szerint</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -518,27 +516,27 @@
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Az “%1” album áthelyezve</translation>
+        <translation>A “%1” album eltávolítva</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Sikeresen hozzáadva ehhez: “%1”</translation>
+        <translation>Sikeresen hozzáadva a következőhöz: „%1”</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Sikeres importálás</translation>
+        <translation>Az importálás sikeres</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Sikertelen importálás</translation>
+        <translation>Az importálás sikertelen</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Sikertelen exportálás</translation>
+        <translation>Az exportálás sikertelen</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Sikeres exportálás</translation>
+        <translation>Az exportálás sikeres</translation>
     </message>
     <message>
         <source>All Photos</source>
@@ -566,7 +564,7 @@
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Parancsikonok megjelenítése</translation>
+        <translation>Gyorsbillentyűk megjelenítése</translation>
     </message>
     <message>
         <source>View</source>
@@ -582,7 +580,7 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation>Minden kijelölése</translation>
+        <translation>Összes kijelölése</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
@@ -614,7 +612,7 @@
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">Néhány fénykép nem került importálásra</translation>
+        <translation type="vanished">Néhány kép nem került importálásra</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -626,19 +624,23 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation>%1/%2 fénykép importálva</translation>
+        <translation>%1/%2 kép importálva</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 fénykép importálva, %2 fénykép importálása sikertelen</translation>
+        <translation>%1 kép importálva, %2 kép importálása sikertelen</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fénykép törölve</translation>
+        <translation>%1/%2 kép törölve</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Importálás...</translation>
+    </message>
+    <message>
+        <source>Photos already exist</source>
+        <translation>A kép már létezik</translation>
     </message>
 </context>
 <context>
@@ -657,7 +659,7 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Méretarányok</translation>
+        <translation>Méretek</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -669,7 +671,7 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Expozíció mód</translation>
+        <translation>Expozíciós mód</translation>
     </message>
     <message>
         <source>Exposure program</source>
@@ -705,15 +707,15 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Villanó fény csökkentése</translation>
+        <translation>Vaku kompenzálása</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Kamera tipusa</translation>
+        <translation>Kamera típusa</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lencse tipusa</translation>
+        <translation>Lencse típusa</translation>
     </message>
     <message>
         <source>Colorspace</source>
@@ -732,71 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">Kép tulajdonságai</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">Nézet</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">Teljes képernyő</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">Diavetítés</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">Exportálás</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Másolás</translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">Eltávolítás az albumból</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">Nyomtatás</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">Kedvenc</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">Eltávolítás a kedvencekből</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">Forgatás óramutató járása szerint</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">Forgatás óramutató járásával ellentétes irányba</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">Megjelenítés fájlkezelőben</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">Beállítás háttérképként</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">Helyreállítás</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">Hozzáadás az albumhoz</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">Új album</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -818,7 +824,7 @@
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="vanished">Kép illesztése az oldalra</translation>
+        <translation type="vanished">Kép illesztése az oldalhoz</translation>
     </message>
     <message>
         <source>Scale to:</source>
@@ -834,11 +840,11 @@
     </message>
     <message>
         <source>Inches</source>
-        <translation type="vanished">Incs</translation>
+        <translation type="vanished">Hüvelyk</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="vanished">Kép elhelyezése</translation>
+        <translation type="vanished">Kép elhelyezkedése</translation>
     </message>
     <message>
         <source>Scaling</source>
@@ -876,7 +882,7 @@
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 kép(ek) kiválasztva</translation>
+        <translation>%1 kép(ek) kijelölve</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -884,11 +890,11 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation type="vanished">Importálás</translation>
+        <translation type="vanished">Importálás ide</translation>
     </message>
     <message>
         <source>Imported on</source>
-        <translation>Importált</translation>
+        <translation>Importálva ide</translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
@@ -896,7 +902,7 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Importálva ide</translation>
     </message>
 </context>
 <context>
@@ -968,19 +974,19 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 méretarány</translation>
+        <translation>1:1 méret</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Képernyőhöz igazítás</translation>
+        <translation>Igazítás az ablakhoz</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás óramutató járása szerint</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -1019,15 +1025,15 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás óramutató járása szerint</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Megjelenítés fájlkezelőben</translation>
+        <translation>Megjelenítés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -1117,11 +1123,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás óramutató járása szerint</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -1129,7 +1135,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Megjelenítés fájlkezelőben</translation>
+        <translation>Megjelenítés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Export</source>

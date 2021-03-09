@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hi_IN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hi_IN" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -376,7 +374,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>गैलरी</translation>
+        <translation type="vanished">गैलरी</translation>
     </message>
 </context>
 <context>
@@ -640,6 +638,10 @@
         <source>Importing...</source>
         <translation>निर्यात किया जा रहा है...</translation>
     </message>
+    <message>
+        <source>Photos already exist</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -732,75 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">फोटो की जानकारी</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">देखना</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">पूर्ण स्क्रीन</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">स्लाइड शो</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">निर्यात</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">नकल करे</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">मिटाए</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">एल्बम से निकालें</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">प्रिंट</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">पसंदीदा</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">नापसंदीदा</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">घड़ी की सुई की दिशा में घुमाए</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">फ़ाइल प्रबंधक में प्रदर्शित करें</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">वॉलपेपर के रूप में सेट करें</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">पुनःस्थापन करे</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">एल्बम में जोड़ें</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">नयी एल्बम</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -900,7 +902,7 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>आयत किया गया</translation>
     </message>
 </context>
 <context>

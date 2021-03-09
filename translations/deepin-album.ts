@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="en" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -376,7 +374,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Gallery</translation>
+        <translation type="vanished">Gallery</translation>
     </message>
 </context>
 <context>
@@ -640,6 +638,10 @@
         <source>Importing...</source>
         <translation>Importing...</translation>
     </message>
+    <message>
+        <source>Photos already exist</source>
+        <translation>Photos already exist</translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -732,75 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">Photo info</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">View</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">Fullscreen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">Slide show</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">Export</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Copy</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">Delete</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">Remove from album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">Print</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">Favorite</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">Unfavorite</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">Rotate clockwise</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">Rotate counterclockwise</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">Display in file manager</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">Set as wallpaper</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">Restore</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">Add to album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">New album</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -900,7 +902,7 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Imported on </translation>
     </message>
 </context>
 <context>

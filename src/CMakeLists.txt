@@ -86,8 +86,10 @@ file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${CMD_NAME}*.ts)
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
-qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
-    OPTIONS )
+if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
+    qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
+        OPTIONS )
+endif ()
 qt5_add_translation(${TargetTsFiles})
 set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
 

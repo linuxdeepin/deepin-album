@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="id">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="id" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -376,7 +374,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -640,6 +638,10 @@
         <source>Importing...</source>
         <translation>Sedang mengimpor...</translation>
     </message>
+    <message>
+        <source>Photos already exist</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -681,11 +683,11 @@
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>bukaan</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>Jarak fokus</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -693,31 +695,31 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>bukaan maks</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode pengukuran</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
+        <translation>keseimbangan putih</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
+        <translation>kompensasi pencahayaan</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation type="unfinished"></translation>
+        <translation>model kamera</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>model lensa </translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"></translation>
+        <translation>ruang warna</translation>
     </message>
     <message>
         <source>Tag</source>
@@ -732,63 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">Informasi Foto</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">View</translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">Tampilan slide</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">Ekspor</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Duplikat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">Hapus</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">Hapus dari album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">Cetak</translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">Batal Favorit</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">Putar searah jarum jam</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">Putar berlawanan jarum jam</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">Tampilkan di manajer file</translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">Kembalikan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">Tambahkan ke album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">Album Baru</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -800,6 +814,10 @@
 </context>
 <context>
     <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation type="vanished">Tidak ada penskalaan</translation>
+    </message>
     <message>
         <source>Fit page to image</source>
         <translation type="vanished">Sesuaikan halaman dengan gambar</translation>
@@ -856,7 +874,7 @@
     </message>
     <message>
         <source>%1/%2/%3</source>
-        <translation type="unfinished">%1  {1/%2/%3?}</translation>
+        <translation>%1/%2/%3</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
@@ -865,6 +883,10 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 photo(s) dipilih</translation>
+    </message>
+    <message>
+        <source>%1/%2/%3 %4</source>
+        <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
         <source>Import on </source>
@@ -876,11 +898,11 @@
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>diimpor di</translation>
     </message>
 </context>
 <context>

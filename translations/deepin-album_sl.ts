@@ -1,223 +1,223 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>بلا اسم</translation>
+        <translation>brez imena</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>Prekini</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>إنشاء</translation>
+        <translation>Ustvari</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Nov album</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>Prekini</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>هل أنت متأكد من حذف هذا الألبوم؟</translation>
+        <translation>Ali ste prepričani, da želite izbrisati ta album?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>سلة المحذوفات</translation>
+        <translation>Smetnjak</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>المفضلات</translation>
+        <translation>Priljubljeno</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>Uvozi</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>سلة المحذوفات</translation>
+        <translation>Smetnjak</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>المفضلة</translation>
+        <translation>Priljubljeno</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>حذف الكل</translation>
+        <translation>Izbriši vse</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>أو اسحب الصور هنا</translation>
+        <translation>ali povlecite slike sem</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 صورة(صور)</translation>
+        <translation>%1 slik(a)</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>استيراد الكل</translation>
+        <translation>Uvozi vse</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>سيتم حذف الصور نهائياً بعد عدد الأيام المعروضة عليها</translation>
+        <translation>Slike bodo trajno izbrisane po dnevih, ki so prikazane na njej</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>إستعادة</translation>
+        <translation>Obnovi</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 صورة(صور) محددة</translation>
+        <translation>%1 izbranih slik</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>استيراد إلى:</translation>
+        <translation>Uvozi v:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">القرص الصلب</translation>
+        <translation type="vanished">Disk</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>Uvozi</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">الأيام</translation>
+        <translation type="vanished">dni</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">بدون اسم</translation>
+        <translation type="vanished">brez imena</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>قرص النظام</translation>
+        <translation>Sistemski disk</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>المعرض</translation>
+        <translation>Galerija</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>القرص يعمل حالياً، لا يمكن إخراجه الآن</translation>
+        <translation>Disk deluje in ga trenutno ni mogoče izvreči</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>V redu</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Nov album</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>Prekini</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation>تجاهل</translation>
+        <translation>Prezri</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>يتم تحميل الصور، الرجاء الانتظار...</translation>
+        <translation>Nalaganje slike, prosimo počakajte...</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 صورة(صور) محددة</translation>
+        <translation>%1 izbranih slik</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 صورة(صور)</translation>
+        <translation>%1 slik</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>الإلبوم</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>Prekini</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>إستبدال</translation>
+        <translation>Zamenjaj</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>Izvozi</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>الصور</translation>
+        <translation>Slike</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>المستندات</translation>
+        <translation>Dokumenti</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>التنزيلات</translation>
+        <translation>Prenosi</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>سطح المكتب</translation>
+        <translation>Namizje</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>الفيديوهات</translation>
+        <translation>Video posnetki</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>الموسيقى</translation>
+        <translation>Glasba</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>الاسم:</translation>
+        <translation>Ime:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>حفظ إلى:</translation>
+        <translation>Shrani v:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>الصيغة</translation>
+        <translation>Format:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>الجودة:</translation>
+        <translation>Kakovost:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Shrani</translation>
     </message>
     <message>
         <source>gif</source>
@@ -225,418 +225,418 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>اختر مجلدات أخرى</translation>
+        <translation>Izberi druge mape</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>V redu</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>اسم الملف لا يمكن أن يكون فارغاً</translation>
+        <translation>e more biti prazno</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>موجود مسبقاً، هل تريد إستبداله؟</translation>
+        <translation>že obstaja. Jo želite zamenjati?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 مساحة القرص</translation>
+        <translation>%1 pogon</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>الفارغ 1% من القرص</translation>
+        <translation>Prazen %1 disk</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 مشفّر</translation>
+        <translation>%1 šifrirano</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="vanished">%1</translation>
+        <translation type="vanished">%1 </translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation>مساحة القرص 1%</translation>
+        <translation>%1 nosilec</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Shrani</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>تصدير الصور</translation>
+        <translation>Izvozi slike</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>Prekini</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Podatki o sliki</translation>
     </message>
 </context>
 <context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation>يتم الآن الحذف...</translation>
+        <translation>Brisanje...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>يتم الآن الاستيراد...</translation>
+        <translation>Uvažanje...</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation>تتم الآن الإستعادة...</translation>
+        <translation>Obnavljanje...</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Galerija</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Galerija</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">المعلومات الأساسية</translation>
+        <translation type="vanished">Osnovni podatki</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="vanished">التفاصيل</translation>
+        <translation type="vanished">Podrobnosti</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>الأيام</translation>
+        <translation>dni</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Galerija</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>Prekini</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>هل أنت متأكد من حذف هذه الصورة من الألبوم؟</translation>
+        <translation>Ali ste prepričani, da želite odstraniti to sliko iz albuma?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>هل أنت متأكد من حذف 1% صورة/صور من الإلبومات؟</translation>
+        <translation>Ali res želite izbrisati %1 slik iz albumov?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>المعلومات الأساسية</translation>
+        <translation>Osnovni podatki</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>التفاصيل</translation>
+        <translation>Podrobnosti</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Podatki o sliki</translation>
     </message>
 </context>
 <context>
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Galerija</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>Uvozi</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>جميع الصور</translation>
+        <translation>Vse slike</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>استيراد الصور</translation>
+        <translation>Uvozi slike</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>أو اسحب الصور هنا</translation>
+        <translation>ali povlecite slike sem</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Galerija</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Diaprojekcija</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>إعادة تسمية</translation>
+        <translation>Preimenuj</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>Izvozi</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">بدون اسم</translation>
+        <translation type="vanished">brez imena</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>الجهاز</translation>
+        <translation>Naprava</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>المعرض</translation>
+        <translation>Galerija</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>الإلبومات</translation>
+        <translation>Albumi</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Nov album</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>لا تملك الصلاحية لعرض الصورة</translation>
+        <translation>Nimate pravic za ogled slike</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>الإلبوم هو مدير صور عصري لعرض وتنظيم الصور.</translation>
+        <translation>Album je sodoben upravljalnik slik za ogledovanje in organizacijo slikovnega materiala.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>الصور</translation>
+        <translation>Slike</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
+        <translation>Celozaslonsko</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>مساعدة</translation>
+        <translation>omoč</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
+        <translation>Prikaži v upravljalniku datotek</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Diaprojekcija</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Kopiraj</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اجعل الصورة كخلفية</translation>
+        <translation>Določi kot ozadje namizja</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>تدوير بإتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>تدوير بعكس إتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>السابق</translation>
+        <translation>Nazaj</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>التالي</translation>
+        <translation>Naprej</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Priljubljeno</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Nepriljubljeno</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>إعادة تسمية الإلبوم</translation>
+        <translation>Preimenuj album</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>تم حذف الإلبوم “1%”</translation>
+        <translation>Album “%1” je bil odstranjen</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>تم الإضافة إلى “1%”</translation>
+        <translation>Uspešno dodano k &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>تم الاستيراد بنجاح</translation>
+        <translation>Uvažanje je uspelo</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>فشل الاستيراد</translation>
+        <translation>Uvažanje ni uspelo</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>فشل التصدير</translation>
+        <translation>Izvažanje ni uspelo</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>تم التصدير بنجاح</translation>
+        <translation>Izvažanje je uspelo</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>جميع الصور</translation>
+        <translation>Vse slike</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>الجداول الزمنية</translation>
+        <translation>Časovnice</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>الإلبومات</translation>
+        <translation>Albumi</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="vanished"> %1 صورة(صور)</translation>
+        <translation type="vanished">%1 slik(a)</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Podatki o sliki</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>الخروج من وضع ملء الشاشة/عرض الشرائح</translation>
+        <translation>Zapri celozaslonski način/diaprojekcijo</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>عرض الإختصارات</translation>
+        <translation>Prikaži bljižnice</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>عرض</translation>
+        <translation>Prikaz</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>Izvozi</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>Uvozi</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>اختيار الكل</translation>
+        <translation>Izberi vse</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>حذف الصورة/الإلبوم</translation>
+        <translation>Izbriši sliko/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>كبّر الصورة</translation>
+        <translation>Približaj</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>صغّر الصورة</translation>
+        <translation>Oddalji</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Nov album</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>الذهاب لأعلى الصفحة</translation>
+        <translation>Prejšnja stran</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>الذهاب لأسفل الصفحة</translation>
+        <translation>Naslednja stran</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>الإعدادات</translation>
+        <translation>Nastavitve</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">بعض الصور لم يتم استيرادها</translation>
+        <translation type="vanished">Nekatere slike morda niso bile uvožene</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>استيراد الصور</translation>
+        <translation>Uvozi slike</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>استيراد الصور</translation>
+        <translation>Uvozi slike</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation> %1/%2 صور تم استيرادها</translation>
+        <translation>%1%2 uvoženih slik</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 صور مستوردة، 2% فشل استيرادها</translation>
+        <translation>%1 uvoženik slik, %2 ni uspelo</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 صور محذوفة</translation>
+        <translation>%1%2 izbrisanih slik</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>يتم الآن الاستيراد...</translation>
+        <translation>Uvažanje...</translation>
     </message>
     <message>
         <source>Photos already exist</source>
@@ -647,47 +647,47 @@
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>فلاش</translation>
+        <translation>Bliskavica</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>النوع</translation>
+        <translation>Vrsta</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>حجم الملف</translation>
+        <translation>Velikost datoteke</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>الابعاد</translation>
+        <translation>Dimenzije</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>تاريخ الإلتقاط</translation>
+        <translation>Datum snemanja</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>تاريخ التعديل</translation>
+        <translation>Datum spremembe</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>وضع العرض</translation>
+        <translation>Način osvetljevanja</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>برنامج العرض</translation>
+        <translation>Progam osvetljevanja</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>وقت العرض</translation>
+        <translation>Čas osvetljevanja</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>فجوة</translation>
+        <translation>Zaslonka</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>الطول المركزي</translation>
+        <translation>Goriščna razdalja</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -695,39 +695,39 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>الفجوة القصوى</translation>
+        <translation>Največja zaslonka</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>وضع القياس المتري</translation>
+        <translation>Način merjenja</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>التوازن الأبيض</translation>
+        <translation>Ravnovesje beline</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>التعويضات السريعة</translation>
+        <translation>Kompenzacija bliskavice</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>طراز الكاميرا</translation>
+        <translation>Model fotoaparata</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>طراز العدسة</translation>
+        <translation>Model objektiva</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>مساحة اللون</translation>
+        <translation>Barvni prostor</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>كلمة مفتاحية</translation>
+        <translation>Oznaka</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>اسم الصورة</translation>
+        <translation>Ime slike</translation>
     </message>
 </context>
 <context>
@@ -809,68 +809,68 @@
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>قرص النظام</translation>
+        <translation>Sistemski disk</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="vanished">بدون قياس</translation>
+        <translation type="vanished">brez povečave</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="vanished">ضبط الصفحة إلى الصورة</translation>
+        <translation type="vanished">Prilagodi stran sliki</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="vanished">ضبط الصورة إلى الصفحة</translation>
+        <translation type="vanished">Prilagodi sliko velikosti strani</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="vanished">القياس إلى:</translation>
+        <translation type="vanished">Povečava:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="vanished">مليمتر</translation>
+        <translation type="vanished">milimetrov</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="vanished">سنتيمتر</translation>
+        <translation type="vanished">centimetrov</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="vanished">بوصة</translation>
+        <translation type="vanished">čevljev</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="vanished">موقع الصورة</translation>
+        <translation type="vanished">Položaj slike</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="vanished">القياس</translation>
+        <translation type="vanished">Povečava</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">إعدادات الصورة</translation>
+        <translation type="vanished">Nastavitve slik</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">إعدادات الصورة</translation>
+        <translation type="vanished">Nastavitve slik</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>تحديد</translation>
+        <translation>Izberi</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>إلغاء التحديد</translation>
+        <translation>Odstrani iz izbora</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -878,11 +878,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 صورة(صور)</translation>
+        <translation>%1 slik(a)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 صورة(صور) محددة</translation>
+        <translation>%1 izbranih slik</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -890,280 +890,280 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation type="vanished">الاستيراد على</translation>
+        <translation type="vanished">Uvažanje vklopljeno</translation>
     </message>
     <message>
         <source>Imported on</source>
-        <translation type="unfinished"/>
+        <translation>Uvoženo</translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"/>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation>Uvoženo</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>لا توجد نتائج لبحثك</translation>
+        <translation>Ni najdenih</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Diaprojekcija</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 صورة/(صور) وجدت</translation>
+        <translation>%1 najdenih slik</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>نتائج البحث</translation>
+        <translation>Rezultati iskanj</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>إيقاف مؤقت</translation>
+        <translation>Pavza</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>تشغيل</translation>
+        <translation>Predvajaj</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>خروج</translation>
+        <translation>Izhod</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>السابق</translation>
+        <translation>Nazaj</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>التالي</translation>
+        <translation>Naslednja</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>استيراد الصور: &apos;%1&apos;</translation>
+        <translation>Uvozi slike: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>تصدير الصور: &apos;%1&apos;</translation>
+        <translation>Izvažam slike: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>رجوع</translation>
+        <translation>Nazaj</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>السابق</translation>
+        <translation>Nazaj</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>التالي</translation>
+        <translation>Naslednja</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>حجم 1:1</translation>
+        <translation>Velikost 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>ضبط إلى حجم النافذة</translation>
+        <translation>Prilagodi oknu</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ادر الصورة بعكس إتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Priljubljeno</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Nepriljubljeno</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>عرض</translation>
+        <translation>Prikaz</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
+        <translation>Celozaslonsko</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>Izvozi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Priljubljeno</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Nepriljubljeno</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ادر الصور بعكس إتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
+        <translation>Prikaži v upravljalniku datotek</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اجعلها كخلفية</translation>
+        <translation>Določi kot ozadje namizja</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Diaprojekcija</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Kopiraj</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Podatki o sliki</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>إضافة إلى الإلبوم</translation>
+        <translation>Dodaj v album</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الإلبوم</translation>
+        <translation>Odstrani iz albuma</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>إستعادة</translation>
+        <translation>Obnovi</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Nov album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>طباعة</translation>
+        <translation>Tiskanje</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>لم يتم إيجاد أي صور</translation>
+        <translation>ni najdenih slik</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>لم يتم إيجاد الصورة</translation>
+        <translation>Slika ni bila najdena</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>إضافة إلى الإلبوم</translation>
+        <translation>Dodaj v album</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Diaprojekcija</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>الخروج من وضع ملء الشاشة</translation>
+        <translation>Zapri celozaslonski način</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
+        <translation>Celozaslonsko</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Kopiraj</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>أظهار نافذة التنقل</translation>
+        <translation>Prikaži navigacijsko okno</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>أخفاء نافذة التنقل</translation>
+        <translation>Skrij navigacijsko okno</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ادر الصورة بعكس إتجاه عقارب الساعة</translation>
+        <translation>Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اجعلها كخلفية</translation>
+        <translation>Določi kot ozadje namizja</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
+        <translation>Prikaži v upravljalniku datotek</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>Izvozi</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Nepriljubljeno</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Podatki o sliki</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الإلبوم</translation>
+        <translation>Odstrani iz albuma</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Priljubljeno</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Nov album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>طباعة</translation>
+        <translation>Tiskanje</translation>
     </message>
 </context>
 </TS>

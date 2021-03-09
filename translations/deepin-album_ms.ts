@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ms">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -32,7 +30,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Anda pasti mahu memadam album ini</translation>
+        <translation>Anda pasti mahu memadam album ini?</translation>
     </message>
 </context>
 <context>
@@ -82,7 +80,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Foto akan kekal terpadam selepas hari ditunjuk padanya</translation>
+        <translation>Foto-foto akan kekal terpadam selepas hari ditunjuk padanya</translation>
     </message>
     <message>
         <source>Restore</source>
@@ -122,7 +120,7 @@
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Cakera sibuk, tidak dapat dilenting sekarang</translation>
+        <translation>Cakera sibuk, tidak dapat lenting sekarang</translation>
     </message>
     <message>
         <source>OK</source>
@@ -191,7 +189,7 @@
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>Atas Meja</translation>
     </message>
     <message>
         <source>Videos</source>
@@ -376,7 +374,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galeri</translation>
+        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -409,7 +407,7 @@
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Paparan slaid</translation>
+        <translation>Persembahan slaid</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -478,7 +476,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Paparan slaid</translation>
+        <translation>Persembahan slaid</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -486,7 +484,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Tetapkan sebagai kertas dinding</translation>
+        <translation>Tetap sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -562,7 +560,7 @@
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Keluar skrin penuh/paparan slaid</translation>
+        <translation>Keluar skrin penuh/persembahan slaid</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
@@ -614,7 +612,7 @@
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">Beberapa foto tidak dapat diimport</translation>
+        <translation type="vanished">Sesetengah foto tidak dapat diimport</translation>
     </message>
     <message>
         <source>Import photos</source>
@@ -639,6 +637,10 @@
     <message>
         <source>Importing...</source>
         <translation>Mengimport...</translation>
+    </message>
+    <message>
+        <source>Photos already exist</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -732,75 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">Maklumat foto</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">Lihat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">Skrin penuh</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">Paparan slaid</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">Eksport</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Salin</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">Padam</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">Buang dari album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">Cetak</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">Kegemaran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">Nyahgemar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">Putar ikut jam</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">Putar lawan jam</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">Papar dalam pengurus fail</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">Tetapkan sebagai kertas dinding</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">Pulih</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">Tambah ke album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">Album baharu</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -818,11 +820,11 @@
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="vanished">Suai muat halaman dengan imej</translation>
+        <translation type="vanished">Suai muat halaman ikut imej</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="vanished">Suai muat imej dengan halaman</translation>
+        <translation type="vanished">Suai muat imej ikut halaman</translation>
     </message>
     <message>
         <source>Scale to:</source>
@@ -892,15 +894,15 @@
     </message>
     <message>
         <source>Imported on</source>
-        <translation type="unfinished"></translation>
+        <translation>Diimport pada</translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Diimport pada</translation>
     </message>
 </context>
 <context>
@@ -911,7 +913,7 @@
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Paparan Slaid</translation>
+        <translation>Persembahan Slaid</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
@@ -1035,7 +1037,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Tetapkan sebagai kertas dinding</translation>
+        <translation>Tetap sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -1043,7 +1045,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Paparan slaid</translation>
+        <translation>Persembahan slaid</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -1059,7 +1061,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Buang dari album</translation>
+        <translation>Buang daripada album</translation>
     </message>
     <message>
         <source>Restore</source>
@@ -1089,11 +1091,11 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Tambah ke album</translation>
+        <translation>Tambah kepada album</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Paparan slaid</translation>
+        <translation>Persembahan slaid</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -1113,11 +1115,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Tunjuk tetingkap navigasi</translation>
+        <translation>Tunjuk tetingkap pengemudian</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Sembunyi tetingkap navigasi</translation>
+        <translation>Sembunyi tetingkap pengemudian</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -1129,7 +1131,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Tetapkan sebagai kertas dinding</translation>
+        <translation>Tetap sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -1149,7 +1151,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Buang dari album</translation>
+        <translation>Buang daripada album</translation>
     </message>
     <message>
         <source>Favorite</source>

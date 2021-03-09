@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -74,7 +72,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>པར་%1</translation>
+        <translation>%1པར</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -641,8 +639,8 @@
         <translation>པར་ནང་དུ་འདྲེན་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
     </message>
     <message>
-        <source>图片已存在</source>
-        <translation type="unfinished"></translation>
+        <source>Photos already exist</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -736,71 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">པར་གྱི་ཆ་འཕྲིན།</translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">ཡོལ་གང་།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">སྒྲོན་བརྙན་སྟོན་པ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">ཕྱིར་འདྲེན།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">པར་སློག</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">སུབ་པ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">པར་ཁུག་ལས་སྤོ་བ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">པར་འདེབས།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">བསྡུ་ཉར།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">བསྡུ་ཉར་བྱེད་པ་འདོར་བ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">གཡས་སྐོར་བརྒྱབ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">གཡོན་སྐོར་བརྒྱབ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">སོར་ཆུད།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">པར་ཁུག་ནང་དུ་སྣོན་པ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">པར་ཁུག་གསར་འཛུགས།</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -900,7 +902,7 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>ལ་འདྲེན་འཇུག་བྱེད།</translation>
     </message>
 </context>
 <context>

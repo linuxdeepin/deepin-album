@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -126,7 +124,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New album</source>
@@ -227,11 +225,11 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Andere Ordner auswählen</translation>
+        <translation>Andere Verzeichnisse auswählen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
@@ -291,15 +289,15 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation>Wird gelöscht</translation>
+        <translation>Wird gelöscht ...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Importiere...</translation>
+        <translation>Wird importiert ...</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation>Wiederherstellen...</translation>
+        <translation>Wird wiederhergestellt ...</translation>
     </message>
     <message>
         <source>Gallery</source>
@@ -376,7 +374,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
@@ -590,11 +588,11 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Einzoomen</translation>
+        <translation>Hineinzoomen</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Rauszoomen</translation>
+        <translation>Herauszoomen</translation>
     </message>
     <message>
         <source>New album</source>
@@ -602,11 +600,11 @@
     </message>
     <message>
         <source>Page up</source>
-        <translation>Seite hoch</translation>
+        <translation>Bild auf</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Seite runter</translation>
+        <translation>Bild ab</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -638,7 +636,11 @@
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Importiere...</translation>
+        <translation>Wird importiert ...</translation>
+    </message>
+    <message>
+        <source>Photos already exist</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -665,7 +667,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Zeitpunkt der Änderung</translation>
+        <translation>Änderungsdatum</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -725,82 +727,82 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Name des Fotos</translation>
+        <translation>Fotoname</translation>
     </message>
 </context>
 <context>
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">Foto Info</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">Anzeigen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">Vollbild</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">Diashow</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">Exportieren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Kopieren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">Löschen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">Aus Album entfernen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">Drucken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">Zu Favoriten hinzufügen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">Aus Favoriten entfernen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">Im Uhrzeigersinn drehen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">Gegen den Uhrzeigersinn drehen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">Im Dateimanager anzeigen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">Als Hintergrundbild einrichten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">Wiederherstellen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">Zum Album hinzufügen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">Neues Album</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,7 +840,7 @@
     </message>
     <message>
         <source>Inches</source>
-        <translation type="vanished">Inch</translation>
+        <translation type="vanished">Zoll</translation>
     </message>
     <message>
         <source>Image Position</source>
@@ -896,11 +898,11 @@
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Importiert von</translation>
     </message>
 </context>
 <context>
@@ -949,11 +951,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importiere Fotos: &apos;%1&apos;</translation>
+        <translation>Fotos werden importiert: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exportiere Fotos: &apos;%1&apos;</translation>
+        <translation>Fotos werden exportiert: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -1113,11 +1115,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Zeige Navigations-Fenster</translation>
+        <translation>Navigationsfenster anzeigen</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Navigations-Fenster ausblenden</translation>
+        <translation>Navigationsfenster ausblenden</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>

@@ -1904,7 +1904,7 @@ void MainWindow::onAlbDelToast(QString str1)
 void MainWindow::onAddDuplicatePhotos()
 {
     QIcon icon;
-    QString str = tr("图片已存在");
+    QString str = tr("Photos already exist");
     floatMessage(str, icon);
 }
 

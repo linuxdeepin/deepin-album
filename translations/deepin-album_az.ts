@@ -1,223 +1,223 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="az" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>بلا اسم</translation>
+        <translation>Adsız</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>İmtina</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>إنشاء</translation>
+        <translation>Yaratmaq</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Yeni albom</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>İmtina</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>هل أنت متأكد من حذف هذا الألبوم؟</translation>
+        <translation>Bu albomu silmək istədiyinizə əminsiniz?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>سلة المحذوفات</translation>
+        <translation>Səbət</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>المفضلات</translation>
+        <translation>Sevimlilər</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>İdxal</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>سلة المحذوفات</translation>
+        <translation>Səbət</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>المفضلة</translation>
+        <translation>Sevimlilər</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation>حذف الكل</translation>
+        <translation>Hamısını silmək</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>أو اسحب الصور هنا</translation>
+        <translation>Və ya fotoşəkilləri buraya atın</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 صورة(صور)</translation>
+        <translation>%1 fotoşəkil</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>استيراد الكل</translation>
+        <translation>Hamısını idxal etmək</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>سيتم حذف الصور نهائياً بعد عدد الأيام المعروضة عليها</translation>
+        <translation>Fotoşəkillər onda göstərilən vaxt bitdikdən sonra birdəfəlik silinəcəkdir</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>إستعادة</translation>
+        <translation>Bərpa etmək</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 صورة(صور) محددة</translation>
+        <translation>%1 foto silindi</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>استيراد إلى:</translation>
+        <translation>Buraya idxal etmək:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">القرص الصلب</translation>
+        <translation type="vanished">Disk</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>İdxal</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">الأيام</translation>
+        <translation type="vanished">günlər</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">بدون اسم</translation>
+        <translation type="vanished">Adsız</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>قرص النظام</translation>
+        <translation>Sistem diski</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>المعرض</translation>
+        <translation>Qalareya</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>القرص يعمل حالياً، لا يمكن إخراجه الآن</translation>
+        <translation>Disk məşğuldur, indi çıxarıla bilməz</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Yeni albom</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>İmtina</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation>تجاهل</translation>
+        <translation>Ötürmək</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>يتم تحميل الصور، الرجاء الانتظار...</translation>
+        <translation>Fotoşəkillər yüklənir, lütfən gözləyin...</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 صورة(صور) محددة</translation>
+        <translation>%1 foto silindi</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 صورة(صور)</translation>
+        <translation>%1 fotoşəkil</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>الإلبوم</translation>
+        <translation>Albom</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>İmtina</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>إستبدال</translation>
+        <translation>Əvəzləmək</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>İxrac</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>الصور</translation>
+        <translation>Şəkillər</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>المستندات</translation>
+        <translation>Sənədlər</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>التنزيلات</translation>
+        <translation>Endirmələr</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>سطح المكتب</translation>
+        <translation>İş Masas</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>الفيديوهات</translation>
+        <translation>Videolar</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>الموسيقى</translation>
+        <translation>Musiqi</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>الاسم:</translation>
+        <translation>Adı:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>حفظ إلى:</translation>
+        <translation>Burada saxlamaq:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>الصيغة</translation>
+        <translation>Formatı:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>الجودة:</translation>
+        <translation>Keyfiyyəti:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Saxlamaq</translation>
     </message>
     <message>
         <source>gif</source>
@@ -225,34 +225,34 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>اختر مجلدات أخرى</translation>
+        <translation>Başqa qovluqlar seçmək</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>اسم الملف لا يمكن أن يكون فارغاً</translation>
+        <translation>Fayl adı boş ola bilməz</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>موجود مسبقاً، هل تريد إستبداله؟</translation>
+        <translation>artıq mövcuddur. Onu əvəzləmək istəyirsiniz?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation>%1 مساحة القرص</translation>
+        <translation>%1 sürücü</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>الفارغ 1% من القرص</translation>
+        <translation>Boş %1 disk</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>%1 مشفّر</translation>
+        <translation>%1 şifrələnib</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -260,383 +260,383 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation>مساحة القرص 1%</translation>
+        <translation>%1 həcm</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Saxlamaq</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>تصدير الصور</translation>
+        <translation>Fotoşəkilləri ixrac etmək</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>İmtina</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Fotoşəkil məlumatları</translation>
     </message>
 </context>
 <context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation>يتم الآن الحذف...</translation>
+        <translation>Silinir...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>يتم الآن الاستيراد...</translation>
+        <translation>İdxal edilir...</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation>تتم الآن الإستعادة...</translation>
+        <translation>Bərpa edilir...</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Qalareya</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Qalareya</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">المعلومات الأساسية</translation>
+        <translation type="vanished">Baza məlumatları</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="vanished">التفاصيل</translation>
+        <translation type="vanished">Təfərrüatlar</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>الأيام</translation>
+        <translation>günlər</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Qalareya</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>İmtina</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>هل أنت متأكد من حذف هذه الصورة من الألبوم؟</translation>
+        <translation>Bu şəkili albomdan silmək istədiyinizə əminsiniz?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>هل أنت متأكد من حذف 1% صورة/صور من الإلبومات؟</translation>
+        <translation>%1 fotoşəkili albomdan silmək istədiyinizə əminsiniz?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>المعلومات الأساسية</translation>
+        <translation>Baza məlumatları</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>التفاصيل</translation>
+        <translation>Təfərrüatlar</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Fotoşəkil məlumatları</translation>
     </message>
 </context>
 <context>
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Qalareya</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>İdxal</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>جميع الصور</translation>
+        <translation>Bütün fotolar</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>استيراد الصور</translation>
+        <translation>Şəkilləri idxal etmək</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>أو اسحب الصور هنا</translation>
+        <translation>Və ya fotoşəkilləri buraya atın</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <translation type="vanished">Qalareya</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Slayd şou</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>إعادة تسمية</translation>
+        <translation>Adını dəyişmək</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>İxrac</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">بدون اسم</translation>
+        <translation type="vanished">Adsız</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>الجهاز</translation>
+        <translation>Qurğular</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>المعرض</translation>
+        <translation>Qalareya</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>الإلبومات</translation>
+        <translation>Albomlar</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Yeni albom</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>لا تملك الصلاحية لعرض الصورة</translation>
+        <translation>Bu şəkilə baxmağa icazəniz yoxdur</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>الإلبوم هو مدير صور عصري لعرض وتنظيم الصور.</translation>
+        <translation>Albom, şəkillərə baxmaq və onları idarə etmək üçün fotoşəkil idarəetmə alətidir</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>الصور</translation>
+        <translation>Fotoşəkillər</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>مساعدة</translation>
+        <translation>Kömək</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
+        <translation>Fayl menecerində göstərmək</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Slayd şou</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Kopyalamaq</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اجعل الصورة كخلفية</translation>
+        <translation>Divar kağızı kimi təyin etmək</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>تدوير بإتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərmək</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>تدوير بعكس إتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbinin əksinə döndərmək</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>السابق</translation>
+        <translation>Əvvəlki</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>التالي</translation>
+        <translation>Növbəti</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Sevimlilər</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Sevimlilərdən çıxartmaq</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>إعادة تسمية الإلبوم</translation>
+        <translation>Albomun adını dəyişmək</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>تم حذف الإلبوم “1%”</translation>
+        <translation>%1 albomu silindi</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>تم الإضافة إلى “1%”</translation>
+        <translation>Buraya uğurla əlavə edildi: %1</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>تم الاستيراد بنجاح</translation>
+        <translation>Uğurla idxal olundu</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>فشل الاستيراد</translation>
+        <translation>İdxal alınmadı</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>فشل التصدير</translation>
+        <translation>İxrac alınmadı</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>تم التصدير بنجاح</translation>
+        <translation>Uğurla ixrac olundu</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>جميع الصور</translation>
+        <translation>Bütün fotolar</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation>الجداول الزمنية</translation>
+        <translation>Vaxt şkalası</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>الإلبومات</translation>
+        <translation>Albomlar</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="vanished"> %1 صورة(صور)</translation>
+        <translation type="vanished">%1 fotoşəkil</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Fotoşəkil məlumatları</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>الخروج من وضع ملء الشاشة/عرض الشرائح</translation>
+        <translation>Tam ekran və ya slayd rejimindən çıxmaq</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>عرض الإختصارات</translation>
+        <translation>Qısayolları göstərmək</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>عرض</translation>
+        <translation>Baxış</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>İxrac</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>İdxal</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>اختيار الكل</translation>
+        <translation>Hamısını seçmək</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>حذف الصورة/الإلبوم</translation>
+        <translation>Fotoşəkili və ya albomu silmək</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>كبّر الصورة</translation>
+        <translation>Yaxınlaşdırmaq</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>صغّر الصورة</translation>
+        <translation>Uzaqlaşdırmaq</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Yeni albom</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>الذهاب لأعلى الصفحة</translation>
+        <translation>Yuxarı səhifələmək</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>الذهاب لأسفل الصفحة</translation>
+        <translation>Aşağı səhifələmək</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>الإعدادات</translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">بعض الصور لم يتم استيرادها</translation>
+        <translation type="vanished">Bəzi fotolar idxal edilməyib</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>استيراد الصور</translation>
+        <translation>Fotoşəkilləri idxal etmə</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>استيراد الصور</translation>
+        <translation>Şəkilləri idxal etmək</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation> %1/%2 صور تم استيرادها</translation>
+        <translation>%1/%2 fotoşəkil idxal edildi</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 صور مستوردة، 2% فشل استيرادها</translation>
+        <translation>%1 fotoşəkil idxal edildi, %2 fotoşəkil idxal edilə bilmədi</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 صور محذوفة</translation>
+        <translation>%1/%2 fotoşəkil silindi</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>يتم الآن الاستيراد...</translation>
+        <translation>İdxal edilir...</translation>
     </message>
     <message>
         <source>Photos already exist</source>
@@ -647,47 +647,47 @@
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation>فلاش</translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>النوع</translation>
+        <translation>Növ</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>حجم الملف</translation>
+        <translation>Faylın ölçüsü</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>الابعاد</translation>
+        <translation>Ölçülər</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>تاريخ الإلتقاط</translation>
+        <translation>Çəkilmə tarixi</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>تاريخ التعديل</translation>
+        <translation>Dəyişdirilmə tarixi</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>وضع العرض</translation>
+        <translation>Ekspozisiya rejimi</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>برنامج العرض</translation>
+        <translation>Ekspozisiya proqramı</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>وقت العرض</translation>
+        <translation>Ekspozisiya vaxtı</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>فجوة</translation>
+        <translation>Diafraqma</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>الطول المركزي</translation>
+        <translation>Fokus məsafəsi</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -695,39 +695,39 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>الفجوة القصوى</translation>
+        <translation>Maks. diafraqma</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>وضع القياس المتري</translation>
+        <translation>Ölçmə rejimi</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>التوازن الأبيض</translation>
+        <translation>Bəyazlıq balansı</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>التعويضات السريعة</translation>
+        <translation>Flaş işığın tarazlaşdırılması</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>طراز الكاميرا</translation>
+        <translation>Kameranın modeli</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>طراز العدسة</translation>
+        <translation>Linza modeli</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>مساحة اللون</translation>
+        <translation>Rəng sahəsi</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>كلمة مفتاحية</translation>
+        <translation>Yarlıq</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>اسم الصورة</translation>
+        <translation>Fotoşəkilin adı</translation>
     </message>
 </context>
 <context>
@@ -809,68 +809,68 @@
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>قرص النظام</translation>
+        <translation>Sistem diski</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="vanished">بدون قياس</translation>
+        <translation type="vanished">Miqyaslamadan</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="vanished">ضبط الصفحة إلى الصورة</translation>
+        <translation type="vanished">Səhifəni şəkil ölçüsünə sığışdırmaq</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="vanished">ضبط الصورة إلى الصفحة</translation>
+        <translation type="vanished">Şəkili səhifəyə sığışdırmaq</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="vanished">القياس إلى:</translation>
+        <translation type="vanished">Bu qədər miqyaslamaq:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="vanished">مليمتر</translation>
+        <translation type="vanished">Millimetr</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="vanished">سنتيمتر</translation>
+        <translation type="vanished">Santimetr</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="vanished">بوصة</translation>
+        <translation type="vanished">düym</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="vanished">موقع الصورة</translation>
+        <translation type="vanished">Təsvir imkanları</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="vanished">القياس</translation>
+        <translation type="vanished">Miqyaslamaq</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">إعدادات الصورة</translation>
+        <translation type="vanished">Görüntü ayarları</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">إعدادات الصورة</translation>
+        <translation type="vanished">Görüntü ayarları</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>تحديد</translation>
+        <translation>Seçmək</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation>إلغاء التحديد</translation>
+        <translation>Seçimi ləğv etmək</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -878,11 +878,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 صورة(صور)</translation>
+        <translation>%1 fotoşəkil</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 صورة(صور) محددة</translation>
+        <translation>%1 foto silindi</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -890,280 +890,280 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation type="vanished">الاستيراد على</translation>
+        <translation type="vanished">Buraya idxal olundu:</translation>
     </message>
     <message>
         <source>Imported on</source>
-        <translation type="unfinished"/>
+        <translation>Buraya idxal olundu:</translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"/>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation>Buraya idxal olundu: </translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>لا توجد نتائج لبحثك</translation>
+        <translation>Axtarış nəticəsi yoxdur</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Slayd-şou</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>%1 صورة/(صور) وجدت</translation>
+        <translation>%1 foto tapıldı</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>نتائج البحث</translation>
+        <translation>Axtarış nəticələri</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>إيقاف مؤقت</translation>
+        <translation>Fasilə</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>تشغيل</translation>
+        <translation>Oynatmaq</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>خروج</translation>
+        <translation>Çıxış</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>السابق</translation>
+        <translation>Əvvəlki</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>التالي</translation>
+        <translation>Növbəti</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>استيراد الصور: &apos;%1&apos;</translation>
+        <translation>Fotoşəkillər idxal edilir: &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>تصدير الصور: &apos;%1&apos;</translation>
+        <translation>Fotoşəkillər ixrac edilir: &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>رجوع</translation>
+        <translation>Geriyə</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>السابق</translation>
+        <translation>Əvvəlki</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>التالي</translation>
+        <translation>Növbəti</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>حجم 1:1</translation>
+        <translation>1:1 Ölçü</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>ضبط إلى حجم النافذة</translation>
+        <translation>Pəncərə sığışdırmaq</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ادر الصورة بعكس إتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbinin əksinə döndərmək</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərmək</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Sevimlilər</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Sevimlilərdən çıxartmaq</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>عرض</translation>
+        <translation>Baxış</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>İxrac</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Sevimlilər</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Sevimlilərdən çıxartmaq</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərmək</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ادر الصور بعكس إتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbinin əksinə döndərmək</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
+        <translation>Fayl menecerində göstərmək</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اجعلها كخلفية</translation>
+        <translation>Divar kağızı kimi təyin etmək</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Slayd-şou</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Kopyalamaq</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Fotoşəkil məlumatları</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>إضافة إلى الإلبوم</translation>
+        <translation>Alboma əlavə etmək</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الإلبوم</translation>
+        <translation>Albomdan silmək</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>إستعادة</translation>
+        <translation>Bərpa etmək</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Yeni albom</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>طباعة</translation>
+        <translation>Çap</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>لم يتم إيجاد أي صور</translation>
+        <translation>Şəkil faylı tapılmadı</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>لم يتم إيجاد الصورة</translation>
+        <translation>Foto tapılmadı</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>إضافة إلى الإلبوم</translation>
+        <translation>Alboma əlavə etmək</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation>Slayd şou</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>الخروج من وضع ملء الشاشة</translation>
+        <translation>Tam ekrandan çıxış</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Kopyalamaq</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>أظهار نافذة التنقل</translation>
+        <translation>Naviqasiya pəncərəsini göstərmək</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>أخفاء نافذة التنقل</translation>
+        <translation>Naviqasiya pəncərəsini gizlətmək</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərmək</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ادر الصورة بعكس إتجاه عقارب الساعة</translation>
+        <translation>Saat əqrəbinin əksinə döndərmək</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اجعلها كخلفية</translation>
+        <translation>Divar kağızı kimi təyin etmək</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
+        <translation>Fayl menecerində göstərmək</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>İxrac</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation>Sevimlilərdən çıxartmaq</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation>Fotoşəkil məlumatları</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الإلبوم</translation>
+        <translation>Albomdan silmək</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation>Sevimlilər</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation>Yeni albom</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>طباعة</translation>
+        <translation>Çap</translation>
     </message>
 </context>
 </TS>

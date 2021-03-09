@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -94,7 +92,7 @@
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Importer vers :</translation>
+        <translation>Importer vers  :</translation>
     </message>
     <message>
         <source>Disk</source>
@@ -317,7 +315,7 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">Informations de base</translation>
+        <translation type="vanished">Infos de l&apos;image</translation>
     </message>
     <message>
         <source>Details</source>
@@ -361,7 +359,7 @@
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Informations de base</translation>
+        <translation>Infos de l&apos;image</translation>
     </message>
     <message>
         <source>Details</source>
@@ -376,7 +374,7 @@
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
@@ -494,7 +492,7 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotation dans le sens antihoraire</translation>
+        <translation>Rotation dans le sens inverse</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -640,6 +638,10 @@
         <source>Importing...</source>
         <translation>Importation...</translation>
     </message>
+    <message>
+        <source>Photos already exist</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -732,75 +734,75 @@
     <name>MountThumbnailListView</name>
     <message>
         <source>Photo info</source>
-        <translation type="obsolete">Informations sur la photo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation type="obsolete">Afficher</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="obsolete">Plein écran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="obsolete">Diaporama</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Export</source>
-        <translation type="obsolete">Exporter</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Copier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="obsolete">Supprimer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="obsolete">Supprimer de l&apos;album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation type="obsolete">Imprimer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="obsolete">Favoris</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="obsolete">Défavoris</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="obsolete">Rotation dans le sens horaire</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="obsolete">Rotation dans le sens antihoraire</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="obsolete">Afficher dans le gestionnaire de fichiers</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="obsolete">Définir comme fond d&apos;écran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="obsolete">Restaurer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="obsolete">Ajouter à l&apos;album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation type="obsolete">Nouvel album</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -900,7 +902,7 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Importer vers </translation>
     </message>
 </context>
 <context>
@@ -980,7 +982,7 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotation dans le sens antihoraire</translation>
+        <translation>Rotation dans le sens inverse</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -1027,7 +1029,7 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotation dans le sens antihoraire</translation>
+        <translation>Rotation dans le sens inverse</translation>
     </message>
     <message>
         <source>Display in file manager</source>
