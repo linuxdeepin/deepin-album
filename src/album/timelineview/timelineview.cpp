@@ -870,7 +870,8 @@ void TimeLineView::on_MoveLabel(int y, QString date, QString num, QString choseT
         labelList[1]->setText(num);
         pSuspensionChose->setText(choseText);
         m_dateItem->setVisible(true);
-        m_dateItem->move(0, TITLEHEIGHT + y + 1);
+//        m_dateItem->move(0, TITLEHEIGHT + y + 1);
+        Q_UNUSED(y)
     }
 }
 
