@@ -1459,7 +1459,7 @@ void MainWindow::initShortcutKey()
 
     QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
                              + "/config.conf";
-    m_settings = new QSettings(userConfigPath, QSettings::IniFormat);
+    m_settings = new QSettings(userConfigPath, QSettings::IniFormat, this);
 }
 
 //缩略图放大

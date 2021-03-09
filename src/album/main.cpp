@@ -132,6 +132,8 @@ int main(int argc, char *argv[])
     QSettings *settings = new QSettings(userConfigPath, QSettings::IniFormat);
     const QByteArray geometry = settings->value("album-geometry").toByteArray();
     int num = settings->value("album-zoomratio").toInt();
+    settings->deleteLater();
+    settings = nullptr;
     QRect restoredFrameGeometry;
     if (!geometry.isEmpty()) {
         QDataStream stream(geometry);
