@@ -73,9 +73,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
     //增加运行时版本判断
     DPrintPreviewDialog printDialog2(nullptr);
-    if (DTK_VERSION_MAJOR > 5 \
-            || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR > 4) \
-            || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10)) {
+    if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
         bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
         //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
         if (tempExsitPaths.size() == 1) {
@@ -118,7 +116,7 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
     //更新逻辑，需要nepage和现实所有的，因为需要多版打印,需要显示多张图片
     QPainter painter(_printer);
     for (int page : pageRange) {
-        if ((page < m_imgs.count() + 1)&& page >= 1 ) {
+        if ((page < m_imgs.count() + 1) && page >= 1) {
             QImage img = m_imgs.at(page - 1);
             if (!img.isNull()) {
                 painter.setRenderHint(QPainter::Antialiasing);
@@ -128,7 +126,7 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
 
                 if (img.width() > wRect.width() || img.height() > wRect.height()) {
                     tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-                } else { 
+                } else {
                     tmpMap = img;
                 }
 
