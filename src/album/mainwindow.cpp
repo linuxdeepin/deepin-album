@@ -767,9 +767,7 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
     if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0) {
         // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
         initNoPhotoNormalTabOrder();
-    }
-    // 相册中有图，且在所有照片界面时
-    else if (m_iCurrentView == VIEW_ALLPIC) {
+    } else if (m_iCurrentView == VIEW_ALLPIC) {// 相册中有图，且在所有照片界面时
         // 所有照片界面 and listveiw tab键切换
         initAllpicViewTabOrder();
         // 当焦点在thumbnailListview中时,选中第一个
@@ -777,6 +775,8 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
         int index = m_AllpicViewTabOrder.indexOf(pTempWidget);
         // 当焦点在thumbnaillistview之前的一个widget上时，再次tab，默认选中第一个图片
         if (index == m_AllpicViewTabOrder.count() - 2) {
+            //选中时先清除以前的选中状态
+            m_pAllPicView->getThumbnailListView()->clearSelection();
             m_pAllPicView->getThumbnailListView()->setFocus();
             m_pAllPicView->getThumbnailListView()->selectFirstPhoto();
             return true;
@@ -790,7 +790,7 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
             }
         }
     } else if (m_iCurrentView == VIEW_TIMELINE) {
-        // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
+        //  时间线界面
         initTimeLineViewTabOrder();
         ThumbnailListView *tempListView = m_pTimeLineView->getFirstListViewFromTimeline();
         if (obj == m_pTimeBtn && tempListView) {

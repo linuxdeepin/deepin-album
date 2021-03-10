@@ -1425,6 +1425,7 @@ void ThumbnailListView::selectFirstPhoto()
     if (m_model->rowCount() < 1)
         return;
     QModelIndex idx = m_model->index(0, 0);
+    selectionModel()->setCurrentIndex(idx, QItemSelectionModel::Select);
     selectionModel()->select(idx, QItemSelectionModel::Select);
 }
 
