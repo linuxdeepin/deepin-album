@@ -114,7 +114,7 @@ void AlbumImageButton::paintEvent(QPaintEvent *event)
 
     int pixmapWidth = pixmap.rect().width() - 3;//按钮配置大小比资源图片小3像素
     int pixmapHeight = pixmap.rect().height() - 3;//按钮配置大小比资源图片小3像素
-    QRect pixmapRect((rect().width() - pixmapWidth) / 2, (rect().height() - pixmapHeight) / 2, pixmapWidth, pixmapHeight);
+    QRect pixmapRect((rect().width() - pixmapWidth) / 2, (rect().height() - pixmapHeight) / 2 + 2, pixmapWidth, pixmapHeight);//按钮向下移动2px
     pixmapRect = pixmapRect.intersected(rect());
     painter.drawPixmap(pixmapRect, pixmap, QRect(0, 0, pixmapWidth, pixmapHeight));
 
