@@ -8,20 +8,22 @@
 #include "viewerthememanager.h"
 #include "ac-desktop-define.h"
 
-#include <dgiovolumemanager.h>
-#include <dgiofile.h>
-#include <dgiofileinfo.h>
-#include <dgiovolume.h>
-#include <QShortcut>
-#include <DTableView>
-#include <DApplicationHelper>
-#include <DFileDialog>
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QProcess>
-#include <DApplication>
 #include <QDesktopWidget>
+#include <QShortcut>
+#include <QDir>
+
+#include <dgiovolumemanager.h>
+#include <dgiofile.h>
+#include <dgiofileinfo.h>
+#include <dgiovolume.h>
+#include <DTableView>
+#include <DApplicationHelper>
+#include <DFileDialog>
+#include <DApplication>
 #include <DMessageManager>
 #include <DFloatingMessage>
 #include <DWidgetUtil>
@@ -869,8 +871,8 @@ void MainWindow::allPicBtnClicked()
     m_pAllPicView->updatePicNum();
 //    m_pAllPicView->getThumbnailListView()->setFocus();
 
-    m_pTimeBtn->setCheckable(false);
-    m_pAlbumBtn->setCheckable(false);
+    m_pTimeBtn->setCheckable(true);
+    m_pAlbumBtn->setCheckable(true);
 
     m_pAllPicBtn->setCheckable(true);
     m_pAllPicBtn->setChecked(true);
@@ -901,8 +903,8 @@ void MainWindow::timeLineBtnClicked()
     m_pTimeLineView->updatePicNum();
     m_pTimeLineView->m_pwidget->setFocus();
 
-    m_pAllPicBtn->setCheckable(false);
-    m_pAlbumBtn->setCheckable(false);
+    m_pAllPicBtn->setCheckable(true);
+    m_pAlbumBtn->setCheckable(true);
     m_pTimeBtn->setCheckable(true);
     m_pTimeBtn->setChecked(true);
 
@@ -956,8 +958,8 @@ void MainWindow::albumBtnClicked()
     m_pAlbumview->updatePicNum();
     m_pAlbumview->m_pwidget->setFocus();
 
-    m_pAllPicBtn->setCheckable(false);
-    m_pTimeBtn->setCheckable(false);
+    m_pAllPicBtn->setCheckable(true);
+    m_pTimeBtn->setCheckable(true);
     m_pAlbumBtn->setCheckable(true);
     m_pAlbumBtn->setChecked(true);
     emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
@@ -1656,10 +1658,16 @@ QJsonObject MainWindow::createShorcutJson()
 
 void MainWindow::startMonitor()
 {
-    m_fileInotify = new FileInotify();
     QStringList paths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (paths.size() > 0) {
         QString path = paths.at(0) + "/album";
+        //添加文件夹是否存在判断，不存在则直接返回不进行监控
+        QDir dir(path);
+        if (!dir.exists()) {
+//            dir.mkdir(path);
+            return;
+        }
+        m_fileInotify = new FileInotify();
         m_fileInotify->addWather(path);
         m_fileInotify->start();
     }
