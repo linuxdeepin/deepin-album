@@ -100,6 +100,8 @@ static QString myMimeType()
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 {
+    //点击时将焦点设置到当前
+    setFocus();
     // 当事件source为MouseEventSynthesizedByQt，认为此事件为TouchBegin转换而来
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
         lastTouchBeginPos = event->pos();
