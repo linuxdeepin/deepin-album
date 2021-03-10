@@ -2,6 +2,7 @@
 #include "utils/unionimage.h"
 
 #include <DPrintPreviewDialog>
+#include <DApplication>
 
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
