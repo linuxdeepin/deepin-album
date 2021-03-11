@@ -34,4 +34,41 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonly
     addContent(contentWidget);
     insertButton(0, tr("Cancel"), false, DDialog::ButtonNormal);
     insertButton(1, tr("Delete"), true, DDialog::ButtonWarning);
+
+    getButton(0)->setFocusPolicy(Qt::TabFocus);
+    getButton(1)->setFocusPolicy(Qt::TabFocus);
+    getButton(0)->installEventFilter(this);
+    getButton(1)->installEventFilter(this);
+
+    QWidget *closeButton =  this->findChild<QWidget *>("DTitlebarDWindowCloseButton");
+    closeButton->setFocusPolicy(Qt::TabFocus);
+    closeButton->installEventFilter(this);
+
+    m_allTabOrder.clear();
+    m_allTabOrder.insert(0, closeButton);
+    m_allTabOrder.insert(1, getButton(0));
+    m_allTabOrder.insert(2, getButton(1));
+}
+
+bool ImgDeleteDialog::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Tab) {
+            if (getButton(0) == obj) {
+                getButton(1)->setFocus();
+                return true;
+            } else if (getButton(1) == obj) {
+                m_allTabOrder.at(0)->setFocus();
+                return true;
+            } else if (obj->objectName() == "DTitlebarDWindowCloseButton") {
+                getButton(0)->setFocus();
+                return true;
+            } else {
+                m_allTabOrder.at(0)->setFocus();
+                return true;
+            }
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
