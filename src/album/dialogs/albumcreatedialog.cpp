@@ -39,7 +39,6 @@ AlbumCreateDialog::AlbumCreateDialog(DWidget *parent)
 
 void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << "AlbumCreateDialog::keyPressEvent()";
     if (e->key() == Qt::Key_Escape) {
         emit sigClose();
         this->close();
@@ -58,9 +57,16 @@ bool AlbumCreateDialog::eventFilter(QObject *obj, QEvent *event)
                 getButton(1)->setFocus();
                 return true;
             } else if (getButton(1) == obj) {
-                getButton(0)->setFocus();
+                m_allTabOrder.at(3)->setFocus();
+                return true;
+            } else if (obj->objectName() == "DTitlebarDWindowCloseButton") {
+                edit->lineEdit()->setFocus();
+                edit->lineEdit()->selectAll();
                 return true;
             }
+        } else if (keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_Right
+                   || keyEvent->key() == Qt::Key_Up || keyEvent->key() == Qt::Key_Down) {
+            return true;
         }
     }
     return QWidget::eventFilter(obj, event);
@@ -83,7 +89,6 @@ void AlbumCreateDialog::initUI()
     logoLable->move(10, 9);
     logoLable->setAlignment(Qt::AlignLeft);
 //title
-    const QString subStyle = utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     DLabel *title = new DLabel(this);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T6, QFont::DemiBold);
     title->setForegroundRole(DPalette::TextTitle);
@@ -110,10 +115,18 @@ void AlbumCreateDialog::initUI()
     connect(edit, &DLineEdit::textEdited, this, &AlbumCreateDialog::onTextEdited);
     addContent(contentWidget);
     QWidget *closeButton =  this->findChild<QWidget *>("DTitlebarDWindowCloseButton");
-    closeButton->setFocusPolicy(Qt::NoFocus);
-    this->setTabOrder(getButton(0), getButton(1));
+    closeButton->setFocusPolicy(Qt::TabFocus);
+    //键盘交互
     getButton(0)->installEventFilter(this);
     getButton(1)->installEventFilter(this);
+    closeButton->installEventFilter(this);
+    edit->installEventFilter(this);
+
+    m_allTabOrder.clear();
+    m_allTabOrder.insert(0, edit);
+    m_allTabOrder.insert(1, getButton(0));
+    m_allTabOrder.insert(2, getButton(1));
+    m_allTabOrder.insert(3, closeButton);
 }
 
 void AlbumCreateDialog::initConnection()

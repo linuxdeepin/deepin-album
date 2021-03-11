@@ -67,6 +67,9 @@ private:
     DLineEdit *edit;
     bool m_OKClicked;
 
+    //键盘交互
+    QList<QWidget *> m_allTabOrder;
+
 };
 
 #endif // ALBUMCREATEDIALOG_H
