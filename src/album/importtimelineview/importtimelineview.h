@@ -77,6 +77,8 @@ public:
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
     void resizeHand();  //手动计算大小
     ThumbnailListView *getFirstListView();
+    //tab进入时清除其他所有选中
+    void clearAllSelection();
 #if 1
     QStringList selectPaths();
     void updateChoseText();

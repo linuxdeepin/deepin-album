@@ -63,6 +63,8 @@ public:
     void restorePicNum();
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
     ThumbnailListView *getFirstListViewFromTimeline();
+    //tab进入时清除其他所有选中
+    void clearAllSelection();
 
 public slots:
     void on_AddLabel(QString date, QString num);

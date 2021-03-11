@@ -1038,3 +1038,9 @@ void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
     DWidget::mousePressEvent(e);
 }
 
+void ImportTimeLineView::clearAllSelection()
+{
+    for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+        m_allThumbnailListView[j]->clearSelection();
+    }
+}

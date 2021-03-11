@@ -150,6 +150,13 @@ ThumbnailListView *TimeLineView::getFirstListViewFromTimeline()
         return nullptr;
 }
 
+void TimeLineView::clearAllSelection()
+{
+    for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+        m_allThumbnailListView[j]->clearSelection();
+    }
+}
+
 void TimeLineView::updataLayout(QStringList updatePathList)
 {
     m_spinner->hide();

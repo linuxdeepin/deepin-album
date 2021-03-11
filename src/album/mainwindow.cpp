@@ -795,6 +795,8 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
         ThumbnailListView *tempListView = m_pTimeLineView->getFirstListViewFromTimeline();
         if (obj == m_pTimeBtn && tempListView) {
             tempListView->setFocus();
+            //清除其他选中后再选中第一张
+            m_pTimeLineView->clearAllSelection();
             tempListView->selectFirstPhoto();
             return true;
         } else if (obj == tempListView) {
@@ -808,6 +810,8 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
         ThumbnailListView *tempListView = m_pAlbumview->m_pImpTimeLineView->getFirstListView();
         if (obj == m_AlbumViewTabOrder.at(1) && tempListView != nullptr) {
             tempListView->setFocus();
+            //清除其他选中后再选中第一张
+            m_pAlbumview->m_pImpTimeLineView->clearAllSelection();
             tempListView->selectFirstPhoto();
             m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->setCurrentRow(-1);
             return true;
