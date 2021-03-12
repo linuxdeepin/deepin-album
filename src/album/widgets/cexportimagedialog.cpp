@@ -106,6 +106,22 @@ void CExportImageDialog::showEvent(QShowEvent *evet)
     return QWidget::showEvent(evet);
 }
 
+void CExportImageDialog::keyPressEvent(QKeyEvent *e)
+{
+    // combox空间enter展开选项
+    if (e->key() == Qt::Key_Return) {
+        if (m_savePathCombox->hasFocus()) {
+            m_savePathCombox->showPopup();
+        } else if (m_formatCombox->hasFocus()) {
+            m_formatCombox->showPopup();
+        }
+        e->accept();
+    } else if (e->key() == Qt::Key_Escape) {
+        this->close();
+    }
+    QWidget::keyPressEvent(e);
+}
+
 void CExportImageDialog::initUI()
 {
     setFixedSize(DIALOG_SIZE);

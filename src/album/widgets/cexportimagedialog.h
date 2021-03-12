@@ -68,6 +68,7 @@ public:
     void setGifType(QString strFilePath);
     void removeGifType();
     void showEvent(QShowEvent *evet) override;
+    void keyPressEvent(QKeyEvent *e) override;
     void showQuestionDialog(const QString &path, const QString &srcpath = "");
     void showDirChoseDialog();
     void showEmptyWarningDialog();
