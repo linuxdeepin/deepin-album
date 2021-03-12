@@ -25,10 +25,12 @@
 
 #include <QFormLayout>
 #include <QLocale>
-#include <DFontSizeManager>
 #include <QApplication>
-#include <DApplicationHelper>
 #include <QScrollBar>
+
+#include <DTitlebar>
+#include <DApplicationHelper>
+#include <DFontSizeManager>
 
 namespace {
 
@@ -206,6 +208,21 @@ void ImgInfoDialog::setImagePath(const QString &path)
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
         m_expandGroup.at(0)->setExpand(true);
+    }
+    //剔除多余不需要的焦点
+    QList<QWidget *>allwidgetlist = this->findChildren<QWidget *>();
+    for (int i = 0; i < allwidgetlist.size() ; i++) {
+        allwidgetlist.at(i)->setFocusPolicy(Qt::NoFocus);
+    }
+    for (int j = 0; j < m_expandGroup.size(); j++) {
+        QList<DIconButton *> expandlist = m_expandGroup.at(j)->findChildren<DIconButton *>();
+        for (int k = 0; k < expandlist.size(); k++) {
+            expandlist.at(k)->setFocusPolicy(Qt::TabFocus);
+        }
+    }
+    QWidget *closeButton = this->findChild<QWidget *>("DTitlebarDWindowCloseButton");
+    if (closeButton) {
+        closeButton->setFocusPolicy(Qt::TabFocus);
     }
 }
 
@@ -409,7 +426,6 @@ int ImgInfoDialog::contentHeight() const
 
 void ImgInfoDialog::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << "ImgInfoDialog::keyPressEvent()";
     if (e->key() == Qt::Key_Escape) {
         emit closed();
     }
@@ -464,6 +480,19 @@ bool ImgInfoDialog::eventFilter(QObject *obj, QEvent *e)
             return true;
         }
     }
+
+//    if (e->type() == QEvent::KeyPress) {
+//        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
+//        if (keyEvent->key() == Qt::Key_Tab) {
+//            if (m_allTabOrder.at(0) == obj) {
+//                m_allTabOrder.at(1)->setFocus();
+//                return true;
+//            } else if (m_allTabOrder.at(1) == obj) {
+//                m_allTabOrder.at(0)->setFocus();
+//                return true;
+//            }
+//        }
+//    }
     return DDialog::eventFilter(obj, e);
 }
 

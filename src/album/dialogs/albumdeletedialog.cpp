@@ -7,6 +7,7 @@
 #include <DLabel>
 #include <DPushButton>
 #include <DFontSizeManager>
+#include <DTitlebar>
 
 AlbumDeleteDialog::AlbumDeleteDialog(DWidget *parent)
 {
@@ -39,6 +40,11 @@ void AlbumDeleteDialog::iniUI()
     insertButton(0, tr("Cancel"), false, DDialog::ButtonNormal);
     insertButton(1, tr("Delete"), true, DDialog::ButtonWarning);
     connect(this, &AlbumDeleteDialog::buttonClicked, this, &AlbumDeleteDialog::onButtonClicked);
+    //剔除Titlebar焦点
+    DTitlebar *titlebar = findChild<DTitlebar *>();
+    if (titlebar) {
+        titlebar->setFocusPolicy(Qt::ClickFocus);
+    }
 }
 
 void AlbumDeleteDialog::keyPressEvent(QKeyEvent *e)
@@ -60,7 +66,7 @@ void AlbumDeleteDialog::keyPressEvent(QKeyEvent *e)
     }
 }
 
-void AlbumDeleteDialog::onButtonClicked(int index, const QString & text)
+void AlbumDeleteDialog::onButtonClicked(int index, const QString &text)
 {
     Q_UNUSED(text)
     if (0 == index) {

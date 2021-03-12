@@ -187,21 +187,3 @@ void Exporter::initValidFormatMap()
     m_picFormatMap.insert("xpm", "XPM (*.xpm)");
 
 }
-
-//QString Exporter::getOrderFormat(QString defaultFormat)
-//{
-//    QString allFormat = "";
-//    QMap<QString, QString>::const_iterator i = m_picFormatMap.constBegin();
-//    while (i != m_picFormatMap.constEnd()) {
-//        if (i.key() == defaultFormat)
-//            allFormat = QString("%1;;%2").arg(m_picFormatMap.value(defaultFormat)).arg(allFormat);
-//        else if (i == m_picFormatMap.constEnd() - 1)
-//            allFormat = QString("%1%2").arg(allFormat).arg(i.value());
-//        else
-//            allFormat = QString("%1%2;;").arg(allFormat).arg(i.value());
-
-//        ++i;
-//    }
-
-//    return allFormat;
-//}

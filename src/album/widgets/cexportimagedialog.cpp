@@ -21,6 +21,7 @@
 #include <DFileDialog>
 #include <DDialog>
 #include <DMessageBox>
+#include <DTitlebar>
 
 #include <QFormLayout>
 #include <QImageWriter>
@@ -105,26 +106,6 @@ void CExportImageDialog::showEvent(QShowEvent *evet)
     return QWidget::showEvent(evet);
 }
 
-bool CExportImageDialog::eventFilter(QObject *obj, QEvent *event)
-{
-    if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Tab) {
-            // 修改编辑框焦点方式
-            m_fileNameEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
-            // cancel sure btn tab foucs
-            if (getButton(0) == obj) {
-                getButton(1)->setFocus();
-                return true;
-            } else if (getButton(1) == obj) {
-                getButton(0)->setFocus();
-                return true;
-            }
-        }
-    }
-    return QWidget::eventFilter(obj, event);
-}
-
 void CExportImageDialog::initUI()
 {
     setFixedSize(DIALOG_SIZE);
@@ -144,6 +125,7 @@ void CExportImageDialog::initUI()
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
+    m_fileNameEdit->setFocusPolicy(Qt::ClickFocus);
 
     connect(m_fileNameEdit, &DLineEdit::editingFinished, this, [ = ] {
         QString arg = m_fileNameEdit->text();
@@ -173,9 +155,8 @@ void CExportImageDialog::initUI()
         }
     });
 
-
     m_savePathCombox = new DComboBox(this);
-    m_savePathCombox->setFocusPolicy(Qt::NoFocus);
+    m_savePathCombox->setFocusPolicy(Qt::TabFocus);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
     m_savePathCombox->insertItem(Documents, tr("Documents"));
     m_savePathCombox->insertItem(Downloads, tr("Downloads"));
@@ -188,7 +169,7 @@ void CExportImageDialog::initUI()
 
 
     m_formatCombox = new DComboBox(this);
-    m_formatCombox->setFocusPolicy(Qt::NoFocus);
+    m_formatCombox->setFocusPolicy(Qt::TabFocus);
 //    m_formatCombox->insertItem(JPG, "jpg");
 //    m_formatCombox->insertItem(JPG, "jpeg");
 //    m_formatCombox->insertItem(PNG, "png");
@@ -206,7 +187,7 @@ void CExportImageDialog::initUI()
     m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
-    m_qualitySlider->slider()->setFocusPolicy(Qt::NoFocus);
+    m_qualitySlider->slider()->setFocusPolicy(Qt::TabFocus);
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
@@ -224,7 +205,6 @@ void CExportImageDialog::initUI()
     qualityHLayout->addWidget(m_qualityLabel);
 
     DWidget *contentWidget = new DWidget(this);
-//    contentWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
@@ -250,11 +230,16 @@ void CExportImageDialog::initUI()
     m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
     m_emptyWarningDialog->setFixedSize(400, 170);
 
+    //剔除Titlebar焦点
+    DTitlebar *titlebar = findChild<DTitlebar *>();
+    if (titlebar) {
+        titlebar->setFocusPolicy(Qt::ClickFocus);
+    }
+
     QWidget *closeButton = findChild<QWidget *>("DTitlebarDWindowCloseButton");
-    closeButton->setFocusPolicy(Qt::ClickFocus);
-    this->setTabOrder(getButton(0), getButton(1));
-    getButton(0)->installEventFilter(this);
-    getButton(1)->installEventFilter(this);
+    if (closeButton) {
+        closeButton->setFocusPolicy(Qt::TabFocus);
+    }
 }
 
 void CExportImageDialog::initConnection()

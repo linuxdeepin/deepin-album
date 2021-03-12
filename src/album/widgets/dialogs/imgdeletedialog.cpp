@@ -1,10 +1,13 @@
 #include "imgdeletedialog.h"
+
+#include <QVBoxLayout>
+
 #include <DLabel>
 #include <DPushButton>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
 #include <DSuggestButton>
-#include <QVBoxLayout>
+#include <DTitlebar>
 
 ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonlyone)
     : DDialog(parent)
@@ -43,6 +46,12 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonly
     QWidget *closeButton =  this->findChild<QWidget *>("DTitlebarDWindowCloseButton");
     closeButton->setFocusPolicy(Qt::TabFocus);
     closeButton->installEventFilter(this);
+
+    //剔除Titlebar焦点
+    DTitlebar *titlebar = findChild<DTitlebar *>();
+    if (titlebar) {
+        titlebar->setFocusPolicy(Qt::ClickFocus);
+    }
 
     m_allTabOrder.clear();
     m_allTabOrder.insert(0, closeButton);
