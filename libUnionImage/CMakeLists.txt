@@ -26,7 +26,7 @@ link_directories(${LINK_DIR})
 link_libraries(freeimage)
 
 add_library(UnionImage SHARED ${allHeaders} ${allSources})
-set_target_properties(UnionImage PROPERTIES VERSION 1.0.0 SOVERSION 1.0)
+set_target_properties(UnionImage PROPERTIES VERSION 1.0.0 SOVERSION 1)
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
