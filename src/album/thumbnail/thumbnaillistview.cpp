@@ -1598,9 +1598,17 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
     }
 }
 
-void ThumbnailListView::onClicked()
+void ThumbnailListView::onClicked(const QModelIndex &index)
 {
     emit hideExtensionPanel();
+#ifdef tablet_PC
+    if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
+        if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
+            emit openImage(index.row());
+        }
+    }
+#endif
+    Q_UNUSED(index)
 }
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)

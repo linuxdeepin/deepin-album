@@ -203,7 +203,7 @@ public slots:
     void onScrollbarValueChanged(int value);
     void onScrollBarRangeChanged(int min, int max);
     void onDoubleClicked(const QModelIndex &index);
-    void onClicked();
+    void onClicked(const QModelIndex &index);
 
 public:
     void updateThumbnailView(QString updatePath = "");
