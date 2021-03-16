@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     ZhangYong <zhangyong@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,22 +21,25 @@
 #include "formlabel.h"
 
 SimpleFormLabel::SimpleFormLabel(const QString &t, QWidget *parent)
-    : QLabel(t, parent) {
+    : QLabel(t, parent)
+{
     QFont font;
     font.setPixelSize(12);
     setFont(font);
 }
 
 SimpleFormField::SimpleFormField(QWidget *parent)
-    : QLabel(parent) {
+    : QLabel(parent)
+{
     QFont font;
     font.setPixelSize(12);
     setFont(font);
     setWordWrap(true);
 }
 
-void SimpleFormField::resizeEvent(QResizeEvent *event) {
-    if ( wordWrap() && sizePolicy().verticalPolicy() == QSizePolicy::Minimum ) {
+void SimpleFormField::resizeEvent(QResizeEvent *event)
+{
+    if (wordWrap() && sizePolicy().verticalPolicy() == QSizePolicy::Minimum) {
         // heightForWidth rely on minimumSize to evaulate, so reset it before
         setMinimumHeight(0);
         // define minimum height

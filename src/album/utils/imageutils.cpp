@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     ZhangYong <zhangyong@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,12 +160,12 @@ QPixmap getDamagePixmap(bool bLight)
 {
     static QPixmap pix_light, pix_dark;
     if (bLight) {
-        if (pix_light.isNull ())
-            pix_light = utils::base::renderSVG (view::LIGHT_DAMAGEICON, QSize(40, 40));
+        if (pix_light.isNull())
+            pix_light = utils::base::renderSVG(view::LIGHT_DAMAGEICON, QSize(40, 40));
         return pix_light;
     } else {
-        if (pix_dark.isNull ())
-            pix_dark = utils::base::renderSVG (view::DARK_DAMAGEICON, QSize(40, 40));
+        if (pix_dark.isNull())
+            pix_dark = utils::base::renderSVG(view::DARK_DAMAGEICON, QSize(40, 40));
         return pix_dark;
     }
 }

@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     ZhangYong <zhangyong@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +25,9 @@
 #include "utils/baseutils.h"
 
 LockWidget::LockWidget(const QString &darkFile,
-    const QString &lightFile, QWidget *parent)
-    : ThemeWidget(darkFile, lightFile, parent) {
+                       const QString &lightFile, QWidget *parent)
+    : ThemeWidget(darkFile, lightFile, parent)
+{
     m_bgLabel = new QLabel();
     m_bgLabel->setFixedSize(166, 166);
     m_bgLabel->setObjectName("BgLabel");
@@ -41,7 +46,8 @@ LockWidget::LockWidget(const QString &darkFile,
 
 }
 
-void LockWidget::setContentText(const QString &text) {
+void LockWidget::setContentText(const QString &text)
+{
     m_lockTips->setText(text);
     int textHeight = utils::base::stringHeight(m_lockTips->font(),
                                                m_lockTips->text());
