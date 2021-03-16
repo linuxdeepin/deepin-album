@@ -298,7 +298,7 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
             if (2 == list.count()) {
                 QStringList listDate = list[0].split("/");
                 if (3 == listDate.count()) {
-                    value = listDate[0] + "年" + listDate[1] + "月" + listDate[2] + "日 " + list[1];
+                    value = listDate[0] + "/" + listDate[1] + "/" + listDate[2] + " " + list[1];
                 }
             }
 
