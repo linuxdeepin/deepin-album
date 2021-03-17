@@ -144,8 +144,15 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 
     if ((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)
             && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED));
-    else
-        DListView::mousePressEvent(event);
+    else {
+        // 最近删除界面单指循环选中、取消选中
+        if (selectionModel()->selectedIndexes().contains(this->indexAt(event->pos()))
+                && selectionModel()->selectedIndexes().size() == 1 && m_imageType == COMMON_STR_TRASH) {
+            clearSelection();
+        } else {
+            DListView::mousePressEvent(event);
+        }
+    }
     if ((m_imageType != COMMON_STR_VIEW_TIMELINE) && (m_imageType != "All Photos") &&
             (m_imageType != COMMON_STR_TRASH) && (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
         if (dragDropMode() != NoDragDrop) {
@@ -166,6 +173,7 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
             update();
         }
     }
+
     if (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED) {
         if (QApplication::keyboardModifiers() == Qt::NoModifier /*&& event->button() == Qt::LeftButton*/) {
             emit sigMousePress(event);
