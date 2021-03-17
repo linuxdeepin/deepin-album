@@ -773,6 +773,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
 #ifndef tablet_PC
         m_MenuActionMap.value(tr("Print"))->setVisible(false);
+#endif
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
             m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
@@ -780,6 +781,7 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
             m_MenuActionMap.value(tr("Favorite"))->setEnabled(false);
         }
+#ifndef tablet_PC
         m_MenuActionMap.value(tr("Rotate clockwise"))->setEnabled(false);
         m_MenuActionMap.value(tr("Rotate counterclockwise"))->setEnabled(false);
         m_MenuActionMap.value(tr("Display in file manager"))->setEnabled(false);
@@ -810,14 +812,12 @@ void ThumbnailListView::updateMenuContents()
                 COMMON_STR_VIEW_TIMELINE == m_imageType || COMMON_STR_FAVORITES == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
-#ifndef tablet_PC
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         } else {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         }
         m_pMenu->addSeparator();
-#endif
     } else {
         if (COMMON_STR_RECENT_IMPORTED == m_imageType || IMAGE_DEFAULTTYPE == m_imageType ||
                 COMMON_STR_VIEW_TIMELINE == m_imageType) {
@@ -826,10 +826,8 @@ void ThumbnailListView::updateMenuContents()
         if (COMMON_STR_FAVORITES == m_imageType) {
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
         }
-#ifndef tablet_PC
         m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
         m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
-#endif
     }
     bool bflag_imageSupportSave = false;      //图片是否可以保存标志
     if (1 == paths.length()) { //单张照片
@@ -909,10 +907,11 @@ void ThumbnailListView::initMenuAction()
 #endif
     appendAction(IdMoveToTrash, tr("Delete"), ss(""));
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss(""));
-#ifndef tablet_PC
+
     m_pMenu->addSeparator();
     appendAction(IdAddToFavorites, tr("Favorite"), "");
     appendAction(IdRemoveFromFavorites, tr("Unfavorite"), "");
+#ifndef tablet_PC
     m_pMenu->addSeparator();
     appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss(ROTATECLOCKWISE_CONTEXT_MENU));
     appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"),
