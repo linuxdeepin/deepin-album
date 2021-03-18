@@ -21,7 +21,6 @@
 #include "viewpanel.h"
 #include "application.h"
 #include "navigationwidget.h"
-//#include "controller/divdbuscontroller.h"
 #include "controller/signalmanager.h"
 #include "controller/configsetter.h"
 #include "contents/ttbcontent.h"
@@ -29,11 +28,11 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
-//#include "widgets/printoptionspage.h"
 #include "widgets/printhelper.h"
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "imageengine/imageengineapi.h"
 #include "ac-desktop-define.h"
+
 #include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
@@ -49,9 +48,11 @@
 #include <QFileDialog>
 #include <QPainter>
 #include <QMovie>
+#include <QDesktopWidget>
+#include <QPropertyAnimation>
+
 #include <DRecentManager>
 #include <DWidgetUtil>
-#include <QDesktopWidget>
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
@@ -464,6 +465,16 @@ void ViewPanel::onDoubleClicked()
 void ViewPanel::onViewBClicked()
 {
     dApp->signalM->hideExtensionPanel();
+#ifdef tablet_PC
+    //添加单指点击循环显示和隐藏工具栏
+    static bool showorhide = true;
+    if (!window()->isFullScreen()) {
+        toggleFullScreen();
+    } else {
+        emit dApp->signalM->sigMouseMove(showorhide);
+        showorhide = showorhide ? false : true;
+    }
+#endif
 }
 
 void ViewPanel::onViewBImageChanged(QString path)

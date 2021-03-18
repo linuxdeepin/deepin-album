@@ -955,7 +955,7 @@ TEST(MainWindow, timelineview)
         commandline->findChild<MainWidget *>("MainWidget")->onBackToMainPanel();
         commandline->findChild<MainWidget *>("MainWidget")->onActiveWindow();
         commandline->findChild<MainWidget *>("MainWidget")->onShowInFileManager("");
-        commandline->findChild<MainWidget *>("MainWidget")->onMouseMove();
+        commandline->findChild<MainWidget *>("MainWidget")->onMouseMove(false);
         commandline->findChild<MainWidget *>("MainWidget")->onShowFullScreen();
 
         e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);

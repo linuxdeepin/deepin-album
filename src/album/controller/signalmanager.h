@@ -136,7 +136,7 @@ signals:
     void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr);
     void sigCreateNewAlbumFromDialog(QString albumname);
     void sigMainwindowSliderValueChg(int value);
-    void sigMouseMove();
+    void sigMouseMove(bool show);
     void sigShowFullScreen();
     void sigESCKeyActivated();
     void sigESCKeyStopSlide();

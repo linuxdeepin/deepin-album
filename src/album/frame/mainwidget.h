@@ -48,7 +48,7 @@ private slots:
     void onBackToMainPanel();
     void onActiveWindow();
     void onShowInFileManager(const QString &path);
-    void onMouseMove();
+    void onMouseMove(bool show);
     void onShowFullScreen();
     void onUpdateBottomToolbar(bool wideMode);
     void onUpdateBottomToolbarContent(QWidget *c, bool wideMode);

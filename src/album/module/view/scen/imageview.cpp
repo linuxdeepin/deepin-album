@@ -549,8 +549,9 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
 
         emit transformChanged();
     }
-
-    emit dApp->signalM->sigMouseMove();
+#ifndef tablet_PC
+    emit dApp->signalM->sigMouseMove(false);
+#endif
 }
 
 void ImageView::leaveEvent(QEvent *e)
