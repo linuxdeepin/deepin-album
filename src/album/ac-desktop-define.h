@@ -29,7 +29,7 @@
 #define OPENACCESSIBLE
 
 //平板宏定义
-//#define tablet_PC
+#define tablet_PC
 
 //#define SELECT_CASE "load"
 
