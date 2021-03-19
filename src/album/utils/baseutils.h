@@ -202,13 +202,13 @@ const QString LIGHT_DAMAGEICON =
     ":/resources/images/other/picture damaged_light.svg";
 
 namespace naviwindow {
-const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.svg";
+const QString DARK_BG_IMG = ":/resources/dark/naviwindow_bg.svg";
 const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);
 const QColor DARK_MR_BG_COLOR = QColor(0, 0, 0, 150);
 const QColor DARK_MR_BORDER_Color = QColor(255, 255, 255, 80);
 const QColor DARK_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
 
-const QString LIGHT_BG_IMG = ":/resources/light/images/naviwindow_bg.svg";
+const QString LIGHT_BG_IMG = ":/resources/light/naviwindow_bg.svg";
 const QColor LIGHT_BG_COLOR = QColor(255, 255, 255, 104);
 const QColor LIGHT_MR_BG_COLOR = QColor(0, 0, 0, 101);
 const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
