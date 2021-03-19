@@ -1,4 +1,4 @@
-#  Album|../common/deepin_album_96.svg|
+#  Album|deepin-album|
 
 ## Overview
 
@@ -53,8 +53,6 @@ On the Album interface, you are able to import photos as follows:
 
 1. In the search box on top of the Album interface, click ![search](../common/search.svg) to enter keywords.
 2. Press the **Enter** key on the keyboard to locate the photos quickly.
-   - When there is information matched, a search result list will be displayed on the interface.
-   - When there is no information matched, **No search results** will be displayed on the interface.
 
 ### View Photos
 
@@ -89,8 +87,6 @@ In Timelines, all photos are sorted by date. Photos with the same date are displ
 2. Select the printer and set the printing parameters.
 3. Click **Print**.
 
-> ![notes](../common/notes.svg) Notes: Click **Advanced** to customize the printing parameters.
-
 ### Slide Show
 
 1. On the Album interface, right-click a photo.
@@ -105,16 +101,6 @@ In Timelines, all photos are sorted by date. Photos with the same date are displ
 2. Select **Copy**.
 3. Right-click on the desktop or in a target place and select **Paste** to copy the photo file there.
 
-### Delete Photos
-
-You can delete photos from Album in the following ways:
-
-- Click the ![delete_press](../common/delete.svg) icon on the Album interface when viewing photos.
-- Right-click the photo and select **Delete**.
-- On the Album interface, click to select the photo and press **Delete** on the keyboard.
-
-> ![tips](../common/tips.svg) Tips: The deleted photos in the Album are not deleted permanently but are temporarily stored in the **Trash** album. When the number displayed in remaining days on the photo is 0, the photos will be deleted permanently. You are able to restore or permanently delete the photos here in advance.
-
 ### Favorite Photos
 
 1. On the Album interface, right-click a photo.
@@ -128,9 +114,8 @@ You can delete photos from Album in the following ways:
 1. On the Album interface, right-click a photo and select **Rotate clockwise** or **Rotate counterclockwise**.
 2. The photo will be rotated clockwise or counterclockwise for 90 degrees.
 
->    ![notes](../common/notes.svg) Notes: If you are using a computer equipped with touch-screen or touchpad, you can use touchscreen gestures to operate instead of the mouse: 
+>    ![notes](../common/notes.svg) Notes: If you are using a computer equipped with touch-screen, place two fingers on the photo and keep a certain distance, and rotate the two fingers at the same time to rotate the photo.
 >
-   > - On the touchscreen, place two fingers on the photo and keep a certain distance, and rotate the two fingers at the same time to rotate the photo.
 
 ### Set as Wallpaper
 
@@ -150,6 +135,15 @@ You can delete photos from Album in the following ways:
 2. Select **Photo info** to view the detailed information of photos.
 
 ![0|display](fig/info.png)
+### Delete Photos
+
+You can delete photos from Album in the following ways:
+
+- Click the ![delete_press](../common/delete.svg) icon on the Album interface when viewing photos.
+- Right-click the photo and select **Delete**.
+- On the Album interface, click to select the photo and press **Delete** on the keyboard.
+
+> ![tips](../common/tips.svg) Tips: The deleted photos in the Album are not deleted permanently but are temporarily stored in the **Trash** album. When the number displayed in remaining days on the photo is 0, the photos will be deleted permanently. You are able to restore or permanently delete the photos here in advance.
 
 ## Album Management
 

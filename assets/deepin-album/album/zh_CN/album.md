@@ -1,4 +1,4 @@
-# 相册|../common/deepin_album_96.svg|
+# 相册|deepin-album|
 
 ## 概述
 
@@ -14,8 +14,8 @@
 
 ### 运行相册
 
-1. 单击桌面底部的 ![launcher](../common/deepin_launcher.svg)，进入启动器界面。
-2. 上下滚动鼠标滚轮浏览或通过搜索，找到相册 ![deepin_album](../common/deepin_album.svg) 单击运行。
+1. 单击任务栏上的启动器图标 ![launcher](../common/deepin_launcher.svg)，进入启动器界面。
+2. 上下滚动鼠标滚轮浏览或通过搜索，找到相册图标 ![deepin_album](../common/deepin_album.svg) ，单击运行。
 3. 右键单击 ![deepin_album](../common/deepin_album.svg)，您可以：
  - 单击 **发送到桌面**，在桌面创建快捷方式。
  - 单击 **发送到任务栏**，将应用程序固定到任务栏。
@@ -25,13 +25,13 @@
 
 ### 关闭相册
 
-- 在相册界面单击  ![close_icon](../common/close_icon.svg)，退出相册。
-- 在任务栏右键单击 ![deepin_album](../common/deepin_album.svg)，选择 **关闭所有** 来退出相册。
-- 在相册界面单击 ![icon_menu](../common/icon_menu.svg)，选择 **退出** 来退出相册。
+- 在相册界面，单击  ![close_icon](../common/close_icon.svg)，退出相册。
+- 在任务栏右键单击 ![deepin_album](../common/deepin_album.svg)，选择 **关闭所有** ，退出相册。
+- 在相册界面，单击 ![icon_menu](../common/icon_menu.svg)，选择 **退出** ，退出相册。
 
 ### 查看快捷键
 
-在相册界面上，按下 **Ctrl + Shift + ?** 组合键来查看快捷键，熟练的使用快捷键，将大大提升您的操作效率。
+在相册界面上，按下 **Ctrl + Shift + ?** 组合键来查看快捷键，熟练地使用快捷键，将大大提升您的操作效率。
 
 ![0|hotkey](fig/hotkey.png)
 
@@ -42,13 +42,14 @@
 ### 导入照片
 
 在相册界面，可以采用以下方式导入照片。
+
+- 当相册中尚无照片时，单击 **导入照片**。
 - 单击 ![icon_menu](../common/icon_menu.svg)  >  **导入照片**。
 - 直接将照片或所在文件夹拖拽到界面上。
 - 从移动设备导入照片。
 
-   > ![tips](../common/tips.svg)窍门：当相册中尚无照片时，单击 **导入照片**，将照片导入相册管理系统。
 
-   > ![notes](../common/notes.svg)说明：相册支持打开bmp、gif、fig、png、pbm、pgm、ppm、xbm、xpm、svg、dds、icns、mng、tga、tiff、wbmp、webp、psd、ico、jng、pcd、pcx、tif、ras、mrw、dng、raf、cr2、raw、orf、nef等多种格式的图片。
+   > ![notes](../common/notes.svg)说明：相册支持打开BMP、GIF、JPG、PNG、PBM、PGM、PPM、XBM、XPM、SVG、DDS、ICNS、MNG、TGA、TIFF、WBMP、WEBP、PSD、ICO、JNG、PCD、PCX、TIF、RAS、MRW、DNG、RAF、CR2、RAW、ORF、NEF等多种格式的图片。
 
 
 
@@ -60,7 +61,7 @@
 
 ### 查看照片
 
-在相册界面上，拖动底部的滚动条可以调整照片的缩略图大小。
+在相册界面上，拖动底部的滑块可以调整照片的缩略图大小。
 
 双击照片，或右键单击照片选择 **查看** ，进入看图界面；按 **Esc** 键退出看图界面。
 
@@ -95,7 +96,7 @@
 
 1. 在相册界面上，右键单击照片。
 2. 选择 **幻灯片放映**，照片将以幻灯片形式全屏播放。
-3. 按下键盘上的 **Esc** 键退出播放。
+3. 右键单击选择 **退出** 或按下键盘上的 **Esc** 键退出播放。
 
 ![0|copy](fig/play.png)
 
@@ -123,9 +124,8 @@
 1. 在相册界面上，右键单击照片。
 2. 选择 **顺时针旋转/逆时针旋转**。
 3. 照片将会顺时针转旋转90°/逆时针旋转90°。
-   > ![notes](../common/notes.svg)说明：如果您的电脑支持触控屏，可以使用手势代替鼠标操作：
-   >
-   > - 在触控屏上：二指放置在图片上并保持一定距离，同时旋转二指来旋转图片。
+   
+   > ![notes](../common/notes.svg)说明：当使用触控屏电脑时，二指放置在图片上并保持一定距离，同时旋转二指来旋转图片。
 
 ### 设置为壁纸
 
@@ -135,21 +135,21 @@
 ### 在文件管理器显示
 
 1. 在相册界面上，右键单击照片。
-2. 选择 **在文件管理器中显示**，就可以在文件管理器中打开照片所在的文件夹。
+2. 选择 **在文件管理器中显示**，定位照片所在的文件夹位置。
 
 ![0|display](fig/display.png)
 
 ### 查看照片信息
 
 1. 在相册界面上，右键单击照片。
-2. 选择 **照片信息** 查看照片的各种信息。
+2. 选择 **照片信息**， 查看照片的详细信息。
 
 ![0|display](fig/info.png)
 
 
 ### 删除照片
 
-在相册中您可以通过如下方法删除照片：
+在相册中可通过以下方法删除照片：
 
 - 查看图片时，单击界面上的 ![delete_press](../common/delete.svg) 图标。
 - 右键单击照片，选择 **删除**。
@@ -189,7 +189,7 @@
 ### 移除相册中的照片
 
 1. 在相册界面上，右键单击相册中的某张照片。
-2. 选择 **从相册中移除**，该照片从相册中移除。
+2. 选择 **从相册中移除**，将该照片从相册中移除。
 
 ### 重命名相册
 
@@ -215,7 +215,7 @@
 
 ### 主题
 
-窗口主题包含浅色主题、深色主题和跟随系统主题。
+窗口主题包含浅色主题、深色主题和系统主题。
 
 1. 在相册界面，单击![icon_menu](../common/icon_menu.svg)。
 2. 选择 **主题**，选择一个主题颜色。
