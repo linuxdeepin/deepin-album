@@ -458,12 +458,17 @@ TEST(MainWindow, allpicture)
         fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
         Stub stub;
         stub.set(fptrexec, dlgexec);
+        QTest::qWait(300);
 
         QTestEventList e;
         e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
         e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
         e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-        e.simulate(Exporter::instance()->m_exportImageDialog);
+        e.simulate(Exporter::instance()->m_exportImageDialog->getButton(1));
+        e.clear();
     });
 
     qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);

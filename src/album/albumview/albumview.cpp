@@ -1176,14 +1176,12 @@ void AlbumView::onTrashDeleteBtnClicked()
     if (str1 == str2) {
         bstate = true;
     }
-#ifdef tablet_PC
-    ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
-#else
+
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count(), bstate);
     dialog->setObjectName("deteledialog");
-    if (dialog->exec() > 0)
+    if (dialog->exec() > 0) {
         ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
-#endif
+    }
 
     onTrashListClicked();
 }
