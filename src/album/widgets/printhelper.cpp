@@ -98,7 +98,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
         //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
         if (tempExsitPaths.size() == 1) {
-            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).baseName());
+            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).completeBaseName());
             printDialog2.setDocName(docName);
         }//else 多张照片不设置名称，默认使用print模块的print.pdf
         if (suc) {//异步
@@ -136,6 +136,7 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
 {
     //更新逻辑，需要nepage和现实所有的，因为需要多版打印,需要显示多张图片
     QPainter painter(_printer);
+    int index = 0;
     for (int page : pageRange) {
         if ((page < m_imgs.count() + 1) && page >= 1) {
             QImage img = m_imgs.at(page - 1);
@@ -158,8 +159,9 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
                 painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
                                          tmpMap.height()), tmpMap);
             }
-            if (page != m_imgs.count()) {
+            if (index < pageRange.size()) {
                 _printer->newPage();
+                index++;
             }
         }
     }
