@@ -724,7 +724,14 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
         return;
     }
 #ifdef tablet_PC
-    return;
+    //区分最近删除界面和其他界面
+    if (this->m_imageType == COMMON_STR_TRASH) {
+        return;
+    } else {
+        emit sigMouseRelease();
+        updateMenuContents();
+        m_pMenu->popup(QCursor::pos());
+    }
 #else
     emit sigMouseRelease();
     updateMenuContents();
