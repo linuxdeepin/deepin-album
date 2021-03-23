@@ -148,7 +148,9 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         // 最近删除界面单指循环选中、取消选中
         if (selectionModel()->selectedIndexes().contains(this->indexAt(event->pos()))
                 && selectionModel()->selectedIndexes().size() == 1 && m_imageType == COMMON_STR_TRASH) {
-            clearSelection();
+            if(event->button() != Qt::MouseButton::RightButton) {
+                clearSelection();
+            }
         } else {
             DListView::mousePressEvent(event);
         }
@@ -721,10 +723,13 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
     if (!this->indexAt(pos).isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType) {
         return;
     }
+#ifdef tablet_PC
+    return;
+#else
     emit sigMouseRelease();
     updateMenuContents();
-    m_pMenu->popup(QCursor::pos());
-
+    m_pMenu->popup(QCursor::pos());   
+#endif
 }
 
 void ThumbnailListView::updateMenuContents()
