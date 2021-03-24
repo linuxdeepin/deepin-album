@@ -37,7 +37,7 @@ public:
     bool isVaild();
     //添加和删除监控
     void addWather(const QString &path);
-    void removeWatcher(const QString &path);
+//    void removeWatcher(const QString &path);
 
     void clear();
     //获取监控目录所有照片

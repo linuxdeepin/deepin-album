@@ -244,8 +244,11 @@ TEST(MainWindow, allpicture)
         imageview = viewpanel->m_viewB;
         ttbc = viewpanel->m_ttbc;
     }
-    if (imageview)
+    if (imageview) {
         event.simulate(imageview->viewport());
+        QString path = imageview->path();
+        imageview->isWholeImageVisible();
+    }
     QTest::qWait(1000);
     event.clear();
 
@@ -412,7 +415,7 @@ TEST(MainWindow, allpicture)
     e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
     e.simulate(menuWidget);
     e.clear();
-    QTest::qWait(300);
+    QTest::qWait(15000);
 
     SlideShowPanel *slideshowpanel = w->m_slidePanel;
     if (slideshowpanel) {
@@ -1022,7 +1025,7 @@ TEST(MainWindow, timelineview)
 
 TEST(MainWindow, AlbumView)
 {
-    TEST_CASE_NAME("AlbumView")
+    TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     AlbumView *albumview = w->m_pAlbumview;
 
@@ -1060,12 +1063,23 @@ TEST(MainWindow, AlbumView)
     if (!firstThumb) {
         return;
     }
+
+    DCommandLinkButton *btn = albumview->m_pImpTimeLineView->m_allChoseButton.at(0);
+    QPoint btn1 = QPoint(btn->geometry().x(), btn->geometry().y());
+    e.addMouseMove(btn1);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, btn1, 500);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, btn1, 500);
+    e.simulate(btn);
+    e.clear();
+    QTest::qWait(500);
+
     QPoint p1 = firstThumb->viewport()->pos() + QPoint(30, 30); //已导入
     e.addMouseMove(p1);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
     e.addMouseDClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
     e.simulate(firstThumb->viewport());
     e.clear();
-    QTest::qWait(300);
+    QTest::qWait(1000);
     e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);
     e.simulate(imageview->viewport());
     e.clear();
@@ -1359,6 +1373,9 @@ TEST(MainWindow, AlbumView)
     e.simulate(t1->viewport());
     e.clear();
     QTest::qWait(300);
+
+    w->m_pAlbumview->m_pImpTimeLineView->clearAllSelection();
+
     ASSERT_TRUE(albumview != nullptr);
 }
 
@@ -2038,7 +2055,7 @@ TEST(MainWindow, callFuncitons_test)
     FileInotify fileinotify;
     fileinotify.isVaild();
     fileinotify.addWather(" ");
-    fileinotify.removeWatcher(" ");
+//    fileinotify.removeWatcher(" ");
     fileinotify.getAllPicture(true);
     fileinotify.getAllPicture(false);
     fileinotify.pathLoadOnce();
@@ -2237,7 +2254,7 @@ TEST(MainWindow, picdelete)
 
 TEST(TimeLineView, shiftandcontrol)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("shiftandcontrol")
     MainWindow *w = dApp->getMainWindow();
     TimeLineView *timelineview = w->m_pTimeLineView;
     w->timeLineBtnClicked();
@@ -2264,5 +2281,49 @@ TEST(TimeLineView, shiftandcontrol)
     e.addKeyClick(Qt::Key_Delete, Qt::NoModifier, 50);
     e.simulate(timelineview->m_allThumbnailListView[0]->viewport());
     e.clear();
+    QTest::qWait(300);
+}
+
+//标题栏创建
+TEST(MainWindow, titlebarcreate)
+{
+    TEST_CASE_NAME("load")
+    MainWindow *w = dApp->getMainWindow();
+
+    w->allPicBtnClicked();
+    QTestEventList e;
+    e.addMouseClick(Qt::MouseButton::LeftButton);
+    e.simulate(w->getButG()->button(0));
+    e.clear();
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+    e.simulate(w);
+    e.clear();
+
+    QTimer::singleShot(2000, w, [ = ] {
+        w->activateWindow();
+        QWidget *c = w->findChild<AlbumCreateDialog *>();
+        if (c)
+        {
+            DDialog *d = static_cast<DDialog *>(c);
+            emit d->getButton(1)->click();
+            c->close();
+        }
+    });
+
+    QWidget *optionButton =  w->titlebar()->findChild<QWidget *>("DTitlebarDWindowOptionButton");
+    if (optionButton) {
+        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 100);
+        e.simulate(optionButton);
+        e.clear();
+    }
+
+    DMenu *menuWidget = w->titlebar()->menu();
+    if (menuWidget) {
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 100);
+        e.simulate(menuWidget);
+        e.clear();
+    }
     QTest::qWait(300);
 }

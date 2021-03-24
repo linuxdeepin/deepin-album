@@ -85,7 +85,7 @@ protected:
     ~ImageAnimationPrivate();
     void effectPainter(QPainter *painter, const QRect &rect);
     void forwardPainter(QPainter *painter, const QRect &rect);
-    void retreatPainter(QPainter *painter, const QRect &rect);
+//    void retreatPainter(QPainter *painter, const QRect &rect);
     void keepStaticPainter(QPainter *painter, const QRect &rect);
     /**
     ****************************************************************************************************************
@@ -97,10 +97,10 @@ protected:
     void flipRightToLeft(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
     void outsideToInside(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
     void moveLeftToRightEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
 
     /**
     ****************************************************************************************************************
@@ -369,18 +369,18 @@ void ImageAnimationPrivate::effectPainter(QPainter *painter, const QRect &rect)
     case 4:
         moveLeftToRightEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
         break;
-    case 5:
-        moveRightToLeftEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
-    case 6:
-        moveBottomToUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
-    case 7:
-        moveUpToBottomEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
-    case 8:
-        moveBottomToLeftUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
+//    case 5:
+//        moveRightToLeftEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
+//    case 6:
+//        moveBottomToUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
+//    case 7:
+//        moveUpToBottomEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
+//    case 8:
+//        moveBottomToLeftUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
     }
     painter->end();
 }
@@ -415,38 +415,38 @@ void ImageAnimationPrivate::forwardPainter(QPainter *painter, const QRect &rect)
     q->update();
 }
 
-void ImageAnimationPrivate::retreatPainter(QPainter *painter, const QRect &rect)
-{
-    Q_UNUSED(rect);
-    if (m_pixmap1.isNull() || m_pixmap2.isNull()) {
-        return;
-    }
-    Q_Q(ImageAnimation);
-    if (!m_continuousanimationTimer && !m_staticTimer) {
-        setImage1(m_imageName2);
-        setImage2(queue->jumpTopre());
-        painter->drawPixmap(0, 0, m_pixmap1);
-        q->setPaintTarget(ImageAnimation::KeepStatic);
-        return;
-    }
+//void ImageAnimationPrivate::retreatPainter(QPainter *painter, const QRect &rect)
+//{
+//    Q_UNUSED(rect);
+//    if (m_pixmap1.isNull() || m_pixmap2.isNull()) {
+//        return;
+//    }
+//    Q_Q(ImageAnimation);
+//    if (!m_continuousanimationTimer && !m_staticTimer) {
+//        setImage1(m_imageName2);
+//        setImage2(queue->jumpTopre());
+//        painter->drawPixmap(0, 0, m_pixmap1);
+//        q->setPaintTarget(ImageAnimation::KeepStatic);
+//        return;
+//    }
 
-    //动画播放中
-    if (m_continuousanimationTimer) {
-        m_continuousanimationTimer->stop();
-        m_continuousanimationTimer->setInterval(0);
-        m_factor = 0.0f;
-        setImage2(queue->jumpTopre());
-        painter->drawPixmap(0, 0, m_pixmap2);
-        q->setPaintTarget(ImageAnimation::KeepStatic);
-        m_continuousanimationTimer->deleteLater();
-    }
-    if (m_staticTimer) {
-        if (m_continuousanimationTimer->timerId() >= 0)
-            killTimer(m_continuousanimationTimer->timerId());
-        if (m_staticTimer->timerId() >= 0)
-            killTimer(m_staticTimer->timerId());
-    }
-}
+//    //动画播放中
+//    if (m_continuousanimationTimer) {
+//        m_continuousanimationTimer->stop();
+//        m_continuousanimationTimer->setInterval(0);
+//        m_factor = 0.0f;
+//        setImage2(queue->jumpTopre());
+//        painter->drawPixmap(0, 0, m_pixmap2);
+//        q->setPaintTarget(ImageAnimation::KeepStatic);
+//        m_continuousanimationTimer->deleteLater();
+//    }
+//    if (m_staticTimer) {
+//        if (m_continuousanimationTimer->timerId() >= 0)
+//            killTimer(m_continuousanimationTimer->timerId());
+//        if (m_staticTimer->timerId() >= 0)
+//            killTimer(m_staticTimer->timerId());
+//    }
+//}
 
 void ImageAnimationPrivate::keepStaticPainter(QPainter *painter, const QRect &rect)
 {
@@ -559,41 +559,41 @@ void ImageAnimationPrivate::moveLeftToRightEffect(QPainter *painter, const QRect
     painter->drawPixmap(x, y, pixmap2);
 }
 
-void ImageAnimationPrivate::moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
-void ImageAnimationPrivate::moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
-void ImageAnimationPrivate::moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
-void ImageAnimationPrivate::moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
 void ImageAnimationPrivate::setPathList(const QString &first, const QStringList &list)
 {
@@ -885,10 +885,10 @@ void ImageAnimation::paintEvent(QPaintEvent *e)
         d->forwardPainter(&painter, tempRect);
         break;
     }
-    case TurnBackPre: {
-        d->retreatPainter(&painter, tempRect);
-        break;
-    }
+//    case TurnBackPre: {
+//        d->retreatPainter(&painter, tempRect);
+//        break;
+//    }
     case KeepStatic: {
         d->keepStaticPainter(&painter, tempRect);
         break;

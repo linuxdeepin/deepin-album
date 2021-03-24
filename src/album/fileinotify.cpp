@@ -93,17 +93,17 @@ void FileInotify::addWather(const QString &paths)
     pathLoadOnce();
 }
 
-void FileInotify::removeWatcher(const QString &path)
-{
-    QMutexLocker loker(&m_mutex);
-    if (!isVaild())
-        return;
-    auto it = watchedDirId.find(path);
-    if (it != watchedDirId.end()) {
-        inotify_rm_watch(m_handleId, it.value());
-        watchedDirId.erase(it);
-    }
-}
+//void FileInotify::removeWatcher(const QString &path) //暂未使用
+//{
+//    QMutexLocker loker(&m_mutex);
+//    if (!isVaild())
+//        return;
+//    auto it = watchedDirId.find(path);
+//    if (it != watchedDirId.end()) {
+//        inotify_rm_watch(m_handleId, it.value());
+//        watchedDirId.erase(it);
+//    }
+//}
 
 void FileInotify::clear()
 {
