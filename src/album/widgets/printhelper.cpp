@@ -99,7 +99,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
         if (tempExsitPaths.size() == 1) {
             // 提供包含后缀的文件全名，由打印模块自己处理后缀
-            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).fileName());
+            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).completeBaseName());
+            docName += ".pdf";
             printDialog2.setDocName(docName);
         }//else 多张照片不设置名称，默认使用print模块的print.pdf
         if (suc) {//异步
@@ -160,7 +161,7 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
                 painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
                                          tmpMap.height()), tmpMap);
             }
-            if (index < pageRange.size()) {
+            if (index < pageRange.size() - 1) {
                 _printer->newPage();
                 index++;
             }
