@@ -108,7 +108,7 @@ TEST(Exporter, exportAlbum_test)
 
     int (*dlgexec)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 
@@ -150,7 +150,7 @@ TEST(Exporter, popupDialogSaveImage_test)
 
     int (*dlgexec)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 

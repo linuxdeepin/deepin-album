@@ -61,11 +61,11 @@ TEST(PrintHelper, PrintHelper_test)
     TEST_CASE_NAME("PrintHelper_test")
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
-    QTest::qWait(500);
+    QTest::qWait(2000);
 
     int (*dlgexec)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 

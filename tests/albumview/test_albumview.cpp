@@ -35,6 +35,7 @@
 #include "module/view/scen/graphicsitem.h"
 #include "searchview/searchview.h"
 #include "module/view/scen/imageview.h"
+#include "gio-qt/dgiovolumemanager.h"
 #include "mainwindow.h"
 #include "albumview.h"
 #include "baseutils.h"
@@ -42,6 +43,7 @@
 #include "albumcreatedialog.h"
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
+#include "mock_mount.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
@@ -483,7 +485,7 @@ TEST(AlbumImageButton, btn)
 
 TEST(LeftListView, update)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("update")
     LeftListView *leftlist = new LeftListView;
     leftlist->updatePhotoListView();
     leftlist->updateCustomizeListView();
@@ -813,7 +815,6 @@ TEST(AlbumViewList, albumViewList_other5_test)
     }
 }
 
-
 TEST(AlbumViewList, albumViewList_other6_test)
 {
     TEST_CASE_NAME("albumViewList_other6_test")
@@ -828,4 +829,41 @@ TEST(AlbumViewList, albumViewList_other6_test)
 
     ImgInfoDialog iid("");
     iid.height();
+}
+
+TEST(AlbumViewList, deviceMount)
+{
+    TEST_CASE_NAME("deviceMount")
+    //TEST_CASE_NAME("load")
+
+    auto w = dApp->getMainWindow();
+
+#ifdef SELECT_CASE
+    w->m_pAlbumview = new AlbumView;
+#endif
+
+    w->albumBtnClicked();
+
+    //挂载点位置
+    QString mountPath = QString("%1/Pictures/%2/")
+            .arg(QDir::homePath())
+            .arg("album_ut_mount_point");
+
+    //初始化设备挂载mock
+    Mock_Mount mockMount(mountPath);
+
+    //执行挂载
+    QExplicitlySharedDataPointer<DGioMount> mount(nullptr);
+    w->m_pAlbumview->onVfsMountChangedAdd(mount);
+
+    //等待加载完成
+    QTest::qWait(2000);
+
+    //将mock环境设置为卸载设备
+    mockMount.setToUmountDevice();
+
+    //卸载设备
+    w->m_pAlbumview->onUnMountSignal(mountPath + "DCIM/");
+
+    QTest::qWait(2000);
 }

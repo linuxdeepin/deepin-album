@@ -1399,6 +1399,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 {
     qDebug() << "zy------onVfsMountChangedAdd activeThreadCount = " << QThreadPool::globalInstance()->activeThreadCount();
     qDebug() << "zy------AlbumView::onVfsMountChangedAdd() name:" << mount->name();
+
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
@@ -1579,7 +1580,7 @@ const QList<QExplicitlySharedDataPointer<DGioMount>> AlbumView::getVfsMountList(
         //TODO:
         //Support android phone, iPhone, and usb devices. Not support ftp, smb, non removeable disk now
         QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
-        if ((scheme == "file" && mount->canEject()) ||  //usb device
+        if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
                 (scheme == "gphoto2") ||                //phone photo
                 //(scheme == "afc") ||                    //iPhone document
                 (scheme == "mtp")) {                    //android file

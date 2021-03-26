@@ -136,7 +136,7 @@ TEST(MainWindow, noPicTab)
 // 3个button界面主视图切换显示,右键菜单
 TEST(MainWindow, Picimport)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("Picimport")
     QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (list.size() > 0) {
     } else {
@@ -154,7 +154,7 @@ TEST(MainWindow, Picimport)
     AllPicView *allpicview = w->m_pAllPicView;
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
     allpicview->update();
-    QTest::qWait(400);
+    QTest::qWait(2000);
 
     QTestEventList event;
     QPoint p1(30, 100);
@@ -163,7 +163,7 @@ TEST(MainWindow, Picimport)
     event.addKeyClick(Qt::Key_Delete, Qt::NoModifier, 50);
     event.simulate(allpicview->m_pThumbnailListView);
     event.clear();
-    QTest::qWait(1000);
+    QTest::qWait(3000);
 
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
     QTest::qWait(1000);
@@ -181,7 +181,7 @@ TEST(MainWindow, Picimport)
 
 TEST(MainWindow, allpicture)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("allpicture")
     MainWindow *w = dApp->getMainWindow();
 
     AllPicView *allpicview = w->m_pAllPicView;
@@ -458,7 +458,7 @@ TEST(MainWindow, allpicture)
         //导出重复时，干掉覆盖提示框
         int (*dlgexec)() = []() {return 1;};
         typedef int (*fptr)(QDialog *);
-        fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+        fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
         Stub stub;
         stub.set(fptrexec, dlgexec);
         QTest::qWait(300);
@@ -1736,7 +1736,7 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
     TEST_CASE_NAME("createalbumFromTitlebarMenu")
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
-    QTest::qWait(500);
+    QTest::qWait(2000);
     QAction *act = w->findChild<QAction *> ("New album");
     QTimer::singleShot(1000, w, [ = ]() {
         QList<QWidget *> widgets = w->findChildren<QWidget *>();
@@ -1756,7 +1756,7 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
     //往此相册导入图片
     int (*dlgexec)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 
@@ -1781,12 +1781,12 @@ TEST(MainWindow, ImportPhotosFromTitlebarMenu)
     QTestEventList e;
     e.addMouseClick(Qt::MouseButton::LeftButton);
     e.simulate(w->getButG()->button(2));
-    QTest::qWait(300);
+    QTest::qWait(2000);
     e.clear();
 
     int (*dlgexec)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 
@@ -2150,12 +2150,12 @@ TEST(MainWindow, picdelete)
 
     QContextMenuEvent menuEvent(QContextMenuEvent::Mouse, p1);
     qApp->sendEvent(w->m_pAllPicView->m_pThumbnailListView->viewport(), &menuEvent);
-    QTest::qWait(300);
+    QTest::qWait(2000);
 
     //所有照片
     int (*dlgexec)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
     stub.set(fptrexec, dlgexec);
 
@@ -2189,11 +2189,11 @@ TEST(MainWindow, picdelete)
     QTest::qWait(300);
 
     qApp->sendEvent(w->m_pAllPicView->m_pThumbnailListView->viewport(), &menuEvent1);
-    QTest::qWait(300);
+    QTest::qWait(2000);
 
     int (*dlgexec1)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec1 = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec1 = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub1;
     stub1.set(fptrexec1, dlgexec1);
 
@@ -2226,13 +2226,13 @@ TEST(MainWindow, picdelete)
     e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p2, 50);
     e.simulate(firstThumb->viewport());
     e.clear();
-    QTest::qWait(300);
+    QTest::qWait(2000);
     QContextMenuEvent menuEvent2(QContextMenuEvent::Mouse, p2);
     qApp->sendEvent(firstThumb->viewport(), &menuEvent2);
 
     int (*dlgexec2)() = []() {return 1;};
     typedef int (*fptr)(QDialog *);
-    fptr fptrexec2 = (fptr)(&QDialog::exec);   //obtaining an address
+    fptr fptrexec2 = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub2;
     stub2.set(fptrexec2, dlgexec2);
 
