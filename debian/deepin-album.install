@@ -1,0 +1,5 @@
+usr/bin/deepin-album
+usr/share/applications/deepin-album.desktop
+usr/share/deepin-album/translations/*.qm
+usr/share/icons/*
+usr/share/deepin-manual/manual-assets/application/*

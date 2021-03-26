@@ -11,3 +11,10 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Album for UOS
   Album is a fashion photo manager for viewing and organizing pictures.
+
+Package: libunionimage1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
+Description: Image processing for album
+  A Image processing library for album.

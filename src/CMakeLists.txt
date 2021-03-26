@@ -202,12 +202,11 @@ if(DOTEST)
     target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} UnionImage)
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} freeimage)
 if(DOTEST)
-    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} UnionImage)
+    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} freeimage)
 endif()
 #------------------添加第三方库end--------------------------#
-
 
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
 if(DOTEST)

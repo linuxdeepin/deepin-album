@@ -25,13 +25,13 @@ include_directories(${INC_DIR})
 link_directories(${LINK_DIR})
 link_libraries(freeimage)
 
-add_library(UnionImage SHARED ${allHeaders} ${allSources})
-set_target_properties(UnionImage PROPERTIES VERSION 1.0.0 SOVERSION 1)
+add_library(unionimage SHARED ${allHeaders} ${allSources})
+set_target_properties(unionimage PROPERTIES VERSION 1.0.0 SOVERSION 1)
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
-qt5_use_modules(UnionImage ${QtModule})
+qt5_use_modules(unionimage ${QtModule})
 set(PREFIX /usr)
 set(UnionImageDir ${PREFIX}/lib)
 
-install(TARGETS UnionImage LIBRARY DESTINATION ${UnionImageDir})
+install(TARGETS unionimage LIBRARY DESTINATION ${UnionImageDir})
