@@ -19,7 +19,7 @@ lcov --directory ./CMakeFiles/deepin-album_test.dir --zerocounters
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
-lcov --remove ./coverageResult/deepin-album_Coverage.info '*/deepin-album_test_autogen/*' '*/deepin-album_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*' '*/UnionImage/*' -o ./coverageResult/deepin-album_Coverage.info
+lcov --remove ./coverageResult/deepin-album_Coverage.info '*/deepin-album_test_autogen/*' '*/deepin-album_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' '*/UnionImage/*' -o ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-album_Coverage.info
 
@@ -27,7 +27,7 @@ sleep 2
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
-lcov --remove ./coverageResult/deepin-album_Coverage.info '*/deepin-album_test_autogen/*' '*/deepin-album_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*' '*/UnionImage/*' -o ./coverageResult/deepin-album_Coverage.info
+lcov --remove ./coverageResult/deepin-album_Coverage.info '*/deepin-album_test_autogen/*' '*/deepin-album_autogen/*' '*/usr/include/*' '*/usr/local/*' '*/tests/*' '*/googletest/*' '*/UnionImage/*' -o ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ end\ ====================\ 
 genhtml -o ./coverageResult/report ./coverageResult/deepin-album_Coverage.info
 

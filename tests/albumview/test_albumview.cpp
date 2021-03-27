@@ -48,6 +48,31 @@
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
+TEST(AlbumView, keyboard)
+{
+    TEST_CASE_NAME("load")
+    MainWindow *w = dApp->getMainWindow();
+    QTestEventList e;
+    e.addMouseClick(Qt::MouseButton::LeftButton);
+    e.simulate(w->getButG()->button(2));
+    e.clear();
+    QTest::qWait(3000);
+    w->albumBtnClicked();
+    AlbumLeftTabItem *pAlbumLeftTabItem1 = w->m_pAlbumview->findChildren<AlbumLeftTabItem *>().at(0);
+    if (pAlbumLeftTabItem1) {
+        pAlbumLeftTabItem1->setFocus();
+        QPoint p = pAlbumLeftTabItem1->pos();
+        e.addMouseMove(p, 50);
+        e.addKeyClick(Qt::Key_Up, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Down, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Left, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Right, Qt::NoModifier, 50);
+        e.simulate(w);
+        QTest::qWait(300);
+    }
+}
+
+
 TEST(AlbumView, deleteAll)
 {
     TEST_CASE_NAME("deleteAll")
@@ -846,8 +871,8 @@ TEST(AlbumViewList, deviceMount)
 
     //挂载点位置
     QString mountPath = QString("%1/Pictures/%2/")
-            .arg(QDir::homePath())
-            .arg("album_ut_mount_point");
+                        .arg(QDir::homePath())
+                        .arg("album_ut_mount_point");
 
     //初始化设备挂载mock
     Mock_Mount mockMount(mountPath);

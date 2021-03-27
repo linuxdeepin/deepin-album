@@ -33,18 +33,6 @@
 #include <QStandardPaths>
 #include <QTest>
 
-TEST(isRunning, ap1)
-{
-    TEST_CASE_NAME("ap1")
-    ASSERT_EQ(false, dApp->isRunning());
-    QTest::qWait(300);
-}
-
-TEST(sendMessage, ap2)
-{
-    TEST_CASE_NAME("ap1")
-    ASSERT_EQ(false, dApp->sendMessage(""));
-}
 #if 0
 // 文件夹拷贝,暂不使用
 bool copyDirFiles(const QString &fromDir, const QString &toDir)
