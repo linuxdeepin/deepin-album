@@ -865,6 +865,19 @@ TEST(MainWindow, viewpanelmenu)
     e.clear();
     QTest::qWait(500);
 
+    //模拟拖拽
+//    QPoint p = wid->m_viewPanel->m_ttbc->m_imgListView->m_selectItem->pos();
+    //先放大
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.simulate(wid->m_viewPanel->m_viewB->viewport());
+    QTest::qWait(300);
+    e.clear();
+    e.addKeyClick(Qt::Key_Down, Qt::NoModifier, 50);
+    e.simulate(wid->m_viewPanel->m_viewB->viewport());
+    QTest::qWait(300);
+
     qApp->sendEvent(wid->m_viewPanel->m_viewB->viewport(), &menuEvent);
     QTest::qWait(300);
     e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
