@@ -272,6 +272,7 @@ void ViewPanel::updateMenuContent()
         return;
     }
 
+#ifdef tablet_PC
     if (window()->isFullScreen()) {
 
         appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
@@ -296,11 +297,12 @@ void ViewPanel::updateMenuContent()
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-#if 1
-    m_menu->addMenu(createAblumMenu());                                         //添加到相册
-    appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));   //导出
 #endif
+    m_menu->addMenu(createAblumMenu());                                         //添加到相册
+#ifdef tablet_PC
+    appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));   //导出
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
+#endif
     if (COMMON_STR_TRASH == m_vinfo.viewType) {
 //        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     } else {
@@ -316,14 +318,15 @@ void ViewPanel::updateMenuContent()
     }
     m_menu->addSeparator();
     /**************************************************************************/
-#if 1
+
     if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_currentpath, AlbumDBType::Favourite)) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), "");    //取消收藏
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), "");       //收藏
     }
+#ifdef tablet_PC
     m_menu->addSeparator();
-#endif
+
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
                      tr("Show navigation window"), ss("Show navigation window", ""));
@@ -347,6 +350,7 @@ void ViewPanel::updateMenuContent()
     appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Alt+D"));
     appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Ctrl+I"));
+#endif
 }
 #if 1
 DMenu *ViewPanel::createAblumMenu()
