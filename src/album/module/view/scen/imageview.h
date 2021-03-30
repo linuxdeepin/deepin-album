@@ -156,6 +156,12 @@ private:
     QString m_loadPath;//需要加载的图片路径
     int m_startpointx = 0;//触摸操作放下时的x坐标
     int m_maxTouchPoints = 0;//触摸动作时手指数
+
+    //平板需求，记录打开图片时初始缩放比例
+    bool m_firstset = false;
+    double m_value = 0.0;
+    //单指点击标识位
+    bool m_press = false;
 };
 
 //class CFileWatcher: public QThread

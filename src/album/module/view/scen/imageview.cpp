@@ -63,8 +63,13 @@ namespace {
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
+#ifndef tablet_PC
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
+#else
+const qreal MAX_SCALE_FACTOR = 2.0;
+qreal MIN_SCALE_FACTOR = 0.0;
+#endif
 
 QVariantList cachePixmap(const QString &path)
 {
@@ -239,12 +244,30 @@ void ImageView::setImage(const QString &path)
             resetTransform();
         }, Qt::QueuedConnection);
     }
+    m_firstset = true;
 }
 
 void ImageView::setScaleValue(qreal v)
 {
     scale(v, v);
-
+#ifdef tablet_PC
+    //平板模式下限制缩放范围：初始值--200%
+    if (m_firstset) {
+        m_firstset = false;
+        m_value = imageRelativeScale();
+    }
+    const qreal irs = imageRelativeScale();
+    if ((v < 1 && irs <= m_value)) {
+        const qreal minv = m_value / irs;
+        scale(minv, minv);
+    } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
+        const qreal maxv = MAX_SCALE_FACTOR / irs;
+        scale(maxv, maxv);
+    } else {
+        m_isFitImage = false;
+        m_isFitWindow = false;
+    }
+#else
     const qreal irs = imageRelativeScale();
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
@@ -257,6 +280,7 @@ void ImageView::setScaleValue(qreal v)
         m_isFitImage = false;
         m_isFitWindow = false;
     }
+#endif
 
     qreal rescale = imageRelativeScale();
     if (rescale - 1 > -0.01 &&
@@ -524,21 +548,32 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     }
     m_startpointx = 0;
     m_maxTouchPoints = 0;
+#ifdef tablet_PC
+    if (m_press) {
+        emit clicked();
+    }
+#endif
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
+#ifdef tablet_PC
+    m_press = true;
+#endif
     QGraphicsView::mousePressEvent(e);
 
     viewport()->unsetCursor();
     viewport()->setCursor(Qt::ArrowCursor);
 
+#ifndef tablet_PC
     emit clicked();
+#endif
     m_startpointx = e->pos().x();
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
+    m_press = false;
     if (!(e->buttons() | Qt::NoButton)) {
         viewport()->setCursor(Qt::ArrowCursor);
 
@@ -731,6 +766,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
         }
     }
     if (gesture->state() == Qt::GestureFinished) {
+#ifndef tablet_PC
         QPointF centerPointOffset = gesture->centerPoint();
         qreal offset = centerPointOffset.x() - m_centerPoint.x();
         if (qAbs(offset) > 200) {
@@ -742,6 +778,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
                 qDebug() << "zy------ImageView::pinchTriggered nextRequested";
             }
         }
+#endif
         m_isFirstPinch = false;
     }
 }

@@ -211,6 +211,8 @@ signals:
     void sigloadRight(QStringList rightlist);
 
     void sigloadLeft(QStringList leftlist);
+    //平板需求，退出时重置ttb显隐
+    void resetShoworHide();
 
 public slots:
     void setCurrentDir(const QString &text);
