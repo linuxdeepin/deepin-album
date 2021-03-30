@@ -245,6 +245,13 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(m_ttbc, &TTBContent::showPrevious, this, &ViewPanel::showPrevious);
     connect(m_ttbc, &TTBContent::showNext, this, &ViewPanel::showNext);
     connect(m_ttbc, &TTBContent::imageClicked, this, &ViewPanel::showImage);
+
+#ifdef tablet_PC
+    //退出时，重置ttb显隐状态
+    connect(m_ttbc, &TTBContent::resetShoworHide, this, [ = ] {
+        m_showorhide = true;
+    });
+#endif
     return m_ttbc;
 }
 //QWidget *ViewPanel::toolbarTopMiddleContent()
@@ -367,7 +374,9 @@ void ViewPanel::onESCKeyActivated()
     }
     m_vinfo.fullScreen = false;
     emit dApp->signalM->showBottomToolbar();
-
+#ifdef tablet_PC
+    m_showorhide = true;//重置显隐状态
+#endif
 #endif
 }
 
@@ -467,12 +476,11 @@ void ViewPanel::onViewBClicked()
     dApp->signalM->hideExtensionPanel();
 #ifdef tablet_PC
     //添加单指点击循环显示和隐藏工具栏
-    static bool showorhide = true;
     if (!window()->isFullScreen()) {
         toggleFullScreen();
     } else {
-        emit dApp->signalM->sigMouseMove(showorhide);
-        showorhide = showorhide ? false : true;
+        emit dApp->signalM->sigMouseMove(m_showorhide);
+        m_showorhide = m_showorhide ? false : true;
     }
 #endif
 }

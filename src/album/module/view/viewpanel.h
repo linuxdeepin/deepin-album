@@ -197,5 +197,8 @@ private:
     //------------------
     QTimer *m_deletetimer;  //删除图片定时器
     bool   m_bFirstFullScreen;  //是否全屏进入
+
+    //平板需求，工具栏显隐控制
+    bool m_showorhide = true;
 };
 #endif // VIEWPANEL_H
