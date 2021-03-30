@@ -143,7 +143,7 @@ void CExportImageDialog::initUI()
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
-    m_fileNameEdit->setFocusPolicy(Qt::ClickFocus);
+//    m_fileNameEdit->setFocusPolicy(Qt::ClickFocus);
 
     connect(m_fileNameEdit, &DLineEdit::editingFinished, this, [ = ] {
         QString arg = m_fileNameEdit->text();
