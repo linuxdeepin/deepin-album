@@ -403,6 +403,7 @@ void MainWindow::initTitleBar()
     } else {
         m_pSearchEdit->setEnabled(false);
     }
+    m_pSearchEdit->setFocusPolicy(Qt::ClickFocus);
 //    pTitleSearchLayout->addWidget(m_pSearchEdit);
     //m_titleSearchWidget->setLayout(pTitleSearchLayout);
 
