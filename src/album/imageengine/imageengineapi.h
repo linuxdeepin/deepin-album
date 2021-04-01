@@ -41,7 +41,7 @@ public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
     ~ImageEngineApi();
 
-    bool insertImage(QString imagepath, QString remainDay);
+    bool insertImage(const QString &imagepath, QString remainDay);
     bool removeImage(QString imagepath);
     bool removeImage(QStringList imagepathList);
     bool insertObject(void *obj);
@@ -89,15 +89,15 @@ public:
     void thumbnailLoadThread(int num);
 private slots:
     void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
-    void sltInsert(QString imagepath, QString remainDay);
+    void sltInsert(const QString &imagepath, QString remainDay);
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
     void sltImageDBLoaded(void *imgobject, QStringList &filelist);
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
-    void sltAborted(QString path);
+    void sltAborted(QString &path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
     void sltstopCacheSave();
 
-    void sigImageBackLoaded(QString path, ImageDataSt data);
+    void sigImageBackLoaded(QString path, ImageDataSt &data);
 
     void slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData);
 signals:

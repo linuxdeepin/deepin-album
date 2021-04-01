@@ -382,7 +382,7 @@ void AlbumView::initLeftView()
 #endif
 }
 
-void AlbumView::onCreateNewAlbumFromDialog(const QString newalbumname)
+void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
 
@@ -400,7 +400,7 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString newalbumname)
     emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
 }
 
-void AlbumView::onCreateNewAlbumFrom(QString albumname)
+void AlbumView::onCreateNewAlbumFrom(const QString &albumname)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
@@ -1208,7 +1208,7 @@ void AlbumView::openImage(int index)
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
-void AlbumView::menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow)
+void AlbumView::menuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow)
 {
     SignalManager::ViewInfo info;
     info.album = "";
@@ -1724,7 +1724,7 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     m_mounts = getVfsMountList();
 }
 
-void AlbumView::onUpdataAlbumRightTitle(QString titlename)
+void AlbumView::onUpdataAlbumRightTitle(QString &titlename)
 {
     m_currentAlbum = titlename;
     updateRightView();
@@ -1835,7 +1835,7 @@ bool AlbumView::imageMountImported(QStringList &filelist)
     return true;
 }
 
-void AlbumView::needUnMount(QString path)
+void AlbumView::needUnMount(const QString &path)
 {
     QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
     qDebug() << "blDevList:" << blDevList;
@@ -1930,7 +1930,7 @@ void AlbumView::needUnMount(QString path)
 }
 
 //卸载外部设备
-void AlbumView::onUnMountSignal(QString unMountPath)
+void AlbumView::onUnMountSignal(const QString &unMountPath)
 {
     m_pRightPhoneThumbnailList->stopLoadAndClear();
     needUnMount(unMountPath);
@@ -2070,7 +2070,7 @@ void AlbumView::onWaitDialogIgnore()
     this->setEnabled(true);
 }
 
-void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName)
+void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName)
 {
     Q_UNUSED(importPaths)
     if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2) {
@@ -2122,7 +2122,7 @@ void AlbumView::onSelectAll()
     updatePicNum();
 }
 
-void AlbumView::onInsertedIntoAlbum(QString albumname, QStringList pathlist)
+void AlbumView::onInsertedIntoAlbum(const QString &albumname, QStringList pathlist)
 {
     qDebug() << "添加到目的相册：" << albumname;
     Q_UNUSED(pathlist);

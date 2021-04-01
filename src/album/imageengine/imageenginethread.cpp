@@ -81,7 +81,7 @@ ImportImagesThread::~ImportImagesThread()
     }
 }
 
-void ImportImagesThread::setData(QList<QUrl> paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
+void ImportImagesThread::setData(QList<QUrl> &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
     m_urls = paths;
     m_albumname = albumname;
@@ -90,7 +90,7 @@ void ImportImagesThread::setData(QList<QUrl> paths, QString albumname, ImageEngi
     m_type = DataType_UrlList;
 }
 
-void ImportImagesThread::setData(QStringList paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
+void ImportImagesThread::setData(QStringList &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
     m_paths = paths;
     m_albumname = albumname;
@@ -312,7 +312,7 @@ ImageRecoveryImagesFromTrashThread::ImageRecoveryImagesFromTrashThread()
     setAutoDelete(true);
 }
 
-void ImageRecoveryImagesFromTrashThread::setData(QStringList paths)
+void ImageRecoveryImagesFromTrashThread::setData(QStringList &paths)
 {
     m_paths = paths;
 }
@@ -350,7 +350,7 @@ ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
     setAutoDelete(true);
 }
 
-void ImageMoveImagesToTrashThread::setData(QStringList paths, bool typetrash)
+void ImageMoveImagesToTrashThread::setData(QStringList &paths, bool typetrash)
 {
     m_paths = paths;
     btypetrash = typetrash;
@@ -449,7 +449,7 @@ ImageImportFilesFromMountThread::~ImageImportFilesFromMountThread()
     }
 }
 
-void ImageImportFilesFromMountThread::setData(QString albumname, QStringList paths, ImageMountImportPathsObject *imgobject)
+void ImageImportFilesFromMountThread::setData(QString &albumname, QStringList &paths, ImageMountImportPathsObject *imgobject)
 {
     m_paths = paths;
     m_imgobject = imgobject;
@@ -573,7 +573,7 @@ ImageGetFilesFromMountThread::~ImageGetFilesFromMountThread()
     }
 }
 
-void ImageGetFilesFromMountThread::setData(QString mountname, QString path, ImageMountGetPathsObject *imgobject)
+void ImageGetFilesFromMountThread::setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject)
 {
     m_mountname = mountname;
     m_path = path;
@@ -733,7 +733,7 @@ ImageLoadFromLocalThread::~ImageLoadFromLocalThread()
     }
 }
 
-void ImageLoadFromLocalThread::setData(QStringList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
+void ImageLoadFromLocalThread::setData(QStringList &filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
 {
     m_filelist = filelist;
     m_imgobject = imgobject;
@@ -843,7 +843,7 @@ ImageEngineThread::~ImageEngineThread()
     }
 }
 
-void ImageEngineThread::setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
+void ImageEngineThread::setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
 {
     m_path = path;
     m_imgobject << imgobject;
@@ -1012,7 +1012,7 @@ ImageFromNewAppThread::~ImageFromNewAppThread()
     }
 }
 
-void ImageFromNewAppThread::setDate(QStringList files, ImageEngineImportObject *obj)
+void ImageFromNewAppThread::setDate(QStringList &files, ImageEngineImportObject *obj)
 {
     paths = files;
     m_imgobj = obj;

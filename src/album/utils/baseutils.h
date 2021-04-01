@@ -229,7 +229,7 @@ QDateTime   stringToDateTime(const QString &time);
 QString     getFileContent(const QString &file);
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
 bool checkMimeData(const QMimeData *mimeData);
-QString mkMutiDir(const QString path);
+QString mkMutiDir(const QString &path);
 }  // namespace base
 
 }  // namespace utils

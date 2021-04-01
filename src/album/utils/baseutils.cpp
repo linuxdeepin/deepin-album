@@ -270,7 +270,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
     return pixmap;
 }
 
-QString mkMutiDir(const QString path)   //创建多级目录
+QString mkMutiDir(const QString &path)   //创建多级目录
 {
     QDir dir(path);
     if (dir.exists(path)) {

@@ -202,13 +202,13 @@ signals:
     void contentWidthChanged(int width);
     void showPrevious();
     void showNext();
-    void feedBackCurrentIndex(int index, QString path);
+    void feedBackCurrentIndex(int index, QString &path);
     void sigRequestSomeImages();
     /**
      * @brief sigloadRight
      * @param rightlist
      */
-    void sigloadRight(QStringList rightlist);
+    void sigloadRight(QStringList &rightlist);
 
     void sigloadLeft(QStringList leftlist);
     //平板需求，退出时重置ttb显隐

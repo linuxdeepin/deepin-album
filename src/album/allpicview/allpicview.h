@@ -89,7 +89,7 @@ private slots:
     void onFinishLoad();
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
     void onOpenImage(int index);
-    void onMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    void onMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
 

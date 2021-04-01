@@ -36,9 +36,9 @@ public:
     static Exporter *instance();
 
 public slots:
-    void exportImage(const QStringList imagePaths);
-    void exportAlbum(const QStringList albumPaths, const QString &albumname);
-    void popupDialogSaveImage(const QStringList imagePaths);
+    void exportImage(const QStringList &imagePaths);
+    void exportAlbum(const QStringList &albumPaths, const QString &albumname);
+    void popupDialogSaveImage(const QStringList &imagePaths);
 private:
     explicit Exporter(QObject *parent = nullptr);
     static Exporter *m_exporter;

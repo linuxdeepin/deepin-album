@@ -136,7 +136,7 @@ private:
     void updateRightMyFavoriteView();
     void updateRightMountView();
     void openImage(int index);
-    void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    void menuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
 
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
@@ -168,25 +168,25 @@ private slots:
     void onTrashRecoveryBtnClicked();
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
-    void onUpdataAlbumRightTitle(QString titlename);
-    void onUnMountSignal(QString unMountPath);          //手动卸载设备
-    void onCreateNewAlbumFromDialog(const QString newalbumname);
-    void onCreateNewAlbumFrom(QString albumname);
+    void onUpdataAlbumRightTitle(QString &titlename);
+    void onUnMountSignal(const QString &unMountPath);          //手动卸载设备
+    void onCreateNewAlbumFromDialog(const QString &newalbumname);
+    void onCreateNewAlbumFrom(const QString &albumname);
     void onLeftListDropEvent(QModelIndex dropIndex);
     void onKeyDelete();
     void onKeyF2();
-    void needUnMount(QString path);
+    void needUnMount(const QString &path);
     void importDialog();
     void onWaitDialogClose();
     void onWaitDialogIgnore();
     // change lambda to normal slt
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName);
     void onRightFavoriteThumbnailListNeedResize(int h);
     void onRightTrashThumbnailListNeedResize(int h);
     void onRightThumbnailListNeedResize(int h);
     void ongMouseMove();
     void onSelectAll();
-    void onInsertedIntoAlbum(QString albumname, QStringList pathlist);
+    void onInsertedIntoAlbum(const QString &albumname, QStringList pathlist);
     void onFinishLoad();
     void onFileSystemAdded(const QString &dbusPath);
     void onBlockDeviceAdded(const QString &blks);

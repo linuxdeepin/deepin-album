@@ -67,7 +67,7 @@ public:
 //    QString getImageFormate() const;
 //    int getQuality() const;
     void setPicFileName(QString strFileName);
-    void setGifType(QString strFilePath);
+    void setGifType(const QString &strFilePath);
     void removeGifType();
     void showEvent(QShowEvent *evet) override;
     void keyPressEvent(QKeyEvent *e) override;

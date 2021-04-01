@@ -28,7 +28,7 @@
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fileSuffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
-    , m_qmovie(nullptr)
+//    , m_qmovie(nullptr)
 //    , m_suffix(fileSuffix)
 //    , m_index(0)
 {

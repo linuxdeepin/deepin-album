@@ -121,7 +121,7 @@ public slots:
     //更新布局（旋转图片时）
     void updataLayout(QStringList updatePathList);
     void onFinishLoad();
-    void onNewTime(QString date, QString num, int index);
+    void onNewTime(QString &date, QString num, int index);
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);

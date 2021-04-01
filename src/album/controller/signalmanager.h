@@ -98,14 +98,14 @@ signals:
     void sigAlbDelToast(const QString &albname);
     void sigAddToAlbToast(const QString &album);
     void sigAddDuplicatePhotos();
-    void updateStatusBarImportLabel(const QStringList paths, int count, bool bcustalbum = false, QString album = "");
+    void updateStatusBarImportLabel(const QStringList &paths, int count, bool bcustalbum = false, QString album = "");
     void updateIcon();
     void ImportSuccess();
     void SearchEditClear();
     void TransmitAlbumName(const QString &name);
     void ImportFailed();
     void ImportSomeFailed(int successful, int failed);
-    void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName);
     void ImgExportSuccess();
     void ImgExportFailed();
     void AlbExportSuccess();
@@ -128,19 +128,19 @@ signals:
     void sigDrawingBoard(QStringList Paths);//lmh0407
 #if 1
     void viewCreateAlbum(QString path, bool bmodel = true);
-    void sigCreateNewAlbumFrom(QString albumname);
+    void sigCreateNewAlbumFrom(const QString &albumname);
 #endif
     void importDir(const QString &dir);
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
     void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr);
-    void sigCreateNewAlbumFromDialog(QString albumname);
+    void sigCreateNewAlbumFromDialog(const QString &albumname);
     void sigMainwindowSliderValueChg(int value);
     void sigMouseMove(bool show);
     void sigShowFullScreen();
     void sigESCKeyActivated();
     void sigESCKeyStopSlide();
-    void sigUpdataAlbumRightTitle(QString titlename);
+    void sigUpdataAlbumRightTitle(QString &titlename);
     void sigUpdateTrashImageLoader();
     void sigUpdateImageLoader(QStringList pathlist = QStringList());
     void sigLoadMountImagesEnd(QString mountname);

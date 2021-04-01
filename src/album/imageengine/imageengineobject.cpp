@@ -145,7 +145,7 @@ void ImageEngineObject::removeThread(ImageEngineThreadObject *thread, bool needm
         QMutexLocker mutex(&m_mutexthread);
     m_threads.removeOne(thread);
 }
-void ImageEngineObject::addCheckPath(QString path)
+void ImageEngineObject::addCheckPath(QString &path)
 {
     m_checkpath << path;
 }
@@ -167,7 +167,7 @@ void ImageEngineObject::checkSelf()
     }
 }
 
-void ImageEngineObject::checkAndReturnPath(QString path)//保证顺序排列
+void ImageEngineObject::checkAndReturnPath(QString &path)//保证顺序排列
 {
     if (m_checkpath.size() < 1) {
         return;
@@ -198,14 +198,14 @@ ImageCacheSaveObject::ImageCacheSaveObject()
 
 }
 
-bool ImageCacheSaveObject::add(const QString path)
+bool ImageCacheSaveObject::add(const QString &path)
 {
     QMutexLocker locker(&m_queuqMutex);
     requestQueue.append(path);
     return true;
 }
 
-bool ImageCacheSaveObject::add(const QStringList paths)
+bool ImageCacheSaveObject::add(const QStringList &paths)
 {
     QMutexLocker locker(&m_queuqMutex);
     requestQueue.append(paths);

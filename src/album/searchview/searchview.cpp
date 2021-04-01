@@ -381,7 +381,7 @@ void SearchView::onThumbnailListViewOpenImage(int index)
     }
 }
 
-void SearchView::onThumbnailListViewMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow)
+void SearchView::onThumbnailListViewMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow)
 {
     SignalManager::ViewInfo info;
     info.album = "";

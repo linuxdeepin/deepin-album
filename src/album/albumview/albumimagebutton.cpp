@@ -51,7 +51,7 @@ AlbumImageButton::AlbumImageButton(const QString &normalPic, const QString &hove
     setPalette(pl);
 }
 
-void AlbumImageButton::setPropertyPic(QString propertyName, const QVariant &value,
+void AlbumImageButton::setPropertyPic(const QString &propertyName, const QVariant &value,
                                       const QString &normalPic, const QString &hoverPic, const QString &pressPic, const QString &checkedPic)
 {
     MusicPicPathInfo curPicPath;

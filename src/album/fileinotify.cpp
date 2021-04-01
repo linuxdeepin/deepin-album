@@ -131,7 +131,7 @@ void FileInotify::getAllPicture(bool isFirst)
     }
     dir.setFilter(QDir::Files); //设置类型过滤器，只为文件格式
     unsigned int dir_count = dir.count();
-    if (dir_count <= 0) {
+    if (dir_count == 0) {
         return;
     }
     QFileInfoList list = dir.entryInfoList();
@@ -199,12 +199,12 @@ void FileInotify::onNeedSendPictures()
 
 void FileInotify::run()
 {
-    int len, nread;
+    int len;
     char buf[1024];
     inotify_event *event;
     len = static_cast<int>(read(m_handleId, buf, sizeof(buf) - 1));
     while (len > 0) {
-        nread = 0;
+        int nread = 0;
         while (len > 0) {
             event = (inotify_event *)&buf[nread];
             nread = nread + static_cast<int>(sizeof(inotify_event) + event->len);

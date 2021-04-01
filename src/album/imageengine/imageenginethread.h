@@ -34,8 +34,8 @@ class ImportImagesThread : public ImageEngineThreadObject, public QRunnable
 public:
     ImportImagesThread();
     ~ImportImagesThread() override;
-    void setData(QStringList paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
-    void setData(QList<QUrl> paths, QString albumname, ImageEngineImportObject *obj, bool bdialogselect);
+    void setData(QStringList &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect);
+    void setData(QList<QUrl> &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -62,7 +62,7 @@ class ImageRecoveryImagesFromTrashThread : public ImageEngineThreadObject, publi
     Q_OBJECT
 public:
     ImageRecoveryImagesFromTrashThread();
-    void setData(QStringList paths);
+    void setData(QStringList &paths);
 
 protected:
     void run() override;
@@ -77,7 +77,7 @@ class ImageMoveImagesToTrashThread : public ImageEngineThreadObject, public QRun
     Q_OBJECT
 public:
     ImageMoveImagesToTrashThread();
-    void setData(QStringList paths, bool typetrash);
+    void setData(QStringList &paths, bool typetrash);
 
 protected:
     void run() override;
@@ -94,7 +94,7 @@ class ImageImportFilesFromMountThread : public ImageEngineThreadObject, public Q
 public:
     ImageImportFilesFromMountThread();
     ~ImageImportFilesFromMountThread() override;
-    void setData(QString albumname, QStringList paths, ImageMountImportPathsObject *imgobject);
+    void setData(QString &albumname, QStringList &paths, ImageMountImportPathsObject *imgobject);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -114,7 +114,7 @@ class ImageGetFilesFromMountThread : public ImageEngineThreadObject, public QRun
 public:
     ImageGetFilesFromMountThread();
     ~ImageGetFilesFromMountThread() override;
-    void setData(QString mountname, QString path, ImageMountGetPathsObject *imgobject);
+    void setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -163,7 +163,7 @@ public:
     };
     ImageLoadFromLocalThread();
     ~ImageLoadFromLocalThread() override;
-    void setData(QStringList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
+    void setData(QStringList &filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
     void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
 
 protected:
@@ -187,7 +187,7 @@ class ImageEngineThread : public ImageEngineThreadObject, public QRunnable
 public:
     ImageEngineThread();
     ~ImageEngineThread() override;
-    void setData(QString path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
+    void setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
     bool addObject(ImageEngineObject *imgobject);
 
 protected:
@@ -196,7 +196,7 @@ protected:
 
 signals:
     void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
-    void sigAborted(QString path);
+    void sigAborted(QString &path);
 private:
     bool getNeedStop();
     QString m_path = "";
@@ -218,7 +218,7 @@ public:
     ImageFromNewAppThread();
     ~ImageFromNewAppThread() override;
     //配置参数
-    void setDate(QStringList files, ImageEngineImportObject *obj);
+    void setDate(QStringList &files, ImageEngineImportObject *obj);
 protected:
     bool ifCanStopThread(void *imgobject) override;
     void run() override;

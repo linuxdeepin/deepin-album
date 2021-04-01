@@ -162,7 +162,7 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
     Q_UNUSED(theme);
 }
 
-void ViewPanel::feedBackCurrentIndex(int index, QString path)
+void ViewPanel::feedBackCurrentIndex(int index, QString &path)
 {
     m_current = index;
     if (m_current >= m_filepathlist.size()) {
@@ -395,7 +395,7 @@ void ViewPanel::onViewImageNoNeedReload(int &fileindex)
     showImage(fileindex, 0);
 }
 
-void ViewPanel::onLoadRight(QStringList rightlist)
+void ViewPanel::onLoadRight(QStringList &rightlist)
 {
     m_filepathlist << rightlist;
 }
@@ -484,7 +484,7 @@ void ViewPanel::onViewBClicked()
 #endif
 }
 
-void ViewPanel::onViewBImageChanged(QString path)
+void ViewPanel::onViewBImageChanged(const QString &path)
 {
     emit imageChanged(path);
     // Pixmap is cache in thread, make sure the size would correct after

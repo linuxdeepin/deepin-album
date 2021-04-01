@@ -365,7 +365,7 @@ void TimeLineView::onFinishLoad()
     m_mainListWidget->update();
 }
 
-void TimeLineView::onNewTime(QString date, QString num, int index)
+void TimeLineView::onNewTime(QString &date, QString num, int index)
 {
     m_index = index;
     on_AddLabel(date, num);

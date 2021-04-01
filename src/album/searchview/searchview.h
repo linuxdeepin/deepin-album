@@ -81,7 +81,7 @@ public:
 public slots:
     void onSlideShowBtnClicked();
     void onThumbnailListViewOpenImage(int index);
-    void onThumbnailListViewMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    void onThumbnailListViewMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
     void onFinishLoad();
 
 private:

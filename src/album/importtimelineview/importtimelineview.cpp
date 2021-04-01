@@ -102,13 +102,12 @@ int ImportTimeLineView::getIBaseHeight()
 
 void ImportTimeLineView::getCurrentSelectPics()
 {
-    bool bDeleteAll = false;
     bool first = true;
     QStringList paths;
 
     for (int i = 0; i < m_allThumbnailListView.size(); i++) {
         paths << m_allThumbnailListView[i]->selectedPaths();
-        bDeleteAll = m_allThumbnailListView[i]->isAllPicSeleted();
+        bool bDeleteAll = m_allThumbnailListView[i]->isAllPicSeleted();
         if (first && paths.length() > 0) {
             if (!bDeleteAll) {
                 selectPrePaths = m_allThumbnailListView[i]->m_model->index(m_allThumbnailListView[i]->m_timeLineSelectPrePic, 0).data().toList().at(1).toString();
@@ -231,13 +230,13 @@ void ImportTimeLineView::updateSize()
     m_pImportTitle->setFixedSize(width() - 15, 47); //add 3
 }
 
-void ImportTimeLineView::onNewTime(QString date, QString num, int index)
+void ImportTimeLineView::onNewTime(QString &date, QString &num, int index)
 {
     m_index = index;
     on_AddLabel(date, num);
 }
 
-void ImportTimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName)
+void ImportTimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName)
 {
     Q_UNUSED(importPaths)
     // 导入的照片重复照片提示
@@ -881,11 +880,11 @@ void ImportTimeLineView::addTimelineLayout()
                     for (int j = 0; j < m_allThumbnailListView[i]->m_model->rowCount(); j ++) {
                         QModelIndex index = m_allThumbnailListView[i]->m_model->index(j, 0);
                         QVariantList lst = index.model()->data(index, Qt::DisplayRole).toList();
-                        int rowcount = 0;
-                        int allrowcount = 0;
                         if (lst.count() >= 12) {
                             QString path = lst.at(1).toString();
                             if (path == selectPrePaths) {
+                                int rowcount = 0;
+                                int allrowcount = 0;
                                 if (index.row() % m_allThumbnailListView[i]->m_rowSizeHint == 0) {
                                     rowcount = index.row() / m_allThumbnailListView[i]->m_rowSizeHint;
                                 } else {

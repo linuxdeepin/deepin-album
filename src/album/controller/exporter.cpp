@@ -50,7 +50,7 @@ Exporter::Exporter(QObject *parent)
 
 //TODO: if some format is valid to read, but can't support to export, should add some process ?
 //Such as: gif, svg, pbm, pgm
-void Exporter::exportImage(const QStringList imagePaths)
+void Exporter::exportImage(const QStringList &imagePaths)
 {
     if (imagePaths.isEmpty()) {
         return;
@@ -86,7 +86,7 @@ void Exporter::exportImage(const QStringList imagePaths)
     }
 }
 
-void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumname)
+void Exporter::exportAlbum(const QStringList &albumPaths, const QString &albumname)
 {
     QFileDialog exportDialog;
     exportDialog.setFileMode(QFileDialog::DirectoryOnly);
@@ -128,7 +128,7 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
     }
 }
 
-void Exporter::popupDialogSaveImage(const QStringList imagePaths)
+void Exporter::popupDialogSaveImage(const QStringList &imagePaths)
 {
     QFileDialog exportDialog;
     exportDialog.setWindowTitle(tr("Export Photos"));

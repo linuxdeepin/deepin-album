@@ -109,8 +109,8 @@ private slots:
      * 调整已导入界面的整体大小
      */
     void updateSize();
-    void onNewTime(QString date, QString num, int index);
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void onNewTime(QString &date, QString &num, int index);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName);
     void onSuspensionChoseBtnClicked();
 
 signals:

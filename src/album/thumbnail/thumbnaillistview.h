@@ -153,7 +153,7 @@ signals:
     void needResize(int);
     void loadEnd();
     void openImage(int);
-    void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow = false);
+    void menuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow = false);
     void exportImage(QString, QStringList);
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);

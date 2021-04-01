@@ -89,7 +89,7 @@ public slots:
     void onESCKeyActivated();
     void onImagesInserted();
     void onViewImageNoNeedReload(int &fileindex);
-    void onLoadRight(QStringList rightlist);
+    void onLoadRight(QStringList &rightlist);
     void onLoadLeft(QStringList leftlist);
     void onttbcontentClicked();
     void onRotateClockwise();
@@ -98,7 +98,7 @@ public slots:
     void onResetTransform(bool fitWindow);
     void onDoubleClicked();
     void onViewBClicked();
-    void onViewBImageChanged(QString path);
+    void onViewBImageChanged(const QString &path);
     void onFIleDelete();
 
 protected:
@@ -131,7 +131,7 @@ private:
     void initShortcut();
     void initStack();
     void initViewContent();
-    void popupPrintDialog(const QString path);
+//    void popupPrintDialog(const QString &path);
 
     // Floating component
     void initFloatingComponent();
@@ -165,7 +165,7 @@ private:
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    void feedBackCurrentIndex(int index, QString path);
+    void feedBackCurrentIndex(int index, QString &path);
 
 private:
     int m_hideCursorTid;

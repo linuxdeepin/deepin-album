@@ -133,7 +133,7 @@ bool ImageEngineApi::removeImage(QStringList imagepathList)
     return true;
 }
 
-bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
+bool ImageEngineApi::insertImage(const QString &imagepath, QString remainDay)
 {
     QMap<QString, ImageDataSt>::iterator it;
     it = m_AllImageData.find(imagepath);
@@ -150,7 +150,7 @@ bool ImageEngineApi::insertImage(QString imagepath, QString remainDay)
     return true;
 }
 
-void ImageEngineApi::sltInsert(QString imagepath, QString remainDay)
+void ImageEngineApi::sltInsert(const QString &imagepath, QString remainDay)
 {
     insertImage(imagepath, remainDay);
 }
@@ -229,7 +229,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     return true;
 }
 
-void ImageEngineApi::sltAborted(QString path)
+void ImageEngineApi::sltAborted(QString &path)
 {
     removeImage(path);
     ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
@@ -288,7 +288,7 @@ void ImageEngineApi::sltstopCacheSave()
 #endif
 }
 
-void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt data)
+void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt &data)
 {
     m_AllImageData[path] = data;
 }
@@ -420,8 +420,8 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
-    if (!query.exec()) {
+    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
+    if (!b || !query.exec()) {
         qDebug() << "zy------50 Get data from ImageTable3 failed: " << query.lastError();
         return;
     } else {

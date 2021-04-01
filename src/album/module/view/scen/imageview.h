@@ -89,7 +89,7 @@ public:
 signals:
     void clicked();
     void doubleClicked();
-    void imageChanged(QString path);
+    void imageChanged(const QString &path);
     void mouseHoverMoved();
     void scaled(qreal perc);
     void transformChanged();

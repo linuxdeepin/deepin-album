@@ -82,7 +82,7 @@ void CExportImageDialog::setPicFileName(QString strFileName)
     m_fileNameEdit->setText(name);
 }
 
-void CExportImageDialog::setGifType(QString strFilePath)
+void CExportImageDialog::setGifType(const QString &strFilePath)
 {
     gifpath = strFilePath;
     m_formatCombox->addItem(tr("gif"));

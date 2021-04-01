@@ -113,10 +113,10 @@ public:
     virtual bool imageFromDBLoaded(QStringList &filelist) = 0;
     void addThread(ImageEngineThreadObject *thread);
     void removeThread(ImageEngineThreadObject *thread, bool needmutex = true);
-    void addCheckPath(QString path);
+    void addCheckPath(QString &path);
     void checkSelf();
 
-    void checkAndReturnPath(QString path);//保证顺序排列
+    void checkAndReturnPath(QString &path);//保证顺序排列
 protected:
     void clearAndStopThread();
     QList<ImageEngineThreadObject *> m_threads;
@@ -132,8 +132,8 @@ class ImageCacheSaveObject : public QObject
 public:
     ImageCacheSaveObject();
 public:
-    bool add(const QStringList paths);
-    bool add(const QString path);
+    bool add(const QStringList &paths);
+    bool add(const QString &path);
     QString pop();
     bool isEmpty();
 private:

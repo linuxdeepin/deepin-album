@@ -213,7 +213,7 @@ void AllPicView::onOpenImage(int index)
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
 }
 
-void AllPicView::onMenuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow)
+void AllPicView::onMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow)
 {
     SignalManager::ViewInfo info;
     info.album = "";

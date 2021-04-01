@@ -126,9 +126,9 @@ void DBandImgOperate::getAllInfos()
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime "
-                  "FROM ImageTable3");
-    if (! query.exec()) {
+    bool b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime "
+                           "FROM ImageTable3");
+    if (!b || ! query.exec()) {
         emit sigAllImgInfosReady(infos);
         return;
     } else {

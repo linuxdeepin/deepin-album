@@ -41,7 +41,7 @@ public:
     explicit AlbumImageButton(QWidget *parent = Q_NULLPTR);
     AlbumImageButton(const QString &normalPic, const QString &hoverPic,
                      const QString &pressPic, const QString &checkedPic = QString(), QWidget *parent = nullptr);
-    void setPropertyPic(QString propertyName, const QVariant &value, const QString &normalPic, const QString &hoverPic,
+    void setPropertyPic(const QString &propertyName, const QVariant &value, const QString &normalPic, const QString &hoverPic,
                         const QString &pressPic, const QString &checkedPic = QString());
     void setPropertyPic(const QString &normalPic, const QString &hoverPic,
                         const QString &pressPic, const QString &checkedPic = QString());
