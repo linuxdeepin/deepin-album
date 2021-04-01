@@ -159,7 +159,8 @@ TEST(allpicview, mousePress)
 
 TEST(allpicview, test_open)
 {
-    TEST_CASE_NAME("test_open")
+    TEST_CASE_NAME("test_open");
+
     QString publicTestPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     QString testPath = publicTestPath;
     MainWindow *w = dApp->getMainWindow();

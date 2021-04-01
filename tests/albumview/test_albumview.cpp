@@ -50,7 +50,7 @@
 
 TEST(AlbumView, keyboard)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("keyboard")
     MainWindow *w = dApp->getMainWindow();
     QTestEventList e;
     e.addMouseClick(Qt::MouseButton::LeftButton);

@@ -136,7 +136,7 @@ TEST(MainWindow, noPicTab)
 // 3个button界面主视图切换显示,右键菜单
 TEST(MainWindow, Picimport)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("Picimport")
     QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (list.size() > 0) {
     } else {
@@ -708,7 +708,7 @@ TEST(MainWindow, allpicture)
 
 TEST(MainWindow, viewpanelmenu)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("viewpanelmenu")
     MainWindow *w = dApp->getMainWindow();
     MainWidget *wid = w->m_commandLine->findChild<MainWidget *>("MainWidget");
     QTestEventList e;
@@ -1241,7 +1241,7 @@ TEST(MainWindow, timelineview)
 
 TEST(MainWindow, AlbumView)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("AlbumView")
     MainWindow *w = dApp->getMainWindow();
     AlbumView *albumview = w->m_pAlbumview;
 
@@ -2238,10 +2238,21 @@ TEST(MainWindow, onNewAPPOpen_test)
 TEST(MainWindow, callFuncitons_test)
 {
     TEST_CASE_NAME("callFuncitons_test")
+    //TEST_CASE_NAME("load")
 
     ViewPanel viewPanel;
     QStringList strList;
-    strList << "0" << "1";
+    //strList << "0" << "1";
+    strList << ":/2e5y8y.jpg" << ":/2ejqyx.jpg" << ":/2k9o1m.png";
+
+    TTBContent ttbContent(true, strList);
+    ttbContent.updateFilenameLayout();
+    ttbContent.onImgListViewTestloadRight();
+    ttbContent.setCurrentItem();
+    ttbContent.setLeftlist(strList);
+    ttbContent.onImgListViewTestloadLeft();
+    ttbContent.setRightlist(strList);
+    ttbContent.onImgListViewTestloadRight();
 
     viewPanel.onLoadLeft(strList);
     viewPanel.onttbcontentClicked();
@@ -2326,9 +2337,7 @@ TEST(MainWindow, callFuncitons_test)
     imageItem.setIndex(1);
     imageItem.emitClickSig();
 
-    TTBContent ttbContent(true, strList);
-    ttbContent.updateFilenameLayout();
-    ttbContent.onImgListViewTestloadRight();
+
 
     ImageView imageView;
     imageView.mousePressEvent(&mouseEvent);
@@ -2503,7 +2512,7 @@ TEST(TimeLineView, shiftandcontrol)
 //标题栏创建
 TEST(MainWindow, titlebarcreate)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("titlebarcreate")
     MainWindow *w = dApp->getMainWindow();
 
     w->allPicBtnClicked();
