@@ -197,16 +197,20 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
-        dtkwidget dtkgui gio-qt udisks2-qt5
+          gio-qt udisks2-qt5
         )
-target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+find_package(DtkCore5.5 REQUIRED)
+find_package(DtkWidget5.5 REQUIRED)
+find_package(DtkGui5.5 REQUIRED)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${DtkWidget5.5_INCLUDE_DIRS})
 if(DOTEST)
-    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${DtkWidget5.5_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} freeimage)
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} ${DtkWidget5.5_LIBRARIES} freeimage)
 if(DOTEST)
-    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} freeimage)
+    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} ${DtkWidget5.5_LIBRARIES} freeimage)
 endif()
 #------------------添加第三方库end--------------------------#
 

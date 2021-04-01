@@ -75,6 +75,11 @@ public:
     DApplication *getDAppNew();
     static Application *getApp();
     static void setApp(DApplication *);
+    //平板判断
+    bool isTablet()
+    {
+        return m_isTablet;
+    }
 
     ConfigSetter *setter = nullptr;
     SignalManager *signalM = nullptr;
@@ -115,6 +120,7 @@ private:
     MainWindow *m_mainwindow;
     static DApplication *dAppNew;
     static Application *dApp1;
+    bool m_isTablet = false;
 };
 
 #endif  // APPLICATION_H_

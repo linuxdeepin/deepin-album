@@ -316,15 +316,17 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
-#ifndef tablet_PC
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
-    connect(m_vfsManager, &DGioVolumeManager::volumeAdded, [](QExplicitlySharedDataPointer<DGioVolume> vol) {
-        if (vol->volumeMonitorName().contains(QRegularExpression("(MTP|GPhoto2|Afc)$"))) {
-            vol->mount();
-        }
-    });
-#endif
+
+    if (!dApp->isTablet()) {
+        connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
+        connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
+        connect(m_vfsManager, &DGioVolumeManager::volumeAdded, [](QExplicitlySharedDataPointer<DGioVolume> vol) {
+            if (vol->volumeMonitorName().contains(QRegularExpression("(MTP|GPhoto2|Afc)$"))) {
+                vol->mount();
+            }
+        });
+    }
+
     connect(m_diskManager, &DDiskManager::fileSystemAdded, this, &AlbumView::onFileSystemAdded);
     connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, &AlbumView::onBlockDeviceAdded);
     connect(m_importAllByPhoneBtn, &DPushButton::clicked, this, &AlbumView::importAllBtnClicked);
@@ -375,11 +377,11 @@ void AlbumView::initLeftView()
     m_pLeftListView->m_pPhotoLibListView->setCurrentRow(0);
 
     //init externalDevice
-#ifndef tablet_PC
-    m_mounts = getVfsMountList();
-    initExternalDevice();
-    updateDeviceLeftList();
-#endif
+    if (!dApp->isTablet()) {
+        m_mounts = getVfsMountList();
+        initExternalDevice();
+        updateDeviceLeftList();
+    }
 }
 
 void AlbumView::onCreateNewAlbumFromDialog(const QString newalbumname)

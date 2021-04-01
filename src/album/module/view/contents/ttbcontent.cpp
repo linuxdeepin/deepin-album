@@ -1417,9 +1417,9 @@ void TTBContent::onBackButtonClicked()
     this->setVisible(true);
     emit dApp->signalM->sigPauseOrStart(false); //唤醒后台外设线程
     emit ttbcontentClicked();
-#ifdef tablet_PC
-    emit resetShoworHide();
-#endif
+    if (dApp->isTablet()) {
+        emit resetShoworHide();
+    }
 }
 
 void TTBContent::onAdaptImageBtnClicked()

@@ -200,48 +200,47 @@ void MainWidget::onShowInFileManager(const QString &path)
 
 void MainWidget::onMouseMove(bool show)
 {
-#ifdef tablet_PC
-    if (!show) {
-        QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
-        animation->setDuration(200);
-        animation->setEasingCurve(QEasingCurve::NCurveTypes);
-        animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-        animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
-    } else {
-        QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
-        animation->setDuration(200);
-        animation->setEasingCurve(QEasingCurve::NCurveTypes);
-        animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-        animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
-    }
-#else
-    Q_UNUSED(show)
-    if (window()->isFullScreen()) {
-        QPoint pos = mapFromGlobal(QCursor::pos());
-        if (height() - 90 < pos.y() && height() > pos.y() && height() >= m_bottomToolbar->y()) {
-            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
-            animation->setDuration(200);
-            animation->setEasingCurve(QEasingCurve::NCurveTypes);
-            animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-            animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
-            animation->start(QAbstractAnimation::DeleteWhenStopped);
-        } else if (height() - m_bottomToolbar->height() - 10 > pos.y()
-                   && height() - m_bottomToolbar->height() - 10 <= m_bottomToolbar->y()) {
-            //隐藏状态下，区域外的移动事件不响应
-            if (m_bottomToolbar->y() >= height()) {
-                return;
-            }
+    if (dApp->isTablet()) {
+        if (!show) {
             QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
             animation->setDuration(200);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
             animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
+        } else {
+            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
+            animation->setDuration(200);
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+            animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+            animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
+            animation->start(QAbstractAnimation::DeleteWhenStopped);
+        }
+    } else {
+        if (window()->isFullScreen()) {
+            QPoint pos = mapFromGlobal(QCursor::pos());
+            if (height() - 90 < pos.y() && height() > pos.y() && height() >= m_bottomToolbar->y()) {
+                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
+                animation->setDuration(200);
+                animation->setEasingCurve(QEasingCurve::NCurveTypes);
+                animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
+                animation->start(QAbstractAnimation::DeleteWhenStopped);
+            } else if (height() - m_bottomToolbar->height() - 10 > pos.y()
+                       && height() - m_bottomToolbar->height() - 10 <= m_bottomToolbar->y()) {
+                //隐藏状态下，区域外的移动事件不响应
+                if (m_bottomToolbar->y() >= height()) {
+                    return;
+                }
+                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
+                animation->setDuration(200);
+                animation->setEasingCurve(QEasingCurve::NCurveTypes);
+                animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
+                animation->start(QAbstractAnimation::DeleteWhenStopped);
+            }
         }
     }
-#endif
 }
 
 void MainWidget::onShowFullScreen()

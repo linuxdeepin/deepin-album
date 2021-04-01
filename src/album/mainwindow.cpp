@@ -433,9 +433,9 @@ void MainWindow::initTitleBar()
     AC_SET_OBJECT_NAME(titlebar(), MainWindow_Titlebar);
     AC_SET_ACCESSIBLE_NAME(titlebar(), MainWindow_Titlebar);
 
-#ifdef tablet_PC
-    m_pSearchEdit->hide();
-#endif
+    if (dApp->isTablet()) {
+        m_pSearchEdit->hide();
+    }
 }
 
 //初始化中心界面
@@ -1718,10 +1718,9 @@ void MainWindow::onButtonClicked(int id)
 {
     if (0 == id) {
         allPicBtnClicked();
-#ifdef tablet_PC
-#else
-        m_pSearchEdit->setVisible(true);
-#endif
+        if (!dApp->isTablet()) {
+            m_pSearchEdit->setVisible(true);
+        }
     }
     int index = 0;
     if (1 == id) {
@@ -1732,10 +1731,9 @@ void MainWindow::onButtonClicked(int id)
             m_pCenterWidget->insertWidget(index, m_pTimeLineView);
         }
         timeLineBtnClicked();
-#ifdef tablet_PC
-#else
-        m_pSearchEdit->setVisible(true);
-#endif
+        if (!dApp->isTablet()) {
+            m_pSearchEdit->setVisible(true);
+        }
     }
     if (2 == id) {
         if (nullptr == m_pAlbumview) {
@@ -1756,10 +1754,9 @@ void MainWindow::onButtonClicked(int id)
         if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex()) {
             m_pSearchEdit->setVisible(false);
         } else {
-#ifdef tablet_PC
-#else
-            m_pSearchEdit->setVisible(true);
-#endif
+            if (!dApp->isTablet()) {
+                m_pSearchEdit->setVisible(true);
+            }
         }
     }
 }
@@ -2060,12 +2057,10 @@ void MainWindow::onShowImageView(int index)
 void MainWindow::onSearchEditIsDisplay(bool bIsDisp)
 {
     if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
-#ifdef tablet_PC
-        if (!bIsDisp) {
+        if (dApp->isTablet() && !bIsDisp) {
+            m_pSearchEdit->setVisible(bIsDisp);
+        } else {
             m_pSearchEdit->setVisible(bIsDisp);
         }
-#else
-        m_pSearchEdit->setVisible(bIsDisp);
-#endif
     }
 }

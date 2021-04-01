@@ -272,37 +272,34 @@ void ViewPanel::updateMenuContent()
         return;
     }
 
-#ifdef tablet_PC
-    if (window()->isFullScreen()) {
-
-        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
-
-    } else {
-
-        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
-    }
-    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
-    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
+    if (dApp->isTablet()) {
+        if (window()->isFullScreen()) {
+            appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
+        } else {
+            appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
+        }
+        appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+        appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
-    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
+        appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
 //    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
 #ifndef LITE_DIV
-    if (m_vinfo.inDatabase) {
-        DMenu *am = createAlbumMenu();
-        if (am) {
-            m_menu->addMenu(am);
+        if (m_vinfo.inDatabase) {
+            DMenu *am = createAlbumMenu();
+            if (am) {
+                m_menu->addMenu(am);
+            }
         }
+#endif
+        m_menu->addSeparator();
+        /**************************************************************************/
     }
-#endif
-    m_menu->addSeparator();
-    /**************************************************************************/
-#endif
     m_menu->addMenu(createAblumMenu());                                         //添加到相册
-#ifdef tablet_PC
-    appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));   //导出
-    appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-#endif
+    if (dApp->isTablet()) {
+        appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));   //导出
+        appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
+    }
     if (COMMON_STR_TRASH == m_vinfo.viewType) {
 //        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     } else {
@@ -324,33 +321,33 @@ void ViewPanel::updateMenuContent()
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), "");       //收藏
     }
-#ifdef tablet_PC
-    m_menu->addSeparator();
-
-    if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
-        appendAction(IdShowNavigationWindow,
-                     tr("Show navigation window"), ss("Show navigation window", ""));
-    } else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
-        appendAction(IdHideNavigationWindow,
-                     tr("Hide navigation window"), ss("Hide navigation window", ""));
-    }
-    /**************************************************************************/
-    if (UnionImage_NameSpace::isImageSupportRotate(m_currentpath)) {
+    if (dApp->isTablet()) {
         m_menu->addSeparator();
-        if (QFileInfo(m_currentpath).isReadable() &&
-                !QFileInfo(m_currentpath).isWritable()) {
-            appendAction_darkmenu(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
-            appendAction_darkmenu(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
-        } else {
-            appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
-            appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+
+        if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+            appendAction(IdShowNavigationWindow,
+                         tr("Show navigation window"), ss("Show navigation window", ""));
+        } else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+            appendAction(IdHideNavigationWindow,
+                         tr("Hide navigation window"), ss("Hide navigation window", ""));
         }
+        /**************************************************************************/
+        if (UnionImage_NameSpace::isImageSupportRotate(m_currentpath)) {
+            m_menu->addSeparator();
+            if (QFileInfo(m_currentpath).isReadable() &&
+                    !QFileInfo(m_currentpath).isWritable()) {
+                appendAction_darkmenu(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+                appendAction_darkmenu(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+            } else {
+                appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+                appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+            }
+        }
+        /**************************************************************************/
+        appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
+        appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Alt+D"));
+        appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Ctrl+I"));
     }
-    /**************************************************************************/
-    appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
-    appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Alt+D"));
-    appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Ctrl+I"));
-#endif
 }
 #if 1
 DMenu *ViewPanel::createAblumMenu()

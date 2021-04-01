@@ -160,42 +160,10 @@ private:
     //平板需求，记录打开图片时初始缩放比例
     bool m_firstset = false;
     double m_value = 0.0;
+    double m_max_scale_factor = 2.0;
+    double m_min_scale_factor = 0.0;
     //单指点击标识位
     bool m_press = false;
 };
 
-//class CFileWatcher: public QThread
-//{
-//    Q_OBJECT
-//public:
-//    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
-
-//    explicit CFileWatcher(QObject *parent = nullptr);
-//    ~CFileWatcher();
-
-//    bool isVaild();
-
-//    void addWather(const QString &path);
-////    void removePath(const QString &path);
-
-//    void clear();
-
-//signals:
-//    void fileChanged(const QString &path, int tp);
-
-//protected:
-//    void run();
-
-//private:
-//    void doRun();
-
-//    int  _handleId = -1;
-//    bool _running = false;
-
-
-//    QMap<QString, int> watchedFiles;
-//    QMap<int, QString> watchedFilesId;
-
-//    QMutex _mutex;
-//};
 #endif // SVGVIEW_H

@@ -131,6 +131,7 @@ Application::Application()
     initChildren();
     m_imageloader = new ImageLoader();
     m_mainwindow = nullptr;
+    m_isTablet = DGuiApplicationHelper::isTabletEnvironment();
 }
 
 Application::~Application()
