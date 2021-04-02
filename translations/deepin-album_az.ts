@@ -640,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"/>
+        <translation>Fotoşəkillər artıq mövcuddur</translation>
     </message>
 </context>
 <context>

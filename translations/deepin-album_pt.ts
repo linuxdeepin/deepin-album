@@ -628,7 +628,7 @@
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 fotos importadas, %2 fotos falhadas</translation>
+        <translation>%1 fotos importadas, %2 fotos falharam</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
@@ -640,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"/>
+        <translation>As fotos já existem</translation>
     </message>
 </context>
 <context>

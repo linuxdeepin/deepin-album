@@ -641,7 +641,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"/>
+        <translation>Le foto già esistono</translation>
     </message>
 </context>
 <context>
