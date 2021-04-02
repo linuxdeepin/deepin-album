@@ -141,7 +141,7 @@ void CExportImageDialog::initUI()
     setWindowTitle(tr("Export"));
 
     m_fileNameEdit = new DLineEdit(this);
-    m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
+    //m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
 //    m_fileNameEdit->setFocusPolicy(Qt::ClickFocus);
 
@@ -183,7 +183,7 @@ void CExportImageDialog::initUI()
     m_savePathCombox->insertItem(Music, tr("Music"));
     m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
 
-    m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
+    //m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
     m_formatCombox = new DComboBox(this);
@@ -202,17 +202,17 @@ void CExportImageDialog::initUI()
     m_formatCombox->insertItem(PGM, "pgm");
     m_formatCombox->insertItem(XBM, "xbm");
     m_formatCombox->insertItem(XPM, "xpm");
-    m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
+    //m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
     m_qualitySlider->slider()->setFocusPolicy(Qt::TabFocus);
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
-    m_qualitySlider->setFixedSize(QSize(100, LINE_EDIT_SIZE.height()));
+    //m_qualitySlider->setFixedSize(QSize(100, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new DLabel(this);
-    m_qualityLabel->setFixedHeight(LINE_EDIT_SIZE.height());
+    //m_qualityLabel->setFixedHeight(LINE_EDIT_SIZE.height());
 
     QHBoxLayout *qualityHLayout = new QHBoxLayout;
     qualityHLayout->setMargin(0);
