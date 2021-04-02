@@ -250,12 +250,20 @@ void SearchView::initSearchResultView()
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
 
     pSearchResultbodyLayout->addWidget(m_pThumbnailListView);
+    // zy 给搜索标题一个布局，将label固定在左侧，避免维语显示在右侧，bug69661
     QVBoxLayout *pSearchResultLayout = new QVBoxLayout();
+    QHBoxLayout *searchlabellayout = new QHBoxLayout();
+    searchlabellayout->setContentsMargins(0, 0, 0, 0);
+    searchlabellayout->addWidget(pLabel1);
+    searchlabellayout->addStretch();
+    QWidget *wi = new QWidget();
+    wi->setContentsMargins(0, 0, 0, 0);
+    wi->setLayout(searchlabellayout);
 
     pSearchResultLayout->setContentsMargins(13, 0, 0, 0);
     pSearchResultLayout->setSpacing(0);
     pSearchResultLayout->addSpacing(5);
-    pSearchResultLayout->addWidget(pLabel1);
+    pSearchResultLayout->addWidget(wi);
     pSearchResultLayout->addSpacing(5);
     pSearchResultLayout->addItem(pHBoxLayout);
 
