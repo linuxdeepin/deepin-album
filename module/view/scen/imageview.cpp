@@ -166,6 +166,15 @@ ImageView::ImageView(QWidget *parent)
     });
 }
 
+ImageView::~ImageView()
+{
+    m_imgFileWatcher->quit();
+    m_imgFileWatcher->terminate();
+    m_imgFileWatcher->wait();
+
+    m_imgFileWatcher->deleteLater();
+}
+
 void ImageView::clear()
 {
     if (m_pixmapItem != nullptr) {
@@ -829,8 +838,6 @@ void CFileWatcher::doRun()
             QMutexLocker loker(&_mutex);
             auto itf = watchedFilesId.find(event.wd);
             if (itf != watchedFilesId.end()) {
-                //qDebug() << "file = " << itf.value() << " event.wd = " << event.wd << "event.mask = " << event.mask;
-
                 if (event.mask & IN_MODIFY) {
                     emit fileChanged(itf.value(), EFileModified);
                 } else if (event.mask & IN_MOVE_SELF) {
