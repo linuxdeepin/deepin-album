@@ -426,7 +426,9 @@ void MainWindow::initTitleBar()
     m_pTitleBarMenu->addSeparator();
 
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
-    titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
+    if (!dApp->isTablet()) {
+        titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
+    }
     titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
     titlebar()->setMenu(m_pTitleBarMenu);
 //    titlebar()->setBlurBackground(true);// 0308 zy ui确认，取消标题栏透明效果
