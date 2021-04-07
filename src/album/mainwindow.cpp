@@ -27,6 +27,7 @@
 #include "accessibledefine.h"
 #include "viewerthememanager.h"
 #include "ac-desktop-define.h"
+#include "controller/comdeepiniminterface.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
@@ -94,6 +95,7 @@ MainWindow::MainWindow()
     , m_waitlabel(nullptr)
     , m_countLabel(nullptr)
     , m_pDBus(nullptr)
+    , m_pIm(nullptr)
     , m_settings(nullptr)
     , m_fileInotify(nullptr)
 {
@@ -248,6 +250,7 @@ void MainWindow::initConnections()
 void MainWindow::initDBus()
 {
     m_pDBus = new dbusclient();
+    m_pIm = new ComDeepinImInterface();
 }
 
 //初始化快捷键
@@ -1027,10 +1030,12 @@ void MainWindow::onCreateAlbum(QStringList imagepaths)
 #if 1
 void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
 {
+    //这货关闭的时候会自动调用deleteLater
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
     d->setModal(bmodel);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
+    m_pIm->setImActive(true);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         emit dApp->signalM->hideExtensionPanel();
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
@@ -1046,14 +1051,20 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
             emit SignalManager::instance()->sigSyncListviewModelData(paths, d->getCreateAlbumName(), 4);
         }
     });
+
+    connect(d, &AlbumCreateDialog::sigClose, this, [ = ] {
+        m_pIm->setImActive(false);
+    });
 }
 #endif
 //创建相册弹出窗
 void MainWindow::showCreateDialog(QStringList imgpaths)
 {
+    //这货关闭的时候会自动调用deleteLater
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
+    m_pIm->setImActive(true);
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
         if (nullptr == m_pAlbumview)
@@ -1095,6 +1106,10 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
             ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
             emit SignalManager::instance()->sigSyncListviewModelData(imgpaths, d->getCreateAlbumName(), 4);
         }
+    });
+
+    connect(d, &AlbumCreateDialog::sigClose, this, [ = ] {
+        m_pIm->setImActive(false);
     });
 }
 

@@ -64,6 +64,9 @@ DWIDGET_USE_NAMESPACE
 
 extern bool bfirstopen;
 extern bool bfirstandviewimage;
+
+class ComDeepinImInterface;
+
 //namespace Ui {
 //class MainWindow;
 //}
@@ -223,6 +226,7 @@ private:
     QString       m_SearchKey;      //搜索框查询信息
 
     dbusclient *m_pDBus;//LMH0407DBus
+    ComDeepinImInterface *m_pIm;//和虚拟键盘通信的DBus接口
     bool m_isFirstStart = true;
     bool m_processOptionIsEmpty = false;
     QSettings *m_settings;
