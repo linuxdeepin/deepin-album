@@ -103,7 +103,7 @@ public:
 private:
     ThumbnailListView *m_pThumbnailListView;
     SearchView *m_pSearchView;
-    DSpinner *m_spinner;
+//    DSpinner *m_spinner;暂时废弃控件
     DWidget *fatherwidget;
 
 public:

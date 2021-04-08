@@ -56,7 +56,7 @@ const int VIEW_MAINWINDOW_ALLPIC = 0;
 AllPicView::AllPicView()
     : m_pStackedWidget(nullptr), m_pStatusBar(nullptr), m_pwidget(nullptr)
     , m_pImportView(nullptr), step(0), m_pThumbnailListView(nullptr)
-    , m_pSearchView(nullptr), m_spinner(nullptr), fatherwidget(nullptr)
+    , m_pSearchView(nullptr), /*m_spinner(nullptr),*/ fatherwidget(nullptr)
 {
     setAcceptDrops(true);
     fatherwidget = new DWidget(this);
@@ -88,9 +88,9 @@ AllPicView::AllPicView()
     pVBoxLayout->addWidget(m_pStackedWidget);
     fatherwidget->setLayout(pVBoxLayout);
     initConnections();
-    m_spinner = new DSpinner(this);
-    m_spinner->setFixedSize(40, 40);
-    m_spinner->hide();
+//    m_spinner = new DSpinner(this);
+//    m_spinner->setFixedSize(40, 40);
+//    m_spinner->hide();
     connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish, this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
     connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded, this, &AllPicView::updateStackedWidget);
     m_pwidget = new QWidget(this);
@@ -108,9 +108,6 @@ AllPicView::AllPicView()
     }
     AC_SET_OBJECT_NAME(this, All_Picture_View);
     AC_SET_ACCESSIBLE_NAME(this, All_Picture_View);
-    MetaData data;
-    data.key = "";
-    data.name = "";
 }
 
 void AllPicView::initConnections()
@@ -155,8 +152,8 @@ void AllPicView::monitorHaveNewFile(QStringList list)
 
 void AllPicView::updatePicsIntoThumbnailView()
 {
-    m_spinner->hide();
-    m_spinner->stop();
+//    m_spinner->hide();
+//    m_spinner->stop();
     m_pThumbnailListView->stopLoadAndClear();
     m_pThumbnailListView->loadFilesFromDB("NOCache");
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
@@ -169,8 +166,8 @@ void AllPicView::updatePicsIntoThumbnailView()
 
 void AllPicView::updatePicsIntoThumbnailViewWithCache()
 {
-    m_spinner->hide();
-    m_spinner->stop();
+//    m_spinner->hide();
+//    m_spinner->stop();
     m_pThumbnailListView->stopLoadAndClear(false);
     m_pThumbnailListView->loadFilesFromDB();
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
@@ -258,8 +255,8 @@ void AllPicView::onImportViewImportBtnClicked()
 void AllPicView::onImportFailedToView()
 {
     if (isVisible()) {
-        m_spinner->hide();
-        m_spinner->stop();
+//        m_spinner->hide();
+//        m_spinner->stop();
         updateStackedWidget();
     }
 }
@@ -311,7 +308,7 @@ void AllPicView::dragLeaveEvent(QDragLeaveEvent *e)
 void AllPicView::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
-    m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
+//    m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
     m_pwidget->setFixedHeight(this->height() - 23);
     m_pwidget->setFixedWidth(this->width());
     m_pwidget->move(0, 0);
