@@ -95,7 +95,6 @@ MainWindow::MainWindow()
     , m_waitlabel(nullptr)
     , m_countLabel(nullptr)
     , m_pDBus(nullptr)
-    , m_pIm(nullptr)
     , m_settings(nullptr)
     , m_fileInotify(nullptr)
 {
@@ -250,7 +249,7 @@ void MainWindow::initConnections()
 void MainWindow::initDBus()
 {
     m_pDBus = new dbusclient();
-    m_pIm = new ComDeepinImInterface();
+    ComDeepinImInterface::instance();
 }
 
 //初始化快捷键
@@ -1035,7 +1034,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
     d->setModal(bmodel);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
-    m_pIm->setImActive(true);
+    ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         emit dApp->signalM->hideExtensionPanel();
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
@@ -1052,8 +1051,8 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
         }
     });
 
-    connect(d, &AlbumCreateDialog::sigClose, this, [ = ] {
-        m_pIm->setImActive(false);
+    connect(d, &AlbumCreateDialog::sigClose, [](){
+        ComDeepinImInterface::instance().setImActive(false);//放下虚拟键盘
     });
 }
 #endif
@@ -1064,7 +1063,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
-    m_pIm->setImActive(true);
+    ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
         if (nullptr == m_pAlbumview)
@@ -1108,8 +1107,8 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         }
     });
 
-    connect(d, &AlbumCreateDialog::sigClose, this, [ = ] {
-        m_pIm->setImActive(false);
+    connect(d, &AlbumCreateDialog::sigClose, [](){
+        ComDeepinImInterface::instance().setImActive(false);//放下虚拟键盘
     });
 }
 

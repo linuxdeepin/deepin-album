@@ -25,6 +25,7 @@
 #include "application.h"
 #include <QHBoxLayout>
 #include "controller/signalmanager.h"
+#include "controller/comdeepiniminterface.h"
 #include <DFontSizeManager>
 #include <QPainter>
 
@@ -55,7 +56,11 @@ AlbumLeftTabItem::~AlbumLeftTabItem()
 
 void AlbumLeftTabItem::initConnections()
 {
-    connect(m_pLineEdit, &DLineEdit::editingFinished, this, &AlbumLeftTabItem::onCheckNameValid);
+    connect(m_pLineEdit, &DLineEdit::editingFinished, [this](){
+        ComDeepinImInterface::instance().setImActive(false);//放下虚拟键盘
+        onCheckNameValid();
+    });
+
     connect(m_unMountBtn, &MountExternalBtn::sigMountExternalBtnClicked, this, &AlbumLeftTabItem::unMountBtnClicked);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, m_nameLabel, [ = ] {
         oriAlbumStatus();
@@ -211,6 +216,8 @@ void AlbumLeftTabItem::editAlbumEdit()
     m_pLineEdit->lineEdit()->selectAll();
 //    m_pLineEdit->setFocus();
     m_pLineEdit->lineEdit()->setFocus();
+
+    ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
 }
 
 //设置外部设备挂载的path，在相册中卸载外部设备时用（如果有两个外部设置挂载点name一样，就不能使用name做卸载判断，使用path没问题）

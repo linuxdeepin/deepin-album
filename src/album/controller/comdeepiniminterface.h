@@ -42,8 +42,10 @@ public:
     { return "com.deepin.im"; }
 
 public:
-    ComDeepinImInterface(QObject *parent = nullptr);
-
+    static ComDeepinImInterface &instance() {
+        static ComDeepinImInterface comDeepinImInterface;
+        return comDeepinImInterface;
+    }
     ~ComDeepinImInterface();
 
     Q_PROPERTY(QRect geometry READ geometry)
@@ -74,6 +76,9 @@ Q_SIGNALS: // SIGNALS
     void geometryChanged(const QRect &rect);
     void imActiveChanged(bool is);
     void imSignalLockChanged(bool is);
+
+private:
+    ComDeepinImInterface(QObject *parent = nullptr);
 };
 
 namespace com {
