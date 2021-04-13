@@ -164,6 +164,8 @@ private:
     double m_min_scale_factor = 0.0;
     //单指点击标识位
     bool m_press = false;
+    //切换图片标记位
+    int m_doSwitchPicture = -1; //-1: 不切换 0:向左切 1:向右切
 };
 
 #endif // SVGVIEW_H

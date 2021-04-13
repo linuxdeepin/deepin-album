@@ -547,6 +547,12 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     if (dApp->isTablet() && m_press) {
         emit clicked();
     }
+
+    //根据移动距离判断是否切图
+    if (m_doSwitchPicture != -1) {
+        m_doSwitchPicture == 0 ? emit previousRequested() : emit nextRequested();
+        m_doSwitchPicture = -1;
+    }
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
@@ -583,10 +589,12 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
         int xMoveDistence = e->pos().x() - m_startpointx;
         if (std::abs(xMoveDistence) >= xScreenGeometry / 2) {
             if (xMoveDistence < 0) {
-                emit nextRequested();
+                m_doSwitchPicture = 1;
             } else {
-                emit previousRequested();
+                m_doSwitchPicture = 0;
             }
+        } else {
+            m_doSwitchPicture = -1;
         }
     }
     if (!dApp->isTablet()) {

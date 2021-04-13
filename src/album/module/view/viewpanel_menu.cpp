@@ -272,7 +272,7 @@ void ViewPanel::updateMenuContent()
         return;
     }
 
-    if (dApp->isTablet()) {
+    if (!dApp->isTablet()) {
         if (window()->isFullScreen()) {
             appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
         } else {
@@ -296,7 +296,7 @@ void ViewPanel::updateMenuContent()
         /**************************************************************************/
     }
     m_menu->addMenu(createAblumMenu());                                         //添加到相册
-    if (dApp->isTablet()) {
+    if (!dApp->isTablet()) {
         appendAction(IdExport, tr("Export"), ss("Export", "Ctrl+E"));   //导出
         appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
     }
@@ -321,7 +321,7 @@ void ViewPanel::updateMenuContent()
     } else {
         appendAction(IdAddToFavorites, tr("Favorite"), "");       //收藏
     }
-    if (dApp->isTablet()) {
+    if (!dApp->isTablet()) {
         m_menu->addSeparator();
 
         if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
@@ -344,10 +344,9 @@ void ViewPanel::updateMenuContent()
             }
         }
         /**************************************************************************/
-        //平板下屏蔽多余菜单选项（先试一下效果）
-        /*appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
+        appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
         appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Alt+D"));
-        appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Ctrl+I"));*/
+        appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Ctrl+I"));
     }
 }
 #if 1
