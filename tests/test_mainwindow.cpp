@@ -163,10 +163,10 @@ TEST(MainWindow, Picimport)
     event.addKeyClick(Qt::Key_Delete, Qt::NoModifier, 50);
     event.simulate(allpicview->m_pThumbnailListView);
     event.clear();
-    QTest::qWait(3000);
+    QTest::qWait(300);
 
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
-    QTest::qWait(1000);
+    QTest::qWait(300);
 
     event.addMouseClick(Qt::MouseButton::LeftButton);
     event.simulate(w->getButG()->button(1));

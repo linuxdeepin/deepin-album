@@ -160,6 +160,9 @@ private:
     //平板需求，记录打开图片时初始缩放比例
     bool m_firstset = false;
     double m_value = 0.0;
+    double m_max_scale_factor = 2.0;
+    double m_min_scale_factor = 0.0;
+
     //单指点击标识位
     bool m_press = false;
 };

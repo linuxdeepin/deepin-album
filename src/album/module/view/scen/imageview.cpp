@@ -260,8 +260,8 @@ void ImageView::setScaleValue(qreal v)
     if ((v < 1 && irs <= m_value)) {
         const qreal minv = m_value / irs;
         scale(minv, minv);
-    } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
-        const qreal maxv = MAX_SCALE_FACTOR / irs;
+    } else if (v > 1 && irs >= m_max_scale_factor) {
+        const qreal maxv = m_max_scale_factor / irs;
         scale(maxv, maxv);
     } else {
         m_isFitImage = false;
