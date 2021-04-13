@@ -344,9 +344,10 @@ void ViewPanel::updateMenuContent()
             }
         }
         /**************************************************************************/
-        appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
+        //平板下屏蔽多余菜单选项（先试一下效果）
+        /*appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
         appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss("Display in file manager", "Alt+D"));
-        appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Ctrl+I"));
+        appendAction(IdImageInfo, tr("Photo info"), ss("Photo info", "Ctrl+I"));*/
     }
 }
 #if 1

@@ -38,6 +38,7 @@
 #include <QSvgRenderer>
 #include <QtGlobal>
 #include <QDesktopWidget>
+#include <QApplication>
 
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
@@ -572,10 +573,21 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
 
         emit mouseHoverMoved();
     } else {
+        //这上面应该是在移动图片
         QGraphicsView::mouseMoveEvent(e);
         viewport()->setCursor(Qt::ClosedHandCursor);
-
         emit transformChanged();
+
+        //额外判断下移动的距离
+        int xScreenGeometry = QApplication::desktop()->screenGeometry().width(); //屏幕分辨率
+        int xMoveDistence = e->pos().x() - m_startpointx;
+        if (std::abs(xMoveDistence) >= xScreenGeometry / 2) {
+            if (xMoveDistence < 0) {
+                emit nextRequested();
+            } else {
+                emit previousRequested();
+            }
+        }
     }
     if (!dApp->isTablet()) {
         emit dApp->signalM->sigMouseMove(false);
