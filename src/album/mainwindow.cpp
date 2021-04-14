@@ -130,11 +130,13 @@ void MainWindow::resizeEvent(QResizeEvent *e)
         m_pCenterWidget->setFixedSize(size());
     }
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
-    if (m_SearchEditWidth <= 350) {
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
-    } else {
-        m_SearchEditWidth = 350;
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+    if (!dApp->isTablet()) {
+        if (m_SearchEditWidth <= 350) {
+            m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
+        } else {
+            m_SearchEditWidth = 350;
+            m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+        }
     }
 }
 
@@ -195,8 +197,10 @@ void MainWindow::initConnections()
 #if 1
     connect(dApp->signalM, &SignalManager::viewCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
-    connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
-    connect(m_pSearchEdit, &DSearchEdit::textChanged, this, &MainWindow::onSearchEditTextChanged);
+    if (!dApp->isTablet()) {
+        connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
+        connect(m_pSearchEdit, &DSearchEdit::textChanged, this, &MainWindow::onSearchEditTextChanged);
+    }
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     //当有图片添加时，搜索栏可用
@@ -397,13 +401,15 @@ void MainWindow::initTitleBar()
     // TitleBar Search
     //QWidget *m_titleSearchWidget = new QWidget();
 //    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
-    m_pSearchEdit = new DSearchEdit();
-    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::StrongFocus);
-    m_pSearchEdit->setMaximumSize(350, 36);
-    if (0 < DBManager::instance()->getImgsCount()) {
-        m_pSearchEdit->setEnabled(true);
-    } else {
-        m_pSearchEdit->setEnabled(false);
+    if (!dApp->isTablet()) {
+        m_pSearchEdit = new DSearchEdit();
+        m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::StrongFocus);
+        m_pSearchEdit->setMaximumSize(350, 36);
+        if (0 < DBManager::instance()->getImgsCount()) {
+            m_pSearchEdit->setEnabled(true);
+        } else {
+            m_pSearchEdit->setEnabled(false);
+        }
     }
 //    pTitleSearchLayout->addWidget(m_pSearchEdit);
     //m_titleSearchWidget->setLayout(pTitleSearchLayout);
@@ -436,10 +442,6 @@ void MainWindow::initTitleBar()
 //    titlebar()->setBlurBackground(true);// 0308 zy ui确认，取消标题栏透明效果
     AC_SET_OBJECT_NAME(titlebar(), MainWindow_Titlebar);
     AC_SET_ACCESSIBLE_NAME(titlebar(), MainWindow_Titlebar);
-
-    if (dApp->isTablet()) {
-        m_pSearchEdit->hide();
-    }
 }
 
 //初始化中心界面
@@ -498,7 +500,9 @@ void MainWindow::initInstallFilter()
     foreach (auto widget, m_emptyAllViewTabOrder) {
         widget->installEventFilter(this);
     }
-    m_pSearchEdit->lineEdit()->installEventFilter(this);
+    if (!dApp->isTablet()) {
+        m_pSearchEdit->lineEdit()->installEventFilter(this);
+    }
 }
 
 // 界面无图时 tab切换顺序
@@ -542,6 +546,9 @@ void MainWindow::initNoPhotoNormalTabOrder()
 // allpicview界面存在图片时 tab切换顺序
 void MainWindow::initAllpicViewTabOrder()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     if (!m_pAllPicView->getThumbnailListView())
         return;
     m_AllpicViewTabOrder.clear();
@@ -576,6 +583,9 @@ void MainWindow::initAllpicViewTabOrder()
 
 void MainWindow::initTimeLineViewTabOrder()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     // 时间线listview空
     if (!m_pTimeLineView->getFirstListViewFromTimeline())
         return;
@@ -598,6 +608,9 @@ void MainWindow::initTimeLineViewTabOrder()
 
 void MainWindow::initAlbumViewTabOrder()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     // 时间线listview空
     if (!m_pAlbumview->m_pImpTimeLineView->getFirstListView())
         return;
@@ -621,6 +634,9 @@ void MainWindow::initAlbumViewTabOrder()
 
 void MainWindow::initEnterkeyAction(QObject *obj)
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 || m_iCurrentView == VIEW_ALLPIC) {
         // 相册内没有图时,应用初始启动无图时enter键进入
         QPushButton *pTempBtn = dynamic_cast<QPushButton *>(obj);
@@ -648,6 +664,9 @@ void MainWindow::initEnterkeyAction(QObject *obj)
 
 bool MainWindow::initRightKeyOrder(QObject *obj)
 {
+    if (dApp->isTablet()) {
+        return false;
+    }
     // 无图且当前界面非所有照片界面，屏蔽btngroup左右键切换
     if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView != VIEW_ALLPIC) {
         if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget *>(obj))) {
@@ -683,6 +702,9 @@ bool MainWindow::initRightKeyOrder(QObject *obj)
 
 bool MainWindow::initLeftKeyOrder(QObject *obj)
 {
+    if (dApp->isTablet()) {
+        return false;
+    }
     // 无图且当前界面非所有照片界面，屏蔽btngroup左右键切换
     if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0 && m_iCurrentView != VIEW_ALLPIC) {
         if (m_emptyAllViewTabOrder.contains(dynamic_cast<QWidget *>(obj))) {
@@ -717,6 +739,9 @@ bool MainWindow::initLeftKeyOrder(QObject *obj)
 
 bool MainWindow::initDownKeyOrder()
 {
+    if (dApp->isTablet()) {
+        return false;
+    }
     // 相册界面，左边栏焦点向下循环切换
     if (m_iCurrentView == VIEW_ALBUM) {
         QList<LeftListWidget *> tempLeftListView;
@@ -749,6 +774,9 @@ bool MainWindow::initDownKeyOrder()
 
 bool MainWindow::initUpKeyOrder()
 {
+    if (dApp->isTablet()) {
+        return false;
+    }
     // 相册界面，左边栏焦点向上循环切换
     if (m_iCurrentView == VIEW_ALBUM) {
         QList<LeftListWidget *> tempLeftListView;
@@ -788,6 +816,9 @@ bool MainWindow::initUpKeyOrder()
 
 bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
 {
+    if (dApp->isTablet()) {
+        return false;
+    }
     if (m_pAllPicView->m_pStackedWidget->currentIndex() == 0) {
         // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
         initNoPhotoNormalTabOrder();
@@ -889,7 +920,9 @@ void MainWindow::allPicBtnClicked()
     clearFocus();
     emit dApp->signalM->hideExtensionPanel();
 //    m_pSearchEdit->clear();
-    m_pSearchEdit->clearEdit();
+    if (!dApp->isTablet()) {
+        m_pSearchEdit->clearEdit();
+    }
     m_SearchKey.clear();
 
     m_iCurrentView = VIEW_ALLPIC;
@@ -922,7 +955,9 @@ void MainWindow::timeLineBtnClicked()
         m_pCenterWidget->insertWidget(index, m_pTimeLineView);
     }
     emit dApp->signalM->hideExtensionPanel();
-    m_pSearchEdit->clearEdit();
+    if (!dApp->isTablet()) {
+        m_pSearchEdit->clearEdit();
+    }
     m_SearchKey.clear();
     m_iCurrentView = VIEW_TIMELINE;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
@@ -965,7 +1000,9 @@ void MainWindow::albumBtnClicked()
         m_pCenterWidget->insertWidget(index, m_pAlbumview);
     }
     emit dApp->signalM->hideExtensionPanel();
-    m_pSearchEdit->clearEdit();
+    if (!dApp->isTablet()) {
+        m_pSearchEdit->clearEdit();
+    }
     m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
@@ -1051,7 +1088,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
         }
     });
 
-    connect(d, &AlbumCreateDialog::sigClose, [](){
+    connect(d, &AlbumCreateDialog::sigClose, []() {
         ComDeepinImInterface::instance().setImActive(false);//放下虚拟键盘
     });
 }
@@ -1082,7 +1119,9 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
             m_pCenterWidget->insertWidget(index, m_pAlbumview);
 //            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
             m_pAlbumBtn->setChecked(true);
-            m_pSearchEdit->clearEdit();
+            if (!dApp->isTablet()) {
+                m_pSearchEdit->clearEdit();
+            }
             m_SearchKey.clear();
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         } else
@@ -1090,7 +1129,9 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 //            DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
             emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
             m_pAlbumBtn->setChecked(true);
-            m_pSearchEdit->clearEdit();
+            if (!dApp->isTablet()) {
+                m_pSearchEdit->clearEdit();
+            }
             m_SearchKey.clear();
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         }
@@ -1107,7 +1148,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         }
     });
 
-    connect(d, &AlbumCreateDialog::sigClose, [](){
+    connect(d, &AlbumCreateDialog::sigClose, []() {
         ComDeepinImInterface::instance().setImActive(false);//放下虚拟键盘
     });
 }
@@ -1115,6 +1156,9 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 //搜索框
 void MainWindow::onSearchEditFinished()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     QString keywords = m_pSearchEdit->text();
     if (m_SearchKey == keywords) //两次搜索条件相同，跳过
         return;
@@ -1317,6 +1361,9 @@ void MainWindow::onLoadingFinished()
 {
 //    m_pTimeLineBtn->setEnabled(true);
 //    m_pAlbumBtn->setEnabled(true);
+    if (dApp->isTablet()) {
+        return;
+    }
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
     } else {
@@ -1345,11 +1392,13 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
-    if (m_SearchEditWidth <= 350) {
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
-    } else {
-        m_SearchEditWidth = 350;
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+    if (!dApp->isTablet()) {
+        if (m_SearchEditWidth <= 350) {
+            m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
+        } else {
+            m_SearchEditWidth = 350;
+            m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+        }
     }
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
@@ -1367,11 +1416,12 @@ void MainWindow::showEvent(QShowEvent *event)
             initConnections();
             initDBus();
 
-            //loadZoomRatio();
             if (0 < DBManager::instance()->getImgsCount()) {
                 // dothing
             } else {
-                m_pSearchEdit->setEnabled(false);
+                if (!dApp->isTablet()) {
+                    m_pSearchEdit->setEnabled(false);
+                }
             }
         }
         m_isFirstStart = false;
@@ -1767,11 +1817,13 @@ void MainWindow::onButtonClicked(int id)
         }
         albumBtnClicked();
         // 如果是最近删除或者移动设备,则搜索框不显示
-        if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex()) {
-            m_pSearchEdit->setVisible(false);
-        } else {
-            if (!dApp->isTablet()) {
-                m_pSearchEdit->setVisible(true);
+        if (!dApp->isTablet()) {
+            if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 5 == m_pAlbumview->m_pRightStackWidget->currentIndex()) {
+                m_pSearchEdit->setVisible(false);
+            } else {
+                if (!dApp->isTablet()) {
+                    m_pSearchEdit->setVisible(true);
+                }
             }
         }
     }
@@ -1831,6 +1883,9 @@ void MainWindow::onSearchEditTextChanged(QString text)
 
 void MainWindow::onImagesInserted()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     m_pSearchEdit->setEnabled(true);
 }
 
@@ -1889,6 +1944,9 @@ void MainWindow::onCloseWaitDialog()
 
 void MainWindow::onImagesRemoved()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
     } else {
@@ -1970,6 +2028,9 @@ void MainWindow::onImportSuccess()
 
 void MainWindow::onSearchEditClear()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     m_pSearchEdit->clearEdit();
     m_SearchKey.clear();
 }
@@ -2059,6 +2120,9 @@ void MainWindow::onCtrlShiftSlashShortcutActivated()
 
 void MainWindow::onCtrlFShortcutActivated()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     m_pSearchEdit->lineEdit()->setFocus();
 }
 
@@ -2072,6 +2136,9 @@ void MainWindow::onShowImageView(int index)
 
 void MainWindow::onSearchEditIsDisplay(bool bIsDisp)
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     if (m_pCenterWidget->currentIndex() == VIEW_ALBUM) {
         if (dApp->isTablet() && !bIsDisp) {
             m_pSearchEdit->setVisible(bIsDisp);
