@@ -1028,40 +1028,40 @@ void DBManager::checkDatabase()
 //        //TODO: AlbumTable's primary key is changed, need to importVersion again
     } else {
         // 判断ImageTable3中是否有ChangeTime字段
-//        QString strSqlImage = QString::fromLocal8Bit("select sql from sqlite_master where name = \"ImageTable3\" and sql like \"%ChangeTime%\"");
-//        QSqlQuery queryImage1(db);
-//        queryImage1.exec(strSqlImage);
-//        if (!queryImage1.next()) {
-//            // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
-//            QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-//            queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
-//                             .arg(strDate));
-//        }
+        QString strSqlImage = QString::fromLocal8Bit("select sql from sqlite_master where name = \"ImageTable3\" and sql like \"%ChangeTime%\"");
+        QSqlQuery queryImage1(db);
+        queryImage1.exec(strSqlImage);
+        if (!queryImage1.next()) {
+            // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
+            QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
+            queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
+                             .arg(strDate));
+        }
 
-//        // 判断ImageTable3中是否有ImportTime字段
-//        QString strSqlImportTime = "select sql from sqlite_master where name = 'ImageTable3' and sql like '%ImportTime%'";
-//        QSqlQuery queryImage2(db);
-//        if (!queryImage2.exec(strSqlImportTime)) {
-//            qDebug() << queryImage2.lastError();
-//        }
-//        if (!queryImage2.next()) {
-//            // 无ImportTime字段,则增加ImportTime字段
-//            QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-//            queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
-//                             .arg(strDate));
-//        }
+        // 判断ImageTable3中是否有ImportTime字段
+        QString strSqlImportTime = "select sql from sqlite_master where name = 'ImageTable3' and sql like '%ImportTime%'";
+        QSqlQuery queryImage2(db);
+        if (!queryImage2.exec(strSqlImportTime)) {
+            qDebug() << queryImage2.lastError();
+        }
+        if (!queryImage2.next()) {
+            // 无ImportTime字段,则增加ImportTime字段
+            QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
+            queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
+                             .arg(strDate));
+        }
 
-//        // 判断AlbumTable3中是否有AlbumDBType字段
-//        QString strSqlDBType = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%AlbumDBType%\"");
-//        QSqlQuery queryType(db);
-//        queryType.exec(strSqlDBType);
-//        if (!queryType.next()) {
-//            // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
-//            queryType.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
-//                           .arg("1"));
-//            queryType.exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
-//                           .arg(COMMON_STR_FAVORITES));
-//        }
+        // 判断AlbumTable3中是否有AlbumDBType字段
+        QString strSqlDBType = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%AlbumDBType%\"");
+        QSqlQuery queryType(db);
+        queryType.exec(strSqlDBType);
+        if (!queryType.next()) {
+            // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
+            queryType.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
+                           .arg("1"));
+            queryType.exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
+                           .arg(COMMON_STR_FAVORITES));
+        }
     }
     // 判断TrashTable的版本
     QString strSqlTrashTable = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\"");
