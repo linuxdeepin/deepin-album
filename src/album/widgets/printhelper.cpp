@@ -146,20 +146,11 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
                 painter.setRenderHint(QPainter::Antialiasing);
                 painter.setRenderHint(QPainter::SmoothPixmapTransform);
                 QRect wRect  = _printer->pageRect();
-                QImage tmpMap;
 
-                if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                    tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-                } else {
-                    tmpMap = img;
-                }
+                qreal ratio = wRect.width() * 1.0 / img.width();
 
-                QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                                          qreal(wRect.height() - tmpMap.height()) / 2,
-                                          tmpMap.width(), tmpMap.height());
-
-                painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                                         tmpMap.height()), tmpMap);
+                painter.drawImage(QRectF(0, qreal(wRect.height() - img.height() * ratio) / 2,
+                                         wRect.width(), img.height() * ratio), img);
             }
             if (index < pageRange.size() - 1) {
                 _printer->newPage();
@@ -167,7 +158,6 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
             }
         }
     }
-
 }
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
@@ -178,17 +168,11 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
             painter.setRenderHint(QPainter::Antialiasing);
             painter.setRenderHint(QPainter::SmoothPixmapTransform);
             QRect wRect  = _printer->pageRect();
-            QImage tmpMap;
-            if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            } else {
-                tmpMap = img;
-            }
-            QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                                      qreal(wRect.height() - tmpMap.height()) / 2,
-                                      tmpMap.width(), tmpMap.height());
-            painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                                     tmpMap.height()), tmpMap);
+
+            qreal ratio = wRect.width() * 1.0 / img.width();
+
+            painter.drawImage(QRectF(0, qreal(wRect.height() - img.height() * ratio) / 2,
+                                     wRect.width(), img.height() * ratio), img);
         }
         if (img != m_imgs.last()) {
             _printer->newPage();
