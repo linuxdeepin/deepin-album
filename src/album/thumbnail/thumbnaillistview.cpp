@@ -815,7 +815,8 @@ void ThumbnailListView::updateMenuContents()
             m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
         if (m_albumMenu) {
-            QAction *action = m_MenuActionMap.value(tr("Export"));
+            //BUG#73827，如果没有检测到菜单项存在，即action == nullptr，insertMenu会把菜单插入到末尾
+            QAction *action = dApp->isTablet() ? m_MenuActionMap.value(tr("Delete")) : m_MenuActionMap.value(tr("Export"));
             m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
