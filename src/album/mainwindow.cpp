@@ -583,9 +583,6 @@ void MainWindow::initAllpicViewTabOrder()
 
 void MainWindow::initTimeLineViewTabOrder()
 {
-    if (dApp->isTablet()) {
-        return;
-    }
     // 时间线listview空
     if (!m_pTimeLineView->getFirstListViewFromTimeline())
         return;
@@ -598,19 +595,26 @@ void MainWindow::initTimeLineViewTabOrder()
             m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
         }
     }
-    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
 
-    for (int idx = 0; idx < m_TimelineViewTabOrder.count(); idx++) {
-        m_TimelineViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+    if (!dApp->isTablet()) {
+        m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
     }
+
+    if (!dApp->isTablet()) {
+        for (int idx = 0; idx < m_TimelineViewTabOrder.count(); idx++) {
+            m_TimelineViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+        }
+    } else { //BUG#73842 平板模式下需要主动设置NoFocus
+        for (int idx = 0; idx < m_TimelineViewTabOrder.count(); idx++) {
+            m_TimelineViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
+        }
+    }
+
     this->setTabOrder(m_TimelineViewTabOrder.at(0), m_TimelineViewTabOrder.at(1));
 }
 
 void MainWindow::initAlbumViewTabOrder()
 {
-    if (dApp->isTablet()) {
-        return;
-    }
     // 时间线listview空
     if (!m_pAlbumview->m_pImpTimeLineView->getFirstListView())
         return;
@@ -619,16 +623,28 @@ void MainWindow::initAlbumViewTabOrder()
     m_AlbumViewTabOrder.insert(0, m_pAlbumBtn);
     m_AlbumViewTabOrder.insert(1, m_pAlbumview->m_pLeftListView->m_pPhotoLibListView);
     m_AlbumViewTabOrder.insert(2, m_pAlbumview->m_pImpTimeLineView->getFirstListView());
+
     for (int idx = 0; idx < m_emptyAllViewTabOrder.count(); idx++) {
         if (m_emptyAllViewTabOrder.at(idx) != nullptr) {
             m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
         }
     }
-    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+
+    if (!dApp->isTablet()) {
+        m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+    }
+
     this->setTabOrder(m_AlbumViewTabOrder.at(0), m_AlbumViewTabOrder.at(1));
     this->setTabOrder(m_AlbumViewTabOrder.at(1), m_AlbumViewTabOrder.at(2));
-    for (int idx = 0; idx < m_AlbumViewTabOrder.count(); idx++) {
-        m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+
+    if (!dApp->isTablet()) {
+        for (int idx = 0; idx < m_AlbumViewTabOrder.count(); idx++) {
+            m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+        }
+    } else { //BUG#73842 平板模式下需要主动设置NoFocus
+        for (int idx = 0; idx < m_AlbumViewTabOrder.count(); idx++) {
+            m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
+        }
     }
 }
 
