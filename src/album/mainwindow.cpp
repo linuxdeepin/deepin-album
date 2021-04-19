@@ -587,11 +587,19 @@ void MainWindow::initTimeLineViewTabOrder()
             m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
         }
     }
+
+#ifndef tablet_PC
     m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+#endif
 
     for (int idx = 0; idx < m_TimelineViewTabOrder.count(); idx++) {
+#ifndef tablet_PC
         m_TimelineViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+#else
+        m_TimelineViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
+#endif
     }
+
     this->setTabOrder(m_TimelineViewTabOrder.at(0), m_TimelineViewTabOrder.at(1));
 }
 
@@ -610,11 +618,20 @@ void MainWindow::initAlbumViewTabOrder()
             m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
         }
     }
+
+#ifndef tablet_PC
     m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+#endif
+
     this->setTabOrder(m_AlbumViewTabOrder.at(0), m_AlbumViewTabOrder.at(1));
     this->setTabOrder(m_AlbumViewTabOrder.at(1), m_AlbumViewTabOrder.at(2));
+
     for (int idx = 0; idx < m_AlbumViewTabOrder.count(); idx++) {
+#ifndef tablet_PC
         m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::TabFocus);
+#else
+        m_AlbumViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
+#endif
     }
 }
 

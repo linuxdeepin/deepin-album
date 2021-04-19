@@ -36,7 +36,9 @@ void ViewPanel::initFloatingComponent()
 {
 //    initSwitchButtons();
     initScaleLabel();
+#ifndef tablet_PC
     initNavigation();
+#endif
 }
 
 void ViewPanel::initScaleLabel()

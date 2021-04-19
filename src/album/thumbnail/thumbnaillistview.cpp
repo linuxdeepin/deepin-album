@@ -148,7 +148,7 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         // 最近删除界面单指循环选中、取消选中
         if (selectionModel()->selectedIndexes().contains(this->indexAt(event->pos()))
                 && selectionModel()->selectedIndexes().size() == 1 && m_imageType == COMMON_STR_TRASH) {
-            if(event->button() != Qt::MouseButton::RightButton) { // 优化最近删除界面,长按时不清除选中
+            if (event->button() != Qt::MouseButton::RightButton) { // 优化最近删除界面,长按时不清除选中
                 clearSelection();
             }
         } else {
@@ -815,7 +815,11 @@ void ThumbnailListView::updateMenuContents()
             m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
         if (m_albumMenu) {
+#ifndef tablet_PC
             QAction *action = m_MenuActionMap.value(tr("Export"));
+#else
+            QAction *action = m_MenuActionMap.value(tr("Delete"));
+#endif
             m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
