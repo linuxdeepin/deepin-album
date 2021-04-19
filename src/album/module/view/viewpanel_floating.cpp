@@ -36,7 +36,10 @@ void ViewPanel::initFloatingComponent()
 {
 //    initSwitchButtons();
     initScaleLabel();
-    initNavigation();
+
+    if (!dApp->isTablet()) {
+        initNavigation();
+    }
 }
 
 void ViewPanel::initScaleLabel()
