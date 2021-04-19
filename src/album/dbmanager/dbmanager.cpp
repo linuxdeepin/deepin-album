@@ -1030,12 +1030,14 @@ void DBManager::checkDatabase()
         // 判断ImageTable3中是否有ChangeTime字段
         QString strSqlImage = QString::fromLocal8Bit("select sql from sqlite_master where name = \"ImageTable3\" and sql like \"%ChangeTime%\"");
         QSqlQuery queryImage1(db);
-        queryImage1.exec(strSqlImage);
-        if (!queryImage1.next()) {
+        bool q = queryImage1.exec(strSqlImage);
+        if (!q && queryImage1.next()) {
             // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
             QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-            queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
-                             .arg(strDate));
+            if (queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
+                                 .arg(strDate))) {
+                qDebug() << "add ChangeTime success";
+            }
         }
 
         // 判断ImageTable3中是否有ImportTime字段
@@ -1047,20 +1049,25 @@ void DBManager::checkDatabase()
         if (!queryImage2.next()) {
             // 无ImportTime字段,则增加ImportTime字段
             QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-            queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
-                             .arg(strDate));
+            if (queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
+                                 .arg(strDate))) {
+                qDebug() << "add ImportTime success";
+            }
         }
 
         // 判断AlbumTable3中是否有AlbumDBType字段
         QString strSqlDBType = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%AlbumDBType%\"");
         QSqlQuery queryType(db);
-        queryType.exec(strSqlDBType);
-        if (!queryType.next()) {
+        bool q2 = queryType.exec(strSqlDBType);
+        if (!q2 && queryType.next()) {
             // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
-            queryType.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
-                           .arg("1"));
-            queryType.exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
-                           .arg(COMMON_STR_FAVORITES));
+            if (queryType.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
+                               .arg("1"))) {
+                qDebug() << "add AlbumDBType success";
+            }
+            if (queryType.exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
+                               .arg(COMMON_STR_FAVORITES))) {
+            }
         }
     }
     // 判断TrashTable的版本
