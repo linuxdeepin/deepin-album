@@ -1724,7 +1724,7 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
     m_mounts = getVfsMountList();
 }
 
-void AlbumView::onUpdataAlbumRightTitle(QString &titlename)
+void AlbumView::onUpdataAlbumRightTitle(const QString &titlename)
 {
     m_currentAlbum = titlename;
     updateRightView();

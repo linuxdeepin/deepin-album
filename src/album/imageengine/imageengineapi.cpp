@@ -229,7 +229,7 @@ bool ImageEngineApi::reQuestImageData(QString imagepath, ImageEngineObject *obj,
     return true;
 }
 
-void ImageEngineApi::sltAborted(QString &path)
+void ImageEngineApi::sltAborted(const QString &path)
 {
     removeImage(path);
     ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
@@ -288,7 +288,7 @@ void ImageEngineApi::sltstopCacheSave()
 #endif
 }
 
-void ImageEngineApi::sigImageBackLoaded(QString path, ImageDataSt &data)
+void ImageEngineApi::sigImageBackLoaded(QString path, const ImageDataSt &data)
 {
     m_AllImageData[path] = data;
 }

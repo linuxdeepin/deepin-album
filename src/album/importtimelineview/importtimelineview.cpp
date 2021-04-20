@@ -230,7 +230,7 @@ void ImportTimeLineView::updateSize()
     m_pImportTitle->setFixedSize(width() - 15, 47); //add 3
 }
 
-void ImportTimeLineView::onNewTime(QString &date, QString &num, int index)
+void ImportTimeLineView::onNewTime(const QString &date, const QString &num, int index)
 {
     m_index = index;
     on_AddLabel(date, num);
@@ -952,7 +952,7 @@ void ImportTimeLineView::on_AddLabel(QString date, QString num)
 //}
 
 #if 1
-void ImportTimeLineView::on_MoveLabel(int y, QString date, QString num, QString choseText)
+void ImportTimeLineView::on_MoveLabel(int y, const QString &date, const QString &num, const QString &choseText)
 #endif
 {
     Q_UNUSED(y);

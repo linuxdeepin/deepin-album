@@ -162,7 +162,7 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
     Q_UNUSED(theme);
 }
 
-void ViewPanel::feedBackCurrentIndex(int index, QString &path)
+void ViewPanel::feedBackCurrentIndex(int index, const QString &path)
 {
     m_current = index;
     if (m_current >= m_filepathlist.size()) {
@@ -395,7 +395,7 @@ void ViewPanel::onViewImageNoNeedReload(int &fileindex)
     showImage(fileindex, 0);
 }
 
-void ViewPanel::onLoadRight(QStringList &rightlist)
+void ViewPanel::onLoadRight(const QStringList &rightlist)
 {
     m_filepathlist << rightlist;
 }

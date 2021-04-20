@@ -67,7 +67,7 @@ public slots:
     void on_AddLabel(QString date, QString num);
 //    void on_DelLabel();//未使用
 #if 1
-    void on_MoveLabel(int y, QString date, QString num, QString choseText);
+    void on_MoveLabel(int y, const QString &date, const QString &num, const QString &choseText);
 #endif
     void on_KeyEvent(int key);
 
@@ -109,7 +109,7 @@ private slots:
      * 调整已导入界面的整体大小
      */
     void updateSize();
-    void onNewTime(QString &date, QString &num, int index);
+    void onNewTime(const QString &date, const QString &num, int index);
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     void onSuspensionChoseBtnClicked();
 

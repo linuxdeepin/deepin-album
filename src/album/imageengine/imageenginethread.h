@@ -196,7 +196,7 @@ protected:
 
 signals:
     void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
-    void sigAborted(QString &path);
+    void sigAborted(const QString &path);
 private:
     bool getNeedStop();
     QString m_path = "";
@@ -263,7 +263,7 @@ protected:
     void run() override;
 
 signals:
-    void sigImageBackLoaded(QString path, ImageDataSt &data);
+    void sigImageBackLoaded(QString path, const ImageDataSt &data);
 private slots:
     void onStartOrPause(bool pause);
 private:

@@ -89,7 +89,7 @@ public slots:
     void onESCKeyActivated();
     void onImagesInserted();
     void onViewImageNoNeedReload(int &fileindex);
-    void onLoadRight(QStringList &rightlist);
+    void onLoadRight(const QStringList &rightlist);
     void onLoadLeft(QStringList leftlist);
     void onttbcontentClicked();
     void onRotateClockwise();
@@ -165,7 +165,7 @@ private:
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    void feedBackCurrentIndex(int index, QString &path);
+    void feedBackCurrentIndex(int index, const QString &path);
 
 private:
     int m_hideCursorTid;

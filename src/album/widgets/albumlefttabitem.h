@@ -50,7 +50,7 @@ private:
     void unMountBtnClicked();
 signals:
     void editingFinished();
-    void unMountExternalDevices(QString &mountName);
+    void unMountExternalDevices(const QString &mountName);
 public slots:
     void onCheckNameValid();
 public:

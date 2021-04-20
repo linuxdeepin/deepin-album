@@ -93,11 +93,11 @@ private slots:
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
     void sltImageDBLoaded(void *imgobject, QStringList &filelist);
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
-    void sltAborted(QString &path);
+    void sltAborted(const QString &path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
     void sltstopCacheSave();
 
-    void sigImageBackLoaded(QString path, ImageDataSt &data);
+    void sigImageBackLoaded(QString path, const ImageDataSt &data);
 
     void slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData);
 signals:

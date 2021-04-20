@@ -140,7 +140,7 @@ signals:
     void sigShowFullScreen();
     void sigESCKeyActivated();
     void sigESCKeyStopSlide();
-    void sigUpdataAlbumRightTitle(QString &titlename);
+    void sigUpdataAlbumRightTitle(const QString &titlename);
     void sigUpdateTrashImageLoader();
     void sigUpdateImageLoader(QStringList pathlist = QStringList());
     void sigLoadMountImagesEnd(QString mountname);

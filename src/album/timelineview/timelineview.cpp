@@ -365,7 +365,7 @@ void TimeLineView::onFinishLoad()
     m_mainListWidget->update();
 }
 
-void TimeLineView::onNewTime(QString &date, QString num, int index)
+void TimeLineView::onNewTime(const QString &date, const QString &num, int index)
 {
     m_index = index;
     on_AddLabel(date, num);
@@ -888,7 +888,7 @@ void TimeLineView::on_GetSelectedPaths(QStringList *pPaths)
 }
 
 #if 1
-void TimeLineView::on_MoveLabel(int y, QString date, QString num, QString choseText)
+void TimeLineView::on_MoveLabel(int y, const QString &date, const QString &num, const QString &choseText)
 #endif
 {
     if ((nullptr != m_dateItem) && (nullptr != m_mainListWidget)) {

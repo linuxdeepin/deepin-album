@@ -168,7 +168,7 @@ private slots:
     void onTrashRecoveryBtnClicked();
     void onTrashDeleteBtnClicked();
     void onTrashListClicked();
-    void onUpdataAlbumRightTitle(QString &titlename);
+    void onUpdataAlbumRightTitle(const QString &titlename);
     void onUnMountSignal(const QString &unMountPath);          //手动卸载设备
     void onCreateNewAlbumFromDialog(const QString &newalbumname);
     void onCreateNewAlbumFrom(const QString &albumname);

@@ -49,9 +49,9 @@ protected:
     bool eventFilter(QObject *obj, QEvent *e) override;
 
 signals:
-    void sigNewTime(QString &date, QString &num, int index);
+    void sigNewTime(const QString &date, const QString &num, int index);
 //    void sigDelTime();//未使用
-    void sigMoveTime(int y, QString &date, QString &num, QString choseText);
+    void sigMoveTime(int y, const QString &date, const QString &num, const QString &choseText);
 
 private slots:
     void onRangeChanged(int min, int max);

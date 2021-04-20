@@ -92,7 +92,7 @@ public slots:
     void on_DCommandLinkButton();
     void on_GetSelectedPaths(QStringList *pPaths);
 #if 1
-    void on_MoveLabel(int y, QString date, QString num, QString choseText);
+    void on_MoveLabel(int y, const QString &date, const QString &num, const QString &choseText);
 #endif
     void on_KeyEvent(int key);
 
@@ -121,7 +121,7 @@ public slots:
     //更新布局（旋转图片时）
     void updataLayout(QStringList updatePathList);
     void onFinishLoad();
-    void onNewTime(QString &date, QString num, int index);
+    void onNewTime(const QString &date, const QString &num, int index);
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
