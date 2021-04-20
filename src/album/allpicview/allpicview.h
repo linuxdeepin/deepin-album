@@ -87,7 +87,7 @@ public slots:
 private slots:
     void updatePicsIntoThumbnailViewWithCache();
     void onFinishLoad();
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     void onOpenImage(int index);
     void onMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
     void onImportViewImportBtnClicked();

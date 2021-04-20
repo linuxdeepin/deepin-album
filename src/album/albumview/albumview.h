@@ -180,7 +180,7 @@ private slots:
     void onWaitDialogClose();
     void onWaitDialogIgnore();
     // change lambda to normal slt
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     void onRightFavoriteThumbnailListNeedResize(int h);
     void onRightTrashThumbnailListNeedResize(int h);
     void onRightThumbnailListNeedResize(int h);

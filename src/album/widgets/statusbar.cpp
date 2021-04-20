@@ -104,7 +104,7 @@ void StatusBar::initConnections()
         }
     });
     // 处理导入图片完成后，弹出重复照片提示
-    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, QString albumName) {
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, [ = ](QStringList importPaths, QStringList duplicatePaths, const QString & albumName) {
         Q_UNUSED(albumName)
         // 导入的照片不全是重复照片提示
         if (importPaths.size() > 0 && duplicatePaths.size() > 0) {

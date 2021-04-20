@@ -386,7 +386,7 @@ void TimeLineView::onImportFailedToView()
     }
 }
 
-void TimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName)
+void TimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
 {
     Q_UNUSED(importPaths)
     // 导入的照片重复照片提示

@@ -2070,7 +2070,7 @@ void AlbumView::onWaitDialogIgnore()
     this->setEnabled(true);
 }
 
-void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName)
+void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
 {
     Q_UNUSED(importPaths)
     if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2) {

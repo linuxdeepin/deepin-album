@@ -124,7 +124,7 @@ public slots:
     void onNewTime(QString &date, QString num, int index);
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
 
 private:
     TimelineListWidget *m_mainListWidget;

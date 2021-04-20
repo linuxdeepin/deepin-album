@@ -183,7 +183,7 @@ void AllPicView::onFinishLoad()
     m_pThumbnailListView->update();
 }
 
-void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString albumName)
+void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
 {
     Q_UNUSED(importPaths)
     if (albumName.length() == 0 && dApp->getMainWindow()->getCurrentViewType() == 0) {

@@ -105,7 +105,7 @@ signals:
     void TransmitAlbumName(const QString &name);
     void ImportFailed();
     void ImportSomeFailed(int successful, int failed);
-    void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName);
+    void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     void ImgExportSuccess();
     void ImgExportFailed();
     void AlbExportSuccess();

@@ -110,7 +110,7 @@ private slots:
      */
     void updateSize();
     void onNewTime(QString &date, QString &num, int index);
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, QString &albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     void onSuspensionChoseBtnClicked();
 
 signals:
