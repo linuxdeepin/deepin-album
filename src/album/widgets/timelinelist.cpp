@@ -56,10 +56,20 @@ void TimelineListWidget::dragMoveEvent(QDragMoveEvent *event)
     return QListWidget::dragMoveEvent(event);
 }
 
+void TimelineListWidget::mousePressEvent(QMouseEvent *event)
+{
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        lastTouchBeginPos = event->pos();
+    }
+    DListWidget::mousePressEvent(event);
+}
+
 void TimelineListWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event)
-//    return QListWidget::mouseMoveEvent(event); //不返回给QListWidget
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        emit sigNeedMoveScorll(-(event->y() - lastTouchBeginPos.y()));
+        lastTouchBeginPos = event->pos();
+    }
 }
 
 void TimelineListWidget::paintEvent(QPaintEvent *e)

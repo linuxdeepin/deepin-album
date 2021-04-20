@@ -170,6 +170,7 @@ signals:
     void sigSelectAll();
     void sigMouseMove();
     void needResizeLabel();
+    void sigNeedMoveScorll(int distance);
     bool sigDBImageLoaded();//数据库图片加载完毕
 #endif
 
@@ -293,6 +294,9 @@ private:
     // QPlatformTheme::TouchDoubleTapDistance 的值时认为触发触屏滚动
     QPoint lastTouchBeginPos;
     int touchTapDistance;
+
+    //触屏状态指示:0,等待模式;1,滑动模式;2,框选模式
+    int touchStatus = 0;
 
 public:
     int m_rowSizeHint = 0;

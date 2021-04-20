@@ -101,6 +101,7 @@ void TimeLineView::initConnections()
     connect(m_mainListWidget, &TimelineListWidget::sigNewTime, this, &TimeLineView::onNewTime);
 //    connect(m_mainListWidget, &TimelineListWidget::sigDelTime, this, &TimeLineView::on_DelLabel);//未使用
     connect(m_mainListWidget, &TimelineListWidget::sigMoveTime, this, &TimeLineView::on_MoveLabel);
+    connect(m_mainListWidget, &TimelineListWidget::sigNeedMoveScorll, this, &TimeLineView::on_MoveScroll);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
     connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
@@ -767,6 +768,7 @@ void TimeLineView::addTimelineLayout()
 #endif
 
     connect(m_allThumbnailListView[nowTimeLineLoad], &ThumbnailListView::sigKeyEvent, this, &TimeLineView::on_KeyEvent);
+    connect(m_allThumbnailListView[nowTimeLineLoad], &ThumbnailListView::sigNeedMoveScorll, this, &TimeLineView::on_MoveScroll);
 
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
     } else {
@@ -922,6 +924,12 @@ void TimeLineView::on_KeyEvent(int key)
         vb->setValue(posValue);
     }
 
+}
+
+void TimeLineView::on_MoveScroll(int distance)
+{
+    auto scroll = m_mainListWidget->verticalScrollBar();
+    scroll->setValue(scroll->value() + distance);
 }
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)

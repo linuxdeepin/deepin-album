@@ -95,6 +95,7 @@ public slots:
     void on_MoveLabel(int y, QString date, QString num, QString choseText);
 #endif
     void on_KeyEvent(int key);
+    void on_MoveScroll(int distance);
 
 protected:
     void resizeEvent(QResizeEvent *ev) override;

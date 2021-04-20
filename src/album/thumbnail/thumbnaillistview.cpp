@@ -137,8 +137,13 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
         }
         updateEnableSelectionByMouseTimer = new QTimer(this);
         updateEnableSelectionByMouseTimer->setSingleShot(true);
-        updateEnableSelectionByMouseTimer->setInterval(50);
-        connect(updateEnableSelectionByMouseTimer, &QTimer::timeout, updateEnableSelectionByMouseTimer, &QTimer::deleteLater);
+        updateEnableSelectionByMouseTimer->setInterval(500);
+        connect(updateEnableSelectionByMouseTimer, &QTimer::timeout, [ = ]() {
+            if (touchStatus == 0) { //时间到了还在等待模式,则进入框选模式
+                touchStatus = 2;
+            }
+            updateEnableSelectionByMouseTimer->deleteLater();
+        });
         updateEnableSelectionByMouseTimer->start();
     }
 
@@ -189,27 +194,23 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
-    QRectF rect(QPointF((lastTouchBeginPos.x() - 30), (lastTouchBeginPos.y() - 30)),
-                QPointF((lastTouchBeginPos.x() + 30), (lastTouchBeginPos.y() + 30)));
-    if (rect.contains(event->pos())) {
-        return;
-    }
-    emit sigMouseMove();
-    if (event->source() == Qt::MouseEventSynthesizedByQt) {
-        if (QScroller::hasScroller(this))
+    if (touchStatus == 0) {
+        QRectF rect(QPointF((lastTouchBeginPos.x() - 30), (lastTouchBeginPos.y() - 30)),
+                    QPointF((lastTouchBeginPos.x() + 30), (lastTouchBeginPos.y() + 30)));
+        if (rect.contains(event->pos())) {
             return;
-        // 在定时器期间收到鼠标move事件且距离大于一定值则认为触发视图滚动
-        if (updateEnableSelectionByMouseTimer && updateEnableSelectionByMouseTimer->isActive()) {
-            const QPoint difference_pos = event->pos() - lastTouchBeginPos;
-            if (qAbs(difference_pos.x()) > touchTapDistance || qAbs(difference_pos.y()) > touchTapDistance) {
-                QScroller::grabGesture(this);
-                QScroller *scroller = QScroller::scroller(this);
-                scroller->handleInput(QScroller::InputPress, event->localPos(), static_cast<qint64>(event->timestamp()));
-                scroller->handleInput(QScroller::InputMove, event->localPos(), static_cast<qint64>(event->timestamp()));
-            }
-            return;
+        } else {
+            touchStatus = 1;
         }
     }
+
+    if (touchStatus == 1) {
+        if (event->source() == Qt::MouseEventSynthesizedByQt) {
+            emit sigNeedMoveScorll(-(event->pos() - lastTouchBeginPos).y());
+        }
+    }
+
+    emit sigMouseMove();
     DListView::mouseMoveEvent(event);
 }
 
@@ -240,6 +241,10 @@ void ThumbnailListView::showEvent(QShowEvent *event)
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
     DListView::mouseReleaseEvent(event);
+
+    //触屏状态复位
+    touchStatus = 0;
+
     if (COMMON_STR_RECENT_IMPORTED  == m_imageType) {
         if (QApplication::keyboardModifiers() == Qt::NoModifier) {
             emit sigMouseRelease();
@@ -248,8 +253,9 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
         emit sigMouseRelease();
     }
     // 避免滚动视图导致文件选中状态被取消
-    if (!QScroller::hasScroller(this))
+    if (!QScroller::hasScroller(this)) {
         return DListView::mouseReleaseEvent(event);
+    }
 }
 
 void ThumbnailListView::keyPressEvent(QKeyEvent *event)

@@ -199,6 +199,7 @@ private slots:
     void onWaitDailogTimeout();
     void onLeftListViewMountListWidgetClicked(const QModelIndex &index);
     void onPhonePath(QString PhoneName, QString pathName);
+    void onMoveScroll(QAbstractScrollArea *obj, int distence);
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;

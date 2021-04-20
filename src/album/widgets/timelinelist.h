@@ -44,6 +44,7 @@ public:
 
 protected:
     void dragMoveEvent(QDragMoveEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *e) override;
@@ -52,6 +53,7 @@ signals:
     void sigNewTime(QString date, QString num, int index);
 //    void sigDelTime();//未使用
     void sigMoveTime(int y, QString date, QString num, QString choseText);
+    void sigNeedMoveScorll(int distence);
 
 private slots:
     void onRangeChanged(int min, int max);
@@ -61,6 +63,7 @@ private:
     QList<int> yList;
     int m_scrollbartopdistance;
     int m_scrollbarbottomdistance;
+    QPoint lastTouchBeginPos;
 };
 
 #endif // TIMELINELIST_H
