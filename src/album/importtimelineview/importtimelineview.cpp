@@ -849,6 +849,10 @@ void ImportTimeLineView::addTimelineLayout()
     });
 #endif
     connect(m_allThumbnailListView[nowTimeLineLoad], &ThumbnailListView::sigKeyEvent, this, &ImportTimeLineView::on_KeyEvent);
+    connect(m_allThumbnailListView[nowTimeLineLoad], &ThumbnailListView::sigNeedMoveScorll, this, [ = ](int distence) {
+        auto scroll = this->m_mainListWidget->verticalScrollBar();
+        scroll->setValue(scroll->value() + distence);
+    });
     emit sigUpdatePicNum();
     currentTimeLineLoad++;
 

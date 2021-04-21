@@ -466,6 +466,9 @@ void AlbumView::initRightView()
 
     m_pRightThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_CUSTOM);
     m_pRightThumbnailList->setFrameShape(DTableView::NoFrame);
+    connect(m_pRightThumbnailList, &ThumbnailListView::sigNeedMoveScorll, [ = ](int distence) {
+        this->onMoveScroll(m_noTrashListWidget, distence);
+    });
 
     pNoTrashVBoxLayout->addSpacing(3);
     pNoTrashVBoxLayout->addWidget(m_pRightTitle);
@@ -592,6 +595,9 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
     m_pRightTrashThumbnailList->setObjectName("RightTrashThumbnail");
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigNeedMoveScorll, [ = ](int distence) {
+        this->onMoveScroll(m_TrashListWidget, distence);
+    });
 
     m_TrashListWidget = new AlbumViewListWidget();
     m_TrashListWidget->setContentsMargins(0, 0, 0, 0);
@@ -681,6 +687,9 @@ void AlbumView::initRightView()
     m_pRightFavoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
     m_pRightFavoriteThumbnailList->setObjectName("RightFavoriteThumbnail");
+    connect(m_pRightFavoriteThumbnailList, &ThumbnailListView::sigNeedMoveScorll, [ = ](int distence) {
+        this->onMoveScroll(m_FavListWidget, distence);
+    });
 
 
     pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
@@ -870,6 +879,12 @@ void AlbumView::initRightView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
     }
+}
+
+void AlbumView::onMoveScroll(QAbstractScrollArea *obj, int distence)
+{
+    auto scroll = obj->verticalScrollBar();
+    scroll->setValue(scroll->value() + distence);
 }
 
 void AlbumView::updateRightView()
@@ -1555,7 +1570,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
