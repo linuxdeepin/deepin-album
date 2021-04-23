@@ -106,8 +106,16 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
     touchTapDistance = 15;
-}
 
+    updateEnableSelectionByMouseTimer = new QTimer(this);
+    updateEnableSelectionByMouseTimer->setInterval(500);
+    connect(updateEnableSelectionByMouseTimer, &QTimer::timeout, [ = ]() {
+        if (touchStatus == 0) { //时间到了还在等待模式,则进入框选模式
+            touchStatus = 2;
+        }
+        updateEnableSelectionByMouseTimer->stop();
+    });
+}
 
 ThumbnailListView::~ThumbnailListView()
 {
@@ -122,6 +130,8 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 {
     //点击时将焦点设置到当前
     setFocus();
+    //复位激活click
+    activeClick = true;
     // 当事件source为MouseEventSynthesizedByQt，认为此事件为TouchBegin转换而来
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
         lastTouchBeginPos = event->pos();
@@ -132,18 +142,6 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
             QScroller::scroller(this)->deleteLater();
         }
 
-        if (updateEnableSelectionByMouseTimer && updateEnableSelectionByMouseTimer->isActive()) {
-            updateEnableSelectionByMouseTimer->stop();
-        }
-        updateEnableSelectionByMouseTimer = new QTimer(this);
-        updateEnableSelectionByMouseTimer->setSingleShot(true);
-        updateEnableSelectionByMouseTimer->setInterval(500);
-        connect(updateEnableSelectionByMouseTimer, &QTimer::timeout, [ = ]() {
-            if (touchStatus == 0) { //时间到了还在等待模式,则进入框选模式
-                touchStatus = 2;
-            }
-            updateEnableSelectionByMouseTimer->deleteLater();
-        });
         updateEnableSelectionByMouseTimer->start();
     }
 
@@ -201,6 +199,7 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
             return;
         } else {
             touchStatus = 1;
+            activeClick = false;
         }
     }
 
@@ -244,6 +243,7 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 
     //触屏状态复位
     touchStatus = 0;
+    updateEnableSelectionByMouseTimer->stop();
 
     if (COMMON_STR_RECENT_IMPORTED  == m_imageType) {
         if (QApplication::keyboardModifiers() == Qt::NoModifier) {
@@ -1627,7 +1627,7 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
 void ThumbnailListView::onClicked(const QModelIndex &index)
 {
     emit hideExtensionPanel();
-    if (dApp->isTablet()) {
+    if (dApp->isTablet() && activeClick) {
         if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
             if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
                 emit openImage(index.row());

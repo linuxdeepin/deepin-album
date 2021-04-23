@@ -298,6 +298,9 @@ private:
     //触屏状态指示:0,等待模式;1,滑动模式;2,框选模式
     int touchStatus = 0;
 
+    //是否激活click:当处于滑动模式的时候，本轮不执行click
+    bool activeClick = true;
+
 public:
     int m_rowSizeHint = 0;
     QList<ItemInfo> m_allItemLeft;//所有待处理的
