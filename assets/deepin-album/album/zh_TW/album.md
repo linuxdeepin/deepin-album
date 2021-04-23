@@ -14,57 +14,52 @@
 
 ### 執行相簿
 
-1. 點擊桌面底部的 ![launcher](../common/deepin_launcher.svg)，進入啟動器介面。
-2. 上下滾動滑鼠滾輪瀏覽或透過搜尋，找到相簿 ![deepin_album](../common/deepin_album.svg) 點擊執行。
+1. 單擊任務欄上的啟動器圖示 ![launcher](../common/deepin_launcher.svg)，進入啟動器介面。
+2. 上下滾動滑鼠滾輪瀏覽或透過搜尋，找到相簿 ![deepin_album](../common/deepin_album.svg) 單擊執行。
 3. 右鍵單擊 ![deepin_album](../common/deepin_album.svg)，您可以：
- - 點擊 **建立桌面捷徑**，在桌面建立捷徑。
- - 點擊 **釘選到Dock**，將應用程式固定到Dock。
- - 點擊 **開機啟動**，將應用程式添加到開機啟動項，在電腦開機時自動執行該應用。
+ - 單擊 **建立桌面捷徑**，在桌面建立捷徑。
+ - 單擊 **釘選到Dock**，將應用程式固定到Dock。
+ - 單擊 **開機啟動**，將應用程式添加到開機啟動項，在電腦開機時自動執行該應用。
 
    > ![tips](../common/tips.svg)竅門：您可以在控制中心將相簿設定為預設的相片查看程式，具體操作請參考 [預設程式設定](dman:///dde#預設程式設定)。
 
 ### 關閉相簿
 
-- 在相簿介面點擊  ![close_icon](../common/close_icon.svg)，關閉相簿。
-- 在任務欄右鍵單擊 ![deepin_album](../common/deepin_album.svg)，選擇 **全部關閉** 來關閉相簿。
-- 在相簿介面點擊 ![icon_menu](../common/icon_menu.svg) ，選擇 **離開** 來關閉相簿。
+- 在相簿介面單擊  ![close_icon](../common/close_icon.svg)，關閉相簿。
+- 在任務欄右鍵單擊 ![deepin_album](../common/deepin_album.svg)，選擇 **全部關閉** ，關閉相簿。
+- 在相簿介面單擊 ![icon_menu](../common/icon_menu.svg) ，選擇 **離開** ，關閉相簿。
 
 ### 查看快捷鍵
 
-在相簿介面上，按下 **Ctrl + Shift + ?** 組合鍵來查看快捷鍵，熟練的使用快捷鍵，將大大提升您的操作效率。
+在相簿介面上，使用快捷鍵 **Ctrl + Shift + ?** 打開快捷鍵預覽介面。熟練的使用快捷鍵，將大大提升您的操作效率。
 
 ![0|hotkey](fig/hotkey.png)
 
 ## 相片管理
 
-相簿啟動後，您可以透過時間軸和相簿來管理您的相片。
+相簿啟動後，您可以透過時間軸和相簿管理您的相片。
 
 ### 匯入相片
 
 在相簿介面，可以採用以下方式匯入相片。
 - 當相冊中尚無照片時，單擊 **匯入相片**。
-
-- 點擊![icon_menu](../common/icon_menu.svg)> **匯入相片**。
-
+- 單擊![icon_menu](../common/icon_menu.svg)> **匯入相片**。
 - 直接將相片或所在資料夾拖曳到介面上。
-
 - 從移動裝置匯入相片。
-
-   > ![tips](../common/tips.svg)竅門：當相簿中尚無相片時，點擊 **匯入相片**，將相片匯入相簿管理系統。
 
    > ![notes](../common/notes.svg)說明：相簿支援打開BMP、GIF、JPG、PNG、PBM、PGM、PPM、XBM、XPM、SVG、DDS、ICNS、MNG、TGA、TIFF、WBMP、WEBP、PSD、ICO、JNG、PCD、PCX、TIF、RAS、MRW、DNG、RAF、CR2、RAW、ORF、NEF等多種格式的圖片。
 
 ### 搜尋相片
 
-1. 在相簿頂部的搜尋框，點擊 ![search](../common/search.svg)，輸入關鍵字。
+1. 在相簿頂部的搜尋框，單擊 ![search](../common/search.svg)，輸入關鍵字。
 2. 按下鍵盤上的 **Enter** 鍵後顯示搜尋結果。
 
 
 ### 查看相片
 
-在相簿介面上，點擊底部的滾動條可以調整相片的縮圖大小。
+在相簿介面上，單擊底部的滾動條可以調整相片的縮圖大小。
 
-雙擊相片，或右鍵單擊相片選擇 **查看相片** ，進入圖片檢視器介面；按 **Esc** 鍵退出圖片檢視器介面。
+雙擊相片，或右鍵單擊相片選擇 **查看相片** ，進入查看圖片介面；按 **Esc** 鍵退出查看圖片介面。
 
 | 圖示                                                    | 名稱       | 說明                         |
 | ------------------------------------------------------- | ---------- | ---------------------------- |
@@ -78,7 +73,7 @@
 | ![contrarotate](../common/contrarotate.svg)             | 逆時針旋轉 | 相片逆時針旋轉90度。         |
 | ![delete](../common/delete.svg)                         | 刪除       | 刪除目前照片。               |
 
-   > ![tips](../common/tips.svg)竅門：滾動滑鼠放大圖片且當圖片超出介面範圍時，介面上會出現導航視窗。拖動導航視窗內的方框，查看該區域的訊息。點擊導航視窗右上角 **x ** 按鈕，關閉導航視窗；也可以在看圖介面上單擊滑鼠右鍵選擇 **隱藏導航視窗**/ **顯示導航視窗**。
+   > ![tips](../common/tips.svg)竅門：滾動滑鼠放大圖片且當圖片超出介面範圍時，介面上會出現導航視窗。拖動導航視窗內的方框，查看該區域的訊息。單擊導航視窗右上角 **×** 按鈕，關閉導航視窗；也可以在看圖介面上單擊滑鼠右鍵選擇 **隱藏導航視窗**/**顯示導航視窗**。
 
 ![0|copy](fig/navagation.png)
 
@@ -115,7 +110,7 @@
 2. 選擇 **收藏**，照片將會添加到「我的最愛」。
 3. 右鍵單擊已收藏的相片，也可以 **取消收藏**。
 
-   > ![tips](../common/tips.svg)竅門：在查看照片時，點擊介面上的 ![collect](../common/collect.svg)，將相片加入我的最愛。再次點擊 ![collect_active](../common/collect_active.svg)，取消收藏。
+   > ![tips](../common/tips.svg)竅門：在查看照片時，單擊介面上的 ![collect](../common/collect.svg)，將相片加入我的最愛。再次單擊 ![collect_active](../common/collect_active.svg)，取消收藏。
 
 
 
@@ -125,7 +120,7 @@
 2. 選擇 **順時針旋轉 / 逆時針旋轉**。
 3. 相片將會順時針轉旋轉90°/逆時針旋轉90°。
 
-> ![notes](../common/notes.svg)說明：當使用觸摸屏電腦時，二指放置在照片上並保持一定距離，同時旋轉二指來旋轉照片。
+> ![notes](../common/notes.svg)說明：當使用觸摸屏電腦時，二指放置在照片上並保持一定距離，同時旋轉二指旋轉照片。
 
 ### 設定為桌布
 
@@ -150,7 +145,7 @@
 
 在相簿中您可以透過如下方法刪除相片：
 
-- 查看圖片時，點擊介面上的 ![delete_press](../common/delete.svg)圖示。
+- 查看圖片時，單擊介面上的 ![delete_press](../common/delete.svg)圖示。
 - 右鍵單擊照片，選擇 **刪除**。
 - 在相簿介面上，按下鍵盤上的 **Delete** 鍵。
 
@@ -167,8 +162,8 @@
 
 ### 新增相簿
 
-1. 在相簿介面，點擊 ![icon_menu](../common/create.png) 或 ![icon_menu](../common/icon_menu.svg) > **新增相簿**。
-2. 輸入相簿名稱，點擊 **建立**。
+1. 在相簿介面，單擊 ![icon_menu](../common/create.png) 或 ![icon_menu](../common/icon_menu.svg) > **新增相簿**。
+2. 輸入相簿名稱，單擊 **建立**。
 
    > ![tips](../common/tips.svg)竅門：右鍵單擊已建立的相簿，也可以建立相簿。您還可以在添加相片到相簿時建立相簿。
 
@@ -215,25 +210,25 @@
 
 視窗主題包含亮色主題、暗色主題和系統主題。
 
-1. 在相簿介面，點擊 ![icon_menu](../common/icon_menu.svg)。
-2. 點擊 **主題**，選擇一個主題顏色。
+1. 在相簿介面，單擊 ![icon_menu](../common/icon_menu.svg)。
+2. 單擊 **主題**，選擇一個主題顏色。
 
 ### 說明
 
 查看說明手冊，進一步了解和使用相簿。
 
-1. 在相簿介面，點擊 ![icon_menu](../common/icon_menu.svg)。
-2. 點擊 **說明**。
+1. 在相簿介面，單擊 ![icon_menu](../common/icon_menu.svg)。
+2. 單擊 **說明**。
 3. 查看相簿的說明手冊。
 
 
 ### 關於
 
-1. 在相簿介面，點擊 ![icon_menu](../common/icon_menu.svg)。
-2. 點擊 **關於**。
+1. 在相簿介面，單擊 ![icon_menu](../common/icon_menu.svg)。
+2. 單擊 **關於**。
 3. 查看相簿的版本和介紹。
 
 ### 離開
 
-1. 在相簿介面，點擊 ![icon_menu](../common/icon_menu.svg)。
-2. 點擊 **離開**。
+1. 在相簿介面，單擊 ![icon_menu](../common/icon_menu.svg)。
+2. 單擊 **離開**。

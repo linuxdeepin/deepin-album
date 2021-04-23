@@ -12,14 +12,14 @@ You can run, close, and create shortcuts for Album in the following ways.
 
 ### Run Album
 
-1. Click ![launcher](../common/deepin_launcher.svg) in the Dock and enter the Launcher interface.
-2. Locate ![deepin_album](../common/deepin_album.svg) by scrolling the mouse wheel or searching "album" in the Launcher interface and click it to run.
+1. Click the Launcher icon ![launcher](../common/deepin_launcher.svg) in the Dock and enter the Launcher interface.
+2. Locate Album ![deepin_album](../common/deepin_album.svg) by scrolling the mouse wheel or searching "album" in the Launcher interface and click it to run.
 3. Right-click ![deepin_album](../common/deepin_album.svg) and you can:
  - Click **Send to desktop** to create a desktop shortcut.
  - Click **Send to dock** to fix the application in the dock.
  - Click **Add to startup** to add the application to startup and it will automatically run when the system starts up.
 
-> ![tips](../common/tips.svg) Tips: In Control Center, you can set Album as the default photo viewing application. Please refer to [Default Applications](dman:///dde#Default Application Settings) for specific operations.
+> ![tips](../common/tips.svg) Tips: In Control Center, you can set Album as the default photo viewing application. Please refer to [Default Applications](dman:///dde#Default Applications) for specific operations.
 
 ### Exit Album
 
@@ -44,8 +44,6 @@ On the Album interface, you are able to import photos as follows:
 - Click![icon_menu](../common/icon_menu.svg)> **Import photos**.
 - Drag directly the photo or the folder where the photo is located to the Album interface.
 - Import photos from the mobile device.
-
-> ![tips](../common/tips.svg) Tips: You can also import photos to the empty Album by clicking **Import Photos** on the Album interface.
 
 > ![notes](../common/notes.svg) Notes: The photo formats supported include BMP, GIF, JPG, PNG, PBM, PGM, PPM, XBM, XPM, SVG, DDS, ICNS,  MNG, TGA, TIFF, WBMP, WEBP, PSD, ICO, JNG, PCD, PCX, TIF, RAS, MRW, DNG, RAF, CR2, RAW, ORF, NEF, etc.
 
