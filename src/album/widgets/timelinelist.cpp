@@ -81,7 +81,8 @@ void TimelineListWidget::paintEvent(QPaintEvent *e)
     if (this->count() > 0) {
         int ccount = count();
         int blankHeight = 0; //add 3975
-        for (int i = 0; i < ccount; i++) {
+        bool doSet = false;
+        for (int i = ccount - 1; i >= 0; i--) {
             QListWidgetItem *pItem = this->item(i);
             TimelineItem *pWidget = static_cast<TimelineItem *>(itemWidget(pItem));
             //add start 3975
@@ -104,8 +105,9 @@ void TimelineListWidget::paintEvent(QPaintEvent *e)
                     pWidget->m_Chose->setVisible(true);
 
                     //            } else if ((pWidget->y() <= 0) && (pWidget->y() + pWidget->m_title->height() > 0)) {
-                } else if ((pWidget->y() <= blankHeight + 47)) {  //edit 3975
+                } else if (!doSet && (pWidget->y() <= blankHeight + 47)) {  //edit 3975
                     has = false;
+                    doSet = true;
                     emit sigNewTime(pWidget->m_sdate, pWidget->m_snum, i);
                     pWidget->m_date->setText("");
                     pWidget->m_num->setText("");
