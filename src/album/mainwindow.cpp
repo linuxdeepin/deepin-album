@@ -109,6 +109,11 @@ MainWindow::MainWindow()
     loadZoomRatio();
     m_bVector << true << true << true;
     connect(dApp->signalM, &SignalManager::showImageView, this, &MainWindow::onShowImageView);
+
+    //平板模式下屏蔽最大化最小化及关闭按钮
+    if (dApp->isTablet()) {
+        setWindowFlags(windowFlags() & ~(Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint));
+    }
 }
 
 MainWindow::~MainWindow()
