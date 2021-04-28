@@ -492,7 +492,7 @@ void ViewPanel::onViewBImageChanged(QString path)
     emit imageChanged(path);
     // Pixmap is cache in thread, make sure the size would correct after
     // cache is finish
-    m_viewB->autoFit();
+    //m_viewB->autoFit();
 }
 
 void ViewPanel::onFIleDelete()
