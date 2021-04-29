@@ -1663,7 +1663,7 @@ bool TTBContent::setCurrentItem()
 
         updateScreen();
         m_trashBtn->setDisabled(false);
-        if (UnionImage_NameSpace::canSave(m_currentpath)) {
+        if (UnionImage_NameSpace::canSave(m_currentpath) && QFile::permissions(m_currentpath).testFlag(QFile::WriteOwner)) {
             m_rotateLBtn->setDisabled(false);
             m_rotateRBtn->setDisabled(false);
         } else {
