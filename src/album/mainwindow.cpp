@@ -1041,7 +1041,7 @@ void MainWindow::albumBtnClicked()
 
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-    m_pAlbumview->updatePicNum();
+    m_pAlbumview->updateRightView();
     m_pAlbumview->m_pwidget->setFocus();
 
     m_pAllPicBtn->setCheckable(true);
