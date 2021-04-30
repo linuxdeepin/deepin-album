@@ -188,12 +188,14 @@ void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
     //加入显示动画效果，以透明度0-1显示，动态加载，视觉效果掩盖左上角展开
+#ifndef tablet_PC
     QPropertyAnimation *animation = new QPropertyAnimation(window(), "windowOpacity");
     animation->setDuration(50);
     animation->setEasingCurve(QEasingCurve::Linear);
     animation->setStartValue(0);
     animation->setEndValue(1);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
+#endif
     window()->showFullScreen();
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
@@ -489,7 +491,7 @@ void ViewPanel::onViewBImageChanged(const QString &path)
     emit imageChanged(path);
     // Pixmap is cache in thread, make sure the size would correct after
     // cache is finish
-    m_viewB->autoFit();
+    //m_viewB->autoFit(); 放出来会导致切换图片时偶发引起1:1图标闪烁
 }
 
 void ViewPanel::onFIleDelete()

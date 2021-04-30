@@ -96,6 +96,16 @@ TEST(ThumbnailListView, initThumbnailListView)
     w->m_pAllPicView->m_pThumbnailListView->createAlbumMenu();
     w->m_pAllPicView->m_pThumbnailListView->getDamagedPixmap();
     w->m_pAllPicView->m_pThumbnailListView->updateThumbnaillistview();
+    w->m_pAllPicView->m_pThumbnailListView->startDrag(Qt::DropAction::CopyAction);
+
+    QPoint pointbtn = w->m_pAllPicView->m_pThumbnailListView->pos();
+    QTestEventList event;
+    event.addMousePress(Qt::LeftButton, Qt::NoModifier, pointbtn + QPoint(1, 1), 600);
+    event.addMouseMove(pointbtn + QPoint(200, 200), 10);
+    event.addMouseRelease(Qt::LeftButton, Qt::NoModifier, pointbtn + QPoint(200, 200), 600);
+    event.simulate(w->m_pAllPicView->m_pThumbnailListView);
+    event.clear();
+    QTest::qWait(500);
 }
 
 TEST(ThumbnailListView, createNewAlbumFromDialog1)
@@ -112,7 +122,9 @@ TEST(ThumbnailListView, createNewAlbumFromDialog1)
     event.addMouseMove(pointbtn + QPoint(1, 1), 10);
     event.addMouseMove(pointbtn + QPoint(2, 2), 10);
     event.addMouseClick(Qt::LeftButton, Qt::NoModifier);
+    event.addMousePress(Qt::LeftButton, Qt::NoModifier);
     event.addMouseMove(pointbtn + QPoint(200, 200), 10);
+    event.addMouseRelease(Qt::LeftButton, Qt::NoModifier, pointbtn + QPoint(200, 200), 10);
     event.simulate(btn);
     event.clear();
     QTest::qWait(500);

@@ -456,7 +456,9 @@ TEST(MainWindow, allpicture)
     //导出6
     QTimer::singleShot(1000, w, [ = ]() {
         //导出重复时，干掉覆盖提示框
-        int (*dlgexec)() = []() {return 1;};
+        int (*dlgexec)() = []() {
+            return 1;
+        };
         typedef int (*fptr)(QDialog *);
         fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
         Stub stub;
@@ -751,7 +753,9 @@ TEST(MainWindow, viewpanelmenu)
 
     QTimer::singleShot(1000, w, [ = ]() {
         //导出重复时，干掉覆盖提示框
-        int (*dlgexec)() = []() {return 1;};
+        int (*dlgexec)() = []() {
+            return 1;
+        };
         typedef int (*fptr)(QDialog *);
         fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
         Stub stub;
@@ -1970,7 +1974,9 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
     }
 
     //往此相册导入图片
-    int (*dlgexec)() = []() {return 1;};
+    int (*dlgexec)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
@@ -2000,7 +2006,9 @@ TEST(MainWindow, ImportPhotosFromTitlebarMenu)
     QTest::qWait(2000);
     e.clear();
 
-    int (*dlgexec)() = []() {return 1;};
+    int (*dlgexec)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
@@ -2235,6 +2243,10 @@ TEST(MainWindow, onNewAPPOpen_test)
     e.clear();
 }
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 TEST(MainWindow, callFuncitons_test)
 {
     TEST_CASE_NAME("callFuncitons_test")
@@ -2286,6 +2298,10 @@ TEST(MainWindow, callFuncitons_test)
     fileinotify.getAllPicture(true);
     fileinotify.getAllPicture(false);
     fileinotify.pathLoadOnce();
+
+    fileinotify.start();
+    QTest::qWait(500);
+    fileinotify.terminate();
 
     QObject obj;
     MainWindow *w = dApp->getMainWindow();
@@ -2378,7 +2394,9 @@ TEST(MainWindow, picdelete)
     QTest::qWait(2000);
 
     //所有照片
-    int (*dlgexec)() = []() {return 1;};
+    int (*dlgexec)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
@@ -2416,7 +2434,9 @@ TEST(MainWindow, picdelete)
     qApp->sendEvent(w->m_pAllPicView->m_pThumbnailListView->viewport(), &menuEvent1);
     QTest::qWait(2000);
 
-    int (*dlgexec1)() = []() {return 1;};
+    int (*dlgexec1)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec1 = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub1;
@@ -2455,7 +2475,9 @@ TEST(MainWindow, picdelete)
     QContextMenuEvent menuEvent2(QContextMenuEvent::Mouse, p2);
     qApp->sendEvent(firstThumb->viewport(), &menuEvent2);
 
-    int (*dlgexec2)() = []() {return 1;};
+    int (*dlgexec2)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec2 = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub2;
@@ -2507,6 +2529,9 @@ TEST(TimeLineView, shiftandcontrol)
     e.simulate(timelineview->m_allThumbnailListView[0]->viewport());
     e.clear();
     QTest::qWait(300);
+
+    //删除dbus，过一下析构函数
+    w->m_pDBus->deleteLater();
 }
 
 //标题栏创建

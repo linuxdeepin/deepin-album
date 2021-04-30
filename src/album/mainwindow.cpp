@@ -108,6 +108,11 @@ MainWindow::MainWindow()
     loadZoomRatio();
     m_bVector << true << true << true;
     connect(dApp->signalM, &SignalManager::showImageView, this, &MainWindow::onShowImageView);
+
+    //平板模式下屏蔽最大化最小化及关闭按钮
+#ifdef tablet_PC
+    setWindowFlags(windowFlags() & ~(Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint));
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -999,7 +1004,7 @@ void MainWindow::albumBtnClicked()
 
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-    m_pAlbumview->updatePicNum();
+    m_pAlbumview->updateRightView();
     m_pAlbumview->m_pwidget->setFocus();
 
     m_pAllPicBtn->setCheckable(true);

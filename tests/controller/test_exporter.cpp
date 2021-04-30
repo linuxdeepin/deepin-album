@@ -65,7 +65,6 @@ TEST(Exporter, test_Exporter_init)
     MainWindow *w = dApp->getMainWindow();
     Q_UNUSED(w)
     Exporter::instance();
-    QUrl UrlInfo1(QString path);
 }
 
 TEST(Exporter, exportImage_test)
@@ -106,7 +105,9 @@ TEST(Exporter, exportAlbum_test)
     const QStringList albumPaths;
     const QString albumnam;
 
-    int (*dlgexec)() = []() {return 1;};
+    int (*dlgexec)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
@@ -148,7 +149,9 @@ TEST(Exporter, popupDialogSaveImage_test)
 
     AlbumView *a = w->m_pAlbumview;
 
-    int (*dlgexec)() = []() {return 1;};
+    int (*dlgexec)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;

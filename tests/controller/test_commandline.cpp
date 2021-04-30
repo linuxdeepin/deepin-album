@@ -69,6 +69,7 @@ TEST(CommandLine, test_CommandLine)
 
     QString path = paths.first();
     QUrl UrlInfo1(QString path);
+    UrlInfo1(path);
 }
 
 TEST(CommandLine, urltest)
@@ -109,5 +110,8 @@ TEST(CommandLine, processOption_test)
     CommandLine::instance()->processOption(paths);
     QTest::qWait(500);
     w->allPicBtnClicked();
+    QTest::qWait(500);
+    paths.clear();
+    CommandLine::instance()->processOption(paths);
     QTest::qWait(500);
 }

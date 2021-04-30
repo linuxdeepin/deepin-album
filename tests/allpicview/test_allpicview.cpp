@@ -216,6 +216,33 @@ TEST(allpicview, test_open)
                     ml->thumbnailIsMoving();
                     ml->stopAnimation();
                     ml->deleteLater();
+
+                    QMouseEvent e1(QEvent::MouseButtonPress,
+                                   QPointF(100, 100),
+                                   Qt::MouseButton::AllButtons,
+                                   Qt::MouseButtons(),
+                                   Qt::KeyboardModifier::NoModifier);
+                    ml->eventFilter(nullptr, &e1);
+
+                    QEvent e2(QEvent::MouseButtonRelease);
+                    ml->eventFilter(nullptr, &e2);
+
+                    QEvent e3(QEvent::Leave);
+                    ml->eventFilter(ml->getObj(), &e3);
+
+                    QMouseEvent e4(QEvent::MouseButtonPress,
+                                   QPointF(100, 100),
+                                   Qt::MouseButton::AllButtons,
+                                   Qt::MouseButtons(),
+                                   Qt::KeyboardModifier::NoModifier);
+                    ml->eventFilter(nullptr, &e4);
+
+                    QMouseEvent e5(QEvent::MouseMove,
+                                   QPointF(100, 100),
+                                   Qt::MouseButton::AllButtons,
+                                   Qt::MouseButtons(),
+                                   Qt::KeyboardModifier::NoModifier);
+                    ml->eventFilter(nullptr, &e5);
                 }
             }
         }

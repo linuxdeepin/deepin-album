@@ -21,11 +21,15 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
+#define private public
+#define protected public
+
 #include "application.h"
 #include "test_qtestDefine.h"
 #include "imagebutton.h"
 #include "elidedlabel.h"
 #include "ac-desktop-define.h"
+#include "globaleventfilter.h"
 
 #include <QDebug>
 #include <QDir>
@@ -116,4 +120,18 @@ TEST(ElidedLabel, namelabel)
     lab->resize(size.width() + 1, size.height() + 1);
     lab->update();
     lab->deleteLater();
+}
+
+TEST(GlobalEventFilter, eventfilter)
+{
+    TEST_CASE_NAME("eventfilter")
+
+    //这个东西因为是在application里面调用，所以扔这里
+    GlobalEventFilter filter;
+
+    QKeyEvent e1(QEvent::KeyPress, Qt::Key_Tab, Qt::KeyboardModifier::NoModifier);
+    filter.eventFilter(nullptr, &e1);
+
+    QKeyEvent e2(QEvent::KeyRelease, Qt::Key_1, Qt::KeyboardModifier::NoModifier);
+    filter.eventFilter(nullptr, &e2);
 }
