@@ -229,8 +229,8 @@ void TimeLineView::initTimeLineViewWidget()
 
     //时间线下的计数
     pNum_up = new DLabel();
-    DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
-    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+    DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T5, QFont::Medium);
+    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T5);
     ft6.setFamily("SourceHanSansSC");
     ft6.setWeight(QFont::Medium);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -428,7 +428,6 @@ void TimeLineView::addTimelineLayout()
     DLabel *pDate = new DLabel();
     DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T3, QFont::DemiBold);
 
-
     pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     QStringList datelist = m_timelines.at(nowTimeLineLoad).split(".");
     if (datelist.count() > 2) {
@@ -451,10 +450,10 @@ void TimeLineView::addTimelineLayout()
 
     pNum_dn = new DLabel();
     listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
-    DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
+    DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T5, QFont::Medium);
     pNum_dn->setText(listItem->m_snum);
 
-    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T5);
     ft6.setFamily("SourceHanSansSC");
     ft6.setWeight(QFont::Medium);
     DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
@@ -519,8 +518,8 @@ void TimeLineView::addTimelineLayout()
             if (nowTimeLineLoad == m_timelines.size() - 1) {
                 mh += 27;
             }
-            pThumbnailListView->setFixedHeight(mh);
-            listItem->setFixedHeight(TitleView->height() + mh);
+            pThumbnailListView->setFixedHeight(mh - 7);
+            listItem->setFixedHeight(TitleView->height() + mh - 7);
             item->setSizeHint(listItem->rect().size());
         }
     });
