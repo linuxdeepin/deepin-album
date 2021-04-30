@@ -214,9 +214,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         copyImageToClipboard(QStringList(path1));
         break;
     case IdMoveToTrash: {
-        emit SignalManager::instance()->deleteByMenu();
-        if (m_vinfo.fullScreen == true) {
-            emit SignalManager::instance()->hideBottomToolbar();
+        ImgDeleteDialog dialog(this, 1);
+        if (dialog.exec() == 1) {
+            emit SignalManager::instance()->deleteByMenu();
+            if (m_vinfo.fullScreen == true) {
+                emit SignalManager::instance()->hideBottomToolbar();
+            }
         }
     }
     break;

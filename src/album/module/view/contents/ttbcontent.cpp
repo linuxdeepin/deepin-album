@@ -30,6 +30,7 @@
 #include "controller/signalmanager.h"
 #include "imageengine/imageengineapi.h"
 #include "ac-desktop-define.h"
+#include "widgets/dialogs/imgdeletedialog.h"
 
 #include <QTimer>
 #include <QFileInfo>
@@ -1537,7 +1538,10 @@ void TTBContent::onNeedContinueRequest()
 
 void TTBContent::onTrashBtnClicked()
 {
-    emit dApp->signalM->deleteByMenu();
+    ImgDeleteDialog dialog(this, 1);
+    if (dialog.exec() == 1) {
+        emit dApp->signalM->deleteByMenu();
+    }
 }
 
 void TTBContent::onNextButton()
