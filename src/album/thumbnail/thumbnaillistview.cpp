@@ -154,7 +154,23 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
             if (event->button() != Qt::MouseButton::RightButton) {
                 clearSelection();
             }
-        } else {
+        } else if (m_isSelectAllBtn && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED)) {
+            //            if (selectionModel()->selectedIndexes().contains(this->indexAt(event->pos())) && event->button() != Qt::RightButton) {
+            //                selectionModel()->select(this->indexAt(event->pos()), QItemSelectionModel::Deselect);
+            //            } else {
+            //                selectionModel()->select(this->indexAt(event->pos()), QItemSelectionModel::Select);
+            //            }
+                        QModelIndexList list = selectionModel()->selectedIndexes();
+                        DListView::mousePressEvent(event);
+                        for(auto item:list) {
+                            selectionModel()->select(item,QItemSelectionModel::Select);
+                        }
+                        if(list.contains(this->indexAt(event->pos())) && event->button() != Qt::RightButton){
+                            selectionModel()->select(this->indexAt(event->pos()), QItemSelectionModel::Deselect);
+                        } else {
+                            selectionModel()->select(this->indexAt(event->pos()), QItemSelectionModel::Select);
+                        }
+                    }else {
             DListView::mousePressEvent(event);
         }
     }
@@ -1617,6 +1633,9 @@ void ThumbnailListView::onScrollBarRangeChanged(int min, int max)
 
 void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
 {
+    if (m_isSelectAllBtn) {
+        return;
+    }
     if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
         if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
             emit openImage(index.row());
@@ -1627,12 +1646,12 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
 void ThumbnailListView::onClicked(const QModelIndex &index)
 {
     emit hideExtensionPanel();
-    if (dApp->isTablet() && activeClick) {
-        if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
-            if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
-                emit openImage(index.row());
-            }
-        }
+    if (m_isSelectAllBtn) {
+        return;
+    }
+    if (dApp->isTablet() && activeClick && ALBUM_PATHTYPE_BY_PHONE != m_imageType
+            && m_imageType.compare(COMMON_STR_TRASH) != 0) {
+        emit openImage(index.row());
     }
     Q_UNUSED(index)
 }

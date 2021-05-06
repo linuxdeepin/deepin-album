@@ -606,9 +606,8 @@ void TimeLineView::addTimelineLayout()
             emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
         }
     });
-    connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
-        if (QObject::tr("Select") == pChose->text())
-        {
+    connect(pChose, &DCommandLinkButton::clicked, this, [ = ]() {
+        if (QObject::tr("Select") == pChose->text()) {
             pChose->setText(QObject::tr("Unselect"));
             for (int j = 0; j < m_allChoseButton.length(); j++) {
                 if (pChose == m_allChoseButton[j])
@@ -617,10 +616,13 @@ void TimeLineView::addTimelineLayout()
             lastRow = 0;
             lastChanged = true;
             pThumbnailListView->selectAll();
-        } else
-        {
+            pThumbnailListView->m_isSelectAllBtn = true;
+            pThumbnailListView->setSelectionMode(QAbstractItemView::MultiSelection);
+        } else {
             pChose->setText(QObject::tr("Select"));
             pThumbnailListView->clearSelection();
+            pThumbnailListView->m_isSelectAllBtn = false;
+            pThumbnailListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
         }
         updatePicNum();
     });
@@ -716,9 +718,8 @@ void TimeLineView::addTimelineLayout()
         pSuspensionChose->setText(b[0]->text());
     });
 
-    connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
-        if (!m_ctrlPress)
-        {
+    connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ]() {
+        if (!m_ctrlPress) {
             for (int j = 0; j < m_allThumbnailListView.length(); j++) {
                 if (pThumbnailListView != m_allThumbnailListView[j]) {
                     m_allThumbnailListView[j]->clearSelection();
@@ -732,15 +733,16 @@ void TimeLineView::addTimelineLayout()
         pSuspensionChose->setText(b[0]->text());
     });
 
-    connect(pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, [ = ] {
+    connect(pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, [ = ]() {
+        if (dApp->isTablet()) {
+            return;
+        }
         QStringList paths = pThumbnailListView->selectedPaths();
-        if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-        {
+        if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text()) {
             pChose->setText(QObject::tr("Unselect"));
         }
 
-        if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-        {
+        if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text()) {
             pChose->setText(QObject::tr("Select"));
         }
         updatePicNum();
@@ -854,8 +856,11 @@ void TimeLineView::on_DCommandLinkButton()
     if (QObject::tr("Select") == pSuspensionChose->text()) {
         pSuspensionChose->setText(QObject::tr("Unselect"));
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
-        if (p.size() > 0)
+        if (p.size() > 0) {
             p[0]->selectAll();
+            p[0]->m_isSelectAllBtn = true;
+            p[0]->setSelectionMode(QAbstractItemView::MultiSelection);
+        }
         updatePicNum();
         for (int i = 0; i < m_allChoseButton.length(); i++) {
             if (m_allThumbnailListView[i] == p[0]) {
@@ -870,6 +875,8 @@ void TimeLineView::on_DCommandLinkButton()
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
         if (p.size() > 0) {
             p[0]->clearSelection();
+            p[0]->m_isSelectAllBtn = false;
+            p[0]->setSelectionMode(QAbstractItemView::ExtendedSelection);
             updatePicNum();
         }
     }
@@ -1016,6 +1023,9 @@ void TimeLineView::updatePicNum()
 
 void TimeLineView::updateChoseText()
 {
+    if (dApp->isTablet()) {
+        return;
+    }
     for (int i = 0; i < m_allChoseButton.length(); i++) {
         if (m_allThumbnailListView[i]->model()->rowCount() == m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Select") == m_allChoseButton[i]->text()) {
             m_allChoseButton[i]->setText(QObject::tr("Unselect"));
