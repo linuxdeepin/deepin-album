@@ -154,7 +154,22 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
             if (event->button() != Qt::MouseButton::RightButton) { // 优化最近删除界面,长按时不清除选中
                 clearSelection();
             }
-        } else {
+        }
+#ifdef tablet_PC
+        else if (m_isSelectAllBtn && (m_imageType == COMMON_STR_VIEW_TIMELINE || m_imageType == COMMON_STR_RECENT_IMPORTED)) {
+            QModelIndexList list = selectionModel()->selectedIndexes();
+            DListView::mousePressEvent(event);
+            for (auto item : list) {
+                selectionModel()->select(item, QItemSelectionModel::Select);
+            }
+            if (list.contains(this->indexAt(event->pos())) && event->button() != Qt::RightButton) {
+                selectionModel()->select(this->indexAt(event->pos()), QItemSelectionModel::Deselect);
+            } else {
+                selectionModel()->select(this->indexAt(event->pos()), QItemSelectionModel::Select);
+            }
+        }
+#endif
+        else {
             DListView::mousePressEvent(event);
         }
     }
@@ -1619,6 +1634,9 @@ void ThumbnailListView::onScrollBarRangeChanged(int min, int max)
 
 void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
 {
+    if (m_isSelectAllBtn) {
+        return;
+    }
     if (ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
         if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
             emit openImage(index.row());
@@ -1629,6 +1647,9 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
 void ThumbnailListView::onClicked(const QModelIndex &index)
 {
     emit hideExtensionPanel();
+    if (m_isSelectAllBtn) {
+        return;
+    }
 #ifdef tablet_PC
     if (activeClick && ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
         if (m_imageType.compare(COMMON_STR_TRASH) != 0) {

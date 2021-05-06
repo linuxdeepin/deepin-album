@@ -310,6 +310,7 @@ public:
     int m_timeLineSelectPrePic = 0;
     int m_height = 0;
     int m_onePicWidth = 0;
+    bool m_isSelectAllBtn = false; //平板下，是否选中所有,默认未选定
 };
 
 #endif // THUMBNAILLISTVIEW_H

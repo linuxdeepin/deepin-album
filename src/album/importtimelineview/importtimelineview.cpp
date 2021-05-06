@@ -258,6 +258,10 @@ void ImportTimeLineView::onSuspensionChoseBtnClicked()
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
         if (p.size() > 0) {
             p[0]->selectAll();
+#ifdef tablet_PC
+            p[0]->m_isSelectAllBtn = true;
+            p[0]->setSelectionMode(QAbstractItemView::MultiSelection);
+#endif
             emit sigUpdatePicNum();
         }
         for (int i = 0; i < m_allChoseButton.length(); i++) {
@@ -272,6 +276,10 @@ void ImportTimeLineView::onSuspensionChoseBtnClicked()
         QList<ThumbnailListView *> p = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<ThumbnailListView *>();
         if (p.size() > 0) {
             p[0]->clearSelection();
+#ifdef tablet_PC
+            p[0]->m_isSelectAllBtn = false;
+            p[0]->setSelectionMode(QAbstractItemView::ExtendedSelection);
+#endif
             emit sigUpdatePicNum();
         }
     }
@@ -294,6 +302,9 @@ QStringList ImportTimeLineView::selectPaths()
 
 void ImportTimeLineView::updateChoseText()
 {
+#ifdef tablet_PC
+    return;
+#endif
     for (int i = 0; i < m_allChoseButton.length(); i++) {
         if (m_allThumbnailListView[i]->model()->rowCount() == m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Select") == m_allChoseButton[i]->text()) {
             m_allChoseButton[i]->setText(QObject::tr("Unselect"));
@@ -667,11 +678,14 @@ void ImportTimeLineView::addTimelineLayout()
             emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
         }
     });
-    connect(pChose, &DCommandLinkButton::clicked, this, [ = ] {
-        if (QObject::tr("Select") == pChose->text())
-        {
+    connect(pChose, &DCommandLinkButton::clicked, this, [ = ]() {
+        if (QObject::tr("Select") == pChose->text()) {
             pChose->setText(QObject::tr("Unselect"));
             pThumbnailListView->selectAll();
+#ifdef tablet_PC
+            pThumbnailListView->m_isSelectAllBtn = true;
+            pThumbnailListView->setSelectionMode(QAbstractItemView::MultiSelection);
+#endif
             for (int j = 0; j < m_allChoseButton.length(); j++) {
                 if (pChose == m_allChoseButton[j])
                     lastClickedIndex = j;
@@ -679,10 +693,13 @@ void ImportTimeLineView::addTimelineLayout()
             lastRow = 0;
             lastChanged = true;
             m_ctrlPress = true;
-        } else
-        {
+        } else {
             pChose->setText(QObject::tr("Select"));
             pThumbnailListView->clearSelection();
+#ifdef tablet_PC
+            pThumbnailListView->m_isSelectAllBtn = false;
+            pThumbnailListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+#endif
         }
         emit sigUpdatePicNum();
     });
@@ -794,14 +811,13 @@ void ImportTimeLineView::addTimelineLayout()
         pSuspensionChose->setText(b[0]->text());
     });
 
-    connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ] {
+    connect(pThumbnailListView, &ThumbnailListView::sigMouseMove, this, [ = ]() {
         emit sigUpdatePicNum();
         updateChoseText();
     });
 
-    connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ] {
-        if (!m_ctrlPress)
-        {
+    connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ]() {
+        if (!m_ctrlPress) {
             for (int j = 0; j < m_allThumbnailListView.length(); j++) {
                 if (pThumbnailListView != m_allThumbnailListView[j]) {
                     m_allThumbnailListView[j]->clearSelection();
@@ -814,15 +830,16 @@ void ImportTimeLineView::addTimelineLayout()
         pSuspensionChose->setText(b[0]->text());
     });
 
-    connect(pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, [ = ] {
+    connect(pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, [ = ]() {
+#ifdef tablet_PC
+        return;
+#endif
         QStringList paths = pThumbnailListView->selectedPaths();
-        if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text())
-        {
+        if (pThumbnailListView->model()->rowCount() == paths.length() && QObject::tr("Select") == pChose->text()) {
             pChose->setText(QObject::tr("Unselect"));
         }
 
-        if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text())
-        {
+        if (pThumbnailListView->model()->rowCount() != paths.length() && QObject::tr("Unselect") == pChose->text()) {
             pChose->setText(QObject::tr("Select"));
         }
         emit sigUpdatePicNum();
@@ -835,12 +852,11 @@ void ImportTimeLineView::addTimelineLayout()
         }
         pThumbnailListView->menuItemDeal(paths, action);
     });
-    connect(pThumbnailListView, &ThumbnailListView::needResizeLabel, this, [ = ] {
+    connect(pThumbnailListView, &ThumbnailListView::needResizeLabel, this, [ = ]() {
         listItem->m_title->setFixedWidth(width() - 14);
     });
-    connect(listItem, &TimelineItem::sigMousePress, this, [ = ] {
-        for (int j = 0; j < m_allThumbnailListView.length(); j++)
-        {
+    connect(listItem, &TimelineItem::sigMousePress, this, [ = ]() {
+        for (int j = 0; j < m_allThumbnailListView.length(); j++) {
             m_allThumbnailListView[j]->clearSelection();
         }
         lastRow = -1;
