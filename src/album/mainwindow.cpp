@@ -1984,6 +1984,9 @@ void MainWindow::onHideImageView()
     if (m_backIndex == VIEW_ALLPIC) {
         allPicBtnClicked();
     }
+    if (dApp->isTablet()) {
+        setWindowFlags(windowFlags() & ~(Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint));
+    }
 }
 
 void MainWindow::onShowSlidePanel(int index)
