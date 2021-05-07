@@ -12,7 +12,10 @@ mkdir build-ut
 
 cmake . -B build -D DOTEST=ON
 cd build
-make  -j8
+
+JOBS=`cat /proc/cpuinfo| grep "processor"|  wc -l`
+echo processor count: $JOBS
+make -j$JOBS
 
 lcov --directory ./CMakeFiles/deepin-album_test.dir --zerocounters
 ./src/deepin-album_test

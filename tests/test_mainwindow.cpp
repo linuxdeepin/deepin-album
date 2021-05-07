@@ -177,6 +177,11 @@ TEST(MainWindow, Picimport)
     event.clear();
     QTest::qWait(300);
     ASSERT_TRUE(w != nullptr);
+
+    //测试导入单个图片
+    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "", allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "111", allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/album_ut_mount_point/DCIM/0jll1w.jpg"}, "", allpicview, true);
 }
 
 TEST(MainWindow, allpicture)
