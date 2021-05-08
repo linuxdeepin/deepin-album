@@ -71,14 +71,11 @@ const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppD
 ImportImagesThread::ImportImagesThread()
 {
     m_paths.clear();
-    setAutoDelete(true);
+    //setAutoDelete(false); 禁用auto delete，防止崩溃
 }
 
 ImportImagesThread::~ImportImagesThread()
 {
-    if (m_obj) {
-        m_obj->removeThread(this);
-    }
 }
 
 void ImportImagesThread::setData(QList<QUrl> &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect)
@@ -109,7 +106,7 @@ bool ImportImagesThread::ifCanStopThread(void *imgobject)
     return false;
 }
 
-void ImportImagesThread::run()
+void ImportImagesThread::runDetail()
 {
     if (bneedstop) {
         m_obj->imageImported(false);
@@ -309,7 +306,7 @@ void ImportImagesThread::run()
 
 ImageRecoveryImagesFromTrashThread::ImageRecoveryImagesFromTrashThread()
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 void ImageRecoveryImagesFromTrashThread::setData(QStringList &paths)
@@ -317,7 +314,7 @@ void ImageRecoveryImagesFromTrashThread::setData(QStringList &paths)
     m_paths = paths;
 }
 
-void ImageRecoveryImagesFromTrashThread::run()
+void ImageRecoveryImagesFromTrashThread::runDetail()
 {
     QStringList paths = m_paths;
 
@@ -347,7 +344,7 @@ void ImageRecoveryImagesFromTrashThread::run()
 
 ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 void ImageMoveImagesToTrashThread::setData(QStringList &paths, bool typetrash)
@@ -356,7 +353,7 @@ void ImageMoveImagesToTrashThread::setData(QStringList &paths, bool typetrash)
     btypetrash = typetrash;
 }
 
-void ImageMoveImagesToTrashThread::run()
+void ImageMoveImagesToTrashThread::runDetail()
 {
     QStringList paths = m_paths;
     if (btypetrash) {
@@ -439,14 +436,11 @@ void ImageMoveImagesToTrashThread::run()
 
 ImageImportFilesFromMountThread::ImageImportFilesFromMountThread()
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 ImageImportFilesFromMountThread::~ImageImportFilesFromMountThread()
 {
-    if (m_imgobject) {
-        m_imgobject->removeThread(this);
-    }
 }
 
 void ImageImportFilesFromMountThread::setData(QString &albumname, QStringList &paths, ImageMountImportPathsObject *imgobject)
@@ -465,7 +459,7 @@ bool ImageImportFilesFromMountThread::ifCanStopThread(void *imgobject)
     return false;
 }
 
-void ImageImportFilesFromMountThread::run()
+void ImageImportFilesFromMountThread::runDetail()
 {
     if (bneedstop) {
         return;
@@ -563,14 +557,11 @@ void ImageImportFilesFromMountThread::run()
 
 ImageGetFilesFromMountThread::ImageGetFilesFromMountThread()
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 ImageGetFilesFromMountThread::~ImageGetFilesFromMountThread()
 {
-    if (m_imgobject) {
-        m_imgobject->removeThread(this);
-    }
 }
 
 void ImageGetFilesFromMountThread::setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject)
@@ -618,7 +609,7 @@ bool ImageGetFilesFromMountThread::findPicturePathByPhone(QString &path)
     return false;
 }
 
-void ImageGetFilesFromMountThread::run()
+void ImageGetFilesFromMountThread::runDetail()
 {
     if (bneedstop) {
         return;
@@ -655,14 +646,11 @@ ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
     : m_loadCount(loadCount)
 {
 //    m_loadCount = loadCount;
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 ImageLoadFromDBThread::~ImageLoadFromDBThread()
 {
-    if (m_imgobject) {
-        m_imgobject->removeThread(this);
-    }
 }
 
 void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageEngineObject *imgobject, QString nametype)
@@ -681,7 +669,7 @@ bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
     return false;
 }
 
-void ImageLoadFromDBThread::run()
+void ImageLoadFromDBThread::runDetail()
 {
     if (bneedstop) {
         return;
@@ -723,14 +711,11 @@ void ImageLoadFromDBThread::run()
 
 ImageLoadFromLocalThread::ImageLoadFromLocalThread()
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 ImageLoadFromLocalThread::~ImageLoadFromLocalThread()
 {
-    if (m_imgobject) {
-        m_imgobject->removeThread(this);
-    }
 }
 
 void ImageLoadFromLocalThread::setData(QStringList &filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
@@ -764,7 +749,7 @@ void ImageLoadFromLocalThread::setData(DBImgInfoList filelist, ImageEngineObject
         m_type = type;
 }
 
-void ImageLoadFromLocalThread::run()
+void ImageLoadFromLocalThread::runDetail()
 {
     if (bneedstop) {
         return;
@@ -832,15 +817,11 @@ void ImageLoadFromLocalThread::run()
 ImageEngineThread::ImageEngineThread()
 {
     m_imgobject.clear();
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
-
 
 ImageEngineThread::~ImageEngineThread()
 {
-    for (auto obj : m_imgobject) {
-        obj->removeThread(this);
-    }
 }
 
 void ImageEngineThread::setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
@@ -850,7 +831,6 @@ void ImageEngineThread::setData(QString &path, ImageEngineObject *imgobject, Ima
     m_data = data;
     bneedcache = needcache;
 }
-
 
 bool ImageEngineThread::ifCanStopThread(void *imgobject)
 {
@@ -905,7 +885,7 @@ bool ImageEngineThread::addObject(ImageEngineObject *imgobject)
 }
 
 //载入QPixmap
-void ImageEngineThread::run()
+void ImageEngineThread::runDetail()
 {
     if (getNeedStop())
         return;
@@ -1002,14 +982,11 @@ void ImageEngineThread::run()
 
 ImageFromNewAppThread::ImageFromNewAppThread()
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 ImageFromNewAppThread::~ImageFromNewAppThread()
 {
-    if (m_imgobj) {
-        m_imgobj->removeThread(this);
-    }
 }
 
 void ImageFromNewAppThread::setDate(QStringList &files, ImageEngineImportObject *obj)
@@ -1027,7 +1004,7 @@ bool ImageFromNewAppThread::ifCanStopThread(void *imgobject)
     return  false;
 }
 
-void ImageFromNewAppThread::run()
+void ImageFromNewAppThread::runDetail()
 {
     if (bneedstop) {
         m_imgobj->imageImported(false);
@@ -1077,7 +1054,7 @@ void ImageFromNewAppThread::run()
 
 ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
 }
 
 ImageCacheQueuePopThread::~ImageCacheQueuePopThread()
@@ -1148,7 +1125,7 @@ void ImageCacheQueuePopThread::run()
 
 ImageEngineBackThread::ImageEngineBackThread(): m_bpause(false)
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
     connect(dApp->signalM, &SignalManager::sigDevStop, this, [ = ](QString devName) {
         if (devName == m_devName || devName.isEmpty()) {
             bbackstop = true;
@@ -1164,7 +1141,7 @@ void ImageEngineBackThread::setData(QStringList pathlist, QString devName)
     m_devName = devName;
 }
 
-void ImageEngineBackThread::run()
+void ImageEngineBackThread::runDetail()
 {
     using namespace UnionImage_NameSpace;
     for (auto temppath : m_pathlist) {

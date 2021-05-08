@@ -421,8 +421,21 @@ TEST(MainWindow, allpicture)
     e.simulate(menuWidget);
     e.clear();
     QTest::qWait(15000);
-
+  
     SlideShowPanel *slideshowpanel = w->m_slidePanel;
+  
+    //fix：没有调用startSlideShow而直接用鼠标去点，导致UT崩溃
+    SignalManager::ViewInfo info;
+    info.album = "";
+    info.lastPanel = nullptr;
+    info.paths = QStringList() << testPath_Pictures + "/a.jpg" << testPath_Pictures + "/3333.jpg";
+    info.path = testPath_Pictures + "/a.jpg";
+    info.fullScreen = true;
+    info.slideShow = true;
+    info.viewType = "";
+    info.viewMainWindowID = 0;
+    slideshowpanel->startSlideShow(info, true);
+    
     if (slideshowpanel) {
         SlideShowBottomBar *sliderbar = slideshowpanel->slideshowbottombar;
         if (sliderbar) {
@@ -943,7 +956,9 @@ TEST(MainWindow, timelineview)
     e.simulate(w->getButG()->button(1));
     e.clear();
 
-    CommandLine *commandline = w->m_commandLine;
+    //ARM64下UT总是报告这里的w->m_commandLine是nullptr，因此置换为从单例获取
+    //CommandLine *commandline = w->m_commandLine;
+    CommandLine *commandline = CommandLine::instance();
     ImageView *imageview = commandline->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB;
 
     if (timelineview) {

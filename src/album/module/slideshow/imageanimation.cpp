@@ -597,7 +597,9 @@ void ImageAnimationPrivate::moveLeftToRightEffect(QPainter *painter, const QRect
 
 void ImageAnimationPrivate::setPathList(const QString &first, const QStringList &list)
 {
-    queue = QSharedPointer<LoopQueue>(new LoopQueue(first, list));
+    //尝试解决UT报告引用queue的空指针
+    queue.clear();
+    queue.reset(new LoopQueue(first, list));
     setImage1(queue->last());
     setImage2(queue->first());
 }

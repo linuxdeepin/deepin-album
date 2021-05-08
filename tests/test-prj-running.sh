@@ -13,8 +13,15 @@ mkdir build-ut
 cmake . -B build -D DOTEST=ON
 cd build
 
+#自动读取当前处理器核心数，但考虑到服务器上会同时存在多个构建，完全占用服务器CPU会导致构建变慢，所以限制使用的核心不超过8个
 JOBS=`cat /proc/cpuinfo| grep "processor"|  wc -l`
-echo processor count: $JOBS
+if [ $JOBS -gt 8 ]
+then JOBS=8
+elif [ $JOBS -eq 0 ]
+then JOBS=1
+fi
+
+echo use processor count: $JOBS
 make -j$JOBS
 
 lcov --directory ./CMakeFiles/deepin-album_test.dir --zerocounters

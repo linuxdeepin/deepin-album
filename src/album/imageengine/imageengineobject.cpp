@@ -31,7 +31,6 @@ void ImageEngineThreadObject::needStop(void *imageobject)
         bneedstop = true;
         bbackstop = true;
     }
-
 }
 
 bool ImageEngineThreadObject::ifCanStopThread(void *imgobject)
@@ -40,16 +39,23 @@ bool ImageEngineThreadObject::ifCanStopThread(void *imgobject)
     return true;
 }
 
+void ImageEngineThreadObject::run()
+{
+    runDetail(); //原本要run的内容
+    emit runFinished(); //告诉m_obj我run完了，这里不再像之前那样直接判断不为nullptr然后解引用m_obj，因为m_obj销毁后不会自动置为nullptr
+    this->deleteLater(); //在消息传达后销毁自己
+}
+
 ImageMountImportPathsObject::ImageMountImportPathsObject()
 {
     ImageEngineApi::instance()->insertObject(this);
 }
+
 ImageMountImportPathsObject::~ImageMountImportPathsObject()
 {
     ImageEngineApi::instance()->removeObject(this);
     clearAndStopThread();
 }
-
 
 void ImageMountImportPathsObject::addThread(ImageEngineThreadObject *thread)
 {
@@ -77,15 +83,16 @@ ImageMountGetPathsObject::~ImageMountGetPathsObject()
     clearAndStopThread();
 }
 
-
 void ImageMountGetPathsObject::addThread(ImageEngineThreadObject *thread)
 {
     m_threads.append(thread);
 }
+
 void ImageMountGetPathsObject::removeThread(ImageEngineThreadObject *thread)
 {
     m_threads.removeOne(thread);
 }
+
 void ImageMountGetPathsObject::clearAndStopThread()
 {
     for (auto thread : m_threads) {
@@ -97,23 +104,29 @@ void ImageMountGetPathsObject::clearAndStopThread()
 ImageEngineImportObject::ImageEngineImportObject()
 {
     ImageEngineApi::instance()->insertObject(this);
-
 }
+
 ImageEngineImportObject::~ImageEngineImportObject()
 {
     ImageEngineApi::instance()->removeObject(this);
     clearAndStopThread();
 }
 
-
 void ImageEngineImportObject::addThread(ImageEngineThreadObject *thread)
 {
     m_threads.append(thread);
+
+    //建立信号槽连接，由于钻石继承问题，ImageEngineImportObject不能继承QObject，所以只能用lambda
+    QObject::connect(thread, &ImageEngineThreadObject::runFinished, [this, thread]() {
+        this->removeThread(thread);
+    });
 }
+
 void ImageEngineImportObject::removeThread(ImageEngineThreadObject *thread)
 {
     m_threads.removeOne(thread);
 }
+
 void ImageEngineImportObject::clearAndStopThread()
 {
     for (const auto &thread : m_threads) {
@@ -138,13 +151,27 @@ void ImageEngineObject::addThread(ImageEngineThreadObject *thread)
 {
     QMutexLocker mutex(&m_mutexthread);
     m_threads.append(thread);
+
+    //建立信号槽连接，由于钻石继承问题，ImageEngineObject不能继承QObject，所以只能用lambda
+    QObject::connect(thread, &ImageEngineThreadObject::runFinished, [this, thread]() {
+        this->removeThread(thread, true);
+    });
 }
+
 void ImageEngineObject::removeThread(ImageEngineThreadObject *thread, bool needmutex)
 {
-    if (needmutex)
+    //QMutexLocker出了if的作用域就会销毁
+    if (needmutex) {
         QMutexLocker mutex(&m_mutexthread);
-    m_threads.removeOne(thread);
+        m_threads.removeOne(thread);
+    } else {
+        m_threads.removeOne(thread);
+    }
+  
+    //主动切断连接，否则会去执行lambda，然后解引用已经销毁的this指针
+    QObject::disconnect(thread, &ImageEngineThreadObject::runFinished, nullptr, nullptr);
 }
+
 void ImageEngineObject::addCheckPath(QString &path)
 {
     m_checkpath << path;
@@ -180,12 +207,15 @@ void ImageEngineObject::checkAndReturnPath(QString &path)//保证顺序排列
         m_pathlast << path;
     }
 }
+
 void ImageEngineObject::clearAndStopThread()
 {
     QMutexLocker mutex(&m_mutexthread);
     for (auto thread : m_threads) {
         if (nullptr != thread /*&& ifObjectExist(thread)*/) {
             thread->needStop(this);
+            //主动切断连接，否则会去执行lambda，然后解引用已经销毁的this指针
+            QObject::disconnect(thread, &ImageEngineThreadObject::runFinished, nullptr, nullptr);
         }
     }
     m_threads.clear();

@@ -28,7 +28,7 @@
 
 DBImgInfo getDBInfo(const QString &srcpath);
 
-class ImportImagesThread : public ImageEngineThreadObject, public QRunnable
+class ImportImagesThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -39,9 +39,10 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void run() Q_DECL_OVERRIDE;
+    void runDetail() override;
 
 signals:
+    void runFinished();
 
 private:
     enum DataType {
@@ -49,6 +50,7 @@ private:
         DataType_StringList,
         DataType_UrlList
     };
+
     QStringList m_paths;
     QList<QUrl> m_urls;
     QString m_albumname;
@@ -57,7 +59,7 @@ private:
     DataType m_type = DataType_NULL;
 };
 
-class ImageRecoveryImagesFromTrashThread : public ImageEngineThreadObject, public QRunnable
+class ImageRecoveryImagesFromTrashThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -65,14 +67,14 @@ public:
     void setData(QStringList &paths);
 
 protected:
-    void run() override;
+    void runDetail() override;
 
 signals:
 private:
     QStringList m_paths;
 };
 
-class ImageMoveImagesToTrashThread : public ImageEngineThreadObject, public QRunnable
+class ImageMoveImagesToTrashThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -80,7 +82,7 @@ public:
     void setData(QStringList &paths, bool typetrash);
 
 protected:
-    void run() override;
+    void runDetail() override;
 
 signals:
 private:
@@ -88,7 +90,7 @@ private:
     bool btypetrash = false;
 };
 
-class ImageImportFilesFromMountThread : public ImageEngineThreadObject, public QRunnable
+class ImageImportFilesFromMountThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -98,7 +100,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void run() Q_DECL_OVERRIDE;
+    void runDetail() Q_DECL_OVERRIDE;
 
 signals:
     void sigImageFilesImported(void *imgobject, QStringList &filelist);
@@ -108,7 +110,7 @@ private:
     ImageMountImportPathsObject *m_imgobject = nullptr;
 };
 
-class ImageGetFilesFromMountThread : public ImageEngineThreadObject, public QRunnable
+class ImageGetFilesFromMountThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -118,7 +120,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void run() override;
+    void runDetail() override;
 
 signals:
     void sigImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
@@ -129,7 +131,7 @@ private:
     ImageMountGetPathsObject *m_imgobject = nullptr;
 };
 
-class ImageLoadFromDBThread : public ImageEngineThreadObject, public QRunnable
+class ImageLoadFromDBThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -139,7 +141,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void run() override;
+    void runDetail() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
@@ -151,7 +153,7 @@ private:
     int m_loadCount = 0;
 };
 
-class ImageLoadFromLocalThread : public ImageEngineThreadObject, public QRunnable
+class ImageLoadFromLocalThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -168,7 +170,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void run() override;
+    void runDetail() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
@@ -181,7 +183,7 @@ private:
     bool bneedcheck = true;
 };
 
-class ImageEngineThread : public ImageEngineThreadObject, public QRunnable
+class ImageEngineThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -192,7 +194,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void run() override;
+    void runDetail() override;
 
 signals:
     void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
@@ -211,7 +213,7 @@ private:
 };
 
 //通过参数启动载入图像的线程
-class ImageFromNewAppThread : public ImageEngineThreadObject, public QRunnable
+class ImageFromNewAppThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -221,7 +223,7 @@ public:
     void setDate(QStringList &files, ImageEngineImportObject *obj);
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void run() override;
+    void runDetail() override;
 
 private:
     ImageEngineImportObject *m_imgobj = nullptr;
@@ -251,7 +253,7 @@ private:
 };
 
 #include <QWaitCondition>
-class ImageEngineBackThread : public ImageEngineThreadObject, public QRunnable
+class ImageEngineBackThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
@@ -260,7 +262,7 @@ public:
     void setData(QStringList pathlist = QStringList(), QString devName = QString());
 
 protected:
-    void run() override;
+    void runDetail() override;
 
 signals:
     void sigImageBackLoaded(QString path, const ImageDataSt &data);
