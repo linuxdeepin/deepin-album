@@ -473,6 +473,7 @@ void TimeLineView::addTimelineLayout()
     }
 
     pNum_dn->setFixedHeight(TIMELINE_TITLEHEIGHT);
+    pNum_dn->setFixedWidth(width() - 14);
     pNum_dn->setFont(ft6);
 
     QHBoxLayout *Layout = new QHBoxLayout();
