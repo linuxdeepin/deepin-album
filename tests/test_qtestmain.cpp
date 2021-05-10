@@ -20,9 +20,6 @@
  */
 #include <QtTest>
 #include <QCoreApplication>
-#include "application.h"
-#include "mainwindow.h"
-#include "test_qtestDefine.h"
 #include <QTest>
 
 // add necessary includes here
@@ -34,6 +31,13 @@
 #ifndef SYSTEM_MIPS
 #include <sanitizer/asan_interface.h>
 #endif
+
+#define private public
+#define protected public
+
+#include "application.h"
+#include "mainwindow.h"
+#include "test_qtestDefine.h"
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;

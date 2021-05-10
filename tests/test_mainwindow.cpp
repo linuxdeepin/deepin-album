@@ -224,7 +224,9 @@ TEST(MainWindow, allpicture)
     allbar->m_pSlider->slider()->setValue(4);
     QTest::qWait(300);
 
-    CommandLine *commandline = w->m_commandLine;
+    //尝试解决UT崩溃
+    //CommandLine *commandline = w->m_commandLine;
+    CommandLine *commandline = CommandLine::instance();
     MainWidget *pmainwidget = nullptr;
     ViewPanel *viewpanel = nullptr;
     TTBContent *ttbc = nullptr;

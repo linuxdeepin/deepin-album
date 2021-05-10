@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
     DBManager::instance();
     ImageEngineApi::instance(dAppNew.get());
     ImageEngineApi::instance()->loadFirstPageThumbnails(number);
-    MainWindow w;
+    auto &w = MainWindow::instance(); //修改为从单例获取
 
     dApp->setMainWindow(&w);
     w.show();
@@ -208,7 +208,11 @@ int main(int argc, char *argv[])
     if (bneedexit)
         bfirstopen = false;
 
+    //警告：这个函数只会将&DApplication::handleQuitAction的地址替换为&MainWindow::closeFromMenu
+    //     并不会将dAppNew.get()和&w两个实体变量绑定上去
+    //     因为C++只会为同一个函数生成一份拷贝，实现这个函数的人明显以为每个实体变量都会拥有单独的函数拷贝
     Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew.get(), &DApplication::handleQuitAction,
                                              &w, &MainWindow::closeFromMenu);
+
     return dAppNew->exec();
 }
