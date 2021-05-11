@@ -229,8 +229,8 @@ void TimeLineView::initTimeLineViewWidget()
 
     //时间线下的计数
     pNum_up = new DLabel();
-    DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T5, QFont::Medium);
-    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T5);
+    DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
+    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
     ft6.setWeight(QFont::Medium);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -450,10 +450,10 @@ void TimeLineView::addTimelineLayout()
 
     pNum_dn = new DLabel();
     listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
-    DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T5, QFont::Medium);
+    DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
     pNum_dn->setText(listItem->m_snum);
 
-    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T5);
+    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
     ft6.setWeight(QFont::Medium);
     DPalette pal = DApplicationHelper::instance()->palette(pNum_dn);
@@ -491,8 +491,11 @@ void TimeLineView::addTimelineLayout()
 
     listItem->m_Chose = pChose;
     listItem->m_num = pNum_dn;
+    TitleViewLayout->addStretch();
     TitleViewLayout->addWidget(pDate);
     TitleViewLayout->addWidget(pNum_dn);
+    auto TitleViewLayoutMargins = TitleViewLayout->contentsMargins();
+    TitleViewLayout->setContentsMargins(TitleViewLayoutMargins.left(), TitleViewLayoutMargins.top(), TitleViewLayoutMargins.right(), 0); //BUG#78532，缩小照片数量和缩略图之间的距离
     TitleView->setFixedHeight(87);
     listItem->m_title = TitleView;
 
@@ -505,6 +508,7 @@ void TimeLineView::addTimelineLayout()
     } else {
         pThumbnailListView->setIBaseHeight(m_Baseheight);
     }
+    pThumbnailListView->setSpacing(0);
     pThumbnailListView->setFixedWidth(width() + 2);
     connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, &TimeLineView::addTimelineLayout);
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
@@ -518,8 +522,8 @@ void TimeLineView::addTimelineLayout()
             if (nowTimeLineLoad == m_timelines.size() - 1) {
                 mh += 27;
             }
-            pThumbnailListView->setFixedHeight(mh - 7);
-            listItem->setFixedHeight(TitleView->height() + mh - 7);
+            pThumbnailListView->setFixedHeight(mh);
+            listItem->setFixedHeight(TitleView->height() + mh);
             item->setSizeHint(listItem->rect().size());
         }
     });
