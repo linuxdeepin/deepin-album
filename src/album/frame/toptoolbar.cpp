@@ -139,7 +139,7 @@ void TopToolbar::initWidgets()
 QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
 {
     QFontMetrics fontWidth(font);
-    int width = fontWidth.width(str);
+    int width = fontWidth.horizontalAdvance(str);
     if (width >= MaxWidth) {
         str = fontWidth.elidedText(str, Qt::ElideRight, MaxWidth);
     }

@@ -143,7 +143,7 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 {
 //LMH0424，之前是递归，现在改了算法，判断换行
     QFontMetrics fm(font);
-    double dobuleTextSize = fm.width(text);
+    double dobuleTextSize = fm.horizontalAdvance(text);
     double dobuleLabelSize = nLabelSize;
     if (dobuleTextSize > dobuleLabelSize && dobuleLabelSize > 0 && dobuleTextSize < 10000) {
         double splitCount = dobuleTextSize / dobuleLabelSize;
