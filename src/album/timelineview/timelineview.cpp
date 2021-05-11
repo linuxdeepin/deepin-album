@@ -229,6 +229,9 @@ void TimeLineView::initTimeLineViewWidget()
 
     //时间线下的计数
     pNum_up = new DLabel();
+    if (QLocale::system().language() == QLocale::Uighur) {
+        pNum_up->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    }
     DFontSizeManager::instance()->bind(pNum_up, DFontSizeManager::T6, QFont::Medium);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
@@ -336,7 +339,7 @@ void TimeLineView::clearAndStop()
         list->stopLoadAndClear();
         delete list;
     }
-    m_mainListWidget->clear();
+//    m_mainListWidget->clear();
     m_allThumbnailListView.clear();
     m_allChoseButton.clear();
     currentTimeLineLoad = 0;
@@ -450,6 +453,9 @@ void TimeLineView::addTimelineLayout()
     listItem->m_date = pDate;
 
     pNum_dn = new DLabel();
+    if (QLocale::system().language() == QLocale::Uighur) {
+        pNum_dn->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    }
     listItem->m_snum = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
     DFontSizeManager::instance()->bind(pNum_dn, DFontSizeManager::T6, QFont::Medium);
     pNum_dn->setText(listItem->m_snum);

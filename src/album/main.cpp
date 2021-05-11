@@ -78,8 +78,7 @@ int main(int argc, char *argv[])
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     QScopedPointer<DApplication> dAppNew(new DApplication(argc, argv));
 #else
-    qDebug() << "DTK_VERSION > 5.4,turbo is running ";
-    QScopedPointer<DApplication> dAppNew(DApplication::globalApplication(argc, argv));
+    DApplication *dAppNew = DApplication::globalApplication(argc, argv);
 #endif
 
 #ifdef ENABLE_ACCESSIBILITY
@@ -91,7 +90,7 @@ int main(int argc, char *argv[])
     dAppNew->setApplicationName("deepin-album");
     dAppNew->loadTranslator(QList<QLocale>() << QLocale::system());
 
-    Application::getApp()->setApp(dAppNew.get());
+    Application::getApp()->setApp(dAppNew);
 
     qputenv("DTK_USE_SEMAPHORE_SINGLEINSTANCE", "1");
 
@@ -196,7 +195,7 @@ int main(int argc, char *argv[])
     int number = ((restoredFrameGeometry.width() - 50) * (restoredFrameGeometry.height() - 50)) / (picsize * picsize);
 
     DBManager::instance();
-    ImageEngineApi::instance(dAppNew.get());
+    ImageEngineApi::instance(dAppNew);
     ImageEngineApi::instance()->loadFirstPageThumbnails(number);
     auto &w = MainWindow::instance(); //修改为从单例获取
 
@@ -211,7 +210,7 @@ int main(int argc, char *argv[])
     //警告：这个函数只会将&DApplication::handleQuitAction的地址替换为&MainWindow::closeFromMenu
     //     并不会将dAppNew.get()和&w两个实体变量绑定上去
     //     因为C++只会为同一个函数生成一份拷贝，实现这个函数的人明显以为每个实体变量都会拥有单独的函数拷贝
-    Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew.get(), &DApplication::handleQuitAction,
+    Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew, &DApplication::handleQuitAction,
                                              &w, &MainWindow::closeFromMenu);
 
     return dAppNew->exec();

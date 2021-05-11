@@ -108,6 +108,7 @@ void LeftListView::initUI()
     m_pPhotoLibLabel->setForegroundRole(DPalette::TextTips);
     m_pPhotoLibLabel->setText(tr("Gallery"));
     pPhotoLibLayout->addWidget(m_pPhotoLibLabel);
+    pPhotoLibLayout->addStretch();
     // 照片库列表
     m_pPhotoLibListView = new LeftListWidget();
     m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);

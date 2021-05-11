@@ -121,15 +121,14 @@ private:
     QLayout *m_mainLayout;
     QList<QString> m_timelines;
     DWidget *m_dateItem;
-    DCommandLinkButton *pSuspensionChose;
+    DWidget *m_TitleItem;                               //title包裹窗口
+    DCommandLinkButton *pSuspensionChose;               //悬浮选择按钮
     DWidget *pTimeLineViewWidget;
     ImportView *pImportView;
-    QMap<ThumbnailListView *, QStringList> selpicQmap;
-    int allnum;
-    DLabel *m_pDate;
-    DLabel *pNum_up;
-    DLabel *pNum_dn;
-    DLabel *m_pImportTitle; //add 3975
+    DLabel *m_pDate;                                    //已导入悬浮日期
+    DLabel *pNum_up;                                    //已导入悬浮数量
+    DLabel *pNum_dn;                                    //已导入其他时间线数量
+    DLabel *m_pImportTitle;                             //已导入悬浮标题
     DSlider *m_DSlider;
     QList<ThumbnailListView *> m_allThumbnailListView;
     QList<DCommandLinkButton *> m_allChoseButton;
@@ -142,7 +141,6 @@ private:
     int m_lastShiftRow;
     int m_lastShiftClickedIndex;
     bool lastChanged;
-    int m_iBaseHeight;
     bool m_bshow = false;
 
 public:

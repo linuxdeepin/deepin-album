@@ -158,6 +158,7 @@ private:
 
     void initLeftMenu();
     void importComboBoxChange(QString strText);
+    void getAllDeviceName();
 
 signals:
     void sigSearchEditIsDisplay(bool bIsDisp);
@@ -214,14 +215,10 @@ public:
     DWidget *m_pRightWidget;
 
     ThumbnailListView *m_pRightPhoneThumbnailList;
-    QString albumname;
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     //LMH0424
-    QMap<QString, ThumbnailListView *> m_phoneViewlist;//UNUSED
     QStringList m_pictrueallPathlist;
-    int m_currentLoadingPictrue = 0;
 
-    QMap<QString, QPixmap> m_phonePathAndImage; //UNUSED
     DWidget *m_pwidget;
 
     ThumbnailListView *m_pRightThumbnailList;               //自定义
@@ -229,31 +226,32 @@ public:
     ThumbnailListView *m_pRightFavoriteThumbnailList;       //我的收藏
 
     DWidget *pImportTimeLineWidget;
-    DWidget *m_pTrashWidget;
+    DWidget *m_pTrashWidget;                                //最近删除外层界面
     DWidget *m_pFavoriteWidget;
     Waitdevicedialog *m_waitDeviceScandialog;
     ImportView *m_pImportView;
     // 已导入窗体
     ImportTimeLineView *m_pImpTimeLineView;
-private:
 
+private:
     DPushButton *m_pRecoveryBtn;
     DPushButton *m_pDeleteBtn;
+    //自定义相册标题
     DLabel *m_pRightTitle;
     DLabel *m_pRightPicTotal;
-    DLabel *m_pImportPicTotal;
+    //我的收藏标题栏
     DLabel *m_pFavoriteTitle;
     DLabel *m_pFavoritePicTotal;
+    //外部设备
     DLabel *m_pPhoneTitle;
     DLabel *m_pPhonePicTotal;
     SearchView *m_pSearchView;
     DGioVolumeManager *m_vfsManager;
     DDiskManager *m_diskManager;
-    DLabel *pLabel1;
-    DLabel *pLabel2;
+    //最近删除标题
+    DLabel *m_TrashTitleLab;
+    DLabel *m_TrashDescritionLab;
 
-    // 已导入窗体
-//    ImportTimeLineView *m_pImpTimeLineView;
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
@@ -264,15 +262,10 @@ private:
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
     QStringList m_curPhoneItemList_str;         //外部设备图片的路径
-    QMap<QString, QStringList>   m_phonePath;   //多个设备对应路径
-    QMap<QString, QPixmap> m_phonePicMap;
     int m_mountPicNum;
 
-    QThread *m_LoadThread;
     QMap<QUrl, QString> durlAndNameMap;
-    void getAllDeviceName();
     DSpinner *m_spinner;
-    DLabel *m_pImportTitle;
     //add start 3975
     QListWidgetItem *m_noTrashItem;
     DWidget *m_pNoTrashTitle;
@@ -288,10 +281,9 @@ private:
     DWidget *phonetopwidget;
     bool isIgnore;
     QTimer *m_waitDailog_timer;
-    QThread *m_updateMountViewThread;
     bool isMountThreadRunning;
     int m_currentViewPictureCount;
-    QMutex m_mutex;
+
 public:
     AlbumViewListWidget *m_TrashListWidget;
     AlbumViewListWidget *m_noTrashListWidget;

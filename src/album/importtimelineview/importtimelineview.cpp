@@ -45,11 +45,11 @@ const int VIEW_MAINWINDOW_ALBUM = 2;
 ImportTimeLineView::ImportTimeLineView(DWidget *parent)
     : DWidget(parent), m_mainLayout(nullptr), m_dateItem(nullptr)
     , pSuspensionChose(nullptr), pTimeLineViewWidget(nullptr), pImportView(nullptr)
-    , allnum(0), m_pDate(nullptr), pNum_up(nullptr)
+    , m_pDate(nullptr), pNum_up(nullptr)
     , pNum_dn(nullptr), m_pImportTitle(nullptr), m_DSlider(nullptr)
     , m_oe(nullptr), m_oet(nullptr), m_ctrlPress(false)
     , lastClickedIndex(-1), lastRow(-1), m_lastShiftRow(-1)
-    , m_lastShiftClickedIndex(-1), lastChanged(false), m_iBaseHeight(0)
+    , m_lastShiftClickedIndex(-1), lastChanged(false)
     , m_index(0), m_mainListWidget(nullptr), currentTimeLineLoad(0)
 {
     setAcceptDrops(true);
@@ -227,7 +227,7 @@ void ImportTimeLineView::updateSize()
         emit view->needResizeLabel();
     }
     m_dateItem->setFixedSize(width() - 15, SUBTITLE_HEIGHT);
-    m_pImportTitle->setFixedSize(width() - 15, 47); //add 3
+    m_TitleItem->setFixedSize(width() - 15, 47);
 }
 
 void ImportTimeLineView::onNewTime(const QString &date, const QString &num, int index)
@@ -335,16 +335,30 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_mainListWidget->setFrameShape(DTableView::NoFrame);
 
     //添加悬浮title
+    //优化悬浮title布局，适配维语
+    m_TitleItem = new DWidget(pTimeLineViewWidget);
+    QHBoxLayout *TitleLayout = new QHBoxLayout();
+    m_TitleItem->setLayout(TitleLayout);
+    TitleLayout->setContentsMargins(17, 0, 0, 0);
+
+    DPalette ppal_TitleItem = DApplicationHelper::instance()->palette(m_TitleItem);
+    ppal_TitleItem.setBrush(DPalette::Background, ppal_TitleItem.color(DPalette::Base));
+    QGraphicsOpacityEffect *opacityEffect_TitleItem = new QGraphicsOpacityEffect;
+    opacityEffect_TitleItem->setOpacity(0.95);
+    m_TitleItem->setPalette(ppal_TitleItem);
+    m_TitleItem->setGraphicsEffect(opacityEffect_TitleItem);
+    m_TitleItem->setAutoFillBackground(true);
 
     //add start 3975
     m_pImportTitle = new DLabel(pTimeLineViewWidget);
     m_pImportTitle->setText(tr("Import"));
-    m_pImportTitle->setContentsMargins(17, 6, 0, 5);
     DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pImportTitle->setForegroundRole(DPalette::TextTitle);
-//    m_pImportTitle->setFixedSize(width() - 10, 47);
     m_pImportTitle->setFixedHeight(36);
-    m_pImportTitle->move(0, 50);
+
+    TitleLayout->addWidget(m_pImportTitle);
+    TitleLayout->addStretch();
+    m_TitleItem->move(0, 50);
 
     DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_pImportTitle);
     ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
@@ -357,8 +371,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     m_dateItem = new DWidget(pTimeLineViewWidget);
     QHBoxLayout *TitleViewLayout = new QHBoxLayout();
-//    TitleViewLayout->setContentsMargins(17, 0, 0, 6);
-    TitleViewLayout->setContentsMargins(17, 0, 0, 0);
+    TitleViewLayout->setContentsMargins(17, 0, 27, 0);
     m_dateItem->setLayout(TitleViewLayout);
 
     m_pDate = new DLabel();
@@ -392,14 +405,12 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     pNum_up->setFont(ft6);
     m_pDate->setFont(ft6);
-    pNum_up->setForegroundRole(DPalette::Text);
-    pNum_up->setPalette(pal);
     //end xiaolong
 
     TitleViewLayout->addWidget(m_pDate);
     TitleViewLayout->addWidget(pNum_up);
+    TitleViewLayout->addStretch();
 
-    QHBoxLayout *Layout = new QHBoxLayout();
     pSuspensionChose = new DCommandLinkButton(QObject::tr("Select"));
     pSuspensionChose->setFocusPolicy(Qt::NoFocus);
     AC_SET_OBJECT_NAME(pSuspensionChose, Import_Time_Line_Choose_Button);
@@ -410,11 +421,9 @@ void ImportTimeLineView::initTimeLineViewWidget()
     pSuspensionChose->setFixedHeight(32);
     pSuspensionChose->resize(36, 30);
 
-    pNum_up->setLayout(Layout);
-    Layout->addStretch(1);
-    Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    Layout->setContentsMargins(0, 0, 27, 0);
-    Layout->addWidget(pSuspensionChose);
+    //适配维语布局
+    TitleViewLayout->addWidget(pSuspensionChose);
+
     connect(pSuspensionChose, &DCommandLinkButton::clicked, this, &ImportTimeLineView::onSuspensionChoseBtnClicked);
     DPalette ppal_light = DApplicationHelper::instance()->palette(m_dateItem);
     ppal_light.setBrush(DPalette::Background, ppal_light.color(DPalette::Base));
@@ -425,7 +434,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setFixedSize(this->width() - 10, SUBTITLE_HEIGHT);
     m_dateItem->setContentsMargins(0, 0, 0, 0);
-    m_dateItem->move(0, 50 + m_pImportTitle->height()); //edit 3975
+    m_dateItem->move(0, 50 + m_TitleItem->height()); //edit 3975
     m_dateItem->show();
     m_dateItem->setVisible(true);
 }
@@ -493,7 +502,7 @@ void ImportTimeLineView::addTimelineLayout()
     //添加title
     DWidget *TitleView = new DWidget;
     QHBoxLayout *TitleViewLayout = new QHBoxLayout();
-    TitleViewLayout->setContentsMargins(12, 0, 0, 0);
+    TitleViewLayout->setContentsMargins(12, 0, 36, 0);
     TitleView->setLayout(TitleViewLayout);
     DLabel *pDate = new DLabel();
     DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T6, QFont::Medium);
@@ -540,7 +549,6 @@ void ImportTimeLineView::addTimelineLayout()
     pNum_dn->setForegroundRole(DPalette::Text);
     pNum_dn->setText(listItem->m_snum);
 
-    QHBoxLayout *Layout = new QHBoxLayout();
     DCommandLinkButton *pChose = new DCommandLinkButton(QObject::tr("Select"));
     pChose->setFocusPolicy(Qt::NoFocus);
     m_allChoseButton << pChose;
@@ -548,16 +556,12 @@ void ImportTimeLineView::addTimelineLayout()
     pChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     pChose->resize(36, 30);
 
-    pNum_dn->setLayout(Layout);
-    Layout->addStretch(1);
-    Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    Layout->setContentsMargins(0, 0, 36, 0);
-    Layout->addWidget(pChose);
-
     listItem->m_Chose = pChose;
     listItem->m_num = pNum_dn;
     TitleViewLayout->addWidget(pDate);
     TitleViewLayout->addWidget(pNum_dn);
+    TitleViewLayout->addStretch();
+    TitleViewLayout->addWidget(pChose);
     TitleView->setFixedHeight(SUBTITLE_HEIGHT);
     listItem->m_title = TitleView;
 
@@ -606,7 +610,7 @@ void ImportTimeLineView::addTimelineLayout()
         listItemlayout->addWidget(topwidget);
     }
     listItemlayout->addWidget(TitleView);
-    listItemlayout->addSpacing(-8);
+    listItemlayout->addSpacing(-4);
     listItemlayout->addWidget(pThumbnailListView);
     if (nowTimeLineLoad == m_timelines.size() - 1) {
         DWidget *bottomwidget = new DWidget;
@@ -952,7 +956,7 @@ void ImportTimeLineView::on_AddLabel(QString date, QString num)
         labelList[0]->setText(date);
         labelList[1]->setText(num);
         m_dateItem->setVisible(true);
-        m_dateItem->move(0, 50 + m_pImportTitle->height()); //edit 3975
+        m_dateItem->move(0, 50 + m_TitleItem->height()); //edit 3975
     }
 #if 1
     QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
