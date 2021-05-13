@@ -222,7 +222,12 @@ void TimeLineView::initTimeLineViewWidget()
     DPalette color = DApplicationHelper::instance()->palette(m_pDate);
     color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
 
-    m_pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
+    //bug76892藏语占用更大高度
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        m_pDate->setFixedHeight(TIMELINE_TITLEHEIGHT + 5);
+    } else {
+        m_pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
+    }
     m_pDate->setFont(ft3);
     m_pDate->setForegroundRole(DPalette::Text);
     m_pDate->setPalette(color);
@@ -431,8 +436,12 @@ void TimeLineView::addTimelineLayout()
     DLabel *pDate = new DLabel();
     DFontSizeManager::instance()->bind(pDate, DFontSizeManager::T3, QFont::DemiBold);
 
-
-    pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
+    //bug76892藏语占用更大高度
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        pDate->setFixedHeight(TIMELINE_TITLEHEIGHT + 5);
+    } else {
+        pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
+    }
     QStringList datelist = m_timelines.at(nowTimeLineLoad).split(".");
     if (datelist.count() > 2) {
         listItem->m_sdate = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
