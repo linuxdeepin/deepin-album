@@ -71,5 +71,5 @@ QString Mock_Mount::stub_DGioFile_path()
 
 const QList<QExplicitlySharedDataPointer<DGioMount>> Mock_Mount::stub_DGioVolumeManager_getMounts() //这个是静态函数
 {
-    return QList<QExplicitlySharedDataPointer<DGioMount>>{QExplicitlySharedDataPointer<DGioMount>(nullptr)};
+    return QList<QExplicitlySharedDataPointer<DGioMount>> {QExplicitlySharedDataPointer<DGioMount>(nullptr)};
 }

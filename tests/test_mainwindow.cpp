@@ -423,9 +423,9 @@ TEST(MainWindow, allpicture)
     e.simulate(menuWidget);
     e.clear();
     QTest::qWait(15000);
-  
+
     SlideShowPanel *slideshowpanel = w->m_slidePanel;
-  
+
     //fix：没有调用startSlideShow而直接用鼠标去点，导致UT崩溃
     SignalManager::ViewInfo info;
     info.album = "";
@@ -437,7 +437,7 @@ TEST(MainWindow, allpicture)
     info.viewType = "";
     info.viewMainWindowID = 0;
     slideshowpanel->startSlideShow(info, true);
-    
+
     if (slideshowpanel) {
         SlideShowBottomBar *sliderbar = slideshowpanel->slideshowbottombar;
         if (sliderbar) {
@@ -2315,20 +2315,18 @@ TEST(MainWindow, callFuncitons_test)
 
     FileInotify fileinotify;
     fileinotify.isVaild();
-    fileinotify.addWather(" ");
+    fileinotify.addWather("  "); //跑一下错误分支
+    fileinotify.addWather(testPath_Pictures); //这个里面会执行start
 //    fileinotify.removeWatcher(" ");
     fileinotify.getAllPicture(true);
     fileinotify.getAllPicture(false);
     fileinotify.pathLoadOnce();
 
-    fileinotify.start();
-    QTest::qWait(500);
+    QTest::qWait(1000);
     fileinotify.terminate();
 
-    QObject obj;
     MainWindow *w = dApp->getMainWindow();
 
-    w->initRightKeyOrder(&obj);
     w->initUpKeyOrder();
     w->compareVersion();
     w->onButtonClicked(0);
@@ -2375,8 +2373,7 @@ TEST(MainWindow, callFuncitons_test)
     imageItem.setIndex(1);
     imageItem.emitClickSig();
 
-
-
+    QObject obj;
     ImageView imageView;
     imageView.mousePressEvent(&mouseEvent);
     imageView.mouseMoveEvent(&mouseEvent);
@@ -2391,6 +2388,41 @@ TEST(MainWindow, callFuncitons_test)
     SlideShowButton slideShowButton;
     slideShowButton.enterEvent(&wheelEvent);
     slideShowButton.mouseEvent(&mouseEvent);
+}
+
+TEST(MainWindow, initRightKeyOrder)
+{
+    TEST_CASE_NAME("initRightKeyOrder")
+
+    auto w = dApp->getMainWindow();
+
+    auto m_iCurrentView_temp = w->m_iCurrentView;
+
+    //分支1
+    {
+        w->m_pAllPicView->m_pStackedWidget->setCurrentIndex(0);
+        w->m_iCurrentView = 1;
+        QWidget *t = w->m_pTimeBtn;
+        w->initRightKeyOrder(t);
+    }
+
+    //分支2
+    {
+        w->m_pAllPicView->m_pStackedWidget->setCurrentIndex(0);
+        w->m_iCurrentView = 0;
+        QWidget *t = w->m_pAllPicBtn;
+        w->initRightKeyOrder(t);
+    }
+
+    //分支3
+    {
+        w->m_pAllPicView->m_pStackedWidget->setCurrentIndex(1);
+        w->m_iCurrentView = 0;
+        QWidget *t = w->m_pTimeBtn;
+        w->initRightKeyOrder(t);
+    }
+
+    w->m_iCurrentView = m_iCurrentView_temp;
 }
 
 //三个界面的删除操作

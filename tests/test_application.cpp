@@ -135,3 +135,9 @@ TEST(GlobalEventFilter, eventfilter)
     QKeyEvent e2(QEvent::KeyRelease, Qt::Key_1, Qt::KeyboardModifier::NoModifier);
     filter.eventFilter(nullptr, &e2);
 }
+
+TEST(Application, sendMessage)
+{
+    //向共享内存里面写数据
+    dApp->sendMessage("1");
+}

@@ -75,7 +75,6 @@ TEST(CommandLine, test_CommandLine)
 TEST(CommandLine, urltest)
 {
     TEST_CASE_NAME("urltest")
-    MainWindow *w = dApp->getMainWindow();
     stub_ext::StubExt stu;
     stu.set_lamda(ADDR(QCommandLineParser, addOption), []() {
         return false;
@@ -100,17 +99,14 @@ TEST(CommandLine, processOption_test)
 {
     TEST_CASE_NAME("processOption_test")
     MainWindow *w = dApp->getMainWindow();
-//    stub_ext::StubExt stu;
-//    stu.set_lamda(ADDR(QCommandLineParser, addOption), [](){
-//        return false;
-//    });
-//    CMOption option;
-    QStringList paths ;
+    QStringList paths;
+
     paths << testPath_test + "/2e5y8y.jpg";
     CommandLine::instance()->processOption(paths);
     QTest::qWait(500);
     w->allPicBtnClicked();
     QTest::qWait(500);
+
     paths.clear();
     CommandLine::instance()->processOption(paths);
     QTest::qWait(500);

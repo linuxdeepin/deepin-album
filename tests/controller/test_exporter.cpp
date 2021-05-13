@@ -70,19 +70,26 @@ TEST(Exporter, test_Exporter_init)
 TEST(Exporter, exportImage_test)
 {
     TEST_CASE_NAME("exportImage_test")
-//    qDebug() << "Exporter exportImage_test count = " << count_testDefine++;
-//    MainWindow *w = dApp->getMainWindow();
-//    w->albumBtnClicked();
-//    QTest::qWait(500);
-////    AlbumView *a = w->m_pAlbumview;
 
-//    QStringList paths;
-//    if (DBManager::instance()->getAllPaths().length() > 0)
-//        paths << DBManager::instance()->getAllPaths().first();
-//    else
-//        paths << testPath_test + "/2e5y8y.jpg";
-////    Exporter::instance()->exportImage(paths);
-//    QTest::qWait(500);
+    //根据UT报告，补充测试部分分支
+
+    //列表为空
+    Exporter::instance()->exportImage({});
+
+    //GIF
+    Exporter::instance()->exportImage({ testPath_test + "/9a0a4c97036f61.gif" });
+
+    //多个图片
+    {
+        int (*dlgexec)() = []() {
+            return 1;
+        };
+        typedef int (*fptr)(QDialog *);
+        fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
+        Stub stub;
+        stub.set(fptrexec, dlgexec);
+        Exporter::instance()->exportImage({ testPath_test + "/9a0a4c97036f61.gif", testPath_test + "/2e5y8y.jpg" });
+    }
 }
 
 

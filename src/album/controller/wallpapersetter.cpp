@@ -83,26 +83,26 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
     QDBusMessage msgIntrospect = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "org.freedesktop.DBus.Introspectable", "Introspect");
     QDBusPendingCall call = QDBusConnection::sessionBus().asyncCall(msgIntrospect);
     call.waitForFinished();
-    if (call.isFinished()) {
-        QDBusReply<QString> reply = call.reply();
-        QString value = reply.value();
-        if (value.contains("SetMonitorBackground")) {
-            QDBusMessage msg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "SetMonitorBackground");
-            QString mm;
-            if (Application::isWaylandPlatform()) {
-                QDBusInterface interface("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
-                mm = qvariant_cast< QString >(interface.property("Primary"));
-            } else {
-                mm = qApp->primaryScreen()->name();
-            }
-            msg.setArguments({mm, tempWallPaperpath});
-            QDBusConnection::sessionBus().asyncCall(msg);
-            qDebug() << "FileUtils::setBackground call Appearance SetMonitorBackground";
-            return true;
+
+    QDBusReply<QString> reply = call.reply();
+    QString value = reply.value();
+    if (value.contains("SetMonitorBackground")) {
+        QDBusMessage msg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "SetMonitorBackground");
+        QString mm;
+        if (Application::isWaylandPlatform()) {
+            QDBusInterface interface("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
+            mm = qvariant_cast< QString >(interface.property("Primary"));
+        } else {
+            mm = qApp->primaryScreen()->name();
         }
+        msg.setArguments({mm, tempWallPaperpath});
+        QDBusConnection::sessionBus().asyncCall(msg);
+        qDebug() << "FileUtils::setBackground call Appearance SetMonitorBackground";
+    } else {
+        QDBusMessage msg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Set");
+        msg.setArguments({"Background", tempWallPaperpath});
+        QDBusConnection::sessionBus().asyncCall(msg);
     }
-    QDBusMessage msg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Set");
-    msg.setArguments({"Background", tempWallPaperpath});
-    QDBusConnection::sessionBus().asyncCall(msg);
+
     return true;
 }

@@ -224,7 +224,8 @@ bool Application::isRunning()
 
 bool Application::sendMessage(const QString &message)
 {
-    if (!_isRunning)
+    //既然封了函数，就把变量改成函数
+    if (!isRunning())
         return false;
 
     QByteArray byteArray("1");

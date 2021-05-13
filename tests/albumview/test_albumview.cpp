@@ -847,6 +847,7 @@ TEST(AlbumViewList, albumViewList_other6_test)
     GraphicsMovieItem gmi("", "");
     ImageView *iv = new ImageView;
     iv->setImage("");
+    iv->setImage(testPath_test + "/2e5y8y.jpg");
     iv->windowRelativeScale();
     iv->imageRelativeScale();
     iv->isWholeImageVisible();
