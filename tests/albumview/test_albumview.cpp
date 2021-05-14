@@ -45,6 +45,8 @@
 #include "ac-desktop-define.h"
 #include "mock_mount.h"
 
+#include <QMovie>
+
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
 
@@ -843,11 +845,13 @@ TEST(AlbumViewList, albumViewList_other5_test)
 TEST(AlbumViewList, albumViewList_other6_test)
 {
     TEST_CASE_NAME("albumViewList_other6_test")
-//    MainWindow *w = dApp->getMainWindow();
-    GraphicsMovieItem gmi("", "");
+
+    GraphicsMovieItem gmi_1(testPath_Pictures + "/2e5y8y.jpg", "");
+    GraphicsMovieItem gmi_2("", "");
+
     ImageView *iv = new ImageView;
     iv->setImage("");
-    iv->setImage(testPath_test + "/2e5y8y.jpg");
+    iv->setImage(testPath_Pictures + "/2e5y8y.jpg");
     iv->windowRelativeScale();
     iv->imageRelativeScale();
     iv->isWholeImageVisible();
@@ -885,6 +889,9 @@ TEST(AlbumViewList, deviceMount)
     //等待加载完成
     QTest::qWait(2000);
 
+    //刷新视图
+    w->m_pAlbumview->updateRightMountView();
+
     //将mock环境设置为卸载设备
     mockMount.setToUmountDevice();
 
@@ -892,4 +899,19 @@ TEST(AlbumViewList, deviceMount)
     w->m_pAlbumview->onUnMountSignal(mountPath + "DCIM/");
 
     QTest::qWait(2000);
+}
+
+extern QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, int forceUnit = -1, QStringList unitList = QStringList());
+TEST(Albumview, formatSize)
+{
+    TEST_CASE_NAME("formatSize")
+
+    formatSize(1ll); //B
+    formatSize(2ll * 1024); //KB
+    formatSize(3ll * 1024 * 1024); //MB
+    formatSize(4ll * 1024 * 1024 * 1024); //GB
+    formatSize(5ll * 1024 * 1024 * 1024 * 1024); //TB
+    formatSize(5ll * 1024 * 1024 * 1024 * 1024 * 1024); //EB
+    formatSize(0ll); //0
+    formatSize(-1ll); //error
 }

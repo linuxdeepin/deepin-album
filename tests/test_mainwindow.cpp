@@ -2117,18 +2117,25 @@ TEST(MainWindow, setWaitDialogColor_test)
     w->allPicBtnClicked();
     QTest::qWait(500);
 
-    stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), []() {
-        return DGuiApplicationHelper::DarkType;
-    });
+    //根据研发内部技术分享，打桩需要修改为对同一函数打桩只能打一次，再次打桩前要先把之前的桩销毁
+    {
+        stub_ext::StubExt stu;
+        stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), []() {
+            return DGuiApplicationHelper::DarkType;
+        });
 
-    w->setWaitDialogColor();
-    QTest::qWait(500);
-    stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), []() {
-        return DGuiApplicationHelper::LightType;
-    });
-    w->setWaitDialogColor();
-    QTest::qWait(500);
+        w->setWaitDialogColor();
+        QTest::qWait(500);
+    }
+
+    {
+        stub_ext::StubExt stu;
+        stu.set_lamda(ADDR(DGuiApplicationHelper, themeType), []() {
+            return DGuiApplicationHelper::LightType;
+        });
+        w->setWaitDialogColor();
+        QTest::qWait(500);
+    }
 }
 
 TEST(MainWindow, onShowImageInfo_test)
@@ -2630,4 +2637,53 @@ TEST(MainWindow, titlebarcreate)
         e.clear();
     }
     QTest::qWait(300);
+}
+
+//ctrl+滚轮
+TEST(MainWindow, wheelEvent)
+{
+    TEST_CASE_NAME("wheelEvent")
+
+    MainWindow *w = dApp->getMainWindow();
+
+    QWheelEvent event_1(QPointF(0, 0), 10, Qt::LeftButton, Qt::ControlModifier);
+    w->wheelEvent(&event_1);
+
+    QWheelEvent event_2(QPointF(0, 0), -10, Qt::LeftButton, Qt::ControlModifier);
+    w->wheelEvent(&event_2);
+
+    QWheelEvent event_3(QPointF(0, 0), 10, Qt::LeftButton, Qt::NoModifier);
+    w->wheelEvent(&event_3);
+}
+
+//从菜单关闭
+TEST(MainWindow, closeFromMenu)
+{
+    TEST_CASE_NAME("closeFromMenu")
+
+    MainWindow *w = dApp->getMainWindow();
+    stub_ext::StubExt stu;
+
+    //这里需要干掉instance，否则测试结束进行清理的时候会崩
+    stu.set_lamda(&MainWindow::instance, [w]() -> MainWindow& {
+        return *w;
+    });
+}
+
+//搜索框
+TEST(MainWindow, onSearchEditIsDisplay)
+{
+    TEST_CASE_NAME("onSearchEditIsDisplay")
+
+    MainWindow *w = dApp->getMainWindow();
+
+    auto temp = w->m_pCenterWidget->currentIndex();
+
+    w->m_pCenterWidget->setCurrentIndex(2);
+    w->onSearchEditIsDisplay(true);
+
+    w->m_pCenterWidget->setCurrentIndex(1);
+    w->onSearchEditIsDisplay(false);
+
+    w->m_pCenterWidget->setCurrentIndex(temp);
 }

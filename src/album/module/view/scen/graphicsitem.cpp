@@ -39,7 +39,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fil
             setPixmap(m_qmovie->currentPixmap());
         }
     });
-    m_qmovie->start();
+    start(); //修改为函数调用
 //    if (fileSuffix.toUpper().contains("WEBP")) {
 //        m_qmovie = new QMovie(fileName);
 //        connect(m_qmovie, &QMovie::frameChanged, this, [ = ]() {
@@ -63,7 +63,7 @@ GraphicsMovieItem::~GraphicsMovieItem()
 {
     prepareGeometryChange();
 
-    m_qmovie->stop();
+    stop(); //修改为函数调用
     m_qmovie->deleteLater();
     m_qmovie = nullptr;
 //    if (m_pTImer) {
