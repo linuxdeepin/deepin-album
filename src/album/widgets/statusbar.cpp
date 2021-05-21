@@ -197,10 +197,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 emit dApp->signalM->ImportFailed();
             }
         } else {
-            TextLabel->setText(string.arg(imgpaths[m_index + 1]));
-            TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
-            m_index ++;
-            if (m_index == imgpaths.count() - 1) {
+            if (m_index >= imgpaths.count() - 1) {
                 m_index = 0;
                 killTimer(interval);
                 interval = 0;
@@ -226,8 +223,11 @@ void StatusBar::timerEvent(QTimerEvent *e)
                     QCoreApplication::processEvents();
 
                 m_pStackedWidget->setCurrentIndex(0);
+            } else { //此处将label设置挪到后面，先判断m_index是否合法，再去引用它
+                TextLabel->setText(string.arg(imgpaths[m_index + 1]));
+                TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
+                m_index++;
             }
         }
     }
 }
-

@@ -1295,6 +1295,13 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
         //arguments第1个参数是进程名，图片paths参数需要从下标1开始
         for (int i = 1; i < arguments.size(); ++i) {
             QString qpath = arguments.at(i);
+
+            //BUG#79815，添加文件URL解析（BUG是平板上的，为防止UOS的其它个别版本也改成传URL，干脆直接全部支持）
+            auto urlPath = QUrl(qpath);
+            if (urlPath.scheme() == "file") {
+                qpath = urlPath.toLocalFile();
+            }
+
             paths.append(qpath);
             ImageEngineApi::instance()->insertImage(qpath, "");
         }
