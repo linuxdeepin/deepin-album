@@ -1125,6 +1125,8 @@ void AlbumView::updateRightMountView()
 // 更新新建相册列表
 void AlbumView::updateRightNoTrashView()
 {
+    //bug78951 更新时需清空
+    m_curThumbnaiItemList_info.clear();
     using namespace utils::image;
     DBImgInfoList infos;
     infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
