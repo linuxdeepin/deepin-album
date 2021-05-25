@@ -355,6 +355,9 @@ void ImportTimeLineView::initTimeLineViewWidget()
     DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pImportTitle->setForegroundRole(DPalette::TextTitle);
     m_pImportTitle->setFixedHeight(36);
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        m_pImportTitle->setFixedHeight(36 + 25);
+    }
 
     TitleLayout->addWidget(m_pImportTitle);
     TitleLayout->addStretch();

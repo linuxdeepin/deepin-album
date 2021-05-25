@@ -454,6 +454,9 @@ void AlbumView::initRightView()
     m_pRightTitle = new DLabel();
     DFontSizeManager::instance()->bind(m_pRightTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pRightTitle->setForegroundRole(DPalette::TextTitle);
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        m_pRightTitle->setFixedHeight(36 + 25);
+    }
 
     m_pRightPicTotal = new DLabel();
     m_pRightPicTotal->setFixedHeight(20);
@@ -547,6 +550,9 @@ void AlbumView::initRightView()
     m_TrashTitleLab = new DLabel();
     DFontSizeManager::instance()->bind(m_TrashTitleLab, DFontSizeManager::T3, QFont::DemiBold);
     m_TrashTitleLab->setFixedHeight(36);
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        m_TrashTitleLab->setFixedHeight(36 + 25);
+    }
     m_TrashTitleLab->setForegroundRole(DPalette::TextTitle);
     m_TrashTitleLab->setText(tr("Trash"));
 
@@ -690,6 +696,9 @@ void AlbumView::initRightView()
 
     m_pFavoriteTitle = new DLabel();
     m_pFavoriteTitle->setFixedHeight(36);
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        m_pFavoriteTitle->setFixedHeight(36 + 25);
+    }
     DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
     m_pFavoriteTitle->setText(tr("Favorites"));
@@ -794,6 +803,9 @@ void AlbumView::initRightView()
 
     m_pPhoneTitle = new DLabel();
     m_pPhoneTitle->setFixedHeight(36);
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        m_pPhoneTitle->setFixedHeight(36 + 25);
+    }
     DFontSizeManager::instance()->bind(m_pPhoneTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pPhoneTitle->setForegroundRole(DPalette::TextTitle);
 
@@ -803,6 +815,9 @@ void AlbumView::initRightView()
 
     m_pPhonePicTotal = new DLabel();
     m_pPhonePicTotal->setFixedHeight(20);
+    if (QLocale::system().language() == QLocale::Tibetan) {
+        m_pPhonePicTotal->setFixedHeight(20 + 10);
+    }
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);
     pal = DApplicationHelper::instance()->palette(m_pPhonePicTotal);
@@ -826,7 +841,6 @@ void AlbumView::initRightView()
     PhonePicTotalLayout->addStretch();
     pPhoneVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pPhoneVBoxLayout->addSpacing(4);
-    m_pPhoneTitle->setFixedHeight(36);
     pPhoneVBoxLayout->addWidget(m_pPhoneTitle);
     pPhoneVBoxLayout->addSpacing(22);
     pPhoneVBoxLayout->addLayout(PhonePicTotalLayout);

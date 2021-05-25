@@ -224,7 +224,7 @@ void TimeLineView::initTimeLineViewWidget()
 
     //bug76892藏语占用更大高度
     if (QLocale::system().language() == QLocale::Tibetan) {
-        m_pDate->setFixedHeight(TIMELINE_TITLEHEIGHT + 5);
+        m_pDate->setFixedHeight(TIMELINE_TITLEHEIGHT + 25);
     } else {
         m_pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     }
@@ -438,7 +438,7 @@ void TimeLineView::addTimelineLayout()
 
     //bug76892藏语占用更大高度
     if (QLocale::system().language() == QLocale::Tibetan) {
-        pDate->setFixedHeight(TIMELINE_TITLEHEIGHT + 5);
+        pDate->setFixedHeight(TIMELINE_TITLEHEIGHT + 25);
     } else {
         pDate->setFixedHeight(TIMELINE_TITLEHEIGHT);
     }

@@ -91,8 +91,12 @@ void TimelineListWidget::paintEvent(QPaintEvent *e)
             }
             //add end 3975
             if (pWidget->m_type != "blank") { //add 3975
-                // 50 windows title height
-                if ((50 <= pWidget->y() && pWidget->y() <= pWidget->m_title->height() + 47) && (pWidget->y() > blankHeight)) { //edit 3975
+                // 50 windows title height ,藏语需特殊处理
+                int y = pWidget->y();
+                if (QLocale::system().language() == QLocale::Tibetan) {
+                    y -= 25;
+                }
+                if ((50 <= y && pWidget->y() <= pWidget->m_title->height() + 47) && (pWidget->y() > blankHeight)) { //edit 3975
 #if 1
                     QListWidgetItem *pLastItem;
                     pLastItem = this->item(i - 1);
