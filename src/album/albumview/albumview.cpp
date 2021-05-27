@@ -146,7 +146,7 @@ AlbumView::AlbumView()
     , m_pRightTitle(nullptr), m_pRightPicTotal(nullptr), m_pImportPicTotal(nullptr)
     , m_pFavoriteTitle(nullptr), m_pFavoritePicTotal(nullptr), m_pPhoneTitle(nullptr)
     , m_pPhonePicTotal(nullptr), m_pSearchView(nullptr), m_vfsManager(nullptr)
-    , m_diskManager(nullptr), pLabel1(nullptr), pLabel2(nullptr)
+    , m_diskManager(nullptr), m_pTrashLabel(nullptr), m_pTrashNoticeLabel(nullptr)
     , m_importByPhoneWidget(nullptr), m_importByPhoneComboBox(nullptr)
     , m_importAllByPhoneBtn(nullptr), m_importSelectByPhoneBtn(nullptr), m_mountPicNum(0)
     , m_LoadThread(nullptr), m_spinner(nullptr)
@@ -526,19 +526,7 @@ void AlbumView::initRightView()
     m_pTrashWidget->setPalette(palcolor3);
     //add end 3975
 
-    //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
-    QVBoxLayout *pTopVBoxlayout = new QVBoxLayout();
-    pTopVBoxlayout->setContentsMargins(12, 5, 0, 6);
-
-    pLabel1 = new DLabel();
-    DFontSizeManager::instance()->bind(pLabel1, DFontSizeManager::T3, QFont::DemiBold);
-    pLabel1->setFixedHeight(36);
-    pLabel1->setForegroundRole(DPalette::TextTitle);
-    pLabel1->setText(tr("Trash"));
-    pTopVBoxlayout->addWidget(pLabel1);
-
-    QHBoxLayout *pTopButtonLayout  = new QHBoxLayout();
-    pTopButtonLayout->setContentsMargins(0, 0, 20, 0);
+    //重新更改了最近删除的顶部布局 2021-5-27
 
     m_pRecoveryBtn = new DPushButton();
     AC_SET_OBJECT_NAME(m_pRecoveryBtn, Album_Restore_Button);
@@ -551,9 +539,6 @@ void AlbumView::initRightView()
     ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_pRecoveryBtn->setPalette(ReBtn);
 
-    pTopButtonLayout->addWidget(m_pRecoveryBtn);
-    pTopButtonLayout->addSpacing(5);
-
     m_pDeleteBtn = new DWarningButton();
     AC_SET_OBJECT_NAME(m_pDeleteBtn, Album_Delete_Button);
     AC_SET_ACCESSIBLE_NAME(m_pDeleteBtn, Album_Delete_Button);
@@ -563,11 +548,10 @@ void AlbumView::initRightView()
     DPalette DeBtn = DApplicationHelper::instance()->palette(m_pRecoveryBtn);
     ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_pDeleteBtn->setPalette(ReBtn);
-    pTopButtonLayout->addWidget(m_pDeleteBtn);
 
-    pLabel2 = new DLabel();
-    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T6, QFont::Medium);
-    pal = DApplicationHelper::instance()->palette(pLabel2);
+    m_pTrashNoticeLabel = new DLabel();
+    DFontSizeManager::instance()->bind(m_pTrashNoticeLabel, DFontSizeManager::T6, QFont::Medium);
+    pal = DApplicationHelper::instance()->palette(m_pTrashNoticeLabel);
     color_BT = pal.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
         color_BT.setAlphaF(0.5);
@@ -576,23 +560,24 @@ void AlbumView::initRightView()
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, color_BT);
     }
-    pLabel2->setForegroundRole(DPalette::Text);
-    pLabel2->setPalette(pal);
-    pLabel2->setText(tr("The photos will be permanently deleted after the days shown on it"));
-    pTopVBoxlayout->addSpacing(9);
-    pTopVBoxlayout->addWidget(pLabel2);
+    m_pTrashNoticeLabel->setForegroundRole(DPalette::Text);
+    m_pTrashNoticeLabel->setPalette(pal);
+    trashNoticeFullStr = tr("The photos will be permanently deleted after the days shown on it");
+    m_pTrashNoticeLabel->setText(trashNoticeFullStr);
 
-    //重新对button布局
-    QVBoxLayout *pVboxlayout = new QVBoxLayout();
-    pVboxlayout->setContentsMargins(0, 0, 0, 0);
-    pVboxlayout->addStretch(1);
-    pVboxlayout->addLayout(pTopButtonLayout);
-    pVboxlayout->addStretch(1);
+    //重新对顶部进行布局
+    auto topLayout_1 = new QHBoxLayout;
+    topLayout_1->addWidget(m_pRecoveryBtn);
+    topLayout_1->addWidget(m_pDeleteBtn);
+    topLayout_1->setContentsMargins(21, 11, 20, 0);
+    topLayout_1->setSpacing(10);
 
-    QHBoxLayout    *pTopHboxlayout = new QHBoxLayout();
-    pTopHboxlayout->setContentsMargins(0, 0, 0, 0);
-    pTopHboxlayout->addLayout(pTopVBoxlayout);
-    pTopHboxlayout->addLayout(pVboxlayout);
+    auto topLayout = new QHBoxLayout;
+    topLayout->addLayout(topLayout_1);
+    topLayout->addWidget(m_pTrashNoticeLabel);
+    topLayout->setSpacing(0);
+
+    //重新对顶部进行布局 end
 
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
@@ -622,7 +607,7 @@ void AlbumView::initRightView()
     m_TrashListWidget->insertItem(0, Trashitem);
     m_TrashListWidget->setItemWidget(Trashitem, blankWidget3);
 
-    Trashitem->setSizeHint(QSize(width(), 83 + 50));
+    Trashitem->setSizeHint(QSize(width(), 83 + 50 - 20));
 
     m_TrashitemItem = new QListWidgetItem();
     m_TrashitemItem->setFlags(Qt::NoItemFlags);
@@ -637,7 +622,7 @@ void AlbumView::initRightView()
     m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
     m_pRightTrashThumbnailList->setFixedSize(m_pTrashWidget->size());
     m_TrashTitle = new DWidget(m_pTrashWidget);
-    m_TrashTitle->setLayout(pTopHboxlayout);
+    m_TrashTitle->setLayout(topLayout);
 
     DPalette ppal_light3 = DApplicationHelper::instance()->palette(m_TrashTitle);
     ppal_light3.setBrush(DPalette::Background, ppal_light3.color(DPalette::Base));
@@ -646,8 +631,17 @@ void AlbumView::initRightView()
     m_TrashTitle->setPalette(ppal_light3);
     m_TrashTitle->setGraphicsEffect(opacityEffect_light3);
     m_TrashTitle->setAutoFillBackground(true);
-    m_TrashTitle->move(0, 50);
-    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
+    m_TrashTitle->move(0, 35);
+    m_TrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
+
+    m_pTrashLabel = new DLabel(m_TrashTitle);
+    DFontSizeManager::instance()->bind(m_pTrashLabel, DFontSizeManager::T3, QFont::DemiBold);
+    m_pTrashLabel->setFixedHeight(36);
+    m_pTrashLabel->setForegroundRole(DPalette::TextTitle);
+    m_pTrashLabel->setText(tr("Trash"));
+    m_pTrashLabel->move(m_TrashTitle->width() / 2 - m_pTrashLabel->width() / 2,
+                        m_TrashTitle->height() / 2 - m_pTrashLabel->height() / 2);
+
     //add end 3975
     // Favorite View
     m_pFavoriteWidget = new DWidget(); //add 3975
@@ -657,12 +651,6 @@ void AlbumView::initRightView()
     m_pFavoriteWidget->setPalette(palcolor2);
     //add end 3975
     QVBoxLayout *pFavoriteVBoxLayout = new QVBoxLayout();
-
-    m_pFavoriteTitle = new DLabel();
-    m_pFavoriteTitle->setFixedHeight(36);
-    DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
-    m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
-    m_pFavoriteTitle->setText(tr("Favorites"));
 
     m_pFavoritePicTotal = new DLabel();
     m_pFavoritePicTotal->setFixedHeight(20);
@@ -685,7 +673,6 @@ void AlbumView::initRightView()
     m_pFavoritePicTotal->setForegroundRole(DPalette::Text);
     m_pFavoritePicTotal->setPalette(pal);
 
-
     m_pRightFavoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewType, COMMON_STR_FAVORITES);
     m_pRightFavoriteThumbnailList->setFrameShape(DTableView::NoFrame);
     m_pRightFavoriteThumbnailList->setObjectName("RightFavoriteThumbnail");
@@ -693,10 +680,7 @@ void AlbumView::initRightView()
         this->onMoveScroll(m_FavListWidget, distence);
     });
 
-    pFavoriteVBoxLayout->addWidget(m_pFavoriteTitle);
-    pFavoriteVBoxLayout->addSpacing(9);
     pFavoriteVBoxLayout->addWidget(m_pFavoritePicTotal);
-
     pFavoriteVBoxLayout->setContentsMargins(12, 5, 0, 6); //edit 3975
 
     m_FavListWidget = new AlbumViewListWidget();
@@ -719,7 +703,7 @@ void AlbumView::initRightView()
     Favoriteitem->setFlags(Qt::NoItemFlags);
     m_FavListWidget->insertItem(0, Favoriteitem);
     m_FavListWidget->setItemWidget(Favoriteitem, blankWidget2);
-    Favoriteitem->setSizeHint(QSize(width(), 83 + 50));
+    Favoriteitem->setSizeHint(QSize(width(), 83 + 50 - 30));
 
     m_FavoriteItem = new QListWidgetItem();
     m_FavoriteItem->setFlags(Qt::NoItemFlags);
@@ -743,7 +727,16 @@ void AlbumView::initRightView()
     m_FavoriteTitle->setGraphicsEffect(opacityEffect_light2);
     m_FavoriteTitle->setAutoFillBackground(true);
     m_FavoriteTitle->move(0, 50);
-    m_FavoriteTitle->setFixedSize(this->width() - 200, 83);
+    m_FavoriteTitle->setFixedSize(this->width() - 200, static_cast<int>(83 / 1.5));
+
+    //调整为直接move
+    m_pFavoriteTitle = new DLabel(m_FavoriteTitle);
+    m_pFavoriteTitle->setFixedHeight(36);
+    DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
+    m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
+    m_pFavoriteTitle->setText(tr("Favorites"));
+    m_pFavoriteTitle->move(m_FavoriteTitle->width() / 2 - m_pFavoriteTitle->width() / 2,
+                           m_FavoriteTitle->height() / 2 - m_pFavoriteTitle->height() / 2);
 //add end 3975
 
 //Search View
@@ -2277,8 +2270,8 @@ void AlbumView::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)
     m_pFavoritePicTotal->setPalette(pal);
     m_pRightPicTotal->setForegroundRole(DPalette::Text);
     m_pRightPicTotal->setPalette(pal);
-    pLabel2->setForegroundRole(DPalette::Text);
-    pLabel2->setPalette(pal);
+    m_pTrashNoticeLabel->setForegroundRole(DPalette::Text);
+    m_pTrashNoticeLabel->setPalette(pal);
     // 设备相册界面标题
     DPalette phonePal = DApplicationHelper::instance()->palette(m_pPhonePicTotal);
     QColor phone_Color_BT = phonePal.color(DPalette::BrightText);
@@ -2417,7 +2410,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
         m_pNoTrashTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
     }
     if (nullptr != m_FavoriteTitle) {
-        m_FavoriteTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 83);
+        m_FavoriteTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, static_cast<int>(83 / 1.5));
         m_pRightFavoriteThumbnailList->setFixedWidth(this->width() - LEFT_VIEW_WIDTH);
     }
     if (nullptr != m_TrashTitle) {
@@ -2432,5 +2425,25 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->setFixedWidth(this->width() - m_pLeftListView->width());
     m_pStatusBar->move(m_pLeftListView->width(), this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
+
+    //校准 我的收藏 这几个字的位置
+    m_pFavoriteTitle->move(m_FavoriteTitle->width() / 2 - m_pFavoriteTitle->width() / 2,
+                           m_FavoriteTitle->height() / 2 - m_pFavoriteTitle->height() / 2);
+
+    //校准 最近删除 这几个字的位置
+    m_pTrashLabel->move(m_TrashTitle->width() / 2 - m_pTrashLabel->width() / 2,
+                        m_TrashTitle->height() / 2 - m_pTrashLabel->height() / 2);
+
+    //然后还要看情况把旁边那个label搞成省略号
+    QFontMetrics fontWidth(m_pTrashNoticeLabel->font()); //字体信息
+    int width = fontWidth.width(trashNoticeFullStr) + 10; //计算字符串宽度,+10提前进入省略，避免右边遮挡
+    int maxWidth = m_pTrashLabel->x() - m_pTrashNoticeLabel->x(); //计算最大长度
+    if (width > maxWidth) {
+        m_pTrashNoticeLabel->setText(fontWidth.elidedText(trashNoticeFullStr, Qt::ElideRight, maxWidth)); //超过最大长度，右边搞成省略号
+    } else {
+        m_pTrashNoticeLabel->setText(trashNoticeFullStr); //没超最大长度，完整显示字符串
+    }
+
+    //返回
     QWidget::resizeEvent(e);
 }

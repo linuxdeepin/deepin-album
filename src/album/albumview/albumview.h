@@ -249,8 +249,9 @@ private:
     SearchView *m_pSearchView;
     DGioVolumeManager *m_vfsManager;
     DDiskManager *m_diskManager;
-    DLabel *pLabel1;
-    DLabel *pLabel2;
+    DLabel *m_pTrashLabel;
+    DLabel *m_pTrashNoticeLabel;
+    QString trashNoticeFullStr; //保存最近删除提示语的完整字符，方便进行恢复
 
     // 已导入窗体
 //    ImportTimeLineView *m_pImpTimeLineView;
