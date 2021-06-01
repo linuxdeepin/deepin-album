@@ -481,8 +481,11 @@ void ImportTimeLineView::clearAndStartLayout()
     blankItem->setFlags(Qt::NoItemFlags);
     m_mainListWidget->addItemForWidget(blankItem);
     m_mainListWidget->setItemWidget(blankItem, blankWidget);
-    blankItem->setSizeHint(QSize(0, m_pImportTitle->height()));
-
+    if (QLocale::system().language() == QLocale::Tibetan) {//藏语占用更大，m_pImportTitle高度变化，blankItem相应变化
+        blankItem->setSizeHint(QSize(0, m_pImportTitle->height() - 25));
+    } else {
+        blankItem->setSizeHint(QSize(0, m_pImportTitle->height()));
+    }
     addTimelineLayout();
 }
 
