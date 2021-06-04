@@ -110,5 +110,8 @@ TEST(DBandImgOperate, DBImgOper)
     DBandImgOperate *db = new DBandImgOperate;
     QString pic = testPath_test + "/39elz3.png";
     db->loadOneThumbnail(pic);
+    db->loadOneThumbnail(testPath_test + "/39elz3.png123"); //图片不存在的分支
     db->getAllInfos();
+
+    delete db;//用完记得清理掉
 }

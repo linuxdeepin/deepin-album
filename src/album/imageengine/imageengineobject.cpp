@@ -167,7 +167,7 @@ void ImageEngineObject::removeThread(ImageEngineThreadObject *thread, bool needm
     } else {
         m_threads.removeOne(thread);
     }
-  
+
     //主动切断连接，否则会去执行lambda，然后解引用已经销毁的this指针
     QObject::disconnect(thread, &ImageEngineThreadObject::runFinished, nullptr, nullptr);
 }

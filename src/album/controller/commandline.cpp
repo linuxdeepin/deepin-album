@@ -129,7 +129,7 @@ void CommandLine::setThreads(ImageEngineImportObject *obj)
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
 //    ViewMainWindow *w = new ViewMainWindow(false);
-    QHBoxLayout *m_layout = new QHBoxLayout;
+    QHBoxLayout *m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     MainWidget *m_mainWidget = new MainWidget(false, this);
     m_mainWidget->setObjectName("MainWidget");

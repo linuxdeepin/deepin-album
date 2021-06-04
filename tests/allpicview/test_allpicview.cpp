@@ -285,17 +285,6 @@ TEST(allpicview, test_select)
     QTest::qWait(100);
 }
 
-TEST(allpicview, test_shortCut)
-{
-    TEST_CASE_NAME("test_shortCut")
-    MainWindow *w = dApp->getMainWindow();
-    w->createShorcutJson();
-    QTestEventList e;
-    e.addKeyClick(Qt::Key_Question, Qt::ControlModifier | Qt::ShiftModifier);
-    e.simulate(w);
-    QTest::qWait(500);
-}
-
 TEST(allpicview, test_showInFileManagerAndBackGrond)
 {
 //    TEST_CASE_NAME("test_showInFileManagerAndBackGrond")

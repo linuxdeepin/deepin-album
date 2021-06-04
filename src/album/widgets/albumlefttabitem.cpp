@@ -66,7 +66,7 @@ void AlbumLeftTabItem::initUI()
 {
     setFocusPolicy(Qt::NoFocus);
     setFixedSize(160, 40);
-    QHBoxLayout *pHBoxLayout = new QHBoxLayout();
+    QHBoxLayout *pHBoxLayout = new QHBoxLayout(this);
     pHBoxLayout->setContentsMargins(15, 0, 0, 0);
     pHBoxLayout->setSpacing(0);
 

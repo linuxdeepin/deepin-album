@@ -76,6 +76,7 @@ ImportImagesThread::ImportImagesThread()
 
 ImportImagesThread::~ImportImagesThread()
 {
+    qDebug() << "ImportImagesThread destoryed";
 }
 
 void ImportImagesThread::setData(QList<QUrl> &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect)
@@ -1054,7 +1055,7 @@ void ImageFromNewAppThread::runDetail()
 
 ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 {
-    setAutoDelete(false);
+    setAutoDelete(true); //上层的m_imgobj似乎会一直存在，直到最后系统销毁它，所以允许auto delete
 }
 
 ImageCacheQueuePopThread::~ImageCacheQueuePopThread()

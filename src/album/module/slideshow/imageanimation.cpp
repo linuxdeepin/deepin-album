@@ -67,6 +67,8 @@ private:
 
 class ImageAnimationPrivate: public QWidget
 {
+    Q_OBJECT
+
 public:
     enum AnimationType {
         FadeEffect = 0,             //图像1渐渐变淡,图像2渐渐显现
@@ -645,7 +647,7 @@ void ImageAnimationPrivate::startSinglePreAnimation()
 void ImageAnimationPrivate::startStatic()
 {
     if (!m_staticTimer) {
-        m_staticTimer = new QTimer;
+        m_staticTimer = new QTimer(this);
         m_staticTimer->setSingleShot(true);
         connect(m_staticTimer, &QTimer::timeout, this, &ImageAnimationPrivate::onStaticTimer);
     }
@@ -902,3 +904,5 @@ void ImageAnimation::setPaintTarget(PaintTarget target)
 {
     current_target = target;
 }
+
+#include "imageanimation.moc"

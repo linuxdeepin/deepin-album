@@ -63,7 +63,9 @@ TEST(PrintHelper, PrintHelper_test)
     w->allPicBtnClicked();
     QTest::qWait(2000);
 
-    int (*dlgexec)() = []() {return 1;};
+    int (*dlgexec)() = []() {
+        return 1;
+    };
     typedef int (*fptr)(QDialog *);
     fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
     Stub stub;
@@ -76,6 +78,6 @@ TEST(PrintHelper, PrintHelper_test)
     if (paths.size() < 1)
         paths << testPath_test + "2k9o1m.png";
     PrintHelper::getIntance()->showPrintDialog(paths, p);
+
+    delete p1;//单元测试也要记得释放内存
 }
-
-

@@ -510,19 +510,30 @@ TEST(MainWindow, allpicture)
     QTest::qWait(1000);
 
     //复制7
-    qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
-    QTest::qWait(300);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-    e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-    e.simulate(menuWidget);
-    e.clear();
-    QTest::qWait(300);
+    {
+        //https://gerrit.uniontech.com/c/deepin-album/+/50941 ARM64频繁失败原因：没有干掉&QDialog::exec，导致UT阻塞
+        int (*dlgexec)() = []() {
+            return 1;
+        };
+        typedef int (*fptr)(QDialog *);
+        fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
+        Stub stub;
+        stub.set(fptrexec, dlgexec);
+
+        qApp->sendEvent(allpicview->m_pThumbnailListView->viewport(), &menuEvent);
+        QTest::qWait(300);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+        e.simulate(menuWidget);
+        e.clear();
+        QTest::qWait(300);
+    }
 
     //删除后重新选中最新的第一张
     e.addMouseMove(p1);

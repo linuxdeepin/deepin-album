@@ -92,7 +92,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setMinimumWidth(500);
-    m_delegate = new ThumbnailDelegate(type);
+    m_delegate = new ThumbnailDelegate(type, this); //绑在this上面，用于自动销毁
     m_delegate->m_imageTypeStr = m_imageType;
     setItemDelegate(m_delegate);
     setModel(m_model);
@@ -903,7 +903,7 @@ void ThumbnailListView::updateMenuContents()
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
 {
-    QAction *ac = new QAction();
+    QAction *ac = new QAction(this);
     addAction(ac);
     ac->setText(text);
     ac->setProperty("MenuID", id);

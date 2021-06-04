@@ -67,7 +67,7 @@ PrintHelper *PrintHelper::getIntance()
 PrintHelper::PrintHelper(QObject *parent)
     : QObject(parent)
 {
-    m_re = new RequestedSlot;
+    m_re = new RequestedSlot(this);
 }
 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)

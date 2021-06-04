@@ -98,7 +98,7 @@ void MyImageListWidget::setObj(QObject *obj)
 {
     m_obj = obj;
     m_preListGeometryLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-    m_resetAnimation = new QPropertyAnimation(m_obj, "pos");
+    m_resetAnimation = new QPropertyAnimation(m_obj, "pos", m_obj); //和上层m_obj的销毁绑在一起
     connect(m_resetAnimation, SIGNAL(finished()), this, SLOT(animationFinished()));
     connect(m_resetAnimation, SIGNAL(valueChanged(const QVariant)), this, SLOT(animationValueChanged(const QVariant)));
 }
@@ -482,7 +482,7 @@ void MyImageListWidget::animationFinished()
 ImageItem::ImageItem(int index, ImageDataSt data, QWidget *parent):
     QLabel(parent)
 {
-    m_timer = new QTimer();
+    m_timer = new QTimer(this);
     m_timer->setInterval(200);
     m_timer->setSingleShot(true);
     _index = index;
@@ -855,7 +855,7 @@ TTBContent::TTBContent(bool inDB, QStringList filelist, QWidget *parent) : QLabe
     }
 
     m_imgList->setDisabled(false);
-    m_imglayout = new QHBoxLayout();
+    m_imglayout = new QHBoxLayout(this);
     m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_imglayout->setMargin(0);
     m_imglayout->setSpacing(0);

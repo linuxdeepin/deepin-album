@@ -60,6 +60,9 @@ ImageEngineApi::~ImageEngineApi()
     QThreadPool::globalInstance()->waitForDone();
     qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
 #endif
+
+    //销毁
+    delete m_imageCacheSaveobj;
 }
 
 ImageEngineApi::ImageEngineApi(QObject *parent)
