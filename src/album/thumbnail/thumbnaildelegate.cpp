@@ -250,41 +250,41 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
     ItemData data;
     if (datas.length() >= 1) {
-        data.name = datas[0].toString();
+        data.name = datas.at(0).toString();
     }
     if (datas.length() >= 2) {
-        data.path =  datas[1].toString();
+        data.path =  datas.at(1).toString();
     }
     if (datas.length() >= 3) {
-        data.width = datas[2].toInt();
+        data.width = datas.at(2).toInt();
     }
     if (datas.length() >= 4) {
-        data.height = datas[3].toInt();
+        data.height = datas.at(3).toInt();
     }
     if (datas.length() >= 5) {
-        data.remainDays = datas[4].toString();
+        data.remainDays = datas.at(4).toString();
     }
     if (datas.length() >= 6) {
-        data.image = datas[5].value<QPixmap>();
+        data.image = datas.at(5).value<QPixmap>();
     }
     if (datas.length() >= 7) {
-        data.imgWidth = datas[6].toInt();
+        data.imgWidth = datas.at(6).toInt();
     }
     if (datas.length() >= 8) {
-        data.imgHeight = datas[7].toInt();
+        data.imgHeight = datas.at(7).toInt();
     }
     if (datas.length() >= 9) {
-        data.baseWidth = datas[8].toInt();
+        data.baseWidth = datas.at(8).toInt();
     }
     if (datas.length() >= 10) {
-        data.baseHeight = datas[9].toInt();
+        data.baseHeight = datas.at(9).toInt();
     }
     if (datas.length() >= 11) {
-        data.firstorlast = datas[10].toString();
+        data.firstorlast = datas.at(10).toString();
     }
     data.isSelected = index.data(Qt::UserRole).toBool();
     if (datas.length() >= 12) {
-        data.bNotSupportedOrDamaged = datas[11].toBool();
+        data.bNotSupportedOrDamaged = datas.at(11).toBool();
     }
     return data;
 }

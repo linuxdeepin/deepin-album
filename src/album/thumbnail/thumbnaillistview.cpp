@@ -397,7 +397,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
         m_height = 0;
         int index = 0;//当前一个list所有照片数量
         for (int i = 0; i < m_gridItem.size(); i++) {
-            for (int j = 0; j < m_gridItem[i].size(); j++) {
+            for (int j = 0; j < m_gridItem.at(i).size(); j++) {
                 index ++;
             }
         }
@@ -407,7 +407,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
         else
             m_row = index / m_rowSizeHint + 1;
 
-        m_height = (m_gridItem[0][0].height + ITEM_SPACING) * m_row;
+        m_height = (m_gridItem.at(0).at(0).height + ITEM_SPACING) * m_row;
         m_height -= ITEM_SPACING;
     }
     if (hightlast != m_height) {
@@ -458,10 +458,10 @@ void ThumbnailListView::addThumbnailView()
     m_model->clear();
 
     for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0; j < m_gridItem[i].length(); j++) {
+        for (int j = 0; j < m_gridItem.at(i).length(); j++) {
             QStandardItem *item = new QStandardItem;
             QString qsfirstorlast = "NotFirstOrLast";
-            int height = m_gridItem[i][j].height;
+            int height = m_gridItem.at(i).at(j).height;
             //针对第一行做处理
             if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
                 if (m_model->rowCount() < m_rowSizeHint) {
@@ -476,20 +476,20 @@ void ThumbnailListView::addThumbnailView()
             }
 
             QVariantList datas;
-            datas.append(QVariant(m_gridItem[i][j].name));
-            datas.append(QVariant(m_gridItem[i][j].path));
-            datas.append(QVariant(m_gridItem[i][j].width));
-            datas.append(QVariant(m_gridItem[i][j].height));
-            datas.append(QVariant(m_gridItem[i][j].remainDays));
-            datas.append(QVariant(m_gridItem[i][j].image));
-            datas.append(QVariant(m_gridItem[i][j].imgWidth));
-            datas.append(QVariant(m_gridItem[i][j].imgHeight));
-            datas.append(QVariant(m_gridItem[i][j].baseWidth));
-            datas.append(QVariant(m_gridItem[i][j].baseHeight));
+            datas.append(QVariant(m_gridItem.at(i).at(j).name));
+            datas.append(QVariant(m_gridItem.at(i).at(j).path));
+            datas.append(QVariant(m_gridItem.at(i).at(j).width));
+            datas.append(QVariant(m_gridItem.at(i).at(j).height));
+            datas.append(QVariant(m_gridItem.at(i).at(j).remainDays));
+            datas.append(QVariant(m_gridItem.at(i).at(j).image));
+            datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
+            datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
+            datas.append(QVariant(m_gridItem.at(i).at(j).baseWidth));
+            datas.append(QVariant(m_gridItem.at(i).at(j).baseHeight));
             datas.append(QVariant(qsfirstorlast));
-            datas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
+            datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
             item->setData(QVariant(datas), Qt::DisplayRole);
-            item->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].height*/height)),
+            item->setData(QVariant(QSize(m_gridItem.at(i).at(j).width, height)),
                           Qt::SizeHintRole);
             m_model->appendRow(item);
         }
@@ -509,8 +509,8 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
 {
     int index = 0;
     for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0; j < m_gridItem[i].length(); j++) {
-            if (m_gridItem[i][j].path == updatePath) {  //需要旋转的图片
+        for (int j = 0; j < m_gridItem.at(i).length(); j++) {
+            if (m_gridItem.at(i).at(j).path == updatePath) {  //需要旋转的图片
                 ImageDataSt data;
                 ImageEngineApi::instance()->getImageData(updatePath, data);
                 ItemInfo info;
@@ -528,19 +528,19 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 info.baseHeight = data.imgpixmap.height();
                 modifyAllPic(info);
                 for (auto &item : m_ItemList) {     //替换
-                    if (item == m_gridItem[i][j])
+                    if (item == m_gridItem.at(i).at(j))
                         item = info;
                 }
                 QList<ItemInfo>::iterator item = m_ItemList.begin();
                 while (item != m_ItemList.end()) {
-                    if (*item == m_gridItem[i][j])
+                    if (*item == m_gridItem.at(i).at(j))
                         *item = info;
                     ++item;
                 }
                 m_gridItem[i][j] = info;
                 QVariantList newdatas;
                 QString qsfirstorlast = "NotFirstOrLast";
-                int height = m_gridItem[i][j].height;
+                int height = m_gridItem.at(i).at(j).height;
                 //针对第一行做处理
                 if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
                     if (m_model->rowCount() < m_rowSizeHint) {
@@ -554,22 +554,22 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                     }
                 }
 
-                newdatas.append(QVariant(m_gridItem[i][j].name));
-                newdatas.append(QVariant(m_gridItem[i][j].path));
-                newdatas.append(QVariant(m_gridItem[i][j].width));
-                newdatas.append(QVariant(m_gridItem[i][j].height));
-                newdatas.append(QVariant(m_gridItem[i][j].remainDays));
-                newdatas.append(QVariant(m_gridItem[i][j].image));
-                newdatas.append(QVariant(m_gridItem[i][j].imgWidth));
-                newdatas.append(QVariant(m_gridItem[i][j].imgHeight));
-                newdatas.append(QVariant(m_gridItem[i][j].baseWidth));
-                newdatas.append(QVariant(m_gridItem[i][j].baseHeight));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).name));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).path));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).width));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).height));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).remainDays));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).image));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).baseWidth));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).baseHeight));
                 newdatas.append(QVariant(qsfirstorlast));
-                newdatas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
+                newdatas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
                 m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
-                m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].*/height)),
+                m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem.at(i).at(j).width, height)),
                                                  Qt::SizeHintRole);
-                QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(m_gridItem[i][j].path);
+                QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(m_gridItem.at(i).at(j).path);
                 m_model->item(index, 0)->setData(QVariant(albumNames), Qt::UserRole + 2);
             }
             index++;
@@ -1275,9 +1275,9 @@ void ThumbnailListView::updateThumbnaillistview()
 {
     int index = 0;
     for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0; j < m_gridItem[i].length(); j++) {
+        for (int j = 0; j < m_gridItem.at(i).length(); j++) {
             QString qsfirstorlast = "NotFirstOrLast";
-            int height = m_gridItem[i][j].height;
+            int height = m_gridItem.at(i).at(j).height;
             //针对第一行做处理
             if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
                 if (m_model->rowCount() < m_rowSizeHint) {
@@ -1292,27 +1292,27 @@ void ThumbnailListView::updateThumbnaillistview()
             }
 
             QVariantList datas;
-            datas.append(QVariant(m_gridItem[i][j].name));
-            datas.append(QVariant(m_gridItem[i][j].path));
-            datas.append(QVariant(m_gridItem[i][j].width));
-            datas.append(QVariant(m_gridItem[i][j].height));
-            datas.append(QVariant(m_gridItem[i][j].remainDays));
-            if (m_gridItem[i][j].bNotSupportedOrDamaged) {
+            datas.append(QVariant(m_gridItem.at(i).at(j).name));
+            datas.append(QVariant(m_gridItem.at(i).at(j).path));
+            datas.append(QVariant(m_gridItem.at(i).at(j).width));
+            datas.append(QVariant(m_gridItem.at(i).at(j).height));
+            datas.append(QVariant(m_gridItem.at(i).at(j).remainDays));
+            if (m_gridItem.at(i).at(j).bNotSupportedOrDamaged) {
                 m_gridItem[i][j].image = getDamagedPixmap();
             }
-            datas.append(QVariant(m_gridItem[i][j].image));
-            datas.append(QVariant(m_gridItem[i][j].imgWidth));
-            datas.append(QVariant(m_gridItem[i][j].imgHeight));
-            datas.append(QVariant(m_gridItem[i][j].baseWidth));
-            datas.append(QVariant(m_gridItem[i][j].baseHeight));
+            datas.append(QVariant(m_gridItem.at(i).at(j).image));
+            datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
+            datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
+            datas.append(QVariant(m_gridItem.at(i).at(j).baseWidth));
+            datas.append(QVariant(m_gridItem.at(i).at(j).baseHeight));
             datas.append(QVariant(qsfirstorlast));
-            datas.append(QVariant(m_gridItem[i][j].bNotSupportedOrDamaged));
+            datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
 
             //更新值
             QStandardItem *newItem = m_model->item(index);
             if (newItem) {
                 newItem->setData(QVariant(datas), Qt::DisplayRole);
-                newItem->setData(QVariant(QSize(m_gridItem[i][j].width, /*m_gridItem[i][j].*/height)),
+                newItem->setData(QVariant(QSize(m_gridItem.at(i).at(j).width, height)),
                                  Qt::SizeHintRole);
                 m_model->setItem(index++, newItem);
             }
@@ -1785,7 +1785,7 @@ void ThumbnailListView::calgridItemsWidth()
         currentwidth = 80;
 
     for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0 ; j < m_gridItem[i].length(); j++) {
+        for (int j = 0 ; j < m_gridItem.at(i).length(); j++) {
             m_gridItem[i][j].width = currentwidth;
             m_gridItem[i][j].height = currentwidth;
             m_gridItem[i][j].imgHeight = currentwidth;
@@ -1796,7 +1796,7 @@ void ThumbnailListView::calgridItemsWidth()
         m_height = 0;
         int index = 0;//当前一个list所有照片数量
         for (int i = 0; i < m_gridItem.size(); i++) {
-            for (int j = 0; j < m_gridItem[i].size(); j++) {
+            for (int j = 0; j < m_gridItem.at(i).size(); j++) {
                 index ++;
             }
         }
@@ -1806,7 +1806,7 @@ void ThumbnailListView::calgridItemsWidth()
         else
             m_row = index / m_rowSizeHint + 1;
 
-        m_height = (m_gridItem[0][0].height + ITEM_SPACING) * m_row;
+        m_height = (m_gridItem.at(0).at(0).height + ITEM_SPACING) * m_row;
         m_height -= ITEM_SPACING;
     }
 }
