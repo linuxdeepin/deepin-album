@@ -952,6 +952,11 @@ TEST(MainWindow, viewpanelmenu)
     e.clear();
     QTest::qWait(500);
 
+    //从这个case中没有找到可以初始化m_ttbc的代码
+    if (wid->m_viewPanel->m_ttbc == nullptr) {
+        wid->m_viewPanel->bottomTopLeftContent();
+    }
+
     emit wid->m_viewPanel->m_ttbc->m_backButton->click();
     w->raise();
     QTest::qWait(300);
