@@ -75,6 +75,11 @@ QUrl UrlInfo(QString path)
 
 int main(int argc, char *argv[])
 {
+    //for qt5platform-plugins load DPlatformIntegration or DPlatformIntegrationParent
+    if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
+        setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
+    }
+
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     QScopedPointer<DApplication> dAppNew(new DApplication(argc, argv));
 #else
