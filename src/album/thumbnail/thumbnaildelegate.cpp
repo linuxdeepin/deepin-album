@@ -113,29 +113,18 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1 : data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
     float fheight = (backgroundRect.width()) / (data.baseWidth  == 0 ? 1 : data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
     QRect pixmapRect;
-    if ((data.width > data.imgWidth + 16) && fheight <= 3) {
-        pixmapRect.setX(backgroundRect.x() + (data.width - data.imgWidth) / 2);
-        pixmapRect.setWidth(data.imgWidth);
+    if (data.bNotSupportedOrDamaged) {
+        pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
+        pixmapRect.setWidth(NotSupportedOrDamagedWidth);
+
+        pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
+        pixmapRect.setHeight(NotSupportedOrDamagedHeigh);
     } else {
-        if (data.bNotSupportedOrDamaged) {
-            pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
-            pixmapRect.setWidth(NotSupportedOrDamagedWidth);
-        } else {
-            pixmapRect.setX(backgroundRect.x() + 8);
-            pixmapRect.setWidth(backgroundRect.width() - 16);
-        }
-    }
-    if ((data.height > data.imgHeight + 16) && (fwidth <= 1.5f)) {
-        pixmapRect.setY(backgroundRect.y() + (data.height - data.imgHeight) / 2);
-        pixmapRect.setHeight(data.imgHeight);
-    } else {
-        if (data.bNotSupportedOrDamaged) {
-            pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
-            pixmapRect.setHeight(NotSupportedOrDamagedHeigh);
-        } else {
-            pixmapRect.setY(backgroundRect.y() + 8);;
-            pixmapRect.setHeight(backgroundRect.height() - 16);
-        }
+        pixmapRect.setX(backgroundRect.x() + 8);
+        pixmapRect.setWidth(backgroundRect.width() - 16);
+
+        pixmapRect.setY(backgroundRect.y() + 8);;
+        pixmapRect.setHeight(backgroundRect.height() - 16);
     }
     //2020/6/9 DJH UI 透明图片背景
     QBrush transparentbrush;
@@ -256,35 +245,29 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
         data.path =  datas.at(1).toString();
     }
     if (datas.length() >= 3) {
-        data.width = datas.at(2).toInt();
+        data.remainDays = datas.at(2).toString();
     }
     if (datas.length() >= 4) {
-        data.height = datas.at(3).toInt();
+        data.image = datas.at(3).value<QPixmap>();
     }
     if (datas.length() >= 5) {
-        data.remainDays = datas.at(4).toString();
+        data.imgWidth = datas.at(4).toInt();
     }
     if (datas.length() >= 6) {
-        data.image = datas.at(5).value<QPixmap>();
+        data.imgHeight = datas.at(5).toInt();
     }
     if (datas.length() >= 7) {
-        data.imgWidth = datas.at(6).toInt();
+        data.baseWidth = datas.at(6).toInt();
     }
     if (datas.length() >= 8) {
-        data.imgHeight = datas.at(7).toInt();
+        data.baseHeight = datas.at(7).toInt();
     }
     if (datas.length() >= 9) {
-        data.baseWidth = datas.at(8).toInt();
-    }
-    if (datas.length() >= 10) {
-        data.baseHeight = datas.at(9).toInt();
-    }
-    if (datas.length() >= 11) {
-        data.firstorlast = datas.at(10).toString();
+        data.firstorlast = datas.at(8).toString();
     }
     data.isSelected = index.data(Qt::UserRole).toBool();
-    if (datas.length() >= 12) {
-        data.bNotSupportedOrDamaged = datas.at(11).toBool();
+    if (datas.length() >= 10) {
+        data.bNotSupportedOrDamaged = datas.at(9).toBool();
     }
     return data;
 }

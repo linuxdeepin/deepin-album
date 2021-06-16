@@ -44,8 +44,6 @@ public:
     struct ItemData {
         QString name;
         QString path = QString();
-        int width;
-        int height;
         int imgWidth;
         int imgHeight;
         int baseWidth;

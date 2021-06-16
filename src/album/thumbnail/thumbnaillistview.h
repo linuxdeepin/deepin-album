@@ -94,8 +94,6 @@ public:
         QString path = "";
         int baseWidth = 0;
         int baseHeight = 0;
-        int width = 0;
-        int height = 0;
         int imgWidth = 0;
         int imgHeight = 0;
         QString remainDays = "30天";
