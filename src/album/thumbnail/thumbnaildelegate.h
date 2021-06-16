@@ -46,8 +46,6 @@ public:
         QString path = QString();
         int imgWidth;
         int imgHeight;
-        int baseWidth;
-        int baseHeight;
         bool isSelected;
         QString remainDays = "30天";
         QPixmap image;

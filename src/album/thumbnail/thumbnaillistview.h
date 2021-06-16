@@ -92,8 +92,6 @@ public:
     struct ItemInfo {
         QString name = "";
         QString path = "";
-        int baseWidth = 0;
-        int baseHeight = 0;
         int imgWidth = 0;
         int imgHeight = 0;
         QString remainDays = "30天";
@@ -248,7 +246,6 @@ public:
     QStandardItemModel *m_model = nullptr;
 
 private:
-    int m_iDefaultWidth = 0;
     int m_iBaseHeight = 0;
 
     QList<ItemInfo> m_ItemList;

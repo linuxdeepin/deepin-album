@@ -110,8 +110,6 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         painter->fillRect(backRect, shadowbrush);
     }
 
-    float fwidth = (backgroundRect.height()) / (data.baseHeight == 0 ? 1 : data.baseHeight) * (data.baseWidth) / (backgroundRect.width());
-    float fheight = (backgroundRect.width()) / (data.baseWidth  == 0 ? 1 : data.baseWidth) * (data.baseHeight) / (backgroundRect.height());
     QRect pixmapRect;
     if (data.bNotSupportedOrDamaged) {
         pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
@@ -144,18 +142,7 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    if (fwidth > 1.5f) {
-        painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled((pixmapRect.height()) / (data.baseHeight) * data.baseWidth, pixmapRect.height()));
-    } else if (fheight > 3) {
-        QPixmap temp = data.image.scaled(pixmapRect.width(), (pixmapRect.width()) / (data.baseWidth) * data.baseHeight);
-        if (temp.isNull()) {
-            painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), data.image.scaled(pixmapRect.width(), pixmapRect.height()));
-        } else {
-            painter->drawPixmap(pixmapRect.x(), pixmapRect.y(), temp);
-        }
-    } else {
-        painter->drawPixmap(pixmapRect, data.image);
-    }
+    painter->drawPixmap(pixmapRect, data.image);
 
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         QPixmap favPixmap;
@@ -257,17 +244,11 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
         data.imgHeight = datas.at(5).toInt();
     }
     if (datas.length() >= 7) {
-        data.baseWidth = datas.at(6).toInt();
-    }
-    if (datas.length() >= 8) {
-        data.baseHeight = datas.at(7).toInt();
-    }
-    if (datas.length() >= 9) {
-        data.firstorlast = datas.at(8).toString();
+        data.firstorlast = datas.at(6).toString();
     }
     data.isSelected = index.data(Qt::UserRole).toBool();
-    if (datas.length() >= 10) {
-        data.bNotSupportedOrDamaged = datas.at(9).toBool();
+    if (datas.length() >= 8) {
+        data.bNotSupportedOrDamaged = datas.at(7).toBool();
     }
     return data;
 }

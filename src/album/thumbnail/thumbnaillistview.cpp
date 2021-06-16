@@ -72,7 +72,6 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
 //    }
     m_model = new QStandardItemModel(this);
     m_imageType = imgtype;
-    m_iDefaultWidth = 0;
     m_iBaseHeight = BASE_HEIGHT;
     m_albumMenu = nullptr;
     setResizeMode(QListView::Adjust);
@@ -376,8 +375,6 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             datas.append(QVariant(gridItem[i][j].image));
             datas.append(QVariant(gridItem[i][j].imgWidth));
             datas.append(QVariant(gridItem[i][j].imgHeight));
-            datas.append(QVariant(gridItem[i][j].baseWidth));
-            datas.append(QVariant(gridItem[i][j].baseHeight));
             datas.append(QVariant(qsfirstorlast));
             datas.append(QVariant(gridItem[i][j].bNotSupportedOrDamaged));
             item->setData(QVariant(datas), Qt::DisplayRole);
@@ -480,8 +477,6 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem.at(i).at(j).image));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-            datas.append(QVariant(m_gridItem.at(i).at(j).baseWidth));
-            datas.append(QVariant(m_gridItem.at(i).at(j).baseHeight));
             datas.append(QVariant(qsfirstorlast));
             datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
             item->setData(QVariant(datas), Qt::DisplayRole);
@@ -518,8 +513,6 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 info.path = data.dbi.filePath;
                 info.image = data.imgpixmap;
                 info.remainDays = data.remainDays;
-                info.baseWidth = data.imgpixmap.width();
-                info.baseHeight = data.imgpixmap.height();
                 modifyAllPic(info);
                 for (auto &item : m_ItemList) {     //替换
                     if (item == m_gridItem.at(i).at(j))
@@ -554,8 +547,6 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).image));
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).baseWidth));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).baseHeight));
                 newdatas.append(QVariant(qsfirstorlast));
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
                 m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
@@ -680,8 +671,6 @@ bool ThumbnailListView::imageLoaded(QString filepath)
         info.path = data.dbi.filePath;
         info.image = data.imgpixmap;
         info.remainDays = data.remainDays;
-        info.baseWidth = data.imgpixmap.width();
-        info.baseHeight = data.imgpixmap.height();
         insertThumbnail(info);
         reb = false;
     }
@@ -1290,8 +1279,6 @@ void ThumbnailListView::updateThumbnaillistview()
             datas.append(QVariant(m_gridItem.at(i).at(j).image));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-            datas.append(QVariant(m_gridItem.at(i).at(j).baseWidth));
-            datas.append(QVariant(m_gridItem.at(i).at(j).baseHeight));
             datas.append(QVariant(qsfirstorlast));
             datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
 
@@ -1520,8 +1507,6 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
         info.image = data.imgpixmap;
 //        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
         info.remainDays = data.remainDays;
-        info.baseWidth = data.imgpixmap.width();
-        info.baseHeight = data.imgpixmap.height();
         insertThumbnail(info);
     }
     resizeEventF();
@@ -1827,7 +1812,6 @@ void ThumbnailListView::resizeEventF()
 //    addThumbnailView();
     updateThumbnaillistview();
     sendNeedResize();
-    m_iDefaultWidth = width();
     if (nullptr != m_item) {
         m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
         this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
