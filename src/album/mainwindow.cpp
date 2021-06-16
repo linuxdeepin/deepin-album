@@ -1805,7 +1805,8 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
 void MainWindow::closeFromMenu()
 {
-    close();
+    //这个函数是从overrideVfptrFun进来的，要指定obj对象
+    instance().close();
 }
 
 void MainWindow::onButtonClicked(int id)

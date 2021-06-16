@@ -75,7 +75,12 @@ class MainWindow : public DMainWindow, public ImageEngineImportObject
     Q_OBJECT
 
 public:
-    explicit MainWindow();
+    //增加单例接口，方便closeFromMenu调用
+    static MainWindow &instance()
+    {
+        static MainWindow w;
+        return w;
+    }
     ~MainWindow() override;
 
     bool imageImported(bool success) override;
@@ -122,6 +127,7 @@ public:
     //开始监控
     void startMonitor();
 private:
+    explicit MainWindow(); //修改为单例后，构造函数也挪走了
     void thumbnailZoomIn();
     void thumbnailZoomOut();
     void saveWindowState();
