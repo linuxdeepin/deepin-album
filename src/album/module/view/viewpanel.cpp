@@ -32,6 +32,7 @@
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "imageengine/imageengineapi.h"
 #include "ac-desktop-define.h"
+#include "controller/comdeepinduestatusbarinterface.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -477,10 +478,14 @@ void ViewPanel::onViewBClicked()
 {
     dApp->signalM->hideExtensionPanel();
     if (dApp->isTablet()) {
-        //添加单指点击循环显示和隐藏工具栏
         if (!window()->isFullScreen()) {
             toggleFullScreen();
         } else {
+            //BUG#82053，隔壁部门要求添加DBUS调用，以实现单指点击循环显示和隐藏工具栏
+            auto &statusBarDbus = ComDeepinDueStatusbarInterface::instance();
+            statusBarDbus.setVisible(!statusBarDbus.visible());
+            //BUG#82053 end
+
             emit dApp->signalM->sigMouseMove(m_showorhide);
             m_showorhide = m_showorhide ? false : true;
         }

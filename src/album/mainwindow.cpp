@@ -28,6 +28,7 @@
 #include "viewerthememanager.h"
 #include "ac-desktop-define.h"
 #include "controller/comdeepiniminterface.h"
+#include "controller/comdeepinduestatusbarinterface.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
@@ -259,6 +260,7 @@ void MainWindow::initDBus()
 {
     m_pDBus = new dbusclient();
     ComDeepinImInterface::instance();
+    ComDeepinDueStatusbarInterface::instance();
 }
 
 //初始化快捷键
