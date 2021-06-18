@@ -168,13 +168,6 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         painter->drawPixmap(pixmapRect, data.image);
     }
 
-    if (COMMON_STR_FAVORITES == m_imageTypeStr) {
-        QPixmap favPixmap;
-        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
-        QRect favRect(pixmapRect.x() + pixmapRect.width() - 20 - 13, pixmapRect.y() + pixmapRect.height() - 20 - 10, 20, 20);
-        painter->drawPixmap(favRect, favPixmap);
-    }
-
     //绘制选中图标
     if (selected) {
         QPixmap selectedPixmap;
@@ -228,6 +221,18 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
             str = Text.elidedText(str, Qt::ElideRight, textwidth);
         }
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
+    }
+
+    //绘制心形图标
+    if (COMMON_STR_FAVORITES == m_imageTypeStr) {
+        //#BUG84304 修正裂图心形图标的位置
+        QPainterPath bp;
+        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(bp);
+
+        QPixmap favPixmap;
+        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
+        painter->drawPixmap(backgroundRect.x() + backgroundRect.width() - 20 - 23, backgroundRect.y() + backgroundRect.height() - 20 - 20, favPixmap);
     }
 
     painter->restore();
