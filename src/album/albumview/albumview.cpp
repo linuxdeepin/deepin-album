@@ -274,6 +274,19 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
     return QString("%1%2").arg(sizeString(QString::number(fileSize, 'f', precision)), unitString);
 }
 
+QString reorganizationStr(const QFont &font, const QString &fullStr, int maxWidth)
+{
+    QFontMetrics fontWidth(font); //字体信息
+    int width = fontWidth.width(fullStr) + 10; //计算字符串宽度,+10提前进入省略，避免右边遮挡
+    QString result;
+    if (width > maxWidth) {
+        result = fontWidth.elidedText(fullStr, Qt::ElideRight, maxWidth); //超过最大长度，右边搞成省略号
+    } else {
+        result = fullStr; //没超最大长度，完整显示字符串
+    }
+    return result;
+}
+
 void AlbumView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
@@ -2435,14 +2448,10 @@ void AlbumView::resizeEvent(QResizeEvent *e)
                         m_TrashTitle->height() / 2 - m_pTrashLabel->height() / 2);
 
     //然后还要看情况把旁边那个label搞成省略号
-    QFontMetrics fontWidth(m_pTrashNoticeLabel->font()); //字体信息
-    int width = fontWidth.width(trashNoticeFullStr) + 10; //计算字符串宽度,+10提前进入省略，避免右边遮挡
-    int maxWidth = m_pTrashLabel->x() - m_pTrashNoticeLabel->x(); //计算最大长度
-    if (width > maxWidth) {
-        m_pTrashNoticeLabel->setText(fontWidth.elidedText(trashNoticeFullStr, Qt::ElideRight, maxWidth)); //超过最大长度，右边搞成省略号
-    } else {
-        m_pTrashNoticeLabel->setText(trashNoticeFullStr); //没超最大长度，完整显示字符串
-    }
+    //注意：这里只能搞成这种计算宽度的形式，否则有可能挤到一起
+    m_pTrashNoticeLabel->setText(
+        reorganizationStr(m_pTrashNoticeLabel->font(), trashNoticeFullStr, m_pTrashLabel->x() - m_pRecoveryBtn->width() - m_pDeleteBtn->width() - 55)
+    );
 
     //返回
     QWidget::resizeEvent(e);
