@@ -49,7 +49,6 @@ public:
         bool isSelected;
         QString remainDays = "30天";
         QPixmap image;
-        QString firstorlast = "NotFirstOrLast";
         bool bNotSupportedOrDamaged = false;
     };
 

@@ -71,20 +71,6 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
                             QPainter::SmoothPixmapTransform |
                             QPainter::Antialiasing);
     QRect backgroundRect = option.rect;
-    //针对第一行做处理
-    if (AllPicViewType == m_delegatetype) {
-        if ("First" == data.firstorlast) {
-            QStyleOptionFrame *FrameOption = new QStyleOptionFrame();
-            FrameOption->rect = QRect(backgroundRect.x(), backgroundRect.y(), backgroundRect.width(), 50);
-            //绘制
-            QApplication::style()->drawControl(QStyle::CE_ShapedFrame, FrameOption, painter);
-            backgroundRect.setY(backgroundRect.y() + 50);
-            delete FrameOption;
-        }
-        if ("Last" == data.firstorlast) {
-            backgroundRect.setHeight(backgroundRect.height() - 27);
-        }
-    }
     //选中阴影框
     if (selected) {
         QPainterPath backgroundBp;
@@ -243,12 +229,9 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     if (datas.length() >= 6) {
         data.imgHeight = datas.at(5).toInt();
     }
-    if (datas.length() >= 7) {
-        data.firstorlast = datas.at(6).toString();
-    }
     data.isSelected = index.data(Qt::UserRole).toBool();
-    if (datas.length() >= 8) {
-        data.bNotSupportedOrDamaged = datas.at(7).toBool();
+    if (datas.length() >= 7) {
+        data.bNotSupportedOrDamaged = datas.at(6).toBool();
     }
     return data;
 }
@@ -264,19 +247,6 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
         if (event->type() == QEvent::MouseButtonPress) {
             const ItemData data = itemData(index);
             bool blast = false;
-            if (AllPicViewType == m_delegatetype) {
-                if ("Last" == data.firstorlast) {
-                    blast = true;
-                }
-            } else if (ThumbnailDelegate::AlbumViewType == m_delegatetype) {
-                if ("Last" == data.firstorlast) {
-                    blast = true;
-                }
-            } else if (ThumbnailDelegate::SearchViewType == m_delegatetype || ThumbnailDelegate::AlbumViewPhoneType == m_delegatetype) {
-                if ("Last" == data.firstorlast) {
-                    blast = true;
-                }
-            }
             if (!blast && rect.contains(pMouseEvent->pos())) {
                 emit sigCancelFavorite(index);
             } else if (blast && event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {

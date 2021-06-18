@@ -92,6 +92,9 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setMinimumWidth(500);
     m_delegate = new ThumbnailDelegate(type, this); //绑在this上面，用于自动销毁
+    if (ThumbnailDelegate::AllPicViewType == type) {
+        this->setViewportMargins(0, 50, 0, 0);
+    }
     m_delegate->m_imageTypeStr = m_imageType;
     setItemDelegate(m_delegate);
     setModel(m_model);
@@ -358,15 +361,7 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
     for (int i = 0; i < gridItem.length(); i++) {
         for (int j = 0; j < gridItem[i].length(); j++) {
             QStandardItem *item = new QStandardItem;
-            QString qsfirstorlast = "NotFirstOrLast";
-            //针对第一行做处理
             int height = gridItem[i][j].imgHeight;
-            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
-                if (m_model->rowCount() < m_rowSizeHint) {
-                    height += 50;
-                    qsfirstorlast = "First";
-                }
-            }
 
             QVariantList datas;
             datas.append(QVariant(gridItem[i][j].name));
@@ -375,7 +370,6 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
             datas.append(QVariant(gridItem[i][j].image));
             datas.append(QVariant(gridItem[i][j].imgWidth));
             datas.append(QVariant(gridItem[i][j].imgHeight));
-            datas.append(QVariant(qsfirstorlast));
             datas.append(QVariant(gridItem[i][j].bNotSupportedOrDamaged));
             item->setData(QVariant(datas), Qt::DisplayRole);
             QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(gridItem[i][j].path);
@@ -455,20 +449,7 @@ void ThumbnailListView::addThumbnailView()
     for (int i = 0; i < m_gridItem.length(); i++) {
         for (int j = 0; j < m_gridItem.at(i).length(); j++) {
             QStandardItem *item = new QStandardItem;
-            QString qsfirstorlast = "NotFirstOrLast";
             int height = m_gridItem.at(i).at(j).imgHeight;
-            //针对第一行做处理
-            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
-                if (m_model->rowCount() < m_rowSizeHint) {
-                    height += 50;
-                    qsfirstorlast = "First";
-                } else { //刷新，只取第一行添加
-                    if (i < m_rowSizeHint) {
-                        height += 50;
-                        qsfirstorlast = "First";
-                    }
-                }
-            }
 
             QVariantList datas;
             datas.append(QVariant(m_gridItem.at(i).at(j).name));
@@ -477,7 +458,6 @@ void ThumbnailListView::addThumbnailView()
             datas.append(QVariant(m_gridItem.at(i).at(j).image));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-            datas.append(QVariant(qsfirstorlast));
             datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
             item->setData(QVariant(datas), Qt::DisplayRole);
             item->setData(QVariant(QSize(m_gridItem.at(i).at(j).imgHeight, height)),
@@ -526,20 +506,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 }
                 m_gridItem[i][j] = info;
                 QVariantList newdatas;
-                QString qsfirstorlast = "NotFirstOrLast";
                 int height = m_gridItem.at(i).at(j).imgHeight;
-                //针对第一行做处理
-                if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
-                    if (m_model->rowCount() < m_rowSizeHint) {
-                        height += 50;
-                        qsfirstorlast = "First";
-                    } else { //刷新，只取第一行添加
-                        if (i < m_rowSizeHint) {
-                            height += 50;
-                            qsfirstorlast = "First";
-                        }
-                    }
-                }
 
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).name));
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).path));
@@ -547,7 +514,6 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).image));
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-                newdatas.append(QVariant(qsfirstorlast));
                 newdatas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
                 m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
                 m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem.at(i).at(j).imgWidth, height)),
@@ -997,7 +963,7 @@ QStringList ThumbnailListView::selectedPaths()
     bool first = true;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.length() >= 8) {
+        if (datas.length() >= 7) {
             paths << datas[1].toString();
         }
         if (first) {
@@ -1254,20 +1220,7 @@ void ThumbnailListView::updateThumbnaillistview()
     int index = 0;
     for (int i = 0; i < m_gridItem.length(); i++) {
         for (int j = 0; j < m_gridItem.at(i).length(); j++) {
-            QString qsfirstorlast = "NotFirstOrLast";
             int height = m_gridItem.at(i).at(j).imgHeight;
-            //针对第一行做处理
-            if (ThumbnailDelegate::AllPicViewType == m_delegatetype) {
-                if (m_model->rowCount() < m_rowSizeHint) {
-                    height += 50;
-                    qsfirstorlast = "First";
-                } else { //刷新，只取第一行添加
-                    if (i < m_rowSizeHint) {
-                        height += 50;
-                        qsfirstorlast = "First";
-                    }
-                }
-            }
 
             QVariantList datas;
             datas.append(QVariant(m_gridItem.at(i).at(j).name));
@@ -1279,7 +1232,6 @@ void ThumbnailListView::updateThumbnaillistview()
             datas.append(QVariant(m_gridItem.at(i).at(j).image));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
             datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-            datas.append(QVariant(qsfirstorlast));
             datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
 
             //更新值
@@ -1362,8 +1314,8 @@ void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex idx = m_model->index(i, 0);
         QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-        if (lst.count() >= 12) {
-            const bool &bNotSuppOrDmg = lst[11].toBool();
+        if (lst.count() >= 7) {
+            const bool &bNotSuppOrDmg = lst[6].toBool();
             if (bNotSuppOrDmg) {
                 lst.replace(5, getDamagedPixmap());
                 m_model->item(i, 0)->setData(lst, Qt::DisplayRole);
@@ -1379,7 +1331,7 @@ void ThumbnailListView::selectDuplicateForOneListView(QStringList paths, QModelI
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex idx = m_model->index(i, 0);
             QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-            if (lst.count() >= 12) {
+            if (lst.count() >= 7) {
                 for (int j = 0; j < paths.count(); j++) {
                     if (lst.at(1).toString() == paths.at(j)) {
                         // 选中
@@ -1527,7 +1479,7 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
                 QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                if (lst.count() >= 12) {
+                if (lst.count() >= 7) {
                     for (int j = 0; j < paths.count(); j++) {
                         if (lst.at(1).toString() == paths.at(j)) {
                             QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
@@ -1546,7 +1498,7 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
                 QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                if (lst.count() >= 12) {
+                if (lst.count() >= 7) {
                     for (int j = 0; j < paths.count(); j++) {
                         if (lst.at(1).toString() == paths.at(j)) {
                             QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
@@ -1565,7 +1517,7 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
                 QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                if (lst.count() >= 12) {
+                if (lst.count() >= 7) {
                     for (int j = 0; j < paths.count(); j++) {
                         if (lst.at(1).toString() == paths.at(j)) {
                             QStringList datas;
