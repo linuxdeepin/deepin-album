@@ -62,6 +62,7 @@ private:
     QString getNewAlbumName();
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 signals:
     void itemClicked();
     void menuOpenImage(QString path, QStringList paths, bool isFullScreen, bool isSlideShow);

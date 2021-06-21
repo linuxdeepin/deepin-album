@@ -31,6 +31,7 @@
 #include "ac-desktop-define.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QScroller>
 #include <DFontSizeManager>
 #include <DStyledItemDelegate>
 
@@ -58,6 +59,7 @@ LeftListView::LeftListView(QWidget *parent)
     , m_ItemCurrentType(COMMON_STR_RECENT_IMPORTED)
     , m_pMenu(nullptr)
 {
+    QScroller::grabGesture(viewport());
     m_ItemCurrentDataType = 0;
     initUI();
     initMenu();
@@ -678,4 +680,16 @@ void LeftListView::resizeEvent(QResizeEvent *e)
     // 设备左边栏
     int deviceHeight = m_pMountListWidget->count() * LEFT_VIEW_LISTITEM_HEIGHT_40;
     m_pMountListWidget->setFixedHeight(deviceHeight);
+}
+
+void LeftListView::mouseMoveEvent(QMouseEvent *event)
+{
+    // 事件来源为 MouseEventSynthesizedByQt 时认为此事件为Touch事件合成而来
+    // 由于支持触屏下对视图的滚动，所以此处接收没有被处理的move事件，防止事件泄露
+    // 到主窗口后触发窗口移动动作
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        event->accept();
+        return;
+    }
+    DScrollArea::mouseMoveEvent(event);
 }
