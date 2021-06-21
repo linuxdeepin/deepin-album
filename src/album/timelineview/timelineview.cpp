@@ -525,8 +525,7 @@ void TimeLineView::addTimelineLayout()
     pThumbnailListView->setFixedWidth(width() + 2);
     connect(pThumbnailListView, &ThumbnailListView::loadEnd, this, &TimeLineView::addTimelineLayout);
     connect(pThumbnailListView, &ThumbnailListView::needResize, this, [ = ](int h) {
-        if (!pThumbnailListView->checkResizeNum())
-            return ;
+        //信号发送前已做判断
         if (isVisible()) {
             int mh = h;
             if (0 == nowTimeLineLoad) {
@@ -818,31 +817,29 @@ void TimeLineView::addTimelineLayout()
             } else if (i == hasPicView) {
                 for (int j = 0; j < m_allThumbnailListView[i]->count(); j ++) {
                     QModelIndex index = m_allThumbnailListView[i]->m_model->index(j, 0);
-                    QVariantList lst = index.model()->data(index, Qt::DisplayRole).toList();
+                    ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
                     int rowcount = 0;
                     int allrowcount = 0;
-                    if (lst.count() >= 12) {
-                        QString path = lst.at(1).toString();
-                        if (path == selectPrePaths) {
-                            if ((index.row() % m_allThumbnailListView[i]->m_rowSizeHint) == 0) {
-                                rowcount = index.row() / m_allThumbnailListView[i]->m_rowSizeHint;
-                            } else {
-                                rowcount = index.row() / m_allThumbnailListView[i]->m_rowSizeHint + 1;
-                            }
-                            if ((m_allThumbnailListView[i]->m_model->rowCount() % m_allThumbnailListView[i]->m_rowSizeHint) == 0) {
-                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->m_rowSizeHint ;
-                            } else {
-                                allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->m_rowSizeHint + 1;
-                            }
-                            double tempheight = rowcount / static_cast<double>(allrowcount);
-                            int thumbnailheight =  m_allThumbnailListView.at(i)->height();
-                            double finalheight = tempheight * thumbnailheight;
-                            height = height + static_cast<int>(finalheight) ;
-
-                            if (hasPicView == 0)
-                                height = height - m_allThumbnailListView[i]->m_onePicWidth;
-                            break;
+                    QString path = info.path;
+                    if (path == selectPrePaths) {
+                        if ((index.row() % m_allThumbnailListView[i]->m_rowSizeHint) == 0) {
+                            rowcount = index.row() / m_allThumbnailListView[i]->m_rowSizeHint;
+                        } else {
+                            rowcount = index.row() / m_allThumbnailListView[i]->m_rowSizeHint + 1;
                         }
+                        if ((m_allThumbnailListView[i]->m_model->rowCount() % m_allThumbnailListView[i]->m_rowSizeHint) == 0) {
+                            allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->m_rowSizeHint ;
+                        } else {
+                            allrowcount = m_allThumbnailListView[i]->m_model->rowCount() / m_allThumbnailListView[i]->m_rowSizeHint + 1;
+                        }
+                        double tempheight = rowcount / static_cast<double>(allrowcount);
+                        int thumbnailheight =  m_allThumbnailListView.at(i)->height();
+                        double finalheight = tempheight * thumbnailheight;
+                        height = height + static_cast<int>(finalheight) ;
+
+                        if (hasPicView == 0)
+                            height = height - m_allThumbnailListView[i]->m_onePicWidth;
+                        break;
                     }
                 }
                 break;
@@ -1095,17 +1092,19 @@ void TimeLineView::onKeyDelete()
         //改为跳转到最后一张选中位置
         if (/*first && */currentPaths.length() > 0) {
             if (!bDeleteAll) {
-                selectPrePaths = m_allThumbnailListView[i]->m_model->index(0, 0).data().toList().at(1).toString();
+                ItemInfo info = m_allThumbnailListView[i]->m_model->index(0, 0).data(Qt::DisplayRole).value<ItemInfo>();
+                selectPrePaths = info.path;
                 int index = 1;
                 while (paths.contains(selectPrePaths)) {
-                    selectPrePaths = m_allThumbnailListView[i]->m_model->index(index, 0).data().toList().at(1).toString();
+                    ItemInfo infoPaths = m_allThumbnailListView[i]->m_model->index(index, 0).data(Qt::DisplayRole).value<ItemInfo>();
+                    selectPrePaths = infoPaths.path;
                     index ++ ;
                     if (index == m_allThumbnailListView[i]->m_model->rowCount() - 1)
                         break;
                 }
             } else {
                 if (i > 1) {
-                    selectPrePaths = m_allThumbnailListView[i - 1]->m_model->index(0, 0).data().toList().at(1).toString();
+                    selectPrePaths = m_allThumbnailListView[i - 1]->m_model->index(0, 0).data(Qt::DisplayRole).value<ItemInfo>().path;
                 } else {
                     selectPrePaths = "";
                 }

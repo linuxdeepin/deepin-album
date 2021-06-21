@@ -2153,8 +2153,7 @@ void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringL
 
 void AlbumView::onRightFavoriteThumbnailListNeedResize(int h)
 {
-    if (!m_pRightFavoriteThumbnailList->checkResizeNum())
-        return ;
+    //信号发送前已做判断
     if (isVisible()) {
         int mh = h;
         m_pRightFavoriteThumbnailList->setFixedHeight(mh + 27);
@@ -2164,8 +2163,7 @@ void AlbumView::onRightFavoriteThumbnailListNeedResize(int h)
 
 void AlbumView::onRightTrashThumbnailListNeedResize(int h)
 {
-    if (!m_pRightTrashThumbnailList->checkResizeNum())
-        return ;
+    //信号发送前已做判断
     if (isVisible()) {
         int mh = h;
         m_pRightTrashThumbnailList->setFixedHeight(mh + 27);
@@ -2175,8 +2173,7 @@ void AlbumView::onRightTrashThumbnailListNeedResize(int h)
 
 void AlbumView::onRightThumbnailListNeedResize(int h)
 {
-    if (!m_pRightThumbnailList->checkResizeNum())
-        return ;
+    //信号发送前已做判断
     if (isVisible()) {
         int mh = h;
         m_pRightThumbnailList->setFixedHeight(mh + 27);

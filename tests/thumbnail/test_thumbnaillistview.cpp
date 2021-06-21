@@ -72,7 +72,6 @@ TEST(ThumbnailListView, initThumbnailListView)
     QTest::qWait(200);
     w->m_pAllPicView->m_pThumbnailListView->isLoading();
     w->m_pAllPicView->m_pThumbnailListView->isAllPicSeleted();
-    w->m_pAllPicView->m_pThumbnailListView->checkResizeNum();
     w->m_pAllPicView->m_pThumbnailListView->getDagItemPath();
     w->m_pAllPicView->m_pThumbnailListView->getSelectedIndexes();
     QPoint point(10, 10);

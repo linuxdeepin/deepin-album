@@ -26,6 +26,7 @@
 #include <QStyledItemDelegate>
 #include <QDebug>
 
+#include "albumgloabl.h"
 
 class TDThumbnailThread;
 class ThumbnailDelegate : public QStyledItemDelegate
@@ -41,21 +42,12 @@ public:
         TimeLineViewType,
         SearchViewType
     };
-    struct ItemData {
-        QString name;
-        QString path = QString();
-        int imgWidth;
-        int imgHeight;
-        bool isSelected;
-        QString remainDays = "30天";
-        QPixmap image;
-        bool bNotSupportedOrDamaged = false;
-    };
 
     explicit ThumbnailDelegate(DelegateType type, QObject *parent = nullptr);
     void setIsDataLocked(bool value);
 //    void setNeedPaint(bool value);
 
+    void setItemSize(QSize size);
     void paint(QPainter *painter,
                const QStyleOptionViewItem &option,
                const QModelIndex &index) const Q_DECL_OVERRIDE;
@@ -71,7 +63,7 @@ signals:
 //    void sigPageNeedResize(const int &index) const;
 
 private:
-    ItemData itemData(const QModelIndex &index) const;
+    ItemInfo itemData(const QModelIndex &index) const;
 
 public:
     QString m_imageTypeStr;
@@ -84,6 +76,7 @@ private:
     bool m_itemdata = false;
     DelegateType m_delegatetype = NullType;
     bool bneedpaint = true;
+    QSize m_size;
 };
 
 #endif // ALBUMDELEGATE_H

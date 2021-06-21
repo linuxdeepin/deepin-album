@@ -51,6 +51,7 @@
 #include <DApplicationHelper>
 #include "imageengine/imageengineobject.h"
 #include "widgets/timelineitem.h"
+#include "albumgloabl.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -89,25 +90,6 @@ public:
         IdDrawingBoard//lmh0407画板
     };
 
-    struct ItemInfo {
-        QString name = "";
-        QString path = "";
-        int imgWidth = 0;
-        int imgHeight = 0;
-        QString remainDays = "30天";
-        QPixmap image = QPixmap();
-        bool bNotSupportedOrDamaged = false;
-
-
-        friend bool operator== (const ItemInfo &left, const ItemInfo &right)
-        {
-
-            if (left.image == right.image)
-                return true;
-            return false;
-        }
-    };
-
     explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, QString imgtype = "All Photos", QWidget *parent = nullptr);
     ~ThumbnailListView() override;
 
@@ -123,7 +105,6 @@ public:
     void stopLoadAndClear(bool bClearModel = true);    //为true则清除模型中的数据
     QStringList getAllFileList();
     void setIBaseHeight(int iBaseHeight);
-    bool checkResizeNum();
     bool isLoading();
     bool isAllPicSeleted();
     //------------------
@@ -189,7 +170,6 @@ private slots:
     void onShowMenu(const QPoint &pos);
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
-    void onTimerOut();
     void resizeEventF();
     void sltChangeDamagedPixOnThemeChanged();
 
@@ -211,19 +191,14 @@ private:
 
     void initConnections();
     //------------------
-    void addThumbnailViewNew(QList<QList<ItemInfo>> gridItem);
-    void addThumbnailView();
     void sendNeedResize(/*int height*/);
 
 public:
     // zy 新算法
-    void modifyAllPic(ItemInfo &info);
     void cutPixmap(ItemInfo &iteminfo);
-    void calgridItems();
-    void calBasePixMapWidth();
-    void calgridItemsWidth();
     void setCurrentSelectPath();
 
+    void addThumbnailViewNew(const ItemInfo &itemInfo);
 private:
     void updateMenuContents();
     void appendAction(int id, const QString &text, const QString &shortcut);
@@ -248,8 +223,6 @@ public:
 private:
     int m_iBaseHeight = 0;
 
-    QList<ItemInfo> m_ItemList;
-    QList<QList<ItemInfo>> m_gridItem;
     ThumbnailDelegate *m_delegate = nullptr;
 
     DMenu *m_pMenu = nullptr;
@@ -274,10 +247,6 @@ private:
     int m_scrollbartopdistance = 0;
     int m_scrollbarbottomdistance = 0;
     QListWidgetItem *m_item = nullptr;
-    QTimer *m_dt = nullptr;
-    bool bneedsendresize = false;
-    int lastresizeheight = 0;
-    int resizenum = 0;
     //------------------
 
     //---触屏判断--------

@@ -55,13 +55,18 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
 
 }
 
+void ThumbnailDelegate::setItemSize(QSize size)
+{
+    m_size = size;
+}
+
 void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (!bneedpaint) {
         return;
     }
     painter->save();
-    const ItemData data = itemData(index);
+    const ItemInfo data = itemData(index);
     bool selected = data.isSelected;
     if (/*(option.state & QStyle::State_MouseOver) &&*/
         (option.state & QStyle::State_Selected) != 0) {
@@ -199,40 +204,13 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
 {
     Q_UNUSED(option)
-    bool bl = false;
-    bl = index.isValid();
-    if (bl)
-        return index.model()->data(index, Qt::SizeHintRole).toSize();
-    else
-        return QSize(0, 0);
+    return m_size;
 }
 
-ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index) const
+ItemInfo ThumbnailDelegate::itemData(const QModelIndex &index) const
 {
-    QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-    ItemData data;
-    if (datas.length() >= 1) {
-        data.name = datas.at(0).toString();
-    }
-    if (datas.length() >= 2) {
-        data.path =  datas.at(1).toString();
-    }
-    if (datas.length() >= 3) {
-        data.remainDays = datas.at(2).toString();
-    }
-    if (datas.length() >= 4) {
-        data.image = datas.at(3).value<QPixmap>();
-    }
-    if (datas.length() >= 5) {
-        data.imgWidth = datas.at(4).toInt();
-    }
-    if (datas.length() >= 6) {
-        data.imgHeight = datas.at(5).toInt();
-    }
+    ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
     data.isSelected = index.data(Qt::UserRole).toBool();
-    if (datas.length() >= 7) {
-        data.bNotSupportedOrDamaged = datas.at(6).toBool();
-    }
     return data;
 }
 
@@ -245,7 +223,7 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         if (event->type() == QEvent::MouseButtonPress) {
-            const ItemData data = itemData(index);
+            const ItemInfo data = itemData(index);
             bool blast = false;
             if (!blast && rect.contains(pMouseEvent->pos())) {
                 emit sigCancelFavorite(index);

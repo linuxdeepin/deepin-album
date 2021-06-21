@@ -370,11 +370,9 @@ DMenu *ViewPanel::createAblumMenu()
         QStandardItemModel *pTempModel = dApp->getMainWindow()->m_pAllPicView->getAllPicThumbnailListViewModel()->m_model;
         for (int i = 0; i < pTempModel->rowCount(); i++) {
             QModelIndex idx = pTempModel->index(i, 0);
-            QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-            if (lst.count() >= 12) {
-                if (lst.at(1).toString() == m_currentpath) {
-                    albumNames = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
-                }
+            ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            if (info.path == m_currentpath) {
+                albumNames = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
             }
         }
     }

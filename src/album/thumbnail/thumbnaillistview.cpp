@@ -102,10 +102,6 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, QStri
     initMenuAction();
     initConnections();
     installEventFilter(this);
-    m_dt = new QTimer(this);
-    m_dt->setSingleShot(true);
-    m_dt->setInterval(20);
-    connect(m_dt, SIGNAL(timeout()), this, SLOT(onTimerOut()));
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
     touchTapDistance = 15;
 
@@ -251,7 +247,14 @@ void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 void ThumbnailListView::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
-    QTimer::singleShot(100, this, SLOT(resizeEventF()));
+//    QTimer::singleShot(100, this, SLOT(resizeEventF()));
+    int i_totalwidth = width() - 30;
+    //计算一行的个数
+    m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
+    int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
+    m_onePicWidth = currentwidth;
+    if (currentwidth < 80)
+        currentwidth = 80;
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
@@ -356,52 +359,20 @@ void ThumbnailListView::initConnections()
     connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this, &ThumbnailListView::onCancelFavorite);
 }
 
-void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
+void ThumbnailListView::addThumbnailViewNew(const ItemInfo &itemInfo)
 {
-    for (int i = 0; i < gridItem.length(); i++) {
-        for (int j = 0; j < gridItem[i].length(); j++) {
-            QStandardItem *item = new QStandardItem;
-            int height = gridItem[i][j].imgHeight;
+    QStandardItem *item = new QStandardItem;
 
-            QVariantList datas;
-            datas.append(QVariant(gridItem[i][j].name));
-            datas.append(QVariant(gridItem[i][j].path));
-            datas.append(QVariant(gridItem[i][j].remainDays));
-            datas.append(QVariant(gridItem[i][j].image));
-            datas.append(QVariant(gridItem[i][j].imgWidth));
-            datas.append(QVariant(gridItem[i][j].imgHeight));
-            datas.append(QVariant(gridItem[i][j].bNotSupportedOrDamaged));
-            item->setData(QVariant(datas), Qt::DisplayRole);
-            QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(gridItem[i][j].path);
-            item->setData(QVariant(albumNames), Qt::UserRole + 2);
+    QVariant infoVariant;
+    infoVariant.setValue(itemInfo);
+    int height = itemInfo.imgHeight;
 
-            item->setData(QVariant(QSize(gridItem[i][j].imgWidth, /*gridItem[i][j].height*/height)),
-                          Qt::SizeHintRole);
-            m_model->appendRow(item);
-        }
-    }
-    m_gridItem << gridItem;
-    int hightlast = m_height;
-    if (0 < m_gridItem.size()) {
-        m_height = 0;
-        int index = 0;//当前一个list所有照片数量
-        for (int i = 0; i < m_gridItem.size(); i++) {
-            for (int j = 0; j < m_gridItem.at(i).size(); j++) {
-                index ++;
-            }
-        }
-        int m_row = 0;//当前一个list的行数
-        if (index % m_rowSizeHint == 0)
-            m_row = index / m_rowSizeHint;
-        else
-            m_row = index / m_rowSizeHint + 1;
-
-        m_height = (m_gridItem.at(0).at(0).imgHeight + ITEM_SPACING) * m_row;
-        m_height -= ITEM_SPACING;
-    }
-    if (hightlast != m_height) {
-        sendNeedResize();
-    }
+    item->setData(infoVariant, Qt::DisplayRole);
+    QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(itemInfo.path);
+    item->setData(QVariant(albumNames), Qt::UserRole + 2);
+    item->setData(QVariant(QSize(itemInfo.imgWidth, /*gridItem[i][j].height*/height)),
+                  Qt::SizeHintRole);
+    m_model->appendRow(item);
 
     if (m_selectPrePath.length() > 0) {
         this->clearSelection();
@@ -409,11 +380,8 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
         int rowcount = m_model->rowCount();
         for (int i = 0; i < rowcount; i++) {
             for (int j = 0 ; j < m_model->columnCount(); j++) {
-                QVariantList datas = m_model->item(i, j)->data(Qt::DisplayRole).toList();
-                QString path;
-                if (datas.length() >= 2) {
-                    path = datas[1].toString();
-                }
+                ItemInfo info = m_model->index(i, j).data(Qt::DisplayRole).value<ItemInfo>();
+                QString path = info.path;
                 if (m_selectPrePath == path) {
                     if (this->objectName() == "RightTrashThumbnail" || this->objectName() == "RightFavoriteThumbnail") {
                         if (i >= m_rowSizeHint) {
@@ -435,101 +403,34 @@ void ThumbnailListView::addThumbnailViewNew(QList<QList<ItemInfo>> gridItem)
     }
 }
 
-void ThumbnailListView::addThumbnailView()
-{
-    QModelIndexList mlist = getSelectedIndexes();
-    QMap<int, QPair<int, int>> items;
-    int key = 0;
-    for (QModelIndex i : mlist) {
-        items.insert(key, QPair<int, int>(i.row(), i.column()));
-        key++;
-    }
-    m_model->clear();
-
-    for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0; j < m_gridItem.at(i).length(); j++) {
-            QStandardItem *item = new QStandardItem;
-            int height = m_gridItem.at(i).at(j).imgHeight;
-
-            QVariantList datas;
-            datas.append(QVariant(m_gridItem.at(i).at(j).name));
-            datas.append(QVariant(m_gridItem.at(i).at(j).path));
-            datas.append(QVariant(m_gridItem.at(i).at(j).remainDays));
-            datas.append(QVariant(m_gridItem.at(i).at(j).image));
-            datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
-            datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-            datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
-            item->setData(QVariant(datas), Qt::DisplayRole);
-            item->setData(QVariant(QSize(m_gridItem.at(i).at(j).imgHeight, height)),
-                          Qt::SizeHintRole);
-            m_model->appendRow(item);
-        }
-    }
-
-//  设置更新之前的选择状态
-    for (auto it : items) {
-        if (it.first < m_model->rowCount()
-                && it.second < m_model->columnCount()) {
-            QModelIndex qindex = m_model->index(it.first, it.second);
-            selectionModel()->select(qindex, QItemSelectionModel::Select);
-        }
-    }
-}
-
 void ThumbnailListView::updateThumbnailView(QString updatePath)
 {
-    int index = 0;
-    for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0; j < m_gridItem.at(i).length(); j++) {
-            if (m_gridItem.at(i).at(j).path == updatePath) {  //需要旋转的图片
-                ImageDataSt data;
-                ImageEngineApi::instance()->getImageData(updatePath, data);
-                ItemInfo info;
-                if (data.imgpixmap.isNull()) {
-                    info.bNotSupportedOrDamaged = true;
-                    data.imgpixmap = getDamagedPixmap();
-                }
-                info.name = data.dbi.fileName;
-                info.path = data.dbi.filePath;
-                info.image = data.imgpixmap;
-                info.remainDays = data.remainDays;
-                modifyAllPic(info);
-                for (auto &item : m_ItemList) {     //替换
-                    if (item == m_gridItem.at(i).at(j))
-                        item = info;
-                }
-                QList<ItemInfo>::iterator item = m_ItemList.begin();
-                while (item != m_ItemList.end()) {
-                    if (*item == m_gridItem.at(i).at(j))
-                        *item = info;
-                    ++item;
-                }
-                m_gridItem[i][j] = info;
-                QVariantList newdatas;
-                int height = m_gridItem.at(i).at(j).imgHeight;
-
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).name));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).path));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).remainDays));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).image));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-                newdatas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
-                m_model->item(index, 0)->setData(QVariant(newdatas), Qt::DisplayRole);
-                m_model->item(index, 0)->setData(QVariant(QSize(m_gridItem.at(i).at(j).imgWidth, height)),
-                                                 Qt::SizeHintRole);
-                QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(m_gridItem.at(i).at(j).path);
-                m_model->item(index, 0)->setData(QVariant(albumNames), Qt::UserRole + 2);
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        QModelIndex index = m_model->index(i, 0);
+        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        if (info.path == updatePath) {  //需要旋转的图片
+            ImageDataSt data;
+            ImageEngineApi::instance()->getImageData(updatePath, data);
+            if (data.imgpixmap.isNull()) {
+                info.bNotSupportedOrDamaged = true;
+                data.imgpixmap = getDamagedPixmap();
             }
-            index++;
+            info.name = data.dbi.fileName;
+            info.path = data.dbi.filePath;
+            info.image = data.imgpixmap;
+            info.remainDays = data.remainDays;
+
+            QVariant infoVariant;
+            infoVariant.setValue(info);
+
+            m_model->setData(index, infoVariant, Qt::DisplayRole);
+            m_model->setData(index, QVariant(QSize(info.imgWidth, info.imgWidth)), Qt::SizeHintRole);
+            QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(info.path);
+            m_model->setData(index, QVariant(albumNames), Qt::UserRole + 2);
         }
     }
-    //更新布局
-    calBasePixMapWidth();
-    calgridItemsWidth();
-    updateThumbnaillistview();
-//    addThumbnailView();
-    emit needResize(m_height + 15);     //调整整体大小
+    this->setSpacing(ITEM_SPACING);
+    sendNeedResize();
 }
 
 void ThumbnailListView::loadFilesFromDB(QString name, int loadCount)
@@ -544,8 +445,6 @@ bool ThumbnailListView::imageFromDBLoaded(QStringList &filelist)
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
-    calgridItemsWidth();
-    addThumbnailView();
     if (bneedloadimage) {
         requestSomeImages();
     }
@@ -577,8 +476,6 @@ bool ThumbnailListView::imageLocalLoaded(QStringList &filelist)
     m_allfileslist << filelist;
     m_filesbeleft << filelist;
     m_allNeedRequestFilesCount += filelist.size();
-    calgridItemsWidth();
-    addThumbnailView();
     if (bneedloadimage) {
         requestSomeImages();
     }
@@ -637,6 +534,8 @@ bool ThumbnailListView::imageLoaded(QString filepath)
         info.path = data.dbi.filePath;
         info.image = data.imgpixmap;
         info.remainDays = data.remainDays;
+        info.imgWidth = m_onePicWidth;
+        info.imgHeight = m_onePicWidth;
         insertThumbnail(info);
         reb = false;
     }
@@ -650,9 +549,7 @@ void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
 {
     ItemInfo info = iteminfo;
     cutPixmap(info);
-    modifyAllPic(info);
-    m_allItemLeft << info; //所有待处理的图片
-    calgridItems();
+    addThumbnailViewNew(info);
 }
 
 void ThumbnailListView::stopLoadAndClear(bool bClearModel)
@@ -667,8 +564,6 @@ void ThumbnailListView::stopLoadAndClear(bool bClearModel)
     brequestallfiles = false;
     m_ItemListLeft.clear();
     m_requestCount = 0;
-    m_ItemList.clear();
-    m_gridItem.clear();
 }
 
 QStringList ThumbnailListView::getAllFileList()
@@ -962,10 +857,8 @@ QStringList ThumbnailListView::selectedPaths()
     QStringList paths;
     bool first = true;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
-        const QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.length() >= 7) {
-            paths << datas[1].toString();
-        }
+        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        paths << info.path;
         if (first) {
             m_timeLineSelectPrePic = index.row() - 1;
             if (m_timeLineSelectPrePic < 0)
@@ -1142,37 +1035,25 @@ void ThumbnailListView::onPixMapScale(int value)
         m_iBaseHeight = 80;
         break;
     }
-    calBasePixMapWidth();
-    calgridItemsWidth();
-    updateThumbnaillistview();      //改用新的调整位置--xioalong
-//    addThumbnailView();//耗时最长
-    sendNeedResize();
+    resizeEventF();
 }
 
 void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 {
     QStringList str;
-    QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-
-    if (datas.length() >= 2) {
-        str << datas[1].toString();
-    }
+    ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+    str << info.path;
     //通知其它界面更新取消收藏
     DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str, AlbumDBType::Favourite);
     emit dApp->signalM->updateFavoriteNum();
     m_model->removeRow(index.row());
-    m_ItemList.removeAt(index.row());
-    calgridItemsWidth();
     updateThumbnailView();
     sendNeedResize();
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-    if (e->size().width() == e->oldSize().width()) {
-//        qDebug() << "宽度没有改变，证明是导入图片改变了高度";
-        return;
-    }
+    Q_UNUSED(e)
     resizeEventF();
 }
 
@@ -1217,33 +1098,6 @@ QPixmap ThumbnailListView::getDamagedPixmap()
 
 void ThumbnailListView::updateThumbnaillistview()
 {
-    int index = 0;
-    for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0; j < m_gridItem.at(i).length(); j++) {
-            int height = m_gridItem.at(i).at(j).imgHeight;
-
-            QVariantList datas;
-            datas.append(QVariant(m_gridItem.at(i).at(j).name));
-            datas.append(QVariant(m_gridItem.at(i).at(j).path));
-            datas.append(QVariant(m_gridItem.at(i).at(j).remainDays));
-            if (m_gridItem.at(i).at(j).bNotSupportedOrDamaged) {
-                m_gridItem[i][j].image = getDamagedPixmap();
-            }
-            datas.append(QVariant(m_gridItem.at(i).at(j).image));
-            datas.append(QVariant(m_gridItem.at(i).at(j).imgWidth));
-            datas.append(QVariant(m_gridItem.at(i).at(j).imgHeight));
-            datas.append(QVariant(m_gridItem.at(i).at(j).bNotSupportedOrDamaged));
-
-            //更新值
-            QStandardItem *newItem = m_model->item(index);
-            if (newItem) {
-                newItem->setData(QVariant(datas), Qt::DisplayRole);
-                newItem->setData(QVariant(QSize(m_gridItem.at(i).at(j).imgWidth, height)),
-                                 Qt::SizeHintRole);
-                m_model->setItem(index++, newItem);
-            }
-        }
-    }
     this->setSpacing(ITEM_SPACING);     //重新布局
 }
 
@@ -1299,27 +1153,18 @@ int ThumbnailListView::getListViewHeight()
 }
 //add end 3975
 
-void ThumbnailListView::onTimerOut()
-{
-    if (bneedsendresize && lastresizeheight != m_height) {
-        resizenum++;
-        emit needResize(m_height + 15);
-        lastresizeheight = m_height;
-    }
-    bneedsendresize = false;
-}
-
 void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
 {
     for (int i = 0; i < m_model->rowCount(); i++) {
-        QModelIndex idx = m_model->index(i, 0);
-        QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-        if (lst.count() >= 7) {
-            const bool &bNotSuppOrDmg = lst[6].toBool();
-            if (bNotSuppOrDmg) {
-                lst.replace(5, getDamagedPixmap());
-                m_model->item(i, 0)->setData(lst, Qt::DisplayRole);
-            }
+        QModelIndex index = m_model->index(i, 0);
+        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+
+        const bool &bNotSuppOrDmg = info.bNotSupportedOrDamaged;
+        if (bNotSuppOrDmg) {
+            info.image = getDamagedPixmap();
+            QVariant infoVariant;
+            infoVariant.setValue(info);
+            m_model->item(i, 0)->setData(infoVariant, Qt::DisplayRole);
         }
     }
 }
@@ -1329,16 +1174,14 @@ void ThumbnailListView::selectDuplicateForOneListView(QStringList paths, QModelI
     if (paths.count() > 0) {
         this->clearSelection();
         for (int i = 0; i < m_model->rowCount(); i++) {
-            QModelIndex idx = m_model->index(i, 0);
-            QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-            if (lst.count() >= 7) {
-                for (int j = 0; j < paths.count(); j++) {
-                    if (lst.at(1).toString() == paths.at(j)) {
-                        // 选中
-                        selectionModel()->select(idx, QItemSelectionModel::Select);
-                        if (!firstIndex.isValid()) {
-                            firstIndex = idx;
-                        }
+            QModelIndex index = m_model->index(i, 0);
+            ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+            for (int j = 0; j < paths.count(); j++) {
+                if (info.path == paths.at(j)) {
+                    // 选中
+                    selectionModel()->select(index, QItemSelectionModel::Select);
+                    if (!firstIndex.isValid()) {
+                        firstIndex = index;
                     }
                 }
             }
@@ -1406,7 +1249,7 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
     QStringList paths;
     paths.clear();
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
-        paths.append(index.model()->data(index, Qt::DisplayRole).toList().at(1).toString());
+        paths.append(index.data(Qt::DisplayRole).value<ItemInfo>().path);
     }
     emit SignalManager::instance()->sigSyncListviewModelData(paths, albumName, actionType);
 }
@@ -1459,9 +1302,10 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
         info.image = data.imgpixmap;
 //        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
         info.remainDays = data.remainDays;
+        info.imgWidth = m_onePicWidth;
+        info.imgHeight = m_onePicWidth;
         insertThumbnail(info);
     }
-    resizeEventF();
     emit sigLoad80ThumbnailsFinish();
 }
 
@@ -1478,16 +1322,14 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                 return;
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
-                QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                if (lst.count() >= 7) {
-                    for (int j = 0; j < paths.count(); j++) {
-                        if (lst.at(1).toString() == paths.at(j)) {
-                            QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
-                            datas.removeAll(albumName);
-                            QMap<int, QVariant> tempData;
-                            tempData.insert(Qt::UserRole + 2, datas);
-                            m_model->setItemData(idx, tempData);
-                        }
+                ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
+                for (int j = 0; j < paths.count(); j++) {
+                    if (info.path == paths.at(j)) {
+                        QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
+                        datas.removeAll(albumName);
+                        QMap<int, QVariant> tempData;
+                        tempData.insert(Qt::UserRole + 2, datas);
+                        m_model->setItemData(idx, tempData);
                     }
                 }
             }
@@ -1497,16 +1339,14 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                 return;
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
-                QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                if (lst.count() >= 7) {
-                    for (int j = 0; j < paths.count(); j++) {
-                        if (lst.at(1).toString() == paths.at(j)) {
-                            QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
-                            datas.append(albumName);
-                            QMap<int, QVariant> tempData;
-                            tempData.insert(Qt::UserRole + 2, datas);
-                            m_model->setItemData(idx, tempData);
-                        }
+                ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
+                for (int j = 0; j < paths.count(); j++) {
+                    if (info.path == paths.at(j)) {
+                        QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
+                        datas.append(albumName);
+                        QMap<int, QVariant> tempData;
+                        tempData.insert(Qt::UserRole + 2, datas);
+                        m_model->setItemData(idx, tempData);
                     }
                 }
             }
@@ -1516,16 +1356,14 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                 return;
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
-                QVariantList lst = idx.model()->data(idx, Qt::DisplayRole).toList();
-                if (lst.count() >= 7) {
-                    for (int j = 0; j < paths.count(); j++) {
-                        if (lst.at(1).toString() == paths.at(j)) {
-                            QStringList datas;
-                            datas.clear();
-                            QMap<int, QVariant> tempData;
-                            tempData.insert(Qt::UserRole + 2, datas);
-                            m_model->setItemData(idx, tempData);
-                        }
+                ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
+                for (int j = 0; j < paths.count(); j++) {
+                    if (info.path == paths.at(j)) {
+                        QStringList datas;
+                        datas.clear();
+                        QMap<int, QVariant> tempData;
+                        tempData.insert(Qt::UserRole + 2, datas);
+                        m_model->setItemData(idx, tempData);
                     }
                 }
             }
@@ -1584,42 +1422,38 @@ void ThumbnailListView::onClicked(const QModelIndex &index)
 
 void ThumbnailListView::sendNeedResize(/*int hight*/)
 {
-    if (!isVisible()) {
+    //时间线界面重置列表高度
+    if (m_model == nullptr) {
         return;
     }
-    if (m_dt->isActive()) {
-        bneedsendresize = true;
-        return;
+    if (m_rowSizeHint == 0) {
+        int i_totalwidth = width() - 30;
+        //计算一行的个数
+        m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
+        int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
+        m_onePicWidth = currentwidth;
+        if (currentwidth < 80)
+            currentwidth = 80;
     }
-    m_dt->start();
-    if (lastresizeheight != m_height) {
-        resizenum++;
-        emit needResize(m_height + 15);
+    if (ThumbnailDelegate::AllPicViewType != m_delegatetype
+            && ThumbnailDelegate::AlbumViewPhoneType != m_delegatetype
+            && ThumbnailDelegate::SearchViewType != m_delegatetype) {
+        //取整
+        int round = this->m_model->rowCount() / m_rowSizeHint;
+        //取余
+        int remainder = this->m_model->rowCount() % m_rowSizeHint;
+        int rows = (remainder == 0) ? round : (round + 1);
+        int heightBefor = this->height();
+        int heightAfter = m_onePicWidth * rows + ITEM_SPACING * (rows + 1);
+        if (heightAfter != heightBefor) {
+            m_height = heightAfter;
+            emit needResize(heightAfter);
+        }
     }
-    lastresizeheight = m_height;
-    bneedsendresize = false;
-}
-
-//调整图片尺寸
-void ThumbnailListView::modifyAllPic(ThumbnailListView::ItemInfo &info)
-{
-    int i_totalwidth = width() - 30;
-
-    info.imgWidth = m_iBaseHeight;
-    info.imgHeight = m_iBaseHeight;
-    if (info.imgWidth > i_totalwidth) {
-        info.imgHeight = i_totalwidth / 4;
-        info.imgWidth = i_totalwidth / 4;
-    }
-    // 异常判断
-    info.imgHeight = (1 > info.imgHeight) ? 1 : info.imgHeight;
-    info.imgWidth = (1 > info.imgWidth) ? 1 : info.imgWidth;
-    info.imgHeight = (m_iBaseHeight > info.imgHeight) ? m_iBaseHeight : info.imgHeight;
-    info.imgWidth = (28 > info.imgWidth) ? 28 : info.imgWidth;
 }
 
 //裁剪图片尺寸
-void ThumbnailListView::cutPixmap(ThumbnailListView::ItemInfo &iteminfo)
+void ThumbnailListView::cutPixmap(ItemInfo &iteminfo)
 {
     int width = iteminfo.image.width();
     if (width == 0)
@@ -1641,91 +1475,6 @@ void ThumbnailListView::cutPixmap(ThumbnailListView::ItemInfo &iteminfo)
     }
 }
 
-void ThumbnailListView::calgridItems()
-{
-    int i_totalwidth = width() - 30;
-    m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);//计算一行能放几个
-    int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
-    m_onePicWidth = currentwidth;
-    if (currentwidth < 1)
-        return;
-
-    QList<QList<ItemInfo>> gridItem;//所有
-    QList<ItemInfo> rowList;//一行
-    gridItem.clear();
-    rowList.clear();
-    int index = 0;
-    int totlelength = m_allItemLeft.size();//待处理
-    for (int i = 0; i < totlelength; i++) {
-        m_allItemLeft[i].imgHeight = currentwidth;
-        m_allItemLeft[i].imgWidth = currentwidth;
-        if (index < m_rowSizeHint) {
-            rowList << m_allItemLeft[i];
-            index ++;
-        } else {
-            index = 1;
-            gridItem << rowList;
-            rowList.clear();
-            rowList << m_allItemLeft[i];
-        }
-    }
-    m_allItemLeft.clear();
-    if (rowList.size() > 0) {
-        gridItem << rowList;
-        rowList.clear();
-    }
-    addThumbnailViewNew(gridItem);
-}
-
-void ThumbnailListView::calBasePixMapWidth()
-{
-    int i_totalwidth = width() - 30;
-    for (int i = 0; i < m_ItemList.length(); i++) {
-        m_ItemList[i].imgWidth = m_iBaseHeight;
-        m_ItemList[i].imgHeight = m_iBaseHeight;
-        if (m_ItemList[i].imgWidth > i_totalwidth) {
-            m_ItemList[i].imgHeight = i_totalwidth / 4;
-            m_ItemList[i].imgWidth = i_totalwidth / 4;
-        }
-    }
-}
-
-void ThumbnailListView::calgridItemsWidth()
-{
-    int i_totalwidth = width() - 30;
-    QList<ItemInfo> oneRowList;
-    //计算一行的个数
-    m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
-    int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
-    m_onePicWidth = currentwidth;
-    if (currentwidth < 80)
-        currentwidth = 80;
-
-    for (int i = 0; i < m_gridItem.length(); i++) {
-        for (int j = 0 ; j < m_gridItem.at(i).length(); j++) {
-            m_gridItem[i][j].imgHeight = currentwidth;
-            m_gridItem[i][j].imgWidth = currentwidth;
-        }
-    }
-    if (0 < m_gridItem.size()) {
-        m_height = 0;
-        int index = 0;//当前一个list所有照片数量
-        for (int i = 0; i < m_gridItem.size(); i++) {
-            for (int j = 0; j < m_gridItem.at(i).size(); j++) {
-                index ++;
-            }
-        }
-        int m_row = 0;//当前一个list的行数
-        if (index % m_rowSizeHint == 0)
-            m_row = index / m_rowSizeHint;
-        else
-            m_row = index / m_rowSizeHint + 1;
-
-        m_height = (m_gridItem.at(0).at(0).imgHeight + ITEM_SPACING) * m_row;
-        m_height -= ITEM_SPACING;
-    }
-}
-
 void ThumbnailListView::setCurrentSelectPath()
 {
     m_currentDeletePath.clear();
@@ -1734,15 +1483,17 @@ void ThumbnailListView::setCurrentSelectPath()
     int row;//最后选中的索引
     for (int i = 0; i < selectionModel()->selectedIndexes().size(); i++) {
         QModelIndex index = selectionModel()->selectedIndexes().at(i);
-        m_currentDeletePath.append(index.model()->data(index, Qt::DisplayRole).toList().at(1).toString());
+        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        m_currentDeletePath.append(info.path);
         if (i == selectionModel()->selectedIndexes().size() - 1) {
             row = index.row();
-            while (m_currentDeletePath.contains(index.model()->data(index, Qt::DisplayRole).toList().at(1).toString())) {
+            while (m_currentDeletePath.contains(info.path)) {
                 if (row > 0) {
                     row -= 1;
                     QModelIndex indextemp = index.model()->index(row, 0);
+                    ItemInfo infoTemp = indextemp.data(Qt::DisplayRole).value<ItemInfo>();
                     if (indextemp.isValid()) {
-                        m_selectPrePath = indextemp.data(Qt::DisplayRole).toList().at(1).toString();
+                        m_selectPrePath = infoTemp.path;
                     }
                 } else {
                     break;
@@ -1760,23 +1511,24 @@ void ThumbnailListView::resizeEventF()
         DScrollBar *bar = this->verticalScrollBar();
         bar->setGeometry(bar->x(), /*bar->y() + */m_scrollbartopdistance, bar->width(), this->height() - m_scrollbartopdistance - m_scrollbarbottomdistance);
     }
-    calgridItemsWidth();
-//    addThumbnailView();
-    updateThumbnaillistview();
-    sendNeedResize();
+    int i_totalwidth = width() - 30;
+    //计算一行的个数
+    m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
+    int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
+    m_onePicWidth = currentwidth;
+    if (currentwidth < 80)
+        currentwidth = 80;
+
     if (nullptr != m_item) {
         m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
         this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
     }
-}
-
-bool ThumbnailListView::checkResizeNum()
-{
-    resizenum--;
-    if (resizenum > 0) {
-        return false;
+    if (m_delegate) {
+        m_delegate->setItemSize(QSize(m_onePicWidth, m_onePicWidth));
     }
-    return true;
+    this->setSpacing(ITEM_SPACING);
+
+    sendNeedResize();
 }
 
 bool ThumbnailListView::isLoading()

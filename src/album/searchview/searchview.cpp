@@ -291,7 +291,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     m_albumName = album;
     using namespace utils::image;
     m_keywords = s;
-    QList<ThumbnailListView::ItemInfo> thumbnaiItemList;
+    QList<ItemInfo> thumbnaiItemList;
     DBImgInfoList infos;
     if (COMMON_STR_ALLPHOTOS == m_albumName
             || COMMON_STR_TIMELINE == m_albumName
