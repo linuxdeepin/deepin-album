@@ -949,34 +949,33 @@ void ImageEngineThread::run()
         }
         if (getNeedStop())
             return;
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-            if (pixmap.height() != 140 && pixmap.width() != 140) {
-                if (pixmap.height() >= pixmap.width()) {
+
+        //修改：将QPixmap的变形操作放在QImage里完成
+        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+            if (tImg.height() != 140 && tImg.width() != 140) {
+                if (tImg.height() >= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToWidth(140,  Qt::FastTransformation);
-                } else if (pixmap.height() <= pixmap.width()) {
+                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
+                } else if (tImg.height() <= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(140,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
                 }
             }
             if (!cache_exist) {
-                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                    pixmap = pixmap.scaledToWidth(140,  Qt::FastTransformation);
+                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
                 } else {
-                    pixmap = pixmap.scaledToHeight(140,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
                 }
             }
-        }
-        if (pixmap.isNull()) {
-            qDebug() << "null pixmap" << tImg;
-            pixmap = QPixmap::fromImage(tImg);
         }
         if (breloadCache) { //更新缓存文件
             QString spath = CACHE_PATH + m_path;
             utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-            pixmap.save(spath, "PNG");
+            tImg.save(spath, "PNG");
         }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
         m_data.imgpixmap = pixmap;
     }
     DBImgInfo dbi = getDBInfo(m_path);
@@ -1108,31 +1107,33 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     }
     if (needStop)
         return;
-    QPixmap pixmap = QPixmap::fromImage(tImg);
-    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+
+    //修改：将QPixmap的变形操作放在QImage里完成
+    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
-        if (pixmap.height() != 200 && pixmap.width() != 200) {
-            if (pixmap.height() >= pixmap.width()) {
+        if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (pixmap.height() <= pixmap.width()) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
-            if (static_cast<float>(pixmap.height()) / static_cast<float>(pixmap.width()) > 3) {
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+            if (static_cast<float>(tImg.height()) / static_cast<float>(tImg.width()) > 3) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
             } else {
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
     }
+
     QString spath = CACHE_PATH + m_path;
     if (needStop)
         return;
     utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-    pixmap.save(spath, "PNG");
+    tImg.save(spath, "PNG");
 }
 
 void ImageCacheQueuePopThread::run()
@@ -1178,30 +1179,28 @@ void ImageEngineBackThread::run()
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
 
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+        //修改：将QPixmap的变形操作放在QImage里完成
+        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;
-            if (pixmap.height() != 100 && pixmap.width() != 100) {
-                if (pixmap.height() >= pixmap.width()) {
+            if (tImg.height() != 100 && tImg.width() != 100) {
+                if (tImg.height() >= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-                } else if (pixmap.height() <= pixmap.width()) {
+                    tImg = tImg.scaledToWidth(100,  Qt::FastTransformation);
+                } else if (tImg.height() <= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(100,  Qt::FastTransformation);
                 }
             }
             if (!cache_exist) {
-                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                    tImg = tImg.scaledToWidth(100,  Qt::FastTransformation);
                 } else {
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(100,  Qt::FastTransformation);
                 }
             }
         }
-        if (pixmap.isNull()) {
-            qDebug() << "[ImageEngineBackThread]:null pixmap!" << tImg;
-            pixmap = QPixmap::fromImage(tImg);
-        }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
         m_data.imgpixmap = pixmap;
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;

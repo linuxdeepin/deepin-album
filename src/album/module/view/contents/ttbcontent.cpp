@@ -502,7 +502,7 @@ void ImageItem::setIndexNow(int i)
     _indexNow = i;
 }
 
-void ImageItem::setPic(QPixmap pixmap)
+void ImageItem::setPic(const QPixmap &pixmap)
 {
     bool bLight = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType;
     m_bPicNotSuppOrDamaged = pixmap.isNull();
@@ -606,7 +606,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
             m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
         }
 
-        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(32, 40));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg);

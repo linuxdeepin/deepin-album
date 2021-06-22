@@ -109,7 +109,7 @@ public:
 //    ImageItem(int index = 0, QString path = "", QString imageType = "", QWidget *parent = 0);
     ImageItem(int index = 0, ImageDataSt data = ImageDataSt(), QWidget *parent = nullptr);
     void setIndexNow(int i);
-    void setPic(QPixmap pixmap);
+    void setPic(const QPixmap &pixmap);
 
     QString _path;
     int index() const;

@@ -69,31 +69,30 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
             qDebug() << errMsg;
         }
     }
-    QPixmap pixmap = QPixmap::fromImage(tImg);
-    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+
+    //修改：将QPixmap的变形操作放在QImage里完成
+    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
-        if (pixmap.height() != 200 && pixmap.width() != 200) {
-            if (pixmap.height() >= pixmap.width()) {
+        if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (pixmap.height() <= pixmap.width()) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
-            if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
             } else {
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
     }
-    if (pixmap.isNull()) {
-        qDebug() << "null pixmap" << tImg;
-        pixmap = QPixmap::fromImage(tImg);
-    }
+
     ImageDataSt data;
+    QPixmap pixmap = QPixmap::fromImage(tImg);
     data.imgpixmap = pixmap;
     QFileInfo fi(srcPath);
     //此处不需要加载拍摄时间

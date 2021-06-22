@@ -481,7 +481,7 @@ void ViewPanel::onViewBClicked()
         if (!window()->isFullScreen()) {
             toggleFullScreen();
         } else {
-            //BUG#82053，隔壁部门要求添加DBUS调用，以实现单指点击循环显示和隐藏工具栏
+            //BUG#82053，隔壁部门要求添加DBUS调用，以实现单指点击循环显示和隐藏状态栏
             auto &statusBarDbus = ComDeepinDueStatusbarInterface::instance();
             statusBarDbus.setVisible(!statusBarDbus.visible());
             //BUG#82053 end

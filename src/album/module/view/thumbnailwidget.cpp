@@ -56,8 +56,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
         m_theme = false;
     }
 
-    QPixmap logo_pix1 = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
-    m_logo = logo_pix1;
+    m_logo = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ThumbnailWidget::onThemeTypeChanged);
 
@@ -117,7 +116,7 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
     update();
 }
 
-void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
+void ThumbnailWidget::setThumbnailImage(const QPixmap &thumbnail)
 {
     if (thumbnail.isNull()) {
         m_defaultImage = m_logo;

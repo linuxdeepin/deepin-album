@@ -30,7 +30,6 @@ Waitdevicedialog::Waitdevicedialog(QWidget *parent)
 void Waitdevicedialog::iniwaitdialog()
 {
     QPixmap iconImage = QPixmap(":/icons/deepin/builtin/icons/Bullet_window_warning.svg");
-    QPixmap iconI = iconImage.scaled(30, 30);
     QIcon icon(iconImage);
     this->setIcon(icon);
     waitTips->setAlignment(Qt::AlignCenter);

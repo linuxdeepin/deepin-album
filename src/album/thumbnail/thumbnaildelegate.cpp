@@ -92,7 +92,6 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         painter->setClipPath(backgroundBp);
 
         QBrush  shadowbrush;
-        QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             shadowbrush = QBrush(QColor("#DEDEDE"));

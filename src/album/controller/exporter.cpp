@@ -73,13 +73,9 @@ void Exporter::exportImage(const QStringList imagePaths)
 
         QImage tImg;
         QString errMsg;
-        QPixmap pixmap;
         using namespace UnionImage_NameSpace;
-        if (!loadStaticImageFromFile(imagePaths.at(0), tImg, errMsg)) {
-            pixmap = QPixmap::fromImage(tImg);
-        } else {
-            pixmap = QPixmap::fromImage(tImg);
-        }
+        loadStaticImageFromFile(imagePaths.at(0), tImg, errMsg);
+        QPixmap pixmap = QPixmap::fromImage(tImg);
         m_exportImageDialog->showMe(pixmap);
     } else {
         popupDialogSaveImage(imagePaths);
@@ -104,7 +100,6 @@ void Exporter::exportAlbum(const QStringList albumPaths, const QString &albumnam
         for (int j(0); j < albumPaths.length(); j++) {
 
             if (utils::image::imageSupportRead(albumPaths[j])) {
-                QPixmap tmpImage(albumPaths[j]);
                 QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(albumPaths[j])
                                                                            .baseName()).arg(QFileInfo(albumPaths[j]).completeSuffix());
                 bool isSucceed = QFile::copy(albumPaths[j], savePath);

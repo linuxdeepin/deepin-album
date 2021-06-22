@@ -44,7 +44,7 @@ signals:
 #endif
 
 public slots:
-    void setThumbnailImage(const QPixmap thumbnail);
+    void setThumbnailImage(const QPixmap &thumbnail);
     void onThemeTypeChanged();
 
 
