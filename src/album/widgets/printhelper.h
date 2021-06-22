@@ -31,8 +31,10 @@ class PrintHelper : public QObject
 public:
     static PrintHelper *getIntance();
     explicit PrintHelper(QObject *parent = nullptr);
+    ~PrintHelper();
 
     void showPrintDialog(const QStringList &paths, QWidget *parent = nullptr);
+    void deconstruction();
 
     RequestedSlot *m_re = nullptr;
 

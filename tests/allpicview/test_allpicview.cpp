@@ -199,11 +199,11 @@ TEST(allpicview, test_open)
 
         emit dApp->signalM->showImageInfo(testPathlist.first());
 
-        CommandLine *commandline = CommandLine::instance();
+//        CommandLine *commandline = CommandLine::instance();
         QString jpgItemPath = testPath_test + "/2e5y8y.jpg";
         QStringList list;
         list << jpgItemPath;
-        commandline->viewImage(jpgItemPath, list);
+        CommandLine::instance()->viewImage(jpgItemPath, list);
 
         MainWidget *mw = CommandLine::instance()->findChild<MainWidget *>("MainWidget");
         if (mw) {

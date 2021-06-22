@@ -611,7 +611,7 @@ void ImageAnimationPrivate::startAnimation()
     qsrand(static_cast<uint>(QTime(0, 0, 0).secsTo(QTime::currentTime())));
     m_animationType = static_cast<AnimationType>(qrand() % (3));
     if (!m_continuousanimationTimer) {
-        m_continuousanimationTimer = new QTimer();
+        m_continuousanimationTimer = new QTimer(this);
         m_factor = 0.0f;
         m_funval = 0.0f;
         connect(m_continuousanimationTimer, &QTimer::timeout, this, &ImageAnimationPrivate::onContinuousAnimationTimer);

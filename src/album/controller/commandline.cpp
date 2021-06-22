@@ -134,6 +134,9 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     MainWidget *m_mainWidget = new MainWidget(false, this);
     m_mainWidget->setObjectName("MainWidget");
     m_layout->addWidget(m_mainWidget);
+    if (this->layout()) {
+        this->layout()->deleteLater();
+    }
     setLayout(m_layout);
 //    w->setWindowRadius(18);
 //    w->setBorderWidth(0);

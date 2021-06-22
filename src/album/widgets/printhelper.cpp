@@ -70,6 +70,11 @@ PrintHelper::PrintHelper(QObject *parent)
     m_re = new RequestedSlot(this);
 }
 
+PrintHelper::~PrintHelper()
+{
+    deconstruction();
+}
+
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     Q_UNUSED(parent)
@@ -124,6 +129,12 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     m_re->m_imgs.clear();
 }
 
+void PrintHelper::deconstruction()
+{
+    delete m_re;
+    m_re = nullptr;
+}
+
 RequestedSlot::RequestedSlot(QObject *parent)
 {
     Q_UNUSED(parent)
@@ -131,7 +142,6 @@ RequestedSlot::RequestedSlot(QObject *parent)
 
 RequestedSlot::~RequestedSlot()
 {
-
 }
 
 void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &pageRange)
