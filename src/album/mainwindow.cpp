@@ -125,6 +125,7 @@ MainWindow::~MainWindow()
     ImageEngineApi::instance()->close();
     QThreadPool::globalInstance()->clear();
     QThreadPool::globalInstance()->waitForDone();
+    PrintHelper::getIntance()->deconstruction();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -2071,7 +2072,7 @@ void MainWindow::onCtrlShiftSlashShortcutActivated()
     QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
     shortcutString << param1 << param2;
 
-    QProcess *shortcutViewProcess = new QProcess();
+    QProcess *shortcutViewProcess = new QProcess(this);
     shortcutViewProcess->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProcess, SIGNAL(finished(int)), shortcutViewProcess, SLOT(deleteLater()));
