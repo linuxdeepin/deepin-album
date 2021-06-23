@@ -71,15 +71,6 @@ void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void LeftListWidget::mousePressEvent(QMouseEvent *e)
-{
-    QModelIndex index = indexAt(e->pos());
-    if (!index.isValid()) {
-        emit sigMousePressIsNoValid();
-    }
-    DListWidget::mousePressEvent(e);
-}
-
 void LeftListWidget::keyPressEvent(QKeyEvent *event)
 {
     DListWidget::keyPressEvent(event);

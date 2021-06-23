@@ -83,7 +83,6 @@ public slots:
     void onAddListBtnClicked();
     void onApplicationHelperThemeTypeChanged();
     void onGuiApplicationHelperThemeTypeChanged();
-    void onMousePressIsNoValid();
 
 public:
 

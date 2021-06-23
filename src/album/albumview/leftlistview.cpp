@@ -59,7 +59,7 @@ LeftListView::LeftListView(QWidget *parent)
     , m_ItemCurrentType(COMMON_STR_RECENT_IMPORTED)
     , m_pMenu(nullptr)
 {
-    QScroller::grabGesture(viewport());
+    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
     m_ItemCurrentDataType = 0;
     initUI();
     initMenu();
@@ -69,7 +69,7 @@ LeftListView::LeftListView(QWidget *parent)
 void LeftListView::initConnections()
 {
     connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onPhotoLibListViewPressed);
-    connect(m_pCustomizeListView, &DListWidget::pressed, this, &LeftListView::onCustomListViewPressed);
+    connect(m_pCustomizeListView, &DListWidget::clicked, this, &LeftListView::onCustomListViewPressed);
     connect(m_pMountListWidget, &DListWidget::pressed, this, &LeftListView::onMountListViewPressed);
     connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, &LeftListView::onPhotoLibListViewCurrentItemChanged);
     connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, &LeftListView::onCustomizeListViewCurrentItemChanged);
@@ -79,7 +79,6 @@ void LeftListView::initConnections()
     connect(m_pAddListBtn, &DPushButton::clicked, this, &LeftListView::onAddListBtnClicked);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &LeftListView::onApplicationHelperThemeTypeChanged);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &LeftListView::onGuiApplicationHelperThemeTypeChanged);
-    connect(m_pMountListWidget, &LeftListWidget::sigMousePressIsNoValid, this, &LeftListView::onMousePressIsNoValid);
 }
 
 void LeftListView::initUI()
@@ -448,7 +447,8 @@ void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
 void LeftListView::onCustomListViewPressed(const QModelIndex &index)
 {
     Q_UNUSED(index);
-    qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
+    qDebug() << "------" << __FUNCTION__ << "";
+    setFocusPolicy(Qt::ClickFocus);
     m_pPhotoLibListView->clearSelection();
     m_pMountListWidget->clearSelection();
     updateAlbumItemsColor();
@@ -602,13 +602,6 @@ void LeftListView::onGuiApplicationHelperThemeTypeChanged()
                                       ":/resources/images/sidebar/active/add_focus_dark.svg");
     }
 }
-
-void LeftListView::onMousePressIsNoValid()
-{
-    setFocusPolicy(Qt::ClickFocus);
-}
-
-
 
 QString LeftListView::getNewAlbumName()
 {

@@ -30,7 +30,6 @@ class LeftListWidget : public DListWidget
     Q_OBJECT
 public:
     LeftListWidget();
-    void mousePressEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     QStyleOptionViewItem viewOptions() const override;
@@ -44,8 +43,6 @@ protected:
 
 signals:
     void signalDropEvent(QModelIndex index);
-    void sigMousePressIsNoValid();
-
 };
 
 #endif  // LEFTLISTWIDGET_H
