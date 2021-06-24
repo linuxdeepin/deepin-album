@@ -518,6 +518,9 @@ void ImageView::onIsChangedTimerTimeout()
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
     emit doubleClicked();
+    if (dApp->isTablet()) {
+        m_press = false;
+    }
     QGraphicsView::mouseDoubleClickEvent(e);
 }
 
