@@ -38,8 +38,9 @@
 #include <QTimer>
 
 namespace  {
-const int SUBTITLE_HEIGHT = 37;
+const int SUBTITLE_HEIGHT = 43;
 const int VIEW_MAINWINDOW_ALBUM = 2;
+const int TITLE_H_LOCATION = 60;
 } //namespace
 
 ImportTimeLineView::ImportTimeLineView(DWidget *parent)
@@ -154,16 +155,6 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
     m_dateItem->setForegroundRole(DPalette::Background);
     m_dateItem->setPalette(pa1);
 
-    //add start 3975
-    DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_pImportTitle);
-    ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
-    m_pImportTitle->setPalette(ppal_light2);
-    //add end 3975
-//    DPalette pa = DApplicationHelper::instance()->palette(m_pDate);
-//    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
-//    m_pDate->setForegroundRole(DPalette::Text);
-//    m_pDate->setPalette(pa);
-
     DPalette pal1 = DApplicationHelper::instance()->palette(pNum_up);
     QColor color_BT1 = pal1.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
@@ -220,6 +211,33 @@ ThumbnailListView *ImportTimeLineView::getFirstListView()
         return nullptr;
 }
 
+void ImportTimeLineView::reorganizationLeftStr()
+{
+    //已导入左侧文本由两部分组成，需要合并计算
+    extern QString reorganizationStr(const QFont & font, const QString & fullStr, int maxWidth); //另外一个cpp文件里的函数
+
+    //1.计算缩减后的文本
+    auto alltext = m_pDate_fullStr + pNum_up_fullStr;
+    auto resultStr = reorganizationStr(m_pDate->font(), alltext, m_pImportTitle->x());
+    if (alltext == resultStr) { //大家都没残废
+        m_pDate->setText(m_pDate_fullStr);
+        pNum_up->setText(pNum_up_fullStr);
+        pNum_up->setVisible(true);
+        return;
+    }
+
+    //2.判断第二部分是否需要隐藏
+    auto dateTextIndex = alltext.indexOf(m_pDate->text());
+    if (dateTextIndex == -1) { //第一部分已经残废，第二部分直接隐藏掉
+        m_pDate->setText(resultStr);
+        pNum_up->setVisible(false);
+    } else { //第一部分没残废，第二部分残废
+        m_pDate->setText(m_pDate_fullStr);
+        pNum_up->setVisible(true);
+        pNum_up->setText(resultStr.remove(0, m_pDate_fullStr.length()));
+    }
+}
+
 void ImportTimeLineView::updateSize()
 {
     for (int i = 0; i < m_allThumbnailListView.length(); i++) {
@@ -228,7 +246,18 @@ void ImportTimeLineView::updateSize()
         emit view->needResizeLabel();
     }
     m_dateItem->setFixedSize(width() - 15, SUBTITLE_HEIGHT);
-    m_pImportTitle->setFixedSize(width() - 15, 47); //add 3
+    m_pImportTitle->setFixedHeight(SUBTITLE_HEIGHT);
+
+    //调整 已导入 的位置
+    m_pImportTitle->move(m_dateItem->width() / 2 - m_pImportTitle->width() / 2, TITLE_H_LOCATION);
+    m_pImportTitle->raise();//图层上移
+
+    //标题栏额外遮罩
+    m_titleMaskTop->move(0, TITLE_H_LOCATION - 10);
+    m_titleMaskTop->setFixedSize(width() - 15, 10);
+
+    m_titleMaskButtom->move(0, TITLE_H_LOCATION + SUBTITLE_HEIGHT);
+    m_titleMaskButtom->setFixedSize(width() - 15, 30);
 }
 
 void ImportTimeLineView::onNewTime(QString date, QString num, int index)
@@ -299,7 +328,7 @@ QStringList ImportTimeLineView::selectPaths()
 
 void ImportTimeLineView::updateChoseText()
 {
-    if (dApp->isTablet()){
+    if (dApp->isTablet()) {
         return;
     }
     for (int i = 0; i < m_allChoseButton.length(); i++) {
@@ -333,28 +362,34 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     //添加悬浮title
 
+    //设置额外遮罩
+    m_titleMaskTop = new DWidget(pTimeLineViewWidget);
+    m_titleMaskTop->setFixedHeight(10);
+    DPalette ppal_light1 = DApplicationHelper::instance()->palette(m_titleMaskTop);
+    ppal_light1.setBrush(DPalette::Background, ppal_light1.color(DPalette::Base));
+    QGraphicsOpacityEffect *opacityEffect_light1 = new QGraphicsOpacityEffect;
+    opacityEffect_light1->setOpacity(0.95);
+    m_titleMaskTop->setPalette(ppal_light1);
+    m_titleMaskTop->setGraphicsEffect(opacityEffect_light1);
+    m_titleMaskTop->setAutoFillBackground(true);
+
+    m_titleMaskButtom = new DWidget(pTimeLineViewWidget);
+    m_titleMaskButtom->setFixedHeight(30);
+    m_titleMaskButtom->setPalette(ppal_light1);
+    m_titleMaskButtom->setGraphicsEffect(opacityEffect_light1);
+    m_titleMaskButtom->setAutoFillBackground(true);
+
     //add start 3975
     m_pImportTitle = new DLabel(pTimeLineViewWidget);
     m_pImportTitle->setText(tr("Import"));
     m_pImportTitle->setContentsMargins(17, 6, 0, 5);
     DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pImportTitle->setForegroundRole(DPalette::TextTitle);
-//    m_pImportTitle->setFixedSize(width() - 10, 47);
     m_pImportTitle->setFixedHeight(36);
-    m_pImportTitle->move(0, 50);
-
-    DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_pImportTitle);
-    ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
-    QGraphicsOpacityEffect *opacityEffect_light2 = new QGraphicsOpacityEffect;
-    opacityEffect_light2->setOpacity(0.95);
-    m_pImportTitle->setPalette(ppal_light2);
-    m_pImportTitle->setGraphicsEffect(opacityEffect_light2);
-    m_pImportTitle->setAutoFillBackground(true);
     //add end 3975
 
     m_dateItem = new DWidget(pTimeLineViewWidget);
     QHBoxLayout *TitleViewLayout = new QHBoxLayout();
-//    TitleViewLayout->setContentsMargins(17, 0, 0, 6);
     TitleViewLayout->setContentsMargins(17, 0, 0, 0);
     m_dateItem->setLayout(TitleViewLayout);
 
@@ -411,7 +446,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     Layout->addStretch(1);
     Layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     Layout->setContentsMargins(0, 0, 27, 0);
-    Layout->addWidget(pSuspensionChose);
+    Layout->addWidget(pSuspensionChose, 0, Qt::AlignBottom);
     connect(pSuspensionChose, &DCommandLinkButton::clicked, this, &ImportTimeLineView::onSuspensionChoseBtnClicked);
     DPalette ppal_light = DApplicationHelper::instance()->palette(m_dateItem);
     ppal_light.setBrush(DPalette::Background, ppal_light.color(DPalette::Base));
@@ -422,7 +457,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateItem->setAutoFillBackground(true);
     m_dateItem->setFixedSize(this->width() - 10, SUBTITLE_HEIGHT);
     m_dateItem->setContentsMargins(0, 0, 0, 0);
-    m_dateItem->move(0, 50 + m_pImportTitle->height()); //edit 3975
+    m_dateItem->move(0, TITLE_H_LOCATION);
     m_dateItem->show();
     m_dateItem->setVisible(true);
 }
@@ -868,6 +903,7 @@ void ImportTimeLineView::addTimelineLayout()
     //界面可见时,调整整体大小
     if (m_bshow) {
         updateSize();
+        reorganizationLeftStr();
     }
 
     //判断跳转位置图片是否包含在当前listview
@@ -945,7 +981,14 @@ void ImportTimeLineView::on_AddLabel(QString date, QString num)
         labelList[0]->setText(date);
         labelList[1]->setText(num);
         m_dateItem->setVisible(true);
-        m_dateItem->move(0, 50 + m_pImportTitle->height()); //edit 3975
+        m_dateItem->move(0, TITLE_H_LOCATION);
+
+        //记录这两个标签的完整数据
+        m_pDate_fullStr = date;
+        pNum_up_fullStr = num;
+
+        //执行刷新
+        reorganizationLeftStr();
     }
 #if 1
     QList<DCommandLinkButton *> b = m_mainListWidget->itemWidget(m_mainListWidget->item(m_index))->findChildren<DCommandLinkButton *>();
@@ -1004,6 +1047,7 @@ void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
     Q_UNUSED(ev);
     updateSize();
+    reorganizationLeftStr();
 }
 
 void ImportTimeLineView::showEvent(QShowEvent *ev)

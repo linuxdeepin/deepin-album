@@ -130,6 +130,16 @@ private:
     DLabel *pNum_up;
     DLabel *pNum_dn;
     DLabel *m_pImportTitle; //add 3975
+
+    //左侧标签有可能变成省略号
+    QString m_pDate_fullStr;
+    QString pNum_up_fullStr;
+    void reorganizationLeftStr();
+
+    //标题部分加俩遮罩，用于解决timelinelist拉垮的问题
+    DWidget *m_titleMaskTop;
+    DWidget *m_titleMaskButtom;
+
     DSlider *m_DSlider;
     QList<ThumbnailListView *> m_allThumbnailListView;
     QList<DCommandLinkButton *> m_allChoseButton;

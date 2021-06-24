@@ -97,7 +97,10 @@ void TimelineListWidget::paintEvent(QPaintEvent *e)
                     QListWidgetItem *pLastItem;
                     pLastItem = this->item(i - 1);
                     TimelineItem *pLastWidget = static_cast<TimelineItem *>(itemWidget(pLastItem));
-                    emit sigMoveTime(pWidget->y() - pWidget->m_title->height() - 47, pLastWidget->m_sdate, pLastWidget->m_snum, pLastWidget->m_Chose->text());
+
+                    if (pLastWidget->m_Chose != nullptr) { //当外面的title高度超过一定值的时候，这玩意儿会变成nullptr
+                        emit sigMoveTime(pWidget->y() - pWidget->m_title->height() - 47, pLastWidget->m_sdate, pLastWidget->m_snum, pLastWidget->m_Chose->text());
+                    }
 #endif
                     pWidget->m_title->setVisible(true);
                     pWidget->m_date->setText(pWidget->m_sdate);

@@ -457,12 +457,10 @@ void AlbumView::initRightView()
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     m_pNoTrashWidget->setPalette(palcolor);
 
-    QVBoxLayout *pNoTrashVBoxLayout = new QVBoxLayout();
-    pNoTrashVBoxLayout->setContentsMargins(0, 0, 0, 0);
-
     m_pRightTitle = new DLabel();
     DFontSizeManager::instance()->bind(m_pRightTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pRightTitle->setForegroundRole(DPalette::TextTitle);
+    m_pRightTitle->setAlignment(Qt::AlignCenter);
 
     m_pRightPicTotal = new DLabel();
     DFontSizeManager::instance()->bind(m_pRightPicTotal, DFontSizeManager::T6, QFont::Medium);
@@ -485,9 +483,11 @@ void AlbumView::initRightView()
         this->onMoveScroll(m_noTrashListWidget, distence);
     });
 
+    auto pNoTrashVBoxLayout = new QHBoxLayout();
     pNoTrashVBoxLayout->addSpacing(3);
-    pNoTrashVBoxLayout->addWidget(m_pRightTitle);
-    pNoTrashVBoxLayout->addWidget(m_pRightPicTotal);
+    pNoTrashVBoxLayout->addWidget(m_pRightPicTotal, 1);
+    pNoTrashVBoxLayout->addWidget(m_pRightTitle, 2);
+    pNoTrashVBoxLayout->addWidget(new DWidget(this), 1);//空白控件，用于把m_pRightTitle挤到中间去
     pNoTrashVBoxLayout->addSpacing(-1);
     pNoTrashVBoxLayout->setContentsMargins(12, 0, 0, 0);  //Edit 3975
 
