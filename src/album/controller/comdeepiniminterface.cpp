@@ -33,3 +33,13 @@ ComDeepinImInterface::ComDeepinImInterface(QObject *parent)
 ComDeepinImInterface::~ComDeepinImInterface()
 {
 }
+
+void ComDeepinImInterface::setCurrentWidgetPosY(int posY)
+{
+    m_currentWidgetPosY = posY;
+}
+
+int ComDeepinImInterface::getCurrentWidgetPosY()
+{
+    return m_currentWidgetPosY;
+}

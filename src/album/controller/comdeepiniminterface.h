@@ -42,7 +42,8 @@ public:
     { return "com.deepin.im"; }
 
 public:
-    static ComDeepinImInterface &instance() {
+    static ComDeepinImInterface &instance()
+    {
         static ComDeepinImInterface comDeepinImInterface;
         return comDeepinImInterface;
     }
@@ -64,6 +65,8 @@ public:
     inline void setImSignalLock(bool value)
     { setProperty("imSignalLock", QVariant::fromValue(value)); }
 
+    void setCurrentWidgetPosY(int posY);
+    int  getCurrentWidgetPosY();
 public Q_SLOTS: // METHODS
     inline QDBusPendingReply<> setKeyboardHeight(int h)
     {
@@ -79,12 +82,13 @@ Q_SIGNALS: // SIGNALS
 
 private:
     ComDeepinImInterface(QObject *parent = nullptr);
+    int  m_currentWidgetPosY = 0;
 };
 
 namespace com {
-  namespace deepin {
-    typedef ::ComDeepinImInterface im;
-  }
+namespace deepin {
+typedef ::ComDeepinImInterface im;
+}
 }
 
 #endif // COMDEEPINIMINTERFACE_H

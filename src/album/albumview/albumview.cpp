@@ -46,6 +46,7 @@
 #include "dialogs/albumcreatedialog.h"
 #include <QScrollBar> //add 3975
 #include <QMutex>
+#include <QDesktopWidget>
 #include <DMessageBox>
 
 #include "imageengine/imageengineapi.h"
@@ -54,6 +55,7 @@
 #include "mainwindow.h"
 #include "leftlistview.h"
 #include "ac-desktop-define.h"
+#include "controller/comdeepiniminterface.h"
 
 static QMutex m_mutex;
 
@@ -77,6 +79,7 @@ const int RIGHT_VIEW_SEARCH = 4;
 const int RIGHT_VIEW_PHONE = 5;
 const int RIGHT_VIEW_TIMELINE_IMPORT = 6;
 const int VIEW_MAINWINDOW_ALBUM = 2;
+const int INPUT_ANIMATION_DELAY = 260;//因为虚拟键盘产生的动画时长
 
 static QMap<QString, const char *> i18nMap {
     {"data", "Data Disk"}
@@ -172,21 +175,23 @@ AlbumView::AlbumView()
     initLeftView();
     initRightView();
 
-    DWidget *leftwidget = new DWidget;
-    leftwidget->setFixedWidth(180);
+    m_leftwidget = new DWidget;
+    m_leftwidget->setFixedWidth(180);
+
+    m_leftMoveWidget = new DWidget(m_leftwidget);
 
     DWidget *lefttopwidget = new DWidget;
     lefttopwidget->setFixedHeight(45);
 
     QVBoxLayout *pvLayout = new QVBoxLayout();
     pvLayout->setContentsMargins(0, 0, 0, 0);
-    leftwidget->setLayout(pvLayout);
+    m_leftMoveWidget->setLayout(pvLayout);
     pvLayout->addWidget(lefttopwidget);
     pvLayout->addWidget(m_pLeftListView);
 
     QHBoxLayout *pLayout = new QHBoxLayout();
     pLayout->setContentsMargins(0, 0, 0, 0);
-    pLayout->addWidget(leftwidget);
+    pLayout->addWidget(m_leftwidget);
     pLayout->addWidget(m_pRightWidget);
     fatherwidget->setLayout(pLayout);
 
@@ -381,6 +386,8 @@ void AlbumView::initConnections()
     connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineView, &ImportTimeLineView::sigResizeTimelineBlock);
     //lmh手机加载图片边加载，边传输信息
     connect(dApp->signalM, &SignalManager::sigPhonePath, this, &AlbumView::onPhonePath, Qt::QueuedConnection);
+
+    connect(&ComDeepinImInterface::instance(), &ComDeepinImInterface::imActiveChanged, this, &AlbumView::slotActiveChanged);
 }
 
 void AlbumView::initLeftView()
@@ -892,6 +899,15 @@ void AlbumView::onMoveScroll(QAbstractScrollArea *obj, int distence)
 {
     auto scroll = obj->verticalScrollBar();
     scroll->setValue(scroll->value() + distence);
+}
+
+void AlbumView::slotActiveChanged(bool isActive)
+{
+    if (isActive) {
+        this->animationToUpByInput();
+    } else {
+        this->animationToDownByInput();
+    }
 }
 
 void AlbumView::updateRightView()
@@ -1577,7 +1593,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1633,6 +1649,39 @@ void AlbumView::importComboBoxChange(QString strText)
             m_importByPhoneComboBox->setCurrentIndex(0);
         });
     }
+}
+// 虚拟键盘引起的向上移动动画
+void AlbumView::animationToUpByInput()
+{
+    int posY = ComDeepinImInterface::instance().getCurrentWidgetPosY();
+    QRect screenRect = DApplication::desktop()->screenGeometry();
+
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+    animation->setDuration(INPUT_ANIMATION_DELAY);
+    animation->setEasingCurve(QEasingCurve::InCurve);
+    animation->setStartValue(QPoint(0, 0));
+    animation->connect(animation, &QPropertyAnimation::finished,
+                       animation, &QPropertyAnimation::deleteLater);
+    int keyboardHeight = static_cast<int>(DApplication::inputMethod()->keyboardRectangle().height());
+    if (posY > (screenRect.height() - keyboardHeight - 40)) {
+        animation->setEndValue(QPoint(0, (screenRect.height() - keyboardHeight - posY - 40)));
+        animation->start();
+    }
+}
+// 虚拟键盘引起的向下移动动画
+void AlbumView::animationToDownByInput()
+{
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+
+    animation->setDuration(INPUT_ANIMATION_DELAY);
+    animation->setEasingCurve(QEasingCurve::InCurve);
+    animation->setStartValue(this->pos());
+    animation->setEndValue(QPoint(0, 0));
+
+    animation->connect(animation, &QPropertyAnimation::finished,
+                       animation, &QPropertyAnimation::deleteLater);
+
+    animation->start();
 }
 
 void AlbumView::initExternalDevice()
@@ -2453,6 +2502,19 @@ void AlbumView::resizeEvent(QResizeEvent *e)
         reorganizationStr(m_pTrashNoticeLabel->font(), trashNoticeFullStr, m_pTrashLabel->x() - m_pRecoveryBtn->width() - m_pDeleteBtn->width() - 55)
     );
 
+    if (m_leftMoveWidget && m_leftwidget) {
+        m_leftMoveWidget->setGeometry(m_leftwidget->geometry());
+    }
+
     //返回
     QWidget::resizeEvent(e);
+}
+
+void AlbumView::showEvent(QShowEvent *e)
+{
+    Q_UNUSED(e)
+    if (m_leftMoveWidget && m_leftwidget) {
+        m_leftMoveWidget->setGeometry(m_leftwidget->geometry());
+    }
+    QWidget::showEvent(e);
 }

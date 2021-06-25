@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
  *
  * Author:     ZhangYong <zhangyong@uniontech.com>
@@ -143,6 +143,7 @@ private:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
+    void showEvent(QShowEvent *e) override;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
@@ -159,6 +160,10 @@ private:
     void initLeftMenu();
     void importComboBoxChange(QString strText);
 
+    // 虚拟键盘引起的向上移动动画
+    void animationToUpByInput();
+    // 虚拟键盘引起的向下移动动画
+    void animationToDownByInput();
 signals:
     void sigSearchEditIsDisplay(bool bIsDisp);
     void sigLoadMountImagesStart(QString mountName, QString path);
@@ -200,6 +205,8 @@ private slots:
     void onLeftListViewMountListWidgetClicked(const QModelIndex &index);
     void onPhonePath(QString PhoneName, QString pathName);
     void onMoveScroll(QAbstractScrollArea *obj, int distence);
+
+    void slotActiveChanged(bool isActive);
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
@@ -293,6 +300,9 @@ private:
     bool isMountThreadRunning;
     int m_currentViewPictureCount;
     QMutex m_mutex;
+
+    DWidget *m_leftwidget = nullptr;
+    DWidget *m_leftMoveWidget = nullptr;//将左侧列表放在该控件中，不使用布局，这样弹出虚拟键盘时可使用动画向上移动
 public:
     AlbumViewListWidget *m_TrashListWidget;
     AlbumViewListWidget *m_noTrashListWidget;

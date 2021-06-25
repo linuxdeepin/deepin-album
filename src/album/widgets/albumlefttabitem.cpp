@@ -210,6 +210,8 @@ void AlbumLeftTabItem::editAlbumEdit()
 //    m_pLineEdit->setFocus();
     m_pLineEdit->lineEdit()->setFocus();
 
+    QPoint pos = this->mapToGlobal(m_pLineEdit->pos());
+    ComDeepinImInterface::instance().setCurrentWidgetPosY(pos.y());
     ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
 }
 
