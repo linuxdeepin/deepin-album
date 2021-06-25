@@ -59,6 +59,7 @@ LeftListView::LeftListView(QWidget *parent)
     , m_ItemCurrentType(COMMON_STR_RECENT_IMPORTED)
     , m_pMenu(nullptr)
 {
+    //会导致崩溃，后面排查
     QScroller::grabGesture(viewport(), QScroller::TouchGesture);
     m_ItemCurrentDataType = 0;
     initUI();
