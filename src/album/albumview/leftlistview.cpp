@@ -59,7 +59,7 @@ LeftListView::LeftListView(QWidget *parent)
     , m_ItemCurrentType(COMMON_STR_RECENT_IMPORTED)
     , m_pMenu(nullptr)
 {
-    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(viewport(), QScroller::TouchGesture);
     m_ItemCurrentDataType = 0;
     initUI();
     initMenu();
