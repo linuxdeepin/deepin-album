@@ -91,6 +91,7 @@ ImageView::ImageView(QWidget *parent)
 //    , m_svgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
+    , m_timer(nullptr)
 {
     this->setObjectName("ImageView");
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -123,6 +124,13 @@ ImageView::ImageView(QWidget *parent)
     connect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageView::onIsChangedTimerTimeout);
+    QObject::connect(m_timer, &QTimer::timeout, this, [ = ]() { //区分单双指定时器
+        if (m_press) {
+            m_press = false;
+            emit clicked();
+            m_timer->stop();
+        }
+    });
 }
 
 ImageView::~ImageView()
@@ -548,7 +556,10 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     m_startpointx = 0;
     m_maxTouchPoints = 0;
     if (dApp->isTablet() && m_press) {
-        emit clicked();
+        //不再直接发送信号，双击时需要过滤单击，只响应单击
+        if (!m_timer->isActive()) {
+            m_timer->start(300);
+        }
     }
 
     //根据移动距离判断是否切图

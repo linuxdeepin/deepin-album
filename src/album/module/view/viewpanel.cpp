@@ -486,8 +486,8 @@ void ViewPanel::onViewBClicked()
             statusBarDbus.setVisible(!statusBarDbus.visible());
             //BUG#82053 end
 
-            emit dApp->signalM->sigMouseMove(m_showorhide);
             m_showorhide = m_showorhide ? false : true;
+            emit dApp->signalM->sigMouseMove(m_showorhide);
         }
     }
 }
@@ -646,9 +646,11 @@ void ViewPanel::toggleFullScreen()
         m_vinfo.fullScreen = false;
         emit dApp->signalM->showBottomToolbar();
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
+        m_showorhide = true;
     } else {
 //        window()->setWindowFlags (Qt::Window);
         showFullScreen();
+        m_showorhide = false;
         m_vinfo.fullScreen = true;
         if (!m_menu->isVisible()  && qApp->modalWindow() != nullptr) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
