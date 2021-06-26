@@ -70,7 +70,7 @@ LeftListView::LeftListView(QWidget *parent)
 void LeftListView::initConnections()
 {
     connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onPhotoLibListViewPressed);
-    connect(m_pCustomizeListView, &DListWidget::clicked, this, &LeftListView::onCustomListViewPressed);
+    connect(m_pCustomizeListView, &DListWidget::pressed, this, &LeftListView::onCustomListViewPressed);
     connect(m_pMountListWidget, &DListWidget::pressed, this, &LeftListView::onMountListViewPressed);
     connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, &LeftListView::onPhotoLibListViewCurrentItemChanged);
     connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, &LeftListView::onCustomizeListViewCurrentItemChanged);
