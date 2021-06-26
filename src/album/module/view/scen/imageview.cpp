@@ -124,6 +124,7 @@ ImageView::ImageView(QWidget *parent)
     connect(m_imgFileWatcher, &QFileSystemWatcher::fileChanged, this, &ImageView::onImgFileChanged);
     m_isChangedTimer = new QTimer(this);
     QObject::connect(m_isChangedTimer, &QTimer::timeout, this, &ImageView::onIsChangedTimerTimeout);
+    m_timer = new QTimer(this);
     QObject::connect(m_timer, &QTimer::timeout, this, [ = ]() { //区分单双指定时器
         if (m_press) {
             m_press = false;
