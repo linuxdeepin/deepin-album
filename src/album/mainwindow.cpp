@@ -1094,7 +1094,12 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
     d->setModal(bmodel);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
+
     ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
+    QTimer::singleShot(200, []() { //平板未知问题，导致虚拟键盘会显示后瞬间消失，暂时这样规避
+        ComDeepinImInterface::instance().setImActive(true);
+    });
+
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         emit dApp->signalM->hideExtensionPanel();
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
@@ -1123,7 +1128,12 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
+
     ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
+    QTimer::singleShot(200, []() { //平板未知问题，导致虚拟键盘会显示后瞬间消失，暂时这样规避
+        ComDeepinImInterface::instance().setImActive(true);
+    });
+
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
         if (nullptr == m_pAlbumview)

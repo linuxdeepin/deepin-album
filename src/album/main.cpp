@@ -205,6 +205,8 @@ int main(int argc, char *argv[])
     Dtk::Widget::moveToCenter(&w);
     w.startMonitor();
 
+    dAppNew->ignoreVirtualKeyboard(&w); //禁止虚拟键盘顶起主界面标题栏
+
     if (bneedexit)
         bfirstopen = false;
 
