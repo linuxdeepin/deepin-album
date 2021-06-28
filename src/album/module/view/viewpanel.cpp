@@ -177,8 +177,12 @@ void ViewPanel::showNormal()
     if (m_isMaximized) {
         window()->showNormal();
         window()->showMaximized();
+        //在平板上切换正常但wayland记录状态还是异常
+//        window()->setWindowState(windowState() | Qt::WindowMaximized);
     } else {
         window()->showNormal();
+        //在平板上切换正常但wayland记录状态还是异常
+//        window()->setWindowState(windowState() | Qt::WindowNoState);
     }
 
     emit dApp->signalM->showTopToolbar();
@@ -198,19 +202,11 @@ void ViewPanel::showFullScreen()
         animation->start(QAbstractAnimation::DeleteWhenStopped);
     }
     window()->showFullScreen();
+    //在平板上切换正常但wayland记录状态还是异常，暂时保留
+//    window()->setWindowState(windowState() | Qt::WindowFullScreen);
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }
-
-//QWidget *ViewPanel::toolbarBottomContent()
-//{
-//    return nullptr;
-//}
-
-//QWidget *ViewPanel::toolbarTopLeftContent()
-//{
-//    return nullptr;
-//}
 
 QWidget *ViewPanel::bottomTopLeftContent()
 {
@@ -257,16 +253,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
     }
     return m_ttbc;
 }
-//QWidget *ViewPanel::toolbarTopMiddleContent()
-//{
-//    QWidget *w = new QWidget();
-//    return w;
-//}
-
-//ImageView *ViewPanel::getImageView()
-//{
-//    return m_viewB;
-//}
 
 void ViewPanel::onDeleteByMenu()
 {
@@ -647,6 +633,11 @@ void ViewPanel::toggleFullScreen()
         emit dApp->signalM->showBottomToolbar();
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
         m_showorhide = true;
+        //退出全屏时，也调用一次让状态栏显示
+        if (dApp->isTablet()) {
+            auto &statusBarDbus = ComDeepinDueStatusbarInterface::instance();
+            statusBarDbus.setVisible(!statusBarDbus.visible());
+        }
     } else {
 //        window()->setWindowFlags (Qt::Window);
         showFullScreen();
