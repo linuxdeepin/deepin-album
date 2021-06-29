@@ -363,8 +363,6 @@ void AlbumView::initConnections()
     connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, &AlbumView::onLeftListViewMountListWidgetClicked);
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
     connect(this, &AlbumView::sigReCalcTimeLineSizeIfNeed, m_pImpTimeLineView, &ImportTimeLineView::sigResizeTimelineBlock);
-    //lmh手机加载图片边加载，边传输信息
-    connect(dApp->signalM, &SignalManager::sigPhonePath, this, &AlbumView::onPhonePath, Qt::QueuedConnection);
 }
 
 void AlbumView::initLeftView()
@@ -2409,46 +2407,6 @@ void AlbumView::onLeftListViewMountListWidgetClicked(const QModelIndex &index)
     m_pRightPhoneThumbnailList->stopLoadAndClear(false);
     m_pLeftListView->setFocus();
     updateRightView();
-}
-
-void AlbumView::onPhonePath(QString PhoneName, QString pathName)
-{
-    if (!m_phoneNameAndPathlist[PhoneName].contains(pathName)) {
-        m_phoneNameAndPathlist[PhoneName] << pathName;
-        emit dApp->signalM->sigDevStop(PhoneName);
-        ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[PhoneName], PhoneName);
-    }
-    QString strPath;
-    if (m_pLeftListView->m_pMountListWidget->currentItem()) {
-        strPath = m_pLeftListView->m_pMountListWidget->currentItem()->data(Qt::UserRole).toString();
-    }
-    //m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
-    if (strPath == PhoneName) {
-        //判断状态栏
-        if (!m_pStatusBar->isVisible()) {
-            m_pStatusBar->setVisible(true);
-
-        }
-        if (RIGHT_VIEW_PHONE != m_pRightStackWidget->currentIndex()) {
-            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
-        }
-        QString str1 = tr("%1 photo(s)");
-        m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
-        QString str = tr("%1 photo(s)");
-        m_pPhonePicTotal->setText(str.arg(QString::number(m_phoneNameAndPathlist[PhoneName].count())));
-        if (m_currentViewPictureCount == m_pRightPhoneThumbnailList->model()->rowCount()) {
-            m_currentViewPictureCount = m_phoneNameAndPathlist[PhoneName].count();
-            if (!m_pRightPhoneThumbnailList->isLoading() && isIgnore) {
-                if (isVisible()) {
-                    emit dApp->signalM->waitDevicescan();
-                }
-                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
-            } else if (!isIgnore) {
-                m_pRightPhoneThumbnailList->loadFilesFromLocal(m_phoneNameAndPathlist[PhoneName], false, false);
-            }
-        }
-        // updateRightMountView();
-    }
 }
 
 void AlbumView::resizeEvent(QResizeEvent *e)
