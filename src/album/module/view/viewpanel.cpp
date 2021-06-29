@@ -467,12 +467,11 @@ void ViewPanel::onViewBClicked()
         if (!window()->isFullScreen()) {
             toggleFullScreen();
         } else {
+            m_showorhide = m_showorhide ? false : true;
             //BUG#82053，隔壁部门要求添加DBUS调用，以实现单指点击循环显示和隐藏状态栏
             auto &statusBarDbus = ComDeepinDueStatusbarInterface::instance();
-            statusBarDbus.setVisible(!statusBarDbus.visible());
+            statusBarDbus.setVisible(m_showorhide);
             //BUG#82053 end
-
-            m_showorhide = m_showorhide ? false : true;
             emit dApp->signalM->sigMouseMove(m_showorhide);
         }
     }
@@ -495,6 +494,11 @@ void ViewPanel::onFIleDelete()
             m_emptyWidget->setThumbnailImage(/*dApp->m_imagemap.value(path)*/data.imgpixmap);
         m_stack->setCurrentIndex(1);
     }
+}
+
+bool ViewPanel::getShowOrHide()
+{
+    return m_showorhide;
 }
 
 bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
@@ -636,7 +640,7 @@ void ViewPanel::toggleFullScreen()
         //退出全屏时，也调用一次让状态栏显示
         if (dApp->isTablet()) {
             auto &statusBarDbus = ComDeepinDueStatusbarInterface::instance();
-            statusBarDbus.setVisible(!statusBarDbus.visible());
+            statusBarDbus.setVisible(true);
         }
     } else {
 //        window()->setWindowFlags (Qt::Window);

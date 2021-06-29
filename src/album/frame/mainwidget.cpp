@@ -26,6 +26,7 @@
 #include "utils/baseutils.h"
 #include "widgets/dialogs/imginfodialog.h"
 #include "ac-desktop-define.h"
+#include "controller/comdeepinduestatusbarinterface.h"
 
 #include <QFileSystemWatcher>
 #include <QLabel>
@@ -121,6 +122,13 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 void MainWidget::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
+    //平板上因为m_bottomToolbar需要保持多任务视图前的状态，所以不移动。
+    //同时需要同步状态栏的显示状态
+    if (dApp->isTablet()) {
+        auto &statusBarDbus = ComDeepinDueStatusbarInterface::instance();
+        statusBarDbus.setVisible(m_viewPanel->getShowOrHide());
+        return;
+    }
     if (m_bottomToolbar) {
         if (window()->isFullScreen()) {
             emit dApp->signalM->sigShowFullScreen();

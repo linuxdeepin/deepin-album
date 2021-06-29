@@ -100,6 +100,7 @@ public slots:
     void onViewBClicked();
     void onViewBImageChanged(QString path);
     void onFIleDelete();
+    bool getShowOrHide();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
