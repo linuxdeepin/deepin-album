@@ -796,7 +796,6 @@ void ViewPanel::rotateImage(bool clockWise)
     } else {
         m_viewB->rotateCounterclockwise();
     }
-    m_viewB->autoFit();
 }
 
 void ViewPanel::initViewContent()

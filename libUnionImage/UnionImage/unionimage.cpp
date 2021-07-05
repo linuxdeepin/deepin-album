@@ -998,45 +998,41 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         erroMsg = "unsupported angel";
         return false;
     }
-    QImage image_copy;
-    if (img.isNull()) return false;
-    else image_copy = img;
-
     QString format = detectImageFormat(path);
     if (format == "SVG") {
+        QImage image_copy;
+        if (!loadStaticImageFromFile(path, image_copy, erroMsg)) {
+            erroMsg = "rotate load QImage faild, path:" + path + "  ,format:+" + format;
+            return false;
+        }
+        QImage svgImage(path);
+        QMatrix matrix;
+        matrix.rotate(angel);
+        svgImage = svgImage.transformed(QTransform(matrix));
         QSvgGenerator generator;
         generator.setFileName(path);
-        generator.setViewBox(QRect(0, 0, image_copy.width(), image_copy.height()));
+        generator.setViewBox(svgImage.rect());
         QPainter rotatePainter;
         rotatePainter.begin(&generator);
-        rotatePainter.resetTransform();
-        rotatePainter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-        int realangel = angel / 90;
-        if (realangel > 0) {
-            for (int i = 0; i < qAbs(realangel); i++) {
-                rotatePainter.translate(image_copy.width(), 0);
-                rotatePainter.rotate(90 * (realangel / qAbs(realangel)));
-            }
-        } else {
-            for (int i = 0; i < qAbs(realangel); i++) {
-                rotatePainter.translate(0, image_copy.height());
-                rotatePainter.rotate(90 * (realangel / qAbs(realangel)));
-            }
-        }
-        rotatePainter.drawImage(image_copy.rect(), image_copy.scaled(image_copy.width(), image_copy.height()));
-        rotatePainter.resetTransform();
-        generator.setSize(QSize(image_copy.width(), image_copy.height()));
+        rotatePainter.drawImage(svgImage.rect(), svgImage);
         rotatePainter.end();
+        img = svgImage;
         return true;
-    } else if (format == "JPG" || format == "JPEG") {
-        QImage image_copy(path, "JPG");
+    } else if (union_image_private.m_qtrotate.contains(format)) {
+        QImage image_copy(path);
         if (!image_copy.isNull()) {
-            QPainter rotatePainter(&image_copy);
-            rotatePainter.rotate(angel);
-            rotatePainter.end();
-            image_copy.save(path, "jpg", SAVE_QUAITY_VALUE);
-            return true;
+            QMatrix rotatematrix;
+            rotatematrix.rotate(angel);
+            image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
+            if (image_copy.save(path, format.toLatin1().data(), SAVE_QUAITY_VALUE)) {
+                img = image_copy;
+                return true;
+            } else {
+                return false;
+            }
         }
+        erroMsg = "rotate by qt failed";
+        return false;
     }
     FIBITMAP *dib = readFile2FIBITMAP(path);
     if (nullptr == dib) {
@@ -1065,13 +1061,15 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         FreeImage_Unload(rotateRes);
         return false;
     }
-    img = FIBitmap2QImage(rotateRes);
     if (!writeFIBITMAPToFile(rotateRes, path, f)) {
         erroMsg = "rotate image save faild, unkown format";
         FreeImage_Unload(dib);
         FreeImage_Unload(rotateRes);
         return false;
     }
+
+    img = FIBitmap2QImage(rotateRes);
+
     FreeImage_Unload(dib);
     FreeImage_Unload(rotateRes);
     erroMsg = "";

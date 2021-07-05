@@ -83,38 +83,39 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 }
 
 
-void ImageLoader::updateImageLoader(QStringList pathlist)
+void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QImage> &images)
 {
-
-    for (QString path : pathlist) {
+    for (int i = 0; i != pathlist.size(); ++i) {
         QImage tImg;
-        QString errMsg;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-//            qDebug()  << errMsg;
-            continue;
+        if (images.isEmpty() || images.size() < i || images.at(i).isNull()) {
+            QString errMsg;
+            if (!UnionImage_NameSpace::loadStaticImageFromFile(pathlist.at(i), tImg, errMsg)) {
+                qDebug()  << errMsg;
+                continue;
+            }
+        } else {
+            tImg = images.at(i);
         }
 
         //修改：将QPixmap的变形操作放在QImage里完成
         if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-            if (tImg.height() != 100 && tImg.width() != 100) {
+            if (tImg.height() != 140 && tImg.width() != 140) {
                 if (tImg.height() >= tImg.width()) {
-                    tImg = tImg.scaledToWidth(100,  Qt::FastTransformation);
+                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
                 } else if (tImg.height() <= tImg.width()) {
-                    tImg = tImg.scaledToHeight(100,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
                 }
             }
         }
-        QString spath = CACHE_PATH + path;
+        QString spath = CACHE_PATH + pathlist.at(i);
         utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
         tImg.save(spath, "PNG");
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (!ImageEngineApi::instance()->updateImageDataPixmap(path, pixmap)) {
-            continue;
-        }
+        ImageEngineApi::instance()->updateImageDataPixmap(pathlist.at(i), pixmap);
     }
+
     emit dApp->signalM->sigUpdateImageLoader(pathlist);
-    // m_parent->m_imagemap[path] = pixmap;
 }
 
 DApplication *Application::dAppNew = nullptr;

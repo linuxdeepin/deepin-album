@@ -147,7 +147,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
  * @return bool
  * @author DJH
  * 旋转图片文件，旋转成功返回true，失败返回false
- * 旋转成功会同时旋转img
+ * 旋转成功会同时将数据写入img，注意：旋转依据是path，不是img
  * 图片为空则不会旋转返回失败,失败时会将错误信息写入erroMsg
  */
 UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, const QString &path, QString &erroMsg);
