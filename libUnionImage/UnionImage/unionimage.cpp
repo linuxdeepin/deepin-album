@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
  *
  * Author:     ZhangYong <zhangyong@uniontech.com>
@@ -172,7 +172,14 @@ public:
                   << "SVG" << "TGA" << "XPM" << "ICO" << "J2C"
                   << "J2K" << "JNG" << "JP2" ;
 
-        m_qtrotate << "ICNS" << "JPG" << "JPEG";
+        /*
+         * 修改：
+         * PNG保存速度Qt是FreeImage的7倍
+         * FreeImage旋转BMP会导致后续读图失败
+         * PGM保存速度Qt略快于FreeImage
+         * PBM保存速度Qt是FreeImage的20倍，且FreeImage旋转后会反色
+        */
+        m_qtrotate << "ICNS" << "JPG" << "JPEG" << "PNG" << "BMP" << "PGM" << "PBM";
     }
     ~UnionImage_Private()
     {
