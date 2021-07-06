@@ -229,8 +229,9 @@ private:
 
 };
 
-class ImageCacheQueuePopThread : public QRunnable
+class ImageCacheQueuePopThread : public QThread
 {
+    Q_OBJECT
 public:
     ImageCacheQueuePopThread();
     ~ImageCacheQueuePopThread() override;

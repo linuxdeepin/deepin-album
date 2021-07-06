@@ -493,24 +493,21 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         if (files.empty()) {
             needCoreCounts = 0;
         } else {
-#ifdef NOGLOABL
-            needCoreCounts = (files.size() / 100) + 1 - cacheThreadPool.activeThreadCount();
-#else
-            needCoreCounts = (files.size() / 100) + 1 - QThreadPool::globalInstance()->activeThreadCount();
-#endif
+            needCoreCounts = (files.size() / 100) + 1;
         }
     }
     if (needCoreCounts < 1)
         needCoreCounts = 1;
+    QList<QThread *> threads;
     for (int i = 0; i < needCoreCounts; i++) {
         ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
         thread->setObject(m_imageCacheSaveobj);
-#ifdef NOGLOBAL
-        cacheThreadPool.start(thread);
-#else
-        QThreadPool::globalInstance()->start(thread);
-#endif
-        qDebug() << "current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
+        thread->start();
+        threads.append(thread);
+    }
+    for (auto thread : threads) {
+        thread->wait();
+        thread->deleteLater();
     }
     return true;
 }
