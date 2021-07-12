@@ -91,6 +91,13 @@ CommandLine::CommandLine()
 
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+    m_layout = new QHBoxLayout(this);
+    m_layout->setContentsMargins(0, 0, 0, 0);
+    setLayout(m_layout);
+
+    m_mainWidget = new MainWidget(false, this);
+    m_mainWidget->setObjectName("MainWidget");
+    m_layout->addWidget(m_mainWidget);
 }
 
 CommandLine::~CommandLine()
@@ -128,23 +135,6 @@ void CommandLine::setThreads(ImageEngineImportObject *obj)
 
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
-//    ViewMainWindow *w = new ViewMainWindow(false);
-    QHBoxLayout *m_layout = new QHBoxLayout(this);
-    m_layout->setContentsMargins(0, 0, 0, 0);
-    MainWidget *m_mainWidget = new MainWidget(false, this);
-    m_mainWidget->setObjectName("MainWidget");
-    m_layout->addWidget(m_mainWidget);
-    if (this->layout()) {
-        this->layout()->deleteLater();
-    }
-    setLayout(m_layout);
-//    w->setWindowRadius(18);
-//    w->setBorderWidth(0);
-//    w->show();
-
-    // Load image after all UI elements has been init
-    // BottomToolbar pos not correct on init
-//    emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
     if (paths.count() == 1) {
         using namespace UnionImage_NameSpace;

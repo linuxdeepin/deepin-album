@@ -26,8 +26,10 @@
 #include <QObject>
 #include <QCommandLineParser>
 #include <QWidget>
+#include <QHBoxLayout>
 
 struct CMOption;
+class MainWidget;
 class CommandLine : public QWidget
 {
     Q_OBJECT
@@ -53,6 +55,8 @@ private:
     static CommandLine *m_commandLine;
     QCommandLineParser m_cmdParser;
     ImageEngineImportObject *m_obj;
+    QHBoxLayout *m_layout = nullptr;
+    MainWidget *m_mainWidget = nullptr;
 };
 
 #endif // COMMANDLINE_H
