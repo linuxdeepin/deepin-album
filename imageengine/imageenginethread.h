@@ -224,8 +224,9 @@ private:
     int m_degree;
 };
 
-class ImageCacheQueuePopThread : public QRunnable
+class ImageCacheQueuePopThread : public QThread
 {
+    Q_OBJECT
 public:
     ImageCacheQueuePopThread();
     void setObject(ImageCacheSaveObject *obj)

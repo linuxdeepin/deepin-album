@@ -1076,7 +1076,7 @@ void ImageSVGConvertThread::run()
 
 ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 {
-    setAutoDelete(true);
+
 }
 
 void ImageCacheQueuePopThread::saveCache(QString m_path)
