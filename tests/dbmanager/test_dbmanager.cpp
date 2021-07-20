@@ -115,3 +115,16 @@ TEST(DBandImgOperate, DBImgOper)
 
     delete db;//用完记得清理掉
 }
+
+TEST(DBandImgOperate, ChangeTimeCheck)
+{
+    TEST_CASE_NAME("ChangeTimeCheck")
+    QSqlDatabase db = DBManager::instance()->getDatabase();
+    // 判断ImageTable3中是否有ChangeTime字段
+    QString strSqlImage = QString::fromLocal8Bit("select sql from sqlite_master where name = \"ImageTable3\" and sql like \"%ChangeTime%\"");
+    QSqlQuery queryImage1(db);
+    bool q = queryImage1.exec(strSqlImage);
+    bool check = false;
+    check = (q && queryImage1.next());
+    QCOMPARE(check, true);
+}
