@@ -21,6 +21,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
+#include <QSqlQuery>
+
 #include "application.h"
 #include "dbmanager.h"
 #include "DBandImgOperate.h"
