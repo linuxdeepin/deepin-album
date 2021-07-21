@@ -991,13 +991,6 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 
 void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
-    if (QApplication::keyboardModifiers() != Qt::ControlModifier && e->button() == Qt::LeftButton) {
-        for (int i = 0; i < m_allThumbnailListView.length(); i++) {
-            m_allThumbnailListView[i]->clearSelection();
-        }
-        updatePicNum();
-        updateChoseText();
-    }
     DWidget::mousePressEvent(e);
 }
 
