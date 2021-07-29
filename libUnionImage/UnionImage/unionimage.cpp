@@ -625,29 +625,29 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
-        if (!reader.canRead() || reader.imageCount() < 1)
-            return false;
-        res_qt = reader.read();
-        if (res_qt.isNull()) {
-            //try old loading method
-            QString format = PrivateDetectImageFormat(path);
-            QImageReader readerF(path, format.toLatin1());
-            QImage try_res;
-            readerF.setAutoTransform(true);
-            if (readerF.canRead() && readerF.imageCount() > 0) {
-                try_res = readerF.read();
-            } else {
-                errorMsg = "can't read image:" + readerF.errorString() + format;
-                try_res = QImage();
+        if (reader.imageCount() > 0 || file_suffix_upper != "ICNS") {
+            res_qt = reader.read();
+            if (res_qt.isNull()) {
+                //try old loading method
+                QString format = PrivateDetectImageFormat(path);
+                QImageReader readerF(path, format.toLatin1());
+                QImage try_res;
+                readerF.setAutoTransform(true);
+                if (readerF.canRead() && readerF.imageCount() > 0) {
+                    try_res = readerF.read();
+                } else {
+                    errorMsg = "can't read image:" + readerF.errorString() + format;
+                    try_res = QImage();
+                }
+                if (try_res.isNull()) {
+                    errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
+                    res = QImage();
+                    return false;
+                }
+                errorMsg = "use old method to load QImage";
+                res = try_res;
+                return true;
             }
-            if (try_res.isNull()) {
-                errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
-                res = QImage();
-                return false;
-            }
-            errorMsg = "use old method to load QImage";
-            res = try_res;
-            return true;
         }
         errorMsg = "use QImage";
         res = res_qt;
