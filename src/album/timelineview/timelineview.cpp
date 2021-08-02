@@ -636,9 +636,11 @@ void TimeLineView::addTimelineLayout()
     connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
         lastRow = -1;
         if (event->button() == Qt::LeftButton) {
-            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
-                if (pThumbnailListView != m_allThumbnailListView[j]) {
-                    m_allThumbnailListView[j]->clearSelection();
+            if (!dApp->isTablet()) {
+                for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                    if (pThumbnailListView != m_allThumbnailListView[j]) {
+                        m_allThumbnailListView[j]->clearSelection();
+                    }
                 }
             }
             m_ctrlPress = false;
@@ -723,10 +725,12 @@ void TimeLineView::addTimelineLayout()
     });
 
     connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ]() {
-        if (!m_ctrlPress) {
-            for (int j = 0; j < m_allThumbnailListView.length(); j++) {
-                if (pThumbnailListView != m_allThumbnailListView[j]) {
-                    m_allThumbnailListView[j]->clearSelection();
+        if (!dApp->isTablet()) {
+            if (!m_ctrlPress) {
+                for (int j = 0; j < m_allThumbnailListView.length(); j++) {
+                    if (pThumbnailListView != m_allThumbnailListView[j]) {
+                        m_allThumbnailListView[j]->clearSelection();
+                    }
                 }
             }
         }
