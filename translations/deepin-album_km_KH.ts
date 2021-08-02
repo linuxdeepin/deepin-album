@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">ចំណូលចិត្ត</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">បង្វិលច្រាសទ្រនិចនាឡិកា</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">បង្វិលតាមទ្រនិចនាឡិកា</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

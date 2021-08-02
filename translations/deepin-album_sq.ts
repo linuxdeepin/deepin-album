@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Vëre si të parapëlqyer</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rrotulloje në kahun anti-orar</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rrotulloje në kahun orar</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

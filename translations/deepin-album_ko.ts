@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">즐겨찾기</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">시계 반대 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">시계 방향으로 회전</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

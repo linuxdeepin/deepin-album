@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Kegemaran</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Putar lawan jam</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Putar ikut jam</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

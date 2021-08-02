@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Sined</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Treiñ en tu enep eus an horolaj</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Treiñ er memes tu hag an horolaj</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

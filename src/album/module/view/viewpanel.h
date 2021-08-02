@@ -167,11 +167,11 @@ private:
 
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;
-    ImageView *m_viewB;
+    ImageView *m_viewB = nullptr;
     ThumbnailWidget *m_emptyWidget = nullptr;
-    QMenu *m_menu;
-    QStackedWidget *m_stack;
-    LockWidget *m_lockWidget;
+    QMenu *m_menu = nullptr;
+    QStackedWidget *m_stack = nullptr;
+    LockWidget *m_lockWidget = nullptr;
 
     // Floating component
     DAnchors<NavigationWidget> m_nav;
@@ -187,7 +187,7 @@ private:
     QStringList m_filepathlist;
     QString m_currentpath = "";
     //------------------
-    QTimer *m_deletetimer;  //删除图片定时器
+    QTimer *m_deletetimer = nullptr;  //删除图片定时器
     bool   m_bFirstFullScreen;  //是否全屏进入
 
     //平板需求，工具栏显隐控制

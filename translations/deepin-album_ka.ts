@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">ფავორიტი</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">საათის ისრის საწინააღმდეგო მიმართულებით დაბრუნება</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">საათის ისრის მიმართულებით დაბრუნება</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

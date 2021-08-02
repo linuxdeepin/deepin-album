@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">བསྡུ་ཉར།</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">གཡོན་སྐོར་བརྒྱབ།</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">གཡས་སྐོར་བརྒྱབ།</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

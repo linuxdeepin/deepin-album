@@ -334,6 +334,7 @@ void BatchOperateWidget::initUI()
     m_ToolButton->setVisible(true);
     //收藏
     m_collection = new DToolButton(this);
+    m_collection->setToolTip(QObject::tr("Favorite"));
     m_collection->setIconSize(QSize(36, 36));
     m_collection->setFixedSize(36, 36);
     m_collection->setCheckable(false);
@@ -341,6 +342,7 @@ void BatchOperateWidget::initUI()
     m_collection->setVisible(false);
     //左旋转
     m_leftRotate = new DToolButton(this);
+    m_leftRotate->setToolTip(QObject::tr("Rotate counterclockwise"));
     m_leftRotate->setIcon(QIcon::fromTheme("dcc_left"));
     m_leftRotate->setIconSize(QSize(36, 36));
     m_leftRotate->setFixedSize(36, 36);
@@ -349,6 +351,7 @@ void BatchOperateWidget::initUI()
     m_leftRotate->setVisible(false);
     //右旋转
     m_rightRotate = new DToolButton(this);
+    m_rightRotate->setToolTip(QObject::tr("Rotate clockwise"));
     m_rightRotate->setIcon(QIcon::fromTheme("dcc_right"));
     m_rightRotate->setIconSize(QSize(36, 36));
     m_rightRotate->setFixedSize(36, 36);
@@ -357,6 +360,7 @@ void BatchOperateWidget::initUI()
     m_rightRotate->setVisible(false);
     //删除
     m_delete = new DToolButton(this);
+    m_delete->setToolTip(QObject::tr("Delete"));
     m_delete->setIcon(QIcon::fromTheme("dcc_delete"));
     m_delete->setIconSize(QSize(36, 36));
     m_delete->setFixedSize(36, 36);

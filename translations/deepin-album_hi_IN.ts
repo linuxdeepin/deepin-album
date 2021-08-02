@@ -874,6 +874,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">पसंदीदा</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">घड़ी की सुई की दिशा में घुमाए</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

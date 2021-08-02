@@ -858,6 +858,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favorit</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rotirajte u smjeru kazaljka na satu</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
