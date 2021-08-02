@@ -46,9 +46,12 @@
 #include <DStackedWidget>
 #include <DSlider>
 #include <DSpinner>
+#include <DCommandLinkButton>
 
 DWIDGET_USE_NAMESPACE
 
+class NoResultWidget;
+class BatchOperateWidget;
 class AllPicView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT
@@ -68,6 +71,8 @@ public:
 
 private:
     void initConnections();
+    //初始化悬浮框
+    void initSuspensionWidget();
     void initStackedWidget();
     void updatePicsIntoThumbnailView();
     void onUpdateAllpicsNumLabel();
@@ -80,32 +85,45 @@ private:
     void resizeEvent(QResizeEvent *e) override;
 
 public slots:
+    //筛选显示，当先列表中内容为无结果
+    void slotNoPicOrNoVideo(bool isNoResult);
     void updateStackedWidget();
     // 监控到新文件
     void monitorHaveNewFile(QStringList list);
 
 private slots:
+    //所有照片
+
     void updatePicsIntoThumbnailViewWithCache();
     void onFinishLoad();
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
-    void onOpenImage(int index);
-    void onMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    //打开图片
+    void onOpenImage(int row, const QString &path, bool bFullScreen);
+    //幻灯片播放
+    void onSlideShow(const QString &path);
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
+    //图片刷新后更新
+    void onImgRemoved(const DBImgInfoList &infos);
 
 public:
-    DStackedWidget *m_pStackedWidget;
-    StatusBar *m_pStatusBar;
-    QWidget *m_pwidget;
-    ImportView *m_pImportView;
+    DStackedWidget *m_pStackedWidget = nullptr;
+    StatusBar *m_pStatusBar = nullptr;
+    QWidget *m_pwidget = nullptr;
+    ImportView *m_pImportView = nullptr;
     int step;
+    const static int SUSPENSION_WIDGET_HEIGHT = 40;//悬浮控件高度
 
 private:
-    ThumbnailListView *m_pThumbnailListView;
-    SearchView *m_pSearchView;
+    ThumbnailListView *m_pThumbnailListView = nullptr;
+    NoResultWidget *m_noResultWidget = nullptr;
+    SearchView *m_pSearchView = nullptr;
 //    DSpinner *m_spinner;暂时废弃控件
-    DWidget *fatherwidget;
-
+    DWidget *fatherwidget = nullptr;
+    //悬浮时间栏控件
+    QWidget *m_SuspensionWidget = nullptr;
+    BatchOperateWidget *m_batchOperateWidget = nullptr;
+    DCommandLinkButton *m_suspensionChose = nullptr;
 public:
     ThumbnailListView *getThumbnailListView();
     /**

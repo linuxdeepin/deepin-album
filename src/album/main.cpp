@@ -25,7 +25,6 @@
 
 #include "application.h"
 #include "mainwindow.h"
-#include "dtktest.h"
 #include "imageengine/imageengineapi.h"
 #include "accessibledefine.h"
 #include "accessible.h"
@@ -39,6 +38,7 @@
 #include <QMessageBox>
 #include <QStandardPaths>
 #include <QSettings>
+#include <QThread>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -201,6 +201,8 @@ int main(int argc, char *argv[])
 
     DBManager::instance();
     ImageEngineApi::instance(dAppNew);
+    // 加载第一屏图片
+    qDebug() << "------" << __FUNCTION__ << "" << QThread::currentThreadId();
     ImageEngineApi::instance()->loadFirstPageThumbnails(number);
     auto &w = MainWindow::instance(); //修改为从单例获取
 
@@ -208,6 +210,10 @@ int main(int argc, char *argv[])
     w.show();
     Dtk::Widget::moveToCenter(&w);
     w.startMonitor();
+
+#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 5, 0, 0))
+    dAppNew->ignoreVirtualKeyboard(&w); //禁止虚拟键盘顶起主界面标题栏（DTK5.5有效）
+#endif
 
     if (bneedexit)
         bfirstopen = false;

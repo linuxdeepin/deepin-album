@@ -696,43 +696,45 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
     QImage tImg;
     QString errMsg;
     UnionImage_NameSpace::loadStaticImageFromFile(imageName1_bar, tImg, errMsg);
-    QPixmap p1 = QPixmap::fromImage(tImg);
-    int beginX = 0, beginY = 0;
+
     // 多屏显示问题，定位当前屏幕
+    // 修改：将QPixmap的变形操作放在QImage里完成
+
+    //屏幕ID
     int screenId = dApp->getDAppNew()->desktop()->screenNumber(q_ptr);
-    if (p1.width() >= p1.height()) {
-        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
-        QPainter pa1(&m_pixmap1);
-        m_pixmap1.fill(QColor("#252525"));
-        p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
-        if (p1.height() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height()) {
-            p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height());
+
+    //变形
+    if (tImg.width() > tImg.height()) {
+        tImg = tImg.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
+        if (tImg.height() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height()) {
+            tImg = tImg.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height());
         }
-        // 多屏显示去除x偏移
-        centrePoint = q_ptr->getCurScreenGeometry().center();
-        beginX = centrePoint.x() - p1.width() / 2;
-        beginX = beginX > 0 ? beginX : 0;
-        beginY = centrePoint.y() - p1.height() / 2;
-        beginY = beginY > 0 ? beginY : 0;
-        pa1.drawPixmap(beginX, beginY, p1);
-        pa1.end();
     } else {
-        m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
-        QPainter pa1(&m_pixmap1);
-        m_pixmap1.fill(QColor("#252525"));
-        p1 = p1.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height() + 8);
-        if (p1.width() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width()) {
-            p1 = p1.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
+        tImg = tImg.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height() + 8);
+        if (tImg.width() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width()) {
+            tImg = tImg.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
         }
-        // 多屏显示去除x偏移
-        centrePoint = q_ptr->getCurScreenGeometry().center();
-        beginX = centrePoint.x() - p1.width() / 2;
-        beginX = beginX > 0 ? beginX : 0;
-        beginY = centrePoint.y() - p1.height() / 2;
-        beginY = beginY > 0 ? beginY : 0;
-        pa1.drawPixmap(beginX, beginY, p1);
-        pa1.end();
     }
+
+    //绘制坐标
+    int beginX = 0;
+    int beginY = 0;
+
+    // 多屏显示去除x偏移
+    centrePoint = q_ptr->getCurScreenGeometry().center();
+    beginX = centrePoint.x() - tImg.width() / 2;
+    beginX = beginX > 0 ? beginX : 0;
+    beginY = centrePoint.y() - tImg.height() / 2;
+    beginY = beginY > 0 ? beginY : 0;
+
+    //绘制
+    m_pixmap1 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
+    QPainter pa1(&m_pixmap1);
+    m_pixmap1.fill(QColor("#252525"));
+    QPixmap p1 = QPixmap::fromImage(tImg);
+    pa1.drawPixmap(beginX, beginY, p1);
+    pa1.end();
+
 }
 
 void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
@@ -742,42 +744,38 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
     QImage tImg;
     QString errMsg;
     UnionImage_NameSpace::loadStaticImageFromFile(imageName2_bar, tImg, errMsg);
-    QPixmap p2 = QPixmap::fromImage(tImg);
+
+    // 修改：将QPixmap的变形操作放在QImage里完成
     // 双屏下或者多屏下
     int screenId = dApp->getDAppNew()->desktop()->screenNumber(q_ptr);
-    if (p2.width() >= p2.height()) {
-        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
-        QPainter pa2(&m_pixmap2);
-        m_pixmap2.fill(QColor("#252525"));
-        p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
-        if (p2.height() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height()) {
-            p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height());
+
+    //变形
+    if (tImg.width() >= tImg.height()) {
+        tImg = tImg.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
+        if (tImg.height() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height()) {
+            tImg = tImg.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height());
         }
-        // 多屏显示下，要去除x偏移
-        centrePoint = q_ptr->getCurScreenGeometry().center();
-        beginX = centrePoint.x() - p2.width() / 2;
-        beginX = beginX > 0 ? beginX : 0;
-        beginY = centrePoint.y() - p2.height() / 2;
-        beginY = beginY > 0 ? beginY : 0;
-        pa2.drawPixmap(beginX, beginY, p2);
-        pa2.end();
     } else {
-        m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
-        QPainter pa2(&m_pixmap2);
-        m_pixmap2.fill(QColor("#252525"));
-        p2 = p2.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height() + 8);
-        if (p2.width() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width()) {
-            p2 = p2.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
+        tImg = tImg.scaledToHeight(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().height() + 8);
+        if (tImg.width() > dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width()) {
+            tImg = tImg.scaledToWidth(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size().width());
         }
-        // 多屏显示下，要去除x偏移
-        centrePoint = q_ptr->getCurScreenGeometry().center();
-        beginX = centrePoint.x() - p2.width() / 2;
-        beginX = beginX > 0 ? beginX : 0;
-        beginY = centrePoint.y() - p2.height() / 2;
-        beginY = beginY > 0 ? beginY : 0;
-        pa2.drawPixmap(beginX, beginY, p2);
-        pa2.end();
     }
+
+    // 多屏显示下，要去除x偏移
+    centrePoint = q_ptr->getCurScreenGeometry().center();
+    beginX = centrePoint.x() - tImg.width() / 2;
+    beginX = beginX > 0 ? beginX : 0;
+    beginY = centrePoint.y() - tImg.height() / 2;
+    beginY = beginY > 0 ? beginY : 0;
+
+    //绘制
+    m_pixmap2 = QPixmap(dApp->getDAppNew()->desktop()->screenGeometry(screenId).size());
+    QPainter pa2(&m_pixmap2);
+    m_pixmap2.fill(QColor("#252525"));
+    QPixmap p2 = QPixmap::fromImage(tImg);
+    pa2.drawPixmap(beginX, beginY, p2);
+    pa2.end();
 }
 
 /**

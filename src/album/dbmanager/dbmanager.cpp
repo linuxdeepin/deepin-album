@@ -273,6 +273,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
 
 void DBManager::removeImgInfos(const QStringList &paths)
 {
+    qDebug() << "------" << __FUNCTION__ << "---size = " << paths.size();
     if (paths.isEmpty()) {
         return;
     }
@@ -281,7 +282,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
     QStringList pathHashs;
     for (QString path : paths) {
         pathHashs << utils::base::hash(path);
-        infos = getImgInfos("FilePath", path, false);
+        infos.append(getImgInfos("FilePath", path, false));
     }
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -328,8 +329,10 @@ void DBManager::removeImgInfos(const QStringList &paths)
         db.close();
         mutex.unlock();
         emit dApp->signalM->imagesRemoved();
+        qDebug() << "------" << __FUNCTION__ << "size = " << infos.size();
         emit dApp->signalM->imagesRemovedPar(infos);
     }
+//    qDebug() << "------" << __FUNCTION__ << "" << QThread::currentThreadId();
 }
 
 void DBManager::removeImgInfosNoSignal(const QStringList &paths)

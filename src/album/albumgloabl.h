@@ -36,6 +36,16 @@
 #include <QMouseEvent>
 #include <QPointer>
 
+enum ItemInfoType {
+    ItemTypeNull = 1,
+    ItemTypeBlank,         //空白项，列表上方，悬浮控件下方高度
+    ItemTypePic,
+    ItemTypeVideo,
+    ItemTypeTimeLineTitle, //时间线标题
+    ItemTypeImportTimeLineTitle, //已导入时间线标题
+    ItemTypeMountImg //设备图片
+};
+
 struct ItemInfo {
     QString name = "";
     QString path = "";
@@ -43,8 +53,14 @@ struct ItemInfo {
     int imgHeight = 0;
     QString remainDays = "30天";
     bool isSelected;
+    ItemInfoType itemType = ItemTypePic;//类型，空白，图片，视频
     QPixmap image = QPixmap();
+    QPixmap damagedPixmap = QPixmap();
     bool bNotSupportedOrDamaged = false;
+    bool bNeedDelete = false;//删除时间线与已导入标题时使用
+
+    QString date;
+    QString num;
 
 
     friend bool operator== (const ItemInfo &left, const ItemInfo &right)
@@ -53,6 +69,12 @@ struct ItemInfo {
             return true;
         return false;
     }
+};
+
+enum OpenImgViewType {
+    VIEW_MAINWINDOW_ALLPIC = 0,
+    VIEW_MAINWINDOW_TIMELINE = 1,
+    VIEW_MAINWINDOW_ALBUM = 2 //
 };
 
 Q_DECLARE_METATYPE(ItemInfo)

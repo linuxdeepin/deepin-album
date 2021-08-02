@@ -68,24 +68,6 @@ DCORE_USE_NAMESPACE
 
 class DGioVolumeManager;
 class AlbumView;
-
-/*相册界面右边展示界面类*/
-class AlbumViewListWidget : public DListWidget
-{
-    Q_OBJECT
-public:
-    explicit AlbumViewListWidget(QWidget *parent = nullptr);
-protected:
-    void paintEvent(QPaintEvent *e) override;
-
-signals:
-public slots:
-    void on_rangeChanged(int min, int max);
-private:
-    int m_scrollbartopdistance;
-    int m_scrollbarbottomdistance;
-};
-
 class AlbumView : public QWidget, public ImageEngineImportObject, public ImageMountGetPathsObject, public ImageMountImportPathsObject
 {
     Q_OBJECT
@@ -130,19 +112,35 @@ private:
     void initConnections();
     void initLeftView();
     void initRightView();
-    void updateRightNoTrashView();
+    //初始化最近删除
+    void initTrashWidget();
+    //初始化自定义相册列表
+    void initCustomAlbumWidget();
+    //初始化收藏列表
+    void initFavoriteWidget();
+    //初始化设备列表
+    void initPhoneWidget();
+
+    void updateRightCustomAlbumView();
     void updateRightTrashView();
     void updateRightImportView();
     void updateRightMyFavoriteView();
     void updateRightMountView();
-    void openImage(int index);
-    void menuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    //打开图片
+    void onOpenImageFav(int row, const QString &path, bool bFullScreen);
+    //打开图片
+    void onOpenImageCustom(int row, const QString &path, bool bFullScreen);
+    //幻灯片播放
+    void onSlideShowFav(const QString &path);
+    //幻灯片播放
+    void onSlideShowCustom(const QString &path);
 
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
+    void showEvent(QShowEvent *e) override;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
     void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
@@ -163,12 +161,9 @@ private:
 signals:
     void sigSearchEditIsDisplay(bool bIsDisp);
     void sigLoadMountImagesStart(QString mountName, QString path);
-    void sigReCalcTimeLineSizeIfNeed();
 
 private slots:
     void onTrashRecoveryBtnClicked();
-    void onTrashDeleteBtnClicked();
-    void onTrashListClicked();
     void onUpdataAlbumRightTitle(const QString &titlename);
     void onUnMountSignal(const QString &unMountPath);          //手动卸载设备
     void onCreateNewAlbumFromDialog(const QString &newalbumname);
@@ -182,9 +177,6 @@ private slots:
     void onWaitDialogIgnore();
     // change lambda to normal slt
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
-    void onRightFavoriteThumbnailListNeedResize(int h);
-    void onRightTrashThumbnailListNeedResize(int h);
-    void onRightThumbnailListNeedResize(int h);
     void ongMouseMove();
     void onSelectAll();
     void onInsertedIntoAlbum(const QString &albumname, QStringList pathlist);
@@ -199,7 +191,11 @@ private slots:
     void onUpdateFavoriteNum();
     void onWaitDailogTimeout();
     void onLeftListViewMountListWidgetClicked(const QModelIndex &index);
-    void onMoveScroll(QAbstractScrollArea *obj, int distence);
+
+    //接收到设备中文件列表加载完成信号
+    void sltLoadMountFileList(const QString &path, QStringList fileList);
+    //筛选显示，当先列表中内容为无结果
+    void slotNoPicOrNoVideo(bool isNoResult);
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
@@ -213,34 +209,42 @@ public:
     StatusBar *m_pStatusBar;
     DWidget *m_pRightWidget;
 
-    ThumbnailListView *m_pRightPhoneThumbnailList;
+    ThumbnailListView *m_pRightPhoneThumbnailList;       //设备相关列表
     QMap<QString, QStringList> m_phoneNameAndPathlist;
     //LMH0424
     QStringList m_pictrueallPathlist;
 
     DWidget *m_pwidget;
 
-    ThumbnailListView *m_pRightThumbnailList;               //自定义
+    ThumbnailListView *m_customThumbnailList = nullptr;               //自定义
     ThumbnailListView *m_pRightTrashThumbnailList;          //最近删除
-    ThumbnailListView *m_pRightFavoriteThumbnailList;       //我的收藏
+    ThumbnailListView *m_favoriteThumbnailList = nullptr;       //我的收藏
 
     DWidget *pImportTimeLineWidget;
-    DWidget *m_pTrashWidget;                                //最近删除外层界面
-    DWidget *m_pFavoriteWidget;
     Waitdevicedialog *m_waitDeviceScandialog;
     ImportView *m_pImportView;
     // 已导入窗体
     ImportTimeLineView *m_pImpTimeLineView;
 
+    const static int custom_title_height = 60;
+    const static int favorite_title_height = 60;
+    const static int trash_title_height = 60;
+    const static int magin_offset = 20;//标题不居中偏移
 private:
-    DPushButton *m_pRecoveryBtn;
-    DPushButton *m_pDeleteBtn;
     //自定义相册标题
-    DLabel *m_pRightTitle;
-    DLabel *m_pRightPicTotal;
+    DLabel *m_customAlbumTitleLabel = nullptr;
+    DLabel *m_pRightPicTotal = nullptr;
+    BatchOperateWidget *m_customBatchOperateWidget = nullptr;
+    DWidget *m_customAlbumTitle = nullptr;           //自定义相册悬浮标题
+    DWidget *m_pCustomAlbumWidget = nullptr;          //自定义相册右侧展示界面外层窗口
+    NoResultWidget *m_customNoResultWidget = nullptr;
     //我的收藏标题栏
+    DWidget *m_pFavoriteWidget = nullptr;
+    DWidget *m_FavoriteTitleWidget = nullptr;
     DLabel *m_pFavoriteTitle;
     DLabel *m_pFavoritePicTotal;
+    BatchOperateWidget *m_favoriteBatchOperateWidget = nullptr;
+    NoResultWidget *m_favoriteNoResultWidget = nullptr;
     //外部设备
     DLabel *m_pPhoneTitle;
     DLabel *m_pPhonePicTotal;
@@ -248,9 +252,11 @@ private:
     DGioVolumeManager *m_vfsManager;
     DDiskManager *m_diskManager;
     //最近删除标题
-    DLabel *m_TrashTitleLab;
-    DLabel *m_TrashDescritionLab;
-
+    DLabel *m_TrashTitleLab = nullptr;
+    DLabel *m_TrashDescritionLab = nullptr;
+    DWidget *m_TrashTitleWidget = nullptr;
+    BatchOperateWidget *m_trashBatchOperateWidget = nullptr;
+    DWidget *m_pTrashWidget = nullptr;                                //最近删除外层界面
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;
@@ -264,15 +270,8 @@ private:
     int m_mountPicNum;
 
     QMap<QUrl, QString> durlAndNameMap;
-    DSpinner *m_spinner;
+    DSpinner *m_spinner = nullptr;
     //add start 3975
-    QListWidgetItem *m_noTrashItem;
-    DWidget *m_pNoTrashTitle;
-    DWidget *m_pNoTrashWidget;//自定义相册右侧展示界面外层窗口
-    QListWidgetItem *m_FavoriteItem;
-    DWidget *m_FavoriteTitle;
-    QListWidgetItem *m_TrashitemItem;
-    DWidget *m_TrashTitle;
     AlbumDeleteDialog *m_deleteDialog = nullptr;
     //add end 3975
     DWidget *fatherwidget;
@@ -282,11 +281,6 @@ private:
     QTimer *m_waitDailog_timer;
     bool isMountThreadRunning;
     int m_currentViewPictureCount;
-
-public:
-    AlbumViewListWidget *m_TrashListWidget;
-    AlbumViewListWidget *m_noTrashListWidget;
-    AlbumViewListWidget *m_FavListWidget;
 };
 
 #endif // ALBUMVIEW_H

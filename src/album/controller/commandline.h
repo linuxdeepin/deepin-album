@@ -55,6 +55,7 @@ private:
     static CommandLine *m_commandLine;
     QCommandLineParser m_cmdParser;
     ImageEngineImportObject *m_obj;
+
     QHBoxLayout *m_layout = nullptr;
     MainWidget *m_mainWidget = nullptr;
 };

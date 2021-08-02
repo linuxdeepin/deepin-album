@@ -21,6 +21,20 @@
         <file>frame/titlebar.png</file>
         <file>frame/titlebar.svg</file>
         <file>frame/ttb60.svg</file>
+        <file>texts/album_all_16px.svg</file>
+        <file>texts/album_pic_16px.svg</file>
+        <file>texts/album_video_16px.svg</file>
+        <file>texts/album_all_hover_16px.svg</file>
+        <file>texts/album_pic_hover_16px.svg</file>
+        <file>texts/album_video_hover_16px.svg</file>
+        <file>icons/light/album_all_16px.svg</file>
+        <file>icons/light/album_pic_16px.svg</file>
+        <file>icons/light/album_video_16px.svg</file>
+        <file>icons/dark/album_all_16px.svg</file>
+        <file>icons/dark/album_pic_16px.svg</file>
+        <file>icons/dark/album_video_16px.svg</file>
+        <file>icons/dark/album_arrowdown_10px.svg</file>
+        <file>icons/light/album_arrowdown_10px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>

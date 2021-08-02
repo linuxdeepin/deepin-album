@@ -137,7 +137,7 @@ class ImageLoadFromDBThread : public ImageEngineThreadObject
 public:
     explicit ImageLoadFromDBThread(int loadCount = 0);
     ~ImageLoadFromDBThread() override;
-    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, QString nametype = "");
+    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, const QString &nametype = "");
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -231,8 +231,9 @@ private:
 
 };
 
-class ImageCacheQueuePopThread : public QRunnable
+class ImageCacheQueuePopThread : public QThread
 {
+    Q_OBJECT
 public:
     ImageCacheQueuePopThread();
     ~ImageCacheQueuePopThread() override;
@@ -259,7 +260,7 @@ class ImageEngineBackThread : public ImageEngineThreadObject
 public:
     ImageEngineBackThread();
 
-    void setData(QStringList pathlist = QStringList(), QString devName = QString());
+    void setData(const QStringList &pathlist = QStringList(), const QString &devName = QString());
 
 protected:
     void runDetail() override;

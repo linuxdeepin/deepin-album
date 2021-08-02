@@ -64,7 +64,8 @@ private:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 signals:
     void itemClicked();
-    void menuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    //幻灯片播放
+    void sigSlideShow(QString path);
     void sigKeyDelete();
     void sigKeyF2();
     void updateCurrentItemType(int type);

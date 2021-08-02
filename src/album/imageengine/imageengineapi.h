@@ -41,7 +41,7 @@ public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
     ~ImageEngineApi();
 
-    bool insertImage(const QString &imagepath, QString remainDay);
+    bool insertImage(const QString &imagepath, const QString &remainDay);
     bool removeImage(QString imagepath);
     bool removeImage(QStringList imagepathList);
     bool insertObject(void *obj);
@@ -49,7 +49,6 @@ public:
     bool ifObjectExist(void *obj);
     bool getImageData(QString imagepath, ImageDataSt &data);
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
-    bool reQuestImageData(QString imagepath, ImageEngineObject *obj, bool needcache = true, bool useGlobalThreadPool = true);
     bool reQuestAllImagesData(ImageEngineObject *obj, bool needcache = true);
 //    bool imageNeedReload(QString imagepath);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
@@ -69,8 +68,9 @@ public:
     bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
-    QStringList get_AllImagePath();
 //    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
+
+    QStringList get_AllImagePath();
 
     //将数据加载到内存中
     // void loadImageDateToMemory(QStringList pathlist);
@@ -87,9 +87,11 @@ public:
     }
     void loadFirstPageThumbnails(int num);
     void thumbnailLoadThread(int num);
+
+    //设置线程循环跳出
+    void     setThreadShouldStop();
 private slots:
-    void sltImageLoaded(void *imgobject, QString path, ImageDataSt &data);
-    void sltInsert(const QString &imagepath, QString remainDay);
+    void sltInsert(const QString &imagepath, const QString &remainDay);
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
     void sltImageDBLoaded(void *imgobject, QStringList &filelist);
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
@@ -99,16 +101,33 @@ private slots:
 
     void sigImageBackLoaded(QString path, const ImageDataSt &data);
 
-    void slt80ImgInfosReady(QMap<QString, ImageDataSt> ImageData);
+    void slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas);
 signals:
+    //发送给主线程
     //发送给缩略图控件
     void sigLoad80ThumbnailsToView();
-    //发给线程
-    void sigLoad80Thumbnails(DBImgInfoList infos);
+    //加载一张图片请求完成
+    void sigOneImgReady(QString path, QPixmap pixmap);
+    //加载设备中图片列表请求完成
+    void sigMountFileListLoadReady(QString path, QStringList fileList);
+
+    //发给子线程
+    //先加载指定数量的缩略图
+    void sigLoadThumbnailsByNum(QVector<ImageDataSt> allImageDataVector, int num);
+    //发给子线程，加载一张缩略图
+    void sigLoadThumbnailIMG(QString path);
+    //发给子线程，旋转图片
+    void sigRotateImageFIle(int angel, const QString &path);
     void sigLoadOneThumbnail(QString imagepath, ImageDataSt data);
     void sigLoadOneThumbnailToThumbnailView(QString imagepath, ImageDataSt data);
+    //加载设备中图片列表
+    void sigLoadMountFileList(QString path);
 public:
     QMap<QString, ImageDataSt>m_AllImageData;
+    QVector<ImageDataSt> m_AllImageDataVector;
+    QMap<QString, QPixmap> m_AllImageMap;
+    int m_FirstPageScreen = 0;
+    QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     QMultiMap<QString, QString> m_allPathAndAlbumNames;
     bool m_80isLoaded = false;
 private:
@@ -124,6 +143,7 @@ private:
     QThreadPool m_qtpool;
     QThreadPool cacheThreadPool;
 #endif
+    DBandImgOperate *m_worker = nullptr;
 };
 
 #endif // IMAGEENGINEAPI_H

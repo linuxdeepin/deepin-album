@@ -66,7 +66,7 @@ public:
     void rotateClockWise();
     void rotateCounterclockwise();
     void centerOn(qreal x, qreal y);
-    void setImage(const QString &path);
+    void setImage(const QString &path, const QImage &image = QImage());
 //    void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 

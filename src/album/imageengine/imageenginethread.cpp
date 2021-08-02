@@ -357,13 +357,14 @@ void ImageMoveImagesToTrashThread::setData(QStringList &paths, bool typetrash)
 void ImageMoveImagesToTrashThread::runDetail()
 {
     QStringList paths = m_paths;
+//    qDebug() << "------" << __FUNCTION__ << "---size = " << m_paths.size();
     if (btypetrash) {
         DBManager::instance()->removeTrashImgInfos(paths);
         emit dApp->signalM->sigDeletePhotos(paths.length());
     } else {
         DBImgInfoList infos;
         int pathsCount = paths.size();
-        int remoneOffset = pathsCount / 200;//分100次删除
+        int remoneOffset = pathsCount / 200;
         int removedCount = 0;
         QStringList removedPaths;
         emit dApp->signalM->progressOfWaitDialog(paths.size(), 0);
@@ -391,46 +392,9 @@ void ImageMoveImagesToTrashThread::runDetail()
 //            emit dApp->signalM->progressOfWaitDialog(paths.size(), infos.size());
         }
         DBManager::instance()->insertTrashImgInfos(infos);
+        qDebug() << "------" << __FUNCTION__ << "22222222222222";
         DBManager::instance()->removeImgInfos(removedPaths);
         emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
-//        DBImgInfoList infos;
-//        //获取全部数据
-//        DBImgInfoList infosAll = DBManager::instance()->getAllInfos(0);
-//        QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
-//        int pathsCount = paths.size();
-//        int remoneOffset = pathsCount / 10;//分10次删除
-//        int removedCount = 0;
-//        QStringList removedPaths;
-//        emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
-//        for (auto path : paths) {
-//            removedPaths << path;
-//            DBImgInfo info;
-//            for (auto infoCompare : infosAll) {
-//                if (infoCompare.filePath == path) {
-//                    info = infoCompare;
-//                    infosAll.removeOne(infoCompare);
-//                    break;
-//                }
-//            }
-
-//            info.changeTime = QDateTime::currentDateTime();
-//            for (auto eachname : allalbumnames) {
-//                if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-//                    info.albumname += (eachname + ",");
-//                }
-//            }
-//            infos << info;
-//            removedCount++;
-//            if (removedCount == remoneOffset) {
-//                DBManager::instance()->insertTrashImgInfos(infos);
-//                DBManager::instance()->removeImgInfos(removedPaths);
-//                emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
-//                remoneOffset += remoneOffset;
-//                removedPaths.clear();
-//                infos.clear();
-//            }
-//        }
-//        emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
     }
     emit dApp->signalM->closeWaitDialog();
 }
@@ -654,7 +618,7 @@ ImageLoadFromDBThread::~ImageLoadFromDBThread()
 {
 }
 
-void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageEngineObject *imgobject, QString nametype)
+void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageEngineObject *imgobject, const QString &nametype)
 {
     m_type = type;
     m_imgobject = imgobject;
@@ -930,34 +894,32 @@ void ImageEngineThread::runDetail()
         }
         if (getNeedStop())
             return;
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-            if (pixmap.height() != 140 && pixmap.width() != 140) {
-                if (pixmap.height() >= pixmap.width()) {
+
+        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+            if (tImg.height() != 140 && tImg.width() != 140) {
+                if (tImg.height() >= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToWidth(140,  Qt::FastTransformation);
-                } else if (pixmap.height() <= pixmap.width()) {
+                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
+                } else if (tImg.height() <= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(140,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
                 }
             }
             if (!cache_exist) {
-                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                    pixmap = pixmap.scaledToWidth(140,  Qt::FastTransformation);
+                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
                 } else {
-                    pixmap = pixmap.scaledToHeight(140,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
                 }
             }
-        }
-        if (pixmap.isNull()) {
-            qDebug() << "null pixmap" << tImg;
-            pixmap = QPixmap::fromImage(tImg);
         }
         if (breloadCache) { //更新缓存文件
             QString spath = CACHE_PATH + m_path;
             utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-            pixmap.save(spath, "PNG");
+            tImg.save(spath, "PNG");
         }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
         m_data.imgpixmap = pixmap;
     }
     DBImgInfo dbi = getDBInfo(m_path);
@@ -1055,12 +1017,10 @@ void ImageFromNewAppThread::runDetail()
 
 ImageCacheQueuePopThread::ImageCacheQueuePopThread()
 {
-    setAutoDelete(true); //上层的m_imgobj似乎会一直存在，直到最后系统销毁它，所以允许auto delete
 }
 
 ImageCacheQueuePopThread::~ImageCacheQueuePopThread()
 {
-
 }
 
 void ImageCacheQueuePopThread::saveCache(QString m_path)
@@ -1086,23 +1046,23 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     }
     if (needStop)
         return;
-    QPixmap pixmap = QPixmap::fromImage(tImg);
-    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+
+    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
-        if (pixmap.height() != 200 && pixmap.width() != 200) {
-            if (pixmap.height() >= pixmap.width()) {
+        if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (pixmap.height() <= pixmap.width()) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
-            if (static_cast<float>(pixmap.height()) / static_cast<float>(pixmap.width()) > 3) {
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+            if (static_cast<float>(tImg.height()) / static_cast<float>(tImg.width()) > 3) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
             } else {
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
     }
@@ -1110,6 +1070,8 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     if (needStop)
         return;
     utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+
+    QPixmap pixmap = QPixmap::fromImage(tImg);
     pixmap.save(spath, "PNG");
 }
 
@@ -1136,7 +1098,7 @@ ImageEngineBackThread::ImageEngineBackThread(): m_bpause(false)
     connect(dApp->signalM, &SignalManager::sigPauseOrStart, this, &ImageEngineBackThread::onStartOrPause);
 }
 
-void ImageEngineBackThread::setData(QStringList pathlist, QString devName)
+void ImageEngineBackThread::setData(const QStringList &pathlist, const QString &devName)
 {
     m_pathlist = pathlist;
     m_devName = devName;
@@ -1156,30 +1118,27 @@ void ImageEngineBackThread::runDetail()
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
 
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;
-            if (pixmap.height() != 100 && pixmap.width() != 100) {
-                if (pixmap.height() >= pixmap.width()) {
+            if (tImg.height() != 100 && tImg.width() != 100) {
+                if (tImg.height() >= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-                } else if (pixmap.height() <= pixmap.width()) {
+                    tImg = tImg.scaledToWidth(100,  Qt::FastTransformation);
+                } else if (tImg.height() <= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(100,  Qt::FastTransformation);
                 }
             }
             if (!cache_exist) {
-                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
+                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                    tImg = tImg.scaledToWidth(100,  Qt::FastTransformation);
                 } else {
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(100,  Qt::FastTransformation);
                 }
             }
         }
-        if (pixmap.isNull()) {
-            qDebug() << "[ImageEngineBackThread]:null pixmap!" << tImg;
-            pixmap = QPixmap::fromImage(tImg);
-        }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
         m_data.imgpixmap = pixmap;
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;

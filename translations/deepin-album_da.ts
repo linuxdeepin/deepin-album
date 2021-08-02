@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="da">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -60,11 +62,11 @@
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Slet alle</translation>
+        <translation type="vanished">Slet alle</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Slet</translation>
+        <translation type="vanished">Slet</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
@@ -84,7 +86,7 @@
     </message>
     <message>
         <source>Restore</source>
-        <translation>Gendan</translation>
+        <translation type="vanished">Gendan</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -640,7 +642,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -731,78 +733,10 @@
     </message>
 </context>
 <context>
-    <name>MountThumbnailListView</name>
+    <name>NoResultWidget</name>
     <message>
-        <source>Photo info</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"/>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -894,15 +828,51 @@
     </message>
     <message>
         <source>Imported on</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unselect All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuller</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Gendan</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Slet</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="unfinished">Billeder</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videoer</translation>
+    </message>
+    <message>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

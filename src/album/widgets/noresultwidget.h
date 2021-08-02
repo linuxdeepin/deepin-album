@@ -18,31 +18,52 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TIMELINEITEM_H
-#define TIMELINEITEM_H
+#ifndef NORESULTWIDGET_H
+#define NORESULTWIDGET_H
+
+#include "application.h"
+#include "utils/baseutils.h"
+#include "utils/imageutils.h"
+#include "controller/configsetter.h"
+#include "controller/signalmanager.h"
+#include "dbmanager/dbmanager.h"
+#include "thumbnail/thumbnaillistview.h"
+
 
 #include <QWidget>
+#include <QVBoxLayout>
 #include <DLabel>
-#include <QDebug>
-#include <DCommandLinkButton>
+#include <QPixmap>
+#include <QStandardPaths>
+#include <QImageReader>
+#include <DPushButton>
+#include <QDir>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <DStackedWidget>
+#include <DSlider>
+#include <DWidget>
+#include <DGuiApplicationHelper>
 #include <QMouseEvent>
+#include <DBlurEffectWidget>
+
 DWIDGET_USE_NAMESPACE
-class TimelineItem : public QWidget
+DGUI_USE_NAMESPACE
+
+class NoResultWidget : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit TimelineItem(QWidget *parent = nullptr);
-    QWidget *m_title = nullptr;
-    DLabel *m_date = nullptr;
-    DLabel *m_num = nullptr;
-    QString m_sdate;
-    QString m_snum;
-    QString m_type;  //add 3975
-    DCommandLinkButton *m_Chose = nullptr;
-    void mousePressEvent(QMouseEvent *e) override;
-signals:
-    void sigMousePress();
-public slots:
+    NoResultWidget(QWidget *parent);
+    ~NoResultWidget()override;
+
+private:
+    void initNoSearchResultView();
+    void changeTheme();
+
+private:
+    DLabel *pNoResult;
 };
 
-#endif // TIMELINEITEM_H
+#endif // NORESULTWIDGET_H

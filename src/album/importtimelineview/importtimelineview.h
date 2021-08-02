@@ -25,8 +25,6 @@
 #include "controller/signalmanager.h"
 #include "dbmanager/dbmanager.h"
 #include "thumbnail/thumbnaillistview.h"
-#include "widgets/timelinelist.h"
-#include "widgets/timelineitem.h"
 #include "importview/importview.h"
 #include "widgets/statusbar.h"
 #include "allpicview/allpicview.h"
@@ -34,11 +32,13 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QGraphicsOpacityEffect>
+
 #include <DListWidget>
 #include <DCommandLinkButton>
 #include <DApplicationHelper>
-#include <QGraphicsOpacityEffect>
 
+class BatchOperateWidget;
 class ImportTimeLineView : public DWidget, public ImageEngineImportObject
 {
     Q_OBJECT
@@ -55,22 +55,17 @@ public:
         emit dApp->signalM->closeWaitDialog();
         return true;
     }
-    void updateStackedWidget();
+
     int getIBaseHeight();
-    int getGoToHeight();
-
-signals:
-    void sigResizeTimelineBlock();
-
 public slots:
-    void getCurrentSelectPics();
-    void on_AddLabel(QString date, QString num);
-//    void on_DelLabel();//未使用
-#if 1
-    void on_MoveLabel(int y, const QString &date, const QString &num, const QString &choseText);
-#endif
-    void on_KeyEvent(int key);
+    //更新最上当悬浮标题时间与数量
+    void slotTimeLineDataAndNum(QString data, QString num, QString text);
+    //打开图片
+    void onOpenImage(int row, const QString &path, bool bFullScreen);
+    //幻灯片播放
+    void onSlideShow(QString path);
 
+    void clearAndStartLayout();
 protected:
     void resizeEvent(QResizeEvent *ev) override;
     void showEvent(QShowEvent *ev) override;
@@ -78,9 +73,6 @@ protected:
 private:
     void initTimeLineViewWidget();
     void initConnections();
-    void sigImprotPicsIntoThumbnailView();
-    void getImageInfos();
-    void initMainStackWidget();
 
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
@@ -91,11 +83,9 @@ private:
     void mousePressEvent(QMouseEvent *e) override;
 
 public:
-    void clearAndStartLayout();
     void addTimelineLayout();
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
-    void resizeHand();  //手动计算大小
     ThumbnailListView *getFirstListView();
     //tab进入时清除其他所有选中
     void clearAllSelection();
@@ -109,47 +99,37 @@ private slots:
      * 调整已导入界面的整体大小
      */
     void updateSize();
-    void onNewTime(const QString &date, const QString &num, int index);
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     void onSuspensionChoseBtnClicked();
-
+    //进入批量状态
+    void slotBatchSelectChanged(bool isBatchSelect);
+    //筛选显示，当先列表中内容为无结果
+    void slotNoPicOrNoVideo(bool isNoResult);
 signals:
     void sigUpdatePicNum();
-
+    //筛选显示图片或者视频，无结果时
+    void sigNoPicOrNoVideo(bool isNoResult);//1050
+public:
+    const static int title_HEIGHT = 60;
+    const static int ChoseBtn_HEIGHT = 32;
 private:
-    void clearAndStop();
     QLayout *m_mainLayout;
     QList<QString> m_timelines;
-    DWidget *m_dateItem;
+    DWidget *m_choseBtnItem = nullptr;
     DWidget *m_TitleItem;                               //title包裹窗口
-    DCommandLinkButton *pSuspensionChose;               //悬浮选择按钮
-    DWidget *pTimeLineViewWidget;
-    ImportView *pImportView;
-    DLabel *m_pDate;                                    //已导入悬浮日期
-    DLabel *pNum_up;                                    //已导入悬浮数量
-    DLabel *pNum_dn;                                    //已导入其他时间线数量
-    DLabel *m_pImportTitle;                             //已导入悬浮标题
+    DCommandLinkButton *m_suspensionChoseBtn = nullptr;  //悬浮选择按钮
+    DWidget *m_timeLineViewWidget = nullptr;
+    BatchOperateWidget *m_batchOperateWidget = nullptr;
+    DLabel *m_DateLabel = nullptr;                      //已导入悬浮日期
+    DLabel *m_NumLabel = nullptr;                       //已导入悬浮数量
+    DLabel *m_pImportTitle = nullptr;                   //已导入悬浮标题
     DSlider *m_DSlider;
-    QList<ThumbnailListView *> m_allThumbnailListView;
-    QList<DCommandLinkButton *> m_allChoseButton;
+    ThumbnailListView *m_importTimeLineListView = nullptr;
+    NoResultWidget *m_noResultWidget = nullptr;
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
 
     bool m_ctrlPress;
-    int lastClickedIndex;
-    int lastRow;
-    int m_lastShiftRow;
-    int m_lastShiftClickedIndex;
-    bool lastChanged;
-    bool m_bshow = false;
-
-public:
-    int m_index;
-    TimelineListWidget *m_mainListWidget;
-    int currentTimeLineLoad;
-    QString selectPrePaths = "";//跳转的上一图片位置
-    int hasPicViewNum = -1;//包含跳转图片的view索引
-    bool isFindPic = false;
 };
 
 #endif // IMPORTTIMELINEVIEW_H

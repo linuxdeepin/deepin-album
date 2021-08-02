@@ -184,7 +184,7 @@ TEST(allpicview, test_open)
         w->m_pSearchEdit->setText("1");
         w->m_pSearchEdit->editingFinished();
         QTest::qWait(300);
-        emit a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, false);
+        emit a->getThumbnailListView()->openImage(0, testPathlist.first(), false);
         QTest::qWait(300);
         QTestEventList e;
         e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
@@ -199,51 +199,21 @@ TEST(allpicview, test_open)
 
         emit dApp->signalM->showImageInfo(testPathlist.first());
 
-//        CommandLine *commandline = CommandLine::instance();
+        CommandLine *commandline = CommandLine::instance();
         QString jpgItemPath = testPath_test + "/2e5y8y.jpg";
         QStringList list;
         list << jpgItemPath;
-        CommandLine::instance()->viewImage(jpgItemPath, list);
+        commandline->viewImage(jpgItemPath, list);
 
         MainWidget *mw = CommandLine::instance()->findChild<MainWidget *>("MainWidget");
         if (mw) {
             TTBContent *t = mw->findChild<TTBContent *>("TTBContent");
             if (t) {
-                MyImageListWidget *ml = t->findChild<MyImageListWidget *>("MyImageListWidget");
-                if (ml) {
-                    ml->getObj();
-                    ml->findSelectItem();
-                    ml->thumbnailIsMoving();
-                    ml->stopAnimation();
-                    ml->deleteLater();
+                //todo
+//                MyImageListWidget *ml = t->findChild<MyImageListWidget *>("MyImageListWidget");
+//                if (ml) {
 
-                    QMouseEvent e1(QEvent::MouseButtonPress,
-                                   QPointF(100, 100),
-                                   Qt::MouseButton::AllButtons,
-                                   Qt::MouseButtons(),
-                                   Qt::KeyboardModifier::NoModifier);
-                    ml->eventFilter(nullptr, &e1);
-
-                    QEvent e2(QEvent::MouseButtonRelease);
-                    ml->eventFilter(nullptr, &e2);
-
-                    QEvent e3(QEvent::Leave);
-                    ml->eventFilter(ml->getObj(), &e3);
-
-                    QMouseEvent e4(QEvent::MouseButtonPress,
-                                   QPointF(100, 100),
-                                   Qt::MouseButton::AllButtons,
-                                   Qt::MouseButtons(),
-                                   Qt::KeyboardModifier::NoModifier);
-                    ml->eventFilter(nullptr, &e4);
-
-                    QMouseEvent e5(QEvent::MouseMove,
-                                   QPointF(100, 100),
-                                   Qt::MouseButton::AllButtons,
-                                   Qt::MouseButtons(),
-                                   Qt::KeyboardModifier::NoModifier);
-                    ml->eventFilter(nullptr, &e5);
-                }
+//                }
             }
         }
     }
@@ -274,14 +244,14 @@ TEST(allpicview, test_select)
 
     dApp->signalM->sigShortcutKeyDelete();
     QTest::qWait(100);
-    a->getThumbnailListView()->sigLoad80ThumbnailsFinish();
+//    a->getThumbnailListView()->sigLoad80ThumbnailsFinish();
     QTest::qWait(100);
     a->updateStackedWidget();
     a->restorePicNum();
     a->updatePicNum();
     dApp->signalM->imagesRemoved();
     QTest::qWait(100);
-    a->getThumbnailListView()->openImage(0);
+    emit a->getThumbnailListView()->openImage(0, ImageEngineApi::instance()->get_AllImagePath().first(), false);
     QTest::qWait(100);
 }
 
@@ -346,7 +316,7 @@ TEST(allpicview, viewpaneltest)
         w->m_pSearchEdit->editingFinished();
         QTest::qWait(300);
 
-        emit a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, false);
+        emit a->getThumbnailListView()->openImage(0, testPathlist.first(), false);
         QTest::qWait(300);
 
         QTestEventList e;
@@ -395,7 +365,7 @@ TEST(allpicview, viewpaneltest)
                 QTest::qWait(100);
                 viewPanel->onHideImageView();
                 QTest::qWait(500);
-                emit a->getThumbnailListView()->menuOpenImage(testPathlist.first(), testPathlist, false);
+                emit a->getThumbnailListView()->openImage(0, testPathlist.first(), false);
                 QTest::qWait(500);
 //                viewPanel->onESCKeyActivated();
 //                QTest::qWait(500);
@@ -418,61 +388,44 @@ TEST(allpicview, viewpaneltest)
 
             DWidget *imgList = t->findChild<DWidget *>("imageListObj");
             if (imgList) {
-                QObjectList list = dynamic_cast<DWidget *>(imgList)->children();
-                for (int i = 0; i < list.size(); i++) {
-                    QList<ImageItem *> labelList = dynamic_cast<DWidget *>(imgList)->findChildren<ImageItem *>(QString("%1").arg(i));
-                    if (labelList.size() <= 0) {
-                        continue;
-                    }
-                    ImageItem *img = labelList.at(0);
-                    if (nullptr == img) {
-                        continue;
-                    }
-                    img->emitClickSig();
-                    QTest::qWait(400);
-                }
+                //todo
             }
 
-            MyImageListWidget *imgListView = t->findChild<MyImageListWidget *>("MyImageListWidget");
-            if (imgListView) {
-                imgListView->animationFinished();
-                imgListView->findSelectItem();
-                imgListView->animationStart(true, 0, 300);
-                imgListView->stopAnimation();
-//                imgListView->isAnimationStart();
-//                imgListView->animationTimerTimeOut();
-            }
+            //todo
+//            MyImageListWidget *imgListView = t->findChild<MyImageListWidget *>("MyImageListWidget");
+//            if (imgListView) {
 
-            QTestEventList el;
-            QPoint p(150, 20);
-            el.addMouseMove(p);
-            el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p, 100);
-            p = p + QPoint(-20, 0);
-            el.addMouseMove(p, 100);
-//            QTest::qWait(300);
-            p = p + QPoint(-20, 0);
-            el.addMouseMove(p, 100);
-//            QTest::qWait(300);
-            p = p + QPoint(-20, 0);
-            el.addMouseMove(p, 100);
-//            QTest::qWait(300);
-            p = p + QPoint(-20, 0);
-            el.addMouseMove(p, 100);
-//            QTest::qWait(300);
-            p = p + QPoint(-20, 0);
-            el.addMouseMove(p, 100);
-//            QTest::qWait(300);
-            el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, p, 100);
-            el.simulate(imgList);
-            el.clear();
+//            }
 
-            if (imgListView) {
-                QPoint p2(imgListView->pos().x() - 50, imgListView->pos().y() + 10);
-                el.addMouseMove(p2);
-                el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p2, 100);
-                el.addMouseMove(QPoint(p2.x() + 100, p2.y()), 100);
-                el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p2.x() + 100, p2.y()), 100);
-                el.simulate(imgListView);
+            if (imgList) {
+                //todo
+                QTestEventList el;
+                QPoint p(150, 20);
+                el.addMouseMove(p);
+                el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p, 100);
+                p = p + QPoint(-20, 0);
+                el.addMouseMove(p, 100);
+                p = p + QPoint(-20, 0);
+                el.addMouseMove(p, 100);
+                p = p + QPoint(-20, 0);
+                el.addMouseMove(p, 100);
+                p = p + QPoint(-20, 0);
+                el.addMouseMove(p, 100);
+                p = p + QPoint(-20, 0);
+                el.addMouseMove(p, 100);
+                el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, p, 100);
+                el.simulate(imgList);
+                el.clear();
+
+                //            if (imgListView) {
+                //todo
+                //                QPoint p2(imgListView->pos().x() - 50, imgListView->pos().y() + 10);
+                //                el.addMouseMove(p2);
+                //                el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p2, 100);
+                //                el.addMouseMove(QPoint(p2.x() + 100, p2.y()), 100);
+                //                el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p2.x() + 100, p2.y()), 100);
+                //                el.simulate(imgListView);
+                //            }
             }
         }
     }
@@ -508,7 +461,7 @@ TEST(allpicview, allpicview_other_test)
     MainWindow *w = dApp->getMainWindow();
 
     w->m_pAllPicView->onFinishLoad();
-    w->m_pAllPicView->onMenuOpenImage("", QStringList(), false, false);
+//    w->m_pAllPicView->onMenuOpenImage("", QStringList(), false, false);
 //    w->m_pAllPicView->onImportViewImportBtnClicked();
 
 

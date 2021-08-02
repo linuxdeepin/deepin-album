@@ -147,7 +147,7 @@ public slots:
     void allPicBtnClicked();
     void timeLineBtnClicked();
     void albumBtnClicked();
-    void onCreateAlbum(QStringList imagepaths);
+    void onCreateAlbum(const QStringList &imagepaths);
     void closeFromMenu();
     void onButtonClicked(int id);
     void onImageImported(bool success);

@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pt">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -60,11 +62,11 @@
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Eliminar tudo</translation>
+        <translation type="vanished">Eliminar tudo</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation type="vanished">Eliminar</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
@@ -84,7 +86,7 @@
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation type="vanished">Restaurar</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -731,78 +733,10 @@
     </message>
 </context>
 <context>
-    <name>MountThumbnailListView</name>
+    <name>NoResultWidget</name>
     <message>
-        <source>Photo info</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"/>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -903,6 +837,42 @@
     <message>
         <source>Imported on </source>
         <translation>Importado em </translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unselect All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancelar</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Restaurar</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Eliminar</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="unfinished">Fotos</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Vídeos</translation>
+    </message>
+    <message>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

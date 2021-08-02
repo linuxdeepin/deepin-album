@@ -271,7 +271,8 @@ void MainWidget::onUpdateBottomToolbar(bool wideMode)
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
     }
-    m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
+    m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2,
+                          this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 }
 
 void MainWidget::onUpdateBottomToolbarContent(QWidget *c, bool wideMode)
@@ -279,28 +280,7 @@ void MainWidget::onUpdateBottomToolbarContent(QWidget *c, bool wideMode)
     if (c == nullptr)
         return;
     m_bottomToolbar->setContent(c);
-    if (wideMode) {
-        m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-        if (m_viewPanel->getPicCount() <= 3) {
-            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
-        } else {
-            m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
-        }
-        m_bottomToolbar->setVisible(true);
-        m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-    } else {
-        m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-        m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
-        if (m_viewPanel->getPicCount() == 1) {
-            m_bottomToolbar->setVisible(true);
-            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-        } else {
-            m_bottomToolbar->setVisible(false);
-            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-        }
-    }
-    m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2,
-                          this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
+    onUpdateBottomToolbar(wideMode);
 }
 
 void MainWidget::onShowBottomToolbar()

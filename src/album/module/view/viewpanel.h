@@ -55,11 +55,11 @@ public:
     QString moduleName() override;
 //    QWidget *toolbarBottomContent() override;
 //    QWidget *toolbarTopLeftContent() override;
-    QWidget *bottomTopLeftContent() ;
+    void bottomTopLeftContent() ;
 //    QWidget *toolbarTopMiddleContent() override;
     int getPicCount()
     {
-        if (!m_ttbc) {
+        if (m_ttbc == nullptr) {
             return -1;
         }
         return m_ttbc->itemLoadedSize();
@@ -74,7 +74,6 @@ signals:
     void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
-    void updateTopLeftContentImage(const QString &path);
     void imgloader();
     void sigResize();
 
@@ -89,9 +88,6 @@ public slots:
     void onESCKeyActivated();
     void onImagesInserted();
     void onViewImageNoNeedReload(int &fileindex);
-    void onLoadRight(const QStringList &rightlist);
-    void onLoadLeft(QStringList leftlist);
-    void onttbcontentClicked();
     void onRotateClockwise();
     void onRotateCounterClockwise();
     void onRemoved();
@@ -150,13 +146,9 @@ private:
 
     // View control
     void onViewImage(const  QStringList &vinfo);
-    void openImage(const QString &path, bool inDB = true, bool bjudge = true);
+    void openImage(const QString &path, bool bjudge = true);
     void removeCurrentImage();
     void rotateImage(bool clockWise);
-    bool showNext();
-    bool showPrevious();
-    bool showImage(int index, int addIndex);
-
     // Geometry
     void toggleFullScreen();
     void showNormal();
@@ -184,7 +176,7 @@ private:
     // Floating component
     DAnchors<NavigationWidget> m_nav;
     SignalManager::ViewInfo m_vinfo;
-    TTBContent *m_ttbc;
+    TTBContent *m_ttbc = nullptr;
     int m_current = -1;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;

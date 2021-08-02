@@ -374,7 +374,7 @@ TEST(AlbumView, deleteImgRecovery)
     AlbumView *a = w->m_pAlbumview;
     a->m_currentType = COMMON_STR_TRASH;
     a->updateRightView();
-    ImageEngineApi::instance()->recoveryImagesFromTrash(a->m_pRightThumbnailList->getAllPaths());
+    ImageEngineApi::instance()->recoveryImagesFromTrash(a->m_pRightTrashThumbnailList->getFileList());
 }
 
 TEST(AlbumView, exportAlbum)//roc
@@ -610,24 +610,6 @@ TEST(LeftListView, update)
 //    QTest::qWait(200);
 //}
 
-TEST(AlbumView, menuOpenImage_test)
-{
-    TEST_CASE_NAME("menuOpenImage_test")
-    MainWindow *w = dApp->getMainWindow();
-    w->albumBtnClicked();
-    QTest::qWait(500);
-
-    QStringList paths = DBManager::instance()->getAllPaths();
-    QString path;
-    if (paths.size() > 0) {
-        path = paths.first();
-    }
-    bool isfullscr = false;
-    bool isSlideShow = false;
-    w->m_pAlbumview->menuOpenImage(path, paths, isfullscr, isSlideShow);
-    QTest::qWait(500);
-}
-
 TEST(AlbumView, findPicturePathByPhone_test)
 {
     TEST_CASE_NAME("findPicturePathByPhone_test")
@@ -651,14 +633,6 @@ TEST(AlbumView, onLeftListDropEvent_test)
     w->m_pAlbumview->onLeftListDropEvent(curIndex);
     QTest::qWait(500);
 }
-
-TEST(AlbumViewListWidget, viewlist)
-{
-    TEST_CASE_NAME("viewlist")
-    AlbumViewListWidget *vi = new AlbumViewListWidget;
-    vi->on_rangeChanged(1, 1);
-}
-
 
 TEST(AlbumView, albumView_other1_test)
 {
@@ -695,7 +669,6 @@ TEST(AlbumView, albumView_other1_test)
 
     w->m_pAlbumview->updateAlbumView(w->m_pAlbumview->m_currentType);
     w->m_pAlbumview->updateRightMyFavoriteView();
-    w->m_pAlbumview->updateRightNoTrashView();
 //    w->m_pAlbumview->onTrashDeleteBtnClicked();
 
     w->m_pAlbumview->dragEnterEvent(&dee);
@@ -729,14 +702,6 @@ TEST(AlbumView, albumView_other1_test)
     QTest::qWait(500);
 }
 
-TEST(AlbumViewListWidget, albumViewList_other2_test)
-{
-    TEST_CASE_NAME("albumViewList_other2_test")
-
-    AlbumViewListWidget *vi = new AlbumViewListWidget;
-    vi->on_rangeChanged(1, 1);
-}
-
 TEST(AlbumViewList, albumViewList_other3_test)
 {
     TEST_CASE_NAME("albumViewList_other3_test")
@@ -756,10 +721,9 @@ TEST(AlbumViewList, albumViewList_other4_test)
     ThumbnailListView *pThumbnailListView = w->findChild<ThumbnailListView *>(ImportTime_pThumbnailListView);
 
     if (pThumbnailListView) {
-        emit pThumbnailListView->openImage(0);
-        emit pThumbnailListView->menuOpenImage("", QStringList(), false);
+        emit pThumbnailListView->openImage(0, pThumbnailListView->getFileList().first(), false);
+        emit pThumbnailListView->openImage(-1, "", false);
         QStringList stringList;
-        emit pThumbnailListView->sigGetSelectedPaths(&stringList);
         emit pThumbnailListView->sigSelectAll();
         emit pThumbnailListView->sigMouseMove();
         emit pThumbnailListView->sigMouseRelease();
@@ -776,8 +740,6 @@ TEST(AlbumViewList, albumViewList_other4_test)
 
     if (pImpTimeLineWidget) {
 //        pImpTimeLineWidget->on_DelLabel();
-        pImpTimeLineWidget->on_MoveLabel(1, "", "", "");
-
 
         QMimeData mimedata;
         QList<QUrl> li;
@@ -827,19 +789,15 @@ TEST(AlbumViewList, albumViewList_other5_test)
 
     MainWidget *mainWidget = w->m_commandLine->findChild<MainWidget *>("MainWidget");
 
-    if (mainWidget) {
-        NavigationWidget *nw = mainWidget->m_viewPanel->m_nav.widget();
-        nw->setAlwaysHidden(false);
-        nw->setAlwaysHidden(true);
-        nw->transImagePos(QPoint(0, 0));
+//    if (mainWidget) {
+//        NavigationWidget *nw = mainWidget->m_viewPanel->m_nav.widget();
+//        nw->setAlwaysHidden(false);
+//        nw->setAlwaysHidden(true);
+//        nw->transImagePos(QPoint(0, 0));
 
-        mainWidget->m_viewPanel->m_ttbc->stopLoadAndClear();
-        mainWidget->m_viewPanel->m_ttbc->getAllFileList();
-        mainWidget->m_viewPanel->m_ttbc->deleteImage();
-        mainWidget->m_viewPanel->m_ttbc->onSilmoved();
-        mainWidget->m_viewPanel->m_ttbc->onNeedContinueRequest();
-        mainWidget->m_viewPanel->m_ttbc->setCurrentDir("");
-    }
+//        mainWidget->m_viewPanel->m_ttbc->deleteImage();
+//        mainWidget->m_viewPanel->m_ttbc->setCurrentDir("");
+//    }
 }
 
 TEST(AlbumViewList, albumViewList_other6_test)

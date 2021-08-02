@@ -134,7 +134,7 @@ void ImportView::onThemeTypeChanged()
     pLabel->setPixmap(pixmap);
 }
 
-void ImportView::onImprotBtnClicked(bool useDialog, QStringList list)
+void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
 {
     qDebug() << "ImportView::onImprotBtnClicked()";
     static QStringList sList;

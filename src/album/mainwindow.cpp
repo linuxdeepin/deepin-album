@@ -131,9 +131,7 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
-    if (m_pCenterWidget) {
-        m_pCenterWidget->setFixedSize(size());
-    }
+//    qDebug() << "------" << __FUNCTION__ << "---size = " << this->size();
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
     if (m_SearchEditWidth <= 350) {
         m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
@@ -451,10 +449,10 @@ void MainWindow::initTitleBar()
 void MainWindow::initCentralWidget()
 {
     m_pCenterWidget = new QStackedWidget(this);
+    this->setCentralWidget(m_pCenterWidget);
     m_pCenterWidget->setFocusPolicy(Qt::NoFocus);
     AC_SET_OBJECT_NAME(m_pCenterWidget, MainWindow_Center_Widget);
     AC_SET_ACCESSIBLE_NAME(m_pCenterWidget, MainWindow_Center_Widget);
-    m_pCenterWidget->setFixedSize(size());
     m_pCenterWidget->lower();
 
     m_pAllPicView = new AllPicView();             //所有照片界面
@@ -582,12 +580,12 @@ void MainWindow::initAllpicViewTabOrder()
 void MainWindow::initTimeLineViewTabOrder()
 {
     // 时间线listview空
-    if (!m_pTimeLineView->getFirstListViewFromTimeline())
+    if (!m_pTimeLineView->getThumbnailListView())
         return;
-    m_pTimeLineView->getFirstListViewFromTimeline()->setFocusPolicy(Qt::TabFocus);
+    m_pTimeLineView->getThumbnailListView()->setFocusPolicy(Qt::TabFocus);
     m_TimelineViewTabOrder.clear();
     m_TimelineViewTabOrder.insert(1, m_pTimeBtn);
-    m_TimelineViewTabOrder.insert(2, m_pTimeLineView->getFirstListViewFromTimeline());
+    m_TimelineViewTabOrder.insert(2, m_pTimeLineView->getThumbnailListView());
     for (int idx = 0; idx < m_emptyAllViewTabOrder.count(); idx++) {
         if (m_emptyAllViewTabOrder.at(idx) != nullptr) {
             m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
@@ -838,7 +836,7 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
     } else if (m_iCurrentView == VIEW_TIMELINE) {
         //  时间线界面
         initTimeLineViewTabOrder();
-        ThumbnailListView *tempListView = m_pTimeLineView->getFirstListViewFromTimeline();
+        ThumbnailListView *tempListView = m_pTimeLineView->getThumbnailListView();
         if (obj == m_pTimeBtn && tempListView) {
             tempListView->setFocus();
             //清除其他选中后再选中第一张
@@ -942,6 +940,7 @@ void MainWindow::timeLineBtnClicked()
         int index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
         m_pTimeLineView = new TimeLineView();
         m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+//        m_pTimeLineView->clearAndStartLayout();
     }
     emit dApp->signalM->hideExtensionPanel();
     m_pSearchEdit->clearEdit();
@@ -960,8 +959,8 @@ void MainWindow::timeLineBtnClicked()
 
     initTimeLineViewTabOrder();
     if (m_TimelineViewTabOrder.count() > 0 && m_bVector.at(1)) {
-        if (m_pTimeLineView->getFirstListViewFromTimeline())
-            m_pTimeLineView->getFirstListViewFromTimeline()->installEventFilter(this);
+        if (m_pTimeLineView->getThumbnailListView())
+            m_pTimeLineView->getThumbnailListView()->installEventFilter(this);
         // timelineview
         m_pTimeLineView->pImportView->m_pImportBtn->installEventFilter(this);
         m_bVector[1] = false;
@@ -979,6 +978,7 @@ void MainWindow::albumBtnClicked()
             index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
             m_pTimeLineView = new TimeLineView();
             m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+//            m_pTimeLineView->clearAndStartLayout();
         }
         m_pCenterWidget->removeWidget(m_pAlbumWidget);
         index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
@@ -990,21 +990,12 @@ void MainWindow::albumBtnClicked()
     m_pSearchEdit->clearEdit();
     m_SearchKey.clear();
     m_iCurrentView = VIEW_ALBUM;
+    qDebug() << "------" << __FUNCTION__ << "count = " << m_pCenterWidget->count();
     m_pCenterWidget->setCurrentIndex(m_iCurrentView);
-
-    //手动更新界面，重新计算大小
-    DWidget *pwidget = nullptr;
-    pwidget = m_pAlbumview->m_pRightStackWidget->currentWidget();
-    if (pwidget == m_pAlbumview->pImportTimeLineWidget) { //当前为导入界面
-        m_pAlbumview->m_pRightThumbnailList->resizeHand();
-    } else if (pwidget == m_pAlbumview->m_pTrashWidget) {
-        m_pAlbumview->m_pRightTrashThumbnailList->resizeHand();
-    } else if (pwidget == m_pAlbumview->m_pFavoriteWidget) {
-        m_pAlbumview->m_pRightFavoriteThumbnailList->resizeHand();
-    }
 
     m_pAlbumview->SearchReturnUpdate();
     m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+    qDebug() << "------" << __FUNCTION__ << "";
     m_pAlbumview->updateRightView();
     m_pAlbumview->m_pwidget->setFocus();
 
@@ -1012,7 +1003,6 @@ void MainWindow::albumBtnClicked()
     m_pTimeBtn->setCheckable(true);
     m_pAlbumBtn->setCheckable(true);
     m_pAlbumBtn->setChecked(true);
-    emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
 
     initAlbumViewTabOrder();
 
@@ -1044,7 +1034,7 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
 }
 
 //创建相册槽函数
-void MainWindow::onCreateAlbum(QStringList imagepaths)
+void MainWindow::onCreateAlbum(const QStringList &imagepaths)
 {
     showCreateDialog(imagepaths);
 }
@@ -1055,6 +1045,14 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
     d->setModal(bmodel);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
+
+#ifdef tablet_PC
+    ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
+    QTimer::singleShot(200, []() { //平板未知问题，导致虚拟键盘会显示后瞬间消失，暂时这样规避
+        ComDeepinImInterface::instance().setImActive(true);
+    });
+#endif
+
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         emit dApp->signalM->hideExtensionPanel();
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
@@ -1078,6 +1076,14 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     AlbumCreateDialog *d = new AlbumCreateDialog(this);
     d->show();
     d->move(this->x() + (this->width() - d->width()) / 2, this->y() + (this->height() - d->height()) / 2);
+
+#ifdef tablet_PC
+    ComDeepinImInterface::instance().setImActive(true);//拉起虚拟键盘
+    QTimer::singleShot(200, []() { //平板未知问题，导致虚拟键盘会显示后瞬间消失，暂时这样规避
+        ComDeepinImInterface::instance().setImActive(true);
+    });
+#endif
+
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
         if (nullptr == m_pAlbumview)
@@ -1088,6 +1094,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
                 index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
                 m_pTimeLineView = new TimeLineView();
                 m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+//                m_pTimeLineView->clearAndStartLayout();
             }
             m_pCenterWidget->removeWidget(m_pAlbumWidget);
             index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
@@ -1354,12 +1361,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
         emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
         event->ignore();
     } else {
+        delete m_commandLine;
         event->accept();
     }
 }
 
 void MainWindow::showEvent(QShowEvent *event)
 {
+//    qDebug() << "------" << __FUNCTION__ << "---size = " << this->size();
     Q_UNUSED(event)
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
     if (m_SearchEditWidth <= 350) {
@@ -1392,7 +1401,6 @@ void MainWindow::showEvent(QShowEvent *event)
             }
         }
         m_isFirstStart = false;
-        m_pCenterWidget->setFixedSize(size());
     }, Qt::QueuedConnection);
 }
 
@@ -1764,6 +1772,7 @@ void MainWindow::onButtonClicked(int id)
             index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
             m_pTimeLineView = new TimeLineView();
             m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+//            m_pTimeLineView->clearAndStartLayout();
         }
         timeLineBtnClicked();
 #ifdef tablet_PC
@@ -1778,6 +1787,7 @@ void MainWindow::onButtonClicked(int id)
                 index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
                 m_pTimeLineView = new TimeLineView();
                 m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+//                m_pTimeLineView->clearAndStartLayout();
             }
             m_pCenterWidget->removeWidget(m_pAlbumWidget);
             index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
@@ -1829,21 +1839,9 @@ void MainWindow::onSearchEditTextChanged(QString text)
         }
         break;
         case VIEW_ALBUM: {
-            DWidget *pwidget = nullptr;
-            pwidget = m_pAlbumview->m_pRightStackWidget->currentWidget();
-            if (pwidget == m_pAlbumview->pImportTimeLineWidget) { //当前为导入界面
-                m_pAlbumview->m_pRightThumbnailList->resizeHand();
-            } else if (pwidget == m_pAlbumview->m_pTrashWidget) {
-                m_pAlbumview->m_pRightTrashThumbnailList->resizeHand();
-            } else if (pwidget == m_pAlbumview->m_pFavoriteWidget) {
-                m_pAlbumview->m_pRightFavoriteThumbnailList->resizeHand();
-            }
-
             m_pAlbumview->SearchReturnUpdate();
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
             m_pAlbumview->updatePicNum();
-            emit m_pAlbumview->sigReCalcTimeLineSizeIfNeed();
-
         }
         break;
         }

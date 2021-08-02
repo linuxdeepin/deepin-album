@@ -28,12 +28,12 @@
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fileSuffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
+    , m_qmovie(new QMovie(fileName))
 //    , m_qmovie(nullptr)
 //    , m_suffix(fileSuffix)
 //    , m_index(0)
 {
     Q_UNUSED(fileSuffix)
-    m_qmovie = new QMovie(fileName);
     connect(m_qmovie, &QMovie::frameChanged, this, [ = ]() {
         if (!m_qmovie->currentPixmap().isNull()) {
             setPixmap(m_qmovie->currentPixmap());

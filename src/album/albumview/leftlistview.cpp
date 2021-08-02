@@ -344,7 +344,7 @@ void LeftListView::onMenuClicked(QAction *action)
         }
         if (paths.length() > 0) {
             const QString path = paths.first();
-            emit menuOpenImage(path, paths, true, true);
+            emit sigSlideShow(path);
         }
         break;
     }
@@ -473,7 +473,7 @@ void LeftListView::onCustomListViewPressed(const QModelIndex &index)
 void LeftListView::onMountListViewPressed(const QModelIndex &index)
 {
     Q_UNUSED(index);
-    qDebug() << "zy------LeftListView::onMountListViewPressed m_pMountListWidget size = " << m_pMountListWidget->count();
+    qDebug() << "------" << __FUNCTION__ << "---size = " << m_pMountListWidget->count();
     m_pPhotoLibListView->clearSelection();
     m_pCustomizeListView->clearSelection();
     updateAlbumItemsColor();

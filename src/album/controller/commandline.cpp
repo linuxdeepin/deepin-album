@@ -91,13 +91,13 @@ CommandLine::CommandLine()
 
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
-    setLayout(m_layout);
-
     m_mainWidget = new MainWidget(false, this);
     m_mainWidget->setObjectName("MainWidget");
     m_layout->addWidget(m_mainWidget);
+    setLayout(m_layout);
 }
 
 CommandLine::~CommandLine()
@@ -171,28 +171,25 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
             }
             dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
         }
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-            if (pixmap.height() != 200 && pixmap.width() != 200) {
-                if (pixmap.height() >= pixmap.width()) {
+        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+            if (tImg.height() != 200 && tImg.width() != 200) {
+                if (tImg.height() >= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
-                } else if (pixmap.height() <= pixmap.width()) {
+                    tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                } else if (tImg.height() <= tImg.width()) {
                     cache_exist = true;
-                    pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
                 }
             }
             if (!cache_exist) {
-                if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                    pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                    tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
                 } else {
-                    pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
                 }
             }
         }
-        if (pixmap.isNull()) {
-            pixmap = QPixmap::fromImage(tImg);
-        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
         ImageDataSt pdata;
         pdata.imgpixmap = pixmap;
         pdata.dbi = getDBInfo(path);

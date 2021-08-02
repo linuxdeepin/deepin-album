@@ -83,41 +83,39 @@ void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
 }
 
 
-void ImageLoader::updateImageLoader(QStringList pathlist)
+void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QImage> &images)
 {
-
-    for (QString path : pathlist) {
+    for (int i = 0; i != pathlist.size(); ++i) {
         QImage tImg;
-        QString errMsg;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-//            qDebug()  << errMsg;
-            continue;
+        if (images.isEmpty() || images.size() < i || images.at(i).isNull()) {
+            QString errMsg;
+            if (!UnionImage_NameSpace::loadStaticImageFromFile(pathlist.at(i), tImg, errMsg)) {
+                qDebug()  << errMsg;
+                continue;
+            }
+        } else {
+            tImg = images.at(i);
         }
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
-            if (pixmap.height() != 100 && pixmap.width() != 100) {
-                if (pixmap.height() >= pixmap.width()) {
-                    pixmap = pixmap.scaledToWidth(100,  Qt::FastTransformation);
-                } else if (pixmap.height() <= pixmap.width()) {
-                    pixmap = pixmap.scaledToHeight(100,  Qt::FastTransformation);
+
+        //修改：将QPixmap的变形操作放在QImage里完成
+        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+            if (tImg.height() != 140 && tImg.width() != 140) {
+                if (tImg.height() >= tImg.width()) {
+                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
+                } else if (tImg.height() <= tImg.width()) {
+                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
                 }
             }
         }
-        if (pixmap.isNull()) {
-            pixmap = QPixmap::fromImage(tImg);
-        }
-
-        //            QBuffer buffer(&m_baThumb);
-        //            buffer.open(QIODevice::WriteOnly);
-        QString spath = CACHE_PATH + path;
+        QString spath = CACHE_PATH + pathlist.at(i);
         utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-        pixmap.save(spath, "PNG");
-        if (!ImageEngineApi::instance()->updateImageDataPixmap(path, pixmap)) {
-            continue;
-        }
+        tImg.save(spath, "PNG");
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        ImageEngineApi::instance()->updateImageDataPixmap(pathlist.at(i), pixmap);
     }
+
     emit dApp->signalM->sigUpdateImageLoader(pathlist);
-    // m_parent->m_imagemap[path] = pixmap;
 }
 
 DApplication *Application::dAppNew = nullptr;

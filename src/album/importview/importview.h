@@ -55,7 +55,7 @@ public:
     ImportView();
     bool imageImported(bool success) override;
     void setAlbumname(const QString &name);
-    void onImprotBtnClicked(bool useDialog = true, QStringList list = QStringList());
+    void onImprotBtnClicked(bool useDialog = true, const QStringList &list = QStringList());
 
 private:
     void initConnections();

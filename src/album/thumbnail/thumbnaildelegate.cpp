@@ -38,6 +38,7 @@
 #include <DFontSizeManager>
 #include <DGuiApplicationHelper>
 
+#include "imageengineapi.h"
 namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
@@ -65,6 +66,32 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     if (!bneedpaint) {
         return;
     }
+    const ItemInfo data = itemData(index);
+    switch (data.itemType) {
+    case ItemInfoType::ItemTypeBlank: {
+        //空白项，什么都不绘制
+        break;
+    }
+    case ItemInfoType::ItemTypeTimeLineTitle: {
+        break;
+    }
+    case ItemInfoType::ItemTypeImportTimeLineTitle: {
+        break;
+    }
+    case ItemInfoType::ItemTypePic:
+    case ItemInfoType::ItemTypeVideo: {
+        drawImgAndVideo(painter, option, index);
+        break;
+    }
+    default:
+        drawImgAndVideo(painter, option, index);
+        break;
+    }
+    return;
+}
+
+void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
     painter->save();
     const ItemInfo data = itemData(index);
     bool selected = data.isSelected;
@@ -83,7 +110,6 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         painter->setClipPath(backgroundBp);
 
         QBrush  shadowbrush;
-        QPixmap selectedPixmap;
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             shadowbrush = QBrush(QColor("#DEDEDE"));
@@ -102,7 +128,7 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     }
 
     QRect pixmapRect;
-    if (data.bNotSupportedOrDamaged) {
+    if (data.image.isNull()) {
         pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
         pixmapRect.setWidth(NotSupportedOrDamagedWidth);
 
@@ -133,13 +159,15 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    painter->drawPixmap(pixmapRect, data.image);
-
-    if (COMMON_STR_FAVORITES == m_imageTypeStr) {
-        QPixmap favPixmap;
-        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
-        QRect favRect(pixmapRect.x() + pixmapRect.width() - 20 - 13, pixmapRect.y() + pixmapRect.height() - 20 - 10, 20, 20);
-        painter->drawPixmap(favRect, favPixmap);
+    if (data.image.isNull()) {
+        painter->drawPixmap(pixmapRect, data.damagedPixmap);
+        if (!ImageEngineApi::instance()->m_imgLoaded.contains(data.path)) {
+            qDebug() << "------" << __FUNCTION__ << "---path = " << data.path;
+            emit ImageEngineApi::instance()->sigLoadThumbnailIMG(data.path);
+            ImageEngineApi::instance()->m_imgLoaded.append(data.path);
+        }
+    } else {
+        painter->drawPixmap(pixmapRect, data.image);
     }
 
     //绘制选中图标
@@ -197,6 +225,18 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
     }
 
+    //绘制心形图标
+    if (COMMON_STR_FAVORITES == m_imageTypeStr) {
+        //#BUG84304 修正裂图心形图标的位置
+        QPainterPath bp;
+        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(bp);
+
+        QPixmap favPixmap;
+        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
+        painter->drawPixmap(backgroundRect.x() + backgroundRect.width() - 20 - 23, backgroundRect.y() + backgroundRect.height() - 20 - 20, favPixmap);
+    }
+
     painter->restore();
 }
 
@@ -204,7 +244,15 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
 {
     Q_UNUSED(option)
-    return m_size;
+    ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+    if (data.itemType == ItemInfoType::ItemTypeBlank
+            || data.itemType == ItemInfoType::ItemTypeTimeLineTitle
+            || data.itemType == ItemInfoType::ItemTypeImportTimeLineTitle) {
+        QSize size(data.imgWidth, data.imgHeight);
+        return size;
+    } else {
+        return m_size;
+    }
 }
 
 ItemInfo ThumbnailDelegate::itemData(const QModelIndex &index) const

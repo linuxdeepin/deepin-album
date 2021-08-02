@@ -26,7 +26,10 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <dgiovolume.h>
+
 #include "ac-desktop-define.h"
+#include "batchoperatewidget.h"
+#include "noresultwidget.h"
 
 namespace {
 struct MetaData {
@@ -50,13 +53,10 @@ namespace {
 const int VIEW_IMPORT = 0;
 const int VIEW_ALLPICS = 1;
 const int VIEW_SEARCH = 2;
-const int VIEW_MAINWINDOW_ALLPIC = 0;
 }  //namespace
 
 AllPicView::AllPicView()
-    : m_pStackedWidget(nullptr), m_pStatusBar(nullptr), m_pwidget(nullptr)
-    , m_pImportView(nullptr), step(0), m_pThumbnailListView(nullptr)
-    , m_pSearchView(nullptr), /*m_spinner(nullptr),*/ fatherwidget(nullptr)
+    : step(0)
 {
     setAcceptDrops(true);
     fatherwidget = new DWidget(this);
@@ -65,7 +65,8 @@ AllPicView::AllPicView()
     AC_SET_OBJECT_NAME(m_pStackedWidget, All_Picture_StackedWidget);
     AC_SET_ACCESSIBLE_NAME(m_pStackedWidget, All_Picture_StackedWidget);
     m_pImportView = new ImportView();
-    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType);
+    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType, COMMON_STR_ALLPHOTOS);
+//    m_pThumbnailListView->setStyleSheet("background-color:red;");
     AC_SET_OBJECT_NAME(m_pThumbnailListView, All_Picture_Thembnail);
     AC_SET_ACCESSIBLE_NAME(m_pThumbnailListView, All_Picture_Thembnail);
     DWidget *pThumbnailListView = new DWidget();
@@ -87,11 +88,16 @@ AllPicView::AllPicView()
     pVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     fatherwidget->setLayout(pVBoxLayout);
+    //初始化筛选无结果窗口
+    m_noResultWidget = new NoResultWidget(this);
+    m_pStackedWidget->addWidget(m_noResultWidget);
+    //初始化悬浮窗
+    initSuspensionWidget();
     initConnections();
 //    m_spinner = new DSpinner(this);
 //    m_spinner->setFixedSize(40, 40);
 //    m_spinner->hide();
-    connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish, this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigUpdatePicNum, this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
     connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded, this, &AllPicView::updateStackedWidget);
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -114,16 +120,21 @@ void AllPicView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
-    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::updatePicsIntoThumbnailView);
     connect(dApp, &Application::sigFinishLoad, this, &AllPicView::onFinishLoad);
+    //有图片删除后，刷新列表
+    connect(dApp->signalM, &SignalManager::imagesRemovedPar, this, &AllPicView::onImgRemoved);
     // 添加重复照片提示
     connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &AllPicView::onRepeatImportingTheSamePhotos);
     connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, &AllPicView::onOpenImage);
-    connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, &AllPicView::onMenuOpenImage);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigSlideShow, this, &AllPicView::onSlideShow);
+    //图片旋转后更新图片
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseMove, this, &AllPicView::updatePicNum);
     connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
+    //筛选显示，当先列表中内容为无结果
+    connect(m_pThumbnailListView, &ThumbnailListView::sigNoPicOrNoVideo, this, &AllPicView::slotNoPicOrNoVideo);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
     connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AllPicView::onImportViewImportBtnClicked);
@@ -131,6 +142,33 @@ void AllPicView::initConnections()
     connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AllPicView::onKeyDelete);
     connect(dApp->signalM, &SignalManager::sigMonitorChanged, this, &AllPicView::monitorHaveNewFile);
+}
+
+void AllPicView::initSuspensionWidget()
+{
+    //添加悬浮title
+    m_SuspensionWidget = new QWidget(this);
+
+    //右侧批量操作控件
+    QHBoxLayout *hlayoutDateLabel = new QHBoxLayout(m_SuspensionWidget);
+    m_SuspensionWidget->setLayout(hlayoutDateLabel);
+
+    m_batchOperateWidget = new BatchOperateWidget(m_pThumbnailListView, BatchOperateWidget::NullType, this);
+    hlayoutDateLabel->addStretch(100);
+    hlayoutDateLabel->setContentsMargins(0, 0, 19, 0);
+    hlayoutDateLabel->addWidget(m_batchOperateWidget);
+
+    DPalette ppal_light = DApplicationHelper::instance()->palette(m_SuspensionWidget);
+//    ppal_light.setBrush(DPalette::Background, ppal_light.color(DPalette::Base));
+    ppal_light.setBrush(DPalette::Base, ppal_light.color(DPalette::Window));
+    QGraphicsOpacityEffect *opacityEffect_light = new QGraphicsOpacityEffect;
+    opacityEffect_light->setOpacity(0.95);
+    m_SuspensionWidget->setPalette(ppal_light);
+    m_SuspensionWidget->setGraphicsEffect(opacityEffect_light);
+    m_SuspensionWidget->setAutoFillBackground(true);
+
+    m_SuspensionWidget->setContentsMargins(0, 0, 0, 0);
+    m_SuspensionWidget->setGeometry(0, 0, this->width() - 15, SUSPENSION_WIDGET_HEIGHT);
 }
 
 void AllPicView::updateStackedWidget()
@@ -152,10 +190,11 @@ void AllPicView::monitorHaveNewFile(QStringList list)
 
 void AllPicView::updatePicsIntoThumbnailView()
 {
-//    m_spinner->hide();
-//    m_spinner->stop();
-    m_pThumbnailListView->stopLoadAndClear();
-    m_pThumbnailListView->loadFilesFromDB("NOCache");
+    m_pThumbnailListView->stopLoadAndClear(true);
+    DBImgInfoList infoList = DBManager::instance()->getAllInfos();
+    //加空白栏
+    m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", SUSPENSION_WIDGET_HEIGHT);
+    m_pThumbnailListView->insertThumbnailByImgInfos(infoList);
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
     } else {
@@ -169,7 +208,8 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
 //    m_spinner->hide();
 //    m_spinner->stop();
     m_pThumbnailListView->stopLoadAndClear(false);
-    m_pThumbnailListView->loadFilesFromDB();
+    //todo
+//    m_pThumbnailListView->loadFilesFromDB();
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
     } else {
@@ -191,58 +231,48 @@ void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QString
     }
 }
 
-void AllPicView::onOpenImage(int index)
+void AllPicView::onOpenImage(int row, const QString &path, bool bFullScreen)
 {
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    auto imagelist = m_pThumbnailListView->getAllFileList();
+    info.fullScreen = bFullScreen;
+    auto imagelist = m_pThumbnailListView->getFileList(row);
     if (imagelist.size() > 0) {
         info.paths << imagelist;
-        info.path = imagelist[index];
+        info.path = path;
     } else {
         info.paths.clear();
     }
     info.viewType = utils::common::VIEW_ALLPIC_SRN;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
+    info.itemInfos = m_pThumbnailListView->getAllFileInfo(row);
 
     emit dApp->signalM->viewImage(info);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
 }
 
-void AllPicView::onMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow)
+void AllPicView::onSlideShow(const QString &path)
 {
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    auto imagelist = m_pThumbnailListView->getAllFileList();
-    if (paths.size() > 1) {
-        info.paths = paths;
+    auto photolist = m_pThumbnailListView->selectedPaths();
+    if (photolist.size() > 1) {
+        //如果选中数目大于1，则幻灯片播放选中项
+        info.paths = photolist;
+        info.path = photolist.at(0);
     } else {
-        if (imagelist.size() > 0) {
-            info.paths << imagelist;
-        } else {
-            info.paths.clear();
-        }
+        //如果选中项只有一项，则幻灯片播放全部
+        info.paths = m_pThumbnailListView->getFileList();
+        info.path = path;
     }
-    info.path = path;
-    info.fullScreen = isFullScreen;
-    info.slideShow = isSlideShow;
+    info.fullScreen = true;
+    info.slideShow = true;
     info.viewType = utils::common::VIEW_ALLPIC_SRN;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
-    if (info.slideShow) {
-        //lmh0427幻灯片播放选中地址
-        if (paths.count() == 1) {
-            info.paths = imagelist;
-        } else {
-            info.paths = paths;
-        }
-        emit dApp->signalM->startSlideShow(info);
-        emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
-    } else {
-        emit dApp->signalM->viewImage(info);
-        emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
-    }
+    emit dApp->signalM->startSlideShow(info);
+    emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
 }
 
 void AllPicView::onImportViewImportBtnClicked()
@@ -259,6 +289,11 @@ void AllPicView::onImportFailedToView()
 //        m_spinner->stop();
         updateStackedWidget();
     }
+}
+
+void AllPicView::onImgRemoved(const DBImgInfoList &infos)
+{
+    updateStackedWidget();
 }
 
 ThumbnailListView *AllPicView::getThumbnailListView()
@@ -315,6 +350,19 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->setFixedWidth(this->width());
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
+    m_SuspensionWidget->setGeometry(0, 0, width() - 15, SUSPENSION_WIDGET_HEIGHT);
+}
+//筛选显示，当先列表中内容为无结果
+void AllPicView::slotNoPicOrNoVideo(bool isNoResult)
+{
+    qDebug() << __FUNCTION__ << "---" << isNoResult;
+    if (isNoResult) {
+        m_pStackedWidget->setCurrentWidget(m_noResultWidget);
+        m_pStatusBar->m_pAllPicNumLabel->setText(QObject::tr("No results"));
+    } else {
+        m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+        updatePicNum();
+    }
 }
 
 void AllPicView::updatePicNum()
@@ -362,6 +410,5 @@ void AllPicView::onKeyDelete()
     if (0 >= paths.length()) {
         return;
     }
-    m_pThumbnailListView->setCurrentSelectPath();
     ImageEngineApi::instance()->moveImagesToTrash(paths);
 }

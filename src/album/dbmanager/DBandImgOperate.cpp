@@ -31,6 +31,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QStandardPaths>
+#include <QDirIterator>
 
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                            + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
@@ -47,11 +48,16 @@ DBandImgOperate::~DBandImgOperate()
 
 }
 
-ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt data*/)
+void DBandImgOperate::setThreadShouldStop()
+{
+    m_couldRun.store(false);
+}
+
+QPixmap DBandImgOperate::loadOneThumbnail(const QString &imagepath)
 {
     if (!QFileInfo(imagepath).exists()) {
         emit fileIsNotExist(imagepath);
-        return ImageDataSt();
+        return QPixmap();
     }
     using namespace UnionImage_NameSpace;
     QImage tImg;
@@ -69,51 +75,137 @@ ImageDataSt DBandImgOperate::loadOneThumbnail(QString imagepath/*, ImageDataSt d
             qDebug() << errMsg;
         }
     }
-    QPixmap pixmap = QPixmap::fromImage(tImg);
-    if (0 != pixmap.height() && 0 != pixmap.width() && (pixmap.height() / pixmap.width()) < 10 && (pixmap.width() / pixmap.height()) < 10) {
+    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
-        if (pixmap.height() != 200 && pixmap.width() != 200) {
-            if (pixmap.height() >= pixmap.width()) {
+        if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (pixmap.height() <= pixmap.width()) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
-            if ((static_cast<float>(pixmap.height()) / (static_cast<float>(pixmap.width()))) > 3) {
-                pixmap = pixmap.scaledToWidth(200,  Qt::FastTransformation);
+            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
             } else {
-                pixmap = pixmap.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
             }
         }
     }
-    if (pixmap.isNull()) {
-        qDebug() << "null pixmap" << tImg;
-        pixmap = QPixmap::fromImage(tImg);
+
+    if (!file.exists()) {
+        utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
+        tImg.save(thumbnailPath, "PNG");
     }
-    ImageDataSt data;
-    data.imgpixmap = pixmap;
-    QFileInfo fi(srcPath);
-    //此处不需要加载拍摄时间
-    data.loaded = ImageLoadStatu_PreLoaded;
-    return data;
+
+    QPixmap pixmap = QPixmap::fromImage(tImg);
+    return pixmap;
 }
 
-void DBandImgOperate::threadSltLoad80Thumbnail(DBImgInfoList infos)
+void DBandImgOperate::loadOneImg(QString imagepath)
 {
-    DBImgInfoList infosLoad;
-    for (int i = m_loadBegin; (i < infos.size() && i < m_loadEnd); i++) {
-        infosLoad.append(infos.at(i));
+//    qDebug() << "------" << __FUNCTION__ << "" << imagepath;
+    if (!QFileInfo(imagepath).exists()) {
+        emit fileIsNotExist(imagepath);
+        return;
     }
-    QMap<QString, ImageDataSt> imageDatas;
-    imageDatas.clear();
-    for (auto info : infosLoad) {
-        ImageDataSt data = loadOneThumbnail(info.filePath);
-        imageDatas[info.filePath] = data;
+    using namespace UnionImage_NameSpace;
+    QImage tImg;
+    QString srcPath = imagepath;
+    QString thumbnailPath = CACHE_PATH + imagepath;
+    QFileInfo file(thumbnailPath);
+    QString errMsg;
+    QFileInfo srcfi(srcPath);
+    if (file.exists()) {
+        if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
+            qDebug() << errMsg;
+        }
+    } else {
+        if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
+            qDebug() << errMsg;
+        }
     }
-    emit sig80ImgInfosReady(imageDatas);
+
+    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+        bool cache_exist = false;
+        if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() >= tImg.width()) {
+                cache_exist = true;
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else if (tImg.height() <= tImg.width()) {
+                cache_exist = true;
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+            }
+        }
+        if (!cache_exist) {
+            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else {
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+            }
+        }
+    }
+
+    if (!file.exists()) {
+        utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
+        tImg.save(thumbnailPath, "PNG");
+    }
+
+    QPixmap pixmap = QPixmap::fromImage(tImg);
+    emit sigOneImgReady(imagepath, pixmap);
+}
+
+void DBandImgOperate::rotateImageFIle(int angel, const QString &path)
+{
+    QString errMsg;
+    if (!UnionImage_NameSpace::rotateImageFIle(angel, path, errMsg)) {
+        qDebug() << errMsg;
+        return;
+    }
+    loadOneImg(path);
+}
+
+void DBandImgOperate::sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num)
+{
+    // 从硬盘上加载图片到缓存中
+    int size = infos.size();
+    for (int i = 0; i < num; i++) {
+        if (i < size) {
+            infos[i].imgpixmap = loadOneThumbnail(infos[i].dbi.filePath);
+        }
+    }
+    emit sig80ImgInfosReady(infos);
+}
+
+void DBandImgOperate::sltLoadMountFileList(const QString &path)
+{
+    m_couldRun.store(true);
+    QString strPath = path;
+    //获取所选文件类型过滤器
+    QStringList filters;
+    for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
+        filters << "*." + i;
+    }
+    //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+    QDirIterator dir_iterator(strPath,
+                              filters,
+                              QDir::Files | QDir::NoSymLinks,
+                              QDirIterator::Subdirectories);
+    QStringList allfiles;
+    while (dir_iterator.hasNext()) {
+        //需要停止则跳出循环
+        if (!m_couldRun.load()) {
+            break;
+        }
+        dir_iterator.next();
+        QFileInfo fileInfo = dir_iterator.fileInfo();
+        allfiles << fileInfo.filePath();
+    }
+    //重置标志位，可以执行线程
+    m_couldRun.store(true);
+    emit sigMountFileListLoadReady(strPath, allfiles);
 }
 
 void DBandImgOperate::getAllInfos()

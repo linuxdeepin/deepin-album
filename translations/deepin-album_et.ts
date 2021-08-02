@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="et" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="et">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -60,11 +62,11 @@
     </message>
     <message>
         <source>Delete All</source>
-        <translation>Kustuta kõik</translation>
+        <translation type="vanished">Kustuta kõik</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Kustuta</translation>
+        <translation type="vanished">Kustuta</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
@@ -80,11 +82,11 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Taasta</translation>
+        <translation type="vanished">Taasta</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -92,7 +94,7 @@
     </message>
     <message>
         <source>Import to:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disk</source>
@@ -120,7 +122,7 @@
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
@@ -140,7 +142,7 @@
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -237,7 +239,7 @@
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -248,7 +250,7 @@
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
@@ -260,7 +262,7 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -348,11 +350,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -453,7 +455,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -520,7 +522,7 @@
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Import successful</source>
@@ -588,11 +590,11 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New album</source>
@@ -600,19 +602,15 @@
     </message>
     <message>
         <source>Page up</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
         <translation>Seaded</translation>
-    </message>
-    <message>
-        <source>Some photos have not been imported</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Import photos</source>
@@ -624,15 +622,15 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -640,7 +638,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -671,19 +669,19 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -695,7 +693,7 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Metering mode</source>
@@ -731,78 +729,10 @@
     </message>
 </context>
 <context>
-    <name>MountThumbnailListView</name>
+    <name>NoResultWidget</name>
     <message>
-        <source>Photo info</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"/>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -814,14 +744,6 @@
 </context>
 <context>
     <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Fit image to page</source>
         <translation type="vanished">Mahuta pilt lehele</translation>
@@ -845,10 +767,6 @@
     <message>
         <source>Image Position</source>
         <translation type="vanished">Pildi asukoht</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image Settings</source>
@@ -889,12 +807,8 @@
         <translation type="vanished">%1/%2/%3 %4</translation>
     </message>
     <message>
-        <source>Import on </source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Imported on</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
@@ -902,7 +816,43 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unselect All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Tühista</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Taasta</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Kustuta</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="unfinished">Fotod</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videod</translation>
+    </message>
+    <message>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -951,11 +901,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

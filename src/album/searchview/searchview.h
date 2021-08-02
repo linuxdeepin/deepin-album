@@ -76,12 +76,14 @@ class SearchView : public QWidget
 
 public:
     SearchView();
-    void improtSearchResultsIntoThumbnailView(QString s, QString album);
+    void improtSearchResultsIntoThumbnailView(QString s, const QString &album);
 
 public slots:
     void onSlideShowBtnClicked();
-    void onThumbnailListViewOpenImage(int index);
-    void onThumbnailListViewMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow);
+    //打开图片
+    void onOpenImage(int row, const QString &path, bool bFullScreen);
+    //幻灯片播放
+    void onSlideShow(const QString &path);
     void onFinishLoad();
 
 private:
@@ -99,7 +101,7 @@ private:
     DStackedWidget *m_stackWidget;
     DWidget *m_pNoSearchResultView;
     DLabel *m_pNoSearchResultLabel;
-    DWidget *m_pSearchResultView;
+    DWidget *m_pSearchResultWidget = nullptr;
     DWidget *m_searchResultViewbody;
     DWidget *m_searchResultViewTop;
     SlideShowButton *m_pSlideShowBtn;

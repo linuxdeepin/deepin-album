@@ -140,7 +140,7 @@ void SlideShowButton::mouseEvent(QMouseEvent *e)
 
 SearchView::SearchView()
     : m_stackWidget(nullptr), m_pNoSearchResultView(nullptr), m_pNoSearchResultLabel(nullptr)
-    , m_pSearchResultView(nullptr), m_searchResultViewbody(nullptr), m_searchResultViewTop(nullptr)
+    , m_searchResultViewbody(nullptr), m_searchResultViewTop(nullptr)
     , m_pSlideShowBtn(nullptr), m_pSearchResultLabel(nullptr), pNoResult(nullptr)
     , pLabel1(nullptr), m_searchPicNum(0), m_pThumbnailListView(nullptr)
 {
@@ -155,8 +155,8 @@ void SearchView::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(m_pSlideShowBtn, &DPushButton::clicked, this, &SearchView::onSlideShowBtnClicked);
     connect(dApp->signalM, &SignalManager::sigSendKeywordsIntoALLPic, this, &SearchView::improtSearchResultsIntoThumbnailView);
-    connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, &SearchView::onThumbnailListViewOpenImage);
-    connect(m_pThumbnailListView, &ThumbnailListView::menuOpenImage, this, &SearchView::onThumbnailListViewMenuOpenImage);
+    connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, &SearchView::onOpenImage);
+    connect(m_pThumbnailListView, &ThumbnailListView::sigSlideShow, this, &SearchView::onSlideShow);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
@@ -198,7 +198,7 @@ void SearchView::initNoSearchResultView()
 
 void SearchView::initSearchResultView()
 {
-    m_pSearchResultView = new DWidget();
+    m_pSearchResultWidget = new DWidget();
     pLabel1 = new DLabel();
     pLabel1->setText(tr("Search results"));
     QFont font = DFontSizeManager::instance()->get(DFontSizeManager::T3);
@@ -232,7 +232,7 @@ void SearchView::initSearchResultView()
     pHBoxLayout->addStretch(0);
 
 
-    m_searchResultViewTop = new DWidget(m_pSearchResultView);
+    m_searchResultViewTop = new DWidget(m_pSearchResultWidget);
 
     QGraphicsOpacityEffect *opacityEffect_light = new QGraphicsOpacityEffect;
     opacityEffect_light->setOpacity(0.95);
@@ -240,12 +240,12 @@ void SearchView::initSearchResultView()
     m_searchResultViewTop->setAutoFillBackground(true);
     m_searchResultViewTop->setBackgroundRole(DPalette::Window);
 
-    m_searchResultViewbody = new DWidget(m_pSearchResultView);
+    m_searchResultViewbody = new DWidget(m_pSearchResultWidget);
 
     QVBoxLayout *pSearchResultbodyLayout = new QVBoxLayout();
-    pSearchResultbodyLayout->setContentsMargins(8, 145, 0, 0);//搜索界面各边距
+    pSearchResultbodyLayout->setContentsMargins(8, 0, 0, 0);//搜索界面各边距
     //LMH0417 bug号20706
-    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType);
+    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType, COMMON_STR_SEARCH);
 
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
 
@@ -267,8 +267,8 @@ void SearchView::initSearchResultView()
     pSearchResultLayout->addSpacing(5);
     pSearchResultLayout->addItem(pHBoxLayout);
 
-    m_searchResultViewTop->setFixedHeight(95);
-    m_searchResultViewTop->move(0, 50);
+    m_searchResultViewTop->setFixedHeight(90);
+    m_searchResultViewTop->move(0, 0);
     m_searchResultViewbody->setLayout(pSearchResultbodyLayout);
     m_searchResultViewTop->setLayout(pSearchResultLayout);
     m_searchResultViewTop->raise();
@@ -279,14 +279,14 @@ void SearchView::initMainStackWidget()
     m_stackWidget = new DStackedWidget();
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
     m_stackWidget->addWidget(m_pNoSearchResultView);
-    m_stackWidget->addWidget(m_pSearchResultView);
+    m_stackWidget->addWidget(m_pSearchResultWidget);
 
     QLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_stackWidget);
 }
 
-void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
+void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &album)
 {
     m_albumName = album;
     using namespace utils::image;
@@ -304,7 +304,10 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, QString album)
     }
 
     if (0 < infos.length()) {
-        m_pThumbnailListView->loadFilesFromLocal(infos);
+        //插入空白项
+        m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", 90);
+        //插入信息
+        m_pThumbnailListView->insertThumbnailByImgInfos(infos);
         QString searchStr = tr("%1 photo(s) found");
         QString str = QString::number(infos.length());
         m_searchPicNum = infos.length();
@@ -353,29 +356,24 @@ void SearchView::onSlideShowBtnClicked()
     QString path = "";
     if (paths.size() > 0) {
         path = paths.first();
-        emit m_pThumbnailListView->menuOpenImage(path, paths, true, true);
+        onSlideShow(path);
     }
 }
 
-void SearchView::onThumbnailListViewOpenImage(int index)
+void SearchView::onOpenImage(int row, const QString &path, bool bFullScreen)
 {
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    DBImgInfoList imagelist;
-    if (COMMON_STR_ALLPHOTOS == m_albumName
-            || COMMON_STR_TIMELINE == m_albumName
-            || COMMON_STR_RECENT_IMPORTED == m_albumName) {
-        imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
-    } else if (COMMON_STR_TRASH == m_albumName) {
-        imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
+    info.fullScreen = bFullScreen;
+    auto imagelist = m_pThumbnailListView->getFileList(row);
+    if (imagelist.size() > 0) {
+        info.paths << imagelist;
+        info.path = path;
     } else {
-        imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
+        info.paths.clear();
     }
-    for (auto image : imagelist) {
-        info.paths << image.filePath;
-    }
-    info.path = info.paths[index];
+    info.itemInfos = m_pThumbnailListView->getAllFileInfo(row);
     info.viewType = utils::common::VIEW_SEARCH_SRN;
 
     emit dApp->signalM->viewImage(info);
@@ -389,56 +387,32 @@ void SearchView::onThumbnailListViewOpenImage(int index)
     }
 }
 
-void SearchView::onThumbnailListViewMenuOpenImage(const QString &path, QStringList paths, bool isFullScreen, bool isSlideShow)
+void SearchView::onSlideShow(const QString &path)
 {
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    auto imagelist = m_pThumbnailListView->getAllFileList();
-    if (paths.size() > 1) {
-        info.paths = paths;
-    } else if (imagelist.size() > 1) {
-        for (auto image : imagelist) {
-            info.paths << image;
-        }
-    }
-    info.path = path;
-    info.fullScreen = isFullScreen;
-    info.slideShow = isSlideShow;
-    info.viewType = utils::common::VIEW_SEARCH_SRN;
-
-    if (info.slideShow) {
-        if (imagelist.count() == 1) {
-            info.paths = paths;
-        }
-
-        QStringList pathlist;
-        pathlist.clear();
-        for (auto path : info.paths) {
-            if (QFileInfo(path).exists()) {
-                pathlist << path;
-            }
-        }
-
-        info.paths = pathlist;
-        emit dApp->signalM->startSlideShow(info);
-
-        if (COMMON_STR_ALLPHOTOS == m_albumName) {
-            emit dApp->signalM->showSlidePanel(0);
-        } else if (COMMON_STR_TIMELINE == m_albumName) {
-            emit dApp->signalM->showSlidePanel(1);
-        } else {
-            emit dApp->signalM->showSlidePanel(2);
-        }
+    auto photolist = m_pThumbnailListView->selectedPaths();
+    if (photolist.size() > 1) {
+        //如果选中数目大于1，则幻灯片播放选中项
+        info.paths = photolist;
+        info.path = photolist.at(0);
     } else {
-        emit dApp->signalM->viewImage(info);
-        if (COMMON_STR_ALLPHOTOS == m_albumName) {
-            emit dApp->signalM->showImageView(0);
-        } else if (COMMON_STR_TIMELINE == m_albumName) {
-            emit dApp->signalM->showImageView(1);
-        } else {
-            emit dApp->signalM->showImageView(2);
-        }
+        //如果选中项只有一项，则幻灯片播放全部
+        info.paths = m_pThumbnailListView->getFileList();
+        info.path = path;
+    }
+    info.fullScreen = true;
+    info.slideShow = true;
+    info.viewType = utils::common::VIEW_SEARCH_SRN;
+    emit dApp->signalM->startSlideShow(info);
+
+    if (COMMON_STR_ALLPHOTOS == m_albumName) {
+        emit dApp->signalM->showSlidePanel(0);
+    } else if (COMMON_STR_TIMELINE == m_albumName) {
+        emit dApp->signalM->showSlidePanel(1);
+    } else {
+        emit dApp->signalM->showSlidePanel(2);
     }
 }
 
@@ -495,15 +469,15 @@ void SearchView::paintEvent(QPaintEvent *event)
         m_currentFontSize = currentSize;
     }
     QWidget::paintEvent(event);
-    m_searchResultViewTop->setFixedWidth(m_pSearchResultView->width());
-    m_searchResultViewbody->setFixedSize(m_pSearchResultView->size());
+    m_searchResultViewTop->setFixedWidth(m_pSearchResultWidget->width() - 10);
+    m_searchResultViewbody->setFixedSize(m_pSearchResultWidget->size());
 }
 
 void SearchView::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
-    m_searchResultViewTop->setFixedWidth(m_pSearchResultView->width());
-    m_searchResultViewbody->setFixedSize(m_pSearchResultView->size());
+    m_searchResultViewTop->setFixedWidth(m_pSearchResultWidget->width() - 10);
+    m_searchResultViewbody->setFixedSize(m_pSearchResultWidget->size());
 }
 
 void SearchView::onKeyDelete()

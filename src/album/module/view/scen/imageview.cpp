@@ -150,7 +150,7 @@ void ImageView::clear()
     scene()->clear();
 }
 
-void ImageView::setImage(const QString &path)
+void ImageView::setImage(const QString &path, const QImage &image)
 {
     m_loadPath = path;
     // Empty path will cause crash in release-build mode
@@ -174,7 +174,7 @@ void ImageView::setImage(const QString &path)
         s->clear();
         resetTransform();
         m_movieItem = new GraphicsMovieItem(path, strfixL);
-//        m_movieItem->start();
+        //        m_movieItem->start();
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         qDebug() << "m_movieItem->boundingRect() = " << m_movieItem->boundingRect();
@@ -185,64 +185,80 @@ void ImageView::setImage(const QString &path)
             autoFit();
         }, Qt::QueuedConnection);
     } else {
+        //当传入的image无效时，需要重新读取数据
         m_movieItem = nullptr;
         qDebug() << "Start cache pixmap: " << path;
-        QImageReader imagreader(path);      //取原图的分辨率
-        int w = imagreader.size().width();
-        int h = imagreader.size().height();
-        scene()->clear();
-        resetTransform();
-        ImageDataSt data;   //内存中的数据
-        ImageEngineApi::instance()->getImageData(path, data);
-        int wScale = 0;
-        int hScale = 0;
-        int wWindow = 0;
-        int hWindow = 0;
-        if (QApplication::activeWindow()) {
-            wWindow = QApplication::activeWindow()->width();
-            hWindow = QApplication::activeWindow()->height();
-        } else {
-            wWindow = 1300;
-            hWindow = 848;
-        }
-
-        if (w >= wWindow) {
-            wScale = wWindow;
-            hScale = wScale * h / w;
-            if (hScale > hWindow) {
-                hScale = hWindow;
-                wScale = hScale * w / h;
+        if (image.isNull()) {
+            QImageReader imagreader(path);      //取原图的分辨率
+            int w = imagreader.size().width();
+            int h = imagreader.size().height();
+            scene()->clear();
+            resetTransform();
+            ImageDataSt data;   //内存中的数据
+            ImageEngineApi::instance()->getImageData(path, data);
+            int wScale = 0;
+            int hScale = 0;
+            int wWindow = 0;
+            int hWindow = 0;
+            if (QApplication::activeWindow()) {
+                wWindow = QApplication::activeWindow()->width();
+                hWindow = QApplication::activeWindow()->height();
+            } else {
+                wWindow = 1300;
+                hWindow = 848;
             }
-        } else if (h >= hWindow) {
-            hScale = hWindow;
-            wScale = hScale * w / h;
-            if (wScale >= wWindow) {
+
+            if (w >= wWindow) {
                 wScale = wWindow;
                 hScale = wScale * h / w;
+                if (hScale > hWindow) {
+                    hScale = hWindow;
+                    wScale = hScale * w / h;
+                }
+            } else if (h >= hWindow) {
+                hScale = hWindow;
+                wScale = hScale * w / h;
+                if (wScale >= wWindow) {
+                    wScale = wWindow;
+                    hScale = wScale * h / w;
+                }
+            } else {
+                wScale = w;
+                hScale = h;
             }
+            if (wScale == 0 || wScale == -1) {
+                wScale = wWindow;
+                hScale = hWindow;
+            }
+            QPixmap pix = data.imgpixmap.scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
+            m_pixmapItem = new GraphicsPixmapItem(pix);
+            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+            // Make sure item show in center of view after reload
+            m_blurEffect = new QGraphicsBlurEffect;
+            m_blurEffect->setBlurRadius(5);
+            m_blurEffect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
+            m_pixmapItem->setGraphicsEffect(m_blurEffect);
+            setSceneRect(m_pixmapItem->boundingRect());
+            m_loadTimer->start();
+            scene()->addItem(m_pixmapItem);
+            emit imageChanged(path);
+            QMetaObject::invokeMethod(this, [ = ]() {
+                resetTransform();
+            }, Qt::QueuedConnection);
         } else {
-            wScale = w;
-            hScale = h;
+            //当传入的image有效时，直接刷入图像，不再重复读取
+            QPixmap pix = QPixmap::fromImage(image);
+            pix.setDevicePixelRatio(devicePixelRatioF());
+            m_pixmapItem = new GraphicsPixmapItem(pix);
+            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+            setSceneRect(m_pixmapItem->boundingRect());
+            scene()->clear();
+            scene()->addItem(m_pixmapItem);
+            autoFit();
+            emit imageChanged(path);
+            this->update();
+            emit hideNavigation();
         }
-        if (wScale == 0 || wScale == -1) {
-            wScale = wWindow;
-            hScale = hWindow;
-        }
-        QPixmap pix = data.imgpixmap.scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
-        m_pixmapItem = new GraphicsPixmapItem(pix);
-        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        // Make sure item show in center of view after reload
-        m_blurEffect = new QGraphicsBlurEffect;
-        m_blurEffect->setBlurRadius(5);
-        m_blurEffect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
-        m_pixmapItem->setGraphicsEffect(m_blurEffect);
-        setSceneRect(m_pixmapItem->boundingRect());
-        scene()->addItem(m_pixmapItem);
-        emit imageChanged(path);
-        m_loadTimer->start();
-        QMetaObject::invokeMethod(this, [ = ]() {
-            resetTransform();
-        }, Qt::QueuedConnection);
     }
     m_firstset = true;
 }
@@ -372,50 +388,26 @@ void ImageView::fitImage()
 
 void ImageView::rotateClockWise()
 {
-//    const QString suffix = QFileInfo(m_path).suffix();
-//    if (suffix.toUpper().compare("SVG") == 0) {
-//        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-//        imgSVGThread->setData(QStringList() << m_path, 90);
-//        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
-//        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-//        imgSVGThread->start();
-//    } else {
-//        utils::image::rotate(m_path, 90);
-//        setImage(m_path);
-//        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
-//    }
-
     QString errMsg;
-    if (!UnionImage_NameSpace::rotateImageFIle(90, m_path, errMsg)) {
+    QImage rotateResult;
+    if (!UnionImage_NameSpace::rotateImageFIleWithImage(90, rotateResult, m_path, errMsg)) {
         qDebug() << errMsg;
         return;
     }
-    setImage(m_path);
-
-    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    dApp->m_imageloader->updateImageLoader(QStringList(m_path), QList<QImage>({rotateResult}));
+    setImage(m_path, rotateResult);
 }
 
 void ImageView::rotateCounterclockwise()
 {
-//    const QString suffix = QFileInfo(m_path).suffix();
-//    if (suffix.toUpper().compare("SVG") == 0) {
-//        ImageSVGConvertThread *imgSVGThread = new ImageSVGConvertThread;
-//        imgSVGThread->setData(QStringList() << m_path, -90);
-//        connect(imgSVGThread, &ImageSVGConvertThread::updateImages, this, &ImageView::updateImages);
-//        connect(imgSVGThread, &ImageSVGConvertThread::finished, imgSVGThread, &QObject::deleteLater);
-//        imgSVGThread->start();
-//    } else {
-//        utils::image::rotate(m_path, - 90);
-//        setImage(m_path);
-//        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
-//    }
     QString errMsg;
-    if (!UnionImage_NameSpace::rotateImageFIle(-90, m_path, errMsg)) {
+    QImage rotateResult;
+    if (!UnionImage_NameSpace::rotateImageFIleWithImage(-90, rotateResult, m_path, errMsg)) {
         qDebug() << errMsg;
         return;
     }
-    setImage(m_path);
-    dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+    dApp->m_imageloader->updateImageLoader(QStringList(m_path), QList<QImage>({rotateResult}));
+    setImage(m_path, rotateResult);
 }
 
 void ImageView::centerOn(qreal x, qreal y)

@@ -47,6 +47,7 @@ public:
         QString album = QString();
         QString path;                           // Specific current open one
         QStringList paths = QStringList();      // Limit the view range
+        QList<ItemInfo> itemInfos;
         QString viewType = QString();
     };
 

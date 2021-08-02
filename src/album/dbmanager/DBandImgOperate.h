@@ -50,18 +50,28 @@ public:
     explicit DBandImgOperate(QObject *parent = nullptr);
     ~DBandImgOperate();
 public slots:
-//    void     setThreadShouldStop();
+    void     setThreadShouldStop();
     //获取全部相片信息
     void     getAllInfos();
     //产生缩略图
     //加载一张缩略图
-    ImageDataSt     loadOneThumbnail(QString imagepath/*, ImageDataSt data*/);
-    void     threadSltLoad80Thumbnail(DBImgInfoList infos);
+    QPixmap     loadOneThumbnail(const QString &imagepath);
+    //制作一张缩略图，并通过信号传至主线程
+    void     loadOneImg(QString imagepath);
+    //旋转图片并重新制作缩略图
+    void     rotateImageFIle(int angel, const QString &path);
+    void     sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num);
+    //加载设备中图片列表请求完成
+    void sltLoadMountFileList(const QString &path);
 signals:
-    void sig80ImgInfosReady(QMap<QString, ImageDataSt> imageDatas);
+    void sig80ImgInfosReady(QVector<ImageDataSt> imageDatas);
+    void sigOneImgReady(QString imagepath, QPixmap pimap);
+
     void sigAllImgInfosReady(DBImgInfoList);
     void loadOneThumbnailReady(QString imagepath, ImageDataSt data);
     void fileIsNotExist(QString imagepath);
+    //加载设备中图片列表请求完成
+    void sigMountFileListLoadReady(QString path, QStringList fileList);
 public:
     int m_loadBegin = 0;
     int m_loadEnd = 0;
