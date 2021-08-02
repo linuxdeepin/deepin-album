@@ -652,11 +652,13 @@ void TimeLineView::addTimelineLayout()
     connect(pThumbnailListView, &ThumbnailListView::sigMousePress, this, [ = ](QMouseEvent * event) {
         lastRow = -1;
         if (event->button() == Qt::LeftButton) {
+#ifndef tablet_PC
             for (int j = 0; j < m_allThumbnailListView.length(); j++) {
                 if (pThumbnailListView != m_allThumbnailListView[j]) {
                     m_allThumbnailListView[j]->clearSelection();
                 }
             }
+#endif
             m_ctrlPress = false;
         }
 
@@ -738,6 +740,7 @@ void TimeLineView::addTimelineLayout()
     });
 
     connect(pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, [ = ]() {
+#ifndef tablet_PC
         if (!m_ctrlPress) {
             for (int j = 0; j < m_allThumbnailListView.length(); j++) {
                 if (pThumbnailListView != m_allThumbnailListView[j]) {
@@ -745,6 +748,7 @@ void TimeLineView::addTimelineLayout()
                 }
             }
         }
+#endif
 
         updatePicNum();
         updateChoseText();
