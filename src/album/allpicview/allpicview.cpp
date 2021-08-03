@@ -69,15 +69,15 @@ AllPicView::AllPicView()
 //    m_pThumbnailListView->setStyleSheet("background-color:red;");
     AC_SET_OBJECT_NAME(m_pThumbnailListView, All_Picture_Thembnail);
     AC_SET_ACCESSIBLE_NAME(m_pThumbnailListView, All_Picture_Thembnail);
-    DWidget *pThumbnailListView = new DWidget();
+    m_thumbnailListViewWidget = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(8, 0, 0, 27);
     m_mainLayout->addWidget(m_pThumbnailListView);
-    pThumbnailListView->setLayout(m_mainLayout);
+    m_thumbnailListViewWidget->setLayout(m_mainLayout);
     m_pSearchView = new SearchView();
     m_pStackedWidget->addWidget(m_pImportView);
     m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-    m_pStackedWidget->addWidget(pThumbnailListView);
+    m_pStackedWidget->addWidget(m_thumbnailListViewWidget);
     m_pStackedWidget->addWidget(m_pSearchView);
     m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
     m_pStatusBar = new StatusBar(this);
@@ -147,7 +147,7 @@ void AllPicView::initConnections()
 void AllPicView::initSuspensionWidget()
 {
     //添加悬浮title
-    m_SuspensionWidget = new QWidget(this);
+    m_SuspensionWidget = new QWidget(m_thumbnailListViewWidget);
 
     //右侧批量操作控件
     QHBoxLayout *hlayoutDateLabel = new QHBoxLayout(m_SuspensionWidget);

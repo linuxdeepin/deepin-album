@@ -653,15 +653,12 @@ void AlbumView::initFavoriteWidget()
     m_pFavoritePicTotal->setPalette(pal);
     lNumberLayout->addWidget(m_pFavoritePicTotal);
 
+    m_FavoriteTitleWidget = new DWidget(m_pFavoriteWidget);
+    m_FavoriteTitleWidget->setLayout(lNumberLayout);
+
     m_favoriteBatchOperateWidget = new BatchOperateWidget(m_favoriteThumbnailList, BatchOperateWidget::NullType, m_FavoriteTitleWidget);
     lNumberLayout->addStretch(100);
-//    hlayoutDateLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-//    hlayoutDateLabel->setContentsMargins(0, 0, 19, 0);
     lNumberLayout->addWidget(m_favoriteBatchOperateWidget, 0, Qt::AlignRight | Qt::AlignVCenter);
-
-    m_FavoriteTitleWidget = new DWidget(m_pFavoriteWidget);
-//    m_FavoriteTitleWidget->setStyleSheet("background-color:red;");
-    m_FavoriteTitleWidget->setLayout(lNumberLayout);
 
     DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_FavoriteTitleWidget);
     ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
@@ -876,6 +873,7 @@ void AlbumView::updateRightMyFavoriteView()
     QString favoriteStr = tr("%1 photo(s)");
     m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+    m_FavoriteTitleWidget->setVisible(infos.size() > 0);
     m_pStatusBar->setVisible(true);
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(false);
@@ -975,6 +973,7 @@ void AlbumView::updateRightTrashView()
     m_pRightTrashThumbnailList->insertThumbnailByImgInfos(infos);
     m_curThumbnaiItemList_info << infos;
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
+    m_trashBatchOperateWidget->setVisible(infos.size() > 0);
     m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
     //todo
@@ -1558,8 +1557,14 @@ void AlbumView::SearchReturnUpdate()
     if (RIGHT_VIEW_SEARCH == m_pRightStackWidget->currentIndex()) {
         if (COMMON_STR_TRASH == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
+            //最近删除内没有图片，隐藏批量处理按钮
+            DBImgInfoList infos = DBManager::instance()->getAllTrashInfos();
+            m_trashBatchOperateWidget->setVisible(infos.size() > 0);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
+            DBImgInfoList infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum, AlbumDBType::Favourite);
+            //收藏内没有图片，隐藏批量处理按钮
+            m_FavoriteTitleWidget->setVisible(infos.size() > 0);
         } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
         } else {

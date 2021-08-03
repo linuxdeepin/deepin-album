@@ -190,7 +190,7 @@ void TimeLineView::initTimeLineViewWidget()
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigMoveToTrash, this, &TimeLineView::onKeyDelete);//跳转
 
     //添加悬浮title
-    m_dateNumItemWidget = new QWidget(this);
+    m_dateNumItemWidget = new QWidget(pTimeLineViewWidget);
     m_dateNumItemWidget->setPalette(palcolor);
     QVBoxLayout *titleViewLayout = new QVBoxLayout();
     titleViewLayout->setContentsMargins(18, 0, 0, 0);
@@ -310,6 +310,7 @@ void TimeLineView::clearAndStartLayout()
     m_spinner->stop();
     //获取所有时间线
     m_timelines = DBManager::instance()->getAllTimelines();
+    updateStackedWidget();
     addTimelineLayout();
 }
 

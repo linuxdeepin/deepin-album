@@ -115,6 +115,7 @@ public:
     const static int SUSPENSION_WIDGET_HEIGHT = 40;//悬浮控件高度
 
 private:
+    DWidget *m_thumbnailListViewWidget = nullptr;
     ThumbnailListView *m_pThumbnailListView = nullptr;
     NoResultWidget *m_noResultWidget = nullptr;
     SearchView *m_pSearchView = nullptr;
