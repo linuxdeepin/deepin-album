@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ne">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ne" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -138,11 +136,11 @@
     </message>
     <message>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -642,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -828,63 +826,63 @@
     </message>
     <message>
         <source>Imported on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">रद्द गर्नुहोस्</translation>
+        <translation>रद्द गर्नुहोस्</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">पुनर्स्थापना गर्नुहोस्</translation>
+        <translation>पुनर्स्थापना गर्नुहोस्</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">हटाउनुहोस्</translation>
+        <translation>हटाउनुहोस्</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">फोटोहरू</translation>
+        <translation>फोटोहरू</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">भिडियोहरू</translation>
+        <translation>भिडियोहरू</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">मनपर्ने</translation>
+        <translation>मनपर्ने</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">घडिको उल्टो दिशामा घुमाउनुहोस्</translation>
+        <translation>घडिको उल्टो दिशामा घुमाउनुहोस्</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">घडीको दिशामा घुमाउनुहोस्</translation>
+        <translation>घडीको दिशामा घुमाउनुहोस्</translation>
     </message>
 </context>
 <context>

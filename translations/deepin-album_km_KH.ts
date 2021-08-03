@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="km_KH">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="km_KH" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -642,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">បោះបង់</translation>
+        <translation>បោះបង់</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">ស្តារ</translation>
+        <translation>ស្តារ</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">លុប</translation>
+        <translation>លុប</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">រូបថត</translation>
+        <translation>រូបថត</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">វីដេអូ</translation>
+        <translation>វីដេអូ</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">ចំណូលចិត្ត</translation>
+        <translation>ចំណូលចិត្ត</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">បង្វិលច្រាសទ្រនិចនាឡិកា</translation>
+        <translation>បង្វិលច្រាសទ្រនិចនាឡិកា</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">បង្វិលតាមទ្រនិចនាឡិកា</translation>
+        <translation>បង្វិលតាមទ្រនិចនាឡិកា</translation>
     </message>
 </context>
 <context>

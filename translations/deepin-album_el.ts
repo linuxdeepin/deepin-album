@@ -1,223 +1,223 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="el" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Neimenovano</translation>
+        <translation>Χώρις όνομα</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Απόρριψη</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Napravi</translation>
+        <translation>Δημιουργία</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>Novi album</translation>
+        <translation>Νέο Άλμπουμ</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Απόρριψη</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Διαγραφή</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Jeste li sigurni da želite izbrisati ovaj album?</translation>
+        <translation>Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το άλμπουμ;</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Smeće</translation>
+        <translation>Κάδος Απορριμμάτων</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoriti</translation>
+        <translation>Αγαπημένα</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Εισαγωγή</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Smeće</translation>
+        <translation>Κάδος Απορριμμάτων</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoriti</translation>
+        <translation>Αγαπημένα</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation type="vanished">Izbriši sve</translation>
+        <translation type="vanished">Διαγραφή όλων</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Izbriši</translation>
+        <translation type="vanished">Διαγραφή</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ili privuci fotografije ovdje</translation>
+        <translation>Ή σύρτε φωτογραφίες εδώ</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Uvezi sve</translation>
+        <translation>Εισαγωγή όλων</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Οι φωτογραφίες θα διαγραφούν οριστικά μετά το πέρασμα των ημερών που αναγράφονται</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="vanished">Obnovi</translation>
+        <translation type="vanished">Επαναφορά</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες επιλέχθηκαν</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Uvezi u:</translation>
+        <translation>Εισαγωγή σε:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disk</translation>
+        <translation type="vanished">Δίσκος</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Εισαγωγή</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">dana</translation>
+        <translation type="vanished">Ημέρες</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">Neimenovano</translation>
+        <translation type="vanished">Χώρις όνομα</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>Disk sustava</translation>
+        <translation>Δίσκος Συστήματος</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galerija</translation>
+        <translation>Γκαλερί</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk je zauzet, ne mogu sada izbaciti</translation>
+        <translation>Ο δίσκος είναι απασχολημένος, αδυναμία εξαγωγής</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>U redu</translation>
+        <translation>ΟΚ</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Νέο άλμπουμ</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Απόρριψη</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation>Ignoriraj</translation>
+        <translation>Αγνόηση</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>Učitavam fotografije, molim pričekajte...</translation>
+        <translation>Φόρτωση εικόνων, παρακαλώ περιμένετε...</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες επιλέχθηκαν</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>Άλμπουμ</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Απόρριψη</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Zamijeni</translation>
+        <translation>Αντικατάσταση</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Slike</translation>
+        <translation>Εικόνες</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Dokumenti</translation>
+        <translation>Έγγραφα</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Preuzimanja</translation>
+        <translation>Λήψεις</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Radna površina</translation>
+        <translation>Επιφάνει Εργασίας</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videa</translation>
+        <translation>Βίντεο</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Glazba</translation>
+        <translation>Μουσική</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Ime:</translation>
+        <translation>Όνομα:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Spremi u:</translation>
+        <translation>Αποθήκευση σε:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>Τύπος αρχείου:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Kvalitet:</translation>
+        <translation>Ποιότητα</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Spremi</translation>
+        <translation>Αποθήκευση</translation>
     </message>
     <message>
         <source>gif</source>
@@ -225,469 +225,469 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Odaberi drugi direktorije</translation>
+        <translation>Επιλογή άλλων διευθύνσεων</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>U redu</translation>
+        <translation>ΟΚ</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>Ime datoteke ne može biti prazno</translation>
+        <translation>Το όνομα αρχείου δεν μπορεί να είναι κενό</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>već postoji. Želite li ga zamijeniti?</translation>
+        <translation>ήδη υπάρχει. Θέλετε να το αντικαταστήσετε;</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation type="unfinished"/>
+        <translation>%1 Δίσκος</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Prazni %1 disk</translation>
+        <translation>Κενός %1 Δίσκος</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>%1 Κρυπτογραφημένος</translation>
     </message>
     <message>
         <source>%1 </source>
-        <translation type="vanished">%1 </translation>
+        <translation type="vanished">%1</translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"/>
+        <translation>%1 Τόμος</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Spremi</translation>
+        <translation>Αποθήκευση</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Izvezi fotografije</translation>
+        <translation>Εξαγωγή Φωτογραφιών</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Απόρριψη</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Πληροφορίες φωτογραφίας</translation>
     </message>
 </context>
 <context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation>Brišem...</translation>
+        <translation>Διαγραφή...</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Uvozim...</translation>
+        <translation>Εισαγωγή...</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation>Επαναφορά...</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Γκαλερί</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Γκαλερί</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">Osnovne informacije</translation>
+        <translation type="vanished">Βασικές πληροφορίες</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="vanished">Pojedinosti</translation>
+        <translation type="vanished">Λεπτομέριες</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>dana</translation>
+        <translation>Ημέρες</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Γκαλερί</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Απόρριψη</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Διαγραφή</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Jeste li sigurni da želite izbrisati ovu fotografiju iz albuma?</translation>
+        <translation>Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την φωτογραφία απο το άλμπουμ;</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Jeste li sigurni da želite izbrisati %1 fotografija iz albuma?</translation>
+        <translation>Είστε σίγουροι ότι θέλετε να διαγράψετε %1 φωτογραφίες από τα άλμπουμ;</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Osnovne informacije</translation>
+        <translation>Βασικές πληροφορίες</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Pojedinosti</translation>
+        <translation>Λεπτομέριες</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Πληροφορίες φωτογραφίας</translation>
     </message>
 </context>
 <context>
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Γκαλερί</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Εισαγωγή</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Sve fotografije</translation>
+        <translation>Όλες οι Φωτογραφίες</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Uvezi fotografije</translation>
+        <translation>Εισαγωγή Φωτογραφιών</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ili privuci fotografije ovdje</translation>
+        <translation>Ή σύρτε φωτογραφίες εδώ</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Γκαλερί</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Προβολή εικονών</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <translation>Μετονομασία</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Διαγραφή</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">Neimenovano</translation>
+        <translation type="vanished">Χώρις όνομα</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Uređaj</translation>
+        <translation>Συσκευή</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galerija</translation>
+        <translation>Γκαλερί</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albumi</translation>
+        <translation>Άλμπουμ</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Νέο άλμπουμ</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Nemate dozvolu za gledanje slike</translation>
+        <translation>Δεν έχετε άδεια προβολής της φωτογραφίας</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album je upravitelj fotografijom za gledanje i organizaciju slika.</translation>
+        <translation>Το Άλμπουμ είναι ένας μοντέρνος διαχειριστής φωτογραφιών, για προβολή και οργάνωση εικονών.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Fotografije</translation>
+        <translation>Φωτογραφίες</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
+        <translation>Πλήρης Οθόνη</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Pomoć</translation>
+        <translation>Βοήθεια</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
+        <translation>Προβολή στον διαχειριστή αρχείων</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Προβολή εικονών</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Αντιγραφή</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
+        <translation>Ορισμός ως ταπετσαρία</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Περιστροφή δεξιόστροφα</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Περιστροφή αριστερόστροφα</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Prethodno</translation>
+        <translation>Προηγούμενο</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Slijedeće</translation>
+        <translation>Επόμενο</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Προσθήκη στα αγαπημένα</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Αφαίρεση από τα αγαπημένα</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Preimenuj album</translation>
+        <translation>Μετονομασία άλμπουμ</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” je uklonjen</translation>
+        <translation>Το Άλμπουμ “%1” αφαιρέθηκε</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Uspješno dodan u “%1”</translation>
+        <translation>Επιτυχώς προστέθηκε στο “%1”</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Uspješan uvoz</translation>
+        <translation>Επιτυχία εισαγωγής</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Neuspješan uvoz</translation>
+        <translation>Αποτυχία εισαγωγής </translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Neuspješan izvoz</translation>
+        <translation>Αποτυχία εξαγωγής</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Uspješan izvoz</translation>
+        <translation>Επιτυχία εισαγωγής</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>Sve fotografije</translation>
+        <translation>Όλες οι Φωτογραφίες</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation type="unfinished"/>
+        <translation>Χρονοδιαγράμματα</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albumi</translation>
+        <translation>Άλμπουμ</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">%1 φωτογραφίες</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Πληροφορίες φωτογραφίας</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Napusti cijeli zaslon/klizni prikaz</translation>
+        <translation>Έξοδος πλήρης οθόνης/παρουσίασης</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Prikaži prečace</translation>
+        <translation>Προβολή συντομεύσεων</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Pogled</translation>
+        <translation>Προβολή</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Εισαγωγή</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Odaberi sve</translation>
+        <translation>Επιλογή όλων</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Izbriši fotografiju/album</translation>
+        <translation>Διαγραφή φωτογραφίας/άλμπουμ</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation>Μεγεύθυνση</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation>Σμίκρυνση</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Νέο άλμπουμ</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Stranica gore</translation>
+        <translation>Σελίδα πάνω</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Stranica dolje</translation>
+        <translation>Σελίδα κάτω</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Postavke</translation>
+        <translation>Ρυθμίσεις</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">Neke fotografije nisu uvezene</translation>
+        <translation type="vanished">Μερικές φωτογραφίες δεν έχουν εισαχθεί</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Uvezi fotografije</translation>
+        <translation>Εισαγωγή φωτογραφιών</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Uvezi fotografije</translation>
+        <translation>Εισαγωγή Φωτογραφιών</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation>%1/%2 fotografija je uvezeno</translation>
+        <translation>%1/%2 φωτογραφίες εισάχθηκαν</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες εισάχθηκαν, %2 φωτογραφίες απέτυχαν</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fotografija je izbrisano</translation>
+        <translation>%1/%2 φωτογραφίες διαγράφηκαν</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Uvozim...</translation>
+        <translation>Εισαγωγή...</translation>
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"/>
+        <translation>Οι φωτογραφίες ήδη υπάρχουν</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>Φλας</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Vrsta</translation>
+        <translation>Τύπος</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Veličina datoteke</translation>
+        <translation>Μέγεθος αρχείου</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimenzije</translation>
+        <translation>Διαστάσεις</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>Ημερομηνία λήψης</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Datum izmjene</translation>
+        <translation>Ημερομηνία τροποποίησης</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation>Ρυθμίσεις έκθεσης</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation>Πρόγραμμα έκθεσης</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation>Χρόνος έκθεσης</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"/>
+        <translation>Διάφραγμα</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"/>
+        <translation>Εστιακή απόσταση</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -695,39 +695,39 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation>Μέγιστο διάφραγμα</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation>Λειτουργία μέτρησης</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation>Ισορροπία λευκού</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation>Αντιστάθμιση Φλας</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Model kamere</translation>
+        <translation>Μοντέλο κάμερας</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Model leća</translation>
+        <translation>Μοντέλο φακών</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"/>
+        <translation>Χρωματικός χώρος</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation>Ετικέτα</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Ime fotografije</translation>
+        <translation>Ονομασία φωτογραφίας</translation>
     </message>
 </context>
 <context>
@@ -741,68 +741,68 @@
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>Disk sustava</translation>
+        <translation>Δίσκος Συστήματος</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Χωρίς κλίμακωση</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="vanished">Pristajanje stranice u sliku</translation>
+        <translation type="vanished">Εφαρμογή σελίδας στην εικόνα</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="vanished">Pristajanje slike u stranicu</translation>
+        <translation type="vanished">Εφαρμογή εικόνας στην σελίδα</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Κλιμάκωση σε:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="vanished">Milimetara</translation>
+        <translation type="vanished">Χιλιοστά</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="vanished">Centimetara</translation>
+        <translation type="vanished">Εκατοστά</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="vanished">Inča</translation>
+        <translation type="vanished">Ίντσες</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="vanished">Pozicija slike</translation>
+        <translation type="vanished">Τοποθεσία Εικόνας</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Κλιμάκωση</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Postavke slike</translation>
+        <translation type="vanished">Ρυθμίσεις Εικόνας</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Postavke slike</translation>
+        <translation type="vanished">Ρυθμίσεις Εικόνας</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Odaberi</translation>
+        <translation>Επιλογή</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation type="unfinished"/>
+        <translation>Απόριψη επιλογής</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -810,11 +810,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες επιλέχθηκαν</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -822,11 +822,11 @@
     </message>
     <message>
         <source>Import on </source>
-        <translation type="vanished">uvezi na</translation>
+        <translation type="vanished">Εισαγωγή σε</translation>
     </message>
     <message>
         <source>Imported on</source>
-        <translation>uvezeno na</translation>
+        <translation>Εισάχθηκαν σε</translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
@@ -834,7 +834,7 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation>Εισάχθηκαν σε</translation>
     </message>
     <message>
         <source>Select All</source>
@@ -846,15 +846,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Απόρριψη</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Obnovi</translation>
+        <translation>Επαναφορά</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Διαγραφή</translation>
     </message>
     <message>
         <source>All</source>
@@ -862,11 +862,11 @@
     </message>
     <message>
         <source>Photos</source>
-        <translation>Fotografije</translation>
+        <translation>Φωτογραφίες</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videa</translation>
+        <translation>Βίντεο</translation>
     </message>
     <message>
         <source>No results</source>
@@ -874,276 +874,276 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Προσθήκη στα αγαπημένα</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Περιστροφή αριστερόστροφα</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Περιστροφή δεξιόστροφα</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Nema rezultata pretrage</translation>
+        <translation>Δεν βρέθηκαν αποτελέσματα</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Παρουσίαση εικονών</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation type="unfinished"/>
+        <translation>%1 φωτογραφίες βρέθηκαν</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Rezultati pretrage</translation>
+        <translation>Αποτελέσματα αναζήτησης</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pauza</translation>
+        <translation>Παύση</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>Αναπαραγωγή</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Izađi</translation>
+        <translation>Έξοδος</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Prethodno</translation>
+        <translation>Προηγούμενο</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Slijedeće</translation>
+        <translation>Επόμενο</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Uvozim fotografije: &apos;%1&apos;</translation>
+        <translation>Εισαγωγή φωτογραφιών: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Izvozim fotografije: &apos;%1&apos;</translation>
+        <translation>Εξαγωγή φωτογραφιών: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Natrag</translation>
+        <translation>Πίσω</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Prethodno</translation>
+        <translation>Προηγούμενο</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Slijedeće</translation>
+        <translation>Επόμενο</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Veličina</translation>
+        <translation>1:1 Μέγεθος</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Pristajanje u prozor</translation>
+        <translation>Εφαρμογή στο παράθυρο</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Περιστροφή αριστερόστροφα</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Περιστροφή δεξιόστροφα</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Διαγραφή</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Αγαπημένο</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Αφαίρεση από τα αγαπημένα</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>Pogled</translation>
+        <translation>Προβολή</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
+        <translation>Πλήρης Οθόνη</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Αγαπημένο</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Αφαίρεση από τα αγαπημένα</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Περιστροφή δεξιόστροφα</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Περιστροφή αριστερόστροφα</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
+        <translation>Προβολή στον διαχειριστή αρχείων</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
+        <translation>Ορισμός ως ταπετσαρία</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Διαγραφή</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Προβολή εικονών</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Αντιγραφή</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Πληροφορίες φωτογραφίας</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Dodaj u album</translation>
+        <translation>Προσθήκη σε άλμπουμ</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Ukloni iz albuma</translation>
+        <translation>Αφαίρεση από άλμπουμ</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Obnovi</translation>
+        <translation>Επαναφορά</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Νέο άλμπουμ</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Ispis</translation>
+        <translation>Εκτύπωση</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nisu nađene slikovne datoteke</translation>
+        <translation>Δεν βρέθηκαν αρχεία εικόνας</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Fotografija nije nađena</translation>
+        <translation>Η φωτογραφία δεν βρέθηκε</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Dodaj u album</translation>
+        <translation>Προσθήκη σε άλμπουμ</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Προβολή εικονών</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Napusti cijeli zaslon</translation>
+        <translation>Έξοδος πλήρης οθόνης</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
+        <translation>Πλήρης Οθόνη</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Αντιγραφή</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Διαγραφή</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Pokaži navigacijski prozor</translation>
+        <translation>Προβολή παραθύρου πλοήγησης</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Sakrij navigacijski prozor</translation>
+        <translation>Απόκρυψη παραθύρου πλοήγησης</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Περιστροφή δεξιόστροφα</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Περιστροφή αριστερόστροφα</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
+        <translation>Ορισμός ως ταπετσαρία</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
+        <translation>Προβολή στον διαχειριστή αρχείων</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Αφαίρεση από τα αγαπημένα</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Πληροφορίες φωτογραφίας</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Ukloni iz albuma</translation>
+        <translation>Αφαίρεση από άλμπουμ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Αγαπημένο</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Νέο άλμπουμ</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Ispis</translation>
+        <translation>Εκτύπωση</translation>
     </message>
 </context>
 </TS>

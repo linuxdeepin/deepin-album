@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen zoekresultaten</translation>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles selecteren</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>Niets selecteren</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Herstellen</translation>
+        <translation>Herstellen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles</translation>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Foto&apos;s</translation>
+        <translation>Foto&apos;s</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Video&apos;s</translation>
+        <translation>Video&apos;s</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen zoekresultaten</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Toev. aan favorieten</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Naar links draaien</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Naar rechts draaien</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
 </context>
 <context>

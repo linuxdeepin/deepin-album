@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Restaurar</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Borrar</translation>
+        <translation>Borrar</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Fotos</translation>
+        <translation>Fotos</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Vídeos</translation>
+        <translation>Vídeos</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorito</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Girar hacia la izquierda</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Girar hacia la derecha</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
 </context>
 <context>

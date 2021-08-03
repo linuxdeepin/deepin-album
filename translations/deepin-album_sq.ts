@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Anuloje</translation>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Riktheje</translation>
+        <translation>Riktheje</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Fshije</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Foto</translation>
+        <translation>Foto</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Video</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Vëre si të parapëlqyer</translation>
+        <translation>Vëre si të parapëlqyer</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rrotulloje në kahun anti-orar</translation>
+        <translation>Rrotulloje në kahun anti-orar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rrotulloje në kahun orar</translation>
+        <translation>Rrotulloje në kahun orar</translation>
     </message>
 </context>
 <context>

@@ -2361,7 +2361,7 @@ TEST(MainWindow, callFuncitons_test)
     importTimeLineView.dragMoveEvent(&dragMoveEvent);
     QDragLeaveEvent dragLeaveEvent;
     importTimeLineView.dragLeaveEvent(&dragLeaveEvent);
-    importTimeLineView.mousePressEvent(&mouseEvent);
+//    importTimeLineView.mousePressEvent(&mouseEvent);
 
     QObject obj;
     ImageView imageView;

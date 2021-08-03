@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_HK">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_HK" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>無結果</translation>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>全選</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>取消全選</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">恢復</translation>
+        <translation>恢復</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">刪除</translation>
+        <translation>刪除</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>所有項目</translation>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">照片</translation>
+        <translation>照片</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">影片</translation>
+        <translation>影片</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>無結果</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">收藏</translation>
+        <translation>收藏</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">逆時針旋轉</translation>
+        <translation>逆時針旋轉</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">順時針旋轉</translation>
+        <translation>順時針旋轉</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="br">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="br" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -642,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -836,55 +834,55 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Nullañ</translation>
+        <translation>Nullañ</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Adsevel</translation>
+        <translation>Adsevel</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Dilemel</translation>
+        <translation>Dilemel</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Fotoioù</translation>
+        <translation>Fotoioù</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videoioù</translation>
+        <translation>Videoioù</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Sined</translation>
+        <translation>Sined</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Treiñ en tu enep eus an horolaj</translation>
+        <translation>Treiñ en tu enep eus an horolaj</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Treiñ er memes tu hag an horolaj</translation>
+        <translation>Treiñ er memes tu hag an horolaj</translation>
     </message>
 </context>
 <context>

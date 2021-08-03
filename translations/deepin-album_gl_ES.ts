@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="gl_ES">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -235,7 +233,7 @@
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>O nome do ficheiro non pode estar vacío</translation>
+        <translation>O nome do ficheiro non pode estar baleiro</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
@@ -350,11 +348,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Está segura de que quere eliminar esta foto do álbum?</translation>
+        <translation>Está certo/a de que quere eliminar esta foto do álbum?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Está seguro de que quere eliminar% 1 fotos dos álbums?</translation>
+        <translation>Está certo/a de que quere eliminar% 1 fotos dos álbums?</translation>
     </message>
 </context>
 <context>
@@ -413,7 +411,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Volver a nomear</translation>
+        <translation>Renomear</translation>
     </message>
     <message>
         <source>Export</source>
@@ -642,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"></translation>
+        <translation>As fotos xa existen</translation>
     </message>
 </context>
 <context>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -836,55 +834,55 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Importado en</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Restaurar</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Fotos</translation>
+        <translation>Fotos</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Vídeos</translation>
+        <translation>Vídeos</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorito</translation>
+        <translation>Favorito</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Xire en sentido antihorario</translation>
+        <translation>Xire en sentido antihorario</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Xira en sentido horario</translation>
+        <translation>Xira en sentido horario</translation>
     </message>
 </context>
 <context>

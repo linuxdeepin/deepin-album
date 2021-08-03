@@ -1,223 +1,223 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ast" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Neimenovano</translation>
+        <translation>Ensin_nome</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Encaboxar</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Napravi</translation>
+        <translation>Crear</translation>
     </message>
     <message>
         <source>New Album</source>
-        <translation>Novi album</translation>
+        <translation>Álbum nuevu</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Encaboxar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Desaniciar</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Jeste li sigurni da želite izbrisati ovaj album?</translation>
+        <translation>¿De xuru que quies desaniciar esti álbum?</translation>
     </message>
 </context>
 <context>
     <name>AlbumLeftTabItem</name>
     <message>
         <source>Trash</source>
-        <translation>Smeće</translation>
+        <translation>Papelera</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoriti</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Importación</translation>
     </message>
 </context>
 <context>
     <name>AlbumView</name>
     <message>
         <source>Trash</source>
-        <translation>Smeće</translation>
+        <translation>Papelera</translation>
     </message>
     <message>
         <source>Favorites</source>
-        <translation>Favoriti</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <source>Delete All</source>
-        <translation type="vanished">Izbriši sve</translation>
+        <translation type="vanished">Desaniciar too</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Izbriši</translation>
+        <translation type="vanished">Desaniciar</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ili privuci fotografije ovdje</translation>
+        <translation>O arrastra semeyes hasta equí</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation>Númberu de semeyes: %1</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>Uvezi sve</translation>
+        <translation>Importar too</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Les semeyes desaníciense permanentemente&apos;l día que s&apos;indica</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="vanished">Obnovi</translation>
+        <translation type="vanished">Restaurar</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation>Númberu de semeyes na esbilla: %1</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>Uvezi u:</translation>
+        <translation>Importar a:</translation>
     </message>
     <message>
         <source>Disk</source>
-        <translation type="vanished">Disk</translation>
+        <translation type="vanished">Discu</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Importar</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">dana</translation>
+        <translation type="vanished"> díes</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">Neimenovano</translation>
+        <translation type="vanished">Ensin nome</translation>
     </message>
     <message>
         <source>System Disk</source>
-        <translation>Disk sustava</translation>
+        <translation>Discu del sistema</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galerija</translation>
+        <translation>Galería</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk je zauzet, ne mogu sada izbaciti</translation>
+        <translation>El discu ta ocupáu y nun pue estrayese</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>U redu</translation>
+        <translation>D&apos;acuerdu</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Álbum nuevu</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Encaboxar</translation>
     </message>
     <message>
         <source>Ignore</source>
-        <translation>Ignoriraj</translation>
+        <translation>Inorar</translation>
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>Učitavam fotografije, molim pričekajte...</translation>
+        <translation>Cargando les semeyes, espera…</translation>
     </message>
 </context>
 <context>
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation>Númberu de semeyes na esbilla: %1</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation>Númberu de semeyes: %1</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>Álbum</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Encaboxar</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Zamijeni</translation>
+        <translation>Trocar</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Esportación</translation>
     </message>
     <message>
         <source>Pictures</source>
-        <translation>Slike</translation>
+        <translation>Semeyes</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Dokumenti</translation>
+        <translation>Documentos</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Preuzimanja</translation>
+        <translation>Descargues</translation>
     </message>
     <message>
         <source>Desktop</source>
-        <translation>Radna površina</translation>
+        <translation>Escritoriu</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videa</translation>
+        <translation>Vídeos</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation>Glazba</translation>
+        <translation>Música</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Ime:</translation>
+        <translation>Nome:</translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Spremi u:</translation>
+        <translation>Guardar en:</translation>
     </message>
     <message>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>Formatu:</translation>
     </message>
     <message>
         <source>Quality:</source>
-        <translation>Kvalitet:</translation>
+        <translation>Calidá:</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Spremi</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <source>gif</source>
@@ -225,34 +225,34 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Odaberi drugi direktorije</translation>
+        <translation>Esbillar otru direutoriu</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>U redu</translation>
+        <translation>D&apos;acuerdu</translation>
     </message>
     <message>
         <source>File name cannot be empty</source>
-        <translation>Ime datoteke ne može biti prazno</translation>
+        <translation>El nome del ficheru nun pue tar baleru</translation>
     </message>
     <message>
         <source>already exists. Do you want to replace it?</source>
-        <translation>već postoji. Želite li ga zamijeniti?</translation>
+        <translation>yá esiste. ¿Quies trocar el ficheru?</translation>
     </message>
 </context>
 <context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation type="unfinished"/>
+        <translation>Unidá de %1</translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
-        <translation>Prazni %1 disk</translation>
+        <translation>Discu virxe de %1</translation>
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Volume cifráu de %1</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -260,434 +260,434 @@
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"/>
+        <translation>Volume de %1</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>Save</source>
-        <translation>Spremi</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>Izvezi fotografije</translation>
+        <translation>Esportación de semeyes</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Encaboxar</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Información de la semeya</translation>
     </message>
 </context>
 <context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation>Brišem...</translation>
+        <translation>Desaniciando…</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Uvozim...</translation>
+        <translation>Importando…</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation>Restaurando…</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Galería</translation>
     </message>
 </context>
 <context>
     <name>ImageImportFilesFromMountThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Galería</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">Osnovne informacije</translation>
+        <translation type="vanished">Información básica</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="vanished">Pojedinosti</translation>
+        <translation type="vanished">Detalles</translation>
     </message>
 </context>
 <context>
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>dana</translation>
+        <translation> díes</translation>
     </message>
 </context>
 <context>
     <name>ImageLoader</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Galería</translation>
     </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Encaboxar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Desaniciar</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Jeste li sigurni da želite izbrisati ovu fotografiju iz albuma?</translation>
+        <translation>¿De xuru que quies desaniciar esta semeya del álbum?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Jeste li sigurni da želite izbrisati %1 fotografija iz albuma?</translation>
+        <translation>¿De xuru que quies desaniciar %1 semeyes de los álbumes?</translation>
     </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation>Osnovne informacije</translation>
+        <translation>Información básica</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation>Pojedinosti</translation>
+        <translation>Detalles</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Información de la semeya</translation>
     </message>
 </context>
 <context>
     <name>ImportImagesThread</name>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Galería</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Importación</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Sve fotografije</translation>
+        <translation>Toles semeyes</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Uvezi fotografije</translation>
+        <translation>Importar semeyes</translation>
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>Ili privuci fotografije ovdje</translation>
+        <translation>O arrástrales hasta equí</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <translation type="vanished">Galería</translation>
     </message>
 </context>
 <context>
     <name>LeftListView</name>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Aniciar una presentación</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <translation>Renomar</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Esportar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Desaniciar</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="vanished">Neimenovano</translation>
+        <translation type="vanished">Ensin nome</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation>Uređaj</translation>
+        <translation>Preseos</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation>Galerija</translation>
+        <translation>Galería</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albumi</translation>
+        <translation>Álbumes</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Álbum nuevu</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Nemate dozvolu za gledanje slike</translation>
+        <translation>Nun tienes permisu pa ver la imaxe</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album je upravitelj fotografijom za gledanje i organizaciju slika.</translation>
+        <translation>Deepin Album ye un xestor d&apos;imáxenes pa ver y organizar semeyes.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>Fotografije</translation>
+        <translation>Semeyes</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
+        <translation>Poner a pantalla completa</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Pomoć</translation>
+        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
+        <translation>Amosar nel xestor de ficheros</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Aniciar una presentación</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
+        <translation>Afitar como fondu de pantalla</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Voltiar a la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Voltiar a la esquierda</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Prethodno</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Slijedeće</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Amestar a Favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Quitar de Favoritos</translation>
     </message>
     <message>
         <source>Rename album</source>
-        <translation>Preimenuj album</translation>
+        <translation>Renomar un álbum</translation>
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” je uklonjen</translation>
+        <translation>Quitóse l&apos;álbum «%1»</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>Uspješno dodan u “%1”</translation>
+        <translation>Amestóse con ésitu a «%1»</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Uspješan uvoz</translation>
+        <translation>La importación tuvo ésitu</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Neuspješan uvoz</translation>
+        <translation>La importación falló</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Neuspješan izvoz</translation>
+        <translation>La esportación falló</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Uspješan izvoz</translation>
+        <translation>La esportación tuvo ésitu</translation>
     </message>
     <message>
         <source>All Photos</source>
-        <translation>Sve fotografije</translation>
+        <translation>Toles semeyes</translation>
     </message>
     <message>
         <source>Timelines</source>
-        <translation type="unfinished"/>
+        <translation>Llinia temporal</translation>
     </message>
     <message>
         <source>Albums</source>
-        <translation>Albumi</translation>
+        <translation>Álbumes</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Númberu de semeyes: %1</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Información de la semeya</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Napusti cijeli zaslon/klizni prikaz</translation>
+        <translation>Colar d&apos;una presentación/pantalla completa</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Prikaži prečace</translation>
+        <translation>Amosar los atayos</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Pogled</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Esportar</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Uvezi</translation>
+        <translation>Importar</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>Odaberi sve</translation>
+        <translation>Esbillar too</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Izbriši fotografiju/album</translation>
+        <translation>Desaniciar un álbum/una semeya</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation>Averar</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation>Alloñar</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Álbum nuevu</translation>
     </message>
     <message>
         <source>Page up</source>
-        <translation>Stranica gore</translation>
+        <translation>Avanzar una páxina</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Stranica dolje</translation>
+        <translation>Retroceder una páxina</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Postavke</translation>
+        <translation>Axustes</translation>
     </message>
     <message>
         <source>Some photos have not been imported</source>
-        <translation type="vanished">Neke fotografije nisu uvezene</translation>
+        <translation type="vanished">Dalgunes semeyes nun s&apos;importaron</translation>
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Uvezi fotografije</translation>
+        <translation>Importar semeyes</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Uvezi fotografije</translation>
+        <translation>Importación de semeyes</translation>
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation>%1/%2 fotografija je uvezeno</translation>
+        <translation>Importáronse %1/%2 semeyes</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
+        <translation>Importáronse %1 semeyes, %2 non</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fotografija je izbrisano</translation>
+        <translation>Desaniciáronse %1/%2 semeyes</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Uvozim...</translation>
+        <translation>Importando…</translation>
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"/>
+        <translation>Les semeyes yá esisten</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>Flax</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Vrsta</translation>
+        <translation>Tipu</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Veličina datoteke</translation>
+        <translation>Tamañu del ficheru</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>Dimenzije</translation>
+        <translation>Dimensiones</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>Data de captura</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Datum izmjene</translation>
+        <translation>Data de modificación</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation>Mou d&apos;esposición</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation>Programa d&apos;esposición</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation>Tiempu d&apos;esposición</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"/>
+        <translation>Apertura</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"/>
+        <translation>Llonxitú focal</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -695,39 +695,39 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation>Apertura máxima</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation>Mou de midida</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation>Balance de blancos</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation>Compensación del flax</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Model kamere</translation>
+        <translation>Modelu de la cámara</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Model leća</translation>
+        <translation>Modelu de la lente</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"/>
+        <translation>Espaciu de colores</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation>Etiqueta</translation>
     </message>
     <message>
         <source>Photo name</source>
-        <translation>Ime fotografije</translation>
+        <translation>Nome de la semeya</translation>
     </message>
 </context>
 <context>
@@ -741,68 +741,68 @@
     <name>PathManager</name>
     <message>
         <source>System Disk</source>
-        <translation>Disk sustava</translation>
+        <translation>Discu del sistema</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Ensin escaláu</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="vanished">Pristajanje stranice u sliku</translation>
+        <translation type="vanished">Axustar la páxina a la imaxe</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="vanished">Pristajanje slike u stranicu</translation>
+        <translation type="vanished">Axustar la imaxe a la páxina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Escalar a:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="vanished">Milimetara</translation>
+        <translation type="vanished">Milímetros</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="vanished">Centimetara</translation>
+        <translation type="vanished">Centímetros</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="vanished">Inča</translation>
+        <translation type="vanished">Pulgaes</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="vanished">Pozicija slike</translation>
+        <translation type="vanished">Posición de les imáxenes</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Escaláu</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Postavke slike</translation>
+        <translation type="vanished">Axustes d&apos;imaxe</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Postavke slike</translation>
+        <translation type="vanished">Axustes d&apos;imaxe</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Select</source>
-        <translation>Odaberi</translation>
+        <translation>Esbillar</translation>
     </message>
     <message>
         <source>Unselect</source>
-        <translation type="unfinished"/>
+        <translation>Deseleicionar</translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -810,27 +810,27 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation>Númberu de semeyes: %1</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation>Númberu de semeyes na esbilla: %1</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
+        <translation type="vanished">%1/%2/%3 %4.</translation>
     </message>
     <message>
         <source>Import on </source>
-        <translation type="vanished">uvezi na</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Imported on</source>
-        <translation>uvezeno na</translation>
+        <translation>Importóse&apos;l</translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <translation> %1-%2-%3 %4.</translation>
     </message>
     <message>
         <source>Imported on </source>
@@ -846,15 +846,15 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <translation>Encaboxar</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Obnovi</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Desaniciar</translation>
     </message>
     <message>
         <source>All</source>
@@ -862,11 +862,11 @@
     </message>
     <message>
         <source>Photos</source>
-        <translation>Fotografije</translation>
+        <translation>Semeyes</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation>Videa</translation>
+        <translation>Vídeos</translation>
     </message>
     <message>
         <source>No results</source>
@@ -874,276 +874,276 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Amestar a Favoritos</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Voltiar a la esquierda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Voltiar a la derecha</translation>
     </message>
 </context>
 <context>
     <name>SearchView</name>
     <message>
         <source>No search results</source>
-        <translation>Nema rezultata pretrage</translation>
+        <translation>Nun hai resultaos</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Aniciar una presentación</translation>
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation type="unfinished"/>
+        <translation>Númberu de semeyes atopaes: %1</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation>Rezultati pretrage</translation>
+        <translation>Resultaos de la busca</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pauza</translation>
+        <translation>Posar</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>Reproducir</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Izađi</translation>
+        <translation>Colar</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Prethodno</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Slijedeće</translation>
+        <translation>Siguiente</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Uvozim fotografije: &apos;%1&apos;</translation>
+        <translation>Importando semeyes: «%1»</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Izvozim fotografije: &apos;%1&apos;</translation>
+        <translation>Esportando les semeyes: «%1»</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Natrag</translation>
+        <translation>Atrás</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Prethodno</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Slijedeće</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Veličina</translation>
+        <translation>Tamañu 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Pristajanje u prozor</translation>
+        <translation>Axustar a la ventana</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Voltiar a la esquierda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Voltiar a la derecha</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Desaniciar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Amestar a Favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Quitar de Favoritos</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>Pogled</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
+        <translation>Poner a pantalla completa</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Esportar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Amestar a Favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Quitar de Favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Voltiar a la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Voltiar a la esquierda</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
+        <translation>Amosar nel xestor de ficheros</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
+        <translation>Afitar como fondu de pantalla</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Desaniciar</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Aniciar una presentación</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Información de la semeya</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Dodaj u album</translation>
+        <translation>Amestar al álbum</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Ukloni iz albuma</translation>
+        <translation>Quitar del álbum</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Obnovi</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Álbum nuevu</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Ispis</translation>
+        <translation>Imprentar</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nisu nađene slikovne datoteke</translation>
+        <translation>Nun s&apos;atoparon imáxenes</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Fotografija nije nađena</translation>
+        <translation>Nun s&apos;atopó la semeya</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Dodaj u album</translation>
+        <translation>Amestar al álbum</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
+        <translation>Aniciar una presentación</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Napusti cijeli zaslon</translation>
+        <translation>Colar de la pantalla completa</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
+        <translation>Poner a pantalla completa</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Desaniciar</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Pokaži navigacijski prozor</translation>
+        <translation>Amosar la ventana de navegación</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Sakrij navigacijski prozor</translation>
+        <translation>Anubrir la ventana de navegación</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
+        <translation>Voltiar a la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+        <translation>Voltiar a la esquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
+        <translation>Afitar como fondu de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
+        <translation>Amosar nel xestor de ficheros</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvezi</translation>
+        <translation>Esportar</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Quitar de Favoritos</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <translation>Información de la semeya</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Ukloni iz albuma</translation>
+        <translation>Quitar del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation>Amestar a Favoritos</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novi album</translation>
+        <translation>Álbum nuevu</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Ispis</translation>
+        <translation>Imprentar</translation>
     </message>
 </context>
 </TS>

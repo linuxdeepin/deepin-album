@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Peru</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Palauta</translation>
+        <translation>Palauta</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Poista</translation>
+        <translation>Poista</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Kuvat</translation>
+        <translation>Kuvat</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videot</translation>
+        <translation>Videot</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Suosikki</translation>
+        <translation>Suosikki</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Käännä vastapäivään</translation>
+        <translation>Käännä vastapäivään</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Käännä myötäpäivään</translation>
+        <translation>Käännä myötäpäivään</translation>
     </message>
 </context>
 <context>

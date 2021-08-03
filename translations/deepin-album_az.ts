@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="az">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="az" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">İmtina</translation>
+        <translation>İmtina</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Bərpa etmək</translation>
+        <translation>Bərpa etmək</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Silmək</translation>
+        <translation>Silmək</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Fotoşəkillər</translation>
+        <translation>Fotoşəkillər</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videolar</translation>
+        <translation>Videolar</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Sevimlilər</translation>
+        <translation>Sevimlilər</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Saat əqrəbinin əksinə döndərmək</translation>
+        <translation>Saat əqrəbinin əksinə döndərmək</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Saat əqrəbi istiqamətinə döndərmək</translation>
+        <translation>Saat əqrəbi istiqamətinə döndərmək</translation>
     </message>
 </context>
 <context>

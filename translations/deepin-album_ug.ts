@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ug">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ug" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -74,7 +72,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>% 1 رەسىم(s)</translation>
+        <translation>%1 رەسىم(s)</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -90,7 +88,7 @@
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>% 1 رەسىم (رەسىم) تاللاندى</translation>
+        <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -149,11 +147,11 @@
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>% 1 رەسىم (رەسىم) تاللاندى</translation>
+        <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>% 1 رەسىم(s)</translation>
+        <translation>%1 رەسىم(s)</translation>
     </message>
 </context>
 <context>
@@ -254,7 +252,7 @@
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation>% 1 شىفىرلانغان</translation>
+        <translation>%1 شىفىرلانغان</translation>
     </message>
     <message>
         <source>%1 </source>
@@ -354,7 +352,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>دىسكىدىن% 1 رەسىمنى ئۆچۈرمەكچىمۇ؟</translation>
+        <translation>دىسكىدىن%1 رەسىمنى ئۆچۈرمەكچىمۇ؟</translation>
     </message>
 </context>
 <context>
@@ -518,11 +516,11 @@
     </message>
     <message>
         <source>Album “%1” removed</source>
-        <translation>ئالبوم «% 1» ئۆچۈرۈلدى</translation>
+        <translation>ئالبوم «%1» ئۆچۈرۈلدى</translation>
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>مۇۋەپپەقىيەتلىك ھالدا «% 1» گە قوشۇلدى</translation>
+        <translation>مۇۋەپپەقىيەتلىك ھالدا «%1» گە قوشۇلدى</translation>
     </message>
     <message>
         <source>Import successful</source>
@@ -554,7 +552,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="vanished">% 1 رەسىم(s)</translation>
+        <translation type="vanished">%1 رەسىم(s)</translation>
     </message>
     <message>
         <source>Photo info</source>
@@ -626,15 +624,15 @@
     </message>
     <message>
         <source>%1/%2 photos imported</source>
-        <translation>% 1 /% 2 رەسىم ئىمپورت قىلىنغان</translation>
+        <translation>%1/%2 رەسىم ئىمپورت قىلىنغان</translation>
     </message>
     <message>
         <source>%1 photos imported, %2 photos failed</source>
-        <translation>% 1 رەسىم ئەكىرىش ،% 2 رەسىم مەغلۇپ بولدى</translation>
+        <translation>%1 رەسىم ئەكىرىش ،%2 رەسىم مەغلۇپ بولدى</translation>
     </message>
     <message>
         <source>%1/%2 photos deleted</source>
-        <translation>% 1 رەسىم (رەسىم) تاللانغان</translation>
+        <translation>%1 رەسىم (رەسىم) تاللانغان</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -812,11 +810,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>% 1 رەسىم(s)</translation>
+        <translation>%1 رەسىم(s)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>% 1 رەسىم (رەسىم) تاللاندى</translation>
+        <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">ئەمەلدىن قالدۇرۇش</translation>
+        <translation>ئەمەلدىن قالدۇرۇش</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">ئەسلىگە كەلتۈرۈش</translation>
+        <translation>ئەسلىگە كەلتۈرۈش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">ئۆچۈرۈش</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">سۈرەتلەر</translation>
+        <translation>سۈرەتلەر</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">ۋىدىيو</translation>
+        <translation>ۋىدىيو</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">ياقتۇرغانلىرىم</translation>
+        <translation>ياقتۇرغانلىرىم</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>سائەتكە قارشى يۆنىلىشنى ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>سائەت يۆنىلىشىدە ئايلاندۇرۇش</translation>
     </message>
 </context>
 <context>
@@ -899,7 +897,7 @@
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>% 1 رەسىم (رەسىم) تېپىلدى</translation>
+        <translation>%1 رەسىم (رەسىم) تېپىلدى</translation>
     </message>
     <message>
         <source>Search results</source>

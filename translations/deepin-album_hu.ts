@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs keresési eredmény</translation>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Összes kijelölése</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>Összes kijelölésének megszüntetése</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Mégsem</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Helyreállítás</translation>
+        <translation>Helyreállítás</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Törlés</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Összes</translation>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Képek</translation>
+        <translation>Képek</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videók</translation>
+        <translation>Videók</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs keresési eredmény</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Kedvenc</translation>
+        <translation>Kedvenc</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával megegyezően</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
 </context>
 <context>

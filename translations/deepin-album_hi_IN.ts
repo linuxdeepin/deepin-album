@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hi_IN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hi_IN" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -642,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>रद्द करें</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">पुनःस्थापन करे</translation>
+        <translation>पुनःस्थापन करे</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">मिटाए</translation>
+        <translation>मिटाए</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">तस्वीरें</translation>
+        <translation>तस्वीरें</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">चल चित्र</translation>
+        <translation>चल चित्र</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">पसंदीदा</translation>
+        <translation>पसंदीदा</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
+        <translation>घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">घड़ी की सुई की दिशा में घुमाए</translation>
+        <translation>घड़ी की सुई की दिशा में घुमाए</translation>
     </message>
 </context>
 <context>

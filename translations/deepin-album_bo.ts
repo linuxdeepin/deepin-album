@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -74,7 +72,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1པར</translation>
+        <translation>%1པར(གང་རུང)</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -90,7 +88,7 @@
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>པར་%1བདམས་ཟིན།</translation>
+        <translation>པར་%1(སོགས)བདམས་ཟིན།</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -149,11 +147,11 @@
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>པར་%1བདམས་ཟིན།</translation>
+        <translation>%1པར་(སོགས) བདམས་ཟིན།</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>པར་%1</translation>
+        <translation>པར་%1(སོགས)</translation>
     </message>
 </context>
 <context>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">འདོར་བ།</translation>
+        <translation>འདོར་བ།</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">སོར་ཆུད།</translation>
+        <translation>སོར་ཆུད།</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">སུབ་པ།</translation>
+        <translation>སུབ་པ།</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">པར།</translation>
+        <translation>པར།</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">བརྙན་འཕྲིན།</translation>
+        <translation>བརྙན་འཕྲིན།</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">བསྡུ་ཉར།</translation>
+        <translation>བསྡུ་ཉར།</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">གཡོན་སྐོར་བརྒྱབ།</translation>
+        <translation>གཡོན་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">གཡས་སྐོར་བརྒྱབ།</translation>
+        <translation>གཡས་སྐོར་བརྒྱབ།</translation>
     </message>
 </context>
 <context>
@@ -899,7 +897,7 @@
     </message>
     <message>
         <source>%1 photo(s) found</source>
-        <translation>ཁྱོན་པར་%1རྙེད་པ།</translation>
+        <translation>ཁྱོན་པར་%1(སོགས)རྙེད་པ།</translation>
     </message>
     <message>
         <source>Search results</source>

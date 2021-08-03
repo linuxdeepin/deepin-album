@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -530,7 +528,7 @@
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Імпортування зазнало&#xa0;невдачі</translation>
+        <translation>Імпортування зазнало невдачі</translation>
     </message>
     <message>
         <source>Export failed</source>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Немає результатів</translation>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Позначити все</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>Зняти позначення з усього</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Скасувати</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Відновити</translation>
+        <translation>Відновити</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Вилучити</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Усе</translation>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Фотографії</translation>
+        <translation>Фотографії</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Відео</translation>
+        <translation>Відео</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Немає результатів</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Додати до вибраних</translation>
+        <translation>Додати до вибраних</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Обертати проти годинникової стрілки</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Обертати за годинниковою стрілкою</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
 </context>
 <context>

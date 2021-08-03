@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -736,7 +734,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,51 +838,51 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Откажи</translation>
+        <translation>Откажи</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Врати</translation>
+        <translation>Врати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Обриши</translation>
+        <translation>Обриши</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">Слике</translation>
+        <translation>Слике</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Видео</translation>
+        <translation>Видео</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">У омиљено</translation>
+        <translation>У омиљено</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Ротирај улево</translation>
+        <translation>Ротирај улево</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Ротирај удесно</translation>
+        <translation>Ротирај удесно</translation>
     </message>
 </context>
 <context>

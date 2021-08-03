@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ka">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ka" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -62,7 +60,7 @@
     </message>
     <message>
         <source>Delete All</source>
-        <translation type="vanished">ყველას წაშლა</translation>
+        <translation type="vanished">გაწმენდა</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -74,15 +72,15 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 ფოტო</translation>
+        <translation>%1 სურათი</translation>
     </message>
     <message>
         <source>Import All</source>
-        <translation>ყველას იმპორტი</translation>
+        <translation>ყველა</translation>
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>ფოტოები პერმანენტულად წაიშლა იმდენი დღის შემდეგ რამდენიც მასზე გამოსახულია</translation>
+        <translation>სურათი ავტომატურად წაიშლება იმდენი დღის შემდეგ რამდენიც მასზე გამოსახულია</translation>
     </message>
     <message>
         <source>Restore</source>
@@ -90,11 +88,11 @@
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 ფოტო არჩეულია</translation>
+        <translation>არჩეულია %1 სურათი</translation>
     </message>
     <message>
         <source>Import to:</source>
-        <translation>იმპორტირებულია:</translation>
+        <translation>იმპორტირება:  </translation>
     </message>
     <message>
         <source>Disk</source>
@@ -106,7 +104,7 @@
     </message>
     <message>
         <source>days</source>
-        <translation type="vanished">დღე</translation>
+        <translation type="vanished"> დღე</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -149,11 +147,11 @@
     <name>AllPicView</name>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 ფოტო არჩეულია</translation>
+        <translation>არჩეულია %1 სურათი</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 ფოტო</translation>
+        <translation>%1 სურათი</translation>
     </message>
 </context>
 <context>
@@ -207,7 +205,7 @@
     </message>
     <message>
         <source>Save to:</source>
-        <translation>შენახვა:</translation>
+        <translation>საქაღალდე:</translation>
     </message>
     <message>
         <source>Format:</source>
@@ -227,7 +225,7 @@
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>სხვა დირექტორიის არჩევა</translation>
+        <translation>სხვა საქაღალდის არჩევა</translation>
     </message>
     <message>
         <source>OK</source>
@@ -284,7 +282,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>სურათის ინფორმაცია</translation>
+        <translation>ინფორმაცია</translation>
     </message>
 </context>
 <context>
@@ -328,7 +326,7 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>დღე</translation>
+        <translation> დღე</translation>
     </message>
 </context>
 <context>
@@ -350,11 +348,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>დარწმუნებული ხართ, რომ გსურთ ამ სურათის ალბომიდან ამოშლა?</translation>
+        <translation>დარწმუნებული ხართ, რომ გსურთ ამ სურათის წაშლა?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>დარწმუნებული ხართო, რომ გსურთ %1 სურათის ალბომიდან ამოშლა?</translation>
+        <translation>დარწმუნებული ხართო, რომ გსურთ მონიშნული %1 სურათის წაშლა?</translation>
     </message>
 </context>
 <context>
@@ -369,7 +367,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>სურათის ინფორმაცია</translation>
+        <translation>ინფორმაცია</translation>
     </message>
 </context>
 <context>
@@ -390,7 +388,7 @@
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>ყველა ფოტო</translation>
+        <translation>ყველა სურათი</translation>
     </message>
     <message>
         <source>Import Photos</source>
@@ -429,7 +427,7 @@
     </message>
     <message>
         <source>Device</source>
-        <translation>დივაისი</translation>
+        <translation>მოწყობილობა</translation>
     </message>
     <message>
         <source>Gallery</source>
@@ -542,7 +540,7 @@
     </message>
     <message>
         <source>All Photos</source>
-        <translation>ყველა ფოტო</translation>
+        <translation>სურათები</translation>
     </message>
     <message>
         <source>Timelines</source>
@@ -554,11 +552,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="vanished">%1 ფოტო</translation>
+        <translation type="vanished">%1 სურათი</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>სურათის ინფორმაცია</translation>
+        <translation>ინფორმაცია</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -582,11 +580,11 @@
     </message>
     <message>
         <source>Select all</source>
-        <translation>ყველას არჩევა</translation>
+        <translation>ყველას მონიშვნა</translation>
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>ფოტოს/ალბომის წაშლა</translation>
+        <translation>სურათის/ალბომის წაშლა</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -642,7 +640,7 @@
     </message>
     <message>
         <source>Photos already exist</source>
-        <translation type="unfinished"></translation>
+        <translation>სურათები უკვე არსებობს</translation>
     </message>
 </context>
 <context>
@@ -665,11 +663,11 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>გადაღების თარიღი</translation>
+        <translation>გადაღების დრო</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>რედაქტირების თარიღი</translation>
+        <translation>ცვლილების დრო</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -729,14 +727,14 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>ფოტოს სახელი</translation>
+        <translation>სურათის სახელი</translation>
     </message>
 </context>
 <context>
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -812,11 +810,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 ფოტო</translation>
+        <translation>%1 სურათი</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
-        <translation>%1 ფოტო არჩეულია</translation>
+        <translation>არჩეულია %1 სურათი</translation>
     </message>
     <message>
         <source>%1/%2/%3 %4</source>
@@ -828,7 +826,7 @@
     </message>
     <message>
         <source>Imported on</source>
-        <translation>იმპორტირებულია</translation>
+        <translation>იმპორტირებულია: </translation>
     </message>
     <message>
         <source> %1-%2-%3 %4</source>
@@ -836,55 +834,55 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation>იმპორტირებულია</translation>
+        <translation>იმპორტირებულია: </translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">გაუქმება</translation>
+        <translation>გაუქმება</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">აღდგენა</translation>
+        <translation>აღდგენა</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">წაშლა</translation>
+        <translation>წაშლა</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Photos</source>
-        <translation type="unfinished">სურათები</translation>
+        <translation>სურათები</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">ვიდეოები</translation>
+        <translation>ვიდეოები</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">ფავორიტი</translation>
+        <translation>ფავორიტი</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">საათის ისრის საწინააღმდეგო მიმართულებით დაბრუნება</translation>
+        <translation>საათის ისრის საწინააღმდეგო მიმართულებით დაბრუნება</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">საათის ისრის მიმართულებით დაბრუნება</translation>
+        <translation>საათის ისრის მიმართულებით დაბრუნება</translation>
     </message>
 </context>
 <context>
@@ -1035,7 +1033,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>სურათის ინფორმაცია</translation>
+        <translation>ინფორმაცია</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -1055,7 +1053,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation>ნახატი</translation>
+        <translation>დაბეჭდვა</translation>
     </message>
 </context>
 <context>
@@ -1129,7 +1127,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>სურათის ინფორმაცია</translation>
+        <translation>ინფორმაცია</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -1145,7 +1143,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation>ნახატი</translation>
+        <translation>დაბეჭდვა</translation>
     </message>
 </context>
 </TS>
