@@ -304,6 +304,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
     }
 
     if (0 < infos.length()) {
+        m_pThumbnailListView->clearAll();
         //插入空白项
         m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", 90);
         //插入信息
