@@ -257,6 +257,7 @@ private:
     DWidget *m_TrashTitleWidget = nullptr;
     BatchOperateWidget *m_trashBatchOperateWidget = nullptr;
     DWidget *m_pTrashWidget = nullptr;                                //最近删除外层界面
+    NoResultWidget *m_trashNoResultWidget = nullptr;
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;

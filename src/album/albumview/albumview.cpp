@@ -470,6 +470,14 @@ void AlbumView::initTrashWidget()
     m_pRightTrashThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pRightTrashThumbnailList->setContentsMargins(0, 0, 0, 0);
     p_Trash->addWidget(m_pRightTrashThumbnailList);
+
+    //初始化筛选无结果窗口
+    m_trashNoResultWidget = new NoResultWidget(this);
+    p_Trash->addWidget(m_trashNoResultWidget);
+    m_trashNoResultWidget->setVisible(false);
+
+    //筛选显示，当先列表中内容为无结果
+    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
     //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
     QHBoxLayout *Layout1 = new QHBoxLayout();
     Layout1->setContentsMargins(0, 0, 19, 0);
@@ -2170,6 +2178,11 @@ void AlbumView::slotNoPicOrNoVideo(bool isNoResult)
         m_favoriteThumbnailList->setVisible(!isNoResult);
         m_pFavoriteTitle->setVisible(!isNoResult);
         m_pFavoritePicTotal->setVisible(!isNoResult);
+    } else if (sender() == m_pRightTrashThumbnailList) {
+        m_trashNoResultWidget->setVisible(isNoResult);
+        m_pRightTrashThumbnailList->setVisible(!isNoResult);
+        m_TrashTitleLab->setVisible(!isNoResult);
+        m_TrashDescritionLab->setVisible(!isNoResult);
     }
     if (isNoResult) {
         m_pStatusBar->m_pAllPicNumLabel->setText(QObject::tr("No results"));
