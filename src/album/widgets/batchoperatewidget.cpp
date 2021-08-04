@@ -225,8 +225,14 @@ void BatchOperateWidget::sltCollectSelect(bool checked)
 {
     Q_UNUSED(checked)
     QStringList paths =  m_thumbnailListView->selectedPaths();
-    DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
-    emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, paths);
+    if (isAllSelectedCollected()) {
+        //全部收藏，执行取消收藏动作
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+    } else {
+        //未全部收藏，执行收藏动作
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, paths);
+    }
     //收藏后刷新按钮状态，未通过insertIntoAlbum返回值判断是否成功
     if (isAllSelectedCollected()) {
         m_collection->setIcon(QIcon::fromTheme("dcc_ccollection"));
