@@ -194,6 +194,9 @@ TTBContent::TTBContent(bool inDB, QWidget *parent) : QLabel(parent)
     // Collection button
     m_clBT = new DIconButton(this);
     m_clBT->setFixedSize(ICON_SIZE);
+    m_clBT->setToolTip(tr("Favorite"));
+    m_clBT->setIcon(QIcon::fromTheme("dcc_collection_normal"));
+    m_clBT->setIconSize(QSize(36, 36));
     AC_SET_OBJECT_NAME(m_clBT, Ttbcontent_Collect_Button);
     AC_SET_ACCESSIBLE_NAME(m_clBT, Ttbcontent_Collect_Button);
 
@@ -498,13 +501,11 @@ void TTBContent::setImage(const QString &path)
     }
     m_currentpath = path;
     ItemInfo info = m_imgListWidget->getImgInfo(path);
-    if (info.image.isNull()) {
+    if (info.image.isNull() && (m_imgListWidget->getImgCount() > 1)) {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
-//        m_trashBtn->setDisabled(true);
-//        m_imgList->setDisabled(false);
     } else {
         setCurrentItem();
     }

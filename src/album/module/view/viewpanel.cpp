@@ -297,6 +297,10 @@ bool ViewPanel::onSigViewImage(const SignalManager::ViewInfo &info)
     SignalManager::ViewInfo vinfo = info;
     m_vinfo = vinfo;
     m_filepathlist = m_vinfo.paths;
+    if (m_ttbc == nullptr) {
+        bottomTopLeftContent();
+        emit dApp->signalM->updateBottomToolbarContent(m_ttbc, true);
+    }
     m_bFirstFullScreen = m_vinfo.fullScreen;
     QList<QByteArray> fList = QMovie::supportedFormats(); //"gif","mng","webp"
     QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
@@ -558,7 +562,7 @@ void ViewPanel::onViewImage(const QStringList &vinfo)
     }
 
     bottomTopLeftContent();
-    emit dApp->signalM->updateBottomToolbarContent(m_ttbc, (vinfo.size() > 1));
+    emit dApp->signalM->updateBottomToolbarContent(m_ttbc, (vinfo.size() >= 1));
 }
 
 
