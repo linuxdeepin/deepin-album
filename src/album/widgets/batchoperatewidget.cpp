@@ -256,11 +256,22 @@ void BatchOperateWidget::sltLeftRotate(bool checked)
     }
     dApp->m_imageloader->updateImageLoader(paths);
 }
-
+//缩略图列表选中状态发生变化
 void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    Q_UNUSED(selected)
     Q_UNUSED(deselected)
+    //选中项数量变化，更新按钮可用状态
+    bool selectMultiple = m_thumbnailListView->selectedPaths().size() > 0;
+    m_collection->setEnabled(selectMultiple);
+    m_leftRotate->setEnabled(selectMultiple);
+    m_rightRotate->setEnabled(selectMultiple);
+    m_delete->setEnabled(selectMultiple);
+    //全选与取消全选按钮状态由是否全部选中刷新
+    bool isAllSelected = m_thumbnailListView->isAllSelected();
+    if (m_cancelBatchSelect->isVisible()) {
+        m_chooseAll->setVisible(!isAllSelected);
+        m_cancelChooseAll->setVisible(isAllSelected);
+    }
     //选择发生变化，刷新收藏按钮状态
     if (m_collection->isVisible()) {
         if (isAllSelectedCollected()) {
@@ -340,6 +351,8 @@ void BatchOperateWidget::initUI()
     m_collection->setCheckable(false);
     hb->addWidget(m_collection);
     m_collection->setVisible(false);
+    //初始化不可用，选择图片后可用
+    m_collection->setEnabled(false);
     //左旋转
     m_leftRotate = new DToolButton(this);
     m_leftRotate->setToolTip(QObject::tr("Rotate counterclockwise"));
@@ -349,6 +362,8 @@ void BatchOperateWidget::initUI()
     m_leftRotate->setCheckable(false);
     hb->addWidget(m_leftRotate);
     m_leftRotate->setVisible(false);
+    //初始化不可用，选择图片后可用
+    m_leftRotate->setEnabled(false);
     //右旋转
     m_rightRotate = new DToolButton(this);
     m_rightRotate->setToolTip(QObject::tr("Rotate clockwise"));
@@ -358,6 +373,8 @@ void BatchOperateWidget::initUI()
     m_rightRotate->setCheckable(false);
     hb->addWidget(m_rightRotate);
     m_rightRotate->setVisible(false);
+    //初始化不可用，选择图片后可用
+    m_rightRotate->setEnabled(false);
     //删除
     m_delete = new DToolButton(this);
     m_delete->setToolTip(QObject::tr("Delete"));
@@ -367,6 +384,8 @@ void BatchOperateWidget::initUI()
     m_delete->setCheckable(false);
     hb->addWidget(m_delete);
     m_delete->setVisible(false);
+    //初始化不可用，选择图片后可用
+    m_delete->setEnabled(false);
     //全选
     m_chooseAll = new DCommandLinkButton(QObject::tr("Select All"));
     hb->addWidget(m_chooseAll);
