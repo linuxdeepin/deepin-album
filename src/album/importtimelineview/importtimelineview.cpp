@@ -364,7 +364,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     m_choseBtnItem = new DWidget(m_timeLineViewWidget);
     QHBoxLayout *btnLayout = new QHBoxLayout();
-    btnLayout->setContentsMargins(17, 0, 28, 0);
+    btnLayout->setContentsMargins(17, 0, 19, 0);
     m_choseBtnItem->setLayout(btnLayout);
 
     m_suspensionChoseBtn = new DCommandLinkButton(QObject::tr("Select"));

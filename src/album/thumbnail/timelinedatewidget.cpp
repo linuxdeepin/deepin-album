@@ -132,7 +132,7 @@ QString TimeLineDateWidget::onGetBtnStatus()
 importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     : m_chooseBtn(nullptr), m_pDateandNum(nullptr), m_currentItem(item)
 {
-    this->setContentsMargins(0, 0, 10, 0);
+    this->setContentsMargins(0, 0, 0, 0);
     this->setFixedHeight(35);
 
     //时间+照片数量
@@ -168,6 +168,7 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     DFontSizeManager::instance()->bind(m_chooseBtn, DFontSizeManager::T5);
     m_chooseBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_chooseBtn->setFocusPolicy(Qt::NoFocus);
+    m_chooseBtn->setVisible(false);
 
     //占位btn，防止显影选择按钮时，ui变化
     m_pbtn = new DCommandLinkButton(" ");
@@ -176,6 +177,7 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
 
     //开始布局
     QHBoxLayout *TitleViewLayout = new QHBoxLayout(this);
+    TitleViewLayout->setContentsMargins(0, 0, 23, 0);
     TitleViewLayout->addWidget(m_pDateandNum);
     TitleViewLayout->addStretch();
     TitleViewLayout->addWidget(m_pbtn);

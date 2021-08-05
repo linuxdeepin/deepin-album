@@ -77,9 +77,6 @@ TimeLineView::TimeLineView()
     m_pStackedWidget->addWidget(pImportView);
     m_pStackedWidget->addWidget(pTimeLineViewWidget);
     m_pStackedWidget->addWidget(pSearchView);
-    //初始化筛选无结果窗口
-    m_noResultWidget = new NoResultWidget(this);
-    m_pStackedWidget->addWidget(m_noResultWidget);
 
     m_pStatusBar = new StatusBar(this);
     m_pStatusBar->raise();
@@ -176,6 +173,12 @@ void TimeLineView::initTimeLineViewWidget()
     m_timeLineThumbnailListView->setContentsMargins(0, 0, 0, 0);
     m_timeLineThumbnailListView->setFrameShape(DTableView::NoFrame);
     m_mainLayout->addWidget(m_timeLineThumbnailListView);
+
+    //初始化筛选无结果窗口
+    m_noResultWidget = new NoResultWidget(pTimeLineViewWidget);
+    m_mainLayout->addWidget(m_noResultWidget);
+    m_noResultWidget->setVisible(false);
+
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigShowEvent, this, &TimeLineView::clearAndStartLayout);
     //滑动列表，刷新上方悬浮标题
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigTimeLineDataAndNum, this, &TimeLineView::slotTimeLineDataAndNum);
@@ -511,11 +514,11 @@ void TimeLineView::mousePressEvent(QMouseEvent *e)
 void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
     qDebug() << __FUNCTION__ << "---" << isNoResult;
+    m_noResultWidget->setVisible(isNoResult);
+    m_timeLineThumbnailListView->setVisible(!isNoResult);
     if (isNoResult) {
-        m_pStackedWidget->setCurrentWidget(m_noResultWidget);
         m_pStatusBar->m_pAllPicNumLabel->setText(QObject::tr("No results"));
     } else {
-        m_pStackedWidget->setCurrentWidget(pTimeLineViewWidget);
         updatePicNum();
     }
     m_suspensionChose->setVisible(!isNoResult);
