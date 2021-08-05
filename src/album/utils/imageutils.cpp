@@ -40,6 +40,7 @@
 #include <QApplication>
 #include <QMovie>
 #include <fstream>
+#include <iostream>
 
 namespace utils {
 
@@ -101,12 +102,30 @@ bool imageSupportRead(const QString &path)
 //    }
 //}
 
+void getAllFileInDir(const QDir &dir, QFileInfoList &result)
+{
+    QDir root(dir);
+    auto list = root.entryInfoList();
+    for (const auto &eachInfo : list) {
+        if (eachInfo.filePath().endsWith("/.") || eachInfo.filePath().endsWith("/..")) {
+            continue;
+        }
+
+        if (eachInfo.isDir()) {
+            getAllFileInDir(eachInfo.absoluteFilePath(), result);
+        } else {
+            result.push_back(eachInfo);
+        }
+    }
+}
+
 const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 {
     QFileInfoList infos;
 
     if (! recursive) {
-        auto nsl = QDir(dir).entryInfoList(QDir::Files);
+        QFileInfoList nsl;
+        getAllFileInDir(dir, nsl);
         for (QFileInfo info : nsl) {
             if (imageSupportRead(info.absoluteFilePath())) {
                 infos << info;
