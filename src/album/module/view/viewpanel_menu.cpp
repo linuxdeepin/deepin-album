@@ -304,12 +304,8 @@ void ViewPanel::updateMenuContent()
     } else {
         appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     }
-    if (utils::common::VIEW_ALLPIC_SRN != m_vinfo.viewType
-            && utils::common::VIEW_TIMELINE_SRN != m_vinfo.viewType
-            && utils::common::VIEW_SEARCH_SRN != m_vinfo.viewType
-            && COMMON_STR_RECENT_IMPORTED != m_vinfo.viewType
-            && COMMON_STR_TRASH != m_vinfo.viewType
-            && COMMON_STR_FAVORITES != m_vinfo.viewType) {
+    // 移除多余判断，采用相册名是否有效来判断
+    if (!m_vinfo.album.isEmpty()) {
         appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album", ""));
     }
     m_menu->addSeparator();

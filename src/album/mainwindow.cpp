@@ -1325,8 +1325,8 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 
             emit dApp->signalM->viewImage(info);
             //若外部打开图片退出时，不默认跳转到所有照片界面，则获取当前页面索引发送
-            emit dApp->signalM->showImageView(0);
-
+            //emit dApp->signalM->showImageView(0); //内部接口调用，不再发送信号
+            onShowImageView(0);
             //更改为调用线程api
             ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
         }

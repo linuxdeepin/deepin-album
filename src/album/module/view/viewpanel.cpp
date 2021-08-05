@@ -294,8 +294,8 @@ void ViewPanel::onHideImageView()
 
 bool ViewPanel::onSigViewImage(const SignalManager::ViewInfo &info)
 {
-    SignalManager::ViewInfo vinfo = info;
-    m_vinfo = vinfo;
+    //除去info的const，并对m_vinfo赋值
+    m_vinfo = *(const_cast<SignalManager::ViewInfo*>(&info));
     m_filepathlist = m_vinfo.paths;
     if (m_ttbc == nullptr) {
         bottomTopLeftContent();
@@ -303,8 +303,8 @@ bool ViewPanel::onSigViewImage(const SignalManager::ViewInfo &info)
     }
     m_bFirstFullScreen = m_vinfo.fullScreen;
     QList<QByteArray> fList = QMovie::supportedFormats(); //"gif","mng","webp"
-    QString strfixL = QFileInfo(vinfo.path).suffix().toLower();
-    if (fList.contains(strfixL.toUtf8().data()) || vinfo.fullScreen) {
+    QString strfixL = QFileInfo(m_vinfo.path).suffix().toLower();
+    if (fList.contains(strfixL.toUtf8().data()) || m_vinfo.fullScreen) {
         m_currentpath = m_vinfo.path;
         if (m_vinfo.paths.size() < 1) {
             m_vinfo.paths << m_vinfo.path;
