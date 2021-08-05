@@ -480,7 +480,7 @@ void AlbumView::initTrashWidget()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
     //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
     QHBoxLayout *Layout1 = new QHBoxLayout();
-    Layout1->setContentsMargins(0, 0, 19, 0);
+    Layout1->setContentsMargins(19, 0, 19, 0);
 
     m_TrashDescritionLab = new DLabel();
     DFontSizeManager::instance()->bind(m_TrashDescritionLab, DFontSizeManager::T6, QFont::Medium);
@@ -629,7 +629,7 @@ void AlbumView::initFavoriteWidget()
 
     //我的收藏悬浮标题
     QHBoxLayout *lNumberLayout = new QHBoxLayout();
-    lNumberLayout->setContentsMargins(0, 0, 19, 0);
+    lNumberLayout->setContentsMargins(19, 0, 19, 0);
 
     m_pFavoriteTitle = new DLabel(m_pFavoriteWidget);
 //    m_pFavoriteTitle->setStyleSheet("background-color:blue;");
