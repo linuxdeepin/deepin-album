@@ -533,7 +533,7 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
     QFileInfo info(path);
-    if (!info.exists()) {
+    if (!info.exists() || !QFile::permissions(path).testFlag(QFile::WriteUser)) {
         return false;
     }
     QImageReader r(path);
@@ -1022,15 +1022,15 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         rotatePainter.setRenderHint(QPainter::HighQualityAntialiasing, true);
         int realangel = angel / 90;
         if (realangel > 0) {
-         for (int i = 0; i < qAbs(realangel); i++) {
-             rotatePainter.translate(image_copy.width(), 0);
-             rotatePainter.rotate(90 * (realangel / qAbs(realangel)));
-         }
+            for (int i = 0; i < qAbs(realangel); i++) {
+                rotatePainter.translate(image_copy.width(), 0);
+                rotatePainter.rotate(90 * (realangel / qAbs(realangel)));
+            }
         } else {
-         for (int i = 0; i < qAbs(realangel); i++) {
-             rotatePainter.translate(0, image_copy.height());
-             rotatePainter.rotate(90 * (realangel / qAbs(realangel)));
-         }
+            for (int i = 0; i < qAbs(realangel); i++) {
+                rotatePainter.translate(0, image_copy.height());
+                rotatePainter.rotate(90 * (realangel / qAbs(realangel)));
+            }
         }
         rotatePainter.drawImage(image_copy.rect(), image_copy.scaled(image_copy.width(), image_copy.height()));
         rotatePainter.resetTransform();

@@ -106,7 +106,11 @@ QPixmap DBandImgOperate::loadOneThumbnail(const QString &imagepath)
 
 void DBandImgOperate::loadOneImg(QString imagepath)
 {
-//    qDebug() << "------" << __FUNCTION__ << "" << imagepath;
+    loadOneImgForce(imagepath, false);
+}
+
+void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
+{
     if (!QFileInfo(imagepath).exists()) {
         emit fileIsNotExist(imagepath);
         return;
@@ -118,7 +122,7 @@ void DBandImgOperate::loadOneImg(QString imagepath)
     QFileInfo file(thumbnailPath);
     QString errMsg;
     QFileInfo srcfi(srcPath);
-    if (file.exists()) {
+    if (file.exists() && !refresh) {
         if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
             qDebug() << errMsg;
         }
@@ -164,7 +168,7 @@ void DBandImgOperate::rotateImageFIle(int angel, const QString &path)
         qDebug() << errMsg;
         return;
     }
-    loadOneImg(path);
+    loadOneImgForce(path, true);
 }
 
 void DBandImgOperate::sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num)

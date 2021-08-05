@@ -193,6 +193,7 @@ void BatchOperateWidget::sltBatchSelectChanged()
         m_cancelBatchSelect->setVisible(false);
 
         m_thumbnailListView->slotChangeAllSelectBtnVisible(false);
+        m_thumbnailListView->clearSelection();
         //发送给时间线，刷新悬浮控件选择按钮显隐状态
         emit signalBatchSelectChanged(false);
     }
@@ -249,7 +250,6 @@ void BatchOperateWidget::sltRightRotate(bool checked)
     for (int i = 0; i < paths.size(); i++) {
         emit ImageEngineApi::instance()->sigRotateImageFIle(90, paths.at(i));
     }
-    dApp->m_imageloader->updateImageLoader(paths);
 }
 //逆时针旋转
 void BatchOperateWidget::sltLeftRotate(bool checked)
@@ -260,7 +260,6 @@ void BatchOperateWidget::sltLeftRotate(bool checked)
     for (int i = 0; i < paths.size(); i++) {
         emit ImageEngineApi::instance()->sigRotateImageFIle(-90, paths.at(i));
     }
-    dApp->m_imageloader->updateImageLoader(paths);
 }
 //缩略图列表选中状态发生变化
 void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -272,12 +271,6 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
     m_leftRotate->setEnabled(selectMultiple);
     m_rightRotate->setEnabled(selectMultiple);
     m_delete->setEnabled(selectMultiple);
-    //全选与取消全选按钮状态由是否全部选中刷新
-    bool isAllSelected = m_thumbnailListView->isAllSelected();
-    if (m_cancelBatchSelect->isVisible()) {
-        m_chooseAll->setVisible(!isAllSelected);
-        m_cancelChooseAll->setVisible(isAllSelected);
-    }
     //选择发生变化，刷新收藏按钮状态
     if (m_collection->isVisible()) {
         if (isAllSelectedCollected()) {
@@ -285,6 +278,16 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
         } else {
             m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
         }
+    }
+    //旋转按钮状态由是否全部都支持旋转确定
+    bool supportRotate = m_thumbnailListView->isAllSelectedSupportRotate();
+    m_leftRotate->setEnabled(supportRotate);
+    m_rightRotate->setEnabled(supportRotate);
+    //全选与取消全选按钮状态由是否全部选中刷新
+    bool isAllSelected = m_thumbnailListView->isAllSelected();
+    if (m_cancelBatchSelect->isVisible()) {
+        m_chooseAll->setVisible(!isAllSelected);
+        m_cancelChooseAll->setVisible(isAllSelected);
     }
     if (m_operateType == AlbumViewTrashType) {
         refreshTrashBtnState();

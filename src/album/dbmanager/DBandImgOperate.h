@@ -58,6 +58,7 @@ public slots:
     QPixmap     loadOneThumbnail(const QString &imagepath);
     //制作一张缩略图，并通过信号传至主线程
     void     loadOneImg(QString imagepath);
+    void     loadOneImgForce(QString imagepath, bool refresh);//缩略图已存在仍然强制刷新缩略图
     //旋转图片并重新制作缩略图
     void     rotateImageFIle(int angel, const QString &path);
     void     sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num);

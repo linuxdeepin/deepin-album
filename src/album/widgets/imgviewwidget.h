@@ -87,6 +87,8 @@ public slots:
     void openNext();
     //查看前一张
     void openPre();
+    bool isLast();
+    bool isFirst();
 private:
     ImgViewListView *m_listview = nullptr;
     QPoint m_pressPoint;//鼠标按下位置

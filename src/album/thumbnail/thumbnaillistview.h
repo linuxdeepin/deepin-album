@@ -129,6 +129,8 @@ public:
 
     //判断是否全部选中
     bool isAllSelected();//1050
+    //判断选中图片是否都可旋转
+    bool isAllSelectedSupportRotate();//1050
     //删除选中项到相册已删除
     void removeSelectToTrash(QStringList paths);//1050
     //更新时间线界面内各个按钮的text状态，单选/框选

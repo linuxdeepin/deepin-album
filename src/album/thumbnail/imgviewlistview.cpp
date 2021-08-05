@@ -166,6 +166,11 @@ void ImgViewListView::openNext()
     emit openImg(m_currentRow, m_currentPath);
 }
 
+bool ImgViewListView::isLast()
+{
+    return m_currentRow == (m_model->rowCount() - 1);
+}
+
 void ImgViewListView::openPre()
 {
     if (m_currentRow <= 0) {
@@ -201,6 +206,11 @@ void ImgViewListView::openPre()
     m_currentPath = info.path;
 
     emit openImg(m_currentRow, m_currentPath);
+}
+
+bool ImgViewListView::isFirst()
+{
+    return m_currentRow == 0;
 }
 
 void ImgViewListView::removeCurrent()

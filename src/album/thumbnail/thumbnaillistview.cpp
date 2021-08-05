@@ -1515,6 +1515,24 @@ bool ThumbnailListView::isAllSelected()
     }
     return isAllSelected;
 }
+//判断选中图片是否都可旋转
+bool ThumbnailListView::isAllSelectedSupportRotate()
+{
+    QStringList list = selectedPaths();
+    int count = list.size();
+    bool isAllSelectedSupportRotate = true;
+    if (count <= 0) {
+        isAllSelectedSupportRotate = false;
+    }
+    for (int i = 0; i < count; i++) {
+        QString path = list.at(i);
+        if (!UnionImage_NameSpace::isImageSupportRotate(path)) {
+            isAllSelectedSupportRotate = false;
+            break;
+        }
+    }
+    return isAllSelectedSupportRotate;
+}
 
 //删除到相册已删除
 void ThumbnailListView::removeSelectToTrash(QStringList paths)
@@ -1662,6 +1680,7 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
 
 void ThumbnailListView::slotOneImgReady(const QString &path, QPixmap pix)
 {
+    qDebug() << __FUNCTION__ << "---";
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
         ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();

@@ -128,6 +128,16 @@ void MyImageListWidget::openPre()
     m_listview->openPre();
 }
 
+bool MyImageListWidget::isLast()
+{
+    return m_listview->isLast();
+}
+
+bool MyImageListWidget::isFirst()
+{
+    return m_listview->isFirst();
+}
+
 void MyImageListWidget::onClicked(const QModelIndex &index)
 {
     m_listview->onClicked(index);

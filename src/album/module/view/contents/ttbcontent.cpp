@@ -442,6 +442,8 @@ void TTBContent::onNextButton()
 {
     if (m_imgListWidget) {
         m_imgListWidget->openNext();
+        m_preButton->setEnabled(true);
+        m_nextButton->setEnabled(!m_imgListWidget->isLast());
     }
 }
 
@@ -449,6 +451,8 @@ void TTBContent::onPreButton()
 {
     if (m_imgListWidget) {
         m_imgListWidget->openPre();
+        m_preButton->setEnabled(!m_imgListWidget->isFirst());
+        m_nextButton->setEnabled(true);
     }
 }
 

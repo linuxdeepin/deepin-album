@@ -68,8 +68,10 @@ public:
     void setSelectCenter();
     //查看下一张
     void openNext();
+    bool isLast();
     //查看前一张
     void openPre();
+    bool isFirst();
     //移除当前选中
     void removeCurrent();
 protected:

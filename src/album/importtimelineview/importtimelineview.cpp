@@ -214,7 +214,6 @@ void ImportTimeLineView::slotBatchSelectChanged(bool isBatchSelect)
 
 void ImportTimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
-    qDebug() << __FUNCTION__ << "---";
     if (isNoResult) {
         m_importTimeLineListView->resetBlankItemHeight(title_HEIGHT);
     } else {
@@ -392,7 +391,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_choseBtnItem->setFixedSize(this->width() - 10, ChoseBtn_HEIGHT);
     m_choseBtnItem->setContentsMargins(0, 0, 0, 0);
     m_choseBtnItem->move(0, m_TitleItem->geometry().bottom());
-    m_choseBtnItem->hide();
+    m_choseBtnItem->setVisible(false);
 }
 
 void ImportTimeLineView::clearAndStartLayout()
@@ -440,7 +439,7 @@ void ImportTimeLineView::addTimelineLayout()
             m_DateLabel->setText(data);
             m_NumLabel->setText(num);
             //加空白栏
-            if (m_choseBtnItem->isVisible()) {
+            if (!m_choseBtnItem->isHidden()) {
                 m_importTimeLineListView->insertBlankOrTitleItem(ItemTypeBlank, data, num, (title_HEIGHT + ChoseBtn_HEIGHT));
             } else {
                 m_importTimeLineListView->insertBlankOrTitleItem(ItemTypeBlank, data, num, (title_HEIGHT));
