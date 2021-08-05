@@ -634,7 +634,7 @@ void AlbumView::initFavoriteWidget()
     m_pFavoriteTitle = new DLabel(m_pFavoriteWidget);
 //    m_pFavoriteTitle->setStyleSheet("background-color:blue;");
     m_pFavoriteTitle->setFixedHeight(favorite_title_height);
-    DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
     m_pFavoriteTitle->setText(tr("Favorites"));
 
@@ -1383,7 +1383,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
