@@ -129,7 +129,6 @@ AlbumView::AlbumView()
     , fatherwidget(nullptr)
     , pPhoneWidget(nullptr), phonetopwidget(nullptr)
     , isIgnore(true), m_waitDailog_timer(nullptr)
-    , isMountThreadRunning(false), m_currentViewPictureCount(0)
 {
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
@@ -320,7 +319,6 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::waitDevicescan, this, &AlbumView::importDialog);
     connect(m_waitDailog_timer, &QTimer::timeout, this, &AlbumView::onWaitDailogTimeout);
     //在外部绑定内部按钮事件
-//    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::loadEnd, this, &AlbumView::onWaitDialogIgnore);
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
     connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, &AlbumView::onLeftListViewMountListWidgetClicked);
@@ -896,30 +894,27 @@ void AlbumView::updateRightMountView()
         return;
     }
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
-    m_currentViewPictureCount = 0;
-    isMountThreadRunning = true;
     if (!m_pLeftListView) {
-        isMountThreadRunning = false;
         return;
     }
-    //    qDebug() << m_phoneNameAndPathlist;
     QString strPath;
-    QString phoneTitle;
     if (m_pLeftListView->m_pMountListWidget->currentItem()) {
         strPath = m_pLeftListView->m_pMountListWidget->currentItem()->data(Qt::UserRole).toString();
         if (!strPath.contains("/media/") && !strPath.contains("DCIM")) {
             findPicturePathByPhone(strPath);
         }
-        phoneTitle = m_pLeftListView->m_pMountListWidget->currentItem()->data(Qt::UserRole + 1).toString();
     }
-
-    qDebug() << "data(Qt::UserRole).toString()" << strPath;
-    qDebug() << m_phoneNameAndPathlist.contains(strPath);
-    qDebug() << m_phoneNameAndPathlist.value(strPath).length();
     //先关闭之前循环的线程
     ImageEngineApi::instance()->setThreadShouldStop();
     //发送信号到子线程加载文件信息
     emit ImageEngineApi::instance()->sigLoadMountFileList(strPath);
+    //TODO 保存每个挂载设备的加载状态
+    if (mountLoadStatus.contains(strPath) && mountLoadStatus[strPath]) {
+        return;
+    }
+    mountLoadStatus[strPath] = true;
+    //显示等待加载窗口
+    emit dApp->signalM->waitDevicescan();
 }
 
 // 更新新建相册列表
@@ -1249,6 +1244,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         if (strPath.isEmpty()) {
             qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
         }
+        mountLoadStatus[strPath] = false;
         QString rename = "";
         rename = durlAndNameMap[QUrl(mount->getRootFile()->uri())];
         if ("" == rename) {
@@ -1274,9 +1270,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         m_mounts = getVfsMountList();
         updateDeviceLeftList();
         if (bFind) {
-            qDebug() << "zy------AlbumView::onVfsMountChangedAdd ImageEngineApi getImageFilesFromMount";
-            //todo
-//            ImageEngineApi::instance()->getImageFilesFromMount(rename, strPath, this);//zy123
+            updateRightMountView();
         }
     }
 }
@@ -1383,7 +1377,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -1454,6 +1448,8 @@ void AlbumView::initExternalDevice()
         if ("" == rename) {
             rename = mount->name();
         }
+        mountLoadStatus.clear();
+        mountLoadStatus.insert(strPath, false);
         //判断路径是否存在
         bool bFind = false;
         QDir dir(strPath);
@@ -1885,18 +1881,10 @@ void AlbumView::importDialog()
 
 void AlbumView::onWaitDialogClose()
 {
-    qDebug() << "zy------onWaitDialogClose activeThreadCount1 = " << QThreadPool::globalInstance()->activeThreadCount();
-    m_pRightPhoneThumbnailList->stopLoadAndClear(false);
-    QListWidgetItem *item = m_pLeftListView->m_pMountListWidget->currentItem();
-    if (item) {
-        QString deviceName = item->data(Qt::UserRole).toString();
-        emit dApp->signalM->sigDevStop(deviceName);
-    }
-    emit dApp->signalM->sigDevStop("");
-    qDebug() << "zy------AlbumView::onWaitDialogClose empty";
+    //响应关闭事件，直接关闭线程
+    ImageEngineApi::instance()->setThreadShouldStop();
     m_waitDeviceScandialog->close();
     this->setEnabled(true);
-    qDebug() << "zy------onWaitDialogClose activeThreadCount2 = " << QThreadPool::globalInstance()->activeThreadCount();
 }
 
 void AlbumView::onWaitDialogIgnore()
@@ -2139,6 +2127,10 @@ void AlbumView::onLeftListViewMountListWidgetClicked(const QModelIndex &index)
 
 void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
 {
+    //线程已处理完成数据，通知等待窗口计时自动隐藏
+    QTimer::singleShot(1500, this, [ = ] {
+        m_waitDeviceScandialog->close();
+    });
     QString strPath;
     QString phoneTitle;
     if (m_pLeftListView->m_pMountListWidget->currentItem()) {
@@ -2151,6 +2143,44 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     if (path != strPath) {
         return;
     }
+
+    //更新外部设备页面标题等状态
+    m_importByPhoneComboBox->setEnabled(true);
+    m_importAllByPhoneBtn->setEnabled(true);
+    updateImportComboBox();
+    m_pPhoneTitle->setText(phoneTitle);
+    QFontMetrics elideFont(m_pPhoneTitle->font());
+    m_pPhoneTitle->setText(elideFont.elidedText(phoneTitle, Qt::ElideRight, 525));
+    QString str = tr("%1 photo(s)");
+    m_iAlubmPicsNum = fileList.size();
+    m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+    if (m_iAlubmPicsNum > 0) {
+        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+        m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+        QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
+        if (0 < paths.length()) {
+            m_importSelectByPhoneBtn->setEnabled(true);
+        } else {
+            m_importSelectByPhoneBtn->setEnabled(false);
+        }
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+        m_pStatusBar->setVisible(true);
+    } else {
+        m_importByPhoneComboBox->setEnabled(false);
+        m_importAllByPhoneBtn->setEnabled(false);
+        m_importSelectByPhoneBtn->setEnabled(false);
+        m_pPhoneTitle->setText(m_currentAlbum);
+        QFontMetrics elideFont(m_pPhoneTitle->font());
+        m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
+        QString str = tr("%1 photo(s)");
+        m_pPhonePicTotal->setText(str.arg(QString::number(0)));
+        m_pStatusBar->m_pAllPicNumLabel->setText(QString::number(0));
+        m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
+        m_pStatusBar->setVisible(true);
+    }
+    setAcceptDrops(false);
+
     using namespace utils::image;
     DBImgInfoList infos;
     for (int i = 0; i < fileList.size(); i++) {

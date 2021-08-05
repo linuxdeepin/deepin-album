@@ -267,7 +267,6 @@ private:
 
     DBImgInfoList m_curThumbnaiItemList_info;
     QStringList m_curThumbnaiItemList_str;
-    QStringList m_curPhoneItemList_str;         //外部设备图片的路径
     int m_mountPicNum;
 
     QMap<QUrl, QString> durlAndNameMap;
@@ -280,8 +279,7 @@ private:
     DWidget *phonetopwidget;
     bool isIgnore;
     QTimer *m_waitDailog_timer;
-    bool isMountThreadRunning;
-    int m_currentViewPictureCount;
+    QMap<QString, bool> mountLoadStatus;
 };
 
 #endif // ALBUMVIEW_H

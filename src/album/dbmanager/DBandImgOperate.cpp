@@ -181,31 +181,38 @@ void DBandImgOperate::sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num)
 
 void DBandImgOperate::sltLoadMountFileList(const QString &path)
 {
-    m_couldRun.store(true);
     QString strPath = path;
-    //获取所选文件类型过滤器
-    QStringList filters;
-    for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
-        filters << "*." + i;
-    }
-    //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
-    QDirIterator dir_iterator(strPath,
-                              filters,
-                              QDir::Files | QDir::NoSymLinks,
-                              QDirIterator::Subdirectories);
-    QStringList allfiles;
-    while (dir_iterator.hasNext()) {
-        //需要停止则跳出循环
-        if (!m_couldRun.load()) {
-            break;
+    if (!m_PhonePicFileMap.contains(strPath)) {
+        m_couldRun.store(true);
+        //获取所选文件类型过滤器
+        QStringList filters;
+        for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
+            filters << "*." + i;
         }
-        dir_iterator.next();
-        QFileInfo fileInfo = dir_iterator.fileInfo();
-        allfiles << fileInfo.filePath();
+        //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+        QDirIterator dir_iterator(strPath,
+                                  filters,
+                                  QDir::Files | QDir::NoSymLinks,
+                                  QDirIterator::Subdirectories);
+        QStringList allfiles;
+        while (dir_iterator.hasNext()) {
+            //需要停止则跳出循环
+            if (!m_couldRun.load()) {
+                break;
+            }
+            dir_iterator.next();
+            QFileInfo fileInfo = dir_iterator.fileInfo();
+            allfiles << fileInfo.filePath();
+        }
+        //重置标志位，可以执行线程
+        m_couldRun.store(true);
+        m_PhonePicFileMap[strPath] = allfiles;
+        emit sigMountFileListLoadReady(strPath, allfiles);
+    } else {
+        //已加载过的设备，直接发送缓存的路径
+        emit sigMountFileListLoadReady(strPath, m_PhonePicFileMap[strPath]);
     }
-    //重置标志位，可以执行线程
-    m_couldRun.store(true);
-    emit sigMountFileListLoadReady(strPath, allfiles);
+
 }
 
 void DBandImgOperate::getAllInfos()

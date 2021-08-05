@@ -79,6 +79,7 @@ private:
     QStringList m_ImgPaths;
     std::atomic<bool> m_couldRun;
     QVector<QPixmap> m_pixmaps;
+    QMap<QString, QStringList>m_PhonePicFileMap; //外部设备及其全部图片路径
 };
 
 #endif // DBOPERATE_H
