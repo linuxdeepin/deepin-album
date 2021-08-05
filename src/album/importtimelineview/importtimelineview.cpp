@@ -214,17 +214,17 @@ void ImportTimeLineView::slotBatchSelectChanged(bool isBatchSelect)
 
 void ImportTimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
-    if (isNoResult) {
-        m_importTimeLineListView->resetBlankItemHeight(title_HEIGHT);
-    } else {
-        m_importTimeLineListView->resetBlankItemHeight(ChoseBtn_HEIGHT + title_HEIGHT);
-    }
+//    if (isNoResult) {
+//        m_importTimeLineListView->resetBlankItemHeight(title_HEIGHT);
+//    } else {
+//        m_importTimeLineListView->resetBlankItemHeight(ChoseBtn_HEIGHT + title_HEIGHT);
+//    }
     m_noResultWidget->setVisible(isNoResult);
     m_importTimeLineListView->setVisible(!isNoResult);
     m_DateLabel->setVisible(!isNoResult);
     m_NumLabel->setVisible(!isNoResult);
     m_pImportTitle->setVisible(!isNoResult);
-    m_choseBtnItem->setVisible(!isNoResult);
+//    m_choseBtnItem->setVisible(!isNoResult);
     emit sigNoPicOrNoVideo(isNoResult);
 }
 

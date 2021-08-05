@@ -1289,6 +1289,8 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &info
             ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
             if (data.bNeedDelete) {
                 m_model->removeRow(i);
+                //移除后先减1，后面加1的时候才不会遗漏
+                i--;
             }
         }
     }

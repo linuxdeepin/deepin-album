@@ -521,7 +521,7 @@ void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
     } else {
         updatePicNum();
     }
-    m_suspensionChose->setVisible(!isNoResult);
+//    m_suspensionChose->setVisible(!isNoResult);
     m_dateLabel->setVisible(!isNoResult);
     m_numLabel->setVisible(!isNoResult);
 }
