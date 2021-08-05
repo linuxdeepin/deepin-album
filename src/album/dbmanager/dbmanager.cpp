@@ -849,7 +849,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
     QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime "
                        "FROM ImageTable3 AS i "
                        "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.AlbumName=:album "
-                       "WHERE i.FileName like %" + keywords + "%' OR Time like %" + keywords + "%' ORDER BY Time DESC";
+                       "WHERE i.FileName like '%" + keywords + "%' ORDER BY Time DESC"; //OR Time like '%" + keywords + "%' 移除按时间搜索
 
     QSqlQuery query(db);
     query.setForwardOnly(true);
