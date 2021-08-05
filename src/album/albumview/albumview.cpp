@@ -540,7 +540,7 @@ void AlbumView::initCustomAlbumWidget()
     pHLayout->setContentsMargins(0, 0, 19, 0);
 
     m_customAlbumTitleLabel = new DLabel(m_pCustomAlbumWidget);
-    DFontSizeManager::instance()->bind(m_customAlbumTitleLabel, DFontSizeManager::T3, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_customAlbumTitleLabel, DFontSizeManager::T3, QFont::DemiBold);
     m_customAlbumTitleLabel->setForegroundRole(DPalette::TextTitle);
     m_customAlbumTitleLabel->setFixedHeight(custom_title_height);
     m_customAlbumTitleLabel->setFixedWidth(525);
