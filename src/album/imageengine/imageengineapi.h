@@ -117,7 +117,7 @@ signals:
     //发给子线程，加载一张缩略图
     void sigLoadThumbnailIMG(QString path);
     //发给子线程，旋转图片
-    void sigRotateImageFIle(int angel, const QString &path);
+    void sigRotateImageFile(int angel, const QString &path);
     void sigLoadOneThumbnail(QString imagepath, ImageDataSt data);
     void sigLoadOneThumbnailToThumbnailView(QString imagepath, ImageDataSt data);
     //加载设备中图片列表

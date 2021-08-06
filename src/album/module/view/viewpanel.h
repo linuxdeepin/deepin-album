@@ -95,7 +95,7 @@ public slots:
     void onDoubleClicked();
     void onViewBClicked();
     void onViewBImageChanged(const QString &path);
-    void onFIleDelete();
+    void onFileDelete();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;

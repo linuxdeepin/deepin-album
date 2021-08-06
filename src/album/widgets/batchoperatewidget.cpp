@@ -248,7 +248,7 @@ void BatchOperateWidget::sltRightRotate(bool checked)
     QStringList paths =  m_thumbnailListView->selectedPaths();
     //发送给子线程旋转图片
     for (int i = 0; i < paths.size(); i++) {
-        emit ImageEngineApi::instance()->sigRotateImageFIle(90, paths.at(i));
+        emit ImageEngineApi::instance()->sigRotateImageFile(90, paths.at(i));
     }
 }
 //逆时针旋转
@@ -258,7 +258,7 @@ void BatchOperateWidget::sltLeftRotate(bool checked)
     QStringList paths =  m_thumbnailListView->selectedPaths();
     //发送给子线程旋转图片
     for (int i = 0; i < paths.size(); i++) {
-        emit ImageEngineApi::instance()->sigRotateImageFIle(-90, paths.at(i));
+        emit ImageEngineApi::instance()->sigRotateImageFile(-90, paths.at(i));
     }
 }
 //缩略图列表选中状态发生变化

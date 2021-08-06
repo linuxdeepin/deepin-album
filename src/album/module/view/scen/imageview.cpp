@@ -390,7 +390,7 @@ void ImageView::rotateClockWise()
 {
     QString errMsg;
     QImage rotateResult;
-    if (!UnionImage_NameSpace::rotateImageFIleWithImage(90, rotateResult, m_path, errMsg)) {
+    if (!UnionImage_NameSpace::rotateImageFileWithImage(90, rotateResult, m_path, errMsg)) {
         qDebug() << errMsg;
         return;
     }
@@ -402,7 +402,7 @@ void ImageView::rotateCounterclockwise()
 {
     QString errMsg;
     QImage rotateResult;
-    if (!UnionImage_NameSpace::rotateImageFIleWithImage(-90, rotateResult, m_path, errMsg)) {
+    if (!UnionImage_NameSpace::rotateImageFileWithImage(-90, rotateResult, m_path, errMsg)) {
         qDebug() << errMsg;
         return;
     }
@@ -506,7 +506,7 @@ void ImageView::onIsChangedTimerTimeout()
         setImage(m_path);
         m_isChangedTimer->stop();
     } else {
-        emit sigFIleDelete();
+        emit sigFileDelete();
         m_isChangedTimer->stop();
     }
 }

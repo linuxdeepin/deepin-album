@@ -161,10 +161,10 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
     emit sigOneImgReady(imagepath, pixmap);
 }
 
-void DBandImgOperate::rotateImageFIle(int angel, const QString &path)
+void DBandImgOperate::rotateImageFile(int angel, const QString &path)
 {
     QString errMsg;
-    if (!UnionImage_NameSpace::rotateImageFIle(angel, path, errMsg)) {
+    if (!UnionImage_NameSpace::rotateImageFile(angel, path, errMsg)) {
         qDebug() << errMsg;
         return;
     }

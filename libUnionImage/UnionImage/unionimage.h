@@ -126,7 +126,7 @@ UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi);
 UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image);
 
 /**
- * @brief rotateImageFIle
+ * @brief rotateImageFile
  * @param[in]           angel
  * @param[in]           path
  * @param[out]          erroMsg
@@ -136,10 +136,10 @@ UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image);
  * 当不需要获取旋转图片的结果或者只有文件地址时调用该函数
  * 失败时会将错误信息写入erroMsg
  */
-UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg);
+UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QString &erroMsg);
 
 /**
- * @brief rotateImageFIle
+ * @brief rotateImageFile
  * @param[in]           angel
  * @param[in][out]      img
  * @param[in]           path
@@ -150,7 +150,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
  * 旋转成功会同时旋转img
  * 图片为空则不会旋转返回失败,失败时会将错误信息写入erroMsg
  */
-UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, const QString &path, QString &erroMsg);
+UNIONIMAGESHARED_EXPORT bool rotateImageFileWithImage(int angel, QImage &img, const QString &path, QString &erroMsg);
 
 /**
  * @brief getAllMetaData

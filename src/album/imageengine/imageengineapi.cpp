@@ -238,7 +238,7 @@ void ImageEngineApi::sigImageBackLoaded(QString path, const ImageDataSt &data)
 {
     m_AllImageData[path] = data;
 }
-int static loadCount = 0;
+
 void ImageEngineApi::slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas)
 {
     m_AllImageDataVector = ImageDatas;
@@ -387,13 +387,15 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
             m_AllImageDataVector.append(imgData);
         }
     }
+
+    db.close();
     qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
     emit sigLoadThumbnailsByNum(m_AllImageDataVector, num);
-    db.close();
 }
 
 void ImageEngineApi::thumbnailLoadThread(int num)
 {
+    Q_UNUSED(num)
     QThread *workerThread = new QThread(this);
     m_worker = new DBandImgOperate(workerThread);
 
@@ -404,7 +406,7 @@ void ImageEngineApi::thumbnailLoadThread(int num)
     //加载设备中文件列表
     connect(this, &ImageEngineApi::sigLoadMountFileList, m_worker, &DBandImgOperate::sltLoadMountFileList);
     //旋转一张图片
-    connect(this, &ImageEngineApi::sigRotateImageFIle, m_worker, &DBandImgOperate::rotateImageFIle);
+    connect(this, &ImageEngineApi::sigRotateImageFile, m_worker, &DBandImgOperate::rotateImageFile);
 
     //收到获取全部照片信息成功信号
     connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);

@@ -919,7 +919,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image)
     return false;
 }
 
-UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg)
+UNIONIMAGESHARED_EXPORT bool rotateImageFile(int angel, const QString &path, QString &erroMsg)
 {
     if (angel % 90 != 0) {
         erroMsg = "unsupported angel";
@@ -998,7 +998,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
     return true;
 }
 
-UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, const QString &path, QString &erroMsg)
+UNIONIMAGESHARED_EXPORT bool rotateImageFileWithImage(int angel, QImage &img, const QString &path, QString &erroMsg)
 {
     Q_UNUSED(img)
     if (angel % 90 != 0) {

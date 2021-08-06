@@ -239,7 +239,8 @@ void ThumbnailListView::showEvent(QShowEvent *event)
     //出于性能考虑,因为一开始只加了第一屛，所以显示后延迟加载剩下的图片信息,m_bfirstload用来只执行一次
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType && m_model->rowCount() < size && m_bfirstload) {
         QTimer::singleShot(200, this, [ = ]() {
-            for (int i = m_model->rowCount(); i < size; i++) {
+            //m_model->rowCount()减一是为了减去顶部空白栏占用的一个ModelIndex
+            for (int i = m_model->rowCount() - 1; i < size; i++) {
                 ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
                 ItemInfo info;
                 if (data.imgpixmap.isNull()) {
@@ -915,13 +916,13 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     break;
     case IdRotateClockwise: {
         //发送给子线程旋转图片
-        emit ImageEngineApi::instance()->sigRotateImageFIle(90, path);
+        emit ImageEngineApi::instance()->sigRotateImageFile(90, path);
         dApp->m_imageloader->updateImageLoader(paths);
     }
     break;
     case IdRotateCounterclockwise: {
         //发送给子线程旋转图片
-        emit ImageEngineApi::instance()->sigRotateImageFIle(-90, path);
+        emit ImageEngineApi::instance()->sigRotateImageFile(-90, path);
         dApp->m_imageloader->updateImageLoader(paths);
     }
     break;
@@ -1656,27 +1657,25 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
     }
     //加空白栏
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType) {
-        this->insertBlankOrTitleItem(ItemTypeBlank, "", "", AllPicView::SUSPENSION_WIDGET_HEIGHT);
+        insertBlankOrTitleItem(ItemTypeBlank, "", "", AllPicView::SUSPENSION_WIDGET_HEIGHT);
     }
-    for (int i = 0; i < ImageEngineApi::instance()->m_FirstPageScreen; i++) {
-        if (i < size) {
-            ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
-            ItemInfo info;
-            if (data.imgpixmap.isNull()) {
-                info.bNotSupportedOrDamaged = true;
-                info.damagedPixmap = getDamagedPixmap();
-            }
-            info.name = data.dbi.fileName;
-            info.path = data.dbi.filePath;
-            info.image = data.imgpixmap;
-            ImageEngineApi::instance()->m_AllImageMap[info.path] = info.image;
-            ImageEngineApi::instance()->m_AllImageData[info.path].imgpixmap = info.image;
-            //        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
-            info.remainDays = data.remainDays;
-            info.imgWidth = m_onePicWidth;
-            info.imgHeight = m_onePicWidth;
-            insertThumbnail(info);
+    for (int i = 0; i < ImageEngineApi::instance()->m_FirstPageScreen && i < size; i++) {
+        ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
+        ItemInfo info;
+        if (data.imgpixmap.isNull()) {
+            info.bNotSupportedOrDamaged = true;
+            info.damagedPixmap = getDamagedPixmap();
         }
+        info.name = data.dbi.fileName;
+        info.path = data.dbi.filePath;
+        info.image = data.imgpixmap;
+        ImageEngineApi::instance()->m_AllImageMap[info.path] = info.image;
+        ImageEngineApi::instance()->m_AllImageData[info.path].imgpixmap = info.image;
+        //        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
+        info.remainDays = data.remainDays;
+        info.imgWidth = m_onePicWidth;
+        info.imgHeight = m_onePicWidth;
+        insertThumbnail(info);
     }
 }
 

@@ -60,7 +60,7 @@ public slots:
     void     loadOneImg(QString imagepath);
     void     loadOneImgForce(QString imagepath, bool refresh);//缩略图已存在仍然强制刷新缩略图
     //旋转图片并重新制作缩略图
-    void     rotateImageFIle(int angel, const QString &path);
+    void     rotateImageFile(int angel, const QString &path);
     void     sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num);
     //加载设备中图片列表请求完成
     void sltLoadMountFileList(const QString &path);

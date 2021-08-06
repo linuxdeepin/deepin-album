@@ -464,7 +464,7 @@ void ViewPanel::onViewBImageChanged(const QString &path)
     //m_viewB->autoFit(); 放出来会导致切换图片时偶发引起1:1图标闪烁
 }
 
-void ViewPanel::onFIleDelete()
+void ViewPanel::onFileDelete()
 {
     m_viewB->setImage(m_currentpath);    //设置当前显示图片
     if (!QFileInfo(m_currentpath).exists()) {
@@ -673,7 +673,7 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::doubleClicked, this, &ViewPanel::onDoubleClicked);
     connect(m_viewB, &ImageView::clicked, this, &ViewPanel::onViewBClicked);
     connect(m_viewB, &ImageView::imageChanged, this, &ViewPanel::onViewBImageChanged);
-    connect(m_viewB, &ImageView::sigFIleDelete, this, &ViewPanel::onFIleDelete);
+    connect(m_viewB, &ImageView::sigFileDelete, this, &ViewPanel::onFileDelete);
 }
 
 void ViewPanel::openImage(const QString &path, bool bjudge)
