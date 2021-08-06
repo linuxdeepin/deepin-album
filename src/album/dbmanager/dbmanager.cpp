@@ -713,7 +713,6 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths, 
     bool b = query.prepare(qs.arg(album));
     if (!b) {
         db.close();
-        mutex.unlock();
         return;
     }
     query.addBindValue(pathHashs);

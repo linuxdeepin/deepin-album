@@ -920,6 +920,7 @@ void AlbumView::updateRightMountView()
 // 更新新建相册列表
 void AlbumView::updateRightCustomAlbumView()
 {
+    qDebug()<<"---------"<<__FUNCTION__<<"---";
     //bug78951 更新时需清空
     m_curThumbnaiItemList_info.clear();
     using namespace utils::image;
@@ -1168,34 +1169,10 @@ void AlbumView::onKeyDelete()
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
+        //相册delete快捷键从直接删除更改为从相册移除
         paths = m_customThumbnailList->selectedPaths();
-        // 如果没有选中的照片,或相册中的照片数为0,则删除相册
-        if (0 == paths.length() || 0 == DBManager::instance()->getImgsCountByAlbum(m_currentAlbum)) {
-            QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
-            AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
-            m_deleteDialog = new AlbumDeleteDialog;
-            connect(m_deleteDialog, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
-                QString str = pTabItem->m_albumNameStr;
-                QStringList album_paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr);
-                ImageEngineApi::instance()->moveImagesToTrash(album_paths);
-                DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
-
-                if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
-                    delete  item;
-                    m_currentItemType = ablumType;
-                } else {
-                    m_pLeftListView->updateCustomizeListView();
-                    m_pLeftListView->updatePhotoListView();
-                    m_currentItemType = photosType;
-                }
-                //刷新右侧视图
-                leftTabClicked();
-                m_pLeftListView->onUpdateLeftListview();
-                emit dApp->signalM->sigAlbDelToast(str);
-            });
-            m_deleteDialog->show();
-        } else {
-            bMoveToTrash = true;
+        if (0 < paths.length()) {
+            DBManager::instance()->removeFromAlbum(m_currentAlbum, paths, AlbumDBType::Custom);
         }
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_currentType) {
         // 外部设备中的照片不删除
