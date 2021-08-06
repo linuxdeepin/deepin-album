@@ -535,7 +535,7 @@ void AlbumView::initCustomAlbumWidget()
 
     //自定义相册标题的外层布局
     QHBoxLayout *pHLayout = new QHBoxLayout();
-    pHLayout->setContentsMargins(0, 0, 19, 0);
+    pHLayout->setContentsMargins(19, 0, 19, 0);
 
     m_customAlbumTitleLabel = new DLabel(m_pCustomAlbumWidget);
     DFontSizeManager::instance()->bind(m_customAlbumTitleLabel, DFontSizeManager::T3, QFont::DemiBold);
@@ -825,7 +825,8 @@ void AlbumView::updateAlbumView(const QString &album)
     if (m_currentType == album) {
         updateRightMyFavoriteView();
     }
-    if (m_currentType == COMMON_STR_CUSTOM) {
+    //更新我的收藏时不刷新自定义相册
+    if (m_currentType == COMMON_STR_CUSTOM && album != COMMON_STR_FAVORITES) {
         updateRightCustomAlbumView();
     }
 }
@@ -920,7 +921,7 @@ void AlbumView::updateRightMountView()
 // 更新新建相册列表
 void AlbumView::updateRightCustomAlbumView()
 {
-    qDebug()<<"---------"<<__FUNCTION__<<"---";
+    qDebug() << "---------" << __FUNCTION__ << "---";
     //bug78951 更新时需清空
     m_curThumbnaiItemList_info.clear();
     using namespace utils::image;

@@ -14,7 +14,7 @@ FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setSpacing(4);
     hb->setContentsMargins(0, 0, 0, 0);
-    this->setContentsMargins(0, 0, 0, 0);
+    this->setContentsMargins(0, 0, 10, 0);
     this->setLayout(hb);
 
     m_leftLabel = new FilterLabel(this);
