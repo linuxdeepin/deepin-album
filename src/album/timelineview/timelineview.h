@@ -116,7 +116,6 @@ private:
     ThumbnailListView *m_timeLineThumbnailListView = nullptr;//时间线缩略图列表，含时间项
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
-    bool m_ctrlPress;
     QWidget *fatherwidget;
 
 public:

@@ -25,7 +25,7 @@ echo use processor count: $JOBS
 make -j$JOBS
 
 lcov --directory ./CMakeFiles/deepin-album_test.dir --zerocounters
-./src/deepin-album_test
+ASAN_OPTIONS="fast_unwind_on_malloc=1" ./src/deepin-album_test
 
 lcov --directory . --capture --output-file ./coverageResult/deepin-album_Coverage.info
 echo \ ===================\ do\ filter\ begin\ ====================\ 
