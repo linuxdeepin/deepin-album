@@ -205,6 +205,10 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         info.lastPanel = nullptr;
         info.path = path;
         info.paths = paths;
+        ItemInfo iteminfo;
+        iteminfo.path = path;
+        iteminfo.image = pixmap;
+        info.itemInfos << iteminfo;
         // 未启动相册，从外部打开图片时，延迟发送查看图片
         if (dApp->getMainWindow() == nullptr) {
             QTimer::singleShot(100, this, [ = ] {

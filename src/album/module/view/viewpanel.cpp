@@ -295,7 +295,7 @@ void ViewPanel::onHideImageView()
 bool ViewPanel::onSigViewImage(const SignalManager::ViewInfo &info)
 {
     //除去info的const，并对m_vinfo赋值
-    m_vinfo = *(const_cast<SignalManager::ViewInfo*>(&info));
+    m_vinfo = *(const_cast<SignalManager::ViewInfo *>(&info));
     m_filepathlist = m_vinfo.paths;
     if (m_ttbc == nullptr) {
         bottomTopLeftContent();
