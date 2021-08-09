@@ -240,7 +240,8 @@ void ThumbnailListView::showEvent(QShowEvent *event)
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType && m_model->rowCount() < size && m_bfirstload) {
         QTimer::singleShot(200, this, [ = ]() {
             //m_model->rowCount()减一是为了减去顶部空白栏占用的一个ModelIndex
-            for (int i = m_model->rowCount() - 1; i < size; i++) {
+            int i = m_model->rowCount() - 1 < 0 ? 0 : m_model->rowCount() - 1;
+            for ( ; i < size; i++) {
                 ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
                 ItemInfo info;
                 if (data.imgpixmap.isNull()) {
