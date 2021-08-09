@@ -90,7 +90,6 @@ TimeLineView::TimeLineView()
     initTimeLineViewWidget();
     initConnections();
     m_pwidget = new QWidget(this);
-    m_pwidget->setFocusPolicy(Qt::NoFocus);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
@@ -197,6 +196,7 @@ void TimeLineView::initTimeLineViewWidget()
 
     //添加悬浮title
     m_dateNumItemWidget = new QWidget(pTimeLineViewWidget);
+    m_dateNumItemWidget->setFocusPolicy(Qt::ClickFocus);
     m_dateNumItemWidget->setPalette(palcolor);
     QVBoxLayout *titleViewLayout = new QVBoxLayout();
     titleViewLayout->setContentsMargins(18, 0, 0, 0);
@@ -231,7 +231,6 @@ void TimeLineView::initTimeLineViewWidget()
     hDateLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     hDateLayout->setContentsMargins(0, 0, 19, 0);
     hDateLayout->addWidget(m_batchOperateWidget);
-
 
     //时间线下的计数
     QHBoxLayout *hNumLayout = new QHBoxLayout();

@@ -198,8 +198,8 @@ void MainWindow::initConnections()
 #if 1
     connect(dApp->signalM, &SignalManager::viewCreateAlbum, this, &MainWindow::onViewCreateAlbum);
 #endif
-    connect(m_pSearchEdit, &DSearchEdit::editingFinished, this, &MainWindow::onSearchEditFinished);
-    connect(m_pSearchEdit, &DSearchEdit::textChanged, this, &MainWindow::onSearchEditTextChanged);
+    connect(m_pSearchEdit, &DSearchEdit::returnPressed, this, &MainWindow::onSearchEditFinished);
+    //connect(m_pSearchEdit, &DSearchEdit::textChanged, this, &MainWindow::onSearchEditTextChanged);
     connect(m_pTitleBarMenu, &DMenu::triggered, this, &MainWindow::onTitleBarMenuClicked);
     connect(this, &MainWindow::sigTitleMenuImportClicked, this, &MainWindow::onImprotBtnClicked);
     //当有图片添加时，搜索栏可用
@@ -335,13 +335,14 @@ void MainWindow::initWaitDialog()
 //初始化顶部状态栏
 void MainWindow::initTitleBar()
 {
-    titlebar()->setFocusPolicy(Qt::NoFocus);
     // TitleBar Button
     if (m_titleBtnWidget) {
         delete  m_titleBtnWidget;
         m_titleBtnWidget = nullptr;
     }
     m_titleBtnWidget = new DWidget();
+    m_titleBtnWidget->setFocusPolicy(Qt::NoFocus);
+    setFocusPolicy(Qt::NoFocus);
     AC_SET_OBJECT_NAME(m_titleBtnWidget, MainWindow_TitleBtn_Widget);
     AC_SET_ACCESSIBLE_NAME(m_titleBtnWidget, MainWindow_TitleBtn_Widget);
     btnGroup = new QButtonGroup();
@@ -397,17 +398,25 @@ void MainWindow::initTitleBar()
     m_titleBtnWidget->setLayout(pTitleBtnLayout);
 
     // TitleBar Search
-    //QWidget *m_titleSearchWidget = new QWidget();
-//    QHBoxLayout *pTitleSearchLayout = new QHBoxLayout();
-    m_pSearchEdit = new DSearchEdit();
-    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::StrongFocus);
+    m_pSearchEdit = new DSearchEdit(m_titleBtnWidget);
+    m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
     m_pSearchEdit->setMaximumSize(350, 36);
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
     } else {
         m_pSearchEdit->setEnabled(false);
     }
-    m_pSearchEdit->setFocusPolicy(Qt::ClickFocus);
+
+    connect(m_pSearchEdit, &DSearchEdit::focusChanged,
+    m_pSearchEdit, [ = ](bool onFocus) {
+        if (!onFocus) {
+            if (m_pSearchEdit->lineEdit()) {
+                m_pSearchEdit->lineEdit()->clearFocus();
+            }
+            m_pSearchEdit->clearFocus();
+        }
+    });
+
 //    pTitleSearchLayout->addWidget(m_pSearchEdit);
     //m_titleSearchWidget->setLayout(pTitleSearchLayout);
 
@@ -1132,6 +1141,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 //搜索框
 void MainWindow::onSearchEditFinished()
 {
+    qDebug()<<__FUNCTION__<<m_pSearchEdit->hasFocus();
     QString keywords = m_pSearchEdit->text();
     if (m_SearchKey == keywords) //两次搜索条件相同，跳过
         return;
@@ -1821,32 +1831,32 @@ void MainWindow::onImageImported(bool success)
     }
 }
 
-void MainWindow::onSearchEditTextChanged(QString text)
-{
-    if (text.isEmpty()) {
-        m_SearchKey.clear();
-        switch (m_iCurrentView) {
-        case VIEW_ALLPIC: {
-            m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            m_pAllPicView->updateStackedWidget();
-            m_pAllPicView->updatePicNum();
-        }
-        break;
-        case VIEW_TIMELINE: {
-            m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            m_pTimeLineView->updateStackedWidget();
-            m_pTimeLineView->updatePicNum();
-        }
-        break;
-        case VIEW_ALBUM: {
-            m_pAlbumview->SearchReturnUpdate();
-            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-            m_pAlbumview->updatePicNum();
-        }
-        break;
-        }
-    }
-}
+//void MainWindow::onSearchEditTextChanged(QString text)
+//{
+//    if (text.isEmpty()) {
+//        m_SearchKey.clear();
+//        switch (m_iCurrentView) {
+//        case VIEW_ALLPIC: {
+//            m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+//            m_pAllPicView->updateStackedWidget();
+//            m_pAllPicView->updatePicNum();
+//        }
+//        break;
+//        case VIEW_TIMELINE: {
+//            m_pTimeLineView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+//            m_pTimeLineView->updateStackedWidget();
+//            m_pTimeLineView->updatePicNum();
+//        }
+//        break;
+//        case VIEW_ALBUM: {
+//            m_pAlbumview->SearchReturnUpdate();
+//            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+//            m_pAlbumview->updatePicNum();
+//        }
+//        break;
+//        }
+//    }
+//}
 
 void MainWindow::onImagesInserted()
 {

@@ -545,7 +545,9 @@ void AlbumView::initCustomAlbumWidget()
 //    m_customAlbumTitleLabel->move(m_pCustomAlbumWidget->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
 
     m_pRightPicTotal = new DLabel();
+    m_pRightPicTotal->setFocusPolicy(Qt::NoFocus);
     m_pRightPicTotal->setFixedHeight(20);
+    m_pRightPicTotal->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     DFontSizeManager::instance()->bind(m_pRightPicTotal, DFontSizeManager::T6, QFont::Medium);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     DPalette pal = DApplicationHelper::instance()->palette(m_pRightPicTotal);
@@ -583,6 +585,7 @@ void AlbumView::initCustomAlbumWidget()
 
 
     m_customAlbumTitle = new DWidget(m_pCustomAlbumWidget);
+    m_customAlbumTitle->setFocusPolicy(Qt::ClickFocus);
     m_customAlbumTitle->setLayout(pHLayout);
 
     DPalette ppal_light = DApplicationHelper::instance()->palette(m_customAlbumTitle);
@@ -601,6 +604,7 @@ void AlbumView::initFavoriteWidget()
     //add end 3975
     // Favorite View
     m_pFavoriteWidget = new DWidget(); //add 3975
+    m_pFavoriteWidget->setFocusPolicy(Qt::ClickFocus);
     //add start 3975
     DPalette palcolor2 = DApplicationHelper::instance()->palette(m_pFavoriteWidget);
     palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
@@ -629,7 +633,6 @@ void AlbumView::initFavoriteWidget()
     lNumberLayout->setContentsMargins(20, 0, 19, 0);
 
     m_pFavoriteTitle = new DLabel(m_pFavoriteWidget);
-//    m_pFavoriteTitle->setStyleSheet("background-color:blue;");
     m_pFavoriteTitle->setFixedHeight(favorite_title_height);
     DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
@@ -659,6 +662,7 @@ void AlbumView::initFavoriteWidget()
     lNumberLayout->addWidget(m_pFavoritePicTotal);
 
     m_FavoriteTitleWidget = new DWidget(m_pFavoriteWidget);
+    m_FavoriteTitleWidget->setFocusPolicy(Qt::NoFocus);
     m_FavoriteTitleWidget->setLayout(lNumberLayout);
 
     m_favoriteBatchOperateWidget = new BatchOperateWidget(m_favoriteThumbnailList, BatchOperateWidget::NullType, m_FavoriteTitleWidget);

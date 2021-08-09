@@ -54,8 +54,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-const int Distance_factor = 4;//距离因子
-
 BatchOperateWidget::BatchOperateWidget(ThumbnailListView *thumbnailListView, OperateType type, QWidget *parent)
     : QWidget(parent)
 {

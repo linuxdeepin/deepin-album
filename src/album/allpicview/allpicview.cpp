@@ -151,7 +151,7 @@ void AllPicView::initSuspensionWidget()
 {
     //添加悬浮title
     m_SuspensionWidget = new QWidget(m_thumbnailListViewWidget);
-
+    m_SuspensionWidget->setFocusPolicy(Qt::ClickFocus);
     //右侧批量操作控件
     QHBoxLayout *hlayoutDateLabel = new QHBoxLayout(m_SuspensionWidget);
     m_SuspensionWidget->setLayout(hlayoutDateLabel);

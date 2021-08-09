@@ -151,7 +151,7 @@ public slots:
     void closeFromMenu();
     void onButtonClicked(int id);
     void onImageImported(bool success);
-    void onSearchEditTextChanged(QString text);
+    //void onSearchEditTextChanged(QString text);
     void onImagesInserted();
     void onStartImprot();
     void onProgressOfWaitDialog(int allfiles, int completefiles);

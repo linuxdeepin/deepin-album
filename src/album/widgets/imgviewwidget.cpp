@@ -50,8 +50,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-const int Distance_factor = 4;//距离因子
-
 MyImageListWidget::MyImageListWidget(QWidget *parent)
     : QWidget(parent)
 {

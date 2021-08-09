@@ -51,8 +51,8 @@ ImportTimeLineView::ImportTimeLineView(DWidget *parent)
     m_oet = new QGraphicsOpacityEffect(this);
     m_oe->setOpacity(0.5);
     m_oet->setOpacity(0.75);
-
     m_timeLineViewWidget = new DWidget(this);
+    m_timeLineViewWidget->setFocusPolicy(Qt::ClickFocus);
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
     pVBoxLayout->setContentsMargins(0, 0, 0, 0);
     pVBoxLayout->addWidget(m_timeLineViewWidget);
@@ -293,6 +293,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     //添加悬浮title
     //优化悬浮title布局，适配维语
     m_TitleItem = new DWidget(m_timeLineViewWidget);
+    m_TitleItem->setFocusPolicy(Qt::NoFocus);
     QHBoxLayout *TitleLayout = new QHBoxLayout();
     m_TitleItem->setLayout(TitleLayout);
     TitleLayout->setContentsMargins(20, 0, 19, 0);
