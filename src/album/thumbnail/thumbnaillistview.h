@@ -137,6 +137,9 @@ public:
     void updatetimeLimeBtnText();//1050
     //过滤显示选中类型
     void showSelectedTypeItem(ItemInfoType type);//1050
+    //时间线所有选择按钮响应ctrl+all快捷键，切换按钮状态
+    void TimeLineSelectAllBtn();
+
 signals:
     //打开图片，该项在当前列表行数，以及该项所含信息路径
     void openImage(int row, QString path, bool bFullScreen);

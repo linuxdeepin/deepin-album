@@ -99,6 +99,10 @@ void ImportTimeLineView::initConnections()
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &ImportTimeLineView::themeChangeSlot);
     // 重复导入图片选中
     connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &ImportTimeLineView::onRepeatImportingTheSamePhotos);
+    // ctrl+all 全选
+    connect(m_importTimeLineListView, &ThumbnailListView::sigSelectAll, this, [ = ]() {
+        m_suspensionChoseBtn->setText(QObject::tr("Unselect"));
+    });
 }
 
 void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)

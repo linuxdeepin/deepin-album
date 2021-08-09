@@ -299,6 +299,7 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
 {
     DListView::keyPressEvent(event);
     if ((event->modifiers() == Qt::ControlModifier) && (event->key() == Qt::Key_A)) {
+        TimeLineSelectAllBtn();
         emit sigSelectAll();
     }
     m_dragItemPath = selectedPaths();
@@ -1645,6 +1646,27 @@ void ThumbnailListView::showSelectedTypeItem(ItemInfoType type)
         //恢复显示所有
         hideAllSelectType(ItemTypeNull);
         emit sigNoPicOrNoVideo(false);
+    }
+}
+
+void ThumbnailListView::TimeLineSelectAllBtn()
+{
+    if (m_delegatetype == ThumbnailDelegate::TimeLineViewType || m_delegatetype == ThumbnailDelegate:: AlbumViewImportTimeLineViewType) {
+        for (int i = 0; i < m_model->rowCount(); i++) {
+            QModelIndex idx = m_model->index(i, 0);
+            ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            if (data.itemType == ItemTypeTimeLineTitle) {
+                TimeLineDateWidget *w = static_cast<TimeLineDateWidget *>(this->indexWidget(idx));
+                if (w) {
+                    w->onTimeLinePicSelectAll(true);
+                }
+            } else if (data.itemType == ItemTypeImportTimeLineTitle) {
+                importTimeLineDateWidget *w = static_cast<importTimeLineDateWidget *>(this->indexWidget(idx));
+                if (w) {
+                    w->onTimeLinePicSelectAll(true);
+                }
+            }
+        }
     }
 }
 

@@ -112,9 +112,8 @@ void TimeLineView::initConnections()
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &TimeLineView::onKeyDelete);
     // 重复导入图片选中
     connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &TimeLineView::onRepeatImportingTheSamePhotos);
-    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ] {
-        //TODO 所有选择按钮更新选择状态
-
+    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ]() {
+        m_suspensionChose->setText(QObject::tr("Unselect"));
     });
 }
 
