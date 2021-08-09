@@ -357,14 +357,13 @@ void ImageMoveImagesToTrashThread::setData(QStringList &paths, bool typetrash)
 void ImageMoveImagesToTrashThread::runDetail()
 {
     QStringList paths = m_paths;
-//    qDebug() << "------" << __FUNCTION__ << "---size = " << m_paths.size();
     if (btypetrash) {
         DBManager::instance()->removeTrashImgInfos(paths);
         emit dApp->signalM->sigDeletePhotos(paths.length());
     } else {
         DBImgInfoList infos;
         int pathsCount = paths.size();
-        int remoneOffset = pathsCount / 200;
+        int remmoveOffset = 30; //每30条上报前端一次
         int removedCount = 0;
         QStringList removedPaths;
         emit dApp->signalM->progressOfWaitDialog(paths.size(), 0);
@@ -381,20 +380,21 @@ void ImageMoveImagesToTrashThread::runDetail()
             infos << info;
             removedPaths << path;
             removedCount++;
-            if (removedCount == remoneOffset) {
+            if (removedCount % remmoveOffset == 0) {
                 DBManager::instance()->insertTrashImgInfos(infos);
                 DBManager::instance()->removeImgInfos(removedPaths);
-                emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
-                remoneOffset += remoneOffset;
+                emit dApp->signalM->progressOfWaitDialog(pathsCount, removedCount);
                 removedPaths.clear();
                 infos.clear();
             }
-//            emit dApp->signalM->progressOfWaitDialog(paths.size(), infos.size());
         }
-        DBManager::instance()->insertTrashImgInfos(infos);
-        qDebug() << "------" << __FUNCTION__ << "22222222222222";
-        DBManager::instance()->removeImgInfos(removedPaths);
-        emit dApp->signalM->progressOfWaitDialog(paths.size(), removedCount);
+
+        if(infos.size() > 0 )
+        {
+            DBManager::instance()->insertTrashImgInfos(infos);
+            DBManager::instance()->removeImgInfos(removedPaths);
+            emit dApp->signalM->progressOfWaitDialog(pathsCount, removedCount);
+        }
     }
     emit dApp->signalM->closeWaitDialog();
 }

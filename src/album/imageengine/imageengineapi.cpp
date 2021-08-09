@@ -531,7 +531,12 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
 }
 bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool bneedprogress)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //autor : jia.dong
+    if(files.size() == 0)
+    {
+        return false;
+    }
+
+    emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //author : jia.dong
     if (typetrash)  //如果为回收站删除，则删除内存数据
         removeImage(files);
     ImageMoveImagesToTrashThread *imagethread = new ImageMoveImagesToTrashThread;

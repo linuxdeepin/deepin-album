@@ -406,13 +406,10 @@ void AllPicView::restorePicNum()
 
 void AllPicView::onKeyDelete()
 {
-    if (!isVisible()) return;
-    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) return;
-    QStringList paths;
-    paths.clear();
-    paths = m_pThumbnailListView->selectedPaths();
-    if (0 >= paths.length()) {
+    if (!isVisible())
         return;
-    }
-    ImageEngineApi::instance()->moveImagesToTrash(paths);
+    if (VIEW_SEARCH == m_pStackedWidget->currentIndex())
+        return;
+
+    ImageEngineApi::instance()->moveImagesToTrash(m_pThumbnailListView->selectedPaths());
 }
