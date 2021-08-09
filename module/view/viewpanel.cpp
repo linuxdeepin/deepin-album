@@ -723,7 +723,15 @@ void ViewPanel::removeCurrentImage()
         if (m_bFirstFullScreen)
             emit dApp->signalM->hideImageView();
         else {
-            toggleFullScreen();
+            // zy 08-09 bug88909非缩略图直接进入全屏状态时，判断窗口状态，常规窗口不作处理
+            if (window()->isFullScreen()) {
+                showNormal();
+                killTimer(m_hideCursorTid);
+                m_hideCursorTid = 0;
+                m_vinfo.fullScreen = false;
+                emit dApp->signalM->showBottomToolbar();
+                m_viewB->viewport()->setCursor(Qt::ArrowCursor);
+            }
         }
 
         emit imageChanged("");
