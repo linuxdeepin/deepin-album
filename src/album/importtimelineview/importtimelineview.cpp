@@ -259,7 +259,8 @@ void ImportTimeLineView::updateChoseText()
 void ImportTimeLineView::initTimeLineViewWidget()
 {
     m_mainLayout = new QVBoxLayout(m_timeLineViewWidget);
-    m_mainLayout->setContentsMargins(0, 0, 0, 0);
+    //左侧距离分界线20px，8+缩略图spacing+缩略图边框
+    m_mainLayout->setContentsMargins(8, 0, 0, 0);
     m_timeLineViewWidget->setLayout(m_mainLayout);
 
     DPalette palcolor = DApplicationHelper::instance()->palette(m_timeLineViewWidget);
@@ -294,7 +295,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_TitleItem = new DWidget(m_timeLineViewWidget);
     QHBoxLayout *TitleLayout = new QHBoxLayout();
     m_TitleItem->setLayout(TitleLayout);
-    TitleLayout->setContentsMargins(17, 0, 19, 0);
+    TitleLayout->setContentsMargins(20, 0, 19, 0);
 
     DPalette ppal_TitleItem = DApplicationHelper::instance()->palette(m_TitleItem);
     ppal_TitleItem.setBrush(DPalette::Background, ppal_TitleItem.color(DPalette::Base));

@@ -2351,16 +2351,16 @@ TEST(MainWindow, callFuncitons_test)
     deleteDialog.onButtonClicked(0, " ");
     deleteDialog.onButtonClicked(1, " ");
 
-    ImportTimeLineView importTimeLineView(nullptr);
-    QMimeData mimedata;
-    QDragEnterEvent dragenterevent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
-    importTimeLineView.dragEnterEvent(&dragenterevent);
-    QDropEvent dropEvent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
-    importTimeLineView.dropEvent(&dropEvent);
-    QDragMoveEvent dragMoveEvent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
-    importTimeLineView.dragMoveEvent(&dragMoveEvent);
-    QDragLeaveEvent dragLeaveEvent;
-    importTimeLineView.dragLeaveEvent(&dragLeaveEvent);
+//    ImportTimeLineView importTimeLineView(nullptr);
+//    QMimeData mimedata;
+//    QDragEnterEvent dragenterevent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
+//    importTimeLineView.dragEnterEvent(&dragenterevent);
+//    QDropEvent dropEvent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
+//    importTimeLineView.dropEvent(&dropEvent);
+//    QDragMoveEvent dragMoveEvent(QPoint(100, 100), Qt::DropAction::IgnoreAction, &mimedata, Qt::MouseButton::LeftButton, Qt::NoModifier);
+//    importTimeLineView.dragMoveEvent(&dragMoveEvent);
+//    QDragLeaveEvent dragLeaveEvent;
+//    importTimeLineView.dragLeaveEvent(&dragLeaveEvent);
 //    importTimeLineView.mousePressEvent(&mouseEvent);
 
     QObject obj;

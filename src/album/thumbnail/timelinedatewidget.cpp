@@ -29,6 +29,7 @@
 TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     :  m_chooseBtn(nullptr), m_pDate(nullptr), m_pNum(nullptr), m_currentItem(item)
 {
+    this->setContentsMargins(0, 0, 0, 0);
     this->setFixedHeight(90);
     //时间线日期
     m_pDate = new DLabel(this);
@@ -87,12 +88,14 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     m_pbtn->setFocusPolicy(Qt::NoFocus);
 
     QHBoxLayout *NumandBtnLayout = new QHBoxLayout();
+    NumandBtnLayout->setContentsMargins(0, 0, 0, 0);
     NumandBtnLayout->addWidget(m_pNum);
     NumandBtnLayout->addStretch();
     NumandBtnLayout->addWidget(m_pbtn);
     NumandBtnLayout->addWidget(m_chooseBtn);
 
     QVBoxLayout *TitleViewLayout = new QVBoxLayout(this);
+    TitleViewLayout->setContentsMargins(6, 0, 23, 0);
     TitleViewLayout->addWidget(m_pDate);
     TitleViewLayout->addStretch();
     TitleViewLayout->addLayout(NumandBtnLayout);
@@ -177,7 +180,7 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
 
     //开始布局
     QHBoxLayout *TitleViewLayout = new QHBoxLayout(this);
-    TitleViewLayout->setContentsMargins(0, 0, 23, 0);
+    TitleViewLayout->setContentsMargins(0, 0, 25, 0);
     TitleViewLayout->addWidget(m_pDateandNum);
     TitleViewLayout->addStretch();
     TitleViewLayout->addWidget(m_pbtn);

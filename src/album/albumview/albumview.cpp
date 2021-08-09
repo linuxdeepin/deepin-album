@@ -126,7 +126,6 @@ AlbumView::AlbumView()
     , m_diskManager(nullptr)
     , m_importByPhoneWidget(nullptr), m_importByPhoneComboBox(nullptr)
     , m_importAllByPhoneBtn(nullptr), m_importSelectByPhoneBtn(nullptr), m_mountPicNum(0)
-    , fatherwidget(nullptr)
     , pPhoneWidget(nullptr), phonetopwidget(nullptr)
     , isIgnore(true), m_waitDailog_timer(nullptr)
 {
@@ -137,8 +136,6 @@ AlbumView::AlbumView()
     durlAndNameMap.clear();
 
     iniWaitDiolag();
-    fatherwidget = new DWidget(this);
-    fatherwidget->setFixedSize(this->size());
     setAcceptDrops(true);
 
     initLeftView();
@@ -154,9 +151,10 @@ AlbumView::AlbumView()
 
     QHBoxLayout *pLayout = new QHBoxLayout();
     pLayout->setContentsMargins(0, 0, 0, 0);
+    pLayout->setSpacing(0);
     pLayout->addWidget(leftwidget);
     pLayout->addWidget(m_pRightWidget);
-    fatherwidget->setLayout(pLayout);
+    this->setLayout(pLayout);
 
     initConnections();
     m_pwidget = new DWidget(this);
@@ -420,10 +418,9 @@ void AlbumView::initRightView()
     pImportTimeLineWidget->setLayout(importLineLayout);
 
     m_pImpTimeLineView = new ImportTimeLineView(m_pRightStackWidget);
-    m_pImpTimeLineView->setContentsMargins(2, 0, 0, 0);
+    m_pImpTimeLineView->setContentsMargins(0, 0, 0, 0);
     m_pImpTimeLineView->getFatherStatusBar(m_pStatusBar->m_pSlider);
     importLineLayout->addWidget(m_pImpTimeLineView);
-//    m_pImpTimeLineView->move(-5, 0);
 //add end 3975
 // Add View
     m_pRightStackWidget->addWidget(m_pImportView);       // 空白导入界面
@@ -458,7 +455,8 @@ void AlbumView::initTrashWidget()
     palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
     m_pTrashWidget->setPalette(palcolor3);
     QVBoxLayout *p_Trash = new QVBoxLayout();
-    p_Trash->setContentsMargins(0, 0, 0, 0);
+    //左侧距离分界线20px，8+缩略图spacing+缩略图边框
+    p_Trash->setContentsMargins(8, 0, 0, 0);
     m_pTrashWidget->setLayout(p_Trash);
     //最近删除列表
     m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewTrashType, COMMON_STR_TRASH);
@@ -478,7 +476,7 @@ void AlbumView::initTrashWidget()
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
     //重新更改了最近删除的顶部布局   2020-4-17 xiaolong
     QHBoxLayout *Layout1 = new QHBoxLayout();
-    Layout1->setContentsMargins(19, 0, 19, 0);
+    Layout1->setContentsMargins(20, 0, 19, 0);
 
     m_TrashDescritionLab = new DLabel();
     DFontSizeManager::instance()->bind(m_TrashDescritionLab, DFontSizeManager::T6, QFont::Medium);
@@ -530,12 +528,12 @@ void AlbumView::initCustomAlbumWidget()
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     m_pCustomAlbumWidget->setPalette(palcolor);
     QVBoxLayout *p_all = new QVBoxLayout();
-    p_all->setContentsMargins(0, 0, 0, 0);
+    p_all->setContentsMargins(8, 0, 0, 0);
     m_pCustomAlbumWidget->setLayout(p_all);
 
     //自定义相册标题的外层布局
     QHBoxLayout *pHLayout = new QHBoxLayout();
-    pHLayout->setContentsMargins(19, 0, 19, 0);
+    pHLayout->setContentsMargins(20, 0, 19, 0);
 
     m_customAlbumTitleLabel = new DLabel(m_pCustomAlbumWidget);
     DFontSizeManager::instance()->bind(m_customAlbumTitleLabel, DFontSizeManager::T3, QFont::DemiBold);
@@ -569,7 +567,7 @@ void AlbumView::initCustomAlbumWidget()
     //筛选显示，当先列表中内容为无结果
     connect(m_customThumbnailList, &ThumbnailListView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
     m_customThumbnailList->setFrameShape(DTableView::NoFrame);
-    m_customThumbnailList->setViewportMargins(-2, 0, 0, 0);
+    m_customThumbnailList->setViewportMargins(0, 0, 0, 0);
     m_customThumbnailList->setContentsMargins(0, 0, 0, 0);
     p_all->addWidget(m_customThumbnailList);
     //初始化筛选无结果窗口
@@ -608,7 +606,8 @@ void AlbumView::initFavoriteWidget()
     palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
     m_pFavoriteWidget->setPalette(palcolor2);
     QVBoxLayout *p_Favorite = new QVBoxLayout();
-    p_Favorite->setContentsMargins(0, 0, 0, 0);
+    //左侧距离分界线20px，8+缩略图spacing+缩略图边框
+    p_Favorite->setContentsMargins(8, 0, 0, 0);
     m_pFavoriteWidget->setLayout(p_Favorite);
 
     m_favoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewFavoriteType, COMMON_STR_FAVORITES);
@@ -627,7 +626,7 @@ void AlbumView::initFavoriteWidget()
 
     //我的收藏悬浮标题
     QHBoxLayout *lNumberLayout = new QHBoxLayout();
-    lNumberLayout->setContentsMargins(19, 0, 19, 0);
+    lNumberLayout->setContentsMargins(20, 0, 19, 0);
 
     m_pFavoriteTitle = new DLabel(m_pFavoriteWidget);
 //    m_pFavoriteTitle->setStyleSheet("background-color:blue;");
@@ -683,9 +682,8 @@ void AlbumView::initPhoneWidget()
     // Phone View
     pPhoneWidget = new DWidget();
     pPhoneWidget->setBackgroundRole(DPalette::Window);
-
-    QVBoxLayout *pPhoneVBoxLayout = new QVBoxLayout();
-    pPhoneVBoxLayout->setContentsMargins(0, 0, 0, 0);
+    QHBoxLayout *thumbnailListLayout = new QHBoxLayout(pPhoneWidget);
+    thumbnailListLayout->setContentsMargins(8, 0, 0, 0);
 
     m_pPhoneTitle = new DLabel();
     m_pPhoneTitle->setFixedHeight(36);
@@ -722,11 +720,14 @@ void AlbumView::initPhoneWidget()
     m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setListViewUseFor(ThumbnailListView::Mount);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
-    m_pRightPhoneThumbnailList->setViewportMargins(-3, 0, 0, 0);
+    m_pRightPhoneThumbnailList->setViewportMargins(0, 0, 0, 0);
+    thumbnailListLayout->addWidget(m_pRightPhoneThumbnailList);
 
     PhonePicTotalLayout->addWidget(m_pPhonePicTotal);
     PhonePicTotalLayout->addStretch();
-    pPhoneVBoxLayout->setContentsMargins(2, 0, 0, 0);
+
+    QVBoxLayout *pPhoneVBoxLayout = new QVBoxLayout();
+    pPhoneVBoxLayout->setContentsMargins(20, 0, 0, 0);
     pPhoneVBoxLayout->addSpacing(4);
     pPhoneVBoxLayout->addWidget(m_pPhoneTitle);
     pPhoneVBoxLayout->addSpacing(22);
@@ -769,20 +770,18 @@ void AlbumView::initPhoneWidget()
     m_importByPhoneWidget->setLayout(mainImportLayout);
 
     QHBoxLayout *allHLayout = new QHBoxLayout;
-    allHLayout->setContentsMargins(2, 0, 0, 0);
+    allHLayout->setContentsMargins(0, 0, 0, 0);
     allHLayout->addLayout(pPhoneVBoxLayout, 1);
     allHLayout->addStretch();
     allHLayout->addWidget(m_importByPhoneWidget, 1);
-    QVBoxLayout *p_all2 = new QVBoxLayout();
-    p_all2->addLayout(allHLayout);
     m_pRightPhoneThumbnailList->setParent(pPhoneWidget);
     phonetopwidget = new DWidget(pPhoneWidget);
     QGraphicsOpacityEffect *opacityEffect_lightphone = new QGraphicsOpacityEffect;
     opacityEffect_lightphone->setOpacity(0.95);
     phonetopwidget->setGraphicsEffect(opacityEffect_lightphone);
     phonetopwidget->setAutoFillBackground(true);
-    phonetopwidget->setFixedSize(this->width() - LEFT_VIEW_WIDTH, 81);
-    phonetopwidget->setLayout(p_all2);
+    phonetopwidget->setFixedSize(pPhoneWidget->size().width(), 81);
+    phonetopwidget->setLayout(allHLayout);
     phonetopwidget->move(0, 0);
     phonetopwidget->raise();
 }
@@ -1843,7 +1842,6 @@ void AlbumView::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
     if (nullptr != pPhoneWidget) {
-        m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
         phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
     }
 }
@@ -2218,8 +2216,8 @@ void AlbumView::resizeEvent(QResizeEvent *e)
         m_TrashTitleLab->move(m_TrashTitleWidget->width() / 2 - m_TrashTitleLab->width() / 2, 0);
         m_TrashTitleLab->raise();
     }
+    //设备
     if (nullptr != pPhoneWidget) {
-        m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
         phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
     }
     //自定义相册
@@ -2232,7 +2230,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     //add end 3975
     m_pStatusBar->setFixedWidth(this->width() - m_pLeftListView->width());
     m_pStatusBar->move(m_pLeftListView->width(), this->height() - m_pStatusBar->height());
-    fatherwidget->setFixedSize(this->size());
+    m_pStatusBar->raise();
     QWidget::resizeEvent(e);
 }
 
@@ -2255,6 +2253,11 @@ void AlbumView::showEvent(QShowEvent *e)
         m_customAlbumTitle->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, custom_title_height);
         m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
         m_customAlbumTitleLabel->raise();//图层上移
+    }
+    //设备
+    if (nullptr != pPhoneWidget) {
+//        m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
+        phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
     }
     QWidget::showEvent(e);
 }

@@ -274,7 +274,6 @@ private:
     //add start 3975
     AlbumDeleteDialog *m_deleteDialog = nullptr;
     //add end 3975
-    DWidget *fatherwidget;
     DWidget *pPhoneWidget;
     DWidget *phonetopwidget;
     bool isIgnore;
