@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cexportimagedialog.h"
+#include "mainwindow.h"
 
 #include <DFileDialog>
 #include <DDialog>
@@ -237,12 +238,6 @@ void CExportImageDialog::initUI()
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
-    m_questionDialog = new DDialog(this);
-    m_questionDialog->setFocusPolicy(Qt::NoFocus);
-    m_questionDialog->setModal(true);
-    m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
-    m_questionDialog->setFixedSize(400, 170);
-
     m_emptyWarningDialog = new DDialog(this);
     m_emptyWarningDialog->setModal(true);
     m_emptyWarningDialog->addButtons(QStringList() << tr("OK"));
@@ -266,7 +261,6 @@ void CExportImageDialog::initConnection()
     connect(m_formatCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnFormatChange(int)));
     connect(this, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnDialogButtonClick(int, const QString &)));
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
-    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnQuestionDialogButtonClick(int, const QString &)));
     connect(m_emptyWarningDialog, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnEmptyWarningDialogButtonClick(int, const QString &)));
 }
 
@@ -381,7 +375,6 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
             emit dApp->signalM->ImgExportFailed();
         }
     }
-    m_questionDialog->hide();
 }
 
 void CExportImageDialog::slotOnQualityChanged(int value)
@@ -428,13 +421,21 @@ void CExportImageDialog::showEmptyWarningDialog()
     wid->setLayout(lay);
     m_emptyWarningDialog->addContent(wid, Qt::AlignCenter);
 
-//    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
     m_emptyWarningDialog->show();
 }
 
 void CExportImageDialog::showQuestionDialog(const QString &path, const QString &srcpath)
 {
-    m_questionDialog->clearContents();
+    //BUG#90251 规避焦点消失问题
+    delete m_questionDialog;
+    m_questionDialog = new DDialog(this);
+    m_questionDialog->setFocusPolicy(Qt::NoFocus);
+    m_questionDialog->setModal(true);
+    m_questionDialog->addButtons({tr("Cancel"), tr("Replace")});
+    m_questionDialog->setFixedSize(400, 170);
+    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnQuestionDialogButtonClick(int, const QString &)));
+    //BUG#90251
+
     DWidget *wid = new DWidget();
     DLabel *lab1 = new DLabel();
     QFontMetrics elideFont(lab1->font());
@@ -457,8 +458,8 @@ void CExportImageDialog::showQuestionDialog(const QString &path, const QString &
     }
     m_savePath = path.left(path.lastIndexOf("/"));
 //    m_questionDialog->setMessage((QString(tr("%1 \already exists, do you want to replace?")).arg(path)));
-    m_questionDialog->move(dApp->getDAppNew()->desktop()->x() + (dApp->getDAppNew()->desktop()->width() - m_questionDialog->width()) / 2,
-                           dApp->getDAppNew()->desktop()->y() + (dApp->getDAppNew()->desktop()->height() - m_questionDialog->height()) / 2);
+    m_questionDialog->move(dApp->getMainWindow()->x() + (dApp->getMainWindow()->width() - m_questionDialog->width()) / 2,
+                           dApp->getMainWindow()->y() + (dApp->getMainWindow()->height() - m_questionDialog->height()) / 2);
     m_questionDialog->exec();
 }
 
