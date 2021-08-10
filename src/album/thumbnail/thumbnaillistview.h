@@ -121,22 +121,26 @@ public:
     /********* 插入一个空白项，ItemTypeBlank         *********/
     /********* 插入时间线标题，ItemTypeTimeLineTitle *********/
     /********* 插入已导入时间线标题，ItemTypeImportTimeLineTitle*********/
-    void insertBlankOrTitleItem(ItemInfoType type, const QString &date = "", const QString &num = "", int height = 0);//1050
+    void insertBlankOrTitleItem(ItemInfoType type, const QString &date = "", const QString &num = "", int height = 0);//zynew
     //更新空白栏高度
-    void resetBlankItemHeight(int height);//1050
+    void resetBlankItemHeight(int height);//zynew
     //根据DBImgInfoList插入listview
-    void insertThumbnailByImgInfos(DBImgInfoList infoList);//1050
+    void insertThumbnailByImgInfos(DBImgInfoList infoList);//zynew
 
     //判断是否全部选中
-    bool isAllSelected();//1050
+    bool isAllSelected(ItemInfoType type = ItemTypeNull); //zynew
     //判断选中图片是否都可旋转
-    bool isAllSelectedSupportRotate();//1050
+    bool isAllSelectedSupportRotate();//zynew
     //删除选中项到相册已删除
-    void removeSelectToTrash(QStringList paths);//1050
+    void removeSelectToTrash(QStringList paths);//zynew
     //更新时间线界面内各个按钮的text状态，单选/框选
     void updatetimeLimeBtnText();//1050
     //过滤显示选中类型
-    void showSelectedTypeItem(ItemInfoType type);//1050
+    void showSelectedTypeItem(ItemInfoType type);//zynew
+    //显示类型数量
+    int filterTypeItemCount(ItemInfoType type);//zynew
+    //按类型选择
+    void selectAllByItemType(ItemInfoType type);//zynew
     //时间线所有选择按钮响应ctrl+all快捷键，切换按钮状态
     void TimeLineSelectAllBtn();
 

@@ -51,6 +51,7 @@
 #include "thumbnaillistview.h"
 #include "expansionmenu.h"
 #include "imgdeletedialog.h"
+#include "albumgloabl.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -127,79 +128,12 @@ void BatchOperateWidget::sltBatchSelectChanged()
 {
     qDebug() << __FUNCTION__ << "---";
     DCommandLinkButton *btn = qobject_cast<DCommandLinkButton *>(sender());
-    if (btn == m_startBatchSelect) {
-        m_ToolButton->setVisible(false);
-        //最近删除
-        if (m_operateType == AlbumViewTrashType) {
-            m_trashRecoveryBtn->setVisible(true);
-            m_trashDeleteBtn->setVisible(true);
-            //刷新按钮是否可用
-            refreshTrashBtnState();
-            //根据所有选中图片，更新收藏按钮状态
-            m_collection->setVisible(false);
-            m_leftRotate->setVisible(false);
-            m_rightRotate->setVisible(false);
-            m_delete->setVisible(false);
-            //全选与取消全选按钮状态由是否全部选中刷新
-            bool isAllSelected = m_thumbnailListView->isAllSelected();
-            m_chooseAll->setVisible(!isAllSelected);
-            m_cancelChooseAll->setVisible(isAllSelected);
-            //进入选择状态后，进入按钮隐藏，退出按钮显示
-            m_startBatchSelect->setVisible(false);
-            m_cancelBatchSelect->setVisible(true);
-            //发送给时间线，刷新悬浮控件选择按钮显隐状态
-//            emit signalBatchSelectChanged(true);
-        } else {
-            m_trashRecoveryBtn->setVisible(false);
-            m_trashDeleteBtn->setVisible(false);
-            //根据所有选中图片，更新收藏按钮状态
-            m_collection->setVisible(true);
-            if (isAllSelectedCollected()) {
-                m_collection->setIcon(QIcon::fromTheme("dcc_ccollection"));
-            } else {
-                m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
-            }
-            m_leftRotate->setVisible(true);
-            m_rightRotate->setVisible(true);
-            m_delete->setVisible(true);
-            //全选与取消全选按钮状态由是否全部选中刷新
-            bool isAllSelected = m_thumbnailListView->isAllSelected();
-            m_chooseAll->setVisible(!isAllSelected);
-            m_cancelChooseAll->setVisible(isAllSelected);
-            //进入选择状态后，进入按钮隐藏，退出按钮显示
-            m_startBatchSelect->setVisible(false);
-            m_cancelBatchSelect->setVisible(true);
-
-            m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
-            //发送给时间线，刷新悬浮控件选择按钮显隐状态
-            emit signalBatchSelectChanged(true);
-        }
-    } else {
-        m_trashRecoveryBtn->setVisible(false);
-        m_trashDeleteBtn->setVisible(false);
-        m_ToolButton->setVisible(true);
-        //根据所有选中图片，更新收藏按钮状态
-        m_collection->setVisible(false);
-        m_leftRotate->setVisible(false);
-        m_rightRotate->setVisible(false);
-        m_delete->setVisible(false);
-        //全选与取消全选按钮状态由是否全部选中刷新
-        m_chooseAll->setVisible(false);
-        m_cancelChooseAll->setVisible(false);
-        //进入选择状态后，进入按钮隐藏，退出按钮显示
-        m_startBatchSelect->setVisible(true);
-        m_cancelBatchSelect->setVisible(false);
-
-        m_thumbnailListView->slotChangeAllSelectBtnVisible(false);
-        m_thumbnailListView->clearSelection();
-        //发送给时间线，刷新悬浮控件选择按钮显隐状态
-        emit signalBatchSelectChanged(false);
-    }
+    batchSelectChanged(btn == m_startBatchSelect);
 }
 //全选
 void BatchOperateWidget::sltSelectAll()
 {
-    m_thumbnailListView->selectAll();
+    m_thumbnailListView->selectAllByItemType(m_ToolButton->getFilteType());
     m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
     m_chooseAll->setVisible(false);
     m_cancelChooseAll->setVisible(true);
@@ -282,7 +216,7 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
     m_leftRotate->setEnabled(supportRotate);
     m_rightRotate->setEnabled(supportRotate);
     //全选与取消全选按钮状态由是否全部选中刷新
-    bool isAllSelected = m_thumbnailListView->isAllSelected();
+    bool isAllSelected = m_thumbnailListView->isAllSelected(m_ToolButton->getFilteType());
     if (m_cancelBatchSelect->isVisible()) {
         m_chooseAll->setVisible(!isAllSelected);
         m_cancelChooseAll->setVisible(isAllSelected);
@@ -294,16 +228,18 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
 
 void BatchOperateWidget::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
 {
-    if (data.type == ExpansionPanel::FilteTypeAll) {
+    if (data.type == ItemInfoType::ItemTypeNull) {
         //显示全部
         m_thumbnailListView->showSelectedTypeItem(ItemInfoType::ItemTypeNull);
-    } else if (data.type == ExpansionPanel::FilteTypePic) {
+    } else if (data.type == ItemInfoType::ItemTypePic) {
         //显示图片
         m_thumbnailListView->showSelectedTypeItem(ItemInfoType::ItemTypePic);
-    } else if (data.type == ExpansionPanel::FilteTypeVideo) {
+    } else if (data.type == ItemInfoType::ItemTypeVideo) {
         //显示视频
         m_thumbnailListView->showSelectedTypeItem(ItemInfoType::ItemTypeVideo);
     }
+    //如果过滤会后数量<=0，则不可用
+    m_startBatchSelect->setEnabled(m_thumbnailListView->filterTypeItemCount(m_ToolButton->getFilteType()) > 0);
 }
 //点击最近删除恢复按钮
 void BatchOperateWidget::onTrashRecoveryBtnClicked()
@@ -458,20 +394,99 @@ void BatchOperateWidget::initDropdown()
     data.icon_r = QIcon::fromTheme("album_all");
     data.icon_r_path = "album_all";
     data.text = QObject::tr("All");
-    data.type = ExpansionPanel::FilteTypeAll;
+    data.type = ItemInfoType::ItemTypeNull;
     m_expansionMenu->setDefaultFilteData(data);
     m_expansionMenu->addNewButton(data);
 
     data.icon_r = QIcon::fromTheme("album_pic");
     data.icon_r_path = "album_pic";
     data.text = QObject::tr("Photos");
-    data.type = ExpansionPanel::FilteTypePic;
+    data.type = ItemInfoType::ItemTypePic;
     m_expansionMenu->addNewButton(data);
 
     data.icon_r = QIcon::fromTheme("album_video");
     data.icon_r_path = "album_video";
     data.text = QObject::tr("Videos");
-    data.type = ExpansionPanel::FilteTypeVideo;
+    data.type = ItemInfoType::ItemTypeVideo;
     m_expansionMenu->addNewButton(data);
+}
+
+void BatchOperateWidget::batchSelectChanged(bool isBatchSelect)
+{
+    if (isBatchSelect) {
+        m_ToolButton->setVisible(false);
+        //最近删除
+        if (m_operateType == AlbumViewTrashType) {
+            m_trashRecoveryBtn->setVisible(true);
+            m_trashDeleteBtn->setVisible(true);
+            //刷新按钮是否可用
+            refreshTrashBtnState();
+            //根据所有选中图片，更新收藏按钮状态
+            m_collection->setVisible(false);
+            m_leftRotate->setVisible(false);
+            m_rightRotate->setVisible(false);
+            m_delete->setVisible(false);
+            //全选与取消全选按钮状态由是否全部选中刷新
+            bool isAllSelected = m_thumbnailListView->isAllSelected(m_ToolButton->getFilteType());
+            m_chooseAll->setVisible(!isAllSelected);
+            m_cancelChooseAll->setVisible(isAllSelected);
+            //进入选择状态后，进入按钮隐藏，退出按钮显示
+            m_startBatchSelect->setVisible(false);
+            m_cancelBatchSelect->setVisible(true);
+            //发送给时间线，刷新悬浮控件选择按钮显隐状态
+//            emit signalBatchSelectChanged(true);
+        } else {
+            m_trashRecoveryBtn->setVisible(false);
+            m_trashDeleteBtn->setVisible(false);
+            //根据所有选中图片，更新收藏按钮状态
+            m_collection->setVisible(true);
+            if (isAllSelectedCollected()) {
+                m_collection->setIcon(QIcon::fromTheme("dcc_ccollection"));
+            } else {
+                m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
+            }
+            m_leftRotate->setVisible(true);
+            m_rightRotate->setVisible(true);
+            m_delete->setVisible(true);
+            //全选与取消全选按钮状态由是否全部选中刷新
+            bool isAllSelected = m_thumbnailListView->isAllSelected(m_ToolButton->getFilteType());
+            qDebug() << __FUNCTION__ << "---isAllSelected = " << isAllSelected;
+            m_chooseAll->setVisible(!isAllSelected);
+            m_cancelChooseAll->setVisible(isAllSelected);
+            //进入选择状态后，进入按钮隐藏，退出按钮显示
+            m_startBatchSelect->setVisible(false);
+            m_cancelBatchSelect->setVisible(true);
+
+            m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
+            //发送给时间线，刷新悬浮控件选择按钮显隐状态
+            emit signalBatchSelectChanged(true);
+        }
+    } else {
+        m_trashRecoveryBtn->setVisible(false);
+        m_trashDeleteBtn->setVisible(false);
+        m_ToolButton->setVisible(true);
+        //根据所有选中图片，更新收藏按钮状态
+        m_collection->setVisible(false);
+        m_leftRotate->setVisible(false);
+        m_rightRotate->setVisible(false);
+        m_delete->setVisible(false);
+        //全选与取消全选按钮状态由是否全部选中刷新
+        m_chooseAll->setVisible(false);
+        m_cancelChooseAll->setVisible(false);
+        //进入选择状态后，进入按钮隐藏，退出按钮显示
+        m_startBatchSelect->setVisible(true);
+        m_cancelBatchSelect->setVisible(false);
+
+        m_thumbnailListView->slotChangeAllSelectBtnVisible(false);
+        m_thumbnailListView->clearSelection();
+        //发送给时间线，刷新悬浮控件选择按钮显隐状态
+        emit signalBatchSelectChanged(false);
+    }
+}
+
+void BatchOperateWidget::hideEvent(QHideEvent *event)
+{
+    Q_UNUSED(event)
+    batchSelectChanged(false);
 }
 

@@ -241,7 +241,7 @@ void ThumbnailListView::showEvent(QShowEvent *event)
         QTimer::singleShot(200, this, [ = ]() {
             //m_model->rowCount()减一是为了减去顶部空白栏占用的一个ModelIndex
             int i = m_model->rowCount() - 1 < 0 ? 0 : m_model->rowCount() - 1;
-            for ( ; i < size; i++) {
+            for (; i < size; i++) {
                 ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
                 ItemInfo info;
                 if (data.imgpixmap.isNull()) {
@@ -1507,15 +1507,35 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
     }
 }
 //判断所有图片是否全选中
-bool ThumbnailListView::isAllSelected()
+bool ThumbnailListView::isAllSelected(ItemInfoType type)
 {
     bool isAllSelected = true;
+    qDebug() << __FUNCTION__ << "---type = " << type;
+
+    if (this->selectionModel()->selection().size() == 0) {
+        isAllSelected = false;
+        return isAllSelected;
+    }
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex idx = m_model->index(i, 0);
         ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
-        if (data.itemType == ItemTypePic && !this->selectionModel()->selection().contains(idx)) {
-            isAllSelected = false;
-            break;
+        //全选
+        if (type == ItemInfoType::ItemTypeNull) {
+            if ((data.itemType == ItemTypeVideo || data.itemType == ItemTypePic)
+                    && !this->selectionModel()->selection().contains(idx)) {
+                isAllSelected = false;
+                break;
+            }
+        } else if (type == ItemTypePic) {
+            if (data.itemType == ItemTypePic && !this->selectionModel()->selection().contains(idx)) {
+                isAllSelected = false;
+                break;
+            }
+        } else if (type == ItemTypeVideo) {
+            if (data.itemType == ItemTypeVideo && !this->selectionModel()->selection().contains(idx)) {
+                isAllSelected = false;
+                break;
+            }
         }
     }
     return isAllSelected;
@@ -1619,6 +1639,8 @@ void ThumbnailListView::updatetimeLimeBtnText()
 
 void ThumbnailListView::showSelectedTypeItem(ItemInfoType type)
 {
+    //切换显示之前先清除选中
+    this->clearSelection();
     qDebug() << __FUNCTION__ << "---";
     if (type == ItemTypePic) {
         //显示所有图片
@@ -1646,6 +1668,40 @@ void ThumbnailListView::showSelectedTypeItem(ItemInfoType type)
         //恢复显示所有
         hideAllSelectType(ItemTypeNull);
         emit sigNoPicOrNoVideo(false);
+    }
+}
+//显示类型数量
+int ThumbnailListView::filterTypeItemCount(ItemInfoType type)
+{
+    int count = 0;
+    for (int i = 0;  i < m_model->rowCount(); i++) {
+        QModelIndex index = m_model->index(i, 0);
+        ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
+        //全选
+        if (type == ItemInfoType::ItemTypeNull) {
+            if (pdata.itemType == ItemTypeVideo || pdata.itemType == ItemTypePic) {
+                count++;
+            }
+        } else if (type == pdata.itemType) {
+            count++;
+        }
+    }
+    return count;
+}
+//按类型选择
+void ThumbnailListView::selectAllByItemType(ItemInfoType type)
+{
+    qDebug() << __FUNCTION__ << "---type = " << type;
+    if (type == ItemTypeNull) {
+        this->selectAll();
+    } else {
+        for (int i = 0;  i < m_model->rowCount(); i++) {
+            QModelIndex index = m_model->index(i, 0);
+            ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
+            if (pdata.itemType  == type) {
+                selectionModel()->select(index, QItemSelectionModel::Select);
+            }
+        }
     }
 }
 

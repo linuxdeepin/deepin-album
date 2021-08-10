@@ -23,6 +23,7 @@
 
 #include "toolbutton.h"
 
+#include <QVBoxLayout>
 #include <QGraphicsDropShadowEffect>
 #include <DBlurEffectWidget>
 #include <DToolButton>
@@ -30,26 +31,19 @@
 #include <DGuiApplicationHelper>
 #include <QMap>
 
-class QVBoxLayout;
+#include "albumgloabl.h"
 
 class ExpansionPanel : public DBlurEffectWidget
 {
     Q_OBJECT
 public:
-    enum FilteType {
-        FilteTypeNull,
-        FilteTypeAll,
-        FilteTypePic,
-        FilteTypeVideo
-    };
-
     //所选数据
     struct FilteData {
         QIcon icon_l = QIcon();//左边图标
         QIcon icon_r = QIcon();//右边图标
         QString icon_r_path;
         QString text;
-        FilteType type = FilteTypeNull;
+        ItemInfoType type = ItemInfoType::ItemTypeNull;
     };
 
 public:
