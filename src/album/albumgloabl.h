@@ -52,7 +52,7 @@ struct ItemInfo {
     int imgWidth = 0;
     int imgHeight = 0;
     QString remainDays = "30天";
-    bool isSelected;
+    bool isSelected = false;
     ItemInfoType itemType = ItemTypePic;//类型，空白，图片，视频
     QPixmap image = QPixmap();
     QPixmap damagedPixmap = QPixmap();
