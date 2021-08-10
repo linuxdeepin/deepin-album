@@ -60,10 +60,7 @@ void IMGOperate::setNeedSleep()
 
 void IMGOperate::slotDoImgsLoad(QStringList paths)
 {
-    int i = 0;
     for (QString path : paths) {
-        i++;
-//        qDebug() << "------" << __FUNCTION__ << "---" << i << "---path = " << path;
         if (m_needStop) {
             break;
         }

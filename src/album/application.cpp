@@ -59,24 +59,19 @@ ImageLoader::ImageLoader(/*Application *parent, QStringList pathlist, QStringLis
 }
 
 
-void ImageLoader::ImportImageLoader(DBImgInfoList dbInfos, QString albumname)
+void ImageLoader::ImportImageLoader(const DBImgInfoList& dbInfos, QString albumname)
 {
-    DBImgInfoList dbInfoList;
     QStringList pathlist;
 
     for (auto info : dbInfos) {
         pathlist << info.filePath;
-        dbInfoList << info;
     }
-
-    bool bcustalbum = false;
-    if (albumname.length() > 0) {
-        DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
-        bcustalbum = true;
-    }
-    DBManager::instance()->insertImgInfos(dbInfoList);
+    //导入相册数据库AlbumTable3
+    DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
+    //导入图片数据库ImageTable3
+    DBManager::instance()->insertImgInfos(dbInfos);
     if (pathlist.size() > 0) {
-        emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, bcustalbum, albumname);
+        emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, albumname);
     } else {
         emit dApp->signalM->ImportFailed();
     }

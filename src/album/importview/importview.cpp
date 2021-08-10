@@ -159,20 +159,16 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
     dialog.setOption(QFileDialog::HideNameFilterDetails);
     dialog.setWindowTitle(tr("Import Photos"));
     dialog.setAllowMixedSelection(true);
+
     if (useDialog) {
-        const int mode = dialog.exec();
-        if (mode != QDialog::Accepted) {
+        if (dialog.exec() != QDialog::Accepted) {
             qDebug() << "mode != QDialog::Accepted";
             emit dApp->signalM->sigImportFailedToView();
             return;
         }
     }
-    QStringList file_list;
-    if (useDialog) {
-        file_list = dialog.selectedFiles();
-    } else {
-        file_list = list;
-    }
+
+    QStringList file_list = useDialog ? dialog.selectedFiles() : list;
     if (file_list.isEmpty()) {
         qDebug() << "file_list.isEmpty()";
         emit dApp->signalM->sigImportFailedToView();

@@ -110,6 +110,7 @@ void MyImageListWidget::removeCurrent()
 
 void MyImageListWidget::onScrollBarValueChanged(int value)
 {
+    Q_UNUSED(value)
     QModelIndex index = m_listview->indexAt(QPoint((m_listview->width() - 15), 10));
     if (!index.isValid()) {
         index = m_listview->indexAt(QPoint((m_listview->width() - 20), 10));

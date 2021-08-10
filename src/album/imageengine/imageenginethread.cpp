@@ -317,29 +317,30 @@ void ImageRecoveryImagesFromTrashThread::setData(QStringList &paths)
 
 void ImageRecoveryImagesFromTrashThread::runDetail()
 {
-    QStringList paths = m_paths;
-
     DBImgInfoList infos;
-    for (auto path : paths) {
-        DBImgInfo info;
-        info = DBManager::instance()->getTrashInfoByPath(path);
+    for (auto path : m_paths) {
+        DBImgInfo info = DBManager::instance()->getTrashInfoByPath(path);
         QFileInfo fi(info.filePath);
-        info.importTime = QDateTime::currentDateTime();
-        infos << info;
+        if(fi.exists())
+        {
+            info.importTime = QDateTime::currentDateTime();
+            infos << info;
+        }
     }
     DBManager::instance()->insertImgInfos(infos);
 
-    for (auto path : paths) {
-        DBImgInfo info;
-        info = DBManager::instance()->getTrashInfoByPath(path);
-        QStringList namelist = info.albumname.split(",");
-        for (auto eachname : namelist) {
-            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
-                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
-            }
-        }
-    }
-    DBManager::instance()->removeTrashImgInfos(paths);
+    //恢复到相册是无意义的getTrashInfoByPath无法查询到album
+//    for (auto path : paths) {
+//        DBImgInfo info = DBManager::instance()->getTrashInfoByPath(path);
+//        QStringList namelist = info.albumname.split(",");
+//        for (auto eachname : namelist) {
+//            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
+//                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
+//            }
+//        }
+//    }
+
+    DBManager::instance()->removeTrashImgInfos(m_paths);
     emit dApp->signalM->closeWaitDialog();
 }
 
@@ -348,7 +349,7 @@ ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
     setAutoDelete(false);
 }
 
-void ImageMoveImagesToTrashThread::setData(QStringList &paths, bool typetrash)
+void ImageMoveImagesToTrashThread::setData(const QStringList &paths, bool typetrash)
 {
     m_paths = paths;
     btypetrash = typetrash;
@@ -418,10 +419,7 @@ void ImageImportFilesFromMountThread::setData(QString &albumname, QStringList &p
 bool ImageImportFilesFromMountThread::ifCanStopThread(void *imgobject)
 {
     static_cast<ImageMountImportPathsObject *>(imgobject)->removeThread(this);
-    if (imgobject == m_imgobject) {
-        return true;
-    }
-    return false;
+    return (imgobject == m_imgobject);
 }
 
 void ImageImportFilesFromMountThread::runDetail()
@@ -434,7 +432,7 @@ void ImageImportFilesFromMountThread::runDetail()
     QString strHomePath = QDir::homePath();
     //获取系统现在的时间
     QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-    QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
+    QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate); //todo... 中文“照片”需要替换
     QDir dir;
     if (!dir.exists(basePath)) {
         dir.mkpath(basePath);
@@ -487,28 +485,26 @@ void ImageImportFilesFromMountThread::runDetail()
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
     }
     if (!dbInfos.isEmpty()) {
-        DBImgInfoList dbInfoList;
         QStringList pathslist;
-
-        for (int i = 0; i < dbInfos.length(); i++) {
+        int idblen = dbInfos.length();
+        for (int i = 0; i < idblen; i++) {
             if (bneedstop) {
                 return;
             }
             pathslist << dbInfos[i].filePath;
-            dbInfoList << dbInfos[i];
         }
 
         if (m_albumname.length() > 0) {
             DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathslist);
         }
-        DBManager::instance()->insertImgInfos(dbInfoList);
+        DBManager::instance()->insertImgInfos(dbInfos);
 
         if (bneedstop) {
             return;
         }
-        if (dbInfoList.length() != m_paths.length()) {
-            int successful = dbInfoList.length();
-            int failed = m_paths.length() - dbInfoList.length();
+        if (idblen != m_paths.length()) {
+            int successful = dbInfos.length();
+            int failed = m_paths.length() - idblen;
             emit dApp->signalM->ImportSomeFailed(successful, failed);
         } else {
             emit dApp->signalM->ImportSuccess();
@@ -579,7 +575,6 @@ void ImageGetFilesFromMountThread::runDetail()
     if (bneedstop) {
         return;
     }
-    QString strPath = m_path;
     //获取所选文件类型过滤器
     QStringList filters;
     for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
@@ -610,7 +605,6 @@ void ImageGetFilesFromMountThread::runDetail()
 ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
     : m_loadCount(loadCount)
 {
-//    m_loadCount = loadCount;
     setAutoDelete(false);
 }
 

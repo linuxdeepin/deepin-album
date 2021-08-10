@@ -465,31 +465,26 @@ void CExportImageDialog::showQuestionDialog(const QString &path, const QString &
 
 bool CExportImageDialog::doSave()
 {
-    m_saveFormat = m_formatCombox->currentText();
-
     bool isSuccess = false;
+    m_saveFormat = m_formatCombox->currentText();
     QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + "." + m_saveFormat;
     if (tr("gif") == m_saveFormat) {
-        if ("" != gifpath) {
-            QFileInfo fileinfo(completePath);
-            if (fileinfo.exists()) {
-                if (!fileinfo.isDir()) {
-                    //到处位置与原图位置不同则先删除再复制
-                    if (gifpath != completePath) {
-                        isSuccess = QFile::remove(completePath);
-                        if (isSuccess) {
-                            isSuccess = QFile::copy(gifpath, completePath);
-                        }
-                    } else {
-                        //到处位置与原图位置相同则直接返回
-                        isSuccess = true;
-                    }
-                }
-            } else {
+        if(gifpath.isEmpty()){
+            return isSuccess;
+        }
+
+        QFileInfo fileinfo(completePath);
+        if (fileinfo.exists() && !fileinfo.isDir()) {
+            //目标位置与原图位置相同则直接返回
+            if(gifpath == completePath){
+                return true;
+            }
+            //目标位置与原图位置不同则先删除再复制
+            if (QFile::remove(completePath)) {
                 isSuccess = QFile::copy(gifpath, completePath);
             }
         } else {
-            isSuccess = false;
+            isSuccess = QFile::copy(gifpath, completePath);
         }
     } else {
         isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);

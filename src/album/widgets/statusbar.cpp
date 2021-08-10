@@ -86,11 +86,11 @@ void StatusBar::initUI()
 void StatusBar::initConnections()
 {
     qRegisterMetaType<QStringList>("QStringList &");
-    connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [ = ](QStringList paths, int count, bool bcustalbum, QString album) {
+    connect(dApp->signalM, &SignalManager::updateStatusBarImportLabel, this, [ = ](QStringList paths, int count, QString album) {
         if (isVisible()) {
             imgpaths = paths;
             pic_count = count;
-            m_bcustalbum = bcustalbum;
+            m_bcustalbum = album.isEmpty();
             m_alubm = album;
 
             QString string = tr("Importing photos: '%1'");

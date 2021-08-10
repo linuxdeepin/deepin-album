@@ -270,7 +270,6 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
     clearLayout(m_exifLayout_base);
 
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
-        QString key = i->key;
         QString value = infos.value(i->key);
         if (i->key.contains("Dimension")) {
             value = infos.value("Dimension");

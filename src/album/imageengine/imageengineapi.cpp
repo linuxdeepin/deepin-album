@@ -103,12 +103,7 @@ bool ImageEngineApi::removeObject(void *obj)
 
 bool ImageEngineApi::ifObjectExist(void *obj)
 {
-    QMap<void *, void *>::iterator it;
-    it = m_AllObject.find(obj);
-    if (it != m_AllObject.end()) {
-        return true;
-    }
-    return false;
+    return m_AllObject.contains(obj);
 }
 
 bool ImageEngineApi::removeImage(QString imagepath)

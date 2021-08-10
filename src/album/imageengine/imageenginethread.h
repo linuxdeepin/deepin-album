@@ -79,7 +79,7 @@ class ImageMoveImagesToTrashThread : public ImageEngineThreadObject
     Q_OBJECT
 public:
     ImageMoveImagesToTrashThread();
-    void setData(QStringList &paths, bool typetrash);
+    void setData(const QStringList &paths, bool typetrash);
 
 protected:
     void runDetail() override;

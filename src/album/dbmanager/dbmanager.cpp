@@ -615,7 +615,7 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
-    if (! db.isValid() || album.isEmpty()) {
+    if (! db.isValid() || album.isEmpty() || paths.isEmpty()) {
         return;
     }
     QStringList nameRows, pathHashRows;

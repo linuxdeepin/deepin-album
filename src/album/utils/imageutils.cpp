@@ -105,12 +105,8 @@ bool imageSupportRead(const QString &path)
 void getAllFileInDir(const QDir &dir, QFileInfoList &result)
 {
     QDir root(dir);
-    auto list = root.entryInfoList();
+    auto list = root.entryInfoList(QDir::Dirs |QDir::Files |QDir::NoDotDot);
     for (const auto &eachInfo : list) {
-        if (eachInfo.filePath().endsWith("/.") || eachInfo.filePath().endsWith("/..")) {
-            continue;
-        }
-
         if (eachInfo.isDir()) {
             getAllFileInDir(eachInfo.absoluteFilePath(), result);
         } else {
