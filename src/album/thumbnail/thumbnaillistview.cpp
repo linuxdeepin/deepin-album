@@ -1986,7 +1986,9 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
             if (w) {
                 w->onTimeLinePicSelectAll(isSelect);
             }
-
+            //取选中范围
+            bool bFirstSelect = true;
+            QModelIndex first_idx, end_idx;
             for (int j = i + 1; j < m_model->rowCount(); j++) {
                 index = m_model->index(j, 0);
                 ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
@@ -1994,36 +1996,48 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
                     break;//到达下一个时间线，跳出
                 }
                 if (pdata.itemType  == ItemTypePic) {
-                    if (isSelect) {//设置选中还是取消选中
-                        selectionModel()->select(m_model->index(j, 0), QItemSelectionModel::Select);
-                    } else {
-                        selectionModel()->select(m_model->index(j, 0), QItemSelectionModel::Deselect);
+                    if (bFirstSelect) {
+                        first_idx = index;
+                        bFirstSelect = false;
                     }
+                    end_idx = index;
                 }
             }
+            QItemSelection selection(first_idx, end_idx);
+            if (isSelect) {//设置选中还是取消选中
+                selectionModel()->select(selection, QItemSelectionModel::Select);
+            } else {
+                selectionModel()->select(selection, QItemSelectionModel::Deselect);
+            }
             break;
-        }
-        //已导入时间线
-        if (m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType && (data.itemType == ItemTypeImportTimeLineTitle || data.itemType == ItemTypeBlank)
-                && data.date == tmpdate) {
+        } else if (m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType && (data.itemType == ItemTypeImportTimeLineTitle || data.itemType == ItemTypeBlank)
+                   && data.date == tmpdate) { //已导入时间线
             //先同步设置本时间线选择按钮状态
             importTimeLineDateWidget *w = static_cast<importTimeLineDateWidget *>(this->indexWidget(index));
             if (w) {
                 w->onTimeLinePicSelectAll(isSelect);
             }
+            //取选中范围
+            bool bFirstSelect = true;
+            QModelIndex first_idx, end_idx;
             for (int j = i + 1; j < m_model->rowCount(); j++) {
                 index = m_model->index(j, 0);
                 ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
                 if (pdata.itemType  == ItemTypeImportTimeLineTitle) {
                     break;//到达下一个时间线，跳出
-                }
-                if (pdata.itemType  == ItemTypePic) {
-                    if (isSelect) {//设置选中还是取消选中
-                        selectionModel()->select(m_model->index(j, 0), QItemSelectionModel::Select);
-                    } else {
-                        selectionModel()->select(m_model->index(j, 0), QItemSelectionModel::Deselect);
+                } else if (pdata.itemType  == ItemTypePic) {
+                    if (bFirstSelect) {
+                        first_idx = index;
+                        bFirstSelect = false;
                     }
+                    end_idx = index;
                 }
+            }
+            QItemSelection selection(first_idx, end_idx);
+            if (isSelect) {//设置选中还是取消选中
+                selectionModel()->select(selection, QItemSelectionModel::Select);
+            } else {
+                selectionModel()->select(selection, QItemSelectionModel::Deselect);
             }
             break;//已完成，跳出循环，后面index的不需要处理
         }
