@@ -828,6 +828,9 @@ QStringList ThumbnailListView::selectedPaths()
 {
     QStringList paths;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
+        if (isRowHidden(index.row())) {
+            continue;
+        }
         ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
         if ((info.itemType != ItemTypeBlank
                 || info.itemType != ItemTypeTimeLineTitle
@@ -1692,17 +1695,19 @@ int ThumbnailListView::filterTypeItemCount(ItemInfoType type)
 void ThumbnailListView::selectAllByItemType(ItemInfoType type)
 {
     qDebug() << __FUNCTION__ << "---type = " << type;
-    if (type == ItemTypeNull) {
-        this->selectAll();
-    } else {
-        for (int i = 0;  i < m_model->rowCount(); i++) {
-            QModelIndex index = m_model->index(i, 0);
-            ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
-            if (pdata.itemType  == type) {
-                selectionModel()->select(index, QItemSelectionModel::Select);
-            }
-        }
-    }
+    this->selectAll();
+    //因为性能问题，未根据类型选择，这里做全选处理，全选后，在获取选中项处过滤隐藏项
+//    if (type == ItemTypeNull) {
+//        this->selectAll();
+//    } else {
+//        for (int i = 0;  i < m_model->rowCount(); i++) {
+//            QModelIndex index = m_model->index(i, 0);
+//            ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
+//            if (pdata.itemType  == type) {
+//                selectionModel()->select(index, QItemSelectionModel::Select);
+//            }
+//        }
+//    }
 }
 
 void ThumbnailListView::TimeLineSelectAllBtn()
@@ -1926,6 +1931,11 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
     }
     if (ALBUM_PATHTYPE_BY_PHONE != m_imageType && m_imageType.compare(COMMON_STR_TRASH) != 0) {
         ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+        if (data.itemType == ItemTypeBlank
+                || data.itemType == ItemTypeTimeLineTitle
+                || data.itemType == ItemTypeImportTimeLineTitle) {
+            return;
+        }
         emit openImage(index.row(), data.path, false);
     }
 }

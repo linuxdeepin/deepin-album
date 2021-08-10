@@ -90,7 +90,7 @@ void StatusBar::initConnections()
         if (isVisible()) {
             imgpaths = paths;
             pic_count = count;
-            m_bcustalbum = album.isEmpty();
+            m_bcustalbum = !album.isEmpty();
             m_alubm = album;
 
             QString string = tr("Importing photos: '%1'");
