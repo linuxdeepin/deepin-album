@@ -135,6 +135,7 @@ void BatchOperateWidget::sltSelectAll()
 {
     m_thumbnailListView->selectAllByItemType(m_ToolButton->getFilteType());
     m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
+    m_thumbnailListView->updatetimeLimeBtnText();
     m_chooseAll->setVisible(false);
     m_cancelChooseAll->setVisible(true);
 }
@@ -143,6 +144,7 @@ void BatchOperateWidget::sltUnSelectAll()
 {
     m_thumbnailListView->clearSelection();
     m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
+    m_thumbnailListView->updatetimeLimeBtnText();
     m_chooseAll->setVisible(true);
     m_cancelChooseAll->setVisible(false);
 }
@@ -458,6 +460,7 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect)
             m_cancelBatchSelect->setVisible(true);
 
             m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
+            m_thumbnailListView->updatetimeLimeBtnText();
             //发送给时间线，刷新悬浮控件选择按钮显隐状态
             emit signalBatchSelectChanged(true);
         }
@@ -478,6 +481,7 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect)
         m_cancelBatchSelect->setVisible(false);
 
         m_thumbnailListView->slotChangeAllSelectBtnVisible(false);
+        m_thumbnailListView->updatetimeLimeBtnText();
         m_thumbnailListView->clearSelection();
         //发送给时间线，刷新悬浮控件选择按钮显隐状态
         emit signalBatchSelectChanged(false);

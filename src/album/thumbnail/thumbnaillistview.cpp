@@ -1334,7 +1334,6 @@ void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
                 w = static_cast<TimeLineDateWidget *>(this->indexWidget(idx));
                 if (w != nullptr)  {
                     w->onChangeChooseBtnVisible(visible);
-                    updatetimeLimeBtnText();
                 }
             }
         }
@@ -1347,7 +1346,6 @@ void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
                 w = static_cast<importTimeLineDateWidget *>(this->indexWidget(idx));
                 if (w != nullptr)  {
                     w->onChangeChooseBtnVisible(visible);
-                    updatetimeLimeBtnText();
                 }
             }
         }
@@ -1608,6 +1606,8 @@ void ThumbnailListView::updatetimeLimeBtnText()
         //最后一个时间线的相关逻辑
         if (w) {
             w->onTimeLinePicSelectAll(isSelectAll);
+        } else { //有且只有一个时间线时的逻辑
+            emit sigTimeLineDataAndNum("", "", isSelectAll ? QObject::tr("Unselect") : QObject::tr("Select"));
         }
     }  else if (m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
         importTimeLineDateWidget *iw = nullptr;
@@ -1636,6 +1636,8 @@ void ThumbnailListView::updatetimeLimeBtnText()
         //最后一个时间线的相关逻辑
         if (iw) {
             iw->onTimeLinePicSelectAll(isSelectAll);
+        } else { //有且只有一个时间线时的逻辑
+            emit sigTimeLineDataAndNum("", "", isSelectAll ? QObject::tr("Unselect") : QObject::tr("Select"));
         }
     }
 }
@@ -1696,6 +1698,7 @@ void ThumbnailListView::selectAllByItemType(ItemInfoType type)
 {
     qDebug() << __FUNCTION__ << "---type = " << type;
     this->selectAll();
+    emit sigSelectAll();
     //因为性能问题，未根据类型选择，这里做全选处理，全选后，在获取选中项处过滤隐藏项
 //    if (type == ItemTypeNull) {
 //        this->selectAll();
@@ -1765,7 +1768,6 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
 
 void ThumbnailListView::slotOneImgReady(const QString &path, QPixmap pix)
 {
-    qDebug() << __FUNCTION__ << "---";
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
         ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();

@@ -413,7 +413,9 @@ void ImageEngineApi::thumbnailLoadThread(int num)
 
 void ImageEngineApi::setThreadShouldStop()
 {
-    m_worker->setThreadShouldStop();
+    if (nullptr != m_worker) {
+        m_worker->setThreadShouldStop();
+    }
 }
 bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
 {
@@ -526,8 +528,7 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
 }
 bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool bneedprogress)
 {
-    if(files.size() == 0)
-    {
+    if (files.size() == 0) {
         return false;
     }
 

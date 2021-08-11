@@ -587,6 +587,8 @@ void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
         updateChoseText();
     }
     DWidget::mousePressEvent(e);
+    // 焦点移除，需要同步各个选择按钮状态
+    m_importTimeLineListView->updatetimeLimeBtnText();
 }
 
 void ImportTimeLineView::clearAllSelection()
