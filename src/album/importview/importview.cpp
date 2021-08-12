@@ -23,6 +23,7 @@
 #include <DFileDialog>
 #include <QGraphicsDropShadowEffect>
 #include <DSuggestButton>
+#include <DGuiApplicationHelper>
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -69,18 +70,35 @@ void ImportView::initUI()
     m_pImportBtn->setText(tr("Import Photos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
-    DLabel *pLabel2 = new DLabel();
-    DFontSizeManager::instance()->bind(pLabel2, DFontSizeManager::T9, QFont::ExtraLight);
-    pLabel2->setForegroundRole(DPalette::TextTips);
-    pLabel2->setFixedHeight(18);
-    pLabel2->setText(tr("Or drag photos here"));
+
+    pDragLabel = new DLabel();
+    DFontSizeManager::instance()->bind(pDragLabel, DFontSizeManager::T9, QFont::ExtraLight);
+    pDragLabel->setForegroundRole(DPalette::TextTips);
+    pDragLabel->setFixedHeight(18);
+    pDragLabel->setText(tr("Or drag photos here"));
+
+    //#BUG90879，字体风格调整
+    DPalette palette = DApplicationHelper::instance()->palette(pDragLabel);
+    QColor color_TTT = palette.color(DPalette::ToolTipText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_TTT.setAlphaF(0.4);
+        palette.setBrush(DPalette::Text, color_TTT);
+        pDragLabel->setForegroundRole(DPalette::Text);
+        pDragLabel->setPalette(palette);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_TTT.setAlphaF(0.5);
+        palette.setBrush(DPalette::Text, color_TTT);
+        pDragLabel->setForegroundRole(DPalette::Text);
+        pDragLabel->setPalette(palette);
+    }
+
     pImportFrameLayout->setMargin(0);
     pImportFrameLayout->addStretch();
     pImportFrameLayout->addWidget(pLabel, 0, Qt::AlignCenter);
     pImportFrameLayout->addSpacing(5);
     pImportFrameLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
     pImportFrameLayout->addSpacing(10);
-    pImportFrameLayout->addWidget(pLabel2, 0, Qt::AlignCenter);
+    pImportFrameLayout->addWidget(pDragLabel, 0, Qt::AlignCenter);
     pImportFrameLayout->addStretch();
     setLayout(pImportFrameLayout);
 }
@@ -132,6 +150,21 @@ void ImportView::onThemeTypeChanged()
         pixmap = utils::base::renderSVG(":/resources/images/other/icon_import_photo_dark.svg", QSize(128, 128));
     }
     pLabel->setPixmap(pixmap);
+
+    //#BUG90879，字体风格调整
+    DPalette palette = DApplicationHelper::instance()->palette(pDragLabel);
+    QColor color_TTT = palette.color(DPalette::ToolTipText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_TTT.setAlphaF(0.4);
+        palette.setBrush(DPalette::Text, color_TTT);
+        pDragLabel->setForegroundRole(DPalette::Text);
+        pDragLabel->setPalette(palette);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_TTT.setAlphaF(0.5);
+        palette.setBrush(DPalette::Text, color_TTT);
+        pDragLabel->setForegroundRole(DPalette::Text);
+        pDragLabel->setPalette(palette);
+    }
 }
 
 void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)

@@ -201,6 +201,7 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
     Q_UNUSED(deselected)
     //选中项数量变化，更新按钮可用状态
     bool selectMultiple = m_thumbnailListView->selectedPaths().size() > 0;
+    batchSelectChanged(selectMultiple);
     m_collection->setEnabled(selectMultiple);
     m_leftRotate->setEnabled(selectMultiple);
     m_rightRotate->setEnabled(selectMultiple);

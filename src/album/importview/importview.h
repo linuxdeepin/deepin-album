@@ -76,6 +76,7 @@ public:
     QString m_albumname;
     DLabel *pLabel;
     DBImgInfoList m_dbInfos;
+    DLabel *pDragLabel;
 };
 
 #endif // IMPORTVIEW_H
