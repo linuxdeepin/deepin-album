@@ -76,8 +76,10 @@ public:
     void initTrashBtn(QHBoxLayout *hb);
     //初始化下拉菜单
     void initDropdown();
-    //刷新按钮状态
+    //刷新按钮显隐状态
     void batchSelectChanged(bool isBatchSelect, bool disConnectSignal);
+    //刷新按钮可用状态
+    void refreshBtnEnabled();
 protected:
     void hideEvent(QHideEvent *event) override;
 signals:

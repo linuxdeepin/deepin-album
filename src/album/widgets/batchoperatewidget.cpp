@@ -133,6 +133,7 @@ void BatchOperateWidget::sltBatchSelectChanged()
     } else {
         batchSelectChanged(false, true);
     }
+    refreshBtnEnabled();
 }
 //全选
 void BatchOperateWidget::sltSelectAll()
@@ -203,34 +204,8 @@ void BatchOperateWidget::sltLeftRotate(bool checked)
 void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(deselected)
-    //选中项数量变化，更新按钮可用状态
-    bool selectMultiple = m_thumbnailListView->selectedPaths().size() > 0;
     batchSelectChanged(true, false);
-    m_collection->setEnabled(selectMultiple);
-    m_leftRotate->setEnabled(selectMultiple);
-    m_rightRotate->setEnabled(selectMultiple);
-    m_delete->setEnabled(selectMultiple);
-    //选择发生变化，刷新收藏按钮状态
-    if (m_collection->isVisible()) {
-        if (isAllSelectedCollected()) {
-            m_collection->setIcon(QIcon::fromTheme("dcc_ccollection"));
-        } else {
-            m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
-        }
-    }
-    //旋转按钮状态由是否全部都支持旋转确定
-    bool supportRotate = m_thumbnailListView->isAllSelectedSupportRotate();
-    m_leftRotate->setEnabled(supportRotate);
-    m_rightRotate->setEnabled(supportRotate);
-    //全选与取消全选按钮状态由是否全部选中刷新
-    bool isAllSelected = m_thumbnailListView->isAllSelected(m_ToolButton->getFilteType());
-    if (m_cancelBatchSelect->isVisible()) {
-        m_chooseAll->setVisible(!isAllSelected);
-        m_cancelChooseAll->setVisible(isAllSelected);
-    }
-    if (m_operateType == AlbumViewTrashType) {
-        refreshTrashBtnState();
-    }
+    refreshBtnEnabled();
 }
 
 void BatchOperateWidget::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
@@ -498,6 +473,37 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectS
             connect(m_thumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
                     this, &BatchOperateWidget::sltSelectionChanged);
         }
+    }
+}
+
+void BatchOperateWidget::refreshBtnEnabled()
+{
+    //选中项数量变化，更新按钮可用状态
+    bool selectMultiple = m_thumbnailListView->selectedPaths().size() > 0;
+    m_collection->setEnabled(selectMultiple);
+    m_leftRotate->setEnabled(selectMultiple);
+    m_rightRotate->setEnabled(selectMultiple);
+    m_delete->setEnabled(selectMultiple);
+    //选择发生变化，刷新收藏按钮状态
+    if (m_collection->isVisible()) {
+        if (isAllSelectedCollected()) {
+            m_collection->setIcon(QIcon::fromTheme("dcc_ccollection"));
+        } else {
+            m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
+        }
+    }
+    //旋转按钮状态由是否全部都支持旋转确定
+    bool supportRotate = m_thumbnailListView->isAllSelectedSupportRotate();
+    m_leftRotate->setEnabled(supportRotate);
+    m_rightRotate->setEnabled(supportRotate);
+    //全选与取消全选按钮状态由是否全部选中刷新
+    bool isAllSelected = m_thumbnailListView->isAllSelected(m_ToolButton->getFilteType());
+    if (m_cancelBatchSelect->isVisible()) {
+        m_chooseAll->setVisible(!isAllSelected);
+        m_cancelChooseAll->setVisible(isAllSelected);
+    }
+    if (m_operateType == AlbumViewTrashType) {
+        refreshTrashBtnState();
     }
 }
 
