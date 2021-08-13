@@ -77,7 +77,7 @@ public:
     //初始化下拉菜单
     void initDropdown();
     //刷新按钮状态
-    void batchSelectChanged(bool isBatchSelect);
+    void batchSelectChanged(bool isBatchSelect, bool disConnectSignal);
 protected:
     void hideEvent(QHideEvent *event) override;
 signals:

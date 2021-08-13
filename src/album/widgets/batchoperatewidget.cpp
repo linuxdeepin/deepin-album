@@ -129,32 +129,9 @@ void BatchOperateWidget::sltBatchSelectChanged()
     qDebug() << __FUNCTION__ << "---";
     DCommandLinkButton *btn = qobject_cast<DCommandLinkButton *>(sender());
     if (btn == m_startBatchSelect) {
-        batchSelectChanged(true);
+        batchSelectChanged(true, false);
     } else {
-        m_trashRecoveryBtn->setVisible(false);
-        m_trashDeleteBtn->setVisible(false);
-        m_ToolButton->setVisible(true);
-        //根据所有选中图片，更新收藏按钮状态
-        m_collection->setVisible(false);
-        m_leftRotate->setVisible(false);
-        m_rightRotate->setVisible(false);
-        m_delete->setVisible(false);
-        //全选与取消全选按钮状态由是否全部选中刷新
-        m_chooseAll->setVisible(false);
-        m_cancelChooseAll->setVisible(false);
-        //进入选择状态后，进入按钮隐藏，退出按钮显示
-        m_startBatchSelect->setVisible(true);
-        m_cancelBatchSelect->setVisible(false);
-
-        disconnect(m_thumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
-                   this, &BatchOperateWidget::sltSelectionChanged);
-        m_thumbnailListView->slotChangeAllSelectBtnVisible(false);
-        m_thumbnailListView->updatetimeLimeBtnText();
-        m_thumbnailListView->clearSelection();
-        //发送给时间线，刷新悬浮控件选择按钮显隐状态
-        emit signalBatchSelectChanged(false);
-        connect(m_thumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
-                this, &BatchOperateWidget::sltSelectionChanged);
+        batchSelectChanged(false, true);
     }
 }
 //全选
@@ -228,7 +205,7 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
     Q_UNUSED(deselected)
     //选中项数量变化，更新按钮可用状态
     bool selectMultiple = m_thumbnailListView->selectedPaths().size() > 0;
-    batchSelectChanged(true);
+    batchSelectChanged(true, false);
     m_collection->setEnabled(selectMultiple);
     m_leftRotate->setEnabled(selectMultiple);
     m_rightRotate->setEnabled(selectMultiple);
@@ -441,7 +418,7 @@ void BatchOperateWidget::initDropdown()
     m_expansionMenu->addNewButton(data);
 }
 
-void BatchOperateWidget::batchSelectChanged(bool isBatchSelect)
+void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectSignal)
 {
     if (isBatchSelect) {
         m_ToolButton->setVisible(false);
@@ -508,17 +485,25 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect)
         m_startBatchSelect->setVisible(true);
         m_cancelBatchSelect->setVisible(false);
 
+        if (disConnectSignal) {
+            disconnect(m_thumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
+                       this, &BatchOperateWidget::sltSelectionChanged);
+        }
         m_thumbnailListView->slotChangeAllSelectBtnVisible(false);
         m_thumbnailListView->updatetimeLimeBtnText();
         m_thumbnailListView->clearSelection();
         //发送给时间线，刷新悬浮控件选择按钮显隐状态
         emit signalBatchSelectChanged(false);
+        if (disConnectSignal) {
+            connect(m_thumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
+                    this, &BatchOperateWidget::sltSelectionChanged);
+        }
     }
 }
 
 void BatchOperateWidget::hideEvent(QHideEvent *event)
 {
     Q_UNUSED(event)
-    batchSelectChanged(false);
+    batchSelectChanged(false, true);
 }
 
