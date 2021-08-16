@@ -621,7 +621,7 @@ void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageE
 
 bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
 {
-    static_cast<ImageEngineObject *>(imgobject)->removeThread(this, false);
+    static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
     if (imgobject == m_imgobject) {
         return true;
     }
@@ -690,7 +690,7 @@ void ImageLoadFromLocalThread::setData(QStringList &filelist, ImageEngineObject 
 
 bool ImageLoadFromLocalThread::ifCanStopThread(void *imgobject)
 {
-    static_cast<ImageEngineObject *>(imgobject)->removeThread(this, false);
+    static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
     if (imgobject == m_imgobject) {
         return true;
     }
@@ -794,7 +794,7 @@ void ImageEngineThread::setData(QString &path, ImageEngineObject *imgobject, Ima
 bool ImageEngineThread::ifCanStopThread(void *imgobject)
 {
     if (nullptr != imgobject && ImageEngineApi::instance()->ifObjectExist(imgobject))
-        static_cast<ImageEngineObject *>(imgobject)->removeThread(this, false);
+        static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
     m_imgobject.removeOne(static_cast<ImageEngineObject *>(imgobject));
     if (m_imgobject.size() < 1) {
         bneedstop = true;

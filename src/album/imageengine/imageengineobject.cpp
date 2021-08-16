@@ -96,7 +96,10 @@ void ImageMountGetPathsObject::removeThread(ImageEngineThreadObject *thread)
 void ImageMountGetPathsObject::clearAndStopThread()
 {
     for (auto thread : m_threads) {
-        thread->needStop(this);
+        if(thread)
+        {
+            thread->needStop(this);
+        }
     }
     m_threads.clear();
 }
@@ -124,13 +127,19 @@ void ImageEngineImportObject::addThread(ImageEngineThreadObject *thread)
 
 void ImageEngineImportObject::removeThread(ImageEngineThreadObject *thread)
 {
-    m_threads.removeOne(thread);
+    if(m_threads.contains(thread))
+    {
+        m_threads.removeOne(thread);
+    }
 }
 
 void ImageEngineImportObject::clearAndStopThread()
 {
     for (const auto &thread : m_threads) {
-        thread->needStop(this);
+        if(thread)
+        {
+           thread->needStop(this);
+        }
     }
     m_threads.clear();
 }
@@ -151,22 +160,18 @@ void ImageEngineObject::addThread(ImageEngineThreadObject *thread)
 {
     QMutexLocker mutex(&m_mutexthread);
     m_threads.append(thread);
-
+    mutex.unlock();
     //建立信号槽连接，由于钻石继承问题，ImageEngineObject不能继承QObject，所以只能用lambda
     QObject::connect(thread, &ImageEngineThreadObject::runFinished, [this, thread]() {
-        this->removeThread(thread, true);
+        this->removeThread(thread);
     });
 }
 
-void ImageEngineObject::removeThread(ImageEngineThreadObject *thread, bool needmutex)
+void ImageEngineObject::removeThread(ImageEngineThreadObject *thread)
 {
-    //QMutexLocker出了if的作用域就会销毁
-    if (needmutex) {
-        QMutexLocker mutex(&m_mutexthread);
-        m_threads.removeOne(thread);
-    } else {
-        m_threads.removeOne(thread);
-    }
+    QMutexLocker mutex(&m_mutexthread);
+    m_threads.removeOne(thread);
+    mutex.unlock();
 
     //主动切断连接，否则会去执行lambda，然后解引用已经销毁的this指针
     QObject::disconnect(thread, &ImageEngineThreadObject::runFinished, nullptr, nullptr);

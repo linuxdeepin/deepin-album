@@ -124,7 +124,7 @@ public:
     virtual bool imageLocalLoaded(QStringList &filelist) = 0;
     virtual bool imageFromDBLoaded(QStringList &filelist) = 0;
     void addThread(ImageEngineThreadObject *thread);
-    void removeThread(ImageEngineThreadObject *thread, bool needmutex = true);
+    void removeThread(ImageEngineThreadObject *thread);
     void addCheckPath(QString &path);
     void checkSelf();
 
