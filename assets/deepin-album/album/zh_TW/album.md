@@ -43,8 +43,11 @@
 
 在相簿介面，可以採用以下方式匯入相片。
 - 當相冊中尚無照片時，單擊 **匯入相片**。
+
 - 單擊![icon_menu](../common/icon_menu.svg)> **匯入相片**。
+
 - 直接將相片或所在資料夾拖曳到介面上。
+
 - 從移動裝置匯入相片。
 
    > ![notes](../common/notes.svg)說明：相簿支援打開BMP、GIF、JPG、PNG、PBM、PGM、PPM、XBM、XPM、SVG、DDS、ICNS、MNG、TGA、TIFF、WBMP、WEBP、PSD、ICO、JNG、PCD、PCX、TIF、RAS、MRW、DNG、RAF、CR2、RAW、ORF、NEF等多種格式的圖片。
@@ -73,7 +76,7 @@
 | ![contrarotate](../common/contrarotate.svg)             | 逆時針旋轉 | 相片逆時針旋轉90度。         |
 | ![delete](../common/delete.svg)                         | 刪除       | 刪除目前照片。               |
 
-   > ![tips](../common/tips.svg)竅門：滾動滑鼠放大圖片且當圖片超出介面範圍時，介面上會出現導航視窗。拖動導航視窗內的方框，查看該區域的訊息。單擊導航視窗右上角 **×** 按鈕，關閉導航視窗；也可以在看圖介面上單擊滑鼠右鍵選擇 **隱藏導航視窗**/**顯示導航視窗**。
+   > ![tips](../common/tips.svg)竅門：滾動滑鼠放大圖片且當圖片超出介面範圍時，介面上會出現導航視窗。拖動導航視窗內的方框，查看該區域的訊息。單擊導航視窗右上角 **x** 按鈕，關閉導航視窗；也可以在看圖介面上單擊滑鼠右鍵選擇 **隱藏導航視窗**/ **顯示導航視窗**。
 
 ![0|copy](fig/navagation.png)
 
