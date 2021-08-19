@@ -25,8 +25,9 @@
 #include <QMutex>
 #include <QUrl>
 #include "imageengineobject.h"
+#include "player_engine.h"
 
-DBImgInfo getDBInfo(const QString &srcpath);
+DBImgInfo getDBInfo(const QString &srcpath, bool isVideo = false);
 
 class ImportImagesThread : public ImageEngineThreadObject
 {
@@ -36,10 +37,12 @@ public:
     ~ImportImagesThread() override;
     void setData(QStringList &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect);
     void setData(QList<QUrl> &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect);
+    void setVideoSupportType(QStringList videoSupportType);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
     void runDetail() override;
+    bool isVideo(QString path);
 
 signals:
     void runFinished();
@@ -57,6 +60,7 @@ private:
     ImageEngineImportObject *m_obj = nullptr;
     bool m_bdialogselect = false;
     DataType m_type = DataType_NULL;
+    QStringList m_videoSupportType;
 };
 
 class ImageRecoveryImagesFromTrashThread : public ImageEngineThreadObject
@@ -246,11 +250,16 @@ public:
     {
         needStop = true;
     }
+    void setVideoSupportType(QStringList videoSupportType);
+private:
+    bool isVideo(QString path);
 protected:
     void run() override;
 private:
     ImageCacheSaveObject *m_obj = nullptr;
     bool needStop = false;
+    QStringList m_videoSupportType;
+    dmr::PlayerEngine *m_playerEngine = nullptr;
 };
 
 #include <QWaitCondition>

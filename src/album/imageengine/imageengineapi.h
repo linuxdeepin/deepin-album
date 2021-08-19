@@ -130,6 +130,7 @@ public:
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     QMultiMap<QString, QString> m_allPathAndAlbumNames;
     bool m_80isLoaded = false;
+    QStringList m_videoSupportType;
 private:
     explicit ImageEngineApi(QObject *parent = nullptr);
 

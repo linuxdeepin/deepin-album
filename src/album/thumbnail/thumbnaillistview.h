@@ -92,7 +92,7 @@ public:
     explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, const QString &imgtype = "All Photos", QWidget *parent = nullptr);
     ~ThumbnailListView() override;
 
-    void insertThumbnail(const ItemInfo &iteminfo);//1050
+    void insertThumbnail(const ItemInfo &iteminfo);
     //为true则清除模型中的数据
     void stopLoadAndClear(bool bClearModel = false);
     //根据列表显示不同，返回不同数据

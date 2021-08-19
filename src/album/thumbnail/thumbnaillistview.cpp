@@ -397,6 +397,8 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
             info.path = data.dbi.filePath;
             info.image = data.imgpixmap;
             info.remainDays = data.remainDays;
+            info.fileType = data.dbi.fileType;
+            info.videoDuration = data.dbi.videoDuration;
 
             QVariant infoVariant;
             infoVariant.setValue(info);
@@ -1504,6 +1506,8 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
         info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
+        info.fileType = data.dbi.fileType;
+        info.videoDuration = data.dbi.videoDuration;
         insertThumbnail(info);
     }
 }
@@ -1762,6 +1766,8 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
         info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
+        info.fileType = data.dbi.fileType;
+        info.videoDuration = data.dbi.videoDuration;
         insertThumbnail(info);
     }
 }

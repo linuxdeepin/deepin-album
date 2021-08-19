@@ -67,7 +67,7 @@ void ImportView::initUI()
     AC_SET_OBJECT_NAME(m_pImportBtn, Import_Image_View_Button);
     AC_SET_ACCESSIBLE_NAME(m_pImportBtn, Import_Image_View_Button);
     DFontSizeManager::instance()->bind(m_pImportBtn, DFontSizeManager::T6, QFont::ExtraLight);
-    m_pImportBtn->setText(tr("Import Photos"));
+    m_pImportBtn->setText(tr("Import Photos and Videos"));
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
@@ -75,7 +75,7 @@ void ImportView::initUI()
     DFontSizeManager::instance()->bind(pDragLabel, DFontSizeManager::T9, QFont::ExtraLight);
     pDragLabel->setForegroundRole(DPalette::TextTips);
     pDragLabel->setFixedHeight(18);
-    pDragLabel->setText(tr("Or drag photos here"));
+    pDragLabel->setText(tr("Or drag them here"));
 
     //#BUG90879，字体风格调整
     DPalette palette = DApplicationHelper::instance()->palette(pDragLabel);
@@ -169,10 +169,12 @@ void ImportView::onThemeTypeChanged()
 
 void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
 {
-    qDebug() << "ImportView::onImprotBtnClicked()";
     static QStringList sList;
     for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
         sList << ("*." + i);
+    //添加视频过滤
+    for (const QString &i : ImageEngineApi::instance()->m_videoSupportType)
+        sList << i;
     QString filter = tr("All Photos");
     filter.append('(');
     filter.append(sList.join(" "));

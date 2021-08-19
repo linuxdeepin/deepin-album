@@ -36,6 +36,13 @@
 #include <QMouseEvent>
 #include <QPointer>
 
+//数据库存储的文件类型
+enum DbFileType {
+    DbFileTypeNull = 0,
+    DbFileTypePic,      //图片
+    DbFileTypeVideo     //视频
+};
+
 enum ItemInfoType {
     ItemTypeNull = 1,
     ItemTypeBlank,         //空白项，列表上方，悬浮控件下方高度
@@ -58,6 +65,8 @@ struct ItemInfo {
     QPixmap damagedPixmap = QPixmap();
     bool bNotSupportedOrDamaged = false;
     bool bNeedDelete = false;//删除时间线与已导入标题时使用
+    int fileType = 1;//判断文件类型，图片，视频，默认图片
+    QString videoDuration = "00:00";//视频时长
 
     QString date;
     QString num;

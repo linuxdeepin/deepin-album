@@ -58,6 +58,8 @@ struct DBImgInfo {
     QDateTime importTime;   // 导入时间 Or 删除时间
     QString albumname;      // 图片所属相册名，以","分隔
     QString albumSize;      //原图片分辨率
+    int fileType;           //文件类型，区分图片与视频
+    QString videoDuration;  //视频时长
 
     bool operator==(const DBImgInfo &other) const
     {

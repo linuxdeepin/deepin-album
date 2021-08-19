@@ -33,6 +33,8 @@
 #include <QStandardPaths>
 #include <QDirIterator>
 
+#include "player_engine.h"
+
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                            + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
 
@@ -119,6 +121,11 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
     QImage tImg;
     QString srcPath = imagepath;
     QString thumbnailPath = CACHE_PATH + imagepath;
+    if (isVideo(imagepath)) {
+        QFileInfo temDir(thumbnailPath);
+        QString fileName = temDir.fileName();
+        thumbnailPath = CACHE_PATH + temDir.path() + "/" + temDir.baseName() + ".PNG";
+    }
     QFileInfo file(thumbnailPath);
     QString errMsg;
     QFileInfo srcfi(srcPath);
@@ -127,9 +134,20 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
             qDebug() << errMsg;
         }
     } else {
-        if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
-            qDebug() << errMsg;
+        if (isVideo(imagepath)) {
+            dmr::PlayerEngine *playerEngine = new dmr::PlayerEngine(nullptr);
+
+            tImg = playerEngine->getMovieCover(QUrl::fromLocalFile(imagepath));
+
+            delete  playerEngine;
+            playerEngine = nullptr;
+        } else {
+            if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
+                qDebug() << errMsg;
+                return;
+            }
         }
+
     }
 
     if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
@@ -177,7 +195,16 @@ void DBandImgOperate::sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num)
     int size = infos.size();
     for (int i = 0; i < num; i++) {
         if (i < size) {
-            infos[i].imgpixmap = loadOneThumbnail(infos[i].dbi.filePath);
+            DBImgInfo dbInfo = infos[i].dbi;
+            if (dbInfo.fileType == DbFileTypePic) {
+                infos[i].imgpixmap = loadOneThumbnail(dbInfo.filePath);
+            } else if (dbInfo.fileType == DbFileTypeVideo) {
+                QString spath = CACHE_PATH + dbInfo.filePath;
+                QFileInfo temDir(dbInfo.filePath);
+                QString fileName = temDir.fileName();
+                spath = CACHE_PATH + temDir.path() + "/" + temDir.baseName() + ".PNG";
+                infos[i].imgpixmap = loadOneThumbnail(spath);
+            }
         }
     }
     emit sig80ImgInfosReady(infos);
@@ -219,6 +246,25 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
 
 }
 
+void DBandImgOperate::setVideoSupportType(QStringList videoSupportType)
+{
+    m_videoSupportType = videoSupportType;
+}
+
+bool DBandImgOperate::isVideo(QString path)
+{
+    bool isVideo = false;
+    QFileInfo temDir(path);
+    QString fileName = temDir.suffix();//扩展名
+    for (const QString &i : m_videoSupportType) {
+        if (i.contains(fileName)) {
+            isVideo = true;
+            break;
+        }
+    }
+    return isVideo;
+}
+
 void DBandImgOperate::getAllInfos()
 {
     DBImgInfoList infos;
@@ -229,7 +275,7 @@ void DBandImgOperate::getAllInfos()
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    bool b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime "
+    bool b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType "
                            "FROM ImageTable3");
     if (!b || ! query.exec()) {
         emit sigAllImgInfosReady(infos);
@@ -244,6 +290,7 @@ void DBandImgOperate::getAllInfos()
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
+            info.fileType = query.value(6).toInt();
             infos << info;
         }
     }

@@ -94,9 +94,9 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount) const
     query.setForwardOnly(true);
     bool b = false;
     if (loadCount == 0) {
-        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc");
+        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc");
     } else {
-        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit 80");
+        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit 80");
     }
     if (!b || ! query.exec()) {
         qDebug() << query.lastError();
@@ -111,6 +111,7 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount) const
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
+            info.fileType = query.value(6).toInt();
             infos << info;
         }
     }
@@ -229,7 +230,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     if (infos.isEmpty() || ! db.isValid()) {
         return;
     }
-    QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes, importtimes;
+    QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes, importtimes, fileTypes;
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
         filepaths << info.filePath;
@@ -238,13 +239,15 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
         importtimes << info.importTime.toString(DATETIME_FORMAT_DATABASE);
+        fileTypes << info.fileType;
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
     if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
         qDebug() << query.lastError();
     }
-    bool b = query.prepare("REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Dir, Time, ChangeTime, ImportTime) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    bool b = query.prepare("REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Dir, Time, "
+                           "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     if (!b) {
         db.close();
         return;
@@ -256,6 +259,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     query.addBindValue(times);
     query.addBindValue(changetimes);
     query.addBindValue(importtimes);
+    query.addBindValue(fileTypes);
     if (! query.execBatch()) {
         if (!query.exec("COMMIT")) {
             qDebug() << query.lastError();
@@ -271,7 +275,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     }
 }
 
-void DBManager::removeImgInfos(const QStringList &paths )
+void DBManager::removeImgInfos(const QStringList &paths)
 {
     qDebug() << "------" << __FUNCTION__ << "---size = " << paths.size();
     if (paths.isEmpty()) {
@@ -767,7 +771,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
     QSqlQuery query(db);
     query.setForwardOnly(true);
 
-    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 "
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 "
                        "WHERE FileName like '%" + value + "%' OR Time like '%" + value + "%' ORDER BY Time DESC";
 
     bool b = query.prepare(queryStr);
@@ -783,6 +787,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
+            info.fileType = query.value(6).toInt();
             infos << info;
         }
     }
@@ -915,7 +920,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 "
+    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 "
                                    "WHERE %1= :value ORDER BY Time DESC").arg(key));
 
     query.bindValue(":value", value);
@@ -931,6 +936,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
+            info.fileType = query.value(6).toInt();
             infos << info;
         }
     }
@@ -991,7 +997,8 @@ void DBManager::checkDatabase()
                                           "Dir TEXT, "
                                           "Time TEXT, "
                                           "ChangeTime TEXT, "
-                                          "ImportTime TEXT)"));
+                                          "ImportTime TEXT, "
+                                          "FileType INTEGER)"));
         if (!b) {
             qDebug() << "b CREATE TABLE exec failed.";
         }
@@ -1053,6 +1060,19 @@ void DBManager::checkDatabase()
             if (queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
                                  .arg(strDate))) {
                 qDebug() << "add ImportTime success";
+            }
+        }
+
+        // 判断ImageTable3中是否有FileType字段，区分是图片还是视频
+        QString strSqlFileType = QString::fromLocal8Bit(
+                                     "select * from sqlite_master where name = 'ImageTable3' and sql like '%FileType%'");
+        QSqlQuery queryFileType(db);
+        queryFileType.exec(strSqlFileType);
+        if (!queryFileType.next()) {
+            // 无FileType字段,则增加FileType字段,赋值1,默认是图片
+            if (queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"FileType\" INTEGER default \"%1\"")
+                                 .arg("1"))) {
+                qDebug() << "add FileType success";
             }
         }
 

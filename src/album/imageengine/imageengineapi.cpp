@@ -292,6 +292,7 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumna
     emit dApp->signalM->popupWaitDialog(tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, obj, bdialogselect);
+    imagethread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);
@@ -352,6 +353,12 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
 
 void ImageEngineApi::loadFirstPageThumbnails(int num)
 {
+    qDebug() << __FUNCTION__ << "---";
+    dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
+    ImageEngineApi::instance()->m_videoSupportType = e->video_filetypes;
+    delete e;
+    e = nullptr;
+
     m_FirstPageScreen = num;
     m_AllImageDataVector.clear();
     thumbnailLoadThread(num);
@@ -363,7 +370,7 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
     QSqlQuery query(db);
     query.setForwardOnly(true);
 //    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
-    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc"));
+    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc"));
     if (!b || !query.exec()) {
         qDebug() << "------" << __FUNCTION__ <<  query.lastError();
         return;
@@ -377,6 +384,7 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
+            info.fileType = query.value(6).toInt();
             ImageDataSt imgData;
             imgData.dbi = info;
             m_AllImageDataVector.append(imgData);
@@ -393,6 +401,7 @@ void ImageEngineApi::thumbnailLoadThread(int num)
     Q_UNUSED(num)
     QThread *workerThread = new QThread(this);
     m_worker = new DBandImgOperate(workerThread);
+    m_worker->setVideoSupportType(m_videoSupportType);
 
     m_worker->moveToThread(workerThread);
     //开始录制
@@ -440,19 +449,14 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
     }
     m_imageCacheSaveobj->add(files);
     int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
-    if (needCoreCounts * 100 > files.size()) {
-        if (files.empty()) {
-            needCoreCounts = 0;
-        } else {
-            needCoreCounts = (files.size() / 100) + 1;
-        }
-    }
+    needCoreCounts = needCoreCounts / 2;
     if (needCoreCounts < 1)
         needCoreCounts = 1;
     QList<QThread *> threads;
     for (int i = 0; i < needCoreCounts; i++) {
         ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
         thread->setObject(m_imageCacheSaveobj);
+        thread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
         thread->start();
         threads.append(thread);
     }
