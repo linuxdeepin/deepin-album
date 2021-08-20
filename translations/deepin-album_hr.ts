@@ -59,14 +59,6 @@
         <translation>Favoriti</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Izbriši sve</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Izbriši</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Ili privuci fotografije ovdje</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Obnovi</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation type="unfinished"/>
     </message>
@@ -95,20 +83,8 @@
         <translation>Uvezi u:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disk</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Uvezi</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">dana</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Neimenovano</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation type="unfinished"/>
     </message>
@@ -292,34 +264,8 @@
         <translation>Brišem...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Uvozim...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Osnovne informacije</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Pojedinosti</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>dana</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Uvezi fotografije</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Ili privuci fotografije ovdje</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Neimenovano</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Albumi</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Informacije o fotografiji</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Postavke</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Neke fotografije nisu uvezene</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Uvezi fotografije</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Uvezi fotografije</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 fotografija je uvezeno</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fotografija je izbrisano</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Pristajanje stranice u sliku</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Pristajanje slike u stranicu</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Milimetara</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Centimetara</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Inča</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Pozicija slike</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Postavke slike</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Postavke slike</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">uvezi na</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Rotirajte u smjeru kazaljka na satu</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Uvozim...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

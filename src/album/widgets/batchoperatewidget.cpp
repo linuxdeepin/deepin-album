@@ -223,7 +223,7 @@ void BatchOperateWidget::sltCurrentFilterChanged(ExpansionPanel::FilteData &data
         m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypeVideo);
     }
     //如果过滤会后数量<=0，则不可用
-    m_startBatchSelect->setEnabled(m_thumbnailListView->filterTypeItemCount(m_ToolButton->getFilteType()) > 0);
+    m_startBatchSelect->setEnabled(m_thumbnailListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0);
 }
 //点击最近删除恢复按钮
 void BatchOperateWidget::onTrashRecoveryBtnClicked()
@@ -425,11 +425,6 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectS
             m_trashDeleteBtn->setVisible(false);
             //根据所有选中图片，更新收藏按钮状态
             m_collection->setVisible(true);
-            if (isAllSelectedCollected()) {
-                m_collection->setIcon(QIcon::fromTheme("dcc_ccollection"));
-            } else {
-                m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
-            }
             m_leftRotate->setVisible(true);
             m_rightRotate->setVisible(true);
             m_delete->setVisible(true);
@@ -514,5 +509,6 @@ void BatchOperateWidget::hideEvent(QHideEvent *event)
 {
     Q_UNUSED(event)
     batchSelectChanged(false, true);
+    refreshBtnEnabled();
 }
 

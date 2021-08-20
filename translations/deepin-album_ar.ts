@@ -59,14 +59,6 @@
         <translation>المفضلة</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">حذف الكل</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">حذف</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>أو اسحب الصور هنا</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>سيتم حذف الصور نهائياً بعد عدد الأيام المعروضة عليها</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">إستعادة</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 صورة(صور) محددة</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>استيراد إلى:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">القرص الصلب</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>استيراد</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">الأيام</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">بدون اسم</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 مشفّر</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>مساحة القرص 1%</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>يتم الآن الحذف...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>يتم الآن الاستيراد...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>تتم الآن الإستعادة...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">المعلومات الأساسية</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">التفاصيل</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>الأيام</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>استيراد الصور</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>أو اسحب الصور هنا</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">المعرض</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>حذف</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">بدون اسم</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>الإلبومات</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished"> %1 صورة(صور)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>معلومات الصورة</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>الإعدادات</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">بعض الصور لم يتم استيرادها</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>استيراد الصور</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>استيراد الصور</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation> %1/%2 صور تم استيرادها</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 صور مستوردة، 2% فشل استيرادها</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 صور محذوفة</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">بدون قياس</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">ضبط الصفحة إلى الصورة</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">ضبط الصورة إلى الصفحة</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">القياس إلى:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">مليمتر</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">سنتيمتر</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">بوصة</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">موقع الصورة</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">القياس</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">إعدادات الصورة</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">إعدادات الصورة</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 صورة(صور) محددة</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">الاستيراد على</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>تدوير بإتجاه عقارب الساعة</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>يتم الآن الاستيراد...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

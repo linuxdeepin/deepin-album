@@ -161,7 +161,6 @@ void SearchView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &SearchView::updateSearchResultsIntoThumbnailView);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &SearchView::changeTheme);
-    connect(dApp, &Application::sigFinishLoad, this, &SearchView::onFinishLoad);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &SearchView::onKeyDelete);
 }
 
@@ -309,9 +308,26 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
         m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", 90);
         //插入信息
         m_pThumbnailListView->insertThumbnailByImgInfos(infos);
-        QString searchStr = tr("%1 photo(s) found");
+        int photoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
+        int videoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
+        QString searchStr;
+        if (photoCount > 0 && videoCount == 0) {
+            if (photoCount == 1) {
+                searchStr = tr("1 photo found");
+            } else {
+                searchStr = tr("%n videos found");
+            }
+        } else if (photoCount == 0 && videoCount > 0) {
+            if (videoCount == 1) {
+                searchStr = tr("1 video found");
+            } else {
+                searchStr = tr("%n video found");
+            }
+        } else if (photoCount > 0 && videoCount > 0) {
+            searchStr = tr("%n items found");
+        }
         QString str = QString::number(infos.length());
-        m_searchPicNum = infos.length();
+        m_searchPicNum = photoCount + videoCount;
         m_pSearchResultLabel->setText(searchStr.arg(str));
         m_pSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
         DPalette palette = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
@@ -415,11 +431,6 @@ void SearchView::onSlideShow(const QString &path)
     } else {
         emit dApp->signalM->showSlidePanel(2);
     }
-}
-
-void SearchView::onFinishLoad()
-{
-    m_pThumbnailListView->update();
 }
 
 void SearchView::updateSearchResultsIntoThumbnailView()

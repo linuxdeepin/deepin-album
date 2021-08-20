@@ -460,7 +460,6 @@ TEST(allpicview, allpicview_other_test)
     TEST_CASE_NAME("allpicview_other_test")
     MainWindow *w = dApp->getMainWindow();
 
-    w->m_pAllPicView->onFinishLoad();
 //    w->m_pAllPicView->onMenuOpenImage("", QStringList(), false, false);
 //    w->m_pAllPicView->onImportViewImportBtnClicked();
 

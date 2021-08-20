@@ -54,10 +54,8 @@
 #define DEFAULT_WINDOWS_HEIGHT  640
 #define MIX_WINDOWS_WIDTH       1300
 #define MIX_WINDOWS_HEIGHT      848
-//#define TITLEBAR_BLANK_WIDTH    235
 #define TITLEBAR_BLANK_WIDTH 365
 #define TITLEBAR_BTNWIDGET_WIDTH 240
-//#define TITLEBAR_BTNWIDGET_WIDTH 280
 #define TITLEBAR_ICON_WIDTH 50
 
 DWIDGET_USE_NAMESPACE
@@ -191,7 +189,6 @@ public slots:
     void onImprotBtnClicked();
 //    void onUpdateCentralWidget();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
-    void onLoadingFinished();
 private:
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;

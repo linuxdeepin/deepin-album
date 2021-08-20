@@ -59,14 +59,6 @@
         <translation>Lemmikud</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Kustuta kõik</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Kustuta</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Või lohista fotod siia</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Taasta</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 foto(t) on valitud</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Ketas</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Impordi</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">päeva</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Nimetu</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 krüpteeritud</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation type="unfinished"/>
     </message>
@@ -292,34 +264,8 @@
         <translation>Kustutamine...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Importimine...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Taastamine...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerii</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerii</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Põhiinfo</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Üksikasjad</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>päeva</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerii</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerii</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Impordi fotosid</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Või lohista fotod siia</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerii</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Kustuta</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Nimetu</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Albumid</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(t)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Foto info</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Seaded</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Impordi fotod</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Impordi fotosid</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Mahuta pilt lehele</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Muuda suurust:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Millimeetrid</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Sentimeetrid</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Tolli</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Pildi asukoht</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Pildi seaded</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Pildi seaded</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 foto(t) on valitud</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Pööra päripäeva</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Importimine...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

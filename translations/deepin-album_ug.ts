@@ -59,14 +59,6 @@
         <translation>ياقتۇرغانلىرى</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">ھەممىنى ئۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">ئۆچۈرۈش</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>رەسىملەرنى بۇيەرگە سۆرەپ ئەكىرىڭ</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>بۇ رەسىملەر كۆرسىتىلگەن كۈنلەردىن كېيىن مەڭگۈلۈك ئۆچۈرۈلىدۇ</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">ئەسلىگە كەلتۈرۈش</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>ئەكىرگىنىڭىز:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">دىسكا</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>ئەكىرىش</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">كۈن</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">نامسىز</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 شىفىرلانغان</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 سىغىمى</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>ئۆچۈرۋاتىدۇ...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>ئەكىرۋاتىدۇ...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>ئەسلىگە كەلتۈرۋاتىدۇ...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ساقلىۋېلىش</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ئالبوم</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">ئاساسىي ئۇچۇرلار</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">تەپسىلاتى</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>كۈن</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ئالبوم</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ئالبوم</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>رەسىملەرنى ئەكىرىش</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>رەسىملەرنى بۇيەرگە سۆرەپ ئەكىرىڭ</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">ئالبوم</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>ئۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">نامسىز</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>ئالبۇملار</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 رەسىم(s)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>سۈرەت ئۇچۇرى</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>تەڭشەك</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">بەزى رەسىملەر ئەكىرىلمىدى</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>رەسىملەرنى ئەكىرىڭ</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>رەسىملەرنى ئەكىرىش</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 رەسىم ئىمپورت قىلىنغان</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 رەسىم ئەكىرىش ،%2 رەسىم مەغلۇپ بولدى</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1 رەسىم (رەسىم) تاللانغان</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -734,7 +642,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>نەتىجە يوق</translation>
     </message>
 </context>
 <context>
@@ -742,56 +650,6 @@
     <message>
         <source>System Disk</source>
         <translation>سىستېما دىسكىسى</translation>
-    </message>
-</context>
-<context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">ئەسلى</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">رەسىمگە ماس كېلىدىغان بەت</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">بەتكە ماس كېلىدىغان رەسىم</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">كۆرسىتىلگىنى:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">مىللىمېتىر</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">سانتىمېتىر</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">ديۇيم</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">رەسىم ئورنى</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">كۆرسىتىش</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">رەسىم تەڭشىكى</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">رەسىم تەڭشىكى</translation>
     </message>
 </context>
 <context>
@@ -817,14 +675,6 @@
         <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
     </message>
     <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">ئەكىرگىنىڭىز:</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>ئەكىرگىنىڭىز:</translation>
     </message>
@@ -838,11 +688,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>ھەممىنى تاللاش</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>تاللاشنى بىكار قىلىش</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -858,7 +708,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>بارلىق تۈرلەر</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -870,7 +720,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>نەتىجە يوق</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>سائەت يۆنىلىشىدە ئايلاندۇرۇش</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>ئەكىرۋاتىدۇ...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

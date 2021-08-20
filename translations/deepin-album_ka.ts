@@ -59,14 +59,6 @@
         <translation>ფავორიტი</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">გაწმენდა</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">წაშლა</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>ან გადმოიტანეთ ფოტო აქ</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>სურათი ავტომატურად წაიშლება იმდენი დღის შემდეგ რამდენიც მასზე გამოსახულია</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">აღდგენა</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>არჩეულია %1 სურათი</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>იმპორტირება:  </translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">დისკი</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>იმპორტი</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished"> დღე</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">უსახელო</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 დაშიფრული</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 ვოლუმი</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>წაშლა...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>იმპორტი...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>აღდგენა...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">გალერეა</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">გალერეა</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">საბაზო ინფორმაცია</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">დეტალები</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation> დღე</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">გალერეა</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">გალერეა</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>სურათის იმპორტი</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>ან გადმოიტანეთ ფოტო აქ</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">გალერეა</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>წაშლა</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">უსახელო</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>ალბომები</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 სურათი</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>ინფორმაცია</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>პარამეტრები</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">ზოგიერთი ფოტო არ დაიმპორტირდა</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>სურათების იმპორტი</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>სურათის იმპორტი</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1 / %2 სურათები დაიმპორტირდა</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 ფოტო დაიმპორტირდა, %2 წარუმატებელი იმპორტირება</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1 / %2 სურათი წაიშალა</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">არ არის გადიდება</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">გვერდის სურათზე მორგება</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">სურათის გვერდზე მორგება</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">გადიდება:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">მილიმეტრი</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">სანტიმეტრი</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">ინჩი</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">სურათის პოზიცია</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">გადიდება</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">სურათის პარამეტრები</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">სურათის პარამეტრები</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>არჩეულია %1 სურათი</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">იმპორტი</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>საათის ისრის მიმართულებით დაბრუნება</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>იმპორტი...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

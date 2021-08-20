@@ -59,14 +59,6 @@
         <translation>Favoritos</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Desaniciar too</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Desaniciar</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>O arrastra semeyes hasta equí</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Les semeyes desaníciense permanentemente&apos;l día que s&apos;indica</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Restaurar</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>Númberu de semeyes na esbilla: %1</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Importar a:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Discu</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importar</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished"> díes</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Ensin nome</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>Volume cifráu de %1</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>Volume de %1</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Desaniciando…</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Importando…</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Restaurando…</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galería</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galería</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Información básica</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Detalles</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation> díes</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galería</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galería</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Importar semeyes</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>O arrástrales hasta equí</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galería</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Desaniciar</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Ensin nome</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Álbumes</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">Númberu de semeyes: %1</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Información de la semeya</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Axustes</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Dalgunes semeyes nun s&apos;importaron</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importar semeyes</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Importación de semeyes</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>Importáronse %1/%2 semeyes</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>Importáronse %1 semeyes, %2 non</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>Desaniciáronse %1/%2 semeyes</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Ensin escaláu</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Axustar la páxina a la imaxe</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Axustar la imaxe a la páxina</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Escalar a:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Milímetros</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Centímetros</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Pulgaes</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Posición de les imáxenes</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Escaláu</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Axustes d&apos;imaxe</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Axustes d&apos;imaxe</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>Númberu de semeyes na esbilla: %1</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4.</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Voltiar a la derecha</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Importando…</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

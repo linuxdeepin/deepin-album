@@ -138,7 +138,9 @@ public:
     //过滤显示选中类型
     void showAppointTypeItem(ItemType type);//zynew
     //显示类型数量
-    int filterTypeItemCount(ItemType type);//zynew
+    int getAppointTypeItemCount(ItemType type);//zynew
+    //显示指定类型选中项数量
+    int getAppointTypeSelectItemCount(ItemType type);//zynew
     //按类型选择
     void selectAllByItemType(ItemType type);//zynew
     //时间线所有选择按钮响应ctrl+all快捷键，切换按钮状态

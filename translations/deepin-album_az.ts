@@ -59,14 +59,6 @@
         <translation>Sevimlilər</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Hamısını silmək</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Silmək</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Və ya fotoşəkilləri buraya atın</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Fotoşəkillər onda göstərilən vaxt bitdikdən sonra birdəfəlik silinəcəkdir</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Bərpa etmək</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 foto silindi</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Buraya idxal etmək:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disk</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>İdxal</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">günlər</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Adsız</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 şifrələnib</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 həcm</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Silinir...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>İdxal edilir...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Bərpa edilir...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Qalareya</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Qalareya</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Baza məlumatları</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Təfərrüatlar</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>günlər</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Qalareya</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Qalareya</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Şəkilləri idxal etmək</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Və ya fotoşəkilləri buraya atın</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Qalareya</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Silmək</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Adsız</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Albomlar</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 fotoşəkil</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Fotoşəkil məlumatları</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Bəzi fotolar idxal edilməyib</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Fotoşəkilləri idxal etmə</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Şəkilləri idxal etmək</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 fotoşəkil idxal edildi</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 fotoşəkil idxal edildi, %2 fotoşəkil idxal edilə bilmədi</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fotoşəkil silindi</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -734,7 +642,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Nəticə yoxdur</translation>
     </message>
 </context>
 <context>
@@ -742,56 +650,6 @@
     <message>
         <source>System Disk</source>
         <translation>Sistem diski</translation>
-    </message>
-</context>
-<context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Miqyaslamadan</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Səhifəni şəkil ölçüsünə sığışdırmaq</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Şəkili səhifəyə sığışdırmaq</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Bu qədər miqyaslamaq:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Millimetr</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Santimetr</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">düym</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Təsvir imkanları</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Miqyaslamaq</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Görüntü ayarları</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Görüntü ayarları</translation>
     </message>
 </context>
 <context>
@@ -817,14 +675,6 @@
         <translation>%1 foto silindi</translation>
     </message>
     <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Buraya idxal olundu:</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Buraya idxal olundu:</translation>
     </message>
@@ -838,11 +688,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Hamısını seçin</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Bütün seçimləri ləğv edin</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -858,7 +708,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Hamısı</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -870,7 +720,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Nəticələr yoxdur</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Saat əqrəbi istiqamətinə döndərmək</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>İdxal edilir...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -32,6 +32,7 @@
 #include "utils/unionimage.h"
 #include "utils/baseutils.h"
 #include "albumgloabl.h"
+#include "player_engine.h"
 #include "imagedataservice.h"
 
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
@@ -391,6 +392,7 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
             info.itemType = static_cast<ItemType>(query.value(6).toInt());
             ImageDataSt imgData;
             imgData.dbi = info;
+            m_AllImageData[info.filePath] = imgData;
             m_AllImageDataVector.append(imgData);
         }
     }

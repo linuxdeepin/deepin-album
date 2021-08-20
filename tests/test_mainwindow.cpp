@@ -59,7 +59,6 @@ TEST(MainWindow, noPicTab)
 {
     TEST_CASE_NAME("noPicTab")
     MainWindow *w = dApp->getMainWindow();
-    w->onLoadingFinished();
     w->getButG();
     w->allPicBtnClicked();
 
@@ -147,7 +146,6 @@ TEST(MainWindow, Picimport)
     }
     qDebug() << "Picture count = " << list.size() << list.at(0);
     MainWindow *w = dApp->getMainWindow();
-    w->onLoadingFinished();
     w->getButG();
     w->allPicBtnClicked();
 
@@ -2339,7 +2337,6 @@ TEST(MainWindow, callFuncitons_test)
 
     QTimerEvent timeEvent(100);
     w->m_slidePanel->timerEvent(&timeEvent);
-    w->m_pSearchView->onFinishLoad();
     w->m_pSearchView->onKeyDelete();
 
     AlbumImageButton imageButton;

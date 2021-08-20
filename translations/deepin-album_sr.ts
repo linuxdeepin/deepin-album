@@ -59,14 +59,6 @@
         <translation>Омиљено</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Обриши све</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Обриши</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Или првуци слике овде</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Слике ће бити трајно обрисане након датума приказаног на њима</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Врати</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 слика(е) изабрано</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Увези у:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Диск</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Увезено</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">дана</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Неименовано</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 шифровано</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 диск</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Брисање...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Увоз...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Враћање...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Галерија</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Галерија</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Основни подаци</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Детаљи</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>дана</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Галерија</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Галерија</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Увези слике</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Или првуци слике овде</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Галерија</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Обриши</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Неименовано</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Албуми</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 слика(е)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Подаци слике</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Подешавања</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Неке слике нису увезене</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Увези слику</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Увези слике</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 слика(е) увезено</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 слика(е) увезено, %2 слика(е) није</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 слика(е) обрисано</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -734,7 +642,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Нема резултата</translation>
     </message>
 </context>
 <context>
@@ -742,56 +650,6 @@
     <message>
         <source>System Disk</source>
         <translation>Системски диск</translation>
-    </message>
-</context>
-<context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Без скалирања</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Прилагоди страницу слици</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Прилагоди слику страници</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Скалирај у:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Милиметри</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Сантиметри</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Инчи</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Позиција слике</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Скалирање</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Подешавање слике</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Подешавање слике</translation>
     </message>
 </context>
 <context>
@@ -817,14 +675,6 @@
         <translation>%1 слика(е) изабрано</translation>
     </message>
     <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Увезено </translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Увезено</translation>
     </message>
@@ -838,11 +688,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Изабери све</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Поништи све</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -858,7 +708,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Све</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -870,7 +720,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Нема резултата</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Ротирај удесно</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Увоз...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

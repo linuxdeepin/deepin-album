@@ -59,14 +59,6 @@
         <translation>Sinedoù</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Dilemel pep-tra</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Dilemel</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Pe laoskit fotoioù amañ</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Dilamet e vo da virviken ar fotoioù goude an niver a zevezhioù diskouezet warno</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Adsevel</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 a fotoioù diuzet</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Emporzhiañ davet:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disk</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Emporzhiañ</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">devezhioù</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Dizanvet</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 Enkriptet</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 Live-son</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>O tilemel...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Oc&apos;h emporzhiañ...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Oc&apos;h adsevel...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Katalog</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Katalog</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Titouroù diazez</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Munudoù</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>devezhioù</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Katalog</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Katalog</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Emporzhiañ ar fotoioù</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Pe laoskit fotoioù amañ</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Katalog</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Dilemel</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Chomet dizanv</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Albomoù</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 a fotoioù</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Titouroù ar skeudenn</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Arventennoù</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Fotoioù &apos;zo n&apos;int ket bet emporzhiet</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Emporzhiañ fotoioù</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Emporzhiañ ar fotoioù</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 a fotoioù emporzhiet</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 a fotoioù emporzhiet, %2 a fotoioù c&apos;hwitet</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 a fotoioù dilamet</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Skeuliaouiñ ebet</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Keidañ ar bajennad d&apos;ar skeudenn</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Keidañ ar skeudenn gant ar bajennad</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Skeul da:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Milimetroù</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Sañtimetroù</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Meudadoù</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Lec&apos;hiadur ar skeudenn</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">O skeuliaouiñ</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Arventennoù ar skeudennoù</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Arventennoù ar skeudenn</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 a fotoioù diuzet</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Emporzhiañ e-barzh</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Treiñ er memes tu hag an horolaj</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Oc&apos;h emporzhiañ...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

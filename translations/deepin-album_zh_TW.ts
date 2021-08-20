@@ -59,14 +59,6 @@
         <translation>我的最愛</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">全部刪除</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">刪除</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>或拖曳相片至此</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>相片在刪除前會顯示剩餘天數，之後將永久刪除</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">復原</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>已選擇 %1 張相片</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>匯入至：</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">磁碟</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>匯入</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">天</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">未命名相簿</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>已加密 %1</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 磁碟區</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>正在刪除...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>正在匯入…</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>正在復原...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">相片庫</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">相片庫</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">基本資訊</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">詳細資訊</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>天</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">相片庫</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">相片庫</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>匯入相片</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>或拖曳相片至此</translation>
+        <source>Import Photos and Videos</source>
+        <translation>導入照片和影片</translation>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">相片庫</translation>
+        <source>Or drag them here</source>
+        <translation>您也可以拖拽照片和影片到此</translation>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>刪除</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">未命名相簿</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>相簿</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 張相片</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>相片資訊</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>設定</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">部分相片匯入失敗</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>匯入相片</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>匯入相片</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>已匯入 %1 張，共 %2 張</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 張匯入成功，%2 張匯入失敗</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>已刪除 %1 張，共 %2張</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">無縮放</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">圖像適應頁面</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">頁面適應圖像</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">縮放至：</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">毫米</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">公分</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">英寸</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">圖像位置</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">縮放</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">圖像設定</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">圖像設定</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>已選擇%1張相片</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1年%2月%3日 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">匯入於</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>順時針旋轉</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>正在導入，請稍候…</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation>已導入%1/%2項</translation>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation>已刪除%1/%2項</translation>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation>%1個項目導入成功，%2個項目導入失敗</translation>
     </message>
 </context>
 <context>

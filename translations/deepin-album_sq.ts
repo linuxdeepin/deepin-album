@@ -59,14 +59,6 @@
         <translation>Të parapëlqyerit</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Fshiji Krejt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Fshije</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Ose tërhiqni foto këtu</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Fotot do të fshihen përgjithmonë pas ditëve të shfaqura në të </translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Riktheje</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 foto(t) e përzgjedhur</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Importo te:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disk</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importo</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">ditë</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">I paemër</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 i Fshehtëzuar</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>Vëllim %1</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Po fshihet…</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Po importohet…</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Po rikthehet…</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Të dhëna elementare</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Hollësi</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>ditë</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Importo Foto</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Ose tërhiqni foto këtu</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Fshije</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">I paemër</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Albume</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(t)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Të dhëna fotoje</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Rregullime</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Disa foto s’u importuan</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importo foto</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Importo Foto</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 foto të importuara</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>U importuan %1 foto, %2 foto me dështim importimi</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>U fshinë %1/%2 foto</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -734,7 +642,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Pa përfundime</translation>
     </message>
 </context>
 <context>
@@ -742,56 +650,6 @@
     <message>
         <source>System Disk</source>
         <translation>Disk Sistemi</translation>
-    </message>
-</context>
-<context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Pa ripërmasim</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Përshtatja faqen figurës</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Përshtatja figurën faqes</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Ripërmasoje sa:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Milimetra</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Centimetra</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Inç</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Pozicion Figure</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Ripërmasim</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Rregullime Figure</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Rregullime Figure</translation>
     </message>
 </context>
 <context>
@@ -817,14 +675,6 @@
         <translation>%1 foto(t) e përzgjedhur</translation>
     </message>
     <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1%2%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Importoje te</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importuar më</translation>
     </message>
@@ -838,11 +688,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Përzgjidhe Krejt</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Shpërzgjidhe Krejt</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -858,7 +708,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Krejt</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -870,7 +720,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Pa përfundime</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Rrotulloje në kahun orar</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Po importohet…</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -49,6 +49,7 @@ using namespace Dtk::Widget;
     int main(int argc, char *argv[]) \
     { \
         DApplication *dAppNew = new DApplication(argc, argv); \
+        setlocale(LC_NUMERIC, "C"); \
         dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps); \
         dAppNew->setOrganizationName("deepin"); \
         dAppNew->setApplicationName("deepin-album"); \

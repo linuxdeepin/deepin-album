@@ -38,7 +38,7 @@
 #include "dbmanager/dbmanager.h"
 #include "application.h"
 #include "controller/signalmanager.h"
-#include "player_engine.h"
+#include "playlist_model.h"
 #include "albumgloabl.h"
 #include "imagedataservice.h"
 
@@ -52,7 +52,7 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
     QString value = mds.value("DateTimeOriginal");
     dbi.fileName = srcfi.fileName();
     dbi.filePath = srcpath;
-    dbi.dirHash = utils::base::hash(QString());
+    dbi.dirHash = utils::base::hashByString(QString());
     if (!value.isEmpty()) {
         dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
     } else if (!srcfi.birthTime().isValid()) {
@@ -1064,6 +1064,8 @@ makeThumbnailThread::makeThumbnailThread()
 
 makeThumbnailThread::~makeThumbnailThread()
 {
+    delete  m_playlistModel;
+    m_playlistModel = nullptr;
 }
 
 void makeThumbnailThread::saveCache(QString m_path)
@@ -1088,7 +1090,11 @@ void makeThumbnailThread::saveCache(QString m_path)
 
     QString errMsg;
     if (isVideo(m_path)) {
-        tImg = m_playerEngine->getMovieCover(QUrl::fromLocalFile(m_path));
+        tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(m_path));
+        bool is = false;
+        //获取视频信息 demo
+        dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+        ImageDataService::instance()->addMovieDurationStr(m_path, mi.durationStr());
     } else {
         if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
             qDebug() << errMsg;
@@ -1147,7 +1153,9 @@ bool makeThumbnailThread::isVideo(QString path)
 
 void makeThumbnailThread::run()
 {
-    m_playerEngine = new dmr::PlayerEngine(nullptr);
+    if (m_playlistModel == nullptr) {
+        m_playlistModel = new dmr::PlaylistModel(nullptr);
+    }
 
     while (!m_obj->isEmpty() && !needStop && !ImageEngineApi::instance()->closeFg()) {
         QString res = m_obj->pop();
@@ -1156,8 +1164,6 @@ void makeThumbnailThread::run()
         }
     }
 
-    delete  m_playerEngine;
-    m_playerEngine = nullptr;
     qDebug() << "Cachethread end,there threads:" << ImageEngineApi::instance()->CacheThreadNum() - 1;
 }
 

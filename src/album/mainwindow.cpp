@@ -226,7 +226,6 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::exportImage, this, &MainWindow::onExportImage);
     connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &MainWindow::onNewAPPOpen);
-    connect(dApp, &Application::sigFinishLoad, this, &MainWindow::onLoadingFinished);
     //右下角滑动条
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, &MainWindow::onMainwindowSliderValueChg);
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, &MainWindow::onAlbDelToast);
@@ -1351,18 +1350,6 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     this->activateWindow();
 }
 
-//主程序加载完毕，更新搜索框是否可用
-void MainWindow::onLoadingFinished()
-{
-//    m_pTimeLineBtn->setEnabled(true);
-//    m_pAlbumBtn->setEnabled(true);
-    if (0 < DBManager::instance()->getImgsCount()) {
-        m_pSearchEdit->setEnabled(true);
-    } else {
-        m_pSearchEdit->setEnabled(false);
-    }
-}
-
 QButtonGroup *MainWindow::getButG()
 {
     return (nullptr != static_cast<QButtonGroup *>(btnGroup) ? btnGroup : nullptr);
@@ -1901,7 +1888,7 @@ void MainWindow::onPopupWaitDialog(QString waittext, bool bneedprogress)
         m_waitlabel->show();
         m_waitdailog->show();
     } else {
-        if (!waittext.compare(tr("Importing..."))) {
+        if (waittext.compare(tr("Importing..."), Qt::CaseInsensitive)) {
             m_bImport = true;
         } else {
             m_bImport = false;
@@ -1983,7 +1970,7 @@ void MainWindow::onAlbDelToast(QString str1)
 void MainWindow::onAddDuplicatePhotos()
 {
     QIcon icon;
-    QString str = tr("Photos already exist");
+    QString str = QObject::tr("The photo/video already exists");
     floatMessage(str, icon);
 }
 

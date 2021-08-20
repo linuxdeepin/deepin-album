@@ -265,19 +265,15 @@ void AlbumView::initConnections()
     connect(m_favoriteThumbnailList, &ThumbnailListView::sigMouseMove, this, &AlbumView::ongMouseMove);
     // 解决最近删除页面ctrl+all选择所有图片，恢复按钮为灰色的问题
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::onSelectAll);
-    connect(m_favoriteThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
-    connect(m_customThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
-    connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
 #endif
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     //todo
-//    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::onInsertedIntoAlbum);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateAlbumView);
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
-    connect(dApp, &Application::sigFinishLoad, this, &AlbumView::onFinishLoad);
     connect(m_customThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::onOpenImageCustom);
     connect(m_favoriteThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::onOpenImageFav);
     connect(m_pLeftListView, &LeftListView::sigSlideShow, this, &AlbumView::onSlideShowCustom);
@@ -303,18 +299,18 @@ void AlbumView::initConnections()
     connect(m_pLeftListView->m_pCustomizeListView, &LeftListWidget::signalDropEvent, this, &AlbumView::onLeftListDropEvent);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &AlbumView::onThemeTypeChanged);
 #if 1
-    connect(m_customThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
-    connect(m_favoriteThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::updatePicNum);
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::customContextMenuRequested, this, &AlbumView::onRightPhoneCustomContextMenuRequested);
-    connect(m_customThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
-    connect(m_favoriteThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::updatePicNum);
-    connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::updatePicNum);
     connect(m_pRightPhoneThumbnailList, &ThumbnailListView::sigMouseRelease, this, &AlbumView::onRightPhoneThumbnailListMouseRelease);
     connect(m_pImpTimeLineView, &ImportTimeLineView::sigUpdatePicNum, this, &AlbumView::updatePicNum);
     //筛选显示，当先列表中内容为无结果
     connect(m_pImpTimeLineView, &ImportTimeLineView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
+    //缩略图选中项发生变化
+    //已导入
+    connect(m_pImpTimeLineView->getListView()->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &AlbumView::sltSelectionChanged);
+    //自定义相册
+    connect(m_customThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &AlbumView::sltSelectionChanged);
 #endif
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AlbumView::onImportViewImportBtnClicked);
@@ -1796,31 +1792,32 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
 
 void AlbumView::updatePicNum()
 {
-    QString str = tr("%1 photo(s) selected");
-    int selPicNum = 0;
+    int photoSelctCount = 0;
+    int videoSelctCount = 0;
     if (RIGHT_VIEW_SEARCH == m_pRightStackWidget->currentIndex()) {
-        QStringList paths = m_pSearchView->m_pThumbnailListView->selectedPaths();
-        selPicNum = paths.length();
+        photoSelctCount = m_pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypePic);
+        videoSelctCount = m_pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypeVideo);
     } else {
         if (m_currentAlbum == COMMON_STR_TRASH) {
-            QStringList paths = m_pRightTrashThumbnailList->selectedPaths();
-            selPicNum = paths.length();
+            photoSelctCount = m_pRightTrashThumbnailList->getAppointTypeSelectItemCount(ItemTypePic);
+            videoSelctCount = m_pRightTrashThumbnailList->getAppointTypeSelectItemCount(ItemTypeVideo);
         } else if (m_currentAlbum == COMMON_STR_FAVORITES) {
-            QStringList paths = m_favoriteThumbnailList->selectedPaths();
-            selPicNum = paths.length();
+            photoSelctCount = m_favoriteThumbnailList->getAppointTypeSelectItemCount(ItemTypePic);
+            videoSelctCount = m_favoriteThumbnailList->getAppointTypeSelectItemCount(ItemTypeVideo);
         } else if (m_currentAlbum == COMMON_STR_RECENT_IMPORTED) {
-            QStringList paths = m_pImpTimeLineView->selectPaths();
-            selPicNum = paths.length();
+            photoSelctCount = m_pImpTimeLineView->getListView()->getAppointTypeSelectItemCount(ItemTypePic);
+            videoSelctCount = m_pImpTimeLineView->getListView()->getAppointTypeSelectItemCount(ItemTypeVideo);
         } else if (RIGHT_VIEW_PHONE == m_pRightStackWidget->currentIndex()) {
-            QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
-            selPicNum = paths.length();
+            photoSelctCount = m_pRightPhoneThumbnailList->getAppointTypeSelectItemCount(ItemTypePic);
+            videoSelctCount = m_pRightPhoneThumbnailList->getAppointTypeSelectItemCount(ItemTypeVideo);
         } else {
-            QStringList paths = m_customThumbnailList->selectedPaths();
-            selPicNum = paths.length();
+            photoSelctCount = m_customThumbnailList->getAppointTypeSelectItemCount(ItemTypePic);
+            videoSelctCount = m_customThumbnailList->getAppointTypeSelectItemCount(ItemTypeVideo);
         }
     }
-    if (0 < selPicNum) {
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+
+    if (photoSelctCount > 0 || videoSelctCount > 0) {
+        m_pStatusBar->resetSelectedStatue(photoSelctCount, videoSelctCount);
     } else {
         restorePicNum();
     }
@@ -1828,32 +1825,36 @@ void AlbumView::updatePicNum()
 
 void AlbumView::restorePicNum()
 {
-    QString str = tr("%1 photo(s)");
-    int selPicNum = 0;
+    int photoCount = 0;
+    int videoCount = 0;
     if (4 == m_pRightStackWidget->currentIndex()) {
-        selPicNum = m_pSearchView->m_searchPicNum;
+        photoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
+        videoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
     } else {
         if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
-            selPicNum = DBManager::instance()->getImgsCount();
+            photoCount = m_pImpTimeLineView->getListView()->getAppointTypeItemCount(ItemTypePic);
+            videoCount = m_pImpTimeLineView->getListView()->getAppointTypeItemCount(ItemTypeVideo);
         } else if (COMMON_STR_TRASH == m_currentAlbum) {
-            selPicNum = DBManager::instance()->getTrashImgsCount();
+            photoCount = m_pRightTrashThumbnailList->getAppointTypeItemCount(ItemTypePic);
+            videoCount = m_pRightTrashThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
-            selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
+            photoCount = m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypePic);
+            videoCount = m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
+        } else if (RIGHT_VIEW_PHONE == m_pRightStackWidget->currentIndex()) {
+            photoCount = m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypePic);
+            videoCount = m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
         } else {
-            if (5 == m_pRightStackWidget->currentIndex()) {
-                selPicNum = m_mountPicNum;
-            } else {
-                //CUSTOM
-                selPicNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
-            }
+            photoCount = m_customThumbnailList->getAppointTypeItemCount(ItemTypePic);
+            videoCount = m_customThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
         }
     }
-    if (selPicNum <= 0) {
+    if ((photoCount + videoCount) <= 0) {
         m_pStatusBar->setVisible(false);
     } else {
         m_pStatusBar->setVisible(true);
     }
-    m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+
+    m_pStatusBar->resetUnselectedStatue(photoCount, videoCount);
 }
 
 void AlbumView::paintEvent(QPaintEvent *event)
@@ -1915,13 +1916,6 @@ void AlbumView::onInsertedIntoAlbum(const QString &albumname, QStringList pathli
     }
     if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentAlbum) //如果需要更新的为当前界面
         updateRightView();
-}
-
-void AlbumView::onFinishLoad()
-{
-    m_customThumbnailList->update();
-    m_favoriteThumbnailList->update();
-    m_pRightTrashThumbnailList->update();
 }
 
 void AlbumView::onFileSystemAdded(const QString &dbusPath)
@@ -2213,6 +2207,11 @@ void AlbumView::slotNoPicOrNoVideo(bool isNoResult)
     } else {
         updatePicNum();
     }
+}
+
+void AlbumView::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    updatePicNum();
 }
 
 void AlbumView::resizeEvent(QResizeEvent *e)

@@ -175,7 +175,6 @@ private slots:
     void ongMouseMove();
     void onSelectAll();
     void onInsertedIntoAlbum(const QString &albumname, QStringList pathlist);
-    void onFinishLoad();
     void onFileSystemAdded(const QString &dbusPath);
     void onBlockDeviceAdded(const QString &blks);
     void onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
@@ -191,6 +190,8 @@ private slots:
     void sltLoadMountFileList(const QString &path, QStringList fileList);
     //筛选显示，当先列表中内容为无结果
     void slotNoPicOrNoVideo(bool isNoResult);
+    //缩略图选中项改变
+    void sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;

@@ -59,14 +59,6 @@
         <translation>즐겨찾기</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">모두 삭제</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">삭제</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>또는 사진을 여기로 끌어다 놓기</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>사진들은 표시된 날 이후에 영구적으로 삭제됩니다.</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">복원</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>사진 %1장 선택됨</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>가져오기 대상:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">디스크</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>가져오기</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">일간</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">이름 미지정</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 암호화됨</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 볼륨</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>삭제중...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>가져오는 중...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>복원중...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">갤러리</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">갤러리</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">기본 정보</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">세부 정보</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>일간</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">갤러리</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">갤러리</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>사진 가져오기</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>또는 사진을 여기로 끌어다 놓기</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">갤러리</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>삭제</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">이름 미지정</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>앨범</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">사진 %1장</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>사진 정보</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>설정</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">일부 사진은 가져오지 못했습니다</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>사진 가져오기</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>사진 가져오기</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>사진 %1/%2장 가져옴</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>사진 %1장을 가져왔고, 사진 %2장은 실패했습니다</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>사진 %1/%2장 삭제됨</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">크기조정 없음</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">이미지에 페이지 맞추기</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">페이지에 이미지 맞추기</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">배율 조정:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">밀리미터</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">센티미터</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">인치</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">이미지 위치</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">크기조정</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">이미지 설정</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">이미지 설정</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>사진 %1장 선택됨</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">가져오기 위치</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>시계 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>가져오는 중...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

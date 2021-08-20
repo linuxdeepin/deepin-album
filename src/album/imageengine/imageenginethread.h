@@ -25,7 +25,7 @@
 #include <QMutex>
 #include <QUrl>
 #include "imageengineobject.h"
-#include "player_engine.h"
+#include "playlist_model.h"
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo = false);
 
@@ -259,7 +259,7 @@ private:
     ImageCacheSaveObject *m_obj = nullptr;
     bool needStop = false;
     QStringList m_videoSupportType;
-    dmr::PlayerEngine *m_playerEngine = nullptr;
+    dmr::PlaylistModel *m_playlistModel = nullptr;
 };
 
 #include <QWaitCondition>

@@ -54,7 +54,6 @@ TEST(TimeLineView, T1)
     t->m_pStatusBar->m_pSlider->setValue(9);
     t->m_pStatusBar->m_pSlider->setValue(10);
     t->m_pStatusBar->m_pSlider->setValue(4);
-    t->onFinishLoad();
 
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
     QTest::qWait(500);

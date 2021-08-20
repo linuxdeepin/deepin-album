@@ -34,7 +34,7 @@ namespace {
 const QString DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                               + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator();
 const QString DATABASE_NAME = "deepinalbum.db";
-const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
+const QString EMPTY_HASH_STR = utils::base::hashByString(QString(" "));
 
 }  // namespace
 
@@ -234,7 +234,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
         filepaths << info.filePath;
-        pathhashs << utils::base::hash(info.filePath);
+        pathhashs << utils::base::hashByString(info.filePath);
         dirs << info.dirHash;
         times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
@@ -285,7 +285,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
     DBImgInfoList infos;
     QStringList pathHashs;
     for (QString path : paths) {
-        pathHashs << utils::base::hash(path);
+        pathHashs << utils::base::hashByString(path);
         infos.append(getImgInfos("FilePath", path, false));
     }
     QMutexLocker mutex(&m_mutex);
@@ -349,7 +349,7 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     // Collect info before removing data
     QStringList pathHashs;
     for (QString path : paths) {
-        pathHashs << utils::base::hash(path);
+        pathHashs << utils::base::hashByString(path);
     }
 
     QSqlQuery query(db);
@@ -448,7 +448,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album, AlbumDBType
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    bool b = query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime "
+    bool b = query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.FileType, i.Time, i.ChangeTime, i.ImportTime "
                            "FROM ImageTable3 AS i, AlbumTable3 AS a "
                            "WHERE i.PathHash=a.PathHash "
                            "AND a.AlbumName=:album "
@@ -463,7 +463,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album, AlbumDBType
             DBImgInfo info;
             info.filePath = query.value(0).toString();
             info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
+            info.itemType = static_cast<ItemType>(query.value(2).toInt());
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
@@ -520,7 +520,7 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path, Alb
         db.close();
         return false;
     }
-    query.bindValue(":hash", utils::base::hash(path));
+    query.bindValue(":hash", utils::base::hashByString(path));
     query.bindValue(":album", album);
     query.bindValue(":atype", atype);
     if (query.exec()) {
@@ -572,7 +572,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths, 
     QVariantList atypes;
     for (QString path : paths) {
         nameRows << album;
-        pathHashRows << utils::base::hash(path);
+        pathHashRows << utils::base::hashByString(path);
         atypes << atype;
     }
     QSqlQuery query(db);
@@ -626,7 +626,7 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
     QVariantList atypes;
     for (QString path : paths) {
         nameRows << album;
-        pathHashRows << utils::base::hash(path);
+        pathHashRows << utils::base::hashByString(path);
         atypes << atype;
     }
 
@@ -703,7 +703,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths, 
     QStringList pathHashs;
     QVariantList atypes;
     for (QString path : paths) {
-        pathHashs << utils::base::hash(path);
+        pathHashs << utils::base::hashByString(path);
         atypes << atype;
     }
     QSqlQuery query(db);
@@ -1227,7 +1227,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
         filepaths << info.filePath;
-        pathhashs << utils::base::hash(info.filePath);
+        pathhashs << utils::base::hashByString(info.filePath);
         dirs << info.dirHash;
         times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
@@ -1284,7 +1284,7 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
 //    DBImgInfoList infos;
     QStringList pathHashs;
     for (QString path : paths) {
-        pathHashs << utils::base::hash(path);
+        pathHashs << utils::base::hashByString(path);
 //        infos << getInfoByPath(path);
     }
 
@@ -1334,7 +1334,7 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
 //    DBImgInfoList infos;
     QStringList pathHashs;
     for (QString path : paths) {
-        pathHashs << utils::base::hash(path);
+        pathHashs << utils::base::hashByString(path);
 //        infos << getInfoByPath(path);
     }
 

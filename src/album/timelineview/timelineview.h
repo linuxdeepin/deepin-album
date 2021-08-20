@@ -86,7 +86,6 @@ public slots:
     void slotNoPicOrNoVideo(bool isNoResult);
     //更新布局（旋转图片时）
     void updataLayout(QStringList updatePathList);
-    void onFinishLoad();
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
@@ -97,6 +96,8 @@ public slots:
 
     //进入批量状态
     void slotBatchSelectChanged(bool isBatchSelect);
+    //缩略图选中项改变
+    void sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 private:
     QLayout *m_mainLayout;
     QList<QString> m_timelines;

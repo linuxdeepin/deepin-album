@@ -59,14 +59,6 @@
         <translation>Kegemaran</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Padam Semua</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Padam</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Atau seret foto di sini</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Foto-foto akan kekal terpadam selepas hari ditunjuk padanya</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Pulih</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 foto terpilih</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Import ke:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Cakera</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Import</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">hari</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Tidak bernama</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 Disulitkan</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>Volum %1</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Memadam...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Mengimport...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Memulihkan...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Maklumat asas</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Perincian</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>hari</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Import Foto</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Atau seret foto di sini</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeri</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Padam</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Tidak bernama</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Album</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Maklumat foto</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Tetapan</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Sesetengah foto tidak dapat diimport</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Import foto</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Import Foto</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 foto diimport</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 foto diimport, %2 foto gagal</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 foto dipadam</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Tiada penskalaan</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Suai muat halaman ikut imej</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Suai muat imej ikut halaman</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Skala pada:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Millimeter</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Sentimeter</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Inci</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Kedudukan Foto</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Penskalaan</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Tetapan Imej</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Tetapan Imej</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 foto terpilih</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Import pada</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Putar ikut jam</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Mengimport...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

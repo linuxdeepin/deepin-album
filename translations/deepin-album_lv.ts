@@ -59,14 +59,6 @@
         <translation>Izlase</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Dzēst visu</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Dzēst</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Vai ievelciet fotoattēlus šeit</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Fotoattēli tiks neatgriezeniski izdzēsti pēc uz tiem norādītajam dienām</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Atjaunot</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>Atlasīti %1 fotoattēls(i)</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Importēt uz:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disks</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importēt</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">dienas</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Nenosaukts</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 Šifrēts</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 Sējums</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Tiek dzēsts...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Tiek importēts...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Atjauno...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Pamatinformācija</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Informācija</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>dienas</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Importēt Fotoattēlus</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Vai ievelciet fotoattēlus šeit</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerija</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Dzēst</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Nenosaukts</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Albumi</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 fotoattēls(i)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Fotoattēla informācija</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Iestatījumi</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Daži fotoattēli netika importēti</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importēt fotoattēlus</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Importēt Fotoattēlus</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 importēti attēli</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 fotoattēli veiksmīgi importēti, %2 fotoattēlu imports neizdevās</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fotoattēli izdzēsti</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Bez mērogošanas</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Pielāgot lapu attēlam</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Pielāgot attēlu lapai</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Mērogot uz:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Milimetri</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Centimetri</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Collas</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Attēla Pozīcija</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Mērogošana</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Attēla iestatījumi</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Attēla iestatījumi</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>atlasīts %1 fotoattēls(i)</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Importēt uz</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Pagrieziet pulksteņrādītāja virzienā</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Tiek importēts...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

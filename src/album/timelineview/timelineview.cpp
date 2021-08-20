@@ -109,10 +109,9 @@ void TimeLineView::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &TimeLineView::clearAndStartLayout);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::clearAndStartLayout);
-    connect(dApp, &Application::sigFinishLoad, this, &TimeLineView::onFinishLoad);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-    connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
+//    connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &TimeLineView::themeChangeSlot);
     connect(pImportView->m_pImportBtn, &DPushButton::clicked, this, &TimeLineView::onImportViewImportBtnClicked);
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &TimeLineView::onImportFailedToView);
@@ -122,6 +121,11 @@ void TimeLineView::initConnections()
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ]() {
         m_suspensionChose->setText(QObject::tr("Unselect"));
     });
+    //缩略图选中项发生变化
+    connect(m_timeLineThumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &TimeLineView::sltSelectionChanged);
+    connect(pSearchView->m_pThumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &TimeLineView::sltSelectionChanged);
 }
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
@@ -199,7 +203,7 @@ void TimeLineView::initTimeLineViewWidget()
     //筛选显示，当先列表中内容为无结果
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigNoPicOrNoVideo, this, &TimeLineView::slotNoPicOrNoVideo);
 
-    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigMouseMove, this, &TimeLineView::updatePicNum);
+//    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigMouseMove, this, &TimeLineView::updatePicNum);
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigMoveToTrash, this, &TimeLineView::onKeyDelete);//跳转
 
     //添加悬浮title
@@ -340,12 +344,6 @@ void TimeLineView::slotTimeLineDataAndNum(QString data, QString num, QString tex
     m_suspensionChose->setText(text);
 }
 
-void TimeLineView::onFinishLoad()
-{
-    //todo
-//    m_mainListWidget->update();
-}
-
 void TimeLineView::onImportViewImportBtnClicked()
 {
     emit dApp->signalM->startImprot();
@@ -416,6 +414,13 @@ void TimeLineView::onSlideShow(QString path)
 void TimeLineView::slotBatchSelectChanged(bool isBatchSelect)
 {
     m_suspensionChose->setVisible(isBatchSelect);
+}
+
+void TimeLineView::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(selected)
+    Q_UNUSED(deselected)
+    updatePicNum();
 }
 
 void TimeLineView:: addTimelineLayout()
@@ -517,7 +522,7 @@ void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
     if (QApplication::keyboardModifiers() != Qt::ControlModifier && e->button() == Qt::LeftButton) {
         m_timeLineThumbnailListView->clearSelection();
-        updatePicNum();
+//        updatePicNum();
         updateChoseText();
     }
     DWidget::mousePressEvent(e);
@@ -540,21 +545,20 @@ void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 
 void TimeLineView::updatePicNum()
 {
-    QString str = QObject::tr("%1 photo(s) selected");
+    int photoSelctCount = 0;
+    int videoSelctCount = 0;
+    if (VIEW_TIMELINE == m_pStackedWidget->currentIndex()) {
+        photoSelctCount = m_timeLineThumbnailListView->getAppointTypeSelectItemCount(ItemTypePic);
+        videoSelctCount = m_timeLineThumbnailListView->getAppointTypeSelectItemCount(ItemTypeVideo);
+    } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
+        photoSelctCount = pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypePic);
+        videoSelctCount = pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypeVideo);
+    }
 
-    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        QStringList paths = pSearchView->m_pThumbnailListView->selectedPaths();
-        m_selPicNum = paths.length();
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(m_selPicNum));
+    if (photoSelctCount > 0 || videoSelctCount > 0) {
+        m_pStatusBar->resetSelectedStatue(photoSelctCount, videoSelctCount);
     } else {
-        allnum = m_timeLineThumbnailListView->selectedPaths().size();
-
-        if (0 == allnum) {
-            restorePicNum();
-        } else {
-            QString str1 = QObject::tr("%1 photo(s) selected");
-            m_pStatusBar->m_pAllPicNumLabel->setText(str1.arg(allnum));
-        }
+        restorePicNum();
     }
 }
 
@@ -567,17 +571,16 @@ void TimeLineView::updateChoseText()
 
 void TimeLineView::restorePicNum()
 {
-    QString str = QObject::tr("%1 photo(s)");
-    int selPicNum = 0;
-
+    int photoCount = 0;
+    int videoCount = 0;
     if (VIEW_TIMELINE == m_pStackedWidget->currentIndex()) {
-        selPicNum = DBManager::instance()->getImgsCount();
-
+        photoCount = m_timeLineThumbnailListView->getAppointTypeItemCount(ItemTypePic);
+        videoCount = m_timeLineThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
     } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        selPicNum = pSearchView->m_searchPicNum;
+        photoCount = pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
+        videoCount = pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
     }
-
-    m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+    m_pStatusBar->resetUnselectedStatue(photoCount, videoCount);
 }
 
 void TimeLineView::onKeyDelete()

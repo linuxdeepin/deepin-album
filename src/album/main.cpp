@@ -201,6 +201,7 @@ int main(int argc, char *argv[])
     int picsize = picSize.value(num);
     int number = ((restoredFrameGeometry.width() - 50) * (restoredFrameGeometry.height() - 50)) / (picsize * picsize);
 
+    setlocale(LC_NUMERIC, "C");
     DBManager::instance();
     ImageDataService::instance();
     ImageEngineApi::instance(dAppNew);

@@ -52,6 +52,10 @@ public:
     void onUpdateAllpicsNumLabel();
     void resizeEvent(QResizeEvent *e) override;
     void paintEvent(QPaintEvent *event) override;
+    //根据已选择照片与视频数量刷新提示
+    void resetSelectedStatue(int photosCount, int videosCount);
+    //显示照片与视频总数
+    void resetUnselectedStatue(int photosCount, int videosCount);
 public:
     DLabel *m_pAllPicNumLabel;
     DSlider *m_pSlider;

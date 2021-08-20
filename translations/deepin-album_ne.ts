@@ -59,14 +59,6 @@
         <translation>मनपर्ने</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">सबै हटाउनुहोस्</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">हटाउनुहोस्</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>वा फोटो यहाँ तान्नुहोस् </translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>फोटोहरू यसमा देखाइएको दिनहरू पछि स्थायी रूपमा हटाउने छन्</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">पुनर्स्थापना गर्नुहोस्</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>% एक फोटो (हरू) चयनित</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>यसमा आयात गर्नुहोस्:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">डिस्क</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>आयात गर्नुहोस्</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">दिनहरु</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">नाम नभएको</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>% १ ईन्क्रिप्टेड</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">% १ </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>% १ खण्ड</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>हटाउँदै ...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>आयात गर्दै ...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>पुनर्स्थापना गर्दै ...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ग्यालरी</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ग्यालरी</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">आधारभूत जानकारी</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">विवरण</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>दिनहरु</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ग्यालरी</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">ग्यालरी</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>फोटोहरू आयात गर्नुहोस्</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>वा फोटो यहाँ तान्नुहोस् </translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">ग्यालरी</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>हटाउनुहोस्</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">नाम नभएको</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>एल्बमहरू</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">% १ फोटो (हरू)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>फोटो जानकारी</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>सेटिंग्स</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">केहि फोटोहरू आयात गरिएको छैन</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>फोटोहरू आयात गर्नुहोस्</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>फोटोहरू आयात गर्नुहोस्</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>% १ /% २ फोटो आयात गरियो</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>% १ फोटो आयात गरियो,% २ फोटो असफल भयो</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>% १ /% २ फोटो हटाइयो</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">कुनै स्केलि छैन</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">इमेज पृष्ठ फिट गर्नुहोस्</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">पृष्ठमा इमेज  फिट गर्नुहोस्</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">स्केल तिर:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">मिलीमीटर</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">सेंटीमीटर</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">ईन्चहरू</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">   इमेज  स्थिति</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">स्केलि</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished"> इमेज सेटिंग्स</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished"> इमेज सेटिंग्स</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>% एक फोटो (हरू) चयनित</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%१%२%३%४ </translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">आयात गर्नुहोस्</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>घडीको दिशामा घुमाउनुहोस्</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>आयात गर्दै ...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -59,14 +59,6 @@
         <translation>Preferits</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Elimina-ho tot</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>O arrossegueu fotos aquí.</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Les fotografies s&apos;eliminaran permanentment després dels dies que s&apos;hi mostren.</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Restaura</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 foto/s seleccionada/es</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Importa-ho a:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disc</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importa</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">dies</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Sense nom</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>Encriptat: %1</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>Volum: %1</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>S&apos;elimina...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>S&apos;importa...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Es restaura...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeria</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeria</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Informació bàsica</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Detalls</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>dies</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeria</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeria</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Importa fotografies</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>O arrossegueu fotos aquí.</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galeria</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Elimina</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Sense nom</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Àlbums</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto/s</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Informació de la fotografia</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Paràmetres</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">No s&apos;han importat algunes fotografies.</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importa fotografies</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Importa fotos</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 fotos importades</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 fotos importades, %2 fotos han fallat</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 fotos eliminades</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -734,7 +642,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Sense resultats</translation>
     </message>
 </context>
 <context>
@@ -742,56 +650,6 @@
     <message>
         <source>System Disk</source>
         <translation>Disc de sistema</translation>
-    </message>
-</context>
-<context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Sense escala</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Ajusta la pàgina a la imatge</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Ajusta la imatge a la pàgina</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Escala a:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Milímetres</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Centímetres</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Polzades</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Posició de la imatge</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Escala</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Paràmetres de la imatge</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Paràmetres de la imatge</translation>
     </message>
 </context>
 <context>
@@ -817,14 +675,6 @@
         <translation>%1 foto/s seleccionada/es</translation>
     </message>
     <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%3/%2/%1 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Importa-ho a:</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importat el</translation>
     </message>
@@ -838,11 +688,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Selecciona-ho tot</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Desmarca-ho tot</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -858,7 +708,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Tot</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -870,7 +720,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Sense resultats</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Gira-la a la dreta</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>S&apos;importa...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

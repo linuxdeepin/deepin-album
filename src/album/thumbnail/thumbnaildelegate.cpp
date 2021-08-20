@@ -228,40 +228,40 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
             str = Text.elidedText(str, Qt::ElideRight, textwidth);
         }
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
-    } else if (data.itemType == ItemTypeVideo) {
-//        QPainterPath bp;
-//        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-//        painter->setClipPath(bp);
-//        painter->setPen(QColor(85, 85, 85, 170)); //边框颜色：灰色
-//        //字符串的像素宽度
-//        const int m_Width = painter->fontMetrics().width(data.remainDays);
-//        painter->setBrush(QBrush(QColor(85, 85, 85, 170)));//填充颜色：灰色
-//        QString str(data.videoDuration);
-//        QFontMetrics Text(str);
+    }
+    if (data.itemType == ItemTypeVideo) {
+        QPainterPath bp;
+        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(bp);
+        painter->setPen(QColor(85, 85, 85, 170)); //边框颜色：灰色
+        //字符串的像素宽度
+        painter->setBrush(QBrush(QColor(85, 85, 85, 170)));//填充颜色：灰色
+        QString str(ImageDataService::instance()->getMovieDurationStrByPath(data.filePath));
+        const int m_Width = painter->fontMetrics().width(str);
+        QFontMetrics Text(str);
 
-//        //2020/3/13-xiaolong
-//        int textwidth = m_Width + 6;        //阴影图框：6：左3像素+右3像素
-//        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
-//        int rectwidth = backgroundRect.width() - 8; //缩略图宽度：总宽度减去选中框宽度8
-//        if (textwidth > rectwidth) { //容纳文字像素的宽度大于缩略图宽度
-//            textwidth = rectwidth - 4;//减少距离：左右各2
-//        }
-//        int tempcha = (rectwidth - textwidth > 4) ? (rectwidth - textwidth - 4) : 4;
-//        int posx = backgroundRect.x() + tempcha;    //剩余天数起始坐标
-//        //文字背景圆角矩形框弧度，与字号相关
-//        int radious = 6;
-//        if (textheight < 14) {
-//            radious = 4;
-//        }
+        //2020/3/13-xiaolong
+        int textwidth = m_Width + 6;        //阴影图框：6：左3像素+右3像素
+        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
+        int rectwidth = backgroundRect.width() - 8; //缩略图宽度：总宽度减去选中框宽度8
+        if (textwidth > rectwidth) { //容纳文字像素的宽度大于缩略图宽度
+            textwidth = rectwidth - 4;//减少距离：左右各2
+        }
+        int posx = backgroundRect.x() + backgroundRect.width() - m_Width - 16;  //时长起始坐标
+        //文字背景圆角矩形框弧度，与字号相关
+        int radious = 6;
+        if (textheight < 14) {
+            radious = 4;
+        }
 
-//        painter->drawRoundedRect(posx, backgroundRect.y() + backgroundRect.height() - textheight - 14,
-//                                 textwidth, textheight + 2, radious, radious); //Y参数：backgroundRect宽度-文字宽度-14边距
+        painter->drawRoundedRect(posx, backgroundRect.y() + backgroundRect.height() - textheight - 14,
+                                 textwidth, textheight + 2, radious, radious); //Y参数：backgroundRect宽度-文字宽度-14边距
 
-//        painter->setPen(QColor(255, 255, 255));
-//        if (m_Width - textwidth > 0) {
-//            str = Text.elidedText(str, Qt::ElideRight, textwidth);
-//        }
-//        painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, "111");
+        painter->setPen(QColor(255, 255, 255));
+        if (m_Width - textwidth > 0) {
+            str = Text.elidedText(str, Qt::ElideRight, textwidth);
+        }
+        painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);
     }
 
     //绘制心形图标
@@ -273,7 +273,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
 
         QPixmap favPixmap;
         favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
-        painter->drawPixmap(20, backgroundRect.y() + backgroundRect.height() - 35, favPixmap);
+        painter->drawPixmap(20, backgroundRect.y() + backgroundRect.height() - 30, favPixmap);
     }
 
     painter->restore();

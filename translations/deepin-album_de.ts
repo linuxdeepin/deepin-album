@@ -59,14 +59,6 @@
         <translation>Favoriten</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Alle löschen</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Löschen</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Oder ziehen Sie die Fotos hierher</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Die Fotos werden nach der angegebenen Anzahl von Tagen gelöscht</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Wiederherstellen</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 Foto(s) ausgewählt</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Importieren nach:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Speichermedium</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importieren</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">Tage</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Ohne Namen</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 verschlüsselt</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 Laufwerk</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Wird gelöscht ...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Wird importiert ...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Wird wiederhergestellt ...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerie</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerie</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Allgemeine Informationen</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Details</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>Tage</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerie</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerie</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Fotos importieren</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Oder ziehen Sie die Fotos hierher</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galerie</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Löschen</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Ohne Namen</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Alben</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 Foto(s)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Foto Info</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Einige Fotos sind nicht importiert worden</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Fotos importieren</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Fotos importieren</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 Fotos importiert</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 Fotos importiert, %2 Fotos fehlgeschlagen</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 Fotos gelöscht</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Keine Skalierung</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Seite an Bild anpassen</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Bild an Seite anpassen</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Skalieren auf:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Millimeter</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Zentimeter</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Zoll</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Bildposition</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Skalierung</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Bildeinstellungen</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Bildeinstellungen</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 Foto(s) ausgewählt</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Importiert am</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Im Uhrzeigersinn drehen</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Wird importiert ...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -90,7 +90,6 @@ private slots:
     //所有照片
 
     void updatePicsIntoThumbnailViewWithCache();
-    void onFinishLoad();
     void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     //打开图片
     void onOpenImage(int row, const QString &path, bool bFullScreen);
@@ -100,6 +99,8 @@ private slots:
     void onImportFailedToView();
     //图片刷新后更新
     void onImgRemoved(const DBImgInfoList &infos);
+    //缩略图选中项改变
+    void sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 public:
     DStackedWidget *m_pStackedWidget = nullptr;

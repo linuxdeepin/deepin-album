@@ -59,14 +59,6 @@
         <translation>ចំណូលចិត្ត</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">លុបទាំងអស់</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">លុប</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>ឬអូសរូបថតនៅទីនេះ</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>រូបថតនឹងត្រូវលុបចោលជាអចិន្ត្រៃយ៍បន្ទាប់ពីថ្ងៃដែលបានបង្ហាញ</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">ស្តារ</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 រូបថត() បានជ្រើសរើស</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>នាំចូលទៅ៖</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">ថាស</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>នាំចូល</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">ថ្ងៃ</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">គ្មានឈ្មោះ</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 បានអ៊ិនគ្រីប</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 ចំនួន</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>កំពុងលុប...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>កំពុងនាំចូល...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>កំពុងស្ដារ...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">វិចិត្រសាល</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">វិចិត្រសាល</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">ព័ត៌មានបឋម</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">ព័ត៌មានលម្អិត</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>ថ្ងៃ</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">វិចិត្រសាល</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">វិចិត្រសាល</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>នាំចូលរូបថត</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>ឬអូសរូបថតនៅទីនេះ</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">វិចិត្រសាល</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>លុប</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">គ្មានឈ្មោះ</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>អាល់ប៊ុម</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 រូបថត()</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>ព័ត៌មានរូបថត</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>ការកំណត់</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">រូបថតខ្លះមិនត្រូវបាននាំចូលទេ</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>នាំចូលរូបថត</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>នាំចូលរូបថត</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 រូបថតបាននាំចូល</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 រូបថតបាននាំចូល, %2 រូបថតបរាជ័យ</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 រូបថតបានលុប</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">គ្មានការធ្វើមាត្រដ្ឋាន</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">សមទំព័រទៅនឹងរូបភាព</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">សមរូបភាពទៅទំព័រ</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">ធ្វើមាត្រដ្ឋានទៅ៖</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">មីល្លីម៉ែត្រ</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">សង់ទីម៉ែត្រ</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">អ៊ីញ</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">ទីតាំងរូបភាព</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">ការធ្វើមាត្រដ្ឋាន</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">ការកំណត់រូបភាព</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">ការកំណត់រូបភាព</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 រូបថត(s) បានជ្រើសរើស</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">នាំចូលលើ</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>បង្វិលតាមទ្រនិចនាឡិកា</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>កំពុងនាំចូល...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

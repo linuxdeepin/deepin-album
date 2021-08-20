@@ -84,7 +84,6 @@ public slots:
     void onOpenImage(int row, const QString &path, bool bFullScreen);
     //幻灯片播放
     void onSlideShow(const QString &path);
-    void onFinishLoad();
 
 private:
     void initConnections();

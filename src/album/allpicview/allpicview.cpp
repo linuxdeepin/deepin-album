@@ -131,7 +131,6 @@ void AllPicView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
-    connect(dApp, &Application::sigFinishLoad, this, &AllPicView::onFinishLoad);
     //有图片删除后，刷新列表
     connect(dApp->signalM, &SignalManager::imagesRemovedPar, this, &AllPicView::onImgRemoved);
     // 添加重复照片提示
@@ -141,16 +140,22 @@ void AllPicView::initConnections()
     //图片旋转后更新图片
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
-    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseMove, this, &AllPicView::updatePicNum);
-    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
-    connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
+//    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseMove, this, &AllPicView::updatePicNum);
+//    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
+//    connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
+
+    //缩略图选中项发生变化
+    connect(m_pThumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &AllPicView::sltSelectionChanged);
+    connect(m_pSearchView->m_pThumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &AllPicView::sltSelectionChanged);
     //筛选显示，当先列表中内容为无结果
     connect(m_pThumbnailListView, &ThumbnailListView::sigNoPicOrNoVideo, this, &AllPicView::slotNoPicOrNoVideo);
-    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
-    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
+//    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
+//    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AllPicView::onImportViewImportBtnClicked);
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &AllPicView::onImportFailedToView);
-    connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
+//    connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AllPicView::onKeyDelete);
     connect(dApp->signalM, &SignalManager::sigMonitorChanged, this, &AllPicView::monitorHaveNewFile);
 }
@@ -231,11 +236,6 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
     restorePicNum();
 }
 
-void AllPicView::onFinishLoad()
-{
-    m_pThumbnailListView->update();
-}
-
 void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
 {
     Q_UNUSED(importPaths)
@@ -309,6 +309,11 @@ void AllPicView::onImgRemoved(const DBImgInfoList &infos)
     updateStackedWidget();
 }
 
+void AllPicView::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    updatePicNum();
+}
+
 ThumbnailListView *AllPicView::getThumbnailListView()
 {
     return m_pThumbnailListView;
@@ -364,6 +369,7 @@ void AllPicView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     fatherwidget->setFixedSize(this->size());
     m_SuspensionWidget->setGeometry(0, 0, width() - 15, SUSPENSION_WIDGET_HEIGHT);
+    updatePicNum();
 }
 //筛选显示，当先列表中内容为无结果
 void AllPicView::slotNoPicOrNoVideo(bool isNoResult)
@@ -380,17 +386,18 @@ void AllPicView::slotNoPicOrNoVideo(bool isNoResult)
 
 void AllPicView::updatePicNum()
 {
-    QString str = tr("%1 photo(s) selected");
-    int selPicNum = 0;
+    int photoSelctCount = 0;
+    int videoSelctCount = 0;
     if (VIEW_ALLPICS == m_pStackedWidget->currentIndex()) {
-        QStringList paths = m_pThumbnailListView->selectedPaths();
-        selPicNum = paths.length();
+        photoSelctCount = m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypePic);
+        videoSelctCount = m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypeVideo);
     } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        QStringList paths = m_pSearchView->m_pThumbnailListView->selectedPaths();
-        selPicNum = paths.length();
+        photoSelctCount = m_pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypePic);
+        videoSelctCount = m_pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypeVideo);
     }
-    if (0 < selPicNum) {
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+
+    if (photoSelctCount > 0 || videoSelctCount > 0) {
+        m_pStatusBar->resetSelectedStatue(photoSelctCount, videoSelctCount);
     } else {
         restorePicNum();
     }
@@ -403,14 +410,16 @@ const ThumbnailListView *AllPicView::getAllPicThumbnailListViewModel()
 
 void AllPicView::restorePicNum()
 {
-    QString str = tr("%1 photo(s)");
-    int selPicNum = 0;
+    int photoCount = 0;
+    int videoCount = 0;
     if (VIEW_ALLPICS == m_pStackedWidget->currentIndex()) {
-        selPicNum = DBManager::instance()->getImgsCount();
+        photoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
+        videoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
     } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        selPicNum = m_pSearchView->m_searchPicNum;
+        photoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
+        videoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
     }
-    m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(selPicNum)));
+    m_pStatusBar->resetUnselectedStatue(photoCount, videoCount);
 }
 
 void AllPicView::onKeyDelete()

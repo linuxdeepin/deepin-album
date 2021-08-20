@@ -146,6 +146,18 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
     }
 }
 
+void ImageDataService::addMovieDurationStr(const QString &path, const QString &durationStr)
+{
+    QMutexLocker locker(&m_imgDataMutex);
+    m_movieDurationStrMap[path] = durationStr;
+}
+
+QString ImageDataService::getMovieDurationStrByPath(const QString &path)
+{
+    QMutexLocker locker(&m_imgDataMutex);
+    return m_movieDurationStrMap[path];
+}
+
 QImage ImageDataService::getThumnailImageByPath(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
@@ -170,6 +182,8 @@ readThumbnailThread::readThumbnailThread()
 
 readThumbnailThread::~readThumbnailThread()
 {
+    delete  m_playlistModel;
+    m_playlistModel = nullptr;
 }
 
 void readThumbnailThread::readThumbnail(QString path)
@@ -188,15 +202,23 @@ void readThumbnailThread::readThumbnail(QString path)
         if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
             qDebug() << errMsg;
         }
+        bool is = false;
+        //获取视频信息 demo
+        dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+        ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
     } else {
         //读图
         if (isVideo(path)) {
-            dmr::PlayerEngine *playerEngine = new dmr::PlayerEngine(nullptr);
+            if (m_playlistModel == nullptr) {
+                m_playlistModel = new dmr::PlaylistModel(nullptr);
+            }
 
-            tImg = playerEngine->getMovieCover(QUrl::fromLocalFile(path));
+            tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(path));
 
-            delete  playerEngine;
-            playerEngine = nullptr;
+            bool is = false;
+            //获取视频信息 demo
+            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+            ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
         } else {
             if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
                 qDebug() << errMsg;

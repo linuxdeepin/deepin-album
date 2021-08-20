@@ -59,14 +59,6 @@
         <translation>ངའི་བསྡུ་ཉར།</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">ཆ་ཚང་སུབ་པ།</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">སུབ་པ།</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>ཁྱོད་ཀྱིས་པར་འདིར་འཐེན་ཡང་ཆོག</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>པར་མ་བསུབ་གོང་ཉིན་གྲངས་དོན་སྲིད་པ་དང་། དེ་རྗེས་ཡོངས་སུ་བསུབ་པ་ཡིན།</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">སོར་ཆུད།</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>པར་%1(སོགས)བདམས་ཟིན།</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>ནང་འདྲེན་བྱེད།</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">སྡུད་སྡེར།</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>ནང་འདྲེན།</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">ཉིན།</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">མིང་བཏགས་མེད་པའི་པར་ཁུག</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>གསང་སྡོམ་%1</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1</translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>བམ་པོ་%1</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>སུབ་བཞིན་པ།</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>པར་ནང་དུ་འདྲེན་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>པར་སོར་ཆུད་བཞིན་ཡོད།</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">པར་མཛོད།</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">པར་མཛོད།</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">གཞི་རྩའི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">ཞིབ་ཕྲའི་ཆ་འཕྲིན།</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>ཉིན།</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">པར་མཛོད།</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">པར་མཛོད།</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>པར་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>ཁྱོད་ཀྱིས་པར་འདིར་འཐེན་ཡང་ཆོག</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">པར་མཛོད།</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>སུབ་པ།</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">མིང་བཏགས་མེད་པའི་པར་ཁུག</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>པར་ཁུག</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">པར་%1</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>སྒྲིག་འགོད།</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">པར་འགའ་ཞིག་ནང་འདྲེན་བྱེད་མ་ཐུབ།</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>པར་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>པར་ནང་དུ་འདྲེན་པ།</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2ནང་འདྲེན་བྱས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1ནང་འདྲེན་བྱས་པ་དང་། %2ནང་འདྲེན་བྱེད་མ་ཐུབ།</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2བསུབས་ཟིན།</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -745,56 +653,6 @@
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">སྐྱེད་སྐྱུང་བྱས་མེད་པ།</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">བརྙན་རིས་ཤོག་ངོས་དང་འཚམ་པ།</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">ཤོག་ངོས་བརྙན་རིས་དང་འཚམ་པ།</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">སྐྱེད་སྐྱུང་།</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">ཧའོ་སྨི།</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">ལི་སྨི།</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">དབྱིན་ཚུན།</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">བརྙན་རིས་གནས་ས།</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">སྐྱེད་སྐྱུང་།</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">བརྙན་རིས་སྒྲིག་འགོད།</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">བརྙན་རིས་སྒྲིག་འགོད།</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -815,14 +673,6 @@
     <message>
         <source>%1 photo(s) selected</source>
         <translation>པར་%1བདམས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">་་་་་དུ་ནང་འདྲེན་བྱེད།</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>གཡས་སྐོར་བརྒྱབ།</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>པར་ནང་དུ་འདྲེན་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

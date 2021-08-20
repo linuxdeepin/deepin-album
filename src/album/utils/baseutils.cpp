@@ -178,9 +178,13 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
     }
 }
 
-QString hash(const QString &str)
+QString hashByString(const QString &str)
 {
-//    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
+    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
+}
+
+QString hashByData(const QString &str)
+{
     QFile file(str);
     QString  stHashValue;
     if (file.open(QIODevice::ReadOnly)) { //只读方式打开
@@ -311,7 +315,7 @@ QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
     QFileInfo temDir(filePath);
     //如果hash为空，制作新的hash
     if (dataHash.isEmpty()) {
-        dataHash = hash(filePath);
+        dataHash = hashByData(filePath);
     }
 
     thumbnailPath = albumGlobal::CACHE_PATH + temDir.path() + "/" + dataHash + ".png";

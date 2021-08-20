@@ -59,14 +59,6 @@
         <translation>Suosikit</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Poista kaikki</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Poista</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>tai vedä valokuvia tähän</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Valokuvat poistetaan pysyvästi siinä näkyvien päivien mukaan</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Palauta</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>%1 kuvaa valittuna</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Tuo kohteeseen:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Levy</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Tuonti</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">päivää</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Nimeämätön</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 salattu</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>%1 Asema</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Poistaminen...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Tuodaan...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Palautetaan...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Perustiedot</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Yksityiskohdat</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>päivää</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Tuo kuvat</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>tai vedä valokuvia tähän</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Poista</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Nimeämätön</translation>
     </message>
     <message>
         <source>Device</source>
@@ -551,10 +479,6 @@
         <translation>Albumit</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 kuvaa</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Kuvan tiedot</translation>
     </message>
@@ -611,28 +535,12 @@
         <translation>Asetukset</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Joitakin valokuvia ei ole tuotu</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Tuo kuvat</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Tuo kuvat</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 valokuvaa tuotu</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 valokuvaa tuotu, %2 kuvaa epäonnistui</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 kuvaa poistettu</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -734,7 +642,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Ei tuloksia</translation>
     </message>
 </context>
 <context>
@@ -742,56 +650,6 @@
     <message>
         <source>System Disk</source>
         <translation>Järjestelmälevy</translation>
-    </message>
-</context>
-<context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Ei skaalausta</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Sovita sivu kuvaan</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Sovita kuva sivulle</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Skaalaa:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Millimetriä</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Senttimetriä</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Tuumaa</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Kuvan sijainti</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Skaalaus</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Kuvan asetukset</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Kuvan asetukset</translation>
     </message>
 </context>
 <context>
@@ -817,14 +675,6 @@
         <translation>%1 kuvaa valittuna</translation>
     </message>
     <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%3/%2/%1 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Tuotu </translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Tuotu </translation>
     </message>
@@ -838,11 +688,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Valitse kaikki</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Poista valinnat</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -858,7 +708,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Kaikki</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -870,7 +720,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Ei tuloksia</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -883,6 +733,22 @@
     <message>
         <source>Rotate clockwise</source>
         <translation>Käännä myötäpäivään</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Tuodaan...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

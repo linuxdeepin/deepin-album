@@ -1492,19 +1492,14 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
 {
     for (int i = 0; i < infoList.size(); ++i) {
         DBImgInfo imgData = infoList.at(i);
-        ImageDataSt data;
-        data.dbi = imgData;
         DBImgInfo info = imgData;
         if (ImageEngineApi::instance()->m_AllImageMap[imgData.filePath].isNull()) {
             info.damagedPixmap = getDamagedPixmap();
         } else {
             info.image = ImageEngineApi::instance()->m_AllImageMap[imgData.filePath];
         }
-        info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
-        info.itemType = data.dbi.itemType;
-        info.videoDuration = data.dbi.videoDuration;
         insertThumbnail(info);
     }
 }
@@ -1677,11 +1672,29 @@ void ThumbnailListView::showAppointTypeItem(ItemType type)
     }
 }
 //显示类型数量
-int ThumbnailListView::filterTypeItemCount(ItemType type)
+int ThumbnailListView::getAppointTypeItemCount(ItemType type)
 {
     int count = 0;
     for (int i = 0;  i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
+        DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        //全选
+        if (type == ItemType::ItemTypeNull) {
+            if (pdata.itemType == ItemTypeVideo || pdata.itemType == ItemTypePic) {
+                count++;
+            }
+        } else if (type == pdata.itemType) {
+            count++;
+        }
+    }
+    return count;
+}
+//显示指定类型选中项数量
+int ThumbnailListView::getAppointTypeSelectItemCount(ItemType type)
+{
+    int count = 0;
+    for (int i = 0;  i < selectedIndexes().size(); i++) {
+        QModelIndex index = selectedIndexes().at(i);
         DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
         //全选
         if (type == ItemType::ItemTypeNull) {
@@ -2011,6 +2024,7 @@ void ThumbnailListView::onClicked(const QModelIndex &index)
     }
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->imageIsLoaded(data.filePath);
+    qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->getMovieDurationStrByPath(data.filePath);
 #ifdef tablet_PC
     if (activeClick && ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
         if (m_imageType.compare(COMMON_STR_TRASH) != 0) {

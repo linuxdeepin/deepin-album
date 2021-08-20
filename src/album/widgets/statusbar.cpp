@@ -161,7 +161,60 @@ void StatusBar::paintEvent(QPaintEvent *event)
     m_pAllPicNumLabel->setPalette(palette);
     return DBlurEffectWidget::paintEvent(event);
 }
+//根据照片与视频数量刷新提示
+void StatusBar::resetSelectedStatue(int photosCount, int videosCount)
+{
+    //只选择照片
+    if (photosCount > 0 && videosCount == 0) {
+        QString photosStr;
+        if (photosCount == 1) {
+            photosStr = QObject::tr("1 photo selected");
+            m_pAllPicNumLabel->setText(photosStr);
+        } else {
+            photosStr = QObject::tr("%1 photos selected");
+            m_pAllPicNumLabel->setText(photosStr.arg(QString::number(photosCount)));
+        }
+    } else if (photosCount == 0 && videosCount > 0) {
+        QString videosStr;
+        if (videosCount == 1) {
+            videosStr = QObject::tr("1 video selected");
+            m_pAllPicNumLabel->setText(videosStr);
+        } else {
+            videosStr = QObject::tr("%1 videos selected");
+            m_pAllPicNumLabel->setText(videosStr.arg(QString::number(videosCount)));
+        }
+    } else if (photosCount > 0 && videosCount > 0) {
+        QString totalStr = QObject::tr("%1 items selected");
+        m_pAllPicNumLabel->setText(totalStr.arg(QString::number(videosCount + photosCount)));
+    }
+}
 
+void StatusBar::resetUnselectedStatue(int photosCount, int videosCount)
+{
+    QString photosStr;
+    if (photosCount == 1) {
+        photosStr = tr("1 photo");
+    } else if (photosCount > 1) {
+        photosStr = tr("%1 photos");
+        photosStr = photosStr.arg(photosCount);
+    }
+
+    QString videosStr;
+    if (videosCount == 1) {
+        videosStr = tr("1 video");
+    } else if (videosCount > 1) {
+        videosStr = tr("%1 videos");
+        videosStr = videosStr.arg(videosCount);
+    }
+
+    if (photosCount > 0 && videosCount == 0) {
+        m_pAllPicNumLabel->setText(photosStr);
+    } else if (photosCount == 0 && videosCount > 0) {
+        m_pAllPicNumLabel->setText(videosStr);
+    } else if (photosCount > 0 && videosCount > 0) {
+        m_pAllPicNumLabel->setText(photosStr + " " + videosStr);
+    }
+}
 
 void StatusBar::timerEvent(QTimerEvent *e)
 {

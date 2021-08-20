@@ -223,7 +223,8 @@ namespace base {
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
 int         stringHeight(const QFont &f, const QString &str);
-QString     hash(const QString &str);
+QString     hashByString(const QString &str);
+QString     hashByData(const QString &str);
 QString     SpliteText(const QString &text, const QFont &font, int nLabelSize);
 QDateTime   stringToDateTime(const QString &time);
 QString     getFileContent(const QString &file);

@@ -33,7 +33,7 @@
 #include <QStandardPaths>
 #include <QDirIterator>
 
-#include "player_engine.h"
+#include "playlist_model.h"
 #include "imagedataservice.h"
 
 DBandImgOperate::DBandImgOperate(QObject *parent)
@@ -45,7 +45,8 @@ DBandImgOperate::DBandImgOperate(QObject *parent)
 
 DBandImgOperate::~DBandImgOperate()
 {
-
+    delete  m_playlistModel;
+    m_playlistModel = nullptr;
 }
 
 void DBandImgOperate::setThreadShouldStop()
@@ -131,14 +132,21 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
         if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
             qDebug() << errMsg;
         }
+        bool is = false;
+        //获取视频信息 demo
+        dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(imagepath), &is);
+        ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
     } else {
         if (isVideo(imagepath)) {
-            dmr::PlayerEngine *playerEngine = new dmr::PlayerEngine(nullptr);
+            if (m_playlistModel == nullptr) {
+                m_playlistModel = new dmr::PlaylistModel(nullptr);
+            }
 
-            tImg = playerEngine->getMovieCover(QUrl::fromLocalFile(imagepath));
-
-            delete  playerEngine;
-            playerEngine = nullptr;
+            tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(imagepath));
+            //获取视频信息 demo
+            bool is = false;
+            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(imagepath), &is);
+            ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
         } else {
             if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
                 qDebug() << errMsg;

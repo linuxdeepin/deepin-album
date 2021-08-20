@@ -24,9 +24,8 @@
 #include <QObject>
 #include <QMap>
 #include <QUrl>
-#include "imageenginethread.h"
-#include "imageengineobject.h"
-#include "thumbnail/thumbnaildelegate.h"
+
+#include "playlist_model.h"
 
 class ImageDataService: public QObject
 {
@@ -48,6 +47,9 @@ public:
     void addImage(const QString &path, const QImage &image);
     QImage getThumnailImageByPath(const QString &path);
     bool imageIsLoaded(const QString &path);
+
+    void addMovieDurationStr(const QString &path, const QString &durationStr);
+    QString getMovieDurationStrByPath(const QString &path);
 private slots:
 signals:
 public:
@@ -59,6 +61,7 @@ private:
     //图片数据锁
     QMutex m_imgDataMutex;
     QMap<QString, QImage> m_AllImageMap;
+    QMap<QString, QString> m_movieDurationStrMap;
     QList<QString> m_imageKey;
 };
 
@@ -75,5 +78,6 @@ private:
     bool isVideo(QString path);
 protected:
     void run() override;
+    dmr::PlaylistModel *m_playlistModel = nullptr;
 };
 #endif // IMAGEDATASERVICE_H

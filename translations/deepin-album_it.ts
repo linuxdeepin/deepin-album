@@ -59,14 +59,6 @@
         <translation>Preferiti</translation>
     </message>
     <message>
-        <source>Delete All</source>
-        <translation type="vanished">Elimina tutte</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
-    </message>
-    <message>
         <source>Or drag photos here</source>
         <translation>Oppure trascina le immagini qui</translation>
     </message>
@@ -83,10 +75,6 @@
         <translation>Le immagini verranno eliminate definitivamente dopo i giorni indicati</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation type="vanished">Ripristina</translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation>Selezione di %1 immagine(i)</translation>
     </message>
@@ -95,20 +83,8 @@
         <translation>Importa in:</translation>
     </message>
     <message>
-        <source>Disk</source>
-        <translation type="vanished">Disco</translation>
-    </message>
-    <message>
         <source>Import</source>
         <translation>Importa</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="vanished">giorni</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Senza nome</translation>
     </message>
     <message>
         <source>System Disk</source>
@@ -255,10 +231,6 @@
         <translation>%1 crittografato</translation>
     </message>
     <message>
-        <source>%1 </source>
-        <translation type="vanished">%1 </translation>
-    </message>
-    <message>
         <source>%1 Volume</source>
         <translation>Volume %1</translation>
     </message>
@@ -292,34 +264,8 @@
         <translation>Eliminazione...</translation>
     </message>
     <message>
-        <source>Importing...</source>
-        <translation>Importazione...</translation>
-    </message>
-    <message>
         <source>Restoring...</source>
         <translation>Ripristino in corso...</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
-    </message>
-</context>
-<context>
-    <name>ImageImportFilesFromMountThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
-    </message>
-</context>
-<context>
-    <name>ImageInfoWidget</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">Info base</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">Dettagli</translation>
     </message>
 </context>
 <context>
@@ -327,13 +273,6 @@
     <message>
         <source>days</source>
         <translation>giorni</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoader</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
     </message>
 </context>
 <context>
@@ -371,13 +310,6 @@
     </message>
 </context>
 <context>
-    <name>ImportImagesThread</name>
-    <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
-    </message>
-</context>
-<context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
@@ -395,12 +327,12 @@
         <translation>Importa Immagini</translation>
     </message>
     <message>
-        <source>Or drag photos here</source>
-        <translation>Oppure trascina le immagini qui</translation>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Gallery</source>
-        <translation type="vanished">Galleria</translation>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,10 +352,6 @@
     <message>
         <source>Delete</source>
         <translation>Elimina</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Senza nome</translation>
     </message>
     <message>
         <source>Device</source>
@@ -552,10 +480,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Album</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 immagine(i)</translation>
-    </message>
-    <message>
         <source>Photo info</source>
         <translation>Info immagine</translation>
     </message>
@@ -612,28 +536,12 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <source>Some photos have not been imported</source>
-        <translation type="vanished">Alcune immagini non sono state importate</translation>
-    </message>
-    <message>
         <source>Import photos</source>
         <translation>Importa immagini</translation>
     </message>
     <message>
         <source>Import Photos</source>
         <translation>Importa Immagini</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos imported</source>
-        <translation>%1/%2 immagini importate</translation>
-    </message>
-    <message>
-        <source>%1 photos imported, %2 photos failed</source>
-        <translation>%1 immagini importate, %2 immagini non importate</translation>
-    </message>
-    <message>
-        <source>%1/%2 photos deleted</source>
-        <translation>%1/%2 immagini eliminate</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -746,56 +654,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
 </context>
 <context>
-    <name>PrintOptionsPage</name>
-    <message>
-        <source>No scaling</source>
-        <translation type="vanished">Nessuna scala</translation>
-    </message>
-    <message>
-        <source>Fit page to image</source>
-        <translation type="vanished">Adatta pagina all&apos;immagine</translation>
-    </message>
-    <message>
-        <source>Fit image to page</source>
-        <translation type="vanished">Adatta immagine alla pagina</translation>
-    </message>
-    <message>
-        <source>Scale to:</source>
-        <translation type="vanished">Scala:</translation>
-    </message>
-    <message>
-        <source>Millimeters</source>
-        <translation type="vanished">Millimetri</translation>
-    </message>
-    <message>
-        <source>Centimeters</source>
-        <translation type="vanished">Centrimetri</translation>
-    </message>
-    <message>
-        <source>Inches</source>
-        <translation type="vanished">Pollici</translation>
-    </message>
-    <message>
-        <source>Image Position</source>
-        <translation type="vanished">Posizione immagine</translation>
-    </message>
-    <message>
-        <source>Scaling</source>
-        <translation type="vanished">Scala</translation>
-    </message>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Impostazioni immagine</translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="vanished">Impostazioni immagine</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Select</source>
@@ -816,14 +674,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>%1 photo(s) selected</source>
         <translation>Selezione di %1 immagine(i)</translation>
-    </message>
-    <message>
-        <source>%1/%2/%3 %4</source>
-        <translation type="vanished">%1/%2/%3 %4</translation>
-    </message>
-    <message>
-        <source>Import on </source>
-        <translation type="vanished">Importa in</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -884,6 +734,22 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Rotate clockwise</source>
         <translation>Ruota in senso orario</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Importazione...</translation>
+    </message>
+    <message>
+        <source>%1/%2 items imported</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1/%2 items deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items failed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
