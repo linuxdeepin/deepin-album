@@ -92,13 +92,13 @@ public:
     explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, const QString &imgtype = "All Photos", QWidget *parent = nullptr);
     ~ThumbnailListView() override;
 
-    void insertThumbnail(const ItemInfo &iteminfo);
+    void insertThumbnail(const DBImgInfo &dBImgInfo);//1050
     //为true则清除模型中的数据
     void stopLoadAndClear(bool bClearModel = false);
     //根据列表显示不同，返回不同数据
     QStringList getFileList(int row = -1);
     //获取所有文件信息
-    QList<ItemInfo> getAllFileInfo(int row = -1);
+    QList<DBImgInfo> getAllFileInfo(int row = -1);
     //根据路径返回所在行号
     int getRow(const QString &path);
     //筛选出所有选中缩略图
@@ -121,14 +121,14 @@ public:
     /********* 插入一个空白项，ItemTypeBlank         *********/
     /********* 插入时间线标题，ItemTypeTimeLineTitle *********/
     /********* 插入已导入时间线标题，ItemTypeImportTimeLineTitle*********/
-    void insertBlankOrTitleItem(ItemInfoType type, const QString &date = "", const QString &num = "", int height = 0);//zynew
+    void insertBlankOrTitleItem(ItemType type, const QString &date = "", const QString &num = "", int height = 0);//zynew
     //更新空白栏高度
     void resetBlankItemHeight(int height);//zynew
     //根据DBImgInfoList插入listview
     void insertThumbnailByImgInfos(DBImgInfoList infoList);//zynew
 
     //判断是否全部选中
-    bool isAllSelected(ItemInfoType type = ItemTypeNull); //zynew
+    bool isAllSelected(ItemType type = ItemTypeNull); //zynew
     //判断选中图片是否都可旋转
     bool isAllSelectedSupportRotate();//zynew
     //删除选中项到相册已删除
@@ -136,13 +136,15 @@ public:
     //更新时间线界面内各个按钮的text状态，单选/框选
     void updatetimeLimeBtnText();//1050
     //过滤显示选中类型
-    void showSelectedTypeItem(ItemInfoType type);//zynew
+    void showAppointTypeItem(ItemType type);//zynew
     //显示类型数量
-    int filterTypeItemCount(ItemInfoType type);//zynew
+    int filterTypeItemCount(ItemType type);//zynew
     //按类型选择
-    void selectAllByItemType(ItemInfoType type);//zynew
+    void selectAllByItemType(ItemType type);//zynew
     //时间线所有选择按钮响应ctrl+all快捷键，切换按钮状态
     void TimeLineSelectAllBtn();
+    //加载当前页面前后各两百张图片
+    void reloadImage();
 
 signals:
     //打开图片，该项在当前列表行数，以及该项所含信息路径
@@ -215,7 +217,7 @@ public slots:
 public:
     void updateThumbnailView(QString updatePath = "");
     // zy 新算法
-    void cutPixmap(ItemInfo &iteminfo);
+    void cutPixmap(DBImgInfo &DBImgInfo);
     // 响应时间线悬浮栏的按钮选中操作
     void timeLimeFloatBtnClicked(const QString &date, bool isSelect);
 
@@ -233,9 +235,9 @@ private:
     //获取当前时间线内的图片选中状态
     bool getCurrentIndexSelectStatus(const QModelIndex &index, bool isPic);
     //判断是都全是选中类型
-    bool isAllSelectType(ItemInfoType type);//1050
+    bool isAllAppointType(ItemType type);//1050
     //隐藏指定选中类型
-    void hideAllSelectType(ItemInfoType type);//1050
+    void hideAllAppointType(ItemType type);//1050
 
     int m_iBaseHeight = 0;
 
@@ -267,6 +269,7 @@ private:
 
     //是否激活click:当处于滑动模式的时候，本轮不执行click
     bool activeClick = true;
+    QTimer *m_loadTimer = nullptr;
 
 public:
     ListViewUseFor m_useFor = Normal;

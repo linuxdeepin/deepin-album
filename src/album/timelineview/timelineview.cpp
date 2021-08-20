@@ -96,6 +96,14 @@ TimeLineView::TimeLineView()
     m_spinner->hide();
 }
 
+bool TimeLineView::imageImported(bool success)
+{
+    Q_UNUSED(success);
+    emit dApp->signalM->closeWaitDialog();
+    m_timeLineThumbnailListView->reloadImage();
+    return true;
+}
+
 void TimeLineView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
@@ -375,7 +383,7 @@ void TimeLineView::onOpenImage(int row, const QString &path, bool bFullScreen)
     } else {
         info.paths.clear();
     }
-    info.itemInfos = m_timeLineThumbnailListView->getAllFileInfo(row);
+    info.dBImgInfos = m_timeLineThumbnailListView->getAllFileInfo(row);
     info.viewType = utils::common::VIEW_TIMELINE_SRN;
     info.viewMainWindowID = VIEW_MAINWINDOW_TIMELINE;
     emit dApp->signalM->viewImage(info);
@@ -590,5 +598,6 @@ void TimeLineView::onKeyDelete()
         m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
     }
 
+    m_timeLineThumbnailListView->clearSelection();
     ImageEngineApi::instance()->moveImagesToTrash(paths);
 }

@@ -43,8 +43,8 @@ namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
 
-const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
-const int NotSupportedOrDamagedHeigh = 40;
+const int NotSupportedOrDamagedWidth = 60;      //损坏图片宽度
+const int NotSupportedOrDamagedHeigh = 45;
 
 ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     : QStyledItemDelegate(parent)
@@ -53,7 +53,9 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     , selectedPixmapDark(utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28)))
     , m_delegatetype(type)
 {
-
+    m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/dcc_default_19px.svg", QSize(60, 45));
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
+            &ThumbnailDelegate::onThemeTypeChanged);
 }
 
 void ThumbnailDelegate::setItemSize(QSize size)
@@ -66,20 +68,20 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     if (!bneedpaint) {
         return;
     }
-    const ItemInfo data = itemData(index);
+    const DBImgInfo data = itemData(index);
     switch (data.itemType) {
-    case ItemInfoType::ItemTypeBlank: {
+    case ItemType::ItemTypeBlank: {
         //空白项，什么都不绘制
         break;
     }
-    case ItemInfoType::ItemTypeTimeLineTitle: {
+    case ItemType::ItemTypeTimeLineTitle: {
         break;
     }
-    case ItemInfoType::ItemTypeImportTimeLineTitle: {
+    case ItemType::ItemTypeImportTimeLineTitle: {
         break;
     }
-    case ItemInfoType::ItemTypePic:
-    case ItemInfoType::ItemTypeVideo: {
+    case ItemType::ItemTypePic:
+    case ItemType::ItemTypeVideo: {
         drawImgAndVideo(painter, option, index);
         break;
     }
@@ -89,11 +91,11 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     }
     return;
 }
-
+#include "imagedataservice.h"
 void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     painter->save();
-    const ItemInfo data = itemData(index);
+    const DBImgInfo data = itemData(index);
     bool selected = data.isSelected;
     if (/*(option.state & QStyle::State_MouseOver) &&*/
         (option.state & QStyle::State_Selected) != 0) {
@@ -128,7 +130,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     QRect pixmapRect;
-    if (data.image.isNull()) {
+    if (!ImageDataService::instance()->imageIsLoaded(data.filePath)) {
         pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
         pixmapRect.setWidth(NotSupportedOrDamagedWidth);
 
@@ -159,15 +161,18 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    if (data.image.isNull()) {
-        painter->drawPixmap(pixmapRect, data.damagedPixmap);
-        if (!ImageEngineApi::instance()->m_imgLoaded.contains(data.path)) {
-            qDebug() << "------" << __FUNCTION__ << "---path = " << data.path;
-            emit ImageEngineApi::instance()->sigLoadThumbnailIMG(data.path);
-            ImageEngineApi::instance()->m_imgLoaded.append(data.path);
-        }
+    DGuiApplicationHelper::ColorType themeType;
+
+    if (!ImageDataService::instance()->imageIsLoaded(data.filePath)) {
+        painter->drawPixmap(pixmapRect, m_default);
     } else {
-        painter->drawPixmap(pixmapRect, data.image);
+        QImage img = ImageDataService::instance()->getThumnailImageByPath(data.filePath);
+        if (img.isNull()) {
+            painter->drawPixmap(pixmapRect, m_damagePixmap);
+        } else {
+            painter->drawPixmap(pixmapRect,
+                                QPixmap::fromImage(img));
+        }
     }
 
     //绘制选中图标
@@ -223,7 +228,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
             str = Text.elidedText(str, Qt::ElideRight, textwidth);
         }
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
-    } else if (data.fileType == DbFileTypeVideo) {
+    } else if (data.itemType == ItemTypeVideo) {
 //        QPainterPath bp;
 //        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
 //        painter->setClipPath(bp);
@@ -256,7 +261,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
 //        if (m_Width - textwidth > 0) {
 //            str = Text.elidedText(str, Qt::ElideRight, textwidth);
 //        }
-//        painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, "111");//在框中绘制文字，起点位置离最下方15像素
+//        painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, "111");
     }
 
     //绘制心形图标
@@ -274,14 +279,20 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     painter->restore();
 }
 
+void ThumbnailDelegate::onThemeTypeChanged(int themeType)
+{
+    Q_UNUSED(themeType)
+    m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
+}
+
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
 {
     Q_UNUSED(option)
-    ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-    if (data.itemType == ItemInfoType::ItemTypeBlank
-            || data.itemType == ItemInfoType::ItemTypeTimeLineTitle
-            || data.itemType == ItemInfoType::ItemTypeImportTimeLineTitle) {
+    DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+    if (data.itemType == ItemType::ItemTypeBlank
+            || data.itemType == ItemType::ItemTypeTimeLineTitle
+            || data.itemType == ItemType::ItemTypeImportTimeLineTitle) {
         QSize size(data.imgWidth, data.imgHeight);
         return size;
     } else {
@@ -289,9 +300,9 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
     }
 }
 
-ItemInfo ThumbnailDelegate::itemData(const QModelIndex &index) const
+DBImgInfo ThumbnailDelegate::itemData(const QModelIndex &index) const
 {
-    ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+    DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     data.isSelected = index.data(Qt::UserRole).toBool();
     return data;
 }
@@ -305,7 +316,7 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         if (event->type() == QEvent::MouseButtonPress) {
-            const ItemInfo data = itemData(index);
+            const DBImgInfo data = itemData(index);
             bool blast = false;
             if (!blast && rect.contains(pMouseEvent->pos())) {
                 emit sigCancelFavorite(index);

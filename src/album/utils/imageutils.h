@@ -39,7 +39,7 @@ enum ThumbnailType {
     ThumbFail
 };
 
-const QFileInfoList                 getImagesInfo(const QString &dir,
+const QFileInfoList                 getImagesAndVideoInfo(const QString &dir,
                                                   bool recursive = true);
 bool                                imageSupportRead(const QString &path);
 //bool                                imageSupportSave(const QString &path);

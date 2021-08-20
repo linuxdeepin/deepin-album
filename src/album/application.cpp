@@ -44,9 +44,7 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <DAboutDialog>
-namespace {
-const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
-}
+
 // namespace
 
 #define IMAGE_HEIGHT_DEFAULT    100
@@ -59,7 +57,7 @@ ImageLoader::ImageLoader(/*Application *parent, QStringList pathlist, QStringLis
 }
 
 
-void ImageLoader::ImportImageLoader(const DBImgInfoList& dbInfos, QString albumname)
+void ImageLoader::ImportImageLoader(const DBImgInfoList &dbInfos, QString albumname)
 {
     QStringList pathlist;
 
@@ -102,7 +100,7 @@ void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QIm
                 }
             }
         }
-        QString spath = CACHE_PATH + pathlist.at(i);
+        QString spath = albumGlobal::CACHE_PATH + pathlist.at(i);
         utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
         tImg.save(spath, "PNG");
 

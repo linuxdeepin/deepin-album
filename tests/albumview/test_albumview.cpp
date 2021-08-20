@@ -88,8 +88,8 @@ TEST(AlbumView, removeTestImagesInfo)
 {
     TEST_CASE_NAME("removeTestImagesInfo")
     QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath_test);
-    auto finfos1 = utils::image::getImagesInfo(testPath_test, false);
+    auto finfos = utils::image::getImagesAndVideoInfo(testPath_test);
+    auto finfos1 = utils::image::getImagesAndVideoInfo(testPath_test, false);
     auto pixmap = utils::image::getDamagePixmap(true);
     for (auto info : finfos) {
         image_list << info.absoluteFilePath();
@@ -116,7 +116,7 @@ TEST(AlbumView, clickImportViewBtn)
 //    AllPicView *a = w->m_pAllPicView;
 
     QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath_test);
+    auto finfos = utils::image::getImagesAndVideoInfo(testPath_test);
     for (auto info : finfos) {
         image_list << info.absoluteFilePath();
     }

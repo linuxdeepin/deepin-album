@@ -234,13 +234,13 @@ private:
     QStringList paths;
 
 };
-
-class ImageCacheQueuePopThread : public QThread
+//缩略图制作线程
+class makeThumbnailThread : public QThread
 {
     Q_OBJECT
 public:
-    ImageCacheQueuePopThread();
-    ~ImageCacheQueuePopThread() override;
+    makeThumbnailThread();
+    ~makeThumbnailThread() override;
     void setObject(ImageCacheSaveObject *obj)
     {
         m_obj = obj;

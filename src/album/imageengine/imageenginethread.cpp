@@ -39,6 +39,8 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "player_engine.h"
+#include "albumgloabl.h"
+#include "imagedataservice.h"
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 {
@@ -63,15 +65,11 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
     dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
     dbi.importTime = QDateTime::currentDateTime();
     if (isVideo) {
-        dbi.fileType = DbFileTypeVideo;
+        dbi.itemType = ItemTypeVideo;
     } else {
-        dbi.fileType = DbFileTypePic;
+        dbi.itemType = ItemTypePic;
     }
     return dbi;
-}
-
-namespace {
-const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album";
 }
 
 ImportImagesThread::ImportImagesThread()
@@ -142,18 +140,16 @@ void ImportImagesThread::runDetail()
             const QString path = url.toLocalFile();
             urlLocalPathList << path;
             if (QFileInfo(path).isDir()) {
-                auto finfos =  utils::image::getImagesInfo(path, true);
+                auto finfos =  utils::image::getImagesAndVideoInfo(path, true);
+
                 for (auto finfo : finfos) {
-                    if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
-                        // if path imported album
-                        if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
-                            curAlbumImportedPathList << finfo.absoluteFilePath();
-                        } else {
-                            image_list << finfo.absoluteFilePath();
-                        }
+                    if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
+                        curAlbumImportedPathList << finfo.absoluteFilePath();
+                    } else {
+                        image_list << finfo.absoluteFilePath();
                     }
                 }
-            } else if (utils::image::imageSupportRead(path)) {
+            } else if (utils::image::imageSupportRead(path) || ImageEngineApi::instance()->isVideo(path)) {
 
                 // if path imported album
                 if (curAlbumImgPathList.contains(path)) {
@@ -174,9 +170,10 @@ void ImportImagesThread::runDetail()
             }
             QFileInfo file(path);
             if (file.isDir()) {
-                auto finfos =  utils::image::getImagesInfo(path, true);
+                auto finfos =  utils::image::getImagesAndVideoInfo(path, true);
                 for (auto finfo : finfos) {
-                    if (utils::image::imageSupportRead(finfo.absoluteFilePath())) {
+                    if (utils::image::imageSupportRead(finfo.absoluteFilePath())
+                            || isVideo(finfo.absoluteFilePath())) {
                         // if path imported album
                         if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
                             curAlbumImportedPathList << finfo.absoluteFilePath();
@@ -274,10 +271,13 @@ void ImportImagesThread::runDetail()
         }
 
         DBImgInfoList dbInfos;
+        QStringList pathlist;
         using namespace utils::image;
         int noReadCount = 0;
         bool bIsVideo = false;
-        setlocale(LC_NUMERIC, "C");
+        int count = 0;
+        QStringList pathlistImport;
+        DBImgInfoList dbInfosImport;
         for (auto imagePath : image_list) {
             bIsVideo = isVideo(imagePath);
             if (!imageSupportRead(imagePath) && !bIsVideo) {
@@ -288,24 +288,47 @@ void ImportImagesThread::runDetail()
             if (!srcfi.exists()) {  //当前文件不存在
                 continue;
             }
-            dbInfos << getDBInfo(imagePath, bIsVideo);
+            DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
+            dbInfos << info;
+            count++;
+            dbInfosImport << info;
+            pathlistImport << info.filePath;
+            if (count == 200) {
+                //导入相册数据库AlbumTable3
+                DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
+                pathlistImport.clear();
+                //导入图片数据库ImageTable3
+                DBManager::instance()->insertImgInfos(dbInfosImport);
+                dbInfosImport.clear();
+            }
             emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
         }
+        //导入相册数据库AlbumTable3
+        DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
+        pathlistImport.clear();
+        //导入图片数据库ImageTable3
+        DBManager::instance()->insertImgInfos(dbInfosImport);
+        dbInfosImport.clear();
+        emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
 
         if (bneedstop) {
             m_obj->imageImported(false);
             m_obj->removeThread(this);
             return;
         }
-        DBImgInfoList tempdbInfos;
         for (auto Info : dbInfos) {
             QFileInfo fi(Info.filePath);
             if (!fi.exists())
                 continue;
-            tempdbInfos << Info;
+            pathlist << Info.filePath;
         }
-        if (image_list.length() == tempdbInfos.length() && !tempdbInfos.isEmpty()) {
-            dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);// 导入照片提示在此处理中
+        if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
+            if (pathlist.size() > 0) {
+                emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
+            } else {
+                emit dApp->signalM->ImportFailed();
+            }
+//            dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);// 导入照片提示在此处理中
             m_obj->imageImported(true);
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
             if (curAlbumImportedPathList.count() > 0) {
@@ -677,7 +700,7 @@ void ImageLoadFromDBThread::runDetail()
             emit sigInsert(info.filePath);
         }
         if (m_nametype.isEmpty())
-            ImageEngineApi::instance()->SaveImagesCache(image_list);
+            ImageEngineApi::instance()->makeThumbnailByPaths(image_list);
     }
     if (bneedstop) {
         return;
@@ -882,7 +905,7 @@ void ImageEngineThread::runDetail()
     using namespace UnionImage_NameSpace;
     QImage tImg;
     QString path = m_path;
-    QFileInfo file(CACHE_PATH + m_path);
+    QFileInfo file(albumGlobal::CACHE_PATH + m_path);
     QString errMsg;
     QString dimension;
     QFileInfo srcfi(m_path);
@@ -901,7 +924,7 @@ void ImageEngineThread::runDetail()
                 dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
             } else {
                 cache_exist = true;
-                path = CACHE_PATH + m_path;
+                path = albumGlobal::CACHE_PATH + m_path;
                 if (!loadStaticImageFromFile(path, tImg, errMsg, "PNG")) {
                     qDebug() << errMsg;
                 }
@@ -934,7 +957,7 @@ void ImageEngineThread::runDetail()
             }
         }
         if (breloadCache) { //更新缓存文件
-            QString spath = CACHE_PATH + m_path;
+            QString spath = albumGlobal::CACHE_PATH + m_path;
             utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
             tImg.save(spath, "PNG");
         }
@@ -1034,16 +1057,16 @@ void ImageFromNewAppThread::runDetail()
     }
     m_imgobj->removeThread(this);
 }
-
-ImageCacheQueuePopThread::ImageCacheQueuePopThread()
+//缩略图制作线程
+makeThumbnailThread::makeThumbnailThread()
 {
 }
 
-ImageCacheQueuePopThread::~ImageCacheQueuePopThread()
+makeThumbnailThread::~makeThumbnailThread()
 {
 }
 
-void ImageCacheQueuePopThread::saveCache(QString m_path)
+void makeThumbnailThread::saveCache(QString m_path)
 {
     if (needStop || m_path.isEmpty()) {
         qDebug() << "m_path empty";
@@ -1052,12 +1075,7 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     QImage tImg;
     QString path = m_path;
 
-    QString spath = CACHE_PATH + m_path;
-    if (isVideo(path)) {
-        QFileInfo temDir(path);
-        QString fileName = temDir.fileName();
-        spath = CACHE_PATH + temDir.path() + "/" + temDir.baseName() + ".PNG";
-    }
+    QString spath = utils::base::filePathToThumbnailPath(m_path);
 
     QFileInfo file(spath);
     if (needStop)
@@ -1108,12 +1126,12 @@ void ImageCacheQueuePopThread::saveCache(QString m_path)
     pixmap.save(spath, "PNG");
 }
 
-void ImageCacheQueuePopThread::setVideoSupportType(QStringList videoSupportType)
+void makeThumbnailThread::setVideoSupportType(QStringList videoSupportType)
 {
     m_videoSupportType = videoSupportType;
 }
 
-bool ImageCacheQueuePopThread::isVideo(QString path)
+bool makeThumbnailThread::isVideo(QString path)
 {
     bool isVideo = false;
     QFileInfo temDir(path);
@@ -1127,7 +1145,7 @@ bool ImageCacheQueuePopThread::isVideo(QString path)
     return isVideo;
 }
 
-void ImageCacheQueuePopThread::run()
+void makeThumbnailThread::run()
 {
     m_playerEngine = new dmr::PlayerEngine(nullptr);
 

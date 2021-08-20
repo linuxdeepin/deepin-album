@@ -55,7 +55,7 @@ TEST(CommandLine, test_CommandLine)
 //    MainWindow *w = dApp->getMainWindow();
     CommandLine::instance();
     QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath_test);
+    auto finfos = utils::image::getImagesAndVideoInfo(testPath_test);
     for (auto info : finfos) {
         image_list << info.absoluteFilePath();
     }

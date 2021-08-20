@@ -75,15 +75,15 @@ ImgViewListView::~ImgViewListView()
 {
 }
 
-void ImgViewListView::setAllFile(QList<ItemInfo> itemInfos, const QString &path)
+void ImgViewListView::setAllFile(QList<DBImgInfo> DBImgInfos, const QString &path)
 {
     qDebug() << "---" << __FUNCTION__ << "---path = " << path;
     m_model->clear();
     m_currentPath = path;
-    int count = itemInfos.size();
+    int count = DBImgInfos.size();
     for (int i = 0; i < count; i++) {
-        ItemInfo info = itemInfos.at(i);
-        if (info.path == path) {
+        DBImgInfo info = DBImgInfos.at(i);
+        if (info.filePath == path) {
             info.imgWidth = ITEM_CURRENT_WH;
             info.imgHeight = ITEM_CURRENT_WH;
             m_currentRow = i;
@@ -110,8 +110,8 @@ int ImgViewListView::getSelectIndexByPath(const QString &path)
     int index = -1;
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex itemIndex = m_model->index(i, 0);
-        ItemInfo info = itemIndex.data(Qt::DisplayRole).value<ItemInfo>();
-        if (info.path == path) {
+        DBImgInfo info = itemIndex.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (info.filePath == path) {
             return i;
         }
     }
@@ -137,8 +137,8 @@ void ImgViewListView::openNext()
         return;
     }
 
-    ItemInfo info = nextIndex.data(Qt::DisplayRole).value<ItemInfo>();
-    if (info.path.isEmpty()) {
+    DBImgInfo info = nextIndex.data(Qt::DisplayRole).value<DBImgInfo>();
+    if (info.filePath.isEmpty()) {
         return;
     }
 
@@ -157,7 +157,7 @@ void ImgViewListView::openNext()
     doItemsLayout();
 
     m_currentRow = m_currentRow + 1;
-    m_currentPath = info.path;
+    m_currentPath = info.filePath;
 
     loadFiftyRight();
 
@@ -183,8 +183,8 @@ void ImgViewListView::openPre()
         return;
     }
 
-    ItemInfo info = preIndex.data(Qt::DisplayRole).value<ItemInfo>();
-    if (info.path.isEmpty()) {
+    DBImgInfo info = preIndex.data(Qt::DisplayRole).value<DBImgInfo>();
+    if (info.filePath.isEmpty()) {
         return;
     }
 
@@ -203,7 +203,7 @@ void ImgViewListView::openPre()
     doItemsLayout();
 
     m_currentRow = m_currentRow - 1;
-    m_currentPath = info.path;
+    m_currentPath = info.filePath;
 
     emit openImg(m_currentRow, m_currentPath);
 }
@@ -247,14 +247,14 @@ void ImgViewListView::slotOneImgReady(const QString &path, QPixmap pix)
 {
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-        if (data.path == path) {
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.filePath == path) {
             data.image = pix;
             cutPixmap(data);
             QVariant meta;
             meta.setValue(data);
-            ImageEngineApi::instance()->m_AllImageMap[data.path] = data.image;
-            ImageEngineApi::instance()->m_AllImageData[data.path].imgpixmap = pix;
+            ImageEngineApi::instance()->m_AllImageMap[data.filePath] = data.image;
+            ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
             m_model->setData(index, meta, Qt::DisplayRole);
             break;
         }
@@ -266,8 +266,8 @@ void ImgViewListView::onClicked(const QModelIndex &index)
     if (index.row() == m_currentRow) {
         return;
     }
-    ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
-    if (info.path.isEmpty()) {
+    DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
+    if (info.filePath.isEmpty()) {
         return;
     }
 
@@ -282,7 +282,7 @@ void ImgViewListView::onClicked(const QModelIndex &index)
                      QVariant(QSize(ImgViewListView::ITEM_CURRENT_WH, ImgViewListView::ITEM_CURRENT_WH)), Qt::SizeHintRole);
 
     m_currentRow = index.row();
-    m_currentPath = info.path;
+    m_currentPath = info.filePath;
     qDebug() << "---" << __FUNCTION__ << "---m_currentRow = " << m_currentRow;
     //刷新界面
     doItemsLayout();
@@ -294,24 +294,24 @@ void ImgViewListView::onClicked(const QModelIndex &index)
     emit openImg(m_currentRow, m_currentPath);
 }
 
-void ImgViewListView::cutPixmap(ItemInfo &iteminfo)
+void ImgViewListView::cutPixmap(DBImgInfo &DBImgInfo)
 {
-    int width = iteminfo.image.width();
+    int width = DBImgInfo.image.width();
     if (width == 0)
         width = 180;
-    int height = iteminfo.image.height();
+    int height = DBImgInfo.image.height();
     if (abs((width - height) * 10 / width) >= 1) {
-        QRect rect = iteminfo.image.rect();
+        QRect rect = DBImgInfo.image.rect();
         int x = rect.x() + width / 2;
         int y = rect.y() + height / 2;
         if (width > height) {
             x = x - height / 2;
             y = 0;
-            iteminfo.image = iteminfo.image.copy(x, y, height, height);
+            DBImgInfo.image = DBImgInfo.image.copy(x, y, height, height);
         } else {
             y = y - width / 2;
             x = 0;
-            iteminfo.image = iteminfo.image.copy(x, y, width, width);
+            DBImgInfo.image = DBImgInfo.image.copy(x, y, width, width);
         }
     }
 }
@@ -322,11 +322,11 @@ void ImgViewListView::loadFiftyRight()
     for (int i = m_currentRow; i < m_model->rowCount(); i++) {
         count++;
         QModelIndex indexImg = m_model->index(i, 0);
-        ItemInfo infoImg = indexImg.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo infoImg = indexImg.data(Qt::DisplayRole).value<DBImgInfo>();
         if (infoImg.image.isNull()) {
-            if (!ImageEngineApi::instance()->m_imgLoaded.contains(infoImg.path)) {
-                emit ImageEngineApi::instance()->sigLoadThumbnailIMG(infoImg.path);
-                ImageEngineApi::instance()->m_imgLoaded.append(infoImg.path);
+            if (!ImageEngineApi::instance()->m_imgLoaded.contains(infoImg.filePath)) {
+                emit ImageEngineApi::instance()->sigLoadThumbnailIMG(infoImg.filePath);
+                ImageEngineApi::instance()->m_imgLoaded.append(infoImg.filePath);
             }
         }
         if (count == 50) {
@@ -361,8 +361,8 @@ const QString ImgViewListView::getPathByRow(int row)
     if (row <= (m_model->rowCount() - 1)) {
         QModelIndex index = m_model->index(row, 0);
         if (index.isValid()) {
-            ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
-            result = info.path;
+            DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
+            result = info.filePath;
         }
     }
     return result;

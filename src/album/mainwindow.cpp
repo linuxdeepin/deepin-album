@@ -48,6 +48,8 @@
 #include <DFloatingMessage>
 #include <DWidgetUtil>
 #include <DStandardPaths>
+
+#include "imagedataservice.h"
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
 namespace  {
@@ -619,13 +621,13 @@ void MainWindow::initTimeLineViewTabOrder()
 void MainWindow::initAlbumViewTabOrder()
 {
     // 时间线listview空
-    if (!m_pAlbumview->m_pImpTimeLineView->getFirstListView())
+    if (!m_pAlbumview->m_pImpTimeLineView->getListView())
         return;
-    m_pAlbumview->m_pImpTimeLineView->getFirstListView()->setFocusPolicy(Qt::TabFocus);
+    m_pAlbumview->m_pImpTimeLineView->getListView()->setFocusPolicy(Qt::TabFocus);
     m_AlbumViewTabOrder.clear();
     m_AlbumViewTabOrder.insert(0, m_pAlbumBtn);
     m_AlbumViewTabOrder.insert(1, m_pAlbumview->m_pLeftListView->m_pPhotoLibListView);
-    m_AlbumViewTabOrder.insert(2, m_pAlbumview->m_pImpTimeLineView->getFirstListView());
+    m_AlbumViewTabOrder.insert(2, m_pAlbumview->m_pImpTimeLineView->getListView());
     for (int idx = 0; idx < m_emptyAllViewTabOrder.count(); idx++) {
         if (m_emptyAllViewTabOrder.at(idx) != nullptr) {
             m_emptyAllViewTabOrder.at(idx)->setFocusPolicy(Qt::NoFocus);
@@ -860,7 +862,7 @@ bool MainWindow::initAllViewTabKeyOrder(QObject *obj)
     } else if (m_iCurrentView == VIEW_ALBUM) {
         // 相册内没有图时,应用初始启动无图时显示m_pImportView, tab键切换
         initAlbumViewTabOrder();
-        ThumbnailListView *tempListView = m_pAlbumview->m_pImpTimeLineView->getFirstListView();
+        ThumbnailListView *tempListView = m_pAlbumview->m_pImpTimeLineView->getListView();
         if (obj == m_AlbumViewTabOrder.at(1) && tempListView != nullptr) {
             tempListView->setFocus();
             //清除其他选中后再选中第一张
@@ -1018,8 +1020,8 @@ void MainWindow::albumBtnClicked()
     // albumview left list view up and down key event filter
     if (m_AlbumViewTabOrder.count() > 0 && m_bVector.at(2)) {
         m_pAlbumview->m_pImportView->m_pImportBtn->installEventFilter(this);
-        if (m_pAlbumview->m_pImpTimeLineView->getFirstListView())
-            m_pAlbumview->m_pImpTimeLineView->getFirstListView()->installEventFilter(this);
+        if (m_pAlbumview->m_pImpTimeLineView->getListView())
+            m_pAlbumview->m_pImpTimeLineView->getListView()->installEventFilter(this);
         m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->installEventFilter(this);
         m_pAlbumview->m_pLeftListView->m_pMountListWidget->installEventFilter(this);
         m_pAlbumview->m_pLeftListView->m_pCustomizeListView->installEventFilter(this);
@@ -1141,7 +1143,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
 //搜索框
 void MainWindow::onSearchEditFinished()
 {
-    qDebug()<<__FUNCTION__<<m_pSearchEdit->hasFocus();
+    qDebug() << __FUNCTION__ << m_pSearchEdit->hasFocus();
     QString keywords = m_pSearchEdit->text();
     if (m_SearchKey == keywords) //两次搜索条件相同，跳过
         return;
@@ -1192,6 +1194,9 @@ void MainWindow::onImprotBtnClicked()
     static QStringList sList;
     for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
         sList << ("*." + i);
+    //添加视频过滤
+    for (const QString &i : ImageEngineApi::instance()->m_videoSupportType)
+        sList << i;
     QString filter = tr("All Photos");
     filter.append('(');
     filter.append(sList.join(" "));
@@ -1217,7 +1222,7 @@ void MainWindow::onImprotBtnClicked()
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
         return;
-    ImageEngineApi::instance()->SaveImagesCache(file_list);
+    ImageDataService::instance()->readThumbnailByPaths(file_list);
     if (m_iCurrentView == VIEW_ALBUM) {
         if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE || m_pAlbumview->m_currentItemType == 0) {
             ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
@@ -1873,9 +1878,9 @@ void MainWindow::onProgressOfWaitDialog(int allfiles, int completefiles)
 {
     QString countText = "";
     if (m_bImport) {
-        countText  = QString(tr("%1/%2 photos imported")).arg(completefiles).arg(allfiles);
+        countText  = QString(QObject::tr("%1/%2 items imported")).arg(completefiles).arg(allfiles);
     } else {
-        countText = QString(tr("%1/%2 photos deleted")).arg(completefiles).arg(allfiles);
+        countText = QString(QObject::tr("%1/%2 items deleted")).arg(completefiles).arg(allfiles);
     }
 
     m_countLabel->setText(countText);
@@ -2013,7 +2018,7 @@ void MainWindow::onImportFailed()
 void MainWindow::onImportSomeFailed(int successful, int failed)
 {
     QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
-    QString str = tr("%1 photos imported, %2 photos failed");
+    QString str = QObject::tr("%1 items imported, %2 items failed");
     QString str1 = QString::number(successful, 10);
     QString str2 = QString::number(failed, 10);
     QString res = str.arg(str1).arg(str2);

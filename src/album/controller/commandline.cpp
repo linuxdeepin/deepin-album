@@ -138,10 +138,9 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     emit dApp->signalM->enableMainMenu(false);
     if (paths.count() == 1) {
         using namespace UnionImage_NameSpace;
-        const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album";
         QImage tImg;
         bool cache_exist = false;
-        QFileInfo file(CACHE_PATH + path);
+        QFileInfo file(albumGlobal::CACHE_PATH + path);
         QString errMsg;
         QString dimension;
         QString tpath;
@@ -160,7 +159,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
                 dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
             } else {
                 cache_exist = true;
-                tpath = CACHE_PATH + path;
+                tpath = albumGlobal::CACHE_PATH + path;
                 if (!loadStaticImageFromFile(tpath, tImg, errMsg, "PNG")) {
                     qDebug() << errMsg;
                 }
@@ -195,7 +194,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         pdata.dbi = getDBInfo(path);
         pdata.loaded = ImageLoadStatu_Loaded;
         if (breloadCache) { //更新缓存文件
-            QString spath = CACHE_PATH + path;
+            QString spath = albumGlobal::CACHE_PATH + path;
             utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
             pixmap.save(spath, "PNG");
         }
@@ -205,10 +204,10 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         info.lastPanel = nullptr;
         info.path = path;
         info.paths = paths;
-        ItemInfo iteminfo;
-        iteminfo.path = path;
-        iteminfo.image = pixmap;
-        info.itemInfos << iteminfo;
+        DBImgInfo dBImgInfo;
+        dBImgInfo.filePath = path;
+        dBImgInfo.image = pixmap;
+        info.dBImgInfos << dBImgInfo;
         // 未启动相册，从外部打开图片时，延迟发送查看图片
         if (dApp->getMainWindow() == nullptr) {
             QTimer::singleShot(100, this, [ = ] {

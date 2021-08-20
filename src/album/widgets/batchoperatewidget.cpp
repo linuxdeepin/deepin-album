@@ -158,7 +158,9 @@ void BatchOperateWidget::sltRemoveSelect(bool checked)
 {
     Q_UNUSED(checked)
     qDebug() << __FUNCTION__ << "---";
-    m_thumbnailListView->removeSelectToTrash(m_thumbnailListView->selectedPaths());
+    QStringList paths = m_thumbnailListView->selectedPaths();
+    m_thumbnailListView->clearSelection();
+    m_thumbnailListView->removeSelectToTrash(paths);
 }
 //收藏选中项
 void BatchOperateWidget::sltCollectSelect(bool checked)
@@ -210,15 +212,15 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
 
 void BatchOperateWidget::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
 {
-    if (data.type == ItemInfoType::ItemTypeNull) {
+    if (data.type == ItemType::ItemTypeNull) {
         //显示全部
-        m_thumbnailListView->showSelectedTypeItem(ItemInfoType::ItemTypeNull);
-    } else if (data.type == ItemInfoType::ItemTypePic) {
+        m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypeNull);
+    } else if (data.type == ItemType::ItemTypePic) {
         //显示图片
-        m_thumbnailListView->showSelectedTypeItem(ItemInfoType::ItemTypePic);
-    } else if (data.type == ItemInfoType::ItemTypeVideo) {
+        m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypePic);
+    } else if (data.type == ItemType::ItemTypeVideo) {
         //显示视频
-        m_thumbnailListView->showSelectedTypeItem(ItemInfoType::ItemTypeVideo);
+        m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypeVideo);
     }
     //如果过滤会后数量<=0，则不可用
     m_startBatchSelect->setEnabled(m_thumbnailListView->filterTypeItemCount(m_ToolButton->getFilteType()) > 0);
@@ -238,6 +240,7 @@ void BatchOperateWidget::onTrashDeleteBtnClicked()
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.count(), false);
     dialog->setObjectName("deteledialog");
     if (dialog->exec() > 0) {
+        m_thumbnailListView->clearSelection();
         ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
     }
 
@@ -376,20 +379,20 @@ void BatchOperateWidget::initDropdown()
     data.icon_r = QIcon::fromTheme("album_all");
     data.icon_r_path = "album_all";
     data.text = QObject::tr("All");
-    data.type = ItemInfoType::ItemTypeNull;
+    data.type = ItemType::ItemTypeNull;
     m_expansionMenu->setDefaultFilteData(data);
     m_expansionMenu->addNewButton(data);
 
     data.icon_r = QIcon::fromTheme("album_pic");
     data.icon_r_path = "album_pic";
     data.text = QObject::tr("Photos");
-    data.type = ItemInfoType::ItemTypePic;
+    data.type = ItemType::ItemTypePic;
     m_expansionMenu->addNewButton(data);
 
     data.icon_r = QIcon::fromTheme("album_video");
     data.icon_r_path = "album_video";
     data.text = QObject::tr("Videos");
-    data.type = ItemInfoType::ItemTypeVideo;
+    data.type = ItemType::ItemTypeVideo;
     m_expansionMenu->addNewButton(data);
 }
 

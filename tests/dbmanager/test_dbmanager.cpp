@@ -35,7 +35,7 @@ TEST(getImgsCount, db5)
     TEST_CASE_NAME("db5")
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
     QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath);
+    auto finfos = utils::image::getImagesAndVideoInfo(testPath);
     DBManager::instance()->getImgsCount();
 }
 
@@ -43,7 +43,7 @@ TEST(removeTestImagesInfo, db6)
 {
     TEST_CASE_NAME("db6")
     QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath_test);
+    auto finfos = utils::image::getImagesAndVideoInfo(testPath_test);
     for (auto info : finfos) {
         image_list << info.absoluteFilePath();
     }
@@ -80,7 +80,7 @@ TEST(AlbumForTest, db11)
     TEST_CASE_NAME("db11")
     QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "dbtest";
     QStringList image_list;
-    auto finfos = utils::image::getImagesInfo(testPath);
+    auto finfos = utils::image::getImagesAndVideoInfo(testPath);
     for (auto info : finfos) {
         image_list << info.absoluteFilePath();
     }

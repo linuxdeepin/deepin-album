@@ -43,7 +43,7 @@ public:
         QIcon icon_r = QIcon();//右边图标
         QString icon_r_path;
         QString text;
-        ItemInfoType type = ItemInfoType::ItemTypeNull;
+        ItemType type = ItemType::ItemTypeNull;
     };
 
 public:

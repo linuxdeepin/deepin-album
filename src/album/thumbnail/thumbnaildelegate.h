@@ -56,6 +56,8 @@ public:
     void setItemSize(QSize size);
     //绘制图片和视频
     void drawImgAndVideo(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+private slots:
+    void onThemeTypeChanged(int themeType);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
@@ -73,7 +75,7 @@ signals:
 //    void sigPageNeedResize(const int &index) const;
 
 private:
-    ItemInfo itemData(const QModelIndex &index) const;
+    DBImgInfo itemData(const QModelIndex &index) const;
 
 public:
     QString m_imageTypeStr;
@@ -87,6 +89,8 @@ private:
     DelegateType m_delegatetype = NullType;
     bool bneedpaint = true;
     QSize m_size;
+    QPixmap m_default;
+    QPixmap m_damagePixmap;
 };
 
 #endif // ALBUMDELEGATE_H

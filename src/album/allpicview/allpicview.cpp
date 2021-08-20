@@ -119,6 +119,14 @@ AllPicView::AllPicView()
     AC_SET_ACCESSIBLE_NAME(this, All_Picture_View);
 }
 
+bool AllPicView::imageImported(bool success)
+{
+    Q_UNUSED(success);
+    emit dApp->signalM->closeWaitDialog();
+    m_pThumbnailListView->reloadImage();
+    return true;
+}
+
 void AllPicView::initConnections()
 {
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
@@ -204,6 +212,7 @@ void AllPicView::updatePicsIntoThumbnailView()
     } else {
         updateStackedWidget();
     }
+    m_pThumbnailListView->reloadImage();
     restorePicNum();
 }
 
@@ -250,7 +259,7 @@ void AllPicView::onOpenImage(int row, const QString &path, bool bFullScreen)
     }
     info.viewType = utils::common::VIEW_ALLPIC_SRN;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
-    info.itemInfos = m_pThumbnailListView->getAllFileInfo(row);
+    info.dBImgInfos = m_pThumbnailListView->getAllFileInfo(row);
 
     emit dApp->signalM->viewImage(info);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
@@ -411,5 +420,7 @@ void AllPicView::onKeyDelete()
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex())
         return;
 
-    ImageEngineApi::instance()->moveImagesToTrash(m_pThumbnailListView->selectedPaths());
+    QStringList paths = m_pThumbnailListView->selectedPaths();
+    m_pThumbnailListView->clearSelection();
+    ImageEngineApi::instance()->moveImagesToTrash(paths);
 }

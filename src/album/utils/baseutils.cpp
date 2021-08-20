@@ -46,6 +46,7 @@
 #include <DDesktopServices>
 #include <QImageReader>
 #include <QMimeDatabase>
+#include "imageengineapi.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -179,26 +180,34 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 
 QString hash(const QString &str)
 {
-    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
+//    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
+    QFile file(str);
+    QString  stHashValue;
+    if (file.open(QIODevice::ReadOnly)) { //只读方式打开
+        QCryptographicHash hash(QCryptographicHash::Md5);
+
+        QByteArray buf = file.read(100 * 1024 * 1024); // 每次读取100M
+        buf = buf.append(str.toUtf8());
+        hash.addData(buf);  // 将数据添加到Hash中
+        stHashValue.append(hash.result().toHex());
+    }
+    return stHashValue;
 }
 
 bool checkMimeData(const QMimeData *mimeData)
 {
-    if (!mimeData->hasUrls()) {
+    if (1 > mimeData->urls().size()) {
         return false;
     }
     QList<QUrl> urlList = mimeData->urls();
-    if (1 > urlList.size()) {
-        return false;
-    }
     using namespace utils::image;
     for (QUrl url : urlList) {
         const QString path = url.toLocalFile();
         QFileInfo fileinfo(path);
         if (fileinfo.isDir()) {
-            auto finfos =  getImagesInfo(path, false);
+            auto finfos =  getImagesAndVideoInfo(path, false);
             for (auto finfo : finfos) {
-                if (imageSupportRead(finfo.absoluteFilePath())) {
+                if (imageSupportRead(finfo.absoluteFilePath()) || ImageEngineApi::instance()->isVideo(finfo.absoluteFilePath())) {
                     QFileInfo info(finfo.absoluteFilePath());
                     QMimeDatabase db;
                     QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
@@ -213,16 +222,22 @@ bool checkMimeData(const QMimeData *mimeData)
                                 return true;
                             }
                         }
+                        if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
+                            return true;
+                        }
                     } else {
                         if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                             if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                                 return true;
                             }
                         }
+                        if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
+                            return true;
+                        }
                     }
                 }
             }
-        } else if (imageSupportRead(path)) {
+        } else if (imageSupportRead(path) || ImageEngineApi::instance()->isVideo(path)) {
 //            paths << path;
             QFileInfo info(path);
             QMimeDatabase db;
@@ -237,11 +252,17 @@ bool checkMimeData(const QMimeData *mimeData)
                         return true;
                     }
                 }
+                if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
+                    return true;
+                }
             } else {
                 if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                     if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                         return true;
                     }
+                }
+                if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
+                    return true;
                 }
             }
             return false;
@@ -249,7 +270,6 @@ bool checkMimeData(const QMimeData *mimeData)
     }
     return false;
 }
-
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
@@ -282,6 +302,20 @@ QString mkMutiDir(const QString &path)   //创建多级目录
     if (!dirname.isEmpty())
         parentPath.mkpath(dirname);
     return parentDir + "/" + dirname;
+}
+//根据源文件路径生产缩略图路径
+QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
+{
+    QString thumbnailPath = albumGlobal::CACHE_PATH + filePath;
+
+    QFileInfo temDir(filePath);
+    //如果hash为空，制作新的hash
+    if (dataHash.isEmpty()) {
+        dataHash = hash(filePath);
+    }
+
+    thumbnailPath = albumGlobal::CACHE_PATH + temDir.path() + "/" + dataHash + ".png";
+    return thumbnailPath;
 }
 
 }  // namespace base

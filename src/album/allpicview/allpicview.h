@@ -59,12 +59,7 @@ class AllPicView : public DWidget, public ImageEngineImportObject
 public:
     AllPicView();
 
-    bool imageImported(bool success) override
-    {
-        Q_UNUSED(success);
-        emit dApp->signalM->closeWaitDialog();
-        return true;
-    }
+    bool imageImported(bool success) override;
     void restorePicNum();
     void updatePicNum();
     const ThumbnailListView *getAllPicThumbnailListViewModel();

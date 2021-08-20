@@ -39,6 +39,7 @@
 #include <DGuiApplicationHelper>
 
 #include "imgviewlistview.h"
+#include "imagedataservice.h"
 namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
@@ -56,7 +57,10 @@ const int SELECT_ITEM_PAINT_OFFSET = 5;//绘制时选中项向下偏移大小
 ImgViewDelegate::ImgViewDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-
+    m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/dcc_default_19px.svg", QSize(60, 45));
+    m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
+            &ImgViewDelegate::onThemeTypeChanged);
 }
 
 void ImgViewDelegate::setItemSize(QSize size)
@@ -69,15 +73,23 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     painter->save();
     QString pixmapstring;
     QPixmap _pixmap;
-    const ItemInfo data = itemData(index);
+    const DBImgInfo data = itemData(index);
     if (data.itemType == ItemTypeBlank) {
         painter->restore();
         return;
     }
-    _pixmap = data.image;
-    if (_pixmap.isNull()) {
-        _pixmap = data.damagedPixmap;
+
+    if (!ImageDataService::instance()->imageIsLoaded(data.filePath)) {
+        _pixmap = m_default;
+    } else {
+        QImage img = ImageDataService::instance()->getThumnailImageByPath(data.filePath);
+        if (img.isNull()) {
+            _pixmap = m_damagePixmap;
+        } else {
+            _pixmap = QPixmap::fromImage(img);
+        }
     }
+
     bool selected = data.isSelected;
     if (/*(option.state & QStyle::State_MouseOver) &&*/
         (option.state & QStyle::State_Selected) != 0) {
@@ -168,9 +180,9 @@ QSize ImgViewDelegate::sizeHint(const QStyleOptionViewItem &option,
     return index.data(Qt::SizeHintRole).value<QSize>();
 }
 
-ItemInfo ImgViewDelegate::itemData(const QModelIndex &index) const
+DBImgInfo ImgViewDelegate::itemData(const QModelIndex &index) const
 {
-    ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+    DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     data.isSelected = index.data(Qt::UserRole).toBool();
     return data;
 }
@@ -180,4 +192,10 @@ bool ImgViewDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, cons
     Q_UNUSED(model);
 
     return false;
+}
+
+void ImgViewDelegate::onThemeTypeChanged(int themeType)
+{
+    Q_UNUSED(themeType)
+    m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
 }

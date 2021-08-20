@@ -47,7 +47,7 @@ public:
         QString album = QString();
         QString path;                           // Specific current open one
         QStringList paths = QStringList();      // Limit the view range
-        QList<ItemInfo> itemInfos;
+        QList<DBImgInfo> dBImgInfos;
         QString viewType = QString();
     };
 
@@ -99,7 +99,7 @@ signals:
     void sigAlbDelToast(const QString &albname);
     void sigAddToAlbToast(const QString &album);
     void sigAddDuplicatePhotos();
-    void updateStatusBarImportLabel(const QStringList &paths, int count,QString album = "");
+    void updateStatusBarImportLabel(const QStringList &paths, int count, QString album = "");
     void updateIcon();
     void ImportSuccess();
     void SearchEditClear();

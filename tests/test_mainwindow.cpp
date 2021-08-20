@@ -1317,7 +1317,7 @@ TEST(MainWindow, AlbumView)
 
     CommandLine *commandline = w->m_commandLine;
     ImageView *imageview = commandline->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB;
-    ThumbnailListView *firstThumb = albumview->m_pImpTimeLineView->getFirstListView();
+    ThumbnailListView *firstThumb = albumview->m_pImpTimeLineView->getListView();
     if (!firstThumb) {
         return;
     }
@@ -1443,7 +1443,7 @@ TEST(MainWindow, AlbumView)
     QTest::qWait(1500);
 
     //文件有变动，需要重新获取指针
-    ThumbnailListView *t = w->m_pAlbumview->m_pImpTimeLineView->getFirstListView();
+    ThumbnailListView *t = w->m_pAlbumview->m_pImpTimeLineView->getListView();
     e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
     e.simulate(t->viewport());
     e.clear();
@@ -1469,7 +1469,7 @@ TEST(MainWindow, AlbumView)
     QTest::qWait(1500);
 
     //文件有变动，需要重新获取指针
-    ThumbnailListView *t1 = w->m_pAlbumview->m_pImpTimeLineView->getFirstListView();
+    ThumbnailListView *t1 = w->m_pAlbumview->m_pImpTimeLineView->getListView();
     e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
     e.simulate(t1->viewport());
     e.clear();
@@ -2505,7 +2505,7 @@ TEST(MainWindow, picdelete)
     e.simulate(w->getButG()->button(2));
     e.clear();
     QTest::qWait(300);
-    ThumbnailListView *firstThumb = w->m_pAlbumview->m_pImpTimeLineView->getFirstListView();
+    ThumbnailListView *firstThumb = w->m_pAlbumview->m_pImpTimeLineView->getListView();
     if (!firstThumb) {
         return;
     }

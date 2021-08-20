@@ -35,6 +35,7 @@
         <file>icons/dark/album_video_16px.svg</file>
         <file>icons/dark/album_arrowdown_10px.svg</file>
         <file>icons/light/album_arrowdown_10px.svg</file>
+        <file>icons/dcc_default_19px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>

@@ -31,11 +31,8 @@
 #include <QSqlQuery>
 #include "utils/unionimage.h"
 #include "utils/baseutils.h"
-
-namespace {
-const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                           + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
-}
+#include "albumgloabl.h"
+#include "imagedataservice.h"
 
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 
@@ -161,9 +158,9 @@ bool ImageEngineApi::updateImageDataPixmap(QString imagepath, QPixmap &pix)
         data.imgpixmap = pix;
         m_AllImageData[imagepath] = data;
 
-        QFileInfo file(CACHE_PATH + imagepath);
+        QFileInfo file(albumGlobal::CACHE_PATH + imagepath);
         if (file.exists()) {
-            QFile::remove(CACHE_PATH + imagepath);
+            QFile::remove(albumGlobal::CACHE_PATH + imagepath);
         }
         return true;
     }
@@ -275,9 +272,10 @@ bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject 
 }
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Importing..."));
+    emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, obj, bdialogselect);
+    imagethread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);
@@ -289,7 +287,7 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
 
 bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Importing..."));
+    emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, obj, bdialogselect);
     imagethread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
@@ -367,6 +365,8 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
     if (!db.isValid()) {
         return;
     }
+    QStringList list;
+    int count = 0;
     QSqlQuery query(db);
     query.setForwardOnly(true);
 //    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
@@ -379,12 +379,16 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
+            if (count < num) {
+                list << info.filePath;
+                count++;
+            }
             info.fileName = query.value(1).toString();
             info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
-            info.fileType = query.value(6).toInt();
+            info.itemType = static_cast<ItemType>(query.value(6).toInt());
             ImageDataSt imgData;
             imgData.dbi = info;
             m_AllImageDataVector.append(imgData);
@@ -393,6 +397,7 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
 
     db.close();
     qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
+    ImageDataService::instance()->readThumbnailByPaths(list);
     emit sigLoadThumbnailsByNum(m_AllImageDataVector, num);
 }
 
@@ -406,7 +411,7 @@ void ImageEngineApi::thumbnailLoadThread(int num)
     m_worker->moveToThread(workerThread);
     //开始录制
     connect(this, &ImageEngineApi::sigLoadThumbnailsByNum, m_worker, &DBandImgOperate::sltLoadThumbnailByNum);
-    connect(this, &ImageEngineApi::sigLoadThumbnailIMG, m_worker, &DBandImgOperate::loadOneImg);
+//    connect(this, &ImageEngineApi::sigLoadThumbnailIMG, m_worker, &DBandImgOperate::loadOneImg);
     //加载设备中文件列表
     connect(this, &ImageEngineApi::sigLoadMountFileList, m_worker, &DBandImgOperate::sltLoadMountFileList);
     //旋转一张图片
@@ -440,8 +445,8 @@ bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, Imag
 #endif
     return true;
 }
-
-bool ImageEngineApi::SaveImagesCache(QStringList files)
+//根据路径制作缩略图，并保存到指定位置
+bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
 {
     if (!m_imageCacheSaveobj) {
         m_imageCacheSaveobj = new ImageCacheSaveObject;
@@ -454,7 +459,7 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         needCoreCounts = 1;
     QList<QThread *> threads;
     for (int i = 0; i < needCoreCounts; i++) {
-        ImageCacheQueuePopThread *thread = new ImageCacheQueuePopThread;
+        makeThumbnailThread *thread = new makeThumbnailThread;
         thread->setObject(m_imageCacheSaveobj);
         thread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
         thread->start();
@@ -465,6 +470,20 @@ bool ImageEngineApi::SaveImagesCache(QStringList files)
         thread->deleteLater();
     }
     return true;
+}
+
+bool ImageEngineApi::isVideo(QString path)
+{
+    bool isVideo = false;
+    QFileInfo temDir(path);
+    QString fileName = temDir.suffix();//扩展名
+    for (const QString &i : m_videoSupportType) {
+        if (i.contains(fileName)) {
+            isVideo = true;
+            break;
+        }
+    }
+    return isVideo;
 }
 
 int ImageEngineApi::CacheThreadNum()
@@ -515,7 +534,7 @@ bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, Ima
 }
 bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
 {
-    emit dApp->signalM->popupWaitDialog(tr("Importing..."));
+    emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImageImportFilesFromMountThread *imagethread = new ImageImportFilesFromMountThread;
     connect(imagethread, &ImageImportFilesFromMountThread::sigImageFilesImported, this, &ImageEngineApi::sltImageFilesImported);
 //    if (albumname == tr("Gallery")) {

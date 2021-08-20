@@ -111,7 +111,7 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount) const
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
-            info.fileType = query.value(6).toInt();
+            info.itemType = static_cast<ItemType>(query.value(6).toInt());
             infos << info;
         }
     }
@@ -239,7 +239,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
         importtimes << info.importTime.toString(DATETIME_FORMAT_DATABASE);
-        fileTypes << info.fileType;
+        fileTypes << info.itemType;
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
@@ -787,7 +787,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
-            info.fileType = query.value(6).toInt();
+            info.itemType = static_cast<ItemType>(query.value(6).toInt());
             infos << info;
         }
     }
@@ -936,7 +936,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
-            info.fileType = query.value(6).toInt();
+            info.itemType = static_cast<ItemType>(query.value(6).toInt());
             infos << info;
         }
     }
@@ -998,7 +998,8 @@ void DBManager::checkDatabase()
                                           "Time TEXT, "
                                           "ChangeTime TEXT, "
                                           "ImportTime TEXT, "
-                                          "FileType INTEGER)"));
+                                          "FileType INTEGER, "
+                                          "DataHash TEXT)"));
         if (!b) {
             qDebug() << "b CREATE TABLE exec failed.";
         }
@@ -1067,11 +1068,25 @@ void DBManager::checkDatabase()
         QString strSqlFileType = QString::fromLocal8Bit(
                                      "select * from sqlite_master where name = 'ImageTable3' and sql like '%FileType%'");
         QSqlQuery queryFileType(db);
+        int fileType = static_cast<int>(ItemTypePic);
         queryFileType.exec(strSqlFileType);
         if (!queryFileType.next()) {
             // 无FileType字段,则增加FileType字段,赋值1,默认是图片
-            if (queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"FileType\" INTEGER default \"%1\"")
-                                 .arg("1"))) {
+            if (queryFileType.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"FileType\" INTEGER default \"%1\"")
+                                   .arg(QString::number(fileType)))) {
+                qDebug() << "add FileType success";
+            }
+        }
+
+        // 判断ImageTable3中是否有DataHash字段，根据文件内容产生的hash
+        QString strDataHash = QString::fromLocal8Bit(
+                                  "select * from sqlite_master where name = 'ImageTable3' and sql like '%DataHash%'");
+        QSqlQuery queryDataHash(db);
+        queryDataHash.exec(strDataHash);
+        if (!queryDataHash.next()) {
+            // DataHash,则增加DataHash字段
+            if (queryDataHash.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"DataHash\" TEXT default \"%1\"")
+                                   .arg(""))) {
                 qDebug() << "add FileType success";
             }
         }

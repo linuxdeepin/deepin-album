@@ -291,7 +291,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
     m_albumName = album;
     using namespace utils::image;
     m_keywords = s;
-    QList<ItemInfo> thumbnaiItemList;
+    QList<DBImgInfo> thumbnaiItemList;
     DBImgInfoList infos;
     if (COMMON_STR_ALLPHOTOS == m_albumName
             || COMMON_STR_TIMELINE == m_albumName
@@ -374,7 +374,7 @@ void SearchView::onOpenImage(int row, const QString &path, bool bFullScreen)
     } else {
         info.paths.clear();
     }
-    info.itemInfos = m_pThumbnailListView->getAllFileInfo(row);
+    info.dBImgInfos = m_pThumbnailListView->getAllFileInfo(row);
     info.viewType = utils::common::VIEW_SEARCH_SRN;
 
     emit dApp->signalM->viewImage(info);
@@ -492,6 +492,7 @@ void SearchView::onKeyDelete()
     if (0 >= paths.length()) {
         return;
     }
+    m_pThumbnailListView->clearSelection();
     ImageEngineApi::instance()->moveImagesToTrash(paths);
 }
 

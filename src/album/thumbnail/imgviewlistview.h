@@ -61,7 +61,7 @@ public:
     explicit ImgViewListView(QWidget *parent = nullptr);
     ~ImgViewListView() override;
 
-    void setAllFile(QList<ItemInfo> itemInfos, const QString &path);//设置需要展示的所有缩略图
+    void setAllFile(QList<DBImgInfo> DBImgInfos, const QString &path);//设置需要展示的所有缩略图
 
     int getSelectIndexByPath(const QString &path);
     //将选中的项居中
@@ -82,7 +82,7 @@ public slots:
     //列表点击事件
     void onClicked(const QModelIndex &index);
 private:
-    void cutPixmap(ItemInfo &iteminfo);
+    void cutPixmap(DBImgInfo &DBImgInfo);
     //加载后50张图片
     void loadFiftyRight();
     //当点击的是最后一个时，向前移动动画

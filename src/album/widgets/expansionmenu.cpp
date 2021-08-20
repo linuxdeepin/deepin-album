@@ -59,7 +59,7 @@ void FilterWidget::setFilteData(ExpansionPanel::FilteData &data)
     m_btn->setText(data.text);
 }
 
-ItemInfoType FilterWidget::getFilteType()
+ItemType FilterWidget::getFilteType()
 {
     return m_data.type;
 }

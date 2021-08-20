@@ -49,12 +49,7 @@ public:
     {
     }
 
-    bool imageImported(bool success) override
-    {
-        Q_UNUSED(success);
-        emit dApp->signalM->closeWaitDialog();
-        return true;
-    }
+    bool imageImported(bool success) override;
 
     void updateStackedWidget();
     void updatePicNum();

@@ -32,6 +32,7 @@
 #include "utils/imageutils.h"
 #include "utils/unionimage.h"
 #include "imageengine/imageengineapi.h"
+#include "imagedataservice.h"
 #include "ac-desktop-define.h"
 
 ImportView::ImportView()
@@ -112,7 +113,8 @@ void ImportView::mousePressEvent(QMouseEvent *e)
 void ImportView::dragEnterEvent(QDragEnterEvent *e)
 {
     const QMimeData *mimeData = e->mimeData();
-    if (!utils::base::checkMimeData(mimeData)) {
+    bool bData = utils::base::checkMimeData(mimeData);
+    if (!bData) {
         return;
     }
     e->setDropAction(Qt::CopyAction);
@@ -210,7 +212,8 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
         emit dApp->signalM->ImportFailed();
         return;
     }
-    ImageEngineApi::instance()->SaveImagesCache(file_list);
+
+//    ImageEngineApi::instance()->makeThumbnailByPaths(file_list);
     ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_albumname, this, true);
 }
 

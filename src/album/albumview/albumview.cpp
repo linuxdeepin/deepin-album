@@ -180,7 +180,17 @@ AlbumView::~AlbumView()
 //    if (m_vfsManager) {
 //        delete  m_vfsManager;
 //        m_vfsManager = nullptr;
-//    }
+    //    }
+}
+
+bool AlbumView::imageImported(bool success)
+{
+    Q_UNUSED(success);
+    emit dApp->signalM->closeWaitDialog();
+    if (COMMON_STR_CUSTOM == m_currentType) {
+        m_customThumbnailList->reloadImage();
+    }
+    return true;
 }
 
 QString sizeString(const QString &str)
@@ -1041,7 +1051,7 @@ void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
     } else {
         info.paths.clear();
     }
-    info.itemInfos = m_favoriteThumbnailList->getAllFileInfo(row);
+    info.dBImgInfos = m_favoriteThumbnailList->getAllFileInfo(row);
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->viewImage(info);
@@ -1061,7 +1071,7 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     } else {
         info.paths.clear();
     }
-    info.itemInfos = m_customThumbnailList->getAllFileInfo(row);
+    info.dBImgInfos = m_customThumbnailList->getAllFileInfo(row);
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->viewImage(info);
@@ -1155,6 +1165,7 @@ void AlbumView::onKeyDelete()
     paths.clear();
     if (COMMON_STR_RECENT_IMPORTED == m_currentType) {
         paths = m_pImpTimeLineView->selectPaths();
+        m_pImpTimeLineView->getListView()->clearSelection();
         if (0 < paths.length()) {
             bMoveToTrash = true;
         }
@@ -1164,18 +1175,21 @@ void AlbumView::onKeyDelete()
             ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
             dialog->setObjectName("deteledialog");
             if (dialog->exec() > 0) {
+                m_pRightTrashThumbnailList->clearSelection();
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
             }
         }
     } else if (COMMON_STR_FAVORITES == m_currentType) {
         paths = m_favoriteThumbnailList->selectedPaths();
         if (0 < paths.length()) {
+            m_favoriteThumbnailList->clearSelection();
             DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         //相册delete快捷键从直接删除更改为从相册移除
         paths = m_customThumbnailList->selectedPaths();
         if (0 < paths.length()) {
+            m_customThumbnailList->clearSelection();
             DBManager::instance()->removeFromAlbum(m_currentAlbum, paths, AlbumDBType::Custom);
         }
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_currentType) {

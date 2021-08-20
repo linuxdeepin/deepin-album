@@ -47,6 +47,7 @@
 #include <QtMath>
 
 #include "imgviewlistview.h"
+#include "imagedataservice.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -70,21 +71,21 @@ MyImageListWidget::~MyImageListWidget()
 {
 }
 
-void MyImageListWidget::setAllFile(QList<ItemInfo> itemInfos, QString path)
+void MyImageListWidget::setAllFile(QList<DBImgInfo> DBImgInfos, QString path)
 {
-    m_listview->setAllFile(itemInfos, path);
-    this->setVisible(itemInfos.size() > 1);
+    m_listview->setAllFile(DBImgInfos, path);
+    this->setVisible(DBImgInfos.size() > 1);
     setSelectCenter();
     emit openImg(m_listview->getSelectIndexByPath(path), path);
 }
 
-ItemInfo MyImageListWidget::getImgInfo(const QString &path)
+DBImgInfo MyImageListWidget::getImgInfo(const QString &path)
 {
-    ItemInfo info;
+    DBImgInfo info;
     for (int i = 0; i < m_listview->m_model->rowCount(); i++) {
         QModelIndex indexImg = m_listview->m_model->index(i, 0);
-        ItemInfo infoImg = indexImg.data(Qt::DisplayRole).value<ItemInfo>();
-        if (infoImg.path == path) {
+        DBImgInfo infoImg = indexImg.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (infoImg.filePath == path) {
             info = infoImg;
             break;
         }
@@ -108,8 +109,72 @@ void MyImageListWidget::removeCurrent()
     this->setVisible(getImgCount() > 1);
 }
 
+void MyImageListWidget::reloadImage(int value)
+{
+    //加载上下两百张
+    if (m_loadTimer == nullptr) {
+        m_loadTimer = new QTimer(this);
+        m_loadTimer->setInterval(50);
+        m_loadTimer->setSingleShot(true);
+        connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
+            qDebug() << __FUNCTION__ << "---m_value = " << m_value;
+            QModelIndex load = m_listview->indexAt(QPoint(m_value, 30));
+            if (!load.isValid())
+            {
+                load = m_listview->indexAt(QPoint(m_value + 10, 30));
+            }
+            if (!load.isValid())
+            {
+                load = m_listview->indexAt(QPoint(m_value + 20, 30));
+            }
+            if (!load.isValid())
+            {
+                load = m_listview->m_model->index(0, 0);
+            }
+            if (!load.isValid())
+            {
+                return;
+            }
+            QStringList pathlist;
+            int count = 0;
+            DBImgInfo dataload = load.data(Qt::DisplayRole).value<DBImgInfo>();
+            qDebug() << __FUNCTION__ << "---" << dataload.filePath;
+            for (int i = load.row(); i >= 0; i--)
+            {
+                QModelIndex index = m_listview->m_model->index(i, 0);
+                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+                pathlist << data.filePath;
+                count++;
+                if (count >= 200) {
+                    break;
+                }
+            }
+            count = 0;
+            for (int i = load.row(); i < m_listview->m_model->rowCount(); i++)
+            {
+                QModelIndex index = m_listview->m_model->index(i, 0);
+                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+                pathlist << data.filePath;
+                count++;
+                if (count >= 200) {
+                    break;
+                }
+            }
+            qDebug() << __FUNCTION__ << "---pathlist = " << pathlist.size();
+            ImageDataService::instance()->readThumbnailByPaths(pathlist);
+            m_listview->update();
+        });
+    }
+    if (m_loadTimer->isActive()) {
+        m_loadTimer->stop();
+    }
+    m_loadTimer->start();
+}
+
 void MyImageListWidget::onScrollBarValueChanged(int value)
 {
+    m_value = value;
+    reloadImage(value);
     Q_UNUSED(value)
     QModelIndex index = m_listview->indexAt(QPoint((m_listview->width() - 15), 10));
     if (!index.isValid()) {

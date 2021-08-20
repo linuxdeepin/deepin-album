@@ -61,6 +61,14 @@ ImportTimeLineView::ImportTimeLineView(DWidget *parent)
     initConnections();
 }
 
+bool ImportTimeLineView::imageImported(bool success)
+{
+    Q_UNUSED(success);
+    emit dApp->signalM->closeWaitDialog();
+    m_importTimeLineListView->reloadImage();
+    return true;
+}
+
 int ImportTimeLineView::getIBaseHeight()
 {
     if (m_DSlider == nullptr) {
@@ -160,7 +168,7 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 //    }
 }
 
-ThumbnailListView *ImportTimeLineView::getFirstListView()
+ThumbnailListView *ImportTimeLineView::getListView()
 {
     return m_importTimeLineListView;
 }
@@ -489,7 +497,7 @@ void ImportTimeLineView::onOpenImage(int row, const QString &path, bool bFullScr
         info.paths.clear();
     }
 
-    info.itemInfos = m_importTimeLineListView->getAllFileInfo(row);
+    info.dBImgInfos = m_importTimeLineListView->getAllFileInfo(row);
     info.viewType = COMMON_STR_RECENT_IMPORTED;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->viewImage(info);

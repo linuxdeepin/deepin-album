@@ -42,6 +42,7 @@
 #include "ac-desktop-define.h"
 #include "timelinedatewidget.h"
 #include "allpicview/allpicview.h"
+#include "imagedataservice.h"
 
 namespace {
 const int ITEM_SPACING = 4;
@@ -162,7 +163,7 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 #endif
     }
     QModelIndex index = this->indexAt(event->pos());
-    ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+    DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
     if ((m_imageType != COMMON_STR_VIEW_TIMELINE)
             && (m_delegatetype != ThumbnailDelegate::AllPicViewType)
             && (m_imageType != COMMON_STR_TRASH)
@@ -243,16 +244,13 @@ void ThumbnailListView::showEvent(QShowEvent *event)
             int i = m_model->rowCount() - 1 < 0 ? 0 : m_model->rowCount() - 1;
             for (; i < size; i++) {
                 ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
-                ItemInfo info;
+                DBImgInfo info = data.dbi;
                 if (data.imgpixmap.isNull()) {
                     info.bNotSupportedOrDamaged = true;
                     info.damagedPixmap = getDamagedPixmap();
                 }
-                info.name = data.dbi.fileName;
-                info.path = data.dbi.filePath;
                 info.image = data.imgpixmap;
-                ImageEngineApi::instance()->m_AllImageMap[info.path] = info.image;
-                //        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
+                ImageEngineApi::instance()->m_AllImageMap[info.filePath] = info.image;
                 info.remainDays = data.remainDays;
                 info.imgWidth = m_onePicWidth;
                 info.imgHeight = m_onePicWidth;
@@ -385,19 +383,19 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
 {
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
-        if (info.path == updatePath) {  //需要旋转的图片
+        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (info.filePath == updatePath) {  //需要旋转的图片
             ImageDataSt data;
             ImageEngineApi::instance()->getImageData(updatePath, data);
             if (data.imgpixmap.isNull()) {
                 info.bNotSupportedOrDamaged = true;
                 info.damagedPixmap = getDamagedPixmap();
             }
-            info.name = data.dbi.fileName;
-            info.path = data.dbi.filePath;
+            info.fileName = data.dbi.fileName;
+            info.filePath = data.dbi.filePath;
             info.image = data.imgpixmap;
             info.remainDays = data.remainDays;
-            info.fileType = data.dbi.fileType;
+            info.itemType = data.dbi.itemType;
             info.videoDuration = data.dbi.videoDuration;
 
             QVariant infoVariant;
@@ -405,29 +403,29 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
 
             m_model->setData(index, infoVariant, Qt::DisplayRole);
             m_model->setData(index, QVariant(QSize(info.imgWidth, info.imgWidth)), Qt::SizeHintRole);
-            QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(info.path);
+            QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(info.filePath);
             m_model->setData(index, QVariant(albumNames), Qt::UserRole + 2);
         }
     }
     this->setSpacing(ITEM_SPACING);
 }
 
-void ThumbnailListView::insertThumbnail(const ItemInfo &iteminfo)
+void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
 {
-    ItemInfo info = iteminfo;
+    DBImgInfo info = dBImgInfo;
     cutPixmap(info);
 
     QStandardItem *item = new QStandardItem;
     QVariant infoVariant;
     int height = info.imgHeight;
-    if (info.itemType == ItemInfoType::ItemTypeBlank
-            || info.itemType == ItemInfoType::ItemTypeTimeLineTitle
-            || info.itemType == ItemInfoType::ItemTypeImportTimeLineTitle) {
+    if (info.itemType == ItemType::ItemTypeBlank
+            || info.itemType == ItemType::ItemTypeTimeLineTitle
+            || info.itemType == ItemType::ItemTypeImportTimeLineTitle) {
         info.imgWidth = this->width() - 5;
     }
     infoVariant.setValue(info);
     item->setData(infoVariant, Qt::DisplayRole);
-    QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(info.path);
+    QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(info.filePath);
     item->setData(QVariant(albumNames), Qt::UserRole + 2);
     item->setData(QVariant(QSize(info.imgWidth, /*gridItem[i][j].height*/height)),
                   Qt::SizeHintRole);
@@ -462,9 +460,9 @@ QStringList ThumbnailListView::getFileList(int row)
         //遍历所有数据
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
-            ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-            if (data.itemType == ItemInfoType::ItemTypePic) {
-                m_allfileslist.append(data.path);
+            DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+            if (data.itemType == ItemType::ItemTypePic) {
+                m_allfileslist.append(data.filePath);
             }
         }
     } else if (m_delegatetype == ThumbnailDelegate::TimeLineViewType
@@ -473,7 +471,7 @@ QStringList ThumbnailListView::getFileList(int row)
         QModelIndex titleIndex;
         for (int i = row; i >= 0; i--) {
             QModelIndex itemIndex = m_model->index(i, 0);
-            ItemInfo data = itemIndex.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = itemIndex.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeTimeLineTitle
                     || data.itemType == ItemTypeImportTimeLineTitle
                     || data.itemType == ItemTypeBlank) {
@@ -485,13 +483,13 @@ QStringList ThumbnailListView::getFileList(int row)
         //根据找到的标题，遍历当前时间下所有数据
         for (; index < m_model->rowCount(); index++) {
             QModelIndex itemIndex = m_model->index(index, 0);
-            ItemInfo data = itemIndex.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = itemIndex.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeTimeLineTitle
                     || data.itemType == ItemTypeImportTimeLineTitle) {
                 break;
             } else {
-                if (!data.path.isEmpty()) {
-                    m_allfileslist.append(data.path);
+                if (!data.filePath.isEmpty()) {
+                    m_allfileslist.append(data.filePath);
                 }
             }
         }
@@ -499,18 +497,18 @@ QStringList ThumbnailListView::getFileList(int row)
     return m_allfileslist;
 }
 
-QList<ItemInfo> ThumbnailListView::getAllFileInfo(int row)
+QList<DBImgInfo> ThumbnailListView::getAllFileInfo(int row)
 {
-    QList<ItemInfo> itemInfos;
+    QList<DBImgInfo> DBImgInfos;
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewCustomType
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
             || m_delegatetype == ThumbnailDelegate::SearchViewType) {
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
-            ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-            if (data.itemType == ItemInfoType::ItemTypePic) {
-                itemInfos.append(data);
+            DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+            if (data.itemType == ItemType::ItemTypePic) {
+                DBImgInfos.append(data);
             }
         }
     } else if (m_delegatetype == ThumbnailDelegate::TimeLineViewType
@@ -519,7 +517,7 @@ QList<ItemInfo> ThumbnailListView::getAllFileInfo(int row)
         QModelIndex titleIndex;
         for (int i = row; i >= 0; i--) {
             QModelIndex itemIndex = m_model->index(i, 0);
-            ItemInfo data = itemIndex.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = itemIndex.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeTimeLineTitle
                     || data.itemType == ItemTypeImportTimeLineTitle
                     || data.itemType == ItemTypeBlank) {
@@ -531,16 +529,16 @@ QList<ItemInfo> ThumbnailListView::getAllFileInfo(int row)
         //根据找到的标题，遍历当前时间下所有数据
         for (; index < m_model->rowCount(); index++) {
             QModelIndex itemIndex = m_model->index(index, 0);
-            ItemInfo data = itemIndex.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = itemIndex.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeTimeLineTitle
                     || data.itemType == ItemTypeImportTimeLineTitle) {
                 break;
             } else {
-                itemInfos.append(data);
+                DBImgInfos.append(data);
             }
         }
     }
-    return itemInfos;
+    return DBImgInfos;
 }
 
 int ThumbnailListView::getRow(const QString &path)
@@ -548,9 +546,9 @@ int ThumbnailListView::getRow(const QString &path)
     int row = -1;
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-        if (data.itemType == ItemInfoType::ItemTypePic) {
-            if (data.path == path) {
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.itemType == ItemType::ItemTypePic) {
+            if (data.filePath == path) {
                 row = i;
             }
         }
@@ -566,7 +564,7 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
         return;
     }
     //标题项和空白项不显示右键菜单
-    ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+    DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
     if (info.itemType == ItemTypeBlank
             || info.itemType == ItemTypeTimeLineTitle
             || info.itemType == ItemTypeImportTimeLineTitle) {
@@ -833,12 +831,12 @@ QStringList ThumbnailListView::selectedPaths()
         if (isRowHidden(index.row())) {
             continue;
         }
-        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
         if ((info.itemType != ItemTypeBlank
                 || info.itemType != ItemTypeTimeLineTitle
                 || info.itemType != ItemTypeImportTimeLineTitle)
-                && !info.path.isEmpty()) {
-            paths << info.path;
+                && !info.filePath.isEmpty()) {
+            paths << info.filePath;
         }
     }
     return paths;
@@ -902,6 +900,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdMoveToTrash: {
         qDebug() << "---" << __FUNCTION__ << "---" << "IdMoveToTrash";
+        clearSelection();
         this->removeSelectToTrash(paths);
     }
     break;
@@ -998,8 +997,8 @@ void ThumbnailListView::onPixMapScale(int value)
 void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
 {
     QStringList str;
-    ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
-    str << info.path;
+    DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
+    str << info.filePath;
     //通知其它界面更新取消收藏
     DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str, AlbumDBType::Favourite);
     emit dApp->signalM->updateFavoriteNum();
@@ -1013,10 +1012,10 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
     //改变第一个空白项和标题项的宽度
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-        if (data.itemType == ItemInfoType::ItemTypeBlank
-                || data.itemType == ItemInfoType::ItemTypeTimeLineTitle
-                || data.itemType == ItemInfoType::ItemTypeImportTimeLineTitle) {
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.itemType == ItemType::ItemTypeBlank
+                || data.itemType == ItemType::ItemTypeTimeLineTitle
+                || data.itemType == ItemType::ItemTypeImportTimeLineTitle) {
             data.imgWidth = this->width() - 5;
             QVariant meta;
             meta.setValue(data);
@@ -1086,7 +1085,7 @@ QStringList ThumbnailListView::getCurrentIndexTime(const QModelIndex &index)
     if (index.isValid()) {
         for (int i = index.row(); i >= 0; i--) {
             QModelIndex idx = m_model->index(i, 0);
-            ItemInfo tempdata = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo tempdata = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (tempdata.itemType == ItemTypeBlank || tempdata.itemType == ItemTypeTimeLineTitle
                     || tempdata.itemType == ItemTypeImportTimeLineTitle) {
                 list.append(tempdata.date);
@@ -1108,7 +1107,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
         //图片，向前循环判断选中状态
         for (int i = index.row(); i > 0; i--) {
             QModelIndex idx = m_model->index(i, 0);
-            ItemInfo tempdata = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo tempdata = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (tempdata.itemType == ItemTypeBlank || tempdata.itemType == ItemTypeTimeLineTitle
                     || tempdata.itemType == ItemTypeImportTimeLineTitle) {
                 break;
@@ -1120,7 +1119,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
         //图片，向后循环判断选中状态
         for (int j = index.row(); j < m_model->rowCount(); j++) {
             QModelIndex idx = m_model->index(j, 0);
-            ItemInfo tempdata = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo tempdata = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (tempdata.itemType == ItemTypeBlank || tempdata.itemType == ItemTypeTimeLineTitle
                     || tempdata.itemType == ItemTypeImportTimeLineTitle) {
                 break;
@@ -1132,7 +1131,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
     } else {//标题，+1进入第一张
         for (int j = index.row() + 1; j < m_model->rowCount(); j++) {
             QModelIndex idx = m_model->index(j, 0);
-            ItemInfo tempdata = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo tempdata = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (tempdata.itemType == ItemTypeBlank || tempdata.itemType == ItemTypeTimeLineTitle
                     || tempdata.itemType == ItemTypeImportTimeLineTitle) {
                 break;
@@ -1145,33 +1144,33 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
     return true;
 }
 
-bool ThumbnailListView::isAllSelectType(ItemInfoType type)
+bool ThumbnailListView::isAllAppointType(ItemType type)
 {
-    bool isAllSelectType = true;
+    bool isAllAppointType = true;
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
         if (type == ItemTypePic) {
             if (info.itemType == ItemTypeVideo) {
-                isAllSelectType = false;
+                isAllAppointType = false;
                 break;
             }
         } else if (type == ItemTypeVideo) {
             if (info.itemType == ItemTypePic) {
-                isAllSelectType = false;
+                isAllAppointType = false;
                 break;
             }
         }
     }
-    qDebug() << __FUNCTION__ << "---isAllSelectType = " << isAllSelectType;
-    return isAllSelectType;
+    qDebug() << __FUNCTION__ << "---isAllAppointType = " << isAllAppointType;
+    return isAllAppointType;
 }
 
-void ThumbnailListView::hideAllSelectType(ItemInfoType type)
+void ThumbnailListView::hideAllAppointType(ItemType type)
 {
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
         if (info.itemType == type) {
             setRowHidden(i, true);
         } else {
@@ -1181,12 +1180,12 @@ void ThumbnailListView::hideAllSelectType(ItemInfoType type)
     //有可能出现图片或者视频删除好，时间线页面两个标题在一起的情况
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
         if (info.itemType == ItemTypeTimeLineTitle | info.itemType == ItemTypeImportTimeLineTitle) {
             //上面一项如果是空白项，则隐藏当前标题
             if ((i - 1 >= 0)) {
                 QModelIndex preIndex = m_model->index((i - 1), 0);
-                ItemInfo preInfo = preIndex.data(Qt::DisplayRole).value<ItemInfo>();
+                DBImgInfo preInfo = preIndex.data(Qt::DisplayRole).value<DBImgInfo>();
                 if (preInfo.itemType == ItemTypeBlank) {
                     setRowHidden(i, true);
                 }
@@ -1194,7 +1193,7 @@ void ThumbnailListView::hideAllSelectType(ItemInfoType type)
             //如果下一项是标题，则隐藏当前项
             if ((i + 1) < m_model->rowCount()) {
                 QModelIndex nextIndex = m_model->index((i + 1), 0);
-                ItemInfo nextInfo = nextIndex.data(Qt::DisplayRole).value<ItemInfo>();
+                DBImgInfo nextInfo = nextIndex.data(Qt::DisplayRole).value<DBImgInfo>();
                 if (nextInfo.itemType == ItemTypeTimeLineTitle | nextInfo.itemType == ItemTypeImportTimeLineTitle) {
                     setRowHidden(i, true);
                 }
@@ -1224,7 +1223,7 @@ void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
 {
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
 
         const bool &bNotSuppOrDmg = info.bNotSupportedOrDamaged;
         if (bNotSuppOrDmg) {
@@ -1247,8 +1246,8 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &info
         foreach (auto info, infos) {
             for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
                 QModelIndex index = m_model->index(i, 0);
-                ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-                if (info.filePath == data.path) {
+                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+                if (info.filePath == data.filePath) {
                     m_model->removeRow(i);
                     break;
                 }
@@ -1260,10 +1259,10 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &info
         //给需要移除的项添加标志
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
-            ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
             if (i < (m_model->rowCount() - 1)) {
                 QModelIndex indexNext = m_model->index((i + 1), 0);
-                ItemInfo dataNext = indexNext.data(Qt::DisplayRole).value<ItemInfo>();
+                DBImgInfo dataNext = indexNext.data(Qt::DisplayRole).value<DBImgInfo>();
                 //当前项和下一项都是标题，则当前项标记为需要删除
                 if ((data.itemType == ItemTypeTimeLineTitle && dataNext.itemType == ItemTypeTimeLineTitle)
                         || (data.itemType == ItemTypeImportTimeLineTitle && dataNext.itemType == ItemTypeImportTimeLineTitle)) {
@@ -1294,7 +1293,7 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &info
         //移除添加了标志的项
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
-            ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.bNeedDelete) {
                 m_model->removeRow(i);
                 //移除后先减1，后面加1的时候才不会遗漏
@@ -1312,7 +1311,7 @@ void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *i
     int index = m_model->indexFromItem(item).row() + 1;
     for (; index < m_model->rowCount(); index++) {
         QModelIndex itemIndex = m_model->index(index, 0);
-        ItemInfo data = itemIndex.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo data = itemIndex.data(Qt::DisplayRole).value<DBImgInfo>();
         if (data.itemType == ItemTypeTimeLineTitle || data.itemType == ItemTypeImportTimeLineTitle) {
             break;
         } else {
@@ -1331,7 +1330,7 @@ void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
         TimeLineDateWidget *w = nullptr;
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex idx = m_model->index(i, 0);
-            ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeTimeLineTitle) {
                 w = static_cast<TimeLineDateWidget *>(this->indexWidget(idx));
                 if (w != nullptr)  {
@@ -1343,7 +1342,7 @@ void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
         importTimeLineDateWidget *w = nullptr;
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex idx = m_model->index(i, 0);
-            ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeImportTimeLineTitle) {
                 w = static_cast<importTimeLineDateWidget *>(this->indexWidget(idx));
                 if (w != nullptr)  {
@@ -1362,9 +1361,9 @@ void ThumbnailListView::selectDuplicatePhotos(QStringList paths)
         this->clearSelection();
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
-            ItemInfo info = index.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
             for (int j = 0; j < paths.count(); j++) {
-                if (info.path == paths.at(j)) {
+                if (info.filePath == paths.at(j)) {
                     // 选中
                     selectionModel()->select(index, QItemSelectionModel::Select);
                     if (!firstIndex.isValid()) {
@@ -1415,7 +1414,7 @@ void ThumbnailListView::updateModelRoleData(QString albumName, int actionType)
     QStringList paths;
     paths.clear();
     for (QModelIndex index : selectedIndexes()) {
-        paths.append(index.data(Qt::DisplayRole).value<ItemInfo>().path);
+        paths.append(index.data(Qt::DisplayRole).value<DBImgInfo>().filePath);
     }
     emit SignalManager::instance()->sigSyncListviewModelData(paths, albumName, actionType);
 }
@@ -1456,9 +1455,9 @@ void ThumbnailListView::clearAll()
 //插入一个空白项，ItemTypeBlank
 //插入时间线标题，ItemTypeTimeLineTitle
 //插入已导入时间线标题，ItemTypeImportTimeLineTitle
-void ThumbnailListView::insertBlankOrTitleItem(ItemInfoType type, const QString &date, const QString &num, int height)
+void ThumbnailListView::insertBlankOrTitleItem(ItemType type, const QString &date, const QString &num, int height)
 {
-    ItemInfo info;
+    DBImgInfo info;
     info.itemType = type;
     info.imgWidth = this->width();
     if (type == ItemTypeBlank) {
@@ -1475,7 +1474,7 @@ void ThumbnailListView::resetBlankItemHeight(int height)
 
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex idx = m_model->index(i, 0);
-        ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
         if (data.itemType == ItemTypeBlank) {
             m_blankItemHeight = height;
             data.imgHeight = height;
@@ -1495,24 +1494,22 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
         DBImgInfo imgData = infoList.at(i);
         ImageDataSt data;
         data.dbi = imgData;
-        ItemInfo info;
+        DBImgInfo info = imgData;
         if (ImageEngineApi::instance()->m_AllImageMap[imgData.filePath].isNull()) {
             info.damagedPixmap = getDamagedPixmap();
         } else {
             info.image = ImageEngineApi::instance()->m_AllImageMap[imgData.filePath];
         }
-        info.name = data.dbi.fileName;
-        info.path = data.dbi.filePath;
         info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
-        info.fileType = data.dbi.fileType;
+        info.itemType = data.dbi.itemType;
         info.videoDuration = data.dbi.videoDuration;
         insertThumbnail(info);
     }
 }
 //判断所有图片是否全选中
-bool ThumbnailListView::isAllSelected(ItemInfoType type)
+bool ThumbnailListView::isAllSelected(ItemType type)
 {
     bool isAllSelected = true;
     qDebug() << __FUNCTION__ << "---type = " << type;
@@ -1523,9 +1520,9 @@ bool ThumbnailListView::isAllSelected(ItemInfoType type)
     }
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex idx = m_model->index(i, 0);
-        ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
         //全选
-        if (type == ItemInfoType::ItemTypeNull) {
+        if (type == ItemType::ItemTypeNull) {
             if ((data.itemType == ItemTypeVideo || data.itemType == ItemTypePic)
                     && !this->selectionModel()->selection().contains(idx)) {
                 isAllSelected = false;
@@ -1588,7 +1585,7 @@ void ThumbnailListView::updatetimeLimeBtnText()
         TimeLineDateWidget *w = nullptr;
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex idx = m_model->index(i, 0);
-            ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeBlank) {
                 continue;
             }
@@ -1618,7 +1615,7 @@ void ThumbnailListView::updatetimeLimeBtnText()
         isSelectAll = true;
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex idx = m_model->index(i, 0);
-            ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeBlank) {
                 continue;
             }
@@ -1646,48 +1643,48 @@ void ThumbnailListView::updatetimeLimeBtnText()
     }
 }
 
-void ThumbnailListView::showSelectedTypeItem(ItemInfoType type)
+void ThumbnailListView::showAppointTypeItem(ItemType type)
 {
     //切换显示之前先清除选中
     this->clearSelection();
     qDebug() << __FUNCTION__ << "---";
     if (type == ItemTypePic) {
         //显示所有图片
-        if (isAllSelectType(ItemTypeVideo)) {
+        if (isAllAppointType(ItemTypeVideo)) {
             //如果全是视频，显示无结果
             //todo
             emit sigNoPicOrNoVideo(true);
         } else {
             //隐藏视频项
-            hideAllSelectType(ItemTypeVideo);
+            hideAllAppointType(ItemTypeVideo);
             emit sigNoPicOrNoVideo(false);
         }
     } else if (type == ItemTypeVideo) {
         //显示所有视频
-        if (isAllSelectType(ItemTypePic)) {
+        if (isAllAppointType(ItemTypePic)) {
             //如果全是图片，显示无结果
             //todo
             emit sigNoPicOrNoVideo(true);
         } else {
             //隐藏图片项
-            hideAllSelectType(ItemTypePic);
+            hideAllAppointType(ItemTypePic);
             emit sigNoPicOrNoVideo(false);
         }
     } else if (type == ItemTypeNull) {
         //恢复显示所有
-        hideAllSelectType(ItemTypeNull);
+        hideAllAppointType(ItemTypeNull);
         emit sigNoPicOrNoVideo(false);
     }
 }
 //显示类型数量
-int ThumbnailListView::filterTypeItemCount(ItemInfoType type)
+int ThumbnailListView::filterTypeItemCount(ItemType type)
 {
     int count = 0;
     for (int i = 0;  i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
         //全选
-        if (type == ItemInfoType::ItemTypeNull) {
+        if (type == ItemType::ItemTypeNull) {
             if (pdata.itemType == ItemTypeVideo || pdata.itemType == ItemTypePic) {
                 count++;
             }
@@ -1698,7 +1695,7 @@ int ThumbnailListView::filterTypeItemCount(ItemInfoType type)
     return count;
 }
 //按类型选择
-void ThumbnailListView::selectAllByItemType(ItemInfoType type)
+void ThumbnailListView::selectAllByItemType(ItemType type)
 {
     qDebug() << __FUNCTION__ << "---type = " << type;
     this->selectAll();
@@ -1709,7 +1706,7 @@ void ThumbnailListView::selectAllByItemType(ItemInfoType type)
 //    } else {
 //        for (int i = 0;  i < m_model->rowCount(); i++) {
 //            QModelIndex index = m_model->index(i, 0);
-//            ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
+//            DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
 //            if (pdata.itemType  == type) {
 //                selectionModel()->select(index, QItemSelectionModel::Select);
 //            }
@@ -1722,7 +1719,7 @@ void ThumbnailListView::TimeLineSelectAllBtn()
     if (m_delegatetype == ThumbnailDelegate::TimeLineViewType || m_delegatetype == ThumbnailDelegate:: AlbumViewImportTimeLineViewType) {
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex idx = m_model->index(i, 0);
-            ItemInfo data = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypeTimeLineTitle) {
                 TimeLineDateWidget *w = static_cast<TimeLineDateWidget *>(this->indexWidget(idx));
                 if (w) {
@@ -1736,6 +1733,65 @@ void ThumbnailListView::TimeLineSelectAllBtn()
             }
         }
     }
+}
+
+void ThumbnailListView::reloadImage()
+{
+    //加载上下两百张
+    if (m_loadTimer == nullptr) {
+        m_loadTimer = new QTimer(this);
+        m_loadTimer->setInterval(50);
+        m_loadTimer->setSingleShot(true);
+        connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
+            QModelIndex load = indexAt(QPoint(100, 100));
+            if (!load.isValid())
+            {
+                load = indexAt(QPoint(120, 130));
+            }
+            if (!load.isValid())
+            {
+                load = indexAt(QPoint(120, 140));
+            }
+            if (!load.isValid())
+            {
+                load = m_model->index(0, 0);
+            }
+            if (!load.isValid())
+            {
+                return;
+            }
+            QStringList pathlist;
+            int count = 0;
+            for (int i = load.row(); i >= 0; i--)
+            {
+                QModelIndex index = m_model->index(i, 0);
+                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+                pathlist << data.filePath;
+                count++;
+                if (count >= 200) {
+                    break;
+                }
+            }
+            count = 0;
+            for (int i = load.row(); i < m_model->rowCount(); i++)
+            {
+                QModelIndex index = m_model->index(i, 0);
+                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+                pathlist << data.filePath;
+                count++;
+                if (count >= 200) {
+                    break;
+                }
+            }
+            qDebug() << __FUNCTION__ << "---";
+            ImageDataService::instance()->readThumbnailByPaths(pathlist);
+            this->update();
+        });
+    }
+    if (m_loadTimer->isActive()) {
+        m_loadTimer->stop();
+    }
+    m_loadTimer->start();
 }
 
 void ThumbnailListView::slotLoad80ThumbnailsFinish()
@@ -1752,21 +1808,19 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
     }
     for (int i = 0; i < ImageEngineApi::instance()->m_FirstPageScreen && i < size; i++) {
         ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
-        ItemInfo info;
+        DBImgInfo info = data.dbi;
         if (data.imgpixmap.isNull()) {
             info.bNotSupportedOrDamaged = true;
             info.damagedPixmap = getDamagedPixmap();
         }
-        info.name = data.dbi.fileName;
-        info.path = data.dbi.filePath;
         info.image = data.imgpixmap;
-        ImageEngineApi::instance()->m_AllImageMap[info.path] = info.image;
-        ImageEngineApi::instance()->m_AllImageData[info.path].imgpixmap = info.image;
+        ImageEngineApi::instance()->m_AllImageMap[info.filePath] = info.image;
+        ImageEngineApi::instance()->m_AllImageData[info.filePath].imgpixmap = info.image;
         //        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
         info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
-        info.fileType = data.dbi.fileType;
+        info.itemType = data.dbi.itemType;
         info.videoDuration = data.dbi.videoDuration;
         insertThumbnail(info);
     }
@@ -1776,14 +1830,14 @@ void ThumbnailListView::slotOneImgReady(const QString &path, QPixmap pix)
 {
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
-        if (data.path == path) {
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.filePath == path) {
             data.image = pix;
             cutPixmap(data);
             QVariant meta;
             meta.setValue(data);
-            ImageEngineApi::instance()->m_AllImageMap[data.path] = data.image;
-            ImageEngineApi::instance()->m_AllImageData[data.path].imgpixmap = pix;
+            ImageEngineApi::instance()->m_AllImageMap[data.filePath] = data.image;
+            ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
             m_model->setData(index, meta, Qt::DisplayRole);
             break;
         }
@@ -1828,9 +1882,9 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                 return;
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
-                ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
+                DBImgInfo info = idx.data(Qt::DisplayRole).value<DBImgInfo>();
                 for (int j = 0; j < paths.count(); j++) {
-                    if (info.path == paths.at(j)) {
+                    if (info.filePath == paths.at(j)) {
                         QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
                         datas.removeAll(albumName);
                         QMap<int, QVariant> tempData;
@@ -1845,9 +1899,9 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
                 return;
             for (int i = 0; i < m_model->rowCount(); i++) {
                 QModelIndex idx = m_model->index(i, 0);
-                ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
+                DBImgInfo info = idx.data(Qt::DisplayRole).value<DBImgInfo>();
                 for (int j = 0; j < paths.count(); j++) {
-                    if (info.path == paths.at(j)) {
+                    if (info.filePath == paths.at(j)) {
                         QStringList datas = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
                         datas.append(albumName);
                         QMap<int, QVariant> tempData;
@@ -1862,7 +1916,7 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
             //                return;
             //            for (int i = 0; i < m_model->rowCount(); i++) {
             //                QModelIndex idx = m_model->index(i, 0);
-            //                ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
+            //                DBImgInfo info = idx.data(Qt::DisplayRole).value<DBImgInfo>();
             //                for (int j = 0; j < paths.count(); j++) {
             //                    if (info.path == paths.at(j)) {
             //                        QStringList datas;
@@ -1880,6 +1934,8 @@ void ThumbnailListView::onSyncListviewModelData(QStringList paths, QString album
 void ThumbnailListView::onScrollbarValueChanged(int value)
 {
     Q_UNUSED(value)
+    //加载上下两百张
+    reloadImage();
     //滚动条向下滑动
     if (m_animation && m_animation->state() == QPropertyAnimation::Running) {
         m_animation->stop();
@@ -1889,7 +1945,7 @@ void ThumbnailListView::onScrollbarValueChanged(int value)
     }
 
     QModelIndex index = this->indexAt(QPoint(80, m_blankItemHeight));
-    ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+    DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
 
     //无选中照片，直接返回
     QModelIndexList list = selectionModel()->selectedIndexes();
@@ -1938,13 +1994,13 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
         return;
     }
     if (ALBUM_PATHTYPE_BY_PHONE != m_imageType && m_imageType.compare(COMMON_STR_TRASH) != 0) {
-        ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
         if (data.itemType == ItemTypeBlank
                 || data.itemType == ItemTypeTimeLineTitle
                 || data.itemType == ItemTypeImportTimeLineTitle) {
             return;
         }
-        emit openImage(index.row(), data.path, false);
+        emit openImage(index.row(), data.filePath, false);
     }
 }
 
@@ -1953,6 +2009,8 @@ void ThumbnailListView::onClicked(const QModelIndex &index)
     if (m_isSelectAllBtn) {
         return;
     }
+    DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+    qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->imageIsLoaded(data.filePath);
 #ifdef tablet_PC
     if (activeClick && ALBUM_PATHTYPE_BY_PHONE != m_imageType) {
         if (m_imageType.compare(COMMON_STR_TRASH) != 0) {
@@ -1964,24 +2022,24 @@ void ThumbnailListView::onClicked(const QModelIndex &index)
 }
 
 //裁剪图片尺寸
-void ThumbnailListView::cutPixmap(ItemInfo &iteminfo)
+void ThumbnailListView::cutPixmap(DBImgInfo &DBImgInfo)
 {
-    int width = iteminfo.image.width();
+    int width = DBImgInfo.image.width();
     if (width == 0)
         width = m_iBaseHeight;
-    int height = iteminfo.image.height();
+    int height = DBImgInfo.image.height();
     if (abs((width - height) * 10 / width) >= 1) {
-        QRect rect = iteminfo.image.rect();
+        QRect rect = DBImgInfo.image.rect();
         int x = rect.x() + width / 2;
         int y = rect.y() + height / 2;
         if (width > height) {
             x = x - height / 2;
             y = 0;
-            iteminfo.image = iteminfo.image.copy(x, y, height, height);
+            DBImgInfo.image = DBImgInfo.image.copy(x, y, height, height);
         } else {
             y = y - width / 2;
             x = 0;
-            iteminfo.image = iteminfo.image.copy(x, y, width, width);
+            DBImgInfo.image = DBImgInfo.image.copy(x, y, width, width);
         }
     }
 }
@@ -1991,7 +2049,7 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
     QString tmpdate = date;
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
-        ItemInfo data = index.data(Qt::DisplayRole).value<ItemInfo>();
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
         //循环找到时间
         if (data.itemType == ItemTypePic || data.itemType == ItemTypeVideo || data.itemType == ItemTypeMountImg) {
             continue;
@@ -2009,7 +2067,7 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
             QModelIndex first_idx, end_idx;
             for (int j = i + 1; j < m_model->rowCount(); j++) {
                 index = m_model->index(j, 0);
-                ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
+                DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
                 if (pdata.itemType  == ItemTypeTimeLineTitle) {
                     break;//到达下一个时间线，跳出
                 }
@@ -2040,7 +2098,7 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
             QModelIndex first_idx, end_idx;
             for (int j = i + 1; j < m_model->rowCount(); j++) {
                 index = m_model->index(j, 0);
-                ItemInfo pdata = index.data(Qt::DisplayRole).value<ItemInfo>();
+                DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
                 if (pdata.itemType  == ItemTypeImportTimeLineTitle) {
                     break;//到达下一个时间线，跳出
                 } else if (pdata.itemType  == ItemTypePic) {

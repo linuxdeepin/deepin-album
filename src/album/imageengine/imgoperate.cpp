@@ -32,8 +32,6 @@
 #include <QIcon>
 
 #define SLEEPTIME 0
-const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                           + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
 
 IMGOperate::IMGOperate(QObject *parent)
 {
@@ -65,7 +63,7 @@ void IMGOperate::slotDoImgsLoad(QStringList paths)
             break;
         }
         QThread::msleep(SLEEPTIME);
-        QString imgPath = CACHE_PATH + path;
+        QString imgPath = albumGlobal::CACHE_PATH + path;
         QFileInfo coverInfo(imgPath);
         QPixmap pixmap;
         if (coverInfo.exists()) {

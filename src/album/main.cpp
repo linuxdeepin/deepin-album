@@ -40,6 +40,8 @@
 #include <QSettings>
 #include <QThread>
 
+#include "imagedataservice.h"
+
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
@@ -200,6 +202,7 @@ int main(int argc, char *argv[])
     int number = ((restoredFrameGeometry.width() - 50) * (restoredFrameGeometry.height() - 50)) / (picsize * picsize);
 
     DBManager::instance();
+    ImageDataService::instance();
     ImageEngineApi::instance(dAppNew);
     // 加载第一屏图片
     qDebug() << "------" << __FUNCTION__ << "" << QThread::currentThreadId();

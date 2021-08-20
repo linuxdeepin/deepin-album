@@ -279,7 +279,7 @@ void TTBContent::setAllFileInfo(const SignalManager::ViewInfo &info)
     setFixedWidth(m_contentWidth);
     setFixedHeight(72);
 
-    m_imgListWidget->setAllFile(info.itemInfos, info.path);
+    m_imgListWidget->setAllFile(info.dBImgInfos, info.path);
 }
 
 int TTBContent::getAllFileCount()
@@ -504,7 +504,7 @@ void TTBContent::setImage(const QString &path)
         emit dApp->signalM->picNotExists(false);
     }
     m_currentpath = path;
-    ItemInfo info = m_imgListWidget->getImgInfo(path);
+    DBImgInfo info = m_imgListWidget->getImgInfo(path);
     //>1的判断用来解决右键打开时按钮状态不正确问题，不是很好，后期替换公共能力的时候使用新的方法判断
     if (info.image.isNull() && (m_imgListWidget->getImgCount() > 1)) {
         m_adaptImageBtn->setDisabled(true);

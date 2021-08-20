@@ -49,12 +49,7 @@ public:
         void clearAndStop();
     }
 
-    bool imageImported(bool success) override
-    {
-        Q_UNUSED(success);
-        emit dApp->signalM->closeWaitDialog();
-        return true;
-    }
+    bool imageImported(bool success) override;
 
     int getIBaseHeight();
 public slots:
@@ -86,7 +81,7 @@ public:
     void addTimelineLayout();
     void getFatherStatusBar(DSlider *s);
     void themeChangeSlot(DGuiApplicationHelper::ColorType themeType);
-    ThumbnailListView *getFirstListView();
+    ThumbnailListView *getListView();
     //tab进入时清除其他所有选中
     void clearAllSelection();
 #if 1

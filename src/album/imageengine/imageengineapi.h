@@ -57,7 +57,6 @@ public:
     bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
     bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "", int loadCount = 0);
-    bool SaveImagesCache(QStringList files);
     int CacheThreadNum();
     void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
     const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
@@ -90,6 +89,10 @@ public:
 
     //设置线程循环跳出
     void     setThreadShouldStop();
+    //根据路径制作缩略图，并保存到指定位置
+    bool makeThumbnailByPaths(QStringList files);
+
+    bool isVideo(QString path);
 private slots:
     void sltInsert(const QString &imagepath, const QString &remainDay);
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);

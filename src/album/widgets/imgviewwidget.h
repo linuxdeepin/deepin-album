@@ -63,15 +63,17 @@ public:
     explicit MyImageListWidget(QWidget *parent = nullptr);
     ~MyImageListWidget() override;
 
-    void setAllFile(QList<ItemInfo> itemInfos, QString path); //设置需要展示的所有缩略图
+    void setAllFile(QList<DBImgInfo> DBImgInfos, QString path); //设置需要展示的所有缩略图
     //通过路径获取图片信息
-    ItemInfo getImgInfo(const QString &path);
+    DBImgInfo getImgInfo(const QString &path);
     //将选中的项居中
     void setSelectCenter();
     //获取当前所有展示图片数量
     int getImgCount();
     //移除当前选中
     void removeCurrent();
+    //加载当前页面前后各两百张图片
+    void reloadImage(int value);
 protected:
 signals:
     void openImg(int index, QString path);
@@ -98,6 +100,8 @@ private:
     QTime m_mousePressTime;//记录鼠标按下的时间点
     int m_time;//鼠标按下移动持续时间，毫秒
     int m_moveSpeed = 0;
+    QTimer *m_loadTimer = nullptr;
+    int m_value = 0;
 //    QPropertyAnimation *m_correctAnimation = nullptr;//纠偏动画
 };
 

@@ -55,16 +55,18 @@ public:
                      QAbstractItemModel *model,
                      const QStyleOptionViewItem &option,
                      const QModelIndex &index) Q_DECL_OVERRIDE;
-
+private slots:
+    void onThemeTypeChanged(int themeType);
 signals:
 
 private:
-    ItemInfo itemData(const QModelIndex &index) const;
+    DBImgInfo itemData(const QModelIndex &index) const;
 
 public:
 
 private:
-
+    QPixmap m_default;
+    QPixmap m_damagePixmap;
 };
 
 #endif // ALBUMDELEGATE_H

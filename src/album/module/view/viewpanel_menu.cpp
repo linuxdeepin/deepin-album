@@ -366,8 +366,8 @@ DMenu *ViewPanel::createAblumMenu()
         QStandardItemModel *pTempModel = dApp->getMainWindow()->m_pAllPicView->getAllPicThumbnailListViewModel()->m_model;
         for (int i = 0; i < pTempModel->rowCount(); i++) {
             QModelIndex idx = pTempModel->index(i, 0);
-            ItemInfo info = idx.data(Qt::DisplayRole).value<ItemInfo>();
-            if (info.path == m_currentpath) {
+            DBImgInfo info = idx.data(Qt::DisplayRole).value<DBImgInfo>();
+            if (info.filePath == m_currentpath) {
                 albumNames = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
             }
         }

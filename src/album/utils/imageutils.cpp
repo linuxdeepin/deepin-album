@@ -41,6 +41,7 @@
 #include <QMovie>
 #include <fstream>
 #include <iostream>
+#include "imageengineapi.h"
 
 namespace utils {
 
@@ -115,7 +116,7 @@ void getAllFileInDir(const QDir &dir, QFileInfoList &result)
     }
 }
 
-const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
+const QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
 {
     QFileInfoList infos;
 
@@ -124,6 +125,8 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
         getAllFileInDir(dir, nsl);
         for (QFileInfo info : nsl) {
             if (imageSupportRead(info.absoluteFilePath())) {
+                infos << info;
+            } else if (ImageEngineApi::instance()->isVideo(info.absoluteFilePath())) {
                 infos << info;
             }
         }
@@ -136,6 +139,8 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     while (dirIterator.hasNext()) {
         dirIterator.next();
         if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
+            infos << dirIterator.fileInfo();
+        } else if (ImageEngineApi::instance()->isVideo(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
         }
     }
@@ -176,11 +181,11 @@ QPixmap getDamagePixmap(bool bLight)
     static QPixmap pix_light, pix_dark;
     if (bLight) {
         if (pix_light.isNull())
-            pix_light = utils::base::renderSVG(view::LIGHT_DAMAGEICON, QSize(40, 40));
+            pix_light = utils::base::renderSVG(view::LIGHT_DAMAGEICON, QSize(150, 150));
         return pix_light;
     } else {
         if (pix_dark.isNull())
-            pix_dark = utils::base::renderSVG(view::DARK_DAMAGEICON, QSize(40, 40));
+            pix_dark = utils::base::renderSVG(view::DARK_DAMAGEICON, QSize(150, 150));
         return pix_dark;
     }
 }

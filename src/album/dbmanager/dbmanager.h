@@ -38,57 +38,10 @@
 #include <QMutex>
 #include <QDebug>
 #include <QSqlDatabase>
+#include "albumgloabl.h"
 //#include "connectionpool.h"
 
 const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
-
-struct DBAlbumInfo {
-    QString name;
-//    int count;
-    QDateTime beginTime;
-    QDateTime endTime;
-};
-
-struct DBImgInfo {
-    QString filePath;
-    QString fileName;
-    QString dirHash;
-    QDateTime time;     // 图片创建时间
-    QDateTime changeTime;   // 文件修改时间
-    QDateTime importTime;   // 导入时间 Or 删除时间
-    QString albumname;      // 图片所属相册名，以","分隔
-    QString albumSize;      //原图片分辨率
-    int fileType;           //文件类型，区分图片与视频
-    QString videoDuration;  //视频时长
-
-    bool operator==(const DBImgInfo &other) const
-    {
-        return (filePath == other.filePath &&
-                fileName == other.fileName &&
-                dirHash == other.dirHash &&
-                time == other.time &&
-                changeTime == other.changeTime &&
-                importTime == other.importTime &&
-                albumname == other.albumname &&
-                albumSize == other.albumSize);
-    }
-
-    friend QDebug operator<<(QDebug &dbg, const DBImgInfo &info)
-    {
-        dbg << "(DBImgInfo)["
-            << "Path:" << info.filePath
-            << "Name:" << info.fileName
-            << "Dir:" << info.dirHash
-            << "Time:" << info.time
-            << "ChangeTime:" << info.changeTime
-            << "ImportTime:" << info.importTime
-            << "AlbumName:" << info.albumname
-            << "AlbumSize:" << info.albumSize
-            << "]";
-        return dbg;
-    }
-};
-typedef QList<DBImgInfo> DBImgInfoList;
 
 enum AlbumDBType {
     Favourite,

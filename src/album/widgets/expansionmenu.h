@@ -32,7 +32,7 @@ public:
     void setIcon(QIcon icon);
     void setText(QString text);
     void setFilteData(ExpansionPanel::FilteData &data);
-    ItemInfoType getFilteType();
+    ItemType getFilteType();
 public slots:
     void onClicked();
     //主题变化

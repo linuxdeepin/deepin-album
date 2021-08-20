@@ -90,12 +90,7 @@ public:
     AlbumView();
     ~AlbumView() override;
 
-    bool imageImported(bool success) override
-    {
-        Q_UNUSED(success);
-        emit dApp->signalM->closeWaitDialog();
-        return true;
-    }
+    bool imageImported(bool success) override;
     bool imageGeted(QStringList &filelist, QString path) override;
     bool imageMountImported(QStringList &filelist) override;
 
