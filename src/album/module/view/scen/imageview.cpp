@@ -47,6 +47,7 @@
 #include "ac-desktop-define.h"
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
+#include "imagedataservice.h"
 
 #include <imageengine/imageengineapi.h>
 
@@ -194,8 +195,7 @@ void ImageView::setImage(const QString &path, const QImage &image)
             int h = imagreader.size().height();
             scene()->clear();
             resetTransform();
-            ImageDataSt data;   //内存中的数据
-            ImageEngineApi::instance()->getImageData(path, data);
+            QImage image = ImageDataService::instance()->getThumnailImageByPath(path); //内存中的数据
             int wScale = 0;
             int hScale = 0;
             int wWindow = 0;
@@ -230,7 +230,8 @@ void ImageView::setImage(const QString &path, const QImage &image)
                 wScale = wWindow;
                 hScale = hWindow;
             }
-            QPixmap pix = data.imgpixmap.scaled(wScale, hScale, Qt::KeepAspectRatio); //缩放到原图大小
+
+            QPixmap pix = QPixmap::fromImage(image.scaled(wScale, hScale, Qt::KeepAspectRatio));//缩放到原图大小
             m_pixmapItem = new GraphicsPixmapItem(pix);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
@@ -238,8 +239,8 @@ void ImageView::setImage(const QString &path, const QImage &image)
             m_blurEffect->setBlurRadius(5);
             m_blurEffect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
             m_pixmapItem->setGraphicsEffect(m_blurEffect);
-            setSceneRect(m_pixmapItem->boundingRect());
             m_loadTimer->start();
+            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
             emit imageChanged(path);
             QMetaObject::invokeMethod(this, [ = ]() {
