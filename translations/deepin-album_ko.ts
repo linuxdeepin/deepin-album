@@ -75,10 +75,6 @@
         <translation>사진들은 표시된 날 이후에 영구적으로 삭제됩니다.</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>사진 %1장 선택됨</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>가져오기 대상:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>사진 불러오는 중, 기다려주십시오...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>사진 %1장 선택됨</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>사진 %1장</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>모든 사진</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>사진 가져오기</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>앨범은 사진을보고 구성하기 위한 유행 사진 관리자입니다.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>가져오는 중...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>사진 %1장</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>사진 %1장 선택됨</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>가져온 위치</translation>
     </message>
@@ -750,6 +723,30 @@
         <source>%1 items imported, %2 items failed</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -762,12 +759,24 @@
         <translation>슬라이드 쇼</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>사진 %1장 발견</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>검색 결과</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>사진 내보내는 중: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

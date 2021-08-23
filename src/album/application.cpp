@@ -150,7 +150,7 @@ void Application::setApp(DApplication *app)
     dAppNew->setApplicationDisplayName(tr("Album"));
     dAppNew->setProductIcon(QIcon::fromTheme("deepin-album"));
     dAppNew->setApplicationVersion(DApplication::buildVersion(VERSION));
-    dAppNew->setApplicationDescription(DApplication::translate("Main", "Album is a fashion photo manager for viewing and organizing pictures."));
+    dAppNew->setApplicationDescription(DApplication::translate("Main", "Album is a fashion manager for viewing and organizing photos and videos."));
 }
 
 bool Application::isWaylandPlatform()

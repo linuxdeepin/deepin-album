@@ -171,8 +171,8 @@ void StatusBar::resetSelectedStatue(int photosCount, int videosCount)
             photosStr = QObject::tr("1 photo selected");
             m_pAllPicNumLabel->setText(photosStr);
         } else {
-            photosStr = QObject::tr("%1 photos selected");
-            m_pAllPicNumLabel->setText(photosStr.arg(QString::number(photosCount)));
+            photosStr = QObject::tr("%n photos selected", "", photosCount);
+            m_pAllPicNumLabel->setText(photosStr);
         }
     } else if (photosCount == 0 && videosCount > 0) {
         QString videosStr;
@@ -180,12 +180,12 @@ void StatusBar::resetSelectedStatue(int photosCount, int videosCount)
             videosStr = QObject::tr("1 video selected");
             m_pAllPicNumLabel->setText(videosStr);
         } else {
-            videosStr = QObject::tr("%1 videos selected");
-            m_pAllPicNumLabel->setText(videosStr.arg(QString::number(videosCount)));
+            videosStr = QObject::tr("%n videos selected", "", videosCount);
+            m_pAllPicNumLabel->setText(videosStr);
         }
     } else if (photosCount > 0 && videosCount > 0) {
-        QString totalStr = QObject::tr("%1 items selected");
-        m_pAllPicNumLabel->setText(totalStr.arg(QString::number(videosCount + photosCount)));
+        QString totalStr = QObject::tr("%n items selected", "", (videosCount + photosCount));
+        m_pAllPicNumLabel->setText(totalStr);
     }
 }
 
@@ -195,16 +195,14 @@ void StatusBar::resetUnselectedStatue(int photosCount, int videosCount)
     if (photosCount == 1) {
         photosStr = tr("1 photo");
     } else if (photosCount > 1) {
-        photosStr = tr("%1 photos");
-        photosStr = photosStr.arg(photosCount);
+        photosStr = tr("%n photos", "", photosCount);
     }
 
     QString videosStr;
     if (videosCount == 1) {
         videosStr = tr("1 video");
     } else if (videosCount > 1) {
-        videosStr = tr("%1 videos");
-        videosStr = videosStr.arg(videosCount);
+        videosStr = tr("%n videos", "", videosCount);
     }
 
     if (photosCount > 0 && videosCount == 0) {

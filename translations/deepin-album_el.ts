@@ -75,10 +75,6 @@
         <translation>Οι φωτογραφίες θα διαγραφούν οριστικά μετά το πέρασμα των ημερών που αναγράφονται</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 φωτογραφίες επιλέχθηκαν</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Εισαγωγή σε:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Φόρτωση εικόνων, παρακαλώ περιμένετε...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 φωτογραφίες επιλέχθηκαν</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 φωτογραφίες</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>Όλες οι Φωτογραφίες</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>Εισαγωγή Φωτογραφιών</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Το Άλμπουμ είναι ένας μοντέρνος διαχειριστής φωτογραφιών, για προβολή και οργάνωση εικονών.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>Εισαγωγή...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>Οι φωτογραφίες ήδη υπάρχουν</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1 φωτογραφίες</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 φωτογραφίες επιλέχθηκαν</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Εισάχθηκαν σε</translation>
     </message>
@@ -750,6 +723,30 @@
         <source>%1 items imported, %2 items failed</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -762,12 +759,24 @@
         <translation>Παρουσίαση εικονών</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>%1 φωτογραφίες βρέθηκαν</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Αποτελέσματα αναζήτησης</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Εξαγωγή φωτογραφιών: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

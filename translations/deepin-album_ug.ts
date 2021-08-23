@@ -75,10 +75,6 @@
         <translation>بۇ رەسىملەر كۆرسىتىلگەن كۈنلەردىن كېيىن مەڭگۈلۈك ئۆچۈرۈلىدۇ</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>ئەكىرگىنىڭىز:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>رەسىملەرنى يۈكلەۋاتىدۇ ، ساقلاپ تۇرۇڭ ...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 رەسىم(s)</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>بارلىق رەسىملەر</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>رەسىملەرنى ئەكىرىش</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>سۈرەت ۋە سىن كىرگۈزۈش</translation>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation>سۈرەت ۋە سىننى بۇ يەرگە سىيرىسىڭىزمۇ بولىدۇ</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>ئالبۇم رەسىملەرنى كۆرۈش ۋە تەشكىللەشتىكى مودا رەسىم باشقۇرغۇچى.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>ئەكىرۋاتىدۇ...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>سۈرەت ساقلانغان</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1 رەسىم(s)</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 رەسىم (رەسىم) تاللاندى</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>ئەكىرگىنىڭىز:</translation>
     </message>
@@ -740,15 +713,39 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 تۈر كىرگۈزۈلدى</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 تۈر ئۆچۈرۈلدى</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
+        <translation>%1 تۈر كىرگۈزۈلدى، %2 تۈر مەغلۇپ بولدى</translation>
+    </message>
+    <message>
+        <source>1 photo selected</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -762,12 +759,24 @@
         <translation>پرويېكسىيە قويۇش</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>%1 رەسىم (رەسىم) تېپىلدى</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>ئىزدەش نەتىجىسى</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>چىقىرىۋاتىدۇ:&apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

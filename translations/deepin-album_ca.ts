@@ -75,10 +75,6 @@
         <translation>Les fotografies s&apos;eliminaran permanentment després dels dies que s&apos;hi mostren.</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto/s seleccionada/es</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importa-ho a:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Es carreguen les fotografies. Espereu, si us plau...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto/s seleccionada/es</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 foto/s</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>Totes les fotografies</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>Importa fotografies</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>L&apos;Àlbum és un gestor de fotografies per veure i organitzar imatges.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>S&apos;importa...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>Les fotografies ja existeixen.</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1 foto/s</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto/s seleccionada/es</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importat el</translation>
     </message>
@@ -750,6 +723,30 @@
         <source>%1 items imported, %2 items failed</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -762,12 +759,24 @@
         <translation>Presentació</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>%1 foto/s trobada/es</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Resultats de la cerca</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Exportació de fotos: «%1»</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

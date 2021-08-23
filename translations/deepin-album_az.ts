@@ -75,10 +75,6 @@
         <translation>Fotoşəkillər onda göstərilən vaxt bitdikdən sonra birdəfəlik silinəcəkdir</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto silindi</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Buraya idxal etmək:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Fotoşəkillər yüklənir, lütfən gözləyin...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto silindi</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 fotoşəkil</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>Bütün fotolar</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>Şəkilləri idxal etmək</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Albom, şəkillərə baxmaq və onları idarə etmək üçün fotoşəkil idarəetmə alətidir</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>İdxal edilir...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>Fotoşəkillər artıq mövcuddur</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1 fotoşəkil</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto silindi</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Buraya idxal olundu:</translation>
     </message>
@@ -750,6 +723,30 @@
         <source>%1 items imported, %2 items failed</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -762,12 +759,24 @@
         <translation>Slayd-şou</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>%1 foto tapıldı</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Axtarış nəticələri</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Fotoşəkillər ixrac edilir: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

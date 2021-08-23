@@ -75,10 +75,6 @@
         <translation>The photos will be permanently deleted after the days shown on it</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Import to:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Loading photos, please wait...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
     </message>
 </context>
 <context>
@@ -319,20 +304,16 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>All Photos</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>Import Photos</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
         <translation>Import Photos and Videos</translation>
     </message>
     <message>
         <source>Or drag them here</source>
         <translation>Or drag them here</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>All photos and videos</translation>
     </message>
 </context>
 <context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album is a fashion photo manager for viewing and organizing pictures.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation>Album is a fashion manager for viewing and organizing photos and videos.</translation>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>Importing...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>Photos already exist</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1 photo(s)</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 photo(s) selected</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Imported on</translation>
     </message>
@@ -750,6 +723,30 @@
         <source>%1 items imported, %2 items failed</source>
         <translation>%1 items imported, %2 items failed</translation>
     </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation>1 photo selected</translation>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation>1 video selected</translation>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation>The photo/video already exists</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation><numerusform>%n photos selected</numerusform><numerusform>%n photos selected</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation><numerusform>%n videos selected</numerusform><numerusform>%n videos selected</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation><numerusform>%n items selected</numerusform><numerusform>%n items selected</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -762,12 +759,24 @@
         <translation>Slide Show</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>%1 photo(s) found</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Search results</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation>1 photo found</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation><numerusform>%n videos found</numerusform><numerusform>%n videos found</numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation>1 video found</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation><numerusform>%n items found</numerusform><numerusform>%n items found</numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Exporting photos: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1 photo</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 video</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>%n photos</numerusform><numerusform>%n photos</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>%n videos</numerusform><numerusform>%n videos</numerusform></translation>
     </message>
 </context>
 <context>

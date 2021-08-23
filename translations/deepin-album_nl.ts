@@ -75,10 +75,6 @@
         <translation>De foto&apos;s worden verwijderd na het vermelde aantal dagen</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto(&apos;s) geselecteerd</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importeren naar:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Bezig met laden van foto&apos;s...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto(&apos;s) geselecteerd</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 foto(&apos;s)</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>Alle foto&apos;s</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>Importeer foto&apos;s</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importeer foto&apos;s en video&apos;s</translation>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation>of sleep ze hierheen</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album is een mooi vormgegeven progrmma waarmee je afbeeldingen kunt bekijken en beheren.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>Bezig met importeren...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>De foto&apos;s zijn al aanwezig</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1 foto(&apos;s)</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto(&apos;s) geselecteerd</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Geïmporteerd op</translation>
     </message>
@@ -740,15 +713,39 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 items geïmporteerd</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 items verwijderd</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
+        <translation>%1 items geïmporteerd - %2 mislukt</translation>
+    </message>
+    <message>
+        <source>1 photo selected</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -762,12 +759,24 @@
         <translation>Diavoorstelling</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>%1 foto(&apos;s) gevonden</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Geen zoekresultaten</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Bezig met exporteren: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

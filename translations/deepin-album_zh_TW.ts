@@ -60,11 +60,11 @@
     </message>
     <message>
         <source>Or drag photos here</source>
-        <translation>或拖曳相片至此</translation>
+        <translation>或拖曳照片至此</translation>
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 張相片</translation>
+        <translation>%1 張照片</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -72,11 +72,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>相片在刪除前會顯示剩餘天數，之後將永久刪除</translation>
-    </message>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>已選擇 %1 張相片</translation>
+        <translation>照片在刪除前會顯示剩餘天數，之後將永久刪除</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -92,7 +88,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>相片庫</translation>
+        <translation>照片庫</translation>
     </message>
     <message>
         <source>Disk is busy, cannot eject now</source>
@@ -116,18 +112,7 @@
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>正在載入相片，請稍候…</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>已選取 %1 張相片</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 張相片</translation>
+        <translation>正在載入照片，請稍候…</translation>
     </message>
 </context>
 <context>
@@ -243,7 +228,7 @@
     </message>
     <message>
         <source>Export Photos</source>
-        <translation>匯出相片</translation>
+        <translation>匯出照片</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -254,7 +239,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>相片資訊</translation>
+        <translation>照片資訊</translation>
     </message>
 </context>
 <context>
@@ -287,11 +272,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>是否從相簿刪除此相片？</translation>
+        <translation>是否從相簿刪除此照片？</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>是否從相簿刪除 %1 張相片？</translation>
+        <translation>是否從相簿刪除 %1 張照片？</translation>
     </message>
 </context>
 <context>
@@ -306,26 +291,18 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>相片資訊</translation>
+        <translation>照片資訊</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>匯入相片</translation>
+        <translation>匯入照片</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
-    <message>
-        <source>All Photos</source>
-        <translation>所有相片</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>匯入相片</translation>
-    </message>
     <message>
         <source>Import Photos and Videos</source>
         <translation>導入照片和影片</translation>
@@ -333,6 +310,10 @@
     <message>
         <source>Or drag them here</source>
         <translation>您也可以拖拽照片和影片到此</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>所有照片和影片</translation>
     </message>
 </context>
 <context>
@@ -359,7 +340,7 @@
     </message>
     <message>
         <source>Gallery</source>
-        <translation>相片庫</translation>
+        <translation>照片庫</translation>
     </message>
     <message>
         <source>Albums</source>
@@ -380,15 +361,15 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>「相簿」是一款可多種方式瀏覽相片、整理相片和簡單編輯的相簿管理工具。</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation>相冊是一款可多種方式瀏覽、整理照片和影片的管理工具。</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Photos</source>
-        <translation>相片</translation>
+        <translation>照片</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -468,7 +449,7 @@
     </message>
     <message>
         <source>All Photos</source>
-        <translation>所有相片</translation>
+        <translation>所有照片</translation>
     </message>
     <message>
         <source>Timelines</source>
@@ -480,7 +461,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>相片資訊</translation>
+        <translation>照片資訊</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -508,7 +489,7 @@
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>刪除相片或相簿</translation>
+        <translation>刪除照片或相簿</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -536,19 +517,15 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>匯入相片</translation>
+        <translation>匯入照片</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>匯入相片</translation>
+        <translation>匯入照片</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>正在匯入...</translation>
-    </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>圖片已存在</translation>
     </message>
 </context>
 <context>
@@ -567,7 +544,7 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>相片尺寸</translation>
+        <translation>照片尺寸</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -635,7 +612,7 @@
     </message>
     <message>
         <source>Photo name</source>
-        <translation>相片名稱</translation>
+        <translation>照片名稱</translation>
     </message>
 </context>
 <context>
@@ -668,11 +645,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1張相片</translation>
-    </message>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>已選擇%1張相片</translation>
+        <translation>%1張照片</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -712,7 +685,7 @@
     </message>
     <message>
         <source>Photos</source>
-        <translation>相片</translation>
+        <translation>照片</translation>
     </message>
     <message>
         <source>Videos</source>
@@ -750,6 +723,30 @@
         <source>%1 items imported, %2 items failed</source>
         <translation>%1個項目導入成功，%2個項目導入失敗</translation>
     </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation>已選擇1張照片</translation>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation>已選擇1個影片</translation>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation>照片/影片已存在</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation><numerusform>已選擇%n張照片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation><numerusform>已選擇%n個影片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation><numerusform>已選擇%n項</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -762,12 +759,24 @@
         <translation>幻燈片秀</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>共找到%1張相片</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>搜尋結果</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation>共找到1張照片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation><numerusform>共找到%n個影片</numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation>共找到1個影片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation><numerusform>共找到%n項</numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>正在匯出：&apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1張照片</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1個影片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>%n張照片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>%n個影片</numerusform></translation>
     </message>
 </context>
 <context>
@@ -851,7 +876,7 @@
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>查看相片</translation>
+        <translation>查看照片</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -859,7 +884,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>匯出相片</translation>
+        <translation>匯出照片</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -899,7 +924,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>相片訊息</translation>
+        <translation>照片訊息</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -930,7 +955,7 @@
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>未發現相片文件</translation>
+        <translation>未發現照片文件</translation>
     </message>
 </context>
 <context>
@@ -985,7 +1010,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>匯出相片</translation>
+        <translation>匯出照片</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -993,7 +1018,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>相片訊息</translation>
+        <translation>照片訊息</translation>
     </message>
     <message>
         <source>Remove from album</source>

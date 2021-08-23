@@ -75,10 +75,6 @@
         <translation>Le immagini verranno eliminate definitivamente dopo i giorni indicati</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>Selezione di %1 immagine(i)</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importa in:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Caricamento immagini, attendere prego...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>Selezione di %1 immagine(i)</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 immagine(i)</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>Tutte le immagini</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>Importa Immagini</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importa foto e video</translation>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation>oppure trascinali qui</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,9 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album è un gestore di immagine al passo coi tempi per la visualizzazione e l&apos;organizzazione delle immagini.
-Localizzazione italiana a cura di Massimo A. Carofano.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -547,10 +527,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <source>Importing...</source>
         <translation>Importazione...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>Le foto già esistono</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -643,7 +619,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Nessun risultato</translation>
     </message>
 </context>
 <context>
@@ -672,10 +648,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>%1 immagine(i)</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>Selezione di %1 immagine(i)</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importati in</translation>
     </message>
@@ -689,11 +661,11 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Seleziona tutto</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Deseleziona tutto</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -709,7 +681,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Tutto</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -721,7 +693,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Nessun risultato</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -741,15 +713,39 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 elementi importati</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 elementi eliminati</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
+        <translation>%1 elementi importati, %2 import falliti</translation>
+    </message>
+    <message>
+        <source>1 photo selected</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -763,12 +759,24 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Presentazione</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>%1 immagine(i) trovate</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Risultati di ricerca</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -803,6 +811,22 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Esportazione immagini: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

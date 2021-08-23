@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hr">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -64,7 +66,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Import All</source>
@@ -72,11 +74,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -117,17 +115,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Učitavam fotografije, molim pričekajte...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -220,7 +207,7 @@
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Blank %1 Disc</source>
@@ -228,11 +215,11 @@
     </message>
     <message>
         <source>%1 Encrypted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 Volume</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -265,7 +252,7 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -320,19 +307,23 @@
     <name>ImportView</name>
     <message>
         <source>All Photos</source>
-        <translation>Sve fotografije</translation>
+        <translation type="vanished">Sve fotografije</translation>
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Uvezi fotografije</translation>
+        <translation type="vanished">Uvezi fotografije</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -381,7 +372,11 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Album je upravitelj fotografijom za gledanje i organizaciju slika.</translation>
+        <translation type="vanished">Album je upravitelj fotografijom za gledanje i organizaciju slika.</translation>
+    </message>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -436,7 +431,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rename album</source>
@@ -472,7 +467,7 @@
     </message>
     <message>
         <source>Timelines</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Albums</source>
@@ -512,11 +507,11 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New album</source>
@@ -546,16 +541,12 @@
         <source>Importing...</source>
         <translation>Uvozim...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Type</source>
@@ -571,7 +562,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -579,23 +570,23 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ISO</source>
@@ -603,19 +594,19 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -627,11 +618,11 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Photo name</source>
@@ -642,7 +633,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -660,7 +651,7 @@
     </message>
     <message>
         <source>Unselect</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1/%2/%3</source>
@@ -668,11 +659,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -684,15 +671,15 @@
     </message>
     <message>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -708,7 +695,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Photos</source>
@@ -720,7 +707,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -740,15 +727,51 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -762,12 +785,32 @@
         <translation>Klizni prikaz</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Rezultati pretrage</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -778,7 +821,7 @@
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exit</source>
@@ -802,6 +845,30 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Izvozim fotografije: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -844,7 +911,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -867,7 +934,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -989,7 +1056,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Photo info</source>

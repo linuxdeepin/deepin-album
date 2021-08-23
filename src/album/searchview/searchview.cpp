@@ -315,20 +315,20 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
             if (photoCount == 1) {
                 searchStr = tr("1 photo found");
             } else {
-                searchStr = tr("%n videos found");
+                searchStr = tr("%n videos found", "", photoCount);
             }
         } else if (photoCount == 0 && videoCount > 0) {
             if (videoCount == 1) {
                 searchStr = tr("1 video found");
             } else {
-                searchStr = tr("%n video found");
+                searchStr = tr("%n videos found", "", videoCount);
             }
         } else if (photoCount > 0 && videoCount > 0) {
-            searchStr = tr("%n items found");
+            searchStr = tr("%n items found", "", (photoCount + videoCount));
         }
         QString str = QString::number(infos.length());
         m_searchPicNum = photoCount + videoCount;
-        m_pSearchResultLabel->setText(searchStr.arg(str));
+        m_pSearchResultLabel->setText(searchStr);
         m_pSearchResultLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
         DPalette palette = DApplicationHelper::instance()->palette(m_pSearchResultLabel);
         QColor color_BT = palette.color(DPalette::BrightText);

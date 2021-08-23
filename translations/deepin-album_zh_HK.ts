@@ -75,10 +75,6 @@
         <translation>照片在刪除前會顯示剩餘天數，之後將永久刪除</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>已選擇%1張照片</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>導入到：</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>正在加載圖片，請稍候...</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>已選擇%1張照片</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1張照片</translation>
     </message>
 </context>
 <context>
@@ -319,20 +304,16 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>所有照片</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>導入照片</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
         <translation>導入照片和影片</translation>
     </message>
     <message>
         <source>Or drag them here</source>
         <translation>您也可以拖拽照片和影片到此</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>所有照片和影片</translation>
     </message>
 </context>
 <context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>相冊是一款可多種方式瀏覽照片、整理照片和簡單編輯的相冊管理工具。</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation>相冊是一款可多種方式瀏覽、整理照片和影片的管理工具。</translation>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>正在導入照片，請稍候...</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>圖片已存在</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1張照片</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>已選擇%1張照片</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>導入於</translation>
     </message>
@@ -750,6 +723,30 @@
         <source>%1 items imported, %2 items failed</source>
         <translation>%1個項目導入成功，%2個項目導入失敗</translation>
     </message>
+    <message>
+        <source>1 photo selected</source>
+        <translation>已選擇1張照片</translation>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation>已選擇1個影片</translation>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation>照片/影片已存在</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation><numerusform>已選擇%n張照片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation><numerusform>已選擇%n個影片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation><numerusform>已選擇%n項</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -762,12 +759,24 @@
         <translation>幻燈片放映</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>共找到%1張照片</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>搜索結果</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation>共找到1張照片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation><numerusform>共找到%n個影片</numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation>共找到1個影片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation><numerusform>共找到%n項</numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>正在導出：&apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1張照片</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1個影片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>%n張照片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>%n個影片</numerusform></translation>
     </message>
 </context>
 <context>

@@ -75,10 +75,6 @@
         <translation>Fotot do të fshihen përgjithmonë pas ditëve të shfaqura në të </translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto(t) e përzgjedhur</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importo te:</translation>
     </message>
@@ -117,17 +113,6 @@
     <message>
         <source>Loading photos, please wait...</source>
         <translation>Po ngarkohen foto, ju lutemi, prisni…</translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto(t) e përzgjedhur</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 foto(t)</translation>
     </message>
 </context>
 <context>
@@ -319,19 +304,15 @@
 <context>
     <name>ImportView</name>
     <message>
-        <source>All Photos</source>
-        <translation>Krejt Fotot</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation>Importo Foto</translation>
-    </message>
-    <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importoni Foto dhe Video</translation>
     </message>
     <message>
         <source>Or drag them here</source>
+        <translation>Ose tërhiqini këtu</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -380,8 +361,8 @@
 <context>
     <name>Main</name>
     <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation>Albumi është një përgjegjës fotosh, për parje dhe sistemim fotosh.</translation>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -546,10 +527,6 @@
         <source>Importing...</source>
         <translation>Po importohet…</translation>
     </message>
-    <message>
-        <source>Photos already exist</source>
-        <translation>Fotot ekzistojnë tashmë</translation>
-    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -671,10 +648,6 @@
         <translation>%1 foto(t)</translation>
     </message>
     <message>
-        <source>%1 photo(s) selected</source>
-        <translation>%1 foto(t) e përzgjedhur</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importuar më</translation>
     </message>
@@ -740,15 +713,39 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 objekte të importuar</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 objekte të fshirë</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
+        <translation>%1 objekte të importuar, importim i dështuar për %2 objekte</translation>
+    </message>
+    <message>
+        <source>1 photo selected</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items selected</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -762,12 +759,24 @@
         <translation>Shfaqje Si Diapozitiva</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation>U gjet %1 foto(t)</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Përfundime kërkimi</translation>
+    </message>
+    <message>
+        <source>1 photo found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n videos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>1 video found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n items found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -802,6 +811,22 @@
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
         <translation>Eksportim fotosh: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

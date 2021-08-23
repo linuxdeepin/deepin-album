@@ -177,7 +177,7 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
     //添加视频过滤
     for (const QString &i : ImageEngineApi::instance()->m_videoSupportType)
         sList << i;
-    QString filter = tr("All Photos");
+    QString filter = tr("All photos and videos");
     filter.append('(');
     filter.append(sList.join(" "));
     filter.append(')');
@@ -194,7 +194,7 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
-    dialog.setWindowTitle(tr("Import Photos"));
+    dialog.setWindowTitle(tr("Import Photos and Videos"));
     dialog.setAllowMixedSelection(true);
 
     if (useDialog) {
