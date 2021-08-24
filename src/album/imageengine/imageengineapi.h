@@ -91,8 +91,6 @@ public:
     void     setThreadShouldStop();
     //根据路径制作缩略图，并保存到指定位置
     bool makeThumbnailByPaths(QStringList files);
-
-    bool isVideo(QString path);
 private slots:
     void sltInsert(const QString &imagepath, const QString &remainDay);
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
@@ -133,7 +131,6 @@ public:
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     QMultiMap<QString, QString> m_allPathAndAlbumNames;
     bool m_80isLoaded = false;
-    QStringList m_videoSupportType;
 private:
     explicit ImageEngineApi(QObject *parent = nullptr);
 

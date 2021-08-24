@@ -429,7 +429,7 @@
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>مۇۋەپپەقىيەتلىك ھالدا «%1» گە قوشۇلدى</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Import successful</source>

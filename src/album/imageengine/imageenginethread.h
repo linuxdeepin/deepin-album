@@ -37,12 +37,10 @@ public:
     ~ImportImagesThread() override;
     void setData(QStringList &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect);
     void setData(QList<QUrl> &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect);
-    void setVideoSupportType(QStringList videoSupportType);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
     void runDetail() override;
-    bool isVideo(QString path);
 
 signals:
     void runFinished();
@@ -250,15 +248,11 @@ public:
     {
         needStop = true;
     }
-    void setVideoSupportType(QStringList videoSupportType);
-private:
-    bool isVideo(QString path);
 protected:
     void run() override;
 private:
     ImageCacheSaveObject *m_obj = nullptr;
     bool needStop = false;
-    QStringList m_videoSupportType;
     dmr::PlaylistModel *m_playlistModel = nullptr;
 };
 

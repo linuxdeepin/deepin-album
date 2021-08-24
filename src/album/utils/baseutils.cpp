@@ -46,9 +46,10 @@
 #include <DDesktopServices>
 #include <QImageReader>
 #include <QMimeDatabase>
-#include "imageengineapi.h"
 
 DWIDGET_USE_NAMESPACE
+
+QStringList VideoSupportTypeList;
 
 namespace utils {
 
@@ -211,7 +212,7 @@ bool checkMimeData(const QMimeData *mimeData)
         if (fileinfo.isDir()) {
             auto finfos =  getImagesAndVideoInfo(path, false);
             for (auto finfo : finfos) {
-                if (imageSupportRead(finfo.absoluteFilePath()) || ImageEngineApi::instance()->isVideo(finfo.absoluteFilePath())) {
+                if (imageSupportRead(finfo.absoluteFilePath()) || isVideo(finfo.absoluteFilePath())) {
                     QFileInfo info(finfo.absoluteFilePath());
                     QMimeDatabase db;
                     QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
@@ -241,7 +242,7 @@ bool checkMimeData(const QMimeData *mimeData)
                     }
                 }
             }
-        } else if (imageSupportRead(path) || ImageEngineApi::instance()->isVideo(path)) {
+        } else if (imageSupportRead(path) || isVideo(path)) {
 //            paths << path;
             QFileInfo info(path);
             QMimeDatabase db;
@@ -320,6 +321,20 @@ QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 
     thumbnailPath = albumGlobal::CACHE_PATH + temDir.path() + "/" + dataHash + ".png";
     return thumbnailPath;
+}
+
+bool isVideo(QString path)
+{
+    bool isVideo = false;
+    QFileInfo temDir(path);
+    QString fileName = temDir.suffix();//扩展名
+    for (const QString &i : VideoSupportTypeList) {
+        if (i.contains(fileName)) {
+            isVideo = true;
+            break;
+        }
+    }
+    return isVideo;
 }
 
 }  // namespace base

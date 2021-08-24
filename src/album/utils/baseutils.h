@@ -219,6 +219,7 @@ namespace widgets {
 
 }
 namespace base {
+bool        isVideo(QString path);
 //void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);

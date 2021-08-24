@@ -208,7 +208,7 @@ void readThumbnailThread::readThumbnail(QString path)
         ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
     } else {
         //读图
-        if (isVideo(path)) {
+        if (utils::base::isVideo(path)) {
             if (m_playlistModel == nullptr) {
                 m_playlistModel = new dmr::PlaylistModel(nullptr);
             }
@@ -269,20 +269,6 @@ void readThumbnailThread::readThumbnail(QString path)
         }
     }
     ImageDataService::instance()->addImage(path, tImg);
-}
-
-bool readThumbnailThread::isVideo(QString path)
-{
-    bool isVideo = false;
-    QFileInfo temDir(path);
-    QString fileName = temDir.suffix();//扩展名
-    for (const QString &i : ImageEngineApi::instance()->m_videoSupportType) {
-        if (i.contains(fileName)) {
-            isVideo = true;
-            break;
-        }
-    }
-    return isVideo;
 }
 
 void readThumbnailThread::run()

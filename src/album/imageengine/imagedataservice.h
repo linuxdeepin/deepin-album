@@ -74,8 +74,6 @@ public:
     readThumbnailThread();
     ~readThumbnailThread() override;
     void readThumbnail(QString m_path);
-private:
-    bool isVideo(QString path);
 protected:
     void run() override;
     dmr::PlaylistModel *m_playlistModel = nullptr;

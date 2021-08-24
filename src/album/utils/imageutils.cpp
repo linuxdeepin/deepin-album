@@ -41,7 +41,6 @@
 #include <QMovie>
 #include <fstream>
 #include <iostream>
-#include "imageengineapi.h"
 
 namespace utils {
 
@@ -126,7 +125,7 @@ const QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
         for (QFileInfo info : nsl) {
             if (imageSupportRead(info.absoluteFilePath())) {
                 infos << info;
-            } else if (ImageEngineApi::instance()->isVideo(info.absoluteFilePath())) {
+            } else if (utils::base::isVideo(info.absoluteFilePath())) {
                 infos << info;
             }
         }
@@ -140,7 +139,7 @@ const QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
         dirIterator.next();
         if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
-        } else if (ImageEngineApi::instance()->isVideo(dirIterator.fileInfo().absoluteFilePath())) {
+        } else if (utils::base::isVideo(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
         }
     }

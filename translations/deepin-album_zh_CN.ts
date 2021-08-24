@@ -429,7 +429,7 @@
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>成功添加照片到“%1”</translation>
+        <translation>成功添加到“%1”</translation>
     </message>
     <message>
         <source>Import successful</source>

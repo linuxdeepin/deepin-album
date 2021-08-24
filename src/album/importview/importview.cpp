@@ -35,6 +35,7 @@
 #include "imagedataservice.h"
 #include "ac-desktop-define.h"
 
+extern QStringList VideoSupportTypeList;
 ImportView::ImportView()
     : m_pImportBtn(nullptr), pLabel(nullptr)
 {
@@ -175,8 +176,9 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
     for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
         sList << ("*." + i);
     //添加视频过滤
-    for (const QString &i : ImageEngineApi::instance()->m_videoSupportType)
+    for (const QString &i : VideoSupportTypeList) {
         sList << i;
+    }
     QString filter = tr("All photos and videos");
     filter.append('(');
     filter.append(sList.join(" "));

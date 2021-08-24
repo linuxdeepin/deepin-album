@@ -429,7 +429,7 @@
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation>%1ནང་པར་གཅིག་གསར་སྣོན་བྱས་པ།</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Import successful</source>

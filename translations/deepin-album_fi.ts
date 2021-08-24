@@ -305,15 +305,15 @@
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Tuo valokuvia ja videoita</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation>tai vedä ne tänne</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Kaikki kuvat ja videot</translation>
     </message>
 </context>
 <context>
@@ -362,7 +362,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Albumi on kätevä valokuvien, videoiden katseluun, sekä järjestämiseen.</translation>
     </message>
 </context>
 <context>
@@ -713,39 +713,39 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 kohdetta tuotu</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 kohdetta poistettu</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"/>
+        <translation>%1 kohdetta tuotu, %2 epäonnistui</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>1 kuva valittuna</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>1 video valittuna</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>Kuva/video on jo olemassa</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kuvaa valittuna</numerusform><numerusform>%n kuvaa valittuna</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videota valittuna</numerusform><numerusform>%n videota valittuna</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kohdetta valittuna</numerusform><numerusform>%n kohdetta valittuna</numerusform></translation>
     </message>
 </context>
 <context>
@@ -764,19 +764,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 kuva löytyi</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videota löytyi</numerusform><numerusform>%n videota löytyi</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>1 video löytyi</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kohdetta löytyi</numerusform><numerusform>%n kohdetta löytyi</numerusform></translation>
     </message>
 </context>
 <context>
@@ -814,19 +814,19 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 kuva</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kuvaa</numerusform><numerusform>%n kuvaa</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videota</numerusform><numerusform>%n videota</numerusform></translation>
     </message>
 </context>
 <context>

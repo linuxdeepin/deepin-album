@@ -65,7 +65,6 @@ public slots:
     void     sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num);
     //加载设备中图片列表请求完成
     void sltLoadMountFileList(const QString &path);
-    void setVideoSupportType(QStringList videoSupportType);
 signals:
     void sig80ImgInfosReady(QVector<ImageDataSt> imageDatas);
     void sigOneImgReady(QString imagepath, QPixmap pimap);
@@ -75,8 +74,6 @@ signals:
     void fileIsNotExist(QString imagepath);
     //加载设备中图片列表请求完成
     void sigMountFileListLoadReady(QString path, QStringList fileList);
-private:
-    bool isVideo(QString path);
 public:
     int m_loadBegin = 0;
     int m_loadEnd = 0;
@@ -85,7 +82,6 @@ private:
     std::atomic<bool> m_couldRun;
     QVector<QPixmap> m_pixmaps;
     QMap<QString, QStringList>m_PhonePicFileMap; //外部设备及其全部图片路径
-    QStringList m_videoSupportType;
     dmr::PlaylistModel *m_playlistModel = nullptr;
 };
 

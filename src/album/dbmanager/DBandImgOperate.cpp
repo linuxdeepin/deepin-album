@@ -36,6 +36,7 @@
 #include "playlist_model.h"
 #include "imagedataservice.h"
 
+extern QStringList VideoSupportTypeList;
 DBandImgOperate::DBandImgOperate(QObject *parent)
 {
     Q_UNUSED(parent);
@@ -120,7 +121,7 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
     QImage tImg;
     QString srcPath = imagepath;
     QString thumbnailPath = albumGlobal::CACHE_PATH + imagepath;
-    if (isVideo(imagepath)) {
+    if (utils::base::isVideo(imagepath)) {
         QFileInfo temDir(thumbnailPath);
         QString fileName = temDir.fileName();
         thumbnailPath = albumGlobal::CACHE_PATH + temDir.path() + "/" + temDir.baseName() + ".png";
@@ -137,7 +138,7 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
         dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(imagepath), &is);
         ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
     } else {
-        if (isVideo(imagepath)) {
+        if (utils::base::isVideo(imagepath)) {
             if (m_playlistModel == nullptr) {
                 m_playlistModel = new dmr::PlaylistModel(nullptr);
             }
@@ -254,25 +255,6 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
         emit sigMountFileListLoadReady(strPath, m_PhonePicFileMap[strPath]);
     }
 
-}
-
-void DBandImgOperate::setVideoSupportType(QStringList videoSupportType)
-{
-    m_videoSupportType = videoSupportType;
-}
-
-bool DBandImgOperate::isVideo(QString path)
-{
-    bool isVideo = false;
-    QFileInfo temDir(path);
-    QString fileName = temDir.suffix();//扩展名
-    for (const QString &i : m_videoSupportType) {
-        if (i.contains(fileName)) {
-            isVideo = true;
-            break;
-        }
-    }
-    return isVideo;
 }
 
 void DBandImgOperate::getAllInfos()

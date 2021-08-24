@@ -92,11 +92,6 @@ void ImportImagesThread::setData(QList<QUrl> &paths, QString &albumname, ImageEn
     m_type = DataType_UrlList;
 }
 
-void ImportImagesThread::setVideoSupportType(QStringList videoSupportType)
-{
-    m_videoSupportType = videoSupportType;
-}
-
 void ImportImagesThread::setData(QStringList &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
     m_paths = paths;
@@ -149,7 +144,7 @@ void ImportImagesThread::runDetail()
                         image_list << finfo.absoluteFilePath();
                     }
                 }
-            } else if (utils::image::imageSupportRead(path) || ImageEngineApi::instance()->isVideo(path)) {
+            } else if (utils::image::imageSupportRead(path) || utils::base::isVideo(path)) {
 
                 // if path imported album
                 if (curAlbumImgPathList.contains(path)) {
@@ -173,7 +168,7 @@ void ImportImagesThread::runDetail()
                 auto finfos =  utils::image::getImagesAndVideoInfo(path, true);
                 for (auto finfo : finfos) {
                     if (utils::image::imageSupportRead(finfo.absoluteFilePath())
-                            || isVideo(finfo.absoluteFilePath())) {
+                            || utils::base::isVideo(finfo.absoluteFilePath())) {
                         // if path imported album
                         if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
                             curAlbumImportedPathList << finfo.absoluteFilePath();
@@ -279,7 +274,7 @@ void ImportImagesThread::runDetail()
         QStringList pathlistImport;
         DBImgInfoList dbInfosImport;
         for (auto imagePath : image_list) {
-            bIsVideo = isVideo(imagePath);
+            bIsVideo = utils::base::isVideo(imagePath);
             if (!imageSupportRead(imagePath) && !bIsVideo) {
                 noReadCount++;
                 continue;
@@ -340,20 +335,6 @@ void ImportImagesThread::runDetail()
         }
         m_obj->removeThread(this);
     }
-}
-
-bool ImportImagesThread::isVideo(QString path)
-{
-    bool isVideo = false;
-    QFileInfo temDir(path);
-    QString fileName = temDir.suffix();//扩展名
-    for (const QString &i : m_videoSupportType) {
-        if (i.contains(fileName)) {
-            isVideo = true;
-            break;
-        }
-    }
-    return isVideo;
 }
 
 ImageRecoveryImagesFromTrashThread::ImageRecoveryImagesFromTrashThread()
@@ -1089,7 +1070,7 @@ void makeThumbnailThread::saveCache(QString m_path)
         return;
 
     QString errMsg;
-    if (isVideo(m_path)) {
+    if (utils::base::isVideo(m_path)) {
         tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(m_path));
         bool is = false;
         //获取视频信息 demo
@@ -1130,25 +1111,6 @@ void makeThumbnailThread::saveCache(QString m_path)
 
     QPixmap pixmap = QPixmap::fromImage(tImg);
     pixmap.save(spath, "PNG");
-}
-
-void makeThumbnailThread::setVideoSupportType(QStringList videoSupportType)
-{
-    m_videoSupportType = videoSupportType;
-}
-
-bool makeThumbnailThread::isVideo(QString path)
-{
-    bool isVideo = false;
-    QFileInfo temDir(path);
-    QString fileName = temDir.suffix();//扩展名
-    for (const QString &i : m_videoSupportType) {
-        if (i.contains(fileName)) {
-            isVideo = true;
-            break;
-        }
-    }
-    return isVideo;
 }
 
 void makeThumbnailThread::run()

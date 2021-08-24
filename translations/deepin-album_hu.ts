@@ -112,7 +112,7 @@
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>Fényképek betöltése, kérjük várjon...</translation>
+        <translation>Képek betöltése, kérjük várjon...</translation>
     </message>
 </context>
 <context>
@@ -305,7 +305,7 @@
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>Fotók és Videók importálása</translation>
+        <translation>Képek és Videók importálása</translation>
     </message>
     <message>
         <source>Or drag them here</source>
@@ -313,7 +313,7 @@
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Összes Kép és Videó</translation>
     </message>
 </context>
 <context>
@@ -362,7 +362,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Az Album egy divatos képkezelő képek nézegetésére és rendszerezésére</translation>
     </message>
 </context>
 <context>
@@ -725,27 +725,27 @@
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>1 kép kijelölve</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>1 videó kijelölve</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>A kép/videó már létezik</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kép(ek) kijelölve</numerusform><numerusform>%n kép(ek) kijelölve</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videó kijelölve</numerusform><numerusform>%n videó kijelölve</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n elem(ek) kijelölve</numerusform><numerusform>%n elem(ek) kijelölve</numerusform></translation>
     </message>
 </context>
 <context>
@@ -764,19 +764,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 képet sikerült találni</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videót sikerült találni</numerusform><numerusform>%n videót sikerült találni</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>1 videót sikerült találni</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n elemet sikerült találni</numerusform><numerusform>%n elemet sikerült találni</numerusform></translation>
     </message>
 </context>
 <context>
@@ -814,19 +814,19 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 kép</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 videó</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
     </message>
 </context>
 <context>

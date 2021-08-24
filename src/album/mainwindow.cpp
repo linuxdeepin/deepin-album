@@ -50,6 +50,7 @@
 #include <DStandardPaths>
 
 #include "imagedataservice.h"
+extern QStringList VideoSupportTypeList;
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
 namespace  {
@@ -1194,7 +1195,7 @@ void MainWindow::onImprotBtnClicked()
     for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
         sList << ("*." + i);
     //添加视频过滤
-    for (const QString &i : ImageEngineApi::instance()->m_videoSupportType)
+    for (const QString &i : VideoSupportTypeList)
         sList << i;
     QString filter = tr("All Photos");
     filter.append('(');

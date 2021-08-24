@@ -313,7 +313,7 @@
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Alle foto&apos;s en video&apos;s</translation>
     </message>
 </context>
 <context>
@@ -362,7 +362,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Album is een mooi vormgegeven programma waarmee je foto&apos;s en video&apos;s kunt bekijken en beheren.</translation>
     </message>
 </context>
 <context>
@@ -725,27 +725,27 @@
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>1 foto geselecteerd</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>1 video geselecteerd</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>De foto/video is al aanwezig</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n foto geselecteerd</numerusform><numerusform>%n foto&apos;s geselecteerd</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video geselecteerd</numerusform><numerusform>%n video&apos;s geselecteerd</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n item geselecteerd</numerusform><numerusform>%n items geselecteerd</numerusform></translation>
     </message>
 </context>
 <context>
@@ -764,19 +764,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 foto gevonden</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video gevonden</numerusform><numerusform>%n video&apos;s gevonden</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>1 video gevonden</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n item gevonden</numerusform><numerusform>%n items gevonden</numerusform></translation>
     </message>
 </context>
 <context>
@@ -814,19 +814,19 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 foto</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n foto</numerusform><numerusform>%n foto&apos;s</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n video&apos;s</numerusform></translation>
     </message>
 </context>
 <context>

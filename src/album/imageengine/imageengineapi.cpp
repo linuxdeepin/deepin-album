@@ -35,6 +35,7 @@
 #include "player_engine.h"
 #include "imagedataservice.h"
 
+extern QStringList VideoSupportTypeList;
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 
 ImageEngineApi *ImageEngineApi::instance(QObject *parent)
@@ -276,7 +277,6 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, obj, bdialogselect);
-    imagethread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);
@@ -291,7 +291,6 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumna
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, obj, bdialogselect);
-    imagethread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);
@@ -354,7 +353,7 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
 {
     qDebug() << __FUNCTION__ << "---";
     dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
-    ImageEngineApi::instance()->m_videoSupportType = e->video_filetypes;
+    VideoSupportTypeList = e->video_filetypes;
     delete e;
     e = nullptr;
 
@@ -408,7 +407,6 @@ void ImageEngineApi::thumbnailLoadThread(int num)
     Q_UNUSED(num)
     QThread *workerThread = new QThread(this);
     m_worker = new DBandImgOperate(workerThread);
-    m_worker->setVideoSupportType(m_videoSupportType);
 
     m_worker->moveToThread(workerThread);
     //开始录制
@@ -463,7 +461,6 @@ bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
     for (int i = 0; i < needCoreCounts; i++) {
         makeThumbnailThread *thread = new makeThumbnailThread;
         thread->setObject(m_imageCacheSaveobj);
-        thread->setVideoSupportType(ImageEngineApi::instance()->m_videoSupportType);
         thread->start();
         threads.append(thread);
     }
@@ -472,20 +469,6 @@ bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
         thread->deleteLater();
     }
     return true;
-}
-
-bool ImageEngineApi::isVideo(QString path)
-{
-    bool isVideo = false;
-    QFileInfo temDir(path);
-    QString fileName = temDir.suffix();//扩展名
-    for (const QString &i : m_videoSupportType) {
-        if (i.contains(fileName)) {
-            isVideo = true;
-            break;
-        }
-    }
-    return isVideo;
 }
 
 int ImageEngineApi::CacheThreadNum()
