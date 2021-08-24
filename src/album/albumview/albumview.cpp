@@ -1717,7 +1717,7 @@ void AlbumView::needUnMount(const QString &path)
             durlAndNameMap.erase(durlAndNameMap.find(qurl));
 
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-            if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+            if (LocationFile->path().compare(path) == 0 && mount->canUnmount() && !blkget.isNull()) { //增加blkget为空判断，某些情况下卸载设备会导致程序闪退
                 QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
                 QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
                 bool err = false;
