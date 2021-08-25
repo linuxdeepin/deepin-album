@@ -62,6 +62,9 @@ TEST(ImportTimeLineView, getIBaseHeight_test)
     for (int i = 0; i < 10; i++) {
         impTimeline->getIBaseHeight();
     }
+    impTimeline->onSuspensionChoseBtnClicked();
+    impTimeline->slotNoPicOrNoVideo(true);
+    impTimeline->selectPaths();
     QTest::qWait(500);
 }
 

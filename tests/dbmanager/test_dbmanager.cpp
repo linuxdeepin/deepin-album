@@ -48,14 +48,10 @@ TEST(removeTestImagesInfo, db6)
         image_list << info.absoluteFilePath();
     }
     DBManager::instance()->removeImgInfos(QStringList());
-    DBImgInfoList dbinfos;
-    for (auto i : image_list) {
-        DBImgInfo info;
-        info.filePath = i;
-        dbinfos << info;
-    }
     DBManager::instance()->removeImgInfos(image_list);
+    image_list << QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "test.png";
     DBManager::instance()->removeImgInfosNoSignal(image_list);
+    DBManager::instance()->getAllPathAlbumNames();
 }
 
 TEST(getImageByKeyBoard, db8)
@@ -102,16 +98,4 @@ TEST(AlbumForTest, db11)
     info1.dirHash = "test";
     if (info == info1)
         qDebug() << "same";
-}
-
-TEST(DBandImgOperate, DBImgOper)
-{
-    TEST_CASE_NAME("DBImgOper")
-    DBandImgOperate *db = new DBandImgOperate;
-    QString pic = testPath_test + "/39elz3.png";
-    db->loadOneThumbnail(pic);
-    db->loadOneThumbnail(testPath_test + "/39elz3.png123"); //图片不存在的分支
-    db->getAllInfos();
-
-    delete db;//用完记得清理掉
 }

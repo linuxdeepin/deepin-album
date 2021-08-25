@@ -632,71 +632,71 @@ void ImageGetFilesFromMountThread::runDetail()
     emit dApp->signalM->sigLoadMountImagesEnd(m_mountname);
 }
 
-ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
-    : m_loadCount(loadCount)
-{
-    setAutoDelete(false);
-}
+//ImageLoadFromDBThread::ImageLoadFromDBThread(int loadCount)
+//    : m_loadCount(loadCount)
+//{
+//    setAutoDelete(false);
+//}
 
-ImageLoadFromDBThread::~ImageLoadFromDBThread()
-{
-}
+//ImageLoadFromDBThread::~ImageLoadFromDBThread()
+//{
+//}
 
-void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageEngineObject *imgobject, const QString &nametype)
-{
-    m_type = type;
-    m_imgobject = imgobject;
-    m_nametype = nametype;
-}
+//void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageEngineObject *imgobject, const QString &nametype)
+//{
+//    m_type = type;
+//    m_imgobject = imgobject;
+//    m_nametype = nametype;
+//}
 
-bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
-{
-    static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
-    if (imgobject == m_imgobject) {
-        return true;
-    }
-    return false;
-}
+//bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
+//{
+//    static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
+//    if (imgobject == m_imgobject) {
+//        return true;
+//    }
+//    return false;
+//}
 
-void ImageLoadFromDBThread::runDetail()
-{
-    if (bneedstop) {
-        return;
-    }
-    QStringList image_list;
-    QStringList fail_image_list;
-    if (ThumbnailDelegate::AllPicViewType == m_type) {
-        auto infos = DBManager::instance()->getAllInfos(m_loadCount);
-        for (auto info : infos) {
-            //记录源文件不存在的数据
-            if (!QFileInfo(info.filePath).exists()) {
-                fail_image_list << info.filePath;
-                emit dApp->signalM->updatePicView(0);
-                continue;
-            }
-            image_list << info.filePath;
-            if (bneedstop || ImageEngineApi::instance()->closeFg()) {
-                return;
-            }
-            emit sigInsert(info.filePath);
-        }
-        if (m_nametype.isEmpty())
-            ImageEngineApi::instance()->makeThumbnailByPaths(image_list);
-    }
-    if (bneedstop) {
-        return;
-    }
+//void ImageLoadFromDBThread::runDetail()
+//{
+//    if (bneedstop) {
+//        return;
+//    }
+//    QStringList image_list;
+//    QStringList fail_image_list;
+//    if (ThumbnailDelegate::AllPicViewType == m_type) {
+//        auto infos = DBManager::instance()->getAllInfos(m_loadCount);
+//        for (auto info : infos) {
+//            //记录源文件不存在的数据
+//            if (!QFileInfo(info.filePath).exists()) {
+//                fail_image_list << info.filePath;
+//                emit dApp->signalM->updatePicView(0);
+//                continue;
+//            }
+//            image_list << info.filePath;
+//            if (bneedstop || ImageEngineApi::instance()->closeFg()) {
+//                return;
+//            }
+//            emit sigInsert(info.filePath);
+//        }
+//        if (m_nametype.isEmpty())
+//            ImageEngineApi::instance()->makeThumbnailByPaths(image_list);
+//    }
+//    if (bneedstop) {
+//        return;
+//    }
 
-    //删除数据库失效的图片
-    DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
-    // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
-    ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
+//    //删除数据库失效的图片
+//    DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+//    // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
+//    ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
 
-    //先处理图片再存数据库
-    emit sigImageLoaded(m_imgobject, image_list);
+//    //先处理图片再存数据库
+//    emit sigImageLoaded(m_imgobject, image_list);
 
-    m_imgobject->removeThread(this);
-}
+//    m_imgobject->removeThread(this);
+//}
 
 ImageLoadFromLocalThread::ImageLoadFromLocalThread()
 {
@@ -1125,8 +1125,6 @@ void makeThumbnailThread::run()
             saveCache(res);
         }
     }
-
-    qDebug() << "Cachethread end,there threads:" << ImageEngineApi::instance()->CacheThreadNum() - 1;
 }
 
 ImageEngineBackThread::ImageEngineBackThread(): m_bpause(false)

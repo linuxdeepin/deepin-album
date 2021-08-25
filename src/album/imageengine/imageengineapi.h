@@ -49,30 +49,20 @@ public:
     bool ifObjectExist(void *obj);
     bool getImageData(QString imagepath, ImageDataSt &data);
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
-    bool reQuestAllImagesData(ImageEngineObject *obj, bool needcache = true);
-//    bool imageNeedReload(QString imagepath);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool loadImagesFromLocal(QStringList files, ImageEngineObject *obj, bool needcheck = true);
     bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
-    bool loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj);
-    bool loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name = "", int loadCount = 0);
-    int CacheThreadNum();
     void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
     const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
 
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
-    bool getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj);
     bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
-//    bool loadImagesFromPath(ImageEngineObject *obj, QString path);
 
     QStringList get_AllImagePath();
-
-    //将数据加载到内存中
-    // void loadImageDateToMemory(QStringList pathlist);
 
     bool loadImageDateToMemory(QStringList pathlist, QString devName);
 
@@ -96,7 +86,6 @@ private slots:
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
     void sltImageDBLoaded(void *imgobject, QStringList &filelist);
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
-    void sltAborted(const QString &path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
     void sltstopCacheSave();
 

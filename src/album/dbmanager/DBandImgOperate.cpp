@@ -55,61 +55,61 @@ void DBandImgOperate::setThreadShouldStop()
     m_couldRun.store(false);
 }
 
-QPixmap DBandImgOperate::loadOneThumbnail(const QString &imagepath)
-{
-    if (!QFileInfo(imagepath).exists()) {
-        emit fileIsNotExist(imagepath);
-        return QPixmap();
-    }
-    using namespace UnionImage_NameSpace;
-    QImage tImg;
-    QString srcPath = imagepath;
-    QString thumbnailPath = albumGlobal::CACHE_PATH + imagepath;
-    QFileInfo file(thumbnailPath);
-    QString errMsg;
-    QFileInfo srcfi(srcPath);
-    if (file.exists()) {
-        if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
-            qDebug() << errMsg;
-        }
-    } else {
-        if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
-            qDebug() << errMsg;
-        }
-    }
-    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-        bool cache_exist = false;
-        if (tImg.height() != 200 && tImg.width() != 200) {
-            if (tImg.height() >= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (tImg.height() <= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-        if (!cache_exist) {
-            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-    }
+//QPixmap DBandImgOperate::loadOneThumbnail(const QString &imagepath)
+//{
+//    if (!QFileInfo(imagepath).exists()) {
+//        emit fileIsNotExist(imagepath);
+//        return QPixmap();
+//    }
+//    using namespace UnionImage_NameSpace;
+//    QImage tImg;
+//    QString srcPath = imagepath;
+//    QString thumbnailPath = albumGlobal::CACHE_PATH + imagepath;
+//    QFileInfo file(thumbnailPath);
+//    QString errMsg;
+//    QFileInfo srcfi(srcPath);
+//    if (file.exists()) {
+//        if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
+//            qDebug() << errMsg;
+//        }
+//    } else {
+//        if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
+//            qDebug() << errMsg;
+//        }
+//    }
+//    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+//        bool cache_exist = false;
+//        if (tImg.height() != 200 && tImg.width() != 200) {
+//            if (tImg.height() >= tImg.width()) {
+//                cache_exist = true;
+//                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+//            } else if (tImg.height() <= tImg.width()) {
+//                cache_exist = true;
+//                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+//            }
+//        }
+//        if (!cache_exist) {
+//            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+//                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+//            } else {
+//                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+//            }
+//        }
+//    }
 
-    if (!file.exists()) {
-        utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
-        tImg.save(thumbnailPath, "PNG");
-    }
+//    if (!file.exists()) {
+//        utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
+//        tImg.save(thumbnailPath, "PNG");
+//    }
 
-    QPixmap pixmap = QPixmap::fromImage(tImg);
-    return pixmap;
-}
+//    QPixmap pixmap = QPixmap::fromImage(tImg);
+//    return pixmap;
+//}
 
-void DBandImgOperate::loadOneImg(QString imagepath)
-{
-    loadOneImgForce(imagepath, false);
-}
+//void DBandImgOperate::loadOneImg(QString imagepath)
+//{
+//    loadOneImgForce(imagepath, false);
+//}
 
 void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
 {
@@ -257,34 +257,35 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
 
 }
 
-void DBandImgOperate::getAllInfos()
-{
-    DBImgInfoList infos;
-    QSqlDatabase db = DBManager::instance()->getDatabase();
-    if (! db.isValid()) {
-        emit sigAllImgInfosReady(infos);
-        return;
-    }
-    QSqlQuery query(db);
-    query.setForwardOnly(true);
-    bool b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType "
-                           "FROM ImageTable3");
-    if (!b || ! query.exec()) {
-        emit sigAllImgInfosReady(infos);
-        return;
-    } else {
-        using namespace utils::base;
-        while (query.next()) {
-            DBImgInfo info;
-            info.filePath = query.value(0).toString();
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
-            info.time = stringToDateTime(query.value(3).toString());
-            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
-            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
-            info.itemType = static_cast<ItemType>(query.value(6).toInt());
-            infos << info;
-        }
-    }
-    emit sigAllImgInfosReady(infos);
-}
+//void DBandImgOperate::getAllInfos()
+//{
+//    DBImgInfoList infos;
+//    QSqlDatabase db = DBManager::instance()->getDatabase();
+//    if (! db.isValid()) {
+//        emit sigAllImgInfosReady(infos);
+//        return;
+//    }
+//    QSqlQuery query(db);
+//    query.setForwardOnly(true);
+//    bool b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType "
+//                           "FROM ImageTable3");
+//    if (!b || ! query.exec()) {
+//        emit sigAllImgInfosReady(infos);
+//        return;
+//    } else {
+//        using namespace utils::base;
+//        while (query.next()) {
+//            DBImgInfo info;
+//            info.filePath = query.value(0).toString();
+//            info.fileName = query.value(1).toString();
+//            info.dirHash = query.value(2).toString();
+//            info.time = stringToDateTime(query.value(3).toString());
+//            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
+//            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
+//            info.itemType = static_cast<ItemType>(query.value(6).toInt());
+//            infos << info;
+//        }
+//    }
+//    emit sigAllImgInfosReady(infos);
+//}
+

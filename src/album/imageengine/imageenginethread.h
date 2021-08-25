@@ -133,27 +133,27 @@ private:
     ImageMountGetPathsObject *m_imgobject = nullptr;
 };
 
-class ImageLoadFromDBThread : public ImageEngineThreadObject
-{
-    Q_OBJECT
-public:
-    explicit ImageLoadFromDBThread(int loadCount = 0);
-    ~ImageLoadFromDBThread() override;
-    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, const QString &nametype = "");
+//class ImageLoadFromDBThread : public ImageEngineThreadObject
+//{
+//    Q_OBJECT
+//public:
+//    explicit ImageLoadFromDBThread(int loadCount = 0);
+//    ~ImageLoadFromDBThread() override;
+//    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, const QString &nametype = "");
 
-protected:
-    bool ifCanStopThread(void *imgobject) override;
-    void runDetail() override;
+//protected:
+//    bool ifCanStopThread(void *imgobject) override;
+//    void runDetail() override;
 
-signals:
-    void sigImageLoaded(void *imgobject, QStringList &filelist);
-    void sigInsert(QString imagepath, QString remainDay = "");
-private:
-    QString m_nametype;
-    ThumbnailDelegate::DelegateType m_type;
-    ImageEngineObject *m_imgobject = nullptr;
-    int m_loadCount = 0;
-};
+//signals:
+//    void sigImageLoaded(void *imgobject, QStringList &filelist);
+//    void sigInsert(QString imagepath, QString remainDay = "");
+//private:
+//    QString m_nametype;
+//    ThumbnailDelegate::DelegateType m_type;
+//    ImageEngineObject *m_imgobject = nullptr;
+//    int m_loadCount = 0;
+//};
 
 class ImageLoadFromLocalThread : public ImageEngineThreadObject
 {
@@ -282,48 +282,5 @@ private:
     bool m_bpause;
 };
 
-//内存+文件旋转优化方案-已废弃
-
-//struct RotateSaveRequest {
-//    double angel;
-//    QString path;
-//};
-
-//class RotateSaveThread : public QRunnable
-//{
-//public:
-//    RotateSaveThread();
-//    void setDatas(QHash<QString, RotateSaveRequest>   requests_bar);
-//protected:
-//    void run();
-//private:
-//    QVector<RotateSaveRequest> m_requests;
-//};
-
-//class ImageRotateThreadControler : public QObject
-//{
-//    Q_OBJECT
-//public:
-//    ImageRotateThreadControler();
-//    ~ImageRotateThreadControler();
-//signals:
-//    void updateRotate(int angel);
-//public slots:
-//    /**
-//     * @brief addRotateAndSave
-//     * @param request
-//     * @param time_gap
-//     * @author DJH
-//     * 添加旋转请求队列，并设置队列清空等待时间，等待时间结束后，会执行队列所有命令
-//     */
-//    void addRotateAndSave(RotateSaveRequest request, int time_gap);
-//    void startSave();
-
-//private:
-//    QTimer *wait;
-//    QThreadPool rotateThreadPool;
-//    //QList<RotateSaveThread *> rotateThreads;
-//    QHash<QString, RotateSaveRequest> NoRepeatRequest;
-//};
 
 #endif // IMAGEENGINETHREAD_H

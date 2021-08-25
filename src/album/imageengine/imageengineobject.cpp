@@ -96,8 +96,7 @@ void ImageMountGetPathsObject::removeThread(ImageEngineThreadObject *thread)
 void ImageMountGetPathsObject::clearAndStopThread()
 {
     for (auto thread : m_threads) {
-        if(thread)
-        {
+        if (thread) {
             thread->needStop(this);
         }
     }
@@ -127,8 +126,7 @@ void ImageEngineImportObject::addThread(ImageEngineThreadObject *thread)
 
 void ImageEngineImportObject::removeThread(ImageEngineThreadObject *thread)
 {
-    if(m_threads.contains(thread))
-    {
+    if (m_threads.contains(thread)) {
         m_threads.removeOne(thread);
     }
 }
@@ -136,9 +134,8 @@ void ImageEngineImportObject::removeThread(ImageEngineThreadObject *thread)
 void ImageEngineImportObject::clearAndStopThread()
 {
     for (const auto &thread : m_threads) {
-        if(thread)
-        {
-           thread->needStop(this);
+        if (thread) {
+            thread->needStop(this);
         }
     }
     m_threads.clear();
@@ -199,19 +196,19 @@ void ImageEngineObject::checkSelf()
     }
 }
 
-void ImageEngineObject::checkAndReturnPath(QString &path)//保证顺序排列
-{
-    if (m_checkpath.size() < 1) {
-        return;
-    }
-    if (path == m_checkpath.first()) {
-        m_checkpath.removeFirst();
-        imageLoaded(path);
-        checkSelf();
-    } else {
-        m_pathlast << path;
-    }
-}
+//void ImageEngineObject::checkAndReturnPath(QString &path)//保证顺序排列
+//{
+//    if (m_checkpath.size() < 1) {
+//        return;
+//    }
+//    if (path == m_checkpath.first()) {
+//        m_checkpath.removeFirst();
+//        imageLoaded(path);
+//        checkSelf();
+//    } else {
+//        m_pathlast << path;
+//    }
+//}
 
 void ImageEngineObject::clearAndStopThread()
 {

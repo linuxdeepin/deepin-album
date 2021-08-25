@@ -128,7 +128,7 @@ public:
     void addCheckPath(QString &path);
     void checkSelf();
 
-    void checkAndReturnPath(QString &path);//保证顺序排列
+//    void checkAndReturnPath(QString &path);//保证顺序排列
 protected:
     void clearAndStopThread();
     QList<ImageEngineThreadObject *> m_threads;

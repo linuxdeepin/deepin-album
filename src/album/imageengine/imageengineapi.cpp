@@ -57,7 +57,6 @@ ImageEngineApi::~ImageEngineApi()
 #else
     QThreadPool::globalInstance()->clear();     //清除队列
     QThreadPool::globalInstance()->waitForDone();
-    qDebug() << "xigou current Threads:" << QThreadPool::globalInstance()->activeThreadCount();
 #endif
 
     //销毁
@@ -180,14 +179,6 @@ bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
     return true;
 }
 
-void ImageEngineApi::sltAborted(const QString &path)
-{
-    removeImage(path);
-    ImageEngineThread *thread = dynamic_cast<ImageEngineThread *>(sender());
-    if (nullptr != thread)
-        thread->needStop(nullptr);
-}
-
 void ImageEngineApi::sltImageLocalLoaded(void *imgobject, QStringList &filelist)
 {
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
@@ -241,21 +232,6 @@ void ImageEngineApi::slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas)
         m_AllImageData[data.dbi.filePath] = data;
     }
     emit sigLoad80ThumbnailsToView();
-}
-
-bool ImageEngineApi::loadImagesFromTrash(DBImgInfoList files, ImageEngineObject *obj)
-{
-    ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
-    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
-    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
-    imagethread->setData(files, obj, true, ImageLoadFromLocalThread::DataType_TrashList);
-    obj->addThread(imagethread);
-#ifdef NOGLOBAL
-    m_qtpool.start(imagethread);
-#else
-    QThreadPool::globalInstance()->start(imagethread);
-#endif
-    return true;
 }
 
 bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck)
@@ -431,20 +407,6 @@ void ImageEngineApi::setThreadShouldStop()
         m_worker->setThreadShouldStop();
     }
 }
-bool ImageEngineApi::loadImagesFromDB(ThumbnailDelegate::DelegateType type, ImageEngineObject *obj, QString name, int loadCount)
-{
-    ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread(loadCount);
-    connect(imagethread, &ImageLoadFromDBThread::sigImageLoaded, this, &ImageEngineApi::sltImageDBLoaded);
-    connect(imagethread, &ImageLoadFromDBThread::sigInsert, this, &ImageEngineApi::sltInsert);
-    imagethread->setData(type, obj, name);
-    obj->addThread(imagethread);
-#ifdef NOGLOBAL
-    m_qtpool.start(imagethread);
-#else
-    QThreadPool::globalInstance()->start(imagethread);
-#endif
-    return true;
-}
 //根据路径制作缩略图，并保存到指定位置
 bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
 {
@@ -471,15 +433,6 @@ bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
     return true;
 }
 
-int ImageEngineApi::CacheThreadNum()
-{
-#ifdef  NOGLOBAL
-    return cacheThreadPool.activeThreadCount();
-#else
-    return  QThreadPool::globalInstance()->activeThreadCount();
-#endif
-}
-
 void ImageEngineApi::setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums)
 {
     m_allPathAndAlbumNames.clear();
@@ -504,19 +457,7 @@ bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportOb
 #endif
     return true;
 }
-bool ImageEngineApi::getImageFilesFromMount(QString mountname, QString path, ImageMountGetPathsObject *obj)
-{
-    ImageGetFilesFromMountThread *imagethread = new ImageGetFilesFromMountThread;
-    connect(imagethread, &ImageGetFilesFromMountThread::sigImageFilesGeted, this, &ImageEngineApi::sltImageFilesGeted);
-    imagethread->setData(mountname, path, obj);
-    obj->addThread(imagethread);
-#ifdef NOGLOBAL
-    m_qtpool.start(imagethread);
-#else
-    QThreadPool::globalInstance()->start(imagethread);
-#endif
-    return true;
-}
+
 bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
 {
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
