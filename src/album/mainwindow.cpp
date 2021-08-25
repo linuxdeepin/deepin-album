@@ -232,6 +232,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::sigAlbDelToast, this, &MainWindow::onAlbDelToast);
     // 添加到相册底部提示
     connect(dApp->signalM, &SignalManager::sigAddDuplicatePhotos, this, &MainWindow::onAddDuplicatePhotos);
+    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &MainWindow::onRepeatImportingTheSamePhotos);
     // 添加到相册底部提示
     connect(dApp->signalM, &SignalManager::sigAddToAlbToast, this, &MainWindow::onAddToAlbToast);
     //底部，弹出导入成功提示框
@@ -1972,6 +1973,13 @@ void MainWindow::onAddDuplicatePhotos()
 {
     QIcon icon;
     QString str = QObject::tr("The photo/video already exists");
+    floatMessage(str, icon);
+}
+
+void MainWindow::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
+{
+    QIcon icon;
+    QString str = QObject::tr("%1 items imported, %2 items exist already").arg(importPaths.count()).arg(duplicatePaths.count());
     floatMessage(str, icon);
 }
 

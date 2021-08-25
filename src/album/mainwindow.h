@@ -163,6 +163,8 @@ public slots:
     void onMainwindowSliderValueChg(int step);
     void onAlbDelToast(QString str1);
     void onAddDuplicatePhotos();
+    //成功与已存在数量
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
     void onAddToAlbToast(QString album);
     void onImportSuccess();
     void onSearchEditClear();

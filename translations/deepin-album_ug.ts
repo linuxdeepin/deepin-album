@@ -313,7 +313,7 @@
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>بارلىق سۈرەت ۋە سىن</translation>
     </message>
 </context>
 <context>
@@ -362,7 +362,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>ئالبوم كۆپ خىل ئۇسۇلدا سۈرەت ۋە سىنلارنى كۆرگىلى، رەتلىگىلى بولىدىغان باشقۇرۇش قورالى. </translation>
     </message>
 </context>
 <context>
@@ -429,7 +429,7 @@
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished"/>
+        <translation>«%1»گە قوشۇلدى</translation>
     </message>
     <message>
         <source>Import successful</source>
@@ -725,27 +725,31 @@
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>1 سۈرەت تاللاندى</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>1 سىن تاللاندى</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>سۈرەت/سىن مەۋجۇت</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n سۈرەت تاللاندى</numerusform><numerusform>%n سۈرەت تاللاندى</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n سىن تاللاندى</numerusform><numerusform>%n سىن تاللاندى</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n</numerusform><numerusform>%n تۈر تاللاندى</numerusform></translation>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items exist already</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -764,19 +768,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 پارچە سۈرەت بايقالدى</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n سىن بايقالدى</numerusform><numerusform>%n سىن بايقالدى</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>1 سىن بايقالدى</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n تۈر بايقالدى</numerusform><numerusform>%n تۈر بايقالدى</numerusform></translation>
     </message>
 </context>
 <context>
@@ -814,19 +818,19 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 پارچە سۈرەت</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 سىن</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n پارچە سۈرەت</numerusform><numerusform>%n پارچە سۈرەت</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n سىن</numerusform><numerusform>%n سىن</numerusform></translation>
     </message>
 </context>
 <context>

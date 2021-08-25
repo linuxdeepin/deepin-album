@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QColor>
 #include <QMimeData>
+#include "playlist_model.h"
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured, ...) \
@@ -220,6 +221,7 @@ namespace widgets {
 }
 namespace base {
 bool        isVideo(QString path);
+dmr::MovieInfo getMovieInfo(const QString &path);
 //void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);

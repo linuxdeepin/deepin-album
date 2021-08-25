@@ -41,7 +41,8 @@ public:
 protected:
     bool ifCanStopThread(void *imgobject) override;
     void runDetail() override;
-
+private:
+    void pathCheck(QStringList *image_list, QStringList *curAlbumImportedPathList, QStringList &curAlbumImgPathList, const QString &path);
 signals:
     void runFinished();
 

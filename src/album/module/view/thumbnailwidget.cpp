@@ -33,12 +33,10 @@
 #include <DLabel>
 #include <DFontSizeManager>
 
-namespace  {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
-const QSize THUMBNAIL_SIZE = QSize(128, 128);
+const QSize Album_THUMBNAIL_SIZE = QSize(128, 128);
 const QString ICON_IMPORT_PHOTO_DARK = ":/resources/dark/images/icon_import_photo dark.svg";
 const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/icon_import_photo.svg";
-}
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
                                  const QString &lightFile, QWidget *parent)
@@ -56,7 +54,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
         m_theme = false;
     }
 
-    QPixmap logo_pix1 = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
+    QPixmap logo_pix1 = utils::base::renderSVG(m_picString, Album_THUMBNAIL_SIZE);
     m_logo = logo_pix1;
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &ThumbnailWidget::onThemeTypeChanged);
@@ -142,7 +140,7 @@ void ThumbnailWidget::onThemeTypeChanged()
         m_theme = false;
     }
 
-    QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
+    QPixmap logo_pix = utils::base::renderSVG(m_picString, Album_THUMBNAIL_SIZE);
     m_logo = logo_pix;
     if (m_isDefaultThumbnail)
         m_defaultImage = logo_pix;
@@ -168,15 +166,15 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
         m_isDefaultThumbnail = true;
     }
 
-    if (m_defaultImage.size() != THUMBNAIL_SIZE) {
-        m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
+    if (m_defaultImage.size() != Album_THUMBNAIL_SIZE) {
+        m_defaultImage = m_defaultImage.scaled(Album_THUMBNAIL_SIZE,
                                                Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 
     QPoint startPoint = mapToParent(QPoint(m_thumbnailLabel->x(),
                                            m_thumbnailLabel->y()));
-    QPoint imgStartPoint = QPoint(startPoint.x() + (THUMBNAIL_SIZE.width() -
-                                                    128) / 2 + 1, startPoint.y() + (THUMBNAIL_SIZE.height()
+    QPoint imgStartPoint = QPoint(startPoint.x() + (Album_THUMBNAIL_SIZE.width() -
+                                                    128) / 2 + 1, startPoint.y() + (Album_THUMBNAIL_SIZE.height()
                                                                                     - 128) / 2 + 1);
     QRect imgRect = QRect(imgStartPoint.x(), imgStartPoint.y(),
                           128, 128);

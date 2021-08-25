@@ -127,6 +127,7 @@ void ImportImagesThread::runDetail()
         // 不是在相册中导入时,allpic timeline .etc
         curAlbumImgPathList = DBManager::instance()->getAllPaths();
     }
+    //重复导入文件
     QStringList curAlbumImportedPathList;
     // 拖拽导入 url
     if (m_type == DataType_UrlList) {
@@ -136,22 +137,11 @@ void ImportImagesThread::runDetail()
             urlLocalPathList << path;
             if (QFileInfo(path).isDir()) {
                 auto finfos =  utils::image::getImagesAndVideoInfo(path, true);
-
                 for (auto finfo : finfos) {
-                    if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
-                        curAlbumImportedPathList << finfo.absoluteFilePath();
-                    } else {
-                        image_list << finfo.absoluteFilePath();
-                    }
+                    pathCheck(&image_list, &curAlbumImportedPathList, curAlbumImgPathList, finfo.absoluteFilePath());
                 }
-            } else if (utils::image::imageSupportRead(path) || utils::base::isVideo(path)) {
-
-                // if path imported album
-                if (curAlbumImgPathList.contains(path)) {
-                    curAlbumImportedPathList << path;
-                } else {
-                    image_list << path;
-                }
+            } else if (QFileInfo(path).exists()) { //文件存在
+                pathCheck(&image_list, &curAlbumImportedPathList, curAlbumImgPathList, path);
             }
         }
     }
@@ -167,42 +157,31 @@ void ImportImagesThread::runDetail()
             if (file.isDir()) {
                 auto finfos =  utils::image::getImagesAndVideoInfo(path, true);
                 for (auto finfo : finfos) {
-                    if (utils::image::imageSupportRead(finfo.absoluteFilePath())
-                            || utils::base::isVideo(finfo.absoluteFilePath())) {
-                        // if path imported album
-                        if (curAlbumImgPathList.contains(finfo.absoluteFilePath())) {
-                            curAlbumImportedPathList << finfo.absoluteFilePath();
-                        } else {
-                            image_list << finfo.absoluteFilePath();
-                        }
-                    }
+                    pathCheck(&image_list, &curAlbumImportedPathList, curAlbumImgPathList, finfo.absoluteFilePath());
                 }
             } else if (file.exists()) { //文件存在
-
-                // if path imported album
-                if (curAlbumImgPathList.contains(path)) {
-                    curAlbumImportedPathList << path;
-                } else {
-                    image_list << path;
-                }
+                pathCheck(&image_list, &curAlbumImportedPathList, curAlbumImgPathList, path);
             }
         }
     }
-    // 导入列表为空并且导入相同照片的列表也为空，视为导入失败,直接返回
-    if (image_list.size() < 1 && curAlbumImportedPathList.size() < 1) {
-        emit dApp->signalM->ImportFailed();
-        m_obj->imageImported(false);
-        m_obj->removeThread(this);
-        return;
-    } else if (image_list.size() < 1 && curAlbumImportedPathList.size() > 0) {
-        // 视为导入的图片全部为重复图片
-        // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
-        emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
-        // 导入重复照片提示
-        emit dApp->signalM->sigAddDuplicatePhotos();
-        m_obj->imageImported(true);
-        m_obj->removeThread(this);
-        return;
+
+    if (image_list.size() < 1) {
+        if (curAlbumImportedPathList.size() < 1) {
+            // 导入列表为空并且导入相同照片的列表也为空，视为导入失败,直接返回
+            emit dApp->signalM->ImportFailed();
+            m_obj->imageImported(false);
+            m_obj->removeThread(this);
+            return;
+        } else if (curAlbumImportedPathList.size() > 0) {
+            // 视为导入的图片全部为重复图片
+            // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
+            emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
+            // 导入重复照片提示
+            emit dApp->signalM->sigAddDuplicatePhotos();
+            m_obj->imageImported(true);
+            m_obj->removeThread(this);
+            return;
+        }
     } else if (image_list.size() > 0) {
         if (m_bdialogselect) {
             QFileInfo firstFileInfo(image_list.first());
@@ -334,6 +313,25 @@ void ImportImagesThread::runDetail()
             m_obj->imageImported(false);
         }
         m_obj->removeThread(this);
+    }
+}
+
+void ImportImagesThread::pathCheck(QStringList *image_list, QStringList *curAlbumImportedPathList, QStringList &curAlbumImgPathList, const QString &path)
+{
+    if (utils::image::imageSupportRead(path)) {
+        if (curAlbumImgPathList.contains(path)) {
+            *curAlbumImportedPathList << path;
+        } else {
+            *image_list << path;
+        }
+    } else if (utils::base::isVideo(path)) {
+        if (utils::base::getMovieInfo(path).valid) {
+            if (curAlbumImgPathList.contains(path)) {
+                *curAlbumImportedPathList << path;
+            } else {
+                *image_list << path;
+            }
+        }
     }
 }
 

@@ -747,6 +747,10 @@
         <source>%n items selected</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
+    <message>
+        <source>%1 items imported, %2 items exist already</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SearchView</name>

@@ -50,6 +50,7 @@
 DWIDGET_USE_NAMESPACE
 
 QStringList VideoSupportTypeList;
+dmr::PlaylistModel *g_playlistModel = nullptr;
 
 namespace utils {
 
@@ -325,16 +326,23 @@ QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 
 bool isVideo(QString path)
 {
-    bool isVideo = false;
     QFileInfo temDir(path);
-    QString fileName = temDir.suffix();//扩展名
-    for (const QString &i : VideoSupportTypeList) {
-        if (i.contains(fileName)) {
-            isVideo = true;
-            break;
-        }
+    QString fileName = "*." + temDir.suffix(); //扩展名
+    return VideoSupportTypeList.contains(fileName);
+}
+
+dmr::MovieInfo getMovieInfo(const QString &path)
+{
+    if (g_playlistModel == nullptr) {
+        g_playlistModel = new dmr::PlaylistModel(nullptr);
     }
-    return isVideo;
+
+    QImage tImg = g_playlistModel->getMovieCover(QUrl::fromLocalFile(path));
+
+    bool is = false;
+    //获取视频信息 demo
+    dmr::MovieInfo mi = g_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+    return mi;
 }
 
 }  // namespace base

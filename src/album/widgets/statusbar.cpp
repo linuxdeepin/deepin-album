@@ -34,17 +34,14 @@ StatusBar::StatusBar(QWidget *parent)
 
 void StatusBar::initUI()
 {
-//    setFixedHeight(27);
     setFixedHeight(27);
 
-//    QString str = QObject::tr("%1 photo(s)");
     m_allPicNum = DBManager::instance()->getImgsCount();
 
     m_pAllPicNumLabel = new DLabel();
     AC_SET_OBJECT_NAME(m_pAllPicNumLabel, All_Pic_Count);
     AC_SET_ACCESSIBLE_NAME(m_pAllPicNumLabel, All_Pic_Count);
     m_pAllPicNumLabel->setEnabled(false);
-//    m_pAllPicNumLabel->setText(str.arg(QString::number(m_allPicNum)));
     m_pAllPicNumLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
     m_pAllPicNumLabel->setAlignment(Qt::AlignCenter);
 
@@ -218,14 +215,8 @@ void StatusBar::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == interval) {
         loadingicon->move(TextLabel->x() + 102, 0);
-
-//        qDebug()<<TextLabel->x();
         m_pStackedWidget->setCurrentIndex(1);
-
-
         QString string = tr("Importing photos: '%1'");
-//        TextLabel->setAlignment(Qt::AlignCenter);
-//        TextLabel->adjustSize();
 
         if (imgpaths.count() == 1) {
             m_index = 0;
@@ -238,14 +229,6 @@ void StatusBar::timerEvent(QTimerEvent *e)
                     m_baddDuplicatePhotos = false;
                     emit dApp->signalM->sigAddDuplicatePhotos();
                 }
-            } else if (1 == pic_count) {
-                emit dApp->signalM->ImportSuccess();
-                if (m_baddDuplicatePhotos) {
-                    m_baddDuplicatePhotos = false;
-                    emit dApp->signalM->sigAddDuplicatePhotos();
-                }
-            } else {
-                emit dApp->signalM->ImportFailed();
             }
         } else {
             if (m_index >= imgpaths.count() - 1) {
