@@ -436,7 +436,26 @@ void TimeLineView:: addTimelineLayout()
         if (datelist.count() > 2) {
             data = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
-        num = QString(QObject::tr("%1 photo(s)")).arg(ImgInfoList.size());
+        int photoCount = 0;
+        int videoCount = 0;
+        for (int i = 0; i < ImgInfoList.size(); i++) {
+            if (ImgInfoList.at(i).itemType == ItemTypePic) {
+                photoCount++;
+            } else if (ImgInfoList.at(i).itemType == ItemTypeVideo) {
+                videoCount++;
+            }
+        }
+        if (photoCount == 1 && videoCount == 0) {
+            num = tr("1 photo");
+        } else if (photoCount == 0 && videoCount == 1) {
+            num = tr("1 video");
+        } else if (photoCount > 1 && videoCount == 0) {
+            num = tr("%n photos", "", photoCount);
+        } else if (photoCount == 0 && videoCount > 1) {
+            num = tr("%n videos", "", videoCount);
+        } else if (photoCount > 1 && videoCount > 1) {
+            num = tr("%n items", "", (photoCount + videoCount));
+        }
 
         if (timelineIndex == 0) {
             m_dateLabel->setText(data);

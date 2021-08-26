@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>Importovat</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import fotek</translation>
+        <translation type="vanished">Import fotek</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Importování…</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotek</translation>
+        <translation type="vanished">%1 fotek</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>Fotka nenalezena</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

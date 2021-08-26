@@ -311,6 +311,12 @@ void AlbumView::initConnections()
     //自定义相册
     connect(m_customThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &AlbumView::sltSelectionChanged);
+    //我的收藏
+    connect(m_favoriteThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &AlbumView::sltSelectionChanged);
+    //最近删除
+    connect(m_pRightTrashThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &AlbumView::sltSelectionChanged);
 #endif
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::trashRecovery, this, &AlbumView::onTrashRecoveryBtnClicked);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AlbumView::onImportViewImportBtnClicked);

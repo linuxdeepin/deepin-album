@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>Tuonti</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1 kuva</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 video</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Tuo kuvat</translation>
+        <translation type="vanished">Tuo kuvat</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Tuodaan...</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>Kaikki kuvat ja videot</translation>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation>Tuo valokuvia ja videoita</translation>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kuvaa</translation>
+        <translation type="vanished">%1 kuvaa</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>Kuvaa ei löytynyt</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation>1 kuva</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 video</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

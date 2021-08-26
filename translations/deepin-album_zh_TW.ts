@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>匯入照片</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation>共1張照片</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>共1個影片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>共%n張照片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>共%n個影片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation><numerusform>共%n項</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>匯入照片</translation>
+        <translation type="vanished">匯入照片</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>正在匯入...</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>所有照片和影片</translation>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation>導入照片和影片</translation>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1張照片</translation>
+        <translation type="vanished">%1張照片</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>未發現照片文件</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation>共1張照片</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>共1個影片</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>共%n張照片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>共%n個影片</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation><numerusform>共%n項</numerusform></translation>
     </message>
 </context>
 <context>

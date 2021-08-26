@@ -317,6 +317,35 @@
         <source>Import</source>
         <translation>Impordi</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -546,11 +575,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Impordi fotosid</translation>
+        <translation type="vanished">Impordi fotosid</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Importimine</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -670,7 +707,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(t)</translation>
+        <translation type="vanished">%1 foto(t)</translation>
     </message>
     <message>
         <source>%1 photo(s) selected</source>
@@ -784,6 +821,10 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>%1 items imported, %2 items exist already</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1010,6 +1051,38 @@
     <message>
         <source>Photo not found</source>
         <translation>Fotot ei leitud</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>

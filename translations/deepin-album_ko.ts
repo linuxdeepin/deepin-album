@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>가져오기</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>사진 가져오기</translation>
+        <translation type="vanished">사진 가져오기</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>가져오는 중...</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>사진 %1장</translation>
+        <translation type="vanished">사진 %1장</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>사진을 찾을 수 없음</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

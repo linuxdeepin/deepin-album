@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>Import</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1 photo</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 video</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>%n photos</numerusform><numerusform>%n photos</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>%n videos</numerusform><numerusform>%n videos</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation><numerusform>%n items</numerusform><numerusform>%n items</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Import Photos</translation>
+        <translation type="vanished">Import Photos</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Importing...</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>All photos and videos</translation>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation>Import Photos and Videos</translation>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
+        <translation type="vanished">%1 photo(s)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>Photo not found</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation>1 photo</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 video</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>%n photos</numerusform><numerusform>%n photos</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>%n videos</numerusform><numerusform>%n videos</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation><numerusform>%n items</numerusform><numerusform>%n items</numerusform></translation>
     </message>
 </context>
 <context>

@@ -205,7 +205,11 @@ void BatchOperateWidget::sltLeftRotate(bool checked)
 //缩略图列表选中状态发生变化
 void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(selected)
     Q_UNUSED(deselected)
+    if (m_thumbnailListView->getAppointTypeSelectItemCount(ItemTypeNull) == 0) {
+        return;
+    }
     batchSelectChanged(true, false);
     refreshBtnEnabled();
 }

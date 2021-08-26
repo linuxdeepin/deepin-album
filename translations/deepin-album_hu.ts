@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>Importálás</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1 kép</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 videó</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Képek importálása</translation>
+        <translation type="vanished">Képek importálása</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Importálás...</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>Összes Kép és Videó</translation>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation>Képek és Videók importálása</translation>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kép(ek)</translation>
+        <translation type="vanished">%1 kép(ek)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -749,7 +777,7 @@
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>%1 elem importálva, %2 elem már létezik</translation>
     </message>
 </context>
 <context>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>Kép nem található</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation>1 kép</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 videó</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
     </message>
 </context>
 <context>

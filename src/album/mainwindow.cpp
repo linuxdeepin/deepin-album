@@ -120,10 +120,6 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
-//    delete m_pAlbumview;                    //相册照片界面视图
-//    delete m_pAllPicView;                   //所有照片界面视图
-//    delete m_pTimeLineView;                 //时间线界面视图
-//    delete m_pSearchView;                   //搜索界面视图
     emit dApp->signalM->sigPauseOrStart(false); //唤醒外设后台挂载,防止析构时线程挂起卡住页面无法退出
     ImageEngineApi::instance()->close();
     QThreadPool::globalInstance()->clear();
@@ -1198,7 +1194,7 @@ void MainWindow::onImprotBtnClicked()
     //添加视频过滤
     for (const QString &i : VideoSupportTypeList)
         sList << i;
-    QString filter = tr("All Photos");
+    QString filter = tr("All photos and videos");
     filter.append('(');
     filter.append(sList.join(" "));
     filter.append(')');
@@ -1214,7 +1210,7 @@ void MainWindow::onImprotBtnClicked()
     dialog.setDirectory(pictureFolder);
     dialog.setNameFilter(filter);
     dialog.setOption(QFileDialog::HideNameFilterDetails);
-    dialog.setWindowTitle(tr("Import Photos"));
+    dialog.setWindowTitle(tr("Import Photos and Videos"));
     dialog.setAllowMixedSelection(true);
     const int mode = dialog.exec();
     if (mode != QDialog::Accepted) {

@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>Importeren</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1 foto</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 video</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Foto&apos;s importeren</translation>
+        <translation type="vanished">Foto&apos;s importeren</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Bezig met importeren...</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>Alle foto&apos;s en video&apos;s</translation>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation>Importeer foto&apos;s en video&apos;s</translation>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(&apos;s)</translation>
+        <translation type="vanished">%1 foto(&apos;s)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -749,7 +777,7 @@
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>%1 items geïmporteerd - %2 items reeds aanwezig</translation>
     </message>
 </context>
 <context>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>Foto niet aangetroffen</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation>1 foto</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 video</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

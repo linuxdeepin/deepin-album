@@ -1695,8 +1695,10 @@ int ThumbnailListView::getAppointTypeItemCount(ItemType type)
 int ThumbnailListView::getAppointTypeSelectItemCount(ItemType type)
 {
     int count = 0;
-    for (int i = 0;  i < selectedIndexes().size(); i++) {
-        QModelIndex index = selectedIndexes().at(i);
+    QModelIndexList list = selectedIndexes();
+    int size = list.size();
+    for (int i = 0;  i < size; i++) {
+        QModelIndex index = list.at(i);
         DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
         //全选
         if (type == ItemType::ItemTypeNull) {

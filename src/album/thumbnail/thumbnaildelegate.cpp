@@ -96,7 +96,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
 {
     painter->save();
     const DBImgInfo data = itemData(index);
-    bool selected = data.isSelected;
+    bool selected = false;
     if (/*(option.state & QStyle::State_MouseOver) &&*/
         (option.state & QStyle::State_Selected) != 0) {
         selected = true;
@@ -266,14 +266,12 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
 
     //绘制心形图标
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
-        //#BUG84304 修正裂图心形图标的位置
         QPainterPath bp;
         bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(bp);
 
-        QPixmap favPixmap;
-        favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
-        painter->drawPixmap(20, backgroundRect.y() + backgroundRect.height() - 30, favPixmap);
+        QPixmap favPixmap = utils::base::renderSVG(":/resources/images/other/fav_icon .svg", QSize(20, 20));
+        painter->drawPixmap(backgroundRect.x() + 20, backgroundRect.y() + backgroundRect.height() - 30, favPixmap);
     }
 
     painter->restore();

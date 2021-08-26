@@ -300,6 +300,26 @@
         <source>Import</source>
         <translation>Імпортувати</translation>
     </message>
+    <message>
+        <source>1 photo</source>
+        <translation>1 фотографія</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 відео</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ImportView</name>
@@ -313,7 +333,7 @@
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Усі фотографії і відео</translation>
     </message>
 </context>
 <context>
@@ -362,7 +382,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>«Альбом» — чудова програма для перегляду і упорядковування фотографій і відео.</translation>
     </message>
 </context>
 <context>
@@ -521,11 +541,19 @@
     </message>
     <message>
         <source>Import Photos</source>
-        <translation>Імпортувати фотографії</translation>
+        <translation type="vanished">Імпортувати фотографії</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Імпортування…</translation>
+    </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>Усі фотографії і відео</translation>
+    </message>
+    <message>
+        <source>Import Photos and Videos</source>
+        <translation>Імпортуйте фотографії та відео</translation>
     </message>
 </context>
 <context>
@@ -645,7 +673,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 фотографії</translation>
+        <translation type="vanished">%1 фотографії</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -725,31 +753,31 @@
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>Позначено 1 фотографію</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>Позначено 1 відео</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>Така фотографія або відео вже існує</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Позначено %n фотографію</numerusform><numerusform>Позначено %n фотографії</numerusform><numerusform>Позначено %n фотографій</numerusform><numerusform>Позначено %n фотографію</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Позначено %n відео</numerusform><numerusform>Позначено %n відео</numerusform><numerusform>Позначено %n відео</numerusform><numerusform>Позначено %n відео</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Позначено %n запис</numerusform><numerusform>Позначено %n записи</numerusform><numerusform>Позначено %n записів</numerusform><numerusform>Позначено %n запис</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>Імпортовано %1 записів, %2 записів вже існує</translation>
     </message>
 </context>
 <context>
@@ -768,19 +796,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>Знайдено 1 фотографію</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Знайдено %n відео</numerusform><numerusform>Знайдено %n відео</numerusform><numerusform>Знайдено %n відео</numerusform><numerusform>Знайдено %n відео</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>Знайдено 1 відео</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Знайдено %n запис</numerusform><numerusform>Знайдено %n записи</numerusform><numerusform>Знайдено %n записів</numerusform><numerusform>Знайдено %n запис</numerusform></translation>
     </message>
 </context>
 <context>
@@ -818,19 +846,19 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 фотографія</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 відео</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n фотографія</numerusform><numerusform>%n фотографії</numerusform><numerusform>%n фотографій</numerusform><numerusform>%n фотографія</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform></translation>
     </message>
 </context>
 <context>
@@ -960,6 +988,29 @@
     <message>
         <source>Photo not found</source>
         <translation>Фотографії не знайдено</translation>
+    </message>
+</context>
+<context>
+    <name>TimeLineView</name>
+    <message>
+        <source>1 photo</source>
+        <translation>1 фотографія</translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>1 відео</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n videos</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n items</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
