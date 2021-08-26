@@ -39,6 +39,7 @@
 #include <DGuiApplicationHelper>
 
 #include "imageengineapi.h"
+#include "imagedataservice.h"
 namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
@@ -91,7 +92,7 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     }
     return;
 }
-#include "imagedataservice.h"
+
 void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     painter->save();
@@ -161,8 +162,6 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    DGuiApplicationHelper::ColorType themeType;
-
     if (!ImageDataService::instance()->imageIsLoaded(data.filePath)) {
         painter->drawPixmap(pixmapRect, m_default);
     } else {
@@ -170,8 +169,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         if (img.isNull()) {
             painter->drawPixmap(pixmapRect, m_damagePixmap);
         } else {
-            painter->drawPixmap(pixmapRect,
-                                QPixmap::fromImage(img));
+            painter->drawPixmap(pixmapRect, QPixmap::fromImage(img));
         }
     }
 

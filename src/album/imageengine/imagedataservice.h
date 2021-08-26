@@ -50,6 +50,13 @@ public:
 
     void addMovieDurationStr(const QString &path, const QString &durationStr);
     QString getMovieDurationStrByPath(const QString &path);
+
+    //设置当前窗口所有数据
+    void setAllDataKeys(const QStringList &paths, bool single = false);
+
+    //
+    void setVisualIndex(int row);
+    int getVisualIndex();
 private slots:
 signals:
 public:
@@ -62,7 +69,8 @@ private:
     QMutex m_imgDataMutex;
     QMap<QString, QImage> m_AllImageMap;
     QMap<QString, QString> m_movieDurationStrMap;
-    QList<QString> m_imageKey;
+    QQueue<QString> m_imageKeys;
+    int m_visualIndex = 0;//用户查找视图中的model index
 };
 
 

@@ -62,18 +62,16 @@ bool ImageDataService::add(const QStringList &paths)
 bool ImageDataService::add(const QString &path)
 {
     QMutexLocker locker(&m_queuqMutex);
-    m_requestQueue.append(path);
+    if (!path.isEmpty()) {
+        m_requestQueue.append(path);
+    }
     return true;
 }
 
 QString ImageDataService::pop()
 {
     QMutexLocker locker(&m_queuqMutex);
-    if (m_requestQueue.empty())
-        return QString();
-    QString res = m_requestQueue.first();
-    m_requestQueue.pop_front();
-    return res;
+    return m_requestQueue.isEmpty() ? QString() : m_requestQueue.takeFirst();
 }
 
 bool ImageDataService::isEmpty()
@@ -94,11 +92,8 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
                                      QDirIterator::Subdirectories);
             while (dirIterator.hasNext()) {
                 dirIterator.next();
-                infos << dirIterator.fileInfo();
-            }
-
-            for (auto finfo : infos) {
-                image_video_list << finfo.absoluteFilePath();
+                QFileInfo fi = dirIterator.fileInfo();
+                image_video_list << fi.absoluteFilePath();
             }
         } else if (file.exists()) { //文件存在
             image_video_list << path;
@@ -110,8 +105,8 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
         ImageDataService::instance()->add(image_video_list);
         int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
         needCoreCounts = needCoreCounts / 2;
-        if (files.size() < needCoreCounts) {
-            needCoreCounts = files.size();
+        if (image_video_list.size() < needCoreCounts) {
+            needCoreCounts = image_video_list.size();
         }
         if (needCoreCounts < 1)
             needCoreCounts = 1;
@@ -126,7 +121,7 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
             thread->deleteLater();
         }
     } else {
-        ImageDataService::instance()->add(files);
+        ImageDataService::instance()->add(image_video_list);
     }
     return true;
 }
@@ -136,12 +131,17 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
     QMutexLocker locker(&m_imgDataMutex);
     if (!m_AllImageMap.contains(path)) {
         m_AllImageMap[path] = image;
-        m_imageKey.append(path);
-        if (m_imageKey.size() > 1000) {
-            //保证缓存占用，始终只占用1000张缩略图缓存
-            QString res = m_imageKey.first();
-            m_imageKey.pop_front();
-            m_AllImageMap.remove(res);
+        if (m_AllImageMap.size() > 1000) {
+            //保证缓存占用，始终只占用1000张缩略图缓存,查找不在视图范围内的进行删除
+            QString strpath = "";
+            if ((m_visualIndex - 300) >= 0 && m_imageKeys.size() >= m_visualIndex) { //m_visualInde可能位于可视区域，减300是为了能到达向上不可视区域
+                strpath = m_imageKeys[m_visualIndex - 300];
+            } else if (m_visualIndex + 300 < m_imageKeys.size()) { //m_visualIndex位于可视区域，+300是为了能到达向下不可视区域
+                strpath = m_imageKeys[m_visualIndex + 300];
+            } else {
+                qDebug() << __FUNCTION__ << "hj----------------m_visualIndex:" << m_visualIndex; //几乎不能到达这里，某些情况下还是可以的，不过没关系
+            }
+            m_AllImageMap.remove(strpath);
         }
     }
 }
@@ -156,6 +156,26 @@ QString ImageDataService::getMovieDurationStrByPath(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
     return m_movieDurationStrMap[path];
+}
+
+void ImageDataService::setAllDataKeys(const QStringList &paths, bool single)
+{
+    QMutexLocker locker(&m_imgDataMutex);
+    if (!single)
+        m_imageKeys.clear();
+    m_imageKeys.append(paths);
+}
+
+void ImageDataService::setVisualIndex(int row)
+{
+    QMutexLocker locker(&m_imgDataMutex);
+    m_visualIndex = row;
+}
+
+int ImageDataService::getVisualIndex()
+{
+    QMutexLocker locker(&m_imgDataMutex);
+    return m_visualIndex;
 }
 
 QImage ImageDataService::getThumnailImageByPath(const QString &path)
@@ -182,8 +202,10 @@ readThumbnailThread::readThumbnailThread()
 
 readThumbnailThread::~readThumbnailThread()
 {
-    delete  m_playlistModel;
-    m_playlistModel = nullptr;
+    if (m_playlistModel) {
+        delete  m_playlistModel;
+        m_playlistModel = nullptr;
+    }
 }
 
 void readThumbnailThread::readThumbnail(QString path)

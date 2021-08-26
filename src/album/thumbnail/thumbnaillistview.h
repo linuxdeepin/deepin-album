@@ -186,6 +186,8 @@ protected:
     void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    //重写该函数是为了获取当前视图中最大的model index，该函数和paint同步
+    QRect visualRect(const QModelIndex &index) const override;
 
 private slots:
     void onMenuItemClicked(QAction *action);
@@ -198,6 +200,8 @@ private slots:
     void updateThumbnailViewAfterDelete(const DBImgInfoList &infos);
     //时间线界面，选择当前时间内照片
     void slotSelectCurrentDatePic(bool isSelect, QStandardItem *item);
+    //更新当前数据到ImageDataService
+    void updateImagedataQueue(QString stradd = "");
 public slots:
     //所有照片界面
     void slotLoad80ThumbnailsFinish();

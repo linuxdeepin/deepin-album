@@ -43,6 +43,8 @@ class NoResultWidget;
 class BatchOperateWidget;
 class TimeLineView : public DWidget, public ImageEngineImportObject
 {
+    Q_OBJECT
+
 public:
     TimeLineView();
     ~TimeLineView() override

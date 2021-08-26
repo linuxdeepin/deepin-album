@@ -113,6 +113,11 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, const
 
 ThumbnailListView::~ThumbnailListView()
 {
+    if (m_loadTimer) {
+        if (m_loadTimer->isActive())
+            m_loadTimer->stop();
+        m_loadTimer->deleteLater();
+    }
 }
 
 static QString myMimeType()
@@ -228,14 +233,12 @@ void ThumbnailListView::showEvent(QShowEvent *event)
     Q_UNUSED(event);
     //时间线使用
     emit sigShowEvent();
-    //info.image = getDamagedPixmap();
+    //更新当前数据到ImageDataService，针对不同窗口时，无法触发rowchanged信号
+    updateImagedataQueue();
     int i_totalwidth = width() - 30;
     //计算一行的个数
     m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
-    int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
-    m_onePicWidth = currentwidth;
-    if (currentwidth < 80)
-        currentwidth = 80;
+    m_onePicWidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
     int size = ImageEngineApi::instance()->m_AllImageDataVector.size();
     //出于性能考虑,因为一开始只加了第一屛，所以显示后延迟加载剩下的图片信息,m_bfirstload用来只执行一次
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType && m_model->rowCount() < size && m_bfirstload) {
@@ -272,6 +275,13 @@ void ThumbnailListView::wheelEvent(QWheelEvent *event)
         m_animationEnable = true;
     }
     DListView::wheelEvent(event);
+}
+
+QRect ThumbnailListView::visualRect(const QModelIndex &index) const
+{
+    //获取当前视图中的item项,找到视图中的index,注意：获取到的index可能不是最大值,但已经足够了
+    ImageDataService::instance()->setVisualIndex(index.row());
+    return QListView::visualRect(index);
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
@@ -405,6 +415,7 @@ void ThumbnailListView::updateThumbnailView(QString updatePath)
             m_model->setData(index, QVariant(QSize(info.imgWidth, info.imgWidth)), Qt::SizeHintRole);
             QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(info.filePath);
             m_model->setData(index, QVariant(albumNames), Qt::UserRole + 2);
+            break;//更新完数据以后，应跳出循环
         }
     }
     this->setSpacing(ITEM_SPACING);
@@ -441,6 +452,8 @@ void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
         connect(pCurrentDateWidget, &importTimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
         this->setIndexWidget(index, pCurrentDateWidget);
     }
+    //更新当前数据到ImageDataService
+    updateImagedataQueue(info.filePath);
 }
 
 void ThumbnailListView::stopLoadAndClear(bool bClearModel)
@@ -1006,6 +1019,8 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     emit dApp->signalM->updateFavoriteNum();
     m_model->removeRow(index.row());
     updateThumbnailView();
+    //更新当前数据到ImageDataService
+    updateImagedataQueue();
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
@@ -1303,6 +1318,8 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &info
             }
         }
     }
+    //更新当前数据到ImageDataService
+    updateImagedataQueue();
 }
 
 void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *item)
@@ -1323,6 +1340,22 @@ void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *i
                 selectionModel()->select(itemIndex, QItemSelectionModel::Deselect);
             }
         }
+    }
+}
+
+void ThumbnailListView::updateImagedataQueue(QString stradd)
+{
+    QStringList strlist;
+    if (stradd.isEmpty()) {
+        for (int i = 0; i < m_model->rowCount() ; i++) {
+            QModelIndex index = m_model->index(i, 0);
+            DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
+            strlist << info.filePath;
+        }
+        ImageDataService::instance()->setAllDataKeys(strlist);
+    } else {
+        strlist << stradd;
+        ImageDataService::instance()->setAllDataKeys(strlist, true);
     }
 }
 //刷新所有标题中选择按钮的状态
@@ -1756,10 +1789,17 @@ void ThumbnailListView::reloadImage()
 {
     //加载上下两百张
     if (m_loadTimer == nullptr) {
-        m_loadTimer = new QTimer(this);
+        m_loadTimer = new QTimer();
         m_loadTimer->setInterval(50);
         m_loadTimer->setSingleShot(true);
         connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
+            //获取一个有效的model index；
+//            QModelIndex load;
+//            int row = ImageDataService::instance()->getVisualIndex();
+//            if (row <= m_model->rowCount())
+//            {
+//                load = m_model->index(row, 0);
+//            }
             QModelIndex load = indexAt(QPoint(100, 100));
             if (!load.isValid())
             {
@@ -1767,16 +1807,9 @@ void ThumbnailListView::reloadImage()
             }
             if (!load.isValid())
             {
-                load = indexAt(QPoint(120, 140));
-            }
-            if (!load.isValid())
-            {
-                load = m_model->index(0, 0);
-            }
-            if (!load.isValid())
-            {
                 return;
             }
+
             QStringList pathlist;
             int count = 0;
             for (int i = load.row(); i >= 0; i--)
@@ -1785,7 +1818,7 @@ void ThumbnailListView::reloadImage()
                 DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
                 pathlist << data.filePath;
                 count++;
-                if (count >= 200) {
+                if (count >= 300) {
                     break;
                 }
             }
@@ -1796,7 +1829,7 @@ void ThumbnailListView::reloadImage()
                 DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
                 pathlist << data.filePath;
                 count++;
-                if (count >= 200) {
+                if (count >= 300) {
                     break;
                 }
             }
@@ -2156,4 +2189,7 @@ void ThumbnailListView::resizeEventF()
         m_delegate->setItemSize(QSize(m_onePicWidth, m_onePicWidth));
     }
     this->setSpacing(ITEM_SPACING);
+
+    //resize以后加载图片
+    reloadImage();
 }
