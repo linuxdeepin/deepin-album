@@ -917,6 +917,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             // 只更新部分，从相册移出时
             updateModelRoleData(m_imageType, IdRemoveFromAlbum);
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
+            // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
+            ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
         }
     }
     break;
