@@ -29,7 +29,7 @@
 TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     :  m_chooseBtn(nullptr), m_pDate(nullptr), m_pNum(nullptr), m_currentItem(item)
 {
-    this->setContentsMargins(0, 0, 0, 0);
+    this->setContentsMargins(0, 20, 0, 0);
     this->setFixedHeight(90);
     //时间线日期
     m_pDate = new DLabel(this);
