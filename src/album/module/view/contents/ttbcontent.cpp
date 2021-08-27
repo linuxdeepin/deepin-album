@@ -30,6 +30,7 @@
 #include "controller/signalmanager.h"
 #include "imageengine/imageengineapi.h"
 #include "ac-desktop-define.h"
+#include "imagedataservice.h"
 
 #include <QTimer>
 #include <QFileInfo>
@@ -504,9 +505,9 @@ void TTBContent::setImage(const QString &path)
         emit dApp->signalM->picNotExists(false);
     }
     m_currentpath = path;
-    DBImgInfo info = m_imgListWidget->getImgInfo(path);
+
     //>1的判断用来解决右键打开时按钮状态不正确问题，不是很好，后期替换公共能力的时候使用新的方法判断
-    if (info.image.isNull() && (m_imgListWidget->getImgCount() > 1)) {
+    if (!ImageDataService::instance()->imageIsLoaded(path) && (m_imgListWidget->getImgCount() > 1)) {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
