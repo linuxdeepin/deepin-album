@@ -45,6 +45,7 @@
 #include <DGuiApplicationHelper>
 #include <DLabel>
 #include "imageengine/imageengineobject.h"
+#include "controller/signalmanager.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -63,7 +64,7 @@ public:
     explicit MyImageListWidget(QWidget *parent = nullptr);
     ~MyImageListWidget() override;
 
-    void setAllFile(QList<DBImgInfo> DBImgInfos, QString path); //设置需要展示的所有缩略图
+    void setAllFile(const SignalManager::ViewInfo &info, QString path); //设置需要展示的所有缩略图
     //通过路径获取图片信息
     DBImgInfo getImgInfo(const QString &path);
     //将选中的项居中

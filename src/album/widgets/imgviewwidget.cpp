@@ -27,7 +27,6 @@
 #include "dbmanager/dbmanager.h"
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"
-#include "controller/signalmanager.h"
 #include "imageengine/imageengineapi.h"
 #include "ac-desktop-define.h"
 
@@ -71,10 +70,16 @@ MyImageListWidget::~MyImageListWidget()
 {
 }
 
-void MyImageListWidget::setAllFile(QList<DBImgInfo> DBImgInfos, QString path)
+void MyImageListWidget::setAllFile(const SignalManager::ViewInfo &info, QString path)
 {
-    m_listview->setAllFile(DBImgInfos, path);
-    this->setVisible(DBImgInfos.size() > 1);
+    m_listview->setAllFile(info, path);
+    bool visual = info.dBImgInfos.size() > 1;
+    if(!visual)
+    {
+        //尝试paths的大小
+        visual = info.paths.size() > 1;
+    }
+    this->setVisible(visual);
     setSelectCenter();
     emit openImg(m_listview->getSelectIndexByPath(path), path);
 }

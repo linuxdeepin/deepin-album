@@ -75,14 +75,25 @@ ImgViewListView::~ImgViewListView()
 {
 }
 
-void ImgViewListView::setAllFile(QList<DBImgInfo> DBImgInfos, const QString &path)
+void ImgViewListView::setAllFile(const SignalManager::ViewInfo &inf, const QString &path)
 {
     qDebug() << "---" << __FUNCTION__ << "---path = " << path;
     m_model->clear();
     m_currentPath = path;
-    int count = DBImgInfos.size();
+    int count = inf.dBImgInfos.size();
+    if(count == 0) //外部打开，没有数据库内容
+    {
+        count = inf.paths.size();
+    }
     for (int i = 0; i < count; i++) {
-        DBImgInfo info = DBImgInfos.at(i);
+        DBImgInfo info;
+        if(!inf.dBImgInfos.isEmpty())
+        {
+            info = inf.dBImgInfos.at(i);
+        }else{
+            info.filePath = inf.paths.at(i);
+        }
+
         if (info.filePath == path) {
             info.imgWidth = ITEM_CURRENT_WH;
             info.imgHeight = ITEM_CURRENT_WH;

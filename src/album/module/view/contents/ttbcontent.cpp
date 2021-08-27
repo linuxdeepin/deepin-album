@@ -280,7 +280,7 @@ void TTBContent::setAllFileInfo(const SignalManager::ViewInfo &info)
     setFixedWidth(m_contentWidth);
     setFixedHeight(72);
 
-    m_imgListWidget->setAllFile(info.dBImgInfos, info.path);
+    m_imgListWidget->setAllFile(info, info.path);
 }
 
 int TTBContent::getAllFileCount()

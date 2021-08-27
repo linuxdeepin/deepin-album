@@ -1323,7 +1323,8 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             }
 
             paths.append(qpath);
-            ImageEngineApi::instance()->insertImage(qpath, "");
+            //无需再走老的线程加载流程
+            //ImageEngineApi::instance()->insertImage(qpath, "");
         }
         if (paths.count() > 0) {
             SignalManager::ViewInfo info;
@@ -1338,7 +1339,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             emit dApp->signalM->viewImage(info);
             //若外部打开图片退出时，不默认跳转到所有照片界面，则获取当前页面索引发送
             //emit dApp->signalM->showImageView(0); //内部接口调用，不再发送信号
-            onShowImageView(0);
+            onShowImageView(VIEW_ALLPIC);
             //更改为调用线程api
             ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
         }

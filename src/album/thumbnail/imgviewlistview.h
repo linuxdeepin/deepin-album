@@ -61,7 +61,7 @@ public:
     explicit ImgViewListView(QWidget *parent = nullptr);
     ~ImgViewListView() override;
 
-    void setAllFile(QList<DBImgInfo> DBImgInfos, const QString &path);//设置需要展示的所有缩略图
+    void setAllFile(const SignalManager::ViewInfo &info, const QString &path);//设置需要展示的所有缩略图
 
     int getSelectIndexByPath(const QString &path);
     //将选中的项居中

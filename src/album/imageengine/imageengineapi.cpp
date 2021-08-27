@@ -131,16 +131,18 @@ bool ImageEngineApi::removeImage(QStringList imagepathList)
 
 bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remainDay)
 {
-    QMap<QString, ImageDataSt>::iterator it;
-    it = m_AllImageData.find(imagepath);
-    ImageDataSt data;
-    if (it != m_AllImageData.end()) {
-        if ("" == remainDay) {
-            return false;
-        }
-        data = it.value();
+    bool bexsit = m_AllImageData.contains(imagepath);
+    if(bexsit && remainDay.isEmpty())
+    {
+        return false;
     }
-    if ("" != remainDay)
+
+    ImageDataSt data;
+    if(bexsit){
+        data = m_AllImageData[imagepath];
+    }
+
+    if (!remainDay.isEmpty())
         data.remainDays = remainDay;
     m_AllImageData.insert(imagepath, data);
     return true;
