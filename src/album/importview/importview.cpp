@@ -113,8 +113,7 @@ void ImportView::mousePressEvent(QMouseEvent *e)
 
 void ImportView::dragEnterEvent(QDragEnterEvent *e)
 {
-    const QMimeData *mimeData = e->mimeData();
-    bool bData = utils::base::checkMimeData(mimeData);
+    bool bData = utils::base::checkMimeUrls(e->mimeData()->urls());
     if (!bData) {
         return;
     }

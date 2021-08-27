@@ -327,7 +327,7 @@ QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 bool isVideo(QString path)
 {
     QFileInfo temDir(path);
-    QString fileName = "*." + temDir.suffix(); //扩展名
+    QString fileName = "*." + temDir.suffix().toLower(); //扩展名
     return VideoSupportTypeList.contains(fileName);
 }
 
@@ -343,6 +343,30 @@ dmr::MovieInfo getMovieInfo(const QString &path)
     //获取视频信息 demo
     dmr::MovieInfo mi = g_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
     return mi;
+}
+
+bool checkMimeUrls(const QList<QUrl> urls)
+{
+    if (1 > urls.size()) {
+        return false;
+    }
+    QList<QUrl> urlList = urls;
+    using namespace utils::image;
+    for (QUrl url : urlList) {
+        const QString path = url.toLocalFile();
+        QFileInfo fileinfo(path);
+        if (fileinfo.isDir()) {
+            auto finfos =  getImagesAndVideoInfo(path, false);
+            for (auto finfo : finfos) {
+                if (imageSupportRead(finfo.absoluteFilePath()) || isVideo(finfo.absoluteFilePath())) {
+                    return true;
+                }
+            }
+        } else if (imageSupportRead(path) || isVideo(path)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace base

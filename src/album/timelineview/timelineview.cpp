@@ -509,8 +509,7 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
 {
-    const QMimeData *mimeData = e->mimeData();
-    if (!utils::base::checkMimeData(mimeData)) {
+    if (!utils::base::checkMimeUrls(e->mimeData()->urls())) {
         return;
     }
     e->setDropAction(Qt::CopyAction);

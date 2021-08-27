@@ -330,8 +330,7 @@ void AllPicView::updatePicsThumbnailView(QStringList strpath)
 
 void AllPicView::dragEnterEvent(QDragEnterEvent *e)
 {
-    const QMimeData *mimeData = e->mimeData();
-    if (!utils::base::checkMimeData(mimeData)) {
+    if (!utils::base::checkMimeUrls(e->mimeData()->urls())) {
         return;
     }
     e->setDropAction(Qt::CopyAction);
