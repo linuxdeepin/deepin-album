@@ -113,11 +113,10 @@ bool ImageEngineApi::removeImage(QString imagepath)
         dbremovelist.clear();
         emit dApp->signalM->updatePicView(0);
     }
-    QMap<QString, ImageDataSt>::iterator it;
-    it = m_AllImageData.find(imagepath);
-    if (it != m_AllImageData.end()) {
-        m_AllImageData.erase(it);
-        return true;
+
+    if(m_AllImageData.contains(imagepath))
+    {
+        return m_AllImageData.remove(imagepath);
     }
     return false;
 }
