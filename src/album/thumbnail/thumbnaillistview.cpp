@@ -284,6 +284,60 @@ QRect ThumbnailListView::visualRect(const QModelIndex &index) const
     return QListView::visualRect(index);
 }
 
+void ThumbnailListView::onUpdateListview()
+{
+    if (this->isVisible()) {
+        this->update();
+    }
+}
+
+void ThumbnailListView::onLoadTimerTimeout()
+{
+//    qDebug() << __FUNCTION__ << "---allImageCount = " << ImageDataService::instance()->getCount();
+    //获取一个有效的model index；
+//            QModelIndex load;
+//            int row = ImageDataService::instance()->getVisualIndex();
+//            if (row <= m_model->rowCount())
+//            {
+//                load = m_model->index(row, 0);
+//            }
+    if (!this->isVisible()) {
+        return;
+    }
+    QModelIndex load = indexAt(QPoint(100, 100));
+    if (!load.isValid()) {
+        load = indexAt(QPoint(120, 130));
+    }
+    if (!load.isValid()) {
+        return;
+    }
+
+    QStringList pathlist;
+    int count = 0;
+    for (int i = load.row(); i >= 0; i--) {
+        QModelIndex index = m_model->index(i, 0);
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        pathlist << data.filePath;
+        count++;
+        if (count >= 300) {
+            break;
+        }
+    }
+    count = 0;
+    for (int i = load.row(); i < m_model->rowCount(); i++) {
+        QModelIndex index = m_model->index(i, 0);
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        pathlist << data.filePath;
+        count++;
+        if (count >= 300) {
+            break;
+        }
+    }
+    qDebug() << __FUNCTION__ << "---";
+    ImageDataService::instance()->readThumbnailByPaths(pathlist);
+    this->update();
+}
+
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
     //触屏状态复位
@@ -331,8 +385,7 @@ void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
             event->setDropAction(Qt::MoveAction);
             event->accept();
         } else {
-            const QMimeData *mimeData = event->mimeData();
-            if (!utils::base::checkMimeData(mimeData)) {
+            if (!utils::base::checkMimeUrls(event->mimeData()->urls())) {
                 return;
             }
             event->acceptProposedAction();
@@ -349,8 +402,7 @@ void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
             event->setDropAction(Qt::MoveAction);
             event->accept();
         } else {
-            const QMimeData *mimeData = event->mimeData();
-            if (!utils::base::checkMimeData(mimeData)) {
+            if (!utils::base::checkMimeUrls(event->mimeData()->urls())) {
                 return;
             }
             event->acceptProposedAction();
@@ -1792,51 +1844,7 @@ void ThumbnailListView::reloadImage()
         m_loadTimer = new QTimer();
         m_loadTimer->setInterval(50);
         m_loadTimer->setSingleShot(true);
-        connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
-            //获取一个有效的model index；
-//            QModelIndex load;
-//            int row = ImageDataService::instance()->getVisualIndex();
-//            if (row <= m_model->rowCount())
-//            {
-//                load = m_model->index(row, 0);
-//            }
-            QModelIndex load = indexAt(QPoint(100, 100));
-            if (!load.isValid())
-            {
-                load = indexAt(QPoint(120, 130));
-            }
-            if (!load.isValid())
-            {
-                return;
-            }
-
-            QStringList pathlist;
-            int count = 0;
-            for (int i = load.row(); i >= 0; i--)
-            {
-                QModelIndex index = m_model->index(i, 0);
-                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-                pathlist << data.filePath;
-                count++;
-                if (count >= 300) {
-                    break;
-                }
-            }
-            count = 0;
-            for (int i = load.row(); i < m_model->rowCount(); i++)
-            {
-                QModelIndex index = m_model->index(i, 0);
-                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-                pathlist << data.filePath;
-                count++;
-                if (count >= 300) {
-                    break;
-                }
-            }
-            qDebug() << __FUNCTION__ << "---";
-            ImageDataService::instance()->readThumbnailByPaths(pathlist);
-            this->update();
-        });
+        connect(m_loadTimer, &QTimer::timeout, this, &ThumbnailListView::onLoadTimerTimeout);
     }
     if (m_loadTimer->isActive()) {
         m_loadTimer->stop();
