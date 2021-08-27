@@ -177,7 +177,7 @@ void ImportImagesThread::runDetail()
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
             emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
             // 导入重复照片提示
-            emit dApp->signalM->sigAddDuplicatePhotos();
+//            emit dApp->signalM->sigAddDuplicatePhotos();
             m_obj->imageImported(true);
             m_obj->removeThread(this);
             return;

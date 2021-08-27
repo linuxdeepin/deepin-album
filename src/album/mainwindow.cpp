@@ -1975,6 +1975,7 @@ void MainWindow::onAddDuplicatePhotos()
 
 void MainWindow::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
 {
+    Q_UNUSED(albumName)
     QIcon icon;
     QString str = QObject::tr("%1 items imported, %2 items exist already").arg(importPaths.count()).arg(duplicatePaths.count());
     floatMessage(str, icon);
