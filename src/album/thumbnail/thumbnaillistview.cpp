@@ -427,6 +427,7 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 
 void ThumbnailListView::initConnections()
 {
+    connect(ImageDataService::instance(), &ImageDataService::sigeUpdateListview, this, &ThumbnailListView::onUpdateListview);
     connect(dApp->signalM, &SignalManager::sigSyncListviewModelData, this, &ThumbnailListView::onSyncListviewModelData);
     //有图片删除后，刷新列表
     connect(dApp->signalM, &SignalManager::imagesRemovedPar, this, &ThumbnailListView::updateThumbnailViewAfterDelete);

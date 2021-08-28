@@ -27,6 +27,7 @@
 
 #include "playlist_model.h"
 
+class readThumbnailThread;
 class ImageDataService: public QObject
 {
     Q_OBJECT
@@ -38,7 +39,9 @@ public:
     bool add(const QStringList &paths);
     bool add(const QString &path);
     QString pop();
-    bool isEmpty();
+    bool isRequestQueueEmpty();
+    //获取全部图片数量
+    int getCount();
 
     //读取缩略图到缓存map
     bool readThumbnailByPaths(QStringList files);
@@ -59,6 +62,7 @@ public:
     int getVisualIndex();
 private slots:
 signals:
+    void sigeUpdateListview();
 public:
 private:
     static ImageDataService *s_ImageDataService;
@@ -79,11 +83,14 @@ class readThumbnailThread : public QThread
 {
     Q_OBJECT
 public:
-    readThumbnailThread();
+    readThumbnailThread(QObject *parent = nullptr);
     ~readThumbnailThread() override;
     void readThumbnail(QString m_path);
+    void setQuit(bool quit);
 protected:
     void run() override;
     dmr::PlaylistModel *m_playlistModel = nullptr;
+private:
+    bool m_quit = false;
 };
 #endif // IMAGEDATASERVICE_H

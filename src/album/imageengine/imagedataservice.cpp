@@ -50,7 +50,8 @@ ImageDataService::~ImageDataService()
 
 bool ImageDataService::add(const QStringList &paths)
 {
-    QMutexLocker locker(&m_queuqMutex);
+    QMutexLocker locker(&m_imgDataMutex);
+    m_requestQueue.clear();
     for (int i = 0; i < paths.size(); i++) {
         if (!m_AllImageMap.contains(paths.at(i))) {
             m_requestQueue.append(paths.at(i));
@@ -61,23 +62,34 @@ bool ImageDataService::add(const QStringList &paths)
 
 bool ImageDataService::add(const QString &path)
 {
-    QMutexLocker locker(&m_queuqMutex);
+    QMutexLocker locker(&m_imgDataMutex);
     if (!path.isEmpty()) {
-        m_requestQueue.append(path);
+        if (!m_AllImageMap.contains(path)) {
+            m_requestQueue.append(path);
+        }
     }
     return true;
 }
 
 QString ImageDataService::pop()
 {
-    QMutexLocker locker(&m_queuqMutex);
-    return m_requestQueue.isEmpty() ? QString() : m_requestQueue.takeFirst();
+    QMutexLocker locker(&m_imgDataMutex);
+    if (m_requestQueue.empty())
+        return QString();
+    QString res = m_requestQueue.first();
+    m_requestQueue.pop_front();
+    return res;
 }
 
-bool ImageDataService::isEmpty()
+bool ImageDataService::isRequestQueueEmpty()
 {
-    QMutexLocker locker(&m_queuqMutex);
+    QMutexLocker locker(&m_imgDataMutex);
     return m_requestQueue.isEmpty();
+}
+
+int ImageDataService::getCount()
+{
+    return m_AllImageMap.count();
 }
 
 bool ImageDataService::readThumbnailByPaths(QStringList files)
@@ -100,7 +112,8 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
         }
     }
 
-    bool empty = isEmpty();
+    bool empty = isRequestQueueEmpty();
+
     if (empty) {
         ImageDataService::instance()->add(image_video_list);
         int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
@@ -129,21 +142,17 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
 void ImageDataService::addImage(const QString &path, const QImage &image)
 {
     QMutexLocker locker(&m_imgDataMutex);
-    if (!m_AllImageMap.contains(path)) {
-        m_AllImageMap[path] = image;
-        if (m_AllImageMap.size() > 1000) {
-            //保证缓存占用，始终只占用1000张缩略图缓存,查找不在视图范围内的进行删除
-            QString strpath = "";
-            if ((m_visualIndex - 300) >= 0 && m_imageKeys.size() >= m_visualIndex) { //m_visualInde可能位于可视区域，减300是为了能到达向上不可视区域
-                strpath = m_imageKeys[m_visualIndex - 300];
-            } else if (m_visualIndex + 300 < m_imageKeys.size()) { //m_visualIndex位于可视区域，+300是为了能到达向下不可视区域
-                strpath = m_imageKeys[m_visualIndex + 300];
-            } else {
-                qDebug() << __FUNCTION__ << "hj----------------m_visualIndex:" << m_visualIndex; //几乎不能到达这里，某些情况下还是可以的，不过没关系
-            }
-            m_AllImageMap.remove(strpath);
-        }
-    }
+    m_AllImageMap[path] = image;
+
+//    if (!m_AllImageMap.contains(path)) {
+//        m_AllImageMap[path] = image;
+//        while (m_AllImageMap.size() > 1000) {
+//            //保证缓存占用，始终只占用1000张缩略图缓存
+//            QString res = m_imageKey.first();
+//            m_imageKey.pop_front();
+//            m_AllImageMap.remove(res);
+//        }
+//    }
 }
 
 void ImageDataService::addMovieDurationStr(const QString &path, const QString &durationStr)
@@ -155,15 +164,15 @@ void ImageDataService::addMovieDurationStr(const QString &path, const QString &d
 QString ImageDataService::getMovieDurationStrByPath(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
-    return m_movieDurationStrMap[path];
+    return m_movieDurationStrMap.contains(path) ? m_movieDurationStrMap[path] : QString() ;
 }
 
 void ImageDataService::setAllDataKeys(const QStringList &paths, bool single)
 {
-    QMutexLocker locker(&m_imgDataMutex);
-    if (!single)
-        m_imageKeys.clear();
-    m_imageKeys.append(paths);
+//    QMutexLocker locker(&m_imgDataMutex);
+//    if (!single)
+//        m_imageKeys.clear();
+//    m_imageKeys.append(paths);
 }
 
 void ImageDataService::setVisualIndex(int row)
@@ -181,7 +190,7 @@ int ImageDataService::getVisualIndex()
 QImage ImageDataService::getThumnailImageByPath(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
-    return m_AllImageMap[path];
+    return m_AllImageMap.contains(path) ? m_AllImageMap[path] : QImage();
 }
 
 bool ImageDataService::imageIsLoaded(const QString &path)
@@ -196,7 +205,7 @@ ImageDataService::ImageDataService(QObject *parent)
 }
 
 //缩略图读取线程
-readThumbnailThread::readThumbnailThread()
+readThumbnailThread::readThumbnailThread(QObject *parent): QThread(parent)
 {
 }
 
@@ -249,7 +258,7 @@ void readThumbnailThread::readThumbnail(QString path)
             }
         }
         //裁切
-        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+        if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;
             if (tImg.height() != 200 && tImg.width() != 200) {
                 if (tImg.height() >= tImg.width()) {
@@ -293,12 +302,21 @@ void readThumbnailThread::readThumbnail(QString path)
     ImageDataService::instance()->addImage(path, tImg);
 }
 
+void readThumbnailThread::setQuit(bool quit)
+{
+    m_quit = quit;
+}
+
 void readThumbnailThread::run()
 {
-    while (!ImageDataService::instance()->isEmpty()) {
+    while (!ImageDataService::instance()->isRequestQueueEmpty()) {
+        if (m_quit) {
+            break;
+        }
         QString res = ImageDataService::instance()->pop();
         if (!res.isEmpty()) {
             readThumbnail(res);
         }
     }
+    emit ImageDataService::instance()->sigeUpdateListview();
 }
