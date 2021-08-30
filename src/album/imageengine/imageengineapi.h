@@ -115,7 +115,6 @@ signals:
 public:
     QMap<QString, ImageDataSt>m_AllImageData;
     QVector<ImageDataSt> m_AllImageDataVector;
-    QMap<QString, QPixmap> m_AllImageMap;
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     QMultiMap<QString, QString> m_allPathAndAlbumNames;

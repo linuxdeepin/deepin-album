@@ -106,6 +106,7 @@ void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QIm
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
         ImageEngineApi::instance()->updateImageDataPixmap(pathlist.at(i), pixmap);
+        emit ImageEngineApi::instance()->sigOneImgReady(pathlist.at(i), pixmap);
     }
 
     emit dApp->signalM->sigUpdateImageLoader(pathlist);

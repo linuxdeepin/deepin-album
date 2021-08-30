@@ -39,6 +39,7 @@
 #include "imageengine/imageengineapi.h"
 #include "imageengine/imageenginethread.h"
 #include "ac-desktop-define.h"
+#include "imagedataservice.h"
 
 const int ITEM_SPACING = 2;//间隔
 
@@ -81,16 +82,14 @@ void ImgViewListView::setAllFile(const SignalManager::ViewInfo &inf, const QStri
     m_model->clear();
     m_currentPath = path;
     int count = inf.dBImgInfos.size();
-    if(count == 0) //外部打开，没有数据库内容
-    {
+    if (count == 0) { //外部打开，没有数据库内容
         count = inf.paths.size();
     }
     for (int i = 0; i < count; i++) {
         DBImgInfo info;
-        if(!inf.dBImgInfos.isEmpty())
-        {
+        if (!inf.dBImgInfos.isEmpty()) {
             info = inf.dBImgInfos.at(i);
-        }else{
+        } else {
             info.filePath = inf.paths.at(i);
         }
 
@@ -264,8 +263,8 @@ void ImgViewListView::slotOneImgReady(const QString &path, QPixmap pix)
             cutPixmap(data);
             QVariant meta;
             meta.setValue(data);
-            ImageEngineApi::instance()->m_AllImageMap[data.filePath] = data.image;
             ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
+            ImageDataService::instance()->addImage(data.filePath, data.image.toImage());
             m_model->setData(index, meta, Qt::DisplayRole);
             break;
         }

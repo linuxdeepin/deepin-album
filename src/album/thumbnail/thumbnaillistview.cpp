@@ -253,7 +253,6 @@ void ThumbnailListView::showEvent(QShowEvent *event)
                     info.damagedPixmap = getDamagedPixmap();
                 }
                 info.image = data.imgpixmap;
-                ImageEngineApi::instance()->m_AllImageMap[info.filePath] = info.image;
                 info.remainDays = data.remainDays;
                 info.imgWidth = m_onePicWidth;
                 info.imgHeight = m_onePicWidth;
@@ -1581,11 +1580,6 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
     for (int i = 0; i < infoList.size(); ++i) {
         DBImgInfo imgData = infoList.at(i);
         DBImgInfo info = imgData;
-        if (ImageEngineApi::instance()->m_AllImageMap[imgData.filePath].isNull()) {
-            info.damagedPixmap = getDamagedPixmap();
-        } else {
-            info.image = ImageEngineApi::instance()->m_AllImageMap[imgData.filePath];
-        }
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
         insertThumbnail(info);
@@ -1873,9 +1867,7 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
             info.damagedPixmap = getDamagedPixmap();
         }
         info.image = data.imgpixmap;
-        ImageEngineApi::instance()->m_AllImageMap[info.filePath] = info.image;
         ImageEngineApi::instance()->m_AllImageData[info.filePath].imgpixmap = info.image;
-        //        info.bNotSupportedOrDamaged = data.imgpixmap.isNull();
         info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
@@ -1895,8 +1887,8 @@ void ThumbnailListView::slotOneImgReady(const QString &path, QPixmap pix)
             cutPixmap(data);
             QVariant meta;
             meta.setValue(data);
-            ImageEngineApi::instance()->m_AllImageMap[data.filePath] = data.image;
             ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
+            ImageDataService::instance()->addImage(data.filePath, data.image.toImage());
             m_model->setData(index, meta, Qt::DisplayRole);
             break;
         }

@@ -66,6 +66,7 @@ public:
 
 private:
     QPixmap m_default;
+    QPixmap m_videoDefault;//视频默认图片
     QPixmap m_damagePixmap;
 };
 

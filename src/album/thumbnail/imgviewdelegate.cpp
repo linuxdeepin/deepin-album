@@ -57,7 +57,8 @@ const int SELECT_ITEM_PAINT_OFFSET = 5;//绘制时选中项向下偏移大小
 ImgViewDelegate::ImgViewDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/dcc_default_19px.svg", QSize(60, 45));
+    m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
+    m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
     m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
             &ImgViewDelegate::onThemeTypeChanged);
@@ -84,11 +85,16 @@ void ImgViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     } else {
         QImage img = ImageDataService::instance()->getThumnailImageByPath(data.filePath);
         if (img.isNull()) {
-            _pixmap = m_damagePixmap;
+            if (data.itemType == ItemTypeVideo) {
+                _pixmap = m_videoDefault;
+            } else {
+                _pixmap = m_damagePixmap;
+            }
         } else {
             _pixmap = QPixmap::fromImage(img);
         }
     }
+
 
     bool selected = data.isSelected;
     if (/*(option.state & QStyle::State_MouseOver) &&*/
@@ -198,4 +204,12 @@ void ImgViewDelegate::onThemeTypeChanged(int themeType)
 {
     Q_UNUSED(themeType)
     m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
+
+    if (DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType) {
+        m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
+        m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
+    } else {
+        m_default = utils::base::renderSVG("::/icons/deepin/builtin/icons/dark/picture_default_dark.svg", QSize(60, 45));
+        m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/dark/video_default_dark.svg", QSize(60, 45));
+    }
 }
