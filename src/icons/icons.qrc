@@ -36,6 +36,12 @@
         <file>icons/dark/album_arrowdown_10px.svg</file>
         <file>icons/light/album_arrowdown_10px.svg</file>
         <file>icons/dcc_default_19px.svg</file>
+        <file>icons/light/picture damaged_light.svg</file>
+        <file>icons/light/picture_default_light.svg</file>
+        <file>icons/dark/picture damaged_dark.svg</file>
+        <file>icons/dark/picture_default_dark.svg</file>
+        <file>icons/dark/video_default_dark.svg</file>
+        <file>icons/light/video_default_light.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>

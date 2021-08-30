@@ -89,7 +89,8 @@ private:
     DelegateType m_delegatetype = NullType;
     bool bneedpaint = true;
     QSize m_size;
-    QPixmap m_default;
+    QPixmap m_default;//图片默认图片
+    QPixmap m_videoDefault;//视频默认图片
     QPixmap m_damagePixmap;
 };
 

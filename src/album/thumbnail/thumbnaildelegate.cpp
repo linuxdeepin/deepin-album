@@ -55,7 +55,8 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     , selectedPixmapDark(utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28)))
     , m_delegatetype(type)
 {
-    m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/dcc_default_19px.svg", QSize(60, 45));
+    m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
+    m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
             &ThumbnailDelegate::onThemeTypeChanged);
 }
@@ -132,17 +133,16 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     QRect pixmapRect;
-    if (!ImageDataService::instance()->imageIsLoaded(data.filePath)) {
+    QImage img = ImageDataService::instance()->getThumnailImageByPath(data.filePath);
+    if (img.isNull()) {
         pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
-        pixmapRect.setWidth(NotSupportedOrDamagedWidth);
-
         pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
+        pixmapRect.setWidth(NotSupportedOrDamagedWidth);
         pixmapRect.setHeight(NotSupportedOrDamagedHeigh);
     } else {
         pixmapRect.setX(backgroundRect.x() + 8);
-        pixmapRect.setWidth(backgroundRect.width() - 16);
-
         pixmapRect.setY(backgroundRect.y() + 8);;
+        pixmapRect.setWidth(backgroundRect.width() - 16);
         pixmapRect.setHeight(backgroundRect.height() - 16);
     }
     //2020/6/9 DJH UI 透明图片背景
@@ -168,7 +168,11 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     } else {
         QImage img = ImageDataService::instance()->getThumnailImageByPath(data.filePath);
         if (img.isNull()) {
-            painter->drawPixmap(pixmapRect, m_damagePixmap);
+            if (data.itemType == ItemTypeVideo) {
+                painter->drawPixmap(pixmapRect, m_videoDefault);
+            } else {
+                painter->drawPixmap(pixmapRect, m_damagePixmap);
+            }
         } else {
             painter->drawPixmap(pixmapRect, QPixmap::fromImage(img));
         }
@@ -228,39 +232,42 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         }
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
     }
-    if (data.itemType == ItemTypeVideo && (dApp->signalM->getSliderValue() > 1)) {
-        QPainterPath bp;
-        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-        painter->setClipPath(bp);
-        painter->setPen(QColor(85, 85, 85, 170)); //边框颜色：灰色
-        //字符串的像素宽度
-        painter->setBrush(QBrush(QColor(85, 85, 85, 170)));//填充颜色：灰色
+    if (data.itemType == ItemTypeVideo) {
         QString str(ImageDataService::instance()->getMovieDurationStrByPath(data.filePath));
-        const int m_Width = painter->fontMetrics().width(str);
-        QFontMetrics Text(str);
+        if (dApp->signalM->getSliderValue() > 2 && !str.isEmpty()) {
+            QPainterPath bp;
+            bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+            painter->setClipPath(bp);
+            painter->setPen(QColor(85, 85, 85, 170)); //边框颜色：灰色
+            //字符串的像素宽度
+            painter->setBrush(QBrush(QColor(85, 85, 85, 170)));//填充颜色：灰色
 
-        //2020/3/13-xiaolong
-        int textwidth = m_Width + 6;        //阴影图框：6：左3像素+右3像素
-        int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
-        int rectwidth = backgroundRect.width() - 8; //缩略图宽度：总宽度减去选中框宽度8
-        if (textwidth > rectwidth) { //容纳文字像素的宽度大于缩略图宽度
-            textwidth = rectwidth - 4;//减少距离：左右各2
-        }
-        int posx = backgroundRect.x() + backgroundRect.width() - m_Width - 16;  //时长起始坐标
-        //文字背景圆角矩形框弧度，与字号相关
-        int radious = 6;
-        if (textheight < 14) {
-            radious = 4;
-        }
+            const int m_Width = painter->fontMetrics().width(str);
+            QFontMetrics Text(str);
 
-        painter->drawRoundedRect(posx, backgroundRect.y() + backgroundRect.height() - textheight - 14,
-                                 textwidth, textheight + 2, radious, radious); //Y参数：backgroundRect宽度-文字宽度-14边距
+            //2020/3/13-xiaolong
+            int textwidth = m_Width + 6;        //阴影图框：6：左3像素+右3像素
+            int textheight = DFontSizeManager::instance()->fontPixelSize(painter->font());
+            int rectwidth = backgroundRect.width() - 8; //缩略图宽度：总宽度减去选中框宽度8
+            if (textwidth > rectwidth) { //容纳文字像素的宽度大于缩略图宽度
+                textwidth = rectwidth - 4;//减少距离：左右各2
+            }
+            int posx = backgroundRect.x() + backgroundRect.width() - m_Width - 16;  //时长起始坐标
+            //文字背景圆角矩形框弧度，与字号相关
+            int radious = 6;
+            if (textheight < 14) {
+                radious = 4;
+            }
 
-        painter->setPen(QColor(255, 255, 255));
-        if (m_Width - textwidth > 0) {
-            str = Text.elidedText(str, Qt::ElideRight, textwidth);
+            painter->drawRoundedRect(posx, backgroundRect.y() + backgroundRect.height() - textheight - 14,
+                                     textwidth, textheight + 2, radious, radious); //Y参数：backgroundRect宽度-文字宽度-14边距
+
+            painter->setPen(QColor(255, 255, 255));
+            if (m_Width - textwidth > 0) {
+                str = Text.elidedText(str, Qt::ElideRight, textwidth);
+            }
+            painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);
         }
-        painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);
     }
 
     //绘制心形图标
@@ -280,6 +287,14 @@ void ThumbnailDelegate::onThemeTypeChanged(int themeType)
 {
     Q_UNUSED(themeType)
     m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
+
+    if (DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType) {
+        m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
+        m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
+    } else {
+        m_default = utils::base::renderSVG("::/icons/deepin/builtin/icons/dark/picture_default_dark.svg", QSize(60, 45));
+        m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/dark/video_default_dark.svg", QSize(60, 45));
+    }
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,

@@ -192,7 +192,7 @@ QString hashByData(const QString &str)
     if (file.open(QIODevice::ReadOnly)) { //只读方式打开
         QCryptographicHash hash(QCryptographicHash::Md5);
 
-        QByteArray buf = file.read(100 * 1024 * 1024); // 每次读取100M
+        QByteArray buf = file.read(10 * 1024 * 1024); // 每次读取10M
         buf = buf.append(str.toUtf8());
         hash.addData(buf);  // 将数据添加到Hash中
         stHashValue.append(hash.result().toHex());
@@ -336,9 +336,6 @@ dmr::MovieInfo getMovieInfo(const QString &path)
     if (g_playlistModel == nullptr) {
         g_playlistModel = new dmr::PlaylistModel(nullptr);
     }
-
-    QImage tImg = g_playlistModel->getMovieCover(QUrl::fromLocalFile(path));
-
     bool is = false;
     //获取视频信息 demo
     dmr::MovieInfo mi = g_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
