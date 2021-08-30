@@ -242,7 +242,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
                         emit dApp->signalM->sigAddDuplicatePhotos();
                     }
                 } else if (1 == pic_count) {
-                    emit dApp->signalM->ImportSuccess();
+//                    emit dApp->signalM->ImportSuccess();//与导入线程提示重复
                     if (m_baddDuplicatePhotos) {
                         m_baddDuplicatePhotos = false;
                         emit dApp->signalM->sigAddDuplicatePhotos();
