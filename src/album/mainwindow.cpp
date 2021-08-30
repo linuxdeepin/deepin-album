@@ -487,19 +487,39 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_commandLine);
     m_pCenterWidget->addWidget(m_slidePanel);
 
-    QStringList pas;
-    m_commandLine->processOption(pas);
-    if (pas.length() > 0) {
-        m_processOptionIsEmpty = false;
-        titlebar()->setVisible(false);
-        setTitlebarShadowEnabled(false);
-        m_commandLine->viewImage(QFileInfo(pas.at(0)).absoluteFilePath(), pas);
-        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
-        m_backIndex = VIEW_ALLPIC;
+    QStringList parselist;
+    m_commandLine->processOption(parselist);
+    if (parselist.length() > 0) {
+        //暂不支持视频首帧查看，只支持导入，视频和图片分开处理
+        QString firstStr = parselist.at(0);
+        if(utils::base::isVideo(firstStr))
+        {
+            m_processOptionIsEmpty = true;
+            m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
+            ImageEngineApi::instance()->ImportImagesFromFileList(parselist, "",this);
+        }else{
+            QFileInfo inf(firstStr);
+            m_processOptionIsEmpty = false;
+            titlebar()->setVisible(false);
+            setTitlebarShadowEnabled(false);
+            //m_commandLine->viewImage(inf.absoluteFilePath(), parselist);
+            //查看图片
+            SignalManager::ViewInfo info;
+            info.album = "";
+#ifndef LITE_DIV
+            info.inDatabase = false;
+#endif
+            info.lastPanel = nullptr;
+            info.path = firstStr;
+            info.paths = parselist;
+            emit dApp->signalM->viewImage(info);
+
+            onShowImageView(VIEW_ALLPIC);
+            m_backIndex = VIEW_ALLPIC;
+        }
     } else {
         //性能优化，此句在构造时不需要执行，增加启动时间
         m_processOptionIsEmpty = true;
-        //m_commandLine->viewImage("", {});
         m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
     }
 }
@@ -1315,36 +1335,42 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
         //arguments第1个参数是进程名，图片paths参数需要从下标1开始
         for (int i = 1; i < arguments.size(); ++i) {
             QString qpath = arguments.at(i);
-
             //BUG#79815，添加文件URL解析（BUG是平板上的，为防止UOS的其它个别版本也改成传URL，干脆直接全部支持）
             auto urlPath = QUrl(qpath);
             if (urlPath.scheme() == "file") {
                 qpath = urlPath.toLocalFile();
             }
-
             paths.append(qpath);
-            //无需再走老的线程加载流程
-            //ImageEngineApi::instance()->insertImage(qpath, "");
         }
         if (paths.count() > 0) {
-            SignalManager::ViewInfo info;
-            info.album = "";
+            QString firstStr = paths.at(0);
+            if(utils::base::isVideo(firstStr))
+            {
+                if(m_pCenterWidget->currentIndex() == VIEW_IMAGE)
+                {
+                    onHideImageView();
+                }
+                m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
+                ImageEngineApi::instance()->ImportImagesFromFileList(paths, "",this);
+            }else{
+                SignalManager::ViewInfo info;
+                info.album = "";
 #ifndef LITE_DIV
-            info.inDatabase = false;
+                info.inDatabase = false;
 #endif
-            info.lastPanel = nullptr;
-            info.path = paths.at(0);
-            info.paths = paths;
-
-            emit dApp->signalM->viewImage(info);
-            //若外部打开图片退出时，不默认跳转到所有照片界面，则获取当前页面索引发送
-            //emit dApp->signalM->showImageView(0); //内部接口调用，不再发送信号
-            onShowImageView(VIEW_ALLPIC);
-            //更改为调用线程api
-            ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
+                info.lastPanel = nullptr;
+                info.path = paths.at(0);
+                info.paths = paths;
+                emit dApp->signalM->viewImage(info);
+                //若外部打开图片退出时，不默认跳转到所有照片界面，则获取当前页面索引发送
+                onShowImageView(VIEW_ALLPIC);
+                //更改为调用线程api
+                ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
+            }
+            //线程加载缩略图
+            ImageDataService::instance()->readThumbnailByPaths(paths);
         }
         m_pAllPicBtn->setChecked(true);
-//        dApp->LoadDbImage();
     }
     this->activateWindow();
 }

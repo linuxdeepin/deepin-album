@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 
 #ifdef ENABLE_ACCESSIBILITY
 #endif
-
+    setlocale(LC_NUMERIC, "C");
     dAppNew->setAttribute(Qt::AA_UseHighDpiPixmaps);
     QAccessible::installFactory(accessibleFactory);
     dAppNew->setOrganizationName("deepin");
@@ -106,7 +106,6 @@ int main(int argc, char *argv[])
 
     QStringList urls;
     QStringList arguments = parser.positionalArguments();
-
     QString filepath = "";
     bool bneedexit = true;
     for (const QString &path : arguments) {
@@ -118,9 +117,11 @@ int main(int argc, char *argv[])
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
 
         QString str = info.suffix().toLower();
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
-                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+        qDebug()<<__FUNCTION__<<str;
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/")
+                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/")) {
+            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive) ||
+                    utils::base::isVideo(filepath)) { //增加对视频格式的支持
                 bneedexit = false;
                 break;
             } else if (str.isEmpty()) {
@@ -201,7 +202,6 @@ int main(int argc, char *argv[])
     int picsize = picSize.value(num);
     int number = ((restoredFrameGeometry.width() - 50) * (restoredFrameGeometry.height() - 50)) / (picsize * picsize);
 
-    setlocale(LC_NUMERIC, "C");
     DBManager::instance();
     ImageDataService::instance();
     ImageEngineApi::instance(dAppNew);
@@ -209,7 +209,6 @@ int main(int argc, char *argv[])
     qDebug() << "------" << __FUNCTION__ << "" << QThread::currentThreadId();
     ImageEngineApi::instance()->loadFirstPageThumbnails(number);
     auto &w = MainWindow::instance(); //修改为从单例获取
-
     dApp->setMainWindow(&w);
     w.show();
     Dtk::Widget::moveToCenter(&w);

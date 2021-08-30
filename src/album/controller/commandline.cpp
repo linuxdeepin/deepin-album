@@ -269,7 +269,6 @@ QUrl UrlInfo1(QString path)
 
 bool CommandLine::processOption(QStringList &paslist)
 {
-
     if (! m_cmdParser.parse(dApp->getDAppNew()->arguments())) {
         showHelp();
         return false;
@@ -285,32 +284,27 @@ bool CommandLine::processOption(QStringList &paslist)
     }
 
     QStringList arguments = m_cmdParser.positionalArguments();
-
     QString filepath = "";
     bool bneedexit = true;
     for (const QString &path : arguments) {
         filepath = UrlInfo1(path).toLocalFile();
-
-
         QFileInfo info(filepath);
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
 
         QString str = info.suffix().toLower();
-//        if (str.isEmpty()) {
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
-                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/")
+                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/")) {
+            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)
+                    || utils::base::isVideo(filepath)) {
                 bneedexit = false;
-//                break;
                 paslist << info.filePath();
                 ImageEngineApi::instance()->insertImage(info.filePath(), "");
             } else if (str.isEmpty()) {
                 bneedexit = false;
                 paslist << info.filePath();
                 ImageEngineApi::instance()->insertImage(info.filePath(), "");
-//                break;
             }
         }
     }

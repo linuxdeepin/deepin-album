@@ -177,7 +177,7 @@ protected:
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
-    void sigInsert(QString imagepath, QString remainDay = "");
+    void sigInsert(const QStringList& imagepath, QString remainDay = "");
 private:
     QStringList m_filelist;
     DBImgInfoList m_fileinfolist;

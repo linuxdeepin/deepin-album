@@ -746,21 +746,16 @@ void ImageLoadFromLocalThread::runDetail()
     switch (m_type) {
     case DataType_StrList:
         if (!m_filelist.isEmpty()) {
-            for (const QString &path : m_filelist) {
-                image_list << path;
-                emit sigInsert(path);
-            }
+            image_list << m_filelist;
+            emit sigInsert(image_list);
         }
         break;
     case DataType_InfoList:
         if (!m_fileinfolist.isEmpty()) {
             for (auto info : m_fileinfolist) {
-                if (bneedstop) {
-                    return;
-                }
                 image_list << info.filePath;
-                emit sigInsert(info.filePath);
             }
+             emit sigInsert(image_list);
         }
         break;
     case DataType_TrashList:
@@ -781,7 +776,7 @@ void ImageLoadFromLocalThread::runDetail()
                 } else {
                     QString remainDay = QString::number(30 - Day) + tr("days");
                     image_list << info.filePath;
-                    emit sigInsert(info.filePath, remainDay);
+                    emit sigInsert(QStringList()<<info.filePath, remainDay);
                 }
             }
             if (0 < removepaths.length()) {
@@ -796,6 +791,7 @@ void ImageLoadFromLocalThread::runDetail()
     if (bneedstop) {
         return;
     }
+
     if (nullptr != m_imgobject) {
         m_imgobject->removeThread(this);
         emit sigImageLoaded(m_imgobject, image_list);

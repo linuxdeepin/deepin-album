@@ -47,6 +47,8 @@
 #include <QImageReader>
 #include <QMimeDatabase>
 
+#include "player_engine.h"
+
 DWIDGET_USE_NAMESPACE
 
 QStringList VideoSupportTypeList;
@@ -328,6 +330,13 @@ bool isVideo(QString path)
 {
     QFileInfo temDir(path);
     QString fileName = "*." + temDir.suffix().toLower(); //扩展名
+    if(VideoSupportTypeList.isEmpty())
+    {
+        dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
+        VideoSupportTypeList = e->video_filetypes;
+        delete e;
+        e = nullptr;
+    }
     return VideoSupportTypeList.contains(fileName);
 }
 

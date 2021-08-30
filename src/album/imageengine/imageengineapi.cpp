@@ -148,9 +148,11 @@ bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remain
     return true;
 }
 
-void ImageEngineApi::sltInsert(const QString &imagepath, const QString &remainDay)
+void ImageEngineApi::sltInsert(const QStringList &imagepaths, const QString &remainDay)
 {
-    insertImage(imagepath, remainDay);
+    foreach (QString path , imagepaths) {
+        insertImage(path, remainDay);
+    }
 }
 
 bool ImageEngineApi::updateImageDataPixmap(QString imagepath, QPixmap &pix)

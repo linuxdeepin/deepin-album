@@ -82,7 +82,7 @@ public:
     //根据路径制作缩略图，并保存到指定位置
     bool makeThumbnailByPaths(QStringList files);
 private slots:
-    void sltInsert(const QString &imagepath, const QString &remainDay);
+    void sltInsert(const QStringList &imagepath, const QString &remainDay);
     void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
     void sltImageDBLoaded(void *imgobject, QStringList &filelist);
     void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);

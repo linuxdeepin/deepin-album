@@ -123,9 +123,8 @@ const QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
         QFileInfoList nsl;
         getAllFileInDir(dir, nsl);
         for (QFileInfo info : nsl) {
-            if (imageSupportRead(info.absoluteFilePath())) {
-                infos << info;
-            } else if (utils::base::isVideo(info.absoluteFilePath())) {
+            if (imageSupportRead(info.absoluteFilePath()) ||
+                    utils::base::isVideo(info.absoluteFilePath())) {
                 infos << info;
             }
         }
@@ -137,9 +136,8 @@ const QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
                              QDirIterator::Subdirectories);
     while (dirIterator.hasNext()) {
         dirIterator.next();
-        if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
-            infos << dirIterator.fileInfo();
-        } else if (utils::base::isVideo(dirIterator.fileInfo().absoluteFilePath())) {
+        if ( imageSupportRead(dirIterator.fileInfo().absoluteFilePath())
+                || utils::base::isVideo(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
         }
     }

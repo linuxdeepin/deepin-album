@@ -112,6 +112,9 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
         }
     }
 
+    if(image_video_list.isEmpty())
+        return true;
+
     bool empty = isRequestQueueEmpty();
 
     if (empty) {
