@@ -139,7 +139,7 @@ void AllPicView::initConnections()
     connect(m_pThumbnailListView, &ThumbnailListView::sigSlideShow, this, &AllPicView::onSlideShow);
     //图片旋转后更新图片
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsThumbnailView);
-    connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::sigMainwindowSliderValueChg);
+    connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::emitSliderValueChg);
 //    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseMove, this, &AllPicView::updatePicNum);
 //    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
 //    connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);

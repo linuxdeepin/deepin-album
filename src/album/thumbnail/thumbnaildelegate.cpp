@@ -40,6 +40,7 @@
 
 #include "imageengineapi.h"
 #include "imagedataservice.h"
+#include "signalmanager.h"
 namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
@@ -227,7 +228,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         }
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
     }
-    if (data.itemType == ItemTypeVideo) {
+    if (data.itemType == ItemTypeVideo && (dApp->signalM->getSliderValue() > 1)) {
         QPainterPath bp;
         bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(bp);

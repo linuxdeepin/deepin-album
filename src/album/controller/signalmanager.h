@@ -51,6 +51,8 @@ public:
         QString viewType = QString();
     };
 
+    void emitSliderValueChg(int value);
+    int getSliderValue();
 signals:
     void enableMainMenu(bool enable);
     void updateTopToolbarLeftContent(QWidget *content);
@@ -156,8 +158,6 @@ signals:
     void picNotExists(bool immediately = false);
 
     void deleteByMenu();
-//    void updateLeftListview();
-    void sliderValueChange(int step);
     void startImprot();
     void popupWaitDialog(QString waittext, bool bneedprogress = true);
     void closeWaitDialog();
@@ -180,6 +180,8 @@ private:
 
 private:
     static SignalManager *m_signalManager;
+
+    int m_sliderValue;
 };
 
 #endif // SIGNALMANAGER_H

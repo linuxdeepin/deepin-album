@@ -30,6 +30,17 @@ SignalManager *SignalManager::instance()
     return m_signalManager;
 }
 
+void SignalManager::emitSliderValueChg(int value)
+{
+    m_sliderValue = value;
+    emit sigMainwindowSliderValueChg(value);
+}
+
+int SignalManager::getSliderValue()
+{
+    return m_sliderValue;
+}
+
 SignalManager::SignalManager(QObject *parent) : QObject(parent)
 {
 

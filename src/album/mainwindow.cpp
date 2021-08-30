@@ -1490,13 +1490,13 @@ void MainWindow::loadZoomRatio()
                 m_pSliderPos = m_settings->value("album-zoomratio").toInt();
             }
         }
-        dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+        dApp->signalM->emitSliderValueChg(m_pSliderPos);
     } else {
         m_pSliderPos = 4;
     }
 
     m_pAllPicView->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-    dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+    dApp->signalM->emitSliderValueChg(m_pSliderPos);
     qDebug() << "zy------MainWindow::loadZoomRatio end";
 }
 
@@ -1546,7 +1546,7 @@ void MainWindow::thumbnailZoomIn()
                 m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
             }
 
-            emit dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            dApp->signalM->emitSliderValueChg(m_pSliderPos);
         }
     }
 }
@@ -1567,7 +1567,7 @@ void MainWindow::thumbnailZoomOut()
                 m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
             }
 
-            dApp->signalM->sigMainwindowSliderValueChg(m_pSliderPos);
+            dApp->signalM->emitSliderValueChg(m_pSliderPos);
         }
     }
 }
@@ -1954,7 +1954,6 @@ void MainWindow::onExportImage(QStringList paths)
 void MainWindow::onMainwindowSliderValueChg(int step)
 {
     m_pSliderPos = step;
-    emit SignalManager::instance()->sliderValueChange(step);
     saveZoomRatio();
 }
 
