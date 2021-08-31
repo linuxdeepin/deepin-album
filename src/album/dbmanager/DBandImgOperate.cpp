@@ -245,6 +245,9 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
             dir_iterator.next();
             QFileInfo fileInfo = dir_iterator.fileInfo();
             allfiles << fileInfo.filePath();
+            if(allfiles.size() == 50){
+                emit sigMountFileListLoadReady(strPath, allfiles);
+            }
         }
         //重置标志位，可以执行线程
         m_couldRun.store(true);
@@ -254,7 +257,6 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
         //已加载过的设备，直接发送缓存的路径
         emit sigMountFileListLoadReady(strPath, m_PhonePicFileMap[strPath]);
     }
-
 }
 
 //void DBandImgOperate::getAllInfos()
