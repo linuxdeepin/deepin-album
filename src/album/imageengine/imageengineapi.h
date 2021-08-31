@@ -94,6 +94,8 @@ private slots:
     void slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas);
 signals:
     //发送给主线程
+    //加载到数据库完成
+    void sigLoadCompleted();
     //发送给缩略图控件
     void sigLoad80ThumbnailsToView();
     //加载一张图片请求完成

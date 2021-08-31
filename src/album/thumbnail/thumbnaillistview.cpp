@@ -426,6 +426,7 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 
 void ThumbnailListView::initConnections()
 {
+    connect(ImageEngineApi::instance(), &ImageEngineApi::sigLoadCompleted, this, &ThumbnailListView::reloadImage);
     connect(ImageDataService::instance(), &ImageDataService::sigeUpdateListview, this, &ThumbnailListView::onUpdateListview);
     connect(dApp->signalM, &SignalManager::sigSyncListviewModelData, this, &ThumbnailListView::onSyncListviewModelData);
     //有图片删除后，刷新列表
@@ -1834,6 +1835,9 @@ void ThumbnailListView::TimeLineSelectAllBtn()
 
 void ThumbnailListView::reloadImage()
 {
+    if (!this->isVisible()) {
+        return;
+    }
     //加载上下两百张
     if (m_loadTimer == nullptr) {
         m_loadTimer = new QTimer();

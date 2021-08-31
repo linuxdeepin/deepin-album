@@ -100,7 +100,6 @@ bool TimeLineView::imageImported(bool success)
 {
     Q_UNUSED(success);
     emit dApp->signalM->closeWaitDialog();
-    m_timeLineThumbnailListView->reloadImage();
     return true;
 }
 

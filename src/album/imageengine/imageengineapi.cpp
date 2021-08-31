@@ -114,8 +114,7 @@ bool ImageEngineApi::removeImage(QString imagepath)
         emit dApp->signalM->updatePicView(0);
     }
 
-    if(m_AllImageData.contains(imagepath))
-    {
+    if (m_AllImageData.contains(imagepath)) {
         return m_AllImageData.remove(imagepath);
     }
     return false;
@@ -132,13 +131,12 @@ bool ImageEngineApi::removeImage(QStringList imagepathList)
 bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remainDay)
 {
     bool bexsit = m_AllImageData.contains(imagepath);
-    if(bexsit && remainDay.isEmpty())
-    {
+    if (bexsit && remainDay.isEmpty()) {
         return false;
     }
 
     ImageDataSt data;
-    if(bexsit){
+    if (bexsit) {
         data = m_AllImageData[imagepath];
     }
 
@@ -150,7 +148,7 @@ bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remain
 
 void ImageEngineApi::sltInsert(const QStringList &imagepaths, const QString &remainDay)
 {
-    foreach (QString path , imagepaths) {
+    foreach (QString path, imagepaths) {
         insertImage(path, remainDay);
     }
 }

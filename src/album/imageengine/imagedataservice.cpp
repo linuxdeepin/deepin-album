@@ -112,7 +112,7 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
         }
     }
 
-    if(image_video_list.isEmpty())
+    if (image_video_list.isEmpty())
         return true;
 
     bool empty = isRequestQueueEmpty();
@@ -230,16 +230,18 @@ void readThumbnailThread::readThumbnail(QString path)
     QString srcPath = path;
     QString thumbnailPath = utils::base::filePathToThumbnailPath(path);
 
-    QFileInfo file(thumbnailPath);
+    QFileInfo thumbnailFile(thumbnailPath);
     QString errMsg;
-    if (file.exists()) {
+    if (thumbnailFile.exists()) {
         if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
             qDebug() << errMsg;
         }
-        bool is = false;
-        //获取视频信息 demo
-        dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
-        ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+        if (utils::base::isVideo(path)) {
+            bool is = false;
+            //获取视频信息 demo
+            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+            ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+        }
     } else {
         //读图
         if (utils::base::isVideo(path)) {

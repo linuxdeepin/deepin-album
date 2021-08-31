@@ -187,9 +187,6 @@ bool AlbumView::imageImported(bool success)
 {
     Q_UNUSED(success);
     emit dApp->signalM->closeWaitDialog();
-    if (COMMON_STR_CUSTOM == m_currentType) {
-        m_customThumbnailList->reloadImage();
-    }
     return true;
 }
 

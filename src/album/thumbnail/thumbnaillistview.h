@@ -145,8 +145,6 @@ public:
     void selectAllByItemType(ItemType type);//zynew
     //时间线所有选择按钮响应ctrl+all快捷键，切换按钮状态
     void TimeLineSelectAllBtn();
-    //加载当前页面前后各两百张图片
-    void reloadImage();
 
 signals:
     //打开图片，该项在当前列表行数，以及该项所含信息路径
@@ -206,6 +204,8 @@ private slots:
     //更新当前数据到ImageDataService
     void updateImagedataQueue(QString stradd = "");
 public slots:
+    //加载当前页面前后各两百张图片
+    void reloadImage();
     //所有照片界面
     void slotLoad80ThumbnailsFinish();
 

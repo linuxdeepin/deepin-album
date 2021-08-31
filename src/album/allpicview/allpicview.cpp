@@ -123,7 +123,6 @@ bool AllPicView::imageImported(bool success)
 {
     Q_UNUSED(success);
     emit dApp->signalM->closeWaitDialog();
-    m_pThumbnailListView->reloadImage();
     return true;
 }
 

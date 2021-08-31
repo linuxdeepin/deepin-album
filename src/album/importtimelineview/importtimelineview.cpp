@@ -65,7 +65,6 @@ bool ImportTimeLineView::imageImported(bool success)
 {
     Q_UNUSED(success);
     emit dApp->signalM->closeWaitDialog();
-    m_importTimeLineListView->reloadImage();
     return true;
 }
 

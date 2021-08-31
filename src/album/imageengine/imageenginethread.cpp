@@ -296,6 +296,7 @@ void ImportImagesThread::runDetail()
                 continue;
             pathlist << Info.filePath;
         }
+        emit ImageEngineApi::instance()->sigLoadCompleted();
         if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
             if (pathlist.size() > 0) {
                 emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
@@ -755,7 +756,7 @@ void ImageLoadFromLocalThread::runDetail()
             for (auto info : m_fileinfolist) {
                 image_list << info.filePath;
             }
-             emit sigInsert(image_list);
+            emit sigInsert(image_list);
         }
         break;
     case DataType_TrashList:
@@ -776,7 +777,7 @@ void ImageLoadFromLocalThread::runDetail()
                 } else {
                     QString remainDay = QString::number(30 - Day) + tr("days");
                     image_list << info.filePath;
-                    emit sigInsert(QStringList()<<info.filePath, remainDay);
+                    emit sigInsert(QStringList() << info.filePath, remainDay);
                 }
             }
             if (0 < removepaths.length()) {
