@@ -8,6 +8,7 @@
 #include <DHiDPIHelper>
 #include <DLabel>
 #include <QAbstractButton>
+#include <QMouseEvent>
 
 FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 {
@@ -23,18 +24,19 @@ FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 
     m_btn = new FilterLabel(this);
     DFontSizeManager::instance()->bind(m_btn, DFontSizeManager::T5, QFont::Normal);
-    connect(m_btn, &FilterLabel::clicked, this, &FilterWidget::onClicked);
     hb->addWidget(m_btn);
 
     m_rightLabel = new FilterLabel(this);
     DFontSizeManager::instance()->bind(m_rightLabel, DFontSizeManager::T5, QFont::Normal);
-    connect(m_rightLabel, &FilterLabel::clicked, this, &FilterWidget::onClicked);
     hb->addWidget(m_rightLabel);
     m_rightLabel->setPixmap(QIcon::fromTheme("album_arrowdown").pixmap(QSize(8, 6)));
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &FilterWidget::themeTypeChanged);
     themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
+
+    m_btn->installEventFilter(this);
+    m_rightLabel->installEventFilter(this);
 }
 
 FilterWidget::~FilterWidget()
@@ -86,6 +88,21 @@ void FilterWidget::themeTypeChanged(int type)
         m_rightLabel->setPixmap(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/dark/album_arrowdown_10px.svg").scaled(10, 10));
         m_btn->setText(m_data.text);
     }
+}
+
+bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == m_btn || obj == m_rightLabel) {
+        QMouseEvent *e = dynamic_cast<QMouseEvent *>(event);
+        if (e && (e->type() == QEvent::MouseMove)) {
+            //解决触屏上点击后移动整个应用问题
+            return true;
+        } else if (e && e->type() == QEvent::MouseButtonPress) {
+            onClicked();
+            return true;
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 

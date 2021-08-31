@@ -208,6 +208,7 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
     Q_UNUSED(selected)
     Q_UNUSED(deselected)
     if (m_thumbnailListView->getAppointTypeSelectItemCount(ItemTypeNull) == 0) {
+        refreshBtnEnabled(true);
         return;
     }
     batchSelectChanged(true, false);
@@ -478,7 +479,7 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectS
     }
 }
 
-void BatchOperateWidget::refreshBtnEnabled()
+void BatchOperateWidget::refreshBtnEnabled(bool noSelected)
 {
     //选中项数量变化，更新按钮可用状态
     bool selectMultiple = m_thumbnailListView->selectedPaths().size() > 0;
@@ -499,7 +500,13 @@ void BatchOperateWidget::refreshBtnEnabled()
     m_leftRotate->setEnabled(supportRotate);
     m_rightRotate->setEnabled(supportRotate);
     //全选与取消全选按钮状态由是否全部选中刷新
-    bool isAllSelected = m_thumbnailListView->isAllSelected(m_ToolButton->getFilteType());
+    bool isAllSelected;
+    //如果参数已经传进来了，就不需要再重新判断是否全选
+    if (noSelected) {
+        isAllSelected = false;
+    } else {
+        isAllSelected = m_thumbnailListView->isAllSelected(m_ToolButton->getFilteType());
+    }
     if (m_cancelBatchSelect->isVisible()) {
         m_chooseAll->setVisible(!isAllSelected);
         m_cancelChooseAll->setVisible(isAllSelected);

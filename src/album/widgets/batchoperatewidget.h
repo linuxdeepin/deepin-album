@@ -78,8 +78,8 @@ public:
     void initDropdown();
     //刷新按钮显隐状态
     void batchSelectChanged(bool isBatchSelect, bool disConnectSignal);
-    //刷新按钮可用状态
-    void refreshBtnEnabled();
+    //刷新按钮可用状态 isNoSelected:是否有选中，true为没有
+    void refreshBtnEnabled(bool noSelected = false);
 protected:
     void hideEvent(QHideEvent *event) override;
 signals:

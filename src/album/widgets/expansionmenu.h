@@ -37,6 +37,8 @@ public slots:
     void onClicked();
     //主题变化
     void themeTypeChanged(int type);
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 signals:
     void clicked();
     void currentItemChanged(ExpansionPanel::FilteData &data);
