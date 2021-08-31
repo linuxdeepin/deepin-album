@@ -132,10 +132,10 @@ bool ImageDataService::readThumbnailByPaths(QStringList files)
             thread->start();
             threads.append(thread);
         }
-        for (auto thread : threads) {
-            thread->wait();
-            thread->deleteLater();
-        }
+//        for (auto thread : threads) {
+//            thread->wait();
+//            thread->deleteLater();
+//        }
     } else {
         ImageDataService::instance()->add(image_video_list);
     }
@@ -324,4 +324,5 @@ void readThumbnailThread::run()
         }
     }
     emit ImageDataService::instance()->sigeUpdateListview();
+    this->deleteLater();
 }

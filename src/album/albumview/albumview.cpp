@@ -1060,7 +1060,7 @@ void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
 void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen)
 {
     SignalManager::ViewInfo info;
-    info.album = "";
+    info.album = m_currentAlbum;
     info.lastPanel = nullptr;
     info.fullScreen = bFullScreen;
     auto imagelist = m_customThumbnailList->getFileList(row);
