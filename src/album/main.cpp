@@ -117,17 +117,14 @@ int main(int argc, char *argv[])
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
 
         QString str = info.suffix().toLower();
-        qDebug()<<__FUNCTION__<<str;
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/")
-                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/")) {
-            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive) ||
-                    utils::base::isVideo(filepath)) { //增加对视频格式的支持
-                bneedexit = false;
-                break;
-            } else if (str.isEmpty()) {
-                bneedexit = false;
-                break;
-            }
+        qDebug() << __FUNCTION__ << "---" << str;
+        if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive) ||
+                utils::base::isVideo(filepath)) { //增加对视频格式的支持
+            bneedexit = false;
+            break;
+        } else if (str.isEmpty()) {
+            bneedexit = false;
+            break;
         }
     }
 

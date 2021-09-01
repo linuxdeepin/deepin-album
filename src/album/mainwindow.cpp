@@ -490,31 +490,21 @@ void MainWindow::initCentralWidget()
     QStringList parselist;
     m_commandLine->processOption(parselist);
     if (parselist.length() > 0) {
+        ImageDataService::instance()->readThumbnailByPaths(parselist);
+        ImageEngineApi::instance()->ImportImagesFromFileList(parselist, "", this);
         //暂不支持视频首帧查看，只支持导入，视频和图片分开处理
         QString firstStr = parselist.at(0);
-        if(utils::base::isVideo(firstStr))
-        {
+        if (utils::base::isVideo(firstStr)) {
             m_processOptionIsEmpty = true;
             m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
-            ImageEngineApi::instance()->ImportImagesFromFileList(parselist, "",this);
-        }else{
+        } else {
             QFileInfo inf(firstStr);
             m_processOptionIsEmpty = false;
             titlebar()->setVisible(false);
             setTitlebarShadowEnabled(false);
-            //m_commandLine->viewImage(inf.absoluteFilePath(), parselist);
             //查看图片
-            SignalManager::ViewInfo info;
-            info.album = "";
-#ifndef LITE_DIV
-            info.inDatabase = false;
-#endif
-            info.lastPanel = nullptr;
-            info.path = firstStr;
-            info.paths = parselist;
-            emit dApp->signalM->viewImage(info);
-
-            onShowImageView(VIEW_ALLPIC);
+            m_commandLine->viewImage(inf.absoluteFilePath(), parselist);
+            m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
             m_backIndex = VIEW_ALLPIC;
         }
     } else {
@@ -1344,15 +1334,13 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
         }
         if (paths.count() > 0) {
             QString firstStr = paths.at(0);
-            if(utils::base::isVideo(firstStr))
-            {
-                if(m_pCenterWidget->currentIndex() == VIEW_IMAGE)
-                {
+            ImageEngineApi::instance()->ImportImagesFromFileList(paths, "", this);
+            if (utils::base::isVideo(firstStr)) {
+                if (m_pCenterWidget->currentIndex() == VIEW_IMAGE) {
                     onHideImageView();
                 }
                 m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
-                ImageEngineApi::instance()->ImportImagesFromFileList(paths, "",this);
-            }else{
+            } else {
                 SignalManager::ViewInfo info;
                 info.album = "";
 #ifndef LITE_DIV
