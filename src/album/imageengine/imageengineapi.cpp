@@ -376,8 +376,8 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
     db.close();
     qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
     ImageDataService::instance()->readThumbnailByPaths(list);
-//    emit sigLoadThumbnailsByNum(m_AllImageDataVector, num);
-    emit sigLoad80ThumbnailsToView();
+    emit sigLoadThumbnailsByNum(m_AllImageDataVector, num);
+//    emit sigLoad80ThumbnailsToView();
 }
 
 void ImageEngineApi::thumbnailLoadThread(int num)
