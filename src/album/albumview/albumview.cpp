@@ -516,6 +516,7 @@ void AlbumView::initTrashWidget()
     m_TrashTitleLab->setFixedHeight(trash_title_height);
     m_TrashTitleLab->setForegroundRole(DPalette::TextTitle);
     m_TrashTitleLab->setText(tr("Trash"));
+    m_TrashTitleLab->setFixedWidth(150);//BUG#93470 手动调大控件长度
 
     m_TrashTitleWidget = new DWidget(m_pTrashWidget);
     m_TrashTitleWidget->setLayout(Layout1);
@@ -646,6 +647,7 @@ void AlbumView::initFavoriteWidget()
     DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
     m_pFavoriteTitle->setText(tr("Favorites"));
+    m_pFavoriteTitle->setFixedWidth(150); //BUG#93470 手动调大控件长度
 
     m_pFavoritePicTotal = new DLabel();
     m_pFavoritePicTotal->setFixedHeight(20);
@@ -1370,7 +1372,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

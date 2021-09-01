@@ -373,6 +373,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_pImportTitle->setPalette(ppal_light2);
     m_pImportTitle->setGraphicsEffect(opacityEffect_light2);
     m_pImportTitle->setAutoFillBackground(true);
+    m_pImportTitle->setFixedWidth(150);//BUG#93470，手动调大控件长度（英语模式下最后那个t会部分遮挡）
 
     m_choseBtnItem = new DWidget(m_timeLineViewWidget);
     QHBoxLayout *btnLayout = new QHBoxLayout();
