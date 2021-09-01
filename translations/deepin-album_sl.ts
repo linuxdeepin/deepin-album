@@ -302,38 +302,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>ena slika</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>en video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Uvozite slike in videe</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation>Ali jih povlecite sem</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Vse slike in videi</translation>
     </message>
 </context>
 <context>
@@ -382,7 +382,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Album je moderen upravljalnik za pregledovanje in organizacijo slik in videev</translation>
     </message>
 </context>
 <context>
@@ -549,10 +549,14 @@
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Vse slike in videi</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
+        <translation>Uvozi slike in videe</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -647,7 +651,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Ni rezultatov</translation>
     </message>
 </context>
 <context>
@@ -689,11 +693,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Izberi vse</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Prekliči izbor</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -709,7 +713,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Vse</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -721,7 +725,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Ni rezultatov</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -741,43 +745,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1%2 uvoženih predmetov</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1%2 izbrisanih predmetov</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"/>
+        <translation>%1 uvoženih predmetov, %2 predmetov ni uspelo</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>ena izbrana slika</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>1 izbran video</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>Slika/video že obstaja</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 izbrana slika</numerusform><numerusform>%1 izbrani sliki</numerusform><numerusform>%1 izbrane slike</numerusform><numerusform>%1 izbranih slik</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 izbran video</numerusform><numerusform>%1 izbrana videa</numerusform><numerusform>%1 izbrani videi</numerusform><numerusform>%1 izbranih videev</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 izbran predmet</numerusform><numerusform>%1 izbrana predmeta</numerusform><numerusform>%1 izbrani predmeti</numerusform><numerusform>%1 izbranih predmetov</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>%1 uvoženih predmetov, %2 predmetov že obstaja</translation>
     </message>
 </context>
 <context>
@@ -796,7 +800,7 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 najdena slika</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
@@ -846,11 +850,11 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>ena slika</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>en video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
@@ -994,11 +998,11 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>ena slika</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>en video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>

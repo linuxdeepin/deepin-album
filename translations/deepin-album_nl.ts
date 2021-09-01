@@ -310,15 +310,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n foto</numerusform><numerusform>%n foto&apos;s</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n video&apos;s</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n item</numerusform><numerusform>%n items</numerusform></translation>
     </message>
 </context>
 <context>
@@ -554,6 +554,10 @@
     <message>
         <source>Import Photos and Videos</source>
         <translation>Importeer foto&apos;s en video&apos;s</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1002,15 +1006,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n foto</numerusform><numerusform>%n foto&apos;s</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n video&apos;s</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n item</numerusform><numerusform>%n items</numerusform></translation>
     </message>
 </context>
 <context>

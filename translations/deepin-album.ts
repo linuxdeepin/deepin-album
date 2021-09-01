@@ -555,6 +555,10 @@
         <source>Import Photos and Videos</source>
         <translation>Import Photos and Videos</translation>
     </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>No photos or videos found</translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>

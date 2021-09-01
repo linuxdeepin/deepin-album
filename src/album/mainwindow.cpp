@@ -2037,7 +2037,7 @@ void MainWindow::onImportSomeFailed(int successful, int failed)
 void MainWindow::onImportDonotFindPicOrVideo()
 {
     QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
-    QString str = tr("No images or videos found");
+    QString str = tr("No photos or videos found");
     floatMessage(str, icon);
 }
 

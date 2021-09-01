@@ -589,6 +589,10 @@
         <source>Import Photos and Videos</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>

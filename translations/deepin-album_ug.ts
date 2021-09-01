@@ -555,6 +555,10 @@
         <source>Import Photos and Videos</source>
         <translation>سۈرەت ۋە سىن كىرگۈزۈش</translation>
     </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>

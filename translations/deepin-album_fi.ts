@@ -310,15 +310,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kuvaa</numerusform><numerusform>%n kuvaa</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videota</numerusform><numerusform>%n videota</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kohdetta</numerusform><numerusform>%n kohdetta</numerusform></translation>
     </message>
 </context>
 <context>
@@ -555,6 +555,10 @@
         <source>Import Photos and Videos</source>
         <translation>Tuo valokuvia ja videoita</translation>
     </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -777,7 +781,7 @@
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>%1 kohdetta tuotu, %2 oli jo olemassa</translation>
     </message>
 </context>
 <context>
@@ -1002,15 +1006,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kuvaa</numerusform><numerusform>%n kuvaa</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videota</numerusform><numerusform>%n videota</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kohdetta</numerusform><numerusform>%n kohdetta</numerusform></translation>
     </message>
 </context>
 <context>
