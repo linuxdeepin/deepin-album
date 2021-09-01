@@ -311,14 +311,14 @@ void ImportImagesThread::runDetail()
                 emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
             }
         } else {
-            emit dApp->signalM->ImportFailed();
-
             //BUG#92844 额外提示未发现照片或文件
             if (pathlist.isEmpty()) {
                 emit dApp->signalM->ImportDonotFindPicOrVideo();
             } else {
                 emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
             }
+
+            emit dApp->signalM->ImportFailed();
 
             m_obj->imageImported(false);
         }
