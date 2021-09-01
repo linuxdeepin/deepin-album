@@ -45,8 +45,8 @@ namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
 }
 
-const int NotSupportedOrDamagedWidth = 60;      //损坏图片宽度
-const int NotSupportedOrDamagedHeigh = 45;
+const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
+const int NotSupportedOrDamagedHeigh = 40;
 
 ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     : QStyledItemDelegate(parent)
@@ -57,6 +57,7 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
 {
     m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
     m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
+    m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
             &ThumbnailDelegate::onThemeTypeChanged);
 }
