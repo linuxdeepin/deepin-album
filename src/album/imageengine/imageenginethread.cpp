@@ -312,6 +312,14 @@ void ImportImagesThread::runDetail()
             }
         } else {
             emit dApp->signalM->ImportFailed();
+
+            //BUG#92844 额外提示未发现照片或文件
+            if (pathlist.isEmpty()) {
+                emit dApp->signalM->ImportDonotFindPicOrVideo();
+            } else {
+                emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+            }
+
             m_obj->imageImported(false);
         }
         m_obj->removeThread(this);

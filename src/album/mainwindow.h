@@ -169,6 +169,7 @@ public slots:
     void onImportSuccess();
     void onSearchEditClear();
     void onImportFailed();
+    void onImportDonotFindPicOrVideo();
     void onImportSomeFailed(int successful, int failed);
     void onImgExportFailed();
     void onImgExportSuccess();

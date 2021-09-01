@@ -246,6 +246,8 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::AlbExportFailed, this, &MainWindow::onAlbExportFailed);
     //相册导出成功提示框
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, &MainWindow::onAlbExportSuccess);
+    //没找到图片或视频提示框
+    connect(dApp->signalM, &SignalManager::ImportDonotFindPicOrVideo, this, &MainWindow::onImportDonotFindPicOrVideo);
 }
 //初始化DBus
 void MainWindow::initDBus()
@@ -2030,6 +2032,13 @@ void MainWindow::onImportSomeFailed(int successful, int failed)
     QString str2 = QString::number(failed, 10);
     QString res = str.arg(str1).arg(str2);
     floatMessage(res, icon);
+}
+
+void MainWindow::onImportDonotFindPicOrVideo()
+{
+    QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+    QString str = tr("No images or videos found");
+    floatMessage(str, icon);
 }
 
 void MainWindow::onImgExportFailed()
