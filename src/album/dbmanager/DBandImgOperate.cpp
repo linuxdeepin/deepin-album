@@ -133,10 +133,12 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
         if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
             qDebug() << errMsg;
         }
-        bool is = false;
-        //获取视频信息 demo
-        dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(imagepath), &is);
-        ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
+        if (utils::base::isVideo(imagepath)) {
+            bool is = false;
+            //获取视频信息 demo
+            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(imagepath), &is);
+            ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
+        }
     } else {
         if (utils::base::isVideo(imagepath)) {
             if (m_playlistModel == nullptr) {
@@ -189,10 +191,13 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
 void DBandImgOperate::rotateImageFile(int angel, const QString &path)
 {
     QString errMsg;
-    if (!UnionImage_NameSpace::rotateImageFile(angel, path, errMsg)) {
-        qDebug() << errMsg;
-        return;
-    }
+    //如果角度为0，不选择，重新加载
+    if (angel != 0) {
+        if (!UnionImage_NameSpace::rotateImageFile(angel, path, errMsg)) {
+            qDebug() << errMsg;
+            return;
+        }
+    };
     loadOneImgForce(path, true);
 }
 
@@ -245,7 +250,7 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
             dir_iterator.next();
             QFileInfo fileInfo = dir_iterator.fileInfo();
             allfiles << fileInfo.filePath();
-            if(allfiles.size() == 50){
+            if (allfiles.size() == 50) {
                 emit sigMountFileListLoadReady(strPath, allfiles);
             }
         }

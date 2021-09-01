@@ -503,7 +503,8 @@ void ImageView::onIsChangedTimerTimeout()
 {
     QFileInfo file(m_path);
     if (file.exists()) {
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path));
+        //重新加载图片,刷新缓存
+        emit ImageEngineApi::instance()->sigRotateImageFile(0, m_path);
         setImage(m_path);
         m_isChangedTimer->stop();
     } else {
