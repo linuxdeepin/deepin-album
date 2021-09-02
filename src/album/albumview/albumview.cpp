@@ -795,7 +795,7 @@ void AlbumView::initPhoneWidget()
     opacityEffect_lightphone->setOpacity(0.95);
     phonetopwidget->setGraphicsEffect(opacityEffect_lightphone);
     phonetopwidget->setAutoFillBackground(true);
-    phonetopwidget->setFixedSize(pPhoneWidget->size().width(), 81);
+    phonetopwidget->setFixedSize(pPhoneWidget->width() - 15, 81);//BUG#93779 -15把右侧滚动条露出来
     phonetopwidget->setLayout(allHLayout);
     phonetopwidget->move(0, 0);
     phonetopwidget->raise();
@@ -1865,7 +1865,7 @@ void AlbumView::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
     if (nullptr != pPhoneWidget) {
-        phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
+        phonetopwidget->setFixedWidth(pPhoneWidget->width() - 15);//BUG#93779 -15把右侧滚动条露出来
     }
 }
 
@@ -2239,7 +2239,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     }
     //设备
     if (nullptr != pPhoneWidget) {
-        phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
+        phonetopwidget->setFixedWidth(pPhoneWidget->width() - 15);//BUG#93779 -15把右侧滚动条露出来
     }
     //自定义相册
     if (nullptr != m_customAlbumTitle) {
@@ -2278,7 +2278,7 @@ void AlbumView::showEvent(QShowEvent *e)
     //设备
     if (nullptr != pPhoneWidget) {
 //        m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
-        phonetopwidget->setFixedWidth(pPhoneWidget->size().width());
+        phonetopwidget->setFixedWidth(pPhoneWidget->width() - 15);//BUG#93779 -15把右侧滚动条露出来
     }
     QWidget::showEvent(e);
 }
