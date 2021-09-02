@@ -230,39 +230,14 @@ void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 
 void ThumbnailListView::showEvent(QShowEvent *event)
 {
+    qDebug() << __FUNCTION__ << "---";
     Q_UNUSED(event);
     //时间线使用
     emit sigShowEvent();
-    //更新当前数据到ImageDataService，针对不同窗口时，无法触发rowchanged信号
-    updateImagedataQueue();
     int i_totalwidth = width() - 30;
     //计算一行的个数
     m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
     m_onePicWidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
-    int size = ImageEngineApi::instance()->m_AllImageDataVector.size();
-    //出于性能考虑,因为一开始只加了第一屛，所以显示后延迟加载剩下的图片信息,m_bfirstload用来只执行一次
-    if (m_delegatetype == ThumbnailDelegate::AllPicViewType && m_model->rowCount() < size && m_bfirstload) {
-        QTimer::singleShot(200, this, [ = ]() {
-            //m_model->rowCount()减一是为了减去顶部空白栏占用的一个ModelIndex
-            int i = m_model->rowCount() - 1 < 0 ? 0 : m_model->rowCount() - 1;
-            for (; i < size; i++) {
-                ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
-                DBImgInfo info = data.dbi;
-                if (data.imgpixmap.isNull()) {
-                    info.bNotSupportedOrDamaged = true;
-                    info.damagedPixmap = getDamagedPixmap();
-                }
-                info.image = data.imgpixmap;
-                info.remainDays = data.remainDays;
-                info.imgWidth = m_onePicWidth;
-                info.imgHeight = m_onePicWidth;
-                insertThumbnail(info);
-            }
-            m_bfirstload = false;
-            //加载完后通知所有图片页刷新状态栏显示数量
-            emit sigUpdatePicNum();
-        });
-    }
 }
 
 void ThumbnailListView::wheelEvent(QWheelEvent *event)
@@ -281,6 +256,27 @@ QRect ThumbnailListView::visualRect(const QModelIndex &index) const
     //获取当前视图中的item项,找到视图中的index,注意：获取到的index可能不是最大值,但已经足够了
     ImageDataService::instance()->setVisualIndex(index.row());
     return QListView::visualRect(index);
+}
+
+void ThumbnailListView::sltReloadAfterFilterEnd()
+{
+    if (m_delegatetype != ThumbnailDelegate::AllPicViewType) {
+        return;
+    }
+    for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
+        QModelIndex index = m_model->index(i, 0);
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (!ImageEngineApi::instance()->m_AllImageData.contains(data.filePath)
+                && (data.itemType == ItemTypePic || data.itemType == ItemTypeVideo)) {
+            m_model->removeRow(index.row());
+        }
+    }
+    //m_model->rowCount()减一是为了减去顶部空白栏占用的一个ModelIndex
+    for (int j = (m_model->rowCount() - 1); j < ImageEngineApi::instance()->m_AllImageDataVector.size(); j++) {
+        insertThumbnail(ImageEngineApi::instance()->m_AllImageDataVector.at(j).dbi);
+    }
+    //加载完后通知所有图片页刷新状态栏显示数量
+    emit sigUpdatePicNum();
 }
 
 void ThumbnailListView::onUpdateListview()
@@ -440,6 +436,8 @@ void ThumbnailListView::initConnections()
     connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this, &ThumbnailListView::onCancelFavorite);
 
     connect(ImageEngineApi::instance(), &ImageEngineApi::sigOneImgReady, this, &ThumbnailListView::slotOneImgReady);
+    connect(ImageEngineApi::instance(), &ImageEngineApi::sigReloadAfterFilterEnd,
+            this, &ThumbnailListView::sltReloadAfterFilterEnd);
 }
 
 void ThumbnailListView::updateThumbnailView(QString updatePath)
@@ -505,8 +503,6 @@ void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
         connect(pCurrentDateWidget, &importTimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
         this->setIndexWidget(index, pCurrentDateWidget);
     }
-    //更新当前数据到ImageDataService
-    updateImagedataQueue(info.filePath);
 }
 
 void ThumbnailListView::stopLoadAndClear(bool bClearModel)
@@ -1072,8 +1068,6 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     emit dApp->signalM->updateFavoriteNum();
     m_model->removeRow(index.row());
     updateThumbnailView();
-    //更新当前数据到ImageDataService
-    updateImagedataQueue();
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
@@ -1371,8 +1365,6 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &info
             }
         }
     }
-    //更新当前数据到ImageDataService
-    updateImagedataQueue();
 }
 
 void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *item)
@@ -1393,22 +1385,6 @@ void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *i
                 selectionModel()->select(itemIndex, QItemSelectionModel::Deselect);
             }
         }
-    }
-}
-
-void ThumbnailListView::updateImagedataQueue(QString stradd)
-{
-    QStringList strlist;
-    if (stradd.isEmpty()) {
-        for (int i = 0; i < m_model->rowCount() ; i++) {
-            QModelIndex index = m_model->index(i, 0);
-            DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
-            strlist << info.filePath;
-        }
-        ImageDataService::instance()->setAllDataKeys(strlist);
-    } else {
-        strlist << stradd;
-        ImageDataService::instance()->setAllDataKeys(strlist, true);
     }
 }
 //刷新所有标题中选择按钮的状态
@@ -1758,6 +1734,7 @@ void ThumbnailListView::showAppointTypeItem(ItemType type)
 int ThumbnailListView::getAppointTypeItemCount(ItemType type)
 {
     int count = 0;
+    qDebug() << __FUNCTION__ << "---m_model->rowCount() = " << m_model->rowCount();
     for (int i = 0;  i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
         DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
@@ -1770,6 +1747,7 @@ int ThumbnailListView::getAppointTypeItemCount(ItemType type)
             count++;
         }
     }
+    qDebug() << __FUNCTION__ << "---count = " << count;
     return count;
 }
 //显示指定类型选中项数量
@@ -1851,10 +1829,11 @@ void ThumbnailListView::reloadImage()
     m_loadTimer->start();
 }
 
-void ThumbnailListView::slotLoad80ThumbnailsFinish()
+void ThumbnailListView::slotLoadFirstPageThumbnailsFinish()
 {
     // 将缩略图信息插入到listview中
     int size = ImageEngineApi::instance()->m_AllImageDataVector.size();
+    qDebug() << __FUNCTION__ << "---size = " << size;
     if (size <= 0) {
         //通知所有照片界面刷新，如果没有图片则显示导入界面
         emit sigDBImageLoaded();
@@ -1879,6 +1858,9 @@ void ThumbnailListView::slotLoad80ThumbnailsFinish()
         info.videoDuration = data.dbi.videoDuration;
         insertThumbnail(info);
     }
+
+    //过滤不存在图片后重新加载
+    ImageEngineApi::instance()->reloadAfterFilterUnExistImage();
 }
 
 void ThumbnailListView::slotOneImgReady(const QString &path, QPixmap pix)

@@ -50,6 +50,7 @@
 #include <DStandardPaths>
 
 #include "imagedataservice.h"
+#include "player_engine.h"
 extern QStringList VideoSupportTypeList;
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
@@ -1200,6 +1201,13 @@ void MainWindow::onSearchEditFinished()
 //标题菜单导入照片槽函数
 void MainWindow::onImprotBtnClicked()
 {
+    if (VideoSupportTypeList.isEmpty()) {
+        dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
+        VideoSupportTypeList = e->video_filetypes;
+        delete e;
+        e = nullptr;
+    }
+
     static QStringList sList;
     for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
         sList << ("*." + i);

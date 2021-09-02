@@ -232,7 +232,7 @@ void ImageEngineApi::slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas)
         ImageDataSt data = ImageDatas.at(i);
         m_AllImageData[data.dbi.filePath] = data;
     }
-    emit sigLoad80ThumbnailsToView();
+    emit sigLoadFirstPageThumbnailsToView();
 }
 
 bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck)
@@ -329,10 +329,6 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
 void ImageEngineApi::loadFirstPageThumbnails(int num)
 {
     qDebug() << __FUNCTION__ << "---";
-    dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
-    VideoSupportTypeList = e->video_filetypes;
-    delete e;
-    e = nullptr;
 
     m_FirstPageScreen = num;
     m_AllImageDataVector.clear();
@@ -346,8 +342,8 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
     int count = 0;
     QSqlQuery query(db);
     query.setForwardOnly(true);
-//    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
-    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc"));
+    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
+//    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc"));
     if (!b || !query.exec()) {
         qDebug() << "------" << __FUNCTION__ <<  query.lastError();
         return;
@@ -375,9 +371,10 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
 
     db.close();
     qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
+    m_firstPageIsLoaded = true;
     ImageDataService::instance()->readThumbnailByPaths(list);
-    emit sigLoadThumbnailsByNum(m_AllImageDataVector, num);
-//    emit sigLoad80ThumbnailsToView();
+
+    emit sigLoadFirstPageThumbnailsToView();
 }
 
 void ImageEngineApi::thumbnailLoadThread(int num)
@@ -444,6 +441,40 @@ void ImageEngineApi::setImgPathAndAlbumNames(const QMultiMap<QString, QString> &
 const QMultiMap<QString, QString> &ImageEngineApi::getImgPathAndAlbumNames()
 {
     return m_allPathAndAlbumNames;
+}
+
+bool ImageEngineApi::reloadAfterFilterUnExistImage()
+{
+    ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread();
+//    connect(imagethread, &ImageLoadFromDBThread::sigImageLoaded, this, &ImageEngineApi::sltImageDBLoaded);
+//    connect(imagethread, &ImageLoadFromDBThread::sigInsert, this, &ImageEngineApi::sltInsert);
+//    imagethread->setData(type, obj, name);
+//    obj->addThread(imagethread);
+#ifdef NOGLOBAL
+    m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
+    return true;
+}
+
+bool ImageEngineApi::isVideo(QString path)
+{
+    QMutexLocker locker(&m_dataMutex);
+    bool is = false;
+    if (m_AllImageData.contains(path)) {
+        ImageDataSt info = m_AllImageData[path];
+        if (info.dbi.itemType == ItemTypeVideo) {
+            is = true;
+        }
+    }
+    return is;
+}
+
+bool ImageEngineApi::isItemLoadedFromDB(QString path)
+{
+    QMutexLocker locker(&m_dataMutex);
+    return m_AllImageData.contains(path);
 }
 
 //从外部启动，启用线程加载图片

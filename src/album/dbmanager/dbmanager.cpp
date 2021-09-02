@@ -82,7 +82,7 @@ const QStringList DBManager::getAllPaths() const
     return paths;
 }
 
-const DBImgInfoList DBManager::getAllInfos(int loadCount) const
+const DBImgInfoList DBManager::getAllInfos(int loadCount)const
 {
     QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;

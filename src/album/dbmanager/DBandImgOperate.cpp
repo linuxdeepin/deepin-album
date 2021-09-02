@@ -142,6 +142,7 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
     } else {
         if (utils::base::isVideo(imagepath)) {
             if (m_playlistModel == nullptr) {
+                qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
                 m_playlistModel = new dmr::PlaylistModel(nullptr);
             }
 

@@ -55,6 +55,12 @@ public:
     bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
     const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
+    //过滤不存在图片后重新加载
+    bool reloadAfterFilterUnExistImage();
+    //判断是否视频
+    bool isVideo(QString path);
+    //判断是否已经从数据库加载过，或者是否已经加载到缓存里了
+    bool isItemLoadedFromDB(QString path);
 
     //从外部启动，启用线程加载图片
     bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
@@ -97,11 +103,13 @@ signals:
     //加载到数据库完成
     void sigLoadCompleted();
     //发送给缩略图控件
-    void sigLoad80ThumbnailsToView();
+    void sigLoadFirstPageThumbnailsToView();
     //加载一张图片请求完成
     void sigOneImgReady(QString path, QPixmap pixmap);
     //加载设备中图片列表请求完成
     void sigMountFileListLoadReady(QString path, QStringList fileList);
+    //过滤不存在图片后重新加载
+    void sigReloadAfterFilterEnd();
 
     //发给子线程
     //先加载指定数量的缩略图
@@ -120,7 +128,7 @@ public:
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     QMultiMap<QString, QString> m_allPathAndAlbumNames;
-    bool m_80isLoaded = false;
+    bool m_firstPageIsLoaded = false;
 private:
     explicit ImageEngineApi(QObject *parent = nullptr);
 
@@ -135,6 +143,7 @@ private:
     QThreadPool cacheThreadPool;
 #endif
     DBandImgOperate *m_worker = nullptr;
+    QMutex m_dataMutex;
 };
 
 #endif // IMAGEENGINEAPI_H

@@ -105,14 +105,14 @@ AllPicView::AllPicView()
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
     if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
-        m_pThumbnailListView->slotLoad80ThumbnailsFinish();
+        m_pThumbnailListView->slotLoadFirstPageThumbnailsFinish();
     } else {
-        if (ImageEngineApi::instance()->m_80isLoaded) {
+        if (ImageEngineApi::instance()->m_firstPageIsLoaded) {
             //相册为空的情况。
-            m_pThumbnailListView->slotLoad80ThumbnailsFinish();
+            m_pThumbnailListView->slotLoadFirstPageThumbnailsFinish();
         } else {
-            connect(ImageEngineApi::instance(), &ImageEngineApi::sigLoad80ThumbnailsToView,
-                    m_pThumbnailListView, &ThumbnailListView::slotLoad80ThumbnailsFinish);
+            connect(ImageEngineApi::instance(), &ImageEngineApi::sigLoadFirstPageThumbnailsToView,
+                    m_pThumbnailListView, &ThumbnailListView::slotLoadFirstPageThumbnailsFinish);
         }
     }
     AC_SET_OBJECT_NAME(this, All_Picture_View);
@@ -222,11 +222,7 @@ void AllPicView::updatePicsIntoThumbnailView()
 
 void AllPicView::updatePicsIntoThumbnailViewWithCache()
 {
-//    m_spinner->hide();
-//    m_spinner->stop();
     m_pThumbnailListView->stopLoadAndClear(false);
-    //todo
-//    m_pThumbnailListView->loadFilesFromDB();
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
     } else {

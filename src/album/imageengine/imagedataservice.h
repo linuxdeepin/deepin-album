@@ -54,9 +54,6 @@ public:
     void addMovieDurationStr(const QString &path, const QString &durationStr);
     QString getMovieDurationStrByPath(const QString &path);
 
-    //设置当前窗口所有数据
-    void setAllDataKeys(const QStringList &paths, bool single = false);
-
     //
     void setVisualIndex(int row);
     int getVisualIndex();

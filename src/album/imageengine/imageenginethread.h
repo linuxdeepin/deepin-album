@@ -134,27 +134,26 @@ private:
     ImageMountGetPathsObject *m_imgobject = nullptr;
 };
 
-//class ImageLoadFromDBThread : public ImageEngineThreadObject
-//{
-//    Q_OBJECT
-//public:
-//    explicit ImageLoadFromDBThread(int loadCount = 0);
-//    ~ImageLoadFromDBThread() override;
-//    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, const QString &nametype = "");
+class ImageLoadFromDBThread : public ImageEngineThreadObject
+{
+    Q_OBJECT
+public:
+    explicit ImageLoadFromDBThread();
+    ~ImageLoadFromDBThread() override;
+    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, const QString &nametype = "");
 
-//protected:
-//    bool ifCanStopThread(void *imgobject) override;
-//    void runDetail() override;
+protected:
+    bool ifCanStopThread(void *imgobject) override;
+    void runDetail() override;
 
-//signals:
-//    void sigImageLoaded(void *imgobject, QStringList &filelist);
-//    void sigInsert(QString imagepath, QString remainDay = "");
-//private:
-//    QString m_nametype;
-//    ThumbnailDelegate::DelegateType m_type;
-//    ImageEngineObject *m_imgobject = nullptr;
-//    int m_loadCount = 0;
-//};
+signals:
+    void sigImageLoaded(void *imgobject, QStringList &filelist);
+    void sigInsert(QString imagepath, QString remainDay = "");
+private:
+    QString m_nametype;
+    ThumbnailDelegate::DelegateType m_type;
+    ImageEngineObject *m_imgobject = nullptr;
+};
 
 class ImageLoadFromLocalThread : public ImageEngineThreadObject
 {
@@ -177,7 +176,7 @@ protected:
 
 signals:
     void sigImageLoaded(void *imgobject, QStringList &filelist);
-    void sigInsert(const QStringList& imagepath, QString remainDay = "");
+    void sigInsert(const QStringList &imagepath, QString remainDay = "");
 private:
     QStringList m_filelist;
     DBImgInfoList m_fileinfolist;
