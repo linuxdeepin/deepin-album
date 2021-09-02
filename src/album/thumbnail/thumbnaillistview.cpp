@@ -1245,20 +1245,46 @@ void ThumbnailListView::hideAllAppointType(ItemType type)
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
         DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
-        if (info.itemType == ItemTypeTimeLineTitle | info.itemType == ItemTypeImportTimeLineTitle) {
-            //上面一项如果是空白项，则隐藏当前标题
-            if ((i - 1 >= 0)) {
-                QModelIndex preIndex = m_model->index((i - 1), 0);
-                DBImgInfo preInfo = preIndex.data(Qt::DisplayRole).value<DBImgInfo>();
-                if (preInfo.itemType == ItemTypeBlank) {
-                    setRowHidden(i, true);
+        //空白栏下第一个未隐藏的是标题，隐藏标题，同时将标题中的时间和数量传递给空白栏
+        if (info.itemType == ItemTypeBlank) {
+            bool nextVisibleIsTitle = false;
+            for (int j = i + 1; j < m_model->rowCount(); j++) {
+                QModelIndex nextIndex = m_model->index(j, 0);
+                DBImgInfo nextInfo = nextIndex.data(Qt::DisplayRole).value<DBImgInfo>();
+                if (!isRowHidden(j) && (nextInfo.itemType == ItemTypePic || nextInfo.itemType == ItemTypeVideo)) {
+                    break;
+                }
+                if (!isRowHidden(j)) {
+                    if (nextInfo.itemType == ItemTypeTimeLineTitle || nextInfo.itemType == ItemTypeImportTimeLineTitle) {
+                        setRowHidden(j, true);
+                        bool isSelect = getCurrentIndexSelectStatus(nextIndex, false);
+                        emit sigTimeLineDataAndNum(nextInfo.date, nextInfo.num, isSelect ? QObject::tr("Unselect") : QObject::tr("Select"));
+                        nextVisibleIsTitle = true;
+                        break;
+                    }
                 }
             }
-            //如果下一项是标题，则隐藏当前项
-            if ((i + 1) < m_model->rowCount()) {
-                QModelIndex nextIndex = m_model->index((i + 1), 0);
+            if (nextVisibleIsTitle) {
+                i--;
+                continue;
+            }
+        } else if (info.itemType == ItemTypeTimeLineTitle
+                   || info.itemType == ItemTypeImportTimeLineTitle) {
+            //当前是标题，下一个未隐藏的也是标题时，隐藏当前标题
+            for (int j = i + 1; j < m_model->rowCount(); j++) {
+                QModelIndex nextIndex = m_model->index(j, 0);
                 DBImgInfo nextInfo = nextIndex.data(Qt::DisplayRole).value<DBImgInfo>();
-                if (nextInfo.itemType == ItemTypeTimeLineTitle | nextInfo.itemType == ItemTypeImportTimeLineTitle) {
+                if (!isRowHidden(j) && (nextInfo.itemType == ItemTypePic || nextInfo.itemType == ItemTypeVideo)) {
+                    break;
+                }
+                if (!isRowHidden(j)) {
+                    if (nextInfo.itemType == ItemTypeTimeLineTitle || nextInfo.itemType == ItemTypeImportTimeLineTitle) {
+                        setRowHidden(i, true);
+                        break;
+                    }
+                }
+                //当前是最后一个标题
+                if (isRowHidden(j) && (j == (m_model->rowCount() - 1))) {
                     setRowHidden(i, true);
                 }
             }
