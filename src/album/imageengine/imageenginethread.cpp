@@ -674,6 +674,7 @@ void ImageLoadFromDBThread::runDetail()
     QStringList fail_image_list;
     DBImgInfoList infos = DBManager::instance()->getAllInfos(0);
     ImageEngineApi::instance()->m_AllImageDataVector.clear();
+    ImageEngineApi::instance()->m_AllImageData.clear();
     for (int i = 0; i < infos.size(); i++) {
         DBImgInfo info = infos.at(i);
         ImageDataSt imgData;
@@ -681,10 +682,6 @@ void ImageLoadFromDBThread::runDetail()
         //记录源文件不存在的数据
         if (!QFileInfo(info.filePath).exists()) {
             fail_image_list << info.filePath;
-            infos.removeAt(i);
-            if (i > 0) {
-                i--;
-            }
             continue;
         }
 

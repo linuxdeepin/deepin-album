@@ -2047,6 +2047,7 @@ void ThumbnailListView::onClicked(const QModelIndex &index)
         return;
     }
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+    qDebug() << __FUNCTION__ << "---" << data.filePath;
     qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->imageIsLoaded(data.filePath);
     qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->getMovieDurationStrByPath(data.filePath);
 #ifdef tablet_PC

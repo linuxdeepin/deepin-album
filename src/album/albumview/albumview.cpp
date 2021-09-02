@@ -995,8 +995,6 @@ void AlbumView::updateRightTrashView()
     m_trashBatchOperateWidget->setVisible(infos.size() > 0);
     m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
-    //todo
-//    m_pRightTrashThumbnailList->loadFilesFromTrash(infos);
 }
 
 void AlbumView::leftTabClicked()
@@ -1372,7 +1370,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
