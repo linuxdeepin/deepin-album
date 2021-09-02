@@ -254,6 +254,7 @@ void BatchOperateWidget::onTrashDeleteBtnClicked()
 //主题变化
 void BatchOperateWidget::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)
 {
+    Q_UNUSED(themeType)
     DPalette ReBtn = DApplicationHelper::instance()->palette(m_trashRecoveryBtn);
     ReBtn.setBrush(DPalette::Highlight, QColor(0, 0, 0, 0));
     m_trashRecoveryBtn->setPalette(ReBtn);

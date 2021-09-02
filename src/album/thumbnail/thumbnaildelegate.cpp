@@ -233,9 +233,11 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         }
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
     }
+    //绘制视频时间
     if (data.itemType == ItemTypeVideo) {
         QString str(ImageDataService::instance()->getMovieDurationStrByPath(data.filePath));
-        if (dApp->signalM->getSliderValue() > 2 && !str.isEmpty()) {
+        //TODO 暂时屏蔽最近删除界面的视频时间显示，待需求明确显示位置后修改并解除屏蔽
+        if (dApp->signalM->getSliderValue() > 2 && !str.isEmpty() && m_delegatetype != AlbumViewTrashType) {
             QPainterPath bp;
             bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
             painter->setClipPath(bp);
