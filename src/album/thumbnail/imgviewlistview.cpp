@@ -263,7 +263,7 @@ void ImgViewListView::slotOneImgReady(const QString &path, QPixmap pix)
             cutPixmap(data);
             QVariant meta;
             meta.setValue(data);
-            ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
+//            ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
             ImageDataService::instance()->addImage(data.filePath, data.image.toImage());
             m_model->setData(index, meta, Qt::DisplayRole);
             break;

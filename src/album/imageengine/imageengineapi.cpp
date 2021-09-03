@@ -128,7 +128,7 @@ bool ImageEngineApi::removeImage(QStringList imagepathList)
     return true;
 }
 
-bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remainDay)
+bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remainDay, bool reLoadIsvideo)
 {
     bool bexsit = m_AllImageData.contains(imagepath);
     if (bexsit && remainDay.isEmpty()) {
@@ -142,7 +142,15 @@ bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remain
 
     if (!remainDay.isEmpty())
         data.remainDays = remainDay;
-    m_AllImageData.insert(imagepath, data);
+    if (reLoadIsvideo) {
+        bool isVideo = utils::base::isVideo(imagepath);
+        if (isVideo) {
+            data.dbi.itemType = ItemTypeVideo;
+        } else {
+            data.dbi.itemType = ItemTypePic;
+        }
+    }
+    addImageData(imagepath, data);
     return true;
 }
 
@@ -158,7 +166,7 @@ bool ImageEngineApi::updateImageDataPixmap(QString imagepath, QPixmap &pix)
     ImageDataSt data;
     if (getImageData(imagepath, data)) {
         data.imgpixmap = pix;
-        m_AllImageData[imagepath] = data;
+        addImageData(imagepath, data);
 
         QFileInfo file(albumGlobal::CACHE_PATH + imagepath);
         if (file.exists()) {
@@ -222,7 +230,7 @@ void ImageEngineApi::sltstopCacheSave()
 
 void ImageEngineApi::sigImageBackLoaded(QString path, const ImageDataSt &data)
 {
-    m_AllImageData[path] = data;
+    addImageData(path, data);
 }
 
 void ImageEngineApi::slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas)
@@ -230,7 +238,7 @@ void ImageEngineApi::slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas)
     m_AllImageDataVector = ImageDatas;
     for (int i = 0; i < ImageDatas.size(); i++) {
         ImageDataSt data = ImageDatas.at(i);
-        m_AllImageData[data.dbi.filePath] = data;
+        addImageData(data.dbi.filePath, data);
     }
     emit sigLoadFirstPageThumbnailsToView();
 }
@@ -364,7 +372,7 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
             info.itemType = static_cast<ItemType>(query.value(6).toInt());
             ImageDataSt imgData;
             imgData.dbi = info;
-            m_AllImageData[info.filePath] = imgData;
+            addImageData(info.filePath, imgData);
             m_AllImageDataVector.append(imgData);
         }
     }
@@ -469,6 +477,24 @@ bool ImageEngineApi::isVideo(QString path)
         }
     }
     return is;
+}
+
+int ImageEngineApi::getAllImageDataCount()
+{
+    QMutexLocker locker(&m_dataMutex);
+    return m_AllImageData.size();
+}
+
+void ImageEngineApi::addImageData(QString path, ImageDataSt data)
+{
+    QMutexLocker locker(&m_dataMutex);
+    m_AllImageData[path] = data;
+}
+
+void ImageEngineApi::clearAllImageData()
+{
+    QMutexLocker locker(&m_dataMutex);
+    m_AllImageData.clear();
 }
 
 bool ImageEngineApi::isItemLoadedFromDB(QString path)

@@ -266,7 +266,7 @@ void ThumbnailListView::sltReloadAfterFilterEnd()
     for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
         QModelIndex index = m_model->index(i, 0);
         DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-        if (!ImageEngineApi::instance()->m_AllImageData.contains(data.filePath)
+        if (!ImageEngineApi::instance()->isItemLoadedFromDB(data.filePath)
                 && (data.itemType == ItemTypePic || data.itemType == ItemTypeVideo)) {
             m_model->removeRow(index.row());
         }
@@ -1876,7 +1876,7 @@ void ThumbnailListView::slotLoadFirstPageThumbnailsFinish()
             info.damagedPixmap = getDamagedPixmap();
         }
         info.image = data.imgpixmap;
-        ImageEngineApi::instance()->m_AllImageData[info.filePath].imgpixmap = info.image;
+//        ImageEngineApi::instance()->m_AllImageData[info.filePath].imgpixmap = info.image;
         info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
@@ -1899,7 +1899,7 @@ void ThumbnailListView::slotOneImgReady(const QString &path, QPixmap pix)
             cutPixmap(data);
             QVariant meta;
             meta.setValue(data);
-            ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
+//            ImageEngineApi::instance()->m_AllImageData[data.filePath].imgpixmap = pix;
             ImageDataService::instance()->addImage(data.filePath, data.image.toImage());
             m_model->setData(index, meta, Qt::DisplayRole);
             break;

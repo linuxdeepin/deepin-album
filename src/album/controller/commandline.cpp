@@ -191,14 +191,14 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         QPixmap pixmap = QPixmap::fromImage(tImg);
         ImageDataSt pdata;
         pdata.imgpixmap = pixmap;
-        pdata.dbi = getDBInfo(path);
+        pdata.dbi = getDBInfo(path, utils::base::isVideo(path));
         pdata.loaded = ImageLoadStatu_Loaded;
         if (breloadCache) { //更新缓存文件
             QString spath = albumGlobal::CACHE_PATH + path;
             utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
             pixmap.save(spath, "PNG");
         }
-        ImageEngineApi::instance()->m_AllImageData[path] = pdata;
+        ImageEngineApi::instance()->addImageData(path, pdata);
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
@@ -298,7 +298,7 @@ bool CommandLine::processOption(QStringList &paslist)
                 || utils::base::isVideo(filepath)) {
             bneedexit = false;
             paslist << info.filePath();
-            ImageEngineApi::instance()->insertImage(info.filePath(), "");
+            ImageEngineApi::instance()->insertImage(info.filePath(), "", true);
         } else if (str.isEmpty()) {
             bneedexit = false;
             paslist << info.filePath();

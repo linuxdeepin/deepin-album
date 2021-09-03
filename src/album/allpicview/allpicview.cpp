@@ -104,7 +104,7 @@ AllPicView::AllPicView()
     connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded, this, &AllPicView::updateStackedWidget);
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
-    if (ImageEngineApi::instance()->m_AllImageData.size() > 0) {
+    if (ImageEngineApi::instance()->getAllImageDataCount() > 0) {
         m_pThumbnailListView->slotLoadFirstPageThumbnailsFinish();
     } else {
         if (ImageEngineApi::instance()->m_firstPageIsLoaded) {

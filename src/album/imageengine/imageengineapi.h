@@ -41,7 +41,8 @@ public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
     ~ImageEngineApi();
 
-    bool insertImage(const QString &imagepath, const QString &remainDay);
+    //reLoadIsvideo为true，重新判断是否是视频
+    bool insertImage(const QString &imagepath, const QString &remainDay, bool reLoadIsvideo = false);
     bool removeImage(QString imagepath);
     bool removeImage(QStringList imagepathList);
     bool insertObject(void *obj);
@@ -59,6 +60,12 @@ public:
     bool reloadAfterFilterUnExistImage();
     //判断是否视频
     bool isVideo(QString path);
+    //全部数据数量
+    int  getAllImageDataCount();
+    //添加数据
+    void addImageData(QString path, ImageDataSt data);
+    //清除全部数据
+    void clearAllImageData();
     //判断是否已经从数据库加载过，或者是否已经加载到缓存里了
     bool isItemLoadedFromDB(QString path);
 
@@ -123,7 +130,6 @@ signals:
     //加载设备中图片列表
     void sigLoadMountFileList(QString path);
 public:
-    QMap<QString, ImageDataSt>m_AllImageData;
     QVector<ImageDataSt> m_AllImageDataVector;
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
@@ -133,6 +139,7 @@ private:
     explicit ImageEngineApi(QObject *parent = nullptr);
 
     QMap<void *, void *>m_AllObject;
+    QMap<QString, ImageDataSt>m_AllImageData;
 
     static ImageEngineApi *s_ImageEngine;
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;

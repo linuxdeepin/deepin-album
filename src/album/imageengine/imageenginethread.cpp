@@ -674,7 +674,7 @@ void ImageLoadFromDBThread::runDetail()
     QStringList fail_image_list;
     DBImgInfoList infos = DBManager::instance()->getAllInfos(0);
     ImageEngineApi::instance()->m_AllImageDataVector.clear();
-    ImageEngineApi::instance()->m_AllImageData.clear();
+    ImageEngineApi::instance()->clearAllImageData();
     for (int i = 0; i < infos.size(); i++) {
         DBImgInfo info = infos.at(i);
         ImageDataSt imgData;
@@ -686,7 +686,7 @@ void ImageLoadFromDBThread::runDetail()
         }
 
         ImageEngineApi::instance()->m_AllImageDataVector.append(imgData);
-        ImageEngineApi::instance()->m_AllImageData[info.filePath] = imgData;
+        ImageEngineApi::instance()->addImageData(info.filePath, imgData);
     }
     qDebug() << __FUNCTION__ << "---m_AllImageDataVector.size = " << ImageEngineApi::instance()->m_AllImageDataVector.size();
     if (bneedstop) {
