@@ -19,6 +19,7 @@ FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
     this->setLayout(hb);
 
     m_leftLabel = new FilterLabel(this);
+    m_leftLabel->setFixedSize(QSize(16, 16));
     DFontSizeManager::instance()->bind(m_leftLabel, DFontSizeManager::T5, QFont::Normal);
     hb->addWidget(m_leftLabel);
 
@@ -77,14 +78,20 @@ void FilterWidget::themeTypeChanged(int type)
         QString path = ":/icons/deepin/builtin/icons/light/";
         path += m_data.icon_r_path;
         path += "_16px.svg";
-        m_leftLabel->setPixmap(DHiDPIHelper::loadNxPixmap(path).scaled(16, 16));
+        QPixmap pix = DHiDPIHelper::loadNxPixmap(path);
+        const qreal ratio = devicePixelRatioF();
+        pix.setDevicePixelRatio(ratio);
+        m_leftLabel->setPixmap(pix);
         m_rightLabel->setPixmap(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_arrowdown_10px.svg").scaled(10, 10));
         m_btn->setText(m_data.text);
     } else {
         QString path = ":/icons/deepin/builtin/icons/dark/";
         path += m_data.icon_r_path;
         path += "_16px.svg";
-        m_leftLabel->setPixmap(DHiDPIHelper::loadNxPixmap(path).scaled(16, 16));
+        QPixmap pix = DHiDPIHelper::loadNxPixmap(path);
+        const qreal ratio = devicePixelRatioF();
+        pix.setDevicePixelRatio(ratio);
+        m_leftLabel->setPixmap(pix);
         m_rightLabel->setPixmap(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/dark/album_arrowdown_10px.svg").scaled(10, 10));
         m_btn->setText(m_data.text);
     }
