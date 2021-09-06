@@ -173,7 +173,7 @@ void TimeLineView::updataLayout(QStringList updatePathList)
 void TimeLineView::initTimeLineViewWidget()
 {
     m_mainLayout = new QVBoxLayout();
-    m_mainLayout->setContentsMargins(0, 0, 0, 0);
+    m_mainLayout->setContentsMargins(0, 0, 0, m_pStatusBar->height());
     pTimeLineViewWidget->setLayout(m_mainLayout);
 
     DPalette palcolor = DApplicationHelper::instance()->palette(pTimeLineViewWidget);

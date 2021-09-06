@@ -442,7 +442,7 @@ void AlbumView::initRightView()
 
 // Statusbar
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(0, 0, 0, 0);
+    pVBoxLayout->setContentsMargins(0, 0, 0, m_pStatusBar->height());
     pVBoxLayout->addWidget(m_pRightStackWidget);
     m_pRightWidget->setLayout(pVBoxLayout);
 

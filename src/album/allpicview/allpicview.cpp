@@ -71,7 +71,6 @@ AllPicView::AllPicView()
     AC_SET_ACCESSIBLE_NAME(m_pThumbnailListView, All_Picture_Thembnail);
     m_thumbnailListViewWidget = new DWidget();
     QLayout *m_mainLayout = new QVBoxLayout();
-    m_mainLayout->setContentsMargins(2, 0, 0, 27);
     m_mainLayout->addWidget(m_pThumbnailListView);
 
     //初始化筛选无结果窗口
@@ -94,6 +93,7 @@ AllPicView::AllPicView()
     pVBoxLayout->setContentsMargins(0, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     fatherwidget->setLayout(pVBoxLayout);
+    m_mainLayout->setContentsMargins(2, 0, 0, m_pStatusBar->height());
     //初始化悬浮窗
     initSuspensionWidget();
     initConnections();
