@@ -1762,6 +1762,9 @@ int ThumbnailListView::getAppointTypeItemCount(ItemType type)
     int count = 0;
     qDebug() << __FUNCTION__ << "---m_model->rowCount() = " << m_model->rowCount();
     for (int i = 0;  i < m_model->rowCount(); i++) {
+        if (isRowHidden(i)) {
+            continue;
+        }
         QModelIndex index = m_model->index(i, 0);
         DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
         //全选
@@ -1784,6 +1787,9 @@ int ThumbnailListView::getAppointTypeSelectItemCount(ItemType type)
     int size = list.size();
     for (int i = 0;  i < size; i++) {
         QModelIndex index = list.at(i);
+        if (isRowHidden(index.row())) {
+            continue;
+        }
         DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
         //全选
         if (type == ItemType::ItemTypeNull) {
