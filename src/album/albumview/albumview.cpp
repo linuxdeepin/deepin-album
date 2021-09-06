@@ -56,6 +56,7 @@
 #include "ac-desktop-define.h"
 #include "batchoperatewidget.h"
 #include "noresultwidget.h"
+#include "imagedataservice.h"
 
 static QMutex m_mutex;
 
@@ -2133,7 +2134,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     if (path != strPath) {
         return;
     }
-
+    ImageDataService::instance()->readThumbnailByPaths(fileList);
     //更新外部设备页面标题等状态
     m_importByPhoneComboBox->setEnabled(true);
     m_importAllByPhoneBtn->setEnabled(true);
@@ -2175,6 +2176,9 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     DBImgInfoList infos;
     for (int i = 0; i < fileList.size(); i++) {
         DBImgInfo info;
+        if (utils::base::isVideo(fileList.at(i))) {
+            info.itemType = ItemType::ItemTypeVideo;
+        }
         info.filePath = fileList.at(i);
         infos.append(info);
     }
@@ -2213,6 +2217,8 @@ void AlbumView::slotNoPicOrNoVideo(bool isNoResult)
 
 void AlbumView::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(selected)
+    Q_UNUSED(deselected)
     updatePicNum();
 }
 

@@ -501,24 +501,7 @@ void ImageImportFilesFromMountThread::runDetail()
         if (QFile::copy(strPath, strNewPath)) {
             qDebug() << "onCopyPhotoFromPhone()";
         }
-//        auto mds = getAllMetaData(strNewPath);
-//        QString value = mds.value("DateTimeOriginal");
-//        DBImgInfo dbi;
-//        dbi.fileName = fi.fileName();
-//        dbi.filePath = strNewPath;
-//        dbi.dirHash = utils::base::hash(QString());
-//        if ("" != value) {
-//            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
-//        } else if (fi.birthTime().isValid()) {
-//            dbi.time = fi.birthTime();
-//        } else if (fi.metadataChangeTime().isValid()) {
-//            dbi.time = fi.metadataChangeTime();
-//        } else {
-//            dbi.time = QDateTime::currentDateTime();
-//        }
-
-//        dbi.changeTime = QDateTime::currentDateTime();
-        dbInfos << getDBInfo(strNewPath);
+        dbInfos << getDBInfo(strNewPath, utils::base::isVideo(strNewPath));
 
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
     }

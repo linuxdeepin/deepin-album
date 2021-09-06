@@ -74,8 +74,7 @@ void MyImageListWidget::setAllFile(const SignalManager::ViewInfo &info, QString 
 {
     m_listview->setAllFile(info, path);
     bool visual = info.dBImgInfos.size() > 1;
-    if(!visual)
-    {
+    if (!visual) {
         //尝试paths的大小
         visual = info.paths.size() > 1;
     }
@@ -166,7 +165,7 @@ void MyImageListWidget::reloadImage(int value)
                 }
             }
             qDebug() << __FUNCTION__ << "---pathlist = " << pathlist.size();
-            ImageDataService::instance()->readThumbnailByPaths(pathlist);
+            ImageDataService::instance()->readThumbnailByPaths(pathlist, false);
             m_listview->update();
         });
     }

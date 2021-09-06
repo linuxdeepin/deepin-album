@@ -44,7 +44,7 @@ public:
     int getCount();
 
     //读取缩略图到缓存map
-    bool readThumbnailByPaths(QStringList files);
+    bool readThumbnailByPaths(QStringList files, bool isFinishFilter = false);
 //    bool readThumbnailByPath(QString file);
 
     void addImage(const QString &path, const QImage &image);

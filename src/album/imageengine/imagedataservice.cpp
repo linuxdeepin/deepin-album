@@ -92,23 +92,25 @@ int ImageDataService::getCount()
     return m_AllImageMap.count();
 }
 
-bool ImageDataService::readThumbnailByPaths(QStringList files)
+bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilter)
 {
     QStringList image_video_list;
-    foreach (QString path, files) {
-        QFileInfo file(path);
-        if (file.isDir()) {
-            QFileInfoList infos;
-            QDirIterator dirIterator(path,
-                                     QDir::Files,
-                                     QDirIterator::Subdirectories);
-            while (dirIterator.hasNext()) {
-                dirIterator.next();
-                QFileInfo fi = dirIterator.fileInfo();
-                image_video_list << fi.absoluteFilePath();
+    if (!isFinishFilter) {
+        foreach (QString path, files) {
+            QFileInfo file(path);
+            if (file.isDir()) {
+                QFileInfoList infos;
+                QDirIterator dirIterator(path,
+                                         QDir::Files,
+                                         QDirIterator::Subdirectories);
+                while (dirIterator.hasNext()) {
+                    dirIterator.next();
+                    QFileInfo fi = dirIterator.fileInfo();
+                    image_video_list << fi.absoluteFilePath();
+                }
+            } else if (file.exists()) { //文件存在
+                image_video_list << path;
             }
-        } else if (file.exists()) { //文件存在
-            image_video_list << path;
         }
     }
 

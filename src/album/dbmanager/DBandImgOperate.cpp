@@ -35,6 +35,7 @@
 
 #include "playlist_model.h"
 #include "imagedataservice.h"
+#include "player_engine.h"
 
 extern QStringList VideoSupportTypeList;
 DBandImgOperate::DBandImgOperate(QObject *parent)
@@ -236,6 +237,15 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
         QStringList filters;
         for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
             filters << "*." + i;
+        }
+        if (VideoSupportTypeList.isEmpty()) {
+            dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
+            VideoSupportTypeList = e->video_filetypes;
+            delete e;
+            e = nullptr;
+        }
+        for (QString i : VideoSupportTypeList) {
+            filters << i;
         }
         //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
         QDirIterator dir_iterator(strPath,

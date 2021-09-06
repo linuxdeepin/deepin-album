@@ -518,12 +518,13 @@ QStringList ThumbnailListView::getFileList(int row)
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewCustomType
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
-            || m_delegatetype == ThumbnailDelegate::SearchViewType) {
+            || m_delegatetype == ThumbnailDelegate::SearchViewType
+            || m_delegatetype == ThumbnailDelegate::AlbumViewPhoneType) {
         //遍历所有数据
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
             DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-            if (data.itemType == ItemType::ItemTypePic) {
+            if (data.itemType == ItemType::ItemTypePic || data.itemType == ItemType::ItemTypeVideo) {
                 m_allfileslist.append(data.filePath);
             }
         }
