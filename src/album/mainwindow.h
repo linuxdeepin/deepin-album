@@ -115,7 +115,7 @@ public:
     void setWaitDialogColor();
     int getCurrentViewType();
     void showCreateDialog(QStringList imgpaths);
-    void onShowImageInfo(const QString &path);
+//    void onShowImageInfo(const QString &path);
     void loadZoomRatio();
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;

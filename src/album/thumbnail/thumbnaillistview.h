@@ -83,6 +83,7 @@ public:
         IdSetAsWallpaper,
         IdDisplayInFileManager,
         IdImageInfo,
+        IdVideoInfo,             //视频信息
         IdSubMenu,
         IdSeparator,
         IdTrashRecovery,

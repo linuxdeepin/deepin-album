@@ -2157,19 +2157,6 @@ TEST(MainWindow, setWaitDialogColor_test)
     }
 }
 
-TEST(MainWindow, onShowImageInfo_test)
-{
-    TEST_CASE_NAME("onShowImageInfo_test")
-    MainWindow *w = dApp->getMainWindow();
-    w->allPicBtnClicked();
-    QTest::qWait(500);
-
-    w->onShowImageInfo(":/2e5y8y.jpg");
-    QTest::qWait(500);
-    w->onShowImageInfo(":/lq6rmy.png");
-    QTest::qWait(500);
-}
-
 TEST(MainWindow, loadZoomRatio_test)
 {
     TEST_CASE_NAME("loadZoomRatio_test")

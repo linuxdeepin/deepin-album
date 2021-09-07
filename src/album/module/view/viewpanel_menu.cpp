@@ -243,8 +243,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->showInFileManager(path1);
         break;
     case IdImageInfo:
-        emit dApp->signalM->showImageInfo(path1);
-        // Update panel info
+        dApp->signalM->showInfoDlg(path1, ItemTypePic);
         break;
     default:
         break;

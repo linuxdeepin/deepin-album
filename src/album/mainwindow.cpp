@@ -222,7 +222,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::hideSlidePanel, this, &MainWindow::onHideSlidePanel);
     //导出图片
     connect(dApp->signalM, &SignalManager::exportImage, this, &MainWindow::onExportImage);
-    connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
+//    connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &MainWindow::onNewAPPOpen);
     //右下角滑动条
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, &MainWindow::onMainwindowSliderValueChg);
@@ -1259,35 +1259,35 @@ bool MainWindow::imageImported(bool success)
     return true;
 }
 
-//显示图片详细信息
-void MainWindow::onShowImageInfo(const QString &path)
-{
-    ImgInfoDialog *dialog;
-    if (m_propertyDialogs.contains(path)) {
-        m_propertyDialogs.remove(path);
-        dialog = new ImgInfoDialog(path);
-        dialog->setObjectName("ImgInfoDialog");
-        m_propertyDialogs.insert(path, dialog);
-        dialog->show();
-        dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
-        dialog->setWindowState(Qt::WindowActive);
-        connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
-            dialog->deleteLater();
-            m_propertyDialogs.remove(path);
-        });
-    } else {
-        dialog = new ImgInfoDialog(path, this);
-        dialog->setObjectName("ImgInfoDialog");
-        m_propertyDialogs.insert(path, dialog);
-        dialog->show();
-        dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
-        dialog->setWindowState(Qt::WindowActive);
-        connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
-            dialog->deleteLater();
-            m_propertyDialogs.remove(path);
-        });
-    }
-}
+////显示图片详细信息
+//void MainWindow::onShowImageInfo(const QString &path)
+//{
+//    ImgInfoDialog *dialog;
+//    if (m_propertyDialogs.contains(path)) {
+//        m_propertyDialogs.remove(path);
+//        dialog = new ImgInfoDialog(path);
+//        dialog->setObjectName("ImgInfoDialog");
+//        m_propertyDialogs.insert(path, dialog);
+//        dialog->show();
+//        dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
+//        dialog->setWindowState(Qt::WindowActive);
+//        connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
+//            dialog->deleteLater();
+//            m_propertyDialogs.remove(path);
+//        });
+//    } else {
+//        dialog = new ImgInfoDialog(path, this);
+//        dialog->setObjectName("ImgInfoDialog");
+//        m_propertyDialogs.insert(path, dialog);
+//        dialog->show();
+//        dialog->move((this->width() - dialog->width() - 50 + mapToGlobal(QPoint(0, 0)).x()), 100 + mapToGlobal(QPoint(0, 0)).y());
+//        dialog->setWindowState(Qt::WindowActive);
+//        connect(dialog, &ImgInfoDialog::closed, this, [ = ] {
+//            dialog->deleteLater();
+//            m_propertyDialogs.remove(path);
+//        });
+//    }
+//}
 
 void MainWindow::floatMessage(const QString &str, const QIcon &icon)
 {

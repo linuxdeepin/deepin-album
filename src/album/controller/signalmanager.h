@@ -53,6 +53,8 @@ public:
 
     void emitSliderValueChg(int value);
     int getSliderValue();
+
+    void showInfoDlg(const QString &path, const ItemType &type);
 signals:
     void enableMainMenu(bool enable);
     void updateTopToolbarLeftContent(QWidget *content);
@@ -90,7 +92,6 @@ signals:
     void imagesTrashInserted(/*const DBImgInfoList infos*/);
     void imagesTrashRemoved(/*const DBImgInfoList &infos*/);
     void editImage(const QString &path);
-    void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
     void viewImage(const ViewInfo &vinfo);

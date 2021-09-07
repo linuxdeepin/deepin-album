@@ -658,10 +658,17 @@ void ThumbnailListView::updateMenuContents()
     }
 #ifndef tablet_PC
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
-        if (1 == paths.length())
-            m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
-        else
+        if (1 == paths.length()) {
+            DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
+            if (data.itemType == ItemTypePic) {
+                m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
+            } else {
+                m_MenuActionMap.value(tr("Video info"))->setVisible(true);
+            }
+        } else {
             m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
+            m_MenuActionMap.value(tr("Video info"))->setVisible(false);
+        }
         return;
     }
 #endif
@@ -703,6 +710,7 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Rotate counterclockwise"))->setEnabled(false);
         m_MenuActionMap.value(tr("Display in file manager"))->setEnabled(false);
         m_MenuActionMap.value(tr("Photo info"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Video info"))->setVisible(false);
         m_MenuActionMap.value(tr("Set as wallpaper"))->setEnabled(false);
 #endif
         return;
@@ -768,10 +776,20 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(false);
         m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
     }
-    if (1 != paths.length()) {
+    if (1 == paths.length()) {
+        DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.itemType == ItemTypePic) {
+            m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
+            m_MenuActionMap.value(tr("Video info"))->setVisible(false);
+        } else {
+            m_MenuActionMap.value(tr("Video info"))->setVisible(true);
+            m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
+        }
+    } else if (1 != paths.length()) {
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
         m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
     }
+
     if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
     } else {
@@ -807,6 +825,7 @@ void ThumbnailListView::initMenuAction()
         appendAction(IdMoveToTrash, tr("Delete"), ss(""));
         appendAction(IdTrashRecovery, tr("Restore"), ss(BUTTON_RECOVERY));
         appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
+        appendAction(IdVideoInfo, tr("Video info"), ss(ImageInfo_CONTEXT_MENU));
         return;
     }
 
@@ -835,6 +854,7 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss(SETASWALLPAPER_CONTEXT_MENU));
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
     appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
+    appendAction(IdVideoInfo, tr("Video info"), ss(ImageInfo_CONTEXT_MENU));
 #endif
 }
 
@@ -1005,7 +1025,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         utils::base::showInFileManager(path);
         break;
     case IdImageInfo:
-        emit dApp->signalM->showImageInfo(path);
+        dApp->signalM->showInfoDlg(path, ItemTypePic);
+        break;
+    case IdVideoInfo:
+        dApp->signalM->showInfoDlg(path, ItemTypeVideo);
         break;
     case IdExport:
         emit dApp->signalM->exportImage(paths);
@@ -1762,7 +1785,6 @@ void ThumbnailListView::showAppointTypeItem(ItemType type)
 int ThumbnailListView::getAppointTypeItemCount(ItemType type)
 {
     int count = 0;
-    qDebug() << __FUNCTION__ << "---m_model->rowCount() = " << m_model->rowCount();
     for (int i = 0;  i < m_model->rowCount(); i++) {
         if (isRowHidden(i)) {
             continue;
@@ -1778,7 +1800,6 @@ int ThumbnailListView::getAppointTypeItemCount(ItemType type)
             count++;
         }
     }
-    qDebug() << __FUNCTION__ << "---count = " << count;
     return count;
 }
 //显示指定类型选中项数量

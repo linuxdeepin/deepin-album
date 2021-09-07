@@ -71,9 +71,6 @@ private:
     void paintEvent(QPaintEvent *event) override;
     bool event(QEvent *event)override;
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
-signals:
-    void closed();
-
 };
 
 #endif // IMGINFODIALOG_H

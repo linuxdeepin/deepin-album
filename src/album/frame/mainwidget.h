@@ -44,7 +44,6 @@ protected:
 
 private slots:
     void onGotoPanel(ModulePanel *panel);
-    void onShowImageInfo(const QString &path);
     void onBackToMainPanel();
     void onActiveWindow();
     void onShowInFileManager(const QString &path);
@@ -65,7 +64,6 @@ private:
     void initPanelStack(bool manager);
 
 private:
-    QStringList m_infoShowingList;
     QStackedWidget  *m_panelStack;
 
 #ifndef LITE_DIV

@@ -197,7 +197,7 @@ TEST(allpicview, test_open)
         e.simulate(w);
         e.clear();
 
-        emit dApp->signalM->showImageInfo(testPathlist.first());
+//        emit dApp->signalM->showImageInfo(testPathlist.first());
 
         CommandLine *commandline = CommandLine::instance();
         QString jpgItemPath = testPath_test + "/2e5y8y.jpg";
@@ -330,7 +330,7 @@ TEST(allpicview, viewpaneltest)
         e.simulate(w);
         e.clear();
 
-        emit dApp->signalM->showImageInfo(testPathlist.first());
+//        emit dApp->signalM->showImageInfo(testPathlist.first());
 
         QTest::qWait(500);
 //        ImgInfoDialog *dialog = w->findChild<ImgInfoDialog *>("ImgInfoDialog");

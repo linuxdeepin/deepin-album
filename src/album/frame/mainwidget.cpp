@@ -142,28 +142,6 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     m_panelStack->setCurrentWidget(panel);
 }
 
-void MainWidget::onShowImageInfo(const QString &path)
-{
-    if (m_infoShowingList.indexOf(path) != -1)
-        return;
-    else
-        m_infoShowingList << path;
-
-#ifndef LITE_DIV
-    ImgInfoDialog *info = new ImgInfoDialog(path);
-    info->move((width() - info->width()) / 2 +
-               mapToGlobal(QPoint(0, 0)).x(),
-               (window()->height() - info->sizeHint().height()) / 2 +
-               mapToGlobal(QPoint(0, 0)).y());
-    info->show();
-    info->setWindowState(Qt::WindowActive);
-    connect(info, &ImgInfoDialog::closed, this, [ = ] {
-        info->deleteLater();
-        m_infoShowingList.removeAll(path);
-    });
-#endif
-}
-
 void MainWidget::onBackToMainPanel()
 {
     window()->show();
@@ -344,7 +322,6 @@ void MainWidget::initConnection()
     connect(dApp->signalM, &SignalManager::activeWindow, this, &MainWidget::onActiveWindow);
     connect(dApp->signalM, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
     connect(dApp->signalM, &SignalManager::showInFileManager, this, &MainWidget::onShowInFileManager);
-    connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWidget::onShowImageInfo);
     connect(dApp->signalM, &SignalManager::sigMouseMove, this, &MainWidget::onMouseMove);
     connect(dApp->signalM, &SignalManager::sigShowFullScreen, this, &MainWidget::onShowFullScreen);
 }
