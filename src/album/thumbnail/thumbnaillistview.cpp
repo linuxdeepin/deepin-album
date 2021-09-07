@@ -30,6 +30,7 @@
 #include <QMutex>
 #include <QScroller>
 #include <QPropertyAnimation>
+#include <QDesktopServices>
 
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
@@ -2070,7 +2071,12 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
                 || data.itemType == ItemTypeImportTimeLineTitle) {
             return;
         }
-        emit openImage(index.row(), data.filePath, false);
+        //如果是视频，则使用系统默认播放器打开视频进行播放
+        if (data.itemType == ItemTypeVideo) {
+            QDesktopServices::openUrl(QUrl::fromLocalFile(data.filePath));
+        } else {
+            emit openImage(index.row(), data.filePath, false);
+        }
     }
 }
 
