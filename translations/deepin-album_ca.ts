@@ -540,10 +540,6 @@
         <translation>Importa fotografies</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Importa fotos</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>S&apos;importa...</translation>
     </message>
@@ -674,10 +670,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%3/%2/%1</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto/s</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Imprimeix</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1015,6 +1011,97 @@
     <message numerus="yes">
         <source>%n items</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Informació bàsica</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Data de modificació</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipus</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>Mida del fitxer</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Data de captura</translation>
     </message>
 </context>
 <context>

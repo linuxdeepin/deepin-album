@@ -302,38 +302,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 şəkil</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n fotolar</numerusform><numerusform>%n şəkillər</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videolar</numerusform><numerusform>%n videolar</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n elementlər</numerusform><numerusform>%n elementlər</numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Şəkilləri və Videoları idxal edin</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation>Və ya onları buraya atın</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Bütün şəkillər və videolar</translation>
     </message>
 </context>
 <context>
@@ -382,7 +382,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Albom, videolara və şəkillərə baxmaq və onları idarə etmək üçün fotoşəkil idarəetmə alətidir.</translation>
     </message>
 </context>
 <context>
@@ -540,24 +540,20 @@
         <translation>Fotoşəkilləri idxal etmə</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Şəkilləri idxal etmək</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>İdxal edilir...</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Bütün şəkillər və videolar</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Şəkilləri və Videoları idxal edin</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation>Heç bir şəkil və ya video tapılmadı</translation>
     </message>
 </context>
 <context>
@@ -676,10 +672,6 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 fotoşəkil</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Buraya idxal olundu:</translation>
     </message>
@@ -745,43 +737,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 element idxal edildi</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 element silindi</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"/>
+        <translation>%1 element idxal olundu, %2 element idxal eldilə bilmədi</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>1 şəkil seçildi</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>1 video seçildi</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>Şəkil və ya video artıq mövcuddur</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n şəkillər seçildi</numerusform><numerusform>%n şəkillər seçildi</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n videolar  seçildi</numerusform><numerusform>%n videolar seçildi</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n elementlər seçildi</numerusform><numerusform>%n elementlər seçildi</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>%1 element idxal olundu, %2 element artıq mövcuddur</translation>
     </message>
 </context>
 <context>
@@ -800,19 +792,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 şəkil tapıldı</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video tapıldı</numerusform><numerusform>%n video tapıldı</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>1 video tapıldı</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n element tapıldı</numerusform><numerusform>%n element tapıldı</numerusform></translation>
     </message>
 </context>
 <context>
@@ -850,19 +842,19 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 şəkil</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n şəkil</numerusform><numerusform>%n şəkil</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
     </message>
 </context>
 <context>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Çap</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -998,23 +994,114 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 şəkil</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n şəkil</numerusform><numerusform>%n şəkil</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n şəkil</numerusform><numerusform>%n şəkil</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n element</numerusform><numerusform>%n element</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Baza məlumatları</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Dəyişdirilmə tarixi</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Növ</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>Faylın ölçüsü</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Çəkilmə tarixi</translation>
     </message>
 </context>
 <context>

@@ -237,8 +237,8 @@ void VideoInfoDialog::updateBasicInfo()
     basicInfoMap[tr("Video name")] = m_movieInfo.title;
     basicInfoKeys.append(tr("Video name"));
 
-    basicInfoMap[tr("Date taken")] = m_movieInfo.creation;
-    basicInfoKeys.append(tr("Date taken"));
+    basicInfoMap[tr("Date captured")] = m_movieInfo.creation;
+    basicInfoKeys.append(tr("Date captured"));
 
     QFileInfo info(m_movieInfo.filePath);
     if (info.lastModified().isValid()) {

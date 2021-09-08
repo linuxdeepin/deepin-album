@@ -310,15 +310,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n слика</numerusform><numerusform>%n слике</numerusform><numerusform>%n слика</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n видео</numerusform><numerusform>%n видеа</numerusform><numerusform>%n видеа</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n ставка</numerusform><numerusform>%n ставке</numerusform><numerusform>%n ставки(е)</numerusform></translation>
     </message>
 </context>
 <context>
@@ -540,10 +540,6 @@
         <translation>Увези слику</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Увези слике</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Увоз...</translation>
     </message>
@@ -557,7 +553,7 @@
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation>Нису пронађене слике или видео записи</translation>
     </message>
 </context>
 <context>
@@ -674,10 +670,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 слика(е)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Штампај</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1006,15 +1002,106 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n слика</numerusform><numerusform>%n слике</numerusform><numerusform>%n слика(е)</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n видео</numerusform><numerusform>%n видеа</numerusform><numerusform>%n видеа</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n ставка</numerusform><numerusform>%n ставке</numerusform><numerusform>%n ставки(е)</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Основни подаци</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Датум измене</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Врста</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>Величина датотеке</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Датум усликавања</translation>
     </message>
 </context>
 <context>

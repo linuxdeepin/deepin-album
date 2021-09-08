@@ -302,11 +302,11 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 foto</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 vídeo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
@@ -325,15 +325,15 @@
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importar Fotos e Vídeos</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation>ou arraste-os para aqui</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Todas as fotos e vídeos</translation>
     </message>
 </context>
 <context>
@@ -382,7 +382,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Album é um gestor bonito para ver e organizar fotos e vídeos</translation>
     </message>
 </context>
 <context>
@@ -540,20 +540,16 @@
         <translation>Importar fotos</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Importar fotos</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>A importar... </translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Todas as fotos e vídeos</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importar Fotos e Vídeos</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
@@ -676,10 +672,6 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(s)</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importado em</translation>
     </message>
@@ -800,7 +792,7 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 foto encontrada</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
@@ -850,11 +842,11 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 foto</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 vídeo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Imprimir</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -998,11 +994,11 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 foto</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 vídeo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
@@ -1015,6 +1011,97 @@
     <message numerus="yes">
         <source>%n items</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Informação básica</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Data de modificação</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>Tamanho do ficheiro</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Data de captura</translation>
     </message>
 </context>
 <context>

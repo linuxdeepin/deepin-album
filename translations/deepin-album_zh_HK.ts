@@ -540,10 +540,6 @@
         <translation>導入照片</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">導入照片</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>正在導入照片，請稍候...</translation>
     </message>
@@ -674,10 +670,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1年%2月%3日</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1張照片</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -984,6 +976,10 @@
         <source>Print</source>
         <translation>打印</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation>影片訊息</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1017,6 +1013,97 @@
     <message numerus="yes">
         <source>%n items</source>
         <translation><numerusform>共%n項</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>基本訊息</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation>編碼訊息</translation>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation>音頻流訊息</translation>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation>影片流訊息</translation>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation>影片碼率</translation>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation>影片幀率</translation>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation>顯示比例</translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation>解像度</translation>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation>編碼樣式</translation>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation>編碼碼率</translation>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation>音頻位數</translation>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>聲道數</translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation>聲道</translation>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation>採樣數</translation>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation>影片名稱</translation>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>修改日期</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>文件類型</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>文件大小</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation>時長</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>文件路徑</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>影片訊息</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>拍攝日期</translation>
     </message>
 </context>
 <context>

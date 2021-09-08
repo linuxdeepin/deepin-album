@@ -540,10 +540,6 @@
         <translation>Імпортувати фотографії</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Імпортувати фотографії</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Імпортування…</translation>
     </message>
@@ -557,7 +553,7 @@
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation>Не знайдено жодної фотографії або відео</translation>
     </message>
 </context>
 <context>
@@ -674,10 +670,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 фотографії</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Надрукувати</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1015,6 +1011,97 @@
     <message numerus="yes">
         <source>%n items</source>
         <translation><numerusform>%n запис</numerusform><numerusform>%n записи</numerusform><numerusform>%n записів</numerusform><numerusform>%n запис</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Базові відомості</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Дата зміни</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>Розмір файла</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Дата створення</translation>
     </message>
 </context>
 <context>

@@ -1032,6 +1032,10 @@
         <source>Print</source>
         <translation>Ispis</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1077,6 +1081,97 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation type="unfinished">Osnovne informacije</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation type="unfinished">Datum izmjene</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Vrsta</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation type="unfinished">Veličina datoteke</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

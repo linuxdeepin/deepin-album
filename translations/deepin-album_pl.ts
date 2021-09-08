@@ -302,38 +302,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 zdjęcie</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 wideo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n zdjęcie</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n film</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n przedmiot</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importuj Zdjęcia i Filmy</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation>Albo przeciągnij je tutaj</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Wszystkie zdjęcia i filmy</translation>
     </message>
 </context>
 <context>
@@ -382,7 +382,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Album to modny menedżer zdjęć do przeglądania i porządkowania obrazów.</translation>
     </message>
 </context>
 <context>
@@ -540,24 +540,20 @@
         <translation>Importuj zdjęcia</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Importuj zdjęcia</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Importowanie...</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Wszystkie zdjęcia i filmy</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importuj Zdjęcia i Filmy</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation>Nie znaleziono zdjęć i filmów</translation>
     </message>
 </context>
 <context>
@@ -651,7 +647,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Brak wyników</translation>
     </message>
 </context>
 <context>
@@ -676,10 +672,6 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 zdjęcie(a)</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Zaimportowano dnia</translation>
     </message>
@@ -693,11 +685,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz wszystkie</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"/>
+        <translation>Odznacz wszystkie</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -713,7 +705,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Wszystkie</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -725,7 +717,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Brak wyników</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -745,43 +737,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 zaimportowanych przedmiotów</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2 usuniętych przedmiotów</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"/>
+        <translation>Zaimportowano %1 przedmiotów, błąd importu %2 przedmiotów</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"/>
+        <translation>Wybrano 1 zdjęcie</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"/>
+        <translation>Wybrano 1 film</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>To zdjęcie/ten film już istnieje</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Wybrano %n zdjęcie</numerusform><numerusform>Wybrano %n zdjęć</numerusform><numerusform>Wybrano %n zdjęć</numerusform><numerusform>Wybrano %n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Wybrano %n film</numerusform><numerusform>Wybrano %n filmów</numerusform><numerusform>Wybrano %n filmów</numerusform><numerusform>Wybrano %n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Wybrano %n przedmiot</numerusform><numerusform>Wybrano %n przedmiotów</numerusform><numerusform>Wybrano %n przedmiotów</numerusform><numerusform>Wybrano %n przedmiotów</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>%1 przedmioty zaimportowane, przedmioty %2 już istnieją</translation>
     </message>
 </context>
 <context>
@@ -800,19 +792,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>Znaleziono 1 zdjęcie</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Znaleziono %n film</numerusform><numerusform>Znaleziono %n filmów</numerusform><numerusform>Znaleziono %n filmów</numerusform><numerusform>Znaleziono %n filmów</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>Znaleziono 1 film</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Znaleziono %n przedmiot</numerusform><numerusform>Znaleziono %n przedmiotów</numerusform><numerusform>Znaleziono %n przedmiotów</numerusform><numerusform>Znaleziono %n przedmiotów</numerusform></translation>
     </message>
 </context>
 <context>
@@ -850,19 +842,19 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 zdjęcie</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 wideo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n zdjęcie</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n film</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
     </message>
 </context>
 <context>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Drukuj</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -998,23 +994,114 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 zdjęcie</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 wideo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n zdjęcie</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n film</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n przedmiot</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Podstawowe informacje</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Data modyfikacji</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Rodzaj</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>Rozmiar pliku</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Data uchwycenia</translation>
     </message>
 </context>
 <context>

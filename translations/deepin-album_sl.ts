@@ -540,10 +540,6 @@
         <translation>Uvozi slike</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Uvozi slike</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Uvažanje...</translation>
     </message>
@@ -557,7 +553,7 @@
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation>Ni najdenih slik ali videev</translation>
     </message>
 </context>
 <context>
@@ -674,10 +670,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 slik(a)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -800,19 +792,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation>1 najdena slika</translation>
+        <translation>en najdena slika</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 najden video</numerusform><numerusform>%1 najdena videa</numerusform><numerusform>%1 najdeni videi</numerusform><numerusform>%1 najdenih videev</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>en najden video</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 najden predmet</numerusform><numerusform>%1 najdena predmeta</numerusform><numerusform>%1 najdeni predmeti</numerusform><numerusform>%1 najdenih predmetov</numerusform></translation>
     </message>
 </context>
 <context>
@@ -858,11 +850,11 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 najdena slika</numerusform><numerusform>%1 najdeni sliki</numerusform><numerusform>%1 najdene slike</numerusform><numerusform>%1 najdenih slik</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
     </message>
 </context>
 <context>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Tiskanje</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1006,15 +1002,106 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Osnovni podatki</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Datum spremembe</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Vrsta</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>Velikost datoteke</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Datum snemanja</translation>
     </message>
 </context>
 <context>

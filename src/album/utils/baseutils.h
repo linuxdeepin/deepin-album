@@ -80,6 +80,7 @@
 #define SETASWALLPAPER_CONTEXT_MENU "Set as wallpaper"
 #define DISPLAYINFILEMANAGER_CONTEXT_MENU "Display in file manager"
 #define ImageInfo_CONTEXT_MENU "Image info"
+#define VideoInfo_CONTEXT_MENU "Video info"
 #define BUTTON_RECOVERY "Recovery"
 #define SHOW_SHORTCUT_PREVIEW "Show shortcut preview"
 

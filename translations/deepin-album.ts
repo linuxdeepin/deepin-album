@@ -540,10 +540,6 @@
         <translation>Import photos</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Import Photos</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Importing...</translation>
     </message>
@@ -674,10 +670,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 photo(s)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -982,6 +974,10 @@
         <source>Print</source>
         <translation>Print</translation>
     </message>
+    <message>
+        <source>Video info</source>
+        <translation>Video info</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1015,6 +1011,97 @@
     <message numerus="yes">
         <source>%n items</source>
         <translation><numerusform>%n items</numerusform><numerusform>%n items</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <source>Basic info</source>
+        <translation>Basic info</translation>
+    </message>
+    <message>
+        <source>Codec info</source>
+        <translation>Codec info</translation>
+    </message>
+    <message>
+        <source>Audio info</source>
+        <translation>Audio info</translation>
+    </message>
+    <message>
+        <source>Video CodecID</source>
+        <translation>Video CodecID</translation>
+    </message>
+    <message>
+        <source>Video CodeRate</source>
+        <translation>Video CodeRate</translation>
+    </message>
+    <message>
+        <source>FPS</source>
+        <translation>FPS</translation>
+    </message>
+    <message>
+        <source>Proportion</source>
+        <translation>Proportion</translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation>Resolution</translation>
+    </message>
+    <message>
+        <source>Audio CodecID</source>
+        <translation>Audio CodecID</translation>
+    </message>
+    <message>
+        <source>Audio CodeRate</source>
+        <translation>Audio CodeRate</translation>
+    </message>
+    <message>
+        <source>Audio digit</source>
+        <translation>Audio digit</translation>
+    </message>
+    <message>
+        <source>Channels</source>
+        <translation>Channels</translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation>Channel</translation>
+    </message>
+    <message>
+        <source>Sampling</source>
+        <translation>Sampling</translation>
+    </message>
+    <message>
+        <source>Video name</source>
+        <translation>Video name</translation>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation>Date modified</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation>File size</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation>Duration</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Path</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Video info</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Date captured</translation>
     </message>
 </context>
 <context>

@@ -825,7 +825,7 @@ void ThumbnailListView::initMenuAction()
         appendAction(IdMoveToTrash, tr("Delete"), ss(""));
         appendAction(IdTrashRecovery, tr("Restore"), ss(BUTTON_RECOVERY));
         appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
-        appendAction(IdVideoInfo, tr("Video info"), ss(ImageInfo_CONTEXT_MENU));
+        appendAction(IdVideoInfo, tr("Video info"), ss(VideoInfo_CONTEXT_MENU));
         return;
     }
 
@@ -854,7 +854,7 @@ void ThumbnailListView::initMenuAction()
     appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss(SETASWALLPAPER_CONTEXT_MENU));
     appendAction(IdDisplayInFileManager, tr("Display in file manager"), ss(DISPLAYINFILEMANAGER_CONTEXT_MENU));
     appendAction(IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
-    appendAction(IdVideoInfo, tr("Video info"), ss(ImageInfo_CONTEXT_MENU));
+    appendAction(IdVideoInfo, tr("Video info"), ss(VideoInfo_CONTEXT_MENU));
 #endif
 }
 
@@ -1030,10 +1030,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         utils::base::showInFileManager(path);
         break;
     case IdImageInfo:
-        dApp->signalM->showInfoDlg(path, ItemTypePic);
+        dApp->signalM->showInfoDlg(path);
         break;
     case IdVideoInfo:
-        dApp->signalM->showInfoDlg(path, ItemTypeVideo);
+        dApp->signalM->showInfoDlg(path);
         break;
     case IdExport:
         emit dApp->signalM->exportImage(paths);
