@@ -937,15 +937,21 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     if (paths.isEmpty()) {
         return;
     }
-    struct Listolditem {
-        int row;
-        int column;
-    };
+
+
     const QString path = paths.first();
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
     case IdView: {
-        //调用双击打开信号
+        //双击打开信号,enter打开信号
+        if (paths.size() > 1) {
+            for (auto path : paths) {
+                if (utils::base::isVideo(path)) {
+                    return;//选中数量大于1，只要包含视频即为混选或者多选视频，不作响应
+                }
+            }
+        }
+
         if (utils::base::isVideo(path)) {
             QDesktopServices::openUrl(QUrl::fromLocalFile(path));
         } else {
