@@ -198,11 +198,24 @@ void clickToCustomAlbum(int index)
 
 QMenu *runContextMenu(QWidget *w, const QPoint &pos)
 {
-    QTest::qWait(2000); //调用的时候主动等待环境稳定
+    QTest::qWait(1000); //调用的时候主动等待环境稳定
 
-    QContextMenuEvent event(QContextMenuEvent::Mouse, pos);
-    qApp->sendEvent(w, &event);
-    QTest::qWait(200);
+    bool ret = QTest::qWaitFor([ = ]() {
+        QContextMenuEvent event(QContextMenuEvent::Mouse, pos);
+        qApp->sendEvent(w, &event);
+        QTest::qWait(200);
+        QMenu *pMenu = qobject_cast<QMenu *>(qApp->activePopupWidget());
+        if (pMenu != nullptr) {
+            return true;
+        } else {
+            return false;
+        }
+    }, 10000);
+
+    if (!ret) {
+        std::cout << "Warning: bad menu pointer have returned" << std::endl;
+    }
+
     QMenu *pMenu = qobject_cast<QMenu *>(qApp->activePopupWidget());
 
     return pMenu;

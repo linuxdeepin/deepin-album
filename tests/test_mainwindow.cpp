@@ -1568,7 +1568,7 @@ TEST(MainWindow, picdelete)
     clickToAllPictureView();
 
     //------右键删除---------
-    QPoint p1(30, 100);
+    QPoint p1(60, 120);
     e.addMouseMove(p1);
     e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
     e.simulate(w->m_pAllPicView->m_pThumbnailListView->viewport());
