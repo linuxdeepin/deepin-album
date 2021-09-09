@@ -944,10 +944,15 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     const QString path = paths.first();
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
-    case IdView:
+    case IdView: {
         //调用双击打开信号
-        emit openImage(this->currentIndex().row(), path, false);
-        break;
+        if (utils::base::isVideo(path)) {
+            QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+        } else {
+            emit openImage(this->currentIndex().row(), path, false);
+        }
+    }
+    break;
     case IdFullScreen:
         emit openImage(this->currentIndex().row(), path, true);
         break;
