@@ -1623,6 +1623,10 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
         info.imgHeight = m_onePicWidth;
         insertThumbnail(info);
     }
+    //如果不是显示全部，则重新过滤显示
+    if (m_currentShowItemType != ItemTypeNull) {
+        this->showAppointTypeItem(m_currentShowItemType);
+    }
 }
 //判断所有图片是否全选中
 bool ThumbnailListView::isAllSelected(ItemType type)
@@ -1761,6 +1765,8 @@ void ThumbnailListView::updatetimeLimeBtnText()
 
 void ThumbnailListView::showAppointTypeItem(ItemType type)
 {
+    //记录当前显示类型
+    m_currentShowItemType = type;
     //切换显示之前先清除选中
     this->clearSelection();
     qDebug() << __FUNCTION__ << "---";

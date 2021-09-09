@@ -279,7 +279,8 @@ private:
     //是否激活click:当处于滑动模式的时候，本轮不执行click
     bool activeClick = true;
     QTimer *m_loadTimer = nullptr;
-
+    //记录当前显示类型
+    ItemType m_currentShowItemType = ItemType::ItemTypeNull;
 public:
     ListViewUseFor m_useFor = Normal;
     QString m_imageType;

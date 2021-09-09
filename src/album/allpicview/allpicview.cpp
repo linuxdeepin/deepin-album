@@ -285,9 +285,12 @@ void AllPicView::onSlideShow(const QString &path)
 
 void AllPicView::onImportViewImportBtnClicked()
 {
-    m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
     emit dApp->signalM->startImprot();
     m_pImportView->onImprotBtnClicked();
+    //导入结束后判断是否有导入，有导入则切换显示列表
+    if (ImageEngineApi::instance()->getAllImageDataCount() > 0) {
+        m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
+    }
 }
 
 void AllPicView::onImportFailedToView()
