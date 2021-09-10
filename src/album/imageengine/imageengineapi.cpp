@@ -243,20 +243,6 @@ void ImageEngineApi::slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas)
     emit sigLoadFirstPageThumbnailsToView();
 }
 
-bool ImageEngineApi::loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck)
-{
-    ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
-    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
-    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
-    imagethread->setData(files, obj, needcheck);
-    obj->addThread(imagethread);
-#ifdef NOGLOBAL
-    m_qtpool.start(imagethread);
-#else
-    QThreadPool::globalInstance()->start(imagethread);
-#endif
-    return true;
-}
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
@@ -285,20 +271,6 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumna
     return true;
 }
 
-bool ImageEngineApi::loadImagesFromLocal(QStringList files, ImageEngineObject *obj, bool needcheck)
-{
-    ImageLoadFromLocalThread *imagethread = new ImageLoadFromLocalThread;
-    connect(imagethread, &ImageLoadFromLocalThread::sigImageLoaded, this, &ImageEngineApi::sltImageLocalLoaded);
-    connect(imagethread, &ImageLoadFromLocalThread::sigInsert, this, &ImageEngineApi::sltInsert);
-    imagethread->setData(files, obj, needcheck);
-    obj->addThread(imagethread);
-#ifdef NOGLOBAL
-    m_qtpool.start(imagethread);
-#else
-    QThreadPool::globalInstance()->start(imagethread);
-#endif
-    return true;
-}
 //bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
 //{
 //    sltImageDBLoaded(obj, QStringList() << path);

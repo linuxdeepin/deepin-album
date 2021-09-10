@@ -32,6 +32,8 @@
 #include <QSqlQuery>
 #include <QStandardPaths>
 
+#include "imageengineapi.h"
+
 namespace {
 const QString DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                               + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator();
@@ -273,6 +275,11 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         }
         db.close();
         mutex.unlock();
+        for (DBImgInfo info : infos) {
+            ImageDataSt data;
+            data.dbi = info;
+            ImageEngineApi::instance()->addImageData(info.filePath, data);
+        }
         emit dApp->signalM->imagesInserted(/*infos*/);
     }
 }

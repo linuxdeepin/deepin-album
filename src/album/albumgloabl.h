@@ -112,25 +112,6 @@ struct DBImgInfo {
 };
 typedef QList<DBImgInfo> DBImgInfoList;
 
-//struct DBImgInfo {
-//    QString name = "";
-//    QString path = "";
-//    int imgWidth = 0;
-//    int imgHeight = 0;
-//    QString remainDays = "30天";
-//    bool isSelected = false;
-//    DBImgInfoType itemType = ItemTypePic;//类型，空白，图片，视频
-//    QPixmap image = QPixmap();
-//    QPixmap damagedPixmap = QPixmap();
-//    bool bNotSupportedOrDamaged = false;
-//    bool bNeedDelete = false;//删除时间线与已导入标题时使用
-//    int fileType = 1;//判断文件类型，图片，视频，默认图片
-//    QString videoDuration = "00:00";//视频时长
-
-//    QString date;
-//    QString num;
-//};
-
 enum OpenImgViewType {
     VIEW_MAINWINDOW_ALLPIC = 0,
     VIEW_MAINWINDOW_TIMELINE = 1,

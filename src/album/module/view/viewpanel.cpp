@@ -110,11 +110,6 @@ void ViewPanel::loadFilesFromLocal(QStringList files)
     imageLocalLoaded(files);
 }
 
-void ViewPanel::loadFilesFromLocal(DBImgInfoList files)
-{
-    ImageEngineApi::instance()->loadImagesFromLocal(files, this);
-}
-
 bool ViewPanel::imageLocalLoaded(QStringList &filelist)
 {
     onViewImage(filelist);

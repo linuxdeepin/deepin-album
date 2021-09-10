@@ -52,8 +52,6 @@ public:
     bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
-    bool loadImagesFromLocal(QStringList files, ImageEngineObject *obj, bool needcheck = true);
-    bool loadImagesFromLocal(DBImgInfoList files, ImageEngineObject *obj, bool needcheck = true);
     void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
     const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
     //过滤不存在图片后重新加载

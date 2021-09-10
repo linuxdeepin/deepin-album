@@ -108,7 +108,6 @@ protected:
 private:
     //------------------
     void loadFilesFromLocal(QStringList files);
-    void loadFilesFromLocal(DBImgInfoList files);
     bool imageLocalLoaded(QStringList &filelist) override;
     bool imageFromDBLoaded(QStringList &filelist) override
     {
