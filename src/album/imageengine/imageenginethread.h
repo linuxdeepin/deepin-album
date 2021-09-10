@@ -154,35 +154,19 @@ private:
     ThumbnailDelegate::DelegateType m_type;
     ImageEngineObject *m_imgobject = nullptr;
 };
-
-class ImageLoadFromLocalThread : public ImageEngineThreadObject
+//清除过期已删除文件 >30天
+class RefreshTrashThread : public ImageEngineThreadObject
 {
     Q_OBJECT
 public:
-    enum DataType {
-        DataType_NULL,
-        DataType_StrList,
-        DataType_InfoList,
-        DataType_TrashList
-    };
-    ImageLoadFromLocalThread();
-    ~ImageLoadFromLocalThread() override;
-    void setData(QStringList &filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
-    void setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type = DataType_NULL);
+    RefreshTrashThread();
+    ~RefreshTrashThread() override;
+    void setData(DBImgInfoList filelist);
 
 protected:
-    bool ifCanStopThread(void *imgobject) override;
     void runDetail() override;
-
-signals:
-    void sigImageLoaded(void *imgobject, QStringList &filelist);
-    void sigInsert(const QStringList &imagepath, QString remainDay = "");
 private:
-    QStringList m_filelist;
     DBImgInfoList m_fileinfolist;
-    ImageEngineObject *m_imgobject = nullptr;
-    DataType m_type = DataType_NULL;
-    bool bneedcheck = true;
 };
 
 class ImageEngineThread : public ImageEngineThreadObject

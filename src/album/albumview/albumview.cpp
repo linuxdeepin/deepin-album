@@ -981,11 +981,20 @@ void AlbumView::updateRightTrashView()
     using namespace utils::image;
     DBImgInfoList infos;
     infos = DBManager::instance()->getAllTrashInfos();
+    QDateTime currentTime = QDateTime::currentDateTime();
+    DBImgInfoList list;
     for (int i = infos.size() - 1; i >= 0; i--) {
         DBImgInfo pinfo = infos.at(i);
         if (!QFileInfo(pinfo.filePath).exists()) {
             infos.removeAt(i);
+        } else if (utils::base::daysDifferenceBetweenTime(pinfo.importTime, currentTime) >= 30) {
+            list << pinfo;
+            infos.removeAt(i);
         }
+    }
+    //清理删除时间过长图片
+    if (!list.isEmpty()) {
+        ImageEngineApi::instance()->cleanUpTrash(list);
     }
 
     m_pRightTrashThumbnailList->clearAll();

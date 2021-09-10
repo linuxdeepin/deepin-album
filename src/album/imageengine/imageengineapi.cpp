@@ -423,6 +423,13 @@ const QMultiMap<QString, QString> &ImageEngineApi::getImgPathAndAlbumNames()
     return m_allPathAndAlbumNames;
 }
 
+void ImageEngineApi::cleanUpTrash(const DBImgInfoList &list)
+{
+    RefreshTrashThread *imagethread = new RefreshTrashThread();
+    imagethread->setData(list);
+    QThreadPool::globalInstance()->start(imagethread);
+}
+
 bool ImageEngineApi::reloadAfterFilterUnExistImage()
 {
     ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread();

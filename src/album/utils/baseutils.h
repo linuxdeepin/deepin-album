@@ -219,6 +219,8 @@ const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
 }
 
 namespace base {
+//时间之间相差天数
+int         daysDifferenceBetweenTime(const QDateTime &start, const QDateTime &end);
 bool        isVideo(QString path);
 dmr::MovieInfo getMovieInfo(const QString &path);
 //void        copyOneImageToClipboard(const QString &path);

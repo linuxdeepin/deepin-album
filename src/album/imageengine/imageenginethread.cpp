@@ -684,104 +684,35 @@ void ImageLoadFromDBThread::runDetail()
     emit ImageEngineApi::instance()->sigReloadAfterFilterEnd();
 }
 
-ImageLoadFromLocalThread::ImageLoadFromLocalThread()
+RefreshTrashThread::RefreshTrashThread()
 {
     setAutoDelete(false);
 }
 
-ImageLoadFromLocalThread::~ImageLoadFromLocalThread()
+RefreshTrashThread::~RefreshTrashThread()
 {
 }
 
-void ImageLoadFromLocalThread::setData(QStringList &filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
-{
-    m_filelist = filelist;
-    m_imgobject = imgobject;
-    bneedcheck = needcheck;
-    if (type == DataType_NULL)
-        m_type = DataType_StrList;
-    else
-        m_type = type;
-}
-
-bool ImageLoadFromLocalThread::ifCanStopThread(void *imgobject)
-{
-    static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
-    if (imgobject == m_imgobject) {
-        return true;
-    }
-    return false;
-}
-
-void ImageLoadFromLocalThread::setData(DBImgInfoList filelist, ImageEngineObject *imgobject, bool needcheck, DataType type)
+void RefreshTrashThread::setData(DBImgInfoList filelist)
 {
     m_fileinfolist = filelist;
-    m_imgobject = imgobject;
-    bneedcheck = needcheck;
-    if (type == DataType_NULL)
-        m_type = DataType_InfoList;
-    else
-        m_type = type;
 }
 
-void ImageLoadFromLocalThread::runDetail()
+void RefreshTrashThread::runDetail()
 {
     if (bneedstop) {
         return;
     }
     QStringList image_list;
-    switch (m_type) {
-    case DataType_StrList:
-        if (!m_filelist.isEmpty()) {
-            image_list << m_filelist;
-            emit sigInsert(image_list);
-        }
-        break;
-    case DataType_InfoList:
-        if (!m_fileinfolist.isEmpty()) {
-            for (auto info : m_fileinfolist) {
-                image_list << info.filePath;
-            }
-            emit sigInsert(image_list);
-        }
-        break;
-    case DataType_TrashList:
-        if (!m_fileinfolist.isEmpty()) {
-            QStringList removepaths;
-            int idaysec = 24 * 60 * 60;
-            for (auto info : m_fileinfolist) {
-                if (bneedstop) {
-                    return;
-                }
-                QDateTime start = QDateTime::currentDateTime();
-                QDateTime end = info.importTime;
-                int etime = static_cast<int>(start.toTime_t());
-                int stime = static_cast<int>(end.toTime_t());
-                int Day = (etime - stime) / (idaysec) + ((etime - stime) % (idaysec) + (idaysec - 1)) / (idaysec) - 1;
-                if (30 <= Day) {
-                    removepaths << info.filePath;
-                } else {
-                    QString remainDay = QString::number(30 - Day) + tr("days");
-                    image_list << info.filePath;
-                    emit sigInsert(QStringList() << info.filePath, remainDay);
-                }
-            }
-            if (0 < removepaths.length()) {
-                DBManager::instance()->removeTrashImgInfosNoSignal(removepaths);
-            }
-        }
-        break;
-    default:
-        break;
-    }
 
-    if (bneedstop) {
-        return;
-    }
-
-    if (nullptr != m_imgobject) {
-        m_imgobject->removeThread(this);
-        emit sigImageLoaded(m_imgobject, image_list);
+    if (!m_fileinfolist.isEmpty()) {
+        QStringList removepaths;
+        for (auto info : m_fileinfolist) {
+            image_list << info.filePath;
+        }
+        if (0 < image_list.length()) {
+            DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
+        }
     }
 }
 

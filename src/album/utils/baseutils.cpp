@@ -388,6 +388,14 @@ QUrl UrlInfo(QString path)
     return url;
 }
 
+int daysDifferenceBetweenTime(const QDateTime &start, const QDateTime &end)
+{
+    int daysSec = 24 * 60 * 60;
+    int stime = static_cast<int>(start.toTime_t());
+    int etime = static_cast<int>(end.toTime_t());
+    return ((etime - stime) / daysSec);
+}
+
 }  // namespace base
 
 }  // namespace utils

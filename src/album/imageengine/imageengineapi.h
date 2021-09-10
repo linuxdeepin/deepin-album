@@ -54,6 +54,8 @@ public:
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
     const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
+    //清理删除时间过长图片
+    void cleanUpTrash(const DBImgInfoList &list);
     //过滤不存在图片后重新加载
     bool reloadAfterFilterUnExistImage();
     //判断是否视频
