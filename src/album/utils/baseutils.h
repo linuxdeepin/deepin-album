@@ -217,9 +217,7 @@ const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
 const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
 }
 }
-namespace widgets {
 
-}
 namespace base {
 bool        isVideo(QString path);
 dmr::MovieInfo getMovieInfo(const QString &path);
@@ -238,6 +236,7 @@ bool        checkMimeUrls(const QList<QUrl> urls);
 QString     mkMutiDir(const QString &path);
 //根据源文件路径生产缩略图路径
 QString     filePathToThumbnailPath(const QString &filePath, QString dataHash = "");
+QUrl        UrlInfo(QString path);  //main中的全局函数移至此处
 }  // namespace base
 
 }  // namespace utils

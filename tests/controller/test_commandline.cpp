@@ -66,10 +66,6 @@ TEST(CommandLine, test_CommandLine)
         paths << DBManager::instance()->getAllPaths().first();
     else
         paths << testPath_test + "/2e5y8y.jpg";
-
-    QString path = paths.first();
-    QUrl UrlInfo1(QString path);
-    UrlInfo1(path);
 }
 
 TEST(CommandLine, urltest)

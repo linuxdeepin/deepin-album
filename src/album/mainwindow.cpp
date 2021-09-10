@@ -97,7 +97,6 @@ MainWindow::MainWindow()
     , m_importBar(nullptr)
     , m_waitlabel(nullptr)
     , m_countLabel(nullptr)
-    , m_pDBus(nullptr)
     , m_settings(nullptr)
     , m_fileInotify(nullptr)
 {
@@ -249,11 +248,6 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, &MainWindow::onAlbExportSuccess);
     //没找到图片或视频提示框
     connect(dApp->signalM, &SignalManager::ImportDonotFindPicOrVideo, this, &MainWindow::onImportDonotFindPicOrVideo);
-}
-//初始化DBus
-void MainWindow::initDBus()
-{
-    m_pDBus = new dbusclient();
 }
 
 //初始化快捷键
@@ -1416,9 +1410,7 @@ void MainWindow::showEvent(QShowEvent *event)
 
             initShortcut();
             initConnections();
-            initDBus();
 
-            //loadZoomRatio();
             if (0 < DBManager::instance()->getImgsCount()) {
                 // dothing
             } else {

@@ -92,16 +92,6 @@ void showInFileManager(const QString &path)
     Dtk::Widget::DDesktopServices::showFileItem(url);
 }
 
-//void copyOneImageToClipboard(const QString &path)
-//{
-//    QImage img(path);
-//    if (img.isNull())
-//        return;
-////    Q_ASSERT(!img.isNull());
-//    QClipboard *cb = QApplication::clipboard();
-//    cb->setImage(img, QClipboard::Clipboard);
-//}
-
 void copyImageToClipboard(const QStringList &paths)
 {
     //  Get clipboard
@@ -123,11 +113,6 @@ void copyImageToClipboard(const QStringList &paths)
     newMimeData->setUrls(dataUrls);
     gnomeFormat.remove(gnomeFormat.length() - 1, 1);
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
-
-    // Copy Image Date
-//    QImage img(paths.first());
-//    Q_ASSERT(!img.isNull());
-//    newMimeData->setImageData(img);
 
     // Set the mimedata
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
@@ -372,6 +357,35 @@ bool checkMimeUrls(const QList<QUrl> urls)
         }
     }
     return false;
+}
+
+QUrl UrlInfo(QString path)
+{
+    QUrl url;
+    // Just check if the path is an existing file.
+    if (QFile::exists(path)) {
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+        return url;
+    }
+
+    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
+
+    if (match.isValid()) {
+        // cut away line/column specification from the path.
+        path.chop(match.capturedLength());
+    }
+
+    // make relative paths absolute using the current working directory
+    // prefer local file, if in doubt!
+    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
+
+    // in some cases, this will fail, e.g.
+    // assume a local file and just convert it to an url.
+    if (!url.isValid()) {
+        // create absolute file path, we will e.g. pass this over dbus to other processes
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+    }
+    return url;
 }
 
 }  // namespace base

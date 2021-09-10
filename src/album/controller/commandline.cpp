@@ -237,36 +237,6 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     }
 }
 
-QUrl UrlInfo1(QString path)
-{
-    QUrl url;
-    // Just check if the path is an existing file.
-    if (QFile::exists(path)) {
-        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-        return url;
-    }
-
-    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
-
-    if (match.isValid()) {
-        // cut away line/column specification from the path.
-        path.chop(match.capturedLength());
-    }
-
-    // make relative paths absolute using the current working directory
-    // prefer local file, if in doubt!
-    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
-
-    // in some cases, this will fail, e.g.
-    // assume a local file and just convert it to an url.
-    if (!url.isValid()) {
-        // create absolute file path, we will e.g. pass this over dbus to other processes
-        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
-    }
-    return url;
-}
-
-
 bool CommandLine::processOption(QStringList &paslist)
 {
     if (! m_cmdParser.parse(dApp->getDAppNew()->arguments())) {
@@ -287,7 +257,7 @@ bool CommandLine::processOption(QStringList &paslist)
     QString filepath = "";
     bool bneedexit = true;
     for (const QString &path : arguments) {
-        filepath = UrlInfo1(path).toLocalFile();
+        filepath = utils::base::UrlInfo(path).toLocalFile();
         QFileInfo info(filepath);
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
@@ -314,10 +284,6 @@ bool CommandLine::processOption(QStringList &paslist)
 void CommandLine::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
-//    m_spinner->move(width()/2 - 20, (height()-50)/2 - 20);
-//    m_pwidget->setFixedWidth(this->width() / 2 + 150);
-//    m_pwidget->setFixedHeight(443);
-//    m_pwidget->move(this->width() / 4, this->height() - 443 - 23);
     m_pwidget->setFixedHeight(this->height() - 23);
     m_pwidget->setFixedWidth(this->width());
     m_pwidget->move(0, 0);
